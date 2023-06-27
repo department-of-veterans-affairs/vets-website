@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
   VaSelect,
+  VaTextInput,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getJobIndex } from '../utils/session';
@@ -33,7 +34,7 @@ const EmploymentRecord = props => {
     ...(isEditing ? employmentRecords[index] : newRecord),
   });
 
-  const [typeError, setTypeError] = useState('');
+  const [typeError, setTypeError] = useState(null);
   const [employerNameError, setEmployerNameError] = useState(false);
 
   const [currentlyWorksHere, setCurrentlyWorksHere] = useState(
@@ -41,15 +42,18 @@ const EmploymentRecord = props => {
   );
 
   const handleChange = (key, value) => {
+    if (key === 'type') {
+      setTypeError(value === '' ? 'Please select your type of work.' : null);
+    }
     setEmploymentRecord({
       ...employmentRecord,
       [key]: value,
     });
   };
 
-  const handleEmployerNameChange = event => {
-    handleChange('employerName', event.target.value);
-    setEmployerNameError(false);
+  const handleEmployerNameChange = ({ target }) => {
+    handleChange('employerName', target.value);
+    setEmployerNameError(!target.value);
   };
 
   const userType = 'veteran';
@@ -63,17 +67,12 @@ const EmploymentRecord = props => {
 
     if (!employmentRecord.employerName) {
       setEmployerNameError(true);
-      return;
     }
-    setEmployerNameError(false);
 
-    if (
-      !employmentRecord.type ||
-      employmentRecord.type === '' ||
-      (!employmentRecord.employerName && employmentRecord.employerName !== '')
-    ) {
+    if (employmentRecord.type === '' || employmentRecord.employerName === '') {
       return;
     }
+
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
       const updatedRecords = employmentRecords.map((item, arrayIndex) => {
@@ -112,7 +111,6 @@ const EmploymentRecord = props => {
     onChange: event => {
       const { target = {} } = event;
       const fieldName = target.name;
-      // detail.value from va-select & target.value from va-text-input
       const value = event.detail?.value || target.value;
       handleChange(fieldName, value);
     },
@@ -133,10 +131,6 @@ const EmploymentRecord = props => {
         return;
       }
       goToPath(RETURN_PATH);
-    },
-    handleDateChange: (key, monthYear) => {
-      const dateString = `${monthYear}-XX`;
-      handleChange(key, dateString);
     },
     onRadioSelect: event => {
       const { value } = event?.detail || {};
@@ -175,13 +169,16 @@ const EmploymentRecord = props => {
           </VaSelect>
         </div>
         <div className="input-size-7 vads-u-margin-bottom--2">
-          <va-text-input
+          <VaTextInput
+            className="no-wrap"
+            error={employerNameError ? 'Please enter your employer name.' : ''}
+            id="employer-name"
             label="Employer name"
             name="employerName"
             onInput={handleEmployerNameChange}
-            value={employmentRecord.employerName}
             required
-            error={employerNameError ? 'Please enter your employer name.' : ''}
+            type="text"
+            value={employmentRecord.employerName}
           />
         </div>
         <VaRadio
@@ -214,7 +211,7 @@ const EmploymentRecord = props => {
             Cancel
           </button>
           <button
-            type="button"
+            type="submit"
             id="submit"
             className="vads-u-width--auto"
             onClick={updateFormData}
@@ -228,11 +225,36 @@ const EmploymentRecord = props => {
 };
 
 EmploymentRecord.propTypes = {
-  data: PropTypes.object.isRequired,
-  goBack: PropTypes.func.isRequired,
+  data: PropTypes.shape({
+    personalData: PropTypes.shape({
+      employmentHistory: PropTypes.shape({
+        newRecord: PropTypes.shape({
+          employerName: PropTypes.string,
+          from: PropTypes.string,
+          to: PropTypes.string,
+          type: PropTypes.string,
+          grossMonthlyIncome: PropTypes.string,
+          deductions: PropTypes.array,
+          isCurrent: PropTypes.bool,
+        }),
+        veteran: PropTypes.shape({
+          employmentRecords: PropTypes.arrayOf(
+            PropTypes.shape({
+              employerName: PropTypes.string,
+              from: PropTypes.string,
+              to: PropTypes.string,
+              type: PropTypes.string,
+              grossMonthlyIncome: PropTypes.string,
+              deductions: PropTypes.array,
+              isCurrent: PropTypes.bool,
+            }),
+          ),
+        }),
+      }),
+    }),
+  }).isRequired,
   goToPath: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
-  onReviewPage: PropTypes.bool,
 };
 
 const mapStateToProps = ({ form }) => {

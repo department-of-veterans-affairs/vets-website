@@ -33,86 +33,43 @@ const EmploymentRecord = props => {
   const [employmentRecord, setEmploymentRecord] = useState({
     ...(isEditing ? spEmploymentRecords[index] : newRecord),
   });
-  const [employerName, setEmployerName] = useState(
-    employmentRecord.employerName || null,
-  );
+
+  const [typeError, setTypeError] = useState(null);
+  const [employerNameError, setEmployerNameError] = useState(false);
+
   const [currentlyWorksHere, setCurrentlyWorksHere] = useState(
     employmentRecord.isCurrent ?? true,
   );
-  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (key, value) => {
+    if (key === 'type') {
+      setTypeError(value === '' ? 'Please select your type of work.' : null);
+    }
     setEmploymentRecord({
       ...employmentRecord,
       [key]: value,
     });
   };
 
-  const handleEmployerNameChange = event => {
-    handleChange('employerName', event.target.value);
-    setEmployerName(event.target.value);
+  const handleEmployerNameChange = ({ target }) => {
+    handleChange('employerName', target.value);
+    setEmployerNameError(!target.value);
   };
-
-  const handlers = {
-    onChange: event => {
-      const { target = {} } = event;
-      const fieldName = target.name;
-      // detail.value from va-select & target.value from va-text-input
-      const value = event.detail?.value || target.value;
-      handleChange(fieldName, value);
-    },
-    onCancel: event => {
-      event.preventDefault();
-      setFormData({
-        ...data,
-        personalData: {
-          ...data.personalData,
-          employmentHistory: {
-            ...data.personalData.employmentHistory,
-            newRecord: { ...BASE_EMPLOYMENT_RECORD },
-          },
-        },
-      });
-      if (editIndex === null && spEmploymentRecords.length === 0) {
-        goToPath('/enhanced-spouse-employment-question');
-        return;
-      }
-      goToPath(RETURN_PATH);
-    },
-    handleDateChange: (key, monthYear) => {
-      const dateString = `${monthYear}-XX`;
-      handleChange(key, dateString);
-    },
-    handleCheckboxChange: (key, val) => {
-      setEmploymentRecord({
-        ...employmentRecord,
-        [key]: val,
-        to: '',
-      });
-    },
-    onRadioSelect: event => {
-      const { value } = event?.detail || {};
-      if (value === undefined) return;
-      handleChange('isCurrent', value === 'true');
-      setCurrentlyWorksHere(value === 'true');
-    },
-  };
-
-  const [typeError, setTypeError] = useState('');
 
   const userType = 'spouse';
 
-  const nameError = !employerName ? 'Please enter your employer name.' : null;
-
   const updateFormData = e => {
     e.preventDefault();
-    setSubmitted(true);
 
     if (!employmentRecord.type || employmentRecord.type === '') {
       setTypeError('Please select your type of work.');
     }
 
     if (!employmentRecord.employerName) {
+      setEmployerNameError(true);
+    }
+
+    if (employmentRecord.type === '' || employmentRecord.employerName === '') {
       return;
     }
 
@@ -150,6 +107,39 @@ const EmploymentRecord = props => {
     goToPath('/spouse-employment-work-dates');
   };
 
+  const handlers = {
+    onChange: event => {
+      const { target = {} } = event;
+      const fieldName = target.name;
+      const value = event.detail?.value || target.value;
+      handleChange(fieldName, value);
+    },
+    onCancel: event => {
+      event.preventDefault();
+      setFormData({
+        ...data,
+        personalData: {
+          ...data.personalData,
+          employmentHistory: {
+            ...data.personalData.employmentHistory,
+            newRecord: { ...BASE_EMPLOYMENT_RECORD },
+          },
+        },
+      });
+      if (editIndex === null && spEmploymentRecords.length === 0) {
+        goToPath('/enhanced-spouse-employment-question');
+        return;
+      }
+      goToPath(RETURN_PATH);
+    },
+    onRadioSelect: event => {
+      const { value } = event?.detail || {};
+      if (value === undefined) return;
+      handleChange('isCurrent', value === 'true');
+      setCurrentlyWorksHere(value === 'true');
+    },
+  };
+
   return (
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
@@ -182,14 +172,14 @@ const EmploymentRecord = props => {
         <div className="input-size-7 vads-u-margin-bottom--2">
           <VaTextInput
             className="no-wrap"
-            error={(submitted && nameError) || null}
+            error={employerNameError ? 'Please enter your employer name.' : ''}
             id="employer-name"
             label="Employer name"
             name="employer-name"
             onInput={handleEmployerNameChange}
             required
             type="text"
-            value={employerName || ''}
+            value={employmentRecord.employerName}
           />
         </div>
         <VaRadio
@@ -222,7 +212,7 @@ const EmploymentRecord = props => {
             Cancel
           </button>
           <button
-            type="button"
+            type="submit"
             id="submit"
             className="vads-u-width--auto"
             onClick={updateFormData}
@@ -236,11 +226,36 @@ const EmploymentRecord = props => {
 };
 
 EmploymentRecord.propTypes = {
-  data: PropTypes.object.isRequired,
-  goBack: PropTypes.func.isRequired,
+  data: PropTypes.shape({
+    personalData: PropTypes.shape({
+      employmentHistory: PropTypes.shape({
+        newRecord: PropTypes.shape({
+          employerName: PropTypes.string,
+          from: PropTypes.string,
+          to: PropTypes.string,
+          type: PropTypes.string,
+          grossMonthlyIncome: PropTypes.string,
+          deductions: PropTypes.array,
+          isCurrent: PropTypes.bool,
+        }),
+        spouse: PropTypes.shape({
+          spEmploymentRecords: PropTypes.arrayOf(
+            PropTypes.shape({
+              employerName: PropTypes.string,
+              from: PropTypes.string,
+              to: PropTypes.string,
+              type: PropTypes.string,
+              grossMonthlyIncome: PropTypes.string,
+              deductions: PropTypes.array,
+              isCurrent: PropTypes.bool,
+            }),
+          ),
+        }),
+      }),
+    }),
+  }).isRequired,
   goToPath: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
-  onReviewPage: PropTypes.bool,
 };
 
 const mapStateToProps = ({ form }) => {
