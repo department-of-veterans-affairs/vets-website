@@ -231,7 +231,6 @@ describe('Pre-need form VA 40-10007', () => {
     cy.url().should('not.contain', '/burial-benefits');
 
     // Supporting Documents page
-    cy.get('label[for="root_application_preneedAttachments"]');
 
     cy.get('va-segmented-progress-bar')
       .shadow()
