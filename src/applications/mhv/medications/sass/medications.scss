@@ -109,6 +109,9 @@
     margin: 0px !important;
     padding: 0px !important;
   }
+  .no-break {
+    break-inside: avoid;
+  }
   h1 {
     font-size: 30;
   }
