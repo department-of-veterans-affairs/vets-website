@@ -50,7 +50,7 @@ const Results = ({ results, yearInput }) => {
         ipsum, ut rutrum lacus. Aliquam ut pulvinar sapien, eu gravida nisi.
       </p>
       <h2>Fusce risus lacus efficitur ac magna vitae</h2>
-      <va-accordion bordered data-testid="il-results">
+      <va-accordion bordered data-testid="il-results" open-single>
         <va-accordion-item
           data-testid="il-results-1"
           header={getFirstAccordionHeader(pension)}
