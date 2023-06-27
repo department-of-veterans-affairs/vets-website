@@ -93,12 +93,18 @@ export const fillDependentBasicInformation = dependent => {
 };
 
 export const fillSpousalBasicInformation = () => {
-  const { spouseDateOfBirth, spouseFullName, dateOfMarriage } = testData;
+  const {
+    spouseDateOfBirth,
+    spouseFullName,
+    spouseSocialSecurityNumber,
+    dateOfMarriage,
+  } = testData;
 
   cy.get('#root_spouseFullName_first').type(spouseFullName.first);
   cy.get('#root_spouseFullName_middle').type(spouseFullName.middle);
   cy.get('#root_spouseFullName_last').type(spouseFullName.last);
   cy.get('#root_spouseFullName_suffix').type(spouseFullName.suffix);
+  cy.get('#root_spouseSocialSecurityNumber').type(spouseSocialSecurityNumber);
 
   const [birthYear, birthMonth, birthDay] = spouseDateOfBirth
     .split('-')

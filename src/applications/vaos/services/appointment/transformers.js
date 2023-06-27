@@ -3,14 +3,7 @@
  */
 import moment from '../../lib/moment-tz';
 
-import {
-  APPOINTMENT_STATUS,
-  APPOINTMENT_TYPES,
-  PURPOSE_TEXT,
-  EXPRESS_CARE,
-  TYPE_OF_VISIT,
-  CANCELLATION_REASONS,
-} from '../../utils/constants';
+import { APPOINTMENT_STATUS, APPOINTMENT_TYPES } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import {
   transformATLASLocation,
@@ -20,7 +13,6 @@ import {
 import {
   CANCELLED_APPOINTMENT_SET,
   FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
-  getTypeOfCareById,
   PAST_APPOINTMENTS_HIDE_STATUS_SET,
 } from '../../utils/appointment';
 
@@ -88,38 +80,6 @@ function getVistaStatus(appointment) {
   }
 
   return null;
-}
-
-/**
- *  Maps FHIR appointment statuses to statuses from var-resources requests
- *
- * @param {Object} appointment A VAR request object
- * @param {Boolean} isExpressCare Whether or not the request is for express care
- * @returns {String} Appointment status
- */
-function getRequestStatus(request, isExpressCare) {
-  if (isExpressCare) {
-    if (request.status === 'Submitted') {
-      return APPOINTMENT_STATUS.proposed;
-    }
-    if (request.status === 'Cancelled') {
-      return APPOINTMENT_STATUS.cancelled;
-    }
-    if (request.status.startsWith('Escalated')) {
-      return APPOINTMENT_STATUS.pending;
-    }
-
-    return APPOINTMENT_STATUS.fulfilled;
-  }
-
-  if (request.status === 'Booked' || request.status === 'Resolved') {
-    return APPOINTMENT_STATUS.booked;
-  }
-  if (request.status === 'Cancelled') {
-    return APPOINTMENT_STATUS.cancelled;
-  }
-
-  return APPOINTMENT_STATUS.proposed;
 }
 
 /**
@@ -201,68 +161,6 @@ function getAppointmentDuration(appt) {
     10,
   );
   return Number.isNaN(appointmentLength) ? 60 : appointmentLength;
-}
-
-/**
- * Gets a purpose of visit that matches our array of purpose constant
- *
- * @param {Object} appt VAR appointment object
- * @returns {String} purpose of visit string
- */
-function getPurposeOfVisit(appt) {
-  switch (getAppointmentType(appt)) {
-    case APPOINTMENT_TYPES.ccRequest:
-      return PURPOSE_TEXT.find(purpose => purpose.id === appt.purposeOfVisit)
-        ?.short;
-    case APPOINTMENT_TYPES.request:
-      if (appt.typeOfCareId === EXPRESS_CARE) {
-        return appt.reasonForVisit;
-      }
-
-      return PURPOSE_TEXT.find(
-        purpose => purpose.serviceName === appt.purposeOfVisit,
-      )?.short;
-    default:
-      return appt.purposeOfVisit;
-  }
-}
-
-/**
- * Returns sorted user requested periods. For now we don't know how VSP will handle the
- * AM/PM periods, so using 00:00:00.000Z to symbolize AM and 12:00:00.000Z to symbolize
- * PM for now.
- *
- * @param {Object} appt VAR appointment object
- * @returns {Array} returns formatted date options
- */
-function getRequestedPeriods(appt) {
-  const requestedPeriods = [];
-  const format = 'MM/DD/YYYY';
-
-  for (let x = 1; x <= 3; x += 1) {
-    const optionTime = appt[`optionTime${x}`];
-
-    // Since 'No Date Selected' and 'No Time Selected' are possible values but
-    // invalid dates and times, don't add the start and end attributes.
-    //
-    // NOTE: FHIR Spec says...
-    // If the start element is missing, the start of the period is not known.
-    // If the end element is missing, it means that the period is ongoing,
-    // or the start may be in the past, and the end date in the future,
-    // which means that period is expected / planned to end at the specified time.
-    if (moment(appt[`optionDate${x}`]).isValid() && optionTime) {
-      const momentDate = moment(appt[`optionDate${x}`], format).format(
-        'YYYY-MM-DD',
-      );
-      const isAM = optionTime === 'AM';
-      requestedPeriods.push({
-        start: `${momentDate}T${isAM ? '00:00:00.000' : `12:00:00.000`}`,
-        end: `${momentDate}T${isAM ? '11:59:59.999' : `23:59:59.999`}`,
-      });
-    }
-  }
-
-  return requestedPeriods.sort((a, b) => (a.start < b.start ? -1 : 1));
 }
 
 function setVideoData(appt) {
@@ -371,35 +269,6 @@ function setLocation(appt) {
 }
 
 /**
- * Returns contact information from a VAR request
- *
- * @param {VARRequest} appt  VAR appointment object
- * @returns {PatientContact} An object containing the phone email the patient used in the request
- */
-function setContact(appt) {
-  const type = getAppointmentType(appt);
-  if (
-    type !== APPOINTMENT_TYPES.request &&
-    type !== APPOINTMENT_TYPES.ccRequest
-  ) {
-    return null;
-  }
-
-  return {
-    telecom: [
-      {
-        system: 'phone',
-        value: appt.phoneNumber,
-      },
-      {
-        system: 'email',
-        value: appt.email,
-      },
-    ],
-  };
-}
-
-/**
  * Transforms VAR appointment to FHIR appointment resource
  *
  * @export
@@ -454,16 +323,6 @@ export function transformConfirmedAppointment(appt) {
 }
 
 /**
- * Gets the type of visit that matches our array of visit constant
- *
- * @param {Object} appt VAOS Service appointment object
- * @returns {String} type of visit string
- */
-function getTypeOfVisit(appt) {
-  return TYPE_OF_VISIT.find(type => type.serviceName === appt.visitType)?.name;
-}
-
-/**
  * Transforms MAS appointment to FHIR appointment resource
  *
  * @export
@@ -473,75 +332,4 @@ function getTypeOfVisit(appt) {
  */
 export function transformConfirmedAppointments(appointments) {
   return appointments.map(appt => transformConfirmedAppointment(appt));
-}
-
-/**
- * Transforms a VAR appointment request to FHIR appointment resource
- *
- * @export
- * @param {Object} appointment An appointment request from var-resources
- * @returns {Appointment} A FHIR Appointment resource
- */
-export function transformPendingAppointment(appt) {
-  const isCC = isCommunityCare(appt);
-  const isExpressCare = appt.typeOfCareId === EXPRESS_CARE;
-  const requestedPeriod = getRequestedPeriods(appt);
-  const created = moment.parseZone(appt.date).format('YYYY-MM-DD');
-  const isVideo = appt.visitType === 'Video Conference';
-
-  return {
-    resourceType: 'Appointment',
-    id: appt.id,
-    status: getRequestStatus(appt, isExpressCare),
-    created,
-    cancelationReason:
-      appt.appointmentRequestDetailCode?.[0]?.detailCode.code === 'DETCODE8'
-        ? CANCELLATION_REASONS.patient
-        : null,
-
-    requestedPeriod,
-    start: isExpressCare ? created : null,
-    minutesDuration: 60,
-    type: {
-      coding: [
-        {
-          code: appt.typeOfCareId,
-          display: getTypeOfCareById(appt.typeOfCareId)?.name,
-        },
-      ],
-    },
-    reason: getPurposeOfVisit(appt),
-    location: setLocation(appt),
-    contact: setContact(appt),
-    preferredTimesForPhoneCall: appt.bestTimetoCall,
-    comment: appt.additionalInformation,
-    videoData: {
-      isVideo,
-    },
-    requestVisitType: getTypeOfVisit(appt),
-    ...getCommunityCareData(appt),
-    vaos: {
-      isVideo,
-      isPastAppointment: false,
-      appointmentType: getAppointmentType(appt),
-      isCommunityCare: isCC,
-      isExpressCare,
-      isPhoneAppointment: false,
-      isCOVIDVaccine: false,
-      apiData: appt,
-      timeZone: null,
-    },
-    version: 1,
-  };
-}
-
-/**
- * Transforms an array of VAR appointment requests to FHIR appointment resources
- *
- * @export
- * @param {Array<Object>} appointments An array of appointment requests from var-resources
- * @returns {Array<Appointment>} An array of FHIR Appointment resource
- */
-export function transformPendingAppointments(requests) {
-  return requests.map(appt => transformPendingAppointment(appt));
 }

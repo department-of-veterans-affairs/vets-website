@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 
+import { scrollToTop } from '../utilities/scroll-to-top';
 import {
   getFirstAccordionHeader,
   getSecondAccordionHeader,
@@ -17,18 +18,19 @@ import {
  * 1) Standard: GMT > NMT
  * 2) Non-standard: GMT < NMT  In some rural areas, the Geographic Means Test is lower than the National Means Test
  */
-const Results = ({ limits, yearInput }) => {
+const Results = ({ results, yearInput }) => {
   const {
     gmt_threshold: gmt,
     national_threshold: national,
     pension_threshold: pension,
-  } = limits;
+  } = results;
 
   const isStandard = gmt > national;
   const currentYear = new Date().getFullYear();
 
   useEffect(() => {
     focusElement('h1');
+    scrollToTop();
   }, []);
 
   return (
@@ -102,12 +104,12 @@ const Results = ({ limits, yearInput }) => {
 };
 
 const mapStateToProps = state => ({
-  limits: state?.incomeLimits?.results?.limits,
+  results: state?.incomeLimits?.results,
   yearInput: state?.incomeLimits?.form?.year,
 });
 
 Results.propTypes = {
-  limits: PropTypes.shape({
+  results: PropTypes.shape({
     // eslint-disable-next-line camelcase
     gmt_threshold: PropTypes.number,
     // eslint-disable-next-line camelcase

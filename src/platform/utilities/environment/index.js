@@ -18,25 +18,7 @@ import VSP_ENVIRONMENTS from 'site/constants/vsp-environments';
 const BUILDTYPE = __BUILDTYPE__;
 
 const environment = ENVIRONMENT_CONFIGURATIONS[BUILDTYPE];
-
-// allowedHostnames is an array of hostnames that are eligible
-function isHostnameAllowed(hostname, allowedHostnames) {
-  let hostnameAllowed = false;
-  for (const name of allowedHostnames) {
-    const pattern = name.replace(/\*/g, '[a-z0-9]+(-[a-z0-9]+)*');
-    const regex = new RegExp(`^${pattern}$`, 'i');
-    if (regex.test(hostname)) {
-      hostnameAllowed = true;
-    }
-  }
-  return hostnameAllowed;
-}
-/* eslint-disable no-restricted-globals */
-
-const isPort80 =
-  (location.port === '' || location.port === 80) &&
-  !isHostnameAllowed(location.hostname, ['*.preview.va.gov', '*.vfs.va.gov']);
-/* eslint-enable no-restricted-globals */
+const isPort80 = location.port === '' || location.port === 80;
 
 if (!isPort80) {
   // It's possible that we're executing a certain build-type under a hostname

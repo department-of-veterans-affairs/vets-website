@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
-import { DefaultFolders, Categories } from '../../util/constants';
+import { DefaultFolders, Categories, Paths } from '../../util/constants';
 import { dateFormat } from '../../util/helpers';
 
 const unreadMessageClassList = 'vads-u-margin-y--0p5 vads-u-font-weight--bold';
@@ -80,12 +80,13 @@ const MessageListItem = props => {
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
         <div className={getClassNames()}>
-          {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
+          {location.pathname !== Paths.SENT &&
+          location.pathname !== Paths.DRAFTS ? (
             <span>From: {getHighlightedText(senderName)}</span>
           ) : (
             <div>
               <div>
-                {location.pathname === '/drafts' && (
+                {location.pathname === Paths.DRAFTS && (
                   <>
                     <span className="thread-list-draft">(Draft)</span> -{' '}
                   </>

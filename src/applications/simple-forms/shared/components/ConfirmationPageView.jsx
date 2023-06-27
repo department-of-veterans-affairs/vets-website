@@ -7,6 +7,8 @@ import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import GetFormHelp from './GetFormHelp';
 
 export const ConfirmationPageView = ({
+  formType = 'application',
+  submitterHeader = 'Applicant',
   submitterName,
   submitDate,
   confirmationNumber,
@@ -43,10 +45,10 @@ export const ConfirmationPageView = ({
         <p>{nextStepsText}</p>
       </va-alert>
       <div className="inset">
-        <h3 className="vads-u-margin-top--0">Your application information</h3>
+        <h3 className="vads-u-margin-top--0">Your {formType} information</h3>
         {first && last ? (
           <>
-            <h4>Applicant</h4>
+            <h4>{submitterHeader}</h4>
             <p>
               {first} {middle ? `${middle} ` : ''}
               {last}

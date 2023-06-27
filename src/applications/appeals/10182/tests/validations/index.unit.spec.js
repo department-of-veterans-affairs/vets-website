@@ -29,7 +29,7 @@ describe('contactInfoValidation', () => {
     const addError = sinon.spy();
     contactInfoValidation({ addError }, null, getData({ email: false }));
     expect(addError.called).to.be.true;
-    expect(addError.args[0][0]).to.contain('add an email');
+    expect(addError.args[0][0]).to.contain('Add an email');
   });
   it('should have multiple errors when email & phone are missing', () => {
     const addError = sinon.spy();
@@ -39,8 +39,8 @@ describe('contactInfoValidation', () => {
       getData({ email: false, phone: false }),
     );
     expect(addError.called).to.be.true;
-    expect(addError.firstCall.args[0]).to.contain('add an email');
-    expect(addError.secondCall.args[0]).to.contain('add a phone');
+    expect(addError.firstCall.args[0]).to.contain('Add an email');
+    expect(addError.secondCall.args[0]).to.contain('Add a phone');
   });
   it('should have multiple errors when everything is missing', () => {
     const addError = sinon.spy();
@@ -50,9 +50,9 @@ describe('contactInfoValidation', () => {
       getData({ email: false, phone: false, address: false }),
     );
     expect(addError.called).to.be.true;
-    expect(addError.firstCall.args[0]).to.contain('add an email');
-    expect(addError.secondCall.args[0]).to.contain('add a phone');
-    expect(addError.thirdCall.args[0]).to.contain('add an address');
+    expect(addError.firstCall.args[0]).to.contain('Add an email');
+    expect(addError.secondCall.args[0]).to.contain('Add a phone');
+    expect(addError.thirdCall.args[0]).to.contain('Add an address');
   });
   it('should not include address when homeless is true', () => {
     const addError = sinon.spy();
