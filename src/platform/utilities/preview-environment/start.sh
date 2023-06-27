@@ -39,11 +39,10 @@ ls -l
 
 echo "set yarn to allow self-signed cert for install"
 yarn config set "strict-ssl" false -g
+echo "set puppeteer to not download"
+PUPPETEER_SKIP_DOWNLOAD='true'
 
 # Build and watch vets-website
-echo "Writing out NODE_EXTRA_CA_CERTS"
-echo $NODE_EXTRA_CA_CERTS
-
 echo "Install, build, and watch vets-website"
 cd vets-website
 echo "Installing"
