@@ -7,7 +7,7 @@ import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
 export const missingAreaOfDisagreementErrorMessage =
   'Please choose or enter a reason for disagreement';
 
-const titlePrefix = 'Tell us why you disagree with our decision about your';
+const titlePrefix = 'Decision for';
 
 /**
  * Title for review & submit page, text string returned
@@ -16,7 +16,7 @@ const titlePrefix = 'Tell us why you disagree with our decision about your';
  */
 export const getIssueTitle = data => {
   const date = moment(getIssueDate(data), FORMAT_YMD).format(FORMAT_READABLE);
-  return `${titlePrefix} ${getIssueName(data)} (${date})?`;
+  return `${titlePrefix} ${getIssueName(data)} dated ${date}`;
 };
 
 // formContext.pagePerItemIndex is undefined here? Use index added to data :(
@@ -33,7 +33,7 @@ export const issueName = ({ formData, formContext } = {}) => {
       aria-describedby={`area-of-disagreement-label-${index}`}
     >
       <Header className="vads-u-margin-top--0">
-        {`${titlePrefix} ${getIssueName(formData)} claim`}
+        {getIssueTitle(formData)}
       </Header>
       {date && (
         <span className="decision-date vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
