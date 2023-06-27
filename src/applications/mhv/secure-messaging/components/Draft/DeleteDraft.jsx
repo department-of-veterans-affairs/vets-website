@@ -35,17 +35,16 @@ const DeleteDraft = props => {
   return (
     <>
       {/* TODO add GA event */}
-      <button
-        type="button"
+      <va-button
+        text="Delete draft"
+        secondary
         data-testid="delete-draft-button"
-        className="usa-button-secondary delete-draft-button vads-u-flex--1 vads-u-margin-y--1"
+        class="usa-button-secondary delete-draft-button vads-u-flex--1 vads-u-margin-bottom--1"
         onClick={e => {
           setIsModalVisible(true);
           props.setLastFocusableElement(e.target);
         }}
-      >
-        Delete draft
-      </button>
+      />
       <DeleteDraftModal
         visible={isModalVisible}
         onClose={() => {

@@ -478,7 +478,7 @@ const ComposeForm = props => {
         <div className="compose-form-actions vads-u-display--flex">
           <va-button
             text="Send"
-            class="vads-u-flex--1 send-button"
+            class="vads-u-flex--1 send-button vads-u-margin-bottom--1"
             data-testid="Send-Button"
             onClick={sendMessageHandler}
           />
