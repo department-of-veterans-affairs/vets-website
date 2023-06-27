@@ -60,10 +60,3 @@ export const relationshipToVeteranEnum = [
   'Alternate signer (a person certified to file a claim forms for the Veteran or non-Veteran) ',
   'Third-party',
 ];
-
-export const workInProgressContent = {
-  description:
-    'We’re rolling out the Authorize the release of non-VA medical information to VA (VA Forms 21-4142 and 21-4142a) in stages. It’s not quite ready yet. Please check back again soon.',
-  redirectLink: '/',
-  redirectText: 'Return to VA home page',
-};

@@ -3,6 +3,7 @@ import ContestableIssuesWidget from '../components/ContestableIssuesWidget';
 import { ContestableIssuesAdditionalInfo } from '../content/contestableIssues';
 
 import { selectionRequired, maxIssues } from '../validations/issues';
+// import { hasSomeSelected } from '../utils/helpers';
 import { SELECTED } from '../constants';
 
 /**
@@ -19,6 +20,7 @@ const contestableIssues = {
       'ui:title': ' ',
       'ui:field': 'StringField',
       'ui:widget': ContestableIssuesWidget,
+      // 'ui:required': formData => !hasSomeSelected(formData),
       'ui:options': {
         forceDivWrapper: true,
         keepInPageOnReview: true,
