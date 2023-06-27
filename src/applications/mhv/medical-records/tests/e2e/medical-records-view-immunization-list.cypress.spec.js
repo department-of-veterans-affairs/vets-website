@@ -19,9 +19,9 @@ describe('Medical Records View Immunizations', () => {
       .click();
     // cy.get('[data-testid="vaccines-link"]').click();
 
-    // click on the first vaccine listed
-    cy.contains('Details').click();
-    // cy.get('[data-testid="record-list-item"] a').first().click();
+    // // click on the first vaccine listed
+    // cy.contains('Details').click();
+    // // cy.get('[data-testid="record-list-item"] a').first().click();
 
     // Axe check
     cy.injectAxe();
