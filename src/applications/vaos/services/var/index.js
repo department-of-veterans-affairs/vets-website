@@ -87,9 +87,15 @@ export function getCommunityCareFacility(id) {
   }).then(parseApiObject);
 }
 
-export function getCancelReasons(systemId) {
+export function getAvailableSlots(
+  facilityId,
+  typeOfCareId,
+  clinicId,
+  startDate,
+  endDate,
+) {
   return apiRequestWithUrl(
-    `/vaos/v0/facilities/${systemId}/cancel_reasons`,
+    `/vaos/v0/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
   ).then(parseApiList);
 }
 

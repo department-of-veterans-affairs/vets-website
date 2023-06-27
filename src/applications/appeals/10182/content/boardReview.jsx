@@ -1,7 +1,13 @@
 import React from 'react';
 
 export const boardReviewErrorMessage =
-  'Please choose a Board review option to proceed';
+  'Choose a Board review option to proceed';
+
+const title = 'Select a Board review option:';
+
+export const boardReviewTitle = (
+  <h3 className="vads-u-display--inline">{title}</h3>
+);
 
 /* eslint-disable camelcase */
 export const boardReviewContent = {
@@ -34,11 +40,18 @@ export const boardReviewContent = {
       <strong>Request a hearing</strong>
       <p className="hide-on-review">
         You can request a Board hearing with a Veterans Law Judge and submit
-        additional evidence within 90 days after your hearing. Please keep in
-        mind that this option has the longest wait time for a decision because
-        there are currently tens of thousands of pending hearing requests.
+        additional evidence within 90 days after your hearing. Keep in mind that
+        this option has the longest wait time for a decision because there are
+        currently tens of thousands of pending hearing requests.
       </p>
     </>
   ),
 };
 /* eslint-enable camelcase */
+
+export const boardReviewReviewField = ({ children }) => (
+  <div className="review-row">
+    <dt>{title}</dt>
+    <dd>{children}</dd>
+  </div>
+);

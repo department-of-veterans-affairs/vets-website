@@ -208,6 +208,14 @@ article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0
   text-transform: capitalize;
 }
 
+article[data-location^="area-of-disagreement/"],
+article[data-location="issue-summary"],
+article[data-location="evidence-submission"] {
+  fieldset {
+    margin-top: 0 !important;
+  }
+}
+
 /* additional evidence */
 article[data-location$="/upload"] {
   #root_evidence_add_label {
@@ -222,6 +230,12 @@ article[data-location$="/upload"] {
       margin-bottom: 0.5em;
     }
   }
+}
+
+/* board review option & hearing type pages */
+#root_hearingTypePreference-label,
+#root_boardReviewOption-label {
+  margin-bottom: 2rem;
 }
 
 article[data-location="review-and-submit"] {

@@ -1,5 +1,11 @@
 import React from 'react';
 
+const title = 'What type of hearing would you like to request?';
+
+export const hearingTypeTitle = (
+  <h3 className="vads-u-display--inline">{title}</h3>
+);
+
 /* eslint-disable camelcase */
 export const hearingTypeContent = {
   virtual_hearing: (
@@ -38,4 +44,11 @@ export const hearingTypeContent = {
   ),
 };
 
-export const missingHearingTypeErrorMessage = 'Please choose a conference type';
+export const missingHearingTypeErrorMessage = 'Choose a conference type';
+
+export const hearingTypeReviewField = ({ children }) => (
+  <div className="review-row">
+    <dt>{title}</dt>
+    <dd>{children}</dd>
+  </div>
+);

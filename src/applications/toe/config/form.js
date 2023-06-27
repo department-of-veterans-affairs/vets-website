@@ -409,9 +409,10 @@ const formConfig = {
           title: 'Enter your sponsor’s information',
           path: 'sponsor-information',
           depends: formData =>
-            !formData.showMebEnhancements08 ||
-            (!formData.sponsors?.sponsors?.length ||
-              formData.sponsors?.someoneNotListed),
+            formData.showMebEnhancements08
+              ? false
+              : !formData.sponsors?.sponsors?.length ||
+                formData.sponsors?.someoneNotListed,
           uiSchema: {
             'view:noSponsorWarning': {
               'ui:description': (
