@@ -13,19 +13,19 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI('RJSF'),
+    rjsfTitle: titleUI('RJSF'),
     dateDefault: currentOrPastDateUI('RJSF - Date of birth'),
-    wcv3: inlineTitleUI('V3 web components'),
+    wcv3Title: inlineTitleUI('V3 web components'),
     dateWCV3: currentOrPastDateUIWC('WC V3 - Date of birth'),
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
+      rjsfTitle: titleSchema,
       dateDefault: {
         $ref: '#/definitions/date',
       },
-      wcv3: inlineTitleSchema,
+      wcv3Title: inlineTitleSchema,
       dateWCV3: currentOrPastDateSchema,
     },
     required: ['dateDefault', 'dateWCV3'],
