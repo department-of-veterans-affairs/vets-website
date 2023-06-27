@@ -526,6 +526,7 @@ describe('Schemaform <FormPage>', () => {
         <div id="main" className="nav-header">
           <div name="topScrollElement" />
           <h2>H2</h2>
+          <div name="topContentElement" />
           <h3>H3</h3>
         </div>
       );
@@ -550,6 +551,7 @@ describe('Schemaform <FormPage>', () => {
         <div id="main">
           <div name="topScrollElement" />
           <h2>H2</h2>
+          <div name="topContentElement" />
           <h3>H3</h3>
         </div>
       );

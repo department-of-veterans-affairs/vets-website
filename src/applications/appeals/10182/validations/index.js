@@ -4,13 +4,13 @@ import { missingAreaOfDisagreementErrorMessage } from '../content/areaOfDisagree
 export const contactInfoValidation = (errors = {}, _fieldData, formData) => {
   const { veteran = {}, homeless } = formData || {};
   if (!veteran.email) {
-    errors.addError?.('Please add an email address to your profile');
+    errors.addError?.('Add an email address to your profile');
   }
   if (!veteran.phone?.phoneNumber) {
-    errors.addError?.('Please add a phone number to your profile');
+    errors.addError?.('Add a phone number to your profile');
   }
   if (!homeless && !veteran.address?.addressLine1) {
-    errors.addError?.('Please add an address to your profile');
+    errors.addError?.('Add an address to your profile');
   }
 };
 
