@@ -7,6 +7,7 @@ import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-tog
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import {
   fillAddressWebComponentPattern,
+  fillDateWebComponentPattern,
   fillFullNameWebComponentPattern,
   fillTextAreaWebComponent,
   fillTextWebComponent,
@@ -120,15 +121,14 @@ const testConfig = createTestConfig(
               data.veteranFullName,
             );
 
-            // TODO: UNCOMMENT ONCE DATE IS FIXED
-            /* fillDateWebComponentPattern(
+            fillDateWebComponentPattern(
               'veteranDateOfBirth',
               data.veteranDateOfBirth,
             );
             fillDateWebComponentPattern(
               'veteranDateOfDeath',
               data.veteranDateOfDeath,
-            ); */
+            );
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();

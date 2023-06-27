@@ -262,9 +262,6 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
 export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      state,
-    );
     const siteId = getSiteIdFromFacilityId(
       selectCovid19VaccineFormData(state).vaFacility,
     );
@@ -307,11 +304,9 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
 
         const fetchedSlots = await getSlots({
           siteId,
-          typeOfCareId: TYPE_OF_CARE_ID,
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
-          useV2: featureVAOSServiceVAAppointments,
         });
 
         if (initialFetch) {

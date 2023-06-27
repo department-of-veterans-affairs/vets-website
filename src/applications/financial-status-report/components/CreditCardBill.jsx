@@ -136,9 +136,11 @@ const CreditCardBill = props => {
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          {`${
-            creditCardBills.length === index ? 'Add' : 'Update'
-          } a credit card bill`}
+          <h3 className="vads-u-margin--0">
+            {`${
+              creditCardBills.length === index ? 'Add' : 'Update'
+            } a credit card bill`}
+          </h3>
         </legend>
         <p>Enter your credit card bill’s information.</p>
         <div className="input-size-3 no-wrap">

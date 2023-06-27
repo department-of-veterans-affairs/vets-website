@@ -49,6 +49,9 @@ export default {
         confirmRemove: true,
         confirmRemoveDescription:
           'This will remove the facility and all of the treatment records associated from your authorization request.',
+        itemAriaLabel: formData =>
+          `${formData[providerFacilityFields.providerFacilityName]}` ||
+          'facility',
       },
       items: {
         'ui:options': {

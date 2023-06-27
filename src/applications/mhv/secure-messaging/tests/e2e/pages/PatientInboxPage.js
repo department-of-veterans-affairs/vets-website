@@ -314,10 +314,17 @@ class PatientInboxPage {
       .contains(`Continue to ${!type ? 'start message' : type} `);
   };
 
-  loadComposeMessagePage = () => {
+  navigateToComposePage = () => {
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
     const interstitialPage = new PatientInterstitialPage();
     interstitialPage.getContinueButton().click({ force: true });
+  };
+
+  navigateToComposePageByKeyboard = () => {
+    cy.tabToElement('[data-testid="compose-message-link"]');
+    cy.realPress(['Enter']);
+    cy.tabToElement('[data-testid="continue-button"]');
+    cy.realPress(['Enter']);
   };
 
   navigatePrintCancelButton = () => {
@@ -364,7 +371,12 @@ class PatientInboxPage {
   };
 
   openAdvancedSearch = () => {
-    cy.get('#first').click();
+    cy.get('#additional-filter-accordion')
+      .shadow()
+      .contains('Add filters')
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   selectAdvancedSearchCategory = () => {
@@ -380,7 +392,9 @@ class PatientInboxPage {
   };
 
   submitSearchButton = () => {
-    cy.get('[data-testid="filter-messages-button"]').click();
+    cy.get('[data-testid="filter-messages-button"]').click({
+      waitForAnimations: true,
+    });
   };
 
   composeDraftByKeyboard = () => {

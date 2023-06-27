@@ -181,9 +181,11 @@ const InstallmentContract = props => {
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          {`${
-            installmentContracts.length === index ? 'Add' : 'Update'
-          } an installment contract or other debt`}
+          <h3 className="vads-u-margin--0">
+            {`${
+              installmentContracts.length === index ? 'Add' : 'Update'
+            } an installment contract or other debt`}
+          </h3>
         </legend>
         <p>
           If you have more than one installment contract or other debt, enter

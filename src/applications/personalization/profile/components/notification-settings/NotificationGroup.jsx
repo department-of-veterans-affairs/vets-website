@@ -32,7 +32,7 @@ const NotificationGroup = ({ children, groupName, itemIds, groupId }) => {
     TOGGLE_NAMES.profileShowPaymentsNotificationSetting,
   );
 
-  const showMhvNotificaionSettings = useToggleValue(
+  const showMhvNotificationSettings = useToggleValue(
     TOGGLE_NAMES.profileShowMhvNotificationSettings,
   );
 
@@ -41,21 +41,21 @@ const NotificationGroup = ({ children, groupName, itemIds, groupId }) => {
       return shouldRenderGroup({
         groupId,
         profileShowPaymentsNotificationSetting: showPaymentsNotificationSetting,
-        profileShowMhvNotificationSettings: showMhvNotificaionSettings,
+        profileShowMhvNotificationSettings: showMhvNotificationSettings,
       });
     },
-    [groupId, showPaymentsNotificationSetting, showMhvNotificaionSettings],
+    [groupId, showPaymentsNotificationSetting, showMhvNotificationSettings],
   );
 
   const filteredItemIds = useMemo(
     () => {
-      return showMhvNotificaionSettings
+      return showMhvNotificationSettings
         ? itemIds
         : itemIds.filter(itemId => {
             return !BLOCKED_NOTIFICATION_IDS.includes(itemId);
           });
     },
-    [itemIds, showMhvNotificaionSettings],
+    [itemIds, showMhvNotificationSettings],
   );
 
   return shouldRender ? (

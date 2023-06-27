@@ -7,6 +7,7 @@ import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-tog
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import {
   fillAddressWebComponentPattern,
+  fillDateWebComponentPattern,
   fillFullNameWebComponentPattern,
   fillTextAreaWebComponent,
   fillTextWebComponent,
@@ -166,8 +167,14 @@ const testConfig = createTestConfig(
       [pagePaths.date]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(async () => {
-          cy.get('@testData').then(() => {
-            // tested separately - susceptible to bugs
+          cy.get('@testData').then(data => {
+            // widgets
+            cy.fillPage();
+
+            // web components
+            fillDateWebComponentPattern('dateWCV3', data.dateWCV3);
+
+            cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });

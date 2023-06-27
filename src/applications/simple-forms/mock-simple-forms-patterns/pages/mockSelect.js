@@ -1,6 +1,8 @@
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
+  inlineTitleSchema,
+  inlineTitleUI,
   titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
@@ -41,9 +43,7 @@ export default {
         },
       },
     },
-    wc: titleUI('Web component', {
-      classNames: 'vads-u-margin-top--4',
-    }),
+    wc: inlineTitleUI('Web component'),
     selectWC: {
       'ui:title': 'title - select web component',
       'ui:webComponentField': VaSelectField,
@@ -90,9 +90,7 @@ export default {
         },
       },
     },
-    wcv3: titleUI('Web component v3', {
-      classNames: 'vads-u-margin-top--4',
-    }),
+    wcv3: inlineTitleUI('Web component v3'),
     textWCV3: {
       'ui:title': 'title - text web component',
       'ui:webComponentField': VaTextInputField,
@@ -150,7 +148,7 @@ export default {
         type: 'string',
         enum: ['option1', 'option2'],
       },
-      wc: titleSchema,
+      wc: inlineTitleSchema,
       selectWC: {
         type: 'string',
         enum: ['option1', 'option2'],
@@ -162,7 +160,7 @@ export default {
         type: 'string',
         enum: ['option1', 'option2'],
       },
-      wcv3: titleSchema,
+      wcv3: inlineTitleSchema,
       textWCV3: {
         type: 'string',
       },

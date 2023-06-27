@@ -1,13 +1,18 @@
 import { expect } from 'chai';
 import React from 'react';
-import { render } from '@testing-library/react';
-import prescriptions from '../../fixtures/presciptions.json';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import MedicationsListCard from '../../../components/MedicationsList/MedicationsListCard';
+import reducers from '../../../reducers';
 
 describe('Medication card component', () => {
-  const rx = prescriptions[0];
+  const rx = prescriptionsListItem;
   const setup = () => {
-    return render(<MedicationsListCard rx={rx} />);
+    return renderWithStoreAndRouter(<MedicationsListCard rx={rx} />, {
+      path: '/',
+      state: {},
+      reducers,
+    });
   };
 
   it('renders without errors', () => {

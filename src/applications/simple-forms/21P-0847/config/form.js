@@ -25,7 +25,7 @@ const mockData = testData;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   transformForSubmit,
   trackingPrefix: '21P-0847-substitute-claimant-',
   dev: {

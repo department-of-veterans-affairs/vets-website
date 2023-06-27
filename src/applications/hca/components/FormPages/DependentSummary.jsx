@@ -81,7 +81,10 @@ const DependentSummary = props => {
   return (
     <form className="rjsf">
       <fieldset className="vads-u-margin-y--2">
-        <legend id="root__title" className="schemaform-block-title">
+        <legend
+          id="root__title"
+          className="schemaform-block-title vads-u-visibility--screen-reader"
+        >
           {pageTitle}
         </legend>
 
