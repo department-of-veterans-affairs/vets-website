@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { dateFormat } from '../../util/helpers';
 import { ErrorMessages } from '../../util/constants';
 
 const DraftSavedInfo = props => {
-  const { userSaved } = props;
+  const { userSaved, attachments } = props;
 
   const { isSaving, lastSaveTime, saveError } = useSelector(
     state => state.sm.draftDetails,
+  );
+  const [ariaLive, setAriaLive] = useState('off');
+
+  useEffect(
+    () => {
+      setAriaLive(attachments.length > 0 ? 'off' : 'polite');
+    },
+    [attachments],
   );
 
   const content = () => {
@@ -55,7 +63,7 @@ const DraftSavedInfo = props => {
         </va-alert>
         {userSaved === false && (
           <va-alert
-            aria-live="polite"
+            aria-live={ariaLive}
             background-only
             class="last-save-time"
             full-width="false"
@@ -73,6 +81,7 @@ const DraftSavedInfo = props => {
 };
 
 DraftSavedInfo.propTypes = {
+  attachments: PropTypes.array,
   userSaved: PropTypes.bool,
 };
 
