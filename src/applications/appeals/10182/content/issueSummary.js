@@ -10,12 +10,12 @@ export const SummaryTitle = ({ formData }) => {
 
   return (
     <>
-      <p className="vads-u-margin-top--0">
+      <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
         These are the issues you’re asking the Board to review.
-      </p>
+      </h3>
       {ShowIssuesList({ issues })}
       <p>
-        If an issue is missing, please{' '}
+        If an issue is missing,{' '}
         <Link
           aria-label="go back and add any missing issues for review"
           to={{
