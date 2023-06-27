@@ -13,8 +13,8 @@ import {
   mockUserTransitionAvailabilities,
   mockClinicApi,
   mockAppointmentApi,
-} from './vaos-cypress-helpers';
-import { mockVamcEhr } from './vaos-cypress-v2-helpers';
+  mockVamcEhr,
+} from '../vaos-cypress-helpers';
 
 describe('VAOS appointment list', () => {
   describe('appointments details', () => {
