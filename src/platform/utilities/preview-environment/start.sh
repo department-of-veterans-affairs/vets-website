@@ -1,8 +1,10 @@
 #!/bin/sh
 echo "Navigate into /app/website/slow"
 cd website/slow
-echo "Removing contents of: " $SOURCE_REF " and removing directory"
-rm -rf $SOURCE_REF
+echo "Moving: " $SOURCE_REF " to " $SOURCE_REF"-1"
+mv -vf $SOURCE_REF $SOURCE_REF"-1"
+echo "Removing previous build in background"
+rm -rf $SOURCE_REF"-1" &
 echo "Creating directory: " $SOURCE_REF
 mkdir $SOURCE_REF
 echo "Navigate into: " $SOURCE_REF
