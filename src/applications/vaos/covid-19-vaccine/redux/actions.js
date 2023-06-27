@@ -3,9 +3,10 @@ import {
   selectVAPEmailAddress,
   selectVAPHomePhoneString,
   selectVAPMobilePhoneString,
-} from '@department-of-veterans-affairs/platform-user';
+} from '@department-of-veterans-affairs/platform-user/exports';
 import moment from 'moment';
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+
 import {
   selectFeatureFacilitiesServiceV2,
   selectSystemIds,
