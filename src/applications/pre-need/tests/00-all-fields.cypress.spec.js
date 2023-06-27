@@ -226,26 +226,6 @@ describe('Pre-need form VA 40-10007', () => {
       'root_application_hasCurrentlyBuried',
       testData.data.application.hasCurrentlyBuried,
     );
-    if (testData.data.application.currentlyBuriedPersons.length) {
-      testData.data.application.currentlyBuriedPersons.forEach(
-        (person, index) => {
-          cy.fill(
-            `input[name="root_application_currentlyBuriedPersons_${index}_cemeteryNumber"]`,
-            person.cemeteryNumber.label,
-          );
-          cy.fillName(
-            `root_application_currentlyBuriedPersons_${index}_name`,
-            person.name,
-          );
-          if (
-            index <
-            testData.data.application.currentlyBuriedPersons.length - 1
-          ) {
-            cy.get('.usa-button-secondary.va-growable-add-btn').click();
-          }
-        },
-      );
-    }
     cy.axeCheck();
     cy.get('.form-panel .usa-button-primary').click();
     cy.url().should('not.contain', '/burial-benefits');
