@@ -5,6 +5,7 @@ import environment from 'platform/utilities/environment';
 import {
   claimantAddressTitle,
   claimantContactInformationTitle,
+  claimantIsNotVeteran,
   claimantPersonalInformationTitle,
   claimantSsnTitle,
 } from './helpers';
@@ -28,8 +29,6 @@ import veteranPersonalInformation from '../pages/veteranPersonalInformation';
 import veteranIdentificationInformation1 from '../pages/veteranIdentificationInformation1';
 import veteranIdentificationInformation2 from '../pages/veteranIdentificationInformation2';
 import additionalInformation from '../pages/additionalInformation';
-
-import { claimantIdentificationKeys } from '../definitions/constants';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/minimal-test.json';
@@ -97,7 +96,7 @@ const formConfig = {
       // TODO: figure out what to put in the label
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: 'preparerName',
+      fullNamePath: 'preparerFullName',
     },
   },
   formId: '21-0972',
@@ -174,8 +173,7 @@ const formConfig = {
           path: 'claimant-personal-information',
           title: formData => claimantPersonalInformationTitle(formData),
           // skip if claimant is the veteran
-          depends: formData =>
-            formData?.claimantIdentification !== claimantIdentificationKeys[0],
+          depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantPersonalInformation.uiSchema,
           schema: claimantPersonalInformation.schema,
         },
@@ -188,8 +186,7 @@ const formConfig = {
           path: 'claimant-identification-information',
           title: formData => claimantSsnTitle(formData),
           // skip if claimant is the veteran
-          depends: formData =>
-            formData?.claimantIdentification !== claimantIdentificationKeys[0],
+          depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantSsn.uiSchema,
           schema: claimantSsn.schema,
         },
@@ -202,8 +199,7 @@ const formConfig = {
           path: 'claimant-address',
           title: formData => claimantAddressTitle(formData),
           // skip if claimant is the veteran
-          depends: formData =>
-            formData?.claimantIdentification !== claimantIdentificationKeys[0],
+          depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantAddress.uiSchema,
           schema: claimantAddress.schema,
         },
@@ -216,8 +212,7 @@ const formConfig = {
           path: 'claimant-contact-information',
           title: formData => claimantContactInformationTitle(formData),
           // skip if claimant is the veteran
-          depends: formData =>
-            formData?.claimantIdentification !== claimantIdentificationKeys[0],
+          depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantContactInformation.uiSchema,
           schema: claimantContactInformation.schema,
         },

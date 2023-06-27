@@ -9,9 +9,8 @@ export default {
       'ui:widget': GroupCheckboxWidget,
       'ui:options': {
         updateSchema: formData => {
-          // TODO: figure out why this isn't populating correctly
           return {
-            title: preparerQualificationsQuestionTitle(formData),
+            title: preparerQualificationsQuestionTitle({ formData }),
           };
         },
         forceDivWrapper: true,

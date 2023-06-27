@@ -1,10 +1,18 @@
-import { claimantIdentificationDisplayOptions } from '../definitions/constants';
+import {
+  claimantIdentificationDisplayOptions,
+  claimantIdentificationKeys,
+} from '../definitions/constants';
 
-const getClaimantIdentificationText = formData => {
+export const getClaimantIdentificationText = formData => {
   return (
     claimantIdentificationDisplayOptions[(formData?.claimantIdentification)] ||
     'Claimant'
   );
+};
+
+export const claimantIsNotVeteran = ({ formData } = {}) => {
+  // key 0 corresponds to claimant is the Veteran
+  return formData?.claimantIdentification !== claimantIdentificationKeys[0];
 };
 
 export const claimantPersonalInformationTitle = ({ formData } = {}) => {
@@ -39,5 +47,14 @@ export const preparerSigningReasonQuestionTitle = ({ formData } = {}) => {
 
 export const claimantExpectedInformationDescription = ({ formData } = {}) => {
   const claimantIdentificationText = getClaimantIdentificationText(formData);
-  return `Now, we’ll ask you about the ${claimantIdentificationText} you’ll be certifing to sign for`;
+  return `Now, we’ll ask you about the ${claimantIdentificationText} you’ll be certifying to sign for`;
+};
+
+export const veteranDescriptionText = ({ formData } = {}) => {
+  let descriptionText = '';
+  if (claimantIsNotVeteran({ formData })) {
+    const claimantIdentificationText = getClaimantIdentificationText(formData);
+    descriptionText = `Next we’ll ask you about the Veteran connected to the ${claimantIdentificationText} you are certifying for.`;
+  }
+  return descriptionText;
 };

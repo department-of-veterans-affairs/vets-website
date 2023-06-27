@@ -3,24 +3,19 @@ import {
   dateOfBirthUI,
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
-  titleSchema,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { veteranDescriptionText } from '../config/helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI(
-      '',
-      'Next we’ll ask you about the Veteran connected to the {claimant} you are certifying for.',
-    ),
+    'ui:description': formData => veteranDescriptionText(formData),
     veteranFullName: fullNameNoSuffixUI(),
     veteranDateOfBirth: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
       veteranFullName: fullNameNoSuffixSchema,
       veteranDateOfBirth: dateOfBirthSchema,
     },

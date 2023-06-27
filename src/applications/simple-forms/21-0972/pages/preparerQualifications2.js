@@ -12,7 +12,7 @@ export default {
       'ui:options': {
         updateSchema: formData => {
           return {
-            title: preparerSigningReasonQuestionTitle(formData),
+            title: preparerSigningReasonQuestionTitle({ formData }),
           };
         },
         forceDivWrapper: true,

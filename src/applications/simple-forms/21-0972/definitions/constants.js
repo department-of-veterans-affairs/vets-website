@@ -1,8 +1,8 @@
 export const claimantIdentificationKeys = [
-  'veteran',
-  'spouse',
-  'parent',
-  'child',
+  'VETERAN',
+  'SPOUSE',
+  'PARENT',
+  'CHILD',
 ];
 
 export const claimantIdentificationOptions = {
