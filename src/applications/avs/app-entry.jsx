@@ -1,7 +1,7 @@
 import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/avs.scss';
 
-import { startApp } from '@department-of-veterans-affairs/platform-startup/index';
+import startApp from '@department-of-veterans-affairs/platform-startup/index';
 
 import routes from './routes';
 import reducer from './reducers';
