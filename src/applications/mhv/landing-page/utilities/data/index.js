@@ -217,6 +217,15 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
   const spotlightLinks = resolveLinkCollection(
     [
       {
+        text: 'Five Exercises for Balance',
+        href: null,
+        oldHref: mhvUrl(
+          authdWithSSOe,
+          'ss20210707-better-balance-standing-exercises',
+        ),
+        toggle: null,
+      },
+      {
         text: 'PACT Act Special Enrollment Period',
         href: null,
         oldHref: mhvUrl(
@@ -226,18 +235,9 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
         toggle: null,
       },
       {
-        text: 'My HealtheVet on VA.gov',
+        text: 'Get Back to Sleep',
         href: null,
-        oldHref: mhvUrl(authdWithSSOe, 'ss20230412-my-healthevet-on-va-gov'),
-        toggle: null,
-      },
-      {
-        text: 'Get the New Toxic Exposure Screening',
-        href: null,
-        oldHref: mhvUrl(
-          authdWithSSOe,
-          'ss20221110-get-the-new-toxic-exposure-screening',
-        ),
+        oldHref: mhvUrl(authdWithSSOe, 'ss20190321-path-to-better-sleep'),
         toggle: null,
       },
     ],
