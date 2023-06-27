@@ -51,7 +51,7 @@ PUPPETEER_SKIP_DOWNLOAD='true'
 echo "Install, build, and watch vets-website"
 cd vets-website
 echo "Installing"
-yarn install --production=false
+yarn install #--production=false
 echo "Waiting for yarn install to finish before proceeding"
 wait
 echo "Building"
