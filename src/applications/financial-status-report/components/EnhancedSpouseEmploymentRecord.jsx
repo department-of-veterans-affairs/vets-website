@@ -185,7 +185,9 @@ const EmploymentRecord = props => {
   return (
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
-        <legend className="schemaform-block-title">Add a job</legend>
+        <legend className="schemaform-block-title">
+          <h3 className="vads-u-margin--0">Add a job</h3>
+        </legend>
         <p>
           Tell us about any jobs your spouse had in the past 2 years that they
           received pay stubs for. You’ll need to provide their income

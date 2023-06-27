@@ -59,9 +59,21 @@ describe('hca DeductibleExpenses config', () => {
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(formDOM, '#root_deductibleMedicalExpenses', '100');
-    simulateInputChange(formDOM, '#root_deductibleFuneralExpenses', '0');
-    simulateInputChange(formDOM, '#root_deductibleEducationExpenses', '500');
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A deductibleMedicalExpenses_deductibleMedicalExpenses',
+      '100',
+    );
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A deductibleFuneralExpenses_deductibleFuneralExpenses',
+      '0',
+    );
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A deductibleEducationExpenses_deductibleEducationExpenses',
+      '500',
+    );
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);

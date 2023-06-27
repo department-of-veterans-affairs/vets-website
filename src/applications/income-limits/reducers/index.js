@@ -2,29 +2,11 @@ import {
   IL_EDIT_MODE,
   IL_UPDATE_DEPENDENTS,
   IL_PAST_MODE,
+  IL_UPDATE_RESULTS,
   IL_UPDATE_YEAR,
   IL_UPDATE_ZIP,
 } from '../constants';
 
-/* eslint-disable camelcase */
-// const initialState = {
-//   editMode: false,
-//   form: {
-//     dependents: null,
-//     zipCode: null,
-//   },
-//   results: {
-//     county_name: 'Some County, XX',
-//     income_year: 2023,
-//     limits: {
-//       national_threshold: 44444,
-//       pension_threshold: 22222,
-//       gmt_threshold: 77777,
-//     },
-//   },
-// };
-
-// Non-standard case (GMT < NMT)
 const initialState = {
   editMode: false,
   form: {
@@ -32,16 +14,8 @@ const initialState = {
     year: null,
     zipCode: null,
   },
-  pastMode: true,
-  results: {
-    county_name: 'Some County, XX',
-    income_year: 2023,
-    limits: {
-      national_threshold: 55555,
-      pension_threshold: 22222,
-      gmt_threshold: 33333,
-    },
-  },
+  pastMode: false,
+  results: null,
 };
 
 const incomeLimits = (state = initialState, action) => {
@@ -80,6 +54,12 @@ const incomeLimits = (state = initialState, action) => {
         ...state,
         pastMode: action.payload,
       };
+    case IL_UPDATE_RESULTS: {
+      return {
+        ...state,
+        results: action.payload,
+      };
+    }
     default:
       return state;
   }
