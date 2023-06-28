@@ -19,7 +19,7 @@ const formConfig = {
   trackingPrefix: 'ask-the-va-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'XX-230',
+  formId: '0873',
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your ask the va test application (XX-230) is in progress.',
