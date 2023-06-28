@@ -126,7 +126,7 @@ src/applications/mhv/medical-records @department-of-veterans-affairs/vfs-mhv-med
 src/applications/mhv/medications @department-of-veterans-affairs/vfs-mhv-medications
 src/applications/mhv/secure-messaging @department-of-veterans-affairs/vfs-mhv-secure-messaging
 src/applications/mhv/landing-page @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-cto-health-products
-
+src/applications/avs @department-of-veterans-affairs/va-cto-health-products
 
 # VA.gov Product Teams - Forms
 
