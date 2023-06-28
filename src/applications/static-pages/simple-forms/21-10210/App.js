@@ -24,11 +24,7 @@ const App = ({ formEnabled }) => {
     );
   }
 
-  return (
-    <>
-      <p>You can submit this form by mail.</p>
-    </>
-  );
+  return <p>You can submit this form by mail.</p>;
 };
 
 App.propTypes = {
