@@ -127,6 +127,7 @@ class IntroductionPage extends React.Component {
                     this required form:{' '}
                     <a href={DBQ_URL} target="_blank" rel="noreferrer">
                       Separation Health Assessment - Part A Self-Assessment
+                      (opens in a new tab)
                     </a>
                     . We recommend you download and fill out this form on a
                     desktop computer or laptop. Then return to this page to
