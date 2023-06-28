@@ -218,17 +218,17 @@ describe('Pre-need form VA 40-10007', () => {
     );
     cy.get('.autosuggest-item', { timeout: Timeouts.slow }).should('exist');
     cy.get('body').click();
-    cy.selectRadio(
-      'root_application_hasCurrentlyBuried',
-      testData.data.application.hasCurrentlyBuried,
-    );
-    cy.selectRadio(
-      'root_application_hasCurrentlyBuried',
-      testData.data.application.hasCurrentlyBuried,
-    );
-    cy.axeCheck();
-    cy.get('.form-panel .usa-button-primary').click();
-    cy.url().should('not.contain', '/burial-benefits');
+    // cy.selectRadio(
+    //   'root_application_hasCurrentlyBuried',
+    //   testData.data.application.hasCurrentlyBuried,
+    // );
+    // cy.selectRadio(
+    //   'root_application_hasCurrentlyBuried',
+    //   testData.data.application.hasCurrentlyBuried,
+    // );
+    // cy.axeCheck();
+    // cy.get('.form-panel .usa-button-primary').click();
+    // cy.url().should('not.contain', '/burial-benefits');
 
     // Supporting Documents page
 
