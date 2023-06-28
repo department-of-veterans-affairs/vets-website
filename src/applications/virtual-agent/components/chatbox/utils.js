@@ -7,6 +7,24 @@ export const IS_TRACKING_UTTERANCES = `${BOT_SESSION_PREFIX}isTrackingUtterances
 export const IS_RX_SKILL = `${BOT_SESSION_PREFIX}isRxSkill`;
 export const TOKEN_KEY = `${BOT_SESSION_PREFIX}token`;
 
+const RX_UTTERANCE_1 = 'refill prescription';
+const RX_UTTERANCE_2 = 'rx';
+const RX_UTTERANCE_3 = 'prescription status';
+const RX_UTTERANCE_4 = 'prescription';
+const RX_UTTERANCE_5 = 'Can I refill my prescription?';
+const RX_UTTERANCE_6 = 'rxrefill';
+const RX_UTTERANCE_7 = 'sandbox 3';
+
+export const RX_UTTERANCES = [
+  RX_UTTERANCE_1,
+  RX_UTTERANCE_2,
+  RX_UTTERANCE_3,
+  RX_UTTERANCE_4,
+  RX_UTTERANCE_5,
+  RX_UTTERANCE_6,
+  RX_UTTERANCE_7,
+];
+
 export function clearBotSessionStorage(forceClear) {
   const botSessionKeys = Object.keys(sessionStorage);
   const loggedInFlow = sessionStorage.getItem(LOGGED_IN_FLOW);

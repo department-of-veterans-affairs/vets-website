@@ -10,17 +10,8 @@ import {
   RECENT_UTTERANCES,
   CONVERSATION_ID_KEY,
   IS_RX_SKILL,
+  RX_UTTERANCES,
 } from '../../chatbox/utils';
-
-const RX_UTTERANCES = [
-  'refill prescription',
-  'rx',
-  'prescription status',
-  'prescription',
-  'Can I refill my prescription?',
-  'rxrefill',
-  'sandbox 3',
-];
 
 const isStringInArray = (text, utterances) => {
   return utterances.includes(text);
@@ -132,4 +123,11 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   if (rxSkillWasClosed) {
     setSessionStorageAsString(IS_RX_SKILL, false);
   }
+
+  // console.log(
+  //   'IS this the Rx skill?',
+  //   sessionStorage.getItem(IS_RX_SKILL),
+  //   'Have we exited the Rx skill?',
+  //   rxSkillWasClosed,
+  // );
 };
