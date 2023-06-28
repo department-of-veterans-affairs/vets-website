@@ -86,3 +86,6 @@ export const selectFeatureBreadcrumbUrlUpdate = state =>
 
 export const selectFeaturePrintList = state =>
   toggleValues(state).vaOnlineSchedulingPrintList;
+
+export const selectFeatureDescriptiveBackLink = state =>
+  toggleValues(state).vaOnlineSchedulingDescriptiveBackLink;
