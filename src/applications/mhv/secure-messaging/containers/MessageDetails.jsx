@@ -19,8 +19,8 @@ const MessageDetail = () => {
   const messageHistory = useSelector(
     state => state.sm.messageDetails.messageHistory,
   );
-  const isTrash = window.location.pathname.includes('/trash');
-  const isSent = window.location.pathname.includes('/sent');
+  const isTrash = window.location.pathname.includes(Paths.DELETED);
+  const isSent = window.location.pathname.includes(Paths.SENT);
   const location = useLocation();
   const history = useHistory();
   const [cannotReplyAlert, setcannotReplyAlert] = useState(true);

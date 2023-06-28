@@ -38,7 +38,7 @@ export const filingDeadlineContent = (
 
 export const FilingDeadlinesDescription = (
   <>
-    <h3>Filing deadlines</h3>
+    <h3>Deadlines for submitting this form</h3>
     {filingDeadlineContent}
     <p>
       Please understand that by listing any issues currently pending in the old
