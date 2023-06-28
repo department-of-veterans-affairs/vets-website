@@ -2,6 +2,8 @@ import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAdd
 import {
   addressSchema,
   addressUI,
+  inlineTitleSchema,
+  inlineTitleUI,
   titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -10,22 +12,20 @@ import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI('RJSF'),
+    rjsfTitle: titleUI('RJSF'),
     addressOld: {
       ...addressUiSchema('addressOld', undefined, () => true),
     },
-    wc: titleUI('Web component', {
-      classNames: 'vads-u-margin-top--4',
-    }),
-    addressNew: addressUI(),
+    wcv3Title: inlineTitleUI('Web component'),
+    wcv3Address: addressUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
+      rjsfTitle: titleSchema,
       addressOld: fullSchema.properties.veteran.properties.address,
-      wc: titleSchema,
-      addressNew: addressSchema(),
+      wcv3Title: inlineTitleSchema,
+      wcv3Address: addressSchema(),
     },
     required: [],
   },

@@ -90,7 +90,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     mockSingleVAOSRequestFetch({ request: appointment });
 
     const facility = createMockFacilityByVersion({
-      id: '442GC',
+      id: '983GC',
       name: 'Cheyenne VA Medical Center',
       address: {
         postalCode: '82001-5356',
@@ -99,10 +99,9 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
         line: ['2360 East Pershing Boulevard'],
       },
       phone: '307-778-7550',
-      version: 0,
     });
 
-    mockFacilityFetchByVersion({ facility, version: 0 });
+    mockFacilityFetchByVersion({ facility });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: initialStateVAOSService,
@@ -361,11 +360,9 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     };
 
     mockSingleVAOSRequestFetch({ request: ccAppointmentRequest });
-    const facility = {
-      ...createMockFacilityByVersion({ version: 0 }),
-      id: 'vha_442GC',
-    };
-    mockFacilityFetchByVersion({ facility, version: 1 });
+    const facility = createMockFacilityByVersion({ id: '983GC' });
+
+    mockFacilityFetchByVersion({ facility });
     const store = createTestStore({
       featureToggles: {
         vaOnlineSchedulingVAOSServiceRequests: true,
@@ -494,8 +491,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     mockSingleVAOSRequestFetch({ request: appointment });
     mockAppointmentCancelFetch({ appointment });
     mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({ id: '442GC', version: 0 }),
-      version: 0,
+      facility: createMockFacilityByVersion({ id: '983GC' }),
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -569,7 +565,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
 
     mockSingleVAOSRequestFetch({ request: appointment });
     mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({ id: '442GC', version: 0 }),
+      facility: createMockFacilityByVersion({ id: '983GC' }),
       version: 0,
     });
     const screen = renderWithStoreAndRouter(<AppointmentList />, {

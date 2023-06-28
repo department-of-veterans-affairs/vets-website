@@ -17,6 +17,7 @@ import { PrintMessageOptions } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from '../components/shared/CannotReplyAlert';
 import { navigateToFolderByFolderId } from '../util/helpers';
+import { retrieveFolder } from '../actions/folders';
 
 const ThreadDetails = props => {
   const { threadId } = useParams();
@@ -45,6 +46,15 @@ const ThreadDetails = props => {
   const [h1Focus, setH1Focus] = useState(false);
   const header = useRef(h1Focus);
 
+  // necessary to update breadcrumb when there is no active folder in redux store, which happens when user lands on the threadDetails view from the url instead of the parent folder.
+  useEffect(
+    () => {
+      if (!folder && draftMessage) {
+        dispatch(retrieveFolder(draftMessage?.threadFolderId));
+      }
+    },
+    [draftMessage, dispatch, folder],
+  );
   useEffect(
     () => {
       if (threadId) {
@@ -118,7 +128,7 @@ const ThreadDetails = props => {
         />
       );
     }
-    if (isReply) {
+    if (isReply && draftMessageHistory !== undefined) {
       return (
         <div className="compose-container">
           <CannotReplyAlert visible={cannotReply} />

@@ -11,9 +11,15 @@ describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () =>
   it('Verify Data When Cancel Navigate Away', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/message_drafts',

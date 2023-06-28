@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { ariaLabels } from '../../constants';
@@ -75,7 +75,7 @@ const BenefitsForm = ({
   ] = useState(POST_911_ARRAY);
 
   const [whatsYourStatusLabel, setWhatsYourStatusLabel] = useState(
-    WHAT_IS_YOUR_DEPENDENT_STATUS,
+    WHAT_IS_YOUR_MILITARY_STATUS,
   );
 
   const preEligibilityChange = (e, name, number) => {
@@ -85,7 +85,7 @@ const BenefitsForm = ({
     if (field === 'giBillChapter' && value === '33a') {
       setWhatsYourMilitaryStatusDropDown(POST_911_ARRAY);
       eligibilityChangeRedux({ militaryStatus: VETERAN });
-      setWhatsYourStatusLabel(WHAT_IS_YOUR_DEPENDENT_STATUS);
+      setWhatsYourStatusLabel(WHAT_IS_YOUR_MILITARY_STATUS);
     } else if (field === 'giBillChapter' && value === '33b') {
       setWhatsYourMilitaryStatusDropDown(FRY_SCHOLARSHIP_ARRAY);
       eligibilityChangeRedux({ militaryStatus: SPOUSE });

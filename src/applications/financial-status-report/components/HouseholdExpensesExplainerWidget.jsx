@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 
 const HouseholdExpensesExplainerWidget = () => {
   return (
-    <div className="vads-u-margin-y--neg3">
-      <h2 className="vads-u-font-size--h3">Your monthly household expenses</h2>
-      <p className="vads-u-font-size--base vads-u-font-family--sans">
+    <div className="vads-u-margin-top--neg4 vads-u-padding-top--0p25">
+      <h3 className="schemaform-block-title">
+        Your monthly household expenses
+      </h3>
+      <p>
         Now we’re going to ask you about your monthly household expenses,
         including:
       </p>
@@ -18,9 +20,22 @@ const HouseholdExpensesExplainerWidget = () => {
           and health care costs
         </li>
       </ul>
-      <va-alert status="info">
-        <strong>It’s important for you to include all of your expenses.</strong>
-        <p className="vads-u-font-size--base">
+      <va-alert
+        background-only
+        class="vads-u-margin-bottom--1"
+        close-btn-aria-label="Close notification"
+        disable-analytics="false"
+        full-width="false"
+        show-icon
+        status="info"
+        visible="true"
+      >
+        <p className="vads-u-margin--0">
+          <strong>
+            It’s important for you to include all of your expenses.
+          </strong>
+        </p>
+        <p className="vads-u-margin-bottom--0">
           This helps us understand your situation. We review your income and
           expenses when we assess your ability to repay the debt.
         </p>

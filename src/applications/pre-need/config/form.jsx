@@ -27,6 +27,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
+import SubmissionError from '../components/SubmissionError';
 import EligibleBuriedView from '../components/EligibleBuriedView';
 import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 import { validateSponsorDeathDate } from '../validation';
@@ -121,6 +122,7 @@ const formConfig = {
   ),
   getHelp: GetFormHelp,
   errorText: ErrorText,
+  submissionError: SubmissionError,
   defaultDefinitions: {
     fullName,
     ssn,
@@ -202,9 +204,7 @@ const formConfig = {
         },
         veteranInformation: {
           path: 'veteran-applicant-information',
-          title: environment.isProduction()
-            ? 'Veteran Information'
-            : 'Veteran information',
+          title: 'Veteran information',
           depends: isVeteran,
           uiSchema: {
             application: {

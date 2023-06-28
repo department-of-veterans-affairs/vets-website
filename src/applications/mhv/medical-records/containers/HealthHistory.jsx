@@ -22,24 +22,12 @@ const HealthHistory = () => {
 
   return (
     <div className="health-history vads-u-padding-bottom--5">
-      <h1 className="vads-u-margin-bottom-3">Health history</h1>
-      <p>Review, print, and download your personal health history.</p>
+      <h1 className="vads-u-margin-bottom--0">Health history</h1>
+      <p className="vads-u-margin-top--0 va-introtext">
+        Review, print, and download your personal health history.
+      </p>
 
       <ul className="unstyled-list">
-        <li>
-          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-            Allergies
-          </h2>
-          <va-link
-            className="section-link"
-            active
-            href="/my-health/medical-records/health-history/allergies"
-            text="Review your allergies"
-            data-testid="section-link"
-          />
-          <p className="vads-u-margin-top--1">[description of section]</p>
-        </li>
-
         <li>
           <h2 className="vads-u-margin-bottom--1 vads-u-margin-top--4">
             Care summaries and notes
@@ -60,20 +48,6 @@ const HealthHistory = () => {
 
         <li>
           <h2 className="vads-u-margin-bottom--1 vads-u-margin-top--4">
-            Health conditions
-          </h2>
-          <va-link
-            className="section-link"
-            active
-            href="/my-health/medical-records/health-history/health-conditions"
-            text="Review your health conditions"
-            data-testid="section-link"
-          />
-          <p className="vads-u-margin-top--1">[description of section]</p>
-        </li>
-
-        <li>
-          <h2 className="vads-u-margin-bottom--1 vads-u-margin-top--4">
             Vaccines
           </h2>
           <va-link
@@ -88,6 +62,34 @@ const HealthHistory = () => {
             have questions about your vaccinations, contact your VA health care
             team.
           </p>
+        </li>
+
+        <li>
+          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+            Allergies
+          </h2>
+          <va-link
+            className="section-link"
+            active
+            href="/my-health/medical-records/health-history/allergies"
+            text="Review your allergies"
+            data-testid="section-link"
+          />
+          <p className="vads-u-margin-top--1">[description of section]</p>
+        </li>
+
+        <li>
+          <h2 className="vads-u-margin-bottom--1 vads-u-margin-top--4">
+            Health conditions
+          </h2>
+          <va-link
+            className="section-link"
+            active
+            href="/my-health/medical-records/health-history/health-conditions"
+            text="Review your health conditions"
+            data-testid="section-link"
+          />
+          <p className="vads-u-margin-top--1">[description of section]</p>
         </li>
 
         <li>

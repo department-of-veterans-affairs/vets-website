@@ -65,7 +65,8 @@ export const FORMAT_READABLE = 'LL';
 // session storage keys
 export const SAVED_CLAIM_TYPE = 'hlrClaimType';
 export const WIZARD_STATUS = 'wizardStatus996';
-export const LAST_HLR_ITEM = 'lastHlrItem'; // focus management across pages
+export const LAST_ISSUE = 'lastHlrItem'; // focus management across pages
+export const REVIEW_ISSUES = 'onReviewPageIssues';
 
 // Values from benefitTypes in vets-json-schema constants
 const supportedBenefitTypes = [

@@ -1,25 +1,23 @@
 import React from 'react';
-import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setVaccineFacility,
   setVaccineClinic,
 } from '../../mocks/setup';
-import userEvent from '@testing-library/user-event';
 
 import SelectDate1Page from '../../../covid-19-vaccine/components/SelectDate1Page';
-import {
-  mockEligibilityFetches,
-  mockAppointmentSlotFetch,
-} from '../../mocks/helpers';
-import { getClinicMock, getAppointmentSlotMock } from '../../mocks/v0';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { getAppointmentSlotMock } from '../../mocks/v0';
 import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
+import { mockEligibilityFetchesByVersion } from '../../mocks/fetch';
+import { createMockClinicByVersion } from '../../mocks/data';
+import { mockAppointmentSlotFetch } from '../../mocks/helpers.v2';
 
 const initialState = {
   featureToggles: {
@@ -33,84 +31,35 @@ const initialState = {
 };
 
 describe('VAOS vaccine flow <SelectDate1Page>', () => {
+  const clinic1 = createMockClinicByVersion({
+    id: '308',
+    stationId: '983',
+    friendlyName: 'Green team clinic',
+  });
+  const clinic2 = createMockClinicByVersion({
+    id: '309',
+    stationId: '983',
+    friendlyName: 'Red team clinic',
+  });
+  const clinics = [clinic1, clinic2];
+
   beforeEach(() => {
     mockFetch();
-    MockDate.set(moment('2020-01-26T14:00:00'));
   });
-  afterEach(() => {
-    MockDate.reset();
-  });
+
   it('should not submit form with validation error', async () => {
-    mockEligibilityFetches({
-      siteId: '983',
+    mockEligibilityFetchesByVersion({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
-      clinics: [
-        {
-          id: '308',
-          attributes: {
-            ...getClinicMock(),
-            siteCode: '983',
-            clinicId: '308',
-            institutionCode: '983',
-            clinicFriendlyLocationName: 'Green team clinic',
-          },
-        },
-        {
-          id: '309',
-          attributes: {
-            ...getClinicMock(),
-            siteCode: '983',
-            clinicId: '309',
-            institutionCode: '983',
-            clinicFriendlyLocationName: 'Red team clinic',
-          },
-        },
-      ],
+      clinics,
     });
 
-    const slot308Date = moment()
-      .day(9)
-      .hour(9)
-      .minute(0)
-      .second(0);
-    const slot309Date = moment()
-      .day(11)
-      .hour(13)
-      .minute(0)
-      .second(0);
     const preferredDate = moment();
 
     mockAppointmentSlotFetch({
-      siteId: '983',
+      facilityId: '983',
       clinicId: '308',
-      typeOfCareId: TYPE_OF_CARE_ID,
-      slots: [
-        {
-          ...getAppointmentSlotMock(),
-          startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-          endDateTime: slot308Date
-            .clone()
-            .minute(20)
-            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-        },
-      ],
-      preferredDate,
-    });
-    mockAppointmentSlotFetch({
-      siteId: '983',
-      clinicId: '309',
-      typeOfCareId: TYPE_OF_CARE_ID,
-      slots: [
-        {
-          ...getAppointmentSlotMock(),
-          startDateTime: slot309Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-          endDateTime: slot309Date
-            .clone()
-            .minute(20)
-            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-        },
-      ],
+      response: [],
       preferredDate,
     });
 
@@ -146,33 +95,17 @@ describe('VAOS vaccine flow <SelectDate1Page>', () => {
   });
 
   it('should display error message if slots call fails', async () => {
-    const clinics = [
-      {
-        id: '308',
-        attributes: {
-          ...getClinicMock(),
-          siteCode: '983',
-          clinicId: '308',
-          institutionCode: '983',
-          clinicFriendlyLocationName: 'Green team clinic',
-        },
-      },
-      {
-        id: '309',
-        attributes: {
-          ...getClinicMock(),
-          siteCode: '983',
-          clinicId: '309',
-          institutionCode: '983',
-          clinicFriendlyLocationName: 'Red team clinic',
-        },
-      },
-    ];
-    mockEligibilityFetches({
-      siteId: '983',
+    const preferredDate = moment();
+    mockEligibilityFetchesByVersion({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
       clinics,
+    });
+    mockAppointmentSlotFetch({
+      clinicId: '308',
+      facilityId: '983',
+      preferredDate,
+      withError: true,
     });
 
     const store = createTestStore(initialState);
@@ -208,32 +141,10 @@ describe('VAOS vaccine flow <SelectDate1Page>', () => {
   });
 
   it('should allow a user to choose available slot and fetch new slots after changing clinics', async () => {
-    mockEligibilityFetches({
-      siteId: '983',
+    mockEligibilityFetchesByVersion({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
-      clinics: [
-        {
-          id: '308',
-          attributes: {
-            ...getClinicMock(),
-            siteCode: '983',
-            clinicId: '308',
-            institutionCode: '983',
-            clinicFriendlyLocationName: 'Green team clinic',
-          },
-        },
-        {
-          id: '309',
-          attributes: {
-            ...getClinicMock(),
-            siteCode: '983',
-            clinicId: '309',
-            institutionCode: '983',
-            clinicFriendlyLocationName: 'Red team clinic',
-          },
-        },
-      ],
+      clinics,
     });
 
     const slot308Date = moment()
@@ -249,33 +160,48 @@ describe('VAOS vaccine flow <SelectDate1Page>', () => {
     const preferredDate = moment();
 
     mockAppointmentSlotFetch({
-      siteId: '983',
+      facilityId: '983',
       clinicId: '308',
-      typeOfCareId: TYPE_OF_CARE_ID,
-      slots: [
+      response: [
         {
-          ...getAppointmentSlotMock(),
-          startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-          endDateTime: slot308Date
-            .clone()
-            .minute(20)
-            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          id: '308',
+          type: 'slots',
+          attributes: {
+            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot308Date
+              .clone()
+              .minute(20)
+              .format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
+        },
+        {
+          id: '309',
+          type: 'slots',
+          attributes: {
+            start: slot309Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot309Date
+              .clone()
+              .minute(20)
+              .format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
         },
       ],
       preferredDate,
     });
     mockAppointmentSlotFetch({
-      siteId: '983',
+      facilityId: '983',
       clinicId: '309',
-      typeOfCareId: TYPE_OF_CARE_ID,
-      slots: [
+      response: [
         {
-          ...getAppointmentSlotMock(),
-          startDateTime: slot309Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-          endDateTime: slot309Date
-            .clone()
-            .minute(20)
-            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          id: '309',
+          type: 'slots',
+          attributes: {
+            start: slot309Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot309Date
+              .clone()
+              .minute(20)
+              .format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
         },
       ],
       preferredDate,
@@ -362,42 +288,17 @@ describe('VAOS vaccine flow <SelectDate1Page>', () => {
   });
 
   it('should show validation error if no date selected', async () => {
-    const clinics = [
-      {
-        id: '308',
-        attributes: {
-          ...getClinicMock(),
-          siteCode: '983',
-          clinicId: '308',
-          institutionCode: '983',
-          clinicFriendlyLocationName: 'Green team clinic',
-        },
-      },
-    ];
-    mockEligibilityFetches({
-      siteId: '983',
+    mockEligibilityFetchesByVersion({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
       clinics,
     });
-    const slot308Date = moment();
-    const slots308 = [
-      {
-        ...getAppointmentSlotMock(),
-        startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-        endDateTime: slot308Date
-          .clone()
-          .minute(20)
-          .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-      },
-    ];
 
     const preferredDate = moment();
     mockAppointmentSlotFetch({
-      siteId: '983',
+      facilityId: '983',
       clinicId: '308',
-      typeOfCareId: TYPE_OF_CARE_ID,
-      slots: slots308,
+      response: [],
       preferredDate,
     });
 
@@ -423,22 +324,10 @@ describe('VAOS vaccine flow <SelectDate1Page>', () => {
   });
 
   it('should fetch slots when moving between months', async () => {
-    mockEligibilityFetches({
-      siteId: '983',
+    mockEligibilityFetchesByVersion({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
-      clinics: [
-        {
-          id: '308',
-          attributes: {
-            ...getClinicMock(),
-            siteCode: '983',
-            clinicId: '308',
-            institutionCode: '983',
-            clinicFriendlyLocationName: 'Green team clinic',
-          },
-        },
-      ],
+      clinics,
     });
 
     const preferredDate = moment();
@@ -455,10 +344,9 @@ describe('VAOS vaccine flow <SelectDate1Page>', () => {
       .second(0);
 
     mockAppointmentSlotFetch({
-      siteId: '983',
+      facilityId: '983',
       clinicId: '308',
-      typeOfCareId: TYPE_OF_CARE_ID,
-      slots: [
+      response: [
         {
           ...getAppointmentSlotMock(),
           startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
@@ -467,14 +355,24 @@ describe('VAOS vaccine flow <SelectDate1Page>', () => {
             .minute(20)
             .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
         },
+        {
+          id: '308',
+          type: 'slots',
+          attributes: {
+            start: slot308Date.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: slot308Date
+              .clone()
+              .minute(20)
+              .format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
+        },
       ],
       preferredDate,
     });
     mockAppointmentSlotFetch({
-      siteId: '983',
+      facilityId: '983',
       clinicId: '308',
-      typeOfCareId: TYPE_OF_CARE_ID,
-      slots: [
+      response: [
         {
           ...getAppointmentSlotMock(),
           startDateTime: secondSlotDate.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
@@ -482,6 +380,17 @@ describe('VAOS vaccine flow <SelectDate1Page>', () => {
             .clone()
             .minute(20)
             .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+        },
+        {
+          id: '308',
+          type: 'slots',
+          attributes: {
+            start: secondSlotDate.format('YYYY-MM-DDTHH:mm:ssZ'),
+            end: secondSlotDate
+              .clone()
+              .minute(20)
+              .format('YYYY-MM-DDTHH:mm:ssZ'),
+          },
         },
       ],
       startDate: preferredDate
@@ -491,7 +400,8 @@ describe('VAOS vaccine flow <SelectDate1Page>', () => {
       endDate: preferredDate
         .clone()
         .add('2', 'months')
-        .endOf('month'),
+        .endOf('month')
+        .startOf('day'),
     });
 
     const store = createTestStore(initialState);

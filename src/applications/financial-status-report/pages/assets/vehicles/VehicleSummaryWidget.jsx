@@ -18,7 +18,7 @@ const VehicleSummaryWidget = ({
   contentAfterButtons,
 }) => {
   const { assets } = data;
-  const { automobiles } = assets || [];
+  const { automobiles = [] } = assets;
 
   useEffect(() => {
     clearJobIndex();
@@ -38,10 +38,6 @@ const VehicleSummaryWidget = ({
   const onDelete = deleteIndex => {
     setFormData({
       ...data,
-      questions: {
-        ...data.questions,
-        hasVehicle: deleteIndex !== 0,
-      },
       assets: {
         ...assets,
         automobiles: automobiles.filter(
@@ -61,7 +57,7 @@ const VehicleSummaryWidget = ({
     <form onSubmit={handlers.onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          Your cars or other vehicles
+          <h3 className="vads-u-margin--0">Your cars or other vehicles</h3>
         </legend>
         <div className="vads-u-margin-top--3" data-testid="debt-list">
           {!automobiles.length ? (
@@ -69,6 +65,9 @@ const VehicleSummaryWidget = ({
           ) : (
             automobiles.map((vehicle, index) => (
               <MiniSummaryCard
+                ariaLabel={`Vehicle ${index + 1} ${vehicle.year || ''} ${
+                  vehicle.make
+                } ${vehicle.model}`}
                 editDestination={{
                   pathname: '/your-vehicle-records',
                   search: `?index=${index}`,
@@ -76,7 +75,7 @@ const VehicleSummaryWidget = ({
                 heading={`${vehicle.year || ''} ${vehicle.make} ${
                   vehicle.model
                 }`}
-                key={vehicle.make + vehicle.model + vehicle.year}
+                key={index + vehicle.make + vehicle.model + vehicle.year}
                 onDelete={() => onDelete(index)}
                 showDelete
                 body={cardBody(vehicle.resaleValue)}
@@ -106,7 +105,16 @@ VehicleSummaryWidget.propTypes = {
   contentAfterButtons: PropTypes.object,
   contentBeforeButtons: PropTypes.object,
   data: PropTypes.shape({
-    assets: PropTypes.array,
+    assets: PropTypes.shape({
+      automobiles: PropTypes.arrayOf(
+        PropTypes.shape({
+          make: PropTypes.string,
+          model: PropTypes.string,
+          year: PropTypes.string,
+          resaleValue: PropTypes.string,
+        }),
+      ),
+    }),
     questions: PropTypes.shape({
       hasVehicle: PropTypes.bool,
     }),

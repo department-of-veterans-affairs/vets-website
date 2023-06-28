@@ -1,6 +1,8 @@
+import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useSelector, connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router';
+import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearJobIndex } from '../../../utils/session';
 import {
@@ -11,14 +13,12 @@ import {
 import { currency as currencyFormatter } from '../../../utils/helpers';
 
 const CreditCardBillSummary = ({
-  data,
   goToPath,
-  setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
   const dispatch = useDispatch();
-
+  const setFormData = newData => dispatch(setData(newData));
   const formData = useSelector(state => state.form.data);
   const { expenses } = formData;
   const { creditCardBills } = expenses || [];
@@ -39,22 +39,21 @@ const CreditCardBillSummary = ({
   };
 
   const onDelete = deleteIndex => {
-    dispatch(
-      setFormData({
-        ...formData,
-        questions: {
-          ...data.questions,
-          hasCreditCardBills: deleteIndex !== 0,
-        },
-        expenses: {
-          ...expenses,
-          creditCardBills: creditCardBills.filter(
-            (source, index) => index !== deleteIndex,
-          ),
-        },
-      }),
-    );
+    setFormData({
+      ...formData,
+      // questions: {
+      //   ...data.questions,
+      //   hasCreditCardBills: deleteIndex !== 0,
+      // },
+      expenses: {
+        ...expenses,
+        creditCardBills: creditCardBills.filter(
+          (_, index) => index !== deleteIndex,
+        ),
+      },
+    });
   };
+
   const emptyPrompt = `Select the 'add additional credit card bill' link to add another bill. Select the continue button to move on to the next question.`;
 
   const billBody = bill => {
@@ -68,7 +67,7 @@ const CreditCardBillSummary = ({
           <strong>{currencyFormatter(bill.amountDueMonthly)}</strong>
           <br />
           Amount overdue:{' '}
-          <strong>{currencyFormatter(bill.amountPastDue)}</strong>
+          <strong>{currencyFormatter(bill.amountPastDue || 0.0)}</strong>
         </p>
       </>
     );
@@ -78,7 +77,7 @@ const CreditCardBillSummary = ({
     <form onSubmit={handlers.onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          Your credit card bills
+          <h3 className="vads-u-margin--0">Your credit card bills</h3>
         </legend>
         <div className="vads-u-margin-top--3" data-testid="debt-list">
           {!creditCardBills.length ? (
@@ -86,6 +85,7 @@ const CreditCardBillSummary = ({
           ) : (
             creditCardBills.map((bill, index) => (
               <MiniSummaryCard
+                ariaLabel={`Credit card bill ${index + 1}`}
                 editDestination={{
                   pathname: '/your-credit-card-bills',
                   search: `?index=${index}`,
@@ -120,8 +120,14 @@ const CreditCardBillSummary = ({
 const mapStateToProps = ({ form }) => {
   return {
     formData: form.data,
-    employmentHistory: form.data.personalData.employmentHistory,
   };
+};
+
+CreditCardBillSummary.propTypes = {
+  goToPath: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  contentAfterButtons: PropTypes.node,
+  contentBeforeButtons: PropTypes.node,
 };
 
 export default connect(mapStateToProps)(CreditCardBillSummary);

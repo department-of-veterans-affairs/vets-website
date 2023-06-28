@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   VaButtonPair,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
 
+import { scrollToTop } from '../utilities/scroll-to-top';
 import { ROUTES } from '../constants';
 import { updateEditMode, updateYear } from '../actions';
 
@@ -18,6 +20,11 @@ const YearPage = ({
 }) => {
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    focusElement('h1');
+    scrollToTop();
+  }, []);
 
   const onContinueClick = () => {
     setSubmitted(true);
@@ -34,7 +41,7 @@ const YearPage = ({
   };
 
   const onBackClick = () => {
-    // don't do anything yet
+    router.push(ROUTES.HOME);
   };
 
   const onYearInput = event => {

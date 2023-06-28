@@ -9,6 +9,7 @@ import MessageDetails from './MessageDetails';
 import ThreadDetails from './ThreadDetails';
 import MessageReply from './MessageReply';
 import SearchResults from './SearchResults';
+import { Paths } from '../util/constants';
 
 const AuthorizedRoutes = () => {
   return (
@@ -18,35 +19,45 @@ const AuthorizedRoutes = () => {
         <Route exact path="/" key="App">
           <LandingPageAuth />
         </Route>
-        <Route exact path="/folders" key="Folders">
+        <Route exact path={Paths.FOLDERS} key="Folders">
           <Folders />
         </Route>
-        <Route exact path="/compose" key="Compose">
+        <Route exact path={Paths.COMPOSE} key="Compose">
           <Compose />
         </Route>
-        <Route exact path="/message/:messageId" key="MessageDetails">
-          <MessageDetails />
-        </Route>
-        <Route exact path="/thread/:threadId" key="ThreadDetails">
-          <ThreadDetails />
-        </Route>
-        <Route exact path="/reply/:replyId" key="MessageReply">
-          <MessageReply />
-        </Route>
-        <Route exact path="/search/results" key="SearchResults">
-          <SearchResults />
-        </Route>
-        <Route path="/draft/:draftId" key="Compose">
-          <Compose />
-        </Route>
-        <Route path="/sent/:messageId" key="MessageDetails">
-          <MessageDetails />
-        </Route>
-        <Route path="/trash/:messageId" key="MessageDetails">
+        <Route exact path={`${Paths.MESSAGE}:messageId/`} key="MessageDetails">
           <MessageDetails />
         </Route>
         <Route
-          path={['/inbox', '/sent', '/trash', '/drafts', '/folder/:folderId']}
+          exact
+          path={`${Paths.MESSAGE_THREAD}:threadId/`}
+          key="ThreadDetails"
+        >
+          <ThreadDetails />
+        </Route>
+        <Route exact path={`${Paths.REPLY}:replyId/`} key="MessageReply">
+          <MessageReply />
+        </Route>
+        <Route exact path={Paths.SEARCH_RESULTS} key="SearchResults">
+          <SearchResults />
+        </Route>
+        <Route path={`${Paths.DRAFT}:draftId/`} key="Compose">
+          <Compose />
+        </Route>
+        <Route path={`${Paths.SENT}:messageId/`} key="MessageDetails">
+          <MessageDetails />
+        </Route>
+        <Route path={`${Paths.DELETED}:messageId/`} key="MessageDetails">
+          <MessageDetails />
+        </Route>
+        <Route
+          path={[
+            Paths.INBOX,
+            Paths.SENT,
+            Paths.DELETED,
+            Paths.DRAFTS,
+            `${Paths.FOLDERS}:folderId/`,
+          ]}
           key="FolderListView"
         >
           <FolderThreadListView />

@@ -1,6 +1,8 @@
 import React from 'react';
 
-export const evidenceUploadIntroTitle = 'Additional evidence';
+export const evidenceUploadIntroTitle = (
+  <h3 className="vads-u-margin-y--0">Additional evidence</h3>
+);
 
 export const evidenceUploadIntroDescription = (
   <>
@@ -11,7 +13,7 @@ export const evidenceUploadIntroDescription = (
     <div className="vads-u-margin-y--2">
       <va-additional-info trigger="How do I submit evidence later?">
         You can submit more evidence by mailing it to this address:
-        <p>
+        <p className="vads-u-padding-y--2">
           Board of Veterans’ Appeals
           <br />
           PO Box 27063

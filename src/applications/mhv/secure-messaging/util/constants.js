@@ -1,6 +1,21 @@
 /** time to wait (in ms) after the user stops typing before initiating draft auto-save */
 export const draftAutoSaveTimeout = 5000;
 
+export const Paths = {
+  INBOX: '/inbox/',
+  SENT: '/sent/',
+  DRAFTS: '/drafts/',
+  DRAFT: '/draft/',
+  DELETED: '/trash/',
+  COMPOSE: '/new-message/',
+  MESSAGE: '/message/',
+  MESSAGE_THREAD: '/thread/',
+  FOLDERS: '/folders/',
+  SEARCH: '/search/',
+  SEARCH_RESULTS: '/search/results/',
+  REPLY: '/reply/',
+};
+
 export const DefaultFolders = {
   INBOX: {
     id: 0,
@@ -139,7 +154,7 @@ export const Alerts = {
 
 export const Errors = {
   Code: {
-    BLOCKED_USER: 'SM151',
+    BLOCKED_USER: 'SM119',
   },
 };
 
@@ -148,7 +163,7 @@ export const Links = {
     CANNOT_REPLY: {
       CLASSNAME: 'fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1',
       TITLE: 'Start a new message',
-      TO: '/compose',
+      TO: Paths.COMPOSE,
     },
   },
 };
@@ -171,21 +186,19 @@ export const Prompts = {
       "Drafts are permanently deleted and this action can't be undone. \n\n Deleting a draft won't affect other messages in this conversation.",
   },
 };
+
 export const Breadcrumbs = {
+  MESSAGES: { path: '/', label: 'Back to messages' },
   COMPOSE: {
-    path: '/compose',
+    path: Paths.COMPOSE,
     label: 'Start a new message',
   },
-  INBOX: { path: '/inbox', label: 'Inbox' },
-  DRAFTS: { path: '/drafts', label: 'Drafts' },
-  DRAFT: { path: '/draft', label: 'Drafts' },
-  FOLDERS: { path: '/folders', label: 'My folders' },
-  SENT: { path: '/sent', label: 'Sent messages' },
-  TRASH: { path: '/trash', label: 'Trash' },
-  SEARCH: { path: '/search', label: 'Search messages' },
-  SEARCH_ADVANCED: { path: '/advanced', label: 'Advanced search' },
-  SEARCH_RESULTS: { path: '/results', label: 'Search results' },
-  FAQ: { path: '/faq', label: 'Messages FAQs' },
+  INBOX: { path: Paths.INBOX, label: 'Back to inbox' },
+  DRAFTS: { path: Paths.DRAFTS, label: 'Drafts' },
+  DRAFT: { path: Paths.DRAFT, label: 'Drafts' },
+  FOLDERS: { path: Paths.FOLDERS, label: 'Back to my folders' },
+  SENT: { path: Paths.SENT, label: 'Sent messages' },
+  TRASH: { path: Paths.DELETED, label: 'Trash' },
 };
 
 export const ALERT_TYPE_ERROR = 'error';
@@ -226,15 +239,62 @@ export const Attachments = {
 };
 
 export const threadSortingOptions = {
-  DESCENDING: 'DESC',
-  ASCENDING: 'ASC',
-  SORT_BY_SENDER: 'SENDER_NAME',
-  SORT_BY_RECEPIENT: 'RECIPIENT_NAME',
-  SORT_BY_SENT_DATE: 'SENT_DATE',
-  SORT_BY_DRAFT_DATE: 'DRAFT_DATE',
+  SENT_DATE_DESCENDING: {
+    sortField: 'SENT_DATE',
+    sortOrder: 'DESC',
+    value: 'SENT_DATE_DESCENDING',
+    label: 'Newest to oldest',
+  },
+  SENT_DATE_ASCENDING: {
+    sortField: 'SENT_DATE',
+    sortOrder: 'ASC',
+    value: 'SENT_DATE_ASCENDING',
+    label: 'Oldest to newest',
+  },
+  DRAFT_DATE_DESCENDING: {
+    sortField: 'DRAFT_DATE',
+    sortOrder: 'DESC',
+    value: 'DRAFT_DATE_DESCENDING',
+    label: 'Newest to oldest',
+  },
+  DRAFT_DATE_ASCENDING: {
+    sortField: 'DRAFT_DATE',
+    sortOrder: 'ASC',
+    value: 'DRAFT_DATE_ASCENDING',
+    label: 'Oldest to newest',
+  },
+  SENDER_ALPHA_DESCENDING: {
+    sortField: 'SENDER_NAME',
+    sortOrder: 'DESC',
+    value: 'SENDER_ALPHA_DESCENDING',
+    label: 'Z to A - Sender’s name',
+  },
+  SENDER_ALPHA_ASCENDING: {
+    sortField: 'SENDER_NAME',
+    sortOrder: 'ASC',
+    value: 'SENDER_ALPHA_ASCENDING',
+    label: 'A to Z - Sender’s name',
+  },
+  RECEPIENT_ALPHA_DESCENDING: {
+    sortField: 'RECIPIENT_NAME',
+    sortOrder: 'DESC',
+    value: 'RECEPIENT_ALPHA_DESCENDING',
+    label: 'Z to A - Recipient’s name',
+  },
+  RECEPIENT_ALPHA_ASCENDING: {
+    sortField: 'RECIPIENT_NAME',
+    sortOrder: 'ASC',
+    value: 'RECEPIENT_ALPHA_ASCENDING',
+    label: 'A to Z - Recipient’s name',
+  },
 };
 
 export const PrintMessageOptions = {
   PRINT_MAIN: 'PRINT_MAIN',
   PRINT_THREAD: 'PRINT_THREAD',
+};
+
+export const BreadcrumbViews = {
+  DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
+  MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3',
 };

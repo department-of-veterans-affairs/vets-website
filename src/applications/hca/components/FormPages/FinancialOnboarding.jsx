@@ -57,8 +57,8 @@ const HouseholdFinancialOnboarding = props => {
       </ul>
 
       <p>
-        Note: We verify the financial information you provide with the Internal
-        Revenue Service (IRS).
+        <strong>Note:</strong> We verify the financial information you provide
+        with the Internal Revenue Service (IRS).
       </p>
 
       <va-additional-info trigger="Learn more about enhanced eligibility status for VA health care">

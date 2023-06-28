@@ -301,8 +301,6 @@ export async function fetchFlowEligibilityAndClinics({
     apiCalls.clinics = getAvailableHealthcareServices({
       facilityId: location.id,
       typeOfCare,
-      systemId: location.vistaId,
-      useV2,
     }).catch(createErrorHandler('direct-available-clinics-error'));
     // Primary care and mental health is exempt from past appt history requirement
     const isDirectAppointmentHistoryRequired = featureClinicFilter

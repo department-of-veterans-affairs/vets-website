@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Alerts } from '../../util/constants';
+import { Alerts, Paths } from '../../util/constants';
 
 const CannotReplyAlert = props => {
   const { visible } = props;
@@ -18,7 +18,7 @@ const CannotReplyAlert = props => {
             <Link
               className="alertbox-link"
               aria-label="Start a new message"
-              to="/compose"
+              to={Paths.COMPOSE}
             >
               <i
                 aria-hidden

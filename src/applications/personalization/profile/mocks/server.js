@@ -16,6 +16,7 @@ const {
 } = require('./endpoints/personal-information');
 const {
   maximalSetOfPreferences,
+  generateSuccess,
 } = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 const paymentInformation = require('./endpoints/payment-information');
@@ -70,8 +71,8 @@ const responses = {
           generateFeatureToggles({
             profileUseInfoCard: true,
             profileUseFieldEditingPage: true,
-            profileShowMhvNotificationSettings: false,
             profileLighthouseDirectDeposit: true,
+            profileUseNotificationSettingsCheckboxes: true,
           }),
         ),
       0,
@@ -113,7 +114,7 @@ const responses = {
     return res.json(disabilityComps.base);
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
-    return res.status(400).json(disabilityComps.errors.invalidRoutingNumber);
+    return res.status(200).json(disabilityComps.updates.success);
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount.needsPatient,
@@ -200,6 +201,30 @@ const responses = {
   'GET /v0/profile/communication_preferences': (_req, res) => {
     return res.json(maximalSetOfPreferences);
   },
+  'PATCH /v0/profile/communication_preferences/:pref': (req, res) => {
+    const {
+      communicationItem: {
+        id: communicationItemId,
+        communicationChannel: {
+          id: communicationChannelId,
+          communicationPermission: { allowed },
+        },
+      },
+    } = req.body;
+
+    const mockedRes = _.cloneDeep(generateSuccess());
+
+    _.merge(mockedRes, {
+      bio: {
+        communicationItemId,
+        communicationChannelId,
+        allowed,
+      },
+    });
+
+    delaySingleResponse(() => res.json(mockedRes), 1);
+  },
+
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
 };
 

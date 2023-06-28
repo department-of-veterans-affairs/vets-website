@@ -269,4 +269,100 @@ describe('Veteran address', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
+
+  it('should display an error if the veteran lists APO, FPO, or DPO as their city, but does not check the military base checkbox', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+    selectCheckbox(
+      form,
+      'root_veteranContactInformation_veteranAddress_view:livesOnMilitaryBase',
+      false,
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_addressLine1',
+      '1600',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_city',
+      'APO',
+    );
+    changeDropdown(
+      form,
+      'select#root_veteranContactInformation_veteranAddress_stateCode',
+      'AL',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_zipCode',
+      '20500',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_phoneNumber',
+      '8005551212',
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').text()).to.include(
+      'For APO addresses, you must check the “I live on a United States military base outside of the U.S.” checkbox above',
+    );
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should not display an error if the veteran lists APO, FPO, or DPO as their city and checks the military base checkbox', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+    selectCheckbox(
+      form,
+      'root_veteranContactInformation_veteranAddress_view:livesOnMilitaryBase',
+      true,
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_addressLine1',
+      '1600',
+    );
+    changeDropdown(
+      form,
+      'select#root_veteranContactInformation_veteranAddress_city',
+      'APO',
+    );
+    changeDropdown(
+      form,
+      'select#root_veteranContactInformation_veteranAddress_stateCode',
+      'AE',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_zipCode',
+      '20500',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_phoneNumber',
+      '8005551212',
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
 });

@@ -140,7 +140,7 @@ class ReviewCollapsibleChapter extends React.Component {
     }
 
     const classes = classNames('form-review-panel-page', {
-      'schemaform-review-page-warning': !viewedPages.has(fullPageKey),
+      'schemaform-review-page-error': !viewedPages.has(fullPageKey),
       // Remove bottom margin when the div content is empty
       'vads-u-margin-bottom--0': !pageSchema && arrayFields.length === 0,
     });
@@ -260,6 +260,8 @@ class ReviewCollapsibleChapter extends React.Component {
 
   getCustomPageContent = (page, props, editing) => {
     if (editing) {
+      // noop defined as a function for unit tests
+      const noop = function noop() {};
       return (
         <page.CustomPage
           key={page.pageKey}
@@ -272,6 +274,10 @@ class ReviewCollapsibleChapter extends React.Component {
           data={props.form.data}
           updatePage={() => this.handleEdit(page.pageKey, false, page.index)}
           pagePerItemIndex={page.index}
+          // noop for navigation to prevent JS error
+          goBack={noop}
+          goForward={noop}
+          goToPath={noop}
         />
       );
     }

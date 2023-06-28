@@ -39,9 +39,13 @@ const MonetaryCheckList = () => {
   const isBoxChecked = option => {
     return monetaryAssets.some(asset => asset.name === option);
   };
+  const title = 'Your household assets';
+  const prompt = 'Select any of these financial assets you have:';
 
   return (
     <Checklist
+      title={title}
+      prompt={prompt}
       options={monetaryAssetList}
       onChange={event => onChange(event)}
       isBoxChecked={isBoxChecked}

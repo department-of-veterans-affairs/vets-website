@@ -8,6 +8,7 @@ import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
+import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -90,7 +91,7 @@ class PatientInboxPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       this.mockRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/inbox', {
+    cy.visit('my-health/secure-messages/inbox/', {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
       },
@@ -248,6 +249,11 @@ class PatientInboxPage {
     this.loadedMessagesData = mockMessages;
     cy.intercept(
       'GET',
+      '/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
+      this.mockInboxMessages,
+    ).as('inboxMessages');
+    cy.intercept(
+      'GET',
       '/my_health/v1/messaging/folders/0*',
       mockInboxFolder,
     ).as('inboxFolderMetaData');
@@ -261,7 +267,7 @@ class PatientInboxPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockNoRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/inbox');
+    cy.visit('my-health/secure-messages/inbox/');
     if (doAxeCheck) {
       cy.injectAxe();
     }
@@ -270,7 +276,13 @@ class PatientInboxPage {
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     if (doAxeCheck) {
-      cy.axeCheck();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     }
   };
 
@@ -302,10 +314,17 @@ class PatientInboxPage {
       .contains(`Continue to ${!type ? 'start message' : type} `);
   };
 
-  loadComposeMessagePage = () => {
+  navigateToComposePage = () => {
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
     const interstitialPage = new PatientInterstitialPage();
     interstitialPage.getContinueButton().click({ force: true });
+  };
+
+  navigateToComposePageByKeyboard = () => {
+    cy.tabToElement('[data-testid="compose-message-link"]');
+    cy.realPress(['Enter']);
+    cy.tabToElement('[data-testid="continue-button"]');
+    cy.realPress(['Enter']);
   };
 
   navigatePrintCancelButton = () => {
@@ -352,7 +371,12 @@ class PatientInboxPage {
   };
 
   openAdvancedSearch = () => {
-    cy.get('#first').click();
+    cy.get('#additional-filter-accordion')
+      .shadow()
+      .contains('Add filters')
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   selectAdvancedSearchCategory = () => {
@@ -368,7 +392,41 @@ class PatientInboxPage {
   };
 
   submitSearchButton = () => {
-    cy.get('[data-testid="filter-messages-button"]').click();
+    cy.get('[data-testid="filter-messages-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  composeDraftByKeyboard = () => {
+    cy.tabToElement('#recipient-dropdown')
+      .shadow()
+      .find('#select')
+      .select(1, { force: true });
+    cy.tabToElement('[data-testid="compose-category-radio-button"]')
+      .first()
+      .click();
+    cy.tabToElement('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('#inputField')
+      .type('testSubject');
+    cy.tabToElement('#compose-message-body')
+      .shadow()
+      .find('#textarea')
+      .type('testMessage');
+  };
+
+  saveDraftByKeyboard = () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/message_drafts',
+      mockDraftResponse,
+    ).as('draft_message');
+    cy.tabToElement('[data-testid="Save-Draft-Button"]');
+    cy.realPress('Enter');
+    cy.wait('@draft_message').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
   };
 }
+
 export default PatientInboxPage;

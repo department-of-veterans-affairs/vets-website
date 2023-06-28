@@ -5,3 +5,38 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+div:has(.schemaform-sip-alert) {
+  margin-top: 4rem;
+}
+
+.row div[id^="root_organizationRepresentatives_"] > .row.small-collapse,
+.row div[id^="organizationRepresentatives_"] > .row.small-collapse {
+  margin: 0 0 !important;
+}
+
+#root_releaseDuration-label > .schemaform-required-span {
+  display: none !important;
+}
+
+.form-review-panel[data-chapter="authorizerTypeChapter"] .review-row dt > span,
+.form-review-panel[data-chapter="disclosureInfoChapter"] .review-row dt > span,
+.form-review-panel[data-chapter="authorizerTypeChapter"] .review-row dt > span,
+.form-review-panel[data-chapter="infoReleaseChapter"] .review-row dt > span,
+.form-review-panel[data-chapter="securityInfoChapter"]
+  .form-review-panel-page:first-child
+  .review-row
+  dt
+  > span {
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", Arial,
+    sans-serif !important;
+  font-size: 1.6rem !important;
+  font-weight: 400 !important;
+}
+
+.form-review-panel[data-chapter="disclosureInfoChapter"]
+  .review
+  .va-growable
+  button {
+  display: none;
+}

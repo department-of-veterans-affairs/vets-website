@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 
-import { IssueCardContent, IssueCard } from '../../components/IssueCardV2';
+import { IssueCardContent, IssueCard } from '../../components/IssueCard';
 import { SELECTED } from '../../constants';
 
 const getContestableIssue = (id, selected) => ({

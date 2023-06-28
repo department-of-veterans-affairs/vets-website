@@ -1,11 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { getContactInfoDeepLinkURL } from '@@profile/helpers';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useContactInfoDeepLink } from '../../hooks';
+import { PROFILE_PATHS } from '../../constants';
 
 const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
+  const { generateContactInfoLink } = useContactInfoDeepLink();
   return (
     <>
       <p className="vads-u-margin-bottom--0">
@@ -32,7 +36,13 @@ const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
               notClickable
             />{' '}
             <Link
-              to={getContactInfoDeepLinkURL(FIELD_NAMES.MOBILE_PHONE, true)}
+              to={generateContactInfoLink({
+                fieldName: FIELD_NAMES.MOBILE_PHONE,
+                focusOnEditButton: true,
+                returnPath: encodeURIComponent(
+                  PROFILE_PATHS.NOTIFICATION_SETTINGS,
+                ),
+              })}
               className="small-screen:vads-u-display--block medium-screen:vads-u-display--inline"
               aria-label="mobile number"
             >
@@ -44,6 +54,14 @@ const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
       <hr aria-hidden="true" />
     </>
   );
+};
+
+ContactInfoOnFile.propTypes = {
+  emailAddress: PropTypes.string,
+  mobilePhoneNumber: PropTypes.shape({
+    areaCode: PropTypes.string,
+    phoneNumber: PropTypes.string,
+  }),
 };
 
 export default ContactInfoOnFile;

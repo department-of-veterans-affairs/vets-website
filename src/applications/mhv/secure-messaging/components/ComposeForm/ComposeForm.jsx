@@ -24,6 +24,7 @@ import {
   Categories,
   Prompts,
   ErrorMessages,
+  Paths,
 } from '../../util/constants';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -141,11 +142,11 @@ const ComposeForm = props => {
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
           dispatch(sendMessage(sendData, true))
-            .then(() => history.push('/inbox'))
+            .then(() => history.push(Paths.INBOX))
             .catch(setSendMessageFlag(false));
         } else {
           dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
-            history.push('/inbox'),
+            history.push(Paths.INBOX),
           );
         }
       }
@@ -477,7 +478,7 @@ const ComposeForm = props => {
         <div className="compose-form-actions vads-u-display--flex">
           <va-button
             text="Send"
-            class="vads-u-flex--1 send-button"
+            class="vads-u-flex--1 send-button vads-u-margin-bottom--1"
             data-testid="Send-Button"
             onClick={sendMessageHandler}
           />
@@ -485,19 +486,18 @@ const ComposeForm = props => {
             id="save-draft-button"
             text="Save draft"
             secondary
-            class="vads-u-flex--1 save-draft-button"
+            class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1"
             data-testid="Save-Draft-Button"
             onClick={e => saveDraftHandler('manual', e)}
           />
-          <div className="vads-u-flex--1">
-            {draft && (
-              <DeleteDraft
-                draft={draft}
-                setLastFocusableElement={setLastFocusableElement}
-                setNavigationError={setNavigationError}
-              />
-            )}
-          </div>
+
+          {draft && (
+            <DeleteDraft
+              draftId={draft.messageId}
+              setLastFocusableElement={setLastFocusableElement}
+              setNavigationError={setNavigationError}
+            />
+          )}
         </div>
       </div>
     </form>

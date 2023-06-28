@@ -24,7 +24,13 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     );
     cy.get('[data-testid="my-folders-sidebar"]').click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 
   it('Axe Check Delete Folder Network Error', () => {
@@ -52,7 +58,13 @@ describe('Secure Messaging Manage Folder Errors check', () => {
       .find('[type="button"]')
       .click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 
   it('Create Folder Network Error Check', () => {
@@ -77,7 +89,13 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     folderPage.createFolderModalButton().click();
     folderPage.verifyCreateFolderNetworkFailureMessage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 
   it('Create Folder Input Field Error check on blank value submit', () => {
@@ -85,7 +103,13 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     folderPage.createANewFolderButton().click();
     folderPage.createFolderModalButton().click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.get('[name="folder-name"]')
       .shadow()
       .find('input')

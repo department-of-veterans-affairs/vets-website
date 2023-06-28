@@ -3,7 +3,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import FolderHeader from '../../../components/MessageList/FolderHeader';
 import folders from '../../fixtures/folder-inbox-response.json';
-import { DefaultFolders as Folder } from '../../../util/constants';
+import { DefaultFolders as Folder, Paths } from '../../../util/constants';
 
 const searchProps = { searchResults: [], awaitingResults: false };
 describe('FolderHeader component in Inbox', () => {
@@ -23,7 +23,7 @@ describe('FolderHeader component in Inbox', () => {
     const startANewMessageLink = tree.subTree('ComposeMessageButton').type()
       .props.children;
     assert.equal(startANewMessageLink.props.children[1], 'Start a new message');
-    assert.equal(startANewMessageLink.props.to, '/compose');
+    assert.equal(startANewMessageLink.props.to, Paths.COMPOSE);
   });
 });
 

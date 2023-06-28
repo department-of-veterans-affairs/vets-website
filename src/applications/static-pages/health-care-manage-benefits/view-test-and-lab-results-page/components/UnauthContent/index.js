@@ -6,7 +6,11 @@ import ServiceProvidersList from 'platform/user/authentication/components/Servic
 
 export const UnauthContent = () => (
   <>
-    <CallToActionWidget appId="lab-and-test-results" setFocus={false} />
+    <CallToActionWidget
+      appId="lab-and-test-results"
+      setFocus={false}
+      headerLevel={2}
+    />
     <h2>How can this tool help me manage my health care?</h2>
     <p>
       With this tool, you’ll be able to view and keep a record of your VA lab
