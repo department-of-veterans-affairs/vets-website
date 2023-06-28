@@ -642,6 +642,7 @@ const responses = {
         { name: 'vaOnlineSchedulingConvertUtcToLocal', value: false },
         { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: false },
         { name: 'vaOnlineSchedulingPrintList', value: false },
+        { name: 'vaOnlineSchedulingDescriptiveBackLink', value: false },
         { name: 'selectFeaturePocTypeOfCare', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },
