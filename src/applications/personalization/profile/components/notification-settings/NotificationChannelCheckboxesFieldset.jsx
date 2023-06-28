@@ -1,21 +1,14 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-
-import { useSelector } from 'react-redux';
-import { LOADING_STATES } from '../../../common/constants';
-
-const getChannelsByItemId = (itemId, channelEntities) => {
-  return Object.values(channelEntities).filter(
-    channel => channel.parentItem === itemId,
-  );
-};
 
 export const NotificationChannelCheckboxesFieldset = ({
   children,
   itemName,
   description,
-  itemId,
+  hasSomeErrorUpdates,
+  hasSomePendingUpdates,
+  hasSomeSuccessUpdates,
 }) => {
   const legendClasses = classNames(
     'vads-u-font-family--sans',
@@ -23,29 +16,6 @@ export const NotificationChannelCheckboxesFieldset = ({
     'vads-u-font-size--h4',
     'vads-u-padding--0',
     'vads-u-margin--0',
-  );
-
-  const channelsByItemId = useSelector(state =>
-    getChannelsByItemId(
-      itemId,
-      state?.communicationPreferences?.channels?.entities,
-    ),
-  );
-
-  const hasSomeSuccessUpdates = useMemo(
-    () =>
-      channelsByItemId.some(
-        channel => channel.ui.updateStatus === LOADING_STATES.loaded,
-      ),
-    [channelsByItemId],
-  );
-
-  const hasSomeErrorUpdates = useMemo(
-    () =>
-      channelsByItemId.some(
-        channel => channel.ui.updateStatus === LOADING_STATES.error,
-      ),
-    [channelsByItemId],
   );
 
   const fieldsetClasses = classNames(
@@ -63,7 +33,7 @@ export const NotificationChannelCheckboxesFieldset = ({
   );
 
   return (
-    <fieldset className={fieldsetClasses}>
+    <fieldset className={fieldsetClasses} disabled={hasSomePendingUpdates}>
       <div className="clearfix">
         <legend className="rb-legend vads-u-padding--0">
           <h3 className={legendClasses}>{itemName}</h3>
@@ -81,6 +51,11 @@ export const NotificationChannelCheckboxesFieldset = ({
 
 NotificationChannelCheckboxesFieldset.propTypes = {
   children: PropTypes.node.isRequired,
+  itemId: PropTypes.string.isRequired,
   itemName: PropTypes.string.isRequired,
   description: PropTypes.string,
+  disabled: PropTypes.bool,
+  hasSomeErrorUpdates: PropTypes.bool,
+  hasSomePendingUpdates: PropTypes.bool,
+  hasSomeSuccessUpdates: PropTypes.bool,
 };
