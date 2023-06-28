@@ -24,9 +24,6 @@ export const issueName = ({ formData, formContext } = {}) => {
   const index = formContext.pagePerItemIndex || formData.index;
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/27096
   const Header = formContext.onReviewPage ? 'h4' : 'h3';
-  const date = moment(getIssueDate(formData), FORMAT_YMD).format(
-    FORMAT_READABLE,
-  );
   return (
     <legend
       className="schemaform-block-title schemaform-title-underline"
@@ -35,11 +32,6 @@ export const issueName = ({ formData, formContext } = {}) => {
       <Header className="vads-u-margin-top--0">
         {getIssueTitle(formData)}
       </Header>
-      {date && (
-        <span className="decision-date vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
-          Decision date: {date}
-        </span>
-      )}
     </legend>
   );
 };
