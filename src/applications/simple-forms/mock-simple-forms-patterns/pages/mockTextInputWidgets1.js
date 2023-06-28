@@ -19,7 +19,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI('RJSF'),
+    rjsfTitle: titleUI('RJSF'),
     emailOld: {
       ...emailOldUI(),
       'ui:title': 'TextWidget - emailUI',
@@ -29,34 +29,34 @@ export default {
       ...ssnUI(),
       'ui:title': 'TextWidget - ssnUI',
     },
-    wc: inlineTitleUI('Web component'),
-    emailNew: {
+    wcTitle: inlineTitleUI('Web component'),
+    wcOldTextEmail: {
       ...emailUI('VaTextInputField - emailUI'),
       'ui:options': {
         uswds: false,
       },
     },
-    phoneNew: {
+    wcOldTextPhone: {
       ...phoneUI('VaTextInputField - phoneUI'),
       'ui:options': {
         uswds: false,
       },
     },
-    ssnNew: {
+    wcOldTextSsn: {
       ...ssnNewUI(),
       'ui:options': {
         uswds: false,
       },
     },
-    wcv3: inlineTitleUI('Web component v3'),
-    emailNewV3: emailUI(null, true),
-    phoneNewV3: phoneUI('VaTextInputField - phoneUI'),
-    ssnNewV3: ssnNewUI(),
+    wcv3Title: inlineTitleUI('Web component v3'),
+    wcv3TextEmailNew: emailUI(null, true),
+    wcv3TextPhoneNew: phoneUI('VaTextInputField - phoneUI'),
+    wcv3TextSsnNew: ssnNewUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
+      rjsfTitle: titleSchema,
       emailOld: {
         type: 'string',
         pattern: '^\\S+@\\S+$',
@@ -69,14 +69,14 @@ export default {
         type: 'string',
         pattern: '^[0-9]{9}$',
       },
-      wc: inlineTitleSchema,
-      emailNew: emailSchema,
-      phoneNew: phoneSchema,
-      ssnNew: ssnNewSchema,
-      wcv3: inlineTitleSchema,
-      emailNewV3: emailSchema,
-      phoneNewV3: phoneSchema,
-      ssnNewV3: ssnNewSchema,
+      wcTitle: inlineTitleSchema,
+      wcOldTextEmail: emailSchema,
+      wcOldTextPhone: phoneSchema,
+      wcOldTextSsn: ssnNewSchema,
+      wcv3Title: inlineTitleSchema,
+      wcv3TextEmailNew: emailSchema,
+      wcv3TextPhoneNew: phoneSchema,
+      wcv3TextSsnNew: ssnNewSchema,
     },
     required: [],
   },
