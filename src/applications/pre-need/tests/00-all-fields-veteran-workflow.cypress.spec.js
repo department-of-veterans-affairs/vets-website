@@ -1,9 +1,8 @@
-import Timeouts from '@department-of-veterans-affairs/platform-testing';
+import Timeouts from 'platform/testing/e2e/timeouts';
 import testData from './schema/maximal-test.json';
 import cemeteries from './fixtures/mocks/cemeteries.json';
 
 describe('Pre-need form VA 40-10007', () => {
-  // Test skipped to match Nightwatch
   it('fills the form and navigates accordingly as a veteran', () => {
     cy.intercept('POST', '/v0/preneeds/burial_forms', {
       data: {
@@ -291,6 +290,10 @@ describe('Pre-need form VA 40-10007', () => {
         'root_application_applicant_view\\:applicantInfo_mailingAddress',
         testData.data.application.applicantForeign['view:applicantInfo']
           .mailingAddress,
+      );
+      cy.fill(
+        'input[name="root_application_applicant_view:applicantInfo_mailingAddress_state"]',
+        testData.data.application.applicantForeign.state,
       );
       cy.fill(
         'input[name$="applicantPhoneNumber"]',

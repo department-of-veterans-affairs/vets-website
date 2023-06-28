@@ -33,15 +33,15 @@
             "suffix": "Sr."
           },
           "mailingAddress": {
-            "street": "102 medium sky st",
+            "street": "55 Angus street",
             "street2": "Apt 4",
-            "city": "Boston",
+            "city": "Dundee City",
             "country": "GBR",
-            "state": "Glasgow",
-            "postalCode": "G4 0PE"
+            "postalCode": "DD1 1AA"
           },
+          "state": "Scotland",
           "view:contactInfo": {
-            "applicantPhoneNumber": "441415555555"
+            "applicantPhoneNumber": "443825555555"
           }
         }
       },
