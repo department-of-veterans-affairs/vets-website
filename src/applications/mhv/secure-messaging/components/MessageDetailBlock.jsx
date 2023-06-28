@@ -71,7 +71,7 @@ const MessageDetailBlock = props => {
   const categoryLabel = Categories[category];
 
   return (
-    <section className="message-detail-block">
+    <div className="message-detail-block">
       <header className="message-detail-header">
         <h1
           className="vads-u-margin-bottom--2"
@@ -86,15 +86,12 @@ const MessageDetailBlock = props => {
         onReply={handleReplyButton}
         hideReplyButton={cannotReply}
       />
-      <main
+      <section
         className="message-detail-content"
         aria-label="Most recent message in this conversation"
       >
-        <section
-          className="message-metadata"
-          data-testid="message-metadata"
-          aria-label="message details."
-        >
+        <div className="message-metadata" data-testid="message-metadata">
+          <h2 className="sr-only">Message details.</h2>
           <p>
             <strong>From: </strong>
             {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
@@ -111,23 +108,26 @@ const MessageDetailBlock = props => {
             <strong>Message ID: </strong>
             {messageId}
           </p>
-        </section>
+        </div>
 
-        <section className="message-body" aria-label="Message body.">
+        <div className="message-body">
+          <h2 className="sr-only">Message body.</h2>
           <MessageThreadBody expanded text={body} />
-        </section>
+        </div>
 
         {!!attachments &&
           attachments.length > 0 && (
             <>
+              <h2 className="sr-only">Message attachments.</h2>
               <div className="message-body-attachments-label">
                 <strong>Attachments</strong>
               </div>
+
               <AttachmentsList attachments={attachments} />
             </>
           )}
-      </main>
-    </section>
+      </section>
+    </div>
   );
 };
 MessageDetailBlock.propTypes = {
