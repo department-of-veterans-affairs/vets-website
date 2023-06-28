@@ -22,9 +22,9 @@ const RX_UTTERANCES = [
   'sandbox 3',
 ];
 
-function isStringInArray(text, utterances) {
+const isStringInArray = (text, utterances) => {
   return utterances.includes(text);
-}
+};
 
 // define thunks for actions
 export const processActionConnectFulfilled = ({
@@ -61,6 +61,7 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   const setSessionStorageAsString = (key, value) => {
     sessionStorage.setItem(key, JSON.stringify(value));
   };
+
   const stopTrackingUtterances = () => {
     setSessionStorageAsString(IS_TRACKING_UTTERANCES, false);
   };
@@ -77,6 +78,10 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   const data = action.payload.activity;
   const dataIsMessageWithTextFromBot =
     data.type === 'message' && data.text && data.from.role === 'bot';
+
+  const didConversationEnd =
+    sessionStorage.getItem(IS_RX_SKILL) &&
+    data.text === 'Did that answer your question?';
 
   if (isAtBeginningOfConversation) {
     setSessionStorageAsString(IS_TRACKING_UTTERANCES, true);
@@ -119,16 +124,13 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   const dataorEmpty = payload.activity || {};
   const text = dataorEmpty.text || '';
   const rxSkillWasTriggered = isStringInArray(text, RX_UTTERANCES);
-
-  // const signinSkillWasClosed = text.includes(
-  //   'You can type your question in the "Type your message" section below.',
-  // );
+  const rxSkillWasClosed = didConversationEnd;
 
   if (rxSkillWasTriggered) {
     setSessionStorageAsString(IS_RX_SKILL, true);
   }
 
-  // if (rxSkillWasClosed) {
-  //   setSessionStorageAsString(IS_RX_SKILL, false);
-  // }
+  if (rxSkillWasClosed) {
+    setSessionStorageAsString(IS_RX_SKILL, false);
+  }
 };
