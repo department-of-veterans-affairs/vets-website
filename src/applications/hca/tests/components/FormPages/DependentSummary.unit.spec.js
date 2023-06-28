@@ -13,11 +13,10 @@ describe('hca DependentSummary', () => {
       onReviewPage: false,
     };
 
-    it('should render the generic title when no dependents have been declared', () => {
+    it('should not render a title', () => {
       const view = render(<DependentSummary {...props} />);
-      expect(view.container.querySelector('#root__title').textContent).to.match(
-        /^Dependents/,
-      );
+      expect(view.container.querySelector('#root__title').textContent).to.be
+        .empty;
     });
 
     it('should not render the dependents list field', () => {
