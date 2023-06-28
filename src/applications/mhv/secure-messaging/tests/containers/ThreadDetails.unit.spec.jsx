@@ -227,9 +227,9 @@ describe('Thread Details container', () => {
     ).to.exist;
 
     expect(screen.getByText(olderMessage.body, { exact: false })).to.exist;
-    expect(screen.queryByText('Send', { selector: 'button' })).to.be.null;
-    expect(screen.getByText('Save draft', { selector: 'button' })).to.exist;
-    expect(screen.getByText('Delete draft', { selector: 'button' })).to.exist;
+    expect(screen.queryByTestId('Send-Button')).to.be.null;
+    expect(screen.getByTestId('Save-Draft-Button')).to.exist;
+    expect(screen.getByTestId('delete-draft-button')).to.exist;
   });
 
   it('with a reply draft message on a replied to message is LESS than 45 days', async () => {
@@ -292,8 +292,9 @@ describe('Thread Details container', () => {
       `(Draft) To: MORGUN, OLEKSII\n(Team: ${triageGroupName})`,
     );
     expect(screen.getByTestId('message-body-field')).to.exist;
-    expect(screen.getByText('Send', { selector: 'button' })).to.exist;
-    expect(screen.getByText('Save draft', { selector: 'button' })).to.exist;
-    expect(screen.getByText('Delete draft', { selector: 'button' })).to.exist;
+
+    expect(screen.getByTestId('Send-Button')).to.exist;
+    expect(screen.getByTestId('Save-Draft-Button')).to.exist;
+    expect(screen.getByTestId('delete-draft-button')).to.exist;
   });
 });
