@@ -3,8 +3,13 @@ import { useLocation, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import { selectFeatureStatusImprovement } from '../../redux/selectors';
+import classNames from 'classnames';
+import {
+  selectFeaturePrintList,
+  selectFeatureStatusImprovement,
+} from '../../redux/selectors';
 import { GA_PREFIX } from '../../utils/constants';
+import PrintButton from './ConfirmedAppointmentDetailsPage/PrintButton';
 
 export default function AppointmentListNavigation({ count, callback }) {
   const location = useLocation();
@@ -12,64 +17,132 @@ export default function AppointmentListNavigation({ count, callback }) {
     selectFeatureStatusImprovement(state),
   );
 
-  if (featureStatusImprovement) {
-    const isPending = location.pathname.endsWith('/pending');
-    const isPast = location.pathname.endsWith('/past');
-    const isUpcoming = location.pathname.endsWith('/');
+  const isPrintList = useSelector(state => selectFeaturePrintList(state));
+  const isPending = location.pathname.endsWith('/pending');
+  const isPast = location.pathname.endsWith('/past');
+  const isUpcoming = location.pathname.endsWith('/');
 
+  if (isPrintList && featureStatusImprovement) {
     return (
-      <nav
-        aria-label="Appointment list navigation"
-        className={`vaos-appts__breadcrumb xsmall-screen:${
-          isPast ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--3'
-        } small-screen:vads-u-margin-bottom--4`}
+      <div
+        className={classNames(
+          `vaos-hide-for-print vads-l-row xsmall-screen:${
+            !isPending ? 'vads-u-border-bottom--0' : 'vads-u-border-bottom--1px'
+          } vads-u-margin-bottom--3 small-screen:${
+            isPast ? 'vads-u-margin-bottom--3' : 'vads-u-margin-bottom--4'
+          } small-screen:vads-u-border-bottom--1px vads-u-color--gray-medium`,
+        )}
       >
-        <ul>
-          <li>
-            <NavLink
-              id="upcoming"
-              to="/"
-              onClick={() => callback(true)}
-              // eslint-disable-next-line jsx-a11y/aria-proptypes
-              aria-current={isUpcoming}
-            >
-              Upcoming
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              id="pending"
-              to="/pending"
-              onClick={() => {
-                callback(true);
-                recordEvent({
-                  event: `${GA_PREFIX}-status-pending-link-clicked`,
-                });
-              }}
-              // eslint-disable-next-line jsx-a11y/aria-proptypes
-              aria-current={isPending}
-            >
-              {`Pending (${count})`}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              id="past"
-              to="/past"
-              onClick={() => {
-                callback(true);
-                recordEvent({
-                  event: `${GA_PREFIX}-status-past-link-clicked`,
-                });
-              }}
-              // eslint-disable-next-line jsx-a11y/aria-proptypes
-              aria-current={isPast}
-            >
-              Past
-            </NavLink>
-          </li>
-        </ul>
-      </nav>
+        <nav
+          aria-label="Appointment list navigation"
+          className="vaos-appts__breadcrumb vads-u-flex--1 vads-u-padding-top--0p5"
+        >
+          <ul>
+            <li>
+              <NavLink
+                id="upcoming"
+                to="/"
+                onClick={() => callback(true)}
+                aria-current={
+                  isUpcoming // eslint-disable-next-line jsx-a11y/aria-proptypes
+                }
+              >
+                Upcoming
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                id="pending"
+                to="/pending"
+                onClick={() => {
+                  callback(true);
+                  recordEvent({
+                    event: `${GA_PREFIX}-status-pending-link-clicked`,
+                  });
+                }}
+                aria-current={
+                  isPending // eslint-disable-next-line jsx-a11y/aria-proptypes
+                }
+              >
+                {`Pending (${count})`}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                id="past"
+                to="/past"
+                onClick={() => {
+                  callback(true);
+                  recordEvent({
+                    event: `${GA_PREFIX}-status-past-link-clicked`,
+                  });
+                }}
+                aria-current={
+                  isPast // eslint-disable-next-line jsx-a11y/aria-proptypes
+                }
+              >
+                Past
+              </NavLink>
+            </li>
+          </ul>
+        </nav>{' '}
+        <div className="vads-u-margin-bottom--1">
+          <PrintButton className="vads-u-flex--auto " />
+        </div>
+      </div>
+    );
+  }
+  if (featureStatusImprovement) {
+    return (
+      <div className="vads-l-row xsmall-screen:vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4">
+        <nav
+          aria-label="Appointment list navigation"
+          className="vaos-appts__breadcrumb"
+        >
+          <ul>
+            <li>
+              <NavLink
+                id="upcoming"
+                to="/"
+                onClick={() => callback(true)} // eslint-disable-next-line jsx-a11y/aria-proptypes
+                aria-current={isUpcoming}
+              >
+                Upcoming
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                id="pending"
+                to="/pending"
+                onClick={() => {
+                  callback(true);
+                  recordEvent({
+                    event: `${GA_PREFIX}-status-pending-link-clicked`,
+                  });
+                }} // eslint-disable-next-line jsx-a11y/aria-proptypes
+                aria-current={isPending}
+              >
+                {`Pending (${count})`}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                id="past"
+                to="/past"
+                onClick={() => {
+                  callback(true);
+                  recordEvent({
+                    event: `${GA_PREFIX}-status-past-link-clicked`,
+                  });
+                }} // eslint-disable-next-line jsx-a11y/aria-proptypes
+                aria-current={isPast}
+              >
+                Past
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+      </div>
     );
   }
 
