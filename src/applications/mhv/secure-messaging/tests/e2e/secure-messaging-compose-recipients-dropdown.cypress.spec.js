@@ -55,7 +55,7 @@ const recipientsResponseFalse = {
 };
 
 describe('recipients dropdown box', () => {
-  it.skip('preferredTriageTeam selcet dropdown default ', () => {
+  it('preferredTriageTeam selcet dropdown default ', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     const patientInterstitialPage = new PatientInterstitialPage();

@@ -11,7 +11,7 @@ import mockTrashFolder from './fixtures/folder-deleted-metadata.json';
 import mockCustomFolder from './fixtures/folder-custom-metadata.json';
 
 describe(manifest.appName, () => {
-  describe.skip('Advanced search in Inbox', () => {
+  describe('Advanced search in Inbox', () => {
     beforeEach(() => {
       const site = new SecureMessagingSite();
       const landingPage = new PatientInboxPage();
@@ -106,7 +106,7 @@ describe(manifest.appName, () => {
       });
     });
   });
-  describe.skip('Advanced search in Sent', () => {
+  describe('Advanced search in Sent', () => {
     beforeEach(() => {
       const site = new SecureMessagingSite();
       site.login();
@@ -159,7 +159,7 @@ describe(manifest.appName, () => {
       });
     });
   });
-  describe.skip('Advanced search in Trash', () => {
+  describe('Advanced search in Trash', () => {
     beforeEach(() => {
       const site = new SecureMessagingSite();
       site.login();
@@ -212,7 +212,7 @@ describe(manifest.appName, () => {
       });
     });
   });
-  describe.skip('Advanced search in Custom folder', () => {
+  describe('Advanced search in Custom folder', () => {
     beforeEach(() => {
       const site = new SecureMessagingSite();
       site.login();
