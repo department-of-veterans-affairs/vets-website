@@ -313,6 +313,15 @@ const analyticsEvents = {
       action: 'click',
       event: 'nav-link-click',
       prefix: 'link',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-link',
+        custom_string_1: 'component-library',
+        mapping: {
+          'link-label': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-loading-indicator': [
@@ -320,6 +329,16 @@ const analyticsEvents = {
       action: 'displayed',
       event: 'loading-indicator-displayed',
       prefix: 'loading-indicator',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-loading-indicator',
+        custom_string_1: 'component-library',
+        mapping: {
+          'loading-indicator-displayTime': 'custom_number_1',
+          'loading-indicator-message': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-maintenance-banner': [
@@ -354,6 +373,18 @@ const analyticsEvents = {
       action: 'show',
       event: 'int-modal-show',
       prefix: 'modal',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-modal',
+        custom_string_1: 'component-library',
+        mapping: {
+          'modal-status': 'status',
+          'modal-title': 'heading_1',
+          'modal-primaryButtonText': 'custom_string_2',
+          'modal-secondaryButtonText': '',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-number-input': [
@@ -361,6 +392,16 @@ const analyticsEvents = {
       action: 'blur',
       event: 'int-number-input-blur',
       prefix: 'number-input',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-number-input',
+        custom_string_1: 'component-library',
+        mapping: {
+          'number-input-label': 'custom_string_2',
+          'number-input-value': 'value',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-official-gov-banner': [
