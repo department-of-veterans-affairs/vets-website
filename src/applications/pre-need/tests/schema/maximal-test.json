@@ -23,6 +23,28 @@
           }
         }
       },
+      "applicantForeign": {
+        "applicantRelationshipToClaimant": "Authorized Agent/Rep",
+        "view:applicantInfo": {
+          "name": {
+            "first": "Harry",
+            "middle": "James",
+            "last": "Santiago",
+            "suffix": "Sr."
+          },
+          "mailingAddress": {
+            "street": "102 medium sky st",
+            "street2": "Apt 4",
+            "city": "Boston",
+            "country": "GBR",
+            "state": "Glasgow",
+            "postalCode": "G4 0PE"
+          },
+          "view:contactInfo": {
+            "applicantPhoneNumber": "441415555555"
+          }
+        }
+      },
       "veteran": {
         "address": {
           "street": "101 small sky st",

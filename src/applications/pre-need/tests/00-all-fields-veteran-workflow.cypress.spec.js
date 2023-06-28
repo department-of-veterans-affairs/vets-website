@@ -276,24 +276,25 @@ describe('Pre-need form VA 40-10007', () => {
       .should('have.class', 'progress-segment-complete');
     cy.selectRadio(
       'root_application_applicant_applicantRelationshipToClaimant',
-      testData.data.application.applicant.applicantRelationshipToClaimant,
+      testData.data.application.applicantForeign
+        .applicantRelationshipToClaimant,
     );
     if (
-      testData.data.application.applicant.applicantRelationshipToClaimant ===
-      'Authorized Agent/Rep'
+      testData.data.application.applicantForeign
+        .applicantRelationshipToClaimant === 'Authorized Agent/Rep'
     ) {
       cy.fillName(
         'root_application_applicant_view:applicantInfo_name',
-        testData.data.application.applicant['view:applicantInfo'].name,
+        testData.data.application.applicantForeign['view:applicantInfo'].name,
       );
       cy.fillAddress(
         'root_application_applicant_view\\:applicantInfo_mailingAddress',
-        testData.data.application.applicant['view:applicantInfo']
+        testData.data.application.applicantForeign['view:applicantInfo']
           .mailingAddress,
       );
       cy.fill(
         'input[name$="applicantPhoneNumber"]',
-        testData.data.application.applicant['view:applicantInfo'][
+        testData.data.application.applicantForeign['view:applicantInfo'][
           'view:contactInfo'
         ].applicantPhoneNumber,
       );
