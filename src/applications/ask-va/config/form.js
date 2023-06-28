@@ -9,7 +9,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.definitions;
 
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -31,7 +30,8 @@ const formConfig = {
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for ask the va test.',
-    noAuth: 'Please sign in again to continue your application for ask the va test.',
+    noAuth:
+      'Please sign in again to continue your application for ask the va test.',
   },
   title: 'Ask VA',
   defaultDefinitions: {},
@@ -52,43 +52,45 @@ const formConfig = {
               'ui:options': {
                 widgetProps: {
                   'First option': { 'data-info': 'first_1' },
-                  'Second option': { 'data-info': 'second_2' }
+                  'Second option': { 'data-info': 'second_2' },
                 },
                 // Only added to the radio when it is selected
                 // a11y requirement: aria-describedby ID's *must* exist on the page;
                 // and we conditionally add content based on the selection
-                selectedProps:  {
+                selectedProps: {
                   'First option': { 'aria-describedby': 'some_id_1' },
-                  'Second option': { 'aria-describedby': 'some_id_2' }
-                }
-              }
+                  'Second option': { 'aria-describedby': 'some_id_2' },
+                },
+              },
             },
             testField: {
               'ui:title': 'My TEST label',
               'ui:validations': [
                 (errors, field) => {
                   if (field && field.startsWith('bad')) {
-                    errors.addError("Sorry, you can't start this field with 'bad'");
+                    errors.addError(
+                      "Sorry, you can't start this field with 'bad'",
+                    );
                   }
-                }
-              ]
+                },
+              ],
             },
             thirdField: {
               'ui:title': 'My Third label',
               'ui:errorMessages': {
-                pattern: 'Sorry, word MUST start with "good"'
-              }
+                pattern: 'Sorry, word MUST start with "good"',
+              },
             },
             // To force this field to be required the 'thirdField' must equal 'good'
             myOtherField: {
               'ui:title': 'My Other field',
-              'ui:required': (formData) => formData.thirdField === 'good'
+              'ui:required': formData => formData.thirdField === 'good',
             },
             myConditionalField: {
               'ui:title': 'My conditional field',
               'ui:options': {
-                expandUnder: 'myField'
-              }
+                expandUnder: 'myField',
+              },
             },
           },
           schema: {
@@ -96,14 +98,11 @@ const formConfig = {
             required: ['myField'],
             properties: {
               fieldOnAnotherPage: {
-                type: 'string'
+                type: 'string',
               },
               myField: {
                 type: 'string',
-                'enum': [
-                  'First Option',
-                  'Second Option'
-                ]
+                enum: ['First Option', 'Second Option'],
               },
               myConditionalField: {
                 type: 'string',
@@ -113,18 +112,18 @@ const formConfig = {
               },
               thirdField: {
                 type: 'string',
-                pattern: '^good'
+                pattern: '^good',
               },
               myOtherField: {
                 type: 'string',
-              }
+              },
             },
           },
         },
         page2: {
           path: 'second-page',
           title: 'Second Page',
-          depends: (form) => form.fieldOnAnotherPage !== 'test',
+          depends: form => form.fieldOnAnotherPage !== 'test',
           uiSchema: {
             myFieldPage2: {
               'ui:title': 'My field',
@@ -136,38 +135,38 @@ const formConfig = {
                 },
                 widgetProps: {
                   Y: { 'data-info': 'yes' },
-                  N: { 'data-info': 'no' }
+                  N: { 'data-info': 'no' },
                 },
                 // Only added to the radio when it is selected
                 // a11y requirement: aria-describedby ID's *must* exist on the page;
                 // and we conditionally add content based on the selection
                 selectedProps: {
                   Y: { 'aria-describedby': 'some_id' },
-                  N: { 'aria-describedby': 'different_id' }
-                }
-              }
+                  N: { 'aria-describedby': 'different_id' },
+                },
+              },
             },
             email: {
               'ui:title': 'Email',
             },
             'view:confirmEmail': {
-              'ui:title': 'Confirm email'
-            }
+              'ui:title': 'Confirm email',
+            },
           },
           schema: {
             type: 'object',
             properties: {
               myFieldPage2: {
-                type: 'boolean'
+                type: 'boolean',
               },
               email: {
-                type: 'string'
+                type: 'string',
               },
               'view:confirmEmail': {
-                type: 'string'
-              }
-            }
-          }
+                type: 'string',
+              },
+            },
+          },
         },
       },
     },
@@ -180,7 +179,7 @@ const formConfig = {
           uiSchema: {
             question: {
               'ui:title': 'Type your question below:',
-              'ui:widget': 'textarea'
+              'ui:widget': 'textarea',
             },
           },
           schema: {
@@ -188,10 +187,10 @@ const formConfig = {
             required: ['question'],
             properties: {
               question: {
-                type: 'string'
+                type: 'string',
               },
-            }
-          }
+            },
+          },
         },
       },
     },
