@@ -226,7 +226,14 @@
             "from": "2018-6-XX",
             "to": "",
             "isCurrent": true,
-            "employerName": "Spouse Current"
+            "employerName": "Spouse Current",
+            "grossMonthlyIncome": "100",
+            "deductions": [
+              {
+                "name": "State tax",
+                "amount": "10"
+              }
+            ]
           },
           {
             "type": "Full time",
