@@ -47,7 +47,9 @@ const AttachmentsList = props => {
 
   return (
     <div>
-      {' '}
+      <div className="message-body-attachments-label">
+        <strong>Attachments</strong>
+      </div>
       <ul className="attachments-list">
         {!!attachments.length &&
           attachments.map(file => (
