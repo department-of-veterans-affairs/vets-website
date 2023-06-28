@@ -218,19 +218,42 @@ describe('Pre-need form VA 40-10007', () => {
     );
     cy.get('.autosuggest-item', { timeout: Timeouts.slow }).should('exist');
     cy.get('body').click();
-    // cy.selectRadio(
-    //   'root_application_hasCurrentlyBuried',
-    //   testData.data.application.hasCurrentlyBuried,
-    // );
-    // cy.selectRadio(
-    //   'root_application_hasCurrentlyBuried',
-    //   testData.data.application.hasCurrentlyBuried,
-    // );
-    // cy.axeCheck();
-    // cy.get('.form-panel .usa-button-primary').click();
-    // cy.url().should('not.contain', '/burial-benefits');
+    cy.selectRadio(
+      'root_application_hasCurrentlyBuried',
+      testData.data.application.hasCurrentlyBuried,
+    );
+    cy.selectRadio(
+      'root_application_hasCurrentlyBuried',
+      testData.data.application.hasCurrentlyBuried,
+    );
+    cy.axeCheck();
+    cy.get('.form-panel .usa-button-primary').click();
+    if (testData.data.application.currentlyBuriedPersons.length) {
+      testData.data.application.currentlyBuriedPersons.forEach(
+        (person, index) => {
+          cy.fill(
+            `input[name="root_application_currentlyBuriedPersons_${index}_cemeteryNumber"]`,
+            person.cemeteryNumber.label,
+          );
+          cy.fillName(
+            `root_application_currentlyBuriedPersons_${index}_name`,
+            person.name,
+          );
+          if (
+            index <
+            testData.data.application.currentlyBuriedPersons.length - 1
+          ) {
+            cy.get('.usa-button-secondary.va-growable-add-btn').click();
+          }
+        },
+      );
+    }
+    cy.axeCheck();
+    cy.get('.form-panel .usa-button-primary').click();
+    cy.url().should('not.contain', '/burial-benefits');
 
     // Supporting Documents page
+    cy.get('label[for="root_application_preneedAttachments"]');
 
     cy.get('va-segmented-progress-bar')
       .shadow()
