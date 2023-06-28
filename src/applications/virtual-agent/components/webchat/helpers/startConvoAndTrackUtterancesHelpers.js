@@ -9,7 +9,22 @@ import {
   IS_TRACKING_UTTERANCES,
   RECENT_UTTERANCES,
   CONVERSATION_ID_KEY,
+  IS_RX_SKILL,
 } from '../../chatbox/utils';
+
+const RX_UTTERANCES = [
+  'refill prescription',
+  'rx',
+  'prescription status',
+  'prescription',
+  'Can I refill my prescription?',
+  'rxrefill',
+  'sandbox 3',
+];
+
+const isStringInArray = (text, utterances) => {
+  return utterances.includes(text);
+};
 
 // define thunks for actions
 export const processActionConnectFulfilled = ({
@@ -67,6 +82,10 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
     setSessionStorageAsString(IS_TRACKING_UTTERANCES, true);
   }
 
+  const didConversationEnd =
+    sessionStorage.getItem(IS_RX_SKILL) &&
+    data.text === 'Did that answer your question?';
+
   if (dataIsMessageWithTextFromBot) {
     const botWantsToSignInUser = data.text.includes(
       'Alright. Sending you to the sign in page...',
@@ -98,5 +117,19 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   }
   if (JSON.parse(sessionStorage.getItem(IS_TRACKING_UTTERANCES))) {
     sendWindowEvent('webchat-message-activity');
+  }
+
+  const payload = action.payload || {};
+  const dataorEmpty = payload.activity || {};
+  const text = dataorEmpty.text || '';
+  const rxSkillWasTriggered = isStringInArray(text, RX_UTTERANCES);
+  const rxSkillWasClosed = didConversationEnd;
+
+  if (rxSkillWasTriggered) {
+    setSessionStorageAsString(IS_RX_SKILL, true);
+  }
+
+  if (rxSkillWasClosed) {
+    setSessionStorageAsString(IS_RX_SKILL, false);
   }
 };
