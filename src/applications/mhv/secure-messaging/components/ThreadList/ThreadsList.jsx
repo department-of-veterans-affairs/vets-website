@@ -52,6 +52,7 @@ const ThreadsList = props => {
     <>
       <ThreadListSort sortOrder={sortOrder} sortCallback={sortCallback} />
       <div className="thread-list vads-l-row vads-u-flex-direction--column">
+        <h2 className="sr-only">List of conversations</h2>
         <div
           role="status"
           data-testid="displaying-number-of-threads"
