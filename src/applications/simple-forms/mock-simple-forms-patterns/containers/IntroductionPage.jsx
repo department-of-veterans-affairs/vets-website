@@ -67,6 +67,10 @@ class IntroductionPage extends React.Component {
             <li>
               <a href="/mock-simple-forms-patterns/date">Date</a>
             </li>
+            {/* Uncomment when array is ready */}
+            {/* <li>
+              <a href="/mock-simple-forms-patterns/array-variety">Array</a>
+            </li> */}
           </ul>
         </div>
         <SaveInProgressIntro

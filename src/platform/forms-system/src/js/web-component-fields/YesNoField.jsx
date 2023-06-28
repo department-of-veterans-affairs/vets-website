@@ -6,9 +6,9 @@ import vaRadioFieldMapping from './vaRadioFieldMapping';
 export default function YesNoField(props) {
   const mappedProps = vaRadioFieldMapping(props);
 
-  const labels = mappedProps.uiOptions?.labels || {};
+  const labels = props.uiOptions?.labels || {};
 
-  const yesNoReverse = mappedProps.uiOptions?.yesNoReverse || false;
+  const yesNoReverse = props.uiOptions?.yesNoReverse || false;
 
   const values = {
     Y: !yesNoReverse,
