@@ -1,9 +1,7 @@
 import {
   serviceNumberUI,
-  serviceNumberSchema,
   ssnSchema,
   ssnUI,
-  vaFileNumberSchema,
   vaFileNumberUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -20,8 +18,14 @@ export default {
     type: 'object',
     properties: {
       veteranSsn: ssnSchema,
-      veteranVaFileNumber: vaFileNumberSchema,
-      veteranServiceNumber: serviceNumberSchema,
+      veteranVaFileNumber: {
+        type: 'string',
+        pattern: '^\\d{8,9}$',
+      },
+      veteranServiceNumber: {
+        type: 'string',
+        pattern: '^[a-zA-Z]{0,2}\\d{5,8}$',
+      },
     },
     required: ['veteranSsn'],
   },
