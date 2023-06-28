@@ -337,7 +337,11 @@ export const getTotalAssets = ({
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
 };
 
-export const getEmploymentHistory = ({ questions, personalData }) => {
+export const getEmploymentHistory = ({
+  questions,
+  personalData,
+  'view:enhancedFinancialStatusReport': enhancedFSRActive,
+}) => {
   const { employmentHistory } = personalData;
   let history = [];
 
@@ -374,17 +378,31 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
   }
 
   if (questions.spouseIsEmployed) {
-    const { spEmploymentRecords } = employmentHistory.spouse;
-    const spouseEmploymentHistory = spEmploymentRecords.map(employment => ({
-      ...defaultObj,
-      veteranOrSpouse: 'SPOUSE',
-      occupationName: employment.type,
-      from: dateFormatter(employment.from),
-      to: employment.isCurrent ? '' : dateFormatter(employment.to),
-      present: employment.isCurrent ? employment.isCurrent : false,
-      employerName: employment.employerName,
-    }));
-    history = [...history, ...spouseEmploymentHistory];
+    if (enhancedFSRActive) {
+      const { spEmploymentRecords } = employmentHistory.spouse;
+      const spouseEmploymentHistory = spEmploymentRecords.map(employment => ({
+        ...defaultObj,
+        veteranOrSpouse: 'SPOUSE',
+        occupationName: employment.type,
+        from: dateFormatter(employment.from),
+        to: employment.isCurrent ? '' : dateFormatter(employment.to),
+        present: employment.isCurrent ? employment.isCurrent : false,
+        employerName: employment.employerName,
+      }));
+      history = [...history, ...spouseEmploymentHistory];
+    } else {
+      const { employmentRecords } = employmentHistory.spouse;
+      const spouseEmploymentHistory = employmentRecords.map(employment => ({
+        ...defaultObj,
+        veteranOrSpouse: 'SPOUSE',
+        occupationName: employment.type,
+        from: dateFormatter(employment.from),
+        to: employment.isCurrent ? '' : dateFormatter(employment.to),
+        present: employment.isCurrent ? employment.isCurrent : false,
+        employerName: employment.employerName,
+      }));
+      history = [...history, ...spouseEmploymentHistory];
+    }
   }
 
   return history;

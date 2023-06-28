@@ -220,6 +220,7 @@ describe('efsr-fsr transform helper functions', () => {
 
     it('should return a spouses employment history', () => {
       const history = {
+        'view:enhancedFinancialStatusReport': true,
         questions: {
           spouseIsEmployed: true,
           vetIsEmployed: false,
