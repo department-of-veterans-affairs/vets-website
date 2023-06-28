@@ -87,6 +87,7 @@
   .menu-options-open {
     width: 275px;
     position: absolute;
+    z-index: 99;
     list-style: none;
     display: flex;
   }
