@@ -15,12 +15,12 @@ export class ConfirmationPage extends React.Component {
   render() {
     const { form } = this.props;
     const { submission, formId, data } = form;
-
+    const submitDate = submission.timestamp;
     const { fullName } = data;
 
     return (
       <div>
-         <div className="print-only">
+        <div className="print-only">
           <img
             src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
             alt="VA logo"
