@@ -121,5 +121,11 @@
     "appName": "DS Playground",
     "entryName": "ds-playground",
     "rootUrl": "/ds-playground"
+  },
+   {
+    "appName": "DS V3 Playground",
+    "entryName": "ds-v3-playground",
+    "rootUrl": "/ds-v3-playground",
+    "useLocalStylesAndComponents": true
   }
 ]
