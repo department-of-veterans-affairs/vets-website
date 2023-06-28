@@ -8,6 +8,9 @@ import {
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import formConfig from '../../config/form';
 
 const response = {
@@ -26,9 +29,12 @@ const response = {
     },
   ],
 };
+const middleware = [thunk];
+const mockStore = configureStore(middleware);
+const store = mockStore(response);
 
 describe('Pre-need burial benefits', () => {
-  beforeEach(() => mockFetch(response));
+  beforeEach(() => mockFetch());
   const {
     schema,
     uiSchema,
@@ -37,12 +43,14 @@ describe('Pre-need burial benefits', () => {
   it('should add another currently buried person', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
     selectRadio(form, 'root_application_hasCurrentlyBuried', '1');
 
@@ -79,12 +87,14 @@ describe('Pre-need burial benefits', () => {
   it('should fill cemetery for currently buried person', done => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     selectRadio(form, 'root_application_hasCurrentlyBuried', '1');
