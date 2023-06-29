@@ -1,23 +1,35 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-export const NotificationStatusMessage = ({ children, classes, id, alert }) => {
-  const isUsingLegacyStylingClass = classes.includes('rb-input-message');
-  const computedClasses = classNames(
-    ...(isUsingLegacyStylingClass
-      ? []
-      : [
-          'vads-u-font-family--sans',
-          'vads-u-font-size--base',
-          'vads-u-font-weight--normal',
-          'vads-u-margin-top--1',
-          'vads-u-display--block',
-          'vads-u-padding--2',
-          'vads-u-margin-left--neg1p5',
-        ]),
-    classes,
+export const NotificationStatusMessage = ({
+  children,
+  classes,
+  id,
+  alert,
+  legacy = false,
+}) => {
+  // legacy can be removed as a prop when the radio buttons are removed
+  const computedClasses = useMemo(
+    () => {
+      return classNames(
+        legacy
+          ? [classes]
+          : [
+              'vads-u-font-family--sans',
+              'vads-u-font-size--base',
+              'vads-u-font-weight--normal',
+              'vads-u-margin-top--1',
+              'vads-u-display--block',
+              'vads-u-padding--2',
+              'vads-u-margin-left--neg1p5',
+              classes,
+            ],
+      );
+    },
+    [classes, legacy],
   );
+
   return (
     <div
       id={id}
@@ -38,4 +50,5 @@ NotificationStatusMessage.propTypes = {
   alert: PropTypes.bool,
   classes: PropTypes.string,
   id: PropTypes.string,
+  legacy: PropTypes.bool,
 };

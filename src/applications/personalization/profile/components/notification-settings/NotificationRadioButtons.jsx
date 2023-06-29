@@ -62,6 +62,7 @@ const NotificationRadioButtons = ({
         id={errorSpanId}
         classes="rb-input-message-error rb-input-message vads-u-flex--fill vads-u-margin-top--0p5"
         alert
+        legacy
       >
         <i
           className="fas fa-exclamation-circle vads-u-margin-right--1"
@@ -100,6 +101,7 @@ const NotificationRadioButtons = ({
         id={successSpanId}
         classes="rb-input-message-success rb-input-message vads-u-flex--fill vads-u-margin-top--0p5"
         alert
+        legacy
       >
         <i
           className="fas fa-check-circle vads-u-margin-right--1"
