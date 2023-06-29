@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPrescriptionsList } from '../actions/prescriptions';
+import { setBreadcrumbs } from '../actions/breadcrumbs';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import PrintHeader from './PrintHeader';
@@ -10,6 +11,20 @@ const LandingPage = () => {
     state => state.rx.prescriptions.prescriptionsList,
   );
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (prescriptions) {
+      dispatch(
+        setBreadcrumbs(
+          [{ url: '/my-health/medications/', label: 'Dashboard' }],
+          {
+            url: '/my-health/medications/prescriptions/',
+            label: 'Prescriptions',
+          },
+        ),
+      );
+    }
+  });
 
   useEffect(
     () => {
@@ -110,7 +125,7 @@ const LandingPage = () => {
     );
   };
 
-  return <div className="vads-u-margin-top--3">{content()}</div>;
+  return <div>{content()}</div>;
 };
 
 export default LandingPage;
