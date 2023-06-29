@@ -24,30 +24,15 @@ describe('Secure Messaging Reply', () => {
     patientInterstitialPage.getContinueButton().click();
     const testMessageBody = 'Test message body';
     replyPage.getMessageBodyField().type(testMessageBody, { force: true });
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
+    cy.realPress(['Enter']).then(() => {
+      replyPage.saveReplyDraft(messageDetails, `${testMessageBody}\n`);
+      cy.log(
+        `the message details after saveReplyDraft ${JSON.stringify(
+          messageDetails,
+        )}`,
+      );
     });
 
-    replyPage.saveReplyDraft(messageDetails, testMessageBody);
-    cy.log(
-      `the message details after saveReplyDraft ${JSON.stringify(
-        messageDetails,
-      )}`,
-    );
-    cy.log(
-      `the message details before assert${JSON.stringify(messageDetails)}`,
-    );
-    cy.log(`message details  Body${messageDetailsBody}`);
-    cy.log(
-      `messageDetails.data.attributes.body = ${
-        messageDetails.data.attributes.body
-      }`,
-    );
     messageDetailsPage.ReplyToMessageTO(messageDetails);
     messageDetailsPage.ReplyToMessagesenderName(messageDetails);
     messageDetailsPage.ReplyToMessagerecipientName(messageDetails);
@@ -55,26 +40,17 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.ReplyToMessageId(messageDetails);
 
     messageDetails.data.attributes.body = messageDetailsBody;
-    messageDetailsPage.ReplyToMessagebody(testMessageBody);
+    messageDetailsPage.ReplyToMessagebody(messageDetailsBody);
+
     draftsPage.clickDeleteButton();
+    draftsPage.confirmDeleteReplyDraftWithEnterKey(messageDetails).then(() => {
+      landingPage.verifyDeleteConfirmMessage();
+    });
 
-    /*
-    replyPage.sendReplyDraft(
-      messageDetails.data.attributes.messageId,
-      messageDetails.data.attributes.senderId,
-      messageDetails.data.attributes.category,
-      messageDetails.data.attributes.subject,
-      testMessageBody,
-    );
-
-    */
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
         'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
           enabled: false,
         },
       },
