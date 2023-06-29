@@ -2,9 +2,9 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
-import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user';
+import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/exports';
 import { createAppointment } from '../../services/appointment';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
