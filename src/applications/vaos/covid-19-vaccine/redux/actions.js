@@ -3,12 +3,12 @@ import {
   selectVAPEmailAddress,
   selectVAPHomePhoneString,
   selectVAPMobilePhoneString,
-} from 'platform/user/selectors';
+} from '@department-of-veterans-affairs/platform-user/exports';
 import moment from 'moment';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+
 import {
   selectFeatureFacilitiesServiceV2,
-  selectFeatureVAOSServiceVAAppointments,
   selectSystemIds,
   selectFeatureAcheronService,
 } from '../../redux/selectors';
@@ -36,8 +36,6 @@ import {
   selectCovid19VaccineFormData,
 } from './selectors';
 import { getSlots } from '../../services/slot';
-import { transformFormToAppointment } from './helpers/formSubmitTransformers';
-import { submitAppointment } from '../../services/var';
 import {
   VACCINE_FORM_SUBMIT_SUCCEEDED,
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -386,9 +384,6 @@ export function prefillContactInfo() {
 
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      getState(),
-    );
     const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
       getState(),
     );
@@ -407,15 +402,10 @@ export function confirmAppointment(history) {
     });
 
     try {
-      if (featureVAOSServiceVAAppointments) {
-        await createAppointment({
-          appointment: transformFormToVAOSAppointment(getState()),
-          useAcheron: featureAcheronVAOSServiceRequests,
-        });
-      } else {
-        const appointmentBody = transformFormToAppointment(getState());
-        await submitAppointment(appointmentBody);
-      }
+      await createAppointment({
+        appointment: transformFormToVAOSAppointment(getState()),
+        useAcheron: featureAcheronVAOSServiceRequests,
+      });
 
       const data = selectCovid19VaccineFormData(getState());
       const facilityID = {

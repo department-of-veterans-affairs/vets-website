@@ -12,20 +12,20 @@ import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI('RJSF'),
+    rjsfTitle: titleUI('RJSF'),
     addressOld: {
       ...addressUiSchema('addressOld', undefined, () => true),
     },
-    wc: inlineTitleUI('Web component'),
-    addressNew: addressUI(),
+    wcv3Title: inlineTitleUI('Web component'),
+    wcv3Address: addressUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
+      rjsfTitle: titleSchema,
       addressOld: fullSchema.properties.veteran.properties.address,
-      wc: inlineTitleSchema,
-      addressNew: addressSchema(),
+      wcv3Title: inlineTitleSchema,
+      wcv3Address: addressSchema(),
     },
     required: [],
   },
