@@ -9,14 +9,14 @@ export function validateName(errors, pageData) {
 const uiSchema = {
   'ui:validations': [validateName],
   first: {
-    'ui:title': 'Deceased’s first name (*Required)',
+    'ui:title': 'Deceased’s first name',
     'ui:autocomplete': 'given-name',
     'ui:errorMessages': {
       required: 'Please enter a first name',
     },
   },
   last: {
-    'ui:title': 'Deceased’s last name (*Required)',
+    'ui:title': 'Deceased’s last name',
     'ui:autocomplete': 'family-name',
     'ui:errorMessages': {
       required: 'Please enter a last name',
