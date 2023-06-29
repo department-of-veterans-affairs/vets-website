@@ -19471,7 +19471,7 @@ verror@1.10.0:
     extsprintf "^1.2.0"
 
 "vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#526c3c4610c4b8eac96a07741645e9bc6aeff871":
-  version "20.26.11"
+  version "20.26.12"
   resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#526c3c4610c4b8eac96a07741645e9bc6aeff871"
   dependencies:
     minimist "^1.2.3"
