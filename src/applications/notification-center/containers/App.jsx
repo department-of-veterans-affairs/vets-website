@@ -1,10 +1,9 @@
 import React from 'react';
 
-export default function App({ children }) {
+export default function App() {
   return (
     <>
       <h1>Notification Center</h1>
-      <div>{children}</div>
     </>
   );
 }
