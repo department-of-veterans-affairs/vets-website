@@ -7,7 +7,7 @@ import sinon from 'sinon';
 
 import NotificationChannel from '~/applications/personalization/profile/components/notification-settings/NotificationChannel';
 
-import { featureFlagNames } from '~/platform/utilities/feature-toggles/featureFlagNames';
+import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 
 const mockStore = configureMockStore();
 
