@@ -302,12 +302,16 @@ export const EducationalExpensesDescription = (
         College and vocational expenses include payments for these expenses
         related to your own education:
       </p>
-      <ul className="vads-u-margin-bottom--0">
+      <ul>
         <li>Tuition</li>
         <li>Books</li>
         <li>Fees</li>
         <li>Course materials</li>
       </ul>
+      <p className="vads-u-margin-bottom--0">
+        Only include expenses for your own education (not your dependents’
+        education).
+      </p>
     </div>
   </va-additional-info>
 );

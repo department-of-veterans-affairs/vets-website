@@ -18,7 +18,7 @@ const v3WCUI = ssnOrVaFileNumberOrServiceNumberUI(title => `V3 - ${title}`);
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI('RJSF'),
+    rjsfTitle: titleUI('RJSF'),
     ssn: {
       ...ssnUI(),
       'ui:title': 'Social security number',
@@ -32,34 +32,34 @@ export default {
     serviceNumber: {
       'ui:title': 'Service number',
     },
-    wc: inlineTitleUI('Web component'),
-    ssnNew: {
+    wcTitle: inlineTitleUI('Web component'),
+    wcOldSsn: {
       ...ssnNewUI(),
       'ui:options': {
         uswds: false,
       },
     },
-    vaFileNumberNew: {
+    wcOldVaFileNumber: {
       ...vaFileNumberNewUI(),
       'ui:options': {
         uswds: false,
       },
     },
-    serviceNumberNew: {
+    wcOldServiceNumber: {
       ...serviceNumberNewUI(),
       'ui:options': {
         uswds: false,
       },
     },
-    wcv3: inlineTitleUI('Web component v3'),
-    ssnNewV3: v3WCUI.socialSecurityNumber,
-    vaFileNumberNewV3: v3WCUI.vaFileNumber,
-    serviceNumberNewV3: v3WCUI.serviceNumber,
+    wcv3Title: inlineTitleUI('Web component v3'),
+    wcv3SsnNew: v3WCUI.socialSecurityNumber,
+    wcv3VaFileNumberNew: v3WCUI.vaFileNumber,
+    wcv3ServiceNumberNew: v3WCUI.serviceNumber,
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
+      rjsfTitle: titleSchema,
       ssn: {
         $ref: '#/definitions/ssn',
       },
@@ -69,16 +69,16 @@ export default {
       serviceNumber: {
         $ref: '#/definitions/veteranServiceNumber',
       },
-      wc: inlineTitleSchema,
-      ssnNew: ssnNewSchema,
-      vaFileNumberNew: vaFileNumberNewSchema,
-      serviceNumberNew: serviceNumberNewSchema,
-      wcv3: inlineTitleSchema,
-      ssnNewV3: ssnNewSchema,
-      vaFileNumberNewV3: vaFileNumberNewSchema,
-      serviceNumberNewV3: serviceNumberNewSchema,
+      wcTitle: inlineTitleSchema,
+      wcOldSsn: ssnNewSchema,
+      wcOldVaFileNumber: vaFileNumberNewSchema,
+      wcOldServiceNumber: serviceNumberNewSchema,
+      wcv3Title: inlineTitleSchema,
+      wcv3SsnNew: ssnNewSchema,
+      wcv3VaFileNumberNew: vaFileNumberNewSchema,
+      wcv3ServiceNumberNew: serviceNumberNewSchema,
     },
-    required: ['ssn', 'ssnNew', 'ssnNewV3'],
+    required: ['ssn', 'wcOldSsn', 'wcv3SsnNew'],
   },
   initialData: {},
 };
