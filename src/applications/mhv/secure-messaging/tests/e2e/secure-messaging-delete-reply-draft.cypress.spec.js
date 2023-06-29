@@ -41,11 +41,9 @@ describe('Secure Messaging Reply', () => {
 
     messageDetails.data.attributes.body = messageDetailsBody;
     messageDetailsPage.ReplyToMessagebody(messageDetailsBody);
-
     draftsPage.clickDeleteButton();
-    draftsPage.confirmDeleteReplyDraftWithEnterKey(messageDetails).then(() => {
-      landingPage.verifyDeleteConfirmMessage();
-    });
+    draftsPage.confirmDeleteReplyDraftWithEnterKey(messageDetails);
+    landingPage.verifyDeleteConfirmMessage();
 
     cy.injectAxe();
     cy.axeCheck('main', {
