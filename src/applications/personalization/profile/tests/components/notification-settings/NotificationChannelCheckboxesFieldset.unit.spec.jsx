@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { NotificationChannelCheckboxesFieldset } from '~/applications/personalization/profile/components/notification-settings/NotificationChannelCheckboxesFieldset'; // Assume this is the correct path for your component
+import { NotificationChannelCheckboxesFieldset } from '~/applications/personalization/profile/components/notification-settings/NotificationChannelCheckboxesFieldset';
 
 describe('<NotificationChannelCheckboxesFieldset />', () => {
   const defaultProps = {

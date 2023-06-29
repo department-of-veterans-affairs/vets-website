@@ -10,7 +10,7 @@ export const NotificationChannelCheckboxesFieldset = ({
   hasSomePendingUpdates,
   hasSomeSuccessUpdates,
 }) => {
-  const legendClasses = classNames(
+  const legendHeadingClasses = classNames(
     'vads-u-font-family--sans',
     'vads-u-font-weight--bold',
     'vads-u-font-size--base',
@@ -37,7 +37,7 @@ export const NotificationChannelCheckboxesFieldset = ({
     <fieldset className={fieldsetClasses} disabled={hasSomePendingUpdates}>
       <div className="clearfix">
         <legend className="vads-u-padding--0">
-          <h3 className={legendClasses}>{itemName}</h3>
+          <h3 className={legendHeadingClasses}>{itemName}</h3>
         </legend>
       </div>
       {description ? (
