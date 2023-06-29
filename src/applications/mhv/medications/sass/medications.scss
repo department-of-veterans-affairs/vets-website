@@ -25,7 +25,16 @@
     max-width: 480px;
   }
 }
+.link-to-details {
+  i {
+    font-size: 16px;
+    margin-left: 6px;
+  }
+  .right-angle {
+    text-decoration: none;
+  }
 
+}
 .landing-page {
   h1 {
     color: $color-gray-dark;
@@ -99,6 +108,9 @@
     display: none;
     margin: 0px !important;
     padding: 0px !important;
+  }
+  .no-break {
+    break-inside: avoid;
   }
   h1 {
     font-size: 30;

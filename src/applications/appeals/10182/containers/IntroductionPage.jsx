@@ -23,7 +23,7 @@ import { filingDeadlineContent } from '../content/FilingDeadlines';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('h1');
   }
 
   render() {

@@ -1,7 +1,23 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
 .income-limits-app {
-  .usa-table-borderless {
+  p.il-review {
+    margin-bottom: 32px;
+  }
+
+  ul[data-testid="il-review"] {
+    padding-left: 0;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0;
+      padding: 12px 0;
+      border-top: 1px solid $color-gray-light;
+    }
+
     .income-limits-edit {
-      width: 54px;
+      width: 46px;
     }
   }
 

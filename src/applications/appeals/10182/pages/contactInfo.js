@@ -1,11 +1,13 @@
 import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
 import set from 'platform/utilities/data/set';
+import { getContent } from 'platform/forms-system/src/js/utilities/data/profile.js';
 
 import { contactInfoValidation } from '../validations';
 
 const allContacts = ['address', 'email', 'phone'];
 
 export default profileContactInfo({
+  content: getContent('appeal'),
   contactInfoRequiredKeys: [],
   included: allContacts,
   addressKey: 'address',
