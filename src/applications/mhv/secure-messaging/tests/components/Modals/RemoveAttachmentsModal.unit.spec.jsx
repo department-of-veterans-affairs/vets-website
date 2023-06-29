@@ -7,25 +7,17 @@ import { Prompts } from '../../../util/constants';
 describe('Remove Message Modal component', () => {
   it('should render without errors', () => {
     const screen = render(<RemoveAttachmentsModal visible />);
+    const modal = screen.getByTestId('remove-attachment-modal');
 
-    expect(screen.getByTestId('remove-attachment-modal')).to.exist;
+    expect(modal).to.exist;
     expect(screen.getByText(Prompts.Attachment.REMOVE_ATTACHMENT_CONTENT)).to
       .exist;
-    expect(screen.getByTestId('remove-attachment-modal')).to.have.attribute(
+    expect(modal).to.have.attribute(
       'modal-title',
       `${Prompts.Attachment.REMOVE_ATTACHMENT_TITLE}`,
     );
-    expect(screen.getByTestId('remove-attachment-modal')).to.have.attribute(
-      'primary-button-text',
-      'Remove',
-    );
-    expect(screen.getByTestId('remove-attachment-modal')).to.have.attribute(
-      'secondary-button-text',
-      'Cancel',
-    );
-    expect(screen.getByTestId('remove-attachment-modal')).to.have.attribute(
-      'status',
-      'warning',
-    );
+    expect(modal).to.have.attribute('primary-button-text', 'Remove');
+    expect(modal).to.have.attribute('secondary-button-text', 'Cancel');
+    expect(modal).to.have.attribute('status', 'warning');
   });
 });
