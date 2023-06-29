@@ -19,7 +19,7 @@ const SpouseEmploymentQuestion = props => {
   );
 
   const hasJobs =
-    data.personalData?.employmentHistory?.spouse?.employmentRecords;
+    data.personalData?.employmentHistory?.spouse?.spEmploymentRecords;
 
   useEffect(() => {
     clearJobIndex();
