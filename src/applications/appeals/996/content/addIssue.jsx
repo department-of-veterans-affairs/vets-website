@@ -31,9 +31,9 @@ export const content = {
   name: {
     label: 'Name of issue',
     hint: (
-      <p className="vads-u-font-weight--normal label-description">
+      <div>
         You can only add an issue that you’ve received a VA decision notice for.
-      </p>
+      </div>
     ),
   },
   date: {
