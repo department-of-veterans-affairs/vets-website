@@ -16,10 +16,7 @@ class IntroductionPage extends React.Component {
 
     return (
       <article className="schemaform-intro">
-        <FormTitle
-          title="Ask VA"
-          subtitle="Equal to VA Form XX-230 (Ask VA)"
-        />
+        <FormTitle title="Ask VA" subtitle="Equal to VA Form XX-230 (Ask VA)" />
         <SaveInProgressIntro
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
@@ -52,8 +49,8 @@ class IntroductionPage extends React.Component {
             <h3>Apply</h3>
             <p>Complete this ask the va test form.</p>
             <p>
-              After submitting the form, you’ll get a confirmation message.
-              You can print this for your records.
+              After submitting the form, you’ll get a confirmation message. You
+              can print this for your records.
             </p>
           </li>
           <li>
@@ -82,7 +79,7 @@ class IntroductionPage extends React.Component {
         />
         <p />
         <OMBInfo resBurden={30} ombNumber="XX3344" expDate="12/31/24" />
-        </article>
+      </article>
     );
   }
 }
