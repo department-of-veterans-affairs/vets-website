@@ -5,7 +5,7 @@ import {
   VaButtonPair,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 import { scrollToTop } from '../utilities/scroll-to-top';
 import { ROUTES } from '../constants';
@@ -22,7 +22,7 @@ const YearPage = ({
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    focusElement('h1');
+    waitForRenderThenFocus('h1');
     scrollToTop();
   }, []);
 
