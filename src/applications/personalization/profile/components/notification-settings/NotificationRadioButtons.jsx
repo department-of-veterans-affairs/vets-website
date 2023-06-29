@@ -60,7 +60,7 @@ const NotificationRadioButtons = ({
     errorSpan = (
       <NotificationStatusMessage
         id={errorSpanId}
-        classes="rb-input-message-error"
+        classes="rb-input-message-error rb-input-message vads-u-flex--fill vads-u-margin-top--0p5"
         alert
       >
         <i
@@ -98,7 +98,7 @@ const NotificationRadioButtons = ({
     successSpan = (
       <NotificationStatusMessage
         id={successSpanId}
-        classes="rb-input-message-success"
+        classes="rb-input-message-success rb-input-message vads-u-flex--fill vads-u-margin-top--0p5"
         alert
       >
         <i

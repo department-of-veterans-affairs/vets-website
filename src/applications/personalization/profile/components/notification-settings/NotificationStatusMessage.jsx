@@ -3,14 +3,19 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 export const NotificationStatusMessage = ({ children, classes, id, alert }) => {
+  const isUsingLegacyStylingClass = classes.includes('rb-input-message');
   const computedClasses = classNames(
-    'vads-u-font-family--sans',
-    'vads-u-font-size--base',
-    'vads-u-font-weight--normal',
-    'vads-u-margin-top--1',
-    'vads-u-display--block',
-    'vads-u-padding--2',
-    'vads-u-margin-left--neg1p5',
+    ...(isUsingLegacyStylingClass
+      ? []
+      : [
+          'vads-u-font-family--sans',
+          'vads-u-font-size--base',
+          'vads-u-font-weight--normal',
+          'vads-u-margin-top--1',
+          'vads-u-display--block',
+          'vads-u-padding--2',
+          'vads-u-margin-left--neg1p5',
+        ]),
     classes,
   );
   return (

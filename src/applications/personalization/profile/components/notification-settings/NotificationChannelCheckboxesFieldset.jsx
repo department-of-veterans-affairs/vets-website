@@ -13,7 +13,7 @@ export const NotificationChannelCheckboxesFieldset = ({
   const legendClasses = classNames(
     'vads-u-font-family--sans',
     'vads-u-font-weight--bold',
-    'vads-u-font-size--h4',
+    'vads-u-font-size--base',
     'vads-u-padding--0',
     'vads-u-margin--0',
   );
@@ -23,6 +23,7 @@ export const NotificationChannelCheckboxesFieldset = ({
     'vads-u-margin-y--2',
     'vads-u-border-left--4px',
     'vads-u-padding-left--1p5',
+    'vads-u-padding-bottom--1p5',
     'vads-u-margin-left--neg1p5',
     {
       'vads-u-border-color--white':
@@ -35,7 +36,7 @@ export const NotificationChannelCheckboxesFieldset = ({
   return (
     <fieldset className={fieldsetClasses} disabled={hasSomePendingUpdates}>
       <div className="clearfix">
-        <legend className="rb-legend vads-u-padding--0">
+        <legend className="vads-u-padding--0">
           <h3 className={legendClasses}>{itemName}</h3>
         </legend>
       </div>
