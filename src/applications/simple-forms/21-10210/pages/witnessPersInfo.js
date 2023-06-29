@@ -3,7 +3,7 @@ import {
   RELATIONSHIP_TO_VETERAN_OPTIONS,
   RELATIONSHIP_TO_CLAIMANT_OPTIONS,
 } from '../definitions/constants';
-import formDefinitions from '../definitions/form-definitions';
+import { schema } from '../../shared/definitions/pdfFullNameNoSuffix';
 import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
 
 /** @type {PageSchema} */
@@ -53,7 +53,7 @@ export default {
     type: 'object',
     required: ['witnessFullName', 'witnessRelationshipToClaimant'],
     properties: {
-      witnessFullName: formDefinitions.pdfFullNameNoSuffix,
+      witnessFullName: schema(),
       witnessRelationshipToClaimant: {
         type: 'string',
       },
