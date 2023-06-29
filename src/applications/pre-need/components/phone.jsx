@@ -13,10 +13,8 @@ export default function uiSchema(title = 'Phone') {
     'ui:title': title,
     'ui:autocomplete': 'tel',
     'ui:errorMessages': {
-      pattern:
-        'Phone number should be between 10-15 digits long and only contain numbers, dashes, and parentheses',
-      minLength:
-        'Phone number should be between 10-15 digits long and only contain numbers, dashes, and parentheses',
+      pattern: 'Phone number should be between 10-15 digits long',
+      minLength: 'Phone number should be between 10-15 digits long',
       required: 'Please enter a phone number',
     },
     'ui:options': {
