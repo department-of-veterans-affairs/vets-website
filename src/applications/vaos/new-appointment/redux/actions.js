@@ -2,9 +2,9 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
-import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/exports';
 import { createAppointment } from '../../services/appointment';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
@@ -26,11 +26,7 @@ import {
   getTypeOfCareFacilities,
   getCCEType,
 } from './selectors';
-import {
-  submitRequest,
-  submitAppointment,
-  getCommunityCare,
-} from '../../services/var';
+import { submitRequest, getCommunityCare } from '../../services/var';
 import {
   getLocation,
   getSiteIdFromFacilityId,
@@ -52,7 +48,6 @@ import {
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
-  transformFormToAppointment,
 } from './helpers/formSubmitTransformers';
 import {
   transformFormToVAOSAppointment,
@@ -781,15 +776,10 @@ export function submitAppointmentOrRequest(history) {
 
       try {
         let appointment = null;
-        if (featureVAOSServiceVAAppointments) {
-          appointment = await createAppointment({
-            appointment: transformFormToVAOSAppointment(getState()),
-            useAcheron: featureAcheronVAOSServiceRequests,
-          });
-        } else {
-          const appointmentBody = transformFormToAppointment(getState());
-          await submitAppointment(appointmentBody);
-        }
+        appointment = await createAppointment({
+          appointment: transformFormToVAOSAppointment(getState()),
+          useAcheron: featureAcheronVAOSServiceRequests,
+        });
 
         dispatch({
           type: FORM_SUBMIT_SUCCEEDED,
