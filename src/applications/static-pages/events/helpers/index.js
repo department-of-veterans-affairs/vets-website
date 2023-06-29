@@ -179,9 +179,17 @@ export const filterEvents = (
     case 'upcoming': {
       return events
         .filter(event => {
-          return moment(
+          const start = moment(
             event?.fieldDatetimeRangeTimezone[0]?.value * 1000,
-          ).isAfter(now.clone());
+          );
+          const end = moment(
+            event?.fieldDatetimeRangeTimezone[0]?.endValue * 1000,
+          );
+          return (
+            moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isAfter(
+              now.clone(),
+            ) || now.clone().isBetween(start, end)
+          );
         })
         .reduce(keepUniqueEventsFromList, []);
     }

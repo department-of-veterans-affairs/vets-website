@@ -6,7 +6,6 @@ import {
   GA_PREFIX,
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
-  APPOINTMENT_STATUS,
 } from '../../utils/constants';
 import { recordItemsRetrieved } from '../../utils/events';
 import {
@@ -594,12 +593,6 @@ export function startAppointmentCancel(appointment) {
 export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
     const appointment = getState().appointments.appointmentToCancel;
-    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
-      getState(),
-    );
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      getState(),
-    );
     const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
       getState(),
     );
@@ -611,11 +604,6 @@ export function confirmCancelAppointment() {
 
       const updatedAppointment = await cancelAppointment({
         appointment,
-        useV2:
-          (featureVAOSServiceRequests &&
-            appointment.status === APPOINTMENT_STATUS.proposed) ||
-          (featureVAOSServiceVAAppointments &&
-            appointment.status !== APPOINTMENT_STATUS.proposed),
         useAcheron: featureAcheronVAOSServiceRequests,
       });
 

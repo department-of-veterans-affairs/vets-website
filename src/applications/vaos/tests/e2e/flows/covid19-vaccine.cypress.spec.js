@@ -11,7 +11,7 @@ import {
   mockSchedulingConfigurationApi,
   mockUserTransitionAvailabilities,
   vaosSetup,
-} from './vaos-cypress-helpers';
+} from '../vaos-cypress-helpers';
 
 describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
   const start = moment()
