@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import { debounce } from 'lodash';
 // Relative imports.
 import { langSelectedAction } from 'applications/static-pages/i18Select/actions';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import CrisisPanel from './CrisisPanel';
 import DesktopLinks from './DesktopLinks';
 import LanguageSupport from './LanguageSupport';
@@ -39,8 +42,16 @@ class Footer extends Component {
   }
 
   render() {
+    // Temporary for verification of web components in injected header
+    const { showWebComponents } = this.props;
     return (
       <div>
+        {showWebComponents && (
+          <VaModal status="warning" visible={false}>
+            Test modal
+          </VaModal>
+        )}
+
         <div className="footer-inner">
           <DesktopLinks
             visible={!this.props.minimalFooter && !this.state.isMobile}
@@ -93,6 +104,9 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   languageCode: state.i18State.lang,
+  showWebComponents: toggleValues(state)[
+    FEATURE_FLAG_NAMES.injectedHeaderWebComponents
+  ],
 });
 
 Footer.propTypes = {
@@ -101,6 +115,7 @@ Footer.propTypes = {
   dispatchLanguageSelection: PropTypes.func,
   languageCode: PropTypes.string,
   onFooterLoad: PropTypes.func,
+  showWebComponents: PropTypes.bool,
 };
 
 export default connect(

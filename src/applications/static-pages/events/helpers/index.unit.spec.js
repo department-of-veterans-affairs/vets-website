@@ -186,7 +186,25 @@ describe('filterEvents', () => {
     { id: 'past' },
   );
 
-  const events = [upcomingEvent, nextWeekEvent, nextMonthEvent, pastEvent];
+  const activeEvent = createEvent(
+    now
+      .clone()
+      .subtract(1, 'hour')
+      .unix(),
+    now
+      .clone()
+      .add(2, 'hour')
+      .unix(),
+    'Active Event',
+  );
+
+  const events = [
+    upcomingEvent,
+    nextWeekEvent,
+    nextMonthEvent,
+    pastEvent,
+    activeEvent,
+  ];
 
   it('returns what we expect with no arguments', () => {
     expect(
@@ -203,7 +221,12 @@ describe('filterEvents', () => {
   it('returns what we expect for upcoming', () => {
     expect(
       filterEvents(events, 'upcoming', undefined, now.clone()),
-    ).to.deep.equal([upcomingEvent, nextWeekEvent, nextMonthEvent]);
+    ).to.deep.equal([
+      upcomingEvent,
+      nextWeekEvent,
+      nextMonthEvent,
+      activeEvent,
+    ]);
   });
 
   it('returns what we expect for next-week', () => {
