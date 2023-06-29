@@ -81,8 +81,7 @@ describe('HLR homeless page', () => {
     const event = global.window.dataLayer.slice(-1)[0];
     expect(event).to.deep.equal({
       event: 'int-radio-button-option-click',
-      'radio-button-label':
-        'Are you experiencing homelessness or at risk of becoming homeless?',
+      'radio-button-label': 'Are you experiencing homelessness?',
       'radio-button-optionLabel': 'Yes',
       'radio-button-required': false,
     });
