@@ -1,5 +1,5 @@
 import React from 'react';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { GA_PREFIX } from '../../../utils/constants';
 
 const handleClick = () => {
@@ -12,7 +12,7 @@ const handleClick = () => {
 export default function PrintButton() {
   return (
     <div className="vaos-hide-for-print">
-      <button className="print-button" onClick={handleClick()} type="button">
+      <button className="tertiary-button" onClick={handleClick()} type="button">
         <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
         Print
       </button>

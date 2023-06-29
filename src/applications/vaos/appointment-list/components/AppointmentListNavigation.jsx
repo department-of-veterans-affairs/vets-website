@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
 import {
   selectFeaturePrintList,
