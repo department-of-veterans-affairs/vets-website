@@ -206,13 +206,32 @@
       ],
       "employmentHistory": {
         "spouse": {
-          "employmentRecords": [
+          "spEmploymentRecords": [
             {
               "type": "Full time",
               "from": "2018-6-XX",
               "to": "",
               "isCurrent": true,
-              "employerName": "Spouse Current"
+              "employerName": "Spouse Current",
+              "grossMonthlyIncome": "5000.54",
+              "deductions": [
+                {
+                  "name": "Federal tax",
+                  "amount": "350.56"
+                },
+                {
+                  "name": "State tax",
+                  "amount": "230.45"
+                },
+                {
+                  "name": "Pension",
+                  "amount": "100"
+                },
+                {
+                  "name": "Health insurance",
+                  "amount": "254.45"
+                }
+              ]
             },
             {
               "type": "Full time",

@@ -5,6 +5,7 @@ import { payrollDeductionOptions } from '../constants/checkboxSelections';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
 import Checklist from './shared/CheckList';
+import { BASE_EMPLOYMENT_RECORD } from '../constants/index';
 
 const SpousePayrollDeductionChecklist = props => {
   const { goToPath, goBack, onReviewPage, setFormData } = props;
@@ -18,8 +19,17 @@ const SpousePayrollDeductionChecklist = props => {
   const index = isEditing ? Number(editIndex) : 0;
 
   const formData = useSelector(state => state.form.data);
-  const employmentRecord =
-    formData.personalData.employmentHistory.spouse.employmentRecords[index];
+
+  const {
+    personalData: {
+      employmentHistory: {
+        newRecord = {},
+        spouse: { spEmploymentRecords = [] },
+      },
+    },
+  } = formData;
+
+  const employmentRecord = isEditing ? spEmploymentRecords[index] : newRecord;
 
   const { employerName } = employmentRecord;
 
@@ -35,7 +45,7 @@ const SpousePayrollDeductionChecklist = props => {
     const { name, checked } = target;
 
     if (checked) {
-      setSelectedDeductions([...selectedDeductions, { name }]);
+      setSelectedDeductions([...selectedDeductions, { name, amount: '' }]);
     } else {
       setSelectedDeductions(
         selectedDeductions.filter(incomeValue => incomeValue.name !== name),
@@ -47,16 +57,14 @@ const SpousePayrollDeductionChecklist = props => {
     e.preventDefault();
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
-      const updatedRecords = formData.personalData.employmentHistory.spouse.employmentRecords.map(
-        (item, arrayIndex) => {
-          return arrayIndex === index
-            ? {
-                ...employmentRecord,
-                deductions: selectedDeductions,
-              }
-            : item;
-        },
-      );
+      const updatedRecords = spEmploymentRecords.map((item, arrayIndex) => {
+        return arrayIndex === index
+          ? {
+              ...employmentRecord,
+              deductions: selectedDeductions,
+            }
+          : item;
+      });
       // deductions: deductions.filter(source => source.name !== value)
       // update form data
       setFormData({
@@ -67,28 +75,39 @@ const SpousePayrollDeductionChecklist = props => {
             ...formData.personalData.employmentHistory,
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
-              employmentRecords: updatedRecords,
+              spEmploymentRecords: updatedRecords,
             },
           },
         },
       });
-    } else {
-      const records = [
-        { ...employmentRecord, deductions: selectedDeductions },
-        ...formData.personalData.employmentHistory.spouse.employmentRecords.slice(
-          1,
-        ),
-      ];
-
+    } else if (selectedDeductions.length > 0) {
       setFormData({
         ...formData,
         personalData: {
           ...formData.personalData,
           employmentHistory: {
             ...formData.personalData.employmentHistory,
+            newRecord: { ...employmentRecord, deductions: selectedDeductions },
+          },
+        },
+      });
+    } else {
+      setFormData({
+        ...formData,
+        personalData: {
+          ...formData.personalData,
+          employmentHistory: {
+            ...formData.personalData.employmentHistory,
+            newRecord: { ...BASE_EMPLOYMENT_RECORD },
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
-              employmentRecords: records,
+              spEmploymentRecords: [
+                {
+                  ...employmentRecord,
+                  deductions: selectedDeductions,
+                },
+                ...spEmploymentRecords,
+              ],
             },
           },
         },
