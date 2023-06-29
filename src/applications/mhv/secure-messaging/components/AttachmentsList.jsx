@@ -69,6 +69,7 @@ const AttachmentsList = props => {
                     ref={attachmentReference}
                     className="vads-u-flex--1"
                     role="alert"
+                    aria-live="polite"
                     aria-label={
                       recentlyRemovedFile
                         ? null

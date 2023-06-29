@@ -14,7 +14,9 @@ const DraftSavedInfo = props => {
 
   useEffect(
     () => {
-      setAriaLive(attachments.length > 0 ? 'off' : 'polite');
+      setAriaLive(
+        attachments === undefined || attachments.length > 0 ? 'off' : 'polite',
+      );
     },
     [attachments],
   );
