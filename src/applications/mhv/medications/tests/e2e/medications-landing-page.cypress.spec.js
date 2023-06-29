@@ -5,6 +5,7 @@ describe('Medications Landing Page', () => {
     const site = new MedicationsSite();
     cy.visit('my-health/medications/');
     site.login();
+
     cy.injectAxe();
     cy.axeCheck();
   });
