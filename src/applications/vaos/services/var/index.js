@@ -115,14 +115,6 @@ export function updateRequest(req) {
   }).then(parseApiObject);
 }
 
-export function submitAppointment(appointment) {
-  return apiRequestWithUrl('/vaos/v0/appointments', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(appointment),
-  });
-}
-
 export function getRequestEligibilityCriteria(sites) {
   return apiRequestWithUrl(
     `/vaos/v0/request_eligibility_criteria?${sites
