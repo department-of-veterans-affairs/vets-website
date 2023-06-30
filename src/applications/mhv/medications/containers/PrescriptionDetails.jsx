@@ -21,7 +21,7 @@ const PrescriptionDetails = () => {
             { url: '/my-health/medications/', label: 'Dashboard' },
             {
               url: '/my-health/medications/prescriptions/',
-              label: 'Prescriptions',
+              label: 'Medications',
             },
           ],
           {
