@@ -6,7 +6,7 @@
             "attributes": {
                 "messageId": 2585370,
                 "category": "EDUCATION",
-                "subject": "test1 special message%$#*",
+                "subject": "test1 special %$#",
                 "body": "special %$#",
                 "attachment": false,
                 "sentDate": "2022-12-21T20:15:31.000Z",
@@ -26,7 +26,7 @@
             "attributes": {
                 "messageId": 2585368,
                 "category": "EDUCATION",
-                "subject": "clickable url test",
+                "subject": "clickable url test special %$#",
                 "body": "https://www.va.gov/  special %$#",
                 "attachment": false,
                 "sentDate": "2022-12-21T20:15:07.000Z",
