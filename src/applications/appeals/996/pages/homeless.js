@@ -1,3 +1,5 @@
+import { homelessTitle, homelessReviewField } from '../content/homeless';
+
 export default {
   uiSchema: {
     'ui:title': ' ',
@@ -5,8 +7,8 @@ export default {
       forceDivWrapper: true,
     },
     homeless: {
-      'ui:title':
-        'Are you experiencing homelessness or at risk of becoming homeless?',
+      'ui:title': homelessTitle,
+      'ui:reviewField': homelessReviewField,
       'ui:widget': 'yesNo',
       'ui:options': {
         enableAnalytics: true,

@@ -184,6 +184,7 @@ export const getMonthlyIncome = ({
   personalData: {
     employmentHistory: {
       veteran: { employmentRecords = [] },
+      spouse: { spEmploymentRecords = [] },
     },
   },
   socialSecurity,
@@ -225,7 +226,10 @@ export const getMonthlyIncome = ({
   const vetNetIncome = vetGrossSalary - vetTotDeductions;
 
   // spouse
-  const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
+  const spGrossSalary = enhancedFSRActive
+    ? sumValues(spEmploymentRecords, 'grossMonthlyIncome')
+    : sumValues(spCurrEmployment, 'spouseGrossSalary');
+
   const spAddlInc = sumValues(spAddlIncome, 'amount');
   const spSocialSecAmt = !enhancedFSRActive
     ? Number(
@@ -242,7 +246,13 @@ export const getMonthlyIncome = ({
     benefits.spouseBenefits.education?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const spBenefits = spComp + spEdu;
-  const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const spDeductions = enhancedFSRActive
+    ? spEmploymentRecords
+        ?.filter(emp => emp.isCurrent)
+        .map(emp => emp.deductions)
+        .flat() ?? 0
+    : spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
+
   const spTaxes = filterReduceByName(spDeductions, taxFilters);
   const spRetirement = filterReduceByName(spDeductions, retirementFilters);
   const spSocialSec = filterReduceByName(spDeductions, socialSecFilters);
@@ -327,7 +337,11 @@ export const getTotalAssets = ({
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
 };
 
-export const getEmploymentHistory = ({ questions, personalData }) => {
+export const getEmploymentHistory = ({
+  questions,
+  personalData,
+  'view:enhancedFinancialStatusReport': enhancedFSRActive,
+}) => {
   const { employmentHistory } = personalData;
   let history = [];
 
@@ -364,17 +378,31 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
   }
 
   if (questions.spouseIsEmployed) {
-    const { employmentRecords } = employmentHistory.spouse;
-    const spouseEmploymentHistory = employmentRecords.map(employment => ({
-      ...defaultObj,
-      veteranOrSpouse: 'SPOUSE',
-      occupationName: employment.type,
-      from: dateFormatter(employment.from),
-      to: employment.isCurrent ? '' : dateFormatter(employment.to),
-      present: employment.isCurrent ? employment.isCurrent : false,
-      employerName: employment.employerName,
-    }));
-    history = [...history, ...spouseEmploymentHistory];
+    if (enhancedFSRActive) {
+      const { spEmploymentRecords } = employmentHistory.spouse;
+      const spouseEmploymentHistory = spEmploymentRecords.map(employment => ({
+        ...defaultObj,
+        veteranOrSpouse: 'SPOUSE',
+        occupationName: employment.type,
+        from: dateFormatter(employment.from),
+        to: employment.isCurrent ? '' : dateFormatter(employment.to),
+        present: employment.isCurrent ? employment.isCurrent : false,
+        employerName: employment.employerName,
+      }));
+      history = [...history, ...spouseEmploymentHistory];
+    } else {
+      const { employmentRecords } = employmentHistory.spouse;
+      const spouseEmploymentHistory = employmentRecords.map(employment => ({
+        ...defaultObj,
+        veteranOrSpouse: 'SPOUSE',
+        occupationName: employment.type,
+        from: dateFormatter(employment.from),
+        to: employment.isCurrent ? '' : dateFormatter(employment.to),
+        present: employment.isCurrent ? employment.isCurrent : false,
+        employerName: employment.employerName,
+      }));
+      history = [...history, ...spouseEmploymentHistory];
+    }
   }
 
   return history;
@@ -400,4 +428,26 @@ export const getDebtName = debt => {
 
 export const getCurrentEmploymentHistoryObject = () => {
   return null;
+};
+
+export const dateTemplate = 'YYYY-MM-DD';
+
+export const maxDate = moment().add(100, 'year');
+export const getDate = date => moment(date, dateTemplate);
+export const isDateComplete = date => date?.length === dateTemplate.length;
+export const isDateInFuture = date => date?.diff(moment()) > 0;
+export const isDateLessThanMax = date => date?.isBefore(maxDate);
+
+export const isValidPastDate = date => {
+  if (date && isDateComplete(date)) {
+    const dateObj = getDate(date);
+    return !isDateInFuture(dateObj);
+  }
+  return false;
+};
+
+export const getDiffInDays = date => {
+  const dateDischarge = moment(date, dateTemplate);
+  const dateToday = moment();
+  return dateDischarge.diff(dateToday, 'days');
 };
