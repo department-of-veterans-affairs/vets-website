@@ -109,7 +109,7 @@ export const transform = (formConfig, form) => {
 
   // spouse
   const spGrossSalary = enhancedFSRActive
-    ? sumValues(spEmploymentRecords, 'spouseGrossSalary')
+    ? sumValues(spEmploymentRecords, 'grossMonthlyIncome')
     : sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
   const spSocialSecAmt = !enhancedFSRActive
