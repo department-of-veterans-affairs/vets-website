@@ -1,4 +1,4 @@
-export { default as formTester } from './e2e/cypress/support/form-tester/index';
+export { default as testForm } from './e2e/cypress/support/form-tester/index';
 
 export {
   createArrayPageObjects,
