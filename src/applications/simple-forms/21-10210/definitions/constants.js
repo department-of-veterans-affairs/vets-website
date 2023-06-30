@@ -33,10 +33,3 @@ export const RELATIONSHIP_TO_CLAIMANT_OPTIONS = [
   COWORKER_OR_SUPERVISOR_OF_CLAIMANT,
   OTHER_RELATIONSHIP,
 ];
-
-export const workInProgressContent = {
-  description:
-    'We’re rolling out the Lay/Witness Statement (VA Form 21-10210) in stages. It’s not quite ready yet. Please check back again soon.',
-  redirectLink: '/',
-  redirectText: 'Return to VA home page',
-};
