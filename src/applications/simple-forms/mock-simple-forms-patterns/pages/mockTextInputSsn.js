@@ -3,9 +3,7 @@ import {
   ssnSchema as ssnNewSchema,
   vaFileNumberSchema as vaFileNumberNewSchema,
   vaFileNumberUI as vaFileNumberNewUI,
-  serviceNumberUI as serviceNumberNewUI,
-  serviceNumberSchema as serviceNumberNewSchema,
-  ssnOrVaFileNumberOrServiceNumberUI,
+  ssnOrVaFileNumberUI,
   titleSchema,
   titleUI,
   inlineTitleUI,
@@ -13,7 +11,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { ssnUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
-const v3WCUI = ssnOrVaFileNumberOrServiceNumberUI(title => `V3 - ${title}`);
+const v3WCUI = ssnOrVaFileNumberUI(title => `V3 - ${title}`);
 
 /** @type {PageSchema} */
 export default {
@@ -29,9 +27,6 @@ export default {
         pattern: 'Your VA file number must be 8 or 9 digits',
       },
     },
-    serviceNumber: {
-      'ui:title': 'Service number',
-    },
     wcTitle: inlineTitleUI('Web component'),
     wcOldSsn: {
       ...ssnNewUI(),
@@ -45,16 +40,9 @@ export default {
         uswds: false,
       },
     },
-    wcOldServiceNumber: {
-      ...serviceNumberNewUI(),
-      'ui:options': {
-        uswds: false,
-      },
-    },
     wcv3Title: inlineTitleUI('Web component v3'),
     wcv3SsnNew: v3WCUI.socialSecurityNumber,
     wcv3VaFileNumberNew: v3WCUI.vaFileNumber,
-    wcv3ServiceNumberNew: v3WCUI.serviceNumber,
   },
   schema: {
     type: 'object',
@@ -66,17 +54,12 @@ export default {
       vaFileNumber: {
         $ref: '#/definitions/vaFileNumber',
       },
-      serviceNumber: {
-        $ref: '#/definitions/veteranServiceNumber',
-      },
       wcTitle: inlineTitleSchema,
       wcOldSsn: ssnNewSchema,
       wcOldVaFileNumber: vaFileNumberNewSchema,
-      wcOldServiceNumber: serviceNumberNewSchema,
       wcv3Title: inlineTitleSchema,
       wcv3SsnNew: ssnNewSchema,
       wcv3VaFileNumberNew: vaFileNumberNewSchema,
-      wcv3ServiceNumberNew: serviceNumberNewSchema,
     },
     required: ['ssn', 'wcOldSsn', 'wcv3SsnNew'],
   },

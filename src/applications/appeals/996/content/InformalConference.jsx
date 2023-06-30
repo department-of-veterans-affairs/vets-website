@@ -2,6 +2,7 @@ import React from 'react';
 
 export const InformalConferenceDescription = (
   <>
+    <h3>Do you want to request an informal conference?</h3>
     <p>
       An informal conference is a phone call between you or your accredited
       representative (claims agent, attorney, or Veterans Service Organization)
@@ -17,7 +18,7 @@ export const InformalConferenceDescription = (
 );
 
 export const InformalConferenceTitle =
-  'Would you like to request an informal conference?';
+  'Do you want to request an informal conference?';
 
 export const informalConferenceLabels = {
   no: 'No, I do not want an informal conference',
@@ -25,8 +26,11 @@ export const informalConferenceLabels = {
   rep: 'Yes, call my representative',
 };
 
-export const ContactRepresentativeTitle =
-  'Provide your representative’s contact information.';
+export const ContactRepresentativeTitle = (
+  <h3 className="vads-u-margin-top--0">
+    Your representative’s contact information
+  </h3>
+);
 
 export const RepresentativeNameTitle = 'Representative’s name';
 export const RepresentativeFirstNameTitle = 'Representative’s first name';
@@ -38,13 +42,20 @@ export const RepresentativePhoneExtensionTitle =
 
 export const RepresentativeEmailTitle = 'Representative’s email address';
 
-export const InformalConferenceTimesTitle = 'Please indicate your availability';
-export const InformalConferenceTimesTitleRep =
-  'Please indicate your representative’s availability';
+export const InformalConferenceTimesTitle = (
+  <h3 className="vads-u-margin-top--0">
+    What’s the best time for us to call you?
+  </h3>
+);
+export const InformalConferenceTimesTitleRep = (
+  <h3 className="vads-u-margin-top--0">
+    What’s the best time for us to call your representative?
+  </h3>
+);
 
 export const InformalConferenceTimesDescription = (
   <>
-    <p>
+    <p className="vads-u-margin-top--0">
       First we’ll call you to schedule the informal conference. Please indicate
       your availability by providing a preferred time for a call.
     </p>
@@ -59,7 +70,7 @@ export const InformalConferenceTimesDescription = (
 
 export const InformalConferenceTimesDescriptionRep = (
   <>
-    <p>
+    <p className="vads-u-margin-top--0">
       First we’ll call your representative to schedule the informal conference.
       Please indicate their availability by providing a preferred time for a
       call.
