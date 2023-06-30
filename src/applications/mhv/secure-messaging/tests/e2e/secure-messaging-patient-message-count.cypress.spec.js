@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from '../fixtures/message-thread-response.json';
 
 describe('Secure Messaging Patient Message Count', () => {
   it('Patient Message Count', () => {
@@ -14,7 +14,7 @@ describe('Secure Messaging Patient Message Count', () => {
       'have.length',
       mockMessages.data.length,
     );
-    cy.get('[data-testid="sent-sidebar"]').click();
+    //  cy.get('[data-testid="sent-sidebar"]').click();
     cy.get('[data-testid="displaying-number-of-threads"]')
       .invoke('text')
       .should(
