@@ -474,7 +474,7 @@ const ComposeForm = props => {
             setAttachments={setAttachments}
           />
         </section>
-        <DraftSavedInfo userSaved={userSaved} />
+        <DraftSavedInfo userSaved={userSaved} attachments={attachments} />
         <div className="compose-form-actions vads-u-display--flex">
           <va-button
             text="Send"
