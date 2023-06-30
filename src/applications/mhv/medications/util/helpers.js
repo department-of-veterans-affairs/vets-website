@@ -16,7 +16,7 @@ export const dateFormat = (timestamp, format = null) => {
 /**
  * @param {String} templateName must be an already created template found on platform/pdf/templates
  * @param {String} generatedFileName pdf is saved under this name
- * @param {Object} pdfData json object formatted according to a pdf template guideline set by platform
+ * @param {Object} pdfData object formatted according to a pdf template guideline set by platform
  */
 export const generateMedicationsPDF = async (
   templateName,
