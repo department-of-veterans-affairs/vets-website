@@ -2,10 +2,8 @@ import React from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
-import {
-  EmptyMiniSummaryCard,
-  MiniSummaryCard,
-} from './shared/MiniSummaryCard';
+import { Link } from 'react-router';
+import { EmptyMiniSummaryCard } from './shared/MiniSummaryCard';
 import { setJobIndex } from '../utils/session';
 import { dateFormatter } from '../utils/helpers';
 
@@ -28,16 +26,13 @@ const EmploymentHistorySummaryCard = ({
 
   const dispatch = useDispatch();
 
-  const handleClick = jobIndex => () => {
-    setJobIndex(jobIndex);
-    return isSpouse
-      ? {
-          pathname: `/enhanced-spouse-employment-records`,
-        }
-      : {
-          pathname: `/enhanced-employment-records`,
-        };
-  };
+  const editDestination = isSpouse
+    ? {
+        pathname: `/enhanced-spouse-employment-records`,
+      }
+    : {
+        pathname: `/enhanced-employment-records`,
+      };
 
   const onDelete = deleteIndex => {
     const updatedEmploymentHistory = {
@@ -46,9 +41,13 @@ const EmploymentHistorySummaryCard = ({
         ...formData.personalData.employmentHistory[
           isSpouse ? 'spouse' : 'veteran'
         ],
-        employmentRecords: formData.personalData.employmentHistory[
-          isSpouse ? 'spouse' : 'veteran'
-        ].employmentRecords.filter((_, i) => i !== deleteIndex),
+        [isSpouse ? 'spEmploymentRecords' : 'employmentRecords']: isSpouse
+          ? formData.personalData.employmentHistory.spouse.spEmploymentRecords.filter(
+              (_, i) => i !== deleteIndex,
+            )
+          : formData.personalData.employmentHistory.veteran.employmentRecords.filter(
+              (_, i) => i !== deleteIndex,
+            ),
       },
     };
 
@@ -119,17 +118,52 @@ const EmploymentHistorySummaryCard = ({
     ]),
   };
   const emptyPrompt = `Select the ‘add additional job link to add another job. Select the continue button to move on to the next question.`;
+  const ariaLabel = `Job ${index + 1} ${employmentCardHeading}`;
 
   return (
     (!job && <EmptyMiniSummaryCard content={emptyPrompt} />) || (
-      <MiniSummaryCard
-        ariaLabel={`Job ${index + 1} ${employmentCardHeading}`}
-        editDestination={handleClick(index)}
-        heading={employmentCardHeading}
-        body={cardBody}
-        onDelete={() => onDelete(index)}
-        showDelete
-      />
+      <div
+        className="vads-u-border--1px vads-u-margin-y--2 vads-u-padding--0"
+        data-testid="mini-summary-card"
+        aria-label={ariaLabel}
+      >
+        <div className="vads-u-padding-x--2 vads-u-padding-top--2 vads-u-display--flex vads-u-flex-direction--column">
+          <h3 className="vads-u-margin-y--0 vads-u-font-size--h4">
+            {employmentCardHeading}
+          </h3>
+          {cardBody}
+        </div>
+        <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-padding-x--2 vads-u-padding-bottom--1">
+          <Link
+            aria-label={`Edit ${ariaLabel}`}
+            to={editDestination}
+            onClick={() => setJobIndex(index)}
+            className="vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--neg0p5"
+          >
+            <span>
+              <strong>Edit</strong>
+              <i
+                aria-hidden="true"
+                role="img"
+                className="fas fa-chevron-right vads-u-padding-left--0p5"
+              />
+            </span>
+          </Link>
+
+          <button
+            type="button"
+            aria-label={`Delete ${ariaLabel}`}
+            className="usa-button summary-card-delete-button vads-u-margin--0 vads-u-padding--1"
+            onClick={() => onDelete(index)}
+          >
+            <i
+              aria-hidden="true"
+              className="fas fa-trash-alt vads-u-padding-right--0p5"
+            />
+            <span>DELETE</span>
+          </button>
+        </div>
+      </div>
     )
   );
 };

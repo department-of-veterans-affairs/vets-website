@@ -10,7 +10,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI('RJSF'),
+    rjsfTitle: titleUI('RJSF'),
     selectDefault: {
       'ui:title': 'title - select rjsf',
       'ui:description': 'description',
@@ -43,8 +43,8 @@ export default {
         },
       },
     },
-    wc: inlineTitleUI('Web component'),
-    selectWC: {
+    wcTitle: inlineTitleUI('Web component'),
+    wcOldSelectFirst: {
       'ui:title': 'title - select web component',
       'ui:webComponentField': VaSelectField,
       'ui:description': 'description',
@@ -63,7 +63,7 @@ export default {
         },
       },
     },
-    textWC: {
+    wcOldText: {
       'ui:title': 'title - text web component',
       'ui:webComponentField': VaTextInputField,
       'ui:description': 'description',
@@ -72,7 +72,7 @@ export default {
         required: 'This is a custom error message.',
       },
     },
-    selectWC2: {
+    wcOldSelectSecond: {
       'ui:title': 'title - select web component 2',
       'ui:webComponentField': VaSelectField,
       'ui:description': 'description',
@@ -91,7 +91,7 @@ export default {
       },
     },
     wcv3: inlineTitleUI('Web component v3'),
-    textWCV3: {
+    wcv3Text: {
       'ui:title': 'title - text web component',
       'ui:webComponentField': VaTextInputField,
       'ui:description': 'description',
@@ -99,11 +99,8 @@ export default {
       'ui:errorMessages': {
         required: 'This is a custom error message.',
       },
-      'ui:options': {
-        uswds: true,
-      },
     },
-    selectWC2V3: {
+    wcv3Select: {
       'ui:title': 'title - select web component 2',
       'ui:webComponentField': VaSelectField,
       'ui:description': 'description',
@@ -114,7 +111,6 @@ export default {
       'ui:disabled': 'true',
       'ui:options': {
         disabled: true,
-        uswds: true,
         labels: {
           option1: 'Option 1',
           option2: 'Option 2',
@@ -127,7 +123,6 @@ export default {
       'ui:description': 'description',
       'ui:disabled': 'true',
       'ui:options': {
-        uswds: true,
         hint: 'This is a hint',
         labels: {
           option1: 'Option 1',
@@ -139,7 +134,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
+      rjsfTitle: titleSchema,
       selectDefault: {
         type: 'string',
         enum: ['option1', 'option2'],
@@ -148,23 +143,23 @@ export default {
         type: 'string',
         enum: ['option1', 'option2'],
       },
-      wc: inlineTitleSchema,
-      selectWC: {
+      wcTitle: inlineTitleSchema,
+      wcOldSelectFirst: {
         type: 'string',
         enum: ['option1', 'option2'],
       },
-      textWC: {
+      wcOldText: {
         type: 'string',
       },
-      selectWC2: {
+      wcOldSelectSecond: {
         type: 'string',
         enum: ['option1', 'option2'],
       },
       wcv3: inlineTitleSchema,
-      textWCV3: {
+      wcv3Text: {
         type: 'string',
       },
-      selectWC2V3: {
+      wcv3Select: {
         type: 'string',
         enum: ['option1', 'option2'],
       },
