@@ -6,7 +6,7 @@ import {
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
 export const getPrescriptionList = () => {
-  return apiRequest(`${apiBasePath}/prescriptions?page=1&per_page=10`, {
+  return apiRequest(`${apiBasePath}/prescriptions?page=1&per_page=999`, {
     headers: {
       'Content-Type': 'application/json',
     },

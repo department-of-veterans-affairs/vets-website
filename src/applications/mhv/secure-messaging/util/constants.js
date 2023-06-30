@@ -170,6 +170,11 @@ export const Links = {
 };
 
 export const Prompts = {
+  Attachment: {
+    REMOVE_ATTACHMENT_TITLE: 'Are you sure you want to remove this attachment?',
+    REMOVE_ATTACHMENT_CONTENT:
+      'If you remove an attachment, you will have to attach it again.',
+  },
   Compose: {
     EDIT_LIST_TITLE: 'Edit your contact list',
     EDIT_LIST_CONTENT:
@@ -240,12 +245,54 @@ export const Attachments = {
 };
 
 export const threadSortingOptions = {
-  DESCENDING: 'DESC',
-  ASCENDING: 'ASC',
-  SORT_BY_SENDER: 'SENDER_NAME',
-  SORT_BY_RECEPIENT: 'RECIPIENT_NAME',
-  SORT_BY_SENT_DATE: 'SENT_DATE',
-  SORT_BY_DRAFT_DATE: 'DRAFT_DATE',
+  SENT_DATE_DESCENDING: {
+    sortField: 'SENT_DATE',
+    sortOrder: 'DESC',
+    value: 'SENT_DATE_DESCENDING',
+    label: 'Newest to oldest',
+  },
+  SENT_DATE_ASCENDING: {
+    sortField: 'SENT_DATE',
+    sortOrder: 'ASC',
+    value: 'SENT_DATE_ASCENDING',
+    label: 'Oldest to newest',
+  },
+  DRAFT_DATE_DESCENDING: {
+    sortField: 'DRAFT_DATE',
+    sortOrder: 'DESC',
+    value: 'DRAFT_DATE_DESCENDING',
+    label: 'Newest to oldest',
+  },
+  DRAFT_DATE_ASCENDING: {
+    sortField: 'DRAFT_DATE',
+    sortOrder: 'ASC',
+    value: 'DRAFT_DATE_ASCENDING',
+    label: 'Oldest to newest',
+  },
+  SENDER_ALPHA_DESCENDING: {
+    sortField: 'SENDER_NAME',
+    sortOrder: 'DESC',
+    value: 'SENDER_ALPHA_DESCENDING',
+    label: 'Z to A - Sender’s name',
+  },
+  SENDER_ALPHA_ASCENDING: {
+    sortField: 'SENDER_NAME',
+    sortOrder: 'ASC',
+    value: 'SENDER_ALPHA_ASCENDING',
+    label: 'A to Z - Sender’s name',
+  },
+  RECEPIENT_ALPHA_DESCENDING: {
+    sortField: 'RECIPIENT_NAME',
+    sortOrder: 'DESC',
+    value: 'RECEPIENT_ALPHA_DESCENDING',
+    label: 'Z to A - Recipient’s name',
+  },
+  RECEPIENT_ALPHA_ASCENDING: {
+    sortField: 'RECIPIENT_NAME',
+    sortOrder: 'ASC',
+    value: 'RECEPIENT_ALPHA_ASCENDING',
+    label: 'A to Z - Recipient’s name',
+  },
 };
 
 export const PrintMessageOptions = {

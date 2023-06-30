@@ -25,8 +25,9 @@ import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
 import optIn from '../pages/optIn';
 import issueSummary from '../pages/issueSummary';
 import informalConference from '../pages/informalConference';
-import informalConferenceRepV2 from '../pages/informalConferenceRepV2';
-import informalConferenceTime from '../pages/informalConferenceTimeV2';
+import informalConferenceRepV2 from '../pages/informalConferenceRep';
+import informalConferenceTime from '../pages/informalConferenceTime';
+import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
 import {
   errorMessages,
@@ -97,6 +98,10 @@ const formConfig = {
   // showReviewErrors: true,
   reviewErrors,
 
+  // when true, initial focus on page to H3s by default, and enable page
+  // scrollAndFocusTarget (selector string or function to scroll & focus)
+  useCustomScrollAndFocus: true,
+
   chapters: {
     infoPages: {
       title: 'Veteran information',
@@ -118,11 +123,11 @@ const formConfig = {
       },
     },
     conditions: {
-      title: 'Issues eligible for review',
+      title: 'Issues for review',
       pages: {
         // v2 - show contested + added issues
         contestableIssues: {
-          title: ' ',
+          title: 'Issues eligible for review',
           path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssuesPage.uiSchema,
           schema: contestableIssuesPage.schema,
@@ -188,9 +193,16 @@ const formConfig = {
         conferenceTime: {
           path: 'informal-conference/conference-availability',
           title: 'Scheduling availability',
-          depends: formData => formData?.informalConference !== 'no',
+          depends: formData => formData?.informalConference === 'me',
           uiSchema: informalConferenceTime.uiSchema,
           schema: informalConferenceTime.schema,
+        },
+        conferenceTimeRep: {
+          path: 'informal-conference/conference-rep-availability',
+          title: 'Scheduling availability',
+          depends: formData => formData?.informalConference === 'rep',
+          uiSchema: informalConferenceTimeRep.uiSchema,
+          schema: informalConferenceTimeRep.schema,
         },
       },
     },

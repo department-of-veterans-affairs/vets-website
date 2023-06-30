@@ -1,9 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Checklist = ({ options, onChange, isBoxChecked }) => {
+const Checklist = ({
+  options,
+  onChange,
+  isBoxChecked,
+  prompt = '',
+  title = '',
+}) => {
   return (
-    <div className="checkbox-list">
+    <fieldset className="checkbox-list vads-u-margin-y--2">
+      {title && (
+        <legend className="schemaform-block-title">
+          <h3 className="vads-u-margin--0">{title}</h3>
+        </legend>
+      )}
+      {prompt && <p className="vads-u-margin-bottom--4">{prompt}</p>}
       {options?.map((option, key) => (
         <div key={option + key} className="checkbox-list-item">
           <input
@@ -19,13 +31,15 @@ const Checklist = ({ options, onChange, isBoxChecked }) => {
           </label>
         </div>
       ))}
-    </div>
+    </fieldset>
   );
 };
 
 Checklist.propTypes = {
   isBoxChecked: PropTypes.func,
   options: PropTypes.arrayOf(PropTypes.string),
+  prompt: PropTypes.string,
+  title: PropTypes.string,
   onChange: PropTypes.func,
 };
 

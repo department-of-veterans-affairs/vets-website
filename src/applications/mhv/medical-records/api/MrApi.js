@@ -99,7 +99,17 @@ export const mockGetVitalsList = () => {
   });
 };
 
-export const mockGetConditionsList = () => {
+export const getConditions = () => {
+  if (environment.BUILDTYPE === 'localhost' && testing) {
+    return apiRequest(
+      `${apiBasePath}/medical_records/conditions?patient_id=39254`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  }
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(conditions);
@@ -107,7 +117,14 @@ export const mockGetConditionsList = () => {
   });
 };
 
-export const mockGetCondition = id => {
+export const getCondition = id => {
+  if (environment.BUILDTYPE === 'localhost' && testing) {
+    return apiRequest(`${apiBasePath}/medical_records/conditions/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
   return new Promise(resolve => {
     setTimeout(() => {
       const condition = conditions.find(cond => cond.id === id);
