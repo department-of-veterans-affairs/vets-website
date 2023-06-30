@@ -54,31 +54,6 @@ function createMutationObserverCallback() {
   };
 }
 
-function getContentHostName() {
-  if (environment.BUILDTYPE === environments.LOCALHOST) {
-    return environment.BASE_URL;
-  }
-
-  return bucketsContent[environment.BUILDTYPE];
-}
-
-function activateWebComponents() {
-  return new Promise((resolve, _reject) => {
-    // css
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = `${getContentHostName()}/generated/web-components.css`;
-    document.head.appendChild(link);
-    // js
-    const script = document.createElement('script');
-    script.src = `${getContentHostName()}/generated/web-components.entry.js`;
-    document.head.appendChild(script);
-    script.onload = () => {
-      resolve();
-    };
-  });
-}
-
 function activateHeaderFooter() {
   // Set up elements for the new header and footer
   const headerContainer = document.createElement('div');
@@ -152,6 +127,23 @@ function mountReactComponents(headerFooterData, commonStore) {
   addOverlayTriggers();
 }
 
+function getContentHostName() {
+  if (environment.BUILDTYPE === environments.LOCALHOST) {
+    return environment.BASE_URL;
+  }
+
+  return bucketsContent[environment.BUILDTYPE];
+}
+
+// TO DO remove on clean up
+// function getAssetHostName() {
+//   if (environment.BUILDTYPE === environments.LOCALHOST) {
+//     return environment.BASE_URL;
+//   }
+
+//   return buckets[environment.BUILDTYPE];
+// }
+
 function removeCurrentHeaderFooter() {
   const observer = new MutationObserver(createMutationObserverCallback());
   observer.observe(document, {
@@ -166,24 +158,22 @@ function removeCurrentHeaderFooter() {
 }
 
 function activateInjectedAssets() {
-  activateWebComponents().then(_resp => {
-    activateHeaderFooter();
-    fetch(`${getContentHostName()}/generated/headerFooter.json`)
-      .then(resp => {
-        if (resp.ok) {
-          return resp.json();
-        }
+  activateHeaderFooter();
+  fetch(`${getContentHostName()}/generated/headerFooter.json`)
+    .then(resp => {
+      if (resp.ok) {
+        return resp.json();
+      }
 
-        throw new Error(
-          `vets_headerFooter_error: Failed to fetch header and footer menu data: ${
-            resp.statusText
-          }`,
-        );
-      })
-      .then(headerFooterData => {
-        mountReactComponents(headerFooterData, createCommonStore());
-      });
-  });
+      throw new Error(
+        `vets_headerFooter_error: Failed to fetch header and footer menu data: ${
+          resp.statusText
+        }`,
+      );
+    })
+    .then(headerFooterData => {
+      mountReactComponents(headerFooterData, createCommonStore());
+    });
 }
 
 function getProxyRewriteCookieValue(
