@@ -15,13 +15,10 @@ const LandingPage = () => {
   useEffect(() => {
     if (prescriptions) {
       dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medications/', label: 'Dashboard' }],
-          {
-            url: '/my-health/medications/prescriptions/',
-            label: 'Medications',
-          },
-        ),
+        setBreadcrumbs([], {
+          url: '/my-health/medications/prescriptions/',
+          label: 'Medications',
+        }),
       );
     }
   });
@@ -125,7 +122,7 @@ const LandingPage = () => {
     );
   };
 
-  return <div>{content()}</div>;
+  return <div className="vads-u-margin-top--3">{content()}</div>;
 };
 
 export default LandingPage;

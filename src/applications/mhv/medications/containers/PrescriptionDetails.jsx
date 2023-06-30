@@ -18,7 +18,6 @@ const PrescriptionDetails = () => {
       dispatch(
         setBreadcrumbs(
           [
-            { url: '/my-health/medications/', label: 'Dashboard' },
             {
               url: '/my-health/medications/prescriptions/',
               label: 'Medications',
