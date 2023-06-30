@@ -51,3 +51,13 @@ export const ALERT_TYPES = Object.freeze({
   ERROR: 'ERROR',
   ZERO: 'ZERO',
 });
+
+export const BASE_EMPLOYMENT_RECORD = {
+  type: '',
+  from: '',
+  to: '',
+  isCurrent: false,
+  employerName: '',
+  grossMonthlyIncome: '',
+  deductions: [],
+};
