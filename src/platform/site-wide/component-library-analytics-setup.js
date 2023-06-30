@@ -381,7 +381,7 @@ const analyticsEvents = {
           'modal-status': 'status',
           'modal-title': 'heading_1',
           'modal-primaryButtonText': 'custom_string_2',
-          'modal-secondaryButtonText': '',
+          'modal-secondayButtonText': 'custom_string_3',
           version: 'component_version',
         },
       },
