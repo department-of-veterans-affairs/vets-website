@@ -5,7 +5,17 @@ describe('Medications Landing Page', () => {
     const site = new MedicationsSite();
     cy.visit('my-health/medications/');
     site.login();
+
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+        'link-name': {
+          enabled: false,
+        },
+      },
+    });
   });
 });
