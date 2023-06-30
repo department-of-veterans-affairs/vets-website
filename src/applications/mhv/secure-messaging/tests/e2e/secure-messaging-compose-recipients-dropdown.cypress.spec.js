@@ -84,7 +84,7 @@ describe('recipients dropdown box', () => {
       .should('equal', 3);
     cy.get('[name="COVID"]').click();
   });
-  it.skip('preferredTriageTeam selcet dropdown false', () => {
+  it('preferredTriageTeam selcet dropdown false', () => {
     const landingPage = new PatientInboxPage();
     const patientInterstitialPage = new PatientInterstitialPage();
     const site = new SecureMessagingSite();
@@ -109,10 +109,13 @@ describe('recipients dropdown box', () => {
       '/my_health/v1/messaging/recipients?useCache=false',
       recipientsResponseFalse,
     ).as('recipients');
-    cy.get('[data-testid="compose-recipient-select"]')
-      .find('option')
-      .its('length')
-      .should('equal', 1);
-    cy.get('[name="COVID"]').click();
+    cy.wait('@recipients').then(() => {
+      cy.get('[data-testid="compose-recipient-select"]')
+        .find('option')
+        .filter(':visible')
+        .its('length')
+        .should('equal', 1);
+      cy.get('[name="COVID"]').click();
+    });
   });
 });

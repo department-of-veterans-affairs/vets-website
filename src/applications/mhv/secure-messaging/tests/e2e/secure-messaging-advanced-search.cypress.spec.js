@@ -252,7 +252,7 @@ describe(manifest.appName, () => {
         },
       });
     });
-    it('Check the search message label', function() {
+    it('Check the search message label', () => {
       cy.get('[data-testid="search-message-folder-input-label"]')
         .should('contain', '2')
         .and('contain', 'Category: "medication"');

@@ -27,7 +27,7 @@
                 "messageId": 2585368,
                 "category": "EDUCATION",
                 "subject": "clickable url test",
-                "body": "https://www.va.gov/",
+                "body": "https://www.va.gov/  special %$#",
                 "attachment": false,
                 "sentDate": "2022-12-21T20:15:07.000Z",
                 "senderId": 406227,
@@ -46,7 +46,7 @@
             "attributes": {
                 "messageId": 2585366,
                 "category": "EDUCATION",
-                "subject": "test1",
+                "subject": "test1 special %$#",
                 "body": null,
                 "attachment": false,
                 "sentDate": "2022-12-21T20:15:02.000Z",
@@ -66,7 +66,7 @@
             "attributes": {
                 "messageId": 2585364,
                 "category": "EDUCATION",
-                "subject": "test1",
+                "subject": "test1   special %$#",
                 "body": null,
                 "attachment": false,
                 "sentDate": "2022-12-21T20:09:45.000Z",
@@ -86,7 +86,7 @@
             "attributes": {
                 "messageId": 2585362,
                 "category": "EDUCATION",
-                "subject": "test1",
+                "subject": "test1  special %$#",
                 "body": null,
                 "attachment": false,
                 "sentDate": "2022-12-21T20:08:03.000Z",
@@ -146,7 +146,7 @@
             "attributes": {
                 "messageId": 2585349,
                 "category": "EDUCATION",
-                "subject": "test1",
+                "subject": "test1  special %$#",
                 "body": null,
                 "attachment": false,
                 "sentDate": "2022-12-21T19:54:58.000Z",
@@ -166,7 +166,7 @@
             "attributes": {
                 "messageId": 2585347,
                 "category": "EDUCATION",
-                "subject": "test1",
+                "subject": "test1  special %$#",
                 "body": null,
                 "attachment": false,
                 "sentDate": "2022-12-21T19:52:32.000Z",
