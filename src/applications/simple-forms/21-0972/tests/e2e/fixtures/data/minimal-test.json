@@ -1,0 +1,20 @@
+{
+  "preparerFullName": {
+    "first": "Arthur",
+    "last": "Preparer"
+  },
+  "preparerAddress": {
+    "street": "124 Main St",
+    "city": "Anytown",
+    "state": "CA",
+    "country": "USA",
+    "postalCode": "12345"
+  },
+  "preparerPhone": "9876543210",
+  "veteranFullName": {
+    "first": "Alex",
+    "last": "Veteran"
+  },
+  "veteranDateOfBirth": "1950-10-25",
+  "veteranSsn": "999442222"
+}
