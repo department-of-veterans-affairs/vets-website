@@ -252,15 +252,15 @@ va-alert button {
     width: 14px;
     height: 3.5px;
     background-color: $color-red-dark;
-}
-.remove-attachment-icon:before {
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-.remove-attachment-icon:after {
-  transform: translate(-50%, -50%) rotate(-45deg);
-}
+  }
+  .remove-attachment-icon:before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  .remove-attachment-icon:after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
   .remove-attachment-button {
-    color: $color-red-dark;
+    color: $color-gray-dark;
     background-color: $color-white;
     padding: 0;
     margin: 0;
