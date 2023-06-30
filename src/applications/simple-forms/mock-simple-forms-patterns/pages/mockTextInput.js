@@ -130,8 +130,14 @@ export default {
     },
     wcv3DisabledNew: {
       'ui:title': 'VaTextInputField - disabled',
+      'ui:description': (
+        <va-additional-info trigger="Disabled not supported for v3">
+          v3 does not support disabled fields. Solve with better pattern
+          instead, for example one question per page.
+        </va-additional-info>
+      ),
       'ui:webComponentField': VaTextInputField,
-      'ui:disabled': true,
+      'ui:disabled': true, // not supported for v3
     },
   },
   schema: {
