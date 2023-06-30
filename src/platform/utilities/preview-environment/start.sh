@@ -70,4 +70,4 @@ wait
 echo "Serve up content-build"
 yarn serve
 
-pause 50000000
+sleep 50000000
