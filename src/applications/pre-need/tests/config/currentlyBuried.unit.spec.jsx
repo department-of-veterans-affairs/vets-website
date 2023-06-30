@@ -85,8 +85,6 @@ describe('Pre-need burial benefits', () => {
         .simulate('keyDown', { key: 'ArrowDown', keyCode: 40 })
         .simulate('keyDown', { key: 'Enter', keyCode: 13 })
         .simulate('blur');
-
-      // have to pull this again, doesn't work if we use cemeteryField
       expect(
         form.find('input#root_application_claimant_desiredCemetery').props()
           .value,
