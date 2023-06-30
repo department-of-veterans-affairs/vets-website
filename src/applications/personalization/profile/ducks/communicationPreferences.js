@@ -259,6 +259,19 @@ function communicationChannelsReducer(accumulator, item) {
   return accumulator;
 }
 
+// used to clear out any existing UI alerts on all channels,
+// before we attempt to start a new update request
+function resetUiStateOnAllChannels(state) {
+  const newState = { ...state };
+  Object.keys(newState.channels.entities).forEach(key => {
+    newState.channels.entities[key].ui = {
+      updateStatus: LOADING_STATES.idle,
+      errors: null,
+    };
+  });
+  return newState;
+}
+
 // MAIN REDUCER
 const initialState = {
   loadingStatus: LOADING_STATES.idle,
@@ -335,6 +348,7 @@ export default function reducer(state = initialState, action = {}) {
       };
     }
     case SAVE_CHANNEL_STARTED: {
+      resetUiStateOnAllChannels(state);
       const { channelId, isAllowed } = action.payload;
       const updatedChannel = { ...selectChannelById(state, channelId) };
       updatedChannel.isAllowed = isAllowed;
