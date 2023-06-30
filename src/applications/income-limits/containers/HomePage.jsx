@@ -51,7 +51,7 @@ const HomePage = ({
       <a
         data-testid="income-limits-current"
         href="#"
-        className="vads-u-display--block"
+        className="vads-u-display--block vads-u-margin-bottom--1"
         onClick={goToCurrent}
       >
         Current income limits
