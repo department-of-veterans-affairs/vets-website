@@ -27,7 +27,7 @@ const DependentSummary = props => {
     dependents = [],
     [DEPENDENT_VIEW_FIELDS.report]: reportDependents = null,
   } = data;
-  const pageTitle = dependents.length ? 'Review your Dependents' : 'Dependents';
+  const pageTitle = dependents.length ? 'Review your dependents' : '';
   const mode = onReviewPage ? 'update' : 'edit';
 
   /**
@@ -81,10 +81,7 @@ const DependentSummary = props => {
   return (
     <form className="rjsf">
       <fieldset className="vads-u-margin-y--2">
-        <legend
-          id="root__title"
-          className="schemaform-block-title vads-u-visibility--screen-reader"
-        >
+        <legend id="root__title" className="schemaform-block-title">
           {pageTitle}
         </legend>
 

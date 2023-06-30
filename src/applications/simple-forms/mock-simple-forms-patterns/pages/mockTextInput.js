@@ -11,7 +11,7 @@ import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/V
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI('RJSF'),
+    rjsfTitle: titleUI('RJSF'),
     simpleOld: {
       'ui:title': 'TextWidget - with string description',
       'ui:description': 'Text description',
@@ -33,8 +33,8 @@ export default {
       'ui:title': 'TextWidget - disabled',
       'ui:disabled': true,
     },
-    wc: inlineTitleUI('Web component'),
-    simpleNew: {
+    wcTitle: inlineTitleUI('Web component'),
+    wcOldSimple: {
       'ui:title': 'VaTextInputField - with string description',
       'ui:webComponentField': VaTextInputField,
       'ui:description': 'Text description',
@@ -42,7 +42,7 @@ export default {
         uswds: false,
       },
     },
-    requiredNew: {
+    wcOldRequired: {
       'ui:title': 'VaTextInputField - with JSX description',
       'ui:webComponentField': VaTextInputField,
       'ui:description': (
@@ -61,7 +61,7 @@ export default {
         uswds: false,
       },
     },
-    hintNew: {
+    wcOldHint: {
       'ui:title': 'VaTextInputField - with string hint',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
@@ -69,7 +69,7 @@ export default {
         uswds: false,
       },
     },
-    inputmodeDecimalNew: {
+    wcOldInputmodeDecimal: {
       'ui:title': 'VaTextInputField - with decimal inputmode',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
@@ -77,7 +77,7 @@ export default {
         uswds: false,
       },
     },
-    disabledNew: {
+    wcOldDisabled: {
       'ui:title': 'VaTextInputField - disabled',
       'ui:webComponentField': VaTextInputField,
       'ui:disabled': true,
@@ -85,13 +85,13 @@ export default {
         uswds: false,
       },
     },
-    wcv3: inlineTitleUI('Web component v3'),
-    simpleNewV3: {
+    wcv3Title: inlineTitleUI('Web component v3'),
+    wcv3SimpleNew: {
       'ui:title': 'VaTextInputField - with string description',
       'ui:webComponentField': VaTextInputField,
       'ui:description': 'Text description',
     },
-    requiredNewV3: {
+    wcv3RequiredNew: {
       'ui:title': 'VaTextInputField - with JSX description',
       'ui:webComponentField': VaTextInputField,
       'ui:description': (
@@ -109,26 +109,26 @@ export default {
         hideOnReview: true,
       },
     },
-    hintNewV3: {
+    wcv3HintNew: {
       'ui:title': 'VaTextInputField - with string hint',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         hint: 'This is a hint',
       },
     },
-    inputmodeDecimalNewV3: {
+    wcv3InputmodeDecimalNew: {
       'ui:title': 'VaTextInputField - with decimal inputmode',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         inputmode: 'decimal',
       },
     },
-    textAreaNewV3: {
+    wcv3TextAreaNew: {
       'ui:title': 'VaTextareaField',
       'ui:description': 'Text description',
       'ui:webComponentField': VaTextareaField,
     },
-    disabledNewV3: {
+    wcv3DisabledNew: {
       'ui:title': 'VaTextInputField - disabled',
       'ui:webComponentField': VaTextInputField,
       'ui:disabled': true,
@@ -137,7 +137,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
+      rjsfTitle: titleSchema,
       simpleOld: {
         type: 'string',
       },
@@ -147,43 +147,47 @@ export default {
       disabledOld: {
         type: 'string',
       },
-      wc: inlineTitleSchema,
-      simpleNew: {
+      wcTitle: inlineTitleSchema,
+      wcOldSimple: {
         type: 'string',
       },
-      requiredNew: {
+      wcOldRequired: {
         type: 'string',
       },
-      hintNew: {
+      wcOldHint: {
         type: 'string',
       },
-      inputmodeDecimalNew: {
+      wcOldInputmodeDecimal: {
         type: 'string',
       },
-
-      disabledNew: {
+      wcOldDisabled: {
         type: 'string',
       },
-      wcv3: inlineTitleSchema,
-      simpleNewV3: {
+      wcv3Title: inlineTitleSchema,
+      wcv3SimpleNew: {
         type: 'string',
       },
-      requiredNewV3: {
+      wcv3RequiredNew: {
         type: 'string',
       },
-      hintNewV3: {
+      wcv3HintNew: {
         type: 'string',
       },
-      inputmodeDecimalNewV3: {
+      wcv3InputmodeDecimalNew: {
         type: 'string',
       },
-      textAreaNewV3: {
+      wcv3TextAreaNew: {
         type: 'string',
       },
-      disabledNewV3: {
+      wcv3DisabledNew: {
         type: 'string',
       },
     },
-    required: ['requiredOld', 'requiredNew', 'requiredNewV3', 'textAreaNewV3'],
+    required: [
+      'requiredOld',
+      'wcOldRequired',
+      'wcv3RequiredNew',
+      'wcv3TextAreaNew',
+    ],
   },
 };
