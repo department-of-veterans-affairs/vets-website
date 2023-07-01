@@ -19,49 +19,10 @@ export function getStagingId(facilityId) {
   return facilityId;
 }
 
-export function getConfirmedAppointment(id, type) {
-  return apiRequestWithUrl(`/vaos/v0/appointments/${type}/${id}`).then(
-    parseApiObject,
-  );
-}
-
 export function getParentFacilities(systemIds) {
   const idList = systemIds.map(id => `facility_codes[]=${id}`).join('&');
 
   return apiRequestWithUrl(`/vaos/v0/facilities?${idList}`).then(parseApiList);
-}
-
-export function getCommunityCare(typeOfCare) {
-  return apiRequestWithUrl(
-    `/vaos/v0/community_care/eligibility/${typeOfCare}`,
-  ).then(parseApiObject);
-}
-
-export function checkPastVisits(
-  systemId,
-  facilityId,
-  typeOfCareId,
-  directOrRequest,
-) {
-  return apiRequestWithUrl(
-    `/vaos/v0/facilities/${facilityId}/visits/${directOrRequest}?system_id=${systemId}&type_of_care_id=${typeOfCareId}`,
-  ).then(parseApiObject);
-}
-
-export function getRequestLimits(facilityIds, typeOfCareId) {
-  let url = `/vaos/v0/facilities/limits?type_of_care_id=${typeOfCareId}&`;
-  if (Array.isArray(facilityIds)) {
-    url += facilityIds.map(id => `facility_ids[]=${id}`).join('&');
-  } else {
-    url += `facility_ids[]=${facilityIds}`;
-  }
-  return apiRequestWithUrl(url).then(parseApiList);
-}
-
-export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
-  return apiRequestWithUrl(
-    `/vaos/v0/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${systemId}`,
-  ).then(parseApiList);
 }
 
 export function getCommunityCareFacilities({
@@ -85,18 +46,6 @@ export function getCommunityCareFacility(id) {
   return apiRequestWithUrl(`/v1/facilities/ccp/${id}`, {
     method: 'GET',
   }).then(parseApiObject);
-}
-
-export function getAvailableSlots(
-  facilityId,
-  typeOfCareId,
-  clinicId,
-  startDate,
-  endDate,
-) {
-  return apiRequestWithUrl(
-    `/vaos/v0/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
-  ).then(parseApiList);
 }
 
 export function submitRequest(type, request) {
