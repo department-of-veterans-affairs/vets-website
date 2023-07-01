@@ -114,19 +114,3 @@ export function submitAppointment(appointment) {
     body: JSON.stringify(appointment),
   });
 }
-
-export function getRequestEligibilityCriteria(sites) {
-  return apiRequestWithUrl(
-    `/vaos/v0/request_eligibility_criteria?${sites
-      .map(site => `parent_sites[]=${site}`)
-      .join('&')}`,
-  ).then(parseApiList);
-}
-
-export function getDirectBookingEligibilityCriteria(sites) {
-  return apiRequestWithUrl(
-    `/vaos/v0/direct_booking_eligibility_criteria?${sites
-      .map(site => `parent_sites[]=${site}`)
-      .join('&')}`,
-  ).then(parseApiList);
-}
