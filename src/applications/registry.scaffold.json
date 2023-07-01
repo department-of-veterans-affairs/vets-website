@@ -116,5 +116,10 @@
     "appName": "Notice of Disagreement",
     "rootUrl": "/decision-reviews/board-appeal/",
     "entryName": "form-10182-cta"
+  },
+  {
+    "appName": "After Visit Summary",
+    "rootUrl": "/my-health/medical-records/care-notes/avs",
+    "entryName": "avs"
   }
 ]

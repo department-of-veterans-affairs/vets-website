@@ -42,18 +42,22 @@ const MedicationsList = props => {
 
   return (
     <>
-      <div className="rx-page-total-info">
+      <div className="rx-page-total-info no-print">
         Showing {displayNums[0]} - {displayNums[1]} of {rxList.length}{' '}
         medications
       </div>
-      <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
-      <div className="vads-l-row vads-u-flex-direction--column">
+      <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter no-print" />
+      <div className="vads-l-row vads-u-flex-direction--column no-print">
         {rxList?.length > 0 &&
           currentRx.map((rx, idx) => <MedicationsListCard key={idx} rx={rx} />)}
       </div>
+      <div className="print-only">
+        {rxList.length > 0 &&
+          rxList.map((rx, idx) => <MedicationsListCard key={idx} rx={rx} />)}
+      </div>
       <VaPagination
         id="pagination"
-        className="pagination"
+        className="pagination no-print"
         onPageSelect={e => onPageChange(e.detail.page)}
         page={currentPage}
         pages={paginatedRx.current.length}

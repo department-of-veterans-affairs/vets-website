@@ -167,7 +167,7 @@ describe('Compose container', () => {
       });
     });
     const deleteButton = waitFor(() => {
-      screen.getAllByRole('button', {
+      screen.getAllByRole('va-button', {
         name: 'Delete draft',
         exact: false,
       });
