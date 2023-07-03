@@ -109,7 +109,7 @@ export const transform = (formConfig, form) => {
 
   // spouse
   const spGrossSalary = enhancedFSRActive
-    ? sumValues(spEmploymentRecords, 'grossMonthlyIncome')
+    ? sumValues(spEmploymentRecords, 'spouseGrossSalary')
     : sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
   const spSocialSecAmt = !enhancedFSRActive
@@ -146,17 +146,18 @@ export const transform = (formConfig, form) => {
 
   // food expenses for box 19
   const foodExpenses = otherExpenses?.find(expense =>
-    expense.name.includes('Food'),
+    expense?.name?.includes('Food'),
   ) || { amount: 0 };
 
   // other living expenses box 21
   // Including options from expoenseRecords (living expenses) w/o rent & mortgage
   const filteredExpenses = [
     ...otherExpenses?.filter(
-      expense => !expense.name.toLowerCase().includes('food'),
+      expense => expense?.name?.toLowerCase().includes('food') === false,
     ),
     ...expenseRecords.filter(
-      expense => expense.name !== 'Rent' && expense.name !== 'Mortgage payment',
+      expense =>
+        expense?.name !== 'Rent' && expense?.name !== 'Mortgage payment',
     ),
   ];
 
