@@ -1,4 +1,5 @@
 /* eslint-disable class-methods-use-this */
+/* eslint-disable no-console */
 
 const _ = require('lodash');
 
@@ -36,7 +37,7 @@ class Differ {
         updatedProductDirectory[productId].path_to_code = scannedPath;
         this.changeDetected = true;
       }
-
+      console.log('scanned product: ', scannedProduct);
       // check if last_updated has changed
       // only update last_updated when GitHub Actions workflow runs for now
       const currentDate =
@@ -44,7 +45,8 @@ class Differ {
           ? new Date(null)
           : new Date(product.last_updated);
       const scannedDate = new Date(scannedProduct.lastUpdated);
-
+      console.log('current date: ', currentDate);
+      console.log('scannedDate: ', scannedDate);
       if (scannedDate > currentDate) {
         // eslint-disable-next-line camelcase
         updatedProductDirectory[productId].last_updated = scannedDate;
