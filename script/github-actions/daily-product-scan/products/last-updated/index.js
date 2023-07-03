@@ -13,11 +13,9 @@ class LastUpdated {
 
   setLastUpdated() {
     Object.keys(this.products).forEach(async productId => {
-      console.log('this.products: ', this.products);
-      console.log('productId: ', productId);
       const product = this.products[productId];
-      console.log('product: ', product);
       const { pathToCode } = product;
+      console.log('path to code: ', pathToCode);
       product.lastUpdated = await this.getLastDateUpdated({
         path: pathToCode,
       });
@@ -28,7 +26,9 @@ class LastUpdated {
     const { status, data } = await this.gitHubClient.getVetsWebsiteCommits({
       path,
     });
-
+    console.log('path: ', path);
+    console.log(('data: ', data));
+    console.log('status: ', status);
     if (status === 200) {
       for (let i = 0; i < data.length; i += 1) {
         const { date, name } = data[i].commit.author;
