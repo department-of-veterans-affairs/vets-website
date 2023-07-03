@@ -5,6 +5,7 @@ import {
   IL_UPDATE_RESULTS,
   IL_UPDATE_YEAR,
   IL_UPDATE_ZIP,
+  IL_ZIP_VAL_ERROR,
 } from '../constants';
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   },
   pastMode: false,
   results: null,
+  zipValidationServiceError: false,
 };
 
 const incomeLimits = (state = initialState, action) => {
@@ -54,12 +56,16 @@ const incomeLimits = (state = initialState, action) => {
         ...state,
         pastMode: action.payload,
       };
-    case IL_UPDATE_RESULTS: {
+    case IL_UPDATE_RESULTS:
       return {
         ...state,
         results: action.payload,
       };
-    }
+    case IL_ZIP_VAL_ERROR:
+      return {
+        ...state,
+        zipValidationServiceError: action.payload,
+      };
     default:
       return state;
   }

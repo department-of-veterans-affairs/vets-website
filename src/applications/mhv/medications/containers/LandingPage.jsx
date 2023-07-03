@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPrescriptionsList } from '../actions/prescriptions';
+import { setBreadcrumbs } from '../actions/breadcrumbs';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
@@ -16,6 +17,18 @@ const LandingPage = () => {
 
   const dispatch = useDispatch();
   const [rxList, setRxList] = useState([]);
+
+  useEffect(() => {
+    if (prescriptions) {
+      dispatch(
+        setBreadcrumbs([], {
+          url: '/my-health/medications/prescriptions/',
+          label: 'Medications',
+        }),
+      );
+    }
+  });
+
   useEffect(
     () => {
       dispatch(getPrescriptionsList());

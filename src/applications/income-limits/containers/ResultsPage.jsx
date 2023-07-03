@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 import { scrollToTop } from '../utilities/scroll-to-top';
 import {
@@ -29,7 +29,7 @@ const Results = ({ results, yearInput }) => {
   const currentYear = new Date().getFullYear();
 
   useEffect(() => {
-    focusElement('h1');
+    waitForRenderThenFocus('h1');
     scrollToTop();
   }, []);
 

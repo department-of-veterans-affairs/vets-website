@@ -101,11 +101,12 @@ const formConfig = {
   },
   formId: '21-0972',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your alternate signer application (21-0972) is in progress.',
-    //   expired: 'Your saved alternate signer application (21-0972) has expired. If you want to apply for alternate signer, please start a new application.',
-    //   saved: 'Your alternate signer application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your alternate signer application (21-0972) is in progress.',
+      expired:
+        'Your saved alternate signer application (21-0972) has expired. If you want to apply for alternate signer, please start a new application.',
+      saved: 'Your alternate signer application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
