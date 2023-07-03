@@ -157,7 +157,7 @@ describe('VAOS <ReviewPage> CC request', () => {
 
     expect(dateHeading).to.contain.text('Preferred date and time');
     expect(screen.baseElement).to.contain.text(
-      `${start.format('MMMM DD, YYYY')} in the morning`,
+      `${start.format('MMMM D, YYYY')} in the morning`,
     );
 
     expect(providerHeading).to.contain.text('Preferred provider');
@@ -357,7 +357,7 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
 
     expect(dateHeading).to.contain.text('Preferred date and time');
     expect(screen.baseElement).to.contain.text(
-      `${start.format('MMMM DD, YYYY')} in the morning`,
+      `${start.format('MMMM D, YYYY')} in the morning`,
     );
 
     expect(providerHeading).to.contain.text('Preferred provider');
