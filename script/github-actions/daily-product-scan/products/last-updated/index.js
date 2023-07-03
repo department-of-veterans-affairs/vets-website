@@ -19,6 +19,7 @@ class LastUpdated {
       product.lastUpdated = await this.getLastDateUpdated({
         path: pathToCode,
       });
+      console.log('last updated:', product.lastUpdated);
     });
   }
 
@@ -26,9 +27,6 @@ class LastUpdated {
     const { status, data } = await this.gitHubClient.getVetsWebsiteCommits({
       path,
     });
-    console.log('path: ', path);
-    console.log(('data: ', data));
-    console.log('status: ', status);
     if (status === 200) {
       for (let i = 0; i < data.length; i += 1) {
         const { date, name } = data[i].commit.author;
