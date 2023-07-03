@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import * as Sentry from '@sentry/browser';
 
 /**
  * @param {*} timestamp
@@ -26,6 +27,8 @@ export const generateMedicationsPDF = async (
   try {
     await generatePdf(templateName, generatedFileName, pdfData);
   } catch (error) {
+    Sentry.captureException(error);
+    Sentry.captureMessage('vets_mhv_medications_pdf_generation_error');
     // TODO: Once UCD gives a flow on how to present to the  user when something goes wrong with the pdf generation
     // Error logging/presentation goes here...
   }
