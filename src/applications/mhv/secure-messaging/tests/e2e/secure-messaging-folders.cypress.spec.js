@@ -3,15 +3,14 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import FolderLoadPage from './pages/FolderLoadPage';
 
 describe(manifest.appName, () => {
-  const folderPage = new FolderLoadPage();
   const site = new SecureMessagingSite();
   describe('Load Inbox messages', () => {
     before(() => {
       site.login();
-      folderPage.loadInboxMessages();
+      FolderLoadPage.loadInboxMessages();
     });
     it('Check the header', () => {
-      folderPage.getFolderHeader('Inbox');
+      FolderLoadPage.getFolderHeader('Inbox');
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {
@@ -25,10 +24,10 @@ describe(manifest.appName, () => {
   describe('Load Draft messages', () => {
     before(() => {
       site.login();
-      folderPage.loadDraftMessages();
+      FolderLoadPage.loadDraftMessages();
     });
     it('Check the header', () => {
-      folderPage.getFolderHeader('Drafts');
+      FolderLoadPage.getFolderHeader('Drafts');
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {
@@ -42,10 +41,10 @@ describe(manifest.appName, () => {
   describe('Load Sent messages', () => {
     before(() => {
       site.login();
-      folderPage.loadSentMessages();
+      FolderLoadPage.loadSentMessages();
     });
     it('Check the header', () => {
-      folderPage.getFolderHeader('Sent messages');
+      FolderLoadPage.getFolderHeader('Sent messages');
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {
@@ -59,10 +58,10 @@ describe(manifest.appName, () => {
   describe('Load Trash messages', () => {
     before(() => {
       site.login();
-      folderPage.loadDeletedMessages();
+      FolderLoadPage.loadDeletedMessages();
     });
     it('Check the header', () => {
-      folderPage.getFolderHeader('Trash');
+      FolderLoadPage.getFolderHeader('Trash');
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {

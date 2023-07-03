@@ -87,4 +87,4 @@ class FolderLoadPage {
   };
 }
 
-export default FolderLoadPage;
+export default new FolderLoadPage();
