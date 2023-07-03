@@ -129,7 +129,7 @@ describe('VAOS <ReviewPage> VA request', () => {
 
     expect(dateHeading).to.contain.text('Preferred date and time');
     expect(screen.baseElement).to.contain.text(
-      `${start.format('MMMM DD, YYYY')} in the morning`,
+      `${start.format('MMMM D, YYYY')} in the morning`,
     );
 
     expect(clinicHeading).to.contain.text('Cheyenne VA Medical Center');
