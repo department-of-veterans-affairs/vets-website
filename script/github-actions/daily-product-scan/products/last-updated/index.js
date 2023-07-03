@@ -17,6 +17,7 @@ class LastUpdated {
       product.lastUpdated = await this.getLastDateUpdated({
         path: pathToCode,
       });
+      console.log('last updated: ', product.lastUpdated);
     });
   }
 
