@@ -447,15 +447,11 @@ export const validateSeparationDate = (
   if (!isBDD && !isReserves && moment(dateString).isSameOrAfter(in90Days)) {
     errors.addError('Your separation date must be in the past');
   } else if (moment(dateString).isAfter(moment().add(180, 'days'))) {
-    if (+isBDD) {
-      errors.addError(
-        'Your separation date must be before 180 days from today',
-      );
-    } else {
-      errors.addError(
-        'You entered a date more than 180 days from now. If you are wanting to apply for the Benefits Delivery at Discharge program, you will need to wait.',
-      );
-    }
+    errors.addError(
+      +isBDD
+        ? 'Your separation date must be before 180 days from today'
+        : 'You entered a date more than 180 days from now. If you are wanting to apply for the Benefits Delivery at Discharge program, you will need to wait.',
+    );
   }
 };
 
