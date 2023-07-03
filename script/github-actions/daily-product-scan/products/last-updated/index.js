@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this */
 // const { Octokit } = require('@octokit/core');
+/* eslint-disable no-console */
 
 const GitHubClient = require('../../github-client');
 
@@ -23,11 +24,11 @@ class LastUpdated {
     const { status, data } = await this.gitHubClient.getVetsWebsiteCommits({
       path,
     });
-
+    console.log('path:', path);
     if (status === 200) {
       for (let i = 0; i < data.length; i += 1) {
         const { date, name } = data[i].commit.author;
-
+        console.log('date: ', date);
         // Ignore update to manifest.json files by GitHUb user rjohnson2011 on 5/12/2022
         // eslint-disable-next-line no-continue
         if (this.isManifestJsonUpdate({ date: new Date(date), name })) continue;

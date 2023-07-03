@@ -44,9 +44,7 @@ async function main({ octokit }) {
   const productDirectory = JSON.parse(response.data);
 
   const productPaths = productDirectory.map(product => ({
-    // eslint-disable-next-line camelcase
     productId: product.product_id,
-    // eslint-disable-next-line camelcase
     pathToCode: product.path_to_code,
   }));
 
@@ -65,7 +63,6 @@ async function main({ octokit }) {
   const testTypes = new TestTypes({ products: products.all });
   testTypes.checkExistance();
 
-  // only update last_updated when GitHub Actions workflow runs for now
   const lastUpdated = new LastUpdated({ products: products.all });
   lastUpdated.setLastUpdated();
 
