@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { dateFormat, downloadFile } from '../util/helpers';
+import { downloadFile } from '../util/helpers';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -109,7 +110,7 @@ const VitalDetails = () => {
                   </p>
                   <h2>{idx === 0 ? 'Most recent date:' : 'Date:'}</h2>
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-                    {dateFormat(vital.date, 'MMMM D, YYYY')}
+                    {formatDateLong(vital.date)}
                   </p>
                   <h2>Location:</h2>
                   <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
@@ -135,7 +136,7 @@ const VitalDetails = () => {
                   <h2>Measurement:</h2>
                   <p>{vital.measurement}</p>
                   <h2>{idx === 0 ? 'Most recent date:' : 'Date:'}</h2>
-                  <p>{dateFormat(vital.date, 'MMMM D, YYYY')}</p>
+                  <p>{formatDateLong(vital.date)}</p>
                   <h2>Location:</h2>
                   <p>{vital.facility}</p>
                   <h2>Provider comments:</h2>
