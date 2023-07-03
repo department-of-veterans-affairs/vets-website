@@ -17,12 +17,20 @@
 
     for cert in *.{cer,pem}
     do
+        # the aim is to check what the imput file/namestrimng we are processing
+        echo "[[ PROCESSING:${cert} ]]"
         if file "${cert}" | grep 'PEM'
         then
             cp "${cert}" "${cert}.crt"
+            # the aim is to check what the imput file/namestrimng we are processing
+            echo "[[ COPY: ${cert}.crt (from ${cert})]]"
         else
             openssl x509 -in "${cert}" -inform der -outform pem -out "${cert}.crt"
-        fi
+            # the aim is to check what the imput file/namestrimng we are processing
+            echo "[[ CREATE: ${cert}.crt (from ${cert})]]"
+         fi
+        # the aim is to check what the imput file/namestrimng we are processing
+        echo "[[ DELETION: ${cert}, which is hopefully the original)]]"
         rm "${cert}"
     done
 
