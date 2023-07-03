@@ -80,7 +80,7 @@ const statementOfTruthBody = (
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   transformForSubmit,
@@ -172,7 +172,7 @@ const formConfig = {
       pages: {
         claimantPersonalInformation: {
           path: 'claimant-personal-information',
-          title: formData => claimantPersonalInformationTitle(formData),
+          title: 'Claimant personal information',
           // skip if claimant is the veteran
           depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantPersonalInformation.uiSchema,
@@ -185,7 +185,7 @@ const formConfig = {
       pages: {
         claimantSsn: {
           path: 'claimant-identification-information',
-          title: formData => claimantSsnTitle(formData),
+          title: 'Claimant identification information',
           // skip if claimant is the veteran
           depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantSsn.uiSchema,
@@ -198,7 +198,7 @@ const formConfig = {
       pages: {
         claimantAddress: {
           path: 'claimant-address',
-          title: formData => claimantAddressTitle(formData),
+          title: 'Claimant mailing address',
           // skip if claimant is the veteran
           depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantAddress.uiSchema,
@@ -211,7 +211,7 @@ const formConfig = {
       pages: {
         claimantContactInformation: {
           path: 'claimant-contact-information',
-          title: formData => claimantContactInformationTitle(formData),
+          title: 'Claimant contact information',
           // skip if claimant is the veteran
           depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantContactInformation.uiSchema,
