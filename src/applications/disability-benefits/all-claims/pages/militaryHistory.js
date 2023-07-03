@@ -10,6 +10,8 @@ import { isValidServicePeriod, formatDate } from '../utils';
 import { validateAge, validateSeparationDate } from '../validations';
 import { getBranches } from '../utils/serviceBranches';
 
+import { serviceNoticeContent } from '../content/militaryHistoryContent';
+
 const dateRangeUISchema = dateRangeUI(
   'Active service start date',
   'Active service end date',
@@ -67,6 +69,9 @@ export const uiSchema = {
       },
     },
   },
+  'view:serviceNote': {
+    'ui:description': serviceNoticeContent,
+  },
 };
 
 export const schema = {
@@ -79,6 +84,10 @@ export const schema = {
         servicePeriods:
           fullSchema.properties.serviceInformation.properties.servicePeriods,
       },
+    },
+    'view:serviceNote': {
+      type: 'object',
+      properties: {},
     },
   },
 };
