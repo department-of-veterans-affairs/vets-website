@@ -62,15 +62,15 @@ jobs:
         env:
           MANIFEST_GLOB_PATH: src/applications/**/*manifest.json
 
-      - name: Add and Commit change(s)
-        uses: EndBug/add-and-commit@v7
-        with:
-          author_name: va-vsp-bot
-          author_email: devops@va.gov
-          branch: main
-          cwd: product-directory
-          add: 'product-directory.json'
-          message: 'Update Product Directory'
+      # - name: Add and Commit change(s)
+      #   uses: EndBug/add-and-commit@v7
+      #   with:
+      #     author_name: va-vsp-bot
+      #     author_email: devops@va.gov
+      #     branch: main
+      #     cwd: product-directory
+      #     add: 'product-directory.json'
+      #     message: 'Update Product Directory'
 
       - name: Notify Slack that a PR in the Product Directory repo has been submitted
         if: ${{ success() && env.CHANGE_DETECTED == 'true' }}
