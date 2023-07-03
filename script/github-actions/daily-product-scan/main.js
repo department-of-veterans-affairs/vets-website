@@ -64,7 +64,7 @@ async function main({ octokit }) {
   testTypes.checkExistance();
 
   const lastUpdated = new LastUpdated({ products: products.all });
-  lastUpdated.setLastUpdated();
+  await lastUpdated.setLastUpdated();
 
   // Check for automatically updated field values
   const differ = new Differ();

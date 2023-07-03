@@ -10,7 +10,7 @@ class LastUpdated {
     this.gitHubClient = new GitHubClient();
   }
 
-  setLastUpdated() {
+  async setLastUpdated() {
     Object.keys(this.products).forEach(async productId => {
       const product = this.products[productId];
       const { pathToCode } = product;
