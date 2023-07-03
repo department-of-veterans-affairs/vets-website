@@ -1,0 +1,28 @@
+{
+  "formData": {
+    "authroizerType": "nonVeteran",
+    "veteran": {
+      "fullName": {
+        "first": "John",
+        "middle": "",
+        "last": "Veteran"
+      },
+      "ssn": "111223333",
+      "dateOfBirth": "2000-01-01",
+      "homePhone": "1234567890",
+      "email": "jv@va.gov",
+      "address": {
+        "street": "123 any st",
+        "city": "anytown",
+        "state": "AL",
+        "country": "USA",
+        "postalCode": "54321"
+      }
+    }
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/claim-ownership"
+  }
+}

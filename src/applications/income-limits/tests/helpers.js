@@ -14,6 +14,9 @@ export const NEWDEPS = 4;
 export const DEPINPUT = 'il-dependents';
 
 export const REVIEWPAGE = 'il-review';
+export const YEARANSWER = 'review-year';
+export const ZIPANSWER = 'review-zip';
+export const DEPENDENTSANSWER = 'review-dependents';
 
 export const RESULTSPAGE = 'il-results';
 export const RESULTS_1 = 'il-results-1';
@@ -61,6 +64,17 @@ export const typeInInput = (selector, value) =>
     .click()
     .type(value, { force: true });
 
+export const checkFormAlertText = (selector, expectedValue) =>
+  cy
+    .findByTestId(selector)
+    .shadow()
+    .get('span[role="alert"]')
+    .should('be.visible')
+    .should('have.text', expectedValue);
+
+export const checkServiceAlertText = expectedValue =>
+  cy.findByTestId('il-service-error').should('have.text', expectedValue);
+
 export const clearInput = selector =>
   cy
     .findByTestId(selector)
@@ -79,6 +93,7 @@ export const selectFromDropdown = (selector, value) =>
 
 export const checkInputText = (selector, expectedValue) =>
   cy.findByTestId(selector).should('have.value', expectedValue);
+
 export const checkAccordionValue = (selector, expectedValue, index) =>
   cy
     .findByTestId(RESULTSPAGE)
@@ -87,8 +102,17 @@ export const checkAccordionValue = (selector, expectedValue, index) =>
     .get('button')
     .eq(index)
     .should('have.text', expectedValue);
+
 export const verifyElement = selector =>
   cy.findByTestId(selector).should('exist');
 
-export const getEditLink = index => cy.get('.va-button-link').eq(index);
-export const getTdCell = index => cy.get('td').eq(index);
+export const verifyAlertNotShown = selector =>
+  cy
+    .findByTestId(selector)
+    .shadow()
+    .get('span[role="alert"]')
+    .should('not.be.visible');
+
+export const getEditLink = index => cy.get('.income-limits-edit a').eq(index);
+export const checkListItemText = (selector, expectedValue) =>
+  cy.findByTestId(selector).should('contain.text', expectedValue);

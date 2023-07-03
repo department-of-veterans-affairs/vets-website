@@ -99,11 +99,19 @@ export function getAvailableSlots(
   ).then(parseApiList);
 }
 
-export function submitRequest(type, request) {
-  return apiRequestWithUrl(`/vaos/v0/appointment_requests?type=${type}`, {
-    method: 'POST',
+export function updateAppointment(appt) {
+  return apiRequestWithUrl(`/vaos/v0/appointments/cancel`, {
+    method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(request),
+    body: JSON.stringify(appt),
+  });
+}
+
+export function updateRequest(req) {
+  return apiRequestWithUrl(`/vaos/v0/appointment_requests/${req.id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(req),
   }).then(parseApiObject);
 }
 
