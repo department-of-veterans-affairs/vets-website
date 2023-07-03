@@ -66,7 +66,7 @@ async function main({ octokit }) {
   testTypes.checkExistance();
 
   // only update last_updated when GitHub Actions workflow runs for now
-  if (process.env.MANIFEST_GLOB_PATH) {
+  if (productDirectory) {
     const lastUpdated = new LastUpdated({ products: products.all });
     lastUpdated.setLastUpdated();
   }

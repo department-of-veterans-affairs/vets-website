@@ -1,6 +1,4 @@
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-console */
-
 // const { Octokit } = require('@octokit/core');
 
 const GitHubClient = require('../../github-client');
@@ -15,11 +13,9 @@ class LastUpdated {
     Object.keys(this.products).forEach(async productId => {
       const product = this.products[productId];
       const { pathToCode } = product;
-      console.log('path to code: ', pathToCode);
       product.lastUpdated = await this.getLastDateUpdated({
         path: pathToCode,
       });
-      console.log('last updated:', product.lastUpdated);
     });
   }
 
@@ -27,6 +23,7 @@ class LastUpdated {
     const { status, data } = await this.gitHubClient.getVetsWebsiteCommits({
       path,
     });
+
     if (status === 200) {
       for (let i = 0; i < data.length; i += 1) {
         const { date, name } = data[i].commit.author;
