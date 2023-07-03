@@ -90,10 +90,11 @@ export const App = ({
       }
 
       const { toursOfDuty } = formData;
-
       const updatedToursOfDuty = toursOfDuty?.map(tour => {
         const tourToCheck = tour;
         if (
+          (tourToCheck?.dateRange?.to && new Date(tourToCheck?.dateRange?.to)) >
+            new Date() ||
           tourToCheck?.dateRange?.to === '' ||
           tourToCheck?.dateRange?.to === null ||
           tourToCheck.dateRange.to === 'Invalid date'
