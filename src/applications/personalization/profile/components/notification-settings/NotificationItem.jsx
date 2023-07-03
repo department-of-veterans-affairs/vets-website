@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { selectItemById } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
@@ -17,8 +17,15 @@ import {
 
 import NotificationChannel from './NotificationChannel';
 import { NotificationChannelCheckboxesFieldset } from './NotificationChannelCheckboxesFieldset';
+import { LOADING_STATES } from '~/applications/personalization/common/constants';
 
-const NotificationItem = ({ channelIds, itemName, description }) => {
+const getChannelsByItemId = (itemId, channelEntities) => {
+  return Object.values(channelEntities).filter(
+    channel => channel.parentItem === itemId,
+  );
+};
+
+const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
   // using the Mhv Notification Settings feature toggle to determine if we should show the email channel,
   // since the email channel is not yet supported and all Mhv notifications are email based for now
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -38,6 +45,33 @@ const NotificationItem = ({ channelIds, itemName, description }) => {
     [channelIds, allEnabled],
   );
 
+  const channelsByItemId = useSelector(state =>
+    getChannelsByItemId(
+      itemId,
+      state?.communicationPreferences?.channels?.entities,
+    ),
+  );
+
+  // used for reflecting some ui state on a whole item level
+  // for checkboxes this is important for allowing checkboxes
+  // to be disabled when there are pending updates
+  const itemStatusIndicators = useMemo(
+    () => {
+      return {
+        hasSomeSuccessUpdates: channelsByItemId.some(
+          channel => channel.ui.updateStatus === LOADING_STATES.loaded,
+        ),
+        hasSomeErrorUpdates: channelsByItemId.some(
+          channel => channel.ui.updateStatus === LOADING_STATES.error,
+        ),
+        hasSomePendingUpdates: channelsByItemId.some(
+          channel => channel.ui.updateStatus === LOADING_STATES.pending,
+        ),
+      };
+    },
+    [channelsByItemId],
+  );
+
   return (
     <>
       <Toggler
@@ -49,9 +83,18 @@ const NotificationItem = ({ channelIds, itemName, description }) => {
           <NotificationChannelCheckboxesFieldset
             itemName={itemName}
             description={description}
+            channels={filteredChannels}
+            itemId={itemId}
+            hasSomeErrorUpdates={itemStatusIndicators.hasSomeErrorUpdates}
+            hasSomePendingUpdates={itemStatusIndicators.hasSomePendingUpdates}
+            hasSomeSuccessUpdates={itemStatusIndicators.hasSomeSuccessUpdates}
           >
             {filteredChannels.map(channelId => (
-              <NotificationChannel channelId={channelId} key={channelId} />
+              <NotificationChannel
+                channelId={channelId}
+                key={channelId}
+                disabledForCheckbox={itemStatusIndicators.hasSomePendingUpdates}
+              />
             ))}
           </NotificationChannelCheckboxesFieldset>
         </Toggler.Enabled>
@@ -73,6 +116,7 @@ const NotificationItem = ({ channelIds, itemName, description }) => {
 NotificationItem.propTypes = {
   channelIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   description: PropTypes.string,
+  itemId: PropTypes.string.isRequired,
   itemName: PropTypes.string,
 };
 

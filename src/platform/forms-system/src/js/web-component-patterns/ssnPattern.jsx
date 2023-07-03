@@ -50,9 +50,9 @@ const vaFileNumberUI = title => {
 };
 
 /**
- * @returns `commonDefinitions.vaFileNumber`
+ * @returns `commonDefinitions.centralMailVaFile`
  */
-const vaFileNumberSchema = commonDefinitions.vaFileNumber;
+const vaFileNumberSchema = commonDefinitions.centralMailVaFile;
 
 /**
  * @param {string} [title]
