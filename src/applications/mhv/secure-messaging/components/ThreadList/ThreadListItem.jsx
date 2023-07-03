@@ -81,16 +81,21 @@ const ThreadListItem = props => {
       <div className="unread-column vads-l-col">
         {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
           (unreadMessages && (
-            <i
-              aria-hidden="true"
-              className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
-              data-testid="thread-list-unread-icon"
-            />
+            <span>
+              <i
+                role="img"
+                aria-label="Unread message"
+                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
+                data-testid="thread-list-unread-icon"
+                alt="Unread message icon"
+              />
+              <span className="sr-only">Unread message</span>
+            </span>
           ))}
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
         <div className={getClassNames()}>
-          {location.pathname !== '/sent' ? (
+          {location.pathname !== Paths.SENT ? (
             <>
               <span>
                 {unsentDrafts && (
@@ -99,11 +104,21 @@ const ThreadListItem = props => {
                   </>
                 )}
               </span>{' '}
-              <span>
-                {getHighlightedText(senderName)} (Team: {triageGroupName})
-              </span>{' '}
+              {unreadMessages ? (
+                <span>
+                  {getHighlightedText(senderName)} (Team: {triageGroupName})
+                  <span className="sr-only">Unread message</span>
+                </span>
+              ) : (
+                <>
+                  {getHighlightedText(senderName)} (Team: {triageGroupName})
+                </>
+              )}
+              <span />{' '}
               {messageCount > 1 && (
-                <span className="message-count">({messageCount} messages)</span>
+                <span className="message-count" data-testid="message-count">
+                  ({messageCount} messages)
+                </span>
               )}
             </>
           ) : (
@@ -120,14 +135,33 @@ const ThreadListItem = props => {
         <Link
           aria-label={`${
             unreadMessages ? 'Unread message.' : ''
-          } Message subject: ${categoryLabel}: ${subject}, ${formattedDate()}.`}
+          } Message subject: ${categoryLabel}: ${subject}, ${formattedDate()}. ${
+            hasAttachment ? ' Has attachment.' : ''
+          }`}
           className="message-subject-link vads-u-margin-y--0p5"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
         >
-          {categoryLabel}: {getHighlightedText(subject)}
+          {hasAttachment ? (
+            <span id={`message-link-has-attachment-${messageId}`}>
+              {categoryLabel}: {getHighlightedText(subject)}
+              <span className="sr-only">Has attachment</span>
+            </span>
+          ) : (
+            <span id={`message-link-${messageId}`}>
+              {categoryLabel}: {getHighlightedText(subject)}
+            </span>
+          )}
         </Link>
+
         <p className="received-date vads-u-margin-y--0p5">
-          {hasAttachment && <i className={attachmentClasses} aria-hidden />}
+          {hasAttachment && (
+            <i
+              role="img"
+              aria-labelledby={`message-link-has-attachment-${messageId}`}
+              className={attachmentClasses}
+              alt="Attachment icon"
+            />
+          )}
           <span>{formattedDate()}</span>
         </p>
       </div>

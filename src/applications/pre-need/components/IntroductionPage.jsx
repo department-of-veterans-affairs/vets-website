@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import BurialModalContent from 'platform/forms/components/OMBInfoModalContent/BurialModalContent';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -25,13 +24,24 @@ class IntroductionPage extends React.Component {
           Equal to VA Form 40-10007 (Application for Pre-Need Determination of
           Eligibility for Burial in a VA National Cemetery).
         </p>
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Start the pre-need eligibility application"
-        />
+        {environment.isProduction() ? (
+          <SaveInProgressIntro
+            headingLevel={2}
+            prefillEnabled={this.props.route.formConfig.prefillEnabled}
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+            startText="Start the pre-need eligibility application"
+          />
+        ) : (
+          <SaveInProgressIntro
+            headingLevel={2}
+            formConfig={this.props.route.formConfig}
+            prefillEnabled={this.props.route.formConfig.prefillEnabled}
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+            startText="Start the pre-need eligibility application"
+          />
+        )}
         <h2 className="vads-u-font-size--h3">
           Follow the steps below to apply for a pre-need eligibility
           determination
@@ -164,17 +174,13 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <div className="omb-info--container">
-          {environment.isProduction() ? (
-            <OMBInfo
-              resBurden={20}
-              ombNumber="2900-0784"
-              expDate="04/30/2023"
-            />
-          ) : (
-            <OMBInfo resBurden={20} ombNumber="2900-0784" expDate="04/30/2023">
-              <BurialModalContent resBurden={20} ombNumber="2900-0784" />
-            </OMBInfo>
-          )}
+          <va-omb-info
+            res-burden={20}
+            omb-number="2900-0784"
+            exp-date="03/31/2026"
+          >
+            <BurialModalContent />
+          </va-omb-info>
         </div>
       </div>
     );

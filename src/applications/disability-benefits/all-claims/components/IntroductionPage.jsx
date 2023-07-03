@@ -5,14 +5,13 @@ import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { isLoggedIn } from 'platform/user/selectors';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { itfNotice } from '../content/introductionPage';
 import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
 import {
@@ -62,7 +61,6 @@ class IntroductionPage extends React.Component {
       retentionPeriod: '1 year',
       ariaDescribedby: 'main-content',
     };
-    const isShowBDDSHA = isBDDForm && !environment.isProduction();
 
     return (
       <div className="schemaform-intro">
@@ -115,20 +113,21 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <h3 className="vads-u-font-size--h4">Prepare</h3>
-              {!isShowBDDSHA && (
+              {!isBDDForm && (
                 <p data-testid="process-step1-prepare">
                   When you file a disability claim, you’ll have a chance to
                   provide evidence to support your claim. Evidence could
                   include:
                 </p>
               )}
-              {isShowBDDSHA && (
+              {isBDDForm && (
                 <>
                   <p data-testid="process-step1-prepare">
                     When you file a BDD claim online, we’ll ask you to upload
                     this required form:{' '}
                     <a href={DBQ_URL} target="_blank" rel="noreferrer">
                       Separation Health Assessment - Part A Self-Assessment
+                      (opens in a new tab)
                     </a>
                     . We recommend you download and fill out this form on a
                     desktop computer or laptop. Then return to this page to

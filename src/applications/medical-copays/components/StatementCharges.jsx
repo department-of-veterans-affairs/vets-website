@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Table from '@department-of-veterans-affairs/component-library/Table';
 import moment from 'moment';
 
 const StatementCharges = ({ copay }) => {
@@ -35,11 +34,23 @@ const StatementCharges = ({ copay }) => {
         This statement shows charges you received between{' '}
         {previousCopaysStartDate} and {today}
       </p>
-      <Table
-        data={tableData}
-        fields={fields}
-        className="statement-charges-table"
-      />
+      <va-table
+        data-testid="statement-charges-table"
+        class="statement-charges-table"
+      >
+        <va-table-row slot="headers">
+          {fields.map(field => (
+            <span key={field.value}>{field.label}</span>
+          ))}
+        </va-table-row>
+        {tableData.map((row, index) => (
+          <va-table-row key={`statement-charges-${index}`}>
+            {fields.map(field => (
+              <span key={`${field.value}-${index}`}>{row[field.value]}</span>
+            ))}
+          </va-table-row>
+        ))}
+      </va-table>
     </>
   );
 };

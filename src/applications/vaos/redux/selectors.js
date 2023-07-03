@@ -80,3 +80,12 @@ export const selectFeaturePocTypeOfCare = state =>
 
 export const selectFeatureConvertUtcToLocaL = state =>
   toggleValues(state).vaOnlineSchedulingConvertUtcToLocal;
+
+export const selectFeatureBreadcrumbUrlUpdate = state =>
+  toggleValues(state).vaOnlineSchedulingBreadcrumbUrlUpdate;
+
+export const selectFeaturePrintList = state =>
+  toggleValues(state).vaOnlineSchedulingPrintList;
+
+export const selectFeatureDescriptiveBackLink = state =>
+  toggleValues(state).vaOnlineSchedulingDescriptiveBackLink;

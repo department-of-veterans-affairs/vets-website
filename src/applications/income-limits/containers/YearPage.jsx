@@ -5,8 +5,9 @@ import {
   VaButtonPair,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
+import { scrollToTop } from '../utilities/scroll-to-top';
 import { ROUTES } from '../constants';
 import { updateEditMode, updateYear } from '../actions';
 
@@ -21,7 +22,8 @@ const YearPage = ({
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    focusElement('h1');
+    waitForRenderThenFocus('h1');
+    scrollToTop();
   }, []);
 
   const onContinueClick = () => {
@@ -39,7 +41,7 @@ const YearPage = ({
   };
 
   const onBackClick = () => {
-    // don't do anything yet
+    router.push(ROUTES.HOME);
   };
 
   const onYearInput = event => {

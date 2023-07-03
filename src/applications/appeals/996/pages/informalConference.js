@@ -15,22 +15,11 @@ const informalConference = {
       'ui:widget': 'radio',
       'ui:options': {
         labels: informalConferenceLabels,
-        updateSchema: (formData, schema) => {
-          const choice = formData?.informalConference;
-          const article = document.querySelector('article');
-          // informalConferenceTimes title needs to know this setting, so we'll
-          // use CSS to control the view instead of doing some complicated form
-          // data manipulation
-          if (choice && article) {
-            // no article available in unit tests
-            article.dataset.contactChoice = choice;
-          }
-          return schema;
-        },
         widgetProps: {
           me: { 'aria-describedby': 'choose-conference-notice' },
           rep: { 'aria-describedby': 'choose-conference-notice' },
         },
+        enableAnalytics: true,
       },
       'ui:errorMessages': {
         required: errorMessages.informalConferenceContactChoice,

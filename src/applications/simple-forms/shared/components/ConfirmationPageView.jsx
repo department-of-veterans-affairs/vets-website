@@ -7,10 +7,13 @@ import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import GetFormHelp from './GetFormHelp';
 
 export const ConfirmationPageView = ({
+  formType = 'application',
+  submitterHeader = 'Applicant',
   submitterName,
   submitDate,
   confirmationNumber,
   content,
+  childContent = null,
 }) => {
   const alertRef = useRef(null);
 
@@ -42,10 +45,10 @@ export const ConfirmationPageView = ({
         <p>{nextStepsText}</p>
       </va-alert>
       <div className="inset">
-        <h3 className="vads-u-margin-top--0">Your application information</h3>
+        <h3 className="vads-u-margin-top--0">Your {formType} information</h3>
         {first && last ? (
           <>
-            <h4>Applicant</h4>
+            <h4>{submitterHeader}</h4>
             <p>
               {first} {middle ? `${middle} ` : ''}
               {last}
@@ -78,6 +81,7 @@ export const ConfirmationPageView = ({
           Print this page
         </button>
       </div>
+      {childContent || null}
       <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">
         Go back to VA.gov
       </a>

@@ -2,9 +2,9 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
-import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/exports';
 import { createAppointment } from '../../services/appointment';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
@@ -26,11 +26,7 @@ import {
   getTypeOfCareFacilities,
   getCCEType,
 } from './selectors';
-import {
-  submitRequest,
-  submitAppointment,
-  getCommunityCare,
-} from '../../services/var';
+import { submitRequest, getCommunityCare } from '../../services/var';
 import {
   getLocation,
   getSiteIdFromFacilityId,
@@ -52,7 +48,6 @@ import {
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
-  transformFormToAppointment,
 } from './helpers/formSubmitTransformers';
 import {
   transformFormToVAOSAppointment,
@@ -234,18 +229,14 @@ export function startRequestAppointmentFlow(isCommunityCare) {
 export function fetchFacilityDetails(facilityId) {
   let facilityDetails;
 
-  return async (dispatch, getState) => {
+  return async dispatch => {
     dispatch({
       type: FORM_FETCH_FACILITY_DETAILS,
     });
-    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-      getState(),
-    );
 
     try {
       facilityDetails = await getLocation({
         facilityId,
-        useV2: featureFacilitiesServiceV2,
       });
     } catch (error) {
       facilityDetails = null;
@@ -601,11 +592,9 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
         const fetchedSlots = await getSlots({
           siteId,
-          typeOfCareId: data?.typeOfCareId,
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
-          useV2: featureVAOSServiceVAAppointments,
         });
         const tomorrow = moment()
           .add(1, 'day')
@@ -709,7 +698,6 @@ export function checkCommunityCareEligibility() {
       });
       const ccEnabledSystems = await fetchCommunityCareSupportedSites({
         locations: parentFacilities,
-        useV2: featureFacilitiesServiceV2,
       });
 
       dispatch({
@@ -788,15 +776,10 @@ export function submitAppointmentOrRequest(history) {
 
       try {
         let appointment = null;
-        if (featureVAOSServiceVAAppointments) {
-          appointment = await createAppointment({
-            appointment: transformFormToVAOSAppointment(getState()),
-            useAcheron: featureAcheronVAOSServiceRequests,
-          });
-        } else {
-          const appointmentBody = transformFormToAppointment(getState());
-          await submitAppointment(appointmentBody);
-        }
+        appointment = await createAppointment({
+          appointment: transformFormToVAOSAppointment(getState()),
+          useAcheron: featureAcheronVAOSServiceRequests,
+        });
 
         dispatch({
           type: FORM_SUBMIT_SUCCEEDED,
@@ -885,10 +868,7 @@ export function submitAppointmentOrRequest(history) {
           requestBody = transformFormToVAOSCCRequest(getState());
           requestData = await createAppointment({ appointment: requestBody });
         } else if (featureVAOSServiceRequests) {
-          requestBody = transformFormToVAOSVARequest(
-            getState(),
-            featureAcheronVAOSServiceRequests,
-          );
+          requestBody = transformFormToVAOSVARequest(getState());
           requestData = await createAppointment({
             appointment: requestBody,
             useAcheron: featureAcheronVAOSServiceRequests,

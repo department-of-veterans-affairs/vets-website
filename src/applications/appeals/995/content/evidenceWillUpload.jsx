@@ -1,6 +1,6 @@
 import React from 'react';
 
-const evidenceWillUploadTitle =
+export const evidenceWillUploadTitle =
   'Do you want to upload your records or other documents to support your claim?';
 
 export const evidenceWillUploadHeader = (

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { Element } from 'react-scroll';
 
 import {
   focusElement,
@@ -314,7 +313,6 @@ const ContactInfo = ({
 
   return (
     <div className="vads-u-margin-y--2">
-      <Element name="topScrollElement" />
       <form onSubmit={handlers.onSubmit}>
         <MainHeader
           id="confirmContactInformationHeader"

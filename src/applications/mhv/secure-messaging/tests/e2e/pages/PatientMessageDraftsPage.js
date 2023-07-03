@@ -189,6 +189,24 @@ class PatientMessageDraftsPage {
     cy.wait('@deletedDraftResponse');
   };
 
+  confirmDeleteReplyDraftWithEnterKey = draftMessage => {
+    cy.log(`delete message id = ${draftMessage.data.attributes.messageId}`);
+
+    cy.intercept(
+      'DELETE',
+      `/my_health/v1/messaging/messages/${
+        draftMessage.data.attributes.messageId
+      }`,
+      { statuscode: 204 },
+    ).as('deletedDraftResponse');
+
+    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
+    cy.tabToElement('[data-testid="delete-draft-modal"]').realPress(['Enter']);
+    cy.wait('@deletedDraftResponse')
+      .its('request.url')
+      .should('include', `${draftMessage.data.attributes.messageId}`);
+  };
+
   getMessageSubjectField = () => {
     return cy
       .get('[data-testid="message-subject-field"]')
@@ -211,7 +229,7 @@ class PatientMessageDraftsPage {
   };
 
   openAdvancedSearch = () => {
-    cy.get('#first').click();
+    cy.get('#additional-filter-accordion').click();
   };
 
   selectAdvancedSearchCategory = () => {
@@ -223,5 +241,51 @@ class PatientMessageDraftsPage {
   submitSearchButton = () => {
     cy.get('[data-testid="filter-messages-button"]').click();
   };
+
+  selectRecipientName = recipientName => {
+    cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
+      .find('select')
+      .select(recipientName);
+  };
+
+  selectCategory = category => {
+    cy.get('[data-testid="compose-category-radio-button"]')
+      .shadow()
+      .contains(category)
+      .click();
+  };
+
+  addMessageSubject = subject => {
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('#inputField')
+      .type(subject);
+  };
+
+  addMessageBody = text => {
+    cy.get('#compose-message-body')
+      .shadow()
+      .find('#textarea')
+      .type(text);
+  };
+
+  saveDraftByKeyboard = () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/message_drafts',
+      mockDraftResponse,
+    ).as('draft_message');
+    cy.tabToElement('#save-draft-button');
+    cy.realPress('Enter');
+    cy.wait('@draft_message').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
+  };
+
+  verifyFocusOnConfirmationMessage = () => {
+    cy.get('.last-save-time').should('have.focus');
+  };
 }
+
 export default PatientMessageDraftsPage;

@@ -41,7 +41,7 @@ export default {
     },
     [providerFacilityFields.parentObject]: {
       'ui:options': {
-        itemName: 'treatment record',
+        itemName: 'Treatment record',
         viewField: RecordField,
         keepInPageOnReview: true,
         useDlWrap: true,
@@ -49,6 +49,9 @@ export default {
         confirmRemove: true,
         confirmRemoveDescription:
           'This will remove the facility and all of the treatment records associated from your authorization request.',
+        itemAriaLabel: formData =>
+          `${formData[providerFacilityFields.providerFacilityName]}` ||
+          'facility',
       },
       items: {
         'ui:options': {

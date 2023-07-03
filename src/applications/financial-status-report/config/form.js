@@ -54,6 +54,8 @@ import {
 } from '../components/contactInfo/EditContactInfo';
 import DependentAges from '../components/DependentAges';
 import DependentAgesReview from '../components/DependentAgesReview';
+import EmploymentWorkDates from '../components/EmploymentWorkDates';
+import SpouseEmploymentWorkDates from '../components/SpouseEmploymentWorkDates';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -254,6 +256,18 @@ const formConfig = {
           CustomPage: EnhancedEmploymentRecord,
           CustomPageReview: null,
         },
+        employmentWorkDates: {
+          path: 'employment-work-dates',
+          title: 'Employment',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.vetIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: EmploymentWorkDates,
+          CustomPageReview: null,
+        },
         grossMonthlyIncome: {
           path: 'gross-monthly-income',
           title: 'Gross monthly income',
@@ -338,6 +352,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           depends: () => false, // only accessible from benefits page
+          returnUrl: 'your-benefits',
         },
         socialSecurity: {
           path: 'social-security',
@@ -447,6 +462,18 @@ const formConfig = {
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: EnhancedSpouseEmploymentRecord,
+          CustomPageReview: null,
+        },
+        spouseEmploymentWorkDates: {
+          path: 'spouse-employment-work-dates',
+          title: 'Employment',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: formData =>
+            formData.questions.spouseIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: SpouseEmploymentWorkDates,
           CustomPageReview: null,
         },
         enhancedSpouseGrossMonthlyIncome: {
@@ -790,7 +817,7 @@ const formConfig = {
           depends: formData =>
             formData.questions.hasRecreationalVehicle &&
             formData['view:combinedFinancialStatusReport'],
-          editModeOnReviewPage: true,
+          editModeOnReviewPage: false,
         },
         recreationalVehicleRecordsListLoop: {
           path: 'recreational-vehicle-records',

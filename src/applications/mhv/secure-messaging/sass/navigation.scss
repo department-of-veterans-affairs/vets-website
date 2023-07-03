@@ -1,15 +1,19 @@
 .sidebar-navigation {
   height: 600px;
-  width: 232px;
+  width: auto;
+  max-width: 80%;
   display: flex;
   flex-direction: column;
   list-style-type: none;
   margin: 0px;
   padding: 0px;
+  @media (min-width: $medium-screen) {
+    min-width: 230px;
+  }
+
   .sidebar-navigation-header {
     display: flex;
     flex-direction: row;
-    margin-left: 0px;
     height: 54px;
     i.fa-medkit {
       color: $color-white;
@@ -96,13 +100,11 @@
   }
 }
 @media (max-width: $medium-screen) {
-  .va-btn-sidebarnav-trigger {
+  .button-wrapper {
+    position: static !important;
     z-index: 0;
-    .button-wrapper {
-      position: static;
-      padding: 0px;
-    }
   }
+
   .sidebar-navigation {
     padding: 0px;
     width: 264px;
@@ -119,14 +121,12 @@
     }
     .sidebar-navigation-header {
       height: 50px;
-      margin-left: 20rem;
       i.fa-medkit {
         padding-bottom: 4px;
       }
     }
     button {
       background-color: $color-gray-lightest;
-      height: 46.64px;
     }
     .fa-times {
       width: 14px;

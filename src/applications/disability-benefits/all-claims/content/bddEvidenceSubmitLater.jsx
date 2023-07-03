@@ -1,12 +1,11 @@
 import React from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { DBQ_URL } from '../constants';
 
 const alertContent = (
   <p className="vads-u-font-size--base">
     You’ll need to submit your completed{' '}
     <a href={DBQ_URL} target="_blank" rel="noreferrer">
-      Separation Health Assessment - Part A Self-Assessment
+      Separation Health Assessment - Part A Self-Assessment (opens in a new tab)
     </a>{' '}
     so we can request your VA exams. You can submit this form on VA.gov after
     you file your BDD claim.
@@ -15,14 +14,12 @@ const alertContent = (
 
 export const BddEvidenceSubmitLater = () => {
   return (
-    !environment.isProduction() && (
-      <va-alert id="submit-evidence-later" status="warning">
-        <h3 slot="headline">
-          Submit your Separation Health Assessment - Part A Self-Assessment as
-          soon as you can
-        </h3>
-        {alertContent}
-      </va-alert>
-    )
+    <va-alert id="submit-evidence-later" status="warning">
+      <h3 slot="headline">
+        Submit your Separation Health Assessment - Part A Self-Assessment as
+        soon as you can
+      </h3>
+      {alertContent}
+    </va-alert>
   );
 };

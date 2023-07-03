@@ -5,6 +5,7 @@ import { payrollDeductionOptions } from '../constants/checkboxSelections';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
 import Checklist from './shared/CheckList';
+import { BASE_EMPLOYMENT_RECORD } from '../constants/index';
 
 const PayrollDeductionChecklist = props => {
   const { goToPath, goBack, onReviewPage, setFormData } = props;
@@ -16,10 +17,18 @@ const PayrollDeductionChecklist = props => {
   const userType = 'veteran';
 
   const index = isEditing ? Number(editIndex) : 0;
-
   const formData = useSelector(state => state.form.data);
-  const employmentRecord =
-    formData.personalData.employmentHistory.veteran.employmentRecords[index];
+
+  const {
+    personalData: {
+      employmentHistory: {
+        newRecord = {},
+        veteran: { employmentRecords = [] },
+      },
+    },
+  } = formData;
+
+  const employmentRecord = isEditing ? employmentRecords[index] : newRecord;
 
   const { employerName } = employmentRecord;
 
@@ -35,7 +44,7 @@ const PayrollDeductionChecklist = props => {
     const { name, checked } = target;
 
     if (checked) {
-      setSelectedDeductions([...selectedDeductions, { name }]);
+      setSelectedDeductions([...selectedDeductions, { name, amount: '' }]);
     } else {
       setSelectedDeductions(
         selectedDeductions.filter(incomeValue => incomeValue.name !== name),
@@ -47,16 +56,14 @@ const PayrollDeductionChecklist = props => {
     e.preventDefault();
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
-      const updatedRecords = formData.personalData.employmentHistory.veteran.employmentRecords.map(
-        (item, arrayIndex) => {
-          return arrayIndex === index
-            ? {
-                ...employmentRecord,
-                deductions: selectedDeductions,
-              }
-            : item;
-        },
-      );
+      const updatedRecords = employmentRecords.map((item, arrayIndex) => {
+        return arrayIndex === index
+          ? {
+              ...employmentRecord,
+              deductions: selectedDeductions,
+            }
+          : item;
+      });
       // deductions: deductions.filter(source => source.name !== value)
       // update form data
       setFormData({
@@ -72,23 +79,36 @@ const PayrollDeductionChecklist = props => {
           },
         },
       });
-    } else {
-      const records = [
-        { ...employmentRecord, deductions: selectedDeductions },
-        ...formData.personalData.employmentHistory.veteran.employmentRecords.slice(
-          1,
-        ),
-      ];
-
+    } else if (selectedDeductions.length > 0) {
       setFormData({
         ...formData,
         personalData: {
           ...formData.personalData,
           employmentHistory: {
             ...formData.personalData.employmentHistory,
+            newRecord: { ...employmentRecord, deductions: selectedDeductions },
+          },
+        },
+      });
+    } else {
+      setFormData({
+        ...formData,
+        personalData: {
+          ...formData.personalData,
+          employmentHistory: {
+            ...formData.personalData.employmentHistory,
+            newRecord: {
+              ...BASE_EMPLOYMENT_RECORD,
+            },
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
-              employmentRecords: records,
+              employmentRecords: [
+                {
+                  ...employmentRecord,
+                  deductions: selectedDeductions,
+                },
+                ...employmentRecords,
+              ],
             },
           },
         },
@@ -104,19 +124,18 @@ const PayrollDeductionChecklist = props => {
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
   const updateButton = <button type="submit">Review update button</button>;
 
+  const title = `Your job at ${employerName}`;
+  const prompt = 'Which of these payroll deductions do you pay for?';
+
   return (
     <form onSubmit={updateFormData}>
-      <fieldset className="vads-u-margin-y--2">
-        <legend className="schemaform-block-title">
-          Your job at {employerName}
-        </legend>
-        <p>Which of these payroll deductions do you pay for?</p>
-        <Checklist
-          options={payrollDeductionOptions}
-          onChange={event => onChange(event)}
-          isBoxChecked={isBoxChecked}
-        />
-      </fieldset>
+      <Checklist
+        title={title}
+        prompt={prompt}
+        options={payrollDeductionOptions}
+        onChange={event => onChange(event)}
+        isBoxChecked={isBoxChecked}
+      />
       {onReviewPage ? updateButton : navButtons}
     </form>
   );

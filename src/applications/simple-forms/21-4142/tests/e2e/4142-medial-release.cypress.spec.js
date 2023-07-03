@@ -110,7 +110,7 @@ const testConfig = createTestConfig(
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-      cy.intercept('POST', '/forms_api/v1/simple_forms', mockSubmit);
+      cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     },
     skip: false,
   },

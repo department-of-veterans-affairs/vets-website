@@ -35,7 +35,7 @@ export default function RequestAppointmentLayout({ appointment }) {
   );
 
   return (
-    <ListItem appointment={appointment} borderTop status="pending">
+    <ListItem appointment={appointment} borderBottom status="pending">
       <AppointmentFlexGrid idClickable={idClickable} link={link}>
         <AppointmentRow className="vads-u-margin-x--1p5 xsmall-screen:vads-u-flex-direction--row">
           <AppointmentColumn

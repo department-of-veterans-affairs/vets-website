@@ -64,23 +64,6 @@ export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
   ).then(parseApiList);
 }
 
-export function getFacilityInfo(facilityId) {
-  return apiRequestWithUrl(
-    `/v1/facilities/va/vha_${getStagingId(facilityId)}`,
-  ).then(parseApiObject);
-}
-
-export function getFacilitiesInfo(facilityIds) {
-  const idList = facilityIds
-    .map(getStagingId)
-    .map(id => `vha_${id}`)
-    .join(',');
-
-  return apiRequestWithUrl(
-    `/v1/facilities/va?ids=${idList}&per_page=${facilityIds.length}`,
-  ).then(parseApiList);
-}
-
 export function getCommunityCareFacilities({
   latitude,
   longitude,
@@ -104,14 +87,6 @@ export function getCommunityCareFacility(id) {
   }).then(parseApiObject);
 }
 
-export function getSitesSupportingVAR(systemIds) {
-  return apiRequestWithUrl(
-    `/vaos/v0/community_care/supported_sites?${systemIds
-      .map(id => `site_codes[]=${id}`)
-      .join('&')}`,
-  ).then(parseApiList);
-}
-
 export function getAvailableSlots(
   facilityId,
   typeOfCareId,
@@ -124,42 +99,12 @@ export function getAvailableSlots(
   ).then(parseApiList);
 }
 
-export function getCancelReasons(systemId) {
-  return apiRequestWithUrl(
-    `/vaos/v0/facilities/${systemId}/cancel_reasons`,
-  ).then(parseApiList);
-}
-
-export function updateAppointment(appt) {
-  return apiRequestWithUrl(`/vaos/v0/appointments/cancel`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(appt),
-  });
-}
-
-export function updateRequest(req) {
-  return apiRequestWithUrl(`/vaos/v0/appointment_requests/${req.id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(req),
-  }).then(parseApiObject);
-}
-
 export function submitRequest(type, request) {
   return apiRequestWithUrl(`/vaos/v0/appointment_requests?type=${type}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(request),
   }).then(parseApiObject);
-}
-
-export function submitAppointment(appointment) {
-  return apiRequestWithUrl('/vaos/v0/appointments', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(appointment),
-  });
 }
 
 export function getRequestEligibilityCriteria(sites) {
