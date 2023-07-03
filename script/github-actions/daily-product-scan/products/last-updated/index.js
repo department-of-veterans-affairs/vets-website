@@ -28,7 +28,6 @@ class LastUpdated {
     if (status === 200) {
       for (let i = 0; i < data.length; i += 1) {
         const { date, name } = data[i].commit.author;
-        console.log('date: ', date);
         // Ignore update to manifest.json files by GitHUb user rjohnson2011 on 5/12/2022
         // eslint-disable-next-line no-continue
         if (this.isManifestJsonUpdate({ date: new Date(date), name })) continue;

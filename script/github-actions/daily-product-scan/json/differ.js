@@ -39,18 +39,16 @@ class Differ {
 
       // check if last_updated has changed
       // only update last_updated when GitHub Actions workflow runs for now
-      if (process.env.MANIFEST_GLOB_PATH) {
-        const currentDate =
-          product.last_updated === ''
-            ? new Date(null)
-            : new Date(product.last_updated);
-        const scannedDate = new Date(scannedProduct.lastUpdated);
+      const currentDate =
+        product.last_updated === ''
+          ? new Date(null)
+          : new Date(product.last_updated);
+      const scannedDate = new Date(scannedProduct.lastUpdated);
 
-        if (scannedDate > currentDate) {
-          // eslint-disable-next-line camelcase
-          updatedProductDirectory[productId].last_updated = scannedDate;
-          this.changeDetected = true;
-        }
+      if (scannedDate > currentDate) {
+        // eslint-disable-next-line camelcase
+        updatedProductDirectory[productId].last_updated = scannedDate;
+        this.changeDetected = true;
       }
 
       // check if hasUnitTests, hasE2eTests has changed
