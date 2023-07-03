@@ -1,87 +1,110 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-class IntroductionPage extends React.Component {
-  componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
-  }
+// const devs = {
+//   eddie: { 'data-info': 'eddie.otero@oddball.io' },
+//   jacob: { 'data-info': 'jacob@docme360.com' },
+//   joe: { 'data-info': 'joe.hall@thoughtworks.com' },
+//   khoa: { 'data-info': 'khoa.nguyen@oddball.io' },
+// };
 
-  render() {
-    const { route } = this.props;
-    const { formConfig, pageList } = route;
+const IntroductionPage = props => {
+  // componentDidMount() {
+  //   // TODO: maybe here??
+  //   focusElement('.va-nav-breadcrumbs-list');
+  //   // apiRequest(`${environment.API_URL}/v0/ask_va/ask_va_static_data`).then((response) => {
+  //   //   console.log(response);
+  //   //   devs = response.data;
+  //   // });
+  // }
+  const { route } = props;
+  const { formConfig, pageList } = route;
 
-    return (
-      <article className="schemaform-intro">
-        <FormTitle title="Ask VA" subtitle="Equal to VA Form XX-230 (Ask VA)" />
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
-        >
-          Please complete the XX-230 form to apply for ask the va test.
-        </SaveInProgressIntro>
-        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow the steps below to apply for ask the va test.
-        </h2>
-        <va-process-list>
-          <li>
-            <h3>Prepare</h3>
-            <h4>To fill out this application, you’ll need your:</h4>
-            <ul>
-              <li>Social Security number (required)</li>
-            </ul>
-            <p>
-              <strong>What if I need help filling out my application?</strong>{' '}
-              An accredited representative, like a Veterans Service Officer
-              (VSO), can help you fill out your claim.{' '}
-              <a href="/disability-benefits/apply/help/index.html">
-                Get help filing your claim
-              </a>
-            </p>
-          </li>
-          <li>
-            <h3>Apply</h3>
-            <p>Complete this ask the va test form.</p>
-            <p>
-              After submitting the form, you’ll get a confirmation message. You
-              can print this for your records.
-            </p>
-          </li>
-          <li>
-            <h3>VA Review</h3>
-            <p>
-              We process claims within a week. If more than a week has passed
-              since you submitted your application and you haven’t heard back,
-              please don’t apply again. Call us at.
-            </p>
-          </li>
-          <li>
-            <h3>Decision</h3>
-            <p>
-              Once we’ve processed your claim, you’ll get a notice in the mail
-              with our decision.
-            </p>
-          </li>
-        </va-process-list>
-        <SaveInProgressIntro
-          buttonOnly
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
-        />
-        <p />
-        <OMBInfo resBurden={30} ombNumber="XX3344" expDate="12/31/24" />
-      </article>
-    );
-  }
-}
+//  const formConfig = formConfigFn();
+
+  useEffect(
+    () => {
+      focusElement('.va-nav-breadcrumbs-list');
+      console.log('props: ', props);
+    },
+    [props],
+  );
+
+  //  return {
+  // // eslint-disable-next-line react/prop-types, prettier/prettier
+  // formConfig.chapters.chapter1.pages.page1.uiSchema.devField['ui:options'].widgetProps = IntroductionPage.devs;
+
+  return (
+    <article className="schemaform-intro">
+      <FormTitle title="Ask VA" subtitle="Equal to VA Form XX-230 (Ask VA)" />
+      <SaveInProgressIntro
+        headingLevel={2}
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
+        pageList={pageList}
+        startText="Start the Application"
+      >
+        Please complete the XX-230 form to apply for ask the va test.
+      </SaveInProgressIntro>
+      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+        Follow the steps below to apply for ask the va test.
+      </h2>
+      <va-process-list>
+        <li>
+          <h3>Prepare</h3>
+          <h4>To fill out this application, you’ll need your:</h4>
+          <ul>
+            <li>Social Security number (required)</li>
+          </ul>
+          <p>
+            <strong>What if I need help filling out my application?</strong> An
+            accredited representative, like a Veterans Service Officer (VSO),
+            can help you fill out your claim.{' '}
+            <a href="/disability-benefits/apply/help/index.html">
+              Get help filing your claim
+            </a>
+          </p>
+        </li>
+        <li>
+          <h3>Apply</h3>
+          <p>Complete this ask the va test form.</p>
+          <p>
+            After submitting the form, you’ll get a confirmation message. You
+            can print this for your records.
+          </p>
+        </li>
+        <li>
+          <h3>VA Review</h3>
+          <p>
+            We process claims within a week. If more than a week has passed
+            since you submitted your application and you haven’t heard back,
+            please don’t apply again. Call us at.
+          </p>
+        </li>
+        <li>
+          <h3>Decision</h3>
+          <p>
+            Once we’ve processed your claim, you’ll get a notice in the mail
+            with our decision.
+          </p>
+        </li>
+      </va-process-list>
+      <SaveInProgressIntro
+        buttonOnly
+        headingLevel={2}
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
+        pageList={pageList}
+        startText="Start the Application"
+      />
+      <p />
+      <OMBInfo resBurden={30} ombNumber="XX3344" expDate="12/31/24" />
+    </article>
+  );
+};
+// }
 
 export default IntroductionPage;
