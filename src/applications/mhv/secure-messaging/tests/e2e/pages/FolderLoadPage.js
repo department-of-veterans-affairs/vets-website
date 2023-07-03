@@ -28,58 +28,34 @@ class FolderLoadPage {
     });
   };
 
-  loadInboxMessages = () => {
+  loadFolderMessages = (folderName, folderNumber, folderResponseIndex) => {
     this.foldersSetup();
-    cy.intercept('GET', '/my_health/v1/messaging/folders/0*', {
-      data: mockFolders.data[0],
+    cy.intercept('GET', `/my_health/v1/messaging/folders/${folderNumber}*`, {
+      data: mockFolders.data[folderResponseIndex],
     }).as('inboxFolderMetaData');
+
+    cy.get(`[data-testid="${folderName}-sidebar"]`).click();
 
     cy.wait('@folders');
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     cy.wait('@inboxMessages');
+  };
+
+  loadInboxMessages = () => {
+    this.loadFolderMessages('inbox', 0, 0);
   };
 
   loadDraftMessages = () => {
-    this.foldersSetup();
-    cy.intercept('GET', '/my_health/v1/messaging/folders/0*', {
-      data: mockFolders.data[1],
-    }).as('inboxFolderMetaData');
-
-    cy.get('[data-testid="drafts-sidebar"]').click();
-
-    cy.wait('@folders');
-    cy.wait('@featureToggle');
-    cy.wait('@mockUser');
-    cy.wait('@inboxMessages');
+    this.loadFolderMessages('drafts', -2, 1);
   };
 
   loadSentMessages = () => {
-    this.foldersSetup();
-    cy.intercept('GET', '/my_health/v1/messaging/folders/0*', {
-      data: mockFolders.data[2],
-    }).as('inboxFolderMetaData');
-
-    cy.get('[data-testid="sent-sidebar"]').click();
-
-    cy.wait('@folders');
-    cy.wait('@featureToggle');
-    cy.wait('@mockUser');
-    cy.wait('@inboxMessages');
+    this.loadFolderMessages('sent', -1, 2);
   };
 
   loadDeletedMessages = () => {
-    this.foldersSetup();
-    cy.intercept('GET', '/my_health/v1/messaging/folders/0*', {
-      data: mockFolders.data[3],
-    }).as('inboxFolderMetaData');
-
-    cy.get('[data-testid="sent-sidebar"]').click();
-
-    cy.wait('@folders');
-    cy.wait('@featureToggle');
-    cy.wait('@mockUser');
-    cy.wait('@inboxMessages');
+    this.loadFolderMessages('trash', -3, 3);
   };
 
   getFolderHeader = text => {
