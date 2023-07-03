@@ -1,4 +1,4 @@
-import mockMessageResponse from '../fixtures/drafts-response.json';
+import mockMessageResponse from '../fixtures/drafts-search-results.json';
 import folderResponse from '../fixtures/folder-response.json';
 
 class PatientBasicSearchPage {
