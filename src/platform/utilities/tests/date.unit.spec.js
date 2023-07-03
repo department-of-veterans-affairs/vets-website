@@ -116,9 +116,9 @@ describe('Helpers unit tests', () => {
       expect(formatDateLong(noon)).to.equal('November 12, 1995');
     });
 
-    const nhdvs = '1865-03-03:00:00.000+0000';
+    const nhdvs = '1865-03-03T12:00:00.000+0000';
 
-    it('should display the date in the short format', () => {
+    it('should display the date in the short format without padding', () => {
       expect(formatDateLong(nhdvs)).to.equal('March 3, 1865');
     });
   });
@@ -154,7 +154,7 @@ describe('Helpers unit tests', () => {
         'November 12, 1995',
       );
       expect(formatDateParsedZoneLong(nhdvsEightAMOffset0)).to.equal(
-        'November 12, 1995',
+        'March 3, 1865',
       );
     });
   });
