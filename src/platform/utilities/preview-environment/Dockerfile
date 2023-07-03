@@ -2,6 +2,7 @@ FROM public.ecr.aws/bitnami/node:14.15.5
 
 # Download VA Certs
 COPY ./src/platform/utilities/preview-environment/import-va-certs.sh .
+RUN chmod +x import-va-certs.sh
 RUN ./import-va-certs.sh
 
 # Copy startup script into place
