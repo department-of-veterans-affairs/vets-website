@@ -63,6 +63,23 @@ const formConfig = {
                 },
               },
             },
+            devField: {
+              'ui:title': 'Dev Select',
+              'ui:widget': 'select',
+              'ui:options': {
+                widgetProps: {
+                  'First option': { 'data-info': 'first_1' },
+                  'Second option': { 'data-info': 'second_2' },
+                },
+                // Only added to the radio when it is selected
+                // a11y requirement: aria-describedby ID's *must* exist on the page;
+                // and we conditionally add content based on the selection
+                selectedProps: {
+                  'First option': { 'aria-describedby': 'some_id_1' },
+                  'Second option': { 'aria-describedby': 'some_id_2' },
+                },
+              },
+            },
             testField: {
               'ui:title': 'My TEST label',
               'ui:validations': [
@@ -101,6 +118,10 @@ const formConfig = {
                 type: 'string',
               },
               myField: {
+                type: 'string',
+                enum: ['First Option', 'Second Option'],
+              },
+              devField: {
                 type: 'string',
                 enum: ['First Option', 'Second Option'],
               },
