@@ -11,8 +11,8 @@ import { validateAge, validateSeparationDate } from '../validations';
 import { getBranches } from '../utils/serviceBranches';
 
 const dateRangeUISchema = dateRangeUI(
-  'Service start date',
-  'Service end date',
+  'Active service start date',
+  'Active service end date',
   'End of service must be after start of service',
 );
 

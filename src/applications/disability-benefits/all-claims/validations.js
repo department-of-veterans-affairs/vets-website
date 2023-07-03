@@ -439,16 +439,23 @@ export const validateSeparationDate = (
 ) => {
   const { isBDD, servicePeriods = [] } = appStateData;
   const branch = servicePeriods[currentIndex]?.serviceBranch || '';
+  // If a reservist is activated, they are considered to be active duty.
+  // Inactive or active reserves may have a future separation date.
+  // Regardless, no separation date should be greater than 180 days.
   const isReserves = reservesList.some(match => branch.includes(match));
   const in90Days = moment().add(90, 'days');
   if (!isBDD && !isReserves && moment(dateString).isSameOrAfter(in90Days)) {
     errors.addError('Your separation date must be in the past');
-  } else if (
-    +isBDD &&
-    !isReserves &&
-    moment(dateString).isAfter(moment().add(180, 'days'))
-  ) {
-    errors.addError('Your separation date must be before 180 days from today');
+  } else if (moment(dateString).isAfter(moment().add(180, 'days'))) {
+    if (+isBDD) {
+      errors.addError(
+        'Your separation date must be before 180 days from today',
+      );
+    } else {
+      errors.addError(
+        'You entered a date more than 180 days from now. If you are wanting to apply for the Benefits Delivery at Discharge program, you will need to wait.',
+      );
+    }
   }
 };
 
