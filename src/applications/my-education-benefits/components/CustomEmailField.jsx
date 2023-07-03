@@ -16,11 +16,13 @@ function CustomEmailField(props) {
   }, []);
 
   function handleChange(event) {
-    props.updateGlobalEmail(event);
-    props.fetchDuplicateContactInfo(
-      [{ value: event, isDupe: '' }],
-      props.duplicatePhone,
-    );
+    if (props?.showMebEnhancements08) {
+      props.updateGlobalEmail(event);
+      props.fetchDuplicateContactInfo(
+        [{ value: event, isDupe: '' }],
+        props.duplicatePhone,
+      );
+    }
   }
 
   return (
@@ -40,6 +42,7 @@ const mapStateToProps = state => ({
   duplicateEmail: state?.data?.duplicateEmail,
   phoneNumber: state?.form?.data?.mobilePhone,
   duplicatePhone: state?.data?.duplicatePhone,
+  showMebEnhancements08: state?.data?.showMebEnhancements08,
 });
 
 const mapDispatchToProps = {
