@@ -204,7 +204,9 @@ IntroductionPage.propTypes = {
   contestableIssues: PropTypes.shape({
     issues: PropTypes.array,
     status: PropTypes.string,
-    error: PropTypes.string,
+    error: PropTypes.shape({
+      errors: PropTypes.array,
+    }),
     legacyCount: PropTypes.number,
     benefitType: PropTypes.string,
   }),

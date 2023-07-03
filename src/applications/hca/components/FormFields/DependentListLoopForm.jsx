@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
@@ -9,22 +9,15 @@ import {
 
 const DependentListLoopForm = props => {
   const { children, data, page, onChange, onSubmit } = props;
+  const { fullName = {} } = data || {};
 
-  // build the uiSchema title attribute based on available form data
-  const currentUISchema = useMemo(
-    () => {
-      const { fullName = {} } = data || {};
-      const name =
-        page.id !== 'basic'
-          ? `${fullName.first} ${fullName.last}`
-          : 'Dependent';
-      return {
-        ...uiSchema[page.id],
-        'ui:title': `${name} - ${page.title}`,
-      };
-    },
-    [page, data],
-  );
+  // build the uiSchema title attribute based on form data & page
+  const nameToDisplay =
+    page.id !== 'basic' ? `${fullName.first} ${fullName.last}` : 'Dependent';
+  const currentUISchema = {
+    ...uiSchema[page.id],
+    'ui:title': page.title.replace(/%s/g, nameToDisplay),
+  };
 
   return (
     <>

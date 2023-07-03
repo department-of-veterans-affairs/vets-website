@@ -16,10 +16,10 @@ import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
+import * as burialBenefits from './pages/burialBenefits';
+import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 
-import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import * as address from '../definitions/address';
 import Footer from '../components/Footer';
 
@@ -28,7 +28,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
 import SubmissionError from '../components/SubmissionError';
-import EligibleBuriedView from '../components/EligibleBuriedView';
 import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 import { validateSponsorDeathDate } from '../validation';
 
@@ -44,7 +43,6 @@ import {
   veteranUI,
   serviceRecordsUI,
   militaryNameUI,
-  getCemeteries,
   contactInfoDescription,
   authorizedAgentDescription,
   veteranRelationshipDescription,
@@ -52,16 +50,14 @@ import {
   childRelationshipDescription,
   otherRelationshipDescription,
   sponsorMilitaryStatusDescription,
-  desiredCemeteryNoteDescription,
   nonRequiredFullNameUI,
+  buriedWSponsorsEligibility,
 } from '../utils/helpers';
 
 const {
   claimant,
   veteran,
   applicant,
-  hasCurrentlyBuried,
-  currentlyBuriedPersons,
   preneedAttachments,
 } = fullSchemaPreNeed.properties.application.properties;
 
@@ -79,12 +75,6 @@ const {
 } = fullSchemaPreNeed.definitions;
 
 const nonRequiredFullName = omit('required', fullName);
-
-function currentlyBuriedPersonsMinItem() {
-  const copy = { ...currentlyBuriedPersons };
-  copy.minItems = 1;
-  return set('items.properties.cemeteryNumber', autosuggest.schema, copy);
-}
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -122,7 +112,7 @@ const formConfig = {
   ),
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  submissionError: !environment.isProduction() ? SubmissionError : undefined,
+  submissionError: SubmissionError,
   defaultDefinitions: {
     fullName,
     ssn,
@@ -577,88 +567,14 @@ const formConfig = {
       pages: {
         burialBenefits: {
           path: 'burial-benefits',
-          uiSchema: {
-            application: {
-              claimant: {
-                desiredCemetery: autosuggest.uiSchema(
-                  'Which VA national cemetery would you prefer to be buried in?',
-                  getCemeteries,
-                  {
-                    'ui:options': {
-                      inputProps: {
-                        'aria-describedby': 'burial-cemetary-note',
-                      },
-                    },
-                  },
-                ),
-                'view:desiredCemeteryNote': {
-                  'ui:description': desiredCemeteryNoteDescription,
-                },
-              },
-              hasCurrentlyBuried: {
-                'ui:widget': 'radio',
-                'ui:options': {
-                  updateSchema: formData => {
-                    let title;
-                    if (isVeteran(formData)) {
-                      /* eslint-disable no-param-reassign */
-                      title =
-                        'Is there anyone currently buried in a VA national cemetery under your eligibility?';
-                    } else {
-                      title =
-                        'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
-                      /* eslint-enable no-param-reassign */
-                    }
-                    return { title };
-                  },
-                  labels: {
-                    1: 'Yes',
-                    2: 'No',
-                    3: 'I don’t know',
-                  },
-                },
-              },
-              currentlyBuriedPersons: {
-                'ui:options': {
-                  viewField: EligibleBuriedView,
-                  expandUnder: 'hasCurrentlyBuried',
-                  expandUnderCondition: '1',
-                },
-                items: {
-                  name: merge({}, fullNameUI, {
-                    'ui:title': 'Name of deceased',
-                  }),
-                  cemeteryNumber: autosuggest.uiSchema(
-                    'VA national cemetery where they’re buried',
-                    getCemeteries,
-                  ),
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              application: {
-                type: 'object',
-                required: ['hasCurrentlyBuried'],
-                properties: {
-                  claimant: {
-                    type: 'object',
-                    properties: {
-                      desiredCemetery: autosuggest.schema,
-                      'view:desiredCemeteryNote': {
-                        type: 'object',
-                        properties: {},
-                      },
-                    },
-                  },
-                  hasCurrentlyBuried,
-                  currentlyBuriedPersons: currentlyBuriedPersonsMinItem(),
-                },
-              },
-            },
-          },
+          uiSchema: burialBenefits.uiSchema,
+          schema: burialBenefits.schema,
+        },
+        currentlyBuriedPersons: {
+          path: 'current-burial-benefits',
+          depends: formData => buriedWSponsorsEligibility(formData),
+          uiSchema: currentlyBuriedPersons.uiSchema,
+          schema: currentlyBuriedPersons.schema,
         },
       },
     },

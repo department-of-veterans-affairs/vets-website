@@ -129,6 +129,10 @@ export function isUnmarriedChild(item) {
   return get('application.claimant.relationshipToVet', item) === '3';
 }
 
+export function buriedWSponsorsEligibility(item) {
+  return get('application.hasCurrentlyBuried', item) === '1';
+}
+
 export function isAuthorizedAgent(item) {
   return (
     get('application.applicant.applicantRelationshipToClaimant', item) ===
@@ -396,7 +400,7 @@ export const serviceRecordsUI = {
   'ui:options': {
     viewField: ServicePeriodView,
     itemName: 'service period',
-    keepInPageOnReview: !environment.isProduction(),
+    keepInPageOnReview: true,
   },
   items: {
     'ui:order': [

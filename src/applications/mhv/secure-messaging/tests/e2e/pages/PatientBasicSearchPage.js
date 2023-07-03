@@ -1,10 +1,10 @@
-import mockMessageResponse from '../fixtures/drafts-response.json';
+import mockMessageResponse from '../fixtures/drafts-search-results.json';
 import folderResponse from '../fixtures/folder-response.json';
 
 class PatientBasicSearchPage {
   // This method clicks the Search messages on the side navigation bar.
   clickSearchMessage = () => {
-    cy.get('[data-testid="search-messages-sidebar"]').click();
+    cy.get('[data-testid="filter-messages-button"]').click();
   };
 
   // This method will access the input field and enters the text that will be used for search.
@@ -25,7 +25,7 @@ class PatientBasicSearchPage {
       }/search`,
       mockMessageResponse,
     ).as('inboxSearchResults');
-    cy.get('.usa-button-primary').click();
+    this.clickSearchMessage();
   };
 
   submitDraftSearch = () => {
@@ -36,7 +36,7 @@ class PatientBasicSearchPage {
       }/search`,
       mockMessageResponse,
     ).as('DraftSearchResults');
-    cy.get('.usa-button-primary').click({ force: true });
+    this.clickSearchMessage();
   };
 
   submitCustomFolderSearch = () => {
@@ -47,7 +47,7 @@ class PatientBasicSearchPage {
       }/search`,
       mockMessageResponse,
     ).as('CustomSearchResults');
-    cy.get('.usa-button-primary').click({ force: true });
+    this.clickSearchMessage();
   };
 
   // This method verifies the highlighted text in the messages returned after clicking the search button.

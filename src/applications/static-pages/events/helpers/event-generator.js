@@ -347,7 +347,10 @@ const createLocationEvents = () => {
 const createActiveEvents = () => {
   return [
     createEvent(
-      now.clone().unix(),
+      now
+        .clone()
+        .subtract(10, 'hour')
+        .unix(),
       now
         .clone()
         .add(4, 'hours')
