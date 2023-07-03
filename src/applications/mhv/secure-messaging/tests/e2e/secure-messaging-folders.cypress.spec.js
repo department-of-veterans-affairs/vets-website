@@ -3,15 +3,15 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import FolderLoadPage from './pages/FolderLoadPage';
 
 describe(manifest.appName, () => {
-  describe.skip('Load Inbox messages', () => {
+  const folderPage = new FolderLoadPage();
+  const site = new SecureMessagingSite();
+  describe('Load Inbox messages', () => {
     before(() => {
-      const site = new SecureMessagingSite();
-      const inboxPage = new FolderLoadPage();
       site.login();
-      inboxPage.loadInboxMessages();
+      folderPage.loadInboxMessages();
     });
     it('Check the header', () => {
-      cy.get('[data-testid="folder-header"]').should('have.text', 'Inbox');
+      folderPage.getFolderHeader('Inbox');
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {
@@ -22,15 +22,13 @@ describe(manifest.appName, () => {
       });
     });
   });
-  describe.skip('Load Draft messages', () => {
+  describe('Load Draft messages', () => {
     before(() => {
-      const site = new SecureMessagingSite();
-      const inboxPage = new FolderLoadPage();
       site.login();
-      inboxPage.loadDraftMessages();
+      folderPage.loadDraftMessages();
     });
     it('Check the header', () => {
-      cy.get('[data-testid="folder-header"]').should('have.text', 'Drafts');
+      folderPage.getFolderHeader('Drafts');
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {
@@ -41,18 +39,13 @@ describe(manifest.appName, () => {
       });
     });
   });
-  describe.skip('Load Sent messages', () => {
+  describe('Load Sent messages', () => {
     before(() => {
-      const site = new SecureMessagingSite();
-      const inboxPage = new FolderLoadPage();
       site.login();
-      inboxPage.loadSentMessages();
+      folderPage.loadSentMessages();
     });
     it('Check the header', () => {
-      cy.get('[data-testid="folder-header"]').should(
-        'have.text',
-        'Sent messages',
-      );
+      folderPage.getFolderHeader('Sent messages');
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {
@@ -65,13 +58,11 @@ describe(manifest.appName, () => {
   });
   describe('Load Trash messages', () => {
     before(() => {
-      const site = new SecureMessagingSite();
-      const inboxPage = new FolderLoadPage();
       site.login();
-      inboxPage.loadDeletedMessages();
+      folderPage.loadDeletedMessages();
     });
     it('Check the header', () => {
-      cy.get('[data-testid="folder-header"]').should('have.text', 'Trash');
+      folderPage.getFolderHeader('Trash');
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {

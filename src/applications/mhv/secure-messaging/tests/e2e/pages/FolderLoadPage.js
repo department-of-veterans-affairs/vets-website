@@ -134,6 +134,10 @@ class FolderLoadPage {
     cy.wait('@mockUser');
     cy.wait('@inboxMessages');
   };
+
+  getFolderHeader = text => {
+    cy.get('[data-testid="folder-header"]').should('have.text', `${text}`);
+  };
 }
 
 export default FolderLoadPage;
