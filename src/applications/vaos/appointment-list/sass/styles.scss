@@ -257,3 +257,28 @@ div[id^="vaos-appts__detail-"] {
 .fa-blank {
   margin-right: 0 !important;
 }
+
+.tertiary-button{
+  text-decoration: none;
+  background-color: transparent;
+  color: $color-primary;
+  border: 0;
+  text-decoration: none;
+  padding: 1rem !important;
+  margin: 0em !important;
+
+  &:hover,
+    &:active {
+      color: $color-primary-darker;
+      background: $color-gray-cool-light;
+    }
+    &:focus {background: $color-gray-cool-light}
+
+    &:focus,
+    &:active {
+      outline: 2px solid $color-gold;
+      outline-offset: 2px;
+    }
+
+  }
+
