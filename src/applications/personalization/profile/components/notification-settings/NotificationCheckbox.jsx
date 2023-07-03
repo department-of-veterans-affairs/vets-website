@@ -13,6 +13,7 @@ export const NotificationCheckbox = ({
   loadingMessage,
   successMessage,
   errorMessage,
+  disabled,
 }) => {
   const id = uniqueId('notification-checkbox-');
   const label = `Notify me by ${NOTIFICATION_CHANNEL_LABELS[channelType]}`;
@@ -71,10 +72,7 @@ export const NotificationCheckbox = ({
         classes="rb-input-message-success"
         alert
       >
-        <i
-          className="fas fa-check-circle vads-u-margin-right--1"
-          aria-hidden="true"
-        />{' '}
+        <i className="fas fa-check vads-u-margin-right--1" aria-hidden="true" />{' '}
         <span className="sr-only">Success</span> {successMessage}
       </NotificationStatusMessage>
     );
@@ -91,6 +89,8 @@ export const NotificationCheckbox = ({
           label={label}
           onVaChange={handleChange}
           data-testid={`checkbox-${channelId}`}
+          uswds
+          disabled={disabled}
         />
       )}
     </div>
@@ -101,6 +101,7 @@ NotificationCheckbox.propTypes = {
   channelId: PropTypes.string.isRequired,
   channelType: PropTypes.number.isRequired,
   onValueChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
   errorMessage: PropTypes.string,
   isOptedIn: PropTypes.bool,
   loadingMessage: PropTypes.string,

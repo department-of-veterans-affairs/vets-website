@@ -5,6 +5,7 @@ import {
   IL_UPDATE_RESULTS,
   IL_UPDATE_YEAR,
   IL_UPDATE_ZIP,
+  IL_ZIP_VAL_ERROR,
 } from '../constants';
 
 export const updateDependents = value => {
@@ -45,6 +46,13 @@ export const updateEditMode = value => {
 export const updateResults = value => {
   return {
     type: IL_UPDATE_RESULTS,
+    payload: value,
+  };
+};
+
+export const updateZipValidationServiceError = value => {
+  return {
+    type: IL_ZIP_VAL_ERROR,
     payload: value,
   };
 };

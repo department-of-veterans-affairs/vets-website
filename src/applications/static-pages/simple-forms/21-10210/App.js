@@ -20,27 +20,11 @@ const App = ({ formEnabled }) => {
         >
           Submit a lay witness statement online to support a claim
         </a>
-        <a
-          className="vads-c-action-link--green"
-          href="/find-forms/about-form-21-10210/"
-        >
-          Get VA Form 21-10210 to download
-        </a>
       </>
     );
   }
 
-  return (
-    <>
-      <p>You can submit this form by mail.</p>
-      <a
-        className="vads-c-action-link--green"
-        href="/find-forms/about-form-21-10210/"
-      >
-        Get VA Form 21-10210 to download
-      </a>
-    </>
-  );
+  return <p>You can submit this form by mail.</p>;
 };
 
 App.propTypes = {
