@@ -5,7 +5,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 import { scrollToTop } from '../utilities/scroll-to-top';
 import { ROUTES } from '../constants';
@@ -33,7 +33,7 @@ const ZipCodePage = ({
   };
 
   useEffect(() => {
-    focusElement('h1');
+    waitForRenderThenFocus('h1');
     scrollToTop();
   }, []);
 
