@@ -66,10 +66,8 @@ async function main({ octokit }) {
   testTypes.checkExistance();
 
   // only update last_updated when GitHub Actions workflow runs for now
-  if (productDirectory) {
-    const lastUpdated = new LastUpdated({ products: products.all });
-    lastUpdated.setLastUpdated();
-  }
+  const lastUpdated = new LastUpdated({ products: products.all });
+  lastUpdated.setLastUpdated();
 
   // Check for automatically updated field values
   const differ = new Differ();
