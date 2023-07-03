@@ -25,12 +25,6 @@ export function getConfirmedAppointment(id, type) {
   );
 }
 
-export function getParentFacilities(systemIds) {
-  const idList = systemIds.map(id => `facility_codes[]=${id}`).join('&');
-
-  return apiRequestWithUrl(`/vaos/v0/facilities?${idList}`).then(parseApiList);
-}
-
 export function getCommunityCare(typeOfCare) {
   return apiRequestWithUrl(
     `/vaos/v0/community_care/eligibility/${typeOfCare}`,

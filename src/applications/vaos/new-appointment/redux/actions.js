@@ -675,7 +675,6 @@ export function checkCommunityCareEligibility() {
   return async (dispatch, getState) => {
     const state = getState();
     const communityCareEnabled = selectFeatureCommunityCare(state);
-    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(state);
     const useV2 = selectFeatureVAOSServiceCCAppointments(state);
 
     if (!communityCareEnabled) {
@@ -687,7 +686,6 @@ export function checkCommunityCareEligibility() {
       const siteIds = selectSystemIds(state);
       const parentFacilities = await fetchParentLocations({
         siteIds,
-        useV2: featureFacilitiesServiceV2,
       });
       const ccEnabledSystems = await fetchCommunityCareSupportedSites({
         locations: parentFacilities,
