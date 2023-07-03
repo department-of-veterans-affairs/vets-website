@@ -51,7 +51,7 @@ NotificationCenter.propTypes = {
       type: PropTypes.string.isRequired,
       attributes: PropTypes.shape({
         createdAt: PropTypes.string.isRequired,
-        dismissed: PropTypes.bool.isRequired,
+        dismissed: PropTypes.bool,
         templateId: PropTypes.string.isRequired,
         updatedAt: PropTypes.string,
         vaProfileId: PropTypes.string.isRequired,

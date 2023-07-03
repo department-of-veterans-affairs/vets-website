@@ -38,7 +38,7 @@ DebtNotification.propTypes = {
     type: PropTypes.string.isRequired,
     attributes: PropTypes.shape({
       createdAt: PropTypes.string.isRequired,
-      dismissed: PropTypes.bool.isRequired,
+      dismissed: PropTypes.bool,
       templateId: PropTypes.string.isRequired,
       vaProfileId: PropTypes.string.isRequired,
     }),

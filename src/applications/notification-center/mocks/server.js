@@ -7,7 +7,6 @@ const notifications = require('./notifications');
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
     myVaUseExperimental: true,
-    showMyVADashboardV2: true,
   }),
   'GET /v0/user': user.simpleUser,
   'GET /v0/onsite_notifications': notifications.hasMultiple,
