@@ -132,5 +132,10 @@
     "appName": "After Visit Summary",
     "rootUrl": "/my-health/medical-records/care-notes/avs",
     "entryName": "avs"
+  },
+  {
+    "appName": "Notification Center",
+    "rootUrl": "/notification-center",
+    "entryName": "notification-center"
   }
 ]
