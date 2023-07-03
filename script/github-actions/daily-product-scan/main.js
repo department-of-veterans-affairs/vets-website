@@ -45,9 +45,9 @@ async function main({ octokit }) {
 
   const productPaths = productDirectory.map(product => ({
     // eslint-disable-next-line camelcase
-    product_id: product.product_id,
+    productId: product.product_id,
     // eslint-disable-next-line camelcase
-    path_to_code: product.path_to_code,
+    pathToCode: product.path_to_code,
   }));
 
   products.addProducts({
