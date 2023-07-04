@@ -15,8 +15,8 @@ export const startText = 'Start the Board Appeal request';
 export const unauthStartText = 'Sign in to start your request';
 
 export const savedFormMessages = {
-  notFound: 'Please start over to apply for a board appeal',
-  noAuth: 'Please sign in again to continue your request for a board appeal',
+  notFound: 'Start over to apply for a board appeal',
+  noAuth: 'Sign in again to continue your request for a board appeal',
   // success: '', // always empty?
   // forbidden: '',
 };
@@ -25,7 +25,7 @@ export const saveInProgress = {
   messages: {
     inProgress: 'Your Board Appeal request is in progress',
     expired:
-      'Your saved Board Appeal request has expired. If you want to request a Board Appeal, please start a new request.',
+      'Your saved Board Appeal request has expired. If you want to request a Board Appeal, start a new request.',
     saved: 'Your Board Appeal request has been saved',
   },
 };

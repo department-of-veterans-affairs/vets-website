@@ -1,9 +1,20 @@
+import React from 'react';
+
 export const uiSchema = {
-  'ui:title': 'Your spouse information',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Your spouse information</h3>
+      </legend>
+    </>
+  ),
   questions: {
     spouseHasBenefits: {
       'ui:title': 'Does your spouse get VA benefits?',
       'ui:widget': 'yesNo',
+      'ui:options': {
+        showFieldLabel: 'label',
+      },
       'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Please enter your spouse’s VA benefits information.',

@@ -1,9 +1,23 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ThreadListItem from './ThreadListItem';
+import { threadSortingOptions } from '../../util/constants';
+import ThreadListSort from './ThreadListSort';
 
 const ThreadsList = props => {
-  const { folder, threadList, keyword, pageNum, threadsPerPage } = props;
+  const {
+    folder,
+    threadList,
+    keyword,
+    pageNum,
+    paginationCallback,
+    sortCallback,
+    sortOrder,
+    threadsPerPage,
+  } = props;
+
+  const MAX_PAGE_LIST_LENGTH = 5;
 
   const [displayNums, setDisplayNums] = useState({
     from: 0,
@@ -25,7 +39,7 @@ const ThreadsList = props => {
     () => {
       // get display numbers
       if (fromToNums && totalThreads) {
-        const label = `Displaying ${fromToNums.from} - ${
+        const label = `Showing ${fromToNums.from} to ${
           fromToNums.to
         } of ${totalThreads} conversations`;
         setDisplayNums({ ...fromToNums, label });
@@ -35,24 +49,40 @@ const ThreadsList = props => {
   );
 
   return (
-    <div className="thread-list vads-l-row vads-u-flex-direction--column">
-      <div
-        aria-label={displayNums.label.replace('-', 'to')}
-        data-testid="displaying-number-of-threads"
-        className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
-      >
-        {displayNums.label}
-      </div>
-      {threadList?.length > 0 &&
-        threadList.map((thread, idx) => (
-          <ThreadListItem
-            key={`${thread.messageId}+${idx}`}
-            keyword={keyword}
-            activeFolder={folder}
-            thread={thread}
+    <>
+      <ThreadListSort sortOrder={sortOrder} sortCallback={sortCallback} />
+      <div className="thread-list vads-l-row vads-u-flex-direction--column">
+        <div
+          role="status"
+          data-testid="displaying-number-of-threads"
+          className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
+        >
+          {displayNums.label}
+          <span className="sr-only">
+            {` sorted by ${threadSortingOptions[sortOrder].label}`}
+          </span>
+        </div>
+        {threadList?.length > 0 &&
+          threadList.map((thread, idx) => (
+            <ThreadListItem
+              key={`${thread.messageId}+${idx}`}
+              keyword={keyword}
+              activeFolder={folder}
+              thread={thread}
+            />
+          ))}
+
+        {threadList?.length > 1 && (
+          <VaPagination
+            onPageSelect={e => paginationCallback(e.detail.page)}
+            page={pageNum}
+            pages={Math.ceil(threadList[0]?.threadPageSize / threadsPerPage)}
+            maxPageListLength={MAX_PAGE_LIST_LENGTH}
+            showLastPage
           />
-        ))}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 
@@ -62,6 +92,9 @@ ThreadsList.propTypes = {
   folder: PropTypes.object,
   keyword: PropTypes.string,
   pageNum: PropTypes.number,
+  paginationCallback: PropTypes.func,
+  sortCallback: PropTypes.func,
+  sortOrder: PropTypes.string,
   threadList: PropTypes.array,
   threadsPerPage: PropTypes.number,
 };

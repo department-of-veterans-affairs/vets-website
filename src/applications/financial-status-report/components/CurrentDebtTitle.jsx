@@ -11,15 +11,15 @@ export const CurrentDebtTitle = ({ formContext }) => {
   const { deductionCode, benefitType } = currentDebt;
 
   return (
-    <div>
-      <h3 className="vads-u-margin-top--neg1p5">
+    <legend className="schemaform-block-title">
+      <h3 className="vads-u-margin--0">
         Debt {parseInt(formContext.pagePerItemIndex, 10) + 1} of{' '}
         {selectedDebtsAndCopays.length}:{' '}
         {currentDebt.debtType === 'COPAY'
           ? `Copay debt for ${currentDebt.station.facilityName}`
           : deductionCodes[deductionCode] || benefitType}
       </h3>{' '}
-    </div>
+    </legend>
   );
 };
 

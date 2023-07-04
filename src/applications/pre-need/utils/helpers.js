@@ -129,6 +129,10 @@ export function isUnmarriedChild(item) {
   return get('application.claimant.relationshipToVet', item) === '3';
 }
 
+export function buriedWSponsorsEligibility(item) {
+  return get('application.hasCurrentlyBuried', item) === '1';
+}
+
 export function isAuthorizedAgent(item) {
   return (
     get('application.applicant.applicantRelationshipToClaimant', item) ===
@@ -348,7 +352,9 @@ export const veteranUI = {
       'ui:title': 'Black or African American',
     },
     isNativeHawaiianOrOtherPacificIslander: {
-      'ui:title': 'Native Hawaiian or Other Pacific Islander',
+      'ui:title': !environment.isProduction()
+        ? 'Native Hawaiian or other Pacific Islander'
+        : 'Native Hawaiian or Other Pacific Islander',
     },
     isAsian: {
       'ui:title': 'Asian',
@@ -394,7 +400,7 @@ export const serviceRecordsUI = {
   'ui:options': {
     viewField: ServicePeriodView,
     itemName: 'service period',
-    keepInPageOnReview: !environment.isProduction(),
+    keepInPageOnReview: true,
   },
   items: {
     'ui:order': [

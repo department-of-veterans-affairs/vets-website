@@ -1,12 +1,15 @@
 import {
+  boardReviewTitle,
   boardReviewContent,
   boardReviewErrorMessage,
+  boardReviewReviewField,
 } from '../content/boardReview';
 
 const boardReview = {
   uiSchema: {
     boardReviewOption: {
-      'ui:title': 'Please select a Board review option:',
+      'ui:title': boardReviewTitle,
+      'ui:reviewField': boardReviewReviewField,
       'ui:widget': 'radio',
       'ui:options': {
         labels: boardReviewContent,

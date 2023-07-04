@@ -7,6 +7,7 @@ import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-tog
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import {
   fillAddressWebComponentPattern,
+  fillDateWebComponentPattern,
   fillFullNameWebComponentPattern,
   fillTextAreaWebComponent,
   fillTextWebComponent,
@@ -41,9 +42,9 @@ const testConfig = createTestConfig(
             cy.fillPage();
 
             // web components
-            fillTextWebComponent('requiredNew', data?.requiredNew);
-            fillTextWebComponent('requiredNewV3', data?.requiredNewV3);
-            fillTextAreaWebComponent('textAreaNewV3', data?.textAreaNewV3);
+            fillTextWebComponent('wcOldRequired', data?.wcOldRequired);
+            fillTextWebComponent('wcv3RequiredNew', data?.wcv3RequiredNew);
+            fillTextAreaWebComponent('wcv3TextAreaNew', data?.wcv3TextAreaNew);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -59,12 +60,12 @@ const testConfig = createTestConfig(
 
             // web components
             fillFullNameWebComponentPattern(
-              'spouseFullNameNew',
-              data.spouseFullNameNew,
+              'wcOldSpouseFullName',
+              data.wcOldSpouseFullName,
             );
             fillFullNameWebComponentPattern(
-              'spouseFullNameNewV3',
-              data.spouseFullNameNewV3,
+              'wcv3SpouseFullNameNew',
+              data.wcv3SpouseFullNameNew,
             );
 
             cy.axeCheck();
@@ -94,7 +95,7 @@ const testConfig = createTestConfig(
             }
 
             // web components
-            fillAddressWebComponentPattern('addressNew', data.addressNew);
+            fillAddressWebComponentPattern('wcv3Address', data.wcv3Address);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -109,8 +110,8 @@ const testConfig = createTestConfig(
             cy.fillPage();
 
             // web components
-            fillTextWebComponent('ssnNew', data.ssnNew);
-            fillTextWebComponent('ssnNewV3', data.ssnNewV3);
+            fillTextWebComponent('wcOldSsn', data.wcOldSsn);
+            fillTextWebComponent('wcv3SsnNew', data.wcv3SsnNew);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -125,21 +126,27 @@ const testConfig = createTestConfig(
             cy.fillPage();
 
             // web components
-            fillTextWebComponent('wcSimpleText', data.wcSimpleText);
-            selectCheckboxWebComponent(
-              'wcRequiredCheckbox',
-              data.wcRequiredCheckbox,
+            fillTextWebComponent(
+              'wcOldCheckSimpleText',
+              data.wcOldCheckSimpleText,
             );
-            fillTextWebComponent('wcSsn', data.wcSsn);
-            fillTextWebComponent('wcV3SimpleText', data.wcV3SimpleText);
+            selectCheckboxWebComponent(
+              'wcOldCheckRequiredCheckbox',
+              data.wcOldCheckRequiredCheckbox,
+            );
+            fillTextWebComponent('wcOldCheckSsn', data.wcOldCheckSsn);
+            fillTextWebComponent(
+              'wcV3CheckSimpleText',
+              data.wcV3CheckSimpleText,
+            );
 
             // bug: if can't check checkbox, then click label.
-            cy.get(`va-checkbox[name="root_wcV3RequiredCheckbox"]`)
+            cy.get(`va-checkbox[name="root_wcV3CheckRequiredCheckbox"]`)
               .shadow()
               .find('label')
               .click();
 
-            fillTextWebComponent('wcV3Ssn', data.wcV3Ssn);
+            fillTextWebComponent('wcV3CheckSsn', data.wcV3CheckSsn);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -154,9 +161,15 @@ const testConfig = createTestConfig(
             cy.fillPage();
 
             // web components
-            selectDropdownWebComponent('selectWC', data.selectWC);
-            selectDropdownWebComponent('selectWC2', data.selectWC2);
-            selectDropdownWebComponent('selectWC2V3', data.selectWC2V3);
+            selectDropdownWebComponent(
+              'wcOldSelectFirst',
+              data.wcOldSelectFirst,
+            );
+            selectDropdownWebComponent(
+              'wcOldSelectSecond',
+              data.wcOldSelectSecond,
+            );
+            selectDropdownWebComponent('wcv3Select', data.wcv3Select);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -166,8 +179,14 @@ const testConfig = createTestConfig(
       [pagePaths.date]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(async () => {
-          cy.get('@testData').then(() => {
-            // tested separately - susceptible to bugs
+          cy.get('@testData').then(data => {
+            // widgets
+            cy.fillPage();
+
+            // web components
+            fillDateWebComponentPattern('dateWCV3', data.dateWCV3);
+
+            cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
@@ -181,17 +200,17 @@ const testConfig = createTestConfig(
 
             // web components
             selectRadioWebComponent(
-              'wcVaCompensationType',
-              data.wcVaCompensationType,
+              'wcOldVaCompensationType',
+              data.wcOldVaCompensationType,
             );
             // use underscores to separate sub-property names
             selectYesNoWebComponent(
-              'wcCurrentlyActiveDuty_yes',
-              data.wcCurrentlyActiveDuty.yes,
+              'wcOldCurrentlyActiveDuty_yes',
+              data.wcOldCurrentlyActiveDuty.yes,
             );
             selectRadioWebComponent(
-              'wcVaTileCompensationType',
-              data.wcVaTileCompensationType,
+              'wcOldVaTileCompensationType',
+              data.wcOldVaTileCompensationType,
             );
             selectRadioWebComponent(
               'wcv3VaCompensationType',

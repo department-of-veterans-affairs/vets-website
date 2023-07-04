@@ -19,7 +19,11 @@ export default function vaTextareaFieldMapping(props) {
         ? ''
         : childrenProps.formData,
     onInput: (event, value) => {
-      const newVal = value ?? event.target.value ?? undefined;
+      // redux value or input value
+      let newVal = value || event.target.value;
+      // pattern validation will trigger if you have '',
+      // so set as undefined instead.
+      newVal = newVal === '' ? undefined : newVal;
       childrenProps.onChange(newVal);
     },
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),

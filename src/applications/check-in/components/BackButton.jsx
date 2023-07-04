@@ -40,7 +40,6 @@ const BackButton = props => {
     <>
       <nav
         aria-label={t('breadcrumb')}
-        aria-live="polite"
         className="row check-in-back-button columns"
       >
         <Link onClick={handleClick} to={prevUrl} data-testid="back-button">

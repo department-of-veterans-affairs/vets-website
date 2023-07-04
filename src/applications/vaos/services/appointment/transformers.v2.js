@@ -224,7 +224,7 @@ function getReasonCodeDS(appt, key) {
     if (key === 'comments') {
       data = reasonCode
         .filter(item => item.includes('comments:'))[0]
-        ?.split(':')[1]
+        ?.split('comments:')[1]
         ?.trim();
     }
   }
