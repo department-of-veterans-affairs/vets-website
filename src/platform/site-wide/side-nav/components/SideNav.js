@@ -5,8 +5,8 @@ import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import { find, filter, get, map, orderBy } from 'lodash';
 // Relative
-import NavItem from './NavItem';
 import debounce from 'platform/utilities/data/debounce';
+import NavItem from './NavItem';
 
 class SideNav extends Component {
   static propTypes = {
@@ -148,6 +148,8 @@ class SideNav extends Component {
           onClick={this.toggleUlClass}
           id="sidenav-menu"
           aria-label="In this section menu"
+          aria-controls="va-sidenav-ul-container"
+          aria-expanded={this.state.active}
         >
           <span className="sr-only">View sub-navigation for </span>
           In this section
@@ -160,6 +162,7 @@ class SideNav extends Component {
             'vads-u-margin-top--0',
             'vads-u-padding--0',
           )}
+          aria-hidden={!this.state.active}
         >
           {/* Render all the items recursively. */}
           {renderChildItems(parentMostID, 1)}
