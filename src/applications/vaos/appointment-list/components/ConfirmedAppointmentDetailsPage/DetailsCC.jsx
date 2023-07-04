@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import BackLink from '../../../components/BackLink';
 import FacilityAddress from '../../../components/FacilityAddress';
 import AppointmentDateTime from '../AppointmentDateTime';
-import Breadcrumbs from '../../../components/Breadcrumbs';
+// import Breadcrumbs from '../../../components/Breadcrumbs';
 import CalendarLink from './CalendarLink';
 import StatusAlert from './StatusAlert';
 import TypeHeader from './TypeHeader';
@@ -55,7 +56,7 @@ export default function DetailsCC({
 
   return (
     <>
-      <Breadcrumbs>
+      {/* <Breadcrumbs>
         <a
           href={`/health-care/schedule-view-va-appointments/appointments/cc/${
             appointment.id
@@ -63,8 +64,9 @@ export default function DetailsCC({
         >
           Appointment detail
         </a>
-      </Breadcrumbs>
-      <h1>
+      </Breadcrumbs> */}
+      <BackLink appointment={appointment} />
+      <h1 style={{ marginTop: '2rem' }}>
         <AppointmentDateTime appointment={appointment} />
       </h1>
       <StatusAlert appointment={appointment} />

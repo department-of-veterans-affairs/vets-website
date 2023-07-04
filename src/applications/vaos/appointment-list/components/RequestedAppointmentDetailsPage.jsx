@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
+import BackLink from '../../components/BackLink';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
@@ -15,7 +16,6 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import ListBestTimeToCall from './ListBestTimeToCall';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
 import CancelAppointmentModal from './cancel/CancelAppointmentModal';
-import Breadcrumbs from '../../components/Breadcrumbs';
 import {
   getPatientTelecom,
   getVAAppointmentLocationId,
@@ -135,15 +135,8 @@ export default function RequestedAppointmentDetailsPage() {
 
   return (
     <PageLayout>
-      <Breadcrumbs>
-        <NavLink
-          to={`/health-care/schedule-view-va-appointments/appointments/requests/${id}`}
-        >
-          Request detail
-        </NavLink>
-      </Breadcrumbs>
-
-      <h1>
+      <BackLink appointment={appointment} />
+      <h1 style={{ marginTop: '2rem' }}>
         {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
       </h1>
       <RequestedStatusAlert appointment={appointment} facility={facility} />

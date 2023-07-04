@@ -23,6 +23,9 @@ h1:focus {
   word-break: break-word;
 }
 
+.backLink::before {
+  content: "‹ ";
+}
 .vaos__loading-overlay {
   background: $vaos-loading-overlay;
   content: " ";

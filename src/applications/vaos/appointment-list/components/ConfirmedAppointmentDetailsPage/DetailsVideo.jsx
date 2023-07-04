@@ -6,7 +6,8 @@ import {
 } from '../../../services/appointment';
 import { VIDEO_TYPES } from '../../../utils/constants';
 import AppointmentDateTime from '../AppointmentDateTime';
-import Breadcrumbs from '../../../components/Breadcrumbs';
+import BackLink from '../../../components/BackLink';
+// import Breadcrumbs from '../../../components/Breadcrumbs';
 import CalendarLink from './CalendarLink';
 import StatusAlert from './StatusAlert';
 import TypeHeader from './TypeHeader';
@@ -37,7 +38,7 @@ export default function DetailsVideo({ appointment, facilityData }) {
 
   return (
     <>
-      <Breadcrumbs>
+      {/* <Breadcrumbs>
         <a
           href={`/health-care/schedule-view-va-appointments/appointments/va/${
             appointment.id
@@ -45,9 +46,10 @@ export default function DetailsVideo({ appointment, facilityData }) {
         >
           Appointment detail
         </a>
-      </Breadcrumbs>
+      </Breadcrumbs> */}
+      <BackLink appointment={appointment} />
 
-      <h1>
+      <h1 style={{ marginTop: '2rem' }}>
         <AppointmentDateTime appointment={appointment} />
       </h1>
 

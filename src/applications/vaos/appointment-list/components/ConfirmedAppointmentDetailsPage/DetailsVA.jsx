@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import BackLink from '../../../components/BackLink';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
 import AppointmentDateTime from '../AppointmentDateTime';
-import Breadcrumbs from '../../../components/Breadcrumbs';
+// import Breadcrumbs from '../../../components/Breadcrumbs';
 import CalendarLink from './CalendarLink';
 import CancelLink from './CancelLink';
 import StatusAlert from './StatusAlert';
@@ -21,8 +22,11 @@ export default function DetailsVA({ appointment, facilityData }) {
   const facility = facilityData?.[locationId];
   const isCovid = appointment.vaos.isCOVIDVaccine;
   const header = formatHeader(appointment);
-  const isPhone = appointment.vaos.isPhoneAppointment;
-  const { isPastAppointment, isCompAndPenAppointment } = appointment.vaos;
+  const {
+    isPastAppointment,
+    isCompAndPenAppointment,
+    isPhoneAppointment,
+  } = appointment.vaos;
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isAppointmentCancellable = appointment.vaos.isCancellable;
 
@@ -67,7 +71,7 @@ export default function DetailsVA({ appointment, facilityData }) {
 
   return (
     <>
-      <Breadcrumbs>
+      {/* <Breadcrumbs>
         <a
           href={`/health-care/schedule-view-va-appointments/appointments/va/${
             appointment.id
@@ -75,8 +79,9 @@ export default function DetailsVA({ appointment, facilityData }) {
         >
           Appointment detail
         </a>
-      </Breadcrumbs>
-      <h1>
+      </Breadcrumbs> */}
+      <BackLink appointment={appointment} />
+      <h1 style={{ marginTop: '2rem' }}>
         <AppointmentDateTime appointment={appointment} />
       </h1>
       <StatusAlert appointment={appointment} facility={facility} />
@@ -89,7 +94,7 @@ export default function DetailsVA({ appointment, facilityData }) {
         facilityId={locationId}
         clinicFriendlyName={appointment.location?.clinicName}
         showCovidPhone={isCovid}
-        isPhone={isPhone}
+        isPhone={isPhoneAppointment}
       />
       <VAInstructions appointment={appointment} />
       <CalendarLink appointment={appointment} facility={facility} />
