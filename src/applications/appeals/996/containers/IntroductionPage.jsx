@@ -127,7 +127,7 @@ export class IntroductionPage extends React.Component {
           </p>
           <va-process-list>
             <li>
-              <h3 className="vads-u-font-size--h4">Prepare</h3>
+              <h3>Prepare</h3>
               <p>To fill out this application, you’ll need your:</p>
               <ul>
                 <li>Primary address</li>
@@ -161,7 +161,7 @@ export class IntroductionPage extends React.Component {
               .
             </li>
             <li>
-              <h3 className="vads-u-font-size--h4">Start your request</h3>
+              <h3>Start your request</h3>
               <p>
                 Complete this Higher-Level Review form. After submitting the
                 form, you’ll get a confirmation message. You can print this for

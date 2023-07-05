@@ -70,9 +70,7 @@ export class IntroductionPage extends React.Component {
         <div className="process schemaform-process">
           <va-process-list>
             <li>
-              <h3 className="vads-u-font-size--h4">
-                Check to be sure you can request a Board Appeal
-              </h3>
+              <h3>Check to be sure you can request a Board Appeal</h3>
               {filingDeadlineContent}
               <p>You can request a Board Appeal for these claim decisions:</p>
               <ul>
@@ -87,7 +85,7 @@ export class IntroductionPage extends React.Component {
               </p>
             </li>
             <li>
-              <h3 className="vads-u-font-size--h4">Gather your information</h3>
+              <h3>Gather your information</h3>
               <p>Here’s what you’ll need to apply:</p>
               <ul>
                 <li>Your mailing address</li>
@@ -99,7 +97,7 @@ export class IntroductionPage extends React.Component {
               </ul>
             </li>
             <li>
-              <h3 className="vads-u-font-size--h4">Start your request</h3>
+              <h3>Start your request</h3>
               <p>
                 We’ll take you through each step of the process. It should take
                 about 30 minutes.
