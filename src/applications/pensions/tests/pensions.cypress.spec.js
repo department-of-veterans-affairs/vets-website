@@ -162,9 +162,7 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.findAllByText(/start/i, { selector: 'button' })
-          .first()
-          .click();
+        cy.contains('Start the pension application').click();
       },
 
       'household/marriage-info': () => {
