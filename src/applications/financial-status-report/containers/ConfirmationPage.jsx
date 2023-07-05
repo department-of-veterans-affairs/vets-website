@@ -59,13 +59,14 @@ const RequestDetailsCard = ({ data, response }) => {
 
   return (
     <div className="inset">
-      <h4 className="vads-u-margin-top--0">
-        Request help for VA debt <span>(Form 5655)</span>
-      </h4>
+      <h2 className="vads-u-margin-top--0 vads-u-font-size-h4">
+        Request help for VA debt{' '}
+        <span className="vads-u-font-weight--normal">(Form 5655)</span>
+      </h2>
       {name && (
-        <span>
+        <p>
           for {name.first} {name.middle} {name.last} {name.suffix}
-        </span>
+        </p>
       )}
       <>
         <p>
