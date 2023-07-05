@@ -1,6 +1,5 @@
 /* eslint-disable class-methods-use-this */
 // const { Octokit } = require('@octokit/core');
-/* eslint-disable no-console */
 
 const GitHubClient = require('../../github-client');
 
@@ -18,7 +17,6 @@ class LastUpdated {
       product.lastUpdated = await this.getLastDateUpdated({
         path: pathToCode,
       });
-      console.log('last updated: ', product.lastUpdated);
     }
   }
 
