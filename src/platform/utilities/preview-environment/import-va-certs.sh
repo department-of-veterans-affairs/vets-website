@@ -3,7 +3,7 @@
 (
     cd /usr/local/share/ca-certificates/
 
-    #curl -LO https://cacerts.digicert.com/DigiCertTLSRSASHA2562020CA1-1.crt.pem
+    curl -LO https://cacerts.digicert.com/DigiCertTLSRSASHA2562020CA1-1.crt.pem
 
     wget \
         --level=1 \
@@ -15,7 +15,7 @@
         --accept="VA*.cer" \
         http://aia.pki.va.gov/PKI/AIA/VA/
 # ${SOURCE_REF}
-    for cert in *.cer
+    for cert in *.pem
     do
         # the aim is to check what the input file/namestring we are processing
         echo "[[ PROCESSING:${cert} ]]"
