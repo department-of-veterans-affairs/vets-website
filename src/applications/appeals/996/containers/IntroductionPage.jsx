@@ -161,26 +161,11 @@ export class IntroductionPage extends React.Component {
               .
             </li>
             <li>
-              <h3 className="vads-u-font-size--h4">Apply</h3>
+              <h3 className="vads-u-font-size--h4">Start your request</h3>
               <p>
                 Complete this Higher-Level Review form. After submitting the
                 form, you’ll get a confirmation message. You can print this for
                 your records.
-              </p>
-            </li>
-            <li>
-              <h3 className="vads-u-font-size--h4">VA Review</h3>
-              <p>
-                Our goal for completing a Higher-Level Review is 125 days. A
-                review might take longer if we need to get records or schedule a
-                new exam to correct an error.
-              </p>
-            </li>
-            <li>
-              <h3 className="vads-u-font-size--h4">Decision</h3>
-              <p>
-                Once we’ve processed your claim, you’ll get a notice in the mail
-                with our decision.
               </p>
             </li>
           </va-process-list>
