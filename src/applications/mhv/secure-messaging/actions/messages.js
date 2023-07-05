@@ -264,7 +264,11 @@ export const sendMessage = (message, attachments) => async dispatch => {
       ),
     );
   } catch (e) {
-    if (e.errors && e.errors[0].code === Constants.Errors.Code.BLOCKED_USER) {
+    if (
+      e.errors &&
+      (e.errors[0].code === Constants.Errors.Code.BLOCKED_USER ||
+        e.errors[0].code === Constants.Errors.code.BLOCKED_USER2)
+    ) {
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_ERROR,
@@ -304,7 +308,11 @@ export const sendReply = (
       ),
     );
   } catch (e) {
-    if (e.errors && e.errors[0].code === Constants.Errors.Code.BLOCKED_USER) {
+    if (
+      e.errors &&
+      (e.errors[0].code === Constants.Errors.Code.BLOCKED_USER ||
+        e.errors[0].code === Constants.Errors.Code.BLOCKED_USER2)
+    ) {
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_ERROR,
@@ -312,7 +320,7 @@ export const sendReply = (
           Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
         ),
       );
-    } else
+    } else {
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_ERROR,
@@ -320,6 +328,7 @@ export const sendReply = (
           Constants.Alerts.Message.SEND_MESSAGE_ERROR,
         ),
       );
+    }
     throw e;
   }
 };

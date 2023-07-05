@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { dateFormat } from '../../medical-records/util/helpers';
 import { getPrescriptionDetails } from '../actions/prescriptions';
 import PrintHeader from './PrintHeader';
+import { setBreadcrumbs } from '../actions/breadcrumbs';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -11,6 +12,27 @@ const PrescriptionDetails = () => {
   );
   const { prescriptionId } = useParams();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (prescription) {
+      dispatch(
+        setBreadcrumbs(
+          [
+            {
+              url: '/my-health/medications/prescriptions/',
+              label: 'Medications',
+            },
+          ],
+          {
+            url: `/my-health/medications/prescriptions/${
+              prescription.prescriptionId
+            }`,
+            label: prescription.prescriptionName,
+          },
+        ),
+      );
+    }
+  });
 
   useEffect(
     () => {
@@ -238,7 +260,7 @@ const PrescriptionDetails = () => {
     );
   };
 
-  return <div className="vads-u-margin-top--3">{content()}</div>;
+  return <div>{content()}</div>;
 };
 
 export default PrescriptionDetails;

@@ -1,8 +1,5 @@
 import environment from 'platform/utilities/environment';
 
-const SERVER_ERROR_REGEX = /^5\d{2}$/;
-const CLIENT_ERROR_REGEX = /^4\d{2}$/;
-
 export const getData = async ({ zipCode, year, dependents }) => {
   const CONTEXT_ROOT = '/income_limits/v1/limitsByZipCode';
   const REQUEST_URL = `${
@@ -24,6 +21,25 @@ export const getData = async ({ zipCode, year, dependents }) => {
   });
 };
 
-export const isServerError = errCode => SERVER_ERROR_REGEX.test(errCode);
+export const validateZip = async zip => {
+  const CONTEXT_ROOT = '/income_limits/v1/validateZipCode';
+  const REQUEST_URL = `${environment.API_URL}${CONTEXT_ROOT}/${zip}`;
+  // For testing locally, use the below REQUEST_URL and comment out the CONTEXT_ROOT and REQUEST_URL above
+  // const REQUEST_URL = `https://api.va.gov/income_limits/v1/validateZipCode/${zip}`;
 
-export const isClientError = errCode => CLIENT_ERROR_REGEX.test(errCode);
+  return new Promise((resolve, reject) => {
+    fetch(REQUEST_URL)
+      .then(response => {
+        if (!response.ok) {
+          return {
+            // eslint-disable-next-line camelcase
+            zip_is_valid: false,
+            status: response.status,
+          };
+        }
+
+        return response?.json();
+      })
+      .then(data => resolve(data), error => reject(error));
+  });
+};

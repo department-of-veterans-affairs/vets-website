@@ -31,13 +31,6 @@ export default {
         'ui:title': 'Are you on active duty now?',
         'ui:widget': 'yesNo',
       },
-      onTerminalLeave: {
-        'ui:title': 'Are you on terminal leave now?',
-        'ui:widget': 'yesNo',
-        'ui:options': {
-          expandUnder: 'yes',
-        },
-      },
     },
     wcTitle: inlineTitleUI('Web component'),
     wcOldVaCompensationType: {
@@ -78,13 +71,6 @@ export default {
           uswds: false,
         },
       },
-      onTerminalLeave: {
-        ...yesNoUI('Are you on terminal leave now?'),
-        'ui:options': {
-          expandUnder: 'yes',
-          uswds: false,
-        },
-      },
     },
     wcv3Title: inlineTitleUI('Web component v3'),
     wcv3VaCompensationType: {
@@ -120,12 +106,6 @@ export default {
     },
     wcv3CurrentlyActiveDuty: {
       yes: yesNoUI('Are you on active duty now?'),
-      onTerminalLeave: {
-        ...yesNoUI('Are you on terminal leave now?'),
-        'ui:options': {
-          expandUnder: 'yes',
-        },
-      },
     },
   },
   schema: {
@@ -140,9 +120,6 @@ export default {
         type: 'object',
         properties: {
           yes: {
-            type: 'boolean',
-          },
-          onTerminalLeave: {
             type: 'boolean',
           },
         },
@@ -162,9 +139,6 @@ export default {
           yes: {
             type: 'boolean',
           },
-          onTerminalLeave: {
-            type: 'boolean',
-          },
         },
       },
       wcv3Title: inlineTitleSchema,
@@ -180,9 +154,6 @@ export default {
         type: 'object',
         properties: {
           yes: {
-            type: 'boolean',
-          },
-          onTerminalLeave: {
             type: 'boolean',
           },
         },
