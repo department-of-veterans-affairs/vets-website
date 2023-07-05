@@ -2,8 +2,8 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import testData from './schema/maximal-test.json';
 import cemeteries from './fixtures/mocks/cemeteries.json';
 
-describe('Pre-need form VA 40-10007', () => {
-  it('fills the form and navigates accordingly as a veteran', () => {
+describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
+  it('fills the form and navigates accordingly', () => {
     cy.intercept('POST', '/v0/preneeds/burial_forms', {
       data: {
         attributes: {
