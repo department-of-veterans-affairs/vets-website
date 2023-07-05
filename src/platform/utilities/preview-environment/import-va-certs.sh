@@ -3,7 +3,7 @@
 (
     cd /usr/local/share/ca-certificates/
 
-    curl -LO https://cacerts.digicert.com/DigiCertTLSRSASHA2562020CA1-1.crt.pem
+    #curl -LO https://cacerts.digicert.com/DigiCertTLSRSASHA2562020CA1-1.crt.pem
 
     wget \
         --level=1 \
@@ -14,22 +14,22 @@
         --no-directories \
         --accept="VA*.cer" \
         http://aia.pki.va.gov/PKI/AIA/VA/
-
-    for cert in *.{cer,pem}
+# ${SOURCE_REF}
+    for cert in *.cer
     do
-        # the aim is to check what the imput file/namestrimng we are processing
+        # the aim is to check what the input file/namestring we are processing
         echo "[[ PROCESSING:${cert} ]]"
         if file "${cert}" | grep 'PEM'
         then
             cp "${cert}" "${cert}.crt"
-            # the aim is to check what the imput file/namestrimng we are processing
+            # the aim is to check what the inmput file/namestring we are processing
             echo "[[ COPY: ${cert}.crt (from ${cert})]]"
         else
             openssl x509 -in "${cert}" -inform der -outform pem -out "${cert}.crt"
-            # the aim is to check what the imput file/namestrimng we are processing
+            # the aim is to check what the input file/namestring we are processing
             echo "[[ CREATE: ${cert}.crt (from ${cert})]]"
          fi
-        # the aim is to check what the imput file/namestrimng we are processing
+        # the aim is to check what the input file/namestring we are processing
         echo "[[ DELETION: ${cert}, which is hopefully the original)]]"
         rm "${cert}"
     done
