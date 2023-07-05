@@ -10,6 +10,38 @@ const pdfkit = require('pdfkit');
 const PDFDocument = pdfkit.default ?? pdfkit;
 
 /**
+ * Return the current X position, limited to the configured page margins.
+ *
+ * @param {Object} doc
+ *
+ * @returns {int} x position
+ */
+const getBoundedXPosition = doc => {
+  if (doc.x < doc.page.margins.left) return doc.page.margins.left;
+
+  const rightMargin = doc.page.width - doc.page.margins.right;
+  if (doc.x > rightMargin) return rightMargin;
+
+  return doc.x;
+};
+
+/**
+ * Return the current Y position, limited to the configured page margins.
+ *
+ * @param {Object} doc
+ *
+ * @returns {int} y position
+ */
+const getBoundedYPosition = doc => {
+  if (doc.y < doc.page.margins.top) return doc.page.margins.top;
+
+  const bottomMargin = doc.page.height - doc.page.margins.bottom;
+  if (doc.y > bottomMargin) return bottomMargin;
+
+  return doc.y;
+};
+
+/**
  * Add a structure to the given PDFKit document.
  *
  * @param {Object} doc
@@ -22,8 +54,8 @@ const PDFDocument = pdfkit.default ?? pdfkit;
  * @returns {Object} doc
  */
 const createStruct = (doc, struct, font, fontSize, text, options) => {
-  const x = options.x ?? doc.x;
-  const y = options.y ?? doc.y;
+  const x = options.x ?? getBoundedXPosition(doc);
+  const y = options.y ?? getBoundedYPosition(doc);
   unset(options.x);
   unset(options.y);
   return doc.struct(struct, () => {

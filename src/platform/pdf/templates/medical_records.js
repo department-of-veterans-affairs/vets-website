@@ -53,9 +53,7 @@ const config = {
 };
 
 const generateIntroductionContent = async (doc, parent, data) => {
-  // The y position must be specified to prevent defaulting to the current document position
-  // which doesn't respect the configured top margin of the page.
-  const headOptions = { x: 20, y: config.margins.top, paragraphGap: 5 };
+  const headOptions = { x: 20, paragraphGap: 5 };
   const subHeadOptions = { paragraphGap: 0 };
   const introduction = doc.struct('Sect', {
     title: 'Introduction',
