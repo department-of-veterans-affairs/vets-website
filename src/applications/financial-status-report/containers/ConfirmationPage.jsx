@@ -59,7 +59,7 @@ const RequestDetailsCard = ({ data, response }) => {
 
   return (
     <div className="inset">
-      <h2 className="vads-u-margin-top--0 vads-u-font-size-h4">
+      <h2 className="vads-u-margin-top--0p5 vads-u-font-size-h3">
         Request help for VA debt{' '}
         <span className="vads-u-font-weight--normal">(Form 5655)</span>
       </h2>
@@ -79,7 +79,7 @@ const RequestDetailsCard = ({ data, response }) => {
         <p className="vads-u-margin-top--0p5">
           {moment(response.timestamp).format('MMMM D, YYYY')}
         </p>
-        <p>
+        <p className="vads-u-margin-bottom--0p5">
           <DownloadFormPDF
             pdfContent={response.content}
             useContent={combinedFSR}
