@@ -63,6 +63,18 @@ class IntroductionPage extends React.Component {
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the Application"
+          verifiedPrefillAlert={
+            <div>
+              <div className="usa-alert usa-alert-info schemaform-sip-alert">
+                <div className="usa-alert-body">
+                  <strong>Note:</strong> Since you’re signed in to your account,
+                  you can save your release authorization in progress and come
+                  back later to finish filling it out.
+                </div>
+              </div>
+              <br />
+            </div>
+          }
           displayNonVeteranMessaging
         >
           Please complete the 21-0845 form to apply for disclosure

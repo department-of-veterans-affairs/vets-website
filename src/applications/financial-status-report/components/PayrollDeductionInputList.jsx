@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useSelector, connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
+import PropTypes from 'prop-types';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
+import { BASE_EMPLOYMENT_RECORD } from '../constants/index';
+import { isValidCurrency } from '../utils/validations';
 
 const PayrollDeductionInputList = props => {
-  const { goToPath, goBack, onReviewPage, setFormData } = props;
+  const { goToPath, goBack, onReviewPage = false, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -16,12 +19,23 @@ const PayrollDeductionInputList = props => {
   const index = isEditing ? Number(editIndex) : 0;
 
   const formData = useSelector(state => state.form.data);
-  const employmentRecord =
-    formData.personalData.employmentHistory.veteran.employmentRecords[index];
+
+  const {
+    personalData: {
+      employmentHistory: {
+        newRecord = {},
+        veteran: { employmentRecords = [] },
+      },
+    },
+  } = formData;
+
+  const employmentRecord = isEditing ? employmentRecords[index] : newRecord;
 
   const { employerName, deductions } = employmentRecord;
 
   const [selectedDeductions, setSelectedDeductions] = useState(deductions);
+
+  const [errors, setErrors] = useState([]);
 
   const mapDeductions = target => {
     return selectedDeductions.map(deduction => {
@@ -39,10 +53,24 @@ const PayrollDeductionInputList = props => {
     const { target } = event;
     const updatedDeductions = mapDeductions(target);
     setSelectedDeductions(updatedDeductions);
+    if (!isValidCurrency(target.value)) {
+      setErrors([...errors, target.name]);
+    } else {
+      setErrors(errors.filter(error => error !== target.name));
+    }
   };
 
   const updateFormData = e => {
     e.preventDefault();
+
+    const errorList = selectedDeductions
+      .filter(item => !isValidCurrency(item.amount))
+      .map(item => item.name);
+
+    setErrors(errorList);
+
+    if (errorList.length) return;
+
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
       const updatedRecords = formData.personalData.employmentHistory.veteran.employmentRecords.map(
@@ -70,22 +98,19 @@ const PayrollDeductionInputList = props => {
         },
       });
     } else {
-      const records = [
-        { ...employmentRecord, deductions: selectedDeductions },
-        ...formData.personalData.employmentHistory.veteran.employmentRecords.slice(
-          1,
-        ),
-      ];
-
       setFormData({
         ...formData,
         personalData: {
           ...formData.personalData,
           employmentHistory: {
             ...formData.personalData.employmentHistory,
+            newRecord: { ...BASE_EMPLOYMENT_RECORD },
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
-              employmentRecords: records,
+              employmentRecords: [
+                { ...employmentRecord, deductions: selectedDeductions },
+                ...employmentRecords,
+              ],
             },
           },
         },
@@ -118,6 +143,11 @@ const PayrollDeductionInputList = props => {
               onInput={onChange}
               required
               currency
+              error={
+                errors.includes(deduction.name)
+                  ? 'Enter a valid dollar amount.'
+                  : null
+              }
             />
           </div>
         ))}
@@ -142,3 +172,10 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(PayrollDeductionInputList);
+
+PayrollDeductionInputList.propTypes = {
+  goBack: PropTypes.func.isRequired,
+  goToPath: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  onReviewPage: PropTypes.bool,
+};
