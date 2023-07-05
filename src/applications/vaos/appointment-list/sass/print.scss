@@ -36,3 +36,12 @@
     padding-left: 0;
   }
 }
+
+.vaos-show-at-print {
+  display: none;
+    @media print {
+      display: block;
+      margin-top: -16px;
+      margin-bottom: 16px;
+    }
+}
