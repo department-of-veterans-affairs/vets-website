@@ -53,8 +53,10 @@ const config = {
 };
 
 const generateIntroductionContent = async (doc, parent, data) => {
-  const headOptions = { x: 20, paragraphGap: 16 };
-  const subHeadOptions = { paragraphGap: 12 };
+  // The y position must be specified to prevent defaulting to the current document position
+  // which doesn't respect the configured top margin of the page.
+  const headOptions = { x: 20, y: config.margins.top, paragraphGap: 5 };
+  const subHeadOptions = { paragraphGap: 0 };
   const introduction = doc.struct('Sect', {
     title: 'Introduction',
   });
@@ -121,7 +123,7 @@ const generateResultsContent = async (doc, parent, data) => {
       if (data.results.sectionSeparators !== false) {
         results.add(
           doc.struct('Artifact', () => {
-            addHorizontalRule(doc, 20, 0.5);
+            addHorizontalRule(doc, 30, 1.5);
           }),
         );
       }
