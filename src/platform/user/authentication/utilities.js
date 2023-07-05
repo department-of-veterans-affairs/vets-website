@@ -140,6 +140,9 @@ export const getGAClientId = () => {
 
 // Return URL is where a user will be forwarded post successful authentication
 export const createAndStoreReturnUrl = () => {
+  if (sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)) {
+    return sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL);
+  }
   let returnUrl;
   if (loginAppUrlRE.test(window.location.pathname)) {
     if (isExternalRedirect()) {

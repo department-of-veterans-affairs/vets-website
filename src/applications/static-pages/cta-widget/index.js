@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { fetchMHVAccount } from 'platform/user/profile/actions';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
+import sessionStorage from 'platform/utilities/storage/sessionStorage';
 
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
@@ -75,6 +76,7 @@ export class CallToActionWidget extends Component {
     this._requiredServices = ctaWidget?.requiredServices;
     this._serviceDescription = ctaWidget?.serviceDescription;
     this._mhvToolName = ctaWidget?.mhvToolName;
+    this._internalLinkUrl = ctaWidget?.deriveToolUrlDetails()?.url || '';
     this._toolUrl = null;
     this._gaPrefix = 'register-mhv';
   }
@@ -133,8 +135,22 @@ export class CallToActionWidget extends Component {
     */
   }
 
+  updateReturnUrl = () => {
+    if (
+      this._internalLinkUrl.length > 0 &&
+      this._internalLinkUrl.startsWith('/')
+    ) {
+      // fix the internal link
+      sessionStorage.setItem(
+        'authReturnUrl',
+        `${window.location.origin}${this._internalLinkUrl}`,
+      );
+    }
+  };
+
   getContent = () => {
     if (!this.props.isLoggedIn) {
+      this.updateReturnUrl();
       if (this.props.appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {
         return (
           <DirectDepositUnAuthed

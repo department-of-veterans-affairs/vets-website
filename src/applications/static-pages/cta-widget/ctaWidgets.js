@@ -329,7 +329,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.VRRAP,
     deriveToolUrlDetails: () => ({
       url:
-        'education/other-va-education-benefits/veteran-rapid-retraining-assistance/apply-for-vrrap-form-22-1990s',
+        '/education/other-va-education-benefits/veteran-rapid-retraining-assistance/apply-for-vrrap-form-22-1990s',
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
@@ -341,7 +341,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.EDUCATION_LETTERS]: {
     id: CTA_WIDGET_TYPES.EDUCATION_LETTERS,
     deriveToolUrlDetails: () => ({
-      url: 'education/download-letters',
+      url: '/education/download-letters',
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
@@ -353,7 +353,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.ENROLLMENT_VERIFICATION]: {
     id: CTA_WIDGET_TYPES.ENROLLMENT_VERIFICATION,
     deriveToolUrlDetails: () => ({
-      url: 'education/verify-school-enrollment',
+      url: '/education/verify-school-enrollment',
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
