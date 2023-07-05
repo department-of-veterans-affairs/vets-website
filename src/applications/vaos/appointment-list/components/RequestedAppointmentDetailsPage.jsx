@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -16,6 +16,7 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import ListBestTimeToCall from './ListBestTimeToCall';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
 import CancelAppointmentModal from './cancel/CancelAppointmentModal';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import {
   getPatientTelecom,
   getVAAppointmentLocationId,
@@ -27,6 +28,7 @@ import FullWidthLayout from '../../components/FullWidthLayout';
 import { startAppointmentCancel, fetchRequestDetails } from '../redux/actions';
 import RequestedStatusAlert from './RequestedStatusAlert';
 import { getTypeOfCareById } from '../../utils/appointment';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -60,6 +62,10 @@ export default function RequestedAppointmentDetailsPage() {
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
+  );
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const showBackLink = useToggleValue(
+    TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink,
   );
   useEffect(
     () => {
@@ -135,7 +141,17 @@ export default function RequestedAppointmentDetailsPage() {
 
   return (
     <PageLayout>
-      <BackLink appointment={appointment} />
+      {showBackLink ? (
+        <BackLink appointment={appointment} />
+      ) : (
+        <Breadcrumbs>
+          <NavLink
+            to={`/health-care/schedule-view-va-appointments/appointments/requests/${id}`}
+          >
+            Request detail
+          </NavLink>
+        </Breadcrumbs>
+      )}
       <h1 style={{ marginTop: '2rem' }}>
         {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
       </h1>

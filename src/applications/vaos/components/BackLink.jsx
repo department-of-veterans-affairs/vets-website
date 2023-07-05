@@ -31,13 +31,17 @@ export default function BackLink({ appointment }) {
     return link;
   };
   return (
-    <NavLink
-      aria-label="Breadcrumbs"
-      to={handleBackLink()}
-      className="vaos-hide-for-print backLink"
-    >
-      {handleBackLinkText()}
-    </NavLink>
+    <div className="backLinkContainer">
+      <div style={{ color: '#0753A3', marginRight: '0.5rem' }}>‹</div>
+      <NavLink
+        style={{ color: '#0753A3' }}
+        aria-label="Breadcrumbs"
+        to={handleBackLink()}
+        className="vaos-hide-for-print backLink"
+      >
+        {handleBackLinkText()}
+      </NavLink>
+    </div>
   );
 }
 
