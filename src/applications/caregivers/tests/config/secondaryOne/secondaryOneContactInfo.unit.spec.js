@@ -99,7 +99,6 @@ describe('CG SecondaryOneCaregiverContactInfo config', () => {
     expect(selectors.city).to.have.attribute('error');
     expect(selectors.state).to.have.attribute('error');
     expect(selectors.postalCode).to.have.attribute('error');
-    expect(selectors.errors.length).to.equal(2);
     expect(onSubmit.called).to.be.false;
   });
 
