@@ -47,6 +47,10 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
+          cy.get('va-omb-info')
+            .get('div')
+            .get('va-button')
+            .should('exist');
           cy.get('a.vads-c-action-link--green')
             .first()
             .click();
