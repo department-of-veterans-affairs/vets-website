@@ -113,6 +113,6 @@ export const verifyAlertNotShown = selector =>
     .get('span[role="alert"]')
     .should('not.be.visible');
 
-export const getEditLink = index => cy.get('.va-button-link').eq(index);
+export const getEditLink = index => cy.get('.income-limits-edit a').eq(index);
 export const checkListItemText = (selector, expectedValue) =>
   cy.findByTestId(selector).should('contain.text', expectedValue);

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintDownload from '../components/shared/PrintDownload';
 import PrintHeader from '../components/shared/PrintHeader';
-import { dateFormat, downloadFile } from '../util/helpers';
+import { downloadFile } from '../util/helpers';
 import { getVaccinePdf } from '../api/MrApi';
 
 const RadiologyImagesList = () => {
@@ -46,7 +47,7 @@ const RadiologyImagesList = () => {
     ],
   };
 
-  const formattedDate = dateFormat(labAndTestDetails?.date, 'MMMM D, YYYY');
+  const formattedDate = formatDateLong(labAndTestDetails?.date);
 
   const download = () => {
     getVaccinePdf(1).then(res => downloadFile('radiology.pdf', res.pdf));
