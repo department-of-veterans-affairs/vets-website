@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dateFormat, downloadFile } from '../../util/helpers';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { downloadFile } from '../../util/helpers';
 import PrintHeader from '../shared/PrintHeader';
 import { getVaccinePdf } from '../../api/MrApi';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -10,7 +11,7 @@ import PrintDownload from '../shared/PrintDownload';
 const PathologyDetails = props => {
   const { record, fullState } = props;
 
-  const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
+  const formattedDate = formatDateLong(record?.date);
 
   const download = () => {
     getVaccinePdf(1).then(res => downloadFile('pathology.pdf', res.pdf));
