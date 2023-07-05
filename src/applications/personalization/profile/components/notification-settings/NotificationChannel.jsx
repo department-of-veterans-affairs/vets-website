@@ -39,6 +39,7 @@ const NotificationChannel = props => {
     permissionId,
     description,
     saveSetting,
+    disabledForCheckbox,
   } = props;
   // when itemId = "item2", itemIdNumber will be 2
   const itemIdNumber = React.useMemo(
@@ -58,6 +59,27 @@ const NotificationChannel = props => {
   const currentValue = React.useMemo(
     () => (isOptedIn === null ? isOptedIn : isOptedIn.toString()),
     [isOptedIn],
+  );
+
+  const apiStatusInfo = React.useMemo(
+    () => {
+      return {
+        warningMessage:
+          !permissionId && apiStatus === LOADING_STATES.idle
+            ? 'Select an option.'
+            : null,
+        loadingMessage:
+          apiStatus === LOADING_STATES.pending ? 'Saving...' : null,
+        errorMessage:
+          apiStatus === LOADING_STATES.error
+            ? 'We’re sorry. We had a problem saving your update. Try again.'
+            : null,
+        successMessage:
+          apiStatus === LOADING_STATES.loaded ? 'Update saved.' : null,
+        isDisabled: apiStatus === LOADING_STATES.pending,
+      };
+    },
+    [apiStatus, permissionId],
   );
 
   if (isMissingContactInfo) {
@@ -110,17 +132,10 @@ const NotificationChannel = props => {
 
               saveSetting(channelId, model.getApiCallObject());
             }}
-            loadingMessage={
-              apiStatus === LOADING_STATES.pending ? 'Saving...' : null
-            }
-            successMessage={
-              apiStatus === LOADING_STATES.loaded ? 'Update saved.' : null
-            }
-            errorMessage={
-              apiStatus === LOADING_STATES.error
-                ? 'We’re sorry. We had a problem saving your update. Try again.'
-                : null
-            }
+            loadingMessage={apiStatusInfo.loadingMessage}
+            successMessage={apiStatusInfo.successMessage}
+            errorMessage={apiStatusInfo.errorMessage}
+            disabled={disabledForCheckbox}
           />
         </Toggler.Enabled>
 
@@ -173,23 +188,11 @@ const NotificationChannel = props => {
 
               saveSetting(channelId, model.getApiCallObject());
             }}
-            warningMessage={
-              !permissionId && apiStatus === LOADING_STATES.idle
-                ? 'Select an option.'
-                : null
-            }
-            loadingMessage={
-              apiStatus === LOADING_STATES.pending ? 'Saving...' : null
-            }
-            successMessage={
-              apiStatus === LOADING_STATES.loaded ? 'Update saved.' : null
-            }
-            errorMessage={
-              apiStatus === LOADING_STATES.error
-                ? 'We’re sorry. We had a problem saving your update. Try again.'
-                : null
-            }
-            disabled={apiStatus === LOADING_STATES.pending}
+            warningMessage={apiStatusInfo.warningMessage}
+            loadingMessage={apiStatusInfo.loadingMessage}
+            successMessage={apiStatusInfo.successMessage}
+            errorMessage={apiStatusInfo.errorMessage}
+            disabled={apiStatusInfo.isDisabled}
           />
         </Toggler.Disabled>
       </Toggler>
@@ -198,6 +201,7 @@ const NotificationChannel = props => {
 };
 
 NotificationChannel.propTypes = {
+  disabledForCheckbox: PropTypes.bool.isRequired,
   saveSetting: PropTypes.func.isRequired,
   apiStatus: PropTypes.string,
   channelId: PropTypes.string,
