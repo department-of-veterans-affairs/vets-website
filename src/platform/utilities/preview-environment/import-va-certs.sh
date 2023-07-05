@@ -14,8 +14,8 @@
         --no-directories \
         --accept="VA*.cer" \
         http://aia.pki.va.gov/PKI/AIA/VA/
-# ${SOURCE_REF}
-    for cert in *.pem
+
+    for cert in *.{cer,pem}
     do
         # the aim is to check what the input file/namestring we are processing
         echo "[[ PROCESSING:${cert} ]]"
