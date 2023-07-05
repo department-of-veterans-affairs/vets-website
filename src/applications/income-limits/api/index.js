@@ -1,6 +1,22 @@
 import environment from 'platform/utilities/environment';
 
-export const getData = async ({ zipCode, year, dependents }) => {
+// https://dmitripavlutin.com/timeout-fetch-request/
+const fetchWithTimeout = async (resource, options = {}) => {
+  const { timeout = 5000 } = options;
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+
+  const response = await fetch(resource, {
+    ...options,
+    signal: controller.signal,
+  });
+
+  clearTimeout(id);
+
+  return response;
+};
+
+export const getLimits = async ({ zipCode, year, dependents }) => {
   const CONTEXT_ROOT = '/income_limits/v1/limitsByZipCode';
   const REQUEST_URL = `${
     environment.API_URL
@@ -8,17 +24,13 @@ export const getData = async ({ zipCode, year, dependents }) => {
   // For testing locally, use the below REQUEST_URL and comment out the CONTEXT_ROOT and REQUEST_URL above
   // const REQUEST_URL = `https://api.va.gov/income_limits/v1/limitsByZipCode/${zipCode}/${year}/${dependents}`;
 
-  return new Promise((resolve, reject) => {
-    fetch(REQUEST_URL)
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
+  try {
+    const response = await fetchWithTimeout(REQUEST_URL);
 
-        return response?.json();
-      })
-      .then(data => resolve(data), error => reject(error));
-  });
+    return await response.json();
+  } catch (error) {
+    return null;
+  }
 };
 
 export const validateZip = async zip => {
@@ -27,19 +39,19 @@ export const validateZip = async zip => {
   // For testing locally, use the below REQUEST_URL and comment out the CONTEXT_ROOT and REQUEST_URL above
   // const REQUEST_URL = `https://api.va.gov/income_limits/v1/validateZipCode/${zip}`;
 
-  return new Promise((resolve, reject) => {
-    fetch(REQUEST_URL)
-      .then(response => {
-        if (!response.ok) {
-          return {
-            // eslint-disable-next-line camelcase
-            zip_is_valid: false,
-            status: response.status,
-          };
-        }
+  try {
+    const response = await fetchWithTimeout(REQUEST_URL);
 
-        return response?.json();
-      })
-      .then(data => resolve(data), error => reject(error));
-  });
+    if (!response.ok) {
+      return {
+        // eslint-disable-next-line camelcase
+        zip_is_valid: false,
+        status: response.status,
+      };
+    }
+
+    return await response?.json();
+  } catch (error) {
+    return null;
+  }
 };
