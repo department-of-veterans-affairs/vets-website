@@ -11,14 +11,15 @@ class LastUpdated {
   }
 
   async setLastUpdated() {
-    Object.keys(this.products).forEach(async productId => {
+    for (const productId of Object.keys(this.products)) {
       const product = this.products[productId];
       const { pathToCode } = product;
+      /* eslint-disable-next-line no-await-in-loop */
       product.lastUpdated = await this.getLastDateUpdated({
         path: pathToCode,
       });
       console.log('last updated: ', product.lastUpdated);
-    });
+    }
   }
 
   async getLastDateUpdated({ path }) {
