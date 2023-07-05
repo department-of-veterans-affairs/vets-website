@@ -9,6 +9,7 @@ import ReviewPage from '../containers/ReviewPage';
 
 const pushSpyStandard = sinon.spy();
 const pushSpyPast = sinon.spy();
+const pushSpyFormIncomplete = sinon.spy();
 
 const mockStoreStandard = {
   getState: () => ({
@@ -62,6 +63,34 @@ const propsPast = {
   toggleEditMode: () => {},
   yearInput: '2016',
   zipCodeInput: '60507',
+};
+
+const mockStoreFormIncomplete = {
+  getState: () => ({
+    incomeLimits: {
+      editMode: false,
+      pastMode: false,
+      form: {
+        dependents: '',
+        year: '',
+        zipCode: '',
+      },
+    },
+  }),
+  subscribe: () => {},
+  dispatch: () => {},
+};
+
+const propsFormIncomplete = {
+  dependentsInput: '',
+  editMode: false,
+  pastMode: false,
+  router: {
+    push: pushSpyFormIncomplete,
+  },
+  toggleEditMode: () => {},
+  yearInput: '',
+  zipCodeInput: '',
 };
 
 describe('Review Page', () => {
@@ -121,5 +150,15 @@ describe('Review Page', () => {
 
     userEvent.click(screen.getAllByText('Edit')[0]);
     expect(pushSpyPast.withArgs('year').calledOnce).to.be.true;
+  });
+
+  it('should not allow deep linking to this page if the form is not complete', () => {
+    render(
+      <Provider store={mockStoreFormIncomplete}>
+        <ReviewPage {...propsFormIncomplete} />
+      </Provider>,
+    );
+
+    expect(pushSpyFormIncomplete.withArgs('/').calledOnce).to.be.true;
   });
 });

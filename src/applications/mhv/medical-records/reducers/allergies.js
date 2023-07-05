@@ -1,6 +1,9 @@
-import environment from 'platform/utilities/environment';
+import {
+  environment,
+  formatDateLong,
+} from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { dateFormat, getNames, getReactions } from '../util/helpers';
+import { getNames, getReactions } from '../util/helpers';
 import { testing } from '../util/constants';
 
 const initialState = {
@@ -21,7 +24,7 @@ const convertAllergy = allergy => {
     type: allergy.type,
     name: getNames(allergy),
     reaction: getReactions(allergy),
-    date: dateFormat(allergy.meta?.lastUpdated, 'MMMM D, YYYY'),
+    date: formatDateLong(allergy.meta?.lastUpdated),
     // drugClass: allergy.drugClass,
     // location: allergy.location,
     // observed: allergy.observed,
