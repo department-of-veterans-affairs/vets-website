@@ -162,7 +162,6 @@ class SideNav extends Component {
             'vads-u-margin-top--0',
             'vads-u-padding--0',
           )}
-          aria-hidden={!this.state.active}
         >
           {/* Render all the items recursively. */}
           {renderChildItems(parentMostID, 1)}
