@@ -63,3 +63,13 @@ export const getNames = record => {
   if (!record) return '';
   return record.code.coding.map(code => code.display).join(', ');
 };
+
+/**
+ * @param {Array} list
+ * @returns {String} array of strings, separated by a comma
+ */
+export const processList = list => {
+  if (list?.length > 1) return list.join(', ');
+  if (list) return list;
+  return 'none noted';
+};
