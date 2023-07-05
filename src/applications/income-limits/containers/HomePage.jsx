@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 import { scrollToTop } from '../utilities/scroll-to-top';
 import {
@@ -27,7 +27,7 @@ const HomePage = ({
         updateZipCodeField('');
       };
 
-      focusElement('h1');
+      waitForRenderThenFocus('h1');
       scrollToTop();
       clearForm();
     },

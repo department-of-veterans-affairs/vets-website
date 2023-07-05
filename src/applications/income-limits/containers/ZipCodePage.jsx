@@ -5,7 +5,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 import { scrollToTop } from '../utilities/scroll-to-top';
 import { ROUTES } from '../constants';
@@ -23,6 +23,7 @@ const ZipCodePage = ({
   toggleEditMode,
   updateZipCodeField,
   updateZipValError,
+  year,
   zipCode,
 }) => {
   const [formError, setFormError] = useState(false);
@@ -32,10 +33,25 @@ const ZipCodePage = ({
     return zipCode && zip.match(/^[0-9]+$/) && zip.length === 5;
   };
 
-  useEffect(() => {
-    focusElement('h1');
-    scrollToTop();
-  }, []);
+  useEffect(
+    () => {
+      // If pastMode is null, the home screen hasn't been used yet
+      let shouldRedirectToHome = pastMode === null;
+
+      if (pastMode) {
+        shouldRedirectToHome = !year;
+      }
+
+      if (shouldRedirectToHome) {
+        router.push(ROUTES.HOME);
+        return;
+      }
+
+      waitForRenderThenFocus('h1');
+      scrollToTop();
+    },
+    [pastMode, router, year],
+  );
 
   const onContinueClick = async () => {
     // Zip meets input criteria
@@ -134,6 +150,7 @@ const ZipCodePage = ({
 const mapStateToProps = state => ({
   editMode: state?.incomeLimits?.editMode,
   pastMode: state?.incomeLimits?.pastMode,
+  year: state?.incomeLimits?.form?.year,
   zipCode: state?.incomeLimits?.form?.zipCode,
 });
 
@@ -152,6 +169,7 @@ ZipCodePage.propTypes = {
   }),
   toggleEditMode: PropTypes.func,
   updateZipValError: PropTypes.func,
+  year: PropTypes.string,
   zipCode: PropTypes.string,
 };
 
