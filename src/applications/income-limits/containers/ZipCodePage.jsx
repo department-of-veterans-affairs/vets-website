@@ -5,11 +5,16 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 import { scrollToTop } from '../utilities/scroll-to-top';
 import { ROUTES } from '../constants';
-import { updateEditMode, updateZipCode } from '../actions';
+import {
+  updateEditMode,
+  updateZipCode,
+  updateZipValidationServiceError,
+} from '../actions';
+import { validateZip } from '../api';
 
 const ZipCodePage = ({
   editMode,
@@ -17,44 +22,83 @@ const ZipCodePage = ({
   router,
   toggleEditMode,
   updateZipCodeField,
+  updateZipValError,
+  year,
   zipCode,
 }) => {
-  const [error, setError] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [formError, setFormError] = useState(false);
 
-  const zipCodeValid = zip => {
-    return zip.match(/^[0-9]+$/) && zip.length === 5;
+  // Checks that a zip was entered and is numbers only and has length of 5
+  const inputValid = zip => {
+    return zipCode && zip.match(/^[0-9]+$/) && zip.length === 5;
   };
 
-  const validZip = zipCode && zipCodeValid(zipCode);
+  useEffect(
+    () => {
+      // If pastMode is null, the home screen hasn't been used yet
+      let shouldRedirectToHome = pastMode === null;
 
-  useEffect(() => {
-    focusElement('h1');
-    scrollToTop();
-  }, []);
+      if (pastMode) {
+        shouldRedirectToHome = !year;
+      }
 
-  const onContinueClick = () => {
-    setSubmitted(true);
+      if (shouldRedirectToHome) {
+        router.push(ROUTES.HOME);
+        return;
+      }
 
-    if (!validZip) {
-      setError(true);
-    } else if (editMode) {
-      setError(false);
-      toggleEditMode(false);
-      router.push(ROUTES.REVIEW);
+      waitForRenderThenFocus('h1');
+      scrollToTop();
+    },
+    [pastMode, router, year],
+  );
+
+  const onContinueClick = async () => {
+    // Zip meets input criteria
+    if (inputValid(zipCode)) {
+      setFormError(false);
+
+      // Check zip against VES database
+      const response = await validateZip(zipCode);
+
+      // Service issue
+      // Status codes only returned for not-ok responses
+      if (response?.status || !response) {
+        updateZipValError(true);
+      } else {
+        updateZipValError(false);
+
+        // eslint-disable-next-line camelcase
+        const zipIsValid = response?.zip_is_valid;
+
+        if (zipIsValid) {
+          // All is good, go to next page
+          if (editMode) {
+            toggleEditMode(false);
+            router.push(ROUTES.REVIEW);
+          } else {
+            router.push(ROUTES.DEPENDENTS);
+          }
+        } else {
+          // No service error, but not a valid zip
+          setFormError(true);
+        }
+      }
     } else {
-      setError(false);
-      router.push(ROUTES.DEPENDENTS);
+      // Zip does not meet input criteria
+      setFormError(true);
     }
   };
 
   const onBlurInput = () => {
-    if (validZip) {
-      setError(false);
+    if (inputValid(zipCode)) {
+      setFormError(false);
     }
   };
 
   const onZipInput = event => {
+    setFormError(false);
+    updateZipValError(false);
     updateZipCodeField(event.target.value);
   };
 
@@ -78,7 +122,7 @@ const ZipCodePage = ({
           className="input-size-3"
           data-testid="il-zipCode"
           error={
-            (submitted && error && 'Please enter a 5 digit zip code') || null
+            (formError && 'Please enter a valid 5 digit zip code.') || null
           }
           hint="Zip code hint text"
           id="zipCode"
@@ -106,12 +150,14 @@ const ZipCodePage = ({
 const mapStateToProps = state => ({
   editMode: state?.incomeLimits?.editMode,
   pastMode: state?.incomeLimits?.pastMode,
+  year: state?.incomeLimits?.form?.year,
   zipCode: state?.incomeLimits?.form?.zipCode,
 });
 
 const mapDispatchToProps = {
   toggleEditMode: updateEditMode,
   updateZipCodeField: updateZipCode,
+  updateZipValError: updateZipValidationServiceError,
 };
 
 ZipCodePage.propTypes = {
@@ -122,6 +168,8 @@ ZipCodePage.propTypes = {
     push: PropTypes.func,
   }),
   toggleEditMode: PropTypes.func,
+  updateZipValError: PropTypes.func,
+  year: PropTypes.string,
   zipCode: PropTypes.string,
 };
 
