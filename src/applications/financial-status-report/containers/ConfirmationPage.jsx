@@ -78,12 +78,6 @@ const RequestDetailsCard = ({ data, response }) => {
         <p className="vads-u-margin-top--0p5">
           {moment(response.timestamp).format('MMMM D, YYYY')}
         </p>
-        <p className="vads-u-margin-bottom--0p5">
-          <strong>Your request was sent to</strong>
-        </p>
-        <p className="vads-u-margin-y--0">Debt Management Center</p>
-        <p className="vads-u-margin-y--0">P.O. Box 11930</p>
-        <p className="vads-u-margin-y--0">St. Paul, MN 55111-0930</p>
         <p>
           <DownloadFormPDF
             pdfContent={response.content}
@@ -182,11 +176,6 @@ const ConfirmationPage = ({ form, download }) => {
                 Manage my VA debt
               </a>
               to check the status of your current debts.
-            </p>
-            <p>
-              If you have a question about the status of your request call us at
-              800-827-0648 (or 1-612-713-6415 from overseas). We’re here Monday
-              through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </li>
         </ol>
