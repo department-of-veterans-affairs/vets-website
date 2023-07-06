@@ -1,17 +1,19 @@
 #!/bin/sh
-echo "Navigate into /app/website/slow"
-cd website/slow
-echo "Generating timestamp"
-TIMESTAMP=$(date +%s)
-echo "Timestamp value: " $TIMESTAMP
-echo "Moving: " $SOURCE_REF " to " $SOURCE_REF"-"$TIMESTAMP
-mv -vf $SOURCE_REF $SOURCE_REF"-"$TIMESTAMP
-echo "Removing previous build in background"
-rm -rf $SOURCE_REF"-"$TIMESTAMP &
-echo "Creating directory: " $SOURCE_REF
-mkdir $SOURCE_REF
-echo "Navigate into: " $SOURCE_REF
-cd $SOURCE_REF
+# echo "Navigate into /app/website/slow"
+# cd website/slow
+# echo "Generating timestamp"
+# TIMESTAMP=$(date +%s)
+# echo "Timestamp value: " $TIMESTAMP
+# echo "Moving: " $SOURCE_REF " to " $SOURCE_REF"-"$TIMESTAMP
+# mv -vf $SOURCE_REF $SOURCE_REF"-"$TIMESTAMP
+# echo "Removing previous build in background"
+# rm -rf $SOURCE_REF"-"$TIMESTAMP &
+# echo "Creating directory: " $SOURCE_REF
+# mkdir $SOURCE_REF
+# echo "Navigate into: " $SOURCE_REF
+# cd $SOURCE_REF
+mkdir -p website
+cd website
 
 # Clone vagov-content
 echo "Starting vagov-content"
