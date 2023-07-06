@@ -217,11 +217,11 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
   const spotlightLinks = resolveLinkCollection(
     [
       {
-        text: 'Five Exercises for Balance',
+        text: 'Track Your Blood Pressure Online',
         href: null,
         oldHref: mhvUrl(
           authdWithSSOe,
-          'ss20210707-better-balance-standing-exercises',
+          'ss20190822-track-health-blood-pressure',
         ),
         toggle: null,
       },
@@ -235,9 +235,12 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
         toggle: null,
       },
       {
-        text: 'Get Back to Sleep',
+        text: 'Easy Exercises to Reduce Back Pain',
         href: null,
-        oldHref: mhvUrl(authdWithSSOe, 'ss20190321-path-to-better-sleep'),
+        oldHref: mhvUrl(
+          authdWithSSOe,
+          'ss20210329-simple-exercises-to-reduce-back-pain',
+        ),
         toggle: null,
       },
     ],

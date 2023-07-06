@@ -2,8 +2,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import testData from './schema/maximal-test.json';
 import cemeteries from './fixtures/mocks/cemeteries.json';
 
-describe('Pre-need form VA 40-10007', () => {
-  // Test skipped to match Nightwatch
+describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
   it('fills the form and navigates accordingly', () => {
     cy.intercept('POST', '/v0/preneeds/burial_forms', {
       data: {
@@ -50,59 +49,54 @@ describe('Pre-need form VA 40-10007', () => {
       .should('have.class', 'progress-segment-complete');
     cy.fillName(
       'root_application_claimant_name',
-      testData.data.application.claimant.name,
+      testData.data.application.veteran.currentName,
     );
     cy.fill(
       'input[name="root_application_claimant_ssn"]',
-      testData.data.application.claimant.ssn,
+      testData.data.application.veteran.ssn,
     );
     cy.fillDate(
       'root_application_claimant_dateOfBirth',
-      testData.data.application.claimant.dateOfBirth,
+      testData.data.application.veteran.dateOfBirth,
     );
     cy.selectRadio(
       'root_application_claimant_relationshipToVet',
-      testData.data.application.claimant.relationshipToVet,
+      testData.data.application.veteran.relationshipToVet,
     );
 
-    if (testData.data.application.claimant.relationshipToVet.type === 'other') {
+    if (testData.data.application.veteran.relationshipToVet.type === 'other') {
       cy.get('input[name="root_application_claimant_relationship_other"]');
       cy.fill(
         'input[name="root_application_claimant_relationship_other"]',
-        testData.data.application.claimant.relationship.other,
+        testData.data.application.veteran.relationship.other,
       );
       cy.clickIf(
         '#root_application_claimant_relationship_view:isEntity',
-        testData.data.application.claimant.relationship.isEntity,
+        testData.data.application.veteran.relationship.isEntity,
       );
     }
 
     cy.injectAxeThenAxeCheck();
     cy.get('.form-panel .usa-button-primary').click();
-    cy.url().should('not.contain', '/applicant-information');
+    cy.url().should(
+      'not.contain',
+      '/form-10007-apply-for-eligibility/applicant-information',
+    );
 
     // Veteran Information
-    cy.get('input[name="root_application_veteran_currentName_first"]');
+    cy.get('input[name="root_application_veteran_militaryServiceNumber"]');
     cy.get('va-segmented-progress-bar')
       .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(2)')
+      .find('.progress-bar-segmented div.progress-segment:nth-child(1)')
       .should('have.class', 'progress-segment-complete');
 
-    cy.fillName(
-      'root_application_veteran_currentName',
-      testData.data.application.veteran.currentName,
-    );
-    cy.fill(
-      'input[name="root_application_veteran_ssn"]',
-      testData.data.application.veteran.ssn,
-    );
     cy.fill(
       'input[name="root_application_veteran_militaryServiceNumber"]',
       testData.data.application.veteran.militaryServiceNumber,
     );
-    cy.fillDate(
-      'root_application_veteran_dateOfBirth',
-      testData.data.application.veteran.dateOfBirth,
+    cy.fill(
+      'input[name="root_application_veteran_vaClaimNumber"]',
+      testData.data.application.veteran.vaClaimNumber,
     );
     cy.fill(
       'input[name="root_application_veteran_placeOfBirth"]',
@@ -121,14 +115,6 @@ describe('Pre-need form VA 40-10007', () => {
     );
     cy.get('#root_application_veteran_militaryStatus').select(
       testData.data.application.veteran.militaryStatus,
-    );
-    cy.selectRadio(
-      'root_application_veteran_isDeceased',
-      testData.data.application.veteran.isDeceased,
-    );
-    cy.fillDate(
-      'root_application_veteran_dateOfDeath',
-      testData.data.application.veteran.dateOfDeath,
     );
 
     cy.axeCheck();
@@ -185,12 +171,12 @@ describe('Pre-need form VA 40-10007', () => {
 
     cy.get('va-segmented-progress-bar')
       .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(3)')
+      .find('.progress-bar-segmented div.progress-segment:nth-child(2)')
       .should('have.class', 'progress-segment-complete');
 
     cy.axeCheck();
     cy.get('.form-panel .usa-button-primary').click();
-    cy.url().should('not.contain', '/sponsor-military-history');
+    cy.url().should('not.contain', '/applicant-military-history');
 
     // Previous Names page
     cy.get('label[for$="hasServiceNameYes"]').should('be.visible');
@@ -202,7 +188,7 @@ describe('Pre-need form VA 40-10007', () => {
 
     cy.axeCheck();
     cy.get('.form-panel .usa-button-primary').click();
-    cy.url().should('not.contain', '/sponsor-military-name');
+    cy.url().should('not.contain', '/applicant-military-name');
 
     // Benefit Selection page
     cy.get('label[for="root_application_claimant_desiredCemetery"]').should(
@@ -210,11 +196,11 @@ describe('Pre-need form VA 40-10007', () => {
     );
     cy.get('va-segmented-progress-bar')
       .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(4)')
+      .find('.progress-bar-segmented div.progress-segment:nth-child(3)')
       .should('have.class', 'progress-segment-complete');
     cy.fill(
       'input[name="root_application_claimant_desiredCemetery"]',
-      testData.data.application.claimant.desiredCemetery.label,
+      testData.data.application.veteran.desiredCemetery.label,
     );
     cy.get('.autosuggest-item', { timeout: Timeouts.slow }).should('exist');
     cy.get('body').click();
@@ -257,71 +243,63 @@ describe('Pre-need form VA 40-10007', () => {
 
     cy.get('va-segmented-progress-bar')
       .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(5)')
+      .find('.progress-bar-segmented div.progress-segment:nth-child(4)')
       .should('have.class', 'progress-segment-complete');
     cy.get('.form-panel .usa-button-primary').click();
     cy.url().should('not.contain', '/supporting-documents');
 
-    // Applicant/Claimant Contact Information page
+    // Applicant/Veteran Contact Information page
     cy.get('select[name="root_application_claimant_address_country"]');
     cy.get('va-segmented-progress-bar')
       .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(6)')
+      .find('.progress-bar-segmented div.progress-segment:nth-child(5)')
       .should('have.class', 'progress-segment-complete');
     cy.fillAddress(
       'root_application_claimant_address',
-      testData.data.application.claimant.address,
+      testData.data.application.veteran.address,
     );
-    cy.fill('input[name$="email"]', testData.data.application.claimant.email);
+    cy.fill('input[name$="email"]', testData.data.application.veteran.email);
     cy.fill(
       'input[name$="phoneNumber"]',
-      testData.data.application.claimant.phoneNumber,
+      testData.data.application.veteran.phoneNumber,
     );
     cy.axeCheck();
     cy.get('.form-panel .usa-button-primary').click();
     cy.url().should('not.contain', '/applicant-contact-information');
 
-    // Veteran Contact Information page
-    cy.get('select[name="root_application_veteran_address_country"]');
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(6)')
-      .should('have.class', 'progress-segment-complete');
-    cy.fillAddress(
-      'root_application_veteran_address',
-      testData.data.application.veteran.address,
-    );
-    cy.axeCheck();
-    cy.get('.form-panel .usa-button-primary').click();
-    cy.url().should('not.contain', '/sponsor-mailing-address');
-
+    // Preparer Contact Information page
     cy.get(
       'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
     );
     cy.get('va-segmented-progress-bar')
       .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(6)')
+      .find('.progress-bar-segmented div.progress-segment:nth-child(5)')
       .should('have.class', 'progress-segment-complete');
     cy.selectRadio(
       'root_application_applicant_applicantRelationshipToClaimant',
-      testData.data.application.applicant.applicantRelationshipToClaimant,
+      testData.data.application.applicantForeign
+        .applicantRelationshipToClaimant,
     );
     if (
-      testData.data.application.applicant.applicantRelationshipToClaimant ===
-      'Authorized Agent/Rep'
+      testData.data.application.applicantForeign
+        .applicantRelationshipToClaimant === 'Authorized Agent/Rep'
     ) {
       cy.fillName(
         'root_application_applicant_view:applicantInfo_name',
-        testData.data.application.applicant['view:applicantInfo'].name,
+        testData.data.application.applicantForeign['view:applicantInfo'].name,
       );
       cy.fillAddress(
         'root_application_applicant_view\\:applicantInfo_mailingAddress',
-        testData.data.application.applicant['view:applicantInfo']
+        testData.data.application.applicantForeign['view:applicantInfo']
           .mailingAddress,
       );
       cy.fill(
+        'input[name="root_application_applicant_view:applicantInfo_mailingAddress_state"]',
+        testData.data.application.applicantForeign.state,
+      );
+      cy.fill(
         'input[name$="applicantPhoneNumber"]',
-        testData.data.application.applicant['view:applicantInfo'][
+        testData.data.application.applicantForeign['view:applicantInfo'][
           'view:contactInfo'
         ].applicantPhoneNumber,
       );
