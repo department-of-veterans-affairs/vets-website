@@ -152,7 +152,9 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
               {statusBucket[0] === APPOINTMENT_STATUS.cancelled && (
                 <>
                   <h2>Canceled requests</h2>
-                  <p>These appointment requests have been canceled.</p>
+                  <p className="vaos-hide-for-print">
+                    These appointment requests have been canceled.
+                  </p>
                 </>
               )}
               {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
