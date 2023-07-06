@@ -47,27 +47,3 @@ export function getCommunityCareFacility(id) {
     method: 'GET',
   }).then(parseApiObject);
 }
-
-export function submitRequest(type, request) {
-  return apiRequestWithUrl(`/vaos/v0/appointment_requests?type=${type}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(request),
-  }).then(parseApiObject);
-}
-
-export function getRequestEligibilityCriteria(sites) {
-  return apiRequestWithUrl(
-    `/vaos/v0/request_eligibility_criteria?${sites
-      .map(site => `parent_sites[]=${site}`)
-      .join('&')}`,
-  ).then(parseApiList);
-}
-
-export function getDirectBookingEligibilityCriteria(sites) {
-  return apiRequestWithUrl(
-    `/vaos/v0/direct_booking_eligibility_criteria?${sites
-      .map(site => `parent_sites[]=${site}`)
-      .join('&')}`,
-  ).then(parseApiList);
-}
