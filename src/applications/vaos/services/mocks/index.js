@@ -334,7 +334,7 @@ const responses = {
       data: facilitiesV2.data.filter(
         facility =>
           ids.includes(facility.id) ||
-          (children && ids.some(id => facility.id.startsWith(id))),
+          (children === 'true' && ids.some(id => facility.id.startsWith(id))),
       ),
     });
   },

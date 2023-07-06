@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   GA_PREFIX,
   APPOINTMENT_TYPES,
@@ -13,7 +13,6 @@ import {
   selectFeatureVAOSServiceRequests,
   selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceVAAppointments,
-  selectFeatureFacilitiesServiceV2,
   selectFeatureAcheronService,
 } from '../../redux/selectors';
 
@@ -642,9 +641,6 @@ export function startNewVaccineFlow() {
 
 export function fetchFacilitySettings() {
   return async (dispatch, getState) => {
-    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-      getState(),
-    );
     dispatch({
       type: FETCH_FACILITY_SETTINGS,
     });
@@ -655,7 +651,6 @@ export function fetchFacilitySettings() {
 
       const settings = await getLocationSettings({
         siteIds,
-        useV2: featureFacilitiesServiceV2,
       });
 
       dispatch({
