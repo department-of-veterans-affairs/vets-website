@@ -37,11 +37,14 @@
   }
 }
 
-.vaos-show-at-print {
-  display: none;
-    @media print {
-      display: block;
-      margin-top: -16px;
-      margin-bottom: 16px;
-    }
+
+@media screen {
+
+  .vaos-print-only
+   {
+    visibility: hidden;
+    display: none;
+    margin: 0px !important;
+    padding: 0px !important;
+  }
 }

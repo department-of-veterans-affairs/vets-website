@@ -248,7 +248,7 @@ export default function PastAppointmentsListNew() {
           dateRangeOptions[pastSelectedIndex]?.label
         }`}
       </div>
-      <div className="vaos-show-at-print">
+      <div className="vaos-print-only vads-u-margin-top--neg2 vads-u-margin-bottom--2">
         {dateRangeOptions[pastSelectedIndex]?.label}
       </div>
 
