@@ -141,6 +141,29 @@ describe('profile selectors', () => {
       };
       expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
     });
+
+    describe('when useLighthouseFormat is true', () => {
+      beforeEach(() => {
+        state = {
+          vaProfile: {
+            cnpPaymentInformation: {
+              controlInformation: {
+                canUpdateDirectDeposit: true,
+              },
+            },
+          },
+        };
+      });
+
+      it('returns `true` if control info canUpdateDirectDeposit is true', () => {
+        expect(selectors.cnpDirectDepositIsEligible(state, true)).to.be.true;
+      });
+
+      it('returns `false` if control info canUpdateDirectDeposit is false', () => {
+        state.vaProfile.cnpPaymentInformation.controlInformation.canUpdateDirectDeposit = false;
+        expect(selectors.cnpDirectDepositIsEligible(state, true)).to.be.false;
+      });
+    });
   });
 
   describe('cnpDirectDepositIsBlocked', () => {
