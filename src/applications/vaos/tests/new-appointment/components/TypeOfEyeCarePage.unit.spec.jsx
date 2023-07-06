@@ -20,6 +20,8 @@ import {
   mockV2CommunityCareEligibility,
 } from '../../mocks/helpers.v2';
 import { getSchedulingConfigurationMock } from '../../mocks/v2';
+import { createMockFacilityByVersion } from '../../mocks/data';
+import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -110,6 +112,14 @@ describe('VAOS <TypeOfEyeCarePage>', () => {
       parentSites: ['983', '983GC'],
       supportedSites: ['983GC'],
       careType: 'Optometry',
+    });
+    mockFacilitiesFetchByVersion({
+      children: true,
+      facilities: [
+        createMockFacilityByVersion({
+          id: '983',
+        }),
+      ],
     });
 
     const store = createTestStore(initialState);
