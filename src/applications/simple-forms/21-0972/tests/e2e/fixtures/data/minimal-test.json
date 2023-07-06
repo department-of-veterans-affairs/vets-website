@@ -10,11 +10,15 @@
     "country": "USA",
     "postalCode": "12345"
   },
-  "preparerPhone": "9876543210",
+  "preparerPhone": "9876054321",
+  "claimantIdentification": "VETERAN",
+  "preparerQualifications": "Court-appointed representative",
+  "preparerSigningReason": "They’re under 18 years old.",
   "veteranFullName": {
     "first": "Alex",
     "last": "Veteran"
   },
   "veteranDateOfBirth": "1950-10-25",
+  "veteranHasFiledClaim": true,
   "veteranSsn": "999442222"
 }
