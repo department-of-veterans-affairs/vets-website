@@ -8,7 +8,6 @@ RUN apt-get install -y ca-certificates-java && dpkg --configure -a && apt-get in
 
 # Download VA Certs
 COPY ./src/platform/utilities/preview-environment/import-va-certs.sh .
-RUN chmod +x import-va-certs.sh
 RUN ./import-va-certs.sh
 
 # Copy startup script into place

@@ -14,9 +14,10 @@
         --no-directories \
         --accept="VA*.cer" \
         http://aia.pki.va.gov/PKI/AIA/VA/
-
+    
     shopt -s nullglob
-    for f in *.@(cer|pem)
+
+    for cert in *.{cer,pem}
     do
         # the aim is to check what the input file/namestring we are processing
         echo "[[ PROCESSING:${cert} ]]"
