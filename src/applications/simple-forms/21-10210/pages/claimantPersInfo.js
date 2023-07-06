@@ -17,7 +17,7 @@ export default {
     type: 'object',
     required: ['claimantFullName', 'claimantDateOfBirth'],
     properties: {
-      witnessFullName: schema(),
+      claimantFullName: schema(),
       claimantDateOfBirth: definitions.date,
     },
   },

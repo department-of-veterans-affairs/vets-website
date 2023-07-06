@@ -20,6 +20,18 @@ const nonStandardLimits = {
   gmt_threshold: 33333,
 };
 
+const oddLimits = {
+  national_threshold: 30929,
+  pension_threshold: 40185,
+  gmt_threshold: 50611,
+};
+
+const oddLimitsNonStandard = {
+  national_threshold: 60929,
+  pension_threshold: 40185,
+  gmt_threshold: 50611,
+};
+
 describe('getFirstAccordionHeader', () => {
   it('should return the correct output', () => {
     expect(getFirstAccordionHeader(limits.pension_threshold)).to.equal(
@@ -47,7 +59,7 @@ describe('getThirdAccordionHeader', () => {
         nonStandardLimits.gmt_threshold,
         false,
       ),
-    ).to.equal('$44,445 - $48,888');
+    ).to.equal('$44,445 - $48,889');
   });
 
   it('should return the correct output for the standard case', () => {
@@ -59,6 +71,17 @@ describe('getThirdAccordionHeader', () => {
       ),
     ).to.equal('$44,445 - $77,777');
   });
+
+  // Extra formatting is only for the non-standard case on the third accordion header
+  it('should return the correct output for odd numbers for the non-standard case', () => {
+    expect(
+      getThirdAccordionHeader(
+        oddLimitsNonStandard.national_threshold,
+        oddLimitsNonStandard.gmt_threshold,
+        false,
+      ),
+    ).to.equal('$60,930 - $67,022');
+  });
 });
 
 describe('getFourthAccordionHeader', () => {
@@ -69,7 +92,7 @@ describe('getFourthAccordionHeader', () => {
         nonStandardLimits.gmt_threshold,
         false,
       ),
-    ).to.equal('$48,889 or more');
+    ).to.equal('$48,890 or more');
   });
 
   it('should return the correct output for the standard case', () => {
@@ -81,12 +104,39 @@ describe('getFourthAccordionHeader', () => {
       ),
     ).to.equal('$77,778 - $85,555');
   });
+
+  it('should return the correct output for odd numbers for the non-standard case', () => {
+    expect(
+      getFourthAccordionHeader(
+        oddLimitsNonStandard.national_threshold,
+        oddLimitsNonStandard.gmt_threshold,
+        false,
+      ),
+    ).to.equal('$67,023 or more');
+  });
+
+  it('should return the correct output for odd numbers for the standard case', () => {
+    expect(
+      getFourthAccordionHeader(
+        oddLimits.national_threshold,
+        oddLimits.gmt_threshold,
+        true,
+      ),
+    ).to.equal('$50,612 - $55,673');
+  });
 });
 
+// Only appears for standard case
 describe('getFifthAccordionHeader', () => {
-  it('should return the correct output', () => {
+  it('should return the correct output for even numbers', () => {
     expect(getFifthAccordionHeader(limits.gmt_threshold)).to.equal(
       '$85,556 or more',
+    );
+  });
+
+  it('should return the correct output for odd numbers', () => {
+    expect(getFifthAccordionHeader(oddLimits.gmt_threshold)).to.equal(
+      '$55,674 or more',
     );
   });
 });

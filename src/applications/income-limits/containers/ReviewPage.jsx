@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 import { scrollToTop } from '../utilities/scroll-to-top';
+import { redirectIfFormIncomplete } from '../utilities/utils';
 import { getData } from '../api';
 import { ROUTES } from '../constants';
 import { updateEditMode, updateResults } from '../actions';
@@ -25,10 +26,21 @@ const ReviewPage = ({
     }
   });
 
-  useEffect(() => {
-    waitForRenderThenFocus('h1');
-    scrollToTop();
-  }, []);
+  useEffect(
+    () => {
+      redirectIfFormIncomplete(
+        dependentsInput,
+        pastMode,
+        router,
+        yearInput,
+        zipCodeInput,
+      );
+
+      waitForRenderThenFocus('h1');
+      scrollToTop();
+    },
+    [dependentsInput, pastMode, router, yearInput, zipCodeInput],
+  );
 
   const onContinueClick = async () => {
     const year = yearInput || new Date().getFullYear();
@@ -70,16 +82,15 @@ const ReviewPage = ({
               <br /> {yearInput}
             </span>
             <span className="income-limits-edit">
-              <button
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <a
                 aria-label="Edit year"
-                className="va-button-link"
                 href="#"
                 onClick={() => handleEditClick(ROUTES.YEAR)}
                 name="year"
-                type="button"
               >
                 Edit
-              </button>
+              </a>
             </span>
           </li>
         )}
@@ -89,16 +100,15 @@ const ReviewPage = ({
             <br /> {zipCodeInput}
           </span>
           <span className="income-limits-edit">
-            <button
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a
               aria-label="Edit zip code"
-              className="va-button-link"
               href="#"
               onClick={() => handleEditClick(ROUTES.ZIPCODE)}
               name="zipCode"
-              type="button"
             >
               Edit
-            </button>
+            </a>
           </span>
         </li>
         <li>
@@ -107,16 +117,15 @@ const ReviewPage = ({
             <br /> {dependentsInput}
           </span>
           <span className="income-limits-edit">
-            <button
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a
               aria-label="Edit number of dependents"
-              className="va-button-link"
               href="#"
               onClick={() => handleEditClick(ROUTES.DEPENDENTS)}
               name="dependents"
-              type="button"
             >
               Edit
-            </button>
+            </a>
           </span>
         </li>
       </ul>

@@ -13,13 +13,13 @@ import parentFacilities from '../../services/mocks/var/facilities.json';
 
 import newAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 import { FACILITY_TYPES } from '../../utils/constants';
-import {
-  mockCommunityCareEligibility,
-  mockParentSites,
-} from '../mocks/helpers';
+import { mockParentSites } from '../mocks/helpers';
 import { mockFacilitiesFetchByVersion } from '../mocks/fetch';
 import { getParentSiteMock } from '../mocks/v0';
-import { mockSchedulingConfigurations } from '../mocks/helpers.v2';
+import {
+  mockSchedulingConfigurations,
+  mockV2CommunityCareEligibility,
+} from '../mocks/helpers.v2';
 import { getSchedulingConfigurationMock } from '../mocks/v2';
 import { createMockFacilityByVersion } from '../mocks/data';
 
@@ -204,10 +204,9 @@ describe('VAOS newAppointmentFlow', () => {
           ],
           true,
         );
-        mockCommunityCareEligibility({
+        mockV2CommunityCareEligibility({
           parentSites: [],
           careType: 'Podiatry',
-          eligibility: true,
         });
         const state = {
           ...userState,
@@ -277,10 +276,9 @@ describe('VAOS newAppointmentFlow', () => {
           ],
           true,
         );
-        mockCommunityCareEligibility({
+        mockV2CommunityCareEligibility({
           parentSites: [],
           careType: 'PrimaryCare',
-          eligibility: true,
         });
 
         const state = {
@@ -616,10 +614,9 @@ describe('VAOS newAppointmentFlow', () => {
         ],
         true,
       );
-      mockCommunityCareEligibility({
+      mockV2CommunityCareEligibility({
         parentSites: [],
         careType: 'Optometry',
-        eligibility: true,
       });
       const state = {
         ...userState,

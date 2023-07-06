@@ -19,7 +19,7 @@ const PrintDownload = props => {
   }
 
   return (
-    <div className="print-download vads-u-margin-y--3 no-print">
+    <div className="print-download vads-u-margin-y--2 no-print">
       <button
         type="button"
         className={toggleMenuButtonClasses}
