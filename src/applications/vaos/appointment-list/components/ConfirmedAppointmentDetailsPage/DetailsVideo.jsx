@@ -7,7 +7,7 @@ import {
 import { VIDEO_TYPES } from '../../../utils/constants';
 import AppointmentDateTime from '../AppointmentDateTime';
 import BackLink from '../../../components/BackLink';
-// import Breadcrumbs from '../../../components/Breadcrumbs';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 import CalendarLink from './CalendarLink';
 import StatusAlert from './StatusAlert';
 import TypeHeader from './TypeHeader';
@@ -16,6 +16,7 @@ import VideoVisitProvider from './VideoVisitProvider';
 import NoOnlineCancelAlert from './NoOnlineCancelAlert';
 import VideoInstructionsLink from './VideoInstructionsLink';
 import VideoLocation from './VideoLocation';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 function formatHeader(appointment) {
   if (appointment.videoData.kind === VIDEO_TYPES.gfe) {
@@ -33,21 +34,28 @@ function formatHeader(appointment) {
 export default function DetailsVideo({ appointment, facilityData }) {
   const locationId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[locationId];
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const showBackLink = useToggleValue(
+    TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink,
+  );
 
   const header = formatHeader(appointment);
 
   return (
     <>
-      {/* <Breadcrumbs>
-        <a
-          href={`/health-care/schedule-view-va-appointments/appointments/va/${
-            appointment.id
-          }`}
-        >
-          Appointment detail
-        </a>
-      </Breadcrumbs> */}
-      <BackLink appointment={appointment} />
+      {showBackLink ? (
+        <BackLink appointment={appointment} />
+      ) : (
+        <Breadcrumbs>
+          <a
+            href={`/health-care/schedule-view-va-appointments/appointments/va/${
+              appointment.id
+            }`}
+          >
+            Appointment detail
+          </a>
+        </Breadcrumbs>
+      )}
 
       <h1 style={{ marginTop: '2rem' }}>
         <AppointmentDateTime appointment={appointment} />
