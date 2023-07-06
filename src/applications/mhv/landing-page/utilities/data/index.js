@@ -217,6 +217,15 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
   const spotlightLinks = resolveLinkCollection(
     [
       {
+        text: 'Track Your Blood Pressure Online',
+        href: null,
+        oldHref: mhvUrl(
+          authdWithSSOe,
+          'ss20190822-track-health-blood-pressure',
+        ),
+        toggle: null,
+      },
+      {
         text: 'PACT Act Special Enrollment Period',
         href: null,
         oldHref: mhvUrl(
@@ -226,17 +235,11 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
         toggle: null,
       },
       {
-        text: 'My HealtheVet on VA.gov',
-        href: null,
-        oldHref: mhvUrl(authdWithSSOe, 'ss20230412-my-healthevet-on-va-gov'),
-        toggle: null,
-      },
-      {
-        text: 'Get the New Toxic Exposure Screening',
+        text: 'Easy Exercises to Reduce Back Pain',
         href: null,
         oldHref: mhvUrl(
           authdWithSSOe,
-          'ss20221110-get-the-new-toxic-exposure-screening',
+          'ss20210329-simple-exercises-to-reduce-back-pain',
         ),
         toggle: null,
       },

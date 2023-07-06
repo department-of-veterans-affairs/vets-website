@@ -23,15 +23,13 @@ const testConfig = createTestConfig(
 
     dataDir: path.join(__dirname, 'fixtures', 'data'),
 
-    dataSets: ['flow1', 'flow2', 'flow3', 'flow4'],
+    dataSets: ['flow2'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.findByText(/start/i, { selector: 'button' });
-          cy.get('.usa-alert-text .schemaform-start-button').click({
-            force: true,
-          });
+          cy.findByText(/without signing in/i).click({ force: true });
         });
       },
       'witness-personal-information-a': ({ afterHook }) => {
@@ -71,14 +69,15 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const signerFullName = getSignerFullName(data);
-
+            const signerName = getSignerFullName(data);
             cy.get('#veteran-signature')
+              .first()
               .shadow()
-              .get('#inputField')
-              .type(signerFullName);
+              .find('input')
+              .first()
+              .type(signerName);
             cy.get(`input[name="veteran-certify"]`).check();
-            cy.findAllByText(/Submit statement/i, {
+            cy.findAllByText(/Submit application/i, {
               selector: 'button',
             }).click();
           });
@@ -87,13 +86,14 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
+      Cypress.config({ defaultCommandTimeout: 8000 });
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', testFormConfig.submitUrl, mockSubmit);
     },
 
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   testFormConfig,

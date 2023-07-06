@@ -92,7 +92,7 @@ const ContestableIssuesWidget = props => {
   }
 
   const handlers = {
-    onCloseModal: () => setShowErrorModal(false),
+    closeModal: () => setShowErrorModal(false),
 
     onChange: (index, event) => {
       let { checked } = event.target;

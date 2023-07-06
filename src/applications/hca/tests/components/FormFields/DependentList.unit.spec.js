@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { normalizeFullName } from '../../../utils/helpers';
 import DependentList from '../../../components/FormFields/DependentList';
 
 describe('hca <DependentList>', () => {
@@ -55,13 +56,9 @@ describe('hca <DependentList>', () => {
         ),
       };
       const dependent = defaultProps.list[0];
-      const normalizedText = `${dependent.fullName.first} ${
-        dependent.fullName.last
-      } ${dependent.fullName.suffix || ''}`.replace(/ +(?= )/g, '');
-      expect(selectors.name).to.contain.text(normalizedText);
-      expect(selectors.relationship).to.contain.text(
-        dependent.dependentRelation,
-      );
+      const { fullName, dependentRelation } = dependent;
+      expect(selectors.name).to.contain.text(normalizeFullName(fullName));
+      expect(selectors.relationship).to.contain.text(dependentRelation);
     });
 
     it('should render the last list item with the correct name and relationship', () => {
@@ -76,13 +73,9 @@ describe('hca <DependentList>', () => {
         ),
       };
       const dependent = defaultProps.list[1];
-      const normalizedText = `${dependent.fullName.first} ${
-        dependent.fullName.last
-      } ${dependent.fullName.suffix || ''}`.replace(/ +(?= )/g, '');
-      expect(selectors.name).to.contain.text(normalizedText);
-      expect(selectors.relationship).to.contain.text(
-        dependent.dependentRelation,
-      );
+      const { fullName, dependentRelation } = dependent;
+      expect(selectors.name).to.contain.text(normalizeFullName(fullName));
+      expect(selectors.relationship).to.contain.text(dependentRelation);
     });
   });
 });

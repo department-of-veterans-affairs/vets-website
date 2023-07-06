@@ -87,9 +87,15 @@ export function getCommunityCareFacility(id) {
   }).then(parseApiObject);
 }
 
-export function getCancelReasons(systemId) {
+export function getAvailableSlots(
+  facilityId,
+  typeOfCareId,
+  clinicId,
+  startDate,
+  endDate,
+) {
   return apiRequestWithUrl(
-    `/vaos/v0/facilities/${systemId}/cancel_reasons`,
+    `/vaos/v0/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
   ).then(parseApiList);
 }
 
@@ -107,22 +113,6 @@ export function updateRequest(req) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(req),
   }).then(parseApiObject);
-}
-
-export function submitRequest(type, request) {
-  return apiRequestWithUrl(`/vaos/v0/appointment_requests?type=${type}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(request),
-  }).then(parseApiObject);
-}
-
-export function submitAppointment(appointment) {
-  return apiRequestWithUrl('/vaos/v0/appointments', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(appointment),
-  });
 }
 
 export function getRequestEligibilityCriteria(sites) {

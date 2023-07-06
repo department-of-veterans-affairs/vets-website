@@ -5,17 +5,21 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
+import { scrollToTop } from '../utilities/scroll-to-top';
 import { ROUTES } from '../constants';
 import { updateDependents, updateEditMode } from '../actions';
 
 const DependentsPage = ({
   dependents,
   editMode,
+  pastMode,
   router,
   toggleEditMode,
   updateDependentsField,
+  year,
+  zipCode,
 }) => {
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -26,9 +30,24 @@ const DependentsPage = ({
 
   const validDependents = dependents?.length > 0 && dependentsValid(dependents);
 
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  useEffect(
+    () => {
+      let shouldRedirectToHome = !zipCode;
+
+      if (pastMode) {
+        shouldRedirectToHome = !zipCode && !year;
+      }
+
+      if (shouldRedirectToHome) {
+        router.push(ROUTES.HOME);
+        return;
+      }
+
+      waitForRenderThenFocus('h1');
+      scrollToTop();
+    },
+    [pastMode, router, year, zipCode],
+  );
 
   const onContinueClick = () => {
     setSubmitted(true);
@@ -99,6 +118,9 @@ const DependentsPage = ({
 const mapStateToProps = state => ({
   dependents: state?.incomeLimits?.form?.dependents,
   editMode: state?.incomeLimits?.editMode,
+  pastMode: state?.incomeLimits?.pastMode,
+  year: state?.incomeLimits?.form?.year,
+  zipCode: state?.incomeLimits?.form?.zipCode,
 });
 
 const mapDispatchToProps = {
@@ -108,12 +130,15 @@ const mapDispatchToProps = {
 
 DependentsPage.propTypes = {
   editMode: PropTypes.bool.isRequired,
+  pastMode: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
   toggleEditMode: PropTypes.func.isRequired,
   updateDependentsField: PropTypes.func.isRequired,
+  zipCode: PropTypes.string.isRequired,
   dependents: PropTypes.string,
+  year: PropTypes.string,
 };
 
 export default connect(

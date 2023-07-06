@@ -51,6 +51,10 @@
       border-right: 2px solid var(--color-primary);
       border-bottom: 2px solid var(--color-primary);
       border-left: 2px solid var(--color-primary);
+
+      button {
+        border-radius: 5px 5px 0px 0px;
+      }
     }
     li {
       margin: 0px;
@@ -62,6 +66,7 @@
       border-radius: 0px;
 
       button {
+        border-radius: 0px;
         margin: 0px;
         text-align: left;
       }
@@ -72,10 +77,17 @@
       border-right: 2px solid var(--color-primary);
       border-bottom: 2px solid var(--color-primary);
       border-left: 2px solid var(--color-primary);
+
+      button {
+        border-radius: 0px 0px 5px 5px;
+      }
     }
   }
 
   .menu-options-open {
+    width: 275px;
+    position: absolute;
+    z-index: 99;
     list-style: none;
     display: flex;
   }

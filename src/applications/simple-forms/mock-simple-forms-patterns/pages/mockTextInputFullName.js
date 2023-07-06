@@ -38,7 +38,7 @@ const fullNameDef = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI('RJSF'),
+    rjsfTitle: titleUI('RJSF'),
     spouseFullNameOld: {
       ...fullNameOldUI,
       first: {
@@ -60,8 +60,8 @@ export default {
         'ui:title': 'Select - Spouse\u2019s suffix',
       },
     },
-    wc: inlineTitleUI('Web component'),
-    spouseFullNameNew: {
+    wcTitle: inlineTitleUI('Web component'),
+    wcOldSpouseFullName: {
       ...fullNameOldUI,
       first: {
         'ui:title': 'TextWidget - Spouse\u2019s first name',
@@ -98,18 +98,18 @@ export default {
         },
       },
     },
-    wcv3: inlineTitleUI('Web component v3'),
-    spouseFullNameNewV3: fullNameUI(),
+    wcv3Title: inlineTitleUI('Web component v3'),
+    wcv3SpouseFullNameNew: fullNameUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
+      rjsfTitle: titleSchema,
       spouseFullNameOld: fullNameDef,
-      wc: inlineTitleSchema,
-      spouseFullNameNew: fullNameSchema,
-      wcv3: inlineTitleSchema,
-      spouseFullNameNewV3: fullNameSchema,
+      wcTitle: inlineTitleSchema,
+      wcOldSpouseFullName: fullNameSchema,
+      wcv3Title: inlineTitleSchema,
+      wcv3SpouseFullNameNew: fullNameSchema,
     },
     required: [],
   },

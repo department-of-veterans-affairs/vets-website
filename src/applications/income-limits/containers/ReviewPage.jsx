@@ -2,10 +2,13 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
+import { scrollToTop } from '../utilities/scroll-to-top';
+import { redirectIfFormIncomplete } from '../utilities/utils';
+import { getData } from '../api';
 import { ROUTES } from '../constants';
-import { updateEditMode } from '../actions';
+import { updateEditMode, updateResults } from '../actions';
 
 const ReviewPage = ({
   dependentsInput,
@@ -13,6 +16,7 @@ const ReviewPage = ({
   pastMode,
   router,
   toggleEditMode,
+  updateLimitsResults,
   yearInput,
   zipCodeInput,
 }) => {
@@ -22,12 +26,37 @@ const ReviewPage = ({
     }
   });
 
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  useEffect(
+    () => {
+      redirectIfFormIncomplete(
+        dependentsInput,
+        pastMode,
+        router,
+        yearInput,
+        zipCodeInput,
+      );
 
-  const onContinueClick = () => {
-    router.push(ROUTES.RESULTS);
+      waitForRenderThenFocus('h1');
+      scrollToTop();
+    },
+    [dependentsInput, pastMode, router, yearInput, zipCodeInput],
+  );
+
+  const onContinueClick = async () => {
+    const year = yearInput || new Date().getFullYear();
+
+    if (dependentsInput && year && zipCodeInput) {
+      const response = await getData({
+        dependents: dependentsInput,
+        year,
+        zipCode: zipCodeInput,
+      });
+
+      if (response) {
+        updateLimitsResults(response?.data);
+        router.push(ROUTES.RESULTS);
+      }
+    }
   };
 
   const onBackClick = () => {
@@ -42,67 +71,64 @@ const ReviewPage = ({
   return (
     <>
       <h1>Aenean tristique mollis</h1>
-      <p>Fusce risus lacus, efficitur ac magna vitae, cursus lobortis dui.</p>
-      <table className="usa-table-borderless" data-testid="il-review">
-        <tbody>
-          {pastMode && (
-            <tr>
-              <td data-testid="review-year">
-                <strong>Vitae:</strong>
-                <br aria-hidden="true" /> {yearInput}
-              </td>
-              <td className="income-limits-edit">
-                <button
-                  aria-label="Edit year"
-                  className="va-button-link"
-                  href="#"
-                  onClick={() => handleEditClick(ROUTES.YEAR)}
-                  name="year"
-                  type="button"
-                >
-                  Edit
-                </button>
-              </td>
-            </tr>
-          )}
-          <tr>
-            <td data-testid="review-zip">
-              <strong>Nisci orci:</strong>
-              <br aria-hidden="true" /> {zipCodeInput}
-            </td>
-            <td className="income-limits-edit">
-              <button
-                aria-label="Edit zip code"
-                className="va-button-link"
+      <p className="il-review">
+        Fusce risus lacus, efficitur ac magna vitae, cursus lobortis dui.
+      </p>
+      <ul data-testid="il-review">
+        {pastMode && (
+          <li>
+            <span data-testid="review-year">
+              <strong>Vitae:</strong>
+              <br /> {yearInput}
+            </span>
+            <span className="income-limits-edit">
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <a
+                aria-label="Edit year"
                 href="#"
-                onClick={() => handleEditClick(ROUTES.ZIPCODE)}
-                name="zipCode"
-                type="button"
+                onClick={() => handleEditClick(ROUTES.YEAR)}
+                name="year"
               >
                 Edit
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td data-testid="review-dependents">
-              <strong>Malesuada felis ultrices:</strong>
-              <br aria-hidden="true" /> {dependentsInput}
-            </td>
-            <td className="income-limits-edit">
-              <button
-                aria-label="Edit number of dependents"
-                className="va-button-link"
-                href="#"
-                onClick={() => handleEditClick(ROUTES.DEPENDENTS)}
-                name="dependents"
-                type="button"
-              >
-                Edit
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </a>
+            </span>
+          </li>
+        )}
+        <li>
+          <span data-testid="review-zip">
+            <strong>Nisci orci:</strong>
+            <br /> {zipCodeInput}
+          </span>
+          <span className="income-limits-edit">
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a
+              aria-label="Edit zip code"
+              href="#"
+              onClick={() => handleEditClick(ROUTES.ZIPCODE)}
+              name="zipCode"
+            >
+              Edit
+            </a>
+          </span>
+        </li>
+        <li>
+          <span data-testid="review-dependents">
+            <strong>Malesuada felis ultrices:</strong>
+            <br /> {dependentsInput}
+          </span>
+          <span className="income-limits-edit">
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a
+              aria-label="Edit number of dependents"
+              href="#"
+              onClick={() => handleEditClick(ROUTES.DEPENDENTS)}
+              name="dependents"
+            >
+              Edit
+            </a>
+          </span>
+        </li>
+      </ul>
       <VaButtonPair
         data-testid="il-buttonPair"
         onPrimaryClick={onContinueClick}
@@ -123,6 +149,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   toggleEditMode: updateEditMode,
+  updateLimitsResults: updateResults,
 };
 
 ReviewPage.propTypes = {
@@ -133,6 +160,7 @@ ReviewPage.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   toggleEditMode: PropTypes.func.isRequired,
+  updateLimitsResults: PropTypes.func.isRequired,
   zipCodeInput: PropTypes.string.isRequired,
   yearInput: PropTypes.string,
 };
