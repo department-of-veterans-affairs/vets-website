@@ -24,6 +24,8 @@ ENV AWS_URL $AWS_URL
 ARG SOURCE_REF
 ENV SOURCE_REF $SOURCE_REF
 
+ENV NODE_EXTRA_CA_CERTS /etc/ssl/certs/ca-certificates.crt
+
 # Configure image to execute a script on startup with ENTRYPOINT/CMD
 ENTRYPOINT ["./start.sh"]
-CMD ["$AWS_URL", "$SOURCE_REF"]
+CMD ["$AWS_URL", "$SOURCE_REF", "$NODE_EXTRA_CA_CERTS"]
