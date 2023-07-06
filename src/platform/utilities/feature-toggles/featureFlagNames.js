@@ -182,5 +182,6 @@ export default Object.freeze({
   vaOnlineSchedulingDescriptiveBackLink: 'va_online_scheduling_descriptive_back_link',
   vaViewDependentsAccess: 'va_view_dependents_access',
   virtualAgentShowFloatingChatbot: 'virtual_agent_show_floating_chatbot',
+  virtualAgentVoice: 'virtual_agent_voice',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
 });
