@@ -19,12 +19,6 @@ export function getStagingId(facilityId) {
   return facilityId;
 }
 
-export function getParentFacilities(systemIds) {
-  const idList = systemIds.map(id => `facility_codes[]=${id}`).join('&');
-
-  return apiRequestWithUrl(`/vaos/v0/facilities?${idList}`).then(parseApiList);
-}
-
 export function getCommunityCareFacilities({
   latitude,
   longitude,
