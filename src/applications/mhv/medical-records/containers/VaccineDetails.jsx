@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { dateFormat, typeAndDose, downloadFile } from '../util/helpers';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { typeAndDose, downloadFile } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -21,7 +22,7 @@ const VaccineDetails = () => {
     },
     [vaccineId, dispatch],
   );
-  const formattedDate = dateFormat(vaccineDetails?.date, 'MMMM D, YYYY');
+  const formattedDate = formatDateLong(vaccineDetails?.date);
 
   useEffect(
     () => {
