@@ -15,7 +15,7 @@ const initialState = {
     year: null,
     zipCode: null,
   },
-  pastMode: false,
+  pastMode: null,
   results: null,
   zipValidationServiceError: false,
 };

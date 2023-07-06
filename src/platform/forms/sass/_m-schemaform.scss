@@ -702,3 +702,14 @@ textarea:focus {
 select:disabled {
   background-color: $color-gray-lighter;
 }
+
+// To be removed after button pair is added
+i.fa-angles-left::before {
+  content: "\F100";
+  margin-right: 8px;
+}
+
+i.fa-angles-right::before {
+  content: "\F101";
+  margin-left: 8px;
+}

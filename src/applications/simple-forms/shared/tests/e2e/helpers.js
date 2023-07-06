@@ -48,6 +48,16 @@ export const selectCheckboxWebComponent = (fieldName, condition) => {
   }
 };
 
+export const selectGroupCheckboxWidget = label => {
+  if (label) {
+    cy.get(`va-checkbox[label="${label}"]`)
+      .shadow()
+      .get('#checkbox-element')
+      .first()
+      .click();
+  }
+};
+
 // patterns
 
 export const fillFullNameWebComponentPattern = (fieldName, fullName) => {
