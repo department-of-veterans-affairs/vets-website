@@ -343,21 +343,20 @@ const ReplyForm = props => {
             />
             <EmergencyNote dropDownFlag />
             <div>
-              <h4
-                className="vads-u-display--flex vads-u-color--gray-dark vads-u-font-weight--bold"
-                style={{ whiteSpace: 'break-spaces' }}
+              <span
+                className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
+                style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
               >
                 <i
-                  className="fas fa-reply vads-u-margin-right--0p5"
+                  className="fas fa-reply vads-u-margin-right--0p5 vads-u-margin-top--0p25"
                   aria-hidden="true"
                 />
-                <span className="vads-u-color--secondary-darkest">(Draft)</span>
-                {` To: ${draftToEdit?.replyToName ||
+                {`(Draft) To: ${draftToEdit?.replyToName ||
                   replyMessage?.senderName}\n(Team: ${
                   replyMessage.triageGroupName
                 })`}
                 <br />
-              </h4>
+              </span>
               <va-textarea
                 label="Message"
                 required
