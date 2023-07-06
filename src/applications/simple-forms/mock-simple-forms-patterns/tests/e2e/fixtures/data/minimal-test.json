@@ -71,6 +71,9 @@
     "requiredOld": "Lorem ipsum dolor sit amet",
     "wcOldRequired": "Lorem ipsum dolor sit amet",
     "wcv3RequiredNew": "Lorem ipsum dolor sit amet",
-    "wcv3TextAreaNew": "Lorem ipsum dolor sit amet"
+    "wcv3TextAreaNew": "Lorem ipsum dolor sit amet",
+    "wcv3RelationshipToVeteranNew": {
+      "relationshipToVeteran": "spouse"
+    }
   }
 }

@@ -12,6 +12,7 @@ import textInputAddress from '../pages/mockTextInputAddress';
 import textInputSsn from '../pages/mockTextInputSsn';
 import checkboxAndTextInput from '../pages/mockCheckboxAndTextInput';
 import radio from '../pages/mockRadio';
+import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran';
 import select from '../pages/mockSelect';
 import date from '../pages/mockDate';
 
@@ -106,6 +107,12 @@ const formConfig = {
           title: 'Radio',
           uiSchema: radio.uiSchema,
           schema: radio.schema,
+        },
+        radioRelationshipToVeteran: {
+          path: 'radio-relationship-to-veteran',
+          title: 'Radio Relationship to Veteran',
+          uiSchema: radioRelationshipToVeteran.uiSchema,
+          schema: radioRelationshipToVeteran.schema,
         },
       },
     },
