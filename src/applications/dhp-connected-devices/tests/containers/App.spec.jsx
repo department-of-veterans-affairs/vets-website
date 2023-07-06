@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { render } from 'enzyme';
 import { Provider } from 'react-redux';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import App from '../../containers/App';
 
 function getStore(loading = false, currentlyLoggedIn = false) {
