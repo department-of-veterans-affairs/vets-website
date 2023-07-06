@@ -23,7 +23,7 @@ const testConfig = createTestConfig(
 
     dataDir: path.join(__dirname, 'fixtures', 'data'),
 
-    dataSets: ['flow2'],
+    dataSets: ['flow1', 'flow2', 'flow3', 'flow4'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -77,7 +77,7 @@ const testConfig = createTestConfig(
               .first()
               .type(signerName);
             cy.get(`input[name="veteran-certify"]`).check();
-            cy.findAllByText(/Submit application/i, {
+            cy.findAllByText(/submit statement/i, {
               selector: 'button',
             }).click();
           });
@@ -86,14 +86,9 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
-      Cypress.config({ defaultCommandTimeout: 8000 });
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     },
-
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,
