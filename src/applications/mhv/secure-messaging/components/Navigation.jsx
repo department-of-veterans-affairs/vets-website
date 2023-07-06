@@ -18,14 +18,24 @@ const Navigation = () => {
   const closeMenuButtonRef = useRef();
   const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
 
+  const updatePageTitle = newTitle => {
+    document.title = newTitle;
+  };
+
+  useEffect(() => {
+    // initial page title
+    updatePageTitle('Messages - MHV Secure Messaging | Veteran Affairs');
+  }, []);
+
   function openNavigation() {
     setIsNavigationOpen(true);
   }
 
   const closeNavigation = useCallback(
-    () => {
+    newTitle => {
       setIsNavigationOpen(false);
       focusElement(navMenuButtonRef);
+      updatePageTitle(`${newTitle} - MHV Secure Messaging | Veteran Affairs`);
     },
     [navMenuButtonRef],
   );
@@ -183,7 +193,7 @@ const Navigation = () => {
                           className={handleActiveLinksStyle(path)}
                           to={path.path}
                           onClick={() => {
-                            closeNavigation();
+                            closeNavigation(path.label);
                           }}
                         >
                           <span>{path.label}</span>
