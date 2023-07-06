@@ -3,7 +3,7 @@ import moment from 'moment-timezone';
 /**
  * @param {*} timestamp
  * @param {*} format momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
- * @returns {String} fromatted timestamp
+ * @returns {String} formatted timestamp
  */
 export const dateFormat = (timestamp, format = null) => {
   const timeZone = moment.tz.guess();

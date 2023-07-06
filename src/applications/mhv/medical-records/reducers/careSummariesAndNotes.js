@@ -1,6 +1,8 @@
-import environment from 'platform/utilities/environment';
+import {
+  formatDateLong,
+  environment,
+} from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { dateFormat } from '../util/helpers';
 import { testing } from '../util/constants';
 
 const initialState = {
@@ -19,8 +21,8 @@ const convertNote = note => {
   return {
     id: note.id,
     name: note.type.coding[0].display,
-    startDate: dateFormat(note.date, 'MMMM D, YYYY'),
-    endDate: dateFormat(note.meta.lastUpdated, 'MMMM D, YYYY'),
+    startDate: formatDateLong(note.date),
+    endDate: formatDateLong(note.meta.lastUpdated),
     summary: note.description,
     // admittingPhysician: note.asdf,
     // dischargePhysician: note.asdf,

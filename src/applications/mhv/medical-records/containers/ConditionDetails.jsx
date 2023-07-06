@@ -46,7 +46,7 @@ const ConditionDetails = () => {
               },
             ],
             {
-              url: `/my-health/medical-records/health-history/condition-details/${conditionId}`,
+              url: `/my-health/medical-records/health-history/health-conditions/${conditionId}`,
               label: conditionDetails?.name,
             },
           ),
