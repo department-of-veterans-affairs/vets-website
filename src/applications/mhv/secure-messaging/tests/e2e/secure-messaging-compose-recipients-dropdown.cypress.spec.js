@@ -112,7 +112,8 @@ describe('recipients dropdown box', () => {
     cy.wait('@recipients').then(() => {
       cy.get('[data-testid="compose-recipient-select"]')
         .find('option')
-        .filter(':visible', { timeout: 5000 })
+        // filtering not required. all elements should be visible due to inheritance from parent element
+        // .filter(':visible', { timeout: 5000 })
         .its('length')
         .should('equal', 1);
       cy.get('[name="COVID"]').click();
