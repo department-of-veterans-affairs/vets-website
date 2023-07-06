@@ -115,18 +115,10 @@ export function updateRequest(req) {
   }).then(parseApiObject);
 }
 
-export function getRequestEligibilityCriteria(sites) {
-  return apiRequestWithUrl(
-    `/vaos/v0/request_eligibility_criteria?${sites
-      .map(site => `parent_sites[]=${site}`)
-      .join('&')}`,
-  ).then(parseApiList);
-}
-
-export function getDirectBookingEligibilityCriteria(sites) {
-  return apiRequestWithUrl(
-    `/vaos/v0/direct_booking_eligibility_criteria?${sites
-      .map(site => `parent_sites[]=${site}`)
-      .join('&')}`,
-  ).then(parseApiList);
+export function submitAppointment(appointment) {
+  return apiRequestWithUrl('/vaos/v0/appointments', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(appointment),
+  });
 }
