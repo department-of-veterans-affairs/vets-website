@@ -101,7 +101,11 @@ const Navigation = () => {
     let relativePath;
     if (path === '/' && location.pathname === '/') return 'is-active';
     const pathArr = location.pathname.slice(1).split('/');
-    if (pathArr.length === 2 && pathArr[0] === 'labs-and-tests') {
+    if (
+      pathArr.length > 1 &&
+      pathArr.length < 5 &&
+      pathArr[0] === 'labs-and-tests'
+    ) {
       relativePath = '/labs-and-tests';
     } else if (pathArr.length === 3)
       relativePath = `/${pathArr[0]}/${pathArr[1]}`;

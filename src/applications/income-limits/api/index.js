@@ -25,7 +25,7 @@ export const validateZip = async zip => {
   const CONTEXT_ROOT = '/income_limits/v1/validateZipCode';
   const REQUEST_URL = `${environment.API_URL}${CONTEXT_ROOT}/${zip}`;
   // For testing locally, use the below REQUEST_URL and comment out the CONTEXT_ROOT and REQUEST_URL above
-  // const REQUEST_URL = `https://api.va.gov/income_limits/v1/validateZipCod/${zip}`;
+  // const REQUEST_URL = `https://api.va.gov/income_limits/v1/validateZipCode/${zip}`;
 
   return new Promise((resolve, reject) => {
     fetch(REQUEST_URL)

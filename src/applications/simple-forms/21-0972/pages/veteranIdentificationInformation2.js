@@ -1,6 +1,6 @@
 import {
-  serviceNumberUI,
   serviceNumberSchema,
+  serviceNumberUI,
   ssnSchema,
   ssnUI,
   vaFileNumberSchema,
