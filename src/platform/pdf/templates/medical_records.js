@@ -109,22 +109,13 @@ const generateResultsContent = async (doc, parent, data) => {
     );
   }
   let initialBlock = true;
-  for (const [idx, item] of data.results.items.entries()) {
+  for (const item of data.results.items) {
     // Insert a pagebreak if the next block will not fit on the current page,
     // taking the footer height into account.
     const blockHeight = getTestResultBlockHeight(doc, item, initialBlock);
     if (doc.y + blockHeight > 750) {
       initialBlock = true;
       await doc.addPage();
-    } else if (idx > 0) {
-      initialBlock = false;
-      if (data.results.sectionSeparators !== false) {
-        results.add(
-          doc.struct('Artifact', () => {
-            addHorizontalRule(doc, 30, 1.5);
-          }),
-        );
-      }
     }
 
     const headingOptions = { paragraphGap: 10, x: 30 };
@@ -138,6 +129,16 @@ const generateResultsContent = async (doc, parent, data) => {
       const structs = await createDetailItem(doc, config, 40, resultItem);
       for (const struct of structs) {
         results.add(struct);
+      }
+    }
+    if (data.results.items.length > 1) {
+      initialBlock = false;
+      if (data.results.sectionSeparators !== false) {
+        results.add(
+          doc.struct('Artifact', () => {
+            addHorizontalRule(doc, 30, 1.5);
+          }),
+        );
       }
     }
   }

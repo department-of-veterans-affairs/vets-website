@@ -124,6 +124,8 @@ const createDetailItem = async (doc, config, x, item) => {
       }),
     );
   } else {
+    const blockValueOptions = { lineGap: 6 };
+    paragraphOptions.lineGap = 2;
     if (titleText) {
       titleText += ' ';
       content.push(
@@ -140,7 +142,7 @@ const createDetailItem = async (doc, config, x, item) => {
         doc
           .font(config.text.font)
           .fontSize(config.text.size)
-          .text(item.value, x);
+          .text(item.value, x, doc.y, blockValueOptions);
       }),
     );
   }
