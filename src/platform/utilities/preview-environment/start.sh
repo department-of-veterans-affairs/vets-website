@@ -66,5 +66,3 @@ yarn build --use-cached-assets
 wait
 echo "Serve up content-build"
 yarn serve
-
-sleep 50000000
