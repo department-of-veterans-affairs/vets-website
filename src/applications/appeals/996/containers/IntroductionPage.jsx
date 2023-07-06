@@ -9,6 +9,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 
 import { FETCH_CONTESTABLE_ISSUES_INIT } from '../actions';
@@ -26,6 +27,7 @@ import { checkContestableIssueError } from '../utils/helpers';
 export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('h1');
+    scrollToTop();
   }
 
   getCallToActionContent = ({ last } = {}) => {
