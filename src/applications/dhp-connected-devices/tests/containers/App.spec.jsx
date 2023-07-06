@@ -55,7 +55,6 @@ describe('App', () => {
       </Provider>,
     );
 
-    // expect(wrapper.find('va-loading-indicator').length).to.equal(0);
     expect(
       wrapper
         .find('h2')
