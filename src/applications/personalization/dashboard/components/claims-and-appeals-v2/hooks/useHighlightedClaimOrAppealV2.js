@@ -16,8 +16,10 @@ const getAppealUpdateDate = appeal => {
 
 const getClaimUpdateDate = claim => {
   let updateDate;
-  const filedDate = claim?.attributes.dateFiled;
-  const changeDate = claim?.attributes.phaseChangeDate;
+  const filedDate = claim?.attributes.dateFiled || claim?.attributes.claimDate;
+  const changeDate =
+    claim?.attributes.phaseChangeDate ||
+    claim?.attributes.claimPhaseDates?.phaseChangeDate;
   if (changeDate && filedDate) {
     updateDate =
       new Date(filedDate).getTime() > new Date(changeDate).getTime()

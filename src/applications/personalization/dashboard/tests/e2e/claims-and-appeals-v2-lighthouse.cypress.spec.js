@@ -2,7 +2,7 @@ import { mockUser } from '@@profile/tests/fixtures/users/user';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
-import claimsSuccess from '@@profile/tests/fixtures/claims-success';
+import claimsSuccess from '@@profile/tests/fixtures/claims-lighthouse-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import appeals404 from '@@profile/tests/fixtures/appeals-404.json';
 import error500 from '@@profile/tests/fixtures/500.json';
@@ -21,7 +21,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
     );
   });
 
-  describe('when the feature is not hidden', () => {
+  describe('when using the Lighthouse /benefits_claims endpoint', () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
@@ -33,19 +33,21 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
             },
             {
               name: featureFlagNames.myVaUseLighthouseClaims,
-              value: false,
+              value: true,
             },
           ],
         },
       }).as('featuresB');
     });
+
     context(
       'when there is a recent appeals update and recent claims update',
       () => {
         beforeEach(() => {
-          cy.intercept('/v0/evss_claims_async', claimsSuccess(1));
+          cy.intercept('/v0/benefits_claims', claimsSuccess(1));
           cy.intercept('/v0/appeals', appealsSuccess(10));
         });
+
         it('should show details about the updated claim because it was updated more recently than the appeal', () => {
           cy.visit(manifest.rootUrl);
 
@@ -70,16 +72,18 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
         });
       },
     );
+
     context(
       'when there is a recent claim update but there is a 500 from the appeals API',
       () => {
         beforeEach(() => {
-          cy.intercept('/v0/evss_claims_async', claimsSuccess());
+          cy.intercept('/v0/benefits_claims', claimsSuccess());
           cy.intercept('/v0/appeals', {
             statusCode: 500,
             body: error500,
           });
         });
+
         it('should show an error in the Claims and Appeals section', () => {
           cy.visit(manifest.rootUrl);
 
@@ -109,12 +113,13 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
       'when there is a 404 from the appeals API and all claims closed over 60 days ago',
       () => {
         beforeEach(() => {
-          cy.intercept('/v0/evss_claims_async', claimsSuccess(100, false));
+          cy.intercept('/v0/benefits_claims', claimsSuccess(100, false));
           cy.intercept('/v0/appeals', {
             statusCode: 404,
             body: appeals404,
           });
         });
+
         it('should show there are no claims or appeals to show', () => {
           cy.visit(manifest.rootUrl);
 
@@ -144,13 +149,15 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
         });
       },
     );
+
     context(
       'when there are no open claims or appeals and no closed claims or appeals in the past 60 days',
       () => {
         beforeEach(() => {
-          cy.intercept('/v0/evss_claims_async', claimsSuccess(901, false));
+          cy.intercept('/v0/benefits_claims', claimsSuccess(901, false));
           cy.intercept('/v0/appeals', appealsSuccess(901, false));
         });
+
         it('should show there are no claims or appeals to show', () => {
           cy.visit(manifest.rootUrl);
 
