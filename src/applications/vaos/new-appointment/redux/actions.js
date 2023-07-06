@@ -11,7 +11,6 @@ import {
   selectSystemIds,
   selectRegisteredCernerFacilityIds,
   selectFeatureFacilitiesServiceV2,
-  selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureAcheronService,
@@ -23,7 +22,6 @@ import {
   getTypeOfCareFacilities,
   getCCEType,
 } from './selectors';
-import { getCommunityCare } from '../../services/var';
 import {
   getLocation,
   getSiteIdFromFacilityId,
@@ -676,7 +674,6 @@ export function checkCommunityCareEligibility() {
     const state = getState();
     const communityCareEnabled = selectFeatureCommunityCare(state);
     const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(state);
-    const useV2 = selectFeatureVAOSServiceCCAppointments(state);
 
     if (!communityCareEnabled) {
       return false;
@@ -701,12 +698,7 @@ export function checkCommunityCareEligibility() {
 
       // Reroute to VA facility page if none of the user's registered systems support community care.
       if (ccEnabledSystems.length) {
-        let response = null;
-        if (useV2) {
-          response = await getCommunityCareV2(getCCEType(state));
-        } else {
-          response = await getCommunityCare(getCCEType(state));
-        }
+        const response = await getCommunityCareV2(getCCEType(state));
         dispatch({
           type: FORM_UPDATE_CC_ELIGIBILITY,
           isEligible: response.eligible,
