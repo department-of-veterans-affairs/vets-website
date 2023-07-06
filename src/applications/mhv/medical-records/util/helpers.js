@@ -69,7 +69,7 @@ export const getNames = record => {
  * @returns {String} array of strings, separated by a comma
  */
 export const processList = list => {
-  if (list?.length > 1) return list.join(', ');
+  if (list?.length > 1) return list.join('. ');
   if (list) return list;
-  return 'none noted';
+  return 'None noted';
 };
