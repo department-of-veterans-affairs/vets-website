@@ -13,7 +13,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   it('Navigate Away From `Start a new message` To Inbox', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -36,7 +36,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   it('Navigate Away From `Start a new message` To Draft', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -63,7 +63,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   it('Navigate Away From `Start a new message` To Sent', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -90,7 +90,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   it('Navigate Away From `Start a new message` To Trash', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -117,7 +117,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   it('Navigate Away From `Start a new message` To MY Folders', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

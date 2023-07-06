@@ -39,7 +39,7 @@ export default function PastAppointmentsDateDropdown({
   );
 
   return (
-    <>
+    <div className="vaos-hide-for-print">
       <Select
         options={options}
         onChange={handleChange({
@@ -66,7 +66,7 @@ export default function PastAppointmentsDateDropdown({
           Update
         </button>
       )}
-    </>
+    </div>
   );
 }
 

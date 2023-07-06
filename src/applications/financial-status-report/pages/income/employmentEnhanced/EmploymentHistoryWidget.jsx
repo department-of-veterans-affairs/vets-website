@@ -8,7 +8,13 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import { clearJobIndex } from '../../../utils/session';
 
 const EmploymentHistoryWidget = props => {
-  const { goToPath, goForward, onReviewPage } = props;
+  const {
+    goToPath,
+    goForward,
+    onReviewPage,
+    contentBeforeButtons,
+    contentAfterButtons,
+  } = props;
 
   const formData = useSelector(state => state.form.data);
   const employmentHistory =
@@ -37,7 +43,9 @@ const EmploymentHistoryWidget = props => {
   return (
     <form onSubmit={handlers.onSubmit}>
       <fieldset className="vads-u-margin-y--2">
-        <legend className="schemaform-block-title">Your work history</legend>
+        <legend className="schemaform-block-title">
+          <h3 className="vads-u-margin--0">Your work history</h3>
+        </legend>
         <div className="vads-u-margin-top--3" data-testid="debt-list">
           {employmentHistory.length === 0 ? (
             <EmptyMiniSummaryCard content="No employment history provided" />
@@ -59,7 +67,9 @@ const EmploymentHistoryWidget = props => {
           Add another job from the last 2 years
         </Link>
       </fieldset>
+      {contentBeforeButtons}
       {onReviewPage ? updateButton : navButtons}
+      {contentAfterButtons}{' '}
     </form>
   );
 };

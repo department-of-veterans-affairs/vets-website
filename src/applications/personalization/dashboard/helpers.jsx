@@ -7,6 +7,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 import { getAppUrl } from '~/platform/utilities/registry-helpers';
 
 export const formBenefits = {
+  [VA_FORM_IDS.FORM_21_0972]: 'alternate signer',
   [VA_FORM_IDS.FORM_21_10210]: 'lay/witness statement',
   [VA_FORM_IDS.FORM_21_4142]: 'authorization to release medical information',
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability compensation',
@@ -29,7 +30,9 @@ export const formBenefits = {
     'pre-need determination of eligibility in a VA national cemetery',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
   [VA_FORM_IDS.FORM_21_686C]: 'dependent status',
-  [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
+  [VA_FORM_IDS.FORM_10182]: 'Board Appeal',
+  [VA_FORM_IDS.FORM_20_0995]: 'Supplemental Claim',
+  [VA_FORM_IDS.FORM_20_0996]: 'Higher-Level Review',
   [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
   [VA_FORM_IDS.FORM_5655]: 'financial status report',
 };
@@ -72,7 +75,10 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
 export const formLinks = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: `${getAppUrl('feedback-tool')}/`,
   [VA_FORM_IDS.FORM_10_10EZ]: `${getAppUrl('hca')}/`,
+  [VA_FORM_IDS.FORM_10182]: `${getAppUrl('10182-board-appeal')}/`,
+  [VA_FORM_IDS.FORM_20_0995]: `${getAppUrl('995-supplemental-claim')}/`,
   [VA_FORM_IDS.FORM_20_0996]: `${getAppUrl('0996-higher-level-review')}/`,
+  [VA_FORM_IDS.FORM_21_0972]: `${getAppUrl('21-0972-alternate-signer')}/`,
   [VA_FORM_IDS.FORM_21_10210]: `${getAppUrl('10210-lay-witness-statement')}/`,
   [VA_FORM_IDS.FORM_21_4142]: `${getAppUrl('21-4142-medical-release')}/`,
   [VA_FORM_IDS.FORM_21_526EZ]: `${getAppUrl('526EZ-all-claims')}/`,
@@ -97,6 +103,7 @@ export const formLinks = {
 };
 
 export const trackingPrefixes = {
+  [VA_FORM_IDS.FORM_21_0972]: '21-0972-alternate-signer-',
   [VA_FORM_IDS.FORM_21_10210]: 'lay-witness-10210-',
   [VA_FORM_IDS.FORM_21_4142]: 'medical-release-4142-',
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability-526EZ-',
@@ -118,6 +125,8 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_40_10007]: 'preneed-',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'gi_bill_feedback',
   [VA_FORM_IDS.FORM_21_686C]: '686-',
+  [VA_FORM_IDS.FORM_10182]: '10182-board-appeal-',
+  [VA_FORM_IDS.FORM_20_0995]: '995-supplemental-claim-',
   [VA_FORM_IDS.FORM_20_0996]: 'decision-reviews-va20-0996-',
   [VA_FORM_IDS.FORM_VA_2346A]: 'bam-2346a-',
   [VA_FORM_IDS.FORM_5655]: 'fsr-5655-',
@@ -125,6 +134,7 @@ export const trackingPrefixes = {
 
 export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_10_10EZ,
+  VA_FORM_IDS.FORM_21_0972,
   VA_FORM_IDS.FORM_21_10210,
   VA_FORM_IDS.FORM_21_4142,
   VA_FORM_IDS.FORM_21_686C,
@@ -145,6 +155,8 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_26_4555,
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FEEDBACK_TOOL,
+  VA_FORM_IDS.FORM_10182,
+  VA_FORM_IDS.FORM_20_0995,
   VA_FORM_IDS.FORM_20_0996,
   VA_FORM_IDS.FORM_VA_2346A,
   VA_FORM_IDS.FORM_5655,

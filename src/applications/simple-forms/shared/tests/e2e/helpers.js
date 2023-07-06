@@ -48,6 +48,16 @@ export const selectCheckboxWebComponent = (fieldName, condition) => {
   }
 };
 
+export const selectGroupCheckboxWidget = label => {
+  if (label) {
+    cy.get(`va-checkbox[label="${label}"]`)
+      .shadow()
+      .get('#checkbox-element')
+      .first()
+      .click();
+  }
+};
+
 // patterns
 
 export const fillFullNameWebComponentPattern = (fieldName, fullName) => {
@@ -80,28 +90,48 @@ export const fillAddressWebComponentPattern = (fieldName, addressObject) => {
 export const fillDateWebComponentPattern = (fieldName, value) => {
   if (typeof value !== 'undefined') {
     const [year, month, day] = value.split('-');
-    cy.get(`va-memorable-date[name="root_${fieldName}"]`)
-      .shadow()
-      .find('va-select.usa-form-group--month-select')
-      .shadow()
-      .find('select')
-      .select(parseInt(month, 10))
-      .then(() => {
-        cy.get(`va-memorable-date[name="root_${fieldName}"]`)
-          .shadow()
-          .find('va-text-input.usa-form-group--day-input')
-          .shadow()
-          .find('input')
-          .type(day)
-          .then(() => {
-            cy.get(`va-memorable-date[name="root_${fieldName}"]`)
-              .shadow()
-              .find('va-text-input.usa-form-group--year-input')
-              .shadow()
-              .find('input')
-              .type(year);
-          });
-      });
+
+    if (navigator.userAgent.includes('Chrome')) {
+      // There is a bug only on Chromium based browsers where
+      // VaMemorableDate text input fields will think they are
+      // disabled if you blur focus of the window while the test
+      // is running. realPress and realType solve this issue,
+      // but these are only available for Chromium based browsers.
+      // See cypress-real-events npmjs for more info.
+      cy.get(`va-memorable-date[name="root_${fieldName}"]`)
+        .shadow()
+        .find('va-select.usa-form-group--month-select')
+        .shadow()
+        .find('select')
+        .select(parseInt(month, 10))
+        .realPress('Tab')
+        .realType(day)
+        .realPress('Tab')
+        .realType(year);
+    } else {
+      cy.get(`va-memorable-date[name="root_${fieldName}"]`)
+        .shadow()
+        .find('va-select.usa-form-group--month-select')
+        .shadow()
+        .find('select')
+        .select(parseInt(month, 10))
+        .then(() => {
+          cy.get(`va-memorable-date[name="root_${fieldName}"]`)
+            .shadow()
+            .find('va-text-input.usa-form-group--day-input')
+            .shadow()
+            .find('input')
+            .type(day)
+            .then(() => {
+              cy.get(`va-memorable-date[name="root_${fieldName}"]`)
+                .shadow()
+                .find('va-text-input.usa-form-group--year-input')
+                .shadow()
+                .find('input')
+                .type(year);
+            });
+        });
+    }
   }
 };
 

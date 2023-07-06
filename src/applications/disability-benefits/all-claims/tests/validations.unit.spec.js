@@ -529,6 +529,7 @@ describe('526 All Claims validations', () => {
 
       expect(errors.addError.called).to.be.false;
     });
+
     it('should not allow future end service dates > 180 days', () => {
       const errors = { addError: sinon.spy() };
       const index = 0;
@@ -547,24 +548,6 @@ describe('526 All Claims validations', () => {
 
       expect(errors.addError.called).to.be.true;
       expect(errors.addError.args[0][index]).to.contain('before 180 days');
-    });
-    it('should allow future end service dates > 180 days if in the reserves', () => {
-      const errors = { addError: sinon.spy() };
-      const index = 0;
-      validateSeparationDate(
-        errors,
-        daysFromToday(181),
-        _,
-        _,
-        _,
-        index,
-        data({
-          bdd: true,
-          branch: 'Army National Guard',
-        }),
-      );
-
-      expect(errors.addError.called).to.be.false;
     });
 
     it('should allow non-BDD future end service dates < 90 days for any type of service', () => {

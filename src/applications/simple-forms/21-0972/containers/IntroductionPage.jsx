@@ -1,91 +1,88 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import { focusElement } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 
-class IntroductionPage extends React.Component {
-  componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
-  }
+const content = {
+  formTitle: 'Sign for benefits on behalf of another person',
+  formSubTitle: 'Alternate signer certification (VA Form 21-0972)',
+  authStartFormText: 'Start the alternate signer application',
+  unauthStartText: 'Sign in to start your request',
+  saveInProgressText:
+    'Please complete the 21-0972 form to apply to be an alternate signer.',
+  displayNonVeteranMessaging: true,
+};
 
-  render() {
-    const { route } = this.props;
-    const { formConfig, pageList } = route;
+const ombInfo = {
+  resBurden: '15',
+  ombNumber: '2900-0849',
+  expDate: '02/28/2026',
+};
 
-    return (
-      <article className="schemaform-intro">
-        <FormTitle
-          title="Sign for benefits on behalf of another person"
-          subtitle="Equal to VA Form 21-0972 (Sign for benefits on behalf of another person)"
-        />
-        <h2>When to use this form</h2>
-        <p>
-          This form is to be completed by the individual signing a benefits
-          application form on behalf of the veteran/claimant. For purposes of
-          this form, the individual signing the form on behalf of the
-          veteran/claimant is referred to as the "alternate signer." Your
-          accurate and complete answers to the questions on this form are
-          important to help VA complete the veteran/claimant's claim.
-        </p>
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the alternate signer application"
-        >
-          Please complete the 21-0972 form to apply for alternate signer.
-        </SaveInProgressIntro>
-        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow the steps below to complete the alternate signer application
-        </h2>
-        <va-process-list>
-          <li>
-            <h3>Prepare</h3>
-            <h4>
-              To fill out this application you'll need the Veteran's and/or
-              Claimant's:
-            </h4>
-            <ul>
-              <li>Social Security number</li>
-              <li>Va file number (if they have one)</li>
-            </ul>
-            <p>
-              <strong>What if I need help filling out my application?</strong>{' '}
-              If you have trouble using this online form, call us at
-              800-698-2411 (TTY: 711). We’re here 24/7. If you need help
-              gathering your information or filling out your form, contact a
-              local Veterans Service Organization (VSO).
-              <a href="/vso">Find a local Veterans Service Organization</a>
-            </p>
-          </li>
-          <li>
-            <h3>Start your application</h3>
-            <p>Complete this form.</p>
-            <p>
-              After you submit the form, you'll get a confirmation message. You
-              can print this page for your records.
-            </p>
-          </li>
-        </va-process-list>
-        <SaveInProgressIntro
-          buttonOnly
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
-        />
-        <p />
-        <va-omb-info
-          res-burden="15"
-          omb-number="2900-0849"
-          exp-date="02/28/2026"
-        />
-      </article>
-    );
-  }
-}
+const childContent = (
+  <>
+    <h2>When to use this form</h2>
+    <p>
+      This application certifies you as an alternate signer and allows the VA to
+      accept benefit applications signed by you on behalf of a Veteran or
+      claimant. For purposes of this form, the individual signing the form on
+      behalf of the veteran/claimant is referred to as the "alternate signer."
+      Your accurate and complete answers to the questions on this form are
+      important to help VA complete the veteran or claimant’s claim.
+    </p>
+    <h2>What to know before you fill out this form</h2>
+    <p>An alternate signer can only be one of the following:</p>
+    <ul>
+      <li>A court-appointed representative</li>
+      <li>
+        An attorney in fact or agent authorized to act on behalf of the claimant
+        under durable power of attorney
+      </li>
+      <li>
+        A person who is responsible for the care of the claimant, to include but
+        not limited to a spouse or other relative
+      </li>
+      <li>
+        A manager or principal officer acting on behalf of an institution which
+        is responsible for the care of the claimant
+      </li>
+    </ul>
+    <p>
+      The Veteran or claimant you are certifying to be an alternate signer for
+      must be one of the following:
+    </p>
+    <ul>
+      <li>Under 18 years of age</li>
+      <li>
+        Mentally incompetent to provide substantially accurate information
+        needed to complete the claims form, or to certify that statements made
+        on the form are true and complete, or
+      </li>
+      <li>Physically unable to sign the claims form</li>
+    </ul>
+    <br />
+  </>
+);
+
+export const IntroductionPage = ({ route }) => {
+  return (
+    <IntroductionPageView
+      route={route}
+      content={content}
+      ombInfo={ombInfo}
+      childContent={childContent}
+    />
+  );
+};
+
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.shape({}),
+    }),
+    pageList: PropTypes.array,
+  }),
+};
 
 export default IntroductionPage;

@@ -9,7 +9,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
   });
 
   it('focus on error message for no provider', () => {

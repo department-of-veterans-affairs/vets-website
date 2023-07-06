@@ -1,4 +1,6 @@
 import {
+  inlineTitleSchema,
+  inlineTitleUI,
   titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
@@ -9,7 +11,7 @@ import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns/yes
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI('RJSF'),
+    rjsfTitle: titleUI('RJSF'),
     vaCompensationType: {
       'ui:title': 'Do you receive VA disability compensation?',
       'ui:description': CompensationTypeDescription,
@@ -29,18 +31,9 @@ export default {
         'ui:title': 'Are you on active duty now?',
         'ui:widget': 'yesNo',
       },
-      onTerminalLeave: {
-        'ui:title': 'Are you on terminal leave now?',
-        'ui:widget': 'yesNo',
-        'ui:options': {
-          expandUnder: 'yes',
-        },
-      },
     },
-    wc: titleUI('Web component', {
-      classNames: 'vads-u-margin-top--4',
-    }),
-    wcVaCompensationType: {
+    wcTitle: inlineTitleUI('Web component'),
+    wcOldVaCompensationType: {
       'ui:title': 'Do you receive VA disability compensation?',
       'ui:description': CompensationTypeDescription,
       'ui:webComponentField': VaRadioField,
@@ -55,7 +48,7 @@ export default {
         },
       },
     },
-    wcVaTileCompensationType: {
+    wcOldVaTileCompensationType: {
       'ui:title': 'Do you receive VA disability compensation?',
       'ui:description': CompensationTypeDescription,
       'ui:webComponentField': VaRadioField,
@@ -71,24 +64,15 @@ export default {
         },
       },
     },
-    wcCurrentlyActiveDuty: {
+    wcOldCurrentlyActiveDuty: {
       yes: {
         ...yesNoUI('Are you on active duty now?'),
         'ui:options': {
           uswds: false,
         },
       },
-      onTerminalLeave: {
-        ...yesNoUI('Are you on terminal leave now?'),
-        'ui:options': {
-          expandUnder: 'yes',
-          uswds: false,
-        },
-      },
     },
-    wcv3: titleUI('Web component v3', {
-      classNames: 'vads-u-margin-top--4',
-    }),
+    wcv3Title: inlineTitleUI('Web component v3'),
     wcv3VaCompensationType: {
       'ui:title': 'Do you receive VA disability compensation?',
       'ui:description': CompensationTypeDescription,
@@ -122,18 +106,12 @@ export default {
     },
     wcv3CurrentlyActiveDuty: {
       yes: yesNoUI('Are you on active duty now?'),
-      onTerminalLeave: {
-        ...yesNoUI('Are you on terminal leave now?'),
-        'ui:options': {
-          expandUnder: 'yes',
-        },
-      },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
+      rjsfTitle: titleSchema,
       vaCompensationType: {
         type: 'string',
         enum: ['lowDisability', 'highDisability', 'none'],
@@ -144,32 +122,26 @@ export default {
           yes: {
             type: 'boolean',
           },
-          onTerminalLeave: {
-            type: 'boolean',
-          },
         },
       },
-      wc: titleSchema,
-      wcVaCompensationType: {
+      wcTitle: inlineTitleSchema,
+      wcOldVaCompensationType: {
         type: 'string',
         enum: ['lowDisability', 'highDisability', 'none'],
       },
-      wcVaTileCompensationType: {
+      wcOldVaTileCompensationType: {
         type: 'string',
         enum: ['lowDisability', 'highDisability', 'none'],
       },
-      wcCurrentlyActiveDuty: {
+      wcOldCurrentlyActiveDuty: {
         type: 'object',
         properties: {
           yes: {
             type: 'boolean',
           },
-          onTerminalLeave: {
-            type: 'boolean',
-          },
         },
       },
-      wcv3: titleSchema,
+      wcv3Title: inlineTitleSchema,
       wcv3VaCompensationType: {
         type: 'string',
         enum: ['lowDisability', 'highDisability', 'none'],
@@ -184,16 +156,13 @@ export default {
           yes: {
             type: 'boolean',
           },
-          onTerminalLeave: {
-            type: 'boolean',
-          },
         },
       },
     },
     required: [
       'vaCompensationType',
-      'wcVaCompensationType',
-      'wcVaTileCompensationType',
+      'wcOldVaCompensationType',
+      'wcOldVaTileCompensationType',
       'wcv3VaCompensationType',
       'wcv3VaTileCompensationType',
     ],

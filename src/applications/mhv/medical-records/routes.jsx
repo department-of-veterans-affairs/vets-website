@@ -102,7 +102,7 @@ const routes = (
             <HealthConditions />
           </Route>
           <Route
-            path="/health-history/condition-details/:conditionId"
+            path="/health-history/health-conditions/:conditionId"
             key="Condition Details"
           >
             <ConditionDetails />

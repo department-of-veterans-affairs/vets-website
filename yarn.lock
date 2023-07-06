@@ -2531,13 +2531,13 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^16.3.0":
-  version "16.3.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-16.3.0.tgz#7ead4af6877f0fd5f3da5c61837310ccc04d4439"
-  integrity sha512-75mDs+6AqN4xVgLpUNxFPmHnJ8orO73G3eI5wnK4N+J+dvWBPEqUYl1xiga6owlqdLwqcDuK2eIzgZUpUSv+Yg==
+"@department-of-veterans-affairs/component-library@^16.4.0":
+  version "16.4.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-16.4.0.tgz#0f2867c4a50b61c207302f7a208c0ac812162af3"
+  integrity sha512-aodOfzcvZicpj3mNLEbswMCK/XpMcp9yCzZCo4dxrsd9OXorfg/6fkKoPRYyRj462qlw7T2qkVDKNIknVum3sw==
   dependencies:
     "@department-of-veterans-affairs/react-components" "11.0.1"
-    "@department-of-veterans-affairs/web-components" "4.40.3"
+    "@department-of-veterans-affairs/web-components" "4.41.3"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2610,10 +2610,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.40.3":
-  version "4.40.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.40.3.tgz#2874f21624b0d793f5cc48091a90ba7fd165f835"
-  integrity sha512-lzwCdMCzrjBvbM/UsG92UOXftoiQgkXVNIBn78ycX/ueq2t4mqwxom14iGVcvG2v+z5f+euxBFslF+VghZHgXA==
+"@department-of-veterans-affairs/web-components@4.41.3":
+  version "4.41.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.41.3.tgz#a0d50ae359f9cfecf5acc352b7883e39d8ef9810"
+  integrity sha512-sEb20jftGNWtvZDMM+VpQNSBb+I6uCh+2t4CCzsFPQykstGkbiAsvdTAwsARqwBWQ3mpUa2DKT68qcV5iNsUcw==
   dependencies:
     "@stencil/core" "^2.19.2"
     aria-hidden "^1.1.3"
@@ -5959,9 +5959,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001260, caniuse-lite@^1.0.30001313:
-  version "1.0.30001441"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001441.tgz"
-  integrity sha512-OyxRR4Vof59I3yGWXws6i908EtGbMzVUi3ganaZQHmydk1iwDhRnvaPG2WaR0KcqrDFKrxVZHULT396LEPhXfg==
+  version "1.0.30001505"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001505.tgz"
+  integrity sha512-jaAOR5zVtxHfL0NjZyflVTtXm3D3J9P15zSJ7HmQF8dSKGA6tqzQq+0ZI3xkjyQj46I4/M0K2GbMpcAFOcbr3A==
 
 capture-stack-trace@^1.0.0:
   version "1.0.1"

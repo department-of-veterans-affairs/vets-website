@@ -226,6 +226,8 @@ describe('Pre-need form VA 40-10007', () => {
       'root_application_hasCurrentlyBuried',
       testData.data.application.hasCurrentlyBuried,
     );
+    cy.axeCheck();
+    cy.get('.form-panel .usa-button-primary').click();
     if (testData.data.application.currentlyBuriedPersons.length) {
       testData.data.application.currentlyBuriedPersons.forEach(
         (person, index) => {

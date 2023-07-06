@@ -322,6 +322,26 @@ const analyticsEvents = {
       prefix: 'loading-indicator',
     },
   ],
+  'va-maintenance-banner': [
+    {
+      action: 'close',
+      event: 'int-maintenance-banner-close',
+      prefix: 'maintenance-banner',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-maintenance-banner',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'maintenance-banner-header': 'heading_1',
+          'maintenance-banner-warn-starts-at': 'custom_number_1',
+          'maintenance-banner-expires-at': 'custom_number_2',
+          'maintenance-banner-displayed-content': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
+    },
+  ],
   'va-memorable-date': [
     {
       action: 'blur',
@@ -393,6 +413,15 @@ const analyticsEvents = {
       action: 'click',
       event: 'nav-privacy-agreement-checkbox-click',
       prefix: 'privacy-agreement',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-privacy-agreement',
+        custom_string_1: 'component-library',
+        mapping: {
+          'privacy-agreement-checked': 'value',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-promo-banner': [
@@ -512,6 +541,16 @@ const analyticsEvents = {
       action: 'click',
       event: 'int-telephone-link-click',
       prefix: 'telephone',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-telephone',
+        custom_string_1: 'component-library',
+        mapping: {
+          'telephone-contact': 'custom_string_2',
+          'telephone-extension': 'custom_number_1',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-text-input': [
@@ -533,7 +572,21 @@ const analyticsEvents = {
     },
   ],
   'va-textarea': [
-    { action: 'blur', event: 'int-textarea-blur', prefix: 'textarea' },
+    {
+      action: 'blur',
+      event: 'int-textarea-blur',
+      prefix: 'textarea',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-textarea',
+        custom_string_1: 'component-library',
+        mapping: {
+          'textarea-label': 'custom_string_2',
+          'textarea-value': 'value',
+          version: 'component_version',
+        },
+      },
+    },
   ],
 };
 

@@ -10,6 +10,18 @@ const content = {
   unauthStartText: 'Sign in to start your statement',
   saveInProgressText: 'Please complete the 21-10210 form to apply for claims.',
   displayNonVeteranMessaging: true,
+  verifiedPrefillAlert: (
+    <div>
+      <div className="usa-alert usa-alert-info schemaform-sip-alert">
+        <div className="usa-alert-body">
+          <strong>Note:</strong> Since you’re signed in to your account, you can
+          save your statement in progress and come back later to finish filling
+          it out.
+        </div>
+      </div>
+      <br />
+    </div>
+  ),
 };
 
 const ombInfo = {

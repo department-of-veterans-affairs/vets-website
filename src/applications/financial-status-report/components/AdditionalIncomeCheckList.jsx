@@ -40,8 +40,13 @@ const AdditionalIncomeCheckList = () => {
     return addlIncRecords.some(incomeValue => incomeValue.name === option);
   };
 
+  const title = 'Your other income';
+  const prompt = 'Select any additional income you receive:';
+
   return (
     <Checklist
+      title={title}
+      prompt={prompt}
       options={otherIncome}
       onChange={event => onChange(event)}
       isBoxChecked={isBoxChecked}

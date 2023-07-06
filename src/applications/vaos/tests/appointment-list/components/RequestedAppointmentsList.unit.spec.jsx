@@ -328,7 +328,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
     });
     mockVAOSAppointmentsFetch({
       start: moment()
-        .subtract(4, 'months')
+        .subtract(120, 'days')
         .format('YYYY-MM-DD'),
       end: moment().format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],
@@ -369,7 +369,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
     });
     mockVAOSAppointmentsFetch({
       start: moment()
-        .subtract(4, 'months')
+        .subtract(120, 'days')
         .format('YYYY-MM-DD'),
       end: moment().format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],

@@ -1,0 +1,17 @@
+{
+    "prescription_id": 21871320,
+    "prescription_number": "2720466",
+    "prescription_name": "ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB",
+    "refill_status": "refillinprocess",
+    "refill_submit_date": "2023-04-11T22:20:39.000Z",
+    "refill_date": "2023-04-11T04:00:00.000Z",
+    "refill_remaining": 1,
+    "facility_name": "DAYT29",
+    "ordered_date": "2023-02-04T05:00:00.000Z",
+    "quantity": 30,
+    "expiration_date": "2024-02-05T05:00:00.000Z",
+    "dispensed_date": null,
+    "station_number": "989",
+    "is_refillable": false,
+    "is_trackable": false
+}

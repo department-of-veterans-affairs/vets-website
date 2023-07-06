@@ -1,4 +1,6 @@
 import {
+  hearingTypeTitle,
+  hearingTypeReviewField,
   hearingTypeContent,
   missingHearingTypeErrorMessage,
 } from '../content/hearingType';
@@ -7,11 +9,13 @@ import { needsHearingType } from '../utils/helpers';
 const hearingType = {
   uiSchema: {
     hearingTypePreference: {
-      'ui:title': 'What type of hearing would you like to request?',
+      'ui:title': hearingTypeTitle,
+      'ui:reviewField': hearingTypeReviewField,
       'ui:widget': 'radio',
       'ui:required': needsHearingType,
       'ui:options': {
         labels: hearingTypeContent,
+        enableAnalytics: true,
       },
       'ui:errorMessages': {
         required: missingHearingTypeErrorMessage,
