@@ -152,7 +152,7 @@ export default function RequestedAppointmentDetailsPage() {
           </NavLink>
         </Breadcrumbs>
       )}
-      <h1 style={{ marginTop: '2rem' }}>
+      <h1 className="vads-u-margin-y--2p5">
         {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
       </h1>
       <RequestedStatusAlert appointment={appointment} facility={facility} />

@@ -89,7 +89,7 @@ export default function DetailsVA({ appointment, facilityData }) {
           </a>
         </Breadcrumbs>
       )}
-      <h1 style={{ marginTop: '2rem' }}>
+      <h1 className="vads-u-margin-y--2p5">
         <AppointmentDateTime appointment={appointment} />
       </h1>
       <StatusAlert appointment={appointment} facility={facility} />

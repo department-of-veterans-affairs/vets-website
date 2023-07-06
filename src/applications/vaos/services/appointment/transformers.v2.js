@@ -170,7 +170,7 @@ export function isPastAppointment(appt) {
  * @param {*} appt VAOS Service appointment object
  * @param {*} isRequest is appointment a request
  */
-export function isUpcomingAppointment(appt, isRequest) {
+export function isFutureAppointment(appt, isRequest) {
   const apptDateTime = moment(appt.start);
   return (
     !isRequest &&
@@ -254,7 +254,7 @@ export function transformVAOSAppointment(appt) {
   const isRequest =
     appointmentType === APPOINTMENT_TYPES.request ||
     appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const isUpcoming = isUpcomingAppointment(appt, isRequest);
+  const isUpcoming = isFutureAppointment(appt, isRequest);
   const providers = appt.practitioners;
   const timezone = getTimezoneByFacilityId(appt.locationId);
 

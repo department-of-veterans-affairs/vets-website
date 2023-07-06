@@ -57,7 +57,7 @@ export default function DetailsVideo({ appointment, facilityData }) {
         </Breadcrumbs>
       )}
 
-      <h1 style={{ marginTop: '2rem' }}>
+      <h1 className="vads-u-margin-y--2p5">
         <AppointmentDateTime appointment={appointment} />
       </h1>
 
