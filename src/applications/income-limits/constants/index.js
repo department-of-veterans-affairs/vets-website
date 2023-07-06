@@ -8,7 +8,7 @@ export const IL_ZIP_VAL_ERROR = 'income-limits/ZIP_VAL_ERROR';
 
 export const ROUTES = {
   DEPENDENTS: 'dependents',
-  HOME: '/',
+  HOME: 'introduction',
   REVIEW: 'review',
   RESULTS: 'results',
   YEAR: 'year',

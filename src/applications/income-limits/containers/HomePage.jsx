@@ -21,6 +21,8 @@ const HomePage = ({
 }) => {
   useEffect(
     () => {
+      router.push(ROUTES.HOME);
+
       const clearForm = () => {
         updateDependentsField('');
         updateYearField('');
@@ -31,7 +33,7 @@ const HomePage = ({
       scrollToTop();
       clearForm();
     },
-    [updateDependentsField, updateYearField, updateZipCodeField],
+    [router, updateDependentsField, updateYearField, updateZipCodeField],
   );
 
   const goToCurrent = () => {
