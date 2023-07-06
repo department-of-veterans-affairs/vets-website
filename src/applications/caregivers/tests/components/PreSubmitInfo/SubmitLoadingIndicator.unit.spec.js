@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 
 import SubmitLoadingIndicator from '../../../components/PreSubmitInfo/SubmitLoadingIndicator';
@@ -20,7 +20,7 @@ describe('CG <SubmitLoadingIndicator>', () => {
   });
 
   describe('when submission has been made', () => {
-    it('should render loading container when submission is pending', () => {
+    it('should render loading container when submission is pending', async () => {
       const props = {
         submission: {
           hasAttemptedSubmit: true,
@@ -29,14 +29,16 @@ describe('CG <SubmitLoadingIndicator>', () => {
       };
       const view = render(<SubmitLoadingIndicator {...props} />);
       const selectors = {
-        container: view.container.querySelector('.loading-container'),
+        wrapper: view.container.querySelector('.loading-container'),
         component: view.container.querySelector('va-loading-indicator'),
       };
-      expect(selectors.container).to.exist;
-      expect(selectors.component).to.have.attribute(
-        'message',
-        'We\u2019re processing your application. This may take up to 1 minute. Please don\u2019t refresh your browser.',
-      );
+      await waitFor(() => {
+        expect(selectors.wrapper).to.exist;
+        expect(selectors.component).to.have.attribute(
+          'message',
+          'We\u2019re processing your application. This may take up to 1 minute. Please don\u2019t refresh your browser.',
+        );
+      });
     });
 
     it('should not render loading container if submission has failed', () => {
