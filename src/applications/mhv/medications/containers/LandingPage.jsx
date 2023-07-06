@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPrescriptionsList } from '../actions/prescriptions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -17,6 +17,79 @@ const LandingPage = () => {
 
   const dispatch = useDispatch();
   const [rxList, setRxList] = useState([]);
+
+  const buildPrescriptionList = useCallback(
+    () => {
+      return prescriptions.map(rx => {
+        return {
+          header: rx.prescriptionName,
+          items: [
+            {
+              title: 'Prescription number',
+              value: rx.prescriptionNumber,
+              inline: true,
+            },
+            {
+              title: 'Status',
+              value: rx.refillStatus,
+              inline: true,
+            },
+            {
+              title: 'Refills left',
+              value: rx.refillRemaining,
+              inline: true,
+            },
+            {
+              title: 'Quantity',
+              value: rx.quantity,
+              inline: true,
+            },
+            {
+              title: 'Prescribed on',
+              value: 'not in vets api data',
+              inline: true,
+            },
+            {
+              title: 'Prescription expires on',
+              value: dateFormat(rx.expirationDate, 'MMMM D, YYYY'),
+              inline: true,
+            },
+            {
+              title: 'Prescribed by',
+              value: 'not in vets api data',
+              inline: true,
+            },
+            {
+              title: 'Facility',
+              value: rx.facilityName,
+              inline: true,
+            },
+            {
+              title: 'Phone number',
+              value: 'not in vets api data',
+              inline: true,
+            },
+            {
+              title: 'Category',
+              value: 'not in vets api data',
+              inline: true,
+            },
+            {
+              title: 'Source',
+              value: 'not in vets api data',
+              inline: true,
+            },
+            {
+              title: 'Image',
+              value: 'not in vets api data',
+              inline: true,
+            },
+          ],
+        };
+      });
+    },
+    [prescriptions],
+  );
 
   useEffect(() => {
     if (prescriptions) {
@@ -40,77 +113,11 @@ const LandingPage = () => {
     () => {
       let arr;
       if (prescriptions) {
-        arr = prescriptions.map(rx => {
-          return {
-            header: rx.prescriptionName,
-            items: [
-              {
-                title: 'Prescription number',
-                value: rx.prescriptionNumber,
-                inline: true,
-              },
-              {
-                title: 'Status',
-                value: rx.refillStatus,
-                inline: true,
-              },
-              {
-                title: 'Refills left',
-                value: rx.refillRemaining,
-                inline: true,
-              },
-              {
-                title: 'Quantity',
-                value: rx.quantity,
-                inline: true,
-              },
-              {
-                title: 'Prescribed on',
-                value: 'not in vets api data',
-                inline: true,
-              },
-              {
-                title: 'Prescription expires on',
-                value: dateFormat(rx.expirationDate, 'MMMM D, YYYY'),
-                inline: true,
-              },
-              {
-                title: 'Prescribed by',
-                value: 'not in vets api data',
-                inline: true,
-              },
-              {
-                title: 'Facility',
-                value: rx.facilityName,
-                inline: true,
-              },
-              {
-                title: 'Phone number',
-                value: 'not in vets api data',
-                inline: true,
-              },
-              {
-                title: 'Category',
-                value: 'not in vets api data',
-                inline: true,
-              },
-              {
-                title: 'Source',
-                value: 'not in vets api data',
-                inline: true,
-              },
-              {
-                title: 'Image',
-                value: 'not in vets api data',
-                inline: true,
-              },
-            ],
-          };
-        });
+        arr = buildPrescriptionList();
       }
       setRxList(arr);
     },
-    [prescriptions],
+    [buildPrescriptionList, prescriptions],
   );
 
   const pdfData = {
