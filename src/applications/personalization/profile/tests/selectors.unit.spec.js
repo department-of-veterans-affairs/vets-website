@@ -100,7 +100,7 @@ describe('profile selectors', () => {
     });
   });
 
-  describe('cnpDirectDepositAddressIsSetUp selector', () => {
+  describe('cnpDirectDepositIsEligible selector', () => {
     let state;
     beforeEach(() => {
       state = {
@@ -116,19 +116,19 @@ describe('profile selectors', () => {
       };
     });
     it('returns `true` if there is a street, city, and state set on the payment info payment address', () => {
-      expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.true;
+      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.true;
     });
     it('returns `false` if the street address is missing', () => {
       state.vaProfile.cnpPaymentInformation.paymentAddress.addressOne = '';
-      expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.false;
+      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
     });
     it('returns `false` if the city is missing', () => {
       state.vaProfile.cnpPaymentInformation.paymentAddress.city = '';
-      expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.false;
+      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
     });
     it('returns `false` if the state is missing', () => {
       state.vaProfile.cnpPaymentInformation.paymentAddress.stateCode = '';
-      expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.false;
+      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
     });
 
     it('returns `false` when the payment info endpoint failed to get data', () => {
@@ -139,7 +139,7 @@ describe('profile selectors', () => {
           },
         },
       };
-      expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.false;
+      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
     });
   });
 
