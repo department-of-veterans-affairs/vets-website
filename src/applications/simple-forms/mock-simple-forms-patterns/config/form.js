@@ -14,8 +14,6 @@ import checkboxAndTextInput from '../pages/mockCheckboxAndTextInput';
 import radio from '../pages/mockRadio';
 import select from '../pages/mockSelect';
 import date from '../pages/mockDate';
-// TODO: uncomment when array is ready
-// import arrayVariety from '../pages/mockArrayVariety';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -122,18 +120,6 @@ const formConfig = {
         },
       },
     },
-    // TODO: uncomment when array is ready
-    // array: {
-    //   title: 'Array',
-    //   pages: {
-    //     arrayVariety: {
-    //       path: 'array-variety',
-    //       title: 'Array Variety',
-    //       uiSchema: arrayVariety.uiSchema,
-    //       schema: arrayVariety.schema,
-    //     },
-    //   },
-    // },
   },
 };
 
