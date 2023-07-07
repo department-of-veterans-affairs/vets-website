@@ -160,7 +160,10 @@ export const reviewAndSubmitPageFlow = signerName => {
         ? `${signerName.first} ${signerName.middle} ${signerName.last}`
         : `${signerName.first} ${signerName.last}`,
     );
-  cy.get(`input[name="veteran-certify"]`).check();
+  cy.get(`va-checkbox[name="veteran-certify"]`)
+    .shadow()
+    .find('input')
+    .check();
   cy.findAllByText(/Submit application/i, {
     selector: 'button',
   }).click();
