@@ -59,7 +59,7 @@ const isDeceased = _.set(
 );
 setInstitutionName(isDeceased, 'TEST DECEASED FLAG - DISABILITY COMPENSATIONS');
 
-const notEnrolled = _.set(_.cloneDeep(base), 'data.attributes.paymentAccount', {
+const isEligible = _.set(_.cloneDeep(base), 'data.attributes.paymentAccount', {
   name: null,
   accountType: null,
   accountNumber: null,
@@ -138,7 +138,7 @@ module.exports = {
   isDeceased,
   isFiduciary,
   isNotCompetent,
-  notEnrolled,
+  isEligible,
   updates: {
     success: _.set(_.cloneDeep(base), 'data.attributes.paymentAccount', {
       name: 'TEST UPDATE SUCCESS - DISABILITY COMPENSATIONS',
