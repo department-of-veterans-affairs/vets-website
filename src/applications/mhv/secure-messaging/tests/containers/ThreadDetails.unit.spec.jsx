@@ -159,7 +159,7 @@ describe('Thread Details container', () => {
     expect(
       screen.getByText(`${category}: ${subject}`, {
         exact: false,
-        selector: 'h3',
+        selector: 'h2',
       }),
     ).to.exist;
     expect(document.querySelector(`va-textarea[value="${body}"]`)).to.exist;

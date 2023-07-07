@@ -369,7 +369,9 @@ const ComposeForm = props => {
         saveDraftHandler={saveDraftHandler}
       />
       <div className="compose-form-header" data-testid="compose-form-header">
-        <h3>{setMessageTitle()}</h3>
+        <h2 className="vads-u-margin--0 vads-u-font-size--lg">
+          {setMessageTitle()}
+        </h2>
       </div>
       <div className="compose-inputs-container">
         {recipientsList && (
