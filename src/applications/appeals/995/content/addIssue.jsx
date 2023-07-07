@@ -17,11 +17,6 @@ export const content = {
       </ul>
     </div>
   ),
-  button: {
-    cancel: 'Cancel',
-    add: 'Add issue',
-    edit: 'Update issue',
-  },
   name: {
     label: 'Name of issue',
     hint: (
