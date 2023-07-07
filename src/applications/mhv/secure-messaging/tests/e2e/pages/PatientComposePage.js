@@ -319,5 +319,12 @@ class PatientComposePage {
       .find('[id=input-error-message]')
       .should('be.visible');
   };
+
+  PressConfirmDeleteButton = () => {
+    cy.tabToElement('[data-testid=delete-message-modal]')
+      .contains('Confirm')
+      .should('be.visible');
+    cy.realPress(['Enter']);
+  };
 }
 export default PatientComposePage;
