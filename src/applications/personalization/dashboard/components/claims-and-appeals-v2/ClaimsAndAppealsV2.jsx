@@ -11,6 +11,7 @@ import IconCTALink from '../IconCTALink';
 import {
   getAppealsV2 as getAppealsAction,
   getClaimsV2 as getClaimsAction,
+  getLighthouseClaims as getLighthouseClaimsAction,
 } from '../../actions/claims';
 import {
   appealsAvailability,
@@ -103,9 +104,11 @@ const ClaimsAndAppealsV2 = ({
   hasAPIError,
   loadAppeals,
   loadClaims,
+  loadLighthouseClaims,
   shouldLoadAppeals,
   shouldLoadClaims,
   shouldShowLoadingIndicator,
+  useLighthouseClaims,
 }) => {
   React.useEffect(
     () => {
@@ -120,10 +123,21 @@ const ClaimsAndAppealsV2 = ({
     () => {
       if (!dataLoadingDisabled && shouldLoadClaims) {
         // stop polling the claims API after 45 seconds
-        loadClaims({ pollingExpiration: Date.now() + 45 * 1000 });
+        const pollingExpiration = Date.now() + 45 * 1000;
+        if (useLighthouseClaims) {
+          loadLighthouseClaims({ pollingExpiration });
+        } else {
+          loadClaims({ pollingExpiration });
+        }
       }
     },
-    [dataLoadingDisabled, loadClaims, shouldLoadClaims],
+    [
+      dataLoadingDisabled,
+      loadClaims,
+      loadLighthouseClaims,
+      shouldLoadClaims,
+      useLighthouseClaims,
+    ],
   );
 
   // the most recently updated open claim or appeal or
@@ -158,6 +172,7 @@ const ClaimsAndAppealsV2 = ({
               {highlightedClaimOrAppeal ? (
                 <HighlightedClaimAppealV2
                   claimOrAppeal={highlightedClaimOrAppeal}
+                  useLighthouseClaims={useLighthouseClaims}
                 />
               ) : (
                 <>
@@ -181,11 +196,13 @@ const ClaimsAndAppealsV2 = ({
 ClaimsAndAppealsV2.propTypes = {
   dataLoadingDisabled: PropTypes.bool.isRequired,
   hasAPIError: PropTypes.bool.isRequired,
-  loadAppeals: PropTypes.bool.isRequired,
-  loadClaims: PropTypes.bool.isRequired,
+  loadAppeals: PropTypes.func.isRequired,
+  loadClaims: PropTypes.func.isRequired,
+  loadLighthouseClaims: PropTypes.func.isRequired,
   shouldLoadAppeals: PropTypes.bool.isRequired,
   shouldLoadClaims: PropTypes.bool.isRequired,
   shouldShowLoadingIndicator: PropTypes.bool.isRequired,
+  useLighthouseClaims: PropTypes.bool.isRequired,
   userFullName: PropTypes.string.isRequired,
   appealsData: PropTypes.arrayOf(PropTypes.object),
   claimsData: PropTypes.arrayOf(PropTypes.object),
@@ -235,6 +252,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   loadAppeals: getAppealsAction,
   loadClaims: getClaimsAction,
+  loadLighthouseClaims: getLighthouseClaimsAction,
 };
 
 export default connect(

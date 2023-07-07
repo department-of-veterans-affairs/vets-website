@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import environment from 'platform/utilities/environment';
 
@@ -15,6 +16,7 @@ import { clearReturnState } from '../utils/contactInfo';
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('h1');
+    scrollToTop();
   }
 
   render() {
