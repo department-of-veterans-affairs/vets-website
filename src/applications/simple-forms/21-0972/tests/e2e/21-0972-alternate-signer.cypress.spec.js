@@ -34,7 +34,7 @@ testFormConfig.chapters.preparerPersonalInformationChapter.pages.preparerPersona
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: [], // ['minimal-test', 'maximal-test'],
+    dataSets: ['minimal-test', 'maximal-test'],
     dataDir: path.join(__dirname, 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -247,7 +247,8 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', testFormConfig.submitUrl, mockSubmit);
     },
-    skip: false,
+
+    skip: Cypress.env('CI'),
   },
   manifest,
   testFormConfig,
