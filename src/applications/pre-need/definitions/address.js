@@ -28,6 +28,20 @@ function validatePostalCodes(errors, address) {
   }
 }
 
+function validateStreet(errors, address) {
+  // Add error message for street if it is all blank spaces.
+  if (address.street && address.street.trim() === '') {
+    errors.street.addError('Please provide a response');
+  }
+}
+
+function validateCity(errors, address) {
+  // Add error message for city if it is all blank spaces.
+  if (address.city && address.city.trim() === '') {
+    errors.city.addError('Please provide a response');
+  }
+}
+
 export const countriesWithStateCodes = new Set(['USA', 'CAN']);
 
 function validateAddress(errors, address, formData, currentSchema) {
@@ -55,6 +69,8 @@ function validateAddress(errors, address, formData, currentSchema) {
   }
 
   validatePostalCodes(errors, address);
+  validateStreet(errors, address);
+  validateCity(errors, address);
 }
 
 const countryValues = countries.map(object => object.value);
