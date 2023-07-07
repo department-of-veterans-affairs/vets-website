@@ -1,21 +1,13 @@
 import path from 'path';
-import cloneDeep from 'lodash/cloneDeep';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import origFormConfig from '../../config/form';
+import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import { getSignerFullName } from './helpers';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
-
-// Disable formConfig props that were meant for local-dev only.
-const formConfig = cloneDeep(origFormConfig);
-formConfig.dev = {};
-formConfig.chapters.statementInfoChapter.pages.claimOwnershipPage.initialData = {
-  data: {},
-};
 
 const testConfig = createTestConfig(
   {
@@ -35,7 +27,14 @@ const testConfig = createTestConfig(
       'witness-personal-information-a': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
+            const { first, last } = data.witnessFullName;
             const label = data.witnessRelationshipToClaimant;
+            cy.get('#root_witnessFullName_first')
+              .clear()
+              .type(first);
+            cy.get('#root_witnessFullName_last')
+              .clear()
+              .type(last);
             cy.get(`va-checkbox[label="${label}"]`)
               .shadow()
               .get('#checkbox-element')
@@ -52,7 +51,14 @@ const testConfig = createTestConfig(
       'witness-personal-information-b': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
+            const { first, last } = data.witnessFullName;
             const label = data.witnessRelationshipToClaimant;
+            cy.get('#root_witnessFullName_first')
+              .clear()
+              .type(first);
+            cy.get('#root_witnessFullName_last')
+              .clear()
+              .type(last);
             cy.get(`va-checkbox[label="${label}"]`)
               .shadow()
               .get('#checkbox-element')
