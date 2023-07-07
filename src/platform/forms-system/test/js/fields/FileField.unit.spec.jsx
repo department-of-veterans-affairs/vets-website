@@ -98,7 +98,7 @@ describe('Schemaform <FileField>', () => {
     expect($('li', container).textContent).to.contain('Test file name');
   });
 
-  it('should remove files with empty file object when initializing', () => {
+  it('should remove files with empty file object when initializing', async () => {
     const idSchema = {
       $id: 'field',
     };
@@ -150,10 +150,12 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(onChange.calledOnce).to.be.true;
-    expect(onChange.firstCall.args[0].length).to.equal(3);
-    // empty file object was removed;
-    expect(onChange.firstCall.args[0][1].name).to.equal('Test3');
+    await waitFor(() => {
+      expect(onChange.calledOnce).to.be.true;
+      expect(onChange.firstCall.args[0].length).to.equal(3);
+      // empty file object was removed;
+      expect(onChange.firstCall.args[0][1].name).to.equal('Test3');
+    });
   });
 
   it('should call onChange once when deleting files', async () => {
@@ -195,9 +197,14 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    // .__events.primaryButtonClick()
-    // tree.instance().removeFile(0);
+    const modal = $('va-modal', container);
+    expect(modal.getAttribute('visible')).to.eq('false');
+
     fireEvent.click($('.delete-upload', container));
+    expect(modal.getAttribute('visible')).to.eq('true');
+
+    // click yes in modal
+    $('va-modal', container).__events.primaryButtonClick();
 
     await waitFor(() => {
       expect(onChange.calledOnce).to.be.true;
@@ -495,11 +502,65 @@ describe('Schemaform <FileField>', () => {
       </Provider>,
     );
 
+    const uploadButton = $('#upload-button', container);
     expect($$('li', container)).to.not.be.empty;
 
+    const modal = $('va-modal', container);
+    expect(modal.getAttribute('visible')).to.eq('false');
+
     fireEvent.click($('.delete-upload', container));
+    expect(modal.getAttribute('visible')).to.eq('true');
+
+    // click yes in modal
+    $('va-modal', container).__events.primaryButtonClick();
+
     await waitFor(() => {
       expect($$('li', container)).to.be.empty;
+      expect(document.activeElement).to.eq(uploadButton);
+    });
+  });
+
+  it('should not delete file when "No" is selected in modal', async () => {
+    const uiSchema = fileUploadUI('Files');
+    const schema = {
+      type: 'object',
+      properties: {
+        fileField: fileSchema,
+      },
+    };
+    const { container } = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            fileField: [
+              {
+                confirmationCode: 'abcdef',
+              },
+            ],
+          }}
+          uiSchema={{
+            fileField: uiSchema,
+          }}
+        />
+      </Provider>,
+    );
+
+    expect($$('li', container)).to.not.be.empty;
+
+    const modal = $('va-modal', container);
+    expect(modal.getAttribute('visible')).to.eq('false');
+
+    const deleteButton = $('.delete-upload', container);
+    fireEvent.click(deleteButton);
+    expect(modal.getAttribute('visible')).to.eq('true');
+
+    // click no in modal
+    $('va-modal', container).__events.secondaryButtonClick();
+
+    await waitFor(() => {
+      expect($$('li', container)).to.not.be.empty;
+      expect(document.activeElement).to.eq(deleteButton);
     });
   });
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { toggleValues } from '../../../../site-wide/feature-toggles/selectors';
 import get from '../../../../utilities/data/get';
@@ -10,8 +11,8 @@ import set from '../../../../utilities/data/set';
 import unset from '../../../../utilities/data/unset';
 import {
   displayFileSize,
-  scrollTo,
   focusElement,
+  scrollTo,
   scrollToFirstError,
 } from '../../../../utilities/ui';
 
@@ -28,6 +29,31 @@ import {
 } from '../utilities/file';
 import { usePreviousValue } from '../helpers';
 
+/**
+ * Modal content callback
+ * @typedef ModalContent
+ * @type {function}
+ * @property {string} fileName - name of file to be removed
+ * @returns {JSX} - default='<span>We’ll remove the uploaded document
+ *  <strong>{fileName}</strong></span>'
+ */
+/**
+ * UI options used in FileField
+ * @typedef uiOptions
+ * @type {object}
+ * @property {string} buttonText='Upload' - upload button text
+ * @property {string} addAnotherLabel='Upload another' - upload another text,
+ *  replaces upload button text when greater than one upload is showing
+ * @property {string} tryAgain='Try again' - button in enableShortWorkflow
+ * @property {string} newFile='Upload a new file' - button in enableShortWorkflow
+ * @property {string} cancel='Cancel' - button visible while uploading & in enableShortWorkflow
+ * @property {string} delete='Delete file' - delete button text
+ * @property {string} modalTitle='Are you sure you want to remove this issue?' -
+ *  delete confirmation modal title
+ * @property {ModalContent} modalContent - delete confirmation modal content
+ * @property {string} yesButton='Yes, remove this' - modal Yes button text
+ * @property {string} noButton='No, keep this' - modal No button text
+ */
 /**
  * FormData of supported files
  * @typeof Files
@@ -63,6 +89,8 @@ const FileField = props => {
   const [isUploading, setIsUploading] = useState(
     files.some(file => file.uploading),
   );
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [removeIndex, setRemoveIndex] = useState(null);
 
   const previousValue = usePreviousValue(formData);
   const fileInputRef = useRef(null);
@@ -76,13 +104,25 @@ const FileField = props => {
     ? schema.additionalItems.required.includes('attachmentId')
     : false;
 
-  const buttonText = {
+  const content = {
     upload: uiOptions.buttonText || 'Upload',
     uploadAnother: uiOptions.addAnotherLabel || 'Upload another',
     tryAgain: 'Try again',
     newFile: 'Upload a new file',
     cancel: 'Cancel',
     delete: 'Delete file',
+    modalTitle:
+      uiOptions.modalTitle || 'Are you sure you want to remove this issue?',
+    modalContent: fileName =>
+      uiOptions.modalContent?.(fileName || 'Unknown') || (
+        <span>
+          We’ll remove the uploaded document{' '}
+          <strong>{fileName || 'Unknown'}</strong>
+        </span>
+      ),
+    yesButton: 'Yes, remove this',
+    noButton: 'No, keep this',
+    error: 'Error',
   };
 
   const Tag = formContext.onReviewPage && formContext.reviewMode ? 'dl' : 'div';
@@ -94,6 +134,8 @@ const FileField = props => {
     typeof uiSchema['ui:title'] === 'string'
       ? uiSchema['ui:title']
       : schema.title;
+
+  const getFileListId = index => `${idSchema.$id}_file_${index}`;
 
   // This is always true if enableShortWorkflow is not enabled
   // If enabled, do not allow upload if any error exist
@@ -109,8 +151,17 @@ const FileField = props => {
       }));
 
   const focusAddAnotherButton = () => {
-    // focus on upload button, not the label
-    focusElement('button', {}, $(`#upload-button`)?.shadowRoot);
+    // Add a timeout to allow for the upload button to reappear in the DOM
+    // before trying to focus on it
+    setTimeout(() => {
+      // focus on upload button, not the label
+      focusElement(
+        // including `#upload-button` because RTL can't access the shadowRoot
+        'button, #upload-button',
+        {},
+        $(`#upload-button`)?.shadowRoot,
+      );
+    }, 100);
   };
 
   const updateProgress = percent => {
@@ -233,11 +284,11 @@ const FileField = props => {
             onChange(newData);
             // Focus on the 'Cancel' button when a file is being uploaded
             if (file.uploading) {
-              $('.schemaform-file-uploading button')?.focus();
+              $('.schemaform-file-uploading .cancel-upload')?.focus();
             }
-            // Focus on the file name input after the file has finished uploading
+            // Focus on the file card after the file has finished uploading
             if (!file.uploading) {
-              $(`input[value="${file.name}"]`)?.focus();
+              $(getFileListId(idx))?.focus();
             }
             setUploadRequest(null);
           },
@@ -290,10 +341,29 @@ const FileField = props => {
 
     // When other actions follow removeFile, we do not want to apply this focus
     if (focusAddButton) {
-      // Add a timeout to allow for the upload button to reappear in the DOM before trying to focus on it
+      focusAddAnotherButton();
+    }
+  };
+
+  const openRemoveModal = index => {
+    setRemoveIndex(index);
+    setShowRemoveModal(true);
+  };
+
+  const closeRemoveModal = ({ remove = false } = {}) => {
+    const idx = removeIndex;
+    setRemoveIndex(null);
+    setShowRemoveModal(false);
+    if (remove) {
+      removeFile(idx);
+    } else {
       setTimeout(() => {
-        focusAddAnotherButton();
-      }, 0);
+        focusElement(
+          'button, .delete-upload',
+          {},
+          $(`#${getFileListId(idx)} .delete-upload`)?.shadowRoot,
+        );
+      });
     }
   };
 
@@ -319,7 +389,7 @@ const FileField = props => {
       : () => deleteThenAddFile(index);
   };
 
-  const uploadText = buttonText[files.length > 0 ? 'uploadAnother' : 'upload'];
+  const uploadText = content[files.length > 0 ? 'uploadAnother' : 'upload'];
 
   return (
     <div
@@ -327,6 +397,23 @@ const FileField = props => {
         formContext.reviewMode ? 'schemaform-file-upload-review' : undefined
       }
     >
+      <VaModal
+        clickToClose
+        status="warning"
+        modalTitle="Are you sure you want to remove this file?"
+        primaryButtonText={content.yesButton}
+        secondaryButtonText={content.noButton}
+        onCloseEvent={closeRemoveModal}
+        onPrimaryButtonClick={() => closeRemoveModal({ remove: true })}
+        onSecondaryButtonClick={closeRemoveModal}
+        visible={showRemoveModal}
+      >
+        <p>
+          {removeIndex !== null
+            ? content.modalContent(files[removeIndex]?.name)
+            : null}
+        </p>
+      </VaModal>
       {files.length > 0 && (
         <ul className="schemaform-file-list">
           {files.map((file, index) => {
@@ -357,15 +444,16 @@ const FileField = props => {
             const description =
               (!file.uploading && uiOptions.itemDescription) || '';
 
+            const fileListId = getFileListId(index);
+            const fileNameId = `${idSchema.$id}_file_name_${index}`;
+
             if (hasErrors) {
               setTimeout(() => {
                 scrollToFirstError();
                 if (enableShortWorkflow) {
                   focusElement(`[name="retry_upload_${index}"]`);
                 } else if (showPasswordInput) {
-                  focusElement(
-                    `#root_additionalDocuments_file_${index} .usa-input-error-message`,
-                  );
+                  focusElement(`#${fileListId} .usa-input-error-message`);
                 } else {
                   focusElement('.usa-input-error, .input-error-date, [error]');
                 }
@@ -381,17 +469,13 @@ const FileField = props => {
             const allowRetry = errors[0] === FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
 
             const retryButtonText =
-              buttonText[allowRetry ? 'tryAgain' : 'newFile'];
+              content[allowRetry ? 'tryAgain' : 'newFile'];
             const deleteButtonText =
-              buttonText[
-                enableShortWorkflow && hasErrors ? 'cancel' : 'delete'
-              ];
-
-            const fileId = `${idSchema.$id}_file_name_${index}`;
+              content[enableShortWorkflow && hasErrors ? 'cancel' : 'delete'];
 
             const getUiSchema = innerUiSchema =>
               typeof innerUiSchema === 'function'
-                ? innerUiSchema({ fileId, index })
+                ? innerUiSchema({ fileId: fileNameId, index })
                 : innerUiSchema;
 
             // make index available to widgets in attachment ui schema
@@ -404,14 +488,10 @@ const FileField = props => {
             };
 
             return (
-              <li
-                key={index}
-                id={`${idSchema.$id}_file_${index}`}
-                className={itemClasses}
-              >
+              <li key={index} id={fileListId} className={itemClasses}>
                 {file.uploading && (
                   <div className="schemaform-file-uploading">
-                    <strong id={fileId}>{file.name}</strong>
+                    <strong id={fileNameId}>{file.name}</strong>
                     <br />
                     <va-progress-bar percent={progress} />
                     <va-button
@@ -420,16 +500,16 @@ const FileField = props => {
                       onClick={() => {
                         cancelUpload(index);
                       }}
-                      aria-describedby={fileId}
+                      aria-describedby={fileNameId}
                       label="Cancel Upload"
-                      text={buttonText.cancel}
+                      text={content.cancel}
                     />
                   </div>
                 )}
                 {description && <p>{description}</p>}
                 {!file.uploading && (
                   <>
-                    <strong id={fileId}>{file.name}</strong>
+                    <strong id={fileNameId}>{file.name}</strong>
                     {file?.size && <div> {displayFileSize(file.size)}</div>}
                   </>
                 )}
@@ -488,7 +568,7 @@ const FileField = props => {
                     file={file.file}
                     index={index}
                     onSubmitPassword={onSubmitPassword}
-                    ariaDescribedby={fileId}
+                    ariaDescribedby={fileNameId}
                   />
                 )}
                 {!formContext.reviewMode &&
@@ -504,7 +584,7 @@ const FileField = props => {
                               index,
                               file.file,
                             )}
-                            aria-describedby={fileId}
+                            aria-describedby={fileNameId}
                             text={retryButtonText}
                           />
                         )}
@@ -512,9 +592,9 @@ const FileField = props => {
                         secondary
                         class="delete-upload vads-u-width--auto"
                         onClick={() => {
-                          removeFile(index);
+                          openRemoveModal(index);
                         }}
-                        aria-describedby={fileId}
+                        aria-describedby={fileNameId}
                         text={deleteButtonText}
                       />
                     </div>
@@ -540,7 +620,7 @@ const FileField = props => {
                   id="upload-button"
                   ref={fileButtonRef}
                   secondary
-                  class="vads-u-padding-x--2 vads-u-padding-y--1"
+                  class="vads-u-padding-x--0 vads-u-padding-y--1"
                   onClick={() => fileInputRef?.current?.click()}
                   label={`${uploadText} ${titleString || ''}`}
                   text={uploadText}
@@ -551,7 +631,7 @@ const FileField = props => {
             type="file"
             ref={fileInputRef}
             accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
-            style={{ display: 'none' }}
+            className="vads-u-display--none"
             id={idSchema.$id}
             name={idSchema.$id}
             onChange={onAddFile}
