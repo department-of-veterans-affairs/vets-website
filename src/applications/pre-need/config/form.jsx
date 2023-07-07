@@ -14,7 +14,6 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import fullNameUI from 'platform/forms/definitions/fullName';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import * as burialBenefits from './pages/burialBenefits';
@@ -29,6 +28,7 @@ import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
 import SubmissionError from '../components/SubmissionError';
 import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
+import phoneUI from '../components/Phone';
 import { validateSponsorDeathDate } from '../validation';
 
 import manifest from '../manifest.json';

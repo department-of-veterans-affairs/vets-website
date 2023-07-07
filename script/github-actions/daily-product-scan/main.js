@@ -44,10 +44,8 @@ async function main({ octokit }) {
   const productDirectory = JSON.parse(response.data);
 
   const productPaths = productDirectory.map(product => ({
-    // eslint-disable-next-line camelcase
-    product_id: product.product_id,
-    // eslint-disable-next-line camelcase
-    path_to_code: product.path_to_code,
+    productId: product.product_id,
+    pathToCode: product.path_to_code,
   }));
 
   products.addProducts({
@@ -65,11 +63,8 @@ async function main({ octokit }) {
   const testTypes = new TestTypes({ products: products.all });
   testTypes.checkExistance();
 
-  // only update last_updated when GitHub Actions workflow runs for now
-  if (process.env.MANIFEST_GLOB_PATH) {
-    const lastUpdated = new LastUpdated({ products: products.all });
-    lastUpdated.setLastUpdated();
-  }
+  const lastUpdated = new LastUpdated({ products: products.all });
+  await lastUpdated.setLastUpdated();
 
   // Check for automatically updated field values
   const differ = new Differ();

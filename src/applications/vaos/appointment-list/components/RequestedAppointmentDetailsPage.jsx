@@ -4,6 +4,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
+import BackLink from '../../components/BackLink';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
@@ -27,6 +28,7 @@ import FullWidthLayout from '../../components/FullWidthLayout';
 import { startAppointmentCancel, fetchRequestDetails } from '../redux/actions';
 import RequestedStatusAlert from './RequestedStatusAlert';
 import { getTypeOfCareById } from '../../utils/appointment';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -60,6 +62,10 @@ export default function RequestedAppointmentDetailsPage() {
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
+  );
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const showBackLink = useToggleValue(
+    TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink,
   );
   useEffect(
     () => {
@@ -135,15 +141,18 @@ export default function RequestedAppointmentDetailsPage() {
 
   return (
     <PageLayout>
-      <Breadcrumbs>
-        <NavLink
-          to={`/health-care/schedule-view-va-appointments/appointments/requests/${id}`}
-        >
-          Request detail
-        </NavLink>
-      </Breadcrumbs>
-
-      <h1>
+      {showBackLink ? (
+        <BackLink appointment={appointment} />
+      ) : (
+        <Breadcrumbs>
+          <NavLink
+            to={`/health-care/schedule-view-va-appointments/appointments/requests/${id}`}
+          >
+            Request detail
+          </NavLink>
+        </Breadcrumbs>
+      )}
+      <h1 className="vads-u-margin-y--2p5">
         {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
       </h1>
       <RequestedStatusAlert appointment={appointment} facility={facility} />

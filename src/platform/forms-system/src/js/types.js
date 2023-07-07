@@ -205,34 +205,35 @@
 /**
  * @typedef {Object} UIOptions
  * @property {string} [ariaDescribedby] - The id of the element that describes the field
- * @property {string} [classNames]
- * @property {string} [customTitle]
- * @property {number} [debounceRate]
+ * @property {string} [classNames] - additional CSS classes to add to the field
+ * @property {string} [customTitle] - for arrays
+ * @property {number} [debounceRate] - Used for AutoSuggest widget
+ * @property {number} [doNotScroll] - For arrays. By default when adding a new item it will scroll to the next item. Set this to true to disable that behavior.
  * @property {string} [duplicateKey]
- * @property {string} [expandUnder]
- * @property {boolean} [expandUnderCondition]
- * @property {boolean} [forceDivWrapper]
- * @property {boolean} [freeInput]
- * @property {boolean} [hideEmptyValueInReview]
- * @property {(formData: any) => boolean} [hideIf]
+ * @property {string} [expandUnder] - The key of the uiSchema directly before this field
+ * @property {boolean | (value: string, formData: any) => boolean} [expandUnderCondition] `expandUnderCondition: (value, formData) => !!value`
+ * @property {boolean} [forceDivWrapper] - Used as an a11y helper when you need to wrap a field in a div
+ * @property {boolean} [freeInput] - for AutoSuggest widget
+ * @property {boolean} [hideEmptyValueInReview] - Field will not be displayed in review page if empty if set to true
+ * @property {(formData: any) => boolean} [hideIf] - Conditional logic if the field should be hidden
  * @property {boolean} [hideLabelText]
  * @property {boolean} [hideTitle]
- * @property {boolean} [hideOnReview]
- * @property {string} [hint]
+ * @property {boolean} [hideOnReview] - Used to hide a field on review page
+ * @property {string} [hint] - The hint text for the field. For web components.
  * @property {boolean} [includeRequiredLabelInTitle]
  * @property {Array<(input) => string>} [inputTransformers]
- * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType]
- * @property {(item: any) => string} [itemAriaLabel]
- * @property {string} [itemName]
+ * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] - for web component text inputs
+ * @property {(item: any) => string} [itemAriaLabel] - for arrays
+ * @property {string} [itemName] - The name of the item - for arrays
  * @property {boolean} [keepInPageOnReview]
- * @property {Record<string, string>} [labels]
+ * @property {Record<string, string>} [labels] - Used to specify radio button or yes/no labels
  * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [replaceSchema]
  * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [updateSchema]
- * @property {boolean} [useDlWrap]
- * @property {boolean} [uswds]
+ * @property {boolean} [useDlWrap] - Wraps field in a dl tag on the review page
+ * @property {boolean} [uswds] - For web components. `true` will use the v3 web components. `false` will use the v1 web components.
  * @property {React.ReactNode} [viewComponent]
- * @property {React.ReactNode} [viewField]
- * @property {string} [widgetClassNames]
+ * @property {React.ReactNode} [viewField] - For arrays. The display of each item after you've added it.
+ * @property {string} [widgetClassNames] - additional CSS classes to add to the widget. For web components use classNames instead.
  * @property {Record<string, any>} [widgetProps]
  */
 
