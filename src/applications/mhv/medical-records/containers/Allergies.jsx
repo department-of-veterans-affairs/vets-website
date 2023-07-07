@@ -7,8 +7,6 @@ import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import { getAllVaccinesPdf } from '../api/MrApi';
-import { downloadFile } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 
 const Allergies = () => {
@@ -35,9 +33,7 @@ const Allergies = () => {
     [dispatch],
   );
 
-  const download = () => {
-    getAllVaccinesPdf().then(res => downloadFile('vaccines.pdf', res.pdf));
-  };
+  const download = () => {};
 
   const content = () => {
     if (allergies?.length > 0) {
