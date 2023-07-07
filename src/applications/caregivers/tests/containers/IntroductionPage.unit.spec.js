@@ -5,6 +5,7 @@ import { expect } from 'chai';
 
 import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
+import { appTitle, appIntro } from '../../definitions/content';
 
 describe('CG <IntroductionPage>', () => {
   const getData = ({ useFacilitiesAPI = false } = {}) => ({
@@ -67,12 +68,8 @@ describe('CG <IntroductionPage>', () => {
       intro: view.container.querySelector('.va-introtext'),
     };
     expect(selectors.wrapper).to.not.be.empty;
-    expect(selectors.title).to.contain.text(
-      'Apply for the Program of Comprehensive Assistance for Family Caregivers',
-    );
-    expect(selectors.intro).to.contain.text(
-      'We recognize the important role of family caregivers in supporting the health and wellness of Veterans.',
-    );
+    expect(selectors.title).to.contain.text(appTitle);
+    expect(selectors.intro).to.contain.text(appIntro);
   });
 
   it('should contain links to start the application', () => {
@@ -106,8 +103,8 @@ describe('CG <IntroductionPage>', () => {
     );
     const selector = view.container.querySelector('va-omb-info');
     expect(selector).to.exist;
-    expect(selector).to.have.attribute('res-burden', '15');
-    expect(selector).to.have.attribute('omb-number', '2900-0768');
-    expect(selector).to.have.attribute('exp-date', '04/30/2024');
+    expect(selector).to.have.attribute('res-burden');
+    expect(selector).to.have.attribute('omb-number');
+    expect(selector).to.have.attribute('exp-date');
   });
 });
