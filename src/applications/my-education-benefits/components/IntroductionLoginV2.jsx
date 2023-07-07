@@ -6,6 +6,7 @@ import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { getAppData } from '../selectors/selectors';
 import LoadingIndicator from './LoadingIndicator';
 
@@ -17,8 +18,9 @@ function IntroductionLoginV2({
   route,
   showHideLoginModal,
   user,
-  showMebEnhancements, // Add showMebEnhancements as a prop
-  showMebEnhancements06, // Add showMebEnhancements06 as a prop
+  showMebEnhancements,
+  showMebEnhancements06,
+  showMebEnhancements08, // Add showMebEnhancements08 as a prop
 }) {
   const apiCallsComplete =
     isLOA3 === false || (isClaimantCallComplete && isEligibilityCallComplete);
@@ -104,7 +106,8 @@ function IntroductionLoginV2({
         )}
       {apiCallsComplete &&
         isLoggedIn &&
-        isLOA3 && (
+        ((showMebEnhancements08 && isLOA3) ||
+          (!showMebEnhancements08 && isLOA3)) && (
           <SaveInProgressIntro
             headingLevel={2}
             hideUnauthedStartLink
@@ -161,13 +164,16 @@ IntroductionLoginV2.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
-  showMebEnhancements: PropTypes.bool, // Add showMebEnhancements to propTypes
-  showMebEnhancements06: PropTypes.bool, // Add showMebEnhancements06 to propTypes
+  showMebEnhancements: PropTypes.bool,
+  showMebEnhancements06: PropTypes.bool,
+  showMebEnhancements08: PropTypes.bool, // Added new feature flag to propTypes
   user: PropTypes.object,
 };
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
+  showMebEnhancements08:
+    state.featureToggles[featureFlagNames.showMebEnhancements08], // Added new feature flag to mapStateToProps
 });
 const mapDispatchToProps = {
   showHideLoginModal: toggleLoginModal,
