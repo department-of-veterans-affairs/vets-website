@@ -35,6 +35,7 @@ export const App = ({
   showMebCh33SelfForm,
   showMebEnhancements,
   showMebEnhancements06,
+  showMebEnhancements08,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
@@ -49,7 +50,7 @@ export const App = ({
 
       if (!fetchedPersonalInfo) {
         setFetchedPersonalInfo(true);
-        getPersonalInfo(showMebCh33SelfForm);
+        getPersonalInfo(showMebCh33SelfForm, showMebEnhancements08);
       } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
@@ -67,6 +68,7 @@ export const App = ({
       isLoggedIn,
       setFormData,
       showMebCh33SelfForm,
+      showMebEnhancements08,
     ],
   );
 
