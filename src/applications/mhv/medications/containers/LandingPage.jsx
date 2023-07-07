@@ -111,11 +111,9 @@ const LandingPage = () => {
 
   useEffect(
     () => {
-      let arr;
       if (prescriptions) {
-        arr = buildPrescriptionList();
+        setRxList(buildPrescriptionList());
       }
-      setRxList(arr);
     },
     [buildPrescriptionList, prescriptions],
   );
