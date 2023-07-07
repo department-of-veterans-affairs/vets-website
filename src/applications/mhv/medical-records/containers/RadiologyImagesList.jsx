@@ -7,8 +7,6 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintDownload from '../components/shared/PrintDownload';
 import PrintHeader from '../components/shared/PrintHeader';
-import { downloadFile } from '../util/helpers';
-import { getVaccinePdf } from '../api/MrApi';
 
 const RadiologyImagesList = () => {
   const dispatch = useDispatch();
@@ -49,9 +47,7 @@ const RadiologyImagesList = () => {
 
   const formattedDate = formatDateLong(labAndTestDetails?.date);
 
-  const download = () => {
-    getVaccinePdf(1).then(res => downloadFile('radiology.pdf', res.pdf));
-  };
+  const download = () => {};
 
   useEffect(
     () => {
