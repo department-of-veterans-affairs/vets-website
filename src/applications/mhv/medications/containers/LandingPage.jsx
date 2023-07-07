@@ -101,10 +101,6 @@ const LandingPage = () => {
             </va-accordion>
           </section>
         </div>
-        <section>
-          <hr />
-          <button className="feedback"> feedback </button>
-        </section>
       </div>
     );
   };

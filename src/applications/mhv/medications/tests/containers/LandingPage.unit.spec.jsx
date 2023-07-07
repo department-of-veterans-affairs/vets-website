@@ -49,8 +49,4 @@ describe('Medicaitons Landing page container', () => {
       }),
     ).to.exist;
   });
-
-  it('displays a feedback button', () => {
-    expect(screen.getByText(`feedback`)).to.exist;
-  });
 });
