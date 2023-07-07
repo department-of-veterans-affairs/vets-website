@@ -21,12 +21,6 @@ export const content = {
     add: 'Add an issue',
     edit: 'Edit an issue',
   },
-
-  button: {
-    cancel: 'Cancel',
-    add: 'Add issue',
-    edit: 'Update issue',
-  },
   name: {
     label: 'Name of issue',
     hint: (
