@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllFolders } from '../actions';
 import MoveMessageToFolderBtn from './MessageActionButtons/MoveMessageToFolderBtn';
 import PrintBtn from './MessageActionButtons/PrintBtn';
+import ReplyBtn from './MessageActionButtons/ReplyBtn';
 import { DefaultFolders } from '../util/constants';
 import ActionButtons from './shared/ActionButtons';
-import ReplyButton from './MessageActionButtons/ReplyButton';
 import TrashButton from './MessageActionButtons/TrashButton';
 import { Actions } from '../util/actionTypes';
 
@@ -69,8 +69,8 @@ const MessageActionButtons = props => {
         );
       }
       buttons.push(
-        <ReplyButton
-          key="replyButton"
+        <ReplyBtn
+          key="replyBtn"
           visible={!hideReplyButton}
           onReply={props.onReply}
         />,
