@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
-import { render } from 'enzyme';
+import { render, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import App from '../../containers/App';
@@ -78,5 +78,21 @@ describe('App', () => {
         .first()
         .text(),
     ).to.eq('Please sign in to connect a device');
+  });
+
+  it('renders norobot meta tag', () => {
+    const mockStore = getStore(false, false);
+    const wrapper = shallow(
+      <Provider store={mockStore}>
+        <App />
+      </Provider>,
+    );
+    // expect(wrapper.html()).to.contain('noindex');
+    // expect(wrapper.find("meta[name='robots']").props().content).to.eq(
+    //   'noindex',
+    // );
+    expect(wrapper.html()).contains('noindex');
+    wrapper.unmount();
+    // console.log(wrapper.debug());
   });
 });
