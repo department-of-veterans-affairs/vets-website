@@ -14,6 +14,7 @@ import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
 import { configure } from '@testing-library/dom';
 import sinon from 'sinon';
+import addContext from 'mochawesome/addContext';
 import chaiAxe from './axe-plugin';
 
 import { sentryTransport } from './sentry';
@@ -185,17 +186,20 @@ const checkForNetworkCalls = mochaContext => {
   try {
     const networkCall = fetchStub.getCall(0);
     if (networkCall && networkCall.args[0]) {
-      // throw new Error(
-      //   `Network call made to ${
-      //     networkCall.args[0]
-      //   }. Please mock this call with mockFetch.`,
-      // );
-      /* eslint-disable no-console */
-
-      console.log(
-        `test: ${
-          mochaContext.test.title
-        } tried to make an invalid network request. Adding to the quarantine list`,
+      addContext(
+        { mochaContext },
+        {
+          title: 'Network Request Valid',
+          value: false,
+        },
+      );
+    } else {
+      addContext(
+        { mochaContext },
+        {
+          title: 'Network Request Valid',
+          value: true,
+        },
       );
     }
   } catch (err) {
