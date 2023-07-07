@@ -2,12 +2,10 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { downloadFile } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getAllergyDetails } from '../actions/allergies';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
-import { getVaccinePdf } from '../api/MrApi';
 import PrintDownload from '../components/shared/PrintDownload';
 
 const AllergyDetails = () => {
@@ -49,9 +47,7 @@ const AllergyDetails = () => {
     [allergy],
   );
 
-  const download = () => {
-    getVaccinePdf(1).then(res => downloadFile('allergy.pdf', res.pdf));
-  };
+  const download = () => {};
 
   const content = () => {
     if (allergy) {
