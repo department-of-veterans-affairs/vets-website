@@ -193,7 +193,9 @@ const checkForNetworkCalls = mochaContext => {
       /* eslint-disable no-console */
 
       console.log(
-        `test: ${mochaContext} tried to make an invalid network request. Adding to the quarantine list`,
+        `test: ${
+          mochaContext.test.title
+        } tried to make an invalid network request. Adding to the quarantine list`,
       );
     }
   } catch (err) {
