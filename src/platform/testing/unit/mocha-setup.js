@@ -194,7 +194,7 @@ const checkForNetworkCalls = mochaContext => {
 
       console.log(
         `test: ${
-          mochaContext.title
+          { mochaContext }.title
         } tried to make an invalid network request. Adding to the quarantine list`,
       );
     }
