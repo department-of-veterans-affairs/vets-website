@@ -5,7 +5,7 @@ import {
   mockFetch,
   setFetchJSONResponse,
   setFetchJSONFailure,
-} from 'platform/testing/unit/helpers';
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import past from '../../services/mocks/var/past.json';
 import supportedSites from '../../services/mocks/var/sites-supporting-var.json';
@@ -16,8 +16,12 @@ import { FACILITY_TYPES } from '../../utils/constants';
 import { mockParentSites } from '../mocks/helpers';
 import { mockFacilitiesFetchByVersion } from '../mocks/fetch';
 import { getParentSiteMock } from '../mocks/v0';
-import { mockSchedulingConfigurations } from '../mocks/helpers.v2';
+import {
+  mockSchedulingConfigurations,
+  mockV2CommunityCareEligibility,
+} from '../mocks/helpers.v2';
 import { getSchedulingConfigurationMock } from '../mocks/v2';
+import { createMockFacilityByVersion } from '../mocks/data';
 
 const userState = {
   user: {
@@ -41,22 +45,20 @@ describe('VAOS newAppointmentFlow', () => {
     describe('next page', () => {
       it('should be vaFacility page if no systems have CC support', async () => {
         mockFetch();
-        mockFacilitiesFetchByVersion({ version: 0 });
+        mockFacilitiesFetchByVersion({
+          children: true,
+          ids: ['983'],
+          facilities: [
+            createMockFacilityByVersion({
+              id: '983',
+            }),
+          ],
+        });
         mockParentSites(['983'], [getParentSiteMock({ id: '983' })]);
         mockSchedulingConfigurations(
           [
             getSchedulingConfigurationMock({
               id: '983',
-              typeOfCareId: 'primaryCare',
-              requestEnabled: true,
-            }),
-            getSchedulingConfigurationMock({
-              id: '984',
-              typeOfCareId: 'primaryCare',
-              requestEnabled: true,
-            }),
-            getSchedulingConfigurationMock({
-              id: '983A6',
               typeOfCareId: 'primaryCare',
               requestEnabled: true,
             }),
@@ -182,31 +184,29 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be requestDateTime if CC support and typeOfCare is podiatry', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, parentFacilities);
+        mockFacilitiesFetchByVersion({
+          children: true,
+          ids: ['983', '984'],
+          facilities: [
+            createMockFacilityByVersion({
+              id: '983',
+            }),
+          ],
+        });
         mockSchedulingConfigurations(
           [
             getSchedulingConfigurationMock({
               id: '983',
-              typeOfCareId: 'primaryCare',
+              typeOfCareId: '411',
               requestEnabled: true,
-            }),
-            getSchedulingConfigurationMock({
-              id: '984',
-              typeOfCareId: 'primaryCare',
-              requestEnabled: true,
-            }),
-            getSchedulingConfigurationMock({
-              id: '983A6',
-              typeOfCareId: 'primaryCare',
-              requestEnabled: true,
+              communityCare: true,
             }),
           ],
           true,
         );
-        setFetchJSONResponse(global.fetch.onCall(2), {
-          data: {
-            attributes: { eligible: true },
-          },
+        mockV2CommunityCareEligibility({
+          parentSites: [],
+          careType: 'Podiatry',
         });
         const state = {
           ...userState,
@@ -229,9 +229,6 @@ describe('VAOS newAppointmentFlow', () => {
           state,
           dispatch,
         );
-
-        const { dataLayer } = global.window;
-        expect(dataLayer[0].event).to.equal('vaos-cc-eligible-yes');
 
         expect(nextState).to.equal('requestDateTime');
       });
@@ -260,7 +257,15 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be typeOfFacility page if site has CC support', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, parentFacilities);
+        mockFacilitiesFetchByVersion({
+          children: true,
+          ids: ['983', '984'],
+          facilities: [
+            createMockFacilityByVersion({
+              id: '983',
+            }),
+          ],
+        });
         mockSchedulingConfigurations(
           [
             getSchedulingConfigurationMock({
@@ -268,24 +273,14 @@ describe('VAOS newAppointmentFlow', () => {
               typeOfCareId: 'primaryCare',
               requestEnabled: true,
             }),
-            getSchedulingConfigurationMock({
-              id: '984',
-              typeOfCareId: 'primaryCare',
-              requestEnabled: true,
-            }),
-            getSchedulingConfigurationMock({
-              id: '983A6',
-              typeOfCareId: 'primaryCare',
-              requestEnabled: true,
-            }),
           ],
           true,
         );
-        setFetchJSONResponse(global.fetch.onCall(2), {
-          data: {
-            attributes: { eligible: true },
-          },
+        mockV2CommunityCareEligibility({
+          parentSites: [],
+          careType: 'PrimaryCare',
         });
+
         const state = {
           ...userState,
           featureToggles: {
@@ -600,31 +595,28 @@ describe('VAOS newAppointmentFlow', () => {
 
     it('should be typeOfFacility page when optometry selected', async () => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, parentFacilities);
+      mockFacilitiesFetchByVersion({
+        children: true,
+        ids: ['983', '984'],
+        facilities: [
+          createMockFacilityByVersion({
+            id: '983',
+          }),
+        ],
+      });
       mockSchedulingConfigurations(
         [
           getSchedulingConfigurationMock({
             id: '983',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
-          }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
-          }),
-          getSchedulingConfigurationMock({
-            id: '983A6',
-            typeOfCareId: 'primaryCare',
+            typeOfCareId: 'Optometry',
             requestEnabled: true,
           }),
         ],
         true,
       );
-      setFetchJSONResponse(global.fetch.onCall(2), {
-        data: {
-          attributes: { eligible: true },
-        },
+      mockV2CommunityCareEligibility({
+        parentSites: [],
+        careType: 'Optometry',
       });
       const state = {
         ...userState,

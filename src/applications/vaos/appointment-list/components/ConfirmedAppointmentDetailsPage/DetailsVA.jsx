@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import BackLink from '../../../components/BackLink';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
 import AppointmentDateTime from '../AppointmentDateTime';
@@ -15,16 +16,24 @@ import PhoneInstructions from './PhoneInstructions';
 import { selectTypeOfCareName } from '../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import { formatHeader } from './DetailsVA.util';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 export default function DetailsVA({ appointment, facilityData }) {
   const locationId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[locationId];
   const isCovid = appointment.vaos.isCOVIDVaccine;
   const header = formatHeader(appointment);
-  const isPhone = appointment.vaos.isPhoneAppointment;
-  const { isPastAppointment, isCompAndPenAppointment } = appointment.vaos;
+  const {
+    isPastAppointment,
+    isCompAndPenAppointment,
+    isPhoneAppointment,
+  } = appointment.vaos;
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isAppointmentCancellable = appointment.vaos.isCancellable;
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const showBackLink = useToggleValue(
+    TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink,
+  );
 
   const typeOfCareName = selectTypeOfCareName(appointment);
   // we don't want to display the appointment type header for upcoming C&P appointments.
@@ -67,16 +76,20 @@ export default function DetailsVA({ appointment, facilityData }) {
 
   return (
     <>
-      <Breadcrumbs>
-        <a
-          href={`/health-care/schedule-view-va-appointments/appointments/va/${
-            appointment.id
-          }`}
-        >
-          Appointment detail
-        </a>
-      </Breadcrumbs>
-      <h1>
+      {showBackLink ? (
+        <BackLink appointment={appointment} />
+      ) : (
+        <Breadcrumbs>
+          <a
+            href={`/health-care/schedule-view-va-appointments/appointments/va/${
+              appointment.id
+            }`}
+          >
+            Appointment detail
+          </a>
+        </Breadcrumbs>
+      )}
+      <h1 className="vads-u-margin-y--2p5">
         <AppointmentDateTime appointment={appointment} />
       </h1>
       <StatusAlert appointment={appointment} facility={facility} />
@@ -89,7 +102,7 @@ export default function DetailsVA({ appointment, facilityData }) {
         facilityId={locationId}
         clinicFriendlyName={appointment.location?.clinicName}
         showCovidPhone={isCovid}
-        isPhone={isPhone}
+        isPhone={isPhoneAppointment}
       />
       <VAInstructions appointment={appointment} />
       <CalendarLink appointment={appointment} facility={facility} />

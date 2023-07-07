@@ -26,11 +26,10 @@ export default function AppointmentListNavigation({ count, callback }) {
     return (
       <div
         className={classNames(
-          `vaos-hide-for-print vads-l-row xsmall-screen:${
-            !isPending ? 'vads-u-border-bottom--0' : 'vads-u-border-bottom--1px'
-          } vads-u-margin-bottom--3 small-screen:${
-            isPast ? 'vads-u-margin-bottom--3' : 'vads-u-margin-bottom--4'
-          } small-screen:vads-u-border-bottom--1px vads-u-color--gray-medium`,
+          `vaos-hide-for-print vads-l-row xsmall-screen:vads-u-border-bottom--0 
+           vads-u-margin-bottom--3 small-screen:${
+             isPast ? 'vads-u-margin-bottom--3' : 'vads-u-margin-bottom--4'
+           } small-screen:vads-u-border-bottom--1px vads-u-color--gray-medium`,
         )}
       >
         <nav

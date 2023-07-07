@@ -8,6 +8,7 @@ import manifest from '../../manifest.json';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import { getSignerFullName } from './helpers';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
+import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
 
 const testConfig = createTestConfig(
   {
@@ -76,16 +77,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const signerName = getSignerFullName(data);
-            cy.get('#veteran-signature')
-              .first()
-              .shadow()
-              .find('input')
-              .first()
-              .type(signerName);
-            cy.get(`input[name="veteran-certify"]`).check();
-            cy.findAllByText(/submit statement/i, {
-              selector: 'button',
-            }).click();
+            reviewAndSubmitPageFlow(signerName);
           });
         });
       },

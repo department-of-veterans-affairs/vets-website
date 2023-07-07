@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { downloadFile } from '../../util/helpers';
 import PrintHeader from '../shared/PrintHeader';
-import { getVaccinePdf } from '../../api/MrApi';
 import PrintDownload from '../shared/PrintDownload';
 
 const ProgressNoteDetails = props => {
@@ -12,9 +10,7 @@ const ProgressNoteDetails = props => {
   const dateSigned = formatDateLong(results?.dateSigned);
   const dateUpdated = formatDateLong(results?.dateUpdated);
 
-  const download = () => {
-    getVaccinePdf(1).then(res => downloadFile('ProgressNote.pdf', res.pdf));
-  };
+  const download = () => {};
 
   const content = () => {
     if (results) {

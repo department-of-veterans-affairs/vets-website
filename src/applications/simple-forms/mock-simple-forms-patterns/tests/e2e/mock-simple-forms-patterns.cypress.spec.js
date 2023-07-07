@@ -42,7 +42,6 @@ const testConfig = createTestConfig(
             cy.fillPage();
 
             // web components
-            fillTextWebComponent('wcOldRequired', data?.wcOldRequired);
             fillTextWebComponent('wcv3RequiredNew', data?.wcv3RequiredNew);
             fillTextAreaWebComponent('wcv3TextAreaNew', data?.wcv3TextAreaNew);
 
@@ -59,10 +58,6 @@ const testConfig = createTestConfig(
             cy.fillPage();
 
             // web components
-            fillFullNameWebComponentPattern(
-              'wcOldSpouseFullName',
-              data.wcOldSpouseFullName,
-            );
             fillFullNameWebComponentPattern(
               'wcv3SpouseFullNameNew',
               data.wcv3SpouseFullNameNew,
@@ -127,24 +122,14 @@ const testConfig = createTestConfig(
 
             // web components
             fillTextWebComponent(
-              'wcOldCheckSimpleText',
-              data.wcOldCheckSimpleText,
-            );
-            selectCheckboxWebComponent(
-              'wcOldCheckRequiredCheckbox',
-              data.wcOldCheckRequiredCheckbox,
-            );
-            fillTextWebComponent('wcOldCheckSsn', data.wcOldCheckSsn);
-            fillTextWebComponent(
               'wcV3CheckSimpleText',
               data.wcV3CheckSimpleText,
             );
 
-            // bug: if can't check checkbox, then click label.
-            cy.get(`va-checkbox[name="root_wcV3CheckRequiredCheckbox"]`)
-              .shadow()
-              .find('label')
-              .click();
+            selectCheckboxWebComponent(
+              'wcV3CheckRequiredCheckbox',
+              data.wcV3CheckRequiredCheckbox,
+            );
 
             fillTextWebComponent('wcV3CheckSsn', data.wcV3CheckSsn);
 
@@ -200,25 +185,16 @@ const testConfig = createTestConfig(
 
             // web components
             selectRadioWebComponent(
-              'wcOldVaCompensationType',
-              data.wcOldVaCompensationType,
-            );
-            // use underscores to separate sub-property names
-            selectYesNoWebComponent(
-              'wcOldCurrentlyActiveDuty_yes',
-              data.wcOldCurrentlyActiveDuty.yes,
-            );
-            selectRadioWebComponent(
-              'wcOldVaTileCompensationType',
-              data.wcOldVaTileCompensationType,
-            );
-            selectRadioWebComponent(
               'wcv3VaCompensationType',
               data.wcv3VaCompensationType,
             );
             selectRadioWebComponent(
               'wcv3VaTileCompensationType',
               data.wcv3VaTileCompensationType,
+            );
+            selectYesNoWebComponent(
+              'wcv3IsCurrentlyActiveDuty',
+              data.wcv3IsCurrentlyActiveDuty,
             );
 
             cy.axeCheck();
