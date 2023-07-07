@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { expect } from 'chai';
-import { resolveToggleLink } from './index';
+import { resolveLandingPageLinks, resolveToggleLink } from './index';
 import manifest from '../../manifest.json';
 
 const initializeFeatureToggles = ({
@@ -64,6 +64,29 @@ describe(manifest.appName, () => {
 
         expect(resolvedLink.href).to.equal('/new');
       });
+    });
+    describe('resolveLandingPageLinks', () => {
+      it('includes unread message count when present', () => {
+        const unreadMessageCount = 4;
+        const links = resolveLandingPageLinks(
+          undefined,
+          { featureToggles: {} },
+          unreadMessageCount,
+        );
+
+        expect(
+          links.cards.some(c => c.title === `Messages [${unreadMessageCount}]`),
+        ).to.be.true;
+      });
+    });
+    it('display default header when message count is undefined', () => {
+      const links = resolveLandingPageLinks(
+        undefined,
+        { featureToggles: {} },
+        undefined,
+      );
+
+      expect(links.cards.some(c => c.title === `Messages`)).to.be.true;
     });
   });
 });

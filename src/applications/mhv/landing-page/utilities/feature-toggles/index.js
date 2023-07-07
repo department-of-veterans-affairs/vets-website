@@ -9,7 +9,7 @@ const ENABLED_LOGIN_PROVIDERS = Object.freeze([
 
 const isLandingPageEnabledForUser = (state = {}) => {
   const { featureToggles, user } = state;
-  if (!featureToggles[FEATURE_FLAG_NAMES.mvhLandingPageEnabled]) {
+  if (!featureToggles[FEATURE_FLAG_NAMES.mhvLandingPageEnabled]) {
     return false;
   }
   const { currentlyLoggedIn } = user?.login;

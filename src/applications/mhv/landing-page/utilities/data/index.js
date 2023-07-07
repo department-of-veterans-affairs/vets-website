@@ -21,7 +21,11 @@ const resolveToggleLink = (link, featureToggles) => {
 const resolveLinkCollection = (links, featureToggles) =>
   links.map(l => resolveToggleLink(l, featureToggles));
 
-const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
+const resolveLandingPageLinks = (
+  authdWithSSOe = false,
+  featureToggles,
+  unreadMessageCount,
+) => {
   // Appointments section points to VAOS on va.gov
   const appointmentLinks = [
     {
@@ -254,7 +258,10 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       links: appointmentLinks,
     },
     {
-      title: 'Messages',
+      title:
+        unreadMessageCount === undefined
+          ? 'Messages'
+          : `Messages [${unreadMessageCount}]`,
       icon: 'comments',
       links: messagesLinks,
     },
