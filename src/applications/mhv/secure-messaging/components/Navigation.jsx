@@ -20,18 +20,29 @@ const Navigation = () => {
   const closeMenuButtonRef = useRef();
   const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
 
+  const initialPageTitle = convertPathNameToTitleCase(location.pathname);
+  const defaultInitialPageTitle = `${initialPageTitle} ${
+    PageTitles.PAGE_TITLE_TAG
+  }`;
+
+  const pageTitle = () => {
+    let generatedTitle = '';
+
+    if (initialPageTitle === 'Sent')
+      generatedTitle = `Sent messages ${PageTitles.PAGE_TITLE_TAG}`;
+    else if (initialPageTitle === 'New-message')
+      generatedTitle = `Start a new message ${PageTitles.PAGE_TITLE_TAG}`;
+    else generatedTitle = defaultInitialPageTitle;
+
+    return generatedTitle;
+  };
+
   useEffect(
     () => {
       // initial page title
-      updatePageTitle(
-        convertPathNameToTitleCase(location.pathname) === 'Sent'
-          ? `Sent messages ${PageTitles.PAGE_TITLE_TAG}`
-          : `${convertPathNameToTitleCase(location.pathname)} ${
-              PageTitles.PAGE_TITLE_TAG
-            }`,
-      );
+      updatePageTitle(pageTitle());
     },
-    [location.pathname],
+    [defaultInitialPageTitle, initialPageTitle, location.pathname],
   );
 
   function openNavigation() {
