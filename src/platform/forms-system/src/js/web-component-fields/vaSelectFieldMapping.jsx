@@ -13,6 +13,9 @@ export default function vaSelectFieldMapping(props) {
         : childrenProps.formData,
     onVaSelect: (event, value) => {
       const newVal = value ?? event.target.value ?? undefined;
+      if (uiOptions.enableAnalytics) {
+        // Implement enableAnalytics if needed here, likely using recordEvent
+      }
       childrenProps.onChange(newVal);
     },
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),

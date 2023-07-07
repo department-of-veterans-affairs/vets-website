@@ -164,9 +164,14 @@
  */
 
 /**
+ * Autocomplete values
+ * @typedef {'on' | 'off' | 'name' | 'honorific-prefix' | 'given-name' | 'additional-name' | 'family-name' | 'honorific-suffix' | 'nickname' | 'email' | 'username' | 'current-password' | 'organization-title' | 'organization' | 'street-address' | 'address-line1' | 'address-line2' | 'address-line3' | 'address-level4' | 'address-level3' | 'address-level2' | 'address-level1' | 'country' | 'country-name' | 'postal-code' | 'cc-name' | 'cc-given-name' | 'cc-additional-name' | 'cc-family-name' | 'cc-number' | 'cc-exp' | 'cc-exp-month' | 'cc-exp-year' | 'cc-csc' | 'cc-type' | 'transaction-currency' | 'transaction-amount' | 'language' | 'bday' | 'bday-day' | 'bday-month' | 'bday-year' | 'sex' | 'tel' | 'tel-country-code' | 'tel-national' | 'tel-area-code' | 'tel-local' | 'tel-extension' | 'impp' | 'url' | 'photo' | OrAnyString} AutocompleteValue
+ */
+
+/**
  * @typedef {{
  *    items?: UISchemaOptions,
- *   'ui:autocomplete'?: string,
+ *   'ui:autocomplete'?: AutocompleteValue,
  *   'ui:description'?: string | JSX.Element | React.ReactNode,
  *   'ui:disabled'?: boolean,
  *   'ui:errorMessages'?: UIErrorMessages,
@@ -204,12 +209,13 @@
 
 /**
  * @typedef {Object} UIOptions
- * @property {string} [ariaDescribedby] - The id of the element that describes the field
+ * @property {string} [ariaDescribedby] - The id of the element that describes the field. Use `messageAriaDescribedby` for web components.
  * @property {string} [classNames] - additional CSS classes to add to the field
  * @property {string} [customTitle] - for arrays
  * @property {number} [debounceRate] - Used for AutoSuggest widget
  * @property {number} [doNotScroll] - For arrays. By default when adding a new item it will scroll to the next item. Set this to true to disable that behavior.
- * @property {string} [duplicateKey]
+ * @property {string} [duplicateKey] - For arrays.
+ * @property {boolean} [enableAnalytics] - Record google analytics event (must be implemented by the specific widget or web component)
  * @property {string} [expandUnder] - The key of the uiSchema directly before this field
  * @property {boolean | (value: string, formData: any) => boolean} [expandUnderCondition] `expandUnderCondition: (value, formData) => !!value`
  * @property {boolean} [forceDivWrapper] - Used as an a11y helper when you need to wrap a field in a div
@@ -222,17 +228,21 @@
  * @property {string} [hint] - The hint text for the field. For web components.
  * @property {boolean} [includeRequiredLabelInTitle]
  * @property {Array<(input) => string>} [inputTransformers]
- * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] - for web component text inputs
+ * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] - HTML input 'type' attribute. May result in different keyboard for mobile users.
  * @property {(item: any) => string} [itemAriaLabel] - for arrays
  * @property {string} [itemName] - The name of the item - for arrays
+ * @property {boolean} [invalid] - For web components. Whether or not aria-invalid will be set on the inner input. Useful when composing the component into something larger, like a date component.
  * @property {boolean} [keepInPageOnReview]
  * @property {Record<string, string>} [labels] - Used to specify radio button or yes/no labels
+ * @property {string} [messageAriaDescribedby] - For web component fields, such as VaTextInputField. An optional message that will be read by screen readers when the input is focused.
  * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [replaceSchema]
  * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [updateSchema]
+ * @property {boolean} [reflectInputError] - Whether or not to add usa-input--error as class if error message is outside of component.
  * @property {boolean} [useDlWrap] - Wraps field in a dl tag on the review page
  * @property {boolean} [uswds] - For web components. `true` will use the v3 web components. `false` will use the v1 web components.
  * @property {React.ReactNode} [viewComponent]
  * @property {React.ReactNode} [viewField] - For arrays. The display of each item after you've added it.
+ * @property {'2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'} [width] - For web component text inputs. Displays the input at a specific width. Accepts 2xs (4ex), xs (7ex), sm or small (10ex), md or medium (20ex), lg (30ex), xl (40ex), and 2xl (50ex).
  * @property {string} [widgetClassNames] - additional CSS classes to add to the widget. For web components use classNames instead.
  * @property {Record<string, any>} [widgetProps]
  */
