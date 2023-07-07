@@ -5,12 +5,10 @@ import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { downloadFile } from '../util/helpers';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
-import { getVaccinePdf } from '../api/MrApi';
 
 const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = () => {
@@ -83,11 +81,7 @@ const VitalDetails = () => {
     [vitalType],
   );
 
-  const download = () => {
-    getVaccinePdf(1).then(res =>
-      downloadFile('AdmissionDischarge.pdf', res.pdf),
-    );
-  };
+  const download = () => {};
 
   const content = () => {
     if (filteredVitals?.length) {
