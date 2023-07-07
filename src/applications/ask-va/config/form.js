@@ -2,36 +2,12 @@
 
 import manifest from '../manifest.json';
 
-import environment from '~/platform/utilities/environment';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { apiRequest } from '~/platform/utilities/api';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-// // TODO: get list of devs here...
-// let devs = {};
-
-// // (() => {
-// //   return apiRequest(`${environment.API_URL}/v0/ask_va/ask_va_static_data`);
-// // })().then(response => {
-// //   devs = response.data;
-// // });
-
-const devs = {
-  ruchi: { 'data-info': 'ruchi.smith@thoughtworks.com' },
-  eddie: { 'data-info': 'eddie.otero@oddball.io' },
-  jacob: { 'data-info': 'jacob@docme360.com' },
-  joe: { 'data-info': 'joe.hall@thoughtworks.com' },
-  khoa: { 'data-info': 'khoa.nguyen@oddball.io' },
-};
+import TopicList from '../components/FormFields/TopicList';
 
 const formConfigFn = () => {
-  const devList = devs;
-  const devNames = Object.keys(devs);
-
   return {
     rootUrl: manifest.rootUrl,
     urlPrefix: '/',
@@ -87,25 +63,7 @@ const formConfigFn = () => {
                 },
               },
               devField: {
-                'ui:title': 'Dev Select',
-                'ui:widget': 'select',
-                'ui:options': {
-                  widgetProps: devList,
-                  // {
-                  //   eddie: { 'data-info': 'eddie.otero@oddball.io' },
-                  //   jacob: { 'data-info': 'jacob@docme360.com' },
-                  //   joe: { 'data-info': 'joe.hall@thoughtworks.com' },
-                  //   khoa: { 'data-info': 'khoa.nguyen@oddball.io' },
-                  // },
-
-                  // Only added to the radio when it is selected
-                  // a11y requirement: aria-describedby ID's *must* exist on the page;
-                  // and we conditionally add content based on the selection
-                  selectedProps: {
-                    'First option': { 'aria-describedby': 'some_id_1' },
-                    'Second option': { 'aria-describedby': 'some_id_2' },
-                  },
-                },
+                'ui:widget': TopicList,
               },
               testField: {
                 'ui:title': 'My TEST label',
@@ -150,20 +108,19 @@ const formConfigFn = () => {
                 },
                 devField: {
                   type: 'string',
-                  enum: devNames,
-                  myConditionalField: {
-                    type: 'string',
-                  },
-                  testField: {
-                    type: 'string',
-                  },
-                  thirdField: {
-                    type: 'string',
-                    pattern: '^good',
-                  },
-                  myOtherField: {
-                    type: 'string',
-                  },
+                },
+                myConditionalField: {
+                  type: 'string',
+                },
+                testField: {
+                  type: 'string',
+                },
+                thirdField: {
+                  type: 'string',
+                  pattern: '^good',
+                },
+                myOtherField: {
+                  type: 'string',
                 },
               },
             },
