@@ -83,7 +83,7 @@ describe('Medical records PDF template', () => {
       expect(text).to.equal(data.results.items[0].items[0].value);
     });
 
-    it('Horizontal rules are added between result sections by default', async () => {
+    it('Horizontal rules are added below result sections by default', async () => {
       const data = require('./fixtures/result_sections_with_horizontal_rules.json');
       const { pdf } = await generateAndParsePdf(data);
 
@@ -100,10 +100,10 @@ describe('Medical records PDF template', () => {
         }
       }
 
-      expect(artifactCount).to.eq(8);
+      expect(artifactCount).to.eq(10);
     });
 
-    it('Horizontal rules between result sections may be suppressed', async () => {
+    it('Horizontal rules below result sections may be suppressed', async () => {
       const data = require('./fixtures/result_sections_with_no_horizontal_rules.json');
       const { pdf } = await generateAndParsePdf(data);
 
