@@ -303,3 +303,12 @@ export const BreadcrumbViews = {
   DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
   MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3',
 };
+
+export const PageTitles = {
+  DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veteran Affairs',
+  PAGE_TITLE_TAG: '- MHV Secure Messaging | Veteran Affairs',
+  EDIT_DRAFT_PAGE_TITLE_TAG:
+    'Edit draft - MHV Secure Messaging | Veterans Affairs',
+  MY_FOLDERS_PAGE_TITLE_TAG:
+    'My folders - MHV Secure Messaging | Veterans Affairs',
+};

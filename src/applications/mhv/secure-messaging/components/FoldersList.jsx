@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { folderPathByFolderId } from '../util/helpers';
-import { DefaultFolders as Folders } from '../util/constants';
+import { folderPathByFolderId, updatePageTitle } from '../util/helpers';
+import { DefaultFolders as Folders, PageTitles } from '../util/constants';
 
 const FoldersList = props => {
   const { folders, showUnread } = props;
+
+  const handleFolderPageTitles = newTitle => {
+    updatePageTitle(`${newTitle} ${PageTitles.PAGE_TITLE_TAG}`);
+  };
 
   return (
     <div>
@@ -17,7 +21,12 @@ const FoldersList = props => {
               className="folder-link"
               data-testid={folder.name}
             >
-              <Link to={folderPathByFolderId(folder.id)}>
+              <Link
+                to={folderPathByFolderId(folder.id)}
+                onClick={() => {
+                  handleFolderPageTitles(folder.name);
+                }}
+              >
                 <i className="fas fa-folder fa-lg" aria-hidden="true" />
                 {folder.id === Folders.DELETED.id
                   ? Folders.DELETED.header

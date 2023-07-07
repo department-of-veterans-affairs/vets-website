@@ -8,6 +8,7 @@ import { closeAlert } from '../actions/alerts';
 import FoldersList from '../components/FoldersList';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import CreateFolderModal from '../components/Modals/CreateFolderModal';
+import { PageTitles } from '../util/constants';
 
 const Folders = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ const Folders = () => {
     () => {
       if (!isModalVisible) {
         focusElement(document.querySelector('h1'));
+        document.title = PageTitles.MY_FOLDERS_PAGE_TITLE_TAG;
       }
     },
     [isModalVisible],

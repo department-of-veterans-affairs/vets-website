@@ -17,7 +17,7 @@ import { getAllMessages } from '../actions';
 import { getTriageTeams } from '../actions/triageTeams';
 import { retrieveFolder } from '../actions/folders';
 import { getCategories } from '../actions/categories';
-import { DefaultFolders as Folder } from '../util/constants';
+import { DefaultFolders as Folder, PageTitles } from '../util/constants';
 import { getMessages } from '../actions/messages';
 import DashboardUnreadMessages from '../components/Dashboard/DashboardUnreadMessages';
 import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
@@ -58,7 +58,8 @@ const LandingPageAuth = () => {
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
-  });
+    document.title = PageTitles.DEFAULT_PAGE_TITLE_TAG;
+  }, []);
 
   return (
     <div className="dashboard">

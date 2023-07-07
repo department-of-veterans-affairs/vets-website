@@ -5,7 +5,9 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { getFolders } from '../actions/folders';
 import { folder } from '../selectors';
 import SectionGuideButton from './SectionGuideButton';
-import { DefaultFolders, Paths } from '../util/constants';
+import { DefaultFolders, Paths, PageTitles } from '../util/constants';
+import { updatePageTitle, convertPathNameToTitleCase } from '../util/helpers';
+
 import { trapFocus } from '../../shared/util/ui';
 
 const Navigation = () => {
@@ -18,14 +20,19 @@ const Navigation = () => {
   const closeMenuButtonRef = useRef();
   const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
 
-  const updatePageTitle = newTitle => {
-    document.title = newTitle;
-  };
-
-  useEffect(() => {
-    // initial page title
-    updatePageTitle('Messages - MHV Secure Messaging | Veteran Affairs');
-  }, []);
+  useEffect(
+    () => {
+      // initial page title
+      updatePageTitle(
+        convertPathNameToTitleCase(location.pathname) === 'Sent'
+          ? `Sent messages ${PageTitles.PAGE_TITLE_TAG}`
+          : `${convertPathNameToTitleCase(location.pathname)} ${
+              PageTitles.PAGE_TITLE_TAG
+            }`,
+      );
+    },
+    [location.pathname],
+  );
 
   function openNavigation() {
     setIsNavigationOpen(true);
@@ -35,7 +42,7 @@ const Navigation = () => {
     newTitle => {
       setIsNavigationOpen(false);
       focusElement(navMenuButtonRef);
-      updatePageTitle(`${newTitle} - MHV Secure Messaging | Veteran Affairs`);
+      updatePageTitle(`${newTitle} ${PageTitles.PAGE_TITLE_TAG}`);
     },
     [navMenuButtonRef],
   );
@@ -193,7 +200,11 @@ const Navigation = () => {
                           className={handleActiveLinksStyle(path)}
                           to={path.path}
                           onClick={() => {
-                            closeNavigation(path.label);
+                            closeNavigation(
+                              path.label === 'Sent'
+                                ? 'Sent messages'
+                                : path.label,
+                            );
                           }}
                         >
                           <span>{path.label}</span>

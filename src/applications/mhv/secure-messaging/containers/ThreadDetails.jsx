@@ -13,7 +13,7 @@ import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { getTriageTeams } from '../actions/triageTeams';
 import { clearDraft } from '../actions/draftDetails';
 import InterstitialPage from './InterstitialPage';
-import { PrintMessageOptions } from '../util/constants';
+import { PrintMessageOptions, PageTitles } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from '../components/shared/CannotReplyAlert';
 import { navigateToFolderByFolderId } from '../util/helpers';
@@ -104,6 +104,7 @@ const ThreadDetails = props => {
       if (isDraft || isReply) {
         setH1Focus(true);
         focusElement(header.current);
+        document.title = PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG;
       }
     },
     [acknowledged],
