@@ -141,7 +141,12 @@ const generateResultsContent = async (doc, parent, data) => {
 
   const hasHorizontalRule = data.results.sectionSeparators !== false;
   if (data.results.items.length === 1) {
-    await generateResultItemContent(data.results.items[0], doc, results, false);
+    await generateResultItemContent(
+      data.results.items[0],
+      doc,
+      results,
+      hasHorizontalRule,
+    );
   } else {
     for (const item of data.results.items) {
       // Insert a pagebreak if the next block will not fit on the current page,
