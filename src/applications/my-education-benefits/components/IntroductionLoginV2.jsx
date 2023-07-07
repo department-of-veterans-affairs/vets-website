@@ -104,10 +104,9 @@ function IntroductionLoginV2({
             </p>
           </>
         )}
-      {apiCallsComplete &&
-        isLoggedIn &&
-        ((showMebEnhancements08 && isLOA3) ||
-          (!showMebEnhancements08 && isLOA3)) && (
+      {isLoggedIn &&
+        ((!showMebEnhancements08 && apiCallsComplete && isLOA3) ||
+          (showMebEnhancements08 && isLOA3)) && (
           <SaveInProgressIntro
             headingLevel={2}
             hideUnauthedStartLink
