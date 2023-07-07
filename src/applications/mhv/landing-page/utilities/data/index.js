@@ -259,9 +259,9 @@ const resolveLandingPageLinks = (
     },
     {
       title:
-        unreadMessageCount === undefined
-          ? 'Messages'
-          : `Messages [${unreadMessageCount}]`,
+        unreadMessageCount > 0
+          ? `Messages [${unreadMessageCount}]`
+          : 'Messages',
       icon: 'comments',
       links: messagesLinks,
     },

@@ -66,7 +66,7 @@ describe(manifest.appName, () => {
       });
     });
     describe('resolveLandingPageLinks', () => {
-      it('includes unread message count when present', () => {
+      it('includes unread message count when greater than 0', () => {
         const unreadMessageCount = 4;
         const links = resolveLandingPageLinks(
           undefined,
@@ -78,6 +78,15 @@ describe(manifest.appName, () => {
           links.cards.some(c => c.title === `Messages [${unreadMessageCount}]`),
         ).to.be.true;
       });
+    });
+    it('display default header when message count is 0', () => {
+      const links = resolveLandingPageLinks(
+        undefined,
+        { featureToggles: {} },
+        0,
+      );
+
+      expect(links.cards.some(c => c.title === `Messages`)).to.be.true;
     });
     it('display default header when message count is undefined', () => {
       const links = resolveLandingPageLinks(
