@@ -153,14 +153,13 @@ export const IssueCard = ({
         >
           Edit
         </Link>
-        <button
-          type="button"
-          className={removeButtonClass}
+        <va-button
+          secondary
+          class={removeButtonClass}
           aria-label={`remove ${issueName}`}
           onClick={handlers.onRemove}
-        >
-          Remove
-        </button>
+          text="Remove"
+        />
       </div>
     ) : null;
 
