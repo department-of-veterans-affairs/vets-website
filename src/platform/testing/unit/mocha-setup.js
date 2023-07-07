@@ -12,10 +12,10 @@ import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
+import { configure } from '@testing-library/dom';
 import chaiAxe from './axe-plugin';
 
 import { sentryTransport } from './sentry';
-import { configure } from '@testing-library/dom';
 
 Sentry.init({
   autoSessionTracking: false,
@@ -177,6 +177,8 @@ export const mochaHooks = {
     resetFetch();
   },
   afterEach() {
+    /* eslint-disable no-console */
+    console.log('current test: ', this.currentTest);
     localStorage.clear();
   },
 };
