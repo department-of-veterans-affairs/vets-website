@@ -2,12 +2,11 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { dateFormat, downloadFile } from '../util/helpers';
+import { dateFormat } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getConditionDetails } from '../actions/conditions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
-import { getVaccinePdf } from '../api/MrApi';
 import PrintDownload from '../components/shared/PrintDownload';
 
 const ConditionDetails = () => {
@@ -46,7 +45,7 @@ const ConditionDetails = () => {
               },
             ],
             {
-              url: `/my-health/medical-records/health-history/condition-details/${conditionId}`,
+              url: `/my-health/medical-records/health-history/health-conditions/${conditionId}`,
               label: conditionDetails?.name,
             },
           ),
@@ -56,9 +55,7 @@ const ConditionDetails = () => {
     [conditionDetails, dispatch],
   );
 
-  const download = () => {
-    getVaccinePdf(1).then(res => downloadFile('condition.pdf', res.pdf));
-  };
+  const download = () => {};
 
   const content = () => {
     if (conditionDetails) {

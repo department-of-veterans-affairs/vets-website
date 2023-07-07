@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dateFormat, downloadFile } from '../../util/helpers';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PrintHeader from '../shared/PrintHeader';
-import { getVaccinePdf } from '../../api/MrApi';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
@@ -10,11 +9,9 @@ import PrintDownload from '../shared/PrintDownload';
 const MicroDetails = props => {
   const { record, fullState } = props;
 
-  const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
+  const formattedDate = formatDateLong(record?.date);
 
-  const download = () => {
-    getVaccinePdf(1).then(res => downloadFile('microbiology.pdf', res.pdf));
-  };
+  const download = () => {};
 
   const content = () => {
     if (record) {

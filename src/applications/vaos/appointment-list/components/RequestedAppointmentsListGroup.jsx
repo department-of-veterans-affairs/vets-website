@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
+import classNames from 'classnames';
 import {
   fetchPendingAppointments,
   startNewAppointmentFlow,
@@ -18,7 +19,11 @@ import RequestListItem from './AppointmentsPageV2/RequestListItem';
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { selectFeatureAppointmentList } from '../../redux/selectors';
+import {
+  selectFeatureAppointmentList,
+  selectFeatureStatusImprovement,
+  selectFeaturePrintList,
+} from '../../redux/selectors';
 import RequestAppointmentLayout from './AppointmentsPageV2/RequestAppointmentLayout';
 import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
 
@@ -35,6 +40,10 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   const featureAppointmentList = useSelector(state =>
     selectFeatureAppointmentList(state),
   );
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
+  );
+  const isPrintList = useSelector(state => selectFeaturePrintList(state));
 
   const dispatch = useDispatch();
 
@@ -100,6 +109,14 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
     if (a[0].toLowerCase() > b[0].toLowerCase()) return -1;
     return 0;
   });
+  let paragraphText =
+    'Below is your list of appointment requests that haven’t been scheduled yet.';
+  if (featureAppointmentList) {
+    paragraphText = 'These appointment requests haven’t been scheduled yet.';
+  } else if (featureStatusImprovement) {
+    paragraphText =
+      'Your appointment requests that haven’t been scheduled yet.';
+  }
 
   return (
     <>
@@ -123,7 +140,11 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
             />
           </div>
         )}
-
+        {isPrintList && (
+          <p className="vaos-hide-for-print xsmall-screen:vads-u-margin-bottom--1 small-screen:vads-u-margin-bottom--2">
+            {paragraphText}
+          </p>
+        )}
         {appointmentsByStatus.map(statusBucket => {
           return (
             <React.Fragment key={statusBucket[0]}>
@@ -135,7 +156,13 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
               )}
               {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
               <ul
-                className="vads-u-margin-top--4 vads-u-padding-left--0"
+                className={classNames(
+                  `vads-u-padding-left--0 ${
+                    isPrintList
+                      ? 'vads-u-margin-top--0'
+                      : 'vads-u-margin-top--4'
+                  } `,
+                )}
                 data-cy="requested-appointment-list"
               >
                 {featureAppointmentList &&

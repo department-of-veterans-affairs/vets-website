@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Link } from 'react-router-dom';
-import { dateFormat } from '../../util/helpers';
 
 const LabsAndTestsListItem = props => {
   const { record } = props;
-  const formattedDate = dateFormat(record.date, 'MMMM D, YYYY');
+  const formattedDate = formatDateLong(record.date);
 
   const orderedOrRequested = () => {
     return (

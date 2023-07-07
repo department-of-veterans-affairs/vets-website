@@ -189,6 +189,24 @@ class PatientMessageDraftsPage {
     cy.wait('@deletedDraftResponse');
   };
 
+  confirmDeleteReplyDraftWithEnterKey = draftMessage => {
+    cy.log(`delete message id = ${draftMessage.data.attributes.messageId}`);
+
+    cy.intercept(
+      'DELETE',
+      `/my_health/v1/messaging/messages/${
+        draftMessage.data.attributes.messageId
+      }`,
+      { statuscode: 204 },
+    ).as('deletedDraftResponse');
+
+    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
+    cy.tabToElement('[data-testid="delete-draft-modal"]').realPress(['Enter']);
+    cy.wait('@deletedDraftResponse')
+      .its('request.url')
+      .should('include', `${draftMessage.data.attributes.messageId}`);
+  };
+
   getMessageSubjectField = () => {
     return cy
       .get('[data-testid="message-subject-field"]')

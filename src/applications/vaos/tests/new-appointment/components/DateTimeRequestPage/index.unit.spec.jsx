@@ -16,6 +16,8 @@ import {
 } from '../../../mocks/setup';
 import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
 import { getSchedulingConfigurationMock } from '../../../mocks/v2';
+import { createMockFacilityByVersion } from '../../../mocks/data';
+import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
 
 async function chooseMorningRequestSlot(screen) {
   const currentMonth = moment()
@@ -471,6 +473,18 @@ describe('VAOS <DateTimeRequestPage>', () => {
 
   describe('community care iterations flag is turned on', () => {
     beforeEach(() => {
+      mockFacilitiesFetchByVersion({
+        children: true,
+        ids: ['983', '984'],
+        facilities: [
+          createMockFacilityByVersion({
+            id: '983',
+          }),
+          createMockFacilityByVersion({
+            id: '984',
+          }),
+        ],
+      });
       mockSchedulingConfigurations(
         [
           getSchedulingConfigurationMock({
@@ -479,7 +493,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
             requestEnabled: true,
           }),
           getSchedulingConfigurationMock({
-            id: '983GC',
+            id: '984',
             typeOfCareId: 'primaryCare',
             requestEnabled: true,
           }),
@@ -492,7 +506,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       // And the user is in the community care flow
       const store = await setCommunityCareFlow({
         toggles: {},
-        registeredSites: ['983'],
+        registeredSites: ['983', '984'],
         parentSites: [{ id: '983' }, { id: '983GC' }],
         supportedSites: ['983', '983GC'],
       });

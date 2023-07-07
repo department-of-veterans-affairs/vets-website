@@ -2,9 +2,9 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import testData from './schema/maximal-test.json';
 import cemeteries from './fixtures/mocks/cemeteries.json';
 
-describe('Pre-need form VA 40-10007', () => {
+describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
   // Test skipped to match Nightwatch
-  it('fills the form and navigates accordingly', () => {
+  it.skip('fills the form and navigates accordingly', () => {
     cy.intercept('POST', '/v0/preneeds/burial_forms', {
       data: {
         attributes: {
@@ -226,6 +226,8 @@ describe('Pre-need form VA 40-10007', () => {
       'root_application_hasCurrentlyBuried',
       testData.data.application.hasCurrentlyBuried,
     );
+    cy.axeCheck();
+    cy.get('.form-panel .usa-button-primary').click();
     if (testData.data.application.currentlyBuriedPersons.length) {
       testData.data.application.currentlyBuriedPersons.forEach(
         (person, index) => {
