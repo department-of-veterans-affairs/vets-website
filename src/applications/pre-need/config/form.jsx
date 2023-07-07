@@ -17,6 +17,7 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
+import * as militaryHistoryTest from './pages/militaryHistoryTest';
 import * as burialBenefits from './pages/burialBenefits';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 
@@ -76,73 +77,73 @@ const {
 
 const nonRequiredFullName = omit('required', fullName);
 
-const applicantMilitaryInformation = {
-  applicantMilitaryHistory: {
-    path: 'applicant-military-history',
-    uiSchema: {
-      application: {
-        veteran: {
-          serviceRecords: serviceRecordsUI,
-        },
-      },
-    },
-    schema: {
-      type: 'object',
-      properties: {
-        application: {
-          type: 'object',
-          properties: {
-            veteran: {
-              type: 'object',
-              properties: {
-                serviceRecords: veteran.properties.serviceRecords,
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-  applicantMilitaryName: {
-    path: 'applicant-military-name',
-    uiSchema: merge({}, militaryNameUI, {
-      application: {
-        veteran: {
-          serviceName: {
-            first: {
-              'ui:required': form =>
-                get('application.veteran.view:hasServiceName', form) === true,
-            },
-            last: {
-              'ui:required': form =>
-                get('application.veteran.view:hasServiceName', form) === true,
-            },
-          },
-        },
-      },
-    }),
-    schema: {
-      type: 'object',
-      properties: {
-        application: {
-          type: 'object',
-          properties: {
-            veteran: {
-              type: 'object',
-              required: ['view:hasServiceName'],
-              properties: {
-                'view:hasServiceName': {
-                  type: 'boolean',
-                },
-                serviceName: nonRequiredFullName,
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-};
+// const applicantMilitaryInformation = {
+//   applicantMilitaryHistory: {
+//     path: 'applicant-military-history',
+//     uiSchema: {
+//       application: {
+//         veteran: {
+//           serviceRecords: serviceRecordsUI,
+//         },
+//       },
+//     },
+//     schema: {
+//       type: 'object',
+//       properties: {
+//         application: {
+//           type: 'object',
+//           properties: {
+//             veteran: {
+//               type: 'object',
+//               properties: {
+//                 serviceRecords: veteran.properties.serviceRecords,
+//               },
+//             },
+//           },
+//         },
+//       },
+//     },
+//   },
+//   applicantMilitaryName: {
+//     path: 'applicant-military-name',
+//     uiSchema: merge({}, militaryNameUI, {
+//       application: {
+//         veteran: {
+//           serviceName: {
+//             first: {
+//               'ui:required': form =>
+//                 get('application.veteran.view:hasServiceName', form) === true,
+//             },
+//             last: {
+//               'ui:required': form =>
+//                 get('application.veteran.view:hasServiceName', form) === true,
+//             },
+//           },
+//         },
+//       },
+//     }),
+//     schema: {
+//       type: 'object',
+//       properties: {
+//         application: {
+//           type: 'object',
+//           properties: {
+//             veteran: {
+//               type: 'object',
+//               required: ['view:hasServiceName'],
+//               properties: {
+//                 'view:hasServiceName': {
+//                   type: 'boolean',
+//                 },
+//                 serviceName: nonRequiredFullName,
+//               },
+//             },
+//           },
+//         },
+//       },
+//     },
+//   },
+// };
 
 const sponsorMilitaryInformation = {
   sponsorMilitaryHistory: {
@@ -253,13 +254,15 @@ const sponsorMilitaryInformation = {
   },
 };
 
-function getMilitaryInformation(isVet) {
+// function GetMilitaryInformation() {
+function getMilitaryInformation() {
   // Two sets of military history pages dependent on
   // whether the applicant is the veteran or not.
   // If not, "Sponsor’s" precedes all the field labels.
-  if (isVet) {
+  /* const data = useSelector(state => state.form.data || {});
+  if (isVeteran(data)) {
     return applicantMilitaryInformation;
-  }
+  } */
   return sponsorMilitaryInformation;
 }
 
@@ -562,13 +565,9 @@ const formConfig = {
       },
     },
     militaryHistory: {
-      title: 'Military history',
-      getIsVeteran: formData => {
-        return isVeteran(formData);
-      },
-      get pages() {
-        return getMilitaryInformation(this.getIsVeteran());
-      },
+      title: militaryHistoryTest.GetTestTitle,
+      // pages: GetMilitaryInformation(),
+      pages: getMilitaryInformation(),
     },
     burialBenefits: {
       title: 'Burial benefits',
