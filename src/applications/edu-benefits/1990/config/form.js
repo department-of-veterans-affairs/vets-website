@@ -195,6 +195,11 @@ const formConfig = {
                   } else {
                     hideCondition = true;
                   }
+
+                  if (environment.isProduction()) {
+                    // delete this statement when going to prod
+                    hideCondition = true;
+                  }
                   return hideCondition;
                 },
               },
@@ -209,8 +214,19 @@ const formConfig = {
                 'ui:title':
                   'Applicant has graduated high school or received GED?',
                 'ui:widget': 'yesNo',
-                'ui:required': formData =>
-                  !eighteenOrOver(formData.veteranDateOfBirth),
+                /* Uncomment out this required when going to prod and delete other required field */
+                // 'ui:required': formData =>
+                //   !eighteenOrOver(formData.veteranDateOfBirth),
+                'ui:required': formData => {
+                  let isRequired = false;
+                  if (!eighteenOrOver(formData.veteranDateOfBirth)) {
+                    isRequired = true;
+                  }
+                  if (environment.isProduction()) {
+                    isRequired = false;
+                  }
+                  return isRequired;
+                },
               },
               highSchoolGedGradDate: {
                 ...currentOrPastDateUI('Date graduated'),
@@ -228,6 +244,10 @@ const formConfig = {
                     if (!yesNoResults) {
                       isRequired = false;
                     }
+                  }
+                  if (environment.isProduction()) {
+                    // delete this if statement when going to prod
+                    isRequired = false;
                   }
                   return isRequired;
                 },
@@ -303,54 +323,6 @@ const formConfig = {
         },
       },
     },
-    // applicantInformation: {
-    //   title: 'Applicant information',
-    //   pages: ApplicantInformationUpdate(fullSchema1990),
-    // },
-    // applicantInformation: {
-    //   title: 'Applicant information',
-    //   pages: {
-    //     applicantInformation: merge(
-    //       {},
-    //       applicantInformation(fullSchema1990, {
-    //         isVeteran: true,
-    //         fields: [
-    //           'veteranFullName',
-    //           'veteranSocialSecurityNumber',
-    //           'veteranDateOfBirth',
-    //           'gender',
-    //           'minorHighSchoolQuestions',
-    //         ],
-    //         required: [
-    //           'veteranFullName',
-    //           'veteranSocialSecurityNumber',
-    //           'veteranDateOfBirth',
-    //         ],
-    //       }),
-    //       {
-    //         uiSchema: {
-    //          veteranDateOfBirth: {
-    //             'ui:validations': [
-    //               (errors, dob) => {
-    //                 // If we have a complete date, check to make sure it’s a valid dob
-    //                 if (
-    //                   /\d{4}-\d{2}-\d{2}/.test(dob) &&
-    //                   moment(dob).isAfter(
-    //                     moment()
-    //                       .endOf('day')
-    //                       .subtract(17, 'years'),
-    //                   )
-    //                 ) {
-    //                   errors.addError('You must be at least 17 to apply');
-    //                 }
-    //               },
-    //             ],
-    //           },
-    //         },
-    //       },
-    //     ),
-    //   },
-    // },
     benefitsEligibility: {
       title: 'Benefits eligibility',
       pages: {

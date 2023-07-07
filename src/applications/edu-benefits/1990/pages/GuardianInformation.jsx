@@ -8,6 +8,7 @@ import {
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
 
+import environment from 'platform/utilities/environment';
 import { eighteenOrOver, SeventeenOrOlder } from '../helpers';
 
 const defaults = () => ({
@@ -80,7 +81,8 @@ export default function GuardianInformation(schema, options) {
     initialData: {},
     depends: formData =>
       !eighteenOrOver(formData.veteranDateOfBirth) &&
-      SeventeenOrOlder(formData.veteranDateOfBirth),
+      SeventeenOrOlder(formData.veteranDateOfBirth) &&
+      !environment.isProduction(), // delete this line when going to prod
     uiSchema: {
       'ui:order': fields,
       'ui:description': guardianDescription,
@@ -93,7 +95,11 @@ export default function GuardianInformation(schema, options) {
         guardianFirstName: {
           'ui:title': 'First name of Parent, Guardian or Custodian',
           'ui:required': formData => {
-            const isRequired = eighteenOrOver(formData.veteranDateOfBirth);
+            let isRequired = eighteenOrOver(formData.veteranDateOfBirth);
+            // delete this if statement when going to prod
+            if (environment.isProduction()) {
+              isRequired = true;
+            }
             return !isRequired;
           },
         },
@@ -103,7 +109,11 @@ export default function GuardianInformation(schema, options) {
         guardianLastName: {
           'ui:title': 'Last name of Parent, Guardian or Custodian',
           'ui:required': formData => {
-            const isRequired = eighteenOrOver(formData.veteranDateOfBirth);
+            let isRequired = eighteenOrOver(formData.veteranDateOfBirth);
+            // delete this if statement when going to prod
+            if (environment.isProduction()) {
+              isRequired = true;
+            }
             return !isRequired;
           },
         },
@@ -113,7 +123,11 @@ export default function GuardianInformation(schema, options) {
             'Address of Parent, Guardian or Custodian',
             false,
             formData => {
-              const isRequired = eighteenOrOver(formData.veteranDateOfBirth);
+              let isRequired = eighteenOrOver(formData.veteranDateOfBirth);
+              // delete this if statement when going to prod
+              if (environment.isProduction()) {
+                isRequired = true;
+              }
               return !isRequired;
             },
           ),
