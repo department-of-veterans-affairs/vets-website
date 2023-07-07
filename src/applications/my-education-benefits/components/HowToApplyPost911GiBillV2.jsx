@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
@@ -13,8 +14,9 @@ function HowToApplyPost911GiBillV2({
   isEligibilityCallComplete,
   isLOA3,
   isLoggedIn,
-  savedForms,
   route,
+  savedForms,
+  showMebEnhancements08, // Add showMebEnhancements08 as a prop
   user,
 }) {
   const apiCallsComplete = isClaimantCallComplete && isEligibilityCallComplete;
@@ -32,10 +34,10 @@ function HowToApplyPost911GiBillV2({
         .
       </p>
 
-      {apiCallsComplete &&
-        isLoggedIn &&
+      {isLoggedIn &&
         !savedForm &&
-        isLOA3 && (
+        ((!showMebEnhancements08 && apiCallsComplete && isLOA3) ||
+          (showMebEnhancements08 && isLOA3 && !showMebEnhancements08)) && (
           <SaveInProgressIntro
             buttonOnly
             pageList={route.pageList}
@@ -60,12 +62,15 @@ HowToApplyPost911GiBillV2.propTypes = {
       form: PropTypes.string,
     }),
   ),
+  showMebEnhancements08: PropTypes.bool, // Added new feature flag to propTypes
   user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
+  showMebEnhancements08:
+    state.featureToggles[featureFlagNames.showMebEnhancements08], // Added new feature flag to mapStateToProps
 });
 
 export default connect(mapStateToProps)(HowToApplyPost911GiBillV2);

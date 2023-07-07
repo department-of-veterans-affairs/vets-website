@@ -32,10 +32,13 @@ function IntroductionLoginV2({
   const headlineText = showMebEnhancements06
     ? 'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information.'
     : 'Save time-and save your work in progress-by signing in before starting your application.';
+  // If showMebEnhancements08 is false and the user is not logged in or the API calls have not completed, then show the loading indicator
+  const shouldShowLoadingIndicator =
+    !showMebEnhancements08 &&
+    ((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) || !apiCallsComplete);
   return (
     <>
-      {((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) ||
-        !apiCallsComplete) && <LoadingIndicator />}
+      {shouldShowLoadingIndicator && <LoadingIndicator />}
       {(isLoggedIn || user?.login?.hasCheckedKeepAlive) && (
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--3">
           Begin your application for education benefits
