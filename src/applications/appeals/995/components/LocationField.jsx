@@ -298,14 +298,12 @@ const LocationField = ({
             </div>
           );
         })}
-        <button
-          type="button"
-          className={addButtonClassNames}
+        <va-button
+          class={addButtonClassNames}
           disabled={!formData || addAnotherDisabled}
           onClick={handleAdd}
-        >
-          Add another {uiOptions.itemName}
-        </button>
+          text={`Add another ${uiOptions.itemName}`}
+        />
         <p>
           {addAnotherDisabled &&
             `You’ve entered the maximum number of items allowed.`}
