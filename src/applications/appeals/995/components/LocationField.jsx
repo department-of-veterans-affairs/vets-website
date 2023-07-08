@@ -258,23 +258,20 @@ const LocationField = ({
                     {notLastOrMultipleRows ? (
                       <div className="row small-collapse">
                         <div className="small-12 columns">
-                          <button
-                            type="button"
-                            className="float-right"
-                            aria-label={`Save ${itemName}`}
+                          <va-button
+                            class="float-right"
                             onClick={() => handleUpdate(index)}
-                          >
-                            Save
-                          </button>
+                            label={`Save ${itemName}`}
+                            text="Save"
+                          />
                           {itemsLength > 1 ? (
-                            <button
-                              type="button"
-                              className="usa-button-secondary float-right vads-u-margin-right--1"
-                              aria-label={`Remove ${itemName}`}
+                            <va-button
+                              secondary
+                              class="float-right vads-u-margin-right--1"
                               onClick={() => handleRemove(index)}
-                            >
-                              Remove
-                            </button>
+                              label={`Remove ${itemName}`}
+                              text="Remove"
+                            />
                           ) : null}
                         </div>
                       </div>
@@ -290,14 +287,13 @@ const LocationField = ({
                 <div className="vads-u-flex--fill">
                   <ViewField formData={item} onEdit={() => handleEdit(index)} />
                 </div>
-                <button
-                  type="button"
-                  className="usa-button-secondary edit vads-u-flex--auto"
-                  aria-label={`Edit ${itemName}`}
+                <va-button
+                  secondary
+                  class="edit vads-u-flex--auto"
                   onClick={() => handleEdit(index)}
-                >
-                  Edit
-                </button>
+                  label={`Edit ${itemName}`}
+                  text="Edit"
+                />
               </div>
             </div>
           );
