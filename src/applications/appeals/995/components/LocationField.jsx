@@ -179,7 +179,6 @@ const LocationField = ({
     hasTitleOrDescription ? 'schemaform-block' : '',
   ].join(' ');
   const addButtonClassNames = [
-    'usa-button-secondary',
     'va-growable-add-btn',
     !formData || addAnotherDisabled ? 'usa-button-disabled' : '',
   ].join(' ');

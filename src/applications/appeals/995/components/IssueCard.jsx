@@ -126,7 +126,6 @@ export const IssueCard = ({
 
   const removeButtonClass = [
     'remove-issue',
-    'usa-button-secondary',
     'vads-u-width--auto',
     'vads-u-margin-left--2',
     'vads-u-margin-top--0',
