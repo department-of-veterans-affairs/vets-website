@@ -24,7 +24,7 @@ const LandingPage = () => {
   return (
     <div className="landing-page">
       <section>
-        <h1>About VA medical records</h1>
+        <h1>Medical records</h1>
         <p className="vads-u-font-size--h3">
           Review, print, download, and share your VA medical records with our
           online tool.
@@ -32,92 +32,155 @@ const LandingPage = () => {
       </section>
       <section>
         <h2>Lab and test results</h2>
+        <p>
+          Get results of your VA medical tests. This includes blood tests,
+          X-rays, and other imaging tests.
+        </p>
         <va-link
           active
           href="/my-health/medical-records/labs-and-tests"
-          text="Review your lab and test results"
+          text="Go to your lab and test results"
         />
-        <p>[Description of section]</p>
       </section>
       <section>
-        <h2>Health history</h2>
-        <va-link
-          active
-          href="/my-health/medical-records/health-history"
-          text="Review your health history"
-        />
-        <p>
-          [description of allergies; care summaries and notes; health
-          conditions; vaccines; vitals]
+        <h2 className="vads-u-margin-bottom--1 vads-u-margin-top--4">
+          Care summaries and notes
+        </h2>
+        <p className="vads-u-margin-top--1">
+          Get ntoes from your VA providers about your health and health care.
+          This includes summaries of your stays in health facilities (called
+          admission and discharge summaries).
         </p>
+        <va-link
+          className="section-link"
+          active
+          href="/my-health/medical-records/health-history/care-summaries-and-notes"
+          text="Go to your care summaries and notes"
+          data-testid="section-link"
+        />
       </section>
       <section>
-        <h2>Share your medical record</h2>
+        <h2 className="vads-u-margin-bottom--1 vads-u-margin-top--4">
+          Vaccines
+        </h2>
+        <p className="vads-u-margin-top--1">
+          Get a list of all vaccines (immunizations) in your VA medical records.
+        </p>
         <va-link
+          className="section-link"
+          active
+          href="/my-health/medical-records/health-history/vaccines"
+          text="Go to your vaccines"
+          data-testid="section-link"
+        />
+      </section>
+      <section>
+        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+          Allergies
+        </h2>
+        <p className="vads-u-margin-top--1">
+          Get a list of all allergies, reactions, and side effects in your VA
+          medical records.
+        </p>
+        <va-link
+          className="section-link"
+          active
+          href="/my-health/medical-records/health-history/allergies"
+          text="Go to your allergies"
+          data-testid="section-link"
+        />
+      </section>
+      <section>
+        <h2 className="vads-u-margin-bottom--1 vads-u-margin-top--4">
+          Health conditions
+        </h2>
+        <p className="vads-u-margin-top--1">
+          Get a list of health conditions your VA providers are helping you
+          manage.
+        </p>
+        <va-link
+          className="section-link"
+          active
+          href="/my-health/medical-records/health-history/health-conditions"
+          text="Go to your health conditions"
+          data-testid="section-link"
+        />
+      </section>
+
+      <section>
+        <h2 className="vads-u-margin-bottom--1 vads-u-margin-top--4">Vitals</h2>
+        <p className="vads-u-margin-top--1">
+          Get records of these basic health numbers your providers check at
+          appointments:
+        </p>
+        <ul>
+          <li>Blood pressure and blood oxygen level</li>
+          <li>Temperature</li>
+          <li>Breathing rate and heart rate</li>
+          <li>Height and weight</li>
+          <li>Pain level</li>
+          <li>Temperature</li>
+        </ul>
+        <va-link
+          className="section-link"
+          active
+          href="/my-health/medical-records/health-history/vitals"
+          text="Go to your vitals"
+          data-testid="section-link"
+        />
+      </section>
+
+      <section>
+        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+          Download all your medical records
+        </h2>
+        <p className="vads-u-margin-top--1">
+          You can download all your records as a single file. This file will
+          include all your lab and test results, care summaries, vaccines,
+          allergies, health conditions, and vitals.
+        </p>
+        <va-link
+          className="section-link"
+          active
+          href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'download-my-data')}
+          text="Download all your medical records"
+          data-testid="section-link"
+        />
+      </section>
+
+      <section>
+        <h2>Manage your medical record settings</h2>
+        <p className="vads-u-margin-top--1">
+          Review and update your medical records sharing and notification
+          settings.
+        </p>
+        <va-link
+          className="section-link"
           active
           href="/my-health/medical-records/share-your-medical-record"
-          text="Review your sharing options"
+          text="Go to your medical records settings"
+          data-testid="section-link"
         />
-        <p>[description of Health Summary/Blue Button/VHIE]</p>
-      </section>
-      <section>
-        <h2>What to know as you try out this tool</h2>
-        <p>
-          We’re giving the trusted My HealtheVet medical records tool a new home
-          here on VA.gov. And we need your feedback to help us keep making this
-          tool better for you and all Veterans.
-        </p>
-        <p>
-          Email your feedback and questions to us at <FeedbackEmail />.
-        </p>
-        <p>
-          Note: You still have access to your medical records on the My
-          HealtheVet website. You can go back to that site at any time.{' '}
-          <a
-            href={mhvUrl(
-              isAuthenticatedWithSSOe(fullState),
-              'download-my-data',
-            )}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Go back to medical records on the My HealtheVet website
-          </a>
-        </p>
       </section>
       <section>
         <h2>Questions about your medical records</h2>
         <va-accordion bordered>
           <va-accordion-item>
             <h3 className="vads-u-font-size--h6" slot="headline">
-              How can I add information to my records?
+              What is new about this medical records tool?
             </h3>
             <p>
-              <strong>
-                This tool only includes records your VA providers have entered.
-              </strong>{' '}
-              If you want to add information to your records, send a message to
-              your care team and ask them to add it for you.
+              We are giving the trusted My HealtheVet medical records tool a new
+              home here in VA.gov. We need your feedback to help us keep making
+              this tool better for you and all Veterans.
             </p>
             <p>
-              <a
-                href={mhvUrl(
-                  isAuthenticatedWithSSOe(fullState),
-                  'secure-messaging',
-                )}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Start a new message
-              </a>
+              Email your feedback and questions to us at <FeedbackEmail />.
             </p>
             <p>
-              You can also ask your provider to add information to your records
-              at your next appointment.
-            </p>
-            <p>
-              To find information you entered in the past, go back to your
-              medical records on the My HealtheVet website.
+              <strong>Note: </strong>
+              You still have access to your medical records on the My HealtheVet
+              website. You can go back to the site at anytime.
             </p>
             <p>
               <a
@@ -134,30 +197,117 @@ const LandingPage = () => {
           </va-accordion-item>
           <va-accordion-item>
             <h3 className="vads-u-font-size--h6" slot="headline">
-              What if I can’t access all of my medical records through this
-              tool?
+              What if I can’t find all of my medical records?
             </h3>
             <p>
-              <strong>
-                If you need help using this tool to find your records,
-              </strong>{' '}
-              call the My HealtheVet help desk at{' '}
-              <va-telephone contact="8773270022" /> (
-              <va-telephone tty contact="8008778339" />
-              ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+              <strong>To find recent records, </strong>
+              check back later. It may take
+              <strong>36 hours</strong>
+              for some reecord to become available online.
             </p>
             <p>
-              <strong>
-                If you can’t access all of your records through this tool,
-              </strong>{' '}
-              you can request a complete copy of your medical records from your
-              VA health facility.
+              <strong>To find medication records,</strong>
+              go to your medications list on the MyHealtheVet website.
+            </p>
+            <p>
+              <a
+                href={mhvUrl(
+                  isAuthenticatedWithSSOe(fullState),
+                  'download-my-data',
+                )}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Go back to medical records on the My HealtheVet website
+              </a>
+            </p>
+            <p>
+              <strong>To find health information you entered yourself,</strong>
+              go to VA Blue Button on the My HealtheVet website.
             </p>
             <p>
               <a href="/my-health/medical-records">
-                Learn how to get medical records from your VA health facility
+                Go to VA Blue Button on the My HealtheVet website
               </a>
             </p>
+            <p>
+              <strong>If you still can`t find what you`re looking for,</strong>
+              request a copy of your complete medical record from your VA health
+              facility. It can take up to
+              <strong>30 days</strong>
+              to get your records this way.
+            </p>
+            <p>
+              <a href="/my-health/medical-records">
+                Learn how to get records from your VA health facility.
+              </a>
+            </p>
+          </va-accordion-item>
+          <va-accordion-item>
+            <h3 className="vads-u-font-size--h6" slot="headline">
+              How can I add information to my records?
+            </h3>
+            <p>
+              Thsi tool only includes records your VA providers have entered. If
+              you want to add information to your records, send a secure message
+              to your care team and ask them to add it for you.
+            </p>
+            <p>
+              <a
+                href={mhvUrl(
+                  isAuthenticatedWithSSOe(fullState),
+                  'secure-messaging',
+                )}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Compose a message
+              </a>
+            </p>
+            <p>
+              You can also ask your provider to add information to your records
+              at your next appointment.
+            </p>
+          </va-accordion-item>
+          <va-accordion-item>
+            <h3 className="vads-u-font-size--h6" slot="headline">
+              How can I share my records with providers?
+            </h3>
+            <p>
+              <strong>If you go to a VA provider,</strong>
+              they can access all your VA medical records automatically. You
+              don`t need to do anything.
+            </p>
+            <p>
+              <strong>
+                If you go to a community care provider in our network,
+              </strong>
+              we may be able to share your records online.
+            </p>
+            <p>
+              <va-link
+                className="section-link"
+                active
+                href="/resources/the-veterans-health-information-exchange-vhie/"
+                text="Learn how to  manage your sharing settings"
+                data-testid="section-link"
+              />
+            </p>
+            <p>
+              <strong>If you go to a provider outside our network,</strong> you
+              can download all of your medical records as a single file. Then
+              you can share them with yoru provider.
+            </p>
+            <va-link
+              className="section-link"
+              active
+              href={mhvUrl(
+                isAuthenticatedWithSSOe(fullState),
+                'download-my-data',
+              )}
+              text="Download all your medical records"
+              data-testid="section-link"
+            />
           </va-accordion-item>
           <va-accordion-item>
             <h3 className="vads-u-font-size--h6" slot="headline">
@@ -169,38 +319,40 @@ const LandingPage = () => {
               you and your VA care team will have access to your records.
             </p>
             <p>
-              If you print or download any records, you’ll need to take
-              responsibility for protecting that information.
+              If you print or download any records, you`ll need to take
+              responsibility for protecint that information. If you`re on a
+              public or shared computer, remember that downloading will save a
+              copy of your records to that computer.
             </p>
           </va-accordion-item>
           <va-accordion-item>
             <h3 className="vads-u-font-size--h6" slot="headline">
-              What if I have questions about my records?
+              What if I have more questions?
             </h3>
             <p>
               <strong>
                 For questions about health information in your records
               </strong>
+              send a secure message to your care team.
             </p>
-            <p>Send a message to your care team</p>
             <p>
-              <a
+              <va-link
+                className="section-link"
+                active
                 href={mhvUrl(
                   isAuthenticatedWithSSOe(fullState),
                   'secure-messaging',
                 )}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Start a new message
-              </a>
+                text="Compose a message"
+                data-testid="section-link"
+              />
             </p>
             <p>
               Only use messages for non-urgent needs. Your care team may take up
               to <strong>3 business days</strong> to reply.
             </p>
             <p>
-              If you need help sooner, use one of these urgent communication
+              If you need help sooner, use one of theses urgent communication
               options:
             </p>
             <ul>
