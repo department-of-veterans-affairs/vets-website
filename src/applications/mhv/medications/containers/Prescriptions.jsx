@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPrescriptionsList } from '../actions/prescriptions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -11,7 +11,7 @@ const Prescriptions = () => {
     state => state.rx.prescriptions.prescriptionsList,
   );
   const dispatch = useDispatch();
-
+  const [rxList, setRxList] = useState([]);
   useEffect(() => {
     if (prescriptions) {
       dispatch(
@@ -30,10 +30,32 @@ const Prescriptions = () => {
     [dispatch],
   );
 
+  useEffect(
+    () => {
+      if (prescriptions) {
+        setRxList(prescriptions);
+      }
+    },
+    [prescriptions],
+  );
+
+  const sortRxList = () => {
+    const newList = prescriptions.sort(a => {
+      return a.refillStatus === 'active' && a.isRefillable === true ? -1 : 0;
+    });
+    // console.log(newList);
+    setRxList(newList);
+  };
+
+  // console.log(rxList);
+
   const content = () => {
     if (prescriptions) {
       return (
         <div className="landing-page">
+          <button type="button" onClick={sortRxList}>
+            sort
+          </button>
           <PrintHeader />
           <h1 className="page-title">Medications</h1>
           <div className="vads-u-margin-bottom--2 no-print">
@@ -91,7 +113,7 @@ const Prescriptions = () => {
               <MedicationsListSort />
               <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
             </div>
-            <MedicationsList rxList={prescriptions} />
+            <MedicationsList rxList={rxList} />
           </div>
           <div className="rx-landing-page-footer no-print">
             <div className="footer-header vads-u-font-size--h2 vads-u-font-weight--bold vads-u-padding-y--1 vads-u-border-bottom--1px vads-u-border-color--gray-light">
