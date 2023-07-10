@@ -240,4 +240,10 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       'bot-outgoing-activity',
     );
   });
+  describe('Checking the bot entered the appropriate skill', () => {
+    it('should update the session storage RX key to true upon entering the RX skill', async () => {});
+    it('should dispatches an event named RXSkill after the session storage as been set to true', async () => {});
+    it('should update the session storage RX key to false upon exiting the RX skill ', async () => {});
+    it('should dispatches an event named RXSkill after the session storage as been set to false ', async () => {});
+  });
 });
