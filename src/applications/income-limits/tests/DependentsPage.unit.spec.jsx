@@ -114,7 +114,7 @@ describe('Dependents Page', () => {
       </Provider>,
     );
 
-    expect(pushSpyZipIsEmpty.withArgs('/').calledOnce).to.be.true;
+    expect(pushSpyZipIsEmpty.withArgs('introduction').calledOnce).to.be.true;
   });
 
   it('should not allow deep linking to this page if the year field and zip field are empty and pastMode is true', () => {
@@ -124,6 +124,6 @@ describe('Dependents Page', () => {
       </Provider>,
     );
 
-    expect(pushSpyYearIsEmpty.withArgs('/').calledOnce).to.be.true;
+    expect(pushSpyYearIsEmpty.withArgs('introduction').calledOnce).to.be.true;
   });
 });
