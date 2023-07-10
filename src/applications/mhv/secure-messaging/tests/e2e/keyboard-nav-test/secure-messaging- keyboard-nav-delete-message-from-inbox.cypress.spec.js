@@ -20,13 +20,11 @@ describe('navigate delete message', () => {
     mockMessagewithAttachment.data.attributes.body = 'attachment';
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
 
-    cy.get('[data-testid="inbox-sidebar"] > a').click();
-
-    detailsPage.loadMessageDetails(
-      mockMessagewithAttachment,
-      mockThreadwithAttachment,
-    );
-    composePage.PressTrashButton();
+    detailsPage
+      .loadMessageDetails(mockMessagewithAttachment, mockThreadwithAttachment)
+      .then(() => {
+        composePage.PressEnterOnTrashButton();
+      });
 
     composePage.ConfirmDeleteWithEnterKey(mockThreadwithAttachment);
     composePage.verifyDeleteSuccessfulMessage();

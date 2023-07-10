@@ -284,7 +284,7 @@ class PatientComposePage {
     });
   };
 
-  PressTrashButton = () => {
+  PressEnterOnTrashButton = () => {
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
@@ -299,8 +299,12 @@ class PatientComposePage {
       }`,
       mockThreadResponse,
     ).as('mockThreadResponse');
-    cy.tabToElement('[data-testid="trash-button-text"]')
-      .should('have.focus')
+    cy.tabToElement('[class="usa-button-secondary"]').should(
+      'contain',
+      'Print',
+    );
+    cy.tabToElement('[class="usa-button-secondary"]')
+      .should('contain', 'Trash')
       .realPress(['Enter']);
   };
 

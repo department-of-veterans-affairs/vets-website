@@ -109,7 +109,7 @@ class PatientMessageDetailsPage {
       .click({ force: true });
 
     cy.location('pathname', { timeout: 5000 }).should('include', '/thread');
-    cy.wait('@full-thread');
+    return cy.wait('@full-thread');
   };
 
   getCurrentThread() {
