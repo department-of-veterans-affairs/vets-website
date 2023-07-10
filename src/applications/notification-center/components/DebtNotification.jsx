@@ -10,7 +10,7 @@ export const DebtNotification = ({ notification }) => {
 
   return (
     <VaNotification
-      data-testid="onsite-notification-card"
+      data-testid="notification-center-card"
       has-border
       headline="You have new debt."
       headline-level="3"

@@ -1,21 +1,5 @@
 const templateId = 'f9947b27-df3b-4b09-875c-7f76594d766d';
 
-const hasOnlyOne = {
-  data: [
-    {
-      id: 'f9947b27-df3b-4b09-875c-7f76594d766d',
-      type: 'onsite_notifications',
-      attributes: {
-        templateId,
-        vaProfileId: '1273780',
-        dismissed: false,
-        createdAt: new Date(2023, 2, 28),
-        updatedAt: new Date(2023, 3, 1),
-      },
-    },
-  ],
-};
-
 const hasMultiple = {
   data: [
     {
@@ -43,22 +27,6 @@ const hasMultiple = {
   ],
 };
 
-const createDismissalSuccessResponse = resId => {
-  return {
-    data: {
-      id: resId,
-      type: 'onsite_notifications',
-      attributes: {
-        templateId,
-        vaProfileId: '',
-        dismissed: true,
-        createdAt: '',
-        updatedAt: '',
-      },
-    },
-  };
-};
-
 const none = {
   data: [],
 };
@@ -77,9 +45,7 @@ const hasError = {
 };
 
 module.exports = {
-  hasOnlyOne,
   hasMultiple,
   none,
   hasError,
-  createDismissalSuccessResponse,
 };
