@@ -65,15 +65,6 @@ const ManageFolderButtons = () => {
 
   useEffect(
     () => {
-      if (deleteModal) {
-        focusElement(removeButton.current);
-      }
-    },
-    [deleteModal],
-  );
-
-  useEffect(
-    () => {
       if (isEmptyWarning) {
         focusElement(emptyFolderConfirmBtn.current);
       }
