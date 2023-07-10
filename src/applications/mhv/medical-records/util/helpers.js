@@ -19,7 +19,7 @@ export const dateFormat = (timestamp, format = null) => {
  */
 export const nameFormat = ({ first, middle, last, suffix }) => {
   let name = `${last}, ${first}`;
-  if (middle) name += `, ${middle}`;
+  if (middle) name += ` ${middle}`;
   if (suffix) name += `, ${suffix}`;
   return name;
 };
