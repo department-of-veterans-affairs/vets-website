@@ -19,6 +19,10 @@ export default function App() {
     <div className="usa-grid-full margin landing-page">
       <MetaTags>
         <meta name="robots" content="noindex" />
+        <meta
+          name="google-site-verification"
+          content="scLJgpqcnJ33AfSYWbB9cdebuyOuHWWWoW_zdeyYNc4"
+        />
       </MetaTags>
       <div className="usa-width-three-fourths">
         <article className="usa-content">
