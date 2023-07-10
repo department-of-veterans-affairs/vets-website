@@ -7,7 +7,7 @@ const HouseholdExpensesSummaryReview = ({ data }) => {
 
   return (
     <div>
-      <h4>Monthly housing expenses</h4>
+      <h4>Housing expenses</h4>
       <dl className="review">
         {expenseRecords.map((expense, index) => {
           return (
