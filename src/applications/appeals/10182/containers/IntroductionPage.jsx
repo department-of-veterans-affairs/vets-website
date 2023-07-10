@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 
 import NeedsToVerify from '../components/NeedsToVerify';
@@ -23,7 +24,8 @@ import { filingDeadlineContent } from '../content/FilingDeadlines';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('h1');
+    scrollToTop();
   }
 
   render() {
@@ -61,74 +63,63 @@ export class IntroductionPage extends React.Component {
         ) : (
           <SaveInProgressIntro {...sipOptions} />
         )}
-        <h2
-          id="main-content"
-          className="vads-u-font-size--h3 vads-u-margin-top--2"
-        >
-          Follow these steps to request a Board Appeal
-        </h2>
-        <div className="process schemaform-process">
-          <va-process-list>
-            <li>
-              <h3 className="vads-u-font-size--h4">
-                Check to be sure you can request a Board Appeal
-              </h3>
-              {filingDeadlineContent}
-              <p>You can request a Board Appeal for these claim decisions:</p>
-              <ul>
-                <li>An initial claim</li>
-                <li>A Supplemental Claim</li>
-                <li>A Higher-Level Review</li>
-              </ul>
+        <h2>Follow these steps to request a Board Appeal</h2>
+        <va-process-list>
+          <li>
+            <h3>Check to be sure you can request a Board Appeal</h3>
+            {filingDeadlineContent}
+            <p>You can request a Board Appeal for these claim decisions:</p>
+            <ul>
+              <li>An initial claim</li>
+              <li>A Supplemental Claim</li>
+              <li>A Higher-Level Review</li>
+            </ul>
+            <p>
+              <strong>Note: </strong>
+              You can’t request a Board Appeal if you’ve already requested one
+              for this same claim.
+            </p>
+          </li>
+          <li>
+            <h3>Gather your information</h3>
+            <p>Here’s what you’ll need to apply:</p>
+            <ul>
+              <li>Your mailing address</li>
+              <li>
+                The VA decision date for each issue you’d like us to review
+                (this is the date on the decision notice you received physically
+                in the mail)
+              </li>
+            </ul>
+          </li>
+          <li>
+            <h3>Start your request</h3>
+            <p>
+              We’ll take you through each step of the process. It should take
+              about 30 minutes.
+            </p>
+            <va-additional-info trigger="What happens after you apply">
               <p>
-                <strong>Note: </strong>
-                You can’t request a Board Appeal if you’ve already requested one
-                for this same claim.
+                After you submit your request for a Board Appeal, you’ll get a
+                confirmation message. You can print this for your records.
               </p>
-            </li>
-            <li>
-              <h3 className="vads-u-font-size--h4">Gather your information</h3>
-              <p>Here’s what you’ll need to apply:</p>
-              <ul>
-                <li>Your mailing address</li>
-                <li>
-                  The VA decision date for each issue you’d like us to review
-                  (this is the date on the decision notice you received
-                  physically in the mail)
-                </li>
-              </ul>
-            </li>
-            <li>
-              <h3 className="vads-u-font-size--h4">Start your request</h3>
               <p>
-                We’ll take you through each step of the process. It should take
-                about 30 minutes.
+                A Veterans Law Judge at the Board of Veterans’ Appeals will
+                review your case. The amount of time it takes the Board to
+                complete its review depends on which review option you choose.{' '}
+                <a href={BOARD_APPEAL_OPTIONS_URL}>
+                  Read about the 3 Board Appeal options
+                </a>
               </p>
-              <va-additional-info trigger="What happens after you apply">
-                <p>
-                  After you submit your request for a Board Appeal, you’ll get a
-                  confirmation message. You can print this for your records.
-                </p>
-                <p>
-                  A Veterans Law Judge at the Board of Veterans’ Appeals will
-                  review your case. The amount of time it takes the Board to
-                  complete its review depends on which review option you choose.{' '}
-                  <a href={BOARD_APPEAL_OPTIONS_URL}>
-                    Read about the 3 Board Appeal options
-                  </a>
-                </p>
-              </va-additional-info>
-            </li>
-          </va-process-list>
-        </div>
+            </va-additional-info>
+          </li>
+        </va-process-list>
         {showVerifyLink ? (
           <NeedsToVerify pathname={pathname} />
         ) : (
           <SaveInProgressIntro buttonOnly {...sipOptions} />
         )}
-        <h2 className="vads-u-font-size--h3">
-          What if I need help filling out my application?
-        </h2>
+        <h2>What if I need help filling out my application?</h2>
         <p>
           If you need help requesting a Board Appeal, you can contact a VA
           regional office near you.

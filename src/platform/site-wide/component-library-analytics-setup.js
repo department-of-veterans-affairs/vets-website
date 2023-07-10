@@ -275,6 +275,18 @@ const analyticsEvents = {
       action: 'change',
       event: 'int-checkbox-option-click',
       prefix: 'checkbox',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-checkbox',
+        custom_string_1: 'component-library',
+        mapping: {
+          'checkbox-label': 'heading_1',
+          'checkbox-description': 'heading_2',
+          'checkbox-required': 'required',
+          'checkbox-checked': 'value',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-checkbox-group': [
@@ -282,6 +294,17 @@ const analyticsEvents = {
       action: 'change',
       event: 'int-checkbox-group-option-click',
       prefix: 'checkbox-group',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-checkbox-group',
+        custom_string_1: 'component-library',
+        mapping: {
+          'checkbox-group-label': 'heading_1',
+          'checkbox-group-optionLabel': 'custom_string_2',
+          'checkbox-group-required': 'required',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-date': [
@@ -289,6 +312,18 @@ const analyticsEvents = {
       action: 'blur',
       event: 'int-date-blur',
       prefix: 'date',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-date',
+        custom_string_1: 'component-library',
+        mapping: {
+          'date-year': 'value',
+          'date-month': 'custom_number_1',
+          'date-day': 'custom_number_2',
+          'date-month-year-only': 'status',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-file-input': [
@@ -366,6 +401,18 @@ const analyticsEvents = {
       action: 'blur',
       event: 'int-memorable-date-blur',
       prefix: 'memorable-date',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-memorable-date',
+        custom_string_1: 'component-library',
+        mapping: {
+          'memorable-date-label': 'heading_1',
+          'memorable-date-year': 'value',
+          'memorable-date-month': 'custom_number_1',
+          'memorable-date-day': 'custom_number_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-modal': [
@@ -383,6 +430,39 @@ const analyticsEvents = {
           'modal-primaryButtonText': 'custom_string_2',
           'modal-secondayButtonText': 'custom_string_3',
           version: 'component_version',
+        },
+      },
+    },
+  ],
+  'va-notification': [
+    {
+      action: 'linkClick',
+      event: 'nav-notification-link-click',
+      prefix: 'notification',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-notification',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'notification-clickLabel': 'custom_string_2',
+          'notification-headline': 'heading_1',
+          'notification-type': 'type',
+        },
+      },
+    },
+    {
+      action: 'close',
+      event: 'int-notification-close',
+      prefix: 'notification',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-notification',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'notification-headline': 'heading_1',
+          'notification-type': 'type',
         },
       },
     },

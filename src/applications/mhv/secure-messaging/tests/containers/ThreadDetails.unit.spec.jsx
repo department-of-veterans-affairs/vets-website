@@ -204,9 +204,11 @@ describe('Thread Details container', () => {
 
     expect(await screen.findByText(`${category}: ${subject}`, { exact: false }))
       .to.exist;
-    expect(document.querySelector('h4').textContent).to.equal(
-      '(Draft) To: MORGUN, OLEKSII\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
-    );
+    expect(
+      screen.getByText(
+        '(Draft) To: MORGUN, OLEKSII (Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
+      ),
+    ).to.exist;
     const messageRepliedTo = screen.getByTestId('message-replied-to');
     const from = getByBrokenText(
       `From: ${replyMessage.senderName}`,
@@ -227,9 +229,9 @@ describe('Thread Details container', () => {
     ).to.exist;
 
     expect(screen.getByText(olderMessage.body, { exact: false })).to.exist;
-    expect(screen.queryByText('Send', { selector: 'button' })).to.be.null;
-    expect(screen.getByText('Save draft', { selector: 'button' })).to.exist;
-    expect(screen.getByText('Delete draft', { selector: 'button' })).to.exist;
+    expect(screen.queryByTestId('Send-Button')).to.be.null;
+    expect(screen.getByTestId('Save-Draft-Button')).to.exist;
+    expect(screen.getByTestId('delete-draft-button')).to.exist;
   });
 
   it('with a reply draft message on a replied to message is LESS than 45 days', async () => {
@@ -288,12 +290,15 @@ describe('Thread Details container', () => {
         'If you need help sooner, use one of these urgent communication options:',
       ),
     ).to.exist;
-    expect(document.querySelector('h4').textContent).to.equal(
-      `(Draft) To: MORGUN, OLEKSII\n(Team: ${triageGroupName})`,
-    );
+    expect(
+      screen.getByText(
+        `(Draft) To: MORGUN, OLEKSII (Team: ${triageGroupName})`,
+      ),
+    ).to.exist;
     expect(screen.getByTestId('message-body-field')).to.exist;
-    expect(screen.getByText('Send', { selector: 'button' })).to.exist;
-    expect(screen.getByText('Save draft', { selector: 'button' })).to.exist;
-    expect(screen.getByText('Delete draft', { selector: 'button' })).to.exist;
+
+    expect(screen.getByTestId('Send-Button')).to.exist;
+    expect(screen.getByTestId('Save-Draft-Button')).to.exist;
+    expect(screen.getByTestId('delete-draft-button')).to.exist;
   });
 });

@@ -1,80 +1,69 @@
 {
   "data": {
-    "rjsf": {},
-    "dateDefault": "1999-01-01",
-    "wc": {},
-    "dateWC": "1999-12-12",
-    "wcv3": {},
-    "dateWCV3": "1999-12-12",
-    "vaCompensationType": "highDisability",
-    "currentlyActiveDuty": {
-      "yes": true,
-      "onTerminalLeave": false
-    },
-    "wcVaCompensationType": "highDisability",
-    "wcVaTileCompensationType": "none",
-    "wcCurrentlyActiveDuty_yes": false,
-    "wcCurrentlyActiveDuty": {
-      "yes": true,
-      "onTerminalLeave": false
-    },
-    "wcv3VaCompensationType": "lowDisability",
-    "wcv3VaTileCompensationType": "highDisability",
-    "wcv3CurrentlyActiveDuty": {
-      "yes": true,
-      "onTerminalLeave": false
-    },
+    "rjsfTitle": {},
+    "dateDefault": "1999-02-02",
+    "wcv3Title": {},
+    "dateWCV3": "2000-02-12",
+    "vaCompensationType": "none",
+    "isCurrentlyActiveDuty": false,
+    "wcv3VaCompensationType": "highDisability",
+    "wcv3VaTileCompensationType": "none",
+    "wcv3IsCurrentlyActiveDuty": true,
     "selectDefault": "option1",
-    "selectWC": "option2",
-    "selectWC2": "option2",
-    "selectWC2V3": "option1",
-    "rjsfSimpleTextInput": "test",
-    "rjsfRequiredCheckbox": true,
-    "rjsfSsn": "343434343",
+    "wcOldSelectFirst": "option1",
+    "wcOldSelectSecond": "option1",
+    "wcv3": {},
+    "wcv3Select": "option1",
+    "rjsfCheckSimpleTextInput": "Lorem ipsum dolor sit amet",
+    "rjsfCheckRequiredCheckbox": true,
+    "rjsfCheckSsn": "454544545",
     "rjsfCheckboxWithBackground": {},
-    "wcSimpleText": "test",
-    "wcRequiredCheckbox": true,
-    "wcSsn": "343434343",
-    "wcCheckboxWithBackground": {},
-    "wcV3": {},
-    "wcV3SimpleText": "test",
-    "wcV3RequiredCheckbox": true,
-    "wcV3Ssn": "343434343",
+    "wcOldCheckSimpleText": "Lorem ipsum dolor sit amet",
+    "wcOldCheckRequiredCheckbox": true,
+    "wcOldCheckSsn": "454544545",
+    "wcOldCheckboxWithBackground": {},
+    "wcV3Title": {},
+    "wcV3CheckSimpleText": "s",
+    "wcV3CheckRequiredCheckbox": true,
+    "wcV3CheckSsn": "454544545",
     "wcV3CheckboxWithBackground": {},
-    "ssn": "343434343",
-    "ssnNew": "343434343",
-    "ssnNewV3": "343433434",
+    "ssn": "454544545",
+    "wcOldSsn": "454544545",
+    "wcv3SsnNew": "454544545",
     "addressOld": {
       "view:militaryBaseDescription": {},
       "country": "USA",
-      "street": "test",
-      "city": "test",
+      "street": "1234 Main St",
+      "city": "City",
       "state": "AL",
-      "postalCode": "34343"
+      "postalCode": "12345"
     },
-    "addressNew": {
+    "wcv3Address": {
       "view:militaryBaseDescription": {},
       "country": "USA",
-      "street": "test",
-      "city": "test",
+      "street": "1234 Main St",
+      "city": "City",
       "state": "AL",
-      "postalCode": "34343"
+      "postalCode": "12345"
     },
     "spouseFullNameOld": {
-      "first": "test",
-      "last": "test"
+      "first": "Person",
+      "middle": "Middle",
+      "last": "LastName"
     },
-    "spouseFullNameNew": {
-      "first": "test",
-      "last": "test"
+    "wcOldSpouseFullName": {
+      "first": "Person",
+      "middle": "Middle",
+      "last": "LastName"
     },
-    "spouseFullNameNewV3": {
-      "first": "test",
-      "last": "test"
+    "wcv3SpouseFullNameNew": {
+      "first": "Person",
+      "middle": "Middle",
+      "last": "LastName"
     },
-    "requiredOld": "test",
-    "requiredNew": "test",
-    "requiredNewV3": "test",
-    "textAreaNewV3": "test paragraph, items and punctuation # and tags. new line - one - 2 - 3"
+    "requiredOld": "Lorem ipsum dolor sit amet",
+    "wcOldRequired": "Lorem ipsum dolor sit amet",
+    "wcv3RequiredNew": "Lorem ipsum dolor sit amet",
+    "wcv3TextAreaNew": "Lorem ipsum dolor sit amet"
   }
 }

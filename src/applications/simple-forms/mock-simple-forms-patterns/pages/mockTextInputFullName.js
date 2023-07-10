@@ -1,5 +1,4 @@
 // @ts-check
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import fullNameOldUI from 'platform/forms/definitions/fullName';
 import {
   titleSchema,
@@ -9,7 +8,6 @@ import {
   inlineTitleUI,
   inlineTitleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 
 const fullNameDef = {
   type: 'object',
@@ -38,7 +36,7 @@ const fullNameDef = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI('RJSF'),
+    rjsfTitle: titleUI('RJSF'),
     spouseFullNameOld: {
       ...fullNameOldUI,
       first: {
@@ -60,56 +58,16 @@ export default {
         'ui:title': 'Select - Spouse\u2019s suffix',
       },
     },
-    wc: inlineTitleUI('Web component'),
-    spouseFullNameNew: {
-      ...fullNameOldUI,
-      first: {
-        'ui:title': 'TextWidget - Spouse\u2019s first name',
-        'ui:webComponentField': VaTextInputField,
-        'ui:errorMessages': {
-          required: 'Please enter a first name',
-        },
-        'ui:options': {
-          uswds: false,
-        },
-      },
-      last: {
-        'ui:title': 'TextWidget - Spouse\u2019s last name',
-        'ui:webComponentField': VaTextInputField,
-        'ui:errorMessages': {
-          required: 'Please enter a last name',
-        },
-        'ui:options': {
-          uswds: false,
-        },
-      },
-      middle: {
-        'ui:title': 'TextWidget - Spouse\u2019s middle name',
-        'ui:webComponentField': VaTextInputField,
-        'ui:options': {
-          uswds: false,
-        },
-      },
-      suffix: {
-        'ui:title': 'Select - Spouse\u2019s suffix',
-        'ui:webComponentField': VaSelectField,
-        'ui:options': {
-          uswds: false,
-        },
-      },
-    },
-    wcv3: inlineTitleUI('Web component v3'),
-    spouseFullNameNewV3: fullNameUI(),
+    wcv3Title: inlineTitleUI('Web component v3'),
+    wcv3SpouseFullNameNew: fullNameUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
+      rjsfTitle: titleSchema,
       spouseFullNameOld: fullNameDef,
-      wc: inlineTitleSchema,
-      spouseFullNameNew: fullNameSchema,
-      wcv3: inlineTitleSchema,
-      spouseFullNameNewV3: fullNameSchema,
+      wcv3Title: inlineTitleSchema,
+      wcv3SpouseFullNameNew: fullNameSchema,
     },
     required: [],
   },

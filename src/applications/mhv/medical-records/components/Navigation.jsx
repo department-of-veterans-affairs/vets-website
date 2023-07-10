@@ -98,8 +98,19 @@ const Navigation = () => {
   window.addEventListener('resize', checkScreenSize);
 
   const handleActiveLinksStyle = path => {
+    let relativePath;
     if (path === '/' && location.pathname === '/') return 'is-active';
-    if (location.pathname === path) return 'is-active';
+    const pathArr = location.pathname.slice(1).split('/');
+    if (
+      pathArr.length > 1 &&
+      pathArr.length < 5 &&
+      pathArr[0] === 'labs-and-tests'
+    ) {
+      relativePath = '/labs-and-tests';
+    } else if (pathArr.length === 3)
+      relativePath = `/${pathArr[0]}/${pathArr[1]}`;
+    else relativePath = location.pathname;
+    if (path === relativePath) return 'is-active';
     return '';
   };
 

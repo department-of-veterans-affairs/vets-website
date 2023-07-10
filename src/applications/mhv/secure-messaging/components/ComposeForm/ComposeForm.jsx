@@ -474,11 +474,11 @@ const ComposeForm = props => {
             setAttachments={setAttachments}
           />
         </section>
-        <DraftSavedInfo userSaved={userSaved} />
+        <DraftSavedInfo userSaved={userSaved} attachments={attachments} />
         <div className="compose-form-actions vads-u-display--flex">
           <va-button
             text="Send"
-            class="vads-u-flex--1 send-button"
+            class="vads-u-flex--1 send-button vads-u-margin-bottom--1"
             data-testid="Send-Button"
             onClick={sendMessageHandler}
           />
@@ -486,19 +486,18 @@ const ComposeForm = props => {
             id="save-draft-button"
             text="Save draft"
             secondary
-            class="vads-u-flex--1 save-draft-button"
+            class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1"
             data-testid="Save-Draft-Button"
             onClick={e => saveDraftHandler('manual', e)}
           />
-          <div className="vads-u-flex--1">
-            {draft && (
-              <DeleteDraft
-                draft={draft}
-                setLastFocusableElement={setLastFocusableElement}
-                setNavigationError={setNavigationError}
-              />
-            )}
-          </div>
+
+          {draft && (
+            <DeleteDraft
+              draftId={draft.messageId}
+              setLastFocusableElement={setLastFocusableElement}
+              setNavigationError={setNavigationError}
+            />
+          )}
         </div>
       </div>
     </form>

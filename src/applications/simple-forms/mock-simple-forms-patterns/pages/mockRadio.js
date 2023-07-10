@@ -1,17 +1,19 @@
 import {
   inlineTitleSchema,
   inlineTitleUI,
+  radioSchema,
+  radioUI,
   titleSchema,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
-import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { CompensationTypeDescription } from 'applications/hca/components/FormDescriptions';
-import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns/yesNoPattern';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI('RJSF'),
+    rjsfTitle: titleUI('RJSF'),
     vaCompensationType: {
       'ui:title': 'Do you receive VA disability compensation?',
       'ui:description': CompensationTypeDescription,
@@ -26,174 +28,77 @@ export default {
         },
       },
     },
-    currentlyActiveDuty: {
-      yes: {
-        'ui:title': 'Are you on active duty now?',
-        'ui:widget': 'yesNo',
-      },
-      onTerminalLeave: {
-        'ui:title': 'Are you on terminal leave now?',
-        'ui:widget': 'yesNo',
-        'ui:options': {
-          expandUnder: 'yes',
-        },
-      },
-    },
-    wc: inlineTitleUI('Web component'),
-    wcVaCompensationType: {
-      'ui:title': 'Do you receive VA disability compensation?',
-      'ui:description': CompensationTypeDescription,
-      'ui:webComponentField': VaRadioField,
-      'ui:options': {
-        uswds: false,
-        labels: {
-          lowDisability:
-            'Yes, for a service-connected disability rating of up to 40%',
-          highDisability:
-            'Yes, for a service-connected disability rating of 50% or higher',
-          none: 'No',
-        },
-      },
-    },
-    wcVaTileCompensationType: {
-      'ui:title': 'Do you receive VA disability compensation?',
-      'ui:description': CompensationTypeDescription,
-      'ui:webComponentField': VaRadioField,
-      'ui:options': {
-        uswds: false,
-        tile: true,
-        labels: {
-          lowDisability:
-            'Yes, for a service-connected disability rating of up to 40%',
-          highDisability:
-            'Yes, for a service-connected disability rating of 50% or higher',
-          none: 'No',
-        },
-      },
-    },
-    wcCurrentlyActiveDuty: {
-      yes: {
-        ...yesNoUI('Are you on active duty now?'),
-        'ui:options': {
-          uswds: false,
-        },
-      },
-      onTerminalLeave: {
-        ...yesNoUI('Are you on terminal leave now?'),
-        'ui:options': {
-          expandUnder: 'yes',
-          uswds: false,
-        },
-      },
-    },
-    wcv3: inlineTitleUI('Web component v3'),
-    wcv3VaCompensationType: {
-      'ui:title': 'Do you receive VA disability compensation?',
-      'ui:description': CompensationTypeDescription,
-      'ui:webComponentField': VaRadioField,
-      'ui:widget': 'radio',
+    isCurrentlyActiveDuty: {
+      'ui:title': 'Are you on active duty now?',
+      'ui:widget': 'yesNo',
       'ui:options': {
         labels: {
-          lowDisability:
-            'Yes, for a service-connected disability rating of up to 40%',
-          highDisability:
-            'Yes, for a service-connected disability rating of 50% or higher',
-          none: 'No',
+          Y: 'Before military service',
+          N: 'After military service',
         },
       },
     },
-    wcv3VaTileCompensationType: {
-      'ui:title': 'Do you receive VA disability compensation?',
-      'ui:description': CompensationTypeDescription,
-      'ui:webComponentField': VaRadioField,
-      'ui:widget': 'radio',
-      'ui:options': {
-        tile: true,
-        labels: {
-          lowDisability:
-            'Yes, for a service-connected disability rating of up to 40%',
-          highDisability:
-            'Yes, for a service-connected disability rating of 50% or higher',
-          none: 'No',
-        },
+    wcv3Title: inlineTitleUI('Web component v3'),
+    wcv3VaCompensationType: radioUI({
+      title: 'Do you receive VA disability compensation?',
+      description: CompensationTypeDescription,
+      labels: {
+        lowDisability:
+          'Yes, for a service-connected disability rating of up to 40%',
+        highDisability:
+          'Yes, for a service-connected disability rating of 50% or higher',
+        none: 'No',
       },
-    },
-    wcv3CurrentlyActiveDuty: {
-      yes: yesNoUI('Are you on active duty now?'),
-      onTerminalLeave: {
-        ...yesNoUI('Are you on terminal leave now?'),
-        'ui:options': {
-          expandUnder: 'yes',
-        },
+    }),
+    wcv3VaTileCompensationType: radioUI({
+      title: 'Do you receive VA disability compensation?',
+      description: CompensationTypeDescription,
+      tile: true,
+      labels: {
+        lowDisability:
+          'Yes, for a service-connected disability rating of up to 40%',
+        highDisability:
+          'Yes, for a service-connected disability rating of 50% or higher',
+        none: 'No',
       },
-    },
+    }),
+    wcv3IsCurrentlyActiveDuty: yesNoUI({
+      title: 'Are you on active duty now?',
+      labels: {
+        Y: 'Yes, the Veteran is on active duty now',
+        N: 'No, the Veteran is not on active duty now',
+      },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
+      rjsfTitle: titleSchema,
       vaCompensationType: {
         type: 'string',
         enum: ['lowDisability', 'highDisability', 'none'],
       },
-      currentlyActiveDuty: {
-        type: 'object',
-        properties: {
-          yes: {
-            type: 'boolean',
-          },
-          onTerminalLeave: {
-            type: 'boolean',
-          },
-        },
+      isCurrentlyActiveDuty: {
+        type: 'boolean',
       },
-      wc: inlineTitleSchema,
-      wcVaCompensationType: {
-        type: 'string',
-        enum: ['lowDisability', 'highDisability', 'none'],
-      },
-      wcVaTileCompensationType: {
-        type: 'string',
-        enum: ['lowDisability', 'highDisability', 'none'],
-      },
-      wcCurrentlyActiveDuty: {
-        type: 'object',
-        properties: {
-          yes: {
-            type: 'boolean',
-          },
-          onTerminalLeave: {
-            type: 'boolean',
-          },
-        },
-      },
-      wcv3: inlineTitleSchema,
-      wcv3VaCompensationType: {
-        type: 'string',
-        enum: ['lowDisability', 'highDisability', 'none'],
-      },
-      wcv3VaTileCompensationType: {
-        type: 'string',
-        enum: ['lowDisability', 'highDisability', 'none'],
-      },
-      wcv3CurrentlyActiveDuty: {
-        type: 'object',
-        properties: {
-          yes: {
-            type: 'boolean',
-          },
-          onTerminalLeave: {
-            type: 'boolean',
-          },
-        },
-      },
+      wcv3Title: inlineTitleSchema,
+      wcv3VaCompensationType: radioSchema([
+        'lowDisability',
+        'highDisability',
+        'none',
+      ]),
+      wcv3VaTileCompensationType: radioSchema([
+        'lowDisability',
+        'highDisability',
+        'none',
+      ]),
+      wcv3IsCurrentlyActiveDuty: yesNoSchema,
     },
     required: [
       'vaCompensationType',
-      'wcVaCompensationType',
-      'wcVaTileCompensationType',
       'wcv3VaCompensationType',
       'wcv3VaTileCompensationType',
+      'wcv3IsCurrentlyActiveDuty',
     ],
   },
 };

@@ -1,20 +1,16 @@
 /* eslint-disable camelcase */
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-
-import recordEvent from 'platform/monitoring/record-event';
-
-import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
 import { createAppointment } from '../../services/appointment';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
   selectFeatureDirectScheduling,
   selectFeatureCommunityCare,
   selectSystemIds,
-  selectFeatureVAOSServiceRequests,
   selectRegisteredCernerFacilityIds,
   selectFeatureFacilitiesServiceV2,
-  selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureAcheronService,
@@ -26,11 +22,6 @@ import {
   getTypeOfCareFacilities,
   getCCEType,
 } from './selectors';
-import {
-  submitRequest,
-  submitAppointment,
-  getCommunityCare,
-} from '../../services/var';
 import {
   getLocation,
   getSiteIdFromFacilityId,
@@ -49,11 +40,6 @@ import {
   FLOW_TYPES,
   GA_PREFIX,
 } from '../../utils/constants';
-import {
-  transformFormToVARequest,
-  transformFormToCCRequest,
-  transformFormToAppointment,
-} from './helpers/formSubmitTransformers';
 import {
   transformFormToVAOSAppointment,
   transformFormToVAOSCCRequest,
@@ -687,8 +673,6 @@ export function checkCommunityCareEligibility() {
   return async (dispatch, getState) => {
     const state = getState();
     const communityCareEnabled = selectFeatureCommunityCare(state);
-    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(state);
-    const useV2 = selectFeatureVAOSServiceCCAppointments(state);
 
     if (!communityCareEnabled) {
       return false;
@@ -699,7 +683,6 @@ export function checkCommunityCareEligibility() {
       const siteIds = selectSystemIds(state);
       const parentFacilities = await fetchParentLocations({
         siteIds,
-        useV2: featureFacilitiesServiceV2,
       });
       const ccEnabledSystems = await fetchCommunityCareSupportedSites({
         locations: parentFacilities,
@@ -713,12 +696,7 @@ export function checkCommunityCareEligibility() {
 
       // Reroute to VA facility page if none of the user's registered systems support community care.
       if (ccEnabledSystems.length) {
-        let response = null;
-        if (useV2) {
-          response = await getCommunityCareV2(getCCEType(state));
-        } else {
-          response = await getCommunityCare(getCCEType(state));
-        }
+        const response = await getCommunityCareV2(getCCEType(state));
         dispatch({
           type: FORM_UPDATE_CC_ELIGIBILITY,
           isEligible: response.eligible,
@@ -748,7 +726,6 @@ export function checkCommunityCareEligibility() {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       state,
     );
@@ -781,15 +758,10 @@ export function submitAppointmentOrRequest(history) {
 
       try {
         let appointment = null;
-        if (featureVAOSServiceVAAppointments) {
-          appointment = await createAppointment({
-            appointment: transformFormToVAOSAppointment(getState()),
-            useAcheron: featureAcheronVAOSServiceRequests,
-          });
-        } else {
-          const appointmentBody = transformFormToAppointment(getState());
-          await submitAppointment(appointmentBody);
-        }
+        appointment = await createAppointment({
+          appointment: transformFormToVAOSAppointment(getState()),
+          useAcheron: featureAcheronVAOSServiceRequests,
+        });
 
         dispatch({
           type: FORM_SUBMIT_SUCCEEDED,
@@ -874,21 +846,15 @@ export function submitAppointmentOrRequest(history) {
 
       try {
         let requestData;
-        if (featureVAOSServiceRequests && isCommunityCare) {
+        if (isCommunityCare) {
           requestBody = transformFormToVAOSCCRequest(getState());
           requestData = await createAppointment({ appointment: requestBody });
-        } else if (featureVAOSServiceRequests) {
+        } else {
           requestBody = transformFormToVAOSVARequest(getState());
           requestData = await createAppointment({
             appointment: requestBody,
             useAcheron: featureAcheronVAOSServiceRequests,
           });
-        } else if (isCommunityCare) {
-          requestBody = transformFormToCCRequest(getState());
-          requestData = await submitRequest('cc', requestBody);
-        } else {
-          requestBody = transformFormToVARequest(getState());
-          requestData = await submitRequest('va', requestBody);
         }
 
         dispatch({

@@ -14,11 +14,11 @@ import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/V
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI('RJSF / Widget'),
-    rjsfSimpleTextInput: {
+    rjsfTitle: titleUI('RJSF / Widget'),
+    rjsfCheckSimpleTextInput: {
       'ui:title': 'text input',
     },
-    rjsfRequiredCheckbox: {
+    rjsfCheckRequiredCheckbox: {
       'ui:title': 'required checkbox',
       'ui:widget': 'checkbox',
       'ui:options': {
@@ -29,7 +29,7 @@ export default {
         required: 'Checkbox required error',
       },
     },
-    rjsfSsn: {
+    rjsfCheckSsn: {
       ...ssnUI('Social security number'),
       'ui:title': 'Social security number',
       'ui:errorMessages': {
@@ -45,45 +45,12 @@ export default {
         </div>
       ),
     },
-    wc: inlineTitleUI('web component'),
-    wcSimpleText: {
-      'ui:title': 'text input',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        uswds: false,
-      },
-    },
-    wcRequiredCheckbox: {
-      'ui:title': 'required checkbox',
-      'ui:webComponentField': VaCheckboxField,
-      'ui:errorMessages': {
-        enum: 'Please select a checkbox',
-        required: 'Checkbox required error',
-      },
-      'ui:options': {
-        uswds: false,
-      },
-    },
-    wcSsn: {
-      ...newSsnUI('Social Security number'),
-      'ui:options': {
-        uswds: false,
-      },
-    },
-    wcCheckboxWithBackground: {
-      'ui:title': '',
-      'ui:description': (
-        <div className="vads-u-background-color--gray-light-alt">
-          <va-checkbox label="checkbox with background" />
-        </div>
-      ),
-    },
-    wcV3: inlineTitleUI('web component v3'),
-    wcV3SimpleText: {
+    wcV3Title: inlineTitleUI('web component v3'),
+    wcV3CheckSimpleText: {
       'ui:title': 'text input',
       'ui:webComponentField': VaTextInputField,
     },
-    wcV3RequiredCheckbox: {
+    wcV3CheckRequiredCheckbox: {
       'ui:title': 'required checkbox',
       'ui:webComponentField': VaCheckboxField,
       'ui:errorMessages': {
@@ -91,7 +58,7 @@ export default {
         required: 'Checkbox required error',
       },
     },
-    wcV3Ssn: newSsnUI('Social Security number'),
+    wcV3CheckSsn: newSsnUI('Social Security number'),
     wcV3CheckboxWithBackground: {
       'ui:title': '',
       'ui:description': (
@@ -104,58 +71,42 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
-      rjsfSimpleTextInput: {
+      rjsfTitle: titleSchema,
+      rjsfCheckSimpleTextInput: {
         type: 'string',
       },
-      rjsfRequiredCheckbox: {
+      rjsfCheckRequiredCheckbox: {
         type: 'boolean',
         enum: [true],
       },
-      rjsfSsn: {
+      rjsfCheckSsn: {
         type: 'string',
       },
       rjsfCheckboxWithBackground: {
         type: 'object',
         properties: {},
       },
-      wc: inlineTitleSchema,
-      wcSimpleText: {
+      wcV3Title: inlineTitleSchema,
+      wcV3CheckSimpleText: {
         type: 'string',
       },
-      wcRequiredCheckbox: {
+      wcV3CheckRequiredCheckbox: {
         type: 'boolean',
         enum: [true],
       },
-      wcSsn: ssnSchema,
-      wcCheckboxWithBackground: {
-        type: 'object',
-        properties: {},
-      },
-      wcV3: inlineTitleSchema,
-      wcV3SimpleText: {
-        type: 'string',
-      },
-      wcV3RequiredCheckbox: {
-        type: 'boolean',
-        enum: [true],
-      },
-      wcV3Ssn: ssnSchema,
+      wcV3CheckSsn: ssnSchema,
       wcV3CheckboxWithBackground: {
         type: 'object',
         properties: {},
       },
     },
     required: [
-      'rjsfSimpleTextInput',
-      'rjsfRequiredCheckbox',
-      'rjsfSsn',
-      'wcSimpleText',
-      'wcRequiredCheckbox',
-      'wcSsn',
-      'wcV3SimpleText',
-      'wcV3RequiredCheckbox',
-      'wcV3Ssn',
+      'rjsfCheckSimpleTextInput',
+      'rjsfCheckRequiredCheckbox',
+      'rjsfCheckSsn',
+      'wcV3CheckSimpleText',
+      'wcV3CheckRequiredCheckbox',
+      'wcV3CheckSsn',
     ],
   },
 };

@@ -57,6 +57,12 @@
   .landing-page-content {
     max-width: 500px;
   }
+  section {
+    .feedback {
+      float: right;
+      width: 130px;
+    }
+  }
   .rx-card-container{
     max-width: 500px;
     padding-bottom: 5px;
@@ -108,6 +114,9 @@
     display: none;
     margin: 0px !important;
     padding: 0px !important;
+  }
+  .no-break {
+    break-inside: avoid;
   }
   h1 {
     font-size: 30;

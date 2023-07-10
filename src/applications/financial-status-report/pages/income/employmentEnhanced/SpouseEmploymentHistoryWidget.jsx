@@ -8,11 +8,17 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import { clearJobIndex } from '../../../utils/session';
 
 const SpouseEmploymentHistoryWidget = props => {
-  const { goToPath, goForward, onReviewPage } = props;
+  const {
+    goToPath,
+    goForward,
+    onReviewPage,
+    contentBeforeButtons,
+    contentAfterButtons,
+  } = props;
 
   const formData = useSelector(state => state.form.data);
   const employmentHistory =
-    formData.personalData.employmentHistory.spouse.employmentRecords || [];
+    formData.personalData.employmentHistory.spouse.spEmploymentRecords || [];
   const efsrFeatureFlag = formData['view:enhancedFinancialStatusReport'];
   useEffect(() => {
     clearJobIndex();
@@ -41,7 +47,7 @@ const SpouseEmploymentHistoryWidget = props => {
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0">Your spouse’s work history</h3>
         </legend>
-        <div className="vads-u-margin-top--3" data-testid="debt-list">
+        <div className="vads-u-margin-y--3" data-testid="debt-list">
           {employmentHistory.length === 0 ? (
             <EmptyMiniSummaryCard content={emptyPrompt} />
           ) : (
@@ -66,7 +72,9 @@ const SpouseEmploymentHistoryWidget = props => {
           Add another job from the last 2 years
         </Link>
       </fieldset>
+      {contentBeforeButtons}
       {onReviewPage ? updateButton : navButtons}
+      {contentAfterButtons}
     </form>
   );
 };

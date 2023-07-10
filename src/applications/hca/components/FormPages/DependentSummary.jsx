@@ -27,7 +27,7 @@ const DependentSummary = props => {
     dependents = [],
     [DEPENDENT_VIEW_FIELDS.report]: reportDependents = null,
   } = data;
-  const pageTitle = dependents.length ? 'Review your Dependents' : 'Dependents';
+  const pageTitle = dependents.length ? 'Review your dependents' : '';
   const mode = onReviewPage ? 'update' : 'edit';
 
   /**

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dateFormat, downloadFile } from '../../util/helpers';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PrintHeader from '../shared/PrintHeader';
-import { getVaccinePdf } from '../../api/MrApi';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import ItemList from '../shared/ItemList';
@@ -12,13 +11,9 @@ import PrintDownload from '../shared/PrintDownload';
 const ChemHemDetails = props => {
   const { record, fullState } = props;
 
-  const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
+  const formattedDate = formatDateLong(record?.date);
 
-  const download = () => {
-    getVaccinePdf(1).then(res =>
-      downloadFile('chemistry-hematology.pdf', res.pdf),
-    );
-  };
+  const download = () => {};
 
   const content = () => {
     if (record) {
@@ -88,10 +83,13 @@ const ChemHemDetails = props => {
               trigger="Need help understanding your results?"
               class="no-print"
             >
+              <p className="vads-u-margin-bottom--1">
+                If your results are outside the standard range, this doesn’t
+                automatically mean you have a health problem. Your provider will
+                review your results and explain what they mean for your health.
+              </p>
               <p>
-                Your provider will review your results and explain what they
-                mean for your health. To ask a question now, send a secure
-                message to your care team.
+                To ask a question now, send a secure message to your care team.
               </p>
               <p>
                 <a
@@ -102,7 +100,7 @@ const ChemHemDetails = props => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Start a new message
+                  Compose a message.
                 </a>
               </p>
             </va-additional-info>

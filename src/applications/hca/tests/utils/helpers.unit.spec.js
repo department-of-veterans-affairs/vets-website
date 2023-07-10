@@ -10,6 +10,7 @@ import {
   getInsuranceAriaLabel,
   isOfCollegeAge,
   getDependentPageList,
+  normalizeFullName,
 } from '../../utils/helpers';
 import { HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
 
@@ -290,7 +291,7 @@ describe('hca helpers', () => {
   });
 
   describe('getDependentPageList', () => {
-    const subpages = [
+    const pages = [
       { id: 'page1', title: 'Page 1' },
       { id: 'page2', title: 'Page 2', depends: { key: 'key1', value: false } },
       { id: 'page3', title: 'Page 3' },
@@ -299,19 +300,42 @@ describe('hca helpers', () => {
     ];
     it('returns a list of the two (2) pages that do not have a conditional dependency', () => {
       const formData = {};
-      expect(getDependentPageList(subpages, formData)).to.have.lengthOf(2);
+      expect(getDependentPageList(pages, formData)).to.have.lengthOf(2);
     });
-    it('returns a list of four (3) pages when one conditional dependency does not match', () => {
+    it('returns a list of three (3) pages when two conditional dependencies do not match', () => {
       const formData = { key1: true, key2: true, key3: true };
-      expect(getDependentPageList(subpages, formData)).to.have.lengthOf(3);
+      expect(getDependentPageList(pages, formData)).to.have.lengthOf(3);
     });
     it('returns a list of four (4) pages when one conditional dependency does not match', () => {
       const formData = { key1: false, key2: true, key3: true };
-      expect(getDependentPageList(subpages, formData)).to.have.lengthOf(4);
+      expect(getDependentPageList(pages, formData)).to.have.lengthOf(4);
     });
-    it('returns a list of all pages when the conditional dependencies match', () => {
+    it('returns a list of all pages when all conditional dependencies match', () => {
       const formData = { key1: false, key2: true, key3: false };
-      expect(getDependentPageList(subpages, formData)).to.have.lengthOf(5);
+      expect(getDependentPageList(pages, formData)).to.have.lengthOf(5);
+    });
+  });
+
+  describe('normalizeFullName', () => {
+    const fullName = {
+      first: 'John',
+      middle: 'William',
+      last: 'Smith',
+      suffix: 'Jr.',
+    };
+    it('gracefully returns an empty string, instead of throwing an error, when no name is provided to the function', () => {
+      expect(normalizeFullName()).to.be.empty;
+    });
+    it('returns first name, last name and suffix when a name object is set and the `outputMiddle` param is excluded', () => {
+      expect(normalizeFullName(fullName)).to.equal('John Smith Jr.');
+    });
+    it('returns first name, last name and suffix when a name object is set and the `outputMiddle` param is set to `false`', () => {
+      expect(normalizeFullName(fullName, false)).to.equal('John Smith Jr.');
+    });
+    it('returns first name, middle name, last name and suffix when a name object is set and the `outputMiddle` param is set to `true`', () => {
+      expect(normalizeFullName(fullName, true)).to.equal(
+        'John William Smith Jr.',
+      );
     });
   });
 

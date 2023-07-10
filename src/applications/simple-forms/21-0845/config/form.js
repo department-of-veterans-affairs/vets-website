@@ -49,18 +49,18 @@ const formConfig = {
     showNavLinks: true,
   },
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your disclosure authorization application (21-0845) is in progress.',
-    //   expired: 'Your saved disclosure authorization application (21-0845) has expired. If you want to apply for disclosure authorization, please start a new application.',
-    //   saved: 'Your disclosure authorization application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your release authorization (21-0845) is in progress.',
+      expired:
+        'Your saved release authorization (21-0845) has expired. If you want to apply for release authorization, please start a new application.',
+      saved: 'Your release authorization has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for disclosure authorization.',
-    noAuth:
-      'Please sign in again to continue your application for disclosure authorization.',
+    notFound: 'Please start over to apply for release authorization.',
+    noAuth: 'Please sign in again to continue your release authorization.',
   },
   title: 'Authorize VA to release your information to a third party source',
   subTitle:
