@@ -9,10 +9,12 @@ function CustomEmailField(props) {
   useEffect(() => {
     // @NOTE: We need an initial run with the values coming from vadir/va profile to check.
     // Any changes to the values will be picked up by the handle change
-    props.fetchDuplicateContactInfo(
-      [{ value: props.email, isDupe: '' }],
-      [{ value: props.phoneNumber, isDupe: '' }],
-    );
+    if (props?.showMebEnhancements08) {
+      props.fetchDuplicateContactInfo(
+        [{ value: props.email, isDupe: '' }],
+        [{ value: props.phoneNumber, isDupe: '' }],
+      );
+    }
   }, []);
 
   function handleChange(event) {
