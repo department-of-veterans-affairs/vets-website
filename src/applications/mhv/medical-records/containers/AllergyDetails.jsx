@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import * as Sentry from '@sentry/browser';
 import ItemList from '../components/shared/ItemList';
 import { getAllergyDetails } from '../actions/allergies';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -115,7 +116,8 @@ const AllergyDetails = () => {
     try {
       await generatePdf('medicalRecords', 'allergy_report', pdfData);
     } catch (error) {
-      // Error logging/presentation goes here...
+      Sentry.captureException(error);
+      Sentry.captureMessage('vets_mhv_medical_records_pdf_generation_error');
     }
   };
 

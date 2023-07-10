@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
+import * as Sentry from '@sentry/browser';
 import {
   typeAndDose,
   processList,
@@ -105,7 +106,8 @@ const VaccineDetails = () => {
     try {
       await generatePdf('medicalRecords', 'vaccine_report', pdfData);
     } catch (error) {
-      // Error logging/presentation goes here...
+      Sentry.captureException(error);
+      Sentry.captureMessage('vets_mhv_medical_records_pdf_generation_error');
     }
   };
 

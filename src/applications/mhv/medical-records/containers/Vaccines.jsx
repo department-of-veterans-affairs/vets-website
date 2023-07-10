@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import * as Sentry from '@sentry/browser';
 import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -91,7 +92,8 @@ const Vaccines = () => {
     try {
       await generatePdf('medicalRecords', 'vaccines_report', pdfData);
     } catch (error) {
-      // Error logging/presentation goes here...
+      Sentry.captureException(error);
+      Sentry.captureMessage('vets_mhv_medical_records_pdf_generation_error');
     }
   };
 
