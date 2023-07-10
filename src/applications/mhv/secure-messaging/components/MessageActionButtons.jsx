@@ -4,14 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllFolders } from '../actions';
 import MoveMessageToFolderBtn from './MessageActionButtons/MoveMessageToFolderBtn';
 import PrintBtn from './MessageActionButtons/PrintBtn';
-import ReplyBtn from './MessageActionButtons/ReplyBtn';
 import { DefaultFolders } from '../util/constants';
 import ActionButtons from './shared/ActionButtons';
 import TrashButton from './MessageActionButtons/TrashButton';
 import { Actions } from '../util/actionTypes';
 
 const MessageActionButtons = props => {
-  const { id, hideReplyButton, threadId } = props;
+  const { id, threadId } = props;
   const dispatch = useDispatch();
   const folders = useSelector(state => state.sm.folders.folderList);
   const activeFolder = useSelector(state => state.sm.folders.folder);
@@ -43,19 +42,6 @@ const MessageActionButtons = props => {
           <PrintBtn handlePrint={handlePrint} id={id} />
         </li>,
       );
-
-      buttons.push(
-        <TrashButton
-          key="trashButton"
-          activeFolder={activeFolder}
-          threadId={threadId}
-          messageId={id}
-          visible={
-            activeFolder?.folderId !== DefaultFolders.SENT.id &&
-            activeFolder?.folderId !== DefaultFolders.DELETED.id
-          }
-        />,
-      );
       if (folders) {
         buttons.push(
           <MoveMessageToFolderBtn
@@ -69,24 +55,27 @@ const MessageActionButtons = props => {
         );
       }
       buttons.push(
-        <ReplyBtn
-          key="replyBtn"
-          visible={!hideReplyButton}
-          onReply={props.onReply}
+        <TrashButton
+          key="trashButton"
+          activeFolder={activeFolder}
+          threadId={threadId}
+          messageId={id}
+          visible={
+            activeFolder?.folderId !== DefaultFolders.SENT.id &&
+            activeFolder?.folderId !== DefaultFolders.DELETED.id
+          }
         />,
       );
       return buttons;
     },
-    [activeFolder, folders, hideReplyButton, id, props, threadId],
+    [activeFolder, folders, id, props, threadId],
   );
 
   return <ActionButtons buttonsArray={buttonsArray} />;
 };
 
 MessageActionButtons.propTypes = {
-  hideReplyButton: PropTypes.bool,
   id: PropTypes.number,
-  onReply: PropTypes.func,
 };
 
 export default MessageActionButtons;

@@ -81,12 +81,7 @@ const MessageDetailBlock = props => {
           {categoryLabel}: {subject}
         </h1>
       </header>
-      <MessageActionButtons
-        id={messageId}
-        threadId={threadId}
-        onReply={handleReplyButton}
-        hideReplyButton={cannotReply}
-      />
+      <MessageActionButtons id={messageId} threadId={threadId} />
       <main
         className="message-detail-content"
         aria-label="Most recent message in this conversation"
