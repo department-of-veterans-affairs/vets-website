@@ -4,6 +4,7 @@ import { dateFormat } from '../../../util/helpers';
 
 class PatientMessageDetailsPage {
   currentThread = defaultMockThread;
+  // currentDetailedMessage = mockMessage;
 
   loadMessageDetails = (
     mockParentMessageDetails,
@@ -226,17 +227,12 @@ class PatientMessageDetailsPage {
       .click({ waitforanimations: true });
   };
 
-  verifyMessageDetails = (
-    senderName = mockMessage.data.attributes.senderName,
-    triageGroupName = mockMessage.data.attributes.triageGroupName,
-    recipientName = mockMessage.data.attributes.recipientName,
-    messageId = mockMessage.data.attributes.messageId,
-  ) => {
+  verifyMessageDetails = (messageDetails = mockMessage) => {
     cy.get('[data-testid="message-metadata"]')
-      .should('contain', `${senderName}`)
-      .and('contain', `${triageGroupName}`)
-      .and('contain', `${recipientName}`)
-      .and('contain', `${messageId}`);
+      .should('contain', messageDetails.data.attributes.messageId)
+      .should('contain', messageDetails.data.attributes.triageGroupName)
+      .should('contain', messageDetails.data.attributes.senderName)
+      .should('contain', messageDetails.data.attributes.recipientName);
   };
 
   verifyTrashButtonModal = () => {
