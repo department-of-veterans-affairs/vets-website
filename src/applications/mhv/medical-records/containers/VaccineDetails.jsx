@@ -11,6 +11,7 @@ import { getVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
+import { emptyField } from '../util/constants';
 
 const VaccineDetails = () => {
   const vaccineDetails = useSelector(state => state.mr.vaccines.vaccineDetails);
@@ -63,17 +64,18 @@ const VaccineDetails = () => {
       preface:
         'Your VA Vaccines list may not be complete. If you have any questions about your information, visit the FAQs or contact your VA Health care team.',
       results: {
+        sectionSeparators: false,
         items: [
           {
             items: [
               {
                 title: 'Date received',
-                value: vaccineDetails.date,
+                value: vaccineDetails.date || emptyField,
                 inline: true,
               },
               {
                 title: 'Location',
-                value: vaccineDetails.facility,
+                value: vaccineDetails.facility || emptyField,
                 inline: true,
               },
               {
@@ -99,17 +101,13 @@ const VaccineDetails = () => {
     }
   };
 
-  const download = () => {
-    generateVaccinePdf();
-  };
-
   const content = () => {
     if (vaccineDetails) {
       return (
         <>
           <PrintHeader />
           <h1 className="vaccine-header">{vaccineDetails.name}</h1>
-          <PrintDownload list download={download} />
+          <PrintDownload list download={generateVaccinePdf} />
           <div className="detail-block max-80">
             <h2 className="vads-u-margin-top--0">Date received</h2>
             <p>{formattedDate}</p>

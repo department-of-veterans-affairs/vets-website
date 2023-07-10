@@ -7,7 +7,7 @@ import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import { getAllVaccines } from '../api/MrApi';
-import { RecordType } from '../util/constants';
+import { RecordType, emptyField } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import { processList } from '../util/helpers';
 
@@ -63,22 +63,22 @@ const Vaccines = () => {
         items: [
           {
             title: 'Date received',
-            value: item.date || ' ',
+            value: item.date || emptyField,
             inline: true,
           },
           {
             title: 'Location',
-            value: item.facility || ' ',
+            value: item.facility || emptyField,
             inline: true,
           },
           {
             title: 'Reaction',
-            value: processList(item.reactions) || ' ',
+            value: processList(item.reactions),
             inline: !item.reactions,
           },
           {
             title: 'Provider notes',
-            value: processList(item.comments) || ' ',
+            value: processList(item.comments),
             inline: !item.comments,
           },
         ],

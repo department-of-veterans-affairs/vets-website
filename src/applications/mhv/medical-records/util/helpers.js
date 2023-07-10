@@ -1,4 +1,5 @@
 import moment from 'moment-timezone';
+import { emptyField } from './constants';
 
 /**
  * @param {*} timestamp
@@ -70,6 +71,6 @@ export const getNames = record => {
  */
 export const processList = list => {
   if (list?.length > 1) return list.join('. ');
-  if (list) return list;
-  return 'None noted';
+  if (list.length === 1) return list.toString();
+  return emptyField;
 };
