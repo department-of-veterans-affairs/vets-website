@@ -1,4 +1,4 @@
-import { environment } from '@department-of-veterans-affairs/platform-utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import * as BUCKETS from 'site/constants/buckets';
 import fs from 'fs';
 
