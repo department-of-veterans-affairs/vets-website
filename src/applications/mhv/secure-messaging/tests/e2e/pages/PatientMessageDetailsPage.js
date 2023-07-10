@@ -226,6 +226,13 @@ class PatientMessageDetailsPage {
       .click({ waitforanimations: true });
   };
 
+  verifyMessageDetails = () => {
+    cy.get('[data-testid="message-metadata"]')
+      .should('contain', `${mockMessage.data.attributes.triageGroupName}`)
+      .and('contain', `${mockMessage.data.attributes.recipientName}`)
+      .and('contain', `${mockMessage.data.attributes.messageId}`);
+  };
+
   verifyTrashButtonModal = () => {
     cy.get('[data-testid=trash-button-text]')
       .should('be.visible')
