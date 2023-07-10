@@ -47,19 +47,19 @@ fi
 echo "Install, build, and watch vets-website"
 cd vets-website
 echo "Installing"
-yarn install #--production=false
+yarn install --verbose #--production=false 
 echo "Waiting for yarn install to finish before proceeding"
 wait
 echo "Building"
-yarn build --env api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs.va.gov"
+yarn build --env api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs.va.gov" --verbose
 wait
-yarn watch --env api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs.va.gov" &
+yarn watch --env api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs.va.gov" --verbose &
 
 # Serve the content-build
 echo "Install and serve content-build"
 cd ../content-build
 git config --global --add safe.directory "*"
-yarn install
+yarn install --verbose
 wait
 echo "Copy environment file template into place"
 cp .env.example .env
@@ -67,7 +67,7 @@ echo "Fetch drupal cache as a discrete task so as to avoid SOCKS issues"
 yarn fetch-drupal-cache
 wait
 echo "Build using previously cached assets"
-yarn build --use-cached-assets
+yarn build --use-cached-assets --verbose
 wait
 echo "Serve up content-build"
-yarn serve
+yarn serve --verbose
