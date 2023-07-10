@@ -58,6 +58,7 @@ yarn watch --env api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs
 # Serve the content-build
 echo "Install and serve content-build"
 cd ../content-build
+git config --global --add safe.directory "*"
 yarn install
 wait
 echo "Copy environment file template into place"
