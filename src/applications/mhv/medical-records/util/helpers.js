@@ -14,6 +14,17 @@ export const dateFormat = (timestamp, format = null) => {
 };
 
 /**
+ * @param {Object} nameObject {first, middle, last, suffix}
+ * @returns {String} formatted timestamp
+ */
+export const nameFormat = ({ first, middle, last, suffix }) => {
+  let name = `${last}, ${first}`;
+  if (middle) name += `, ${middle}`;
+  if (suffix) name += `, ${suffix}`;
+  return name;
+};
+
+/**
  * @param {*} type
  * @param {*} dosage
  * @returns {String} type and dosage combined, type or dosage or neither message
