@@ -72,7 +72,7 @@ const MessageDetailBlock = props => {
   const categoryLabel = Categories[category];
 
   return (
-    <section className="message-detail-block">
+    <div className="message-detail-block">
       <header className="message-detail-header">
         <h1
           className="vads-u-margin-bottom--2"
@@ -128,7 +128,7 @@ const MessageDetailBlock = props => {
         visible={!cannotReply}
         onReply={handleReplyButton}
       />
-    </section>
+    </div>
   );
 };
 MessageDetailBlock.propTypes = {
