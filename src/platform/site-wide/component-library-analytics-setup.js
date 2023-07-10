@@ -471,10 +471,10 @@ const analyticsEvents = {
       },
       /* Component to GA4 parameters */
       mapping: {
-        'radio-button-label': 'heading_1',
+        'radio-button-label': 'custom_string_2',
         'radio-button-optionLabel': 'value',
         'radio-button-required': 'required',
-        version: 'component_library',
+        version: 'component_version',
       },
     },
   ],
