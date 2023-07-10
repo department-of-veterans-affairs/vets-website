@@ -9,6 +9,7 @@ import {
   isValidUSZipCode,
   isValidCanPostalCode,
 } from 'platform/forms/address';
+import environment from 'platform/utilities/environment';
 
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
@@ -62,8 +63,10 @@ function validateAddress(errors, address, formData, currentSchema) {
   }
 
   validatePostalCodes(errors, address);
-  validateNotAllWhiteSpaces(errors.street, address.street);
-  validateNotAllWhiteSpaces(errors.city, address.city);
+  if (!environment.isProduction()) {
+    validateNotAllWhiteSpaces(errors.street, address.street);
+    validateNotAllWhiteSpaces(errors.city, address.city);
+  }
 }
 
 const countryValues = countries.map(object => object.value);
