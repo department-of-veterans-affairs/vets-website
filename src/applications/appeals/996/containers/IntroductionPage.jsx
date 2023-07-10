@@ -87,13 +87,11 @@ export class IntroductionPage extends React.Component {
     const subTitle = 'VA Form 20-0996 (Higher-Level Review)';
 
     return (
-      <article className="schemaform-intro">
+      <div className="schemaform-intro">
         <FormTitle title={pageTitle} subTitle={subTitle} />
         {this.getCallToActionContent()}
 
-        <h2 id="main-content" className="vads-u-font-size--h3">
-          What’s a Higher-Level Review?
-        </h2>
+        <h2>What’s a Higher-Level Review?</h2>
         <p>
           If you or your representative disagree with VA’s decision on your
           claim, you can request a Higher-Level Review. With a Higher-Level
@@ -102,92 +100,67 @@ export class IntroductionPage extends React.Component {
           the decision can be changed based on a difference of opinion or an
           error.
         </p>
-        <h2 className="vads-u-font-size--h3">
-          You can’t submit new evidence with a Higher-Level Review
-        </h2>
+        <h2>You can’t submit new evidence with a Higher-Level Review</h2>
         <p>
           The higher-level reviewer will only review the evidence you already
           provided. If you have new and relevant evidence, you can{' '}
           <a href={SUPPLEMENTAL_CLAIM_URL}>file a Supplemental Claim</a>.
         </p>
-        <div className="process schemaform-process">
-          <h2 className="vads-u-font-size--h3">
-            Follow the steps below to request a Higher-Level Review.
-          </h2>
-          <p className="vads-u-margin-top--2">
-            If you don’t think this is the right form for you,{' '}
-            <a
-              href={`${BASE_URL}/start`}
-              className="va-button-link"
-              onClick={this.restartWizard}
-            >
-              go back and answer questions again
+        <h2>Follow the steps below to request a Higher-Level Review.</h2>
+        <p className="vads-u-margin-top--2">
+          If you don’t think this is the right form for you,{' '}
+          <a
+            href={`${BASE_URL}/start`}
+            className="va-button-link"
+            onClick={this.restartWizard}
+          >
+            go back and answer questions again
+          </a>
+          .
+        </p>
+        <va-process-list>
+          <li>
+            <h3>Prepare</h3>
+            <p>To fill out this application, you’ll need your:</p>
+            <ul>
+              <li>Primary address</li>
+              <li>
+                List of issues you disagree with and the VA decision date for
+                each
+              </li>
+              <li>Representative’s contact information (optional)</li>
+            </ul>
+            <p>
+              <strong>What if I need help with my application?</strong>
+            </p>
+            <p>
+              If you need help requesting a Higher-Level Review, you can contact
+              a VA regional office and ask to speak to a representative. To find
+              the nearest regional office, please call{' '}
+              <va-telephone contact={CONTACTS.VA_BENEFITS} />
+              {' or '}
+              <a href={FACILITY_LOCATOR_URL}>visit our facility locator tool</a>
+              .
+            </p>
+            <p>
+              A Veterans Service Organization or VA-accredited attorney or agent
+              can also help you request a decision review.
+            </p>
+            <a href={GET_HELP_REVIEW_REQUEST_URL}>
+              Get help requesting a decision review
             </a>
             .
-          </p>
-          <va-process-list>
-            <li>
-              <h3 className="vads-u-font-size--h4">Prepare</h3>
-              <p>To fill out this application, you’ll need your:</p>
-              <ul>
-                <li>Primary address</li>
-                <li>
-                  List of issues you disagree with and the VA decision date for
-                  each
-                </li>
-                <li>Representative’s contact information (optional)</li>
-              </ul>
-              <p>
-                <strong>What if I need help with my application?</strong>
-              </p>
-              <p>
-                If you need help requesting a Higher-Level Review, you can
-                contact a VA regional office and ask to speak to a
-                representative. To find the nearest regional office, please call{' '}
-                <va-telephone contact={CONTACTS.VA_BENEFITS} />
-                {' or '}
-                <a href={FACILITY_LOCATOR_URL}>
-                  visit our facility locator tool
-                </a>
-                .
-              </p>
-              <p>
-                A Veterans Service Organization or VA-accredited attorney or
-                agent can also help you request a decision review.
-              </p>
-              <a href={GET_HELP_REVIEW_REQUEST_URL}>
-                Get help requesting a decision review
-              </a>
-              .
-            </li>
-            <li>
-              <h3 className="vads-u-font-size--h4">Apply</h3>
-              <p>
-                Complete this Higher-Level Review form. After submitting the
-                form, you’ll get a confirmation message. You can print this for
-                your records.
-              </p>
-            </li>
-            <li>
-              <h3 className="vads-u-font-size--h4">VA Review</h3>
-              <p>
-                Our goal for completing a Higher-Level Review is 125 days. A
-                review might take longer if we need to get records or schedule a
-                new exam to correct an error.
-              </p>
-            </li>
-            <li>
-              <h3 className="vads-u-font-size--h4">Decision</h3>
-              <p>
-                Once we’ve processed your claim, you’ll get a notice in the mail
-                with our decision.
-              </p>
-            </li>
-          </va-process-list>
-        </div>
-
+          </li>
+          <li>
+            <h3>Start your request</h3>
+            <p>
+              Complete this Higher-Level Review form. After submitting the form,
+              you’ll get a confirmation message. You can print this for your
+              records.
+            </p>
+          </li>
+        </va-process-list>
         {this.getCallToActionContent({ last: true })}
-
         <div className="omb-info--container vads-u-padding-left--0">
           <va-omb-info
             res-burden={15}
@@ -195,7 +168,7 @@ export class IntroductionPage extends React.Component {
             exp-date="04/30/2024"
           />
         </div>
-      </article>
+      </div>
     );
   }
 }

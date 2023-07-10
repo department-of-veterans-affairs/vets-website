@@ -19,6 +19,7 @@ import { dateFormat, navigateToFolderByFolderId } from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
+import CannotReplyAlert from '../shared/CannotReplyAlert';
 
 const ReplyForm = props => {
   const { draftToEdit, replyMessage, cannotReply, header } = props;
@@ -307,8 +308,10 @@ const ReplyForm = props => {
         <h1 ref={header} className="page-title">
           {setMessageTitle()}
         </h1>
+        <CannotReplyAlert visible={cannotReply} />
 
-        <section aria-label="Reply draft edit mode">
+        <section>
+          <h2 className="sr-only">Reply draft edit mode.</h2>
           <form
             className="reply-form"
             data-testid="reply-form"
@@ -417,7 +420,9 @@ const ReplyForm = props => {
           className="vads-u-margin--0 message-replied-to"
           data-testid="message-replied-to"
         >
-          <div aria-label="message details.">
+          <h2 className="sr-only">Message you are replying to.</h2>
+          <div>
+            <h3 className="sr-only">Message details</h3>
             <p className="vads-u-margin--0">
               <strong>From: </strong>
               {replyMessage.senderName}
@@ -437,15 +442,14 @@ const ReplyForm = props => {
           </div>
 
           <section aria-label="Message body." className="vads-u-margin-top--1">
+            <h3 className="sr-only">Message body.</h3>
             <MessageThreadBody text={replyMessage.body} />
           </section>
 
           {!!replyMessage.attachments &&
             replyMessage.attachments.length > 0 && (
               <>
-                <div className="message-body-attachments-label">
-                  <strong>Attachments</strong>
-                </div>
+                <h3 className="sr-only">Message attachments.</h3>
                 <AttachmentsList
                   attachments={replyMessage.attachments}
                   className="attachments-section"

@@ -34,12 +34,14 @@ const HomePage = ({
     [updateDependentsField, updateYearField, updateZipCodeField],
   );
 
-  const goToCurrent = () => {
+  const goToCurrent = event => {
+    event.preventDefault();
     togglePastMode(false);
     router.push(ROUTES.ZIPCODE);
   };
 
-  const goToPast = () => {
+  const goToPast = event => {
+    event.preventDefault();
     togglePastMode(true);
     router.push(ROUTES.YEAR);
   };

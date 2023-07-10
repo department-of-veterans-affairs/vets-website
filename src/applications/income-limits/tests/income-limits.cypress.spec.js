@@ -314,6 +314,50 @@ xdescribe('Income Limits', () => {
     });
   });
 
+  describe('dependents validation - form errors', () => {
+    it('should show the correct error state when it exists', () => {
+      cy.visit('/health-care/income-limits');
+
+      // Home
+      h.verifyElement(h.CURRENT_LINK);
+      cy.injectAxeThenAxeCheck();
+      h.clickCurrent();
+
+      // Zip code
+      h.verifyElement(h.ZIPINPUT);
+      h.verifyFormErrorNotShown(h.ZIPINPUT);
+      h.typeInInput(h.ZIPINPUT, h.ZIP);
+      h.clickContinue();
+
+      // Dependents
+      h.verifyElement(h.DEPINPUT);
+      h.typeInInput(h.DEPINPUT, '200');
+      h.clickContinue();
+
+      h.checkFormAlertText(
+        h.DEPINPUT,
+        'Error Please enter a number between 0 and 100.',
+      );
+    });
+  });
+
+  describe('year validation - form errors', () => {
+    it('should show the correct error state when it exists', () => {
+      cy.visit('/health-care/income-limits');
+
+      // Home
+      h.verifyElement(h.CURRENT_LINK);
+      cy.injectAxeThenAxeCheck();
+      h.clickPast();
+
+      // Year
+      h.verifyElement(h.YEARINPUT);
+      h.clickContinue();
+
+      h.checkFormAlertText(h.YEARINPUT, 'Error Please select a year.');
+    });
+  });
+
   describe('zip code validation - form errors', () => {
     it('should show the correct error states when they exist', () => {
       cy.visit('/health-care/income-limits');
@@ -325,7 +369,7 @@ xdescribe('Income Limits', () => {
 
       // Zip code
       h.verifyElement(h.ZIPINPUT);
-      h.verifyAlertNotShown(h.ZIPINPUT);
+      h.verifyFormErrorNotShown(h.ZIPINPUT);
       h.typeInInput(h.ZIPINPUT, '00');
       h.clickContinue();
 
@@ -336,7 +380,7 @@ xdescribe('Income Limits', () => {
 
       h.clearInput(h.ZIPINPUT);
       h.typeInInput(h.ZIPINPUT, '00000');
-      h.verifyAlertNotShown(h.ZIPINPUT);
+      h.verifyFormErrorNotShown(h.ZIPINPUT);
       h.clickContinue();
 
       h.checkFormAlertText(
@@ -346,7 +390,7 @@ xdescribe('Income Limits', () => {
 
       h.clearInput(h.ZIPINPUT);
       h.typeInInput(h.ZIPINPUT, '78258');
-      h.verifyAlertNotShown(h.ZIPINPUT);
+      h.verifyFormErrorNotShown(h.ZIPINPUT);
       h.clickContinue();
 
       // Dependents
@@ -355,11 +399,14 @@ xdescribe('Income Limits', () => {
   });
 
   describe('zip code validation - service errors', () => {
-    it('should show the correct error states', () => {
+    before(() => {
       cy.intercept('GET', 'income_limits/v1/validateZipCode/78258', {
         statusCode: 500,
+        delay: 500,
       });
+    });
 
+    it('should show the correct error states', () => {
       cy.visit('/health-care/income-limits');
 
       // Home
@@ -369,13 +416,188 @@ xdescribe('Income Limits', () => {
 
       // Zip code
       h.verifyElement(h.ZIPINPUT);
-      h.verifyAlertNotShown(h.ZIPINPUT);
+      h.verifyFormErrorNotShown(h.ZIPINPUT);
       h.typeInInput(h.ZIPINPUT, '78258');
       h.clickContinue();
 
+      h.verifyLoadingIndicatorShown();
+
       h.checkServiceAlertText(
-        'We’ve run into a problemWe’re sorry, something went wrong on our end. Please try again.',
+        `We’ve run into a problemWe’re sorry. Something went wrong on our end. Please try again.`,
       );
+      h.verifyLoadingIndicatorNotShown();
+
+      h.clearInput(h.ZIPINPUT);
+      h.verifyAlertNotShown();
+    });
+  });
+
+  describe('retrieving results - 422 invalid zip code', () => {
+    before(() => {
+      cy.intercept('GET', 'income_limits/v1/limitsByZipCode/10108/2023/2', {
+        statusCode: 422,
+        delay: 500,
+        body: {
+          error: 'Invalid zip code',
+        },
+      });
+    });
+
+    it('should show the correct error state', () => {
+      cy.visit('/health-care/income-limits');
+
+      // Home
+      h.verifyElement(h.CURRENT_LINK);
+      cy.injectAxeThenAxeCheck();
+      h.clickCurrent();
+
+      // Zip code
+      h.verifyElement(h.ZIPINPUT);
+      h.typeInInput(h.ZIPINPUT, h.ZIP);
+      h.clickContinue();
+
+      // Dependents
+      h.verifyElement(h.DEPINPUT);
+      h.typeInInput(h.DEPINPUT, h.DEPENDENTS);
+      h.clickContinue();
+
+      // Review
+      h.verifyElement(h.REVIEWPAGE);
+      h.clickContinue();
+
+      h.verifyLoadingIndicatorShown();
+
+      h.checkServiceAlertText(
+        `We’ve run into a problemThe zip code you entered doesn't exist in our database.`,
+      );
+      h.verifyLoadingIndicatorNotShown();
+    });
+  });
+
+  describe('retrieving results - 422 invalid year', () => {
+    before(() => {
+      cy.intercept('GET', 'income_limits/v1/limitsByZipCode/10108/2023/2', {
+        statusCode: 422,
+        delay: 500,
+        body: {
+          error: 'Invalid year',
+        },
+      });
+    });
+
+    it('should show the correct error state', () => {
+      cy.visit('/health-care/income-limits');
+
+      // Home
+      h.verifyElement(h.CURRENT_LINK);
+      cy.injectAxeThenAxeCheck();
+      h.clickCurrent();
+
+      // Zip code
+      h.verifyElement(h.ZIPINPUT);
+      h.typeInInput(h.ZIPINPUT, h.ZIP);
+      h.clickContinue();
+
+      // Dependents
+      h.verifyElement(h.DEPINPUT);
+      h.typeInInput(h.DEPINPUT, h.DEPENDENTS);
+      h.clickContinue();
+
+      // Review
+      h.verifyElement(h.REVIEWPAGE);
+      h.clickContinue();
+
+      h.verifyLoadingIndicatorShown();
+
+      h.checkServiceAlertText(
+        `We’ve run into a problemThe year you entered doesn't exist in our database.`,
+      );
+      h.verifyLoadingIndicatorNotShown();
+    });
+  });
+
+  describe('retrieving results - 422 invalid dependents', () => {
+    before(() => {
+      cy.intercept('GET', 'income_limits/v1/limitsByZipCode/10108/2023/2', {
+        statusCode: 422,
+        delay: 500,
+        body: {
+          error: 'Invalid dependents',
+        },
+      });
+    });
+
+    it('should show the correct error state', () => {
+      cy.visit('/health-care/income-limits');
+
+      // Home
+      h.verifyElement(h.CURRENT_LINK);
+      cy.injectAxeThenAxeCheck();
+      h.clickCurrent();
+
+      // Zip code
+      h.verifyElement(h.ZIPINPUT);
+      h.typeInInput(h.ZIPINPUT, h.ZIP);
+      h.clickContinue();
+
+      // Dependents
+      h.verifyElement(h.DEPINPUT);
+      h.typeInInput(h.DEPINPUT, h.DEPENDENTS);
+      h.clickContinue();
+
+      // Review
+      h.verifyElement(h.REVIEWPAGE);
+      h.clickContinue();
+
+      h.verifyLoadingIndicatorShown();
+
+      h.checkServiceAlertText(
+        `We’ve run into a problemThe number of dependents you entered is not between 0 and 100`,
+      );
+      h.verifyLoadingIndicatorNotShown();
+    });
+  });
+
+  describe('retrieving results - response timeout', () => {
+    before(() => {
+      cy.intercept('GET', 'income_limits/v1/limitsByZipCode/10108/2023/2', {
+        statusCode: 200,
+        delay: 5500,
+      });
+    });
+
+    it('should show the correct error state', () => {
+      cy.visit('/health-care/income-limits');
+
+      // Home
+      h.verifyElement(h.CURRENT_LINK);
+      cy.injectAxeThenAxeCheck();
+      h.clickCurrent();
+
+      // Zip code
+      h.verifyElement(h.ZIPINPUT);
+      h.typeInInput(h.ZIPINPUT, h.ZIP);
+      h.clickContinue();
+
+      // Dependents
+      h.verifyElement(h.DEPINPUT);
+      h.typeInInput(h.DEPINPUT, h.DEPENDENTS);
+      h.clickContinue();
+
+      // Review
+      h.verifyElement(h.REVIEWPAGE);
+      h.clickContinue();
+
+      h.verifyLoadingIndicatorShown();
+
+      // Cypress default timeout is 4 seconds. Our service timeout is 5 seconds
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(5600);
+
+      h.checkServiceAlertText(
+        `We’ve run into a problemWe’re sorry. Something went wrong on our end. Please try again.`,
+      );
+      h.verifyLoadingIndicatorNotShown();
     });
   });
 });
