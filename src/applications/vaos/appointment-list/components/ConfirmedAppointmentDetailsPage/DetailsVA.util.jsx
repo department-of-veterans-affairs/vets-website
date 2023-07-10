@@ -19,7 +19,7 @@ export function formatHeader(appointment) {
     (isPastAppointment && isCompAndPenAppointment) ||
     (isCompAndPenAppointment && cancelled)
   ) {
-    return 'Compensation and pension exam';
+    return 'Claim exam';
   }
   return 'VA appointment';
 }

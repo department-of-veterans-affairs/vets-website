@@ -21,6 +21,16 @@
   margin: 0;
 }
 
+.autosuggest-list {
+  max-height: 17rem;
+}
+
+h3.name-of-deceased-text {
+  color: rgb(50, 58, 69);
+  font-family: "Bitter";
+  font-weight: bold;
+}
+
 .mail-or-fax-message,
 .mail-or-fax-steps {
   margin-bottom: 1rem;
