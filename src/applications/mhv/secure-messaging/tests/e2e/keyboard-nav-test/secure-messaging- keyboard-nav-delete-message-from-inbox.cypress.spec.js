@@ -19,18 +19,6 @@ describe('navigate delete message', () => {
     mockMessagewithAttachment.data.attributes.attachment = true;
     mockMessagewithAttachment.data.attributes.body = 'attachment';
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
-      mockMessages,
-    ).as('messagesFolder');
-    cy.intercept(
-      'PATCH',
-      `/my_health/v1/messaging/threads/${
-        mockThreadwithAttachment.data.at(0).attributes.threadId
-      }/move?folder_id=-3`,
-      mockMessagewithAttachment,
-    ).as('deleteMessagewithAttachment');
 
     cy.get('[data-testid="inbox-sidebar"] > a').click();
 
@@ -38,12 +26,11 @@ describe('navigate delete message', () => {
       mockMessagewithAttachment,
       mockThreadwithAttachment,
     );
-    composePage.clickTrashButton();
+    composePage.PressTrashButton();
 
-    composePage.PressConfirmDeleteButton();
-    composePage.verifyDeleteDraftSuccessfulMessage();
+    composePage.ConfirmDeleteWithEnterKey(mockThreadwithAttachment);
+    composePage.verifyDeleteSuccessfulMessage();
 
-    cy.wait('@deleteMessagewithAttachment');
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

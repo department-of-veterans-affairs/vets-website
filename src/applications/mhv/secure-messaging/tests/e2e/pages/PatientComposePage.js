@@ -1,6 +1,7 @@
 import mockDraftMessage from '../fixtures/message-draft-response.json';
 import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
+import mockMessagewithAttachment from '../fixtures/message-response-withattachments.json';
 
 class PatientComposePage {
   sendMessage = () => {
@@ -283,6 +284,26 @@ class PatientComposePage {
     });
   };
 
+  PressTrashButton = () => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockMessageResponse.data.attributes.messageId
+      }`,
+      mockMessageResponse,
+    ).as('mockMessageResponse');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockThreadResponse.data.at(2).attributes.messageId
+      }`,
+      mockThreadResponse,
+    ).as('mockThreadResponse');
+    cy.tabToElement('[data-testid="trash-button-text"]')
+      .should('have.focus')
+      .realPress(['Enter']);
+  };
+
   clickConfirmDeleteButton = () => {
     cy.get('[data-testid=delete-message-modal]')
       .shadow()
@@ -320,11 +341,31 @@ class PatientComposePage {
       .should('be.visible');
   };
 
-  PressConfirmDeleteButton = () => {
+  ConfirmDeleteWithEnterKey = mockThreadwithAttachment => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
+      mockMessageResponse,
+    ).as('messagesFolder');
+    cy.intercept(
+      'PATCH',
+      `/my_health/v1/messaging/threads/${
+        mockThreadwithAttachment.data.at(0).attributes.threadId
+      }/move?folder_id=-3`,
+      mockMessagewithAttachment,
+    ).as('deleteMessagewithAttachment');
     cy.tabToElement('[data-testid=delete-message-modal]')
       .contains('Confirm')
       .should('be.visible');
     cy.realPress(['Enter']);
+    cy.wait('@deleteMessagewithAttachment');
+  };
+
+  verifyDeleteSuccessfulMessage = () => {
+    cy.get('.vads-u-margin-bottom--1').should(
+      'have.text',
+      'Message conversation was successfully moved to Trash.',
+    );
   };
 }
 export default PatientComposePage;
