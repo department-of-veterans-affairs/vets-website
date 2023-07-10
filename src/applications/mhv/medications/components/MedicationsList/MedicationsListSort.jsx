@@ -1,10 +1,8 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useState } from 'react';
+import { rxListSortingOptions } from '../../util/constants';
 
 const ACTIVE_REFILL_DESC = 'Active, refillable first';
-const OPTION_2 = 'option 2';
-const OPTION_3 = 'option 3';
-const OPTION_4 = 'option 4';
 const SORT_LABEL = 'Show medications in this order';
 
 const MedicationsListSort = () => {
@@ -22,36 +20,13 @@ const MedicationsListSort = () => {
         }}
       >
         <option
-          value={ACTIVE_REFILL_DESC}
+          key={rxListSortingOptions.ACTIVE_REFILL_FIRST}
+          value={rxListSortingOptions.ACTIVE_REFILL_FIRST}
           onVaSelect={e => {
             setSortOrderValue(e.detail.value);
           }}
         >
-          {ACTIVE_REFILL_DESC}
-        </option>
-        <option
-          value={OPTION_2}
-          onVaSelect={e => {
-            setSortOrderValue(e.detail.value);
-          }}
-        >
-          {OPTION_2}
-        </option>
-        <option
-          value={OPTION_3}
-          onVaSelect={e => {
-            setSortOrderValue(e.detail.value);
-          }}
-        >
-          {OPTION_3}
-        </option>
-        <option
-          value={OPTION_3}
-          onVaSelect={e => {
-            setSortOrderValue(e.detail.value);
-          }}
-        >
-          {OPTION_4}
+          {rxListSortingOptions.ACTIVE_REFILL_FIRST}
         </option>
       </VaSelect>
     </div>

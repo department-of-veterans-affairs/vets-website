@@ -5,6 +5,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import PrintHeader from './PrintHeader';
+import { rxListSortingOptions } from '../util/constants';
 
 const Prescriptions = () => {
   const prescriptions = useSelector(
@@ -12,6 +13,7 @@ const Prescriptions = () => {
   );
   const dispatch = useDispatch();
   const [rxList, setRxList] = useState([]);
+  const [sortOption, setSortOption] = useState();
   useEffect(() => {
     if (prescriptions) {
       dispatch(
@@ -40,14 +42,23 @@ const Prescriptions = () => {
   );
 
   const sortRxList = () => {
-    const newList = prescriptions.sort(a => {
-      return a.refillStatus === 'active' && a.isRefillable === true ? -1 : 0;
+    const newList = [...rxList];
+    newList.sort(a => {
+      switch (sortOption) {
+        case rxListSortingOptions.ACTIVE_REFILL_FIRST:
+          return a.refillStatus === 'active' && a.isRefillable === true
+            ? -1
+            : 0;
+        case rxListSortingOptions.ACTIVE:
+          return a.refillStatus === 'active' ? -1 : 0;
+        case rxListSortingOptions.EXPIRED:
+          return a.refillStatus === 'expired' ? -1 : 0;
+        default:
+          return sortOption;
+      }
     });
-    // console.log(newList);
     setRxList(newList);
   };
-
-  // console.log(rxList);
 
   const content = () => {
     if (prescriptions) {
@@ -110,7 +121,7 @@ const Prescriptions = () => {
                   </li>
                 </ul>
               </va-additional-info>
-              <MedicationsListSort />
+              <MedicationsListSort setSortOption={setSortOption} />
               <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
             </div>
             <MedicationsList rxList={rxList} />
