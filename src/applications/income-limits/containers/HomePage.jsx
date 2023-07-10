@@ -21,6 +21,8 @@ const HomePage = ({
 }) => {
   useEffect(
     () => {
+      router.push(ROUTES.HOME);
+
       const clearForm = () => {
         updateDependentsField('');
         updateYearField('');
@@ -31,15 +33,17 @@ const HomePage = ({
       scrollToTop();
       clearForm();
     },
-    [updateDependentsField, updateYearField, updateZipCodeField],
+    [router, updateDependentsField, updateYearField, updateZipCodeField],
   );
 
-  const goToCurrent = () => {
+  const goToCurrent = event => {
+    event.preventDefault();
     togglePastMode(false);
     router.push(ROUTES.ZIPCODE);
   };
 
-  const goToPast = () => {
+  const goToPast = event => {
+    event.preventDefault();
     togglePastMode(true);
     router.push(ROUTES.YEAR);
   };

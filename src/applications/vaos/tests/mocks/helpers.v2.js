@@ -190,7 +190,7 @@ export function mockV2CommunityCareEligibility({
   );
   setFetchJSONResponse(
     global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/community_care/eligibility/${careType}`,
+      `${environment.API_URL}/vaos/v2/community_care/eligibility/${careType}`,
     ),
     {
       data: {
