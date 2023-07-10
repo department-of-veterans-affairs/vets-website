@@ -226,11 +226,17 @@ class PatientMessageDetailsPage {
       .click({ waitforanimations: true });
   };
 
-  verifyMessageDetails = () => {
+  verifyMessageDetails = (
+    senderName = mockMessage.data.attributes.senderName,
+    triageGroupName = mockMessage.data.attributes.triageGroupName,
+    recipientName = mockMessage.data.attributes.recipientName,
+    messageId = mockMessage.data.attributes.messageId,
+  ) => {
     cy.get('[data-testid="message-metadata"]')
-      .should('contain', `${mockMessage.data.attributes.triageGroupName}`)
-      .and('contain', `${mockMessage.data.attributes.recipientName}`)
-      .and('contain', `${mockMessage.data.attributes.messageId}`);
+      .should('contain', `${senderName}`)
+      .and('contain', `${triageGroupName}`)
+      .and('contain', `${recipientName}`)
+      .and('contain', `${messageId}`);
   };
 
   verifyTrashButtonModal = () => {
