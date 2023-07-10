@@ -30,7 +30,6 @@ testFormConfig.dev = {};
 testFormConfig.chapters.preparerPersonalInformationChapter.pages.preparerPersonalInformation.initialData = {
   data: {},
 };
-
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
