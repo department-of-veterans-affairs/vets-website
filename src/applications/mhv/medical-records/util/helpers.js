@@ -71,6 +71,6 @@ export const getNames = record => {
  */
 export const processList = list => {
   if (list?.length > 1) return list.join('. ');
-  if (list.length === 1) return list.toString();
+  if (list?.length === 1) return list.toString();
   return emptyField;
 };
