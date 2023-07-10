@@ -57,6 +57,7 @@ import DependentAgesReview from '../components/DependentAgesReview';
 import EmploymentWorkDates from '../components/EmploymentWorkDates';
 import SpouseEmploymentWorkDates from '../components/SpouseEmploymentWorkDates';
 import OtherIncomeSummaryReview from '../components/otherIncome/OtherIncomeSummaryReview';
+import SpouseOtherIncomeSummaryReview from '../components/otherIncome/SpouseOtherIncomeSummaryRevew';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -640,7 +641,7 @@ const formConfig = {
           path: 'spouse-other-income-summary',
           title: 'Spouse other income summary',
           CustomPage: SpouseOtherIncomeSummary,
-          CustomPageReview: null,
+          CustomPageReview: SpouseOtherIncomeSummaryReview,
           editModeOnReviewPage: true,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
