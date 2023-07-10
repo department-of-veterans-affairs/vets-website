@@ -39,7 +39,7 @@ class PatientComposePage {
   };
 
   verifySendMessageConfirmationMessageHasFocus = () => {
-    cy.get('.vads-u-margin-bottom--1').should('be.focused');
+    cy.get('.vads-u-margin-bottom--1', { timeout: 5000 }).should('be.focused');
   };
 
   //* Refactor*  Need to get rid of this method and split out
@@ -184,6 +184,7 @@ class PatientComposePage {
 
   removeAttachMessageFromFile = () => {
     cy.get('.remove-attachment-button').click();
+    cy.contains('Remove').click();
   };
 
   //* Refactor*Remove and consolidate
@@ -320,4 +321,5 @@ class PatientComposePage {
       .should('be.visible');
   };
 }
+
 export default PatientComposePage;

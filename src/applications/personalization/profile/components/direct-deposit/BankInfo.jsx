@@ -14,7 +14,7 @@ import {
 } from '@@profile/actions/paymentInformation';
 import {
   cnpDirectDepositAccountInformation,
-  cnpDirectDepositAddressIsSetUp,
+  cnpDirectDepositIsEligible,
   cnpDirectDepositInformation,
   cnpDirectDepositIsSetUp,
   cnpDirectDepositLoadError,
@@ -458,6 +458,9 @@ BankInfo.propTypes = {
 
 export const mapStateToProps = (state, ownProps) => {
   const typeIsCNP = ownProps.type === benefitTypes.CNP;
+  const useLighthouseDirectDepositEndpoint = profileUseLighthouseDirectDepositEndpoint(
+    state,
+  );
   return {
     typeIsCNP,
     isLOA3: isLOA3Selector(state),
@@ -474,14 +477,12 @@ export const mapStateToProps = (state, ownProps) => {
       ? !!cnpDirectDepositLoadError(state)
       : !!eduDirectDepositLoadError(state),
     isEligibleToSetUpDirectDeposit: typeIsCNP
-      ? cnpDirectDepositAddressIsSetUp(state)
+      ? cnpDirectDepositIsEligible(state, useLighthouseDirectDepositEndpoint)
       : false,
     directDepositUiState: typeIsCNP
       ? cnpDirectDepositUiStateSelector(state)
       : eduDirectDepositUiStateSelector(state),
-    useLighthouseDirectDepositEndpoint: profileUseLighthouseDirectDepositEndpoint(
-      state,
-    ),
+    useLighthouseDirectDepositEndpoint,
   };
 };
 

@@ -18,12 +18,35 @@ describe('Medicaitons Landing page container', () => {
     return renderWithStoreAndRouter(<LandingPage />, {
       initialState: state,
       reducers: reducer,
-      path: '/prescriptions/',
+      path: '/',
     });
   };
 
+  let screen = null;
+  beforeEach(() => {
+    screen = setup();
+  });
+
   it('renders without errors', () => {
-    const screen = setup();
-    expect(screen);
+    expect(
+      screen.getByText('About Medications', {
+        exact: true,
+      }),
+    ).to.exist;
+  });
+
+  it('What to know as you try out this tool', () => {
+    expect(
+      screen.getByText('What to know as you try out this tool', {
+        exact: true,
+      }),
+    ).to.exist;
+  });
+  it('More ways to manage your medications', () => {
+    expect(
+      screen.getByText('More ways to manage your medications', {
+        exact: true,
+      }),
+    ).to.exist;
   });
 });
