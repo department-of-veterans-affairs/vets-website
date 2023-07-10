@@ -39,7 +39,7 @@ export default function PastAppointmentsDateDropdown({
   );
 
   return (
-    <div className="vaos-hide-for-print">
+    <>
       <Select
         options={options}
         onChange={handleChange({
@@ -53,7 +53,7 @@ export default function PastAppointmentsDateDropdown({
         value={dateRangeIndex.toString()}
         label="Select a date range"
         className={classNames(
-          'xsmall-screen:vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 ',
+          'xsmall-screen:vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 vaos-hide-for-print',
         )}
       />
       {!featureStatusImprovement && (
@@ -66,7 +66,7 @@ export default function PastAppointmentsDateDropdown({
           Update
         </button>
       )}
-    </div>
+    </>
   );
 }
 

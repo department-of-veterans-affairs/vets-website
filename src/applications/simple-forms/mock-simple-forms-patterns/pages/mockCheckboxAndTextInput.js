@@ -45,39 +45,6 @@ export default {
         </div>
       ),
     },
-    wcTitle: inlineTitleUI('web component'),
-    wcOldCheckSimpleText: {
-      'ui:title': 'text input',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        uswds: false,
-      },
-    },
-    wcOldCheckRequiredCheckbox: {
-      'ui:title': 'required checkbox',
-      'ui:webComponentField': VaCheckboxField,
-      'ui:errorMessages': {
-        enum: 'Please select a checkbox',
-        required: 'Checkbox required error',
-      },
-      'ui:options': {
-        uswds: false,
-      },
-    },
-    wcOldCheckSsn: {
-      ...newSsnUI('Social Security number'),
-      'ui:options': {
-        uswds: false,
-      },
-    },
-    wcOldCheckboxWithBackground: {
-      'ui:title': '',
-      'ui:description': (
-        <div className="vads-u-background-color--gray-light-alt">
-          <va-checkbox label="checkbox with background" />
-        </div>
-      ),
-    },
     wcV3Title: inlineTitleUI('web component v3'),
     wcV3CheckSimpleText: {
       'ui:title': 'text input',
@@ -119,19 +86,6 @@ export default {
         type: 'object',
         properties: {},
       },
-      wcTitle: inlineTitleSchema,
-      wcOldCheckSimpleText: {
-        type: 'string',
-      },
-      wcOldCheckRequiredCheckbox: {
-        type: 'boolean',
-        enum: [true],
-      },
-      wcOldCheckSsn: ssnSchema,
-      wcOldCheckboxWithBackground: {
-        type: 'object',
-        properties: {},
-      },
       wcV3Title: inlineTitleSchema,
       wcV3CheckSimpleText: {
         type: 'string',
@@ -150,9 +104,6 @@ export default {
       'rjsfCheckSimpleTextInput',
       'rjsfCheckRequiredCheckbox',
       'rjsfCheckSsn',
-      'wcOldCheckSimpleText',
-      'wcOldCheckRequiredCheckbox',
-      'wcOldCheckSsn',
       'wcV3CheckSimpleText',
       'wcV3CheckRequiredCheckbox',
       'wcV3CheckSsn',

@@ -394,7 +394,9 @@ class PatientMessageDetailsPage {
   };
 
   ReplyToMessagerecipientName = (messageDetails, messageIndex = 0) => {
-    cy.get('[aria-label="message details."] > :nth-child(2)')
+    cy.get(
+      '[data-testid="message-replied-to"] > :nth-child(2)  > :nth-child(3)',
+    )
       .eq(messageIndex)
       .should(
         'have.text',
@@ -415,7 +417,9 @@ class PatientMessageDetailsPage {
   };
 
   ReplyToMessageId = messageDetails => {
-    cy.get('[aria-label="message details."] > :nth-child(4)').should(
+    cy.get(
+      '[data-testid="message-replied-to"] > :nth-child(2)  > :nth-child(5)',
+    ).should(
       'have.text',
       `Message ID: ${messageDetails.data.attributes.messageId}`,
     );

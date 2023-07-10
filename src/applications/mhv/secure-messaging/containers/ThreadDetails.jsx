@@ -15,7 +15,6 @@ import { clearDraft } from '../actions/draftDetails';
 import InterstitialPage from './InterstitialPage';
 import { PrintMessageOptions } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
-import CannotReplyAlert from '../components/shared/CannotReplyAlert';
 import { navigateToFolderByFolderId } from '../util/helpers';
 import { retrieveFolder } from '../actions/folders';
 
@@ -131,7 +130,6 @@ const ThreadDetails = props => {
     if (isReply && draftMessageHistory !== undefined) {
       return (
         <div className="compose-container">
-          <CannotReplyAlert visible={cannotReply} />
           <ReplyForm
             draftToEdit={draftMessage}
             replyMessage={draftMessageHistory[0]}
@@ -162,7 +160,6 @@ const ThreadDetails = props => {
     if (isMessage) {
       return (
         <>
-          <CannotReplyAlert visible={cannotReply} />
           <MessageDetailBlock message={message} cannotReply={cannotReply} />
           {messageHistory?.length > 0 && (
             <MessageThread

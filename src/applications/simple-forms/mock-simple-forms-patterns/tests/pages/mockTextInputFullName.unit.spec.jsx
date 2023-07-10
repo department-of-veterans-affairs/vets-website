@@ -13,7 +13,7 @@ const {
 
 const pageTitle = 'mock full name inputs';
 
-const expectedNumberOfWebComponentFields = 8;
+const expectedNumberOfWebComponentFields = 4;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -22,7 +22,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 4;
+const expectedNumberOfWebComponentErrors = 2;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

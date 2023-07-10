@@ -11,6 +11,7 @@ import { Categories, Paths } from '../util/constants';
 import { dateFormat } from '../util/helpers';
 import MessageThreadBody from './MessageThread/MessageThreadBody';
 import { closeAlert } from '../actions/alerts';
+import CannotReplyAlert from './shared/CannotReplyAlert';
 
 const MessageDetailBlock = props => {
   const { message, cannotReply } = props;
@@ -80,17 +81,16 @@ const MessageDetailBlock = props => {
         >
           {categoryLabel}: {subject}
         </h1>
+        <CannotReplyAlert visible={cannotReply} />
       </header>
       <MessageActionButtons id={messageId} threadId={threadId} />
       <main
         className="message-detail-content"
         aria-label="Most recent message in this conversation"
       >
-        <div
-          className="message-metadata"
-          data-testid="message-metadata"
-          aria-label="message details."
-        >
+        <h2 className="sr-only">Most recent message in this conversation.</h2>
+        <div className="message-metadata" data-testid="message-metadata">
+          <h3 className="sr-only">Message details.</h3>
           <p>
             <strong>From: </strong>
             {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
@@ -108,17 +108,15 @@ const MessageDetailBlock = props => {
             {messageId}
           </p>
         </div>
-
-        <div className="message-body" aria-label="Message body.">
+        <div className="message-body">
+          <h3 className="sr-only">Message body.</h3>
           <MessageThreadBody expanded text={body} />
         </div>
 
         {!!attachments &&
           attachments.length > 0 && (
             <>
-              <div className="message-body-attachments-label">
-                <strong>Attachments</strong>
-              </div>
+              <h3 className="sr-only">Message attachments.</h3>
               <AttachmentsList attachments={attachments} />
             </>
           )}

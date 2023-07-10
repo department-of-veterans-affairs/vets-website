@@ -17,7 +17,7 @@ export default {
     type: 'object',
     required: ['veteranFullName', 'veteranDateOfBirth'],
     properties: {
-      witnessFullName: schema(),
+      veteranFullName: schema(),
       veteranDateOfBirth: definitions.date,
     },
   },
