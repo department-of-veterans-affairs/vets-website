@@ -14,6 +14,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import CaregiversPrivacyActStatement from '../components/IntroductionPage/CaregiversPrivacyActStatement';
 import ProcessTimeline from '../components/IntroductionPage/ProcessTimeline';
+import { appTitle, appSubtitle, appIntro } from '../definitions/content';
 
 export const IntroductionPage = ({
   route,
@@ -49,22 +50,12 @@ export const IntroductionPage = ({
   return (
     <div className="caregivers-intro schemaform-intro">
       <DowntimeNotification
-        appTitle="Application for the Program of Comprehensive Assistance for Family Caregivers"
+        appTitle={appTitle}
         dependencies={[externalServices.mvi, externalServices.carma]}
       >
-        <FormTitle
-          title="Apply for the Program of Comprehensive Assistance for Family Caregivers"
-          className="form-title"
-        />
-
-        <p>
-          Equal to VA Form 10-10CG (Application for Family Caregiver Benefits)
-        </p>
-
-        <p className="va-introtext">
-          We recognize the important role of family caregivers in supporting the
-          health and wellness of Veterans.
-        </p>
+        <FormTitle title={appTitle} className="form-title" />
+        <p>{appSubtitle}</p>
+        <p className="va-introtext">{appIntro}</p>
 
         <a
           href="#start"
