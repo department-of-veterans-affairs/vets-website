@@ -352,7 +352,7 @@ const LandingPage = () => {
               to <strong>3 business days</strong> to reply.
             </p>
             <p>
-              If you need help sooner, use one of theses urgent communication
+              If you need help sooner, use one of these urgent communication
               options:
             </p>
             <ul>
