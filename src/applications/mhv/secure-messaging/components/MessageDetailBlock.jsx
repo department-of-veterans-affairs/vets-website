@@ -83,8 +83,13 @@ const MessageDetailBlock = props => {
         </h1>
         <CannotReplyAlert visible={cannotReply} />
       </header>
-      <MessageActionButtons id={messageId} threadId={threadId} />
-      <main
+      <MessageActionButtons
+        id={messageId}
+        threadId={threadId}
+        onReply={handleReplyButton}
+        hideReplyButton={cannotReply}
+      />
+      <section
         className="message-detail-content"
         aria-label="Most recent message in this conversation"
       >
@@ -108,6 +113,7 @@ const MessageDetailBlock = props => {
             {messageId}
           </p>
         </div>
+
         <div className="message-body">
           <h3 className="sr-only">Message body.</h3>
           <MessageThreadBody expanded text={body} />
@@ -116,11 +122,13 @@ const MessageDetailBlock = props => {
         {!!attachments &&
           attachments.length > 0 && (
             <>
-              <h3 className="sr-only">Message attachments.</h3>
+              <div className="message-body-attachments-label">
+                <strong>Attachments</strong>
+              </div>
               <AttachmentsList attachments={attachments} />
             </>
           )}
-      </main>
+      </section>
       <ReplyButton
         key="replyButton"
         visible={!cannotReply}

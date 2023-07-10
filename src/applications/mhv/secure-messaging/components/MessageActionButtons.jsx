@@ -6,11 +6,12 @@ import MoveMessageToFolderBtn from './MessageActionButtons/MoveMessageToFolderBt
 import PrintBtn from './MessageActionButtons/PrintBtn';
 import { DefaultFolders } from '../util/constants';
 import ActionButtons from './shared/ActionButtons';
+import ReplyBtn from './MessageActionButtons/ReplyBtn';
 import TrashButton from './MessageActionButtons/TrashButton';
 import { Actions } from '../util/actionTypes';
 
 const MessageActionButtons = props => {
-  const { id, threadId } = props;
+  const { id, hideReplyButton, threadId } = props;
   const dispatch = useDispatch();
   const folders = useSelector(state => state.sm.folders.folderList);
   const activeFolder = useSelector(state => state.sm.folders.folder);
@@ -37,11 +38,13 @@ const MessageActionButtons = props => {
       };
 
       const buttons = [];
+
       buttons.push(
         <li key="print">
           <PrintBtn handlePrint={handlePrint} id={id} />
         </li>,
       );
+
       if (folders) {
         buttons.push(
           <MoveMessageToFolderBtn
@@ -54,6 +57,7 @@ const MessageActionButtons = props => {
           />,
         );
       }
+
       buttons.push(
         <TrashButton
           key="trashButton"
@@ -66,16 +70,29 @@ const MessageActionButtons = props => {
           }
         />,
       );
+
+      if (activeFolder?.folderId === DefaultFolders.SENT.id) {
+        buttons.push(
+          <ReplyBtn
+            key="replyBtn"
+            visible={!hideReplyButton}
+            onReply={props.onReply}
+          />,
+        );
+      }
+
       return buttons;
     },
-    [activeFolder, folders, id, props, threadId],
+    [activeFolder, folders, hideReplyButton, id, props, threadId],
   );
 
   return <ActionButtons buttonsArray={buttonsArray} />;
 };
 
 MessageActionButtons.propTypes = {
+  hideReplyButton: PropTypes.bool,
   id: PropTypes.number,
+  onReply: PropTypes.func,
 };
 
 export default MessageActionButtons;
