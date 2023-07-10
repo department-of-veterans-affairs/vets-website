@@ -468,13 +468,13 @@ const analyticsEvents = {
         event: 'interaction',
         component_name: 'va-radio',
         custom_string_1: 'component_library',
-      },
-      /* Component to GA4 parameters */
-      mapping: {
-        'radio-button-label': 'custom_string_2',
-        'radio-button-optionLabel': 'value',
-        'radio-button-required': 'required',
-        version: 'component_version',
+        /* Component to GA4 parameters */
+        mapping: {
+          'radio-button-label': 'custom_string_2',
+          'radio-button-optionLabel': 'value',
+          'radio-button-required': 'required',
+          version: 'component_version',
+        },
       },
     },
   ],
