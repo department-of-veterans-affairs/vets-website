@@ -86,7 +86,7 @@ const MessageDetailBlock = props => {
         className="message-detail-content"
         aria-label="Most recent message in this conversation"
       >
-        <section
+        <div
           className="message-metadata"
           data-testid="message-metadata"
           aria-label="message details."
@@ -107,11 +107,11 @@ const MessageDetailBlock = props => {
             <strong>Message ID: </strong>
             {messageId}
           </p>
-        </section>
+        </div>
 
-        <section className="message-body" aria-label="Message body.">
+        <div className="message-body" aria-label="Message body.">
           <MessageThreadBody expanded text={body} />
-        </section>
+        </div>
 
         {!!attachments &&
           attachments.length > 0 && (
