@@ -141,7 +141,7 @@ class PatientMessageDetailsPage {
     this.currentThread.data.at(index).attributes.triageGroupName =
       mockMessageDetails.data.attributes.triageGroupName;
     cy.get('[data-testid="reply-button-top"]')
-      .should('be.visible')
+      .should('not.be.visible')
       .click({ force: true });
 
     // cy.get('[data-testid="reply-button-top"]').click({
