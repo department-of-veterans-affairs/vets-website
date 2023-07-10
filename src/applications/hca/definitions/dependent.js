@@ -226,8 +226,7 @@ export const dependentUISchema = {
   },
   support: {
     receivedSupportLastYear: {
-      'ui:title':
-        'If your dependent didn\u2019t live with you last year, did you provide financial support?',
+      'ui:title': `If your dependent didn\u2019t live with you in ${lastYear}, did you provide financial support?`,
       'ui:description': DependentSupportDescription,
       'ui:widget': 'yesNo',
     },
