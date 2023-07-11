@@ -215,7 +215,7 @@
  * @property {number} [debounceRate] - Used for AutoSuggest widget
  * @property {number} [doNotScroll] - For arrays. By default when adding a new item it will scroll to the next item. Set this to true to disable that behavior.
  * @property {string} [duplicateKey] - For arrays.
- * @property {boolean} [enableAnalytics] - Record google analytics event (must be implemented by the specific widget or web component)
+ * @property {boolean} [enableAnalytics] - Record google analytics event
  * @property {string} [expandUnder] - The key of the uiSchema directly before this field
  * @property {boolean | (value: string, formData: any) => boolean} [expandUnderCondition] `expandUnderCondition: (value, formData) => !!value`
  * @property {boolean} [forceDivWrapper] - Used as an a11y helper when you need to wrap a field in a div
