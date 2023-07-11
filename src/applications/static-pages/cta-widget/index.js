@@ -76,7 +76,7 @@ export class CallToActionWidget extends Component {
     this._requiredServices = ctaWidget?.requiredServices;
     this._serviceDescription = ctaWidget?.serviceDescription;
     this._mhvToolName = ctaWidget?.mhvToolName;
-    this._internalLinkUrl = ctaWidget?.deriveToolUrlDetails()?.url || '';
+    this._toolDetails = ctaWidget?.deriveToolUrlDetails() || {};
     this._toolUrl = null;
     this._gaPrefix = 'register-mhv';
   }
@@ -136,15 +136,15 @@ export class CallToActionWidget extends Component {
   }
 
   updateReturnUrl = () => {
-    if (
-      this._internalLinkUrl.length > 0 &&
-      this._internalLinkUrl.startsWith('/')
-    ) {
+    const { url, redirect } = this._toolDetails;
+    if (url?.length > 0 && url?.startsWith('/') && redirect) {
       // fix the internal link
       sessionStorage.setItem(
         'authReturnUrl',
-        `${window.location.origin}${this._internalLinkUrl}`,
+        `${window.location.origin}${url}`,
       );
+    } else {
+      sessionStorage.removeItem('authReturnUrl');
     }
   };
 
