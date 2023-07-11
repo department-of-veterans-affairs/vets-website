@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { DefaultFolders as Folders, PageTitles } from '../../util/constants';
+import { DefaultFolders as Folders } from '../../util/constants';
 import { handleHeader } from '../../util/helpers';
 
 import ManageFolderButtons from '../ManageFolderButtons';
@@ -39,16 +38,6 @@ const FolderHeader = props => {
       )
     );
   };
-
-  useEffect(
-    () => {
-      if (folder?.folderId > 0) {
-        focusElement(document.querySelector('h1'));
-        document.title = `${folder.name} ${PageTitles.PAGE_TITLE_TAG}`;
-      }
-    },
-    [folder],
-  );
 
   return (
     <>

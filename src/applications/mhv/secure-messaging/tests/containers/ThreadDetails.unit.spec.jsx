@@ -4,6 +4,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { fireEvent } from '@testing-library/react';
 import moment from 'moment';
 import ThreadDetails from '../../containers/ThreadDetails';
+import { PageTitles } from '../../util/constants';
 import reducer from '../../reducers';
 import singleDraftThread from '../fixtures/threads/single-draft-thread-reducer.json';
 import replyDraftThread from '../fixtures/threads/reply-draft-thread-reducer.json';
@@ -148,6 +149,10 @@ describe('Thread Details container', () => {
     expect(
       await screen.findByText('Edit draft', { exact: true, selector: 'h1' }),
     ).to.exist;
+    expect(global.document.title).to.equal(
+      PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG,
+    );
+
     expect(
       document.querySelector('va-alert-expandable').getAttribute('trigger'),
     ).to.equal('Only use messages for non-urgent needs');
@@ -204,6 +209,11 @@ describe('Thread Details container', () => {
 
     expect(await screen.findByText(`${category}: ${subject}`, { exact: false }))
       .to.exist;
+
+    expect(global.document.title).to.equal(
+      PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG,
+    );
+
     expect(document.querySelector('h4').textContent).to.equal(
       '(Draft) To: MORGUN, OLEKSII\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
     );
@@ -279,6 +289,11 @@ describe('Thread Details container', () => {
         selector: 'h1',
       }),
     ).to.exist;
+
+    expect(global.document.title).to.equal(
+      PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG,
+    );
+
     expect(screen.queryByTestId('expired-alert-message')).to.be.null;
     expect(screen.queryByText('This conversation is too old for new replies'))
       .to.be.null;

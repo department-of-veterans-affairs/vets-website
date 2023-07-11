@@ -5,10 +5,10 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import recordEvent from 'platform/monitoring/record-event';
 import { getFolders, newFolder } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
+import { PageTitles } from '../util/constants';
 import FoldersList from '../components/FoldersList';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import CreateFolderModal from '../components/Modals/CreateFolderModal';
-import { PageTitles } from '../util/constants';
 
 const Folders = () => {
   const dispatch = useDispatch();

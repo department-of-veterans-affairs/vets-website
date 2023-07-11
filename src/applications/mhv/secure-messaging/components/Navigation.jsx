@@ -5,8 +5,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { getFolders } from '../actions/folders';
 import { folder } from '../selectors';
 import SectionGuideButton from './SectionGuideButton';
-import { DefaultFolders, Paths, PageTitles } from '../util/constants';
-import { updatePageTitle, convertPathNameToTitleCase } from '../util/helpers';
+import { DefaultFolders, Paths } from '../util/constants';
 
 import { trapFocus } from '../../shared/util/ui';
 
@@ -20,40 +19,14 @@ const Navigation = () => {
   const closeMenuButtonRef = useRef();
   const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
 
-  const initialPageTitle = convertPathNameToTitleCase(location.pathname);
-  const defaultInitialPageTitle = `${initialPageTitle} ${
-    PageTitles.PAGE_TITLE_TAG
-  }`;
-
-  const pageTitle = () => {
-    let generatedTitle = '';
-
-    if (initialPageTitle === 'Sent')
-      generatedTitle = `Sent messages ${PageTitles.PAGE_TITLE_TAG}`;
-    else if (initialPageTitle === 'New-message')
-      generatedTitle = `Start a new message ${PageTitles.PAGE_TITLE_TAG}`;
-    else generatedTitle = defaultInitialPageTitle;
-
-    return generatedTitle;
-  };
-
-  useEffect(
-    () => {
-      // initial page title
-      updatePageTitle(pageTitle());
-    },
-    [defaultInitialPageTitle, initialPageTitle, location.pathname],
-  );
-
   function openNavigation() {
     setIsNavigationOpen(true);
   }
 
   const closeNavigation = useCallback(
-    newTitle => {
+    () => {
       setIsNavigationOpen(false);
       focusElement(navMenuButtonRef);
-      updatePageTitle(`${newTitle} ${PageTitles.PAGE_TITLE_TAG}`);
     },
     [navMenuButtonRef],
   );
@@ -211,11 +184,7 @@ const Navigation = () => {
                           className={handleActiveLinksStyle(path)}
                           to={path.path}
                           onClick={() => {
-                            closeNavigation(
-                              path.label === 'Sent'
-                                ? 'Sent messages'
-                                : path.label,
-                            );
+                            closeNavigation();
                           }}
                         >
                           <span>{path.label}</span>
