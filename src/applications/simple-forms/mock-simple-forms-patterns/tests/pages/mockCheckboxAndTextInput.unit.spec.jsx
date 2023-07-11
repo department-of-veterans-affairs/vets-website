@@ -13,7 +13,7 @@ const {
 
 const pageTitle = 'mock checkbox and text input';
 
-const expectedNumberOfWebComponentFields = 8;
+const expectedNumberOfWebComponentFields = 4;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -22,7 +22,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 6;
+const expectedNumberOfWebComponentErrors = 3;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

@@ -100,6 +100,7 @@ const Dashboard = ({
   showNameTag,
   showNotInMPIError,
   showNotifications,
+  useLighthouseClaims,
   isVAPatient,
   ...props
 }) => {
@@ -228,7 +229,9 @@ const Dashboard = ({
                   ]}
                   render={RenderClaimsWidgetDowntimeNotification}
                 >
-                  <ClaimsAndAppealsV2 />
+                  <ClaimsAndAppealsV2
+                    useLighthouseClaims={useLighthouseClaims}
+                  />
                 </DowntimeNotification>
               ) : null}
 
@@ -266,6 +269,11 @@ const Dashboard = ({
 const isClaimsAvailableSelector = createIsServiceAvailableSelector(
   backendServices.EVSS_CLAIMS,
 );
+
+const isLighthouseClaimsAvailableSelector = createIsServiceAvailableSelector(
+  backendServices.LIGHTHOUSE,
+);
+
 const isAppealsAvailableSelector = createIsServiceAvailableSelector(
   backendServices.APPEALS_STATUS,
 );
@@ -277,7 +285,9 @@ const mapStateToProps = state => {
   const isVAPatient = isVAPatientSelector(state);
   const hero = state.vaProfile?.hero;
   const hasClaimsOrAppealsService =
-    isAppealsAvailableSelector(state) || isClaimsAvailableSelector(state);
+    isAppealsAvailableSelector(state) ||
+    isClaimsAvailableSelector(state) ||
+    isLighthouseClaimsAvailableSelector(state);
 
   const hasMHVAccount = ['OK', 'MULTIPLE'].includes(
     state.user?.profile?.mhvAccountState,
@@ -323,6 +333,10 @@ const mapStateToProps = state => {
     FEATURE_FLAG_NAMES.showMyVADashboardV2
   ];
 
+  const useLighthouseClaims = toggleValues(state)[
+    FEATURE_FLAG_NAMES.myVaUseLighthouseClaims
+  ];
+
   const showNotifications =
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
 
@@ -340,6 +354,7 @@ const mapStateToProps = state => {
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
     totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
+    useLighthouseClaims,
     user: state.user,
     shouldShowV2Dashboard,
     showMPIConnectionError,
@@ -382,6 +397,7 @@ Dashboard.propTypes = {
   showValidateIdentityAlert: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
   totalDisabilityRatingServerError: PropTypes.bool,
+  useLighthouseClaims: PropTypes.bool,
   user: PropTypes.object,
 };
 

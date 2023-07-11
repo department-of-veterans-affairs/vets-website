@@ -76,6 +76,6 @@ describe('Year Page', () => {
       </Provider>,
     );
 
-    expect(pushSpyPastIsNull.withArgs('/').calledOnce).to.be.true;
+    expect(pushSpyPastIsNull.withArgs('introduction').calledOnce).to.be.true;
   });
 });

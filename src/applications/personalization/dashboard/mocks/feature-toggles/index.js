@@ -1,5 +1,9 @@
 const generateFeatureToggles = (toggles = {}) => {
-  const { myVaUseExperimental = true, showMyVADashboardV2 = true } = toggles;
+  const {
+    myVaUseExperimental = true,
+    showMyVADashboardV2 = true,
+    myVaUseLighthouseClaims = true,
+  } = toggles;
 
   return {
     data: {
@@ -12,6 +16,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'show_myva_dashboard_2_0',
           value: showMyVADashboardV2,
+        },
+        {
+          name: 'my_va_lighthouse_claims',
+          value: myVaUseLighthouseClaims,
         },
       ],
     },
