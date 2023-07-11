@@ -59,7 +59,7 @@ const CreditCardBillSummary = ({
   const billBody = bill => {
     return (
       <>
-        <p>
+        <p className="vads-u-margin--0">
           Unpaid balance:{' '}
           <strong>{currencyFormatter(bill.unpaidBalance)}</strong>
           <br />

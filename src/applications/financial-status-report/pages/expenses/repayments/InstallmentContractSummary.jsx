@@ -69,7 +69,7 @@ const InstallmentContractSummary = ({
         : currencyFormatter(0.0),
     };
     return (
-      <p>
+      <p className="vads-u-margin--0">
         {Object.entries(formattedFields).map(
           ([key, value]) =>
             value && (

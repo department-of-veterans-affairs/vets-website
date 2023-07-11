@@ -6,13 +6,12 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
 import VaMedicalCenter from '../../../components/FormFields/VaMedicalCenter';
 
-const apiRequestWithUrl = `${environment.API_URL}/v1/facilities/va`;
-
 describe('CG <VaMedicalCenter>', () => {
-  describe('api server success', () => {
+  const apiRequestWithUrl = `${environment.API_URL}/v1/facilities/va`;
+
+  describe('when the api server succeeds', () => {
     let server = null;
 
     before(() => {
@@ -47,7 +46,8 @@ describe('CG <VaMedicalCenter>', () => {
     after(() => {
       server.close();
     });
-    it('should render VaMedicalCenter component as an empty select element', () => {
+
+    it('should render as an empty select element', () => {
       const mockStore = {
         getState: () => ({
           form: {
@@ -167,7 +167,7 @@ describe('CG <VaMedicalCenter>', () => {
     });
   });
 
-  describe('api server error', () => {
+  describe('when the api server has an error', () => {
     const error500 = {
       status: 500,
       error: 'Internal Server Error',
@@ -189,7 +189,7 @@ describe('CG <VaMedicalCenter>', () => {
       server.close();
     });
 
-    it('should render a server error alert', async () => {
+    it('should render the error alert', async () => {
       const mockStore = {
         getState: () => ({
           form: {

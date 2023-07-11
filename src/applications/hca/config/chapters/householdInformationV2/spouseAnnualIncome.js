@@ -19,31 +19,34 @@ const lastYear = date.getFullYear() - 1;
 
 export default {
   uiSchema: {
-    'ui:title': `Your spouse\u2019s annual income from ${lastYear}`,
+    'ui:title': `Spouse\u2019s annual income from ${lastYear}`,
     'view:spouseGrossIncome': {
-      'ui:title': 'Your spouse\u2019s gross income from work',
+      'ui:title': 'Gross income from work',
       'ui:description': GrossIncomeDescription,
       spouseGrossIncome: {
-        ...currencyUI(`Enter your spouse\u2019s gross income from ${lastYear}`),
+        ...currencyUI(
+          `Enter your spouse\u2019s gross annual income from ${lastYear}`,
+        ),
         'ui:validations': [validateCurrency],
       },
     },
     'view:spouseNetIncome': {
-      'ui:title':
-        'Your spouse\u2019s net annual income from your farm, property, or business',
+      'ui:title': 'Net income from a farm, property, or business',
       'ui:description': NetIncomeDescription,
       spouseNetIncome: {
         ...currencyUI(
-          `Enter your spouse\u2019s net income from a farm, ranch, property or business from ${lastYear}`,
+          `Enter your spouse\u2019s net annual income from a farm, ranch, property or business from ${lastYear}`,
         ),
         'ui:validations': [validateCurrency],
       },
     },
     'view:spouseOtherIncome': {
-      'ui:title': 'Your spouse\u2019s other income',
+      'ui:title': 'Other income',
       'ui:description': OtherIncomeDescription,
       spouseOtherIncome: {
-        ...currencyUI(`Enter your spouse\u2019s other income from ${lastYear}`),
+        ...currencyUI(
+          `Enter your spouse\u2019s other annual income from ${lastYear}`,
+        ),
         'ui:validations': [validateCurrency],
       },
     },

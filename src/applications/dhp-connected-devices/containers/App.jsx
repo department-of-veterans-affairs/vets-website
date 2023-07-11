@@ -1,4 +1,5 @@
 import React from 'react';
+import MetaTags from 'react-meta-tags';
 import { useSelector } from 'react-redux';
 import UnauthenticatedPageContent from '../components/UnauthenticatedPageContent';
 import { AuthenticatedPageContent } from '../components/AuthenticatedPageContent';
@@ -16,6 +17,13 @@ export default function App() {
 
   return (
     <div className="usa-grid-full margin landing-page">
+      <MetaTags>
+        <meta name="robots" content="noindex" />
+        <meta
+          name="google-site-verification"
+          content="scLJgpqcnJ33AfSYWbB9cdebuyOuHWWWoW_zdeyYNc4"
+        />
+      </MetaTags>
       <div className="usa-width-three-fourths">
         <article className="usa-content">
           <div className="schemaform-title">
