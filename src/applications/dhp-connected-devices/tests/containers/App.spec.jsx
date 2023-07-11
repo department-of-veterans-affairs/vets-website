@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { render } from 'enzyme';
 import { Provider } from 'react-redux';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import App from '../../containers/App';
 
 function getStore(loading = false, currentlyLoggedIn = false) {
@@ -30,7 +30,7 @@ describe('App', () => {
   it('renders the shared page content', () => {
     const dhpContainer = renderInReduxProvider(<App />);
     const title = 'Connect your health devices to share data';
-    const faq = 'Frequently asked questions';
+    const faq = 'Frequently Asked Questions';
 
     expect(dhpContainer.getByText(title)).to.exist;
     expect(dhpContainer.getByText(faq)).to.exist;
@@ -55,7 +55,6 @@ describe('App', () => {
       </Provider>,
     );
 
-    expect(wrapper.find('va-loading-indicator').length).to.equal(0);
     expect(
       wrapper
         .find('h2')

@@ -42,7 +42,7 @@ const OtherIncomeSummary = ({
   };
 
   const cardBody = text => (
-    <p>
+    <p className="vads-u-margin--0">
       Monthly amount: <b>{currencyFormatter(text)}</b>
     </p>
   );
