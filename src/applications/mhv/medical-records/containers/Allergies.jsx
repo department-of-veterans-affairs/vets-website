@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
-import * as Sentry from '@sentry/browser';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { RecordType, emptyField } from '../util/constants';
@@ -12,7 +11,12 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getAllAllergies } from '../api/MrApi';
 import PrintDownload from '../components/shared/PrintDownload';
-import { dateFormat, nameFormat, processList } from '../util/helpers';
+import {
+  dateFormat,
+  nameFormat,
+  processList,
+  sendErrorToSentry,
+} from '../util/helpers';
 
 const Allergies = () => {
   const dispatch = useDispatch();
@@ -104,8 +108,7 @@ const Allergies = () => {
     try {
       await generatePdf('medicalRecords', 'allergies_report', pdfData);
     } catch (error) {
-      Sentry.captureException(error);
-      Sentry.captureMessage('vets_mhv_medical_records_pdf_generation_error');
+      sendErrorToSentry(error, 'Allergies');
     }
   };
 

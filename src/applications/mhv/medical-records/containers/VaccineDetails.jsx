@@ -5,12 +5,12 @@ import { useParams } from 'react-router-dom';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
-import * as Sentry from '@sentry/browser';
 import {
   typeAndDose,
   processList,
   nameFormat,
   dateFormat,
+  sendErrorToSentry,
 } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getVaccineDetails } from '../actions/vaccines';
@@ -106,8 +106,7 @@ const VaccineDetails = () => {
     try {
       await generatePdf('medicalRecords', 'vaccine_report', pdfData);
     } catch (error) {
-      Sentry.captureException(error);
-      Sentry.captureMessage('vets_mhv_medical_records_pdf_generation_error');
+      sendErrorToSentry(error, 'Vaccine details');
     }
   };
 

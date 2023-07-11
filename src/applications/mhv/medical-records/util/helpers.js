@@ -1,4 +1,5 @@
 import moment from 'moment-timezone';
+import * as Sentry from '@sentry/browser';
 import { emptyField } from './constants';
 
 /**
@@ -84,4 +85,16 @@ export const processList = list => {
   if (list?.length > 1) return list.join('. ');
   if (list?.length === 1) return list.toString();
   return emptyField;
+};
+
+/**
+ * @param {Error} error javascript error
+ * @param {String} page name of the page sending the error
+ * @returns {undefined}
+ */
+export const sendErrorToSentry = (error, page) => {
+  Sentry.captureException(error);
+  Sentry.captureMessage(
+    `MHV - Medical Records - ${page} - PDF generation error`,
+  );
 };
