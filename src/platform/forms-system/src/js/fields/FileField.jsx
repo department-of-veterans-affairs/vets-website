@@ -91,6 +91,7 @@ const FileField = props => {
   );
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
+  const [initialized, setInitialized] = useState(false);
 
   const previousValue = usePreviousValue(formData);
   const fileInputRef = useRef(null);
@@ -175,7 +176,7 @@ const FileField = props => {
         'vads-u-display--none',
         !checkUploadVisibility(),
       );
-      if (files.length !== prevFiles.length) {
+      if (initialized && files.length !== prevFiles.length) {
         focusAddAnotherButton();
       }
 
@@ -184,6 +185,9 @@ const FileField = props => {
       setIsUploading(hasUploading);
       if (hasUploading && !wasUploading) {
         setProgress(0);
+      }
+      if (!initialized) {
+        setInitialized(true);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
