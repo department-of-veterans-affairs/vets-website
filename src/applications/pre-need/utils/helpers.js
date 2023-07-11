@@ -352,9 +352,7 @@ export const veteranUI = {
       'ui:title': 'Black or African American',
     },
     isNativeHawaiianOrOtherPacificIslander: {
-      'ui:title': !environment.isProduction()
-        ? 'Native Hawaiian or other Pacific Islander'
-        : 'Native Hawaiian or Other Pacific Islander',
+      'ui:title': 'Native Hawaiian or other Pacific Islander',
     },
     isAsian: {
       'ui:title': 'Asian',
