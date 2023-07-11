@@ -44,7 +44,7 @@ const mapStateToProps = state => ({
   duplicateEmail: state?.data?.duplicateEmail,
   phoneNumber: state?.form?.data?.mobilePhone,
   duplicatePhone: state?.data?.duplicatePhone,
-  showMebEnhancements08: state?.data?.showMebEnhancements08,
+  showMebEnhancements08: state?.featureToggles?.showMebEnhancements08,
 });
 
 const mapDispatchToProps = {
