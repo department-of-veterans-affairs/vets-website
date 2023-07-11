@@ -91,6 +91,7 @@ const FileField = props => {
   );
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
+  const [initialized, setInitialized] = useState(false);
 
   const previousValue = usePreviousValue(formData);
   const fileInputRef = useRef(null);
@@ -175,7 +176,7 @@ const FileField = props => {
         'vads-u-display--none',
         !checkUploadVisibility(),
       );
-      if (files.length !== prevFiles.length) {
+      if (initialized && files.length !== prevFiles.length) {
         focusAddAnotherButton();
       }
 
@@ -190,22 +191,25 @@ const FileField = props => {
     [formData],
   );
 
-  useEffect(() => {
-    // The File object is not preserved in the save-in-progress data
-    // We need to remove these entries; an empty `file` is included in the
-    // entry, but if API File Object still exists (within the same session), we
-    // can't use Object.keys() on it because it returns an empty array
-    const newData = files.filter(
-      // keep - file may not exist (already uploaded)
-      // keep - file may contain File object; ensure name isn't empty
-      // remove - file may be an empty object
-      data => !data.file || (data.file?.name || '') !== '',
-    );
-
-    if (newData.length !== files.length) {
-      onChange(newData);
-    }
-  });
+  useEffect(
+    () => {
+      // The File object is not preserved in the save-in-progress data
+      // We need to remove these entries; an empty `file` is included in the
+      // entry, but if API File Object still exists (within the same session), we
+      // can't use Object.keys() on it because it returns an empty array
+      const newData = files.filter(
+        // keep - file may not exist (already uploaded)
+        // keep - file may contain File object; ensure name isn't empty
+        // remove - file may be an empty object
+        data => !data.file || (data.file?.name || '') !== '',
+      );
+      if (newData.length !== files.length) {
+        onChange(newData);
+      }
+      setInitialized(true);
+    },
+    [files, onChange],
+  );
 
   /**
    * Add file to list and upload
@@ -457,7 +461,7 @@ const FileField = props => {
                 } else {
                   focusElement('.usa-input-error, .input-error-date, [error]');
                 }
-              }, 100);
+              }, 250);
             } else if (showPasswordInput) {
               setTimeout(() => {
                 const passwordInput = $(`[name="get_password_${index}"]`);

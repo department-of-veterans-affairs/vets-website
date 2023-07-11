@@ -58,6 +58,7 @@ import EmploymentWorkDates from '../components/EmploymentWorkDates';
 import SpouseEmploymentWorkDates from '../components/SpouseEmploymentWorkDates';
 import OtherIncomeSummaryReview from '../components/otherIncome/OtherIncomeSummaryReview';
 import SpouseOtherIncomeSummaryReview from '../components/otherIncome/SpouseOtherIncomeSummaryRevew';
+import HouseholdExpensesSummaryReview from '../components/householdExpenses/HouseholdExpensesSummaryReview';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -918,6 +919,7 @@ const formConfig = {
           title: 'Household expenses values',
           uiSchema: pages.householdExpensesInputList.uiSchema,
           schema: pages.householdExpensesInputList.schema,
+          CustomPageReview: HouseholdExpensesSummaryReview,
           depends: formData =>
             formData.expenses?.expenseRecords?.length > 0 &&
             formData['view:enhancedFinancialStatusReport'],
