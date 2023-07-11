@@ -122,6 +122,7 @@ const MessageDetailBlock = props => {
         {!!attachments &&
           attachments.length > 0 && (
             <>
+              <h3 className="sr-only">Message attachments.</h3>
               <div className="message-body-attachments-label">
                 <strong>Attachments</strong>
               </div>
