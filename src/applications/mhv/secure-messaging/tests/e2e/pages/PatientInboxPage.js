@@ -352,7 +352,7 @@ class PatientInboxPage {
   };
 
   navigateReply = () => {
-    cy.tabToElement('[data-testid="reply-button-top"]');
+    cy.tabToElement('[data-testid="reply-button-body"]');
     cy.realPress(['Enter']);
   };
 
