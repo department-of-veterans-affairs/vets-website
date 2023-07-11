@@ -77,7 +77,7 @@ export const ctaWidgetsLookup = {
       backendServices.EVSS_CLAIMS,
       backendServices.APPEALS_STATUS,
     ],
-    serviceDescription: 'see your claim, decision review, or appeal status',
+    serviceDescription: 'check your claim, decision review, or appeal status',
   },
   [CTA_WIDGET_TYPES.COMBINED_DEBT_PORTAL]: {
     id: CTA_WIDGET_TYPES.COMBINED_DEBT_PORTAL,

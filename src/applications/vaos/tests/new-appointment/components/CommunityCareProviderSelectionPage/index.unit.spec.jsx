@@ -25,7 +25,7 @@ import CommunityCareProviderSelectionPage from '../../../../new-appointment/comp
 import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../../utils/constants';
-import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
+import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
 import { createMockFacilityByVersion } from '../../../mocks/data';
 import { getSchedulingConfigurationMock } from '../../../mocks/v2';
 import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
@@ -105,20 +105,25 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       ),
       CC_PROVIDERS_DATA,
     );
+    mockFacilitiesFetchByVersion({
+      children: true,
+      ids: ['983'],
+      facilities: [
+        createMockFacilityByVersion({
+          id: '983',
+          address: {
+            line: [],
+            city: 'Belgrade',
+          },
+          lat: 39.1362562,
+          long: -83.1804804,
+        }),
+      ],
+    });
     mockSchedulingConfigurations(
       [
         getSchedulingConfigurationMock({
           id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '983GJ',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '983GC',
           typeOfCareId: 'primaryCare',
           requestEnabled: true,
         }),
@@ -345,15 +350,6 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       ),
       CC_PROVIDERS_DATA,
     );
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '983GJ',
-        name: 'Facility that is enabled',
-        lat: 39.1362562,
-        long: -83.1804804,
-      }),
-    });
 
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);

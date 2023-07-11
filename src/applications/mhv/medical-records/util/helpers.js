@@ -1,15 +1,28 @@
 import moment from 'moment-timezone';
+import * as Sentry from '@sentry/browser';
+import { emptyField } from './constants';
 
 /**
  * @param {*} timestamp
  * @param {*} format momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
- * @returns {String} fromatted timestamp
+ * @returns {String} formatted timestamp
  */
 export const dateFormat = (timestamp, format = null) => {
   const timeZone = moment.tz.guess();
   return moment
     .tz(timestamp, timeZone)
     .format(format || 'MMMM D, YYYY, h:mm a z');
+};
+
+/**
+ * @param {Object} nameObject {first, middle, last, suffix}
+ * @returns {String} formatted timestamp
+ */
+export const nameFormat = ({ first, middle, last, suffix }) => {
+  let name = `${last}, ${first}`;
+  if (middle) name += ` ${middle}`;
+  if (suffix) name += `, ${suffix}`;
+  return name;
 };
 
 /**
@@ -62,4 +75,26 @@ export const getReactions = record => {
 export const getNames = record => {
   if (!record) return '';
   return record.code.coding.map(code => code.display).join(', ');
+};
+
+/**
+ * @param {Array} list
+ * @returns {String} array of strings, separated by a comma
+ */
+export const processList = list => {
+  if (list?.length > 1) return list.join('. ');
+  if (list?.length === 1) return list.toString();
+  return emptyField;
+};
+
+/**
+ * @param {Error} error javascript error
+ * @param {String} page name of the page sending the error
+ * @returns {undefined}
+ */
+export const sendErrorToSentry = (error, page) => {
+  Sentry.captureException(error);
+  Sentry.captureMessage(
+    `MHV - Medical Records - ${page} - PDF generation error`,
+  );
 };

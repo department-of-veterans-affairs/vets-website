@@ -166,13 +166,15 @@ const SearchForm = props => {
         <>
           <strong className="search-results-count">
             {resultsCount?.toLocaleString()}
-          </strong>{' '}
-          matches {displayQuery()}
+          </strong>
+          {` match${resultsCount > 1 ? 'es' : ''}`} {displayQuery()}
         </>
       );
     return (
       <span
         ref={resultsCountRef}
+        role="status"
+        aria-live="polite"
         data-testid="search-message-folder-input-label"
         className={`vads-u-margin-top--4 ${
           resultsCount === undefined ? null : 'filter-results-in-folder'

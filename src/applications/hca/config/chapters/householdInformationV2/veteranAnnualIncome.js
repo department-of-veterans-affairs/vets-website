@@ -29,7 +29,7 @@ export default {
       },
     },
     'view:veteranNetIncome': {
-      'ui:title': 'Net annual income from your farm, property, or business',
+      'ui:title': 'Net income from a farm, property, or business',
       'ui:description': NetIncomeDescription,
       veteranNetIncome: {
         ...currencyUI(
@@ -42,7 +42,7 @@ export default {
       'ui:title': 'Other income',
       'ui:description': OtherIncomeDescription,
       veteranOtherIncome: {
-        ...currencyUI(`Enter your other income from ${lastYear}`),
+        ...currencyUI(`Enter your other annual income from ${lastYear}`),
         'ui:validations': [validateCurrency],
       },
     },
