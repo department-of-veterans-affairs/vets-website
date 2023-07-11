@@ -78,6 +78,7 @@ const formConfig = {
       externalServices.mvi,
       externalServices.vbs,
       externalServices.dmc,
+      externalServices.vaProfile,
     ],
   },
   defaultDefinitions: {},
