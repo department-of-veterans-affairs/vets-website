@@ -240,10 +240,72 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       'bot-outgoing-activity',
     );
   });
-  describe('Checking the bot entered the appropriate skill', () => {
-    it('should update the session storage RX key to true upon entering the RX skill', async () => {});
-    it('should dispatches an event named RXSkill after the session storage as been set to true', async () => {});
-    it('should update the session storage RX key to false upon exiting the RX skill ', async () => {});
-    it('should dispatches an event named RXSkill after the session storage as been set to false ', async () => {});
+  describe('Checking the bot entered and exited the Rx skill', () => {
+    const IS_RX_SKILL = 'va-bot.isRxSkill';
+    beforeEach(() => {
+      sessionStorage.clear();
+    });
+    afterEach(() => {
+      sessionStorage.clear();
+    });
+    it('should update the session storage RX key to true upon entering the RX skill and dispatch an RxSkill event', async () => {
+      // setup
+      // fire/execute
+      const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
+      const activity = {
+        type: 'message',
+        text: 'Welcome to the RX Skill',
+        from: { role: 'bot' },
+      };
+      const rxActivity = {
+        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+        payload: { activity },
+      };
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+      )(store)(fakeNext)(rxActivity);
+      // tests
+      const isRxSkillSessionStorageSet = await sessionStorage.getItem(
+        IS_RX_SKILL,
+      );
+      // second call is for skill entry
+      const entrySkillEvent = spyDispatchEvent.secondCall.args[0];
+      expect(isRxSkillSessionStorageSet).to.equal('true');
+      expect(entrySkillEvent.type).to.equal('rxSkill');
+    });
+
+    it('should update the session storage RX key to false upon exiting the RX skill and dispatch an RxSkill event ', async () => {
+      const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
+      const activity = {
+        type: 'message',
+        text: 'You have exited the RX Skill',
+        from: { role: 'bot' },
+      };
+      const rxActivity = {
+        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+        payload: { activity },
+      };
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+      )(store)(fakeNext)(rxActivity);
+      // tests
+      const isRxSkillSessionStorageSet = await sessionStorage.getItem(
+        IS_RX_SKILL,
+      );
+      // second call is for skill entry
+      const entrySkillEvent = spyDispatchEvent.secondCall.args[0];
+      expect(isRxSkillSessionStorageSet).to.equal('false');
+      expect(entrySkillEvent.type).to.equal('rxSkill');
+    });
   });
 });
