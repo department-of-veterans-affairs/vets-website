@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import uniqueId from 'lodash/uniqueId';
 import { NOTIFICATION_CHANNEL_LABELS } from '../../constants';
 import { NotificationStatusMessage } from './NotificationStatusMessage';
 
@@ -14,8 +13,8 @@ export const NotificationCheckbox = ({
   successMessage,
   errorMessage,
   disabled,
+  last,
 }) => {
-  const id = uniqueId('notification-checkbox-');
   const label = `Notify me by ${NOTIFICATION_CHANNEL_LABELS[channelType]}`;
 
   const checked = isOptedIn;
@@ -24,14 +23,16 @@ export const NotificationCheckbox = ({
     onValueChange(e);
   };
 
+  const checkboxId = `${channelId}-checkbox`;
+
   let errorSpan = '';
   let errorSpanId;
   if (errorMessage) {
-    errorSpanId = `${id}-error-message`;
+    errorSpanId = `${channelId}-error-message`;
     errorSpan = (
       <NotificationStatusMessage
         id={errorSpanId}
-        classes="rb-input-message-error"
+        classes="vads-u-background-color--secondary-lightest vads-u-font-weight--bold"
         alert
       >
         <i
@@ -46,7 +47,7 @@ export const NotificationCheckbox = ({
   let loadingSpan = '';
   let loadingSpanId;
   if (loadingMessage) {
-    loadingSpanId = `${id}-loading-message`;
+    loadingSpanId = `${channelId}-loading-message`;
     loadingSpan = (
       <NotificationStatusMessage
         id={loadingSpanId}
@@ -65,11 +66,11 @@ export const NotificationCheckbox = ({
   let successSpan = '';
   let successSpanId;
   if (successMessage) {
-    successSpanId = `${id}-success-message`;
+    successSpanId = `${channelId}-success-message`;
     successSpan = (
       <NotificationStatusMessage
         id={successSpanId}
-        classes="rb-input-message-success"
+        classes="vads-u-background-color--green-lightest vads-u-font-weight--bold"
         alert
       >
         <i className="fas fa-check vads-u-margin-right--1" aria-hidden="true" />{' '}
@@ -83,14 +84,24 @@ export const NotificationCheckbox = ({
       {!loadingMessage && !successMessage && errorSpan}
       {!loadingMessage && !errorMessage && successSpan}
       {!errorMessage && !successMessage && loadingSpan}
-      {!loadingMessage && (
+      {!loadingMessage && !disabled ? (
         <VaCheckbox
           checked={checked}
           label={label}
           onVaChange={handleChange}
-          data-testid={`checkbox-${channelId}`}
+          data-testid={checkboxId}
+          id={`checkbox-${channelId}`}
+          uswds
+          className={last ? 'vads-u-padding-bottom--0p5' : ''}
+        />
+      ) : (
+        <VaCheckbox
+          checked={checked}
+          label={label}
+          data-testid={checkboxId}
           uswds
           disabled={disabled}
+          className={last ? 'vads-u-padding-bottom--0p5' : ''}
         />
       )}
     </div>
@@ -104,6 +115,7 @@ NotificationCheckbox.propTypes = {
   disabled: PropTypes.bool,
   errorMessage: PropTypes.string,
   isOptedIn: PropTypes.bool,
+  last: PropTypes.bool,
   loadingMessage: PropTypes.string,
   successMessage: PropTypes.string,
 };

@@ -18,7 +18,6 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { LOADING_STATES } from '../../../common/constants';
 
-import NotificationChannelUnavailable from './NotificationChannelUnavailable';
 import NotificationRadioButtons from './NotificationRadioButtons';
 import { NotificationCheckbox } from './NotificationCheckbox';
 
@@ -40,6 +39,7 @@ const NotificationChannel = props => {
     description,
     saveSetting,
     disabledForCheckbox,
+    last,
   } = props;
   // when itemId = "item2", itemIdNumber will be 2
   const itemIdNumber = React.useMemo(
@@ -83,14 +83,7 @@ const NotificationChannel = props => {
   );
 
   if (isMissingContactInfo) {
-    return (
-      <div className="vads-u-margin-bottom--3">
-        <p className="vads-u-font-weight--bold vads-u-font-size--base vads-u-margin-y--1">
-          {itemName}
-        </p>
-        <NotificationChannelUnavailable channelType={channelType} />
-      </div>
-    );
+    return null;
   }
   return (
     <>
@@ -136,6 +129,7 @@ const NotificationChannel = props => {
             successMessage={apiStatusInfo.successMessage}
             errorMessage={apiStatusInfo.errorMessage}
             disabled={disabledForCheckbox}
+            last={last}
           />
         </Toggler.Enabled>
 
@@ -211,6 +205,7 @@ NotificationChannel.propTypes = {
   isOptedIn: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   itemId: PropTypes.string,
   itemName: PropTypes.string,
+  last: PropTypes.bool,
   permissionId: PropTypes.number,
   radioButtonDescription: PropTypes.string,
 };

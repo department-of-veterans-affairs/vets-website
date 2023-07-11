@@ -6,45 +6,13 @@ import { selectGroupById } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
 
 import NotificationItem from './NotificationItem';
-import { BLOCKED_NOTIFICATION_IDS, NOTIFICATION_GROUPS } from '../../constants';
+import { BLOCKED_NOTIFICATION_IDS } from '../../constants';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
-const shouldRenderGroup = ({
-  groupId,
-  profileShowPaymentsNotificationSetting,
-  profileShowMhvNotificationSettings,
-}) => {
-  if (groupId === NOTIFICATION_GROUPS.PAYMENTS) {
-    return profileShowPaymentsNotificationSetting;
-  }
-
-  if (groupId === NOTIFICATION_GROUPS.GENERAL) {
-    return profileShowMhvNotificationSettings;
-  }
-
-  return true;
-};
-
-const NotificationGroup = ({ children, groupName, itemIds, groupId }) => {
+const NotificationGroup = ({ children, groupName, itemIds }) => {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-
-  const showPaymentsNotificationSetting = useToggleValue(
-    TOGGLE_NAMES.profileShowPaymentsNotificationSetting,
-  );
-
   const showMhvNotificationSettings = useToggleValue(
     TOGGLE_NAMES.profileShowMhvNotificationSettings,
-  );
-
-  const shouldRender = useMemo(
-    () => {
-      return shouldRenderGroup({
-        groupId,
-        profileShowPaymentsNotificationSetting: showPaymentsNotificationSetting,
-        profileShowMhvNotificationSettings: showMhvNotificationSettings,
-      });
-    },
-    [groupId, showPaymentsNotificationSetting, showMhvNotificationSettings],
   );
 
   const filteredItemIds = useMemo(
@@ -58,7 +26,7 @@ const NotificationGroup = ({ children, groupName, itemIds, groupId }) => {
     [itemIds, showMhvNotificationSettings],
   );
 
-  return shouldRender ? (
+  return (
     <div data-testid="notification-group">
       <h2 className="vads-u-font-size--h3 vads-u-margin-top--4 vads-u-margin-bottom--1p5">
         {groupName}
@@ -71,7 +39,7 @@ const NotificationGroup = ({ children, groupName, itemIds, groupId }) => {
       </div>
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
     </div>
-  ) : null;
+  );
 };
 
 const mapStateToProps = (state, ownProps) => {

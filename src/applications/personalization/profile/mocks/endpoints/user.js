@@ -1404,14 +1404,30 @@ const mockErrorResponses = {
   },
 };
 
+const loa3UserWithNoMobilePhone = set(
+  cloneDeep(baseUserResponses.loa3User72),
+  'data.attributes.vet360ContactInformation.mobilePhone',
+  null,
+);
+
+const loa3UserWithNoEmail = set(
+  cloneDeep(baseUserResponses.loa3User72),
+  'data.attributes.vet360ContactInformation.email',
+  null,
+);
+
+const loa3UserWithNoEmailOrMobilePhone = set(
+  cloneDeep(loa3UserWithNoMobilePhone),
+  'data.attributes.vet360ContactInformation.email',
+  null,
+);
+
 const allMockResponses = {
   ...baseUserResponses,
   ...mockErrorResponses,
-  loa3UserWithNoMobilePhone: set(
-    cloneDeep(baseUserResponses.loa3User72),
-    'data.attributes.vet360ContactInformation.mobilePhone',
-    null,
-  ),
+  loa3UserWithNoMobilePhone,
+  loa3UserWithNoEmail,
+  loa3UserWithNoEmailOrMobilePhone,
   loa3UserWithoutMilitaryHistoryClaim: createUserWithDataClaims(
     baseUserResponses.loa3User72,
     [
@@ -1443,8 +1459,10 @@ const handleUserRequest = (req, res) => {
   // return res.json(allMockResponses.nonVeteranUser); // non-veteran user
   // return res.json(allMockResponses.externalServiceError); // external service error
   // return res.json(allMockResponses.loa3UserWithNoMobilePhone); // user with no mobile phone number
+  return res.json(allMockResponses.loa3UserWithNoEmail); // user with no email address
+  // return res.json(allMockResponses.loa3UserWithNoEmailOrMobilePhone); // user without emial or mobile phone
 
-  return res.json(allMockResponses.loa3User72);
+  // return res.json(allMockResponses.loa3User72);
 };
 
 module.exports = { ...allMockResponses, handleUserRequest };

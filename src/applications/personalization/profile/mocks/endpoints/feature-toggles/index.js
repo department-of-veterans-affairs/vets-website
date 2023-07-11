@@ -13,6 +13,7 @@ const defaultToggleValues = {
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileUseNotificationSettingsCheckboxes: false,
+  profileShowEmailNotificationSettings: true,
 };
 
 const generateFeatureToggles = (values = defaultToggleValues) => {
