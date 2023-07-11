@@ -12,6 +12,7 @@ const routes = {
   component: IncomeLimitsApp,
   indexRoute: { component: HomePage },
   childRoutes: [
+    { path: ROUTES.HOME, component: HomePage },
     { path: ROUTES.DEPENDENTS, component: DependentsPage },
     { path: ROUTES.REVIEW, component: ReviewPage },
     { path: ROUTES.RESULTS, component: ResultsPage },

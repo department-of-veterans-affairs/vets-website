@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from '../ui';
 
 const ShowPdfPassword = ({
   file,
@@ -10,15 +11,34 @@ const ShowPdfPassword = ({
 }) => {
   const [value, setValue] = useState(testVal);
   const [dirty, setDirty] = useState(false);
+  const inputRef = useRef(null);
 
-  const errorMessage =
-    dirty && !value ? 'Please provide a password to decrypt this file' : null;
+  const errorMessage = 'Please provide a password to decrypt this file';
+
+  const setFocus = () => {
+    if (inputRef?.current) {
+      focusElement('input', {}, inputRef.current.shadowRoot);
+    } else {
+      focusElement(`#root_additionalDocuments_file_${index}`);
+    }
+  };
+
+  useEffect(
+    () => {
+      if (dirty && !value && inputRef?.current) {
+        setFocus();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dirty, value, inputRef],
+  );
 
   return (
     <div className="vads-u-margin-bottom--2">
       <va-text-input
+        ref={inputRef}
         label="PDF password"
-        error={errorMessage}
+        error={(dirty && !value && errorMessage) || null}
         name={`get_password_${index}`}
         required
         value={value}
@@ -35,6 +55,7 @@ const ShowPdfPassword = ({
           } else {
             setValue('');
             setDirty(true);
+            setFocus();
           }
         }}
         aria-describedby={ariaDescribedby}
