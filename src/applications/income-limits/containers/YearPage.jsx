@@ -105,7 +105,7 @@ const YearPage = ({
       <VaSelect
         autocomplete="false"
         data-testid="il-year"
-        error={(submitted && error && 'Please select a year') || null}
+        error={(submitted && error && 'Please select a year.') || null}
         id="year"
         label="Year"
         name="year"

@@ -23,6 +23,28 @@
           }
         }
       },
+      "applicantForeign": {
+        "applicantRelationshipToClaimant": "Authorized Agent/Rep",
+        "view:applicantInfo": {
+          "name": {
+            "first": "Harry",
+            "middle": "James",
+            "last": "Santiago",
+            "suffix": "Sr."
+          },
+          "mailingAddress": {
+            "street": "55 Angus street",
+            "street2": "Apt 4",
+            "city": "Dundee City",
+            "country": "GBR",
+            "postalCode": "DD1 1AA"
+          },
+          "state": "Scotland",
+          "view:contactInfo": {
+            "applicantPhoneNumber": "443825555555"
+          }
+        }
+      },
       "veteran": {
         "address": {
           "street": "101 small sky st",
@@ -31,6 +53,13 @@
           "country": "USA",
           "state": "ME",
           "postalCode": "02040"
+        },
+        "phoneNumber": "8435555555",
+        "email": "testing@test.com",
+        "desiredCemetery": {
+          "id": "804",
+          "widget": "autosuggest",
+          "label": "BEVERLY NATIONAL CEMETERY"
         },
         "view:hasServiceName": true,
         "serviceName": {
@@ -84,7 +113,8 @@
         "maritalStatus": "Married",
         "militaryStatus": "A",
         "isDeceased": "yes",
-        "dateOfDeath": "1989-01-01"
+        "dateOfDeath": "1989-01-01",
+        "relationshipToVet": "1"
       },
       "claimant": {
         "address": {

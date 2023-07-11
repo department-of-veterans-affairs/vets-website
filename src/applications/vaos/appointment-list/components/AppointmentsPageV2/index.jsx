@@ -170,28 +170,6 @@ export default function AppointmentsPageV2() {
     ],
   );
 
-  const [documentTitle, setDocumentTitle] = useState();
-  useEffect(
-    () => {
-      function handleBeforePrint(_event) {
-        document.title = `Appointments | VA online scheduling | Veterans Affairs`;
-      }
-
-      function handleAfterPrint(_event) {
-        document.title = documentTitle;
-      }
-      setDocumentTitle(document.title);
-
-      window.addEventListener('beforeprint', handleBeforePrint);
-      window.addEventListener('afterprint', handleAfterPrint);
-      return () => {
-        window.removeEventListener('beforeprint', handleBeforePrint);
-        window.removeEventListener('afterprint', handleAfterPrint);
-      };
-    },
-    [documentTitle, subPageTitle],
-  );
-
   const [count, setCount] = useState(0);
   useEffect(
     () => {

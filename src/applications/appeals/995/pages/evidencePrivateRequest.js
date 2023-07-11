@@ -2,7 +2,11 @@ import { EVIDENCE_PRIVATE } from '../constants';
 
 export default {
   uiSchema: {
-    [EVIDENCE_PRIVATE]: {},
+    [EVIDENCE_PRIVATE]: {
+      'ui:options': {
+        hideOnReview: true,
+      },
+    },
   },
   schema: {
     type: 'object',

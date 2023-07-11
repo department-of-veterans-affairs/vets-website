@@ -10,6 +10,7 @@ import { Categories, Paths, PageTitles } from '../util/constants';
 import { dateFormat } from '../util/helpers';
 import MessageThreadBody from './MessageThread/MessageThreadBody';
 import { closeAlert } from '../actions/alerts';
+import CannotReplyAlert from './shared/CannotReplyAlert';
 
 const MessageDetailBlock = props => {
   const { message, cannotReply } = props;
@@ -74,7 +75,7 @@ const MessageDetailBlock = props => {
   );
 
   return (
-    <section className="message-detail-block">
+    <div className="message-detail-block">
       <header className="message-detail-header">
         <h1
           className="vads-u-margin-bottom--2"
@@ -82,6 +83,7 @@ const MessageDetailBlock = props => {
         >
           {categoryLabel}: {subject}
         </h1>
+        <CannotReplyAlert visible={cannotReply} />
       </header>
       <MessageActionButtons
         id={messageId}
@@ -89,15 +91,13 @@ const MessageDetailBlock = props => {
         onReply={handleReplyButton}
         hideReplyButton={cannotReply}
       />
-      <main
+      <section
         className="message-detail-content"
         aria-label="Most recent message in this conversation"
       >
-        <section
-          className="message-metadata"
-          data-testid="message-metadata"
-          aria-label="message details."
-        >
+        <h2 className="sr-only">Most recent message in this conversation.</h2>
+        <div className="message-metadata" data-testid="message-metadata">
+          <h3 className="sr-only">Message details.</h3>
           <p>
             <strong>From: </strong>
             {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
@@ -114,23 +114,22 @@ const MessageDetailBlock = props => {
             <strong>Message ID: </strong>
             {messageId}
           </p>
-        </section>
+        </div>
 
-        <section className="message-body" aria-label="Message body.">
+        <div className="message-body">
+          <h3 className="sr-only">Message body.</h3>
           <MessageThreadBody expanded text={body} />
-        </section>
+        </div>
 
         {!!attachments &&
           attachments.length > 0 && (
             <>
-              <div className="message-body-attachments-label">
-                <strong>Attachments</strong>
-              </div>
+              <h3 className="sr-only">Message attachments.</h3>
               <AttachmentsList attachments={attachments} />
             </>
           )}
-      </main>
-    </section>
+      </section>
+    </div>
   );
 };
 MessageDetailBlock.propTypes = {

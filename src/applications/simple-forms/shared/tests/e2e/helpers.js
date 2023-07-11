@@ -41,10 +41,17 @@ export const selectDropdownWebComponent = (fieldName, value) => {
 
 export const selectCheckboxWebComponent = (fieldName, condition) => {
   if (condition) {
+    // V1 web component
+    // cy.get(`va-checkbox[name="root_${fieldName}"]`)
+    //   .shadow()
+    //   .find('input')
+    //   .check();
+
+    // V3 web component - work around for not being able to check input
     cy.get(`va-checkbox[name="root_${fieldName}"]`)
       .shadow()
-      .find('input')
-      .check();
+      .find('label')
+      .click();
   }
 };
 
@@ -153,7 +160,10 @@ export const reviewAndSubmitPageFlow = signerName => {
         ? `${signerName.first} ${signerName.middle} ${signerName.last}`
         : `${signerName.first} ${signerName.last}`,
     );
-  cy.get(`input[name="veteran-certify"]`).check();
+  cy.get(`va-checkbox[name="veteran-certify"]`)
+    .shadow()
+    .find('input')
+    .check();
   cy.findAllByText(/Submit application/i, {
     selector: 'button',
   }).click();
