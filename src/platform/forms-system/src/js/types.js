@@ -234,7 +234,7 @@
  * @property {boolean} [invalid] - For web components. Whether or not aria-invalid will be set on the inner input. Useful when composing the component into something larger, like a date component.
  * @property {boolean} [keepInPageOnReview]
  * @property {Record<string, string>} [labels] - Used to specify radio button or yes/no labels
- * @property {string} [messageAriaDescribedby] - For web component fields, such as VaTextInputField. An optional message that will be read by screen readers when the input is focused.
+ * @property {string} [messageAriaDescribedby] - For web components. An optional message that will be read by screen readers when the input is focused.
  * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [replaceSchema]
  * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [updateSchema]
  * @property {boolean} [reflectInputError] - Whether or not to add usa-input--error as class if error message is outside of component.
