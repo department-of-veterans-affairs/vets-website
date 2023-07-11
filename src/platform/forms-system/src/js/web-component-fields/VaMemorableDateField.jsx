@@ -41,10 +41,6 @@ export default function VaMemorableDateField(props) {
         const newValues = parseISODate(date);
         setValues(newValues);
 
-        if (mappedProps.enableAnalytics) {
-          // Implement enableAnalytics if needed here, likely using recordEvent
-        }
-
         if (isIncomplete(newValues)) {
           // if the user has partially filled out the date,
           // represent it as undefined until they have completed it

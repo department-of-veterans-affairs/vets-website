@@ -21,9 +21,6 @@ export default function vaCheckboxFieldMapping(props) {
         : childrenProps.formData,
     onVaChange: (event, value) => {
       const newVal = value ?? event.target.checked ?? undefined;
-      if (uiOptions.enableAnalytics) {
-        // Implement enableAnalytics if needed here, likely using recordEvent
-      }
       childrenProps.onChange(newVal);
     },
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),

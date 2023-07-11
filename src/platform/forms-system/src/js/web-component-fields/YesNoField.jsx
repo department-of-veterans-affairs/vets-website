@@ -24,9 +24,6 @@ export default function YesNoField(props) {
       onVaValueChange={event => {
         const value = values[event.detail.value];
         const newVal = value ?? undefined;
-        if (mappedProps.enableAnalytics) {
-          // Implement enableAnalytics if needed here, likely using recordEvent
-        }
         props.childrenProps.onChange(newVal);
       }}
     >

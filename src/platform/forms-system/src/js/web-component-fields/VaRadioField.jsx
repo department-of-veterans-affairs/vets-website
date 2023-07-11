@@ -25,9 +25,6 @@ export default function VaRadioField(props) {
       {...mappedProps}
       onVaValueChange={event => {
         const newVal = event.detail.value ?? undefined;
-        if (mappedProps.enableAnalytics) {
-          // Implement enableAnalytics if needed here, likely using recordEvent
-        }
         props.childrenProps.onChange(newVal);
       }}
     >

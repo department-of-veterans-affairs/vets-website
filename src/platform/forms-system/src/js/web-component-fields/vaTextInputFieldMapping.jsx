@@ -35,9 +35,6 @@ export default function vaTextInputFieldMapping(props) {
       // pattern validation will trigger if you have '',
       // so set as undefined instead.
       newVal = newVal === '' ? undefined : newVal;
-      if (uiOptions.enableAnalytics) {
-        // Implement enableAnalytics if needed here, likely using recordEvent
-      }
       childrenProps.onChange(newVal);
     },
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
