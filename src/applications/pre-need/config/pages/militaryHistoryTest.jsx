@@ -3,8 +3,9 @@ import { isVeteran } from '../../utils/helpers';
 
 export function GetTestTitle() {
   const data = useSelector(state => state.form.data || {});
-  if (isVeteran(data)) {
-    return 'This works VET';
-  }
-  return 'This works NOVET';
+  return isVeteran(data) ? 'This works VET' : 'This works NOVET';
 }
+
+export const getTestTitleGetter = {
+  GetTestTitle,
+};
