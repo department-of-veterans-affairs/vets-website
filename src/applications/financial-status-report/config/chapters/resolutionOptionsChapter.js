@@ -1,7 +1,7 @@
 import {
   resolutionExplainer,
-  resolutionOption,
   resolutionOptions,
+  resolutionOption,
   resolutionComment,
   resolutionWaiverAgreement,
   resolutionComments,
@@ -21,7 +21,7 @@ export default {
         path: 'resolution-options',
         title: 'Resolution options',
         depends: formData => !formData['view:combinedFinancialStatusReport'],
-        uiSchema: resolutionExplainer.uiSchema,
+        uiSchema: resolutionOptions.uiSchema,
         schema: resolutionOptions.schema,
       },
       // New resolution radio options
