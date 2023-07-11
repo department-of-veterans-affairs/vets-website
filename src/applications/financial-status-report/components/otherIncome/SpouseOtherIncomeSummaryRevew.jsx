@@ -5,7 +5,7 @@ import OtherIncomeReviewSection from './OtherIncomeReviewSection';
 const SpouseOtherIncomeSummaryReview = ({ data }) => {
   const { spAddlIncome = [] } = data.additionalIncome.spouse;
 
-  return <div>{OtherIncomeReviewSection(spAddlIncome)}</div>;
+  return <div>{OtherIncomeReviewSection(spAddlIncome, true)}</div>;
 };
 
 SpouseOtherIncomeSummaryReview.propTypes = {

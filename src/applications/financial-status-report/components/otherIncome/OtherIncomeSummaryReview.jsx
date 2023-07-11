@@ -5,7 +5,7 @@ import OtherIncomeReviewSection from './OtherIncomeReviewSection';
 const OtherIncomeSummaryReview = ({ data }) => {
   const { addlIncRecords = [] } = data.additionalIncome;
 
-  return <div>{OtherIncomeReviewSection(addlIncRecords)}</div>;
+  return <div>{OtherIncomeReviewSection(addlIncRecords, false)}</div>;
 };
 
 OtherIncomeSummaryReview.propTypes = {

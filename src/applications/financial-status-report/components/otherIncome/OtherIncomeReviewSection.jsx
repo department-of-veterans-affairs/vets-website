@@ -1,10 +1,10 @@
 import React from 'react';
 import { currency as currencyFormatter } from '../../utils/helpers';
 
-const OtherIncomeReviewSection = recordArray => {
+const OtherIncomeReviewSection = (recordArray, isSpouse) => {
   return (
     <>
-      <h4>Additional income</h4>
+      <h4>{isSpouse ? "Spouse's additional income" : 'Additional income'}</h4>
       <dl className="review">
         {recordArray.map((income, index) => {
           return (
