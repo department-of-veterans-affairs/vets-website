@@ -16,7 +16,7 @@ describe('Schemaform definition file', () => {
       </Provider>,
     );
 
-    expect(container.querySelector('input[type="file"]')).not.to.be.null;
-    expect(container.querySelector('label>span[role="button"]')).not.to.be.null;
+    expect(container.querySelector('input[type="file"]')).to.exist;
+    expect(container.querySelector('label>va-button#upload-button')).to.exist;
   });
 });
