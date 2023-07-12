@@ -192,7 +192,7 @@ const labsAndTestsConverterMap = {
  * @param {Object} record - A FHIR DiagnosticReport or DocumentReference object
  * @returns the appropriate frontend object for display
  */
-const convertLabsAndTestsRecord = record => {
+export const convertLabsAndTestsRecord = record => {
   const type = getRecordType(record);
   const convertRecord = labsAndTestsConverterMap[type];
   return convertRecord ? convertRecord(record) : record;
