@@ -231,7 +231,7 @@
             "prescriptionName": "ASC"
         },
         "pagination": {
-            "currentPage": 1,
+            "currentPage": 2,
             "perPage": 10,
             "totalPages": 1,
             "totalEntries": 9

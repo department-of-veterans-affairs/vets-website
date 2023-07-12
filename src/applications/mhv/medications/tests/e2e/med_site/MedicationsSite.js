@@ -34,31 +34,53 @@ class MedicationsSite {
   loadVAPaginationPrescriptions = (
     interceptedPage = 1,
     mockRx,
-    PerPage = 10,
+    PerPage = 20,
   ) => {
     cy.intercept(
       'GET',
       `/my_health/v1/prescriptions?page=1&per_page=${PerPage}`,
       mockRx,
     ).as(`Prescriptions${interceptedPage}`);
-    cy.get('[aria-label="Pagination"]')
+    cy.get('[id="pagination"]')
       .shadow()
       .find(`[aria-label="Page ${interceptedPage}"]`)
       .click();
-    cy.wait(`@Prescriptions${interceptedPage}`);
+    // cy.wait(`@Prescriptions${interceptedPage}`);
   };
 
-  loadVAPaginationNextPrescriptions = (interceptedPage = 1, mockRx) => {
-    cy.intercept(
-      'GET',
-      `/my_health/v1/prescriptions?page=1&per_page=999`,
-      mockRx,
-    ).as(`Prescriptions${interceptedPage}`);
+  loadVAPaginationNextPrescriptions = () => {
     cy.get('[aria-label="Pagination"]')
       .shadow()
       .find('[aria-label="Next page"]')
       .click();
-    cy.wait(`@Prescriptions${interceptedPage}`);
+  };
+
+  loadVAPaginationPreviousPrescriptions = (
+    interceptedPage = 2,
+    mockRx,
+    PerPage = 10,
+  ) => {
+    cy.intercept(
+      'POST',
+      `/my_health/v1/prescriptions?page=1&per_page=${PerPage}`,
+      mockRx,
+    ).as(`Prescriptions${interceptedPage}`);
+    cy.get('[aria-label="Pagination"]')
+      .shadow()
+      .find('[aria-label="Previous page"]')
+      .click();
+    // cy.wait(`@Prescriptions${interceptedPage}`);
+  };
+
+  verifyPaginationPrescirptionsDisplayed = (
+    displayedStartNumber,
+    displayedEndNumber,
+    threadLength,
+  ) => {
+    cy.get('[class ="rx-page-total-info no-print"]').should(
+      'have.text',
+      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications`,
+    );
   };
 }
 export default MedicationsSite;

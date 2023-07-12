@@ -7,7 +7,7 @@ describe('Medications Landing Page', () => {
     const site = new MedicationsSite();
     cy.visit('my-health/medications');
     site.login();
-    const threadLength = 10;
+    const threadLength = 21;
     mockRxPageOne.data.forEach(item => {
       const currentItem = item;
       currentItem.attributes.threadPageSize = threadLength;
@@ -17,8 +17,12 @@ describe('Medications Landing Page', () => {
       currentItem.attributes.threadPAgeSize = threadLength;
     });
     cy.get('[href="/my-health/medications/prescriptions"]').click();
-    site.loadVAPaginationPrescriptions(1, mockRxPageOne, 10);
-    site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
+    site.loadVAPaginationPrescriptions(1, mockRxPageOne, 20);
+    site.verifyPaginationPrescirptionsDisplayed(1, 20, threadLength);
+    site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo, 1);
+    site.verifyPaginationPrescirptionsDisplayed(21, 21, threadLength);
+    site.loadVAPaginationPreviousPrescriptions(1, mockRxPageOne, 20);
+    site.verifyPaginationPrescirptionsDisplayed(1, 20, threadLength);
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
