@@ -240,16 +240,16 @@ export function addressUI(options) {
          * user selects that they live on a military base outside the US.
          */
         updateSchema: (formData, schema, _uiSchema, index, path) => {
-          const addressPath = path.shift(); // path is ['address', 'currentField']
+          const addressPath = [...path].shift(); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const countryUI = _uiSchema;
           const addressFormData = get(addressPath, formData) ?? {};
           const { isMilitary } = addressFormData;
-          // Use 'inert' solution for now until further guidance
-          // from DST is provided
-          // 'inert' is a newer property that is similar to 'disabled'
+          // 'inert' is the preferred solution for now
+          // instead of disabled via DST guidance
           if (isMilitary) {
             countryUI['ui:options'].inert = true;
+            addressFormData.country = USA.value;
             return {
               enum: [USA.value],
               enumNames: [USA.label],
@@ -339,7 +339,6 @@ export function addressUI(options) {
           return {
             type: 'string',
             title: 'City',
-            minLength: 1,
             maxLength: 100,
             pattern: STREET_PATTERN,
           };

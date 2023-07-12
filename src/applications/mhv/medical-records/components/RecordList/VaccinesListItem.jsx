@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Link } from 'react-router-dom';
-import { dateFormat, typeAndDose } from '../../util/helpers';
+import { typeAndDose } from '../../util/helpers';
 import ItemList from '../shared/ItemList';
 
 const VaccinesListItem = props => {
   const { record } = props;
-  const formattedDate = dateFormat(record.date, 'MMMM D, YYYY');
+  const formattedDate = formatDateLong(record.date);
 
   return (
     <div

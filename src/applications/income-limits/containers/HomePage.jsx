@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 import { scrollToTop } from '../utilities/scroll-to-top';
 import {
@@ -21,25 +21,29 @@ const HomePage = ({
 }) => {
   useEffect(
     () => {
+      router.push(ROUTES.HOME);
+
       const clearForm = () => {
         updateDependentsField('');
         updateYearField('');
         updateZipCodeField('');
       };
 
-      focusElement('h1');
+      waitForRenderThenFocus('h1');
       scrollToTop();
       clearForm();
     },
-    [updateDependentsField, updateYearField, updateZipCodeField],
+    [router, updateDependentsField, updateYearField, updateZipCodeField],
   );
 
-  const goToCurrent = () => {
+  const goToCurrent = event => {
+    event.preventDefault();
     togglePastMode(false);
     router.push(ROUTES.ZIPCODE);
   };
 
-  const goToPast = () => {
+  const goToPast = event => {
+    event.preventDefault();
     togglePastMode(true);
     router.push(ROUTES.YEAR);
   };

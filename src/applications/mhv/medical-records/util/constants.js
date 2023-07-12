@@ -16,4 +16,6 @@ export const labTypes = {
   OTHER: 'other',
 };
 
+export const emptyField = 'None noted';
+
 export const testing = false;

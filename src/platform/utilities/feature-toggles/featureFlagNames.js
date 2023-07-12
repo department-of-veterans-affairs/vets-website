@@ -87,6 +87,7 @@ export default Object.freeze({
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
   mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
   myVaUseExperimental: 'my_va_experimental',
+  myVaUseLighthouseClaims: 'my_va_lighthouse_claims',
   omniChannelLink: 'omni_channel_link',
   pdfWarningBanner: 'pdf_warning_banner',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
@@ -182,5 +183,6 @@ export default Object.freeze({
   vaOnlineSchedulingDescriptiveBackLink: 'va_online_scheduling_descriptive_back_link',
   vaViewDependentsAccess: 'va_view_dependents_access',
   virtualAgentShowFloatingChatbot: 'virtual_agent_show_floating_chatbot',
+  virtualAgentVoice: 'virtual_agent_voice',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
 });

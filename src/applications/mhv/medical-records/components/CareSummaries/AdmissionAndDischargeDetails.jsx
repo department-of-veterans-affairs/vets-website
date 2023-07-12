@@ -1,21 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dateFormat, downloadFile } from '../../util/helpers';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PrintHeader from '../shared/PrintHeader';
-import { getVaccinePdf } from '../../api/MrApi';
 import PrintDownload from '../shared/PrintDownload';
 
 const AdmissionAndDischargeDetails = props => {
   const { results } = props;
 
-  const admissionDate = dateFormat(results?.startDate, 'MMMM D, YYYY');
-  const dischargeDate = dateFormat(results?.endDate, 'MMMM D, YYYY');
+  const admissionDate = formatDateLong(results?.startDate);
+  const dischargeDate = formatDateLong(results?.endDate);
 
-  const download = () => {
-    getVaccinePdf(1).then(res =>
-      downloadFile('AdmissionDischarge.pdf', res.pdf),
-    );
-  };
+  const download = () => {};
 
   const content = () => {
     if (results) {

@@ -115,6 +115,12 @@ describe('Helpers unit tests', () => {
     it('should display the date in the short format', () => {
       expect(formatDateLong(noon)).to.equal('November 12, 1995');
     });
+
+    const nhdvs = '1865-03-03T12:00:00.000+0000';
+
+    it('should display the date in the short format without padding', () => {
+      expect(formatDateLong(nhdvs)).to.equal('March 3, 1865');
+    });
   });
 
   describe('formatDateParsedZoneLong', () => {
@@ -124,6 +130,7 @@ describe('Helpers unit tests', () => {
     const eightAMOffset0 = '1995-11-12T08:00:00.000+0000';
     const almostMidnightOffset0 = '1995-11-12T23:59:59.999+0000';
     const almostMidnightOffsetNegative1 = '1995-11-12T23:59:59.999-1000';
+    const nhdvsEightAMOffset0 = '1865-03-03T08:00:00.000+0000';
 
     it('should display the date in the short format', () => {
       expect(formatDateParsedZoneLong(midnight)).to.equal('November 12, 1995');
@@ -145,6 +152,9 @@ describe('Helpers unit tests', () => {
       );
       expect(formatDateParsedZoneLong(almostMidnightOffsetNegative1)).to.equal(
         'November 12, 1995',
+      );
+      expect(formatDateParsedZoneLong(nhdvsEightAMOffset0)).to.equal(
+        'March 3, 1865',
       );
     });
   });
