@@ -43,6 +43,10 @@ va-alert button {
   width: auto;
 }
 
+va-modal va-radio {
+  margin-left: 12px;
+}
+
 .message-box {
   background-color: $color-gray-lightest;
   border-radius: 4px;
@@ -252,13 +256,13 @@ va-alert button {
     width: 14px;
     height: 3.5px;
     background-color: $color-red-dark;
-}
-.remove-attachment-icon:before {
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-.remove-attachment-icon:after {
-  transform: translate(-50%, -50%) rotate(-45deg);
-}
+  }
+  .remove-attachment-icon:before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  .remove-attachment-icon:after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
   .remove-attachment-button {
     color: $color-red-dark;
     background-color: $color-white;

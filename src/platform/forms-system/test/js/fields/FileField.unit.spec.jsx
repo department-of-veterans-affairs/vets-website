@@ -74,7 +74,7 @@ describe('Schemaform <FileField>', () => {
     const formData = [
       {
         confirmationCode: 'abcdef',
-        name: 'Test file name',
+        name: 'Test file name.pdf',
       },
     ];
     const registry = {
@@ -95,7 +95,7 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect($('li', container).textContent).to.contain('Test file name');
+    expect($('li', container).textContent).to.contain('Test file name.pdf');
   });
 
   it('should remove files with empty file object when initializing', async () => {
@@ -114,21 +114,21 @@ describe('Schemaform <FileField>', () => {
     const formData = [
       {
         confirmationCode: 'abcdef',
-        name: 'Test1',
+        name: 'Test1.png',
       },
       {
         file: {},
-        name: 'Test2',
+        name: 'Test2.pdf',
       },
       {
         file: {
           name: 'fake', // should never happen
         },
-        name: 'Test3',
+        name: 'Test3.txt',
       },
       {
-        file: new File([1, 2, 3], 'Test3'),
-        name: 'Test4',
+        file: new File([1, 2, 3], 'Test4.jpg'),
+        name: 'Test4.jpg',
       },
     ];
     const registry = {
@@ -154,7 +154,7 @@ describe('Schemaform <FileField>', () => {
       expect(onChange.calledOnce).to.be.true;
       expect(onChange.firstCall.args[0].length).to.equal(3);
       // empty file object was removed;
-      expect(onChange.firstCall.args[0][1].name).to.equal('Test3');
+      expect(onChange.firstCall.args[0][1].name).to.equal('Test3.txt');
     });
   });
 
@@ -174,7 +174,7 @@ describe('Schemaform <FileField>', () => {
     const formData = [
       {
         confirmationCode: 'abcdef',
-        name: 'Test file name',
+        name: 'Test file name.pdf',
       },
     ];
     const registry = {
@@ -227,6 +227,7 @@ describe('Schemaform <FileField>', () => {
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
+        name: 'Test.pdf',
         uploading: true,
       },
     ];
@@ -252,7 +253,7 @@ describe('Schemaform <FileField>', () => {
     const button = $('.cancel-upload', container);
     expect(button).to.exist;
     expect(button.getAttribute('text')).to.eq('Cancel');
-    expect(button.getAttribute('aria-describedby')).to.eq('field_file_name_0');
+    expect(button.getAttribute('label')).to.eq('Cancel upload of Test.pdf');
   });
 
   it('should show progress', () => {
@@ -365,7 +366,7 @@ describe('Schemaform <FileField>', () => {
     const formData = [
       {
         confirmationCode: 'abcdef',
-        name: 'Test file name',
+        name: 'Test file name.pdf',
       },
     ];
     const registry = {
@@ -405,7 +406,7 @@ describe('Schemaform <FileField>', () => {
     const formData = [
       {
         confirmationCode: 'abcdef',
-        name: 'Test file name',
+        name: 'Test file name.pdf',
       },
     ];
     const registry = {
@@ -446,7 +447,7 @@ describe('Schemaform <FileField>', () => {
     const formData = [
       {
         confirmationCode: 'abcdef',
-        name: 'Test file name',
+        name: 'Test file name.pdf',
         size: 12345678,
       },
     ];
@@ -472,7 +473,7 @@ describe('Schemaform <FileField>', () => {
     expect($('.delete-upload', container)).to.exist;
 
     const text = $('li', container).textContent;
-    expect(text).to.include('Test file name');
+    expect(text).to.include('Test file name.pdf');
     expect(text).to.include('12MB');
   });
 
@@ -832,7 +833,7 @@ describe('Schemaform <FileField>', () => {
     const formData = [
       {
         confirmationCode: 'abcdef',
-        name: 'Test file name',
+        name: 'Test file name.pdf',
         size: 987654,
       },
     ];
@@ -858,12 +859,12 @@ describe('Schemaform <FileField>', () => {
     );
 
     const text = $('li').textContent;
-    expect(text).to.contain('Test file name');
+    expect(text).to.contain('Test file name.pdf');
     expect(text).to.contain('965KB');
 
     const deleteButton = $('.delete-upload', container);
-    expect(deleteButton?.getAttribute('aria-describedby')).to.eq(
-      'field_file_name_0',
+    expect(deleteButton?.getAttribute('label')).to.eq(
+      'Delete Test file name.pdf',
     );
 
     // check ids & index passed into SchemaField
@@ -915,6 +916,7 @@ describe('Schemaform <FileField>', () => {
     });
     const formData = [
       {
+        name: 'Test file name.pdf',
         attachmentId: '1234',
       },
     ];
@@ -939,9 +941,9 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(
-      $('.delete-upload', container).getAttribute('aria-describedby'),
-    ).to.eq('field_file_name_0');
+    expect($('.delete-upload', container).getAttribute('label')).to.eq(
+      'Delete Test file name.pdf',
+    );
 
     // check ids & index passed into SchemaField
     const { widgetProps } = testProps.uiSchema['ui:options'];
@@ -987,7 +989,7 @@ describe('Schemaform <FileField>', () => {
     const formData = [
       {
         confirmationCode: 'abcdef',
-        name: 'Test file name',
+        name: 'Test file name.pdf',
       },
     ];
     const registry = {
@@ -1044,7 +1046,7 @@ describe('Schemaform <FileField>', () => {
     const formData = [
       {
         confirmationCode: 'abcdef',
-        name: 'Test file name',
+        name: 'Test file name.pdf',
       },
     ];
     const registry = {
