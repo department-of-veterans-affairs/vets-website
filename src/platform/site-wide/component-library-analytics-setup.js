@@ -585,6 +585,18 @@ const analyticsEvents = {
       action: 'change',
       event: 'int-radio-button-option-click',
       prefix: 'radio-button',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-radio',
+        custom_string_1: 'component_library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'radio-button-label': 'custom_string_2',
+          'radio-button-optionLabel': 'value',
+          'radio-button-required': 'required',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-search-input': [
@@ -624,6 +636,17 @@ const analyticsEvents = {
       action: 'change',
       event: 'int-select-box-option-click',
       prefix: 'select',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-select',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'select-label': 'custom_string_2',
+          'select-selectLabel': 'value',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-pagination': [
