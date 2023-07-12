@@ -4,38 +4,16 @@ import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-// const devs = {
-//   eddie: { 'data-info': 'eddie.otero@oddball.io' },
-//   jacob: { 'data-info': 'jacob@docme360.com' },
-//   joe: { 'data-info': 'joe.hall@thoughtworks.com' },
-//   khoa: { 'data-info': 'khoa.nguyen@oddball.io' },
-// };
-
 const IntroductionPage = props => {
-  // componentDidMount() {
-  //   // TODO: maybe here??
-  //   focusElement('.va-nav-breadcrumbs-list');
-  //   // apiRequest(`${environment.API_URL}/v0/ask_va/ask_va_static_data`).then((response) => {
-  //   //   console.log(response);
-  //   //   devs = response.data;
-  //   // });
-  // }
   const { route } = props;
   const { formConfig, pageList } = route;
-
-//  const formConfig = formConfigFn();
 
   useEffect(
     () => {
       focusElement('.va-nav-breadcrumbs-list');
-      console.log('props: ', props);
     },
     [props],
   );
-
-  //  return {
-  // // eslint-disable-next-line react/prop-types, prettier/prettier
-  // formConfig.chapters.chapter1.pages.page1.uiSchema.devField['ui:options'].widgetProps = IntroductionPage.devs;
 
   return (
     <article className="schemaform-intro">
