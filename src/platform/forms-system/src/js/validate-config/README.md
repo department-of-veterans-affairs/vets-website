@@ -6,4 +6,4 @@ Each form config validation function must accept the `formConfig`.
 
 If the `formConfig` contains an error introduced by a developer, the validation function should throw an `Error` with a description of the error and what to do to fix it.
 
-If the configuration does not contian an error, the validation function should do nothing. No return value is needed.
+If the configuration does not contain an error, the validation function should do nothing. No return value is needed.

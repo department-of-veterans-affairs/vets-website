@@ -35,7 +35,7 @@ Mission: Make it easier for Veterans and Caregivers to apply for, track, and man
 
 Follow the standard directions to run the app. The API needs to be running in order to run the app locally.
 
-### Where is the data goin?
+### Where is the data going?
 
 The data is going to a system called CARMA (Caregiver Record Management Application).
 
@@ -51,7 +51,7 @@ This uses the Caregivers API, the main controller is [here](https://github.com/d
 
 Currently, there are no lower environments for CARMA. We are currently working through that problem.
 
-Each feature should have unit tests and e2e tests. Since this is an unauthenticated form, we use teh Review Instances to review before merging a PR.
+Each feature should have unit tests and e2e tests. Since this is an unauthenticated form, we use the Review Instances to review before merging a PR.
 
 ### Useful CARMA integrations Slack Channel
 

@@ -12,9 +12,9 @@ The MegaMenu is the initial design for navigation between va.gov and vets.gov. T
 
 This is the data that is used to generate the MegaMenu. The data is made up of an Array of Objects. There are 2 variations of how the MegaMenu can be rendered. It is important to format your data prop to properly generate the MegaMenu. Below is examples of the data structure.
 
-### Dependancies
+### Dependencies
 
-There are style dependancies that need to be added to the project to make the MegaMenu work properly.
+There are style dependencies that need to be added to the project to make the MegaMenu work properly.
 
 - formation
 - uswds 1.6.10

@@ -82,7 +82,7 @@ To run locally for a BE developer, you can use the following commands
 
 | Command | Description |
 |---------|-------------|
-| yarn && yarn build:webpack --env.scaffold | Installs the dependancies and builds the app |
+| yarn && yarn build:webpack --env.scaffold | Installs the dependencies and builds the app |
 | yarn watch | Runs the app in watch mode |
 
 #### Current Feature toggles to enable
@@ -150,9 +150,9 @@ For testing in staging, use the instructions at [https://github.com/department-o
 
 ### Useful acronym and terms
 
-- CHIP - New API that is a central point for all the health data access. Bascially a wrapper around VistA and other internal nasty APIs.
+- CHIP - New API that is a central point for all the health data access. Basically a wrapper around VistA and other internal nasty APIs.
 - LoROTA - Low Risk Authorization Service. This is how we are managing and verifying a user is who they say they are. Currently its a token based system that is essentially a shared short term data storage
-- Pre- Check in - The name of this app when talking to non techincal folks
+- Pre- Check in - The name of this app when talking to non technical folks
 - Day of Check in - The is the future work of many of forms
 - VeText - This is the service that sends and receives text messages for the user.
 - VistA - This is a legacy but powerful health recond system that the VA uses. This is slowly being replace by Cerner.

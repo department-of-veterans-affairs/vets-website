@@ -363,7 +363,7 @@ Cypress aliases and routes should get created here instead of `setup`, since tho
 
 Before `setupPerTest` runs, the shared Cypress setup will have automatically started `cy.server()` and stubbed the `GET /v0/maintenance_windows` and `GET /v0/feature_toggles` requests to return empty arrays.
 
-Default stubs (like the maintenance windows and feature toggles requests) can be overriden by setting up another `cy.route` on the same endpoint.
+Default stubs (like the maintenance windows and feature toggles requests) can be overridden by setting up another `cy.route` on the same endpoint.
 
 This is also generally the place to set anything in `localStorage` and `sessionStorage` before the test runs.
 
