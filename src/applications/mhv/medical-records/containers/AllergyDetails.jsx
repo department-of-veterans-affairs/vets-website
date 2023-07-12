@@ -161,7 +161,7 @@ const AllergyDetails = () => {
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Reaction
             </h2>
-            <ItemList list={allergy.reaction} emptyMessage="None noted" />
+            <ItemList list={allergy.reaction} />
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Type of allergy
             </h2>
@@ -185,7 +185,7 @@ const AllergyDetails = () => {
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider notes
             </h2>
-            <ItemList list={allergy.notes} emptyMessage="None noted" />
+            <ItemList list={allergy.notes} />
           </div>
         </>
       );

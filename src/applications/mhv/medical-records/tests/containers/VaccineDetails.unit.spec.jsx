@@ -9,15 +9,13 @@ describe('Vaccines details container', () => {
     mr: {
       vaccines: {
         vaccineDetails: {
-          name: 'COVID-19 vaccine',
           id: '123',
+          name: 'COVID-19 vaccine',
           date: '2022-06-14T17:42:46.000Z',
-          type: 'COVID-19 booster',
-          dosage: '1st booster',
-          series: 'Phizer',
-          facility: 'school parking lot',
+          location: 'school parking lot',
+          manufacturer: 'Pfizer',
           reactions: ['sore arm', 'fever'],
-          comments: [
+          notes: [
             'Protects from delta variant',
             'May need another booster for other variants',
           ],
@@ -72,36 +70,27 @@ describe('Vaccines details container', () => {
     expect(formattedDate).to.exist;
   });
 
-  it('displays the type and dosage', () => {
+  it('displays the manufacturer', () => {
     const screen = setup();
-    const formattedDate = screen.getByText('COVID-19 booster, 1st booster', {
-      exact: true,
-      selector: 'p',
-    });
-    expect(formattedDate).to.exist;
-  });
-
-  it('displays the series', () => {
-    const screen = setup();
-    const formattedDate = screen.getByText(
-      initialState.mr.vaccines.vaccineDetails.series,
+    const manufacturer = screen.getByText(
+      initialState.mr.vaccines.vaccineDetails.manufacturer,
       {
         exact: true,
         selector: 'p',
       },
     );
-    expect(formattedDate).to.exist;
+    expect(manufacturer).to.exist;
   });
 
   it('displays the location', () => {
     const screen = setup();
-    const formattedDate = screen.getByText(
-      initialState.mr.vaccines.vaccineDetails.series,
+    const location = screen.getByText(
+      initialState.mr.vaccines.vaccineDetails.location,
       {
         exact: true,
         selector: 'p',
       },
     );
-    expect(formattedDate).to.exist;
+    expect(location).to.exist;
   });
 });
