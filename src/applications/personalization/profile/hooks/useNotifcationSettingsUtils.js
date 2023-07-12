@@ -6,7 +6,7 @@ import {
   selectVAPMobilePhone,
 } from '~/platform/user/selectors';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-// import { selectGroups } from '../ducks/communicationPreferences';
+import { selectItems } from '../ducks/communicationPreferences';
 import { NOTIFICATION_CHANNEL_IDS, NOTIFICATION_GROUPS } from '../constants';
 
 const filterChannelsByItemId = (itemId, channelEntities) => {
@@ -38,9 +38,41 @@ const reduceGroupsForToggles = (groups, toggles) => {
   );
 };
 
-// const useReduceGroupsForSupportedChannels = (groups, channels) => {
-//   return groups.reduce((acc, group) => {});
-// };
+// reduce groups to only those that have one of the channel ids in the channels array
+const useReduceGroupsForSupportedChannels = (groups, channels) => {
+  const items = useSelector(selectItems);
+
+  return Object.entries(groups.entities).reduce(
+    (acc, [id, group]) => {
+      const groupActive = group.items.reduce((itemAcc, itemId) => {
+        const item = items.entities[itemId];
+        const supportedChannels = item.channels.filter(
+          itemChannel =>
+            channels.filter(
+              channelId => channelId === itemChannel.endsWith(channelId),
+            ).length > 0,
+        );
+
+        if (supportedChannels.length > 0) {
+          return true;
+        }
+
+        return itemAcc;
+      }, false);
+
+      if (groupActive) {
+        acc.ids.push(id);
+        acc.entities[id] = group;
+      }
+
+      return acc;
+    },
+    {
+      ids: [],
+      entities: {},
+    },
+  );
+};
 
 export const useNotificationSettingsUtils = () => {
   const {
@@ -101,6 +133,13 @@ export const useNotificationSettingsUtils = () => {
     return useMemo(() => reduceGroupsForToggles(groups, toggles), [groups]);
   };
 
+  const useAllReducedGroupsForSupportedChannelsAndToggles = groups => {
+    const reducedGroups = useReducedGroups(groups);
+
+    const channels = channelsWithContactInfo;
+
+    return useReduceGroupsForSupportedChannels(reducedGroups, channels);
+  };
   // const useReducedGroupsForSupportedChannels = groups => {
   //   const groupsFromToggles = useReducedGroups(groups);
   //   const channels = channelsWithContactInfo();
@@ -125,6 +164,7 @@ export const useNotificationSettingsUtils = () => {
   return {
     getChannlesByItemId: useChannelsByItemId,
     getReducedGroups: useReducedGroups,
+    getAllReducedGroupsForSupportedChannelsAndToggles: useAllReducedGroupsForSupportedChannelsAndToggles,
     channelsWithContactInfo,
     toggles,
   };

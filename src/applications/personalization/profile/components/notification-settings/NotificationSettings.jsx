@@ -1,5 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useMemo } from 'react';
+import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { animateScroll as scroll } from 'react-scroll';
 import { useLocation } from 'react-router-dom';
@@ -10,9 +10,13 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { NOTIFICATION_GROUPS, PROFILE_PATH_NAMES } from '@@profile/constants';
 import {
   fetchCommunicationPreferenceGroups,
+  getAvailableCommunicationGroups,
+  getUnavailableCommunicationItems,
+  getUnavailableCommunicationItemsByGroup,
   selectGroups,
 } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
+import { useNotificationSettingsUtils } from '@@profile/hooks/useNotifcationSettingsUtils';
 
 import {
   hasVAPServiceConnectionError,
@@ -32,7 +36,6 @@ import MissingContactInfoAlert from './MissingContactInfoAlert';
 import NotificationGroup from './NotificationGroup';
 import { FieldHasBeenUpdated as FieldHasBeenUpdatedAlert } from '../alerts/FieldHasBeenUpdated';
 import { MissingContactInfoExpandable } from './MissingContactInfoExpandable';
-import { useNotificationSettingsUtils } from '../../hooks/useNotifcationSettingsFilters';
 
 const NotificationSettings = ({
   allContactInfoOnFile,
@@ -51,6 +54,7 @@ const NotificationSettings = ({
   const {
     toggles: notificationToggles,
     getReducedGroups,
+    channelsWithContactInfo,
   } = useNotificationSettingsUtils();
 
   React.useEffect(
@@ -106,7 +110,33 @@ const NotificationSettings = ({
 
   const reducedNotificationGroups = getReducedGroups(notificationGroups);
 
-  // console.log({ channelsWithContactInfo, reducedNotificationGroups });
+  const rawResponse = useSelector(
+    state => state?.communicationPreferences?.unflattened,
+  );
+
+  // console.log({ rawResponse, channelsWithContactInfo });
+
+  const availableGroups = useMemo(
+    () => getAvailableCommunicationGroups(rawResponse, channelsWithContactInfo),
+    [rawResponse, channelsWithContactInfo],
+  );
+
+  const unavailableItems = useMemo(
+    () =>
+      getUnavailableCommunicationItems(rawResponse, channelsWithContactInfo),
+    [rawResponse, channelsWithContactInfo],
+  );
+
+  const unavailableItemsByGroup = useMemo(
+    () =>
+      getUnavailableCommunicationItemsByGroup(
+        rawResponse,
+        channelsWithContactInfo,
+      ),
+    [rawResponse, channelsWithContactInfo],
+  );
+
+  // console.log({ availableGroups, unavailableItems, unavailableItemsByGroup });
 
   return (
     <>
@@ -137,7 +167,11 @@ const NotificationSettings = ({
               notificationToggles.showEmailNotificationSettings
             }
           />
-          <MissingContactInfoExpandable />
+          <MissingContactInfoExpandable
+            unavailableItemsByGroup={unavailableItemsByGroup}
+            unavailableItems={unavailableItems}
+            availableGroups={availableGroups}
+          />
           {reducedNotificationGroups.ids.map(groupId => {
             // we handle the health care group a little differently
             if (groupId === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {

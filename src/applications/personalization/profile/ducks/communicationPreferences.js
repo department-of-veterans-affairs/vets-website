@@ -19,6 +19,62 @@ const getErrorKey = errors => {
   return key;
 };
 
+export function getAvailableCommunicationGroups(groups, availableChannelIds) {
+  if (!groups) {
+    return [];
+  }
+  return groups.filter(group =>
+    group.communicationItems.some(item =>
+      item.communicationChannels.some(channel =>
+        availableChannelIds.includes(channel.id),
+      ),
+    ),
+  );
+}
+
+export function getUnavailableCommunicationItems(groups, availableChannelIds) {
+  if (!groups) {
+    return [];
+  }
+  return groups.reduce((unavailableItems, group) => {
+    const items = group.communicationItems.filter(
+      item =>
+        !item.communicationChannels.some(channel =>
+          availableChannelIds.includes(channel.id),
+        ),
+    );
+
+    return unavailableItems.concat(items);
+  }, []);
+}
+
+export function getUnavailableCommunicationItemsByGroup(
+  groups,
+  availableChannelIds,
+) {
+  if (!groups) {
+    return [];
+  }
+  return groups.reduce((unavailableItems, group) => {
+    const items = group.communicationItems.filter(
+      item =>
+        !item.communicationChannels.some(channel =>
+          availableChannelIds.includes(channel.id),
+        ),
+    );
+
+    if (items.length > 0) {
+      unavailableItems.push({
+        groupId: group.id,
+        groupName: group.name,
+        items,
+      });
+    }
+
+    return unavailableItems;
+  }, []);
+}
+
 const recordAPIEvent = ({ method, success, errors }) => {
   const event = {
     event: 'api_call',
@@ -194,7 +250,7 @@ export const selectGroups = state => {
 export const selectGroupById = (state, groupId) => {
   return selectGroups(state).entities[groupId];
 };
-const selectItems = state => {
+export const selectItems = state => {
   return state.items;
 };
 export const selectItemById = (state, itemId) => {
@@ -288,7 +344,7 @@ const initialState = {
     ids: [],
     entities: {},
   },
-  unflattened: {},
+  unflattened: null,
 };
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
