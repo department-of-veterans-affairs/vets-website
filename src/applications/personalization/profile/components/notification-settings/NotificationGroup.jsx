@@ -1,30 +1,19 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { selectGroupById } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
+import { useNotificationSettingsUtils } from '@@profile/hooks/useNotifcationSettingsUtils';
 
 import NotificationItem from './NotificationItem';
-import { BLOCKED_NOTIFICATION_IDS } from '../../constants';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 const NotificationGroup = ({ children, groupName, itemIds }) => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const showMhvNotificationSettings = useToggleValue(
-    TOGGLE_NAMES.profileShowMhvNotificationSettings,
-  );
+  const {
+    useFilteredItemsForMHVNotifications,
+  } = useNotificationSettingsUtils();
 
-  const filteredItemIds = useMemo(
-    () => {
-      return showMhvNotificationSettings
-        ? itemIds
-        : itemIds.filter(itemId => {
-            return !BLOCKED_NOTIFICATION_IDS.includes(itemId);
-          });
-    },
-    [itemIds, showMhvNotificationSettings],
-  );
+  const filteredItemIds = useFilteredItemsForMHVNotifications(itemIds);
 
   return (
     <div data-testid="notification-group">

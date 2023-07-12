@@ -6,75 +6,48 @@ import {
   selectVAPMobilePhone,
 } from '~/platform/user/selectors';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-import { selectItems } from '../ducks/communicationPreferences';
-import { NOTIFICATION_CHANNEL_IDS, NOTIFICATION_GROUPS } from '../constants';
+import {
+  BLOCKED_MHV_NOTIFICATION_IDS,
+  NOTIFICATION_CHANNEL_IDS,
+  NOTIFICATION_GROUPS,
+} from '../constants';
 
-const filterChannelsByItemId = (itemId, channelEntities) => {
-  return Object.values(channelEntities).filter(
-    channel => channel.parentItem === itemId,
-  );
-};
+/**
+ * Returns an array of available notification groups based on the
+ * available communication preferences and what communication channels have contact info set via the user profile
+ *
+ * @param {Object} communicationPreferences - The user's communication preferences.
+ * @param {Array} channelsWithContactInfo - An array of channel IDs with contact info [1,2] would represent email and mobile phone
+ * @returns {Array} An array of available notification groups.
+ */
+function getAvailableGroups(communicationPreferences, channelsWithContactInfo) {
+  const groups = communicationPreferences.groups.entities;
+  const items = communicationPreferences.items.entities;
+  const channels = communicationPreferences.channels.entities;
 
-const reduceGroupsForToggles = (groups, toggles) => {
-  return Object.entries(groups.entities).reduce(
-    (acc, [id, group]) => {
-      if (
-        (id === NOTIFICATION_GROUPS.PAYMENTS &&
-          !toggles.showPaymentsNotificationSetting) ||
-        (id === NOTIFICATION_GROUPS.GENERAL &&
-          !toggles.showMhvNotificationSettings) ||
-        (id === NOTIFICATION_GROUPS.QUICK_SUBMIT &&
-          !toggles.showQuickSubmitNotificationSetting)
-      ) {
-        return acc;
-      }
+  const groupIds = Object.keys(groups);
 
-      acc.ids.push(id);
-      acc.entities[id] = group;
+  const availableGroupIds = groupIds.filter(groupId => {
+    const group = groups[groupId];
+    const groupItems = group.items.map(itemId => items[itemId]);
 
-      return acc;
-    },
-    { ids: [], entities: {} },
-  );
-};
+    return groupItems.some(item =>
+      item.channels.some(channelId =>
+        channelsWithContactInfo.includes(channels[channelId].channelType),
+      ),
+    );
+  });
 
-// reduce groups to only those that have one of the channel ids in the channels array
-const useReduceGroupsForSupportedChannels = (groups, channels) => {
-  const items = useSelector(selectItems);
-
-  return Object.entries(groups.entities).reduce(
-    (acc, [id, group]) => {
-      const groupActive = group.items.reduce((itemAcc, itemId) => {
-        const item = items.entities[itemId];
-        const supportedChannels = item.channels.filter(
-          itemChannel =>
-            channels.filter(
-              channelId => channelId === itemChannel.endsWith(channelId),
-            ).length > 0,
-        );
-
-        if (supportedChannels.length > 0) {
-          return true;
-        }
-
-        return itemAcc;
-      }, false);
-
-      if (groupActive) {
-        acc.ids.push(id);
-        acc.entities[id] = group;
-      }
-
-      return acc;
-    },
-    {
-      ids: [],
-      entities: {},
-    },
-  );
-};
+  return availableGroupIds.map(groupId => {
+    return { ...groups[groupId], id: groupId };
+  });
+}
 
 export const useNotificationSettingsUtils = () => {
+  const communicationPreferences = useSelector(
+    state => state?.communicationPreferences,
+  );
+
   const {
     TOGGLE_NAMES,
     useToggleValue,
@@ -129,43 +102,104 @@ export const useNotificationSettingsUtils = () => {
     ];
   });
 
-  const useReducedGroups = groups => {
-    return useMemo(() => reduceGroupsForToggles(groups, toggles), [groups]);
+  const missingChannels = useSelector(state => {
+    return [
+      ...(selectVAPEmailAddress(state)
+        ? []
+        : [
+            { name: 'email', id: parseInt(NOTIFICATION_CHANNEL_IDS.EMAIL, 10) },
+          ]),
+      ...(selectVAPMobilePhone(state)
+        ? []
+        : [{ name: 'text', id: parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10) }]),
+    ];
+  });
+
+  const useAvailableGroups = () => {
+    return getAvailableGroups(
+      communicationPreferences,
+      channelsWithContactInfo,
+    ).filter(({ id }) => {
+      // these will be removed once the feature toggles are removed
+      return (
+        (toggles.showQuickSubmitNotificationSetting ||
+          id !== NOTIFICATION_GROUPS.QUICK_SUBMIT) &&
+        (toggles.showPaymentsNotificationSetting ||
+          id !== NOTIFICATION_GROUPS.PAYMENTS) &&
+        (toggles.showMhvNotificationSettings ||
+          id !== NOTIFICATION_GROUPS.GENERAL)
+      );
+    });
   };
 
-  const useAllReducedGroupsForSupportedChannelsAndToggles = groups => {
-    const reducedGroups = useReducedGroups(groups);
+  // unused at the moment, but this gets the unavailable items by group
+  // the thought being that we could show the user what items are unavailable in
+  //  a list showing the group name and the unavailable items nested within the group
+  const useUnavailableItemsByGroup = () => {
+    const groups = communicationPreferences.groups.entities;
+    const items = communicationPreferences.items.entities;
+    const channels = communicationPreferences.channels.entities;
 
-    const channels = channelsWithContactInfo;
+    const groupIds = Object.keys(groups);
 
-    return useReduceGroupsForSupportedChannels(reducedGroups, channels);
+    return groupIds.reduce((acc, groupId) => {
+      const group = groups[groupId];
+      const groupItems = group.items.map(itemId => items[itemId]);
+
+      const unavailableItems = groupItems.filter(item => {
+        const itemChannels = item.channels.map(
+          channelId => channels[channelId],
+        );
+        return !itemChannels.some(channel =>
+          channelsWithContactInfo.includes(channel.channelType),
+        );
+      });
+
+      if (unavailableItems.length > 0) {
+        acc.push({ group: group.name, items: unavailableItems });
+      }
+
+      return acc;
+    }, []);
   };
-  // const useReducedGroupsForSupportedChannels = groups => {
-  //   const groupsFromToggles = useReducedGroups(groups);
-  //   const channels = channelsWithContactInfo();
-  // };
 
-  // const useUnsupportedNotificationNames = () => {};
+  const useUnavailableItems = () => {
+    const items = communicationPreferences.items.entities;
+    const channels = communicationPreferences.channels.entities;
 
-  // const notificationGroups = useSelector(state => selectGroups(state));
+    const itemIds = Object.keys(items);
 
-  // const emailAddress = useSelector(selectVAPEmailAddress);
-  // const mobilePhoneNumber = useSelector(selectVAPMobilePhone);
+    const unavailableItemIds = itemIds.filter(itemId => {
+      const item = items[itemId];
+      const itemChannels = item.channels.map(channelId => channels[channelId]);
+      return !itemChannels.some(channel =>
+        channelsWithContactInfo.includes(channel.channelType),
+      );
+    });
 
-  const useChannelsByItemId = itemId => {
-    return useSelector(state =>
-      filterChannelsByItemId(
-        itemId,
-        state?.communicationPreferences?.channels?.entities,
-      ),
+    return unavailableItemIds.map(itemId => items[itemId]);
+  };
+
+  const useFilteredItemsForMHVNotifications = itemIds =>
+    useMemo(
+      () => {
+        return toggles.showMhvNotificationSettings
+          ? itemIds
+          : itemIds.filter(itemId => {
+              return !BLOCKED_MHV_NOTIFICATION_IDS.includes(itemId);
+            });
+      },
+      [itemIds],
     );
-  };
 
   return {
-    getChannlesByItemId: useChannelsByItemId,
-    getReducedGroups: useReducedGroups,
-    getAllReducedGroupsForSupportedChannelsAndToggles: useAllReducedGroupsForSupportedChannelsAndToggles,
-    channelsWithContactInfo,
     toggles,
+    communicationPreferences,
+    channelsWithContactInfo,
+    missingChannels,
+    useAvailableGroups,
+    useUnavailableItems,
+    useUnavailableItemsByGroup,
+    useFilteredItemsForMHVNotifications,
   };
 };

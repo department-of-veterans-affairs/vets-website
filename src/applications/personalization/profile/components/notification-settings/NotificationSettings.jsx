@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { animateScroll as scroll } from 'react-scroll';
 import { useLocation } from 'react-router-dom';
@@ -10,9 +10,6 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { NOTIFICATION_GROUPS, PROFILE_PATH_NAMES } from '@@profile/constants';
 import {
   fetchCommunicationPreferenceGroups,
-  getAvailableCommunicationGroups,
-  getUnavailableCommunicationItems,
-  getUnavailableCommunicationItemsByGroup,
   selectGroups,
 } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
@@ -38,13 +35,10 @@ import { FieldHasBeenUpdated as FieldHasBeenUpdatedAlert } from '../alerts/Field
 import { MissingContactInfoExpandable } from './MissingContactInfoExpandable';
 
 const NotificationSettings = ({
-  allContactInfoOnFile,
   emailAddress,
   facilities,
   fetchNotificationSettings,
   mobilePhoneNumber,
-  noContactInfoOnFile,
-  notificationGroups,
   shouldFetchNotificationSettings,
   shouldShowAPIError,
   shouldShowLoadingIndicator,
@@ -53,9 +47,18 @@ const NotificationSettings = ({
 
   const {
     toggles: notificationToggles,
-    getReducedGroups,
     channelsWithContactInfo,
+    useAvailableGroups,
   } = useNotificationSettingsUtils();
+
+  const allContactInfoOnFile = useMemo(
+    () => {
+      return notificationToggles?.showEmailNotificationSettings
+        ? !!emailAddress && mobilePhoneNumber
+        : !!mobilePhoneNumber;
+    },
+    [emailAddress, mobilePhoneNumber, notificationToggles],
+  );
 
   React.useEffect(
     () => {
@@ -86,7 +89,6 @@ const NotificationSettings = ({
     ],
   );
 
-  // if either phone number or email address is not set
   const showMissingContactInfoAlert = React.useMemo(
     () =>
       !shouldShowLoadingIndicator &&
@@ -96,47 +98,19 @@ const NotificationSettings = ({
   );
 
   // shown as long as we aren't loading data and they have at least one
-  // communication channel on file
+  // communication channel with contact info on file
   const showNotificationOptions = React.useMemo(
     () => {
       return (
         !shouldShowLoadingIndicator &&
         !shouldShowAPIError &&
-        !noContactInfoOnFile
+        channelsWithContactInfo.length > 0
       );
     },
-    [noContactInfoOnFile, shouldShowAPIError, shouldShowLoadingIndicator],
+    [channelsWithContactInfo, shouldShowAPIError, shouldShowLoadingIndicator],
   );
 
-  const reducedNotificationGroups = getReducedGroups(notificationGroups);
-
-  const rawResponse = useSelector(
-    state => state?.communicationPreferences?.unflattened,
-  );
-
-  // console.log({ rawResponse, channelsWithContactInfo });
-
-  const availableGroups = useMemo(
-    () => getAvailableCommunicationGroups(rawResponse, channelsWithContactInfo),
-    [rawResponse, channelsWithContactInfo],
-  );
-
-  const unavailableItems = useMemo(
-    () =>
-      getUnavailableCommunicationItems(rawResponse, channelsWithContactInfo),
-    [rawResponse, channelsWithContactInfo],
-  );
-
-  const unavailableItemsByGroup = useMemo(
-    () =>
-      getUnavailableCommunicationItemsByGroup(
-        rawResponse,
-        channelsWithContactInfo,
-      ),
-    [rawResponse, channelsWithContactInfo],
-  );
-
-  // console.log({ availableGroups, unavailableItems, unavailableItemsByGroup });
+  const availableGroups = useAvailableGroups();
 
   return (
     <>
@@ -157,48 +131,47 @@ const NotificationSettings = ({
           }
         />
       )}
-      {showNotificationOptions && (
-        <>
-          <FieldHasBeenUpdatedAlert />
-          <ContactInfoOnFile
-            emailAddress={emailAddress}
-            mobilePhoneNumber={mobilePhoneNumber}
-            showEmailNotificationSettings={
-              notificationToggles.showEmailNotificationSettings
-            }
-          />
-          <MissingContactInfoExpandable
-            unavailableItemsByGroup={unavailableItemsByGroup}
-            unavailableItems={unavailableItems}
-            availableGroups={availableGroups}
-          />
-          {reducedNotificationGroups.ids.map(groupId => {
-            // we handle the health care group a little differently
-            if (groupId === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
-              return (
-                <NotificationGroup groupId={groupId} key={groupId}>
-                  <HealthCareGroupSupportingText />
-                </NotificationGroup>
-              );
-            }
+      {showNotificationOptions &&
+        availableGroups.length > 0 && (
+          <>
+            <FieldHasBeenUpdatedAlert />
+            <ContactInfoOnFile
+              emailAddress={emailAddress}
+              mobilePhoneNumber={mobilePhoneNumber}
+              showEmailNotificationSettings={
+                notificationToggles.showEmailNotificationSettings
+              }
+            />
+            <MissingContactInfoExpandable
+              showEmailNotificationSettings={
+                notificationToggles.showEmailNotificationSettings
+              }
+            />
+            {availableGroups.map(({ id }) => {
+              // we handle the health care group a little differently
+              if (id === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
+                return (
+                  <NotificationGroup groupId={id} key={id}>
+                    <HealthCareGroupSupportingText />
+                  </NotificationGroup>
+                );
+              }
 
-            return <NotificationGroup groupId={groupId} key={groupId} />;
-          })}
-          <p className="vads-u-margin-bottom--0">
-            <strong>Note:</strong> We have limited notification options at this
-            time. Check back for more options in the future.
-          </p>
-        </>
-      )}
+              return <NotificationGroup groupId={id} key={id} />;
+            })}
+            <p className="vads-u-margin-bottom--0">
+              <strong>Note:</strong> We have limited notification options at
+              this time. Check back for more options in the future.
+            </p>
+          </>
+        )}
     </>
   );
 };
 
 NotificationSettings.propTypes = {
   fetchNotificationSettings: PropTypes.func.isRequired,
-  noContactInfoOnFile: PropTypes.bool.isRequired,
   shouldShowLoadingIndicator: PropTypes.bool.isRequired,
-  allContactInfoOnFile: PropTypes.object,
   emailAddress: PropTypes.string,
   facilities: PropTypes.arrayOf(
     PropTypes.shape({
@@ -222,20 +195,15 @@ const mapStateToProps = state => {
   const emailAddress = selectVAPEmailAddress(state);
   const mobilePhoneNumber = selectVAPMobilePhone(state);
   const noContactInfoOnFile = !emailAddress && !mobilePhoneNumber;
-  // TODO: uncomment when email is a supported notification channel
-  // const allContactInfoOnFile = emailAddress && mobilePhoneNumber;
-  const allContactInfoOnFile = mobilePhoneNumber && emailAddress;
   const shouldFetchNotificationSettings =
     !noContactInfoOnFile && !hasVAPServiceError;
   const shouldShowAPIError = hasVAPServiceError || hasLoadingError;
   const facilities = selectPatientFacilities(state);
 
   return {
-    allContactInfoOnFile,
     emailAddress,
     facilities,
     mobilePhoneNumber,
-    noContactInfoOnFile,
     notificationGroups: selectGroups(communicationPreferencesState),
     shouldFetchNotificationSettings,
     shouldShowAPIError,
