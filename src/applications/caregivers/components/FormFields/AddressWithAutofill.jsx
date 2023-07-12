@@ -17,7 +17,6 @@ import { AddressWithAutofillReviewField } from '../FormReview/AddressWithAutofil
 
 const PrimaryAddressWithAutofill = props => {
   const {
-    canAutofillAddress,
     errorSchema,
     formContext,
     formData,
@@ -119,7 +118,6 @@ const PrimaryAddressWithAutofill = props => {
 
   return reviewMode ? (
     <AddressWithAutofillReviewField
-      canAutofillAddress={canAutofillAddress}
       formData={formData}
       inputLabel={inputLabelMap[props.name]}
     />
@@ -133,8 +131,6 @@ const PrimaryAddressWithAutofill = props => {
         id="root_primaryAddress_autofill"
         checked={formData['view:autofill']}
         label="Use the same address as the Veteran"
-        className="vads-u-margin-left--neg3"
-        style={{ marginLeft: '-24px' }}
         onVaChange={handleCheck}
       />
 
@@ -208,7 +204,6 @@ const PrimaryAddressWithAutofill = props => {
 };
 
 PrimaryAddressWithAutofill.propTypes = {
-  canAutofillAddress: PropTypes.bool,
   errorSchema: PropTypes.object,
   formContext: PropTypes.object,
   formData: PropTypes.object,
