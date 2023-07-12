@@ -6,7 +6,6 @@ import { getFolders } from '../actions/folders';
 import { folder } from '../selectors';
 import SectionGuideButton from './SectionGuideButton';
 import { DefaultFolders, Paths } from '../util/constants';
-
 import { trapFocus } from '../../shared/util/ui';
 
 const Navigation = () => {

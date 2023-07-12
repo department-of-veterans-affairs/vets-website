@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { DefaultFolders as Folders } from '../../util/constants';
+import { useLocation } from 'react-router-dom';
+import { DefaultFolders as Folders, PageTitles } from '../../util/constants';
 import { handleHeader } from '../../util/helpers';
-
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 
 const FolderHeader = props => {
   const { folder, searchProps } = props;
+  const location = useLocation();
 
   const handleFolderDescription = () => {
     let text = '';
@@ -38,6 +39,15 @@ const FolderHeader = props => {
       )
     );
   };
+
+  useEffect(
+    () => {
+      if (location.pathname.includes(folder?.folderId)) {
+        document.title = `${folder.name} ${PageTitles.PAGE_TITLE_TAG}`;
+      }
+    },
+    [folder, location.pathname],
+  );
 
   return (
     <>

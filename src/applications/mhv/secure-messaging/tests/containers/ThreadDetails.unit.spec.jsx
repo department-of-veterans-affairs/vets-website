@@ -217,7 +217,7 @@ describe('Thread Details container', () => {
     expect(document.querySelector('h4').textContent).to.equal(
       '(Draft) To: MORGUN, OLEKSII\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
     );
-    
+
     expect(
       screen.getByText(
         '(Draft) To: MORGUN, OLEKSII (Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
