@@ -45,6 +45,18 @@ const formConfig = {
   trackingPrefix: 'auth-disclose-0845',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: formData =>
+        formData.authorizerType === AUTHORIZER_TYPES.VETERAN
+          ? 'veteranFullName'
+          : 'authorizerFullName',
+    },
+  },
   formId: '21-0845',
   dev: {
     showNavLinks: true,
