@@ -1,4 +1,4 @@
 import '@department-of-veterans-affairs/component-library/dist/main.css';
-import { defineCustomElementVaTextarea } from '@department-of-veterans-affairs/component-library/dist/components';
+import { defineCustomElements } from '@department-of-veterans-affairs/component-library';
 
-defineCustomElementVaTextarea();
+defineCustomElements();

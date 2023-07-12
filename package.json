@@ -251,6 +251,7 @@
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@mapbox/mapbox-sdk": "^0.13.2",
+    "@uswds/uswds": "^3.5.0",
     "blob-polyfill": "^5.0.20210201",
     "camelcase-keys-recursive": "^1.0.0",
     "classnames": "^2.3.1",

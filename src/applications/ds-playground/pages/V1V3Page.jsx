@@ -455,6 +455,7 @@ export default function V1V3Page() {
             </div>
           </div>
         </div>
+
         {/* Privacy Agreement Comparison */}
         <div className="vads-l-row">
           <h3>Privacy Agreement</h3>
@@ -694,6 +695,7 @@ export default function V1V3Page() {
             </div>
           </div>
         </div>
+
         {/* Progress bar - segmented */}
         <div className="vads-l-row">
           <h3>Progress bar - segmented</h3>
