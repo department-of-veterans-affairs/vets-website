@@ -1,5 +1,5 @@
 // import fullSchema from 'vets-json-schema/dist/21-0845-schema.json';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 
@@ -27,27 +27,27 @@ import authorizerPersonalInfoPg from '../pages/authorizerPersonalInfo';
 import authorizerAddressPg from '../pages/authorizerAddress';
 
 // mock-data import for local development
-import testData from '../tests/fixtures/data/noAuthType.json';
+// import testData from '../tests/e2e/fixtures/data/noAuthType.json';
 
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
 
-const mockData = testData.data;
+// const mockData = testData.data;
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
+  submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'auth-disclose-0845',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21-0845',
-  dev: {
-    showNavLinks: true,
-  },
+  // dev: {
+  //   showNavLinks: true,
+  // },
   saveInProgress: {
     messages: {
       inProgress: 'Your release authorization (21-0845) is in progress.',
@@ -81,8 +81,8 @@ const formConfig = {
           title: 'Who’s submitting this authorization?',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          initialData:
-            !!mockData && environment.isLocalhost() ? mockData : undefined,
+          // initialData:
+          //   !!mockData && environment.isLocalhost() ? mockData : undefined,
           uiSchema: authorizerTypePg.uiSchema,
           schema: authorizerTypePg.schema,
         },
