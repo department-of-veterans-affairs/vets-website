@@ -42,7 +42,7 @@ const OtherAssetsSummary = ({
   };
 
   const cardBody = text => (
-    <p>
+    <p className="vads-u-margin--0">
       Value: <b>{currencyFormatter(text)}</b>
     </p>
   );

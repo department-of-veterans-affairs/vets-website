@@ -21,11 +21,14 @@ export default function vaTextInputFieldMapping(props) {
 
   return {
     ...commonFieldMapping(props),
+    autocomplete:
+      childrenProps.uiSchema['ui:autocomplete'] || uiOptions?.autocomplete,
     value:
       typeof childrenProps.formData === 'undefined'
         ? ''
         : childrenProps.formData,
     type: inputType,
+    width: uiOptions?.width,
     onInput: (event, value) => {
       // redux value or input value
       let newVal = value || event.target.value;

@@ -95,6 +95,7 @@ describe('Results Page', () => {
       </Provider>,
     );
 
-    expect(pushSpyFormIncomplete.withArgs('/').calledOnce).to.be.true;
+    expect(pushSpyFormIncomplete.withArgs('introduction').calledOnce).to.be
+      .true;
   });
 });

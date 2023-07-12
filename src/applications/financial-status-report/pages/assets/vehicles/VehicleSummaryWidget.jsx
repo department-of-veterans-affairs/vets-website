@@ -48,7 +48,7 @@ const VehicleSummaryWidget = ({
   };
   const emptyPrompt = `Select the 'add additional vehicle' link to add another vehicle. Select the continue button to move on to the next question.`;
   const cardBody = text => (
-    <p>
+    <p className="vads-u-margin--0">
       Value: <b>{currencyFormatter(text)}</b>
     </p>
   );

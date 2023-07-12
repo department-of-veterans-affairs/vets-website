@@ -5,13 +5,16 @@ import PrintHeader from '../shared/PrintHeader';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
+import GenerateRadiologyPdf from './GenerateRadiologyPdf';
 
 const RadiologyDetails = props => {
   const { record, fullState } = props;
 
   const formattedDate = formatDateLong(record?.date);
 
-  const download = () => {};
+  const download = () => {
+    GenerateRadiologyPdf(record);
+  };
 
   const content = () => {
     if (record) {
@@ -27,7 +30,7 @@ const RadiologyDetails = props => {
           </div>
 
           <div className="no-print">
-            <PrintDownload list download={download} />
+            <PrintDownload download={download} />
             <va-additional-info trigger="What to know about downloading records">
               <ul>
                 <li>
