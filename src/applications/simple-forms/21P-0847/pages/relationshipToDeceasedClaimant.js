@@ -9,14 +9,16 @@ export default {
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
-          spouse: 'Spouse',
-          child: 'Child',
-          parent: 'Parent',
-          executor: 'Executor/Administrator of Estate',
-          other: 'A relationship not listed here',
+          spouse: 'I’m the deceased claimant’s spouse',
+          child: 'I’m the deceased claimant’s child',
+          parent: 'I’m the deceased claimant’s parent',
+          executor:
+            'I’m the deceased claimant’s executor or administrator of estate',
+          other: 'We don’t have a relationship that’s listed here',
         },
       },
     },
+    // TODO: use popup from Nick's pattern
   },
   schema: {
     type: 'object',

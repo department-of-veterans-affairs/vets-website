@@ -11,7 +11,7 @@ import preparerPersonalInformation from '../pages/preparerPersonalInformation';
 import preparerIdentificationInformation from '../pages/preparerIdentificationInformation';
 import preparerAddress from '../pages/preparerAddress';
 import preparerContactInformation from '../pages/preparerContactInformation';
-import veteranPersonalInformation from '../pages/veteranPersonalInformation';
+import deceasedClaimantPersonalInformation from '../pages/deceasedClaimantPersonalInformation';
 import veteranIdentificationInformation from '../pages/veteranIdentificationInformation';
 import relationshipToDeceasedClaimant from '../pages/relationshipToDeceasedClaimant';
 import otherRelationshipToDeceasedClaimant from '../pages/otherRelationshipToDeceasedClaimant';
@@ -25,7 +25,9 @@ const mockData = testData;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  submit: () =>
+    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   transformForSubmit,
   trackingPrefix: '21P-0847-substitute-claimant-',
   dev: {
@@ -79,25 +81,6 @@ const formConfig = {
         },
       },
     },
-    relationshipToDeceasedClaimantChapter: {
-      title: 'Your relationship',
-      pages: {
-        relationshipToDeceasedClaimant: {
-          path: 'relationship-to-deceased-claimant',
-          title: 'Your relationship',
-          uiSchema: relationshipToDeceasedClaimant.uiSchema,
-          schema: relationshipToDeceasedClaimant.schema,
-        },
-        otherRelationshipToDeceasedClaimant: {
-          path: 'other-relationship-to-deceased-claimant',
-          title: 'Your relationship',
-          depends: formData =>
-            formData.relationshipToDeceasedClaimant === 'other',
-          uiSchema: otherRelationshipToDeceasedClaimant.uiSchema,
-          schema: otherRelationshipToDeceasedClaimant.schema,
-        },
-      },
-    },
     preparerIdentificationInformationChapter: {
       title: 'Your identification information',
       pages: {
@@ -131,14 +114,33 @@ const formConfig = {
         },
       },
     },
-    veteranPersonalInformationChapter: {
-      title: 'Veteran’s personal information',
+    deceasedClaimantPersonalInformationChapter: {
+      title: 'Deceased claimant’s personal information',
       pages: {
-        veteranPersonalInformation: {
-          path: 'veteran-personal-information',
-          title: 'Veteran’s personal information',
-          uiSchema: veteranPersonalInformation.uiSchema,
-          schema: veteranPersonalInformation.schema,
+        deceasedClaimantPersonalInformation: {
+          path: 'deceased-claimant-personal-information',
+          title: 'Deceased claimant’s personal information',
+          uiSchema: deceasedClaimantPersonalInformation.uiSchema,
+          schema: deceasedClaimantPersonalInformation.schema,
+        },
+      },
+    },
+    relationshipToDeceasedClaimantChapter: {
+      title: 'Your relationship',
+      pages: {
+        relationshipToDeceasedClaimant: {
+          path: 'relationship-to-deceased-claimant',
+          title: 'Your relationship',
+          uiSchema: relationshipToDeceasedClaimant.uiSchema,
+          schema: relationshipToDeceasedClaimant.schema,
+        },
+        otherRelationshipToDeceasedClaimant: {
+          path: 'other-relationship-to-deceased-claimant',
+          title: 'Your relationship',
+          depends: formData =>
+            formData.relationshipToDeceasedClaimant === 'other',
+          uiSchema: otherRelationshipToDeceasedClaimant.uiSchema,
+          schema: otherRelationshipToDeceasedClaimant.schema,
         },
       },
     },
