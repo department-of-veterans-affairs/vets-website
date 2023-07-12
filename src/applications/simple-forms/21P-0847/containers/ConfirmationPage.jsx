@@ -60,6 +60,8 @@ const childContent = (
       regional office.
     </p>
     <a href="/find-locations">Find a VA regional office near you</a>
+    <br />
+    <br />
   </>
 );
 
