@@ -9,7 +9,7 @@ const {
   uiSchema,
 } = formConfig.chapters.infoReleaseChapter.pages.releaseDurationPage;
 
-const pageTitle = 'Who’s submitting this authorization?';
+const pageTitle = 'Release duration';
 
 const expectedNumberOfFields = 3;
 testNumberOfFields(
