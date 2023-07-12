@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { focusElement } from '../ui';
 
 const ShowPdfPassword = ({
   file,
   index,
   onSubmitPassword,
-  ariaDescribedby = null,
+  passwordLabel = null,
   testVal = '', // for testing
 }) => {
   const [value, setValue] = useState(testVal);
@@ -35,7 +37,7 @@ const ShowPdfPassword = ({
 
   return (
     <div className="vads-u-margin-bottom--2">
-      <va-text-input
+      <VaTextInput
         ref={inputRef}
         label="PDF password"
         error={(dirty && !value && errorMessage) || null}
@@ -44,7 +46,7 @@ const ShowPdfPassword = ({
         value={value}
         onInput={({ target }) => setValue(target.value || '')}
         onBlur={() => setDirty(true)}
-        aria-describedby={ariaDescribedby}
+        messageAriaDescribedby={passwordLabel}
       />
       <va-button
         className="vads-u-width--auto"
@@ -58,16 +60,16 @@ const ShowPdfPassword = ({
             setFocus();
           }
         }}
-        aria-describedby={ariaDescribedby}
+        label={passwordLabel}
       />
     </div>
   );
 };
 
 ShowPdfPassword.propTypes = {
-  ariaDescribedby: PropTypes.string,
   file: PropTypes.shape({}),
   index: PropTypes.number,
+  passwordLabel: PropTypes.string,
   testVal: PropTypes.string,
   onSubmitPassword: PropTypes.func,
 };
