@@ -9,10 +9,12 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
+
 import {
   stringifyFormReplacer,
   filterViewFields,
 } from 'platform/forms-system/src/js/helpers';
+
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
