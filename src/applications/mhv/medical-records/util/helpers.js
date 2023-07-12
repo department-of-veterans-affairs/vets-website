@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
-import { interpretationMap } from './constants';
+import * as Sentry from '@sentry/browser';
+import { emptyField, interpretationMap } from './constants';
 
 /**
  * @param {*} timestamp
@@ -11,6 +12,17 @@ export const dateFormat = (timestamp, format = null) => {
   return moment
     .tz(timestamp, timeZone)
     .format(format || 'MMMM D, YYYY, h:mm a z');
+};
+
+/**
+ * @param {Object} nameObject {first, middle, last, suffix}
+ * @returns {String} formatted timestamp
+ */
+export const nameFormat = ({ first, middle, last, suffix }) => {
+  let name = `${last}, ${first}`;
+  if (middle) name += ` ${middle}`;
+  if (suffix) name += `, ${suffix}`;
+  return name;
 };
 
 /**
@@ -116,6 +128,18 @@ export const getObservationValueWithUnits = observation => {
  */
 export const processList = list => {
   if (list?.length > 1) return list.join('. ');
-  if (list) return list;
-  return 'None noted';
+  if (list?.length === 1) return list.toString();
+  return emptyField;
+};
+
+/**
+ * @param {Error} error javascript error
+ * @param {String} page name of the page sending the error
+ * @returns {undefined}
+ */
+export const sendErrorToSentry = (error, page) => {
+  Sentry.captureException(error);
+  Sentry.captureMessage(
+    `MHV - Medical Records - ${page} - PDF generation error`,
+  );
 };

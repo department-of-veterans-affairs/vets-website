@@ -44,7 +44,6 @@ script/github-actions/daily-product-scan/ @department-of-veterans-affairs/qa-sta
 # Authenticated Experience
 
 src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/benefits-team-1-frontend
-src/applications/notification-center @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 
 # Claims & appeals (Benefits Team 1)

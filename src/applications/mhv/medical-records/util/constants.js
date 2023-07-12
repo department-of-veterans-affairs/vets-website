@@ -86,4 +86,6 @@ export const interpretationMap = {
   WR: 'Weakly reactive',
 };
 
+export const emptyField = 'None noted';
+
 export const testing = false;
