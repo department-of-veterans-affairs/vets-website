@@ -108,11 +108,11 @@ export default function SupportingDocumentsDescription(props) {
         </ol>
         <br />
         <p>
-          NCA Intake Center
-          <br />
-          P.O. Box 5237
-          <br />
-          Janesville, WI 53547
+          <div className="mail-fax-address">
+            <div>National Cemetery Scheduling Office</div>
+            <div>PO Box 510543</div>
+            <div>St. Louis, MO 63151</div>
+          </div>
         </p>
         <br />
         <strong>Or</strong>
