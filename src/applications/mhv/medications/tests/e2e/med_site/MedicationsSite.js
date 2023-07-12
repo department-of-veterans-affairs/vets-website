@@ -21,13 +21,44 @@ class MedicationsSite {
         },
       }).as('featureToggle');
       cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
-      cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
+      // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
       cy.intercept(
         'GET',
         '/my_health/v1/prescriptions?page=1&per_page=999',
         prescriptions,
       ).as('prescriptions');
+      cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
     }
+  };
+
+  loadVAPaginationPrescriptions = (
+    interceptedPage = 1,
+    mockRx,
+    PerPage = 10,
+  ) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/prescriptions?page=1&per_page=${PerPage}`,
+      mockRx,
+    ).as(`Prescriptions${interceptedPage}`);
+    cy.get('[aria-label="Pagination"]')
+      .shadow()
+      .find(`[aria-label="Page ${interceptedPage}"]`)
+      .click();
+    cy.wait(`@Prescriptions${interceptedPage}`);
+  };
+
+  loadVAPaginationNextPrescriptions = (interceptedPage = 1, mockRx) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/prescriptions?page=1&per_page=999`,
+      mockRx,
+    ).as(`Prescriptions${interceptedPage}`);
+    cy.get('[aria-label="Pagination"]')
+      .shadow()
+      .find('[aria-label="Next page"]')
+      .click();
+    cy.wait(`@Prescriptions${interceptedPage}`);
   };
 }
 export default MedicationsSite;
