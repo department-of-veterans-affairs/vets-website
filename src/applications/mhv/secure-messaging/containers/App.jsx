@@ -39,8 +39,8 @@ const App = () => {
   /* if the user is not whitelisted or feature flag is disabled, redirect to the SM info page */
   if (!appEnabled) {
     window.location.replace('/health-care/secure-messaging');
+    return <></>;
   }
-
   return (
     <RequiredLoginView
       user={user}

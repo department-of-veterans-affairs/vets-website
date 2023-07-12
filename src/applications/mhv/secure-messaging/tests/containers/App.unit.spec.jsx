@@ -2,10 +2,24 @@ import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import sinon from 'sinon';
 import App from '../../containers/App';
 import reducer from '../../reducers';
 
 describe('App', () => {
+  let oldLocation;
+
+  beforeEach(() => {
+    oldLocation = global.window.location;
+    delete global.window.location;
+    global.window.location = {
+      replace: sinon.spy(),
+    };
+  });
+
+  afterEach(() => {
+    global.window.location = oldLocation;
+  });
   const initialState = {
     user: {
       login: {
@@ -34,6 +48,7 @@ describe('App', () => {
       path: `/`,
       reducers: reducer,
     });
+    screen.debug();
     expect(
       screen.getByText('Loading your information...', {
         selector: 'div',
@@ -42,12 +57,11 @@ describe('App', () => {
     );
   });
 
-  it('feature flag set to undefined', () => {
+  it('feature flags are still loading', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
         featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: undefined,
+          loading: true,
         },
         ...initialState,
       },
@@ -76,6 +90,7 @@ describe('App', () => {
     ).to.be.null;
     expect(screen.queryByText('Messages', { selector: 'h1', exact: true })).to
       .be.null;
+    expect(window.location.replace.calledOnce).to.be.true;
   });
 
   it('feature flag set to true', () => {
