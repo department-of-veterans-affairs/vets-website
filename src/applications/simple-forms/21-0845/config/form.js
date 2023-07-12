@@ -25,6 +25,7 @@ import securityQuestionPg from '../pages/securityQuestion';
 import securityAnswerPg from '../pages/securityAnswer';
 import authorizerPersonalInfoPg from '../pages/authorizerPersonalInfo';
 import authorizerAddressPg from '../pages/authorizerAddress';
+import authorizerContactInfoPg from '../pages/authorizerContactInfo';
 
 // mock-data import for local development
 import testData from '../tests/fixtures/data/noAuthType.json';
@@ -114,6 +115,20 @@ const formConfig = {
           },
           uiSchema: authorizerAddressPg.uiSchema,
           schema: authorizerAddressPg.schema,
+        },
+      },
+    },
+    authorizerContactInfoChapter: {
+      title: 'Your contact information',
+      pages: {
+        authContactInfoPage: {
+          path: 'authorizer-contact-information',
+          title: 'Your contact information',
+          depends: {
+            authorizerType: AUTHORIZER_TYPES.NON_VETERAN,
+          },
+          uiSchema: authorizerContactInfoPg.uiSchema,
+          schema: authorizerContactInfoPg.schema,
         },
       },
     },
