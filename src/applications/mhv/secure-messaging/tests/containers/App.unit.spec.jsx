@@ -37,7 +37,8 @@ describe('App', () => {
   };
 
   it('user is not logged in', () => {
-    const screen = renderWithStoreAndRouter(<App />, {
+    // expected behavior is be redirected to the home page with next in the url
+    renderWithStoreAndRouter(<App />, {
       initialState: {
         user: {
           login: {
@@ -48,13 +49,8 @@ describe('App', () => {
       path: `/`,
       reducers: reducer,
     });
-    screen.debug();
-    expect(
-      screen.getByText('Loading your information...', {
-        selector: 'div',
-        exact: true,
-      }),
-    );
+
+    expect(window.location.replace.calledOnce).to.be.true;
   });
 
   it('feature flags are still loading', () => {
