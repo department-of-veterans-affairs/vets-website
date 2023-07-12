@@ -14,7 +14,7 @@ export default {
       'ui:widget': 'yesNo',
     },
     sameAddress: {
-      'ui:title': 'Do you have the same address as your spouse?',
+      'ui:title': 'Do you currently have the same address as your spouse?',
       'ui:widget': 'yesNo',
     },
   },

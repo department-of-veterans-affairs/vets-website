@@ -25,7 +25,7 @@ const DependentsPage = ({
   const [submitted, setSubmitted] = useState(false);
 
   const dependentsValid = deps => {
-    return deps?.match(/^[0-9]+$/);
+    return deps?.match(/^[0-9]+$/) && deps >= 0 && deps <= 100;
   };
 
   const validDependents = dependents?.length > 0 && dependentsValid(dependents);
@@ -71,6 +71,7 @@ const DependentsPage = ({
   };
 
   const onDependentsInput = event => {
+    setError(false);
     updateDependentsField(event.target.value);
   };
 
@@ -89,7 +90,9 @@ const DependentsPage = ({
         <VaNumberInput
           data-testid="il-dependents"
           error={
-            (submitted && error && 'Please enter a number for dependents') ||
+            (submitted &&
+              error &&
+              'Please enter a number between 0 and 100.') ||
             null
           }
           hint="Dependents hint text"

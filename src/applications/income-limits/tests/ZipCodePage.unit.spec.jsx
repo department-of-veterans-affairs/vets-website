@@ -58,6 +58,7 @@ const propsPastIsNull = {
     push: pushSpyPastIsNull,
   },
   updateZipCodeField: () => {},
+  updateZipValError: () => {},
   toggleEditMode: () => {},
   year: '',
   zipCode: '',
@@ -85,6 +86,7 @@ const propsYearIsEmpty = {
     push: pushSpyYearIsEmpty,
   },
   updateZipCodeField: () => {},
+  updateZipValError: () => {},
   toggleEditMode: () => {},
   year: '',
   zipCode: '',
@@ -108,7 +110,7 @@ describe('Zip Code Page', () => {
       </Provider>,
     );
 
-    expect(pushSpyPastIsNull.withArgs('/').calledOnce).to.be.true;
+    expect(pushSpyPastIsNull.withArgs('introduction').calledOnce).to.be.true;
   });
 
   it('should not allow deep linking to this page if the year field is empty and pastMode is true', () => {
@@ -118,6 +120,6 @@ describe('Zip Code Page', () => {
       </Provider>,
     );
 
-    expect(pushSpyYearIsEmpty.withArgs('/').calledOnce).to.be.true;
+    expect(pushSpyYearIsEmpty.withArgs('introduction').calledOnce).to.be.true;
   });
 });

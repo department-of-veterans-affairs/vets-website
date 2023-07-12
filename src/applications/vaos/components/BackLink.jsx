@@ -35,14 +35,16 @@ export default function BackLink({ appointment }) {
       className="backLinkContainer"
       aria-describedby="vaos-hide-for-print backLink"
     >
-      <div aria-hidden style={{ color: '#0753A3', marginRight: '0.5rem' }}>
+      <div
+        aria-hidden
+        className="vads-u-color--link-default vads-u-margin-right--1"
+      >
         ‹
       </div>
       <NavLink
-        style={{ color: '#0753A3' }}
         aria-label={handleBackLinkText()}
         to={handleBackLink()}
-        className="vaos-hide-for-print backLink"
+        className="vaos-hide-for-print vads-u-color--link-default"
       >
         {handleBackLinkText()}
       </NavLink>

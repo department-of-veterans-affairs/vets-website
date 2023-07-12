@@ -54,9 +54,9 @@ export default function DetailsVA({ appointment, facilityData }) {
                 {typeOfCare}
               </h2>
               <p className="vads-l-col--12 vads-u-margin-top--0 medium-screen:vads-l-col--8">
-                This appointment is for rating purposes only and will not
-                include treatment. If you have any medical evidence to claim,
-                please bring copies to your exam.
+                This appointment is for disability rating purposes only. It
+                doesn’t include treatment. If you have medical evidence to
+                support your claim, bring copies to this appointment.
               </p>
             </>
           ) : (
