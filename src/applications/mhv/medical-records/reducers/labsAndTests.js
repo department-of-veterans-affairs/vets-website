@@ -177,17 +177,25 @@ const getRecordType = record => {
 };
 
 /**
+ * Maps each record type to a converter function
+ */
+const labsAndTestsConverterMap = {
+  [labTypes.CHEM_HEM]: convertChemHemRecord,
+  [labTypes.MICROBIOLOGY]: convertMicrobiologyRecord,
+  [labTypes.PATHOLOGY]: convertPathologyRecord,
+  [labTypes.EKG]: convertEkgRecord,
+  [labTypes.RADIOLOGY]: convertRadiologyRecord,
+  [labTypes.OTHER]: record => record,
+};
+
+/**
  * @param {Object} record - A FHIR DiagnosticReport or DocumentReference object
  * @returns the appropriate frontend object for display
  */
 const convertLabsAndTestsRecord = record => {
   const type = getRecordType(record);
-  if (type === labTypes.CHEM_HEM) return convertChemHemRecord(record);
-  if (type === labTypes.EKG) return convertEkgRecord(record);
-  if (type === labTypes.MICROBIOLOGY) return convertMicrobiologyRecord(record);
-  if (type === labTypes.PATHOLOGY) return convertPathologyRecord(record);
-  if (type === labTypes.RADIOLOGY) return convertRadiologyRecord(record);
-  return record;
+  const convertRecord = labsAndTestsConverterMap[type];
+  return convertRecord ? convertRecord(record) : record;
 };
 
 export const labsAndTestsReducer = (state = initialState, action) => {
