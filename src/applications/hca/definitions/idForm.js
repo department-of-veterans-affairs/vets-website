@@ -8,13 +8,13 @@ export const idFormSchema = {
     firstName: {
       type: 'string',
       minLength: 1,
-      maxLength: 30,
+      maxLength: 25,
       pattern: '^.*\\S.*',
     },
     lastName: {
       type: 'string',
       minLength: 2,
-      maxLength: 30,
+      maxLength: 35,
       pattern: '^.*\\S.*',
     },
     dob: {
