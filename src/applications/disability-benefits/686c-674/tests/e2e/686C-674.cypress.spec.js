@@ -51,9 +51,24 @@ const testConfig = createTestConfig(
             .get('div')
             .get('va-button')
             .should('exist');
+          cy.get('.help-talk va-telephone:first')
+            .contains('800-827-1000')
+            .should('have.prop', 'href');
+          cy.get('.help-talk va-telephone:last')
+            .contains('711')
+            .should('have.prop', 'href');
           cy.get('a.vads-c-action-link--green')
             .first()
             .click();
+        });
+      },
+      'veteran-information': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.progress-box va-telephone')
+            .contains('800-827-1000')
+            .should('have.prop', 'href');
+          cy.get('.usa-button-primary').click();
         });
       },
       'current-marriage-information': ({ afterHook }) => {
