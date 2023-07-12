@@ -328,14 +328,10 @@ export function mapSponsorsToCheckboxOptions(sponsors) {
     value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
   });
   const anySelectedOptions = !!options?.filter(o => o.selected)?.length;
-  const values = Object.fromEntries(
-    new Map(options?.map(option => [option.value, !!option.selected])),
-  );
 
   return {
     anySelectedOptions,
     options,
-    values,
   };
 }
 

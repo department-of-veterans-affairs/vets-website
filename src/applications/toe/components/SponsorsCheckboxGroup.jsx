@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
-import CheckboxGroup from '@department-of-veterans-affairs/component-library/CheckboxGroup';
 
 import {
   mapFormSponsors,
@@ -42,34 +42,27 @@ function SponsorCheckboxGroup({
     return <></>;
   }
 
-  const { anySelectedOptions, options, values } = mapSponsorsToCheckboxOptions(
+  const { anySelectedOptions, options } = mapSponsorsToCheckboxOptions(
     sponsors,
   );
 
+  const errorMsg =
+    !anySelectedOptions && (dirty || formContext?.submitted)
+      ? errorMessage
+      : '';
+
   return (
-    <CheckboxGroup
-      additionalFieldsetClass="vads-u-margin-top--0"
-      additionalLegendClass="toe-sponsors_legend vads-u-margin-top--0"
-      errorMessage={
-        !anySelectedOptions && (dirty || formContext?.submitted) && errorMessage
-      }
-      label={
-        // I'm getting conflicting linting issues here.
-        // eslint-disable-next-line react/jsx-wrap-multilines
-        <>
-          <span className="toe-sponsors-labels_label--main">
-            Which sponsor's benefits would you like to use?
-          </span>
-          <span className="toe-sponsors-labels_label--secondary">
-            Select all sponsors whose benefits you would like to apply for
-          </span>
-        </>
-      }
+    <VaCheckboxGroup
+      label="Which sponsor's benefits would you like to use?"
+      hint="Select all sponsors whose benefits you would like to apply for."
       onValueChange={onValueChange}
-      options={options}
       required
-      values={values}
-    />
+      error={errorMsg}
+    >
+      {options.map(({ label, selected }) => (
+        <va-checkbox key={label} label={label} checked={selected} />
+      ))}
+    </VaCheckboxGroup>
   );
 }
 
