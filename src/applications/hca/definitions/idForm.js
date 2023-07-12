@@ -35,12 +35,14 @@ export const idFormUiSchema = {
     'ui:title': 'First name',
     'ui:errorMessages': {
       required: 'Please enter a first name.',
+      pattern: 'Please enter a first name.',
     },
   },
   lastName: {
     'ui:title': 'Last name',
     'ui:errorMessages': {
       required: 'Please enter a last name.',
+      pattern: 'Please enter a last name.',
     },
   },
   dob: {
