@@ -29,9 +29,18 @@ function validatePostalCodes(errors, address) {
   }
 }
 
-function validateNotAllWhiteSpaces(errorsLocation, addressField) {
+function validateNotAllWhiteSpaces(
+  errorsLocation,
+  addressField,
+  requiredArray,
+  requiredField,
+) {
   // Add error message for street if it is all blank spaces.
-  if (addressField && addressField.trim() === '') {
+  if (
+    requiredArray.includes(requiredField) &&
+    addressField &&
+    addressField.trim() === ''
+  ) {
     errorsLocation.addError('Please provide a response');
   }
 }
@@ -63,9 +72,15 @@ function validateAddress(errors, address, formData, currentSchema) {
   }
 
   validatePostalCodes(errors, address);
-  if (!environment.isProduction()) {
-    validateNotAllWhiteSpaces(errors.street, address.street);
-    validateNotAllWhiteSpaces(errors.city, address.city);
+  if (!environment.isProduction() && currentSchema.required.length) {
+    const requiredArray = currentSchema.required;
+    validateNotAllWhiteSpaces(
+      errors.street,
+      address.street,
+      requiredArray,
+      'street',
+    );
+    validateNotAllWhiteSpaces(errors.city, address.city, requiredArray, 'city');
   }
 }
 
