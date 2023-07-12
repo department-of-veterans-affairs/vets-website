@@ -6,6 +6,7 @@ import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintHeader from './PrintHeader';
+import { rxListSortingOptions } from '../util/constants';
 
 const Prescriptions = () => {
   const currentDate = new Date();
@@ -16,9 +17,32 @@ const Prescriptions = () => {
   const dob = useSelector(state => state.user.profile.dob);
 
   const dispatch = useDispatch();
-  const [rxList, setRxList] = useState([]);
+  const [rxList, setRxList] = useState(null);
+  const [pdfList, setPdfList] = useState([]);
+  const [sortOption, setSortOption] = useState();
+  // console.log('sortOption ', sortOption);
 
-  const buildPrescriptionList = useCallback(
+  const sortRxList = () => {
+    const newList = [...rxList];
+    newList.sort(a => {
+      switch (sortOption) {
+        case rxListSortingOptions.ACTIVE_REFILL_FIRST:
+          return a.refillStatus === 'active' && a.isRefillable === true
+            ? -1
+            : 0;
+        case rxListSortingOptions.ACTIVE:
+          return a.refillStatus === 'active' ? -1 : 0;
+        case rxListSortingOptions.EXPIRED:
+          return a.refillStatus === 'expired' ? -1 : 0;
+        default:
+          return sortOption;
+      }
+    });
+    dispatch(setRxList(rxList));
+    // make a dispatch call to store new sorted list as global list so that it trickles down through redux instead of local state
+    setRxList(newList);
+  };
+  const buildPrescriptionPDFList = useCallback(
     () => {
       return prescriptions.map(rx => {
         return {
@@ -112,11 +136,21 @@ const Prescriptions = () => {
   useEffect(
     () => {
       if (prescriptions) {
-        setRxList(buildPrescriptionList());
+        setPdfList(buildPrescriptionPDFList());
+        setRxList(prescriptions);
       }
     },
-    [buildPrescriptionList, prescriptions],
+    [buildPrescriptionPDFList, prescriptions],
   );
+
+  // useEffect(
+  //   () => {
+  //     if (rxList) {
+  //       sortRxList();
+  //     }
+  //   },
+  //   [rxList, sortRxList],
+  // );
 
   const pdfData = {
     headerLeft: `${userName.last}, ${userName.first}`,
@@ -131,7 +165,7 @@ const Prescriptions = () => {
       'This is a list of your current prescriptions, allergies, and adverse reactions.',
     results: {
       header: '',
-      items: rxList,
+      items: pdfList,
     },
   };
 
@@ -143,6 +177,9 @@ const Prescriptions = () => {
     if (prescriptions) {
       return (
         <div className="landing-page">
+          <button type="button" onClick={sortRxList}>
+            sort
+          </button>
           <PrintHeader />
           <h1 className="page-title">Medications</h1>
           <div className="vads-u-margin-bottom--2 no-print">
@@ -198,10 +235,18 @@ const Prescriptions = () => {
                   </li>
                 </ul>
               </va-additional-info>
-              <MedicationsListSort />
+              <MedicationsListSort setSortOption={setSortOption} />
               <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
             </div>
-            <MedicationsList rxList={prescriptions} />
+            {rxList ? (
+              <MedicationsList rxList={rxList} />
+            ) : (
+              <va-loading-indicator
+                message="Loading..."
+                setFocus
+                data-testid="loading-indicator"
+              />
+            )}
           </div>
           <div className="rx-landing-page-footer no-print">
             <div className="footer-header vads-u-font-size--h2 vads-u-font-weight--bold vads-u-padding-y--1 vads-u-border-bottom--1px vads-u-border-color--gray-light">
