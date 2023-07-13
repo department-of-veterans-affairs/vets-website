@@ -10,7 +10,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI(
+    'view:deceasedClaimantPersonalInfoTitle': titleUI(
       'Deceased Claimant',
       'Now, we’ll ask for information about the person whose claim you’re requesting to continue.',
     ),
@@ -20,7 +20,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
+      'view:deceasedClaimantPersonalInfoTitle': titleSchema,
       deceasedClaimantFullName: fullNameNoSuffixSchema,
       deceasedClaimantDateOfDeath: currentOrPastDateSchema,
     },

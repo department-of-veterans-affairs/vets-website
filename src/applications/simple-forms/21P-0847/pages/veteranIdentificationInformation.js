@@ -12,7 +12,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI(
+    'view:veteranInfoTitle': titleUI(
       'Veteran’s information',
       'We need to know information about the original Veteran claimant. In some cases, this Veteran may also be the deceased claimant.',
     ),
@@ -23,7 +23,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
+      'view:veteranInfoTitle': titleSchema,
       veteranSsn: ssnSchema,
       veteranDateOfBirth: dateOfBirthSchema,
       veteranVaFileNumber: vaFileNumberSchema,

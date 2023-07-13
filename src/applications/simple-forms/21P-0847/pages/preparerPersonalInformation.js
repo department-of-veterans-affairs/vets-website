@@ -8,7 +8,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI(
+    'view:preparerPersonalInfoTitle': titleUI(
       'Substitute Claimant',
       'First, we’ll ask for your information as the person requesting to be the substitute claimant.',
     ),
@@ -17,7 +17,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
+      'view:preparerPersonalInfoTitle': titleSchema,
       preparerName: fullNameNoSuffixSchema,
     },
   },
