@@ -48,6 +48,7 @@ const CategoryInput = props => {
         >
           {categories?.map((item, i) => (
             <VaRadioOption
+              data-dd-privacy="mask"
               data-testid="compose-category-radio-button"
               style={{ display: 'flex' }}
               key={i}

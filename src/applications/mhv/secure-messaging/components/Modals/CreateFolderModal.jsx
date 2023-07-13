@@ -52,6 +52,7 @@ const CreateFolderModal = props => {
       onCloseEvent={closeNewModal}
     >
       <VaTextInput
+        data-dd-privacy="mask"
         ref={folderNameInput}
         label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
         className="input vads-u-margin--0"

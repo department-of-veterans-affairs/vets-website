@@ -117,7 +117,7 @@ const ReplyForm = props => {
           subject,
         };
         if (draft && replyToMessageId) {
-          messageData[`${'draft_id'}`] = replyToMessageId; // if replying to a thread that has a saved draft, set a draft_id field in a request body
+          messageData[`${'draft_id'}`] = replyMessage.messageId; // if replying to a thread that has a saved draft, set a draft_id field in a request body
         }
         messageData[`${'recipient_id'}`] = selectedRecipient;
         setIsAutosave(false);
@@ -126,7 +126,7 @@ const ReplyForm = props => {
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
 
-          dispatch(sendReply(replyToMessageId, sendData, true))
+          dispatch(sendReply(replyMessage.messageId, sendData, true))
             .then(() => {
               navigateToFolderByFolderId(
                 draftToEdit?.threadFolderId
@@ -349,6 +349,7 @@ const ReplyForm = props => {
               <span
                 className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
                 style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
+                data-dd-privacy="mask"
               >
                 <i
                   className="fas fa-reply vads-u-margin-right--0p5 vads-u-margin-top--0p25"
@@ -361,6 +362,7 @@ const ReplyForm = props => {
                 <br />
               </span>
               <va-textarea
+                data-dd-privacy="mask"
                 label="Message"
                 required
                 id="reply-message-body"
@@ -424,19 +426,21 @@ const ReplyForm = props => {
             <h3 className="sr-only">Message details</h3>
             <p className="vads-u-margin--0">
               <strong>From: </strong>
-              {replyMessage.senderName}
+              <span data-dd-privacy="mask">{replyMessage.senderName}</span>
             </p>
             <p className="vads-u-margin--0" data-testid="message-to">
               <strong>To: </strong>
-              {replyMessage.recipientName}
+              <span data-dd-privacy="mask">{replyMessage.recipientName}</span>
             </p>
             <p className="vads-u-margin--0" data-testid="message-date">
               <strong>Date: </strong>
-              {dateFormat(replyMessage.sentDate)}
+              <span data-dd-privacy="mask">
+                {dateFormat(replyMessage.sentDate)}
+              </span>
             </p>
             <p className="vads-u-margin--0" data-testid="message-id">
               <strong>Message ID: </strong>
-              {replyMessage.messageId}
+              <span data-dd-privacy="mask">{replyMessage.messageId}</span>
             </p>
           </div>
 
