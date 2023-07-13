@@ -72,7 +72,7 @@ describe('IntroductionPage', () => {
     );
     expect($('h1', container).textContent).to.eq('Ask VA');
     expect($('button', container).textContent).to.eq(
-      'Sign in to your account.',
+      'Sign in to start your application',
     );
   });
 });
