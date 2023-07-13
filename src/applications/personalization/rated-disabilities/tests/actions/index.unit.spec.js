@@ -134,7 +134,7 @@ describe('Rated Disabilities actions: fetchTotalDisabilityRating', () => {
     thunk(dispatch);
   });
 
-  it('should fourmat analytics string without source if it is not present in response, but still succeed', () => {
+  it('should succeed and format the analytics string if source is missing in the response', () => {
     const total = {
       data: {
         attributes: { userPercentOfDisability: 80 },
