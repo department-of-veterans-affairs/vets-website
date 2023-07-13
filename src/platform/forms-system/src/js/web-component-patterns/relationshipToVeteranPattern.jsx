@@ -32,6 +32,19 @@ export const relationshipToVeteranUI = (
         expandUnderCondition: 'other',
       },
     },
+    'ui:options': {
+      expandedContentFocus: true,
+      updateSchema: (formData, formSchema) => {
+        if (formSchema.properties.relationshipToVeteranOther['ui:collapsed']) {
+          return { ...formSchema, required: ['relationshipToVeteran'] };
+        }
+
+        return {
+          ...formSchema,
+          required: ['relationshipToVeteran', 'relationshipToVeteranOther'],
+        };
+      },
+    },
   };
 };
 
@@ -47,14 +60,4 @@ export const relationshipToVeteranSchema = {
     },
   },
   required: ['relationshipToVeteran'],
-  if: {
-    properties: {
-      relationshipToVeteran: {
-        const: 'other',
-      },
-    },
-  },
-  then: {
-    required: ['relationshipToVeteranOther'],
-  },
 };
