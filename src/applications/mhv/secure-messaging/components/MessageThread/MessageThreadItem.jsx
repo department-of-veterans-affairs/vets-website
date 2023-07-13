@@ -50,6 +50,7 @@ const MessageThreadItem = props => {
 
   return (
     <VaAccordionItem
+      data-dd-privacy="mask" // need to mask entire accordion as the subheader with the sender name cannot masked
       aria-label={accordionAriaLabel}
       className={`older-message ${
         !isRead ? 'accordion-unread' : 'accordion-read'
@@ -61,9 +62,7 @@ const MessageThreadItem = props => {
       }}
       data-testid={`expand-message-button-${messageId}`}
     >
-      <h3 slot="headline" data-dd-privacy="mask">
-        {dateFormat(sentDate, 'MMMM D [at] h:mm a z')}
-      </h3>
+      <h3 slot="headline">{dateFormat(sentDate, 'MMMM D [at] h:mm a z')}</h3>
       {!isRead && (
         <i
           role="img"
