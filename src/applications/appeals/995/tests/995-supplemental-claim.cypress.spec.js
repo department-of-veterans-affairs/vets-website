@@ -77,7 +77,7 @@ const testConfig = createTestConfig(
                 cy.get('.add-new-issue').click();
                 cy.url().should('include', `${BASE_URL}/add-issue?index=`);
                 cy.axeCheck();
-                cy.get('#add-sc-issue')
+                cy.get('#aissue-name')
                   .shadow()
                   .find('input')
                   .type(issue);
