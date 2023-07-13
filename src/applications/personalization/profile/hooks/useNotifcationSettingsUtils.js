@@ -163,21 +163,56 @@ export const useNotificationSettingsUtils = () => {
     }, []);
   };
 
+  // creates a list of unavailable items
+  // also filters out any items that are blocked by feature toggles
+  // can be greatly simplified once the feature toggles are removed
   const useUnavailableItems = () => {
+    const excludedGroupIds = [
+      ...(toggles.showQuickSubmitNotificationSetting
+        ? []
+        : [NOTIFICATION_GROUPS.QUICK_SUBMIT]),
+      ...(toggles.showPaymentsNotificationSetting
+        ? []
+        : [NOTIFICATION_GROUPS.PAYMENTS]),
+    ];
+
+    const excludedItemIds = [
+      ...(toggles.showMhvNotificationSettings
+        ? []
+        : BLOCKED_MHV_NOTIFICATION_IDS),
+    ];
+
+    const groups = communicationPreferences.groups.entities;
     const items = communicationPreferences.items.entities;
     const channels = communicationPreferences.channels.entities;
 
     const itemIds = Object.keys(items);
-
-    const unavailableItemIds = itemIds.filter(itemId => {
-      const item = items[itemId];
-      const itemChannels = item.channels.map(channelId => channels[channelId]);
-      return !itemChannels.some(channel =>
-        channelsWithContactInfo.includes(channel.channelType),
-      );
+    const excludedGroupItems = excludedGroupIds.flatMap(groupId => {
+      const group = groups[groupId];
+      return group ? group.items : [];
     });
 
-    return unavailableItemIds.map(itemId => items[itemId]);
+    return itemIds.reduce((acc, itemId) => {
+      if (
+        !excludedGroupItems.includes(itemId) &&
+        !excludedItemIds.includes(itemId)
+      ) {
+        const item = items[itemId];
+        const itemChannels = item.channels.map(
+          channelId => channels[channelId],
+        );
+
+        if (
+          !itemChannels.some(channel =>
+            channelsWithContactInfo.includes(channel.channelType),
+          )
+        ) {
+          acc.push(item);
+        }
+      }
+
+      return acc;
+    }, []);
   };
 
   const useFilteredItemsForMHVNotifications = itemIds =>

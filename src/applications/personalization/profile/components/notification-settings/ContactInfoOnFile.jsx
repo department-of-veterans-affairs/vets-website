@@ -74,7 +74,6 @@ const ContactInfoOnFile = ({
           </Link>
         </li>
       </ul>
-      <hr aria-hidden="true" />
     </>
   );
 };

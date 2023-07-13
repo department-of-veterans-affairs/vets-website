@@ -40,6 +40,7 @@ const NotificationChannel = props => {
     saveSetting,
     disabledForCheckbox,
     last,
+    defaultSendIndicator,
   } = props;
   // when itemId = "item2", itemIdNumber will be 2
   const itemIdNumber = React.useMemo(
@@ -96,6 +97,7 @@ const NotificationChannel = props => {
           <NotificationCheckbox
             channelType={channelType}
             isOptedIn={isOptedIn}
+            defaultSendIndicator={defaultSendIndicator}
             channelId={channelId}
             onValueChange={e => {
               const newValue = e.target.checked;
@@ -200,6 +202,7 @@ NotificationChannel.propTypes = {
   apiStatus: PropTypes.string,
   channelId: PropTypes.string,
   channelType: PropTypes.number,
+  defaultSendIndicator: PropTypes.bool,
   description: PropTypes.string,
   isMissingContactInfo: PropTypes.bool,
   isOptedIn: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -235,6 +238,7 @@ const mapStateToProps = (state, ownProps) => {
     isOptedIn: channel.isAllowed,
     isMissingContactInfo,
     permissionId: channel.permissionId,
+    defaultSendIndicator: channel?.defaultSendIndicator,
   };
 };
 

@@ -147,6 +147,7 @@ const NotificationSettings = ({
                 notificationToggles.showEmailNotificationSettings
               }
             />
+            <hr aria-hidden="true" />
             {availableGroups.map(({ id }) => {
               // we handle the health care group a little differently
               if (id === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {

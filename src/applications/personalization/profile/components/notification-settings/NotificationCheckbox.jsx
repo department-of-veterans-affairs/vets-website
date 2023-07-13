@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { NOTIFICATION_CHANNEL_LABELS } from '../../constants';
@@ -14,10 +14,19 @@ export const NotificationCheckbox = ({
   errorMessage,
   disabled,
   last,
+  defaultSendIndicator,
 }) => {
   const label = `Notify me by ${NOTIFICATION_CHANNEL_LABELS[channelType]}`;
 
-  const checked = isOptedIn;
+  const checked = useMemo(
+    () => {
+      if (isOptedIn === null) {
+        return defaultSendIndicator;
+      }
+      return !!isOptedIn;
+    },
+    [isOptedIn, defaultSendIndicator],
+  );
 
   const handleChange = e => {
     onValueChange(e);
@@ -112,6 +121,7 @@ NotificationCheckbox.propTypes = {
   channelId: PropTypes.string.isRequired,
   channelType: PropTypes.number.isRequired,
   onValueChange: PropTypes.func.isRequired,
+  defaultSendIndicator: PropTypes.bool,
   disabled: PropTypes.bool,
   errorMessage: PropTypes.string,
   isOptedIn: PropTypes.bool,
