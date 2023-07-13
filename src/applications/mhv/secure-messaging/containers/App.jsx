@@ -11,6 +11,8 @@ import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
 
+import { useDatadogRum } from '../hooks/useDatadogRum';
+
 const App = () => {
   const user = useSelector(selectUser);
   const userServices = user.profile.services;
@@ -18,6 +20,8 @@ const App = () => {
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingToVaGovRelease],
   );
+
+  useDatadogRum();
 
   return (
     <RequiredLoginView
