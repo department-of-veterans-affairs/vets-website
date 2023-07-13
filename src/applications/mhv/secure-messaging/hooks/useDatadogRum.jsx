@@ -17,8 +17,8 @@ const initializeDatadogRum = () => {
       site: 'ddog-gov.com',
       service: 'va.gov-mhv-secure-messaging',
       env: environment.vspEnvironment(),
-      sessionSampleRate: 100,
-      sessionReplaySampleRate: 100,
+      sessionSampleRate: 100, // controls the percentage of overall sessions being tracked
+      sessionReplaySampleRate: 50, // is applied after the overall sample rate, and controls the percentage of sessions tracked as Browser RUM & Session Replay
       trackInteractions: true,
       trackUserInteractions: true,
       trackResources: true,
