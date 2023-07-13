@@ -123,7 +123,7 @@ export const NOTIFICATION_CHANNEL_LABELS = Object.freeze({
  * These are all email based notifications
  *
  */
-export const BLOCKED_NOTIFICATION_IDS = [
+export const BLOCKED_MHV_NOTIFICATION_IDS = [
   'item7',
   'item8',
   'item9',
