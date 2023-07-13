@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import { DebtNotification } from '../../../components/notifications/DebtNotification';
+import { DebtNotification } from '../../../../common/components/DebtNotification';
 
 describe('<DebtNotification />', () => {
   it('should render', () => {
