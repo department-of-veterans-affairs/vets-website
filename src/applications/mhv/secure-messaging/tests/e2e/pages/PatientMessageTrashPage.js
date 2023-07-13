@@ -39,17 +39,26 @@ class PatientMessageTrashPage {
     cy.get('[data-testid="thread-list-item"]').first.click();
   };
 
-  filterTrashMessages = text => {
+  inputFilterData = text => {
+    cy.get('#filter-input')
+      .shadow()
+      .find('#inputField')
+      .type(`${text}`);
+  };
+
+  filterTrashMessages = () => {
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/folders/-3/search',
       trashSearchResponse,
     );
-    cy.get('#filter-input')
-      .shadow()
-      .find('#inputField')
-      .type(`${text}`);
     cy.get('[data-testid="filter-messages-button"]').click();
+  };
+
+  clearFilter = () => {
+    this.inputFilterData('any');
+    this.filterTrashMessages();
+    cy.get('[text="Clear Filters"]').click();
   };
 
   verifyFolderHeader = text => {
@@ -64,7 +73,7 @@ class PatientMessageTrashPage {
     );
   };
 
-  verifySearchResults = (filterValue, responseData = trashSearchResponse) => {
+  verifyFilterResults = (filterValue, responseData = trashSearchResponse) => {
     cy.get('[data-testid="message-list-item"]').should(
       'have.length',
       `${responseData.data.length}`,
@@ -78,6 +87,13 @@ class PatientMessageTrashPage {
           expect(lowerCaseText).to.contain(`${filterValue}`);
         });
     });
+  };
+
+  verifyFilterFieldCleared = () => {
+    cy.get('#filter-input')
+      .shadow()
+      .find('#inputField')
+      .should('be.empty');
   };
 }
 

@@ -9,7 +9,7 @@ describe('Secure Messaging Trash Folder AXE Check', () => {
     site.login();
     landingPage.loadInboxMessages();
   });
-  it.skip('Axe Check Trash Folder', () => {
+  it('Axe Check Trash Folder', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -36,9 +36,10 @@ describe('Secure Messaging Trash Folder AXE Check', () => {
 
   it('Verify filter works correctly', () => {
     PatientMessageTrashPage.loadTrashMessages();
-    PatientMessageTrashPage.filterTrashMessages('test');
+    PatientMessageTrashPage.inputFilterData('test');
+    PatientMessageTrashPage.filterTrashMessages();
 
-    PatientMessageTrashPage.verifySearchResults('test');
+    PatientMessageTrashPage.verifyFilterResults('test');
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -47,5 +48,22 @@ describe('Secure Messaging Trash Folder AXE Check', () => {
         },
       },
     });
+  });
+
+  it('Verify clear filter btn works correctly', () => {
+    PatientMessageTrashPage.loadTrashMessages();
+    PatientMessageTrashPage.inputFilterData('any');
+    PatientMessageTrashPage.filterTrashMessages();
+    PatientMessageTrashPage.clearFilter();
+
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    PatientMessageTrashPage.verifyFilterFieldCleared();
   });
 });
