@@ -3,6 +3,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
+import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
 import labsAndTests from '../fixtures/labsAndTests.json';
 import { RecordType } from '../../util/constants';
 
@@ -11,7 +12,7 @@ describe('LabsAndTestsListItem component', () => {
     mr: {
       labsAndTests: {
         labsAndTestsList: labsAndTests,
-        labsAndTestsDetails: labsAndTests[0],
+        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[0]),
       },
     },
   };
@@ -19,7 +20,7 @@ describe('LabsAndTestsListItem component', () => {
   const setup = (state = initialState) => {
     return renderWithStoreAndRouter(
       <RecordListItem
-        record={labsAndTests[0]}
+        record={convertLabsAndTestsRecord(labsAndTests.entry[0])}
         type={RecordType.LABS_AND_TESTS}
       />,
       {
@@ -32,15 +33,23 @@ describe('LabsAndTestsListItem component', () => {
 
   it('renders without errors', () => {
     const screen = setup();
-    expect(screen.getByText('Complete blood count', { exact: true })).to.exist;
+    expect(
+      screen.getAllByText(
+        'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
+        { exact: true },
+      )[0],
+    ).to.exist;
   });
 
   it('should contain the name and date of the record', () => {
     const screen = setup();
-    const recordName = screen.getByText('Complete blood count', {
-      exact: true,
-    });
-    const recordDate = screen.getByText('June', { exact: false });
+    const recordName = screen.getAllByText(
+      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
+      {
+        exact: true,
+      },
+    )[0];
+    const recordDate = screen.getByText('January', { exact: false });
     expect(recordName).to.exist;
     expect(recordDate).to.exist;
   });

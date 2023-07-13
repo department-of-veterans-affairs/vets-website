@@ -285,7 +285,7 @@ export const dependentSchema = {
           first: {
             type: 'string',
             minLength: 1,
-            maxLength: 30,
+            maxLength: 25,
             pattern: '^.*\\S.*',
           },
           middle: {
@@ -295,7 +295,7 @@ export const dependentSchema = {
           last: {
             type: 'string',
             minLength: 2,
-            maxLength: 30,
+            maxLength: 35,
             pattern: '^.*\\S.*',
           },
           suffix: {
