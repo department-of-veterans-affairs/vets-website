@@ -129,7 +129,7 @@ class IntroductionPage extends React.Component {
           <div className="omb-info--container vads-u-padding-left--0">
             <va-omb-info
               res-burden={30}
-              omb-number="2900-0049"
+              omb-number="2900-0043"
               exp-date="09/30/2021"
             />
           </div>
