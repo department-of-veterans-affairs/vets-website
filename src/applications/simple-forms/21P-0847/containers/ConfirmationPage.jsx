@@ -7,7 +7,7 @@ import { ConfirmationPageView } from '../../shared/components/ConfirmationPageVi
 const content = {
   headlineText: 'You’ve submitted your request to be a substitute claimant',
   nextStepsText:
-    'You may now submit evidence in support of pending claims or appeals for potential accrued benefits for the claimant.',
+    'We’ll mail you a letter to tell you our decision on your request.',
 };
 
 const childContent = (
