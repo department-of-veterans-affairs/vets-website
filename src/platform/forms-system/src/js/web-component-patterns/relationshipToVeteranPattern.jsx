@@ -1,4 +1,4 @@
-import VaRadioField from '../web-component-fields/VaRadioField';
+import { radioUI, radioSchema } from './radioPattern';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 
 export const relationshipToVeteranUI = (
@@ -6,22 +6,18 @@ export const relationshipToVeteranUI = (
   relationshipToVeteranOtherTitle,
 ) => {
   return {
-    relationshipToVeteran: {
-      'ui:title':
+    relationshipToVeteran: radioUI({
+      title:
         relationshipToVeteranTitle ??
         'What’s your relationship to the veteran?',
-      'ui:webComponentField': VaRadioField,
-      'ui:widget': 'radio',
-      'ui:options': {
-        labels: {
-          spouse: 'Spouse',
-          child: 'Child',
-          parent: 'Parent',
-          executor: 'Executor/Administrator of Estate',
-          other: 'A relationship not listed here',
-        },
+      labels: {
+        spouse: 'Spouse',
+        child: 'Child',
+        parent: 'Parent',
+        executor: 'Executor/Administrator of Estate',
+        other: 'A relationship not listed here',
       },
-    },
+    }),
     relationshipToVeteranOther: {
       'ui:title':
         relationshipToVeteranOtherTitle ??
@@ -51,10 +47,13 @@ export const relationshipToVeteranUI = (
 export const relationshipToVeteranSchema = {
   type: 'object',
   properties: {
-    relationshipToVeteran: {
-      type: 'string',
-      enum: ['spouse', 'child', 'parent', 'executor', 'other'],
-    },
+    relationshipToVeteran: radioSchema([
+      'spouse',
+      'child',
+      'parent',
+      'executor',
+      'other',
+    ]),
     relationshipToVeteranOther: {
       type: 'string',
     },
