@@ -17,6 +17,7 @@ const SpouseAdditionalIncomeInputList = ({ errorSchema, formContext }) => {
       setData({
         ...data,
         additionalIncome: {
+          ...data.additionalIncome,
           spouse: {
             spAddlIncome: spAddlIncome.map(income => {
               if (income.name === target.name) {

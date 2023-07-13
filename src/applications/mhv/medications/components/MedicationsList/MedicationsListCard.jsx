@@ -57,7 +57,7 @@ const MedicationsListCard = props => {
     <div className="rx-card-container vads-u-background-color--gray-lightest vads-u-margin-y--1 no-break">
       <div className="rx-card-detials vads-u-padding--2">
         <h4 className="vads-u-font-weight--bold">{rx.prescriptionName}</h4>
-        <div>Prescription number: {rx.prescriptionId}</div>
+        <div>Prescription number: {rx.prescriptionNumber}</div>
         <div>Refills left: {rx.refillRemaining}</div>
         {rx.dispensedDate && (
           <>Dispensed on {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}</>

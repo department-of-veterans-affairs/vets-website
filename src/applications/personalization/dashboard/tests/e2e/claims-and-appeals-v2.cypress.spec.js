@@ -31,6 +31,10 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
               name: featureFlagNames.showMyVADashboardV2,
               value: true,
             },
+            {
+              name: featureFlagNames.myVaUseLighthouseClaims,
+              value: false,
+            },
           ],
         },
       }).as('featuresB');

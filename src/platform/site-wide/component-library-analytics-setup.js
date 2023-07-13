@@ -356,6 +356,39 @@ const analyticsEvents = {
       prefix: 'modal',
     },
   ],
+  'va-notification': [
+    {
+      action: 'linkClick',
+      event: 'nav-notification-link-click',
+      prefix: 'notification',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-notification',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'notification-clickLabel': 'custom_string_2',
+          'notification-headline': 'heading_1',
+          'notification-type': 'type',
+        },
+      },
+    },
+    {
+      action: 'close',
+      event: 'int-notification-close',
+      prefix: 'notification',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-notification',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'notification-headline': 'heading_1',
+          'notification-type': 'type',
+        },
+      },
+    },
+  ],
   'va-number-input': [
     {
       action: 'blur',

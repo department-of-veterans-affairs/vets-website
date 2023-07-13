@@ -6,6 +6,7 @@ import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-sub
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import { fillProviderFacility } from './helpers';
+import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
 
 const testConfig = createTestConfig(
   {
@@ -89,21 +90,7 @@ const testConfig = createTestConfig(
             const signerName =
               data.preparerIdentification?.preparerFullName ??
               data.veteran.fullName;
-            cy.get('#veteran-signature')
-              .shadow()
-              .find('input')
-              .first()
-              .type(
-                signerName.middle
-                  ? `${signerName.first} ${signerName.middle} ${
-                      signerName.last
-                    }`
-                  : `${signerName.first} ${signerName.last}`,
-              );
-            cy.get(`input[name="veteran-certify"]`).check();
-            cy.findAllByText(/Submit application/i, {
-              selector: 'button',
-            }).click();
+            reviewAndSubmitPageFlow(signerName);
           });
         });
       },

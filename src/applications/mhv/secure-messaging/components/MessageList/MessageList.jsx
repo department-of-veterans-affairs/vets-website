@@ -23,7 +23,6 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { useDispatch } from 'react-redux';
-import { handleHeader } from '../../util/helpers';
 import MessageListItem from './MessageListItem';
 import ThreadListSort from '../ThreadList/ThreadListSort';
 import { setSearchPage, setSearchSort } from '../../actions/search';
@@ -170,19 +169,10 @@ const MessageList = props => {
   };
 
   return (
-    <div
-      className="message-list vads-l-row vads-u-flex-direction--column"
-      role="heading"
-      aria-level="2"
-      aria-label={`Conversations in your ${handleHeader(
-        folder.folderId,
-        folder,
-      )}, ${displayNums[0]} - ${
-        displayNums[1]
-      } of ${totalEntries} conversations`}
-    >
+    <div className="message-list vads-l-row vads-u-flex-direction--column">
       <ThreadListSort sortOrder={sortOrder} sortCallback={sortCallback} />
 
+      <h2 className="sr-only">List of filtered conversations</h2>
       <div
         role="status"
         ref={displayingNumberOfMesssagesRef}
