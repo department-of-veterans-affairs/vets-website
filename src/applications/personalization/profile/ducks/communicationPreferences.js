@@ -288,7 +288,6 @@ const initialState = {
     ids: [],
     entities: {},
   },
-  unflattened: null,
 };
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
@@ -346,7 +345,6 @@ export default function reducer(state = initialState, action = {}) {
         groups,
         items,
         channels,
-        unflattened: availableCommunicationGroups,
       };
     }
     case SAVE_CHANNEL_STARTED: {

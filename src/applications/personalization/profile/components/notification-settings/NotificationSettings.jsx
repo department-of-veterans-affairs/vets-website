@@ -13,7 +13,7 @@ import {
   selectGroups,
 } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
-import { useNotificationSettingsUtils } from '@@profile/hooks/useNotifcationSettingsUtils';
+import { useNotificationSettingsUtils } from '@@profile/hooks';
 
 import {
   hasVAPServiceConnectionError,

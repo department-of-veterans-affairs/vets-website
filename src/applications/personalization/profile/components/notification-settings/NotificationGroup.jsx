@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { selectGroupById } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
-import { useNotificationSettingsUtils } from '@@profile/hooks/useNotifcationSettingsUtils';
+import { useNotificationSettingsUtils } from '@@profile/hooks';
 
 import NotificationItem from './NotificationItem';
 

@@ -3,7 +3,7 @@ import TOGGLE_NAMES from './featureFlagNames';
 
 export const toggleValuesSelector = state => state.featureToggles || {};
 
-export const loadingTogglesSelector = state => state.featureToggles.loading;
+export const loadingTogglesSelector = state => state?.featureToggles?.loading;
 
 export const useFeatureToggle = () => {
   const useToggleValue = toggleName => {

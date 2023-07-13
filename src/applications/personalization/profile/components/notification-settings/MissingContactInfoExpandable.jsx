@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { VaAlertExpandable } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { NOTIFICATION_CHANNEL_IDS, PROFILE_PATHS } from '../../constants';
 import { useContactInfoDeepLink } from '../../hooks';
-import { useNotificationSettingsUtils } from '../../hooks/useNotifcationSettingsUtils';
+import { useNotificationSettingsUtils } from '../../hooks/useNotificationSettingsUtils';
 
 const channelDescriptions = {
   [NOTIFICATION_CHANNEL_IDS.EMAIL]: 'email address',

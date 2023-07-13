@@ -1459,10 +1459,10 @@ const handleUserRequest = (req, res) => {
   // return res.json(allMockResponses.nonVeteranUser); // non-veteran user
   // return res.json(allMockResponses.externalServiceError); // external service error
   // return res.json(allMockResponses.loa3UserWithNoMobilePhone); // user with no mobile phone number
-  return res.json(allMockResponses.loa3UserWithNoEmail); // user with no email address
+  // return res.json(allMockResponses.loa3UserWithNoEmail); // user with no email address
   // return res.json(allMockResponses.loa3UserWithNoEmailOrMobilePhone); // user without emial or mobile phone
 
-  // return res.json(allMockResponses.loa3User72);
+  return res.json(allMockResponses.loa3User72);
 };
 
 module.exports = { ...allMockResponses, handleUserRequest };
