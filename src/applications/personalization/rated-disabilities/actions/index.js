@@ -65,7 +65,7 @@ function getResponseError(response) {
   return null;
 }
 
-export function fetchTotalDisabilityRating() {
+export function fetchTotalDisabilityRating(recordAnalyticsEvent = recordEvent) {
   return async dispatch => {
     dispatch({
       type: FETCH_TOTAL_RATING_STARTED,
@@ -76,14 +76,14 @@ export function fetchTotalDisabilityRating() {
     if (error) {
       const errorCode = error.code;
       if (isServerError(errorCode)) {
-        recordEvent({
+        recordAnalyticsEvent({
           event: `api_call`,
           'error-key': `${errorCode} internal error`,
           'api-name': 'GET disability rating',
           'api-status': 'failed',
         });
       } else if (isClientError(errorCode)) {
-        recordEvent({
+        recordAnalyticsEvent({
           event: `api_call`,
           'error-key': `${errorCode} no combined rating found`,
           'api-name': 'GET disability rating',
@@ -95,9 +95,12 @@ export function fetchTotalDisabilityRating() {
         error,
       });
     } else {
-      recordEvent({
+      const source = response?.source;
+      const sourceString = source ? ` - ${source}` : '';
+
+      recordAnalyticsEvent({
         event: `api_call`,
-        'api-name': 'GET disability rating',
+        'api-name': `GET disability rating${sourceString}`,
         'api-status': 'successful',
       });
       dispatch({

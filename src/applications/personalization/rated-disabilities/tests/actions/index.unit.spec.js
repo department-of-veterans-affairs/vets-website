@@ -70,11 +70,11 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
   });
 });
 
-describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
+describe('Rated Disabilities actions: fetchTotalDisabilityRating', () => {
   beforeEach(() => mockFetch());
 
   it('should fetch the total rating', () => {
-    const total = { userPercentOfDisability: 80 };
+    const total = { data: { attributes: { userPercentOfDisability: 80 } } };
 
     setFetchJSONResponse(global.fetch.onCall(0), total);
 
@@ -88,6 +88,94 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
         );
       }
     };
+    thunk(dispatch);
+  });
+
+  it('should attach the appropriate source to the analytics event when EVSS is source', () => {
+    const total = {
+      data: { attributes: { userPercentOfDisability: 80, source: 'EVSS' } },
+    };
+    setFetchJSONResponse(global.fetch.onCall(0), total);
+
+    const analyticsSpy = sinon.spy();
+
+    const thunk = fetchTotalDisabilityRating(analyticsSpy);
+
+    const dispatchSpy = sinon.spy();
+
+    const dispatch = action => {
+      dispatchSpy(action);
+
+      if (dispatchSpy.callCount === 2) {
+        expect(analyticsSpy.calledOnce).to.be.true;
+
+        expect(analyticsSpy.firstCall.args[0]['api-name'].includes('EVSS')).to
+          .be.true;
+      }
+    };
+
+    thunk(dispatch);
+  });
+
+  it('should attach the appropriate source to the analytics event when Lighthouse is source', () => {
+    const total = {
+      data: {
+        attributes: { userPercentOfDisability: 80, source: 'Lighthouse' },
+      },
+    };
+    setFetchJSONResponse(global.fetch.onCall(0), total);
+
+    const analyticsSpy = sinon.spy();
+
+    const thunk = fetchTotalDisabilityRating(analyticsSpy);
+
+    const dispatchSpy = sinon.spy();
+
+    const dispatch = action => {
+      dispatchSpy(action);
+
+      if (dispatchSpy.callCount === 2) {
+        expect(analyticsSpy.calledOnce).to.be.true;
+
+        expect(
+          analyticsSpy.firstCall.args[0]['api-name'].includes('Lighthouse'),
+        ).to.be.true;
+      }
+    };
+
+    thunk(dispatch);
+  });
+
+  it('should fourmat analytics string without source if it is not present in response, but still succeed', () => {
+    const total = {
+      data: {
+        attributes: { userPercentOfDisability: 80 },
+      },
+    };
+    setFetchJSONResponse(global.fetch.onCall(0), total);
+
+    const analyticsSpy = sinon.spy();
+
+    const thunk = fetchTotalDisabilityRating(analyticsSpy);
+
+    const dispatchSpy = sinon.spy();
+
+    const dispatch = action => {
+      dispatchSpy(action);
+
+      if (dispatchSpy.callCount === 2) {
+        expect(analyticsSpy.calledOnce).to.be.true;
+
+        expect(analyticsSpy.firstCall.args[0]['api-name']).to.equal(
+          'GET disability rating',
+        );
+
+        expect(dispatchSpy.secondCall.args[0].type).to.equal(
+          FETCH_TOTAL_RATING_SUCCEEDED,
+        );
+      }
+    };
+
     thunk(dispatch);
   });
 
