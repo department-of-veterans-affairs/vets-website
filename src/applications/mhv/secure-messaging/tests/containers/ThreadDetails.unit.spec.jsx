@@ -214,7 +214,7 @@ describe('Thread Details container', () => {
       PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG,
     );
 
-    expect(document.querySelector('h4').textContent).to.equal(
+    expect(document.querySelector('span').textContent).to.equal(
       '(Draft) To: MORGUN, OLEKSII\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
     );
 

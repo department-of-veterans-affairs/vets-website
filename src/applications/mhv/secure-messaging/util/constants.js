@@ -33,6 +33,9 @@ export const DefaultFolders = {
     header: 'Trash',
     desc: `These are the messages you moved to the trash from your inbox or folders. We won't permanently delete any messages.`,
   },
+  CUSTOM_FOLDER: {
+    desc: `This is a folder you created. You can add conversations to this folder by moving them from your inbox or other folders.`,
+  },
 };
 
 export const ErrorMessages = {
