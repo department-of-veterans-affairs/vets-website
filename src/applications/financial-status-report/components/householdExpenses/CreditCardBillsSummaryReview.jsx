@@ -2,17 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { currency as currencyFormatter } from '../../utils/helpers';
 
-const CreditCardBillsSummaryReview = ({ data, title }) => {
+const CreditCardBillsSummaryReview = ({ data }) => {
   const { creditCardBills = [] } = data.expenses;
 
   return (
     <div>
-      <h4>{title}</h4>
       <dl className="review">
         {creditCardBills.map((bill, index) => {
           return (
             <>
-              <h4>Credit card bill {index + 1}</h4>
+              <h5>Credit card bill {index + 1}</h5>
               <div className="review-row" key={bill.amountDueMonthly + index}>
                 <dt>Unpaid balance</dt>
                 <dd>{currencyFormatter(bill.unpaidBalance)}</dd>
