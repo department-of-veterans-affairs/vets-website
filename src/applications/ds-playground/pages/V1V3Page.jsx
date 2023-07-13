@@ -21,6 +21,8 @@ import {
   VaAlert,
   VaSegmentedProgressBar,
   VaAdditionalInfo,
+  VaAccordion,
+  VaAccordionItem,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V1V3Page() {
@@ -763,6 +765,77 @@ export default function V1V3Page() {
                   <li>Item 4</li>
                 </ul>
               </VaAdditionalInfo>
+            </div>
+          </div>
+        </div>
+
+        {/* Accordion Comparison */}
+        <div className="vads-l-row">
+          <h3>Accordion</h3>
+          <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
+              <VaAccordion
+                section-heading={{
+                  value: 'null',
+                }}
+                uswds={{
+                  value: 'false',
+                }}
+                open-single
+              >
+                <VaAccordionItem id="first">
+                  <h6 slot="headline">First Amendment Headline</h6>
+                  Congress shall make no law respecting an establishment of
+                  religion, or prohibiting the free exercise thereof; or
+                  abridging the freedom of speech, or of the press; or the right
+                  of the people peaceably to assemble, and to petition the
+                  Government for a redress of grievances.
+                </VaAccordionItem>
+                <VaAccordionItem header="Second Amendment" id="second">
+                  A well regulated Militia, being necessary to the security of a
+                  free State, the right of the people to keep and bear Arms,
+                  shall not be infringed.
+                </VaAccordionItem>
+                <VaAccordionItem header="Third Amendment" id="third">
+                  No Soldier shall, in time of peace be quartered in any house,
+                  without the consent of the Owner, nor in time of war, but in a
+                  manner to be prescribed by law.
+                </VaAccordionItem>
+              </VaAccordion>
+            </div>
+
+            <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
+              <VaAccordion
+                section-heading={{
+                  value: 'null',
+                }}
+                uswds
+                open-single
+              >
+                <VaAccordionItem header="First Amendment" id="first" uswds>
+                  <p>
+                    Congress shall make no law respecting an establishment of
+                    religion, or prohibiting the free exercise thereof; or
+                    abridging the freedom of speech, or of the press; or the
+                    right of the people peaceably to assemble, and to petition
+                    the Government for a redress of grievances.
+                  </p>
+                </VaAccordionItem>
+                <VaAccordionItem header="Second Amendment" id="second" uswds>
+                  <p>
+                    A well regulated Militia, being necessary to the security of
+                    a free State, the right of the people to keep and bear Arms,
+                    shall not be infringed.
+                  </p>
+                </VaAccordionItem>
+                <VaAccordionItem header="Third Amendment" id="third" uswds>
+                  <p>
+                    No Soldier shall, in time of peace be quartered in any
+                    house, without the consent of the Owner, nor in time of war,
+                    but in a manner to be prescribed by law.
+                  </p>
+                </VaAccordionItem>
+              </VaAccordion>
             </div>
           </div>
         </div>
