@@ -6,6 +6,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
+import { getSignerFullName } from './helpers';
 
 const testConfig = createTestConfig(
   {
@@ -13,7 +14,6 @@ const testConfig = createTestConfig(
 
     dataDir: path.join(__dirname, 'fixtures', 'data'),
 
-    // Rename and modify the test data as needed.
     dataSets: ['authTypeNonVet', 'authTypeVet'],
 
     pageHooks: {
@@ -38,11 +38,20 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('.form-progress-buttons [id*="continueButton"]', {
+          cy.get('@testData').then(data => {
+            const signerName = getSignerFullName(data);
+            cy.get('#veteran-signature')
+              .shadow()
+              .get('#inputField')
+              .type(signerName);
+          });
+          cy.get(`va-checkbox[name="veteran-certify"]`)
+            .shadow()
+            .find('input')
+            .check();
+          cy.findAllByText(/submit authorization/i, {
             selector: 'button',
-          })
-            .last()
-            .click();
+          }).click();
         });
       },
     },
