@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
@@ -6,9 +6,14 @@ import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 import { scrollToTop } from '../utilities/scroll-to-top';
 import { redirectIfFormIncomplete } from '../utilities/utils';
-import { getData } from '../api';
+import { getLimits } from '../api';
 import { ROUTES } from '../constants';
-import { updateEditMode, updateResults } from '../actions';
+import {
+  updateEditMode,
+  updateResults,
+  updateResultsValidationErrorText,
+  updateResultsValidationServiceError,
+} from '../actions';
 
 const ReviewPage = ({
   dependentsInput,
@@ -17,9 +22,13 @@ const ReviewPage = ({
   router,
   toggleEditMode,
   updateLimitsResults,
+  updateResultsErrorText,
+  updateResultsValidationError,
   yearInput,
   zipCodeInput,
 }) => {
+  const [submitting, setSubmitting] = useState(false);
+
   useEffect(() => {
     if (editMode) {
       updateEditMode(false);
@@ -46,15 +55,44 @@ const ReviewPage = ({
     const year = yearInput || new Date().getFullYear();
 
     if (dependentsInput && year && zipCodeInput) {
-      const response = await getData({
+      setSubmitting(true);
+
+      const response = await getLimits({
         dependents: dependentsInput,
         year,
         zipCode: zipCodeInput,
       });
 
-      if (response) {
+      setSubmitting(false);
+
+      if (response?.data) {
         updateLimitsResults(response?.data);
         router.push(ROUTES.RESULTS);
+      } else if (!response || response?.error || response?.errors) {
+        // A 422 invalid request returns response.error
+        // A 404 response returns response.errors
+        updateResultsValidationError(true);
+
+        const messageText = {
+          DEPENDENTS:
+            'Your information couldn’t go through. Please enter a number of dependents between 0 and 100.',
+          YEAR:
+            'Your information couldn’t go through. Please select a year again.',
+          ZIP:
+            'Your information couldn’t go through. Please enter a valid 5 digit zip code.',
+        };
+
+        const checkMessage = value => {
+          return response?.error?.toLowerCase().includes(value);
+        };
+
+        if (checkMessage('zip')) {
+          updateResultsErrorText(messageText.ZIP);
+        } else if (checkMessage('dependents')) {
+          updateResultsErrorText(messageText.DEPENDENTS);
+        } else if (checkMessage('year')) {
+          updateResultsErrorText(messageText.YEAR);
+        }
       }
     }
   };
@@ -129,12 +167,21 @@ const ReviewPage = ({
           </span>
         </li>
       </ul>
-      <VaButtonPair
-        data-testid="il-buttonPair"
-        onPrimaryClick={onContinueClick}
-        onSecondaryClick={onBackClick}
-        continue
-      />
+      {!submitting && (
+        <VaButtonPair
+          data-testid="il-buttonPair"
+          onPrimaryClick={onContinueClick}
+          onSecondaryClick={onBackClick}
+          continue
+        />
+      )}
+      {submitting && (
+        <va-loading-indicator
+          data-testid="il-loading-indicator"
+          set-focus
+          message="Reviewing your information..."
+        />
+      )}
     </>
   );
 };
@@ -150,6 +197,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   toggleEditMode: updateEditMode,
   updateLimitsResults: updateResults,
+  updateResultsErrorText: updateResultsValidationErrorText,
+  updateResultsValidationError: updateResultsValidationServiceError,
 };
 
 ReviewPage.propTypes = {
@@ -161,7 +210,10 @@ ReviewPage.propTypes = {
   }).isRequired,
   toggleEditMode: PropTypes.func.isRequired,
   updateLimitsResults: PropTypes.func.isRequired,
+  updateResultsErrorText: PropTypes.func.isRequired,
+  updateResultsValidationError: PropTypes.func.isRequired,
   zipCodeInput: PropTypes.string.isRequired,
+  resultsValidationError: PropTypes.func,
   yearInput: PropTypes.string,
 };
 

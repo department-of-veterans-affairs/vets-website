@@ -41,7 +41,7 @@ export const getLabOrTest = id => {
   }
   return new Promise(resolve => {
     setTimeout(() => {
-      const result = labsAndTests.find(lab => +lab.id === +id);
+      const result = labsAndTests.entry.find(lab => lab.id === id);
       resolve(result);
     }, 1000);
   });
@@ -212,15 +212,21 @@ export const getVaccine = id => {
 };
 
 /**
- * Get a pdf of a single vaccine
- * @param {Long} folderId
+ * Get a pdf of a list of all allergies
  * @returns json with base64 of a pdf
  */
-export const getVaccinePdf = id => {
-  return apiRequest(`${apiBasePath}/medical_records/vaccines/pdf?id=${id}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
+export const getAllAllergies = () => {
+  if (environment.BUILDTYPE === 'localhost' && testing) {
+    return apiRequest(`${apiBasePath}/medical_records/allergies/pdf`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(allergies);
+    }, 1000);
   });
 };
 
@@ -228,10 +234,17 @@ export const getVaccinePdf = id => {
  * Get a pdf of a list of all vaccines
  * @returns json with base64 of a pdf
  */
-export const getAllVaccinesPdf = () => {
-  return apiRequest(`${apiBasePath}/medical_records/vaccines/pdf`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
+export const getAllVaccines = () => {
+  if (environment.BUILDTYPE === 'localhost' && testing) {
+    return apiRequest(`${apiBasePath}/medical_records/vaccines/pdf`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(vaccines);
+    }, 1000);
   });
 };

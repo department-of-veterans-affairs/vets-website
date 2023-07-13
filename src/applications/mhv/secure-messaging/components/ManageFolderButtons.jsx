@@ -63,24 +63,6 @@ const ManageFolderButtons = () => {
     [nameWarning],
   );
 
-  useEffect(
-    () => {
-      if (deleteModal) {
-        focusElement(removeButton.current);
-      }
-    },
-    [deleteModal],
-  );
-
-  useEffect(
-    () => {
-      if (isEmptyWarning) {
-        focusElement(emptyFolderConfirmBtn.current);
-      }
-    },
-    [isEmptyWarning],
-  );
-
   const openDelModal = () => {
     dispatch(closeAlert());
     if (messages?.length > 0) {

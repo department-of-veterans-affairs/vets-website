@@ -1,4 +1,6 @@
 import moment from 'moment-timezone';
+import * as Sentry from '@sentry/browser';
+import { emptyField, interpretationMap } from './constants';
 
 /**
  * @param {*} timestamp
@@ -10,6 +12,17 @@ export const dateFormat = (timestamp, format = null) => {
   return moment
     .tz(timestamp, timeZone)
     .format(format || 'MMMM D, YYYY, h:mm a z');
+};
+
+/**
+ * @param {Object} nameObject {first, middle, last, suffix}
+ * @returns {String} formatted timestamp
+ */
+export const nameFormat = ({ first, middle, last, suffix }) => {
+  let name = `${last}, ${first}`;
+  if (middle) name += ` ${middle}`;
+  if (suffix) name += `, ${suffix}`;
+  return name;
 };
 
 /**
@@ -62,4 +75,71 @@ export const getReactions = record => {
 export const getNames = record => {
   if (!record) return '';
   return record.code.coding.map(code => code.display).join(', ');
+};
+
+/**
+ * Concatenate all the record.category[].text values in a FHIR record.
+ *
+ * @param {Object} record
+ * @returns {String} list of text values, separated by a comma
+ */
+export const concatCategoryCodeText = record => {
+  const textFields = record.category
+    .filter(category => category.text)
+    .map(category => category.text);
+
+  return textFields.join(', ');
+};
+
+/**
+ * For every record.interpretation[].text value in a record, find the right display value
+ * then concatenate them all together. If no mapping value is found for the code, the code
+ * itself is displayed.
+ *
+ * @param {Object} record
+ * @returns {String} list of interpretations, separated by a comma
+ */
+export const concatObservationInterpretations = record => {
+  const textFields = record.interpretation
+    .filter(interpretation => interpretation.text)
+    .map(
+      interpretation =>
+        interpretationMap[interpretation.text] || interpretation.text,
+    );
+  return textFields.join(', ');
+};
+
+/**
+ * @param {*} observation - a FHIR Observation object
+ * @returns {String} the value with units, e.g. "5 ml"
+ */
+export const getObservationValueWithUnits = observation => {
+  if (observation.valueQuantity) {
+    return `${observation.valueQuantity.value} ${
+      observation.valueQuantity.unit
+    }`;
+  }
+  return null;
+};
+
+/**
+ * @param {Array} list
+ * @returns {String} array of strings, separated by a comma
+ */
+export const processList = list => {
+  if (list?.length > 1) return list.join('. ');
+  if (list?.length === 1) return list.toString();
+  return emptyField;
+};
+
+/**
+ * @param {Error} error javascript error
+ * @param {String} page name of the page sending the error
+ * @returns {undefined}
+ */
+export const sendErrorToSentry = (error, page) => {
+  Sentry.captureException(error);
+  Sentry.captureMessage(
+    `MHV - Medical Records - ${page} - PDF generation error`,
+  );
 };

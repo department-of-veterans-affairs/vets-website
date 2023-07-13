@@ -334,7 +334,7 @@ const responses = {
       data: facilitiesV2.data.filter(
         facility =>
           ids.includes(facility.id) ||
-          (children && ids.some(id => facility.id.startsWith(id))),
+          (children === 'true' && ids.some(id => facility.id.startsWith(id))),
       ),
     });
   },
@@ -642,6 +642,7 @@ const responses = {
         { name: 'vaOnlineSchedulingConvertUtcToLocal', value: false },
         { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: false },
         { name: 'vaOnlineSchedulingPrintList', value: true },
+        { name: 'va_online_scheduling_descriptive_back_link', value: true },
         { name: 'selectFeaturePocTypeOfCare', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },
