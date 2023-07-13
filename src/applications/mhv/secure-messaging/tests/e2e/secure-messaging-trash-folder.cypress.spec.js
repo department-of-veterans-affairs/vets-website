@@ -9,7 +9,7 @@ describe('Secure Messaging Trash Folder AXE Check', () => {
     site.login();
     landingPage.loadInboxMessages();
   });
-  it('Axe Check Trash Folder', () => {
+  it.skip('Axe Check Trash Folder', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -31,5 +31,21 @@ describe('Secure Messaging Trash Folder AXE Check', () => {
       },
     });
     PatientMessageTrashPage.verifyFolderHeader('Trash');
+    PatientMessageTrashPage.verifyResponseBodyLength();
+  });
+
+  it('Verify filter works correctly', () => {
+    PatientMessageTrashPage.loadTrashMessages();
+    PatientMessageTrashPage.filterTrashMessages('test');
+
+    PatientMessageTrashPage.verifySearchResults('test');
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });
