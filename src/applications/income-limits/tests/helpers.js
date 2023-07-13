@@ -41,7 +41,7 @@ export const clickBack = () =>
   cy
     .findByTestId('il-buttonPair')
     .shadow()
-    .get('button')
+    .get('va-button')
     .first()
     .should('be.visible')
     .click();
@@ -50,7 +50,7 @@ export const clickContinue = () =>
   cy
     .findByTestId('il-buttonPair')
     .shadow()
-    .get('button')
+    .get('va-button')
     .eq(1)
     .should('be.visible')
     .click();
@@ -81,6 +81,7 @@ export const clearInput = selector =>
     .shadow()
     .get('input')
     .first()
+    .focus()
     .clear();
 
 export const selectFromDropdown = (selector, value) =>
@@ -89,7 +90,7 @@ export const selectFromDropdown = (selector, value) =>
     .shadow()
     .get('select')
     .first()
-    .select(value);
+    .select(value, { force: true });
 
 export const checkInputText = (selector, expectedValue) =>
   cy.findByTestId(selector).should('have.value', expectedValue);
@@ -106,12 +107,25 @@ export const checkAccordionValue = (selector, expectedValue, index) =>
 export const verifyElement = selector =>
   cy.findByTestId(selector).should('exist');
 
-export const verifyAlertNotShown = selector =>
+export const verifyFormErrorNotShown = selector =>
   cy
     .findByTestId(selector)
     .shadow()
     .get('span[role="alert"]')
     .should('not.be.visible');
+
+export const verifyAlertNotShown = () =>
+  cy.findByTestId('il-service-error').should('not.exist');
+
+export const verifyLoadingIndicatorShown = () =>
+  cy
+    .findByTestId('il-loading-indicator')
+    .shadow()
+    .get('div[role="progressbar"')
+    .should('be.visible');
+
+export const verifyLoadingIndicatorNotShown = () =>
+  cy.findByTestId('il-loading-indicator').should('not.exist');
 
 export const getEditLink = index => cy.get('.income-limits-edit a').eq(index);
 export const checkListItemText = (selector, expectedValue) =>

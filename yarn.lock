@@ -2531,13 +2531,13 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^16.4.0":
-  version "16.4.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-16.4.0.tgz#0f2867c4a50b61c207302f7a208c0ac812162af3"
-  integrity sha512-aodOfzcvZicpj3mNLEbswMCK/XpMcp9yCzZCo4dxrsd9OXorfg/6fkKoPRYyRj462qlw7T2qkVDKNIknVum3sw==
+"@department-of-veterans-affairs/component-library@^17.0.0":
+  version "17.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-17.0.0.tgz#c1ec5be04bc88cbe0d3f46f78d46db3c01d17ca7"
+  integrity sha512-sYimN9RHUkvS/21nRuKIe2qTQu9tJBhWagWlkIcLqZ3Srcj6qoFdbbh+BsuH+f204Ec/rSMnpQbZOey7tFgTGw==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "11.0.1"
-    "@department-of-veterans-affairs/web-components" "4.41.3"
+    "@department-of-veterans-affairs/react-components" "12.0.0"
+    "@department-of-veterans-affairs/web-components" "4.42.1"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2569,10 +2569,10 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@11.0.1":
-  version "11.0.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-11.0.1.tgz#062eeb04c0e156670003e4d5426ff943b649eaaa"
-  integrity sha512-BdIrtd77ePAZ40Pn02jHMsKUZbB7b/wmcTMpZMKOuJISu2+IRtyS+v6+9dcITrsMrOGt6u5qX0c3KpoMdJKI5w==
+"@department-of-veterans-affairs/react-components@12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-12.0.0.tgz#bd53978beb91af8ae41c27f3e8b690dbce36a1d6"
+  integrity sha512-DbOHwNceS5CkDJzRogjc7BUndpt+vIWRfsyAb5z3AxvfDSMXXASCkrNMC/HzRsX651LS+wUv3ZfX9TbdhiIrGA==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
@@ -2610,10 +2610,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.41.3":
-  version "4.41.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.41.3.tgz#a0d50ae359f9cfecf5acc352b7883e39d8ef9810"
-  integrity sha512-sEb20jftGNWtvZDMM+VpQNSBb+I6uCh+2t4CCzsFPQykstGkbiAsvdTAwsARqwBWQ3mpUa2DKT68qcV5iNsUcw==
+"@department-of-veterans-affairs/web-components@4.42.1":
+  version "4.42.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.42.1.tgz#f2394ca91c5de87bffb6e8d80349ee67dd707466"
+  integrity sha512-MpKKK1ivEnBlsMMWdDw8PDLKplicdmrMN5bSdKU4WrR0G5w6uIa4+wHVwh7eIB/NPwB/N1pe1dUZKay5HRWKkA==
   dependencies:
     "@stencil/core" "^2.19.2"
     aria-hidden "^1.1.3"
@@ -7200,10 +7200,10 @@ cypress-wait-until@^1.7.2:
   resolved "https://registry.yarnpkg.com/cypress-wait-until/-/cypress-wait-until-1.7.2.tgz#7f534dd5a11c89b65359e7a0210f20d3dfc22107"
   integrity sha512-uZ+M8/MqRcpf+FII/UZrU7g1qYZ4aVlHcgyVopnladyoBrpoaMJ4PKZDrdOJ05H5RHbr7s9Tid635X3E+ZLU/Q==
 
-cypress@^10.8.0:
-  version "10.8.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-10.8.0.tgz#12a681f2642b6f13d636bab65d5b71abdb1497a5"
-  integrity sha512-QVse0dnLm018hgti2enKMVZR9qbIO488YGX06nH5j3Dg1isL38DwrBtyrax02CANU6y8F4EJUuyW6HJKw1jsFA==
+cypress@^11.2.0:
+  version "11.2.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-11.2.0.tgz#63edef8c387b687066c5493f6f0ad7b9ced4b2b7"
+  integrity sha512-u61UGwtu7lpsNWLUma/FKNOsrjcI6wleNmda/TyKHe0dOBcVjbCPlp1N6uwFZ0doXev7f/91YDpU9bqDCFeBLA==
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"
@@ -9307,9 +9307,9 @@ fast-safe-stringify@^2.0.7:
   integrity sha512-Utm6CdzT+6xsDk2m8S6uL8VHxNwI6Jub+e9NYTcAms28T84pTa25GJQV9j0CY0N1rM8hK4x6grpF2BQf+2qwVA==
 
 fast-xml-parser@^4.1.3:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-4.2.2.tgz#cb7310d1e9cf42d22c687b0fae41f3c926629368"
-  integrity sha512-DLzIPtQqmvmdq3VUKR7T6omPK/VCRNqgFlGtbESfyhcH2R4I8EzK1/K6E8PkRCK2EabWrUHK32NjYRbEFnnz0Q==
+  version "4.2.5"
+  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-4.2.5.tgz#a6747a09296a6cb34f2ae634019bf1738f3b421f"
+  integrity sha512-B9/wizE4WngqQftFPmdaMYlXoJlJOYxGQOanC77fq9k8+Z0v5dDSVh+3glErdIROP//s/jgb7ZuxKfB8nVyo0g==
   dependencies:
     strnum "^1.0.5"
 
@@ -19470,9 +19470,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#4eb0ab80ea94248bb2e4a13b1a6648c87a9e1d6b":
-  version "20.26.13"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#4eb0ab80ea94248bb2e4a13b1a6648c87a9e1d6b"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#59e8a7fbaa6448ea417336f47a51f8abf0abbfe1":
+  version "20.27.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#59e8a7fbaa6448ea417336f47a51f8abf0abbfe1"
   dependencies:
     minimist "^1.2.3"
 

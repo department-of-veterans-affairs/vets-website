@@ -1,6 +1,8 @@
 import {
   IL_EDIT_MODE,
   IL_PAST_MODE,
+  IL_RESULTS_VAL_ERROR,
+  IL_RESULTS_VAL_ERROR_TEXT,
   IL_UPDATE_DEPENDENTS,
   IL_UPDATE_RESULTS,
   IL_UPDATE_YEAR,
@@ -53,6 +55,20 @@ export const updateResults = value => {
 export const updateZipValidationServiceError = value => {
   return {
     type: IL_ZIP_VAL_ERROR,
+    payload: value,
+  };
+};
+
+export const updateResultsValidationServiceError = value => {
+  return {
+    type: IL_RESULTS_VAL_ERROR,
+    payload: value,
+  };
+};
+
+export const updateResultsValidationErrorText = value => {
+  return {
+    type: IL_RESULTS_VAL_ERROR_TEXT,
     payload: value,
   };
 };
