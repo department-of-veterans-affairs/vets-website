@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import classnames from 'classnames';
+import { scrollAndFocus } from 'platform/utilities/ui';
 
 /*
  * Component that expands to show a hidden child element with a fade in/slide down animation
@@ -18,17 +19,29 @@ export default function ExpandingGroup({
   showPlus,
   additionalClass,
   expandedContentId,
+  expandedContentFocus,
 }) {
   const classNames = classnames(
     'form-expanding-group',
-    { 'form-expanding-group-open': open },
+    { 'form-expanding-group-open': open && !expandedContentFocus },
     { 'form-expanding-group-plus': showPlus },
+  );
+
+  useEffect(
+    () => {
+      if (open && expandedContentFocus) {
+        scrollAndFocus(document.querySelector('.form-expanding-group-open'));
+      }
+    },
+    [open],
   );
 
   return (
     <div className={classNames}>
       {children[0]}
-      <TransitionGroup>
+      <TransitionGroup
+        className={expandedContentFocus && 'vads-u-padding-left--4'}
+      >
         {open ? (
           <CSSTransition
             id={expandedContentId}
@@ -38,7 +51,14 @@ export default function ExpandingGroup({
             }}
             exit={false}
           >
-            <div key="removable-group" className={additionalClass}>
+            <div
+              key="removable-group"
+              className={
+                expandedContentFocus
+                  ? 'form-expanding-group-open'
+                  : additionalClass
+              }
+            >
               {children[1]}
             </div>
           </CSSTransition>
@@ -65,4 +85,8 @@ ExpandingGroup.propTypes = {
    * id for ReactCSSTransitionGroup
    */
   expandedContentId: PropTypes.string,
+  /**
+   * expanded item receives focus and vertical bar
+   */
+  expandedContentFocus: PropTypes.bool,
 };
