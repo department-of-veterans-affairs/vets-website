@@ -1,7 +1,7 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
-const PriorityGroup = ({ value, updatedAt }) => (
+const PriorityGroup = ({ updatedAt, value }) => (
   <va-alert close-btn-aria-label="Close notification" status="success" visible>
     <h2 slot="headline">
       Your assigned priority group is {value} (as of {updatedAt})
@@ -17,6 +17,9 @@ const PriorityGroup = ({ value, updatedAt }) => (
   </va-alert>
 );
 
-PriorityGroup.propTypes = {};
+PriorityGroup.propTypes = {
+  updatedAt: PropTypes.string,
+  value: PropTypes.string,
+};
 
 export default PriorityGroup;

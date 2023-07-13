@@ -5,8 +5,12 @@ import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/select
 import PriorityGroup from './PriorityGroup';
 import SignInPrompt from './SignInPrompt';
 
-const App = ({ isSignedIn }) => {
-  return isSignedIn ? <PriorityGroup /> : <SignInPrompt />;
+export const App = ({ isSignedIn }) => {
+  if (!isSignedIn) {
+    return <SignInPrompt />;
+  }
+
+  return <PriorityGroup value="8B" updatedAt="2023/07/13" />;
 };
 
 App.propTypes = {
@@ -17,7 +21,4 @@ const mapStateToProps = state => ({
   isSignedIn: isLoggedIn(state),
 });
 
-export default connect(
-  mapStateToProps,
-  null,
-)(App);
+export default connect(mapStateToProps)(App);

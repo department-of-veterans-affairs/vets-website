@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring';
 import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 
 const SignInPrompt = () => {
