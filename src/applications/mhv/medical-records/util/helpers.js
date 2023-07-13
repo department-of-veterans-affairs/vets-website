@@ -26,19 +26,6 @@ export const nameFormat = ({ first, middle, last, suffix }) => {
 };
 
 /**
- * @param {*} type
- * @param {*} dosage
- * @returns {String} type and dosage combined, type or dosage or neither message
- */
-export const typeAndDose = (type, dosage) => {
-  if (type && dosage) {
-    return `${type}, ${dosage}`;
-  }
-
-  return type || dosage || 'There is no type or dosage reported at this time.';
-};
-
-/**
  * @param {String} name
  * @param {Base64String} base64Str
  * @returns {Undefined} downloads the file
