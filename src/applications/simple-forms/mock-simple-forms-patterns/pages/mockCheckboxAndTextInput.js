@@ -14,7 +14,7 @@ import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/V
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsfTitle: titleUI('RJSF / Widget'),
+    'view:title': titleUI('RJSF / Widget'),
     rjsfCheckSimpleTextInput: {
       'ui:title': 'text input',
     },
@@ -45,13 +45,14 @@ export default {
         </div>
       ),
     },
-    wcV3Title: inlineTitleUI('web component v3'),
+    'view:wcV3Title': inlineTitleUI('web component v3'),
     wcV3CheckSimpleText: {
       'ui:title': 'text input',
       'ui:webComponentField': VaTextInputField,
     },
     wcV3CheckRequiredCheckbox: {
       'ui:title': 'required checkbox',
+      'ui:description': 'This is a checkbox with a description',
       'ui:webComponentField': VaCheckboxField,
       'ui:errorMessages': {
         enum: 'Please select a checkbox',
@@ -71,7 +72,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsfTitle: titleSchema,
+      'view:title': titleSchema,
       rjsfCheckSimpleTextInput: {
         type: 'string',
       },
@@ -86,7 +87,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      wcV3Title: inlineTitleSchema,
+      'view:wcV3Title': inlineTitleSchema,
       wcV3CheckSimpleText: {
         type: 'string',
       },
