@@ -20,6 +20,7 @@ import OtherAssetsSummary from '../../components/otherAssets/OtherAssetsSummary'
 import OtherAssetsSummaryReview from '../../components/otherAssets/OtherAssetsSummaryReview';
 import EnhancedVehicleRecord from '../../components/EnhancedVehicleRecord';
 import VehicleSummaryWidget from '../../pages/assets/vehicles/VehicleSummaryWidget';
+import MonetaryAssetsSummaryReview from '../../components/monetary/MonetaryAssetsSummaryReview';
 
 export default {
   householdAssetsChapter: {
@@ -44,6 +45,7 @@ export default {
         title: 'Monetary asset values',
         uiSchema: monetaryValues.uiSchema,
         schema: monetaryValues.schema,
+        CustomPageReview: MonetaryAssetsSummaryReview,
         depends: formData =>
           formData['view:enhancedFinancialStatusReport'] &&
           formData.assets?.monetaryAssets?.length > 0,

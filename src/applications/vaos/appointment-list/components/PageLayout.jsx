@@ -10,7 +10,6 @@ export default function PageLayout({
   children,
   showBreadcrumbs,
   showNeedHelp,
-  style,
 }) {
   const featureAppointmentList = useSelector(state =>
     selectFeatureAppointmentList(state),
@@ -21,8 +20,7 @@ export default function PageLayout({
       {showBreadcrumbs && <Breadcrumbs />}
       <div className="vads-l-row">
         <div
-          style={{ ...style }}
-          className={classNames('vads-l-col--12', 'vads-u-margin--2', {
+          className={classNames('vads-l-col--12', 'vads-u-margin-y--2', {
             'medium-screen:vads-l-col--8': !featureAppointmentList,
           })}
         >
