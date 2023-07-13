@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { waitFor } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/react';
 import moment from 'moment';
@@ -149,9 +150,12 @@ describe('Thread Details container', () => {
     expect(
       await screen.findByText('Edit draft', { exact: true, selector: 'h1' }),
     ).to.exist;
-    expect(global.document.title).to.equal(
-      PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG,
-    );
+
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG,
+      );
+    });
 
     expect(
       document.querySelector('va-alert-expandable').getAttribute('trigger'),
