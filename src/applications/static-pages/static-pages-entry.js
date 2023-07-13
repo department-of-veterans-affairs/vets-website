@@ -83,6 +83,7 @@ import createEducationLettersLoginWidget from './view-education-letters-login/cr
 import create2110210Access from './simple-forms/21-10210/entry';
 import create214142Access from './simple-forms/21-4142/entry';
 import create264555Access from './simple-forms/26-4555/entry';
+import createPriorityGroupAlertWidget from './priority-group-alert';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -219,6 +220,7 @@ createEducationLettersLoginWidget(
 create2110210Access(store, widgetTypes.FORM_2110210_CTA);
 create214142Access(store, widgetTypes.FORM_214142_CTA);
 create264555Access(store, widgetTypes.FORM_264555_CTA);
+createPriorityGroupAlertWidget(store, widgetTypes.PRIORITY_GROUP_ALERT);
 
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {

@@ -49,6 +49,7 @@ export default {
   OTHER_FACILITY_LOCATIONS_LIST: 'other-facility-locations-list',
   PENSION_APP_STATUS: 'pension-app-status',
   POST_911_GI_BILL_STATUS_WIDGET: 'post-9-11-gi-bill-status',
+  PRIORITY_GROUP_ALERT: 'priority-group-alert',
   REFILL_TRACK_PRESCRIPTIONS_PAGE: 'refill-track-prescriptions-page',
   RESOURCES_AND_SUPPORT_SEARCH: 'resources-and-support-search',
   SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE: 'schedule-view-va-appointments-page',
