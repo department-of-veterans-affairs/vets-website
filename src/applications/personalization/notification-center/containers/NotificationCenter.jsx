@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import environment from '~/platform/utilities/environment';
 // import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
-import DebtNotification from '../components/DebtNotification';
-import { fetchNotifications } from '../actions/notifications';
+import DebtNotification from '../../common/components/DebtNotification';
+import { fetchNotifications } from '../../common/actions/notifications';
 
 const debtTemplateId = environment.isProduction()
   ? '7efc2b8b-e59a-4571-a2ff-0fd70253e973'

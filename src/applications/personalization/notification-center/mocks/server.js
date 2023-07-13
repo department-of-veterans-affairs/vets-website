@@ -1,7 +1,9 @@
 const delay = require('mocker-api/lib/delay');
-const { generateFeatureToggles } = require('./feature-toggles');
-const user = require('./users');
-const notifications = require('./notifications');
+const {
+  generateFeatureToggles,
+} = require('../../common/mocks/feature-toggles');
+const user = require('../../common/mocks/users');
+const notifications = require('../../common/mocks/notifications');
 
 /* eslint-disable camelcase */
 const responses = {

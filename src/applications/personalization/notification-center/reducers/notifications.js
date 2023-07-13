@@ -2,7 +2,7 @@ import {
   NOTIFICATIONS_RECEIVED_FAILED,
   NOTIFICATIONS_RECEIVED_STARTED,
   NOTIFICATIONS_RECEIVED_SUCCEEDED,
-} from '../actions/notifications';
+} from '../../common/actions/notifications';
 
 const initialState = {
   isLoading: false,
