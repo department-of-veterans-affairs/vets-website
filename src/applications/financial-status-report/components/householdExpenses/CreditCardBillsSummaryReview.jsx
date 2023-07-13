@@ -12,21 +12,24 @@ const CreditCardBillsSummaryReview = ({ data, title }) => {
         {creditCardBills.map((bill, index) => {
           return (
             <>
-              <div
-                className="review-row"
-                key={bill.purpose + bill.amountDueMonthly + index}
-              >
+              <div className="review-row" key={bill.amountDueMonthly + index}>
                 <dt>Unpaid balance</dt>
                 <dd>{currencyFormatter(bill.unpaidBalance)}</dd>
               </div>
               <div
                 className="review-row"
-                key={bill.purpose + bill.amountDueMonthly + index}
+                key={bill.amountDueMonthly + index + 1}
+              >
+                <dt>Amount overdue</dt>
+                <dd>{currencyFormatter(bill.amountOverdue)}</dd>
+              </div>
+              <div
+                className="review-row"
+                key={bill.amountDueMonthly + index + 2}
               >
                 <dt>Minimum monthly payment amount</dt>
                 <dd>{currencyFormatter(bill.amountDueMonthly)}</dd>
               </div>
-              <br />
             </>
           );
         })}
