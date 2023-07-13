@@ -1,5 +1,7 @@
 import mockTrashFolderMetaResponse from '../fixtures/trashResponse/folder-deleted-metadata.json';
 import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
+import mockThreadResponse from '../fixtures/trashResponse/trash-thread-response.json';
+import mockSingleMessageResponse from '../fixtures/trashResponse/trash-single-message-response.json';
 
 class PatientMessageTrashPage {
   // mockTrashMessages = mockDraftMessagesResponse;
@@ -8,7 +10,7 @@ class PatientMessageTrashPage {
   //
   // currentThread = defaultMockThread;
 
-  loadTrashMessagesTest = () => {
+  loadTrashMessages = (mockMessagesResponse = mockTrashMessages) => {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-3',
@@ -17,9 +19,29 @@ class PatientMessageTrashPage {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-3/threads**',
-      mockTrashMessages,
+      mockMessagesResponse,
     ).as('trashFolderMessages');
     cy.get('[data-testid="trash-sidebar"]').click();
+  };
+
+  loadDetailedTrashMessage = (detailedMessage = mockSingleMessageResponse) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        detailedMessage.data.attributes.messageId
+      }/thread`,
+      mockThreadResponse,
+    ).as('threadResponse');
+
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        detailedMessage.data.attributes.messageId
+      }`,
+      mockSingleMessageResponse,
+    ).as('detailedMessage');
+
+    cy.get('[data-testid="thread-list-item"]').first.click();
   };
 
   verifyFolderHeader = text => {
