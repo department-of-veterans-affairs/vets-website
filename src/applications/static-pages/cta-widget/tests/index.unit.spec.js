@@ -5,7 +5,9 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 // Relative imports.
-import { CTA_WIDGET_TYPES } from '../ctaWidgets';
+
+import sessionStorage from 'platform/utilities/storage/sessionStorage';
+import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
 import { CallToActionWidget } from '../index';
 
 const defaultOptions = {
@@ -147,6 +149,13 @@ describe('<CallToActionWidget>', () => {
       </Provider>,
     );
     expect(tree.find('Unauthed').exists()).to.be.true;
+
+    const authReturnUrl = sessionStorage.getItem('authReturnUrl');
+    const derivedUrl = ctaWidgetsLookup[
+      CTA_WIDGET_TYPES.DIRECT_DEPOSIT
+    ].deriveToolUrlDetails()?.url;
+    expect(authReturnUrl.includes(derivedUrl)).to.be.true;
+    sessionStorage.clear();
 
     tree.unmount();
   });

@@ -95,7 +95,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.DIRECT_DEPOSIT,
     deriveToolUrlDetails: () => ({
       url: '/profile/direct-deposit',
-      redirect: false,
+      redirect: true,
     }),
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
@@ -326,6 +326,8 @@ export const ctaWidgetsLookup = {
     serviceDescription: 'view your VA payment history',
   },
   [CTA_WIDGET_TYPES.VRRAP]: {
+    // Note: VRRAP stopped accepting new enrollments after 12/10/2022
+    // This should probably be removed
     id: CTA_WIDGET_TYPES.VRRAP,
     deriveToolUrlDetails: () => ({
       url:
