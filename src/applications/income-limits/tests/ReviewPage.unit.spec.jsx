@@ -34,6 +34,7 @@ const propsStandard = {
     push: pushSpyStandard,
   },
   toggleEditMode: () => {},
+  updateLimitsResults: () => {},
   zipCodeInput: '10108',
 };
 
@@ -61,6 +62,7 @@ const propsPast = {
     push: pushSpyPast,
   },
   toggleEditMode: () => {},
+  updateLimitsResults: () => {},
   yearInput: '2016',
   zipCodeInput: '60507',
 };
@@ -159,6 +161,7 @@ describe('Review Page', () => {
       </Provider>,
     );
 
-    expect(pushSpyFormIncomplete.withArgs('/').calledOnce).to.be.true;
+    expect(pushSpyFormIncomplete.withArgs('introduction').calledOnce).to.be
+      .true;
   });
 });

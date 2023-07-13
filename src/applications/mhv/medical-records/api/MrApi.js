@@ -41,7 +41,7 @@ export const getLabOrTest = id => {
   }
   return new Promise(resolve => {
     setTimeout(() => {
-      const result = labsAndTests.find(lab => +lab.id === +id);
+      const result = labsAndTests.entry.find(lab => lab.id === id);
       resolve(result);
     }, 1000);
   });

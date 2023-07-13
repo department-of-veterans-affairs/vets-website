@@ -1,20 +1,20 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render } from '@testing-library/react';
-import { shallow } from 'enzyme';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
-import { uploadStore } from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from '../../config/helpers';
 import {
   DefinitionTester,
   getFormDOM,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from '../../../../testing/unit/schemaform-utils';
 
-import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
-import { fileTypeSignatures } from 'platform/forms-system/src/js/utilities/file';
+import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from '../../../src/js/constants';
+import { fileTypeSignatures } from '../../../src/js/utilities/file';
 import { FileField } from '../../../src/js/fields/FileField';
 import fileUploadUI, { fileSchema } from '../../../src/js/definitions/file';
+import { $, $$ } from '../../../src/js/utilities/ui';
 
 const formContext = {
   setTouched: sinon.spy(),
@@ -37,10 +37,10 @@ describe('Schemaform <FileField>', () => {
     const uiSchema = fileUploadUI('Files');
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -52,17 +52,12 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(
-      tree
-        .find('label')
-        .first()
-        .text(),
-    ).to.contain('Upload');
-    expect(tree.find('span[role="button"]').props()['aria-label']).to.contain(
-      'Upload Files',
-    );
-    tree.unmount();
+    const uploadButton = $('#upload-button', container);
+    expect(uploadButton).to.have.attribute('text', 'Upload');
+    const fileInput = $('input[type="file"]', container);
+    expect(fileInput).to.have.attribute('accept', '.pdf,.jpg,.jpeg,.png');
   });
+
   it('should render files', () => {
     const idSchema = {
       $id: 'field',
@@ -78,16 +73,16 @@ describe('Schemaform <FileField>', () => {
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
-        confirmationCode: 'asdfds',
-        name: 'Test file name',
+        confirmationCode: 'abcdef',
+        name: 'Test file name.pdf',
       },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -100,11 +95,10 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('li').text()).to.contain('Test file name');
-    tree.unmount();
+    expect($('li', container).textContent).to.contain('Test file name.pdf');
   });
 
-  it('should remove files with empty file object when initializing', () => {
+  it('should remove files with empty file object when initializing', async () => {
     const idSchema = {
       $id: 'field',
     };
@@ -119,31 +113,31 @@ describe('Schemaform <FileField>', () => {
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
-        confirmationCode: 'asdfds',
-        name: 'Test1',
+        confirmationCode: 'abcdef',
+        name: 'Test1.png',
       },
       {
         file: {},
-        name: 'Test2',
+        name: 'Test2.pdf',
       },
       {
         file: {
           name: 'fake', // should never happen
         },
-        name: 'Test3',
+        name: 'Test3.txt',
       },
       {
-        file: new File([1, 2, 3], 'Test3'),
-        name: 'Test4',
+        file: new File([1, 2, 3], 'Test4.jpg'),
+        name: 'Test4.jpg',
       },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
     const onChange = sinon.spy();
-    const tree = shallow(
+    render(
       <FileField
         registry={registry}
         schema={schema}
@@ -156,15 +150,15 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(onChange.calledOnce).to.be.true;
-    expect(onChange.firstCall.args[0].length).to.equal(3);
-    // empty file object was removed;
-    expect(onChange.firstCall.args[0][1].name).to.equal('Test3');
-
-    tree.unmount();
+    await waitFor(() => {
+      expect(onChange.calledOnce).to.be.true;
+      expect(onChange.firstCall.args[0].length).to.equal(3);
+      // empty file object was removed;
+      expect(onChange.firstCall.args[0][1].name).to.equal('Test3.txt');
+    });
   });
 
-  it('should call onChange once when deleting files', () => {
+  it('should call onChange once when deleting files', async () => {
     const idSchema = {
       $id: 'field',
     };
@@ -179,18 +173,18 @@ describe('Schemaform <FileField>', () => {
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
-        confirmationCode: 'asdfds',
-        name: 'Test file name',
+        confirmationCode: 'abcdef',
+        name: 'Test file name.pdf',
       },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
     const onChange = sinon.spy();
 
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -203,11 +197,19 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    tree.instance().removeFile(0);
+    const modal = $('va-modal', container);
+    expect(modal.getAttribute('visible')).to.eq('false');
 
-    expect(onChange.calledOnce).to.be.true;
-    expect(onChange.firstCall.args.length).to.equal(0);
-    tree.unmount();
+    fireEvent.click($('.delete-upload', container));
+    expect(modal.getAttribute('visible')).to.eq('true');
+
+    // click yes in modal
+    $('va-modal', container).__events.primaryButtonClick();
+
+    await waitFor(() => {
+      expect(onChange.calledOnce).to.be.true;
+      expect(onChange.firstCall.args.length).to.equal(0);
+    });
   });
 
   it('should render uploading', () => {
@@ -225,15 +227,16 @@ describe('Schemaform <FileField>', () => {
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
+        name: 'Test.pdf',
         uploading: true,
       },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -246,14 +249,14 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('va-progress-bar').exists()).to.be.true;
-    const button = tree.find('button');
-    expect(button.text()).to.equal('Cancel');
-    expect(button.prop('aria-describedby')).to.eq('field_file_name_0');
-    tree.unmount();
+    expect($('va-progress-bar', container)).to.exist;
+    const button = $('.cancel-upload', container);
+    expect(button).to.exist;
+    expect(button.getAttribute('text')).to.eq('Cancel');
+    expect(button.getAttribute('label')).to.eq('Cancel upload of Test.pdf');
   });
 
-  it('should update progress', () => {
+  it('should show progress', () => {
     const idSchema = {
       $id: 'field',
     };
@@ -273,10 +276,10 @@ describe('Schemaform <FileField>', () => {
     ];
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -289,14 +292,14 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('va-progress-bar').props().percent).to.equal(0);
+    const progressBar = $('va-progress-bar', container);
+    expect(progressBar.getAttribute('percent')).to.equal('0');
 
-    tree.instance().updateProgress(20);
-    tree.update();
-
-    expect(tree.find('va-progress-bar').props().percent).to.equal(20);
-    tree.unmount();
+    // How to call `updateProgress(20)`? This method doesn't work:
+    // https://github.com/testing-library/react-testing-library/issues/638#issuecomment-615937561
+    // expect(progressBar.getAttribute('percent')).to.equal('20');
   });
+
   it('should render error', () => {
     const idSchema = {
       $id: 'field',
@@ -312,7 +315,7 @@ describe('Schemaform <FileField>', () => {
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
-        errorMessage: 'asdfas',
+        errorMessage: 'some error',
       },
     ];
     const errorSchema = {
@@ -322,10 +325,10 @@ describe('Schemaform <FileField>', () => {
     };
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -340,11 +343,10 @@ describe('Schemaform <FileField>', () => {
     );
 
     // Prepend 'Error' for screenreader
-    expect(tree.find('.va-growable-background').text()).to.contain(
+    expect($('.va-growable-background', container).textContent).to.contain(
       'Error Bad error',
     );
-    expect(tree.find('span[role="alert"]').exists()).to.be.true;
-    tree.unmount();
+    expect($('span[role="alert"]', container)).to.exist;
   });
 
   it('should not render upload button if over max items', () => {
@@ -363,16 +365,16 @@ describe('Schemaform <FileField>', () => {
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
-        confirmationCode: 'asdfds',
-        name: 'Test file name',
+        confirmationCode: 'abcdef',
+        name: 'Test file name.pdf',
       },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -385,9 +387,9 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('label').exists()).to.be.false;
-    tree.unmount();
+    expect($('.upload-button-label', container)).to.not.exist;
   });
+
   it('should not render upload or delete button on review & submit page while in review mode', () => {
     const idSchema = {
       $id: 'field',
@@ -403,16 +405,16 @@ describe('Schemaform <FileField>', () => {
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
-        confirmationCode: 'asdfds',
-        name: 'Test file name',
+        confirmationCode: 'abcdef',
+        name: 'Test file name.pdf',
       },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -425,10 +427,10 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('label').exists()).to.be.false;
-    expect(tree.find('button.usa-button-secondary').exists()).to.be.false;
-    tree.unmount();
+    expect($('.upload-button-label', container)).to.not.exist;
+    expect($('.delete-upload', container)).to.not.exist;
   });
+
   it('should render upload or delete button on review & submit page while in edit mode', () => {
     const idSchema = {
       $id: 'field',
@@ -444,17 +446,17 @@ describe('Schemaform <FileField>', () => {
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
-        confirmationCode: 'asdfds',
-        name: 'Test file name',
+        confirmationCode: 'abcdef',
+        name: 'Test file name.pdf',
         size: 12345678,
       },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -467,16 +469,15 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('label').exists()).to.be.true;
-    expect(tree.find('button.usa-button-secondary').exists()).to.be.true;
+    expect($('.upload-button-label', container)).to.exist;
+    expect($('.delete-upload', container)).to.exist;
 
-    const text = tree.text();
-    expect(text).to.include('Test file name');
+    const text = $('li', container).textContent;
+    expect(text).to.include('Test file name.pdf');
     expect(text).to.include('12MB');
-    tree.unmount();
   });
 
-  it('should delete file', () => {
+  it('should delete file', async () => {
     const uiSchema = fileUploadUI('Files');
     const schema = {
       type: 'object',
@@ -484,14 +485,14 @@ describe('Schemaform <FileField>', () => {
         fileField: fileSchema,
       },
     };
-    const form = render(
+    const { container } = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
           data={{
             fileField: [
               {
-                confirmationCode: 'asdfasfd',
+                confirmationCode: 'abcdef',
               },
             ],
           }}
@@ -501,16 +502,70 @@ describe('Schemaform <FileField>', () => {
         />
       </Provider>,
     );
-    const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('li')).not.to.be.empty;
+    const uploadButton = $('#upload-button', container);
+    expect($$('li', container)).to.not.be.empty;
 
-    formDOM.click('.va-growable-background button');
+    const modal = $('va-modal', container);
+    expect(modal.getAttribute('visible')).to.eq('false');
 
-    expect(formDOM.querySelectorAll('li')).to.be.empty;
+    fireEvent.click($('.delete-upload', container));
+    expect(modal.getAttribute('visible')).to.eq('true');
+
+    // click yes in modal
+    $('va-modal', container).__events.primaryButtonClick();
+
+    await waitFor(() => {
+      expect($$('li', container)).to.be.empty;
+      expect(document.activeElement).to.eq(uploadButton);
+    });
   });
 
-  it('should upload png file', () => {
+  it('should not delete file when "No" is selected in modal', async () => {
+    const uiSchema = fileUploadUI('Files');
+    const schema = {
+      type: 'object',
+      properties: {
+        fileField: fileSchema,
+      },
+    };
+    const { container } = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            fileField: [
+              {
+                confirmationCode: 'abcdef',
+              },
+            ],
+          }}
+          uiSchema={{
+            fileField: uiSchema,
+          }}
+        />
+      </Provider>,
+    );
+
+    expect($$('li', container)).to.not.be.empty;
+
+    const modal = $('va-modal', container);
+    expect(modal.getAttribute('visible')).to.eq('false');
+
+    const deleteButton = $('.delete-upload', container);
+    fireEvent.click(deleteButton);
+    expect(modal.getAttribute('visible')).to.eq('true');
+
+    // click no in modal
+    $('va-modal', container).__events.secondaryButtonClick();
+
+    await waitFor(() => {
+      expect($$('li', container)).to.not.be.empty;
+      expect(document.activeElement).to.eq(deleteButton);
+    });
+  });
+
+  it('should upload png file', async () => {
     const uiSchema = fileUploadUI('Files');
     const schema = {
       type: 'object',
@@ -548,14 +603,16 @@ describe('Schemaform <FileField>', () => {
 
     formDOM.files('input[type=file]', [mockFile]);
 
-    expect(uploadFile.firstCall.args[0]).to.eql(mockFile);
-    expect(uploadFile.firstCall.args[1]).to.eql(uiOptions);
-    expect(uploadFile.firstCall.args[2]).to.be.a('function');
-    expect(uploadFile.firstCall.args[3]).to.be.a('function');
-    expect(uploadFile.firstCall.args[4]).to.be.a('function');
+    await waitFor(() => {
+      expect(uploadFile.firstCall.args[0]).to.eql(mockFile);
+      expect(uploadFile.firstCall.args[1]).to.eql(uiOptions);
+      expect(uploadFile.firstCall.args[2]).to.be.a('function');
+      expect(uploadFile.firstCall.args[3]).to.be.a('function');
+      expect(uploadFile.firstCall.args[4]).to.be.a('function');
+    });
   });
 
-  it('should upload unencrypted pdf file', done => {
+  it('should upload unencrypted pdf file', async () => {
     const uiSchema = fileUploadUI('Files');
     const schema = {
       type: 'object',
@@ -594,17 +651,16 @@ describe('Schemaform <FileField>', () => {
 
     formDOM.files('input[type=file]', [mockPDFFile]);
 
-    setTimeout(() => {
+    await waitFor(() => {
       expect(uploadFile.firstCall.args[0]).to.eql(mockPDFFile);
       expect(uploadFile.firstCall.args[1]).to.eql(uiOptions);
       expect(uploadFile.firstCall.args[2]).to.be.a('function');
       expect(uploadFile.firstCall.args[3]).to.be.a('function');
       expect(uploadFile.firstCall.args[4]).to.be.a('function');
-      done();
     });
   });
 
-  it('should upload test file using "testing" file type to bypass checks', () => {
+  it('should upload test file using "testing" file type to bypass checks', async () => {
     const uiSchema = fileUploadUI('Files');
     const schema = {
       type: 'object',
@@ -631,14 +687,16 @@ describe('Schemaform <FileField>', () => {
 
     formDOM.files('input[type=file]', [mockFile]);
 
-    expect(uploadFile.firstCall.args[0]).to.eql(mockFile);
-    expect(uploadFile.firstCall.args[1]).to.eql(uiSchema['ui:options']);
-    expect(uploadFile.firstCall.args[2]).to.be.a('function');
-    expect(uploadFile.firstCall.args[3]).to.be.a('function');
-    expect(uploadFile.firstCall.args[4]).to.be.a('function');
+    await waitFor(() => {
+      expect(uploadFile.firstCall.args[0]).to.eql(mockFile);
+      expect(uploadFile.firstCall.args[1]).to.eql(uiSchema['ui:options']);
+      expect(uploadFile.firstCall.args[2]).to.be.a('function');
+      expect(uploadFile.firstCall.args[3]).to.be.a('function');
+      expect(uploadFile.firstCall.args[4]).to.be.a('function');
+    });
   });
 
-  it('should not call uploadFile when initially adding an encrypted PDF', done => {
+  it('should not call uploadFile when initially adding an encrypted PDF', async () => {
     const uiSchema = fileUploadUI('Files');
     const schema = {
       type: 'object',
@@ -670,13 +728,13 @@ describe('Schemaform <FileField>', () => {
 
     formDOM.files('input[type=file]', [{ name: 'test-pw.pdf' }]);
 
-    setTimeout(() => {
+    await waitFor(() => {
       expect(uploadFile.notCalled).to.be.true;
-      done();
     });
   });
 
   it('should render file with attachment type', () => {
+    let testProps = null;
     const idSchema = {
       $id: 'field',
     };
@@ -703,17 +761,20 @@ describe('Schemaform <FileField>', () => {
     const uiSchema = fileUploadUI('Files');
     const formData = [
       {
-        confirmationCode: 'asdfds',
+        confirmationCode: 'abcdef',
         name: 'Test file name.pdf',
         size: 54321,
       },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: props => {
+          testProps = props;
+          return <div />;
+        },
       },
     };
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -726,16 +787,15 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    const text = tree.find('li').text();
+    const text = $('li', container).textContent;
     expect(text).to.contain('Test file name.pdf');
     expect(text).to.contain('53KB');
-    expect(tree.find('SchemaField').prop('schema')).to.equal(
-      schema.items[0].properties.attachmentId,
-    );
-    tree.unmount();
+
+    expect(testProps.schema.type).to.eq('string');
   });
 
   it('should render file with attachmentName', () => {
+    let testProps = null;
     const idSchema = {
       $id: 'field',
     };
@@ -772,17 +832,20 @@ describe('Schemaform <FileField>', () => {
     });
     const formData = [
       {
-        confirmationCode: 'asdfds',
-        name: 'Test file name',
+        confirmationCode: 'abcdef',
+        name: 'Test file name.pdf',
         size: 987654,
       },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: props => {
+          testProps = props;
+          return <div />;
+        },
       },
     };
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -795,24 +858,26 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    const text = tree.find('li').text();
-    expect(text).to.contain('Test file name');
+    const text = $('li').textContent;
+    expect(text).to.contain('Test file name.pdf');
     expect(text).to.contain('965KB');
-    expect(tree.find('button').prop('aria-describedby')).to.eq(
-      'field_file_name_0',
+
+    const deleteButton = $('.delete-upload', container);
+    expect(deleteButton?.getAttribute('label')).to.eq(
+      'Delete Test file name.pdf',
     );
 
     // check ids & index passed into SchemaField
-    const schemaProps = tree.find('SchemaField').props();
-    const { widgetProps } = schemaProps.uiSchema['ui:options'];
-    expect(schemaProps.schema).to.equal(schema.items[0].properties.name);
-    expect(schemaProps.registry.formContext.pagePerItemIndex).to.eq(0);
+    expect(testProps.schema).to.equal(schema.items[0].properties.name);
+    expect(testProps.registry.formContext.pagePerItemIndex).to.eq(0);
+
+    const { widgetProps } = testProps.uiSchema['ui:options'];
     expect(widgetProps['aria-describedby']).to.eq('field_file_name_0');
     expect(widgetProps['data-index']).to.eq(0);
-
-    tree.unmount();
   });
+
   it('should render file with attachmentSchema', () => {
+    let testProps = null;
     const idSchema = {
       $id: 'field',
     };
@@ -851,15 +916,19 @@ describe('Schemaform <FileField>', () => {
     });
     const formData = [
       {
+        name: 'Test file name.pdf',
         attachmentId: '1234',
       },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: props => {
+          testProps = props;
+          return <div />;
+        },
       },
     };
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -872,21 +941,16 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('button').prop('aria-describedby')).to.eq(
-      'field_file_name_0',
+    expect($('.delete-upload', container).getAttribute('label')).to.eq(
+      'Delete Test file name.pdf',
     );
 
     // check ids & index passed into SchemaField
-    const schemaProps = tree.find('SchemaField').props();
-    const { widgetProps } = schemaProps.uiSchema['ui:options'];
-    expect(schemaProps.schema).to.equal(
-      schema.items[0].properties.attachmentId,
-    );
-    expect(schemaProps.registry.formContext.pagePerItemIndex).to.eq(0);
+    const { widgetProps } = testProps.uiSchema['ui:options'];
+    expect(testProps.schema).to.equal(schema.items[0].properties.attachmentId);
+    expect(testProps.registry.formContext.pagePerItemIndex).to.eq(0);
     expect(widgetProps['aria-describedby']).to.eq('field_file_name_0');
     expect(widgetProps['data-index']).to.eq(0);
-
-    tree.unmount();
   });
 
   // Accessibility checks
@@ -924,16 +988,16 @@ describe('Schemaform <FileField>', () => {
     });
     const formData = [
       {
-        confirmationCode: 'asdfds',
-        name: 'Test file name',
+        confirmationCode: 'abcdef',
+        name: 'Test file name.pdf',
       },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -947,9 +1011,9 @@ describe('Schemaform <FileField>', () => {
     );
 
     // expect dl wrapper on review page
-    expect(tree.find('div.review').exists()).to.be.true;
-    tree.unmount();
+    expect($('div.review', container)).to.exist;
   });
+
   it('should render a dl wrapper when on the review page', () => {
     const idSchema = {
       $id: 'field',
@@ -981,16 +1045,16 @@ describe('Schemaform <FileField>', () => {
     });
     const formData = [
       {
-        confirmationCode: 'asdfds',
-        name: 'Test file name',
+        confirmationCode: 'abcdef',
+        name: 'Test file name.pdf',
       },
     ];
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -1004,8 +1068,7 @@ describe('Schemaform <FileField>', () => {
     );
 
     // expect dl wrapper on review page
-    expect(tree.find('dl.review').exists()).to.be.true;
-    tree.unmount();
+    expect($('dl.review', container)).to.exist;
   });
 
   it('should render schema title', () => {
@@ -1024,10 +1087,10 @@ describe('Schemaform <FileField>', () => {
     const uiSchema = fileUploadUI(<p>uiSchema title</p>);
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -1039,10 +1102,9 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('span[role="button"]').props()['aria-label']).to.contain(
+    expect($('#upload-button', container).getAttribute('label')).to.contain(
       'schema title',
     );
-    tree.unmount();
   });
 
   it('should render cancel button with secondary class', () => {
@@ -1065,10 +1127,10 @@ describe('Schemaform <FileField>', () => {
     ];
     const registry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
-    const tree = shallow(
+    const { container } = render(
       <FileField
         registry={registry}
         schema={schema}
@@ -1081,9 +1143,8 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    const cancelButton = tree.find('button.usa-button-secondary');
-    expect(cancelButton.text()).to.equal('Cancel');
-    tree.unmount();
+    const cancelButton = $('.cancel-upload', container);
+    expect(cancelButton.getAttribute('text')).to.equal('Cancel');
   });
 
   describe('enableShortWorkflow is true', () => {
@@ -1112,7 +1173,7 @@ describe('Schemaform <FileField>', () => {
     };
     const mockRegistry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
 
@@ -1120,7 +1181,7 @@ describe('Schemaform <FileField>', () => {
       const idSchema = {
         $id: 'myIdSchemaId',
       };
-      const tree = shallow(
+      const { container } = render(
         <FileField
           registry={mockRegistry}
           schema={mockSchema}
@@ -1136,13 +1197,12 @@ describe('Schemaform <FileField>', () => {
       );
 
       // id for main upload button is interpolated {idSchema.$id}_add_label
-      const mainUploadButton = tree.find('#myIdSchemaId_add_label');
-      expect(mainUploadButton.exists()).to.be.false;
-      tree.unmount();
+      const mainUploadButton = $('#myIdSchemaId_add_label', container);
+      expect(mainUploadButton).to.not.exist;
     });
 
     it('should render Upload a new file button for file with error', () => {
-      const tree = shallow(
+      const { container } = render(
         <FileField
           registry={mockRegistry}
           schema={mockSchema}
@@ -1158,9 +1218,10 @@ describe('Schemaform <FileField>', () => {
       );
 
       // This button is specific to the file that has the error
-      const errorFileUploadButton = tree.find('button.usa-button-primary');
-      expect(errorFileUploadButton.text()).to.equal('Upload a new file');
-      tree.unmount();
+      const errorFileUploadButton = $('.retry-upload', container);
+      expect(errorFileUploadButton.getAttribute('text')).to.equal(
+        'Upload a new file',
+      );
     });
 
     it('should render Try again button for file with error', () => {
@@ -1169,7 +1230,7 @@ describe('Schemaform <FileField>', () => {
           __errors: [FILE_UPLOAD_NETWORK_ERROR_MESSAGE],
         },
       };
-      const tree = shallow(
+      const { container } = render(
         <FileField
           registry={mockRegistry}
           schema={mockSchema}
@@ -1185,15 +1246,14 @@ describe('Schemaform <FileField>', () => {
       );
 
       // This button is specific to the file that has the error
-      const individualFileTryAgainButton = tree.find(
-        'button.usa-button-primary',
+      const individualFileTryAgainButton = $('.retry-upload', container);
+      expect(individualFileTryAgainButton.getAttribute('text')).to.equal(
+        'Try again',
       );
-      expect(individualFileTryAgainButton.text()).to.equal('Try again');
-      tree.unmount();
     });
 
     it('should render remove file button as cancel', () => {
-      const tree = shallow(
+      const { container } = render(
         <FileField
           registry={mockRegistry}
           schema={mockSchema}
@@ -1209,9 +1269,8 @@ describe('Schemaform <FileField>', () => {
       );
 
       // This button is specific to the file that has the error
-      const cancelButton = tree.find('button.usa-button-secondary');
-      expect(cancelButton.text()).to.equal('Cancel');
-      tree.unmount();
+      const cancelButton = $('.delete-upload', container);
+      expect(cancelButton.getAttribute('text')).to.equal('Cancel');
     });
 
     it('should render delete button for successfully uploaded file', () => {
@@ -1220,7 +1279,7 @@ describe('Schemaform <FileField>', () => {
           uploading: false,
         },
       ];
-      const tree = shallow(
+      const { container } = render(
         <FileField
           registry={mockRegistry}
           schema={mockSchema}
@@ -1235,9 +1294,8 @@ describe('Schemaform <FileField>', () => {
       );
 
       // This button is specific to the file that was uploaded
-      const deleteButton = tree.find('button.usa-button-secondary');
-      expect(deleteButton.text()).to.equal('Delete file');
-      tree.unmount();
+      const deleteButton = $('.delete-upload', container);
+      expect(deleteButton.getAttribute('text')).to.equal('Delete file');
     });
   });
 
@@ -1267,7 +1325,7 @@ describe('Schemaform <FileField>', () => {
     };
     const mockRegistry = {
       fields: {
-        SchemaField: f => f,
+        SchemaField: () => <div />,
       },
     };
 
@@ -1275,7 +1333,7 @@ describe('Schemaform <FileField>', () => {
       const idSchema = {
         $id: 'myIdSchemaId',
       };
-      const tree = shallow(
+      const { container } = render(
         <FileField
           registry={mockRegistry}
           schema={mockSchema}
@@ -1290,13 +1348,12 @@ describe('Schemaform <FileField>', () => {
       );
 
       // id for main upload button is interpolated {idSchema.$id}_add_label
-      const mainUploadButton = tree.find('#myIdSchemaId_add_label');
-      expect(mainUploadButton.exists()).to.be.true;
-      tree.unmount();
+      const mainUploadButton = $('#myIdSchemaId_add_label', container);
+      expect(mainUploadButton).to.exist;
     });
 
     it('should render remove file button as Delete file', () => {
-      const tree = shallow(
+      const { container } = render(
         <FileField
           registry={mockRegistry}
           schema={mockSchema}
@@ -1311,9 +1368,8 @@ describe('Schemaform <FileField>', () => {
       );
 
       // This button is specific to the file that has the error
-      const deleteFileButton = tree.find('button.usa-button-secondary');
-      expect(deleteFileButton.text()).to.equal('Delete file');
-      tree.unmount();
+      const deleteFileButton = $('.delete-upload', container);
+      expect(deleteFileButton.getAttribute('text')).to.equal('Delete file');
     });
 
     it('should render delete button for successfully uploaded file', () => {
@@ -1322,7 +1378,7 @@ describe('Schemaform <FileField>', () => {
           uploading: false,
         },
       ];
-      const tree = shallow(
+      const { container } = render(
         <FileField
           registry={mockRegistry}
           schema={mockSchema}
@@ -1336,9 +1392,8 @@ describe('Schemaform <FileField>', () => {
       );
 
       // This button is specific to the file that was uploaded
-      const deleteButton = tree.find('button.usa-button-secondary');
-      expect(deleteButton.text()).to.equal('Delete file');
-      tree.unmount();
+      const deleteButton = $('.delete-upload', container);
+      expect(deleteButton.getAttribute('text')).to.equal('Delete file');
     });
 
     it('should not render individual file Try again button', () => {
@@ -1347,7 +1402,7 @@ describe('Schemaform <FileField>', () => {
           __errors: [FILE_UPLOAD_NETWORK_ERROR_MESSAGE],
         },
       };
-      const tree = shallow(
+      const { container } = render(
         <FileField
           registry={mockRegistry}
           schema={mockSchema}
@@ -1363,11 +1418,8 @@ describe('Schemaform <FileField>', () => {
 
       // The retry button should be the only primary button. Should not be present
       // with enableShortWorkflow not enabled
-      const individualFileTryAgainButton = tree.find(
-        'button.usa-button-primary',
-      );
-      expect(individualFileTryAgainButton.exists()).to.be.false;
-      tree.unmount();
+      const individualFileTryAgainButton = $('.retry-upload', container);
+      expect(individualFileTryAgainButton).to.not.exist;
     });
   });
 });

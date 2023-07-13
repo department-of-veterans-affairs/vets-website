@@ -19,7 +19,7 @@ const lastYear = date.getFullYear() - 1;
 
 export default {
   uiSchema: {
-    'ui:title': `Your deductible expenses from ${lastYear}`,
+    'ui:title': `Deductible expenses from ${lastYear}`,
     'ui:description':
       'These deductible expenses will lower the amount of money we count as your income.',
     'view:deductibleMedicalExpenses': {

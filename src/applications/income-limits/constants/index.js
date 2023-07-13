@@ -10,7 +10,7 @@ export const IL_RESULTS_VAL_ERROR_TEXT = 'income-limits/RESULTS_VAL_ERROR_TEXT';
 
 export const ROUTES = {
   DEPENDENTS: 'dependents',
-  HOME: '/',
+  HOME: 'introduction',
   REVIEW: 'review',
   RESULTS: 'results',
   YEAR: 'year',
