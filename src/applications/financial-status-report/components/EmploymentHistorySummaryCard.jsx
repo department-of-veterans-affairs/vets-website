@@ -122,18 +122,18 @@ const EmploymentHistorySummaryCard = ({
 
   return (
     (!job && <EmptyMiniSummaryCard content={emptyPrompt} />) || (
-      <div
-        className="vads-u-border--1px vads-u-margin-y--2 vads-u-padding--0"
+      <va-card
+        show-shadow
         data-testid="mini-summary-card"
         aria-label={ariaLabel}
       >
-        <div className="vads-u-padding-x--2 vads-u-padding-top--2 vads-u-display--flex vads-u-flex-direction--column">
+        <div className="vads-u-display--flex vads-u-flex-direction--column">
           <h3 className="vads-u-margin-y--0 vads-u-font-size--h4">
             {employmentCardHeading}
           </h3>
           {cardBody}
         </div>
-        <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-padding-x--2 vads-u-padding-bottom--1">
+        <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-bottom--neg1">
           <Link
             aria-label={`Edit ${ariaLabel}`}
             to={editDestination}
@@ -153,7 +153,7 @@ const EmploymentHistorySummaryCard = ({
           <button
             type="button"
             aria-label={`Delete ${ariaLabel}`}
-            className="usa-button summary-card-delete-button vads-u-margin--0 vads-u-padding--1"
+            className="usa-button summary-card-delete-button vads-u-margin--0 vads-u-padding--1 vads-u-margin-right--neg1"
             onClick={() => onDelete(index)}
           >
             <i
@@ -163,7 +163,7 @@ const EmploymentHistorySummaryCard = ({
             <span>DELETE</span>
           </button>
         </div>
-      </div>
+      </va-card>
     )
   );
 };

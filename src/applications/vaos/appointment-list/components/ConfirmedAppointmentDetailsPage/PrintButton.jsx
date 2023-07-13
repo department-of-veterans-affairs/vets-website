@@ -12,9 +12,19 @@ const handleClick = () => {
 export default function PrintButton() {
   return (
     <div className="vaos-hide-for-print">
-      <button className="tertiary-button" onClick={handleClick()} type="button">
-        <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
-        Print
+      <button
+        className="tertiary-button"
+        onClick={handleClick()}
+        type="button"
+        aria-label="print list"
+        id="print-list"
+      >
+        <i
+          aria-hidden="true"
+          className="fas fa-print"
+          style={{ paddingRight: '6px' }}
+        />
+        PRINT
       </button>
     </div>
   );

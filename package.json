@@ -158,7 +158,7 @@
     "copy-webpack-plugin": "^9.1.0",
     "css-loader": "3.6.0",
     "cssnano": "^5.0.8",
-    "cypress": "^10.8.0",
+    "cypress": "^11.2.0",
     "cypress-axe": "^1.0.0",
     "cypress-multi-reporters": "^1.5.0",
     "dd-trace": "^2.4.2",
@@ -311,7 +311,8 @@
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
 
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#6042b1ae042fd6e59731c113700263e83506612b"
+
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#63dd357eb0ab4670275795efd782556301f10683"
 
   },
   "resolutions": {
