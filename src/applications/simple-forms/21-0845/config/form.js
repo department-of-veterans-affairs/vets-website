@@ -25,6 +25,7 @@ import securityQuestionPg from '../pages/securityQuestion';
 import securityAnswerPg from '../pages/securityAnswer';
 import authorizerPersonalInfoPg from '../pages/authorizerPersonalInfo';
 import authorizerAddressPg from '../pages/authorizerAddress';
+import authorizerContactInfoPg from '../pages/authorizerContactInfo';
 
 // mock-data import for local development
 import testData from '../tests/fixtures/data/noAuthType.json';
@@ -44,6 +45,18 @@ const formConfig = {
   trackingPrefix: 'auth-disclose-0845',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: formData =>
+        formData.authorizerType === AUTHORIZER_TYPES.VETERAN
+          ? 'veteranFullName'
+          : 'authorizerFullName',
+    },
+  },
   formId: '21-0845',
   dev: {
     showNavLinks: true,
@@ -114,6 +127,20 @@ const formConfig = {
           },
           uiSchema: authorizerAddressPg.uiSchema,
           schema: authorizerAddressPg.schema,
+        },
+      },
+    },
+    authorizerContactInfoChapter: {
+      title: 'Your contact information',
+      pages: {
+        authContactInfoPage: {
+          path: 'authorizer-contact-information',
+          title: 'Your contact information',
+          depends: {
+            authorizerType: AUTHORIZER_TYPES.NON_VETERAN,
+          },
+          uiSchema: authorizerContactInfoPg.uiSchema,
+          schema: authorizerContactInfoPg.schema,
         },
       },
     },

@@ -11,6 +11,8 @@
       "state": "CA",
       "postalCode": "12345"
     },
+    "authorizerPhone": "5555555555",
+    "authorizerEmail": "jack.authorizer@example.com",
     "veteranFullName": {
       "first": "John",
       "middle": "",
