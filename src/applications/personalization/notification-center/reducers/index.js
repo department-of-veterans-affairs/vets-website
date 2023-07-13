@@ -1,4 +1,4 @@
-import notifications from './notifications';
+import notifications from '../../common/reducers/notifications';
 
 export default {
   notifications,
