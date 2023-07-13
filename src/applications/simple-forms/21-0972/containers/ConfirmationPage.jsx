@@ -182,25 +182,6 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Philippine claims" id="eleventh">
-        <ul>
-          <li>
-            <a href="/find-forms/about-form-21p-0784">
-              Supplemental Income Questionnaire (VA Form 21-0784)
-            </a>
-          </li>
-          <li>
-            {/* 
-              TODO: Determine if we need this, 
-              cannot find form in va.gov/find-forms
-            */}
-            <a href="/find-forms">
-              Supplement to VA Forms 21-526EZ, 21P-534EZ, and 21P-535 (For
-              Philippine Claims) (VA Form 21-4169)
-            </a>
-          </li>
-        </ul>
-      </va-accordion-item>
       <va-accordion-item header="Post-tramatic stress disorder" id="twelfth">
         <ul>
           <li>

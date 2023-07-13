@@ -108,10 +108,14 @@ const FileField = props => {
   const content = {
     upload: uiOptions.buttonText || 'Upload',
     uploadAnother: uiOptions.addAnotherLabel || 'Upload another',
+    passwordLabel: fileName => `Add a password for ${fileName}`,
     tryAgain: 'Try again',
+    tryAgainLabel: fileName => `Try uploading ${fileName} again`,
     newFile: 'Upload a new file',
     cancel: 'Cancel',
+    cancelLabel: fileName => `Cancel upload of ${fileName}`,
     delete: 'Delete file',
+    deleteLabel: fileName => `Delete ${fileName}`,
     modalTitle:
       uiOptions.modalTitle || 'Are you sure you want to remove this issue?',
     modalContent: fileName =>
@@ -384,7 +388,7 @@ const FileField = props => {
 
   const deleteThenAddFile = index => {
     removeFile(index, false);
-    fileButtonRef.current.click();
+    fileInputRef.current.click();
   };
 
   const getRetryFunction = (allowRetry, index, file) => {
@@ -455,7 +459,8 @@ const FileField = props => {
               setTimeout(() => {
                 scrollToFirstError();
                 if (enableShortWorkflow) {
-                  focusElement(`[name="retry_upload_${index}"]`);
+                  const retryButton = $(`[name="retry_upload_${index}"]`);
+                  focusElement('button', {}, retryButton?.shadowRoot);
                 } else if (showPasswordInput) {
                   focusElement(`#${fileListId} .usa-input-error-message`);
                 } else {
@@ -504,8 +509,7 @@ const FileField = props => {
                       onClick={() => {
                         cancelUpload(index);
                       }}
-                      aria-describedby={fileNameId}
-                      label="Cancel Upload"
+                      label={content.cancelLabel(file.name)}
                       text={content.cancel}
                     />
                   </div>
@@ -572,7 +576,7 @@ const FileField = props => {
                     file={file.file}
                     index={index}
                     onSubmitPassword={onSubmitPassword}
-                    ariaDescribedby={fileNameId}
+                    passwordLabel={content.passwordLabel(file.name)}
                   />
                 )}
                 {!formContext.reviewMode &&
@@ -588,7 +592,11 @@ const FileField = props => {
                               index,
                               file.file,
                             )}
-                            aria-describedby={fileNameId}
+                            label={
+                              allowRetry
+                                ? content.tryAgainLabel(file.name)
+                                : content.newFile
+                            }
                             text={retryButtonText}
                           />
                         )}
@@ -598,7 +606,7 @@ const FileField = props => {
                         onClick={() => {
                           openRemoveModal(index);
                         }}
-                        aria-describedby={fileNameId}
+                        label={content.deleteLabel(file.name)}
                         text={deleteButtonText}
                       />
                     </div>
