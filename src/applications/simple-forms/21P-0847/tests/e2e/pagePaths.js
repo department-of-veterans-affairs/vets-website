@@ -19,9 +19,9 @@ export default {
   preparerContactInformation:
     formChapters.preparerContactInformationChapter.pages
       .preparerContactInformation.path,
-  veteranPersonalInformation:
-    formChapters.veteranPersonalInformationChapter.pages
-      .veteranPersonalInformation.path,
+  deceasedClaimantPersonalInformation:
+    formChapters.deceasedClaimantPersonalInformationChapter.pages
+      .deceasedClaimantPersonalInformation.path,
   veteranIdentificationInformation:
     formChapters.veteranIdentificationInformationChapter.pages
       .veteranIdentificationInformation.path,

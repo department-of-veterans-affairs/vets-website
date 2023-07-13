@@ -17,13 +17,13 @@
     "country": "USA",
     "postalCode": "12345"
   },
-  "veteranFullName": {
-    "first": "Ursula",
+  "deceasedClaimantFullName": {
+    "first": "Philip",
     "middle": "K",
-    "last": "Veteran"
+    "last": "DeClaimant"
   },
+  "deceasedClaimantDateOfDeath": "1982-03-02",
   "veteranDateOfBirth": "1929-10-21",
-  "veteranDateOfDeath": "2018-01-22",
   "veteranSsn": "999442222",
   "veteranVaFileNumber": "111223333",
   "relationshipToDeceasedClaimant": "other",

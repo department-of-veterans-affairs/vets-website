@@ -7,11 +7,11 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.veteranPersonalInformationChapter.pages.veteranPersonalInformation;
+} = formConfig.chapters.deceasedClaimantPersonalInformationChapter.pages.deceasedClaimantPersonalInformation;
 
-const pageTitle = 'veteran personal information';
+const pageTitle = 'deceased claimant personal information';
 
-const expectedNumberOfFields = 5;
+const expectedNumberOfFields = 4;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
