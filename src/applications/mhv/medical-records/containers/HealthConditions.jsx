@@ -46,6 +46,21 @@ const HealthConditions = () => {
         'LL',
       )}`,
       footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
+      headerBanner: [
+        {
+          weight: 'normal',
+          text:
+            "If you're ever in crisis and need to talk to someone right away, call the Veterans Crisis line at ",
+        },
+        {
+          weight: 'bold',
+          text: '988',
+        },
+        {
+          weight: 'normal',
+          text: '. Then select 1.',
+        },
+      ],
       title: 'Health Conditions',
       subject: 'VA Medical Record',
       preface:
@@ -57,11 +72,28 @@ const HealthConditions = () => {
 
     conditions.forEach(item => {
       pdfData.results.items.push({
-        header: item.name,
+        header: item.name.split('('),
         items: [
           {
-            title: 'Date received',
-            value: item.date || ' ',
+            title: 'Date',
+            value: moment(item.date).format('MMMM Do YYYY') || ' ',
+            inline: true,
+          },
+          {
+            title: 'Provider',
+            value: item.provider || ' ',
+            inline: true,
+          },
+          {
+            title: 'Provider notes',
+            value: item.comments.length
+              ? processList(item.comments)
+              : 'none noted',
+            inline: !item.comments.length,
+          },
+          {
+            title: 'Status of Health Condition',
+            value: item.active ? 'active' : 'inactive',
             inline: true,
           },
           {
@@ -70,14 +102,9 @@ const HealthConditions = () => {
             inline: true,
           },
           {
-            title: 'Reaction',
-            value: processList(item.reactions) || ' ',
-            inline: !item.reactions,
-          },
-          {
-            title: 'Provider notes',
-            value: processList(item.comments) || ' ',
-            inline: !item.comments,
+            title: 'SNOMED Clinical Term',
+            value: item.id || ' ',
+            inline: true,
           },
         ],
       });

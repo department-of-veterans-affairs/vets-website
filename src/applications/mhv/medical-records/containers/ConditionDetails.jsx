@@ -74,24 +74,37 @@ const ConditionDetails = () => {
           {
             items: [
               {
-                title: 'Date received',
-                value: conditionDetails.date,
+                title: 'Date',
+                value:
+                  moment(conditionDetails.date).format('MMMM Do YYYY') || ' ',
+                inline: true,
+              },
+              {
+                title: 'Provider',
+                value: conditionDetails.provider || ' ',
+                inline: true,
+              },
+              {
+                title: 'Provider notes',
+                value: conditionDetails.comments.length
+                  ? processList(conditionDetails.comments)
+                  : 'none noted',
+                inline: !conditionDetails.comments.length,
+              },
+              {
+                title: 'Status of Health Condition',
+                value: conditionDetails.active ? 'active' : 'inactive',
                 inline: true,
               },
               {
                 title: 'Location',
-                value: conditionDetails.facility,
+                value: conditionDetails.facility || ' ',
                 inline: true,
               },
               {
-                title: 'Reaction',
-                value: processList(conditionDetails.reactions),
-                inline: !conditionDetails.reactions,
-              },
-              {
-                title: 'Provider notes',
-                value: processList(conditionDetails.comments),
-                inline: !conditionDetails.comments,
+                title: 'SNOMED Clinical Term',
+                value: conditionDetails.id || ' ',
+                inline: true,
               },
             ],
           },
