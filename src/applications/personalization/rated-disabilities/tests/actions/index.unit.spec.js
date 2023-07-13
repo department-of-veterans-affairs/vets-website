@@ -4,7 +4,7 @@ import {
   mockFetch,
   setFetchJSONFailure,
   setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+} from '~/platform/testing/unit/helpers';
 
 import {
   FETCH_RATED_DISABILITIES_SUCCESS,
@@ -75,9 +75,7 @@ describe('Rated Disabilities actions: fetchTotalDisabilityRating', () => {
 
   it('should fetch the total rating', () => {
     const total = { data: { attributes: { userPercentOfDisability: 80 } } };
-
     setFetchJSONResponse(global.fetch.onCall(0), total);
-
     const thunk = fetchTotalDisabilityRating();
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
@@ -96,19 +94,14 @@ describe('Rated Disabilities actions: fetchTotalDisabilityRating', () => {
       data: { attributes: { userPercentOfDisability: 80, source: 'EVSS' } },
     };
     setFetchJSONResponse(global.fetch.onCall(0), total);
-
     const analyticsSpy = sinon.spy();
-
     const thunk = fetchTotalDisabilityRating(analyticsSpy);
-
     const dispatchSpy = sinon.spy();
-
     const dispatch = action => {
       dispatchSpy(action);
 
       if (dispatchSpy.callCount === 2) {
         expect(analyticsSpy.calledOnce).to.be.true;
-
         expect(analyticsSpy.firstCall.args[0]['api-name'].includes('EVSS')).to
           .be.true;
       }
@@ -124,19 +117,14 @@ describe('Rated Disabilities actions: fetchTotalDisabilityRating', () => {
       },
     };
     setFetchJSONResponse(global.fetch.onCall(0), total);
-
     const analyticsSpy = sinon.spy();
-
     const thunk = fetchTotalDisabilityRating(analyticsSpy);
-
     const dispatchSpy = sinon.spy();
-
     const dispatch = action => {
       dispatchSpy(action);
 
       if (dispatchSpy.callCount === 2) {
         expect(analyticsSpy.calledOnce).to.be.true;
-
         expect(
           analyticsSpy.firstCall.args[0]['api-name'].includes('Lighthouse'),
         ).to.be.true;
@@ -153,29 +141,53 @@ describe('Rated Disabilities actions: fetchTotalDisabilityRating', () => {
       },
     };
     setFetchJSONResponse(global.fetch.onCall(0), total);
-
     const analyticsSpy = sinon.spy();
-
     const thunk = fetchTotalDisabilityRating(analyticsSpy);
-
     const dispatchSpy = sinon.spy();
-
     const dispatch = action => {
       dispatchSpy(action);
 
       if (dispatchSpy.callCount === 2) {
         expect(analyticsSpy.calledOnce).to.be.true;
-
         expect(analyticsSpy.firstCall.args[0]['api-name']).to.equal(
           'GET disability rating',
         );
-
         expect(dispatchSpy.secondCall.args[0].type).to.equal(
           FETCH_TOTAL_RATING_SUCCEEDED,
         );
       }
     };
 
+    thunk(dispatch);
+  });
+
+  it('should pass source to error analytics call if present', () => {
+    const response = {
+      data: {
+        attributes: { source: 'EVSS' },
+      },
+      errors: [
+        {
+          code: '500',
+          status: 'some status',
+        },
+      ],
+    };
+    setFetchJSONResponse(global.fetch.onCall(0), response);
+    const analyticsSpy = sinon.spy();
+    const thunk = fetchTotalDisabilityRating(analyticsSpy);
+    const dispatchSpy = sinon.spy();
+    const dispatch = action => {
+      dispatchSpy(action);
+      if (dispatchSpy.callCount === 2) {
+        expect(dispatchSpy.secondCall.args[0].type).to.equal(
+          FETCH_TOTAL_RATING_FAILED,
+        );
+        expect(analyticsSpy.calledOnce).to.be.true;
+        expect(analyticsSpy.firstCall.args[0]['api-name'].includes('EVSS')).to
+          .be.true;
+      }
+    };
     thunk(dispatch);
   });
 
