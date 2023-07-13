@@ -110,7 +110,7 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
       setFormData({ ...data, additionalIssues: issues });
       goToPath(returnPath);
     } else if (showIssueNameError) {
-      focusElement('input', {}, $('#submit')?.shadowRoot);
+      focusElement('input', {}, $('#issue-name')?.shadowRoot);
     } else {
       const date = $('va-memorable-date');
       const monthInput = $('va-text-input.input-month', date?.shadowRoot);
@@ -172,8 +172,8 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
         </legend>
         {content.description}
         <VaTextInput
-          id="submit"
-          name="submit"
+          id="issue-name"
+          name="issue-name"
           type="text"
           label={content.name.label}
           required
