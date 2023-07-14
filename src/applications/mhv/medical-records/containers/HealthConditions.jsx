@@ -72,7 +72,7 @@ const HealthConditions = () => {
 
     conditions.forEach(item => {
       pdfData.results.items.push({
-        header: item.name.split('('),
+        header: item.name,
         items: [
           {
             title: 'Date',
@@ -85,14 +85,14 @@ const HealthConditions = () => {
             inline: true,
           },
           {
-            title: 'Provider notes',
+            title: 'Provider Notes',
             value: item.comments.length
               ? processList(item.comments)
               : 'none noted',
             inline: !item.comments.length,
           },
           {
-            title: 'Status of Health Condition',
+            title: 'Status of health condition',
             value: item.active ? 'active' : 'inactive',
             inline: true,
           },
@@ -103,7 +103,7 @@ const HealthConditions = () => {
           },
           {
             title: 'SNOMED Clinical Term',
-            value: item.id || ' ',
+            value: item.name || ' ',
             inline: true,
           },
         ],

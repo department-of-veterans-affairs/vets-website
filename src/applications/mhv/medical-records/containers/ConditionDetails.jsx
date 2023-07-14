@@ -85,14 +85,14 @@ const ConditionDetails = () => {
                 inline: true,
               },
               {
-                title: 'Provider notes',
+                title: 'Provider Notes',
                 value: conditionDetails.comments.length
                   ? processList(conditionDetails.comments)
                   : 'none noted',
                 inline: !conditionDetails.comments.length,
               },
               {
-                title: 'Status of Health Condition',
+                title: 'Status of health condition',
                 value: conditionDetails.active ? 'active' : 'inactive',
                 inline: true,
               },
@@ -103,7 +103,7 @@ const ConditionDetails = () => {
               },
               {
                 title: 'SNOMED Clinical Term',
-                value: conditionDetails.id || ' ',
+                value: conditionDetails.name || ' ',
                 inline: true,
               },
             ],
