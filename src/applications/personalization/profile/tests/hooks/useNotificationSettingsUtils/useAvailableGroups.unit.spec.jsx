@@ -53,6 +53,18 @@ describe('useNotificationSettingsUtils hook -> useAvailableGroups', () => {
 
     const hookResults = JSON.parse(getByTestId('hookResults').textContent);
     expect(hookResults.length).to.equal(5);
+
+    const expectedGroupNames = [
+      'Your health care',
+      'Applications, claims, decision reviews, and appeals',
+      'General VA Updates and Information',
+      'Payments',
+      'QuickSubmit',
+    ];
+
+    expectedGroupNames.forEach(groupName => {
+      expect(hookResults.some(({ name }) => name === groupName)).to.be.true;
+    });
   });
 
   it('returns filtered groups when flags are all false and email and mobile phone is present', () => {

@@ -56,7 +56,7 @@ describe('useNotificationSettingsUtils hook -> missingChannels', () => {
     expect(hookResults.length).to.equal(0);
   });
 
-  it('returns array with corrent channel id when missing email', () => {
+  it('returns array with correct channel id when missing mobile phone', () => {
     const store = mockStore({
       communicationPreferences,
       featureToggles: {
@@ -88,7 +88,7 @@ describe('useNotificationSettingsUtils hook -> missingChannels', () => {
     ]);
   });
 
-  it('returns array with corrent channel id when missing mobile phone', () => {
+  it('returns array with correct channel id when missing email', () => {
     const store = mockStore({
       communicationPreferences,
       featureToggles: {
