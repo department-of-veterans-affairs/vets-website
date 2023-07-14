@@ -5,6 +5,7 @@ import { getPrescriptionDetails } from '../actions/prescriptions';
 import PrintHeader from './PrintHeader';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
+import PrintDownload from '../components/shared/PrintDownload';
 
 const PrescriptionDetails = () => {
   const currentDate = new Date();
@@ -148,39 +149,7 @@ const PrescriptionDetails = () => {
           <h1 className="page-title">{prescription.prescriptionName}</h1>
 
           <div className="no-print">
-            <button
-              type="button"
-              className="link-button vads-u-display--block vads-u-margin-bottom--2"
-              data-testid="print-records-button"
-              onClick={window.print}
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-print vads-u-margin-right--0p5"
-              />
-              Print medication details
-            </button>
-            <button
-              type="button"
-              className="link-button vads-u-display--block vads-u-margin-bottom--2"
-              onClick={handleDownloadPDF}
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-download vads-u-margin-right--0p5"
-              />
-              Download as a PDF
-            </button>
-            <button
-              type="button"
-              className="link-button vads-u-display--block vads-u-margin-bottom--2"
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-download vads-u-margin-right--0p5"
-              />
-              Download as a Text file
-            </button>
+            <PrintDownload download={handleDownloadPDF} />
             <va-additional-info trigger="What to know about downloading records">
               <ul>
                 <li>
