@@ -307,6 +307,7 @@
 .operating-status-flag {
   width: 286px;
   height: 40px;
+  transition: background 0.25s;
 }
 
 a.operating-status-link {
@@ -320,15 +321,15 @@ a.operating-status-link {
 }
 
 .operating-status-flag-notice:hover {
-  background: rgba(155, 218, 241, .4);
+  background: rgba(155, 218, 241, 0.7);
 }
 
 .operating-status-flag-warning:hover {
-  background: rgba(250, 217, 128, .4);
+  background: rgba(250, 217, 128, 0.7);
 }
 
 .operating-status-flag-error:hover {
-  background: rgba(229, 147, 147, .4)
+  background: rgba(229, 147, 147, 0.7)
 }
 
 .operating-status-flag-notice:active {
