@@ -11,14 +11,15 @@ describe('Secure Messaging Message Details AXE Check', () => {
     const detailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();
     site.login();
-    const messageDetails = mockMessageDetails;
+    // const messageDetails = mockMessageDetails;
     // const messageDetails = landingPage.setMessageDateToYesterday(mockMessageDetails);
     const date = new Date();
     date.setDate(date.getDate() - 2);
-    messageDetails.data.attributes.sentDate = date.toISOString();
-    cy.log(`New Message Details ==== ${JSON.stringify(messageDetails)}`);
-    landingPage.loadInboxMessages(inboxMessages, messageDetails);
-    detailsPage.loadMessageDetails(messageDetails, defaultMockThread, 0);
+    mockMessageDetails.data.attributes.sentDate = date.toISOString();
+    cy.log(`New Message Details ==== ${JSON.stringify(mockMessageDetails)}`);
+    landingPage.loadInboxMessages(inboxMessages, mockMessageDetails);
+    detailsPage.loadMessageDetails(mockMessageDetails, defaultMockThread, 0);
+    detailsPage.verifyMessageDetails(mockMessageDetails);
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
