@@ -78,19 +78,7 @@ export const Notifications = ({
 Notifications.propTypes = {
   getNotifications: PropTypes.func.isRequired,
   dismissalError: PropTypes.bool,
-  notifications: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      attributes: PropTypes.shape({
-        createdAt: PropTypes.string.isRequired,
-        dismissed: PropTypes.bool.isRequired,
-        templateId: PropTypes.string.isRequired,
-        updatedAt: PropTypes.string,
-        vaProfileId: PropTypes.string.isRequired,
-      }),
-    }),
-  ),
+  notifications: PropTypes.array,
   notificationsError: PropTypes.bool,
 };
 
