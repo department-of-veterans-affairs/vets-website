@@ -436,6 +436,7 @@ module.exports = async (env = {}) => {
           },
         },
       },
+      runtimeChunk: isOptimizedBuild ? false : 'single',
     },
     plugins: [
       new webpack.DefinePlugin({
