@@ -6,6 +6,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
+.schemaform-subtitle {
+  margin-top: 1.5rem;
+}
+
 div:has(.schemaform-sip-alert) {
   margin-top: 4rem;
 }

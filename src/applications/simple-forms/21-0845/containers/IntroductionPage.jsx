@@ -17,7 +17,7 @@ class IntroductionPage extends React.Component {
       <article className="schemaform-intro">
         <FormTitle
           title="Authorize VA to release your information to a third-party source"
-          subtitle="Authorization To Disclose Personal Information To a Third Party (VA Form 21-0845)"
+          subTitle="Authorization To Disclose Personal Information To a Third Party (VA Form 21-0845)"
         />
         <h2>Here’s how to apply online</h2>
         <p>
