@@ -1,8 +1,12 @@
 // this form does NOT use JSON schema for its data model
 // import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
-import manifest from '../manifest.json';
+import {
+  defaultFocusSelector,
+  waitForRenderThenFocus,
+} from 'platform/utilities/ui';
 
+import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
@@ -31,6 +35,26 @@ import authorizerContactInfoPg from '../pages/authorizerContactInfo';
 // import testData from '../tests/e2e/fixtures/data/noAuthType.json';
 
 // const mockData = testData.data;
+
+const pageFocus = () => {
+  return () => {
+    const { pathname } = document.location;
+    let focusSelector = '';
+
+    if (pathname.includes('authorizer-type')) {
+      // focus on the legend for authorizer-type page
+      focusSelector = '#main #root_authorizerType-label';
+    } else {
+      // since useCustomScrollAndFocus is enabled at form-level,
+      // this fn fires on every chapter change, so we need to
+      // provide default focusSelector for all other pages.
+      focusSelector = defaultFocusSelector;
+    }
+
+    waitForRenderThenFocus(focusSelector);
+  };
+};
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -80,6 +104,7 @@ const formConfig = {
       enum: [true],
     },
   },
+  useCustomScrollAndFocus: true,
   chapters: {
     authorizerTypeChapter: {
       hideFormNavProgress: true,
@@ -94,6 +119,8 @@ const formConfig = {
           //   !!mockData && environment.isLocalhost() ? mockData : undefined,
           uiSchema: authorizerTypePg.uiSchema,
           schema: authorizerTypePg.schema,
+          // needs form-level useCustomScrollAndFocus: true to work.
+          scrollAndFocusTarget: pageFocus(),
         },
       },
     },
