@@ -16,7 +16,7 @@ const childContent = (
       What are my next steps?
     </h2>
     <p>
-      After we approve your substitution request you’re responsible for taking
+      After we approve your substitution request, you’re responsible for taking
       any next steps that are needed to help finish the claim. You’ll have the
       same deadlines to take the next steps as the deceased claimant would have
       had if they survived. You’ll also have the same rights as the original
