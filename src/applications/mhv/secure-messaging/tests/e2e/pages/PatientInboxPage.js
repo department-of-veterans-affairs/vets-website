@@ -362,7 +362,7 @@ class PatientInboxPage {
       .should('have.text', 'Draft was successfully deleted.');
   };
 
-  loadLandingPagebyTabbingandEnterKey = () => {
+  loadLandingPageByTabbingAndEnterKey = () => {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
