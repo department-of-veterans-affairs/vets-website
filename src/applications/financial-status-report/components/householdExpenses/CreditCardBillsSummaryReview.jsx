@@ -35,20 +35,29 @@ const CreditCardBillsSummaryReview = ({ data }) => {
   const { creditCardBills = [] } = data.expenses;
 
   return (
-    <div>
-      <dl className="review">
-        {creditCardBills.map((bill, index) => {
-          return (
-            <>
-              <h5>Credit card bill {index + 1}</h5>
+    <>
+      {creditCardBills.map((bill, index) => {
+        return (
+          <div
+            className="form-review-panel-page"
+            key={index + bill.amountDueMonthly}
+          >
+            <div className="form-review-panel-page-header-row">
+              <h4 className="vads-u-font-size--h5">
+                Credit card bill {index + 1}
+              </h4>
+            </div>
+            <dl className="review">
               {renderUnpaidBalance(bill, index)}
-              {renderAmountOverdue(bill, index)}
+              {bill?.amountPastDue > 0
+                ? renderAmountOverdue(bill, index)
+                : null}
               {renderMinMonthlyPayment(bill, index)}
-            </>
-          );
-        })}
-      </dl>
-    </div>
+            </dl>
+          </div>
+        );
+      })}
+    </>
   );
 };
 
