@@ -89,7 +89,7 @@ describe('<EvidenceSummaryReview>', () => {
   it('should render', () => {
     const { container } = setupSummary();
 
-    expect($('button.edit-page', container)).to.exist;
+    expect($('va-button', container)).to.exist;
     // now includes limited consent
     expect($$('h5', container).length).to.eq(3);
     expect($$('ul', container).length).to.eq(3);
@@ -126,7 +126,7 @@ describe('<EvidenceSummaryReview>', () => {
     const editPageSpy = sinon.spy();
     const { container } = setupSummary({ editPage: editPageSpy });
 
-    fireEvent.click($('.edit-page', container));
+    fireEvent.click($('va-button', container));
 
     expect(editPageSpy.called).to.be.true;
   });

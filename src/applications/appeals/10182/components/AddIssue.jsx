@@ -174,7 +174,9 @@ const AddIssue = props => {
         >
           {content.name.hint}
         </VaTextInput>
-        <br />
+
+        <br role="presentation" />
+
         <VaMemorableDate
           name="decision-date"
           label={content.date.label}
@@ -192,13 +194,13 @@ const AddIssue = props => {
             secondary
             class="vads-u-width--auto"
             onClick={handlers.onCancel}
-            text="Cancel"
+            text={content.button.cancel}
           />
           <va-button
             id="submit"
             class="vads-u-width--auto"
             onClick={handlers.onUpdate}
-            text={`${addOrEdit === 'add' ? 'Add' : 'Update'} issue`}
+            text={content.button[addOrEdit]}
           />
         </p>
       </fieldset>

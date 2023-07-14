@@ -9,7 +9,6 @@ import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import { getAllAllergies } from '../api/MrApi';
 import PrintDownload from '../components/shared/PrintDownload';
 import {
   dateFormat,
@@ -112,10 +111,6 @@ const Allergies = () => {
     }
   };
 
-  const download = () => {
-    getAllAllergies().then(res => generateAllergiesPdf(res));
-  };
-
   const content = () => {
     if (allergies?.length > 0) {
       return <RecordList records={allergies} type={RecordType.ALLERGIES} />;
@@ -186,7 +181,7 @@ const Allergies = () => {
           </li>
         </ul>
       </va-additional-info>
-      <PrintDownload list download={download} />
+      <PrintDownload list download={generateAllergiesPdf} />
       <va-additional-info
         trigger="What to know about downloading records"
         class="no-print"

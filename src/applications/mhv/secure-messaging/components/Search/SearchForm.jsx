@@ -232,6 +232,7 @@ const SearchForm = props => {
                 onKeyPress={e => {
                   if (e.key === 'Enter') handleSearch();
                 }}
+                data-dd-privacy="mask"
               />
             </div>
           </div>
