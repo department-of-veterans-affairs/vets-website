@@ -1,4 +1,5 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
+// <va-telephone /> doesn't display 1-800 numbers correctly
 import React from 'react';
 
 import { focusElement } from 'platform/utilities/ui';
