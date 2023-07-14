@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
 import { Categories, Paths, PageTitles } from '../util/constants';
-import { dateFormat } from '../util/helpers';
+import { dateFormat, updatePageTitle } from '../util/helpers';
 import MessageThreadBody from './MessageThread/MessageThreadBody';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
@@ -67,9 +67,9 @@ const MessageDetailBlock = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      document.title = `${categoryLabel}: ${subject} ${
-        PageTitles.PAGE_TITLE_TAG
-      }`;
+      updatePageTitle(
+        `${categoryLabel}: ${subject} ${PageTitles.PAGE_TITLE_TAG}`,
+      );
     },
     [categoryLabel, message, subject],
   );

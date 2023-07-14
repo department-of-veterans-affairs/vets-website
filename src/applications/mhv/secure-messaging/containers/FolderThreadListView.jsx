@@ -26,7 +26,7 @@ import {
 } from '../actions/threads';
 import SearchResults from './SearchResults';
 import { clearSearchResults } from '../actions/search';
-import { convertPathNameToTitleCase } from '../util/helpers';
+import { convertPathNameToTitleCase, updatePageTitle } from '../util/helpers';
 
 const FolderThreadListView = props => {
   const { testing } = props;
@@ -110,10 +110,11 @@ const FolderThreadListView = props => {
           );
           // updates page title
           if (folder.name === convertPathNameToTitleCase(location.pathname)) {
-            document.title =
+            updatePageTitle(
               folder.name === 'Sent'
                 ? `Sent messages ${PageTitles.PAGE_TITLE_TAG}`
-                : `${folder.name} ${PageTitles.PAGE_TITLE_TAG}`;
+                : `${folder.name} ${PageTitles.PAGE_TITLE_TAG}`,
+            );
           }
         } else {
           dispatch(
