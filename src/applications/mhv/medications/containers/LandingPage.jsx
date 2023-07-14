@@ -39,7 +39,7 @@ const LandingPage = () => {
               Note: You still have access to the pharmacy tool on the My
               HealtheVet website. You can go back to that site at any time.{' '}
               <a
-                href="/my-health/medications/"
+                href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'pharmacy')}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -83,8 +83,17 @@ const LandingPage = () => {
                   <li>
                     <strong>Medications you entered yourself. </strong>
                     To find your self-entered medications, go back to your
-                    medications list on the My HealtheVet website. Go to your
-                    medications list on the My HealtheVet website
+                    medications list on the My HealtheVet website.{' '}
+                    <a
+                      href={mhvUrl(
+                        isAuthenticatedWithSSOe(fullState),
+                        'my-complete-medications-list',
+                      )}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Go to your medications list on the My HealtheVet website
+                    </a>
                   </li>
                   <li>
                     <strong>
@@ -171,7 +180,10 @@ const LandingPage = () => {
                 </p>
                 <p>
                   <a
-                    href="/my-health/medications"
+                    href={mhvUrl(
+                      isAuthenticatedWithSSOe(fullState),
+                      'secure-messaging',
+                    )}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -192,8 +204,9 @@ const LandingPage = () => {
             <h2>More ways to manage your medications</h2>
             <p>
               {' '}
-              Learn how to renew prescriptions, update your mailing address, and
-              review allergies and reactions in your VA medical records.
+              Learn how to request renewal of your prescriptions that are no
+              longer refillable, update your mailing address, and review
+              allergies and reactions in your VA medical records.
             </p>
             <va-accordion bordered>
               <va-accordion-item>
@@ -222,15 +235,16 @@ const LandingPage = () => {
                   system will direct your call to a pharmacy representative for
                   help.
                 </p>
-                <h3>By phone</h3>
+                <h3>By secure messsage</h3>
                 <p>
                   Send a secure message to your VA care team. Include the
-                  prescription number in your message.
+                  medication name, provide who prescribed it, and number of
+                  refills left in your message.
                 </p>
                 <a
                   href={mhvUrl(
                     isAuthenticatedWithSSOe(fullState),
-                    'medications',
+                    'secure-messaging',
                   )}
                   target="_blank"
                   rel="noreferrer"
@@ -267,7 +281,14 @@ const LandingPage = () => {
                   If allergies or reactions are missing from your list, tell
                   your care team right away.
                 </p>
-                <a href="/my-health/medications/prescriptions">
+                <a
+                  href={mhvUrl(
+                    isAuthenticatedWithSSOe(fullState),
+                    'health-history',
+                  )}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   Go to your allergy and reaction records on the My HealtheVet
                   website
                 </a>
