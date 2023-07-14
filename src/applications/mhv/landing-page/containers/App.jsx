@@ -40,18 +40,14 @@ const App = () => {
   useEffect(
     () => {
       async function loadMessages() {
-        try {
-          const messages = await getFolderList();
-          const unreadMessages = messages.data.reduce(
-            (accumulator, currentValue) => {
-              return accumulator + currentValue.attributes.unreadCount;
-            },
-            0,
-          );
-          setUnreadMessageCount(unreadMessages);
-        } catch (e) {
-          console.error('Error getting unread message count', e);
-        }
+        const messages = await getFolderList();
+        const unreadMessages = messages.data.reduce(
+          (accumulator, currentValue) => {
+            return accumulator + currentValue.attributes.unreadCount;
+          },
+          0,
+        );
+        setUnreadMessageCount(unreadMessages);
       }
 
       if (appEnabled) {
