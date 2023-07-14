@@ -152,7 +152,7 @@ const Prescriptions = () => {
           </div>
           <div className="landing-page-content">
             <div className="no-print">
-              <PrintDownload download={handleDownloadPDF} />
+              <PrintDownload download={handleDownloadPDF} list />
               <va-additional-info trigger="What to know about downloading records">
                 <ul>
                   <li>
