@@ -10,12 +10,16 @@ export default function Description({ data, flowType }) {
       ? 'community care'
       : typeOfCare;
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
-
+  const isVowel =
+    (typeOfCare === 'amputation care' ||
+      typeOfCare === 'audiology and speech' ||
+      typeOfCare === 'eye care') &&
+    description !== 'community care';
   return (
     <>
       <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-font-size--h3">
-        You’re {isDirectSchedule ? 'scheduling' : 'requesting'} a {description}{' '}
-        appointment
+        You’re {isDirectSchedule ? 'scheduling' : 'requesting'}{' '}
+        {isVowel ? 'an' : 'a'} {description} appointment
       </h2>
       {isDirectSchedule && (
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
