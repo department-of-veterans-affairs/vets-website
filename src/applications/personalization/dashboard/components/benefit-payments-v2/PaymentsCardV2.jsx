@@ -15,7 +15,7 @@ export const PaymentsV2 = ({ lastPayment }) => {
         <h3 className="vads-u-margin-top--0" data-testid="deposit-header-v2">
           +{lastPayment.payCheckAmount}
         </h3>
-        <h4 className="vads-u-margin-top--0">{lastPayment.payCheckType}</h4>
+        <h3 className="vads-u-margin-top--0">{lastPayment.payCheckType}</h3>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
           {lastPayment.paymentMethod === 'Paper Check'
             ? 'Check mailed'

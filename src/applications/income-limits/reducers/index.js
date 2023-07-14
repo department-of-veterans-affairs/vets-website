@@ -2,6 +2,8 @@ import {
   IL_EDIT_MODE,
   IL_UPDATE_DEPENDENTS,
   IL_PAST_MODE,
+  IL_RESULTS_VAL_ERROR,
+  IL_RESULTS_VAL_ERROR_TEXT,
   IL_UPDATE_RESULTS,
   IL_UPDATE_YEAR,
   IL_UPDATE_ZIP,
@@ -17,6 +19,7 @@ const initialState = {
   },
   pastMode: null,
   results: null,
+  resultsValidationServiceError: false,
   zipValidationServiceError: false,
 };
 
@@ -65,6 +68,16 @@ const incomeLimits = (state = initialState, action) => {
       return {
         ...state,
         zipValidationServiceError: action.payload,
+      };
+    case IL_RESULTS_VAL_ERROR:
+      return {
+        ...state,
+        resultsValidationServiceError: action.payload,
+      };
+    case IL_RESULTS_VAL_ERROR_TEXT:
+      return {
+        ...state,
+        resultsValidationErrorText: action.payload,
       };
     default:
       return state;

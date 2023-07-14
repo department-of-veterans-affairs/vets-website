@@ -53,8 +53,8 @@ const config = {
 };
 
 const generateIntroductionContent = async (doc, parent, data) => {
-  const headOptions = { x: 20, paragraphGap: 16 };
-  const subHeadOptions = { paragraphGap: 12 };
+  const headOptions = { x: 20, paragraphGap: 5 };
+  const subHeadOptions = { paragraphGap: 0 };
   const introduction = doc.struct('Sect', {
     title: 'Introduction',
   });
@@ -91,6 +91,35 @@ const generateDetailsContent = async (doc, parent, data) => {
   details.end();
 };
 
+const generateResultItemContent = async (
+  item,
+  doc,
+  results,
+  hasHorizontalRule,
+) => {
+  const headingOptions = { paragraphGap: 10, x: 30 };
+  if (item.header) {
+    results.add(
+      await createHeading(doc, 'H3', config, item.header, headingOptions),
+    );
+  }
+
+  for (const resultItem of item.items) {
+    const structs = await createDetailItem(doc, config, 40, resultItem);
+    for (const struct of structs) {
+      results.add(struct);
+    }
+  }
+
+  if (hasHorizontalRule) {
+    results.add(
+      doc.struct('Artifact', () => {
+        addHorizontalRule(doc, 30, 1.5);
+      }),
+    );
+  }
+};
+
 const generateResultsContent = async (doc, parent, data) => {
   const results = doc.struct('Sect', {
     title: 'Results',
@@ -102,43 +131,34 @@ const generateResultsContent = async (doc, parent, data) => {
       createHeading(doc, 'H2', config, data.results.header, headingOptions),
     );
   }
+
   if (data.results.preface) {
     const prefaceOptions = { paragraphGap: 12, x: 20 };
     results.add(
       createSubHeading(doc, config, data.results.preface, prefaceOptions),
     );
   }
-  let initialBlock = true;
-  for (const [idx, item] of data.results.items.entries()) {
-    // Insert a pagebreak if the next block will not fit on the current page,
-    // taking the footer height into account.
-    const blockHeight = getTestResultBlockHeight(doc, item, initialBlock);
-    if (doc.y + blockHeight > 750) {
-      initialBlock = true;
-      await doc.addPage();
-    } else if (idx > 0) {
-      initialBlock = false;
-      if (data.results.sectionSeparators !== false) {
-        results.add(
-          doc.struct('Artifact', () => {
-            addHorizontalRule(doc, 20, 0.5);
-          }),
-        );
-      }
-    }
 
-    const headingOptions = { paragraphGap: 10, x: 30 };
-    if (item.header) {
-      results.add(
-        await createHeading(doc, 'H3', config, item.header, headingOptions),
+  const hasHorizontalRule = data.results.sectionSeparators !== false;
+  if (data.results.items.length === 1) {
+    await generateResultItemContent(
+      data.results.items[0],
+      doc,
+      results,
+      hasHorizontalRule,
+    );
+  } else {
+    for (const item of data.results.items) {
+      // Insert a pagebreak if the next block will not fit on the current page,
+      // taking the footer height into account.
+      const blockHeight = getTestResultBlockHeight(
+        doc,
+        item,
+        hasHorizontalRule,
       );
-    }
+      if (doc.y + blockHeight > 750) await doc.addPage();
 
-    for (const resultItem of item.items) {
-      const structs = await createDetailItem(doc, config, 40, resultItem);
-      for (const struct of structs) {
-        results.add(struct);
-      }
+      await generateResultItemContent(item, doc, results, hasHorizontalRule);
     }
   }
   results.end();

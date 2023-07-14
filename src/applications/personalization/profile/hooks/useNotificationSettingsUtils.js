@@ -12,6 +12,15 @@ import {
   NOTIFICATION_GROUPS,
 } from '../constants';
 
+// helper function to get the communication preferences entities
+function getEntities(prefs) {
+  return {
+    groups: prefs?.groups?.entities,
+    items: prefs?.items?.entities,
+    channels: prefs?.channels?.entities,
+  };
+}
+
 /**
  * Returns an array of available notification groups based on the
  * available communication preferences and what communication channels have contact info set via the user profile
@@ -21,9 +30,7 @@ import {
  * @returns {Array} An array of available notification groups.
  */
 function getAvailableGroups(communicationPreferences, channelsWithContactInfo) {
-  const groups = communicationPreferences.groups.entities;
-  const items = communicationPreferences.items.entities;
-  const channels = communicationPreferences.channels.entities;
+  const { groups, items, channels } = getEntities(communicationPreferences);
 
   const groupIds = Object.keys(groups);
 
@@ -136,9 +143,7 @@ export const useNotificationSettingsUtils = () => {
   // the thought being that we could show the user what items are unavailable in
   //  a list showing the group name and the unavailable items nested within the group
   const useUnavailableItemsByGroup = () => {
-    const groups = communicationPreferences.groups.entities;
-    const items = communicationPreferences.items.entities;
-    const channels = communicationPreferences.channels.entities;
+    const { groups, items, channels } = getEntities(communicationPreferences);
 
     const groupIds = Object.keys(groups);
 
@@ -167,6 +172,8 @@ export const useNotificationSettingsUtils = () => {
   // also filters out any items that are blocked by feature toggles
   // can be greatly simplified once the feature toggles are removed
   const useUnavailableItems = () => {
+    const { groups, items, channels } = getEntities(communicationPreferences);
+
     const excludedGroupIds = [
       ...(toggles.showQuickSubmitNotificationSetting
         ? []
@@ -181,10 +188,6 @@ export const useNotificationSettingsUtils = () => {
         ? []
         : BLOCKED_MHV_NOTIFICATION_IDS),
     ];
-
-    const groups = communicationPreferences.groups.entities;
-    const items = communicationPreferences.items.entities;
-    const channels = communicationPreferences.channels.entities;
 
     const itemIds = Object.keys(items);
     const excludedGroupItems = excludedGroupIds.flatMap(groupId => {

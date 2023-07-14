@@ -30,8 +30,6 @@ const getChannelsByItemId = (itemId, channelEntities) => {
 };
 
 const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
-  // using the Mhv Notification Settings feature toggle to determine if we should show the email channel,
-  // since the email channel is not yet supported and all Mhv notifications are email based for now
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const emailNotificationsEnabled = useToggleValue(
     TOGGLE_NAMES.profileShowEmailNotificationSettings,

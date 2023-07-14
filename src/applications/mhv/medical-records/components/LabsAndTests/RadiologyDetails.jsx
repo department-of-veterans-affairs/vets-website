@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { downloadFile } from '../../util/helpers';
 import PrintHeader from '../shared/PrintHeader';
-import { getVaccinePdf } from '../../api/MrApi';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
+import GenerateRadiologyPdf from './GenerateRadiologyPdf';
 
 const RadiologyDetails = props => {
   const { record, fullState } = props;
@@ -14,7 +13,7 @@ const RadiologyDetails = props => {
   const formattedDate = formatDateLong(record?.date);
 
   const download = () => {
-    getVaccinePdf(1).then(res => downloadFile('radiology.pdf', res.pdf));
+    GenerateRadiologyPdf(record);
   };
 
   const content = () => {
@@ -31,7 +30,7 @@ const RadiologyDetails = props => {
           </div>
 
           <div className="no-print">
-            <PrintDownload list download={download} />
+            <PrintDownload download={download} />
             <va-additional-info trigger="What to know about downloading records">
               <ul>
                 <li>

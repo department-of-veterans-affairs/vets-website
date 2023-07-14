@@ -1,22 +1,15 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import mockMessages from '../fixtures/messages-response.json';
+import PatientMessageTrashPage from './pages/PatientMessageTrashPage';
 
 describe('Secure Messaging Trash Folder AXE Check', () => {
-  it('Axe Check Trash Folder', () => {
+  beforeEach(() => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
-    cy.intercept('GET', '/my_health/v1/messaging/folders/-3', mockMessages).as(
-      'trashFolder',
-    );
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/-3/messages',
-      mockMessages,
-    ).as('trashFolderMessages');
-    cy.get('[data-testid="trash-sidebar"]').click();
+  });
+  it('Axe Check Trash Folder', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -25,5 +18,52 @@ describe('Secure Messaging Trash Folder AXE Check', () => {
         },
       },
     });
+  });
+
+  it('Verify header of trash folder', () => {
+    PatientMessageTrashPage.loadTrashMessages();
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    PatientMessageTrashPage.verifyFolderHeader('Trash');
+    PatientMessageTrashPage.verifyResponseBodyLength();
+  });
+
+  it('Verify filter works correctly', () => {
+    PatientMessageTrashPage.loadTrashMessages();
+    PatientMessageTrashPage.inputFilterData('test');
+    PatientMessageTrashPage.filterTrashMessages();
+
+    PatientMessageTrashPage.verifyFilterResults('test');
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+  });
+
+  it('Verify clear filter btn works correctly', () => {
+    PatientMessageTrashPage.loadTrashMessages();
+    PatientMessageTrashPage.inputFilterData('any');
+    PatientMessageTrashPage.filterTrashMessages();
+    PatientMessageTrashPage.clearFilter();
+
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    PatientMessageTrashPage.verifyFilterFieldCleared();
   });
 });
