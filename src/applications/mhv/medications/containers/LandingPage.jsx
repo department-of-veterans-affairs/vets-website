@@ -294,6 +294,7 @@ const LandingPage = () => {
                 </a>
               </va-accordion-item>
             </va-accordion>
+            <br />
           </section>
         </div>
       </div>
