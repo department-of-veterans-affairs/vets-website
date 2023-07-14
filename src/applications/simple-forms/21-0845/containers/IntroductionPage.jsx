@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
 import React from 'react';
 
 import { focusElement } from 'platform/utilities/ui';
@@ -51,10 +52,14 @@ class IntroductionPage extends React.Component {
         <p>
           If you change your mind and do not want VA to give out your personal
           benefit or claim information, you may notify us in writing, or by
-          telephone at <va-telephone contact="8008271000" /> or online through{' '}
-          <a href="https://ask.va.gov/">Ask VA</a>. Upon notification from you
-          VA will no longer give out benefit or claim information (except for
-          the information VA has already given out based on your permission).
+          telephone at{' '}
+          <a href="tel:+18008271000" aria-label="1. 8 0 0. 8 2 7. 1 0 0 0.">
+            1-800-827-1000
+          </a>{' '}
+          or online through <a href="https://ask.va.gov/">Ask VA</a>. Upon
+          notification from you VA will no longer give out benefit or claim
+          information (except for the information VA has already given out based
+          on your permission).
         </p>
         <SaveInProgressIntro
           headingLevel={2}
@@ -91,3 +96,4 @@ class IntroductionPage extends React.Component {
 }
 
 export default IntroductionPage;
+/* eslint-enable @department-of-veterans-affairs/prefer-telephone-component */
