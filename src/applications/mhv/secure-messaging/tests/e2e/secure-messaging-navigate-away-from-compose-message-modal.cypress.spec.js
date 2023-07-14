@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json';
-import mockDeletedFolderMetaResponse from './fixtures/folder-deleted-metadata.json';
+import mockDeletedFolderMetaResponse from './fixtures/trashResponse/folder-deleted-metadata.json';
 import mockSentFolderMetaResponse from './fixtures/folder-sent-metadata.json';
 import PatientComposePage from './pages/PatientComposePage';
 
