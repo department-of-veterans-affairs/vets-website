@@ -80,11 +80,15 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       mockSchedulingConfigurations([
         getSchedulingConfigurationMock({
           id: '983',
-          typeOfCareId: 'amputation',
-          directEnabled: false,
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
           requestEnabled: false,
         }),
       ]);
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'amputation',
+      });
 
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /amputation care/i);
@@ -289,25 +293,25 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       expect(loadingEvent).to.exist;
       expect('loading-indicator-display-time' in loadingEvent).to.be.true;
     });
-    //----------------------
+
     it('should show past visits message when direct is supported, no past visits, requests not supported', async () => {
       mockSchedulingConfigurations([
         getSchedulingConfigurationMock({
           id: '983',
-          typeOfCareId: 'outpatientMentalHealth',
+          typeOfCareId: 'amputation',
           directEnabled: true,
           requestEnabled: false,
         }),
         getSchedulingConfigurationMock({
           id: '984',
-          typeOfCareId: 'outpatientMentalHealth',
+          typeOfCareId: 'amputation',
           directEnabled: true,
           requestEnabled: false,
         }),
       ]);
       mockEligibilityFetchesByVersion({
         facilityId: '983',
-        typeOfCareId: 'outpatientMentalHealth',
+        typeOfCareId: 'amputation',
         clinics: [
           getV2ClinicMock({
             id: '455',
@@ -321,7 +325,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       });
 
       const store = createTestStore(initialState);
-      await setTypeOfCare(store, /mental health/i);
+      await setTypeOfCare(store, /amputation/i);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -332,6 +336,13 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
       await screen.findByTestId('eligibilityModal');
+
+      expect(
+        await screen.findByText(
+          /you need to have had an amputation care appointment at this facility within the last 12 months/i,
+        ),
+      ).to.be.ok;
+
       const loadingEvent = global.window.dataLayer.find(
         ev => ev.event === 'loading-indicator-displayed',
       );
@@ -386,6 +397,11 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       // It should record GA event for loading modal
       expect(loadingEvent).to.exist;
       expect('loading-indicator-display-time' in loadingEvent).to.be.true;
+      expect(
+        await screen.findByText(
+          /This facility doesn’t have any available clinics/i,
+        ),
+      ).to.be.ok;
     });
 
     it('should continue when primary care, direct is supported, clinics available, no matching clinics, requests not supported', async () => {
