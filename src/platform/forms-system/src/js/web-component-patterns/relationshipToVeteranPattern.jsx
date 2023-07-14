@@ -3,7 +3,7 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
 
 export const relationshipToVeteranUI = (
   relationshipToVeteranTitle,
-  relationshipToVeteranOtherTitle,
+  otherRelationshipToVeteranTitle,
 ) => {
   return {
     relationshipToVeteran: radioUI({
@@ -18,9 +18,9 @@ export const relationshipToVeteranUI = (
         other: 'A relationship not listed here',
       },
     }),
-    relationshipToVeteranOther: {
+    otherRelationshipToVeteran: {
       'ui:title':
-        relationshipToVeteranOtherTitle ??
+        otherRelationshipToVeteranTitle ??
         'Since your relationship with the veteran was not listed, please describe it here',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
@@ -31,13 +31,13 @@ export const relationshipToVeteranUI = (
     'ui:options': {
       expandedContentFocus: true,
       updateSchema: (formData, formSchema) => {
-        if (formSchema.properties.relationshipToVeteranOther['ui:collapsed']) {
+        if (formSchema.properties.otherRelationshipToVeteran['ui:collapsed']) {
           return { ...formSchema, required: ['relationshipToVeteran'] };
         }
 
         return {
           ...formSchema,
-          required: ['relationshipToVeteran', 'relationshipToVeteranOther'],
+          required: ['relationshipToVeteran', 'otherRelationshipToVeteran'],
         };
       },
     },
@@ -54,7 +54,7 @@ export const relationshipToVeteranSchema = {
       'executor',
       'other',
     ]),
-    relationshipToVeteranOther: {
+    otherRelationshipToVeteran: {
       type: 'string',
     },
   },
