@@ -1,4 +1,4 @@
-// import fullSchema from 'vets-json-schema/dist/21-0845-schema.json';
+// this form does NOT use JSON schema for its data model
 // import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
@@ -29,10 +29,6 @@ import authorizerContactInfoPg from '../pages/authorizerContactInfo';
 
 // mock-data import for local development
 // import testData from '../tests/e2e/fixtures/data/noAuthType.json';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
 
 // const mockData = testData.data;
 /** @type {FormConfig} */
@@ -294,7 +290,11 @@ const formConfig = {
   footerContent,
   getHelp,
   customText: {
-    appType: 'authorization',
+    reviewPageTitle: 'Review Information',
+    appSavedSuccessfullyMessage: 'Your authorization has been saved.',
+    startNewAppButtonText: 'Start a new authorization',
+    continueAppButtonText: 'Continue your authorization',
+    finishAppLaterMessage: 'Finish this authorization later.',
   },
 };
 

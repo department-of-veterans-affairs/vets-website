@@ -14,6 +14,7 @@
     },
     "authorizerPhone": "5555555555",
     "authorizerEmail": "jack.authorizer@example.com",
+    "authorizerEmailConsent": true,
     "veteranFullName": {
       "first": "John",
       "middle": "",
@@ -42,6 +43,7 @@
     },
     "informationScope": "limited",
     "limitedInformationItems": "Status of pending claim or appeal",
+    "limitedInformationOther": "My favorite color",
     "releaseDuration": "untilDate",
     "releaseEndDate": "2033-06-16",
     "securityQuestion": "motherBirthplace",
