@@ -13,7 +13,8 @@ export default function Description({ data, flowType }) {
   const isVowel =
     (typeOfCare === 'amputation care' ||
       typeOfCare === 'audiology and speech' ||
-      typeOfCare === 'eye care') &&
+      typeOfCare === 'optometry' ||
+      typeOfCare === 'ophthalmology') &&
     description !== 'community care';
   return (
     <>
