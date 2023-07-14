@@ -36,6 +36,9 @@
 
 }
 .landing-page {
+  @media (min-width: $medium-screen) {
+    margin-left: -180px;
+  }
   h1 {
     color: $color-gray-dark;
     margin: 0;
@@ -56,6 +59,12 @@
   }
   .landing-page-content {
     max-width: 500px;
+  }
+  section {
+    .feedback {
+      float: right;
+      width: 130px;
+    }
   }
   .rx-card-container{
     max-width: 500px;

@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-
+import moment from 'moment';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export function prefillTransformer(pages, formData, metadata) {
@@ -31,34 +31,6 @@ export function prefillTransformer(pages, formData, metadata) {
     formData: newFormData,
     pages,
   };
-}
-
-export function directDepositDescription() {
-  return (
-    <div>
-      <p>
-        VA makes payments through only direct deposit, also called electronic
-        funds transfer (EFT). The only exception is for participants in the
-        Post-Vietnam Era Veterans’ Educational Assistance Program (VEAP).
-      </p>
-
-      <p>
-        If you don’t have a bank account, VA will pay you through the Direct
-        Express® Debit MasterCard®. Apply for a Direct Express® Debit
-        MasterCard® at{' '}
-        <a
-          href="https://www.usdirectexpress.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          www.usdirectexpress.com
-        </a>{' '}
-        or by calling <a href="tel:18003331795">800-333-1795</a> To request a
-        waiver, contact the Department of Treasury Electronic Solution Center at{' '}
-        <a href="tel:18882242950">888-224-2950</a>.
-      </p>
-    </div>
-  );
 }
 
 export function transform(formConfig, form) {
@@ -110,7 +82,7 @@ export const benefitsRelinquishedDescription = (
   <span>
     <br />
     If you have questions or don’t understand the choice, talk to a specialist
-    at 1-888-GI-BILL-1 (<a href="tel:+18884424551">888-442-4551</a>
+    at 1-888-GI-BILL-1 (<va-telephone contact="8884424551" />
     ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
   </span>
 );
@@ -123,6 +95,42 @@ export const reserveKickerWarning = (
         up). You chose to relinquish <strong>MGIB-SR</strong> so you won’t get
         your Active Duty kicker.
       </span>
+    </div>
+  </div>
+);
+
+export const eighteenOrOver = birthday => {
+  return (
+    birthday === undefined ||
+    birthday.length !== 10 ||
+    moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 17
+  );
+};
+
+export const SeventeenOrOlder = birthday => {
+  return (
+    birthday === undefined ||
+    birthday.length !== 10 ||
+    moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 16
+  );
+};
+
+export const ageWarning = (
+  <div
+    className="vads-u-display--flex vads-u-align-items--flex-start vads-u-background-color--primary-alt-lightest vads-u-margin-top--3 vads-u-padding-right--3"
+    aria-live="polite"
+  >
+    <div className="vads-u-flex--1 vads-u-margin-top--2p5 vads-u-margin-x--2 ">
+      <i className="fas fa-info-circle" />
+    </div>
+    <div className="vads-u-flex--5">
+      <p className="vads-u-font-size--base">
+        Applicants under the age of 18 can’t legally make a benefits election.
+        Based on your date of birth, please have a parent, guardian, or
+        custodian review the information on this application, provide their
+        contact information in the Guardian Section of this form, and click the
+        "Submit application" button at the end of this form.
+      </p>
     </div>
   </div>
 );

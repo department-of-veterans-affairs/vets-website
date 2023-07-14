@@ -128,7 +128,8 @@ const MessageThread = props => {
 
       {messageHistory?.length > 0 &&
         viewCount && (
-          <div
+          <section
+            aria-label="Messages in this conversation."
             className={`older-messages vads-u-margin-top--3 vads-u-padding-left--0p5 ${
               isForPrint ? 'print' : 'do-not-print'
             }`}
@@ -178,7 +179,7 @@ const MessageThread = props => {
                 } loaded. Continue to navigate to the next message`}
               />
             )}
-          </div>
+          </section>
         )}
     </>
   );

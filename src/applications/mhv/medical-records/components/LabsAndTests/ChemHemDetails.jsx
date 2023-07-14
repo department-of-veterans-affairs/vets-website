@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dateFormat, downloadFile } from '../../util/helpers';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PrintHeader from '../shared/PrintHeader';
-import { getVaccinePdf } from '../../api/MrApi';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import ItemList from '../shared/ItemList';
@@ -12,13 +11,9 @@ import PrintDownload from '../shared/PrintDownload';
 const ChemHemDetails = props => {
   const { record, fullState } = props;
 
-  const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
+  const formattedDate = formatDateLong(record?.date);
 
-  const download = () => {
-    getVaccinePdf(1).then(res =>
-      downloadFile('chemistry-hematology.pdf', res.pdf),
-    );
-  };
+  const download = () => {};
 
   const content = () => {
     if (record) {
@@ -76,10 +71,7 @@ const ChemHemDetails = props => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider notes
             </h3>
-            <ItemList
-              list={record.comments}
-              emptyMessage="No notes reported at this time"
-            />
+            <ItemList list={record.comments} />
           </div>
           {/*         RESULTS CARDS            */}
           <div className="test-results-container">

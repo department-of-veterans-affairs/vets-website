@@ -1,5 +1,5 @@
 // import fullSchema from 'vets-json-schema/dist/21-0845-schema.json';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 
@@ -25,42 +25,55 @@ import securityQuestionPg from '../pages/securityQuestion';
 import securityAnswerPg from '../pages/securityAnswer';
 import authorizerPersonalInfoPg from '../pages/authorizerPersonalInfo';
 import authorizerAddressPg from '../pages/authorizerAddress';
+import authorizerContactInfoPg from '../pages/authorizerContactInfo';
 
 // mock-data import for local development
-import testData from '../tests/fixtures/data/noAuthType.json';
+// import testData from '../tests/e2e/fixtures/data/noAuthType.json';
 
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
 
-const mockData = testData.data;
+// const mockData = testData.data;
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
+  submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'auth-disclose-0845',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21-0845',
-  dev: {
-    showNavLinks: true,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: formData =>
+        formData.authorizerType === AUTHORIZER_TYPES.VETERAN
+          ? 'veteranFullName'
+          : 'authorizerFullName',
+    },
   },
+  formId: '21-0845',
+  // dev: {
+  //   showNavLinks: true,
+  // },
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your disclosure authorization application (21-0845) is in progress.',
-    //   expired: 'Your saved disclosure authorization application (21-0845) has expired. If you want to apply for disclosure authorization, please start a new application.',
-    //   saved: 'Your disclosure authorization application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your release authorization (21-0845) is in progress.',
+      expired:
+        'Your saved release authorization (21-0845) has expired. If you want to apply for release authorization, please start a new application.',
+      saved: 'Your release authorization has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for disclosure authorization.',
-    noAuth:
-      'Please sign in again to continue your application for disclosure authorization.',
+    notFound: 'Please start over to apply for release authorization.',
+    noAuth: 'Please sign in again to continue your release authorization.',
   },
   title: 'Authorize VA to release your information to a third party source',
   subTitle:
@@ -81,8 +94,8 @@ const formConfig = {
           title: 'Who’s submitting this authorization?',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          initialData:
-            !!mockData && environment.isLocalhost() ? mockData : undefined,
+          // initialData:
+          //   !!mockData && environment.isLocalhost() ? mockData : undefined,
           uiSchema: authorizerTypePg.uiSchema,
           schema: authorizerTypePg.schema,
         },
@@ -114,6 +127,20 @@ const formConfig = {
           },
           uiSchema: authorizerAddressPg.uiSchema,
           schema: authorizerAddressPg.schema,
+        },
+      },
+    },
+    authorizerContactInfoChapter: {
+      title: 'Your contact information',
+      pages: {
+        authContactInfoPage: {
+          path: 'authorizer-contact-information',
+          title: 'Your contact information',
+          depends: {
+            authorizerType: AUTHORIZER_TYPES.NON_VETERAN,
+          },
+          uiSchema: authorizerContactInfoPg.uiSchema,
+          schema: authorizerContactInfoPg.schema,
         },
       },
     },

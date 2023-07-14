@@ -16,11 +16,17 @@ const SecondaryCaregiverDescription = ({
     <>
       {!!pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
 
-      {showPageIntro && <p className="vads-u-margin-top--2">{introText}</p>}
+      {showPageIntro && (
+        <p className="vads-u-margin-top--2" data-testid="cg-page-intro">
+          {introText}
+        </p>
+      )}
 
       {showContactIntro && (
         <>
-          <p className="vads-u-margin-top--2">{introText}</p>
+          <p className="vads-u-margin-top--2" data-testid="cg-contact-intro">
+            {introText}
+          </p>
           <p className="vads-u-font-size--h4 vads-u-margin-bottom--1">
             <strong>Veteran address</strong>
           </p>

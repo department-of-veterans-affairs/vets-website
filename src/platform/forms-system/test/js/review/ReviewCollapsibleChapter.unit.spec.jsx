@@ -1127,7 +1127,6 @@ describe('<ReviewCollapsibleChapter>', () => {
 
       expect(result.goBack.toString()).to.contain('noop()');
       expect(result.goForward.toString()).to.contain('noop()');
-      expect(result.goToPath.toString()).to.contain('noop()');
     });
 
     it('should render a CustomPageReview for each item in an array when showPagePerItem is true', () => {

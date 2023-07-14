@@ -74,7 +74,7 @@ describe('VAOS Backend Service Alert', () => {
 
     mockVAOSAppointmentsFetch({
       start: moment()
-        .subtract(4, 'months')
+        .subtract(120, 'days')
         .format('YYYY-MM-DD'),
       end: moment().format('YYYY-MM-DD'),
       requests: [appointment],

@@ -23,8 +23,9 @@ describe('hca <PreSubmitNotice>', () => {
       required: true,
       field: 'privacyAgreementAccepted',
       error: 'You must accept the agreement before continuing.',
-      label:
-        'I certify the information above is correct and true to the best of my knowledge and belief.',
+      label: `I confirm that I agree to the statements listed here.
+          The information is true and correct to the best of my knowledge and belief.
+          I\u2019ve read and accept the privacy policy.`,
     },
     showError: false,
     onSectionComplete: sinon.spy(),

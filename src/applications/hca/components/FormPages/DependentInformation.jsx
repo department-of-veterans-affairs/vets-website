@@ -5,7 +5,6 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import { focusElement } from 'platform/utilities/ui';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import DependentListLoopForm from '../FormFields/DependentListLoopForm';
-import CancelDependentActionDescription from '../FormDescriptions/CancelDependentActionDescription';
 
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
 import { isOfCollegeAge, getDependentPageList } from '../../utils/helpers';
@@ -29,7 +28,7 @@ const SUB_PAGES = [
   },
   {
     id: 'education',
-    title: '%s\u2019s educational expenses',
+    title: '%s\u2019s education expenses',
     depends: { key: 'dateOfBirth', value: isOfCollegeAge },
   },
   {
@@ -243,7 +242,7 @@ const DependentInformation = props => {
       {FormList}
 
       <VaModal
-        modalTitle={`Cancel ${action.label} this dependent`}
+        modalTitle={`Cancel ${action.label} this dependent?`}
         primaryButtonText={`Yes, cancel ${action.label}`}
         secondaryButtonText={`No, continue ${action.label}`}
         onPrimaryButtonClick={handlers.onConfirm}
@@ -253,7 +252,11 @@ const DependentInformation = props => {
         status="warning"
         clickToClose
       >
-        <CancelDependentActionDescription formData={localData} mode={mode} />
+        <p className="vads-u-margin--0">
+          If you cancel {action.label} this dependent, we won’t save their
+          information. You’ll return to a screen where you can add or remove
+          dependents.
+        </p>
       </VaModal>
     </>
   );

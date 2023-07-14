@@ -277,7 +277,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       });
       mockVAOSAppointmentsFetch({
         start: moment()
-          .subtract(4, 'months')
+          .subtract(120, 'days')
           .format('YYYY-MM-DD'),
         end: moment().format('YYYY-MM-DD'),
         statuses: ['proposed', 'cancelled'],
@@ -419,6 +419,32 @@ describe('VAOS <AppointmentsPageV2>', () => {
           e => e === `vaos-status-past-link-clicked`,
         ),
       );
+    });
+  });
+
+  describe('when print list flag is on', () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingDirect: true,
+        vaOnlineSchedulingCommunityCare: false,
+        vaOnlineSchedulingStatusImprovement: true,
+        vaOnlineSchedulingPrintList: true,
+      },
+      user: userState,
+    };
+
+    it('should show tertiary print button', async () => {
+      // Given the veteran lands on the VAOS homepage
+      mockPastAppointmentInfo({});
+
+      // When the page displays
+      const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+        initialState: defaultState,
+      });
+
+      // Then it should display the tertiary print button
+      expect(screen.getByRole('button', { name: 'print list' })).to.be.ok;
     });
   });
 });

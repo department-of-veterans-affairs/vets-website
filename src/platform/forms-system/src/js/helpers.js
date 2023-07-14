@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import moment from 'moment';
 import { intersection, matches, merge, uniq } from 'lodash';
 import shouldUpdate from 'recompose/shouldUpdate';
@@ -721,4 +722,18 @@ export function showReviewField(
     !hiddenOnSchema &&
     !collapsedOnSchema
   );
+}
+
+/**
+ * Custom hook to track previous values inside a useEffect
+ * See https://blog.logrocket.com/accessing-previous-props-state-react-hooks/
+ * @param {*} value - previous value to track
+ * @returns previous value
+ */
+export function usePreviousValue(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
 }

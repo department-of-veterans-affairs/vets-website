@@ -142,7 +142,7 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
       </ul>
 
       <VaModal
-        modalTitle="Remove this dependent"
+        modalTitle="Remove this dependent?"
         primaryButtonText="Yes, remove dependent"
         secondaryButtonText="No, cancel"
         onPrimaryButtonClick={handlers.onConfirm}
