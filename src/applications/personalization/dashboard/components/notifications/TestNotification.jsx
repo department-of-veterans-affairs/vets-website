@@ -6,6 +6,11 @@ import { VaNotification } from '@department-of-veterans-affairs/component-librar
 import { dismissNotificationById } from '../../../common/actions/notifications';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 
+/*
+ * This component uses the va-notification web component 
+ * and is more updated than DebtNotificationAlert
+ */
+
 export const TestNotification = ({ notification, dismissNotification }) => {
   const [visible, setVisible] = useState(true);
 

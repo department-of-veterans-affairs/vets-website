@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '~/platform/utilities/environment';
 import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
-import DebtNotification from '../../../common/components/DebtNotification';
 import { fetchNotifications } from '../../../common/actions/notifications';
+import { DebtNotificationAlert as DebtNotification } from './DebtNotificationAlert';
 import TestNotification from './TestNotification';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 
