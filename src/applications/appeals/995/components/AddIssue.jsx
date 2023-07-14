@@ -191,7 +191,6 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
           name="decision-date"
           label={content.date.label}
           hint={content.date.hint}
-          class="vads-u-margin-top--0"
           required
           onDateChange={handlers.onDateChange}
           onDateBlur={handlers.onDateBlur}
@@ -205,14 +204,14 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
         <p>
           <va-button
             id="cancel"
-            className="vads-u-width--auto"
-            onClick={handlers.onCancel}
             secondary
+            class="vads-u-width--auto"
+            onClick={handlers.onCancel}
             text={content.button.cancel}
           />
           <va-button
             id="submit"
-            className="vads-u-width--auto"
+            class="vads-u-width--auto"
             onClick={handlers.onUpdate}
             text={content.button[addOrEdit]}
           />
@@ -227,6 +226,7 @@ AddIssue.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
+  onReviewPage: PropTypes.bool,
 };
 
 export default AddIssue;

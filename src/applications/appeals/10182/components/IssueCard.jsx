@@ -155,7 +155,7 @@ export const IssueCard = ({
         <va-button
           secondary
           class={removeButtonClass}
-          aria-label={`remove ${issueName}`}
+          label={`remove ${issueName}`}
           onClick={handlers.onRemove}
           text="Remove"
         />

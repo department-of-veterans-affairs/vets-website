@@ -71,10 +71,7 @@ const ChemHemDetails = props => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider notes
             </h3>
-            <ItemList
-              list={record.comments}
-              emptyMessage="No notes reported at this time"
-            />
+            <ItemList list={record.comments} />
           </div>
           {/*         RESULTS CARDS            */}
           <div className="test-results-container">
