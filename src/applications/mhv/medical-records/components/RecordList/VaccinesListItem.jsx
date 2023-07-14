@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Link } from 'react-router-dom';
-import { typeAndDose } from '../../util/helpers';
 import ItemList from '../shared/ItemList';
 
 const VaccinesListItem = props => {
@@ -20,25 +19,19 @@ const VaccinesListItem = props => {
           <span className="field-label">Date received:</span> {formattedDate}
         </div>
         <div className="print-only">
-          <span className="field-label">Type and dosage:</span> {typeAndDose()}
-        </div>
-        <div className="print-only">
-          <span className="field-label">Series:</span>{' '}
-          {record.series || 'There is no series reported at this time'}
+          <span className="field-label">Manufacturer</span>{' '}
+          {record.manufacturer}
         </div>
         <div className="location-collapsed vads-u-line-height--3">
-          <span className="field-label">Location:</span> {record.facility}
+          <span className="field-label">Location:</span> {record.location}
         </div>
         <div className="print-only">
-          <span className="field-label">Reactions recorded by provider:</span>{' '}
-          <ItemList list={record.reactions} emptyMessage="None reported" />
+          <span className="field-label">Reaction:</span>{' '}
+          <ItemList list={record.reactions} />
         </div>
         <div className="print-only">
-          <span className="field-label">Provider comments:</span>{' '}
-          <ItemList
-            list={record.comments}
-            emptyMessage="No comments at this time"
-          />
+          <span className="field-label">Provider notes:</span>{' '}
+          <ItemList list={record.notes} />
         </div>
       </div>
       <Link

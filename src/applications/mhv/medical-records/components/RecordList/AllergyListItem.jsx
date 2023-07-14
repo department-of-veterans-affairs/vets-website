@@ -21,7 +21,7 @@ const AllergyListItem = props => {
             </div>
             <div className="print-only">
               <span className="field-label">Reaction:</span>{' '}
-              <ItemList list={record.reactions} emptyMessage="None noted" />
+              <ItemList list={record.reactions} />
             </div>
             <div className="print-only">
               <span className="field-label">Type of allergy:</span>{' '}
@@ -43,7 +43,7 @@ const AllergyListItem = props => {
             </div>
             <div className="print-only">
               <span className="field-label">Provider notes:</span>{' '}
-              <ItemList list={record.notes} emptyMessage="None noted" />
+              <ItemList list={record.notes} />
             </div>
           </div>
 
