@@ -29,7 +29,7 @@
     button:active i::before {
       color: var(--color-primary);
     }
-  
+
     .toggle-menu-button {
       display: flex;
       align-items: center;
@@ -37,13 +37,13 @@
       border-radius: 5px;
       border: 2px solid var(--color-primary);
     }
-  
+
     .menu-options {
       margin: 0px;
       padding: 0px;
       display: none;
       flex-direction: column;
-  
+
       li:first-child {
         margin-top: 4px;
         border-radius: 5px 5px 0px 0px;
@@ -51,7 +51,7 @@
         border-right: 2px solid var(--color-primary);
         border-bottom: 2px solid var(--color-primary);
         border-left: 2px solid var(--color-primary);
-  
+
         button {
           border-radius: 5px 5px 0px 0px;
         }
@@ -64,7 +64,7 @@
         border-bottom: 2px solid var(--color-primary);
         border-left: 2px solid var(--color-primary);
         border-radius: 0px;
-  
+
         button {
           border-radius: 0px;
           margin: 0px;
@@ -77,13 +77,13 @@
         border-right: 2px solid var(--color-primary);
         border-bottom: 2px solid var(--color-primary);
         border-left: 2px solid var(--color-primary);
-  
+
         button {
           border-radius: 0px 0px 5px 5px;
         }
       }
     }
-  
+
     .menu-options-open {
       width: 275px;
       position: absolute;
@@ -92,4 +92,3 @@
       display: flex;
     }
   }
-  
