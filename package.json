@@ -192,7 +192,7 @@
     "husky": ">=6",
     "inquirer": "^8.1.5",
     "isomorphic-fetch": "^2.2.1",
-    "jsdoc": "^3.6.10",
+    "jsdoc": "4.0.2",
     "just-diff": "^3.1.1",
     "libxmljs2": "^0.28.0",
     "lint-staged": "^11.1.2",
@@ -310,10 +310,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-
-
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7ffea32595e37259a5a09174aa52d8edcbb2cb55"
-
   },
   "resolutions": {
     "**/lodash": "4.17.21",
