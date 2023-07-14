@@ -9,7 +9,7 @@ const apiBasePath = `${environment.API_URL}/avs/v0`;
  *
  * @returns {Object} AVS
  */
-export const getAvs = id => {
+export const getAvs = async id => {
   return apiRequest(`${apiBasePath}/avs/${id}`, {
     headers: {
       'Content-Type': 'application/json',
