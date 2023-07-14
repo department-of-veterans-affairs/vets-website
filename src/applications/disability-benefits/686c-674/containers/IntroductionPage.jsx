@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { focusElement } from 'platform/utilities/ui';
@@ -128,10 +127,10 @@ class IntroductionPage extends React.Component {
             startText="Add or remove a dependent"
           />
           <div className="omb-info--container vads-u-padding-left--0">
-            <OMBInfo
-              resBurden={30}
-              ombNumber="2900-0043"
-              expDate="09/30/2021"
+            <va-omb-info
+              res-burden={30}
+              omb-number="2900-0043"
+              exp-date="09/30/2021"
             />
           </div>
         </div>
