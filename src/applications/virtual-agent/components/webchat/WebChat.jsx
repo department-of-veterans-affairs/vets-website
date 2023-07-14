@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import environment from 'platform/utilities/environment';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 // import PropTypes from 'prop-types';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
@@ -117,6 +118,38 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     }
   };
 
+  /** NOT PRODUCTION READY --- will be replaced by api request * */
+  async function createPonyFill(webchat) {
+    const res = await axios.post(
+      process.env.SPEECH_URL,
+      {},
+      {
+        headers: {
+          'Ocp-Apim-Subscription-Key': process.env.SPEECH_KEY,
+        },
+      },
+    );
+    if (res.status !== 200) {
+      throw new Error('Failed to fetch authorization token and region.');
+    }
+
+    return webchat.createCognitiveServicesSpeechServicesPonyfillFactory({
+      credentials: {
+        region: 'eastus',
+        authorizationToken: res.data,
+      },
+    });
+  }
+  /** END OF NOT PRODUCTION READY */
+
+  const [speechPonyfill, setBotPonyfill] = useState();
+
+  useEffect(() => {
+    createPonyFill(window.WebChat).then(res => {
+      setBotPonyfill(() => res);
+    });
+  }, []);
+
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
@@ -125,6 +158,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
         store={store}
         renderMarkdown={renderMarkdown}
         onTelemetry={handleTelemetry}
+        webSpeechPonyfillFactory={speechPonyfill}
       />
     </div>
   );

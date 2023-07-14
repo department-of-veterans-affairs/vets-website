@@ -51,6 +51,20 @@ describe('App', () => {
       WebChat: {
         createStore: createStoreSpy,
         createDirectLine: directLineSpy,
+
+        ReactWebChat: () => {
+          return <div />;
+        },
+      },
+    });
+  }
+  function loadWebChatWithSpeech() {
+    global.window = Object.create(global.window);
+    Object.assign(global.window, {
+      WebChat: {
+        createStore: createStoreSpy,
+        createDirectLine: directLineSpy,
+        createBrowserWebSpeechPonyfillFactory: window.WebSpeechMock,
         ReactWebChat: () => {
           return <div />;
         },
@@ -1001,6 +1015,70 @@ describe('App', () => {
           expect(window.ReactDOM).to.eql(ReactDOM);
         });
       });
+    });
+  });
+  describe('voice is enabled for the RX skill', () => {
+    const providerObject = {
+      initialState: {
+        featureToggles: { loading: false },
+        virtualAgentData: { termsAccepted: true },
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: {
+            userFullName: { first: 'MARK' },
+            accountUuid: 'fake_uuid',
+          },
+        },
+      },
+      reducers: virtualAgentReducer,
+    };
+    it('retrieves the speech token from the api', () => {
+      // mockApiRequest();
+    });
+    it('should start recognition after clicking on microphone button   ', async () => {
+      loadWebChatWithSpeech();
+
+      mockApiRequest({
+        token: 'FAKETOKEN',
+        apiSession: 'FAKEAPISESSION',
+      });
+      const userStore = {
+        initialState: {
+          featureToggles: { loading: false },
+          virtualAgentData: { termsAccepted: true },
+          user: {
+            login: { currentlyLoggedIn: true },
+            profile: {
+              userFullName: { first: 'MARK' },
+              accountUuid: 'fake_uuid',
+            },
+          },
+        },
+        reducers: virtualAgentReducer,
+      };
+
+      const store = createTestStore(userStore.initialState, userStore.reducers);
+
+      // This loads the chatbox but not the webchat inside of it
+      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
+        store,
+      });
+      // This works when loading Chatbox
+      await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
+      await waitFor(
+        () => expect(wrapper.getByText('VA chatbot (beta)')).to.exist,
+      );
+
+      // TODO Load wrapper instead of chatbox
+      // something like this?
+      // const wrapper = renderInReduxProvider(
+      //  <WebChat token="fakeToken" WebChatFramework="TODO" apiSession="TODO" />,
+      //   store,
+      // );
+      // or
+      // const wrapper =  <WebChat token="fakeToken" WebChatFramework="TODO" apiSession="TODO" />
+      // when webchat is loaded, this should work instead of the above
+      // const button = wrapper.getByTitle('Speak');
     });
   });
 });
