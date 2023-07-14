@@ -117,7 +117,7 @@ const ReplyForm = props => {
           subject,
         };
         if (draft && replyToMessageId) {
-          messageData[`${'draft_id'}`] = replyMessage.messageId; // if replying to a thread that has a saved draft, set a draft_id field in a request body
+          messageData[`${'draft_id'}`] = replyToMessageId; // if replying to a thread that has a saved draft, set a draft_id field in a request body
         }
         messageData[`${'recipient_id'}`] = selectedRecipient;
         setIsAutosave(false);
@@ -126,7 +126,7 @@ const ReplyForm = props => {
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
 
-          dispatch(sendReply(replyMessage.messageId, sendData, true))
+          dispatch(sendReply(replyToMessageId, sendData, true))
             .then(() => {
               navigateToFolderByFolderId(
                 draftToEdit?.threadFolderId
