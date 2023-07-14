@@ -96,10 +96,7 @@ const ConditionDetails = () => {
             </h2>
             <p>{conditionDetails.name}</p>
             <h2 className="vads-u-margin-bottom--0">Provider comments</h2>
-            <ItemList
-              list={conditionDetails.comments}
-              emptyMessage="No comments at this time"
-            />
+            <ItemList list={conditionDetails.comments} />
           </div>
         </>
       );

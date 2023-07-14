@@ -80,6 +80,7 @@ const MessageDetailBlock = props => {
         <h1
           className="vads-u-margin-bottom--2"
           aria-label={`Message subject. ${categoryLabel}: ${subject}`}
+          data-dd-privacy="mask"
         >
           {categoryLabel}: {subject}
         </h1>
@@ -96,27 +97,33 @@ const MessageDetailBlock = props => {
         aria-label="Most recent message in this conversation"
       >
         <h2 className="sr-only">Most recent message in this conversation.</h2>
-        <div className="message-metadata" data-testid="message-metadata">
+        <div
+          className="message-metadata"
+          data-testid="message-metadata"
+          data-dd-privacy="mask"
+        >
           <h3 className="sr-only">Message details.</h3>
           <p>
             <strong>From: </strong>
-            {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
+            <span data-dd-privacy="mask">
+              {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
+            </span>
           </p>
           <p>
             <strong>To: </strong>
-            {recipientName}
+            <span data-dd-privacy="mask">{recipientName}</span>
           </p>
           <p>
             <strong>Date: </strong>
-            {dateFormat(sentDate)}
+            <span data-dd-privacy="mask">{dateFormat(sentDate)}</span>
           </p>
           <p>
             <strong>Message ID: </strong>
-            {messageId}
+            <span data-dd-privacy="mask">{messageId}</span>
           </p>
         </div>
 
-        <div className="message-body">
+        <div className="message-body" data-dd-privacy="mask">
           <h3 className="sr-only">Message body.</h3>
           <MessageThreadBody expanded text={body} />
         </div>

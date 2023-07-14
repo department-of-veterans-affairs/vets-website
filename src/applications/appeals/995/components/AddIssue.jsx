@@ -5,6 +5,8 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { focusElement } from 'platform/utilities/ui';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { getSelected, calculateIndexOffset } from '../utils/helpers';
@@ -83,12 +85,17 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
       { issue: issueName, decisionDate: issueDate },
     ],
   });
-  const showError = nameErrorMessage[0] || uniqueErrorMessage[0];
+
+  const showIssueNameError = nameErrorMessage[0] || uniqueErrorMessage[0];
+  const [invalidDate = '', invalidDateParts = ''] = dateErrorMessage || [];
+
+  const isInvalid = part =>
+    invalidDateParts.includes(part) || invalidDateParts.includes('other');
 
   // submit issue with validation
   const addOrUpdateIssue = () => {
     setSubmitted(true);
-    if (!showError && dateErrorMessage.length === 0) {
+    if (!showIssueNameError && !invalidDate) {
       const selectedCount =
         getSelected(data).length + (currentData[SELECTED] ? 0 : 1);
 
@@ -102,6 +109,15 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
       };
       setFormData({ ...data, additionalIssues: issues });
       goToPath(returnPath);
+    } else if (showIssueNameError) {
+      focusElement('input', {}, $('#issue-name')?.shadowRoot);
+    } else {
+      const date = $('va-memorable-date');
+      const monthInput = $('va-text-input.input-month', date?.shadowRoot);
+      if (monthInput) {
+        focusElement('input', {}, monthInput.shadowRoot);
+        $('input', monthInput.shadowRoot)?.select();
+      }
     }
   };
 
@@ -156,15 +172,15 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
         </legend>
         {content.description}
         <VaTextInput
-          id="add-sc-issue"
-          name="add-sc-issue"
+          id="issue-name"
+          name="issue-name"
           type="text"
           label={content.name.label}
           required
           value={issueName}
           onInput={handlers.onIssueNameChange}
           onBlur={handlers.onInputBlur}
-          error={((submitted || inputDirty) && showError) || null}
+          error={((submitted || inputDirty) && showIssueNameError) || null}
         >
           {content.name.hint}
         </VaTextInput>
@@ -175,31 +191,30 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
           name="decision-date"
           label={content.date.label}
           hint={content.date.hint}
-          class="vads-u-margin-top--0"
           required
           onDateChange={handlers.onDateChange}
           onDateBlur={handlers.onDateBlur}
           value={issueDate}
-          error={((submitted || dateDirty) && dateErrorMessage[0]) || null}
+          error={((submitted || dateDirty) && invalidDate) || null}
+          invalidMonth={isInvalid('month')}
+          invalidDay={isInvalid('day')}
+          invalidYear={isInvalid('year')}
           aria-describedby="decision-date-description"
         />
         <p>
-          <button
-            type="button"
+          <va-button
             id="cancel"
-            className="usa-button-secondary vads-u-width--auto"
+            secondary
+            class="vads-u-width--auto"
             onClick={handlers.onCancel}
-          >
-            {content.button.cancel}
-          </button>
-          <button
-            type="button"
+            text={content.button.cancel}
+          />
+          <va-button
             id="submit"
-            className="vads-u-width--auto"
+            class="vads-u-width--auto"
             onClick={handlers.onUpdate}
-          >
-            {content.button[addOrEdit]}
-          </button>
+            text={content.button[addOrEdit]}
+          />
         </p>
       </fieldset>
     </form>
@@ -211,6 +226,7 @@ AddIssue.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
+  onReviewPage: PropTypes.bool,
 };
 
 export default AddIssue;

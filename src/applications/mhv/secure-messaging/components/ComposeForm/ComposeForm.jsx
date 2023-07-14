@@ -368,7 +368,11 @@ const ComposeForm = props => {
         cancelButtonText={navigationError?.cancelButtonText}
         saveDraftHandler={saveDraftHandler}
       />
-      <div className="compose-form-header" data-testid="compose-form-header">
+      <div
+        className="compose-form-header"
+        data-testid="compose-form-header"
+        data-dd-privacy="mask"
+      >
         <h2 className="vads-u-margin--0 vads-u-font-size--lg">
           {setMessageTitle()}
         </h2>
@@ -386,6 +390,7 @@ const ComposeForm = props => {
               class="composeSelect"
               data-testid="compose-recipient-select"
               error={recipientError}
+              data-dd-privacy="mask"
             >
               {sortRecipients(recipientsList)?.map(item => (
                 <option key={item.id} value={item.id}>
@@ -446,6 +451,7 @@ const ComposeForm = props => {
             onInput={subjectHandler}
             value={subject}
             error={subjectError}
+            data-dd-privacy="mask"
           />
         </div>
         <div className="compose-form-div">
@@ -459,6 +465,7 @@ const ComposeForm = props => {
             onInput={messageBodyHandler}
             value={messageBody}
             error={bodyError}
+            data-dd-privacy="mask"
           />
         </div>
         <section className="attachments-section">

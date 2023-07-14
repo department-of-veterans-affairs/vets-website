@@ -10,6 +10,8 @@ import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
 
+import { useDatadogRum } from '../hooks/useDatadogRum';
+
 const App = () => {
   const user = useSelector(selectUser);
   const { featureTogglesLoading, appEnabled } = useSelector(
@@ -24,6 +26,9 @@ const App = () => {
     },
     state => state.featureToggles,
   );
+
+  useDatadogRum();
+
   if (featureTogglesLoading) {
     return (
       <div className="vads-l-grid-container">
