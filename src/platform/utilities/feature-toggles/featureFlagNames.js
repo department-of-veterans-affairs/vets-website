@@ -181,6 +181,7 @@ export default Object.freeze({
   vaOnlineSchedulingBreadcrumbUrlUpdate: 'va_online_scheduling_breadcrumb_url_update',
   vaOnlineSchedulingPrintList: 'va_online_scheduling_print_list',
   vaOnlineSchedulingDescriptiveBackLink: 'va_online_scheduling_descriptive_back_link',
+  vaOnlineSchedulingStaticLandingPage: 'va_online_scheduling_static_landing_page',
   vaViewDependentsAccess: 'va_view_dependents_access',
   virtualAgentShowFloatingChatbot: 'virtual_agent_show_floating_chatbot',
   virtualAgentVoice: 'virtual_agent_voice',
