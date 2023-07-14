@@ -6,7 +6,6 @@ import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
-import { getAllVaccines } from '../api/MrApi';
 import { RecordType, emptyField } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import {
@@ -48,7 +47,7 @@ const Vaccines = () => {
     [dispatch],
   );
 
-  const generateVaccinesPdf = async res => {
+  const generateVaccinesPdf = async () => {
     const pdfData = {
       headerLeft: name,
       headerRight: `Date of birth: ${dob}`,
@@ -65,7 +64,7 @@ const Vaccines = () => {
       },
     };
 
-    res.forEach(item => {
+    vaccines.forEach(item => {
       pdfData.results.items.push({
         header: item.name,
         items: [
@@ -76,18 +75,18 @@ const Vaccines = () => {
           },
           {
             title: 'Location',
-            value: item.facility || emptyField,
+            value: item.location || emptyField,
             inline: true,
           },
           {
             title: 'Reaction',
             value: processList(item.reactions),
-            inline: !item.reactions,
+            inline: !item.reactions.length,
           },
           {
             title: 'Provider notes',
-            value: processList(item.comments),
-            inline: !item.comments,
+            value: processList(item.notes),
+            inline: !item.notes.length,
           },
         ],
       });
@@ -98,10 +97,6 @@ const Vaccines = () => {
     } catch (error) {
       sendErrorToSentry(error, 'Vaccines');
     }
-  };
-
-  const download = () => {
-    getAllVaccines().then(res => generateVaccinesPdf(res));
   };
 
   const content = () => {
@@ -129,7 +124,7 @@ const Vaccines = () => {
         about your information, visit the FAQs or contact your VA Health care
         team.
       </p>
-      <PrintDownload list download={download} />
+      <PrintDownload list download={generateVaccinesPdf} />
 
       {content()}
     </div>

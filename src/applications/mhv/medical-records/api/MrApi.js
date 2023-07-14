@@ -2,7 +2,6 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import careSummariesAndNotes from '../tests/fixtures/careSummariesAndNotes.json';
-import vaccines from '../tests/fixtures/vaccines.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import allergies from '../tests/fixtures/allergies.json';
@@ -41,7 +40,7 @@ export const getLabOrTest = id => {
   }
   return new Promise(resolve => {
     setTimeout(() => {
-      const result = labsAndTests.find(lab => +lab.id === +id);
+      const result = labsAndTests.entry.find(lab => lab.id === id);
       resolve(result);
     }, 1000);
   });
@@ -172,22 +171,15 @@ export const getAllergy = id => {
  * @returns list of patient's vaccines in FHIR format
  */
 export const getVaccineList = () => {
-  if (environment.BUILDTYPE === 'localhost' && testing) {
-    return apiRequest(
-      // Temporarily hard-coding a patient ID for development.
-      `${apiBasePath}/medical_records/vaccines?patient_id=49006`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+  return apiRequest(
+    // Temporarily hard-coding a patient ID for development.
+    `${apiBasePath}/medical_records/vaccines?patient_id=2952`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(vaccines);
-    }, 1000);
-  });
+    },
+  );
 };
 
 /**
@@ -196,55 +188,9 @@ export const getVaccineList = () => {
  * @returns vaccine details in FHIR format
  */
 export const getVaccine = id => {
-  if (environment.BUILDTYPE === 'localhost' && testing) {
-    return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      const vaccine = vaccines.find(vac => +vac.id === +id);
-      resolve(vaccine);
-    }, 1000);
-  });
-};
-
-/**
- * Get a pdf of a list of all allergies
- * @returns json with base64 of a pdf
- */
-export const getAllAllergies = () => {
-  if (environment.BUILDTYPE === 'localhost' && testing) {
-    return apiRequest(`${apiBasePath}/medical_records/allergies/pdf`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(allergies);
-    }, 1000);
-  });
-};
-
-/**
- * Get a pdf of a list of all vaccines
- * @returns json with base64 of a pdf
- */
-export const getAllVaccines = () => {
-  if (environment.BUILDTYPE === 'localhost' && testing) {
-    return apiRequest(`${apiBasePath}/medical_records/vaccines/pdf`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(vaccines);
-    }, 1000);
+  return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 };

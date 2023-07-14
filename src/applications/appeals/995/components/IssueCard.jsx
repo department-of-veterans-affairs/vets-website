@@ -126,7 +126,6 @@ export const IssueCard = ({
 
   const removeButtonClass = [
     'remove-issue',
-    'usa-button-secondary',
     'vads-u-width--auto',
     'vads-u-margin-left--2',
     'vads-u-margin-top--0',
@@ -153,14 +152,13 @@ export const IssueCard = ({
         >
           Edit
         </Link>
-        <button
-          type="button"
-          className={removeButtonClass}
-          aria-label={`remove ${issueName}`}
+        <va-button
+          secondary
+          class={removeButtonClass}
+          label={`remove ${issueName}`}
           onClick={handlers.onRemove}
-        >
-          Remove
-        </button>
+          text="Remove"
+        />
       </div>
     ) : null;
 

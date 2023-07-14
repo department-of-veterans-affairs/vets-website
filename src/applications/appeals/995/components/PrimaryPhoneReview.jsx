@@ -28,14 +28,13 @@ const PrimaryPhoneReview = ({ data, editPage }) => {
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           {content.reviewTitle}
         </h4>
-        <button
-          type="button"
-          className="edit-page usa-button-secondary float-right"
+        <va-button
+          secondary
+          class="edit-page float-right"
           onClick={editPage}
-          aria-label={content.editLabel}
-        >
-          {content.edit}
-        </button>
+          label={content.editLabel}
+          text={content.edit}
+        />
       </div>
       <dl className="review">
         <div className="review-row">

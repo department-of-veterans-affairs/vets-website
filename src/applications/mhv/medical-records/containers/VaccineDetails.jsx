@@ -6,7 +6,6 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
 import {
-  typeAndDose,
   processList,
   nameFormat,
   dateFormat,
@@ -78,24 +77,19 @@ const VaccineDetails = () => {
           {
             items: [
               {
-                title: 'Date received',
-                value: vaccineDetails.date || emptyField,
-                inline: true,
-              },
-              {
                 title: 'Location',
-                value: vaccineDetails.facility || emptyField,
+                value: vaccineDetails.location || emptyField,
                 inline: true,
               },
               {
                 title: 'Reaction',
                 value: processList(vaccineDetails.reactions),
-                inline: !vaccineDetails.reactions,
+                inline: !vaccineDetails.reactions.length,
               },
               {
                 title: 'Provider notes',
-                value: processList(vaccineDetails.comments),
-                inline: !vaccineDetails.comments,
+                value: processList(vaccineDetails.notes),
+                inline: !vaccineDetails.notes.length,
               },
             ],
           },
@@ -120,30 +114,16 @@ const VaccineDetails = () => {
           <div className="detail-block max-80">
             <h2 className="vads-u-margin-top--0">Date received</h2>
             <p>{formattedDate}</p>
-            <h2>Type and dosage</h2>
-            <p>{typeAndDose(vaccineDetails.type, vaccineDetails.dosage)}</p>
-            <h2>Series</h2>
-            <p>
-              {vaccineDetails.series ||
-                'There is no series reported at this time'}
-            </p>
+            <h2>Manufacturer</h2>
+            <p>{vaccineDetails.manufacturer}</p>
             <h2>Location</h2>
-            <p>
-              {vaccineDetails.facility ||
-                'There is no facility reported at this time'}
-            </p>
+            <p>{vaccineDetails.location}</p>
             <h2 className="vads-u-margin-bottom--0">
               Reactions recorded by provider
             </h2>
-            <ItemList
-              list={vaccineDetails.reactions}
-              emptyMessage="None reported"
-            />
-            <h2 className="vads-u-margin-bottom--0">Provider comments</h2>
-            <ItemList
-              list={vaccineDetails.comments}
-              emptyMessage="No comments at this time"
-            />
+            <ItemList list={vaccineDetails.reactions} />
+            <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
+            <ItemList list={vaccineDetails.notes} />
           </div>
         </>
       );
