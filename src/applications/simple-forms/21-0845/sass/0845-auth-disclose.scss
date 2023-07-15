@@ -14,6 +14,11 @@ div:has(.schemaform-sip-alert) {
   margin-top: 4rem;
 }
 
+.dob-description {
+  color: $color-gray-medium;
+  margin-top: 0;
+}
+
 .row div[id^="root_organizationRepresentatives_"] > .row.small-collapse,
 .row div[id^="organizationRepresentatives_"] > .row.small-collapse {
   margin: 0 0 !important;
