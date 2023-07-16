@@ -23,11 +23,14 @@ function SponsorCheckboxGroup({
 }) {
   const [dirty, setDirty] = useState(false);
 
-  const onValueChange = ({ value }, checked) => {
+  const onValueChange = event => {
+    const {
+      target: { id, checked },
+    } = event;
     const _sponsors = updateSponsorsOnValueChange(
       sponsors,
       firstSponsor,
-      value,
+      id,
       checked,
     );
 
@@ -46,21 +49,20 @@ function SponsorCheckboxGroup({
     sponsors,
   );
 
-  const errorMsg =
-    !anySelectedOptions && (dirty || formContext?.submitted)
-      ? errorMessage
-      : '';
-
   return (
     <VaCheckboxGroup
       label="Which sponsor's benefits would you like to use?"
       hint="Select all sponsors whose benefits you would like to apply for."
-      onValueChange={onValueChange}
+      onVaChange={onValueChange}
       required
-      error={errorMsg}
+      error={
+        !anySelectedOptions && (dirty || formContext.submitted)
+          ? errorMessage
+          : ''
+      }
     >
-      {options.map(({ label, selected }) => (
-        <va-checkbox key={label} label={label} checked={selected} />
+      {options.map(({ label, value, selected }) => (
+        <va-checkbox id={value} key={label} label={label} checked={selected} />
       ))}
     </VaCheckboxGroup>
   );
