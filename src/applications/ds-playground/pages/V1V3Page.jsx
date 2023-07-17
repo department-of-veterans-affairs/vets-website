@@ -774,15 +774,7 @@ export default function V1V3Page() {
           <h3>Accordion</h3>
           <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--primary medium-screen:vads-u-display--flex">
             <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
-              <VaAccordion
-                section-heading={{
-                  value: 'null',
-                }}
-                uswds={{
-                  value: 'false',
-                }}
-                open-single
-              >
+              <VaAccordion open-single>
                 <VaAccordionItem id="first">
                   <h6 slot="headline">First Amendment Headline</h6>
                   Congress shall make no law respecting an establishment of
@@ -805,13 +797,7 @@ export default function V1V3Page() {
             </div>
 
             <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
-              <VaAccordion
-                section-heading={{
-                  value: 'null',
-                }}
-                uswds
-                open-single
-              >
+              <VaAccordion uswds open-single>
                 <VaAccordionItem header="First Amendment" id="first" uswds>
                   <p>
                     Congress shall make no law respecting an establishment of
