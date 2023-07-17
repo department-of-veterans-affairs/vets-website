@@ -83,11 +83,13 @@ const Vitals = () => {
   return (
     <div className="vaccines" id="vitals">
       <h1>Vitals</h1>
-      <p>Review vitals in your VA medical records</p>
-      <va-additional-info trigger="What to know about vitals">
-        This is some additional info about vitals, though we are waiting on the
-        Content Team to tell us what should be here...
-      </va-additional-info>
+      <section className="set-width-486">
+        <p>Review vitals in your VA medical records</p>
+        <va-additional-info trigger="What to know about vitals">
+          This is some additional info about vitals, though we are waiting on
+          the Content Team to tell us what should be here...
+        </va-additional-info>
+      </section>
       {content()}
     </div>
   );

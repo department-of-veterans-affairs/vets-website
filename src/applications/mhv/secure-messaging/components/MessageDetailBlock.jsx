@@ -6,8 +6,8 @@ import { format, addDays } from 'date-fns';
 import { useDispatch } from 'react-redux';
 import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
-import { Categories, Paths } from '../util/constants';
-import { dateFormat } from '../util/helpers';
+import { Categories, Paths, PageTitles } from '../util/constants';
+import { dateFormat, updatePageTitle } from '../util/helpers';
 import MessageThreadBody from './MessageThread/MessageThreadBody';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
@@ -62,14 +62,17 @@ const MessageDetailBlock = props => {
     [location.pathname, dispatch],
   );
 
+  const categoryLabel = Categories[category];
+
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
+      updatePageTitle(
+        `${categoryLabel}: ${subject} ${PageTitles.PAGE_TITLE_TAG}`,
+      );
     },
-    [message],
+    [categoryLabel, message, subject],
   );
-
-  const categoryLabel = Categories[category];
 
   return (
     <div className="message-detail-block">

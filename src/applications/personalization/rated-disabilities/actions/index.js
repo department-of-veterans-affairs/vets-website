@@ -71,7 +71,7 @@ export function fetchTotalDisabilityRating(recordAnalyticsEvent = recordEvent) {
       type: FETCH_TOTAL_RATING_STARTED,
     });
     const response = await getData('/disability_compensation_form/rating_info');
-    const source = response?.source;
+    const source = response?.sourceSystem;
     const sourceString = source ? ` - ${source}` : '';
     const apiName = `GET disability rating${sourceString}`;
 

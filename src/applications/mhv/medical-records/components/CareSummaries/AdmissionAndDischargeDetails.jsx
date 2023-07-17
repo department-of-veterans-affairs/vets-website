@@ -26,30 +26,29 @@ const AdmissionAndDischargeDetails = props => {
               {admissionDate} to {dischargeDate}
             </p>
           </div>
-
-          <p className="vads-u-margin-bottom--0">
-            Review a summary of your stay at a hospital or other health facility
-            (called an admission and discharge summary).
-          </p>
-
-          <div className="no-print">
-            <PrintDownload download={download} />
-            <va-additional-info trigger="What to know about downloading records">
-              <ul>
-                <li>
-                  <strong>If you’re on a public or shared computer,</strong>{' '}
-                  print your records instead of downloading. Downloading will
-                  save a copy of your records to the public computer.
-                </li>
-                <li>
-                  <strong>If you use assistive technology,</strong> a Text file
-                  (.txt) may work better for technology such as screen reader,
-                  screen enlargers, or Braille displays.
-                </li>
-              </ul>
-            </va-additional-info>
-          </div>
-
+          <section className="set-width-486">
+            <p className="vads-u-margin-bottom--0">
+              Review a summary of your stay at a hospital or other health
+              facility (called an admission and discharge summary).
+            </p>
+            <div className="no-print">
+              <PrintDownload download={download} />
+              <va-additional-info trigger="What to know about downloading records">
+                <ul>
+                  <li>
+                    <strong>If you’re on a public or shared computer,</strong>{' '}
+                    print your records instead of downloading. Downloading will
+                    save a copy of your records to the public computer.
+                  </li>
+                  <li>
+                    <strong>If you use assistive technology,</strong> a Text
+                    file (.txt) may work better for technology such as screen
+                    reader, screen enlargers, or Braille displays.
+                  </li>
+                </ul>
+              </va-additional-info>
+            </div>
+          </section>
           <div className="test-details-container max-80">
             <h2>Details</h2>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
