@@ -31,7 +31,7 @@ const MedicationsListSort = props => {
           const optionProperties = Object.keys(option);
           return (
             <option
-              key={`sort option ${i}`}
+              key={`option-${i}`}
               value={option[optionProperties[0]].value}
             >
               {option[optionProperties[0]].label}
