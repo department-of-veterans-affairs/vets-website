@@ -4,19 +4,15 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
 export const relationshipToVeteranUI = (
   relationshipToVeteranTitle,
   otherRelationshipToVeteranTitle,
+  customLabels,
+  otherRelationshipKey,
 ) => {
   return {
     relationshipToVeteran: radioUI({
       title:
         relationshipToVeteranTitle ??
         'What’s your relationship to the veteran?',
-      labels: {
-        spouse: 'Spouse',
-        child: 'Child',
-        parent: 'Parent',
-        executor: 'Executor/Administrator of Estate',
-        other: 'A relationship not listed here',
-      },
+      labels: customLabels,
     }),
     otherRelationshipToVeteran: {
       'ui:title':
@@ -25,7 +21,7 @@ export const relationshipToVeteranUI = (
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'relationshipToVeteran',
-        expandUnderCondition: 'other',
+        expandUnderCondition: otherRelationshipKey,
       },
     },
     'ui:options': {
@@ -44,19 +40,15 @@ export const relationshipToVeteranUI = (
   };
 };
 
-export const relationshipToVeteranSchema = {
-  type: 'object',
-  properties: {
-    relationshipToVeteran: radioSchema([
-      'spouse',
-      'child',
-      'parent',
-      'executor',
-      'other',
-    ]),
-    otherRelationshipToVeteran: {
-      type: 'string',
+export const relationshipToVeteranSchema = customLabels => {
+  return {
+    type: 'object',
+    properties: {
+      relationshipToVeteran: radioSchema(Object.keys(customLabels)),
+      otherRelationshipToVeteran: {
+        type: 'string',
+      },
     },
-  },
-  required: ['relationshipToVeteran'],
+    required: ['relationshipToVeteran'],
+  };
 };
