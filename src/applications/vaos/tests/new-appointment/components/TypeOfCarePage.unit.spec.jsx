@@ -41,7 +41,7 @@ const initialState = {
 describe('VAOS <TypeOfCarePage>', () => {
   beforeEach(() => mockFetch());
 
-  it.skip('should open facility type page when CC eligible and has a supported parent site', async () => {
+  it('should open facility type page when CC eligible and has a supported parent site', async () => {
     mockVAOSParentSites(
       ['983'],
       [
