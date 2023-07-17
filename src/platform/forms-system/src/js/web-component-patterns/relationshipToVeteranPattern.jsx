@@ -1,6 +1,14 @@
 import { radioUI, radioSchema } from './radioPattern';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 
+const defaultLabels = {
+  spouse: 'Spouse',
+  child: 'Child',
+  parent: 'Parent',
+  executor: 'Executor/Administrator of Estate',
+  other: 'A relationship not listed here',
+};
+
 export const relationshipToVeteranUI = (
   relationshipToVeteranTitle,
   otherRelationshipToVeteranTitle,
@@ -12,7 +20,7 @@ export const relationshipToVeteranUI = (
       title:
         relationshipToVeteranTitle ??
         'What’s your relationship to the veteran?',
-      labels: customLabels,
+      labels: customLabels ?? defaultLabels,
     }),
     otherRelationshipToVeteran: {
       'ui:title':
@@ -21,7 +29,7 @@ export const relationshipToVeteranUI = (
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'relationshipToVeteran',
-        expandUnderCondition: otherRelationshipKey,
+        expandUnderCondition: otherRelationshipKey ?? 'other',
       },
     },
     'ui:options': {
@@ -41,10 +49,13 @@ export const relationshipToVeteranUI = (
 };
 
 export const relationshipToVeteranSchema = customLabels => {
+  const labelKeys = customLabels
+    ? Object.keys(customLabels)
+    : Object.keys(defaultLabels);
   return {
     type: 'object',
     properties: {
-      relationshipToVeteran: radioSchema(Object.keys(customLabels)),
+      relationshipToVeteran: radioSchema(labelKeys),
       otherRelationshipToVeteran: {
         type: 'string',
       },
