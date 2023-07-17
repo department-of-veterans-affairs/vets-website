@@ -122,6 +122,21 @@ const otherOrders = avs => {
   return null;
 };
 
+const patientInstructions = avs => {
+  if (avs.data.patientInstructions) {
+    return (
+      <div>
+        <h4>Other instructions</h4>
+        {/* TODO: better way to do this */}
+        {/* eslint-disable-next-line react/no-danger */}
+        <p dangerouslySetInnerHTML={{ __html: avs.data.patientInstructions }} />
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const YourTreatmentPlan = props => {
   const { avs } = props;
 
@@ -134,6 +149,7 @@ const YourTreatmentPlan = props => {
       {labTests(avs)}
       {medsAndSupplies(avs)}
       {otherOrders(avs)}
+      {patientInstructions(avs)}
     </div>
   );
 };
