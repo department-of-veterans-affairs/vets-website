@@ -72,7 +72,11 @@ const responses = {
             profileUseInfoCard: true,
             profileUseFieldEditingPage: true,
             profileLighthouseDirectDeposit: true,
-            profileUseNotificationSettingsCheckboxes: true,
+            profileUseNotificationSettingsCheckboxes: false,
+            profileShowEmailNotificationSettings: false,
+            profileShowMhvNotificationSettings: false,
+            profileShowPaymentsNotificationSetting: false,
+            profileShowQuickSubmitNotificationSetting: false,
           }),
         ),
       0,
@@ -87,7 +91,7 @@ const responses = {
     // This is a 'normal' payment history / control case data
     // paymentInformation.base
 
-    return res.status(200).json(paymentInformation.base);
+    return res.status(200).json(paymentInformation.notEligible);
   },
   'PUT /v0/ppiu/payment_information': (_req, res) => {
     // substitute the various errors arrays to test various update error responses

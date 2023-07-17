@@ -65,15 +65,14 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
           {content.summaryTitle}
         </h4>
-        <button
-          type="button"
+        <va-button
           ref={editRef}
-          className="edit-page usa-button-secondary"
+          secondary
+          class="edit-page"
           onClick={handlers.onEditPage}
-          aria-label={content.editLabel}
-        >
-          {content.edit}
-        </button>
+          label={content.editLabel}
+          text={content.edit}
+        />
       </div>
 
       {noEvidence ? (

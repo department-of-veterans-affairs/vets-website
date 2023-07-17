@@ -59,6 +59,9 @@ const AttachmentsList = props => {
   };
   return (
     <div>
+      <div className="message-body-attachments-label">
+        <strong>Attachments</strong>
+      </div>
       <ul className="attachments-list">
         {!!attachments.length &&
           attachments.map(file => (
@@ -66,6 +69,7 @@ const AttachmentsList = props => {
               {editingEnabled && (
                 <div className="editable-attachment vads-u-display--flex vads-u-flex-direction--row">
                   <span
+                    data-dd-privacy="mask"
                     ref={attachmentReference}
                     className="vads-u-flex--1"
                     role="alert"
@@ -123,7 +127,11 @@ const AttachmentsList = props => {
                       aria-hidden="true"
                       alt="Attachment icon"
                     />
-                    <span id="has-attachment" ref={attachmentReference}>
+                    <span
+                      id="has-attachment"
+                      ref={attachmentReference}
+                      data-dd-privacy="mask"
+                    >
                       {file.name}
                     </span>
                     ({getSize(file.size || file.attachmentSize)})
@@ -153,6 +161,7 @@ const AttachmentsList = props => {
             aria-live="polite"
             className="sr-only"
             id="attachment-removed-successfully"
+            data-dd-privacy="mask"
           >
             {`File ${removedAttachmentName} successfully removed. Attach file, button.`}
           </div>

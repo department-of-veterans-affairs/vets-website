@@ -253,6 +253,7 @@ const baseState = {
   featureToggles: {
     [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: true,
     [TOGGLE_NAMES.profileShowMhvNotificationSettings]: true,
+    [TOGGLE_NAMES.profileShowEmailNotificationSettings]: true,
   },
   communicationPreferences: mockCommunicationPreferencesState,
 };

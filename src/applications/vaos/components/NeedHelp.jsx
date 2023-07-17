@@ -4,7 +4,7 @@ import NewTabAnchor from './NewTabAnchor';
 
 export default function NeedHelp() {
   return (
-    <div className="vads-u-margin-top--9 vads-u-margin-bottom--3 vaos-hide-for-print">
+    <div className="vads-u-margin-top--9 vads-u-margin-bottom--3">
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
         Need help?
       </h2>
