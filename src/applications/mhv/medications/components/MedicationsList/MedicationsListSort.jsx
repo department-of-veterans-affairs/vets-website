@@ -1,33 +1,30 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { rxListSortingOptions } from '../../util/constants';
 
-const ACTIVE_REFILL_DESC = 'Active, refillable first';
-const SORT_LABEL = 'Show medications in this order';
-
+let sortOrderValue;
 const MedicationsListSort = props => {
-  const { setSortOption } = props;
-
-  const [sortOrderValue, setSortOrderValue] = useState(ACTIVE_REFILL_DESC);
+  const { setSortOption, sortOption, defaultSortOption } = props;
 
   useEffect(
     () => {
-      if (sortOrderValue) {
+      if (sortOption) {
         setSortOption(sortOrderValue);
       }
     },
-    [setSortOption, sortOrderValue],
+    [setSortOption, sortOption],
   );
+
   return (
     <div className="medications-list-sort">
       <VaSelect
         id="sort-order-dropdown"
-        label={SORT_LABEL}
+        label="Show medications in this order"
         name="sort-order"
-        value={{ sortOrderValue }}
+        value={defaultSortOption}
         onVaSelect={e => {
-          setSortOrderValue(e.detail.value);
+          setSortOption(e.detail.value);
         }}
       >
         {rxListSortingOptions.map((option, i) => {
@@ -36,9 +33,6 @@ const MedicationsListSort = props => {
             <option
               key={`sort option ${i}`}
               value={option[optionProperties[0]].value}
-              onVaSelect={e => {
-                setSortOption(e.detail.value);
-              }}
             >
               {option[optionProperties[0]].label}
             </option>
@@ -50,7 +44,9 @@ const MedicationsListSort = props => {
 };
 
 MedicationsListSort.propTypes = {
+  defaultSortOption: PropTypes.func,
   setSortOption: PropTypes.func,
+  sortOption: PropTypes.string,
 };
 
 export default MedicationsListSort;

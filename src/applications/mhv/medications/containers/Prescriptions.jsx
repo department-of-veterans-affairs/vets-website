@@ -9,26 +9,33 @@ import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintHeader from './PrintHeader';
+import { rxListSortingOptions } from '../util/constants';
 
 const Prescriptions = () => {
   const currentDate = new Date();
   const prescriptions = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
   );
+  const defaultSortOption = rxListSortingOptions[0].ACTIVE.value;
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
 
   const dispatch = useDispatch();
   const [pdfList, setPdfList] = useState([]);
-  const [sortOption, setSortOption] = useState();
+  const [sortOption, setSortOption] = useState('');
 
-  const sortRxList = () => {
-    const newList = [...prescriptions];
-    newList.sort(a => {
-      return a.refillStatus.toLowerCase() === sortOption.toLowerCase() ? -1 : 0;
-    });
-    dispatch(setSortedRxList(newList));
-  };
+  const sortRxList = useCallback(
+    () => {
+      const newList = [...prescriptions];
+      newList.sort(a => {
+        return a.refillStatus.toLowerCase() === sortOption.toLowerCase()
+          ? -1
+          : 0;
+      });
+      dispatch(setSortedRxList(newList));
+    },
+    [dispatch, prescriptions, sortOption],
+  );
 
   const buildPrescriptionPDFList = useCallback(
     () => {
@@ -130,14 +137,14 @@ const Prescriptions = () => {
     [buildPrescriptionPDFList, prescriptions],
   );
 
-  // useEffect(
-  //   () => {
-  //     if (sortOption) {
-  //       sortRxList();
-  //     }
-  //   },
-  //   [sortOption, sortRxList],
-  // );
+  useEffect(
+    () => {
+      if (sortOption) {
+        sortRxList();
+      }
+    },
+    [sortOption, sortRxList],
+  );
 
   const pdfData = {
     headerLeft: `${userName.last}, ${userName.first}`,
@@ -226,7 +233,12 @@ const Prescriptions = () => {
                   </li>
                 </ul>
               </va-additional-info>
-              <MedicationsListSort setSortOption={setSortOption} />
+              <MedicationsListSort
+                setSortOption={setSortOption}
+                handleSortRxList={handleSortRxList}
+                sortOption={sortOption}
+                defaultSortOption={defaultSortOption}
+              />
               <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
             </div>
             {prescriptions ? (
