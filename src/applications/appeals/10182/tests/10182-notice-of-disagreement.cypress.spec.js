@@ -44,6 +44,17 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(testData => {
+            cy.findByText('Continue', { selector: 'button' }).click();
+            // prevent continuing without any issues selected
+            cy.location('pathname').should(
+              'eq',
+              `${BASE_URL}/${CONTESTABLE_ISSUES_PATH}`,
+            );
+            cy.get('va-alert[status="error"] h3').should(
+              'contain',
+              'You’ll need to select an issue',
+            );
+
             testData.additionalIssues?.forEach(additionalIssue => {
               if (additionalIssue.issue && additionalIssue[SELECTED]) {
                 cy.get('.add-new-issue').click();
