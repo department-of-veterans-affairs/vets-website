@@ -81,7 +81,7 @@ const SpouseEmploymentHistorySummaryReview = ({ data }) => {
           >
             <div className="form-review-panel-page-header-row">
               <h4 className="vads-u-font-size--h5">
-                {job.type} at {job.employerName}
+                Spouse’s {job.type} employment at {job.employerName}
               </h4>
             </div>
             <dl>{renderEmploymentHistory(job, index)}</dl>
