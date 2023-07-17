@@ -48,11 +48,11 @@ const Avs = () => {
   );
 
   if (loading) {
-    // TODO: add loading indicator.
     return (
-      <div>
-        <h1>Loading Avs</h1>
-      </div>
+      <va-loading-indicator
+        data-testid="loading-indicator"
+        message="Loading your After-visit Summary"
+      />
     );
   }
 
