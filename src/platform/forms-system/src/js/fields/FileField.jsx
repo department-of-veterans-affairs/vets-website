@@ -388,7 +388,7 @@ const FileField = props => {
 
   const deleteThenAddFile = index => {
     removeFile(index, false);
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
   const getRetryFunction = (allowRetry, index, file) => {
@@ -460,7 +460,9 @@ const FileField = props => {
                 scrollToFirstError();
                 if (enableShortWorkflow) {
                   const retryButton = $(`[name="retry_upload_${index}"]`);
-                  focusElement('button', {}, retryButton?.shadowRoot);
+                  if (retryButton) {
+                    focusElement('button', {}, retryButton?.shadowRoot);
+                  }
                 } else if (showPasswordInput) {
                   focusElement(`#${fileListId} .usa-input-error-message`);
                 } else {
@@ -470,8 +472,10 @@ const FileField = props => {
             } else if (showPasswordInput) {
               setTimeout(() => {
                 const passwordInput = $(`[name="get_password_${index}"]`);
-                focusElement('input', null, passwordInput.shadowRoot);
-                scrollTo(`get_password_${index}"]`);
+                if (passwordInput) {
+                  focusElement('input', {}, passwordInput?.shadowRoot);
+                  scrollTo(`get_password_${index}"]`);
+                }
               }, 100);
             }
 
