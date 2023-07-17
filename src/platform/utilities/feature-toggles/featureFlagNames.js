@@ -67,6 +67,7 @@ export default Object.freeze({
     'facility_locator_show_operational_hours_special_instructions',
   findFormsShowPdfModal: 'find_forms_show_pdf_modal',
   fileUploadShortWorkflowEnabled: 'file_upload_short_workflow_enabled',
+  financialStatusReportStreamlinedWaiver: 'financial_status_report_streamlined_waiver',
   form10182Nod: 'form10182_nod',
   form2110210: 'form2110210',
   form214142: 'form214142',
