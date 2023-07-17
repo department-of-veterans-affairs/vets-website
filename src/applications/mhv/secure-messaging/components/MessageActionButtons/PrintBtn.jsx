@@ -87,14 +87,11 @@ const PrintBtn = props => {
                 data-testid="radio-print-all-messages"
                 style={{ display: 'flex' }}
                 aria-label={`Print all messages in this conversation (${messageThreadCount} messages)`}
-                label="Print all messages in this conversation"
+                label={`Print all messages in this conversation (${messageThreadCount} messages)`}
                 value={PrintMessageOptions.PRINT_THREAD}
                 name="all-messages"
               />
             </VaRadio>
-            <p>
-              <strong>{`(${messageThreadCount} messages)`}</strong>
-            </p>
           </div>
         </VaModal>
       </div>
