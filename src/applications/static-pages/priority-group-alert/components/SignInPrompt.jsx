@@ -1,16 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring';
-import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
+import PropTypes from 'prop-types';
 
-const SignInPrompt = () => {
-  const dispatch = useDispatch();
-  const handleSignInClick = () => {
-    recordEvent({ event: AUTH_EVENTS.LOGIN });
-    dispatch(toggleLoginModal(true));
-  };
-
+const SignInPrompt = ({ handleSignInClick }) => {
   return (
     <va-alert
       close-btn-aria-label="Close notification"
@@ -34,6 +25,10 @@ const SignInPrompt = () => {
       </div>
     </va-alert>
   );
+};
+
+SignInPrompt.propTypes = {
+  handleSignInClick: PropTypes.func,
 };
 
 export default SignInPrompt;
