@@ -45,9 +45,7 @@ describe('<ContestableIssuesWidget>', () => {
     const addLength = props.additionalIssues.length;
     const link = $$('a.edit-issue-link', container);
     expect(link.length).to.equal(addLength);
-    expect($$('button.remove-issue').length).to.equal(
-      props.additionalIssues.length,
-    );
+    expect($$('va-button').length).to.equal(props.additionalIssues.length);
   });
 
   it('should wrap the checkboxes in a fieldset', () => {

@@ -10,6 +10,7 @@ import MedicationsListSort from '../components/MedicationsList/MedicationsListSo
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintHeader from './PrintHeader';
 import { rxListSortingOptions } from '../util/constants';
+import PrintDownload from '../components/shared/PrintDownload';
 
 const Prescriptions = () => {
   const currentDate = new Date();
@@ -183,39 +184,7 @@ const Prescriptions = () => {
           </div>
           <div className="landing-page-content">
             <div className="no-print">
-              <button
-                type="button"
-                className="link-button vads-u-display--block vads-u-margin-bottom--2"
-                data-testid="print-records-button"
-                onClick={() => window.print()}
-              >
-                <i
-                  aria-hidden="true"
-                  className="fas fa-print vads-u-margin-right--0p5"
-                />
-                Print medication list
-              </button>
-              <button
-                onClick={handleDownloadPDF}
-                type="button"
-                className="link-button vads-u-display--block vads-u-margin-bottom--2"
-              >
-                <i
-                  aria-hidden="true"
-                  className="fas fa-download vads-u-margin-right--0p5"
-                />
-                Download list as a PDF
-              </button>
-              <button
-                type="button"
-                className="link-button vads-u-display--block vads-u-margin-bottom--2"
-              >
-                <i
-                  aria-hidden="true"
-                  className="fas fa-download vads-u-margin-right--0p5"
-                />
-                Download list as a Text file
-              </button>
+              <PrintDownload download={handleDownloadPDF} list />
               <va-additional-info trigger="What to know about downloading records">
                 <ul>
                   <li>

@@ -191,6 +191,7 @@ const ManageFolderButtons = () => {
         onCloseEvent={closeRenameModal}
       >
         <VaTextInput
+          data-dd-privacy="mask"
           ref={folderNameInput}
           label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
           value={folderName}

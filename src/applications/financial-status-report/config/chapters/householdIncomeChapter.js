@@ -47,6 +47,7 @@ import DependentAges from '../../components/DependentAges';
 import DependentAgesReview from '../../components/DependentAgesReview';
 import EmploymentWorkDates from '../../components/EmploymentWorkDates';
 import SpouseEmploymentWorkDates from '../../components/SpouseEmploymentWorkDates';
+import OtherIncomeSummaryReview from '../../components/otherIncome/OtherIncomeSummaryReview';
 
 export default {
   householdIncomeChapter: {
@@ -242,7 +243,7 @@ export default {
         path: 'other-income-summary',
         title: 'Other income summary',
         CustomPage: OtherIncomeSummary,
-        CustomPageReview: null,
+        CustomPageReview: OtherIncomeSummaryReview,
         editModeOnReviewPage: true,
         uiSchema: {},
         schema: { type: 'object', properties: {} },
@@ -473,7 +474,7 @@ export default {
         path: 'spouse-other-income-summary',
         title: 'Spouse other income summary',
         CustomPage: SpouseOtherIncomeSummary,
-        CustomPageReview: null,
+        CustomPageReview: OtherIncomeSummaryReview,
         editModeOnReviewPage: true,
         uiSchema: {},
         schema: { type: 'object', properties: {} },

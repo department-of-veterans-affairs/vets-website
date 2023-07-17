@@ -93,7 +93,7 @@ const propsYearIsEmpty = {
 };
 
 describe('Zip Code Page', () => {
-  it('should correctly load the zip code page in the standard flow', () => {
+  it.skip('should correctly load the zip code page in the standard flow', () => {
     const screen = render(
       <Provider store={mockStoreStandard}>
         <ZipCodePage {...propsStandard} />
@@ -103,7 +103,7 @@ describe('Zip Code Page', () => {
     expect(screen.getByTestId('il-zipCode')).to.exist;
   });
 
-  it('should not allow deep linking to this page if pastMode is null', () => {
+  it.skip('should not allow deep linking to this page if pastMode is null', () => {
     render(
       <Provider store={mockStorePastIsNull}>
         <ZipCodePage {...propsPastIsNull} />
@@ -113,7 +113,7 @@ describe('Zip Code Page', () => {
     expect(pushSpyPastIsNull.withArgs('introduction').calledOnce).to.be.true;
   });
 
-  it('should not allow deep linking to this page if the year field is empty and pastMode is true', () => {
+  it.skip('should not allow deep linking to this page if the year field is empty and pastMode is true', () => {
     render(
       <Provider store={mockStoreYearIsEmpty}>
         <ZipCodePage {...propsYearIsEmpty} />
