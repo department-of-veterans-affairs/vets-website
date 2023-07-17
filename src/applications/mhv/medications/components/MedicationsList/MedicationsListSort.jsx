@@ -44,7 +44,7 @@ const MedicationsListSort = props => {
 };
 
 MedicationsListSort.propTypes = {
-  defaultSortOption: PropTypes.func,
+  defaultSortOption: PropTypes.string,
   setSortOption: PropTypes.func,
   sortOption: PropTypes.string,
 };

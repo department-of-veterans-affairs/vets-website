@@ -168,10 +168,6 @@ const Prescriptions = () => {
     generateMedicationsPDF('medicalRecords', 'rx_list', pdfData);
   };
 
-  const handleSortRxList = () => {
-    sortRxList();
-  };
-
   const content = () => {
     if (prescriptions) {
       return (
@@ -201,7 +197,6 @@ const Prescriptions = () => {
               </va-additional-info>
               <MedicationsListSort
                 setSortOption={setSortOption}
-                handleSortRxList={handleSortRxList}
                 sortOption={sortOption}
                 defaultSortOption={defaultSortOption}
               />
