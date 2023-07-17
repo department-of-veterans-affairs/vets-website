@@ -368,8 +368,14 @@ const ComposeForm = props => {
         cancelButtonText={navigationError?.cancelButtonText}
         saveDraftHandler={saveDraftHandler}
       />
-      <div className="compose-form-header" data-testid="compose-form-header">
-        <h3>{setMessageTitle()}</h3>
+      <div
+        className="compose-form-header"
+        data-testid="compose-form-header"
+        data-dd-privacy="mask"
+      >
+        <h2 className="vads-u-margin--0 vads-u-font-size--lg">
+          {setMessageTitle()}
+        </h2>
       </div>
       <div className="compose-inputs-container">
         {recipientsList && (
@@ -384,6 +390,7 @@ const ComposeForm = props => {
               class="composeSelect"
               data-testid="compose-recipient-select"
               error={recipientError}
+              data-dd-privacy="mask"
             >
               {sortRecipients(recipientsList)?.map(item => (
                 <option key={item.id} value={item.id}>
@@ -444,6 +451,7 @@ const ComposeForm = props => {
             onInput={subjectHandler}
             value={subject}
             error={subjectError}
+            data-dd-privacy="mask"
           />
         </div>
         <div className="compose-form-div">
@@ -457,6 +465,7 @@ const ComposeForm = props => {
             onInput={messageBodyHandler}
             value={messageBody}
             error={bodyError}
+            data-dd-privacy="mask"
           />
         </div>
         <section className="attachments-section">
@@ -474,11 +483,11 @@ const ComposeForm = props => {
             setAttachments={setAttachments}
           />
         </section>
-        <DraftSavedInfo userSaved={userSaved} />
+        <DraftSavedInfo userSaved={userSaved} attachments={attachments} />
         <div className="compose-form-actions vads-u-display--flex">
           <va-button
             text="Send"
-            class="vads-u-flex--1 send-button"
+            class="vads-u-flex--1 send-button vads-u-margin-bottom--1"
             data-testid="Send-Button"
             onClick={sendMessageHandler}
           />
@@ -486,19 +495,18 @@ const ComposeForm = props => {
             id="save-draft-button"
             text="Save draft"
             secondary
-            class="vads-u-flex--1 save-draft-button"
+            class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1"
             data-testid="Save-Draft-Button"
             onClick={e => saveDraftHandler('manual', e)}
           />
-          <div className="vads-u-flex--1">
-            {draft && (
-              <DeleteDraft
-                draft={draft}
-                setLastFocusableElement={setLastFocusableElement}
-                setNavigationError={setNavigationError}
-              />
-            )}
-          </div>
+
+          {draft && (
+            <DeleteDraft
+              draftId={draft.messageId}
+              setLastFocusableElement={setLastFocusableElement}
+              setNavigationError={setNavigationError}
+            />
+          )}
         </div>
       </div>
     </form>

@@ -1,6 +1,7 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import CustomReviewField from '../../../components/FormReview/CustomReviewField';
+
+import { validateCurrency } from '../../../utils/validation';
 import {
   GrossIncomeDescription,
   NetIncomeDescription,
@@ -13,34 +14,67 @@ const {
   spouseOtherIncome,
 } = fullSchemaHca.properties;
 
+const date = new Date();
+const lastYear = date.getFullYear() - 1;
+
 export default {
   uiSchema: {
-    'ui:title': 'Spouse\u2019s Annual income',
-    spouseGrossIncome: {
-      ...currencyUI('Spouse\u2019s gross annual income from employment'),
+    'ui:title': `Spouse\u2019s annual income from ${lastYear}`,
+    'view:spouseGrossIncome': {
+      'ui:title': 'Gross income from work',
       'ui:description': GrossIncomeDescription,
-      'ui:reviewField': CustomReviewField,
+      spouseGrossIncome: {
+        ...currencyUI(
+          `Enter your spouse\u2019s gross annual income from ${lastYear}`,
+        ),
+        'ui:validations': [validateCurrency],
+      },
     },
-    spouseNetIncome: {
-      ...currencyUI(
-        'Spouse\u2019s net income from your farm, ranch, property or business',
-      ),
+    'view:spouseNetIncome': {
+      'ui:title': 'Net income from a farm, property, or business',
       'ui:description': NetIncomeDescription,
-      'ui:reviewField': CustomReviewField,
+      spouseNetIncome: {
+        ...currencyUI(
+          `Enter your spouse\u2019s net annual income from a farm, ranch, property or business from ${lastYear}`,
+        ),
+        'ui:validations': [validateCurrency],
+      },
     },
-    spouseOtherIncome: {
-      ...currencyUI('Spouse\u2019s other income'),
+    'view:spouseOtherIncome': {
+      'ui:title': 'Other income',
       'ui:description': OtherIncomeDescription,
-      'ui:reviewField': CustomReviewField,
+      spouseOtherIncome: {
+        ...currencyUI(
+          `Enter your spouse\u2019s other annual income from ${lastYear}`,
+        ),
+        'ui:validations': [validateCurrency],
+      },
     },
   },
   schema: {
     type: 'object',
-    required: ['spouseGrossIncome', 'spouseNetIncome', 'spouseOtherIncome'],
     properties: {
-      spouseGrossIncome,
-      spouseNetIncome,
-      spouseOtherIncome,
+      'view:spouseGrossIncome': {
+        type: 'object',
+        required: ['spouseGrossIncome'],
+        properties: {
+          spouseGrossIncome,
+        },
+      },
+      'view:spouseNetIncome': {
+        type: 'object',
+        required: ['spouseNetIncome'],
+        properties: {
+          spouseNetIncome,
+        },
+      },
+      'view:spouseOtherIncome': {
+        type: 'object',
+        required: ['spouseOtherIncome'],
+        properties: {
+          spouseOtherIncome,
+        },
+      },
     },
   },
 };

@@ -334,11 +334,24 @@ const responses = {
       data: facilitiesV2.data.filter(
         facility =>
           ids.includes(facility.id) ||
-          (children && ids.some(id => facility.id.startsWith(id))),
+          (children === 'true' && ids.some(id => facility.id.startsWith(id))),
       ),
     });
   },
-  'GET /vaos/v2/locations/:facility_id/clinics/:clinic_id/slots': appointmentSlotsV2,
+  'GET /vaos/v2/locations/:facility_id/clinics/:clinic_id/slots': (
+    req,
+    res,
+  ) => {
+    const start = moment(req.query.start);
+    const end = moment(req.query.end);
+    const slots = appointmentSlotsV2.data.filter(slot => {
+      const slotStartDate = moment(slot.attributes.start);
+      return slotStartDate.isBetween(start, end, '[]');
+    });
+    return res.json({
+      data: slots,
+    });
+  },
   'GET /vaos/v2/patients': (req, res) => {
     return res.json({
       data: {
@@ -627,6 +640,9 @@ const responses = {
         { name: 'vaOnlineSchedulingUseDsot', value: true },
         { name: 'vaOnlineSchedulingRequestFlowUpdate', value: true },
         { name: 'vaOnlineSchedulingConvertUtcToLocal', value: false },
+        { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: false },
+        { name: 'vaOnlineSchedulingPrintList', value: true },
+        { name: 'va_online_scheduling_descriptive_back_link', value: true },
         { name: 'selectFeaturePocTypeOfCare', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },

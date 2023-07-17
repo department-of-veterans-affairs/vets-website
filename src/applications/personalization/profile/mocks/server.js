@@ -16,6 +16,7 @@ const {
 } = require('./endpoints/personal-information');
 const {
   maximalSetOfPreferences,
+  generateSuccess,
 } = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 const paymentInformation = require('./endpoints/payment-information');
@@ -70,8 +71,12 @@ const responses = {
           generateFeatureToggles({
             profileUseInfoCard: true,
             profileUseFieldEditingPage: true,
-            profileShowMhvNotificationSettings: false,
             profileLighthouseDirectDeposit: true,
+            profileUseNotificationSettingsCheckboxes: false,
+            profileShowEmailNotificationSettings: false,
+            profileShowMhvNotificationSettings: false,
+            profileShowPaymentsNotificationSetting: false,
+            profileShowQuickSubmitNotificationSetting: false,
           }),
         ),
       0,
@@ -86,7 +91,7 @@ const responses = {
     // This is a 'normal' payment history / control case data
     // paymentInformation.base
 
-    return res.status(200).json(paymentInformation.base);
+    return res.status(200).json(paymentInformation.notEligible);
   },
   'PUT /v0/ppiu/payment_information': (_req, res) => {
     // substitute the various errors arrays to test various update error responses
@@ -200,6 +205,30 @@ const responses = {
   'GET /v0/profile/communication_preferences': (_req, res) => {
     return res.json(maximalSetOfPreferences);
   },
+  'PATCH /v0/profile/communication_preferences/:pref': (req, res) => {
+    const {
+      communicationItem: {
+        id: communicationItemId,
+        communicationChannel: {
+          id: communicationChannelId,
+          communicationPermission: { allowed },
+        },
+      },
+    } = req.body;
+
+    const mockedRes = _.cloneDeep(generateSuccess());
+
+    _.merge(mockedRes, {
+      bio: {
+        communicationItemId,
+        communicationChannelId,
+        allowed,
+      },
+    });
+
+    delaySingleResponse(() => res.json(mockedRes), 1);
+  },
+
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
 };
 

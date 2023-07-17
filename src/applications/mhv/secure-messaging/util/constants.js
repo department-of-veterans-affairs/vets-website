@@ -33,6 +33,9 @@ export const DefaultFolders = {
     header: 'Trash',
     desc: `These are the messages you moved to the trash from your inbox or folders. We won't permanently delete any messages.`,
   },
+  CUSTOM_FOLDER: {
+    desc: `This is a folder you created. You can add conversations to this folder by moving them from your inbox or other folders.`,
+  },
 };
 
 export const ErrorMessages = {
@@ -154,7 +157,8 @@ export const Alerts = {
 
 export const Errors = {
   Code: {
-    BLOCKED_USER: 'SM151',
+    BLOCKED_USER: 'SM119',
+    BLOCKED_USER2: 'SM151',
   },
 };
 
@@ -169,6 +173,11 @@ export const Links = {
 };
 
 export const Prompts = {
+  Attachment: {
+    REMOVE_ATTACHMENT_TITLE: 'Are you sure you want to remove this attachment?',
+    REMOVE_ATTACHMENT_CONTENT:
+      'If you remove an attachment, you will have to attach it again.',
+  },
   Compose: {
     EDIT_LIST_TITLE: 'Edit your contact list',
     EDIT_LIST_CONTENT:
@@ -186,6 +195,7 @@ export const Prompts = {
       "Drafts are permanently deleted and this action can't be undone. \n\n Deleting a draft won't affect other messages in this conversation.",
   },
 };
+
 export const Breadcrumbs = {
   MESSAGES: { path: '/', label: 'Back to messages' },
   COMPOSE: {
@@ -238,12 +248,54 @@ export const Attachments = {
 };
 
 export const threadSortingOptions = {
-  DESCENDING: 'DESC',
-  ASCENDING: 'ASC',
-  SORT_BY_SENDER: 'SENDER_NAME',
-  SORT_BY_RECEPIENT: 'RECIPIENT_NAME',
-  SORT_BY_SENT_DATE: 'SENT_DATE',
-  SORT_BY_DRAFT_DATE: 'DRAFT_DATE',
+  SENT_DATE_DESCENDING: {
+    sortField: 'SENT_DATE',
+    sortOrder: 'DESC',
+    value: 'SENT_DATE_DESCENDING',
+    label: 'Newest to oldest',
+  },
+  SENT_DATE_ASCENDING: {
+    sortField: 'SENT_DATE',
+    sortOrder: 'ASC',
+    value: 'SENT_DATE_ASCENDING',
+    label: 'Oldest to newest',
+  },
+  DRAFT_DATE_DESCENDING: {
+    sortField: 'DRAFT_DATE',
+    sortOrder: 'DESC',
+    value: 'DRAFT_DATE_DESCENDING',
+    label: 'Newest to oldest',
+  },
+  DRAFT_DATE_ASCENDING: {
+    sortField: 'DRAFT_DATE',
+    sortOrder: 'ASC',
+    value: 'DRAFT_DATE_ASCENDING',
+    label: 'Oldest to newest',
+  },
+  SENDER_ALPHA_DESCENDING: {
+    sortField: 'SENDER_NAME',
+    sortOrder: 'DESC',
+    value: 'SENDER_ALPHA_DESCENDING',
+    label: 'Z to A - Sender’s name',
+  },
+  SENDER_ALPHA_ASCENDING: {
+    sortField: 'SENDER_NAME',
+    sortOrder: 'ASC',
+    value: 'SENDER_ALPHA_ASCENDING',
+    label: 'A to Z - Sender’s name',
+  },
+  RECEPIENT_ALPHA_DESCENDING: {
+    sortField: 'RECIPIENT_NAME',
+    sortOrder: 'DESC',
+    value: 'RECEPIENT_ALPHA_DESCENDING',
+    label: 'Z to A - Recipient’s name',
+  },
+  RECEPIENT_ALPHA_ASCENDING: {
+    sortField: 'RECIPIENT_NAME',
+    sortOrder: 'ASC',
+    value: 'RECEPIENT_ALPHA_ASCENDING',
+    label: 'A to Z - Recipient’s name',
+  },
 };
 
 export const PrintMessageOptions = {
@@ -254,4 +306,13 @@ export const PrintMessageOptions = {
 export const BreadcrumbViews = {
   DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
   MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3',
+};
+
+export const PageTitles = {
+  DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veterans Affairs',
+  PAGE_TITLE_TAG: '- MHV Secure Messaging | Veterans Affairs',
+  EDIT_DRAFT_PAGE_TITLE_TAG:
+    'Edit draft - MHV Secure Messaging | Veterans Affairs',
+  MY_FOLDERS_PAGE_TITLE_TAG:
+    'My folders - MHV Secure Messaging | Veterans Affairs',
 };

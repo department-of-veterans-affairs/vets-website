@@ -2,29 +2,14 @@ import {
   IL_EDIT_MODE,
   IL_UPDATE_DEPENDENTS,
   IL_PAST_MODE,
+  IL_RESULTS_VAL_ERROR,
+  IL_RESULTS_VAL_ERROR_TEXT,
+  IL_UPDATE_RESULTS,
   IL_UPDATE_YEAR,
   IL_UPDATE_ZIP,
+  IL_ZIP_VAL_ERROR,
 } from '../constants';
 
-/* eslint-disable camelcase */
-// const initialState = {
-//   editMode: false,
-//   form: {
-//     dependents: null,
-//     zipCode: null,
-//   },
-//   results: {
-//     county_name: 'Some County, XX',
-//     income_year: 2023,
-//     limits: {
-//       national_threshold: 44444,
-//       pension_threshold: 22222,
-//       gmt_threshold: 77777,
-//     },
-//   },
-// };
-
-// Non-standard case (GMT < NMT)
 const initialState = {
   editMode: false,
   form: {
@@ -32,16 +17,10 @@ const initialState = {
     year: null,
     zipCode: null,
   },
-  pastMode: true,
-  results: {
-    county_name: 'Some County, XX',
-    income_year: 2023,
-    limits: {
-      national_threshold: 55555,
-      pension_threshold: 22222,
-      gmt_threshold: 33333,
-    },
-  },
+  pastMode: null,
+  results: null,
+  resultsValidationServiceError: false,
+  zipValidationServiceError: false,
 };
 
 const incomeLimits = (state = initialState, action) => {
@@ -79,6 +58,26 @@ const incomeLimits = (state = initialState, action) => {
       return {
         ...state,
         pastMode: action.payload,
+      };
+    case IL_UPDATE_RESULTS:
+      return {
+        ...state,
+        results: action.payload,
+      };
+    case IL_ZIP_VAL_ERROR:
+      return {
+        ...state,
+        zipValidationServiceError: action.payload,
+      };
+    case IL_RESULTS_VAL_ERROR:
+      return {
+        ...state,
+        resultsValidationServiceError: action.payload,
+      };
+    case IL_RESULTS_VAL_ERROR_TEXT:
+      return {
+        ...state,
+        resultsValidationErrorText: action.payload,
       };
     default:
       return state;

@@ -9,10 +9,12 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
+
 import {
   stringifyFormReplacer,
   filterViewFields,
 } from 'platform/forms-system/src/js/helpers';
+
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
@@ -127,6 +129,10 @@ export function isSpouse(item) {
 
 export function isUnmarriedChild(item) {
   return get('application.claimant.relationshipToVet', item) === '3';
+}
+
+export function buriedWSponsorsEligibility(item) {
+  return get('application.hasCurrentlyBuried', item) === '1';
 }
 
 export function isAuthorizedAgent(item) {
@@ -348,7 +354,7 @@ export const veteranUI = {
       'ui:title': 'Black or African American',
     },
     isNativeHawaiianOrOtherPacificIslander: {
-      'ui:title': 'Native Hawaiian or Other Pacific Islander',
+      'ui:title': 'Native Hawaiian or other Pacific Islander',
     },
     isAsian: {
       'ui:title': 'Asian',
@@ -394,7 +400,7 @@ export const serviceRecordsUI = {
   'ui:options': {
     viewField: ServicePeriodView,
     itemName: 'service period',
-    keepInPageOnReview: !environment.isProduction(),
+    keepInPageOnReview: true,
   },
   items: {
     'ui:order': [

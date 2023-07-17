@@ -18,7 +18,7 @@ describe('Secure Messaging - Cross Site Scripting', () => {
         },
       },
     });
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     cy.get('[name="COVID"]').click();
     composePage

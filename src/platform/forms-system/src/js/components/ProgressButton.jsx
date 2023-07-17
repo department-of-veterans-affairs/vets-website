@@ -13,22 +13,31 @@ class ProgressButton extends React.Component {
   }
 
   render() {
-    const beforeText = this.props.beforeText ? (
-      <span className="button-icon" aria-hidden="true">
-        {this.props.beforeText}
-        &nbsp;
-      </span>
-    ) : (
-      ''
-    );
-    const afterText = this.props.afterText ? (
-      <span className="button-icon" aria-hidden="true">
-        &nbsp;
-        {this.props.afterText}
-      </span>
-    ) : (
-      ''
-    );
+    let beforeText = '';
+
+    if (this.props.beforeText && this.props.beforeText === '«') {
+      beforeText = <i aria-hidden="true" className="fa fa-angles-left" />;
+    } else if (this.props.beforeText) {
+      beforeText = (
+        <span className="button-icon" aria-hidden="true">
+          {this.props.beforeText}
+          &nbsp;
+        </span>
+      );
+    }
+
+    let afterText = '';
+
+    if (this.props.afterText && this.props.afterText === '»') {
+      afterText = <i aria-hidden="true" className="fa fa-angles-right" />;
+    } else if (this.props.afterText) {
+      afterText = (
+        <span className="button-icon" aria-hidden="true">
+          &nbsp;
+          {this.props.afterText}
+        </span>
+      );
+    }
 
     return (
       // aria-describedby tag to match "By submitting this form"

@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Link } from 'react-router-dom';
-import { dateFormat } from '../../util/helpers';
 import ItemList from '../shared/ItemList';
 
 const VitalListItem = props => {
   const { record } = props;
-  const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
+  const formattedDate = formatDateLong(record?.date);
 
   const content = () => {
     if (record) {
@@ -24,11 +24,7 @@ const VitalListItem = props => {
             Location: {record.facility}
           </div>
           <div className="print-only">
-            Provider comments:{' '}
-            <ItemList
-              list={record.comments}
-              emptyMessage="No comments at this time"
-            />
+            Provider comments: <ItemList list={record.comments} />
           </div>
           <Link
             to={`/health-history/vitals/${record.name

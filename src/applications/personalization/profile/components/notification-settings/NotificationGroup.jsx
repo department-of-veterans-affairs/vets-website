@@ -6,7 +6,10 @@ import { selectGroupById } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
 
 import NotificationItem from './NotificationItem';
-import { BLOCKED_NOTIFICATION_IDS, NOTIFICATION_GROUPS } from '../../constants';
+import {
+  BLOCKED_MHV_NOTIFICATION_IDS,
+  NOTIFICATION_GROUPS,
+} from '../../constants';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 const shouldRenderGroup = ({
@@ -32,7 +35,7 @@ const NotificationGroup = ({ children, groupName, itemIds, groupId }) => {
     TOGGLE_NAMES.profileShowPaymentsNotificationSetting,
   );
 
-  const showMhvNotificaionSettings = useToggleValue(
+  const showMhvNotificationSettings = useToggleValue(
     TOGGLE_NAMES.profileShowMhvNotificationSettings,
   );
 
@@ -41,21 +44,21 @@ const NotificationGroup = ({ children, groupName, itemIds, groupId }) => {
       return shouldRenderGroup({
         groupId,
         profileShowPaymentsNotificationSetting: showPaymentsNotificationSetting,
-        profileShowMhvNotificationSettings: showMhvNotificaionSettings,
+        profileShowMhvNotificationSettings: showMhvNotificationSettings,
       });
     },
-    [groupId, showPaymentsNotificationSetting, showMhvNotificaionSettings],
+    [groupId, showPaymentsNotificationSetting, showMhvNotificationSettings],
   );
 
   const filteredItemIds = useMemo(
     () => {
-      return showMhvNotificaionSettings
+      return showMhvNotificationSettings
         ? itemIds
         : itemIds.filter(itemId => {
-            return !BLOCKED_NOTIFICATION_IDS.includes(itemId);
+            return !BLOCKED_MHV_NOTIFICATION_IDS.includes(itemId);
           });
     },
-    [itemIds, showMhvNotificaionSettings],
+    [itemIds, showMhvNotificationSettings],
   );
 
   return shouldRender ? (

@@ -42,7 +42,7 @@ const OtherAssetsSummary = ({
   };
 
   const cardBody = text => (
-    <p>
+    <p className="vads-u-margin--0">
       Value: <b>{currencyFormatter(text)}</b>
     </p>
   );
@@ -56,7 +56,7 @@ const OtherAssetsSummary = ({
           className="schemaform-block-title"
           name="addedAssetsSummary"
         >
-          You have added these assets
+          <h3 className="vads-u-margin--0">You have added these assets</h3>
         </legend>
         <div className="vads-l-grid-container--full">
           {!otherAssets.length ? (

@@ -2,7 +2,6 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import { validateCurrency } from '../../../utils/validation';
-import CustomReviewField from '../../../components/FormReview/CustomReviewField';
 import {
   GrossIncomeDescription,
   NetIncomeDescription,
@@ -15,35 +14,63 @@ const {
   veteranOtherIncome,
 } = fullSchemaHca.properties;
 
+const date = new Date();
+const lastYear = date.getFullYear() - 1;
+
 export default {
   uiSchema: {
-    'ui:title': 'Your Annual income',
-    veteranGrossIncome: {
-      ...currencyUI('Gross annual income from employment'),
+    'ui:title': `Your annual income from ${lastYear}`,
+    'view:veteranGrossIncome': {
+      'ui:title': 'Gross income from work',
       'ui:description': GrossIncomeDescription,
-      'ui:validations': [validateCurrency],
-      'ui:reviewField': CustomReviewField,
+      veteranGrossIncome: {
+        ...currencyUI(`Enter your gross annual income from ${lastYear}`),
+        'ui:validations': [validateCurrency],
+      },
     },
-    veteranNetIncome: {
-      ...currencyUI('Net income from your farm, ranch, property or business'),
+    'view:veteranNetIncome': {
+      'ui:title': 'Net income from a farm, property, or business',
       'ui:description': NetIncomeDescription,
-      'ui:validations': [validateCurrency],
-      'ui:reviewField': CustomReviewField,
+      veteranNetIncome: {
+        ...currencyUI(
+          `Enter your net annual income from a farm, property, or business from ${lastYear}`,
+        ),
+        'ui:validations': [validateCurrency],
+      },
     },
-    veteranOtherIncome: {
-      ...currencyUI('Other income'),
+    'view:veteranOtherIncome': {
+      'ui:title': 'Other income',
       'ui:description': OtherIncomeDescription,
-      'ui:validations': [validateCurrency],
-      'ui:reviewField': CustomReviewField,
+      veteranOtherIncome: {
+        ...currencyUI(`Enter your other annual income from ${lastYear}`),
+        'ui:validations': [validateCurrency],
+      },
     },
   },
   schema: {
     type: 'object',
-    required: ['veteranGrossIncome', 'veteranNetIncome', 'veteranOtherIncome'],
     properties: {
-      veteranGrossIncome,
-      veteranNetIncome,
-      veteranOtherIncome,
+      'view:veteranGrossIncome': {
+        type: 'object',
+        required: ['veteranGrossIncome'],
+        properties: {
+          veteranGrossIncome,
+        },
+      },
+      'view:veteranNetIncome': {
+        type: 'object',
+        required: ['veteranNetIncome'],
+        properties: {
+          veteranNetIncome,
+        },
+      },
+      'view:veteranOtherIncome': {
+        type: 'object',
+        required: ['veteranOtherIncome'],
+        properties: {
+          veteranOtherIncome,
+        },
+      },
     },
   },
 };

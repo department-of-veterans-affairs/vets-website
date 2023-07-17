@@ -59,7 +59,7 @@ const CreditCardBillSummary = ({
   const billBody = bill => {
     return (
       <>
-        <p>
+        <p className="vads-u-margin--0">
           Unpaid balance:{' '}
           <strong>{currencyFormatter(bill.unpaidBalance)}</strong>
           <br />
@@ -77,7 +77,7 @@ const CreditCardBillSummary = ({
     <form onSubmit={handlers.onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          Your credit card bills
+          <h3 className="vads-u-margin--0">Your credit card bills</h3>
         </legend>
         <div className="vads-u-margin-top--3" data-testid="debt-list">
           {!creditCardBills.length ? (

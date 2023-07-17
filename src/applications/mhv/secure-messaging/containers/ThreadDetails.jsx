@@ -13,10 +13,9 @@ import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { getTriageTeams } from '../actions/triageTeams';
 import { clearDraft } from '../actions/draftDetails';
 import InterstitialPage from './InterstitialPage';
-import { PrintMessageOptions } from '../util/constants';
+import { PrintMessageOptions, PageTitles } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
-import CannotReplyAlert from '../components/shared/CannotReplyAlert';
-import { navigateToFolderByFolderId } from '../util/helpers';
+import { navigateToFolderByFolderId, updatePageTitle } from '../util/helpers';
 import { retrieveFolder } from '../actions/folders';
 
 const ThreadDetails = props => {
@@ -104,6 +103,7 @@ const ThreadDetails = props => {
       if (isDraft || isReply) {
         setH1Focus(true);
         focusElement(header.current);
+        updatePageTitle(PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG);
       }
     },
     [acknowledged],
@@ -128,10 +128,9 @@ const ThreadDetails = props => {
         />
       );
     }
-    if (isReply) {
+    if (isReply && draftMessageHistory !== undefined) {
       return (
         <div className="compose-container">
-          <CannotReplyAlert visible={cannotReply} />
           <ReplyForm
             draftToEdit={draftMessage}
             replyMessage={draftMessageHistory[0]}
@@ -162,7 +161,6 @@ const ThreadDetails = props => {
     if (isMessage) {
       return (
         <>
-          <CannotReplyAlert visible={cannotReply} />
           <MessageDetailBlock message={message} cannotReply={cannotReply} />
           {messageHistory?.length > 0 && (
             <MessageThread

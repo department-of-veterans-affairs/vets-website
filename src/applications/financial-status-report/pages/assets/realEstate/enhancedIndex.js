@@ -22,7 +22,13 @@ const RealEstateDescription = (
 );
 
 export const uiSchema = {
-  'ui:title': 'Your real estate assets',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Your real estate assets</h3>
+      </legend>
+    </>
+  ),
   'ui:options': {
     hideOnReview: true,
   },
@@ -31,6 +37,9 @@ export const uiSchema = {
       'ui:title': 'Do you currently own any property?',
       'ui:description': RealEstateDescription,
       'ui:widget': 'yesNo',
+      'ui:options': {
+        showFieldLabel: 'label',
+      },
       'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Please enter your real estate information.',

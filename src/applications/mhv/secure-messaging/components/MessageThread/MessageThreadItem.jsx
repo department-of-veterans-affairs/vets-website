@@ -42,14 +42,15 @@ const MessageThreadItem = props => {
       return `${!isRead ? 'New ' : ''}message ${
         fromMe ? 'sent' : 'received'
       } ${dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}, ${
-        attachment ? 'with attachment' : ''
+        hasAttachments || attachment ? 'with attachment' : ''
       } from ${senderName}."`;
     },
-    [attachment, fromMe, isRead, senderName, sentDate],
+    [attachment, fromMe, hasAttachments, isRead, senderName, sentDate],
   );
 
   return (
     <VaAccordionItem
+      data-dd-privacy="mask" // need to mask entire accordion as the subheader with the sender name cannot masked
       aria-label={accordionAriaLabel}
       className={`older-message ${
         !isRead ? 'accordion-unread' : 'accordion-read'
@@ -65,7 +66,7 @@ const MessageThreadItem = props => {
       {!isRead && (
         <i
           role="img"
-          aria-label="Unread message"
+          aria-hidden
           data-testid="unread-icon"
           className="vads-u-color--primary vads-u-padding--0p25 vads-u-margin-right--1 fas fa-solid fa-circle fa-xs"
           slot="icon"

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { ariaLabels } from '../../constants';
@@ -67,6 +67,7 @@ const BenefitsForm = ({
   showHeader,
   showModal,
   spouseActiveDuty,
+  areYouActiveDuty,
 }) => {
   const [
     whatsYourMilitaryStatusDropDown,
@@ -215,6 +216,24 @@ const BenefitsForm = ({
                   />
                 </>
               )}
+
+              {giBillChapter === '33b' && (
+                <>
+                  <Dropdown
+                    label="Are you currently an active duty service member?"
+                    name="areYouActiveDuty"
+                    options={[
+                      { optionValue: 'yes', optionLabel: 'Yes' },
+                      { optionValue: 'no', optionLabel: 'No' },
+                    ]}
+                    value={areYouActiveDuty}
+                    alt="Are you currently an active duty service member?"
+                    visible
+                    onChange={eligibilityChange}
+                    onFocus={handleInputFocus}
+                  />
+                </>
+              )}
             </div>
           )}
 
@@ -341,5 +360,6 @@ BenefitsForm.propTypes = {
   showHeader: PropTypes.bool,
   showModal: PropTypes.func,
   spouseActiveDuty: PropTypes.string,
+  areYouActiveDuty: PropTypes.string,
   yourMilitaryDetails: PropTypes.bool,
 };

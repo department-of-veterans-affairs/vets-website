@@ -5,13 +5,15 @@ import {
   VaButtonPair,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
+import { scrollToTop } from '../utilities/scroll-to-top';
 import { ROUTES } from '../constants';
 import { updateEditMode, updateYear } from '../actions';
 
 const YearPage = ({
   editMode,
+  pastMode,
   router,
   toggleEditMode,
   updateYearField,
@@ -20,9 +22,21 @@ const YearPage = ({
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  useEffect(
+    () => {
+      // If pastMode is null, the home screen hasn't been used yet
+      const shouldRedirectToHome = pastMode === null;
+
+      if (shouldRedirectToHome) {
+        router.push(ROUTES.HOME);
+        return;
+      }
+
+      waitForRenderThenFocus('h1');
+      scrollToTop();
+    },
+    [pastMode, router],
+  );
 
   const onContinueClick = () => {
     setSubmitted(true);
@@ -39,7 +53,7 @@ const YearPage = ({
   };
 
   const onBackClick = () => {
-    // don't do anything yet
+    router.push(ROUTES.HOME);
   };
 
   const onYearInput = event => {
@@ -49,7 +63,7 @@ const YearPage = ({
   const makeYearArray = () => {
     const years = [];
     let currentYear = new Date().getFullYear();
-    const earliestYear = 2015;
+    const earliestYear = 2001;
 
     while (currentYear >= earliestYear) {
       years.push(currentYear);
@@ -91,7 +105,7 @@ const YearPage = ({
       <VaSelect
         autocomplete="false"
         data-testid="il-year"
-        error={(submitted && error && 'Please select a year') || null}
+        error={(submitted && error && 'Please select a year.') || null}
         id="year"
         label="Year"
         name="year"
@@ -113,6 +127,7 @@ const YearPage = ({
 
 const mapStateToProps = state => ({
   editMode: state?.incomeLimits?.editMode,
+  pastMode: state?.incomeLimits?.pastMode,
   yearInput: state?.incomeLimits?.form?.year,
 });
 
@@ -123,6 +138,7 @@ const mapDispatchToProps = {
 
 YearPage.propTypes = {
   editMode: PropTypes.bool.isRequired,
+  pastMode: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,

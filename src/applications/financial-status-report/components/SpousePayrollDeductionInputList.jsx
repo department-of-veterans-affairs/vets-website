@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { useSelector, connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
+import { BASE_EMPLOYMENT_RECORD } from '../constants/index';
+import { isValidCurrency } from '../utils/validations';
 
 const SpousePayrollDeductionInputList = props => {
-  const { goToPath, goBack, onReviewPage, setFormData } = props;
+  const { goToPath, goBack, onReviewPage = false, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -16,12 +20,23 @@ const SpousePayrollDeductionInputList = props => {
   const index = isEditing ? Number(editIndex) : 0;
 
   const formData = useSelector(state => state.form.data);
-  const employmentRecord =
-    formData.personalData.employmentHistory.spouse.employmentRecords[index];
+
+  const {
+    personalData: {
+      employmentHistory: {
+        newRecord = {},
+        spouse: { spEmploymentRecords = [] },
+      },
+    },
+  } = formData;
+
+  const employmentRecord = isEditing ? spEmploymentRecords[index] : newRecord;
 
   const { employerName, deductions } = employmentRecord;
 
   const [selectedDeductions, setSelectedDeductions] = useState(deductions);
+
+  const [errors, setErrors] = useState([]);
 
   const mapDeductions = target => {
     return selectedDeductions.map(deduction => {
@@ -39,13 +54,27 @@ const SpousePayrollDeductionInputList = props => {
     const { target } = event;
     const updatedDeductions = mapDeductions(target);
     setSelectedDeductions(updatedDeductions);
+    if (!isValidCurrency(target.value)) {
+      setErrors([...errors, target.name]);
+    } else {
+      setErrors(errors.filter(error => error !== target.name));
+    }
   };
 
   const updateFormData = e => {
     e.preventDefault();
+
+    const errorList = selectedDeductions
+      .filter(item => !isValidCurrency(item.amount))
+      .map(item => item.name);
+
+    setErrors(errorList);
+
+    if (errorList.length) return;
+
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
-      const updatedRecords = formData.personalData.employmentHistory.spouse.employmentRecords.map(
+      const updatedRecords = formData.personalData.employmentHistory.spouse.spEmploymentRecords.map(
         (item, arrayIndex) => {
           return arrayIndex === index
             ? {
@@ -64,28 +93,25 @@ const SpousePayrollDeductionInputList = props => {
             ...formData.personalData.employmentHistory,
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
-              employmentRecords: updatedRecords,
+              spEmploymentRecords: updatedRecords,
             },
           },
         },
       });
     } else {
-      const records = [
-        { ...employmentRecord, deductions: selectedDeductions },
-        ...formData.personalData.employmentHistory.spouse.employmentRecords.slice(
-          1,
-        ),
-      ];
-
       setFormData({
         ...formData,
         personalData: {
           ...formData.personalData,
           employmentHistory: {
             ...formData.personalData.employmentHistory,
+            newRecord: { ...BASE_EMPLOYMENT_RECORD },
             [`${userType}`]: {
               ...formData.personalData.employmentHistory[`${userType}`],
-              employmentRecords: records,
+              spEmploymentRecords: [
+                { ...employmentRecord, deductions: selectedDeductions },
+                ...spEmploymentRecords,
+              ],
             },
           },
         },
@@ -101,7 +127,9 @@ const SpousePayrollDeductionInputList = props => {
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          Your spouse’s job at {employerName}
+          <h3 className="vads-u-margin--0">
+            Your spouse’s job at {employerName}
+          </h3>
         </legend>
         <p>
           How much does your spouse pay monthly for each of their payroll
@@ -112,7 +140,7 @@ const SpousePayrollDeductionInputList = props => {
             key={deduction.name + key}
             className="vads-u-margin-y--2 input-size-3"
           >
-            <va-number-input
+            <VaNumberInput
               label={deduction.name}
               name={deduction.name}
               value={deduction.amount}
@@ -121,6 +149,11 @@ const SpousePayrollDeductionInputList = props => {
               onInput={onChange}
               required
               currency
+              error={
+                errors.includes(deduction.name)
+                  ? 'Enter a valid dollar amount.'
+                  : null
+              }
             />
           </div>
         ))}
@@ -145,3 +178,10 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(SpousePayrollDeductionInputList);
+
+SpousePayrollDeductionInputList.propTypes = {
+  goBack: PropTypes.func.isRequired,
+  goToPath: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  onReviewPage: PropTypes.bool,
+};

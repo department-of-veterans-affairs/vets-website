@@ -128,6 +128,7 @@ const MoveMessageToFolderBtn = props => {
               updatedFoldersList.map((folder, i) => (
                 <>
                   <VaRadioOption
+                    data-dd-privacy="mask"
                     data-testid={`radiobutton-${folder.name}`}
                     key={i}
                     id={`radiobutton-${folder.name}`}

@@ -41,10 +41,27 @@ export const selectDropdownWebComponent = (fieldName, value) => {
 
 export const selectCheckboxWebComponent = (fieldName, condition) => {
   if (condition) {
+    // V1 web component
+    // cy.get(`va-checkbox[name="root_${fieldName}"]`)
+    //   .shadow()
+    //   .find('input')
+    //   .check();
+
+    // V3 web component - work around for not being able to check input
     cy.get(`va-checkbox[name="root_${fieldName}"]`)
       .shadow()
-      .find('input')
-      .check();
+      .find('label')
+      .click();
+  }
+};
+
+export const selectGroupCheckboxWidget = label => {
+  if (label) {
+    cy.get(`va-checkbox[label="${label}"]`)
+      .shadow()
+      .get('#checkbox-element')
+      .first()
+      .click();
   }
 };
 
@@ -80,28 +97,48 @@ export const fillAddressWebComponentPattern = (fieldName, addressObject) => {
 export const fillDateWebComponentPattern = (fieldName, value) => {
   if (typeof value !== 'undefined') {
     const [year, month, day] = value.split('-');
-    cy.get(`va-memorable-date[name="root_${fieldName}"]`)
-      .shadow()
-      .find('va-select.usa-form-group--month-select')
-      .shadow()
-      .find('select')
-      .select(parseInt(month, 10))
-      .then(() => {
-        cy.get(`va-memorable-date[name="root_${fieldName}"]`)
-          .shadow()
-          .find('va-text-input.usa-form-group--day-input')
-          .shadow()
-          .find('input')
-          .type(day)
-          .then(() => {
-            cy.get(`va-memorable-date[name="root_${fieldName}"]`)
-              .shadow()
-              .find('va-text-input.usa-form-group--year-input')
-              .shadow()
-              .find('input')
-              .type(year);
-          });
-      });
+
+    if (navigator.userAgent.includes('Chrome')) {
+      // There is a bug only on Chromium based browsers where
+      // VaMemorableDate text input fields will think they are
+      // disabled if you blur focus of the window while the test
+      // is running. realPress and realType solve this issue,
+      // but these are only available for Chromium based browsers.
+      // See cypress-real-events npmjs for more info.
+      cy.get(`va-memorable-date[name="root_${fieldName}"]`)
+        .shadow()
+        .find('va-select.usa-form-group--month-select')
+        .shadow()
+        .find('select')
+        .select(parseInt(month, 10))
+        .realPress('Tab')
+        .realType(day)
+        .realPress('Tab')
+        .realType(year);
+    } else {
+      cy.get(`va-memorable-date[name="root_${fieldName}"]`)
+        .shadow()
+        .find('va-select.usa-form-group--month-select')
+        .shadow()
+        .find('select')
+        .select(parseInt(month, 10))
+        .then(() => {
+          cy.get(`va-memorable-date[name="root_${fieldName}"]`)
+            .shadow()
+            .find('va-text-input.usa-form-group--day-input')
+            .shadow()
+            .find('input')
+            .type(day)
+            .then(() => {
+              cy.get(`va-memorable-date[name="root_${fieldName}"]`)
+                .shadow()
+                .find('va-text-input.usa-form-group--year-input')
+                .shadow()
+                .find('input')
+                .type(year);
+            });
+        });
+    }
   }
 };
 
@@ -123,7 +160,10 @@ export const reviewAndSubmitPageFlow = signerName => {
         ? `${signerName.first} ${signerName.middle} ${signerName.last}`
         : `${signerName.first} ${signerName.last}`,
     );
-  cy.get(`input[name="veteran-certify"]`).check();
+  cy.get(`va-checkbox[name="veteran-certify"]`)
+    .shadow()
+    .find('input')
+    .check();
   cy.findAllByText(/Submit application/i, {
     selector: 'button',
   }).click();

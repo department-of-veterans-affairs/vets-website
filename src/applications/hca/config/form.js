@@ -388,7 +388,7 @@ const formConfig = {
     },
     // NOTE: for household v2 only -- rename routes when v2 is fully-adopted
     householdInformationV2: {
-      title: 'Household information',
+      title: 'Household financial information',
       pages: {
         v2FinancialOnboarding: {
           path: 'household-information-v2/financial-onboarding',

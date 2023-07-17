@@ -39,12 +39,17 @@ const HouseholdExpensesChecklist = () => {
   const isBoxChecked = option => {
     return expenseRecords.some(incomeValue => incomeValue.name === option);
   };
+  const title = 'Monthly housing expenses';
+  const prompt = 'Which of these expenses do you pay for?';
 
   return (
     <Checklist
+      title={title}
+      prompt={prompt}
       options={householdExpensesOptions}
       onChange={event => onChange(event)}
       isBoxChecked={isBoxChecked}
+      required
     />
   );
 };

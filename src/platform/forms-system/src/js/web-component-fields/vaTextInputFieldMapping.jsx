@@ -21,13 +21,20 @@ export default function vaTextInputFieldMapping(props) {
 
   return {
     ...commonFieldMapping(props),
+    autocomplete:
+      childrenProps.uiSchema['ui:autocomplete'] || uiOptions?.autocomplete,
     value:
       typeof childrenProps.formData === 'undefined'
         ? ''
         : childrenProps.formData,
     type: inputType,
+    width: uiOptions?.width,
     onInput: (event, value) => {
-      const newVal = value ?? event.target.value ?? undefined;
+      // redux value or input value
+      let newVal = value || event.target.value;
+      // pattern validation will trigger if you have '',
+      // so set as undefined instead.
+      newVal = newVal === '' ? undefined : newVal;
       childrenProps.onChange(newVal);
     },
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),

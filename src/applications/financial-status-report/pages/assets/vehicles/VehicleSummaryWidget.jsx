@@ -48,7 +48,7 @@ const VehicleSummaryWidget = ({
   };
   const emptyPrompt = `Select the 'add additional vehicle' link to add another vehicle. Select the continue button to move on to the next question.`;
   const cardBody = text => (
-    <p>
+    <p className="vads-u-margin--0">
       Value: <b>{currencyFormatter(text)}</b>
     </p>
   );
@@ -57,7 +57,7 @@ const VehicleSummaryWidget = ({
     <form onSubmit={handlers.onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          Your cars or other vehicles
+          <h3 className="vads-u-margin--0">Your cars or other vehicles</h3>
         </legend>
         <div className="vads-u-margin-top--3" data-testid="debt-list">
           {!automobiles.length ? (

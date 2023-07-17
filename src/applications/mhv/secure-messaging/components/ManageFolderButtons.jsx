@@ -63,24 +63,6 @@ const ManageFolderButtons = () => {
     [nameWarning],
   );
 
-  useEffect(
-    () => {
-      if (deleteModal) {
-        focusElement(removeButton.current);
-      }
-    },
-    [deleteModal],
-  );
-
-  useEffect(
-    () => {
-      if (isEmptyWarning) {
-        focusElement(emptyFolderConfirmBtn.current);
-      }
-    },
-    [isEmptyWarning],
-  );
-
   const openDelModal = () => {
     dispatch(closeAlert());
     if (messages?.length > 0) {
@@ -209,6 +191,7 @@ const ManageFolderButtons = () => {
         onCloseEvent={closeRenameModal}
       >
         <VaTextInput
+          data-dd-privacy="mask"
           ref={folderNameInput}
           label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
           value={folderName}

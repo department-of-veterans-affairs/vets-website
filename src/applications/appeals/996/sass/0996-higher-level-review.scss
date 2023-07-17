@@ -95,11 +95,13 @@ article[data-location="contact-information"] {
 
     .widget-title {
       margin: 0;
-      white-space: nowrap;
       text-transform: capitalize;
+      /*
+      white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
       width: calc(100% - 7rem);
+      */
     }
 
     .widget-content {
@@ -240,7 +242,7 @@ article[data-location="add-issue"] {
   .input-error-date legend {
     font-weight: bold !important;
   }
-  #add-hlr-issue {
+  #issue-name {
     margin-top: 0;
   }
   /* Hide extra "Required" label */
@@ -283,6 +285,11 @@ label[for^="root_disagreementOptions"] {
   margin-top: 0;
 }
 
+/* opt-in label (not bold in review & submit accordion */
+label > .opt-in-title {
+  font-weight: 700;
+}
+
 /* Step 3 */
 /* Informal conference */
 /* global */
@@ -301,9 +308,6 @@ label[for^="root_disagreementOptions"] {
 }
 
 /* page specific */
-article[data-contact-choice] .contact-choice {
-  display: none;
-}
 
 article[data-location^="area-of-disagreement"],
 article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0ScrollElement"] + form {
@@ -333,21 +337,10 @@ article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0
   }
 }
 
-article[data-contact-choice="rep"] .contact-choice.selected-rep,
-article[data-contact-choice="me"] .contact-choice.selected-me {
-  display: inline-block;
-}
-
 article[data-location="informal-conference/representative-info"],
 article[data-location="informal-conference/representative-information"] {
   .schemaform-field-container {
     margin-top: 0;
-  }
-}
-
-article[data-location="informal-conference/availability"] {
-  #root_informalConferenceTimes_time2-label {
-    margin-top: 2rem;
   }
 }
 
@@ -365,8 +358,15 @@ article[data-location="review-and-submit"] {
     }
   }
   dd {
-    word-break: break-all;
+    word-break: break-word;
   }
+  .form-review-panel-page-header {
+    padding-right: 1rem;
+    line-height: 2.5rem;
+  }
+  .form-review-panel-page-header-row {
+    align-items: flex-start;
+}
 }
 
 @media (max-width: $small-screen) {

@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { DefaultFolders as Folders } from '../../util/constants';
-import { handleHeader } from '../../util/helpers';
+import { useLocation } from 'react-router-dom';
+import { DefaultFolders as Folders, PageTitles } from '../../util/constants';
+import { handleHeader, updatePageTitle } from '../../util/helpers';
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 
 const FolderHeader = props => {
   const { folder, searchProps } = props;
+  const location = useLocation();
 
   const handleFolderDescription = () => {
     let text = '';
@@ -23,7 +25,7 @@ const FolderHeader = props => {
         text = Folders.DELETED.desc;
         break;
       default:
-        text = `This is a folder you created. You can add conversations to this folder by moving them from your inbox or other folders.`;
+        text = Folders.CUSTOM_FOLDER.desc; // Custom Folder Sub-headerr;
         break;
     }
     return (
@@ -37,6 +39,15 @@ const FolderHeader = props => {
       )
     );
   };
+
+  useEffect(
+    () => {
+      if (location.pathname.includes(folder?.folderId)) {
+        updatePageTitle(`${folder.name} ${PageTitles.PAGE_TITLE_TAG}`);
+      }
+    },
+    [folder, location.pathname],
+  );
 
   return (
     <>
