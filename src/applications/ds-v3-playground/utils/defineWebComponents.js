@@ -1,4 +1,36 @@
 import '@department-of-veterans-affairs/component-library/dist/main.css';
-import { defineCustomElements } from '@department-of-veterans-affairs/component-library';
+import {
+  defineCustomElementVaAdditionalInfo,
+  defineCustomElementVaAlert,
+  defineCustomElementVaButton,
+  defineCustomElementVaButtonPair,
+  defineCustomElementVaCheckbox,
+  defineCustomElementVaCheckboxGroup,
+  defineCustomElementVaMemorableDate,
+  defineCustomElementVaModal,
+  defineCustomElementVaNumberInput,
+  defineCustomElementVaPrivacyAgreement,
+  defineCustomElementVaRadio,
+  defineCustomElementVaRadioOption,
+  defineCustomElementVaSegmentedProgressBar,
+  defineCustomElementVaSelect,
+  defineCustomElementVaTextarea,
+  defineCustomElementVaTextInput,
+} from '@department-of-veterans-affairs/component-library/dist/components';
 
-defineCustomElements();
+defineCustomElementVaAdditionalInfo();
+defineCustomElementVaAlert();
+defineCustomElementVaButton();
+defineCustomElementVaButtonPair();
+defineCustomElementVaCheckbox();
+defineCustomElementVaCheckboxGroup();
+defineCustomElementVaMemorableDate();
+defineCustomElementVaModal();
+defineCustomElementVaNumberInput();
+defineCustomElementVaPrivacyAgreement();
+defineCustomElementVaRadio();
+defineCustomElementVaRadioOption();
+defineCustomElementVaSegmentedProgressBar();
+defineCustomElementVaSelect();
+defineCustomElementVaTextarea();
+defineCustomElementVaTextInput();

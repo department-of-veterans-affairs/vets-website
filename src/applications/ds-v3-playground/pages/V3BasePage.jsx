@@ -5,6 +5,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
+  VaAdditionalInfo,
+  VaAlert,
   VaButton,
   VaButtonPair,
   VaCheckbox,
@@ -15,12 +17,10 @@ import {
   VaPrivacyAgreement,
   VaRadio,
   VaRadioOption,
+  VaSegmentedProgressBar,
   VaSelect,
   VaTextarea,
   VaTextInput,
-  VaAlert,
-  VaSegmentedProgressBar,
-  VaAdditionalInfo,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V3BasePage() {

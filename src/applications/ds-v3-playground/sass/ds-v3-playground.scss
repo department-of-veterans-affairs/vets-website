@@ -1,4 +1,4 @@
-@import url("~@uswds/uswds/css/uswds.css");
+
 
 @font-face {
   font-family: "Font Awesome 5 Free";
@@ -8,4 +8,12 @@
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+}
+
+.grid-container {
+  font-family: var(--font-source-sans);
+}
+
+.border-bottom {
+  border-bottom: 1px solid var(--color-black);
 }
