@@ -32,18 +32,18 @@ export const titleUI = (title, description) => {
 };
 
 /**
- * Simple text
+ * Simple text description
  *
  * ```js
- * exampleText: textUI('A block of text goes here')
- * exampleText: textUI(<p>A block of text goes here</p>)
- * exampleText: textUI(<p className="vads-u-margin-bottom--0">
+ * exampleText: descriptionUI('A block of text goes here')
+ * exampleText: descriptionUI(<p>A block of text goes here</p>)
+ * exampleText: descriptionUI(<p className="vads-u-margin-bottom--0">
     Tell us more.
         <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
           We understand ...
         </AdditionalInfo>
     </p>)
- * exampleText: textUI('A block of text goes here', {
+ * exampleText: descriptionUI('A block of text goes here', {
  *    hideOnReview: true
  * })
  * ```
@@ -52,9 +52,8 @@ export const titleUI = (title, description) => {
  *
  * @returns {UISchemaOptions}
  */
-export const textUI = (text, uiOptions = {}) => {
+export const descriptionUI = (text, uiOptions = {}) => {
   return {
-    'ui:title': '',
     'ui:description': text,
     'ui:options': {
       ...uiOptions,
@@ -100,4 +99,4 @@ export const titleSchema = {
 };
 
 export const inlineTitleSchema = titleSchema;
-export const textSchema = titleSchema;
+export const descriptionSchema = titleSchema;
