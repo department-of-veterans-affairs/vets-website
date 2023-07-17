@@ -26,6 +26,18 @@ TestComponent.propTypes = {
   customToggleName: PropTypes.string,
 };
 
+const TestLoadingComponent = () => {
+  const { useToggleLoadingValue } = useFeatureToggle();
+
+  const loading = useToggleLoadingValue();
+
+  return (
+    <div>
+      <p>{`Loading value: ${loading ? 'true' : 'false'}`}</p>
+    </div>
+  );
+};
+
 describe('useFeatureToggle hook', () => {
   it('should return a feature toggle names objects and a hook function for use', () => {
     const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -72,5 +84,27 @@ describe('useFeatureToggle hook', () => {
     } catch (error) {
       expect(error).to.exist;
     }
+  });
+
+  it('should return a true loading value', () => {
+    const wrapper = renderInReduxProvider(<TestLoadingComponent />, {
+      initialState: {
+        featureToggles: {
+          loading: true,
+        },
+      },
+    });
+    expect(wrapper.findAllByText('Loading value: true')).to.exist;
+  });
+
+  it('should return a false loading value', () => {
+    const wrapper = renderInReduxProvider(<TestLoadingComponent />, {
+      initialState: {
+        featureToggles: {
+          loading: false,
+        },
+      },
+    });
+    expect(wrapper.findAllByText('Loading value: false')).to.exist;
   });
 });

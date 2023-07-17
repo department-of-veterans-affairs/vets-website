@@ -82,10 +82,12 @@ const MessageListItem = props => {
         <div className={getClassNames()}>
           {location.pathname !== Paths.SENT &&
           location.pathname !== Paths.DRAFTS ? (
-            <span>From: {getHighlightedText(senderName)}</span>
+            <span data-dd-privacy="mask">
+              From: {getHighlightedText(senderName)}
+            </span>
           ) : (
             <div>
-              <div>
+              <div data-dd-privacy="mask">
                 {location.pathname === Paths.DRAFTS && (
                   <>
                     <span className="thread-list-draft">(Draft)</span> -{' '}
@@ -93,7 +95,7 @@ const MessageListItem = props => {
                 )}
                 To: {recipientName}
               </div>
-              <div>From: {senderName}</div>
+              <div data-dd-privacy="mask">From: {senderName}</div>
             </div>
           )}
         </div>
@@ -103,12 +105,13 @@ const MessageListItem = props => {
             subject,
           )}, ${formattedDate}`}
           to={`/thread/${messageId}`}
+          data-dd-privacy="mask"
         >
           {categoryLabel}: {getHighlightedText(subject)}
         </Link>
         <p className="received-date vads-u-margin-y--0p5">
           {attachment && <i className={attachmentClasses} aria-hidden />}
-          <span>{formattedDate}</span>
+          <span data-dd-privacy="mask">{formattedDate}</span>
         </p>
       </div>
     </div>

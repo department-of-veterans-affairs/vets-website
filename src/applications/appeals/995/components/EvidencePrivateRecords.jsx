@@ -17,7 +17,7 @@ import { EVIDENCE_PRIVATE_PATH, NO_ISSUES_SELECTED } from '../constants';
 
 import { content } from '../content/evidencePrivateRecords';
 import { getSelected, getIssueName } from '../utils/helpers';
-import { getIndex } from '../utils/evidence';
+import { getIndex, hasErrors } from '../utils/evidence';
 
 import { checkValidations } from '../validations';
 import {
@@ -118,11 +118,9 @@ const EvidencePrivateRecords = ({
       data,
       currentIndex,
     )[0],
-    from: checkValidations([validatePrivateFromDate], currentData)[0],
-    to: checkValidations([validatePrivateToDate], currentData)[0],
+    from: checkValidations([validatePrivateFromDate], currentData),
+    to: checkValidations([validatePrivateToDate], currentData),
   };
-
-  const hasErrors = () => Object.values(errors).filter(Boolean).length;
 
   useEffect(
     () => {
@@ -245,7 +243,7 @@ const EvidencePrivateRecords = ({
 
     onAddAnother: event => {
       event.preventDefault();
-      if (hasErrors()) {
+      if (hasErrors(errors)) {
         // don't show modal
         updateState({ submitted: true });
         focusEvidence();
@@ -262,7 +260,7 @@ const EvidencePrivateRecords = ({
       event.preventDefault();
       updateState({ submitted: true });
       // non-empty entry, focus on error
-      if (hasErrors()) {
+      if (hasErrors(errors)) {
         focusEvidence();
         return;
       }
@@ -281,7 +279,7 @@ const EvidencePrivateRecords = ({
       // a new empty entry
       if (isEmptyPrivateEntry(currentData)) {
         updateCurrentFacility({ remove: true });
-      } else if (hasErrors()) {
+      } else if (hasErrors(errors)) {
         // focus on first error
         updateState({ submitted: true, showModal: true });
         return;
@@ -332,8 +330,14 @@ const EvidencePrivateRecords = ({
   };
 
   const showError = name =>
-    ((currentState.submitted || currentState.dirty[name]) && errors[name]) ||
+    ((currentState.submitted || currentState.dirty[name]) &&
+      (Array.isArray(errors[name]) ? errors[name][0] : errors[name])) ||
     null;
+
+  const isInvalid = (name, part) => {
+    const message = errors[name]?.[1] || '';
+    return message.includes(part) || message.includes('other');
+  };
 
   const hasStates =
     states[(currentData.providerFacilityAddress?.country)] || [];
@@ -508,6 +512,9 @@ const EvidencePrivateRecords = ({
           onDateBlur={handlers.onBlur}
           value={currentData.treatmentDateRange?.from}
           error={showError('from')}
+          invalidMonth={isInvalid('from', 'month')}
+          invalidDay={isInvalid('from', 'day')}
+          invalidYear={isInvalid('from', 'year')}
         />
         <VaMemorableDate
           id="facility-to-date"
@@ -518,6 +525,9 @@ const EvidencePrivateRecords = ({
           onDateBlur={handlers.onBlur}
           value={currentData.treatmentDateRange?.to}
           error={showError('to')}
+          invalidMonth={isInvalid('to', 'month')}
+          invalidDay={isInvalid('to', 'day')}
+          invalidYear={isInvalid('to', 'year')}
         />
         <div className="vads-u-margin-top--2">
           <Link

@@ -76,10 +76,10 @@ describe('Chem Hem details component', () => {
   it('should display the formatted date', () => {
     const screen = setup();
 
-    const emptyMessageElement = screen.getByText('June 14, 2022', {
+    const dateElement = screen.getByText('June 14, 2022', {
       exact: true,
       selector: 'p',
     });
-    expect(emptyMessageElement).to.exist;
+    expect(dateElement).to.exist;
   });
 });
