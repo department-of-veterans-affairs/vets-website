@@ -1,5 +1,6 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { rxListSortingOptions } from '../../util/constants';
 
 const ACTIVE_REFILL_DESC = 'Active, refillable first';
@@ -18,7 +19,6 @@ const MedicationsListSort = props => {
     },
     [setSortOption, sortOrderValue],
   );
-  // console.log('sortOrderValue: ', sortOrderValue);
   return (
     <div className="medications-list-sort">
       <VaSelect
@@ -30,33 +30,27 @@ const MedicationsListSort = props => {
           setSortOrderValue(e.detail.value);
         }}
       >
-        <option
-          key="lskj"
-          value="active"
-          onVaSelect={e => {
-            // setSortOrderValue(e.detail.value);
-            setSortOption(e.detail.value);
-          }}
-          onSelect={e => {
-            // setSortOrderValue(e.detail.value);
-            setSortOption(e.detail.value);
-          }}
-        >
-          Active
-        </option>
-        <option
-          key={rxListSortingOptions.ACTIVE_REFILL_FIRST}
-          value={rxListSortingOptions.ACTIVE_REFILL_FIRST}
-          onVaSelect={e => {
-            // setSortOrderValue(e.detail.value);
-            setSortOption(e.detail.value);
-          }}
-        >
-          {rxListSortingOptions.ACTIVE_REFILL_FIRST}
-        </option>
+        {rxListSortingOptions.map((option, i) => {
+          const optionProperties = Object.keys(option);
+          return (
+            <option
+              key={`sort option ${i}`}
+              value={option[optionProperties[0]].value}
+              onVaSelect={e => {
+                setSortOption(e.detail.value);
+              }}
+            >
+              {option[optionProperties[0]].label}
+            </option>
+          );
+        })}
       </VaSelect>
     </div>
   );
+};
+
+MedicationsListSort.propTypes = {
+  setSortOption: PropTypes.func,
 };
 
 export default MedicationsListSort;

@@ -1,50 +1,38 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPrescriptionsList } from '../actions/prescriptions';
+import {
+  getPrescriptionsList,
+  setSortedRxList,
+} from '../actions/prescriptions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintHeader from './PrintHeader';
-import { rxListSortingOptions } from '../util/constants';
 
 const Prescriptions = () => {
   const currentDate = new Date();
   const prescriptions = useSelector(
-    state => state.rx.prescriptions.prescriptionsList,
+    state => state.rx.prescriptions?.prescriptionsList,
   );
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
 
   const dispatch = useDispatch();
-  const [rxList, setRxList] = useState(null);
   const [pdfList, setPdfList] = useState([]);
   const [sortOption, setSortOption] = useState();
-  // console.log('sortOption ', sortOption);
 
   const sortRxList = () => {
-    const newList = [...rxList];
+    const newList = [...prescriptions];
     newList.sort(a => {
-      switch (sortOption) {
-        case rxListSortingOptions.ACTIVE_REFILL_FIRST:
-          return a.refillStatus === 'active' && a.isRefillable === true
-            ? -1
-            : 0;
-        case rxListSortingOptions.ACTIVE:
-          return a.refillStatus === 'active' ? -1 : 0;
-        case rxListSortingOptions.EXPIRED:
-          return a.refillStatus === 'expired' ? -1 : 0;
-        default:
-          return sortOption;
-      }
+      return a.refillStatus.toLowerCase() === sortOption.toLowerCase() ? -1 : 0;
     });
-    dispatch(setRxList(rxList));
-    // make a dispatch call to store new sorted list as global list so that it trickles down through redux instead of local state
-    setRxList(newList);
+    dispatch(setSortedRxList(newList));
   };
+
   const buildPrescriptionPDFList = useCallback(
     () => {
-      return prescriptions.map(rx => {
+      return prescriptions?.map(rx => {
         return {
           header: rx.prescriptionName,
           items: [
@@ -137,7 +125,6 @@ const Prescriptions = () => {
     () => {
       if (prescriptions) {
         setPdfList(buildPrescriptionPDFList());
-        setRxList(prescriptions);
       }
     },
     [buildPrescriptionPDFList, prescriptions],
@@ -145,11 +132,11 @@ const Prescriptions = () => {
 
   // useEffect(
   //   () => {
-  //     if (rxList) {
+  //     if (sortOption) {
   //       sortRxList();
   //     }
   //   },
-  //   [rxList, sortRxList],
+  //   [sortOption, sortRxList],
   // );
 
   const pdfData = {
@@ -173,11 +160,15 @@ const Prescriptions = () => {
     generateMedicationsPDF('medicalRecords', 'rx_list', pdfData);
   };
 
+  const handleSortRxList = () => {
+    sortRxList();
+  };
+
   const content = () => {
     if (prescriptions) {
       return (
         <div className="landing-page">
-          <button type="button" onClick={sortRxList}>
+          <button type="button" onClick={handleSortRxList}>
             sort
           </button>
           <PrintHeader />
@@ -238,8 +229,8 @@ const Prescriptions = () => {
               <MedicationsListSort setSortOption={setSortOption} />
               <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
             </div>
-            {rxList ? (
-              <MedicationsList rxList={rxList} />
+            {prescriptions ? (
+              <MedicationsList rxList={prescriptions} />
             ) : (
               <va-loading-indicator
                 message="Loading..."
