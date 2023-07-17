@@ -50,13 +50,6 @@ const analyticsEvents = {
       prefix: 'checkbox',
     },
   ],
-  CheckboxGroup: [
-    {
-      action: 'click',
-      event: 'int-checkbox-group-option-click',
-      prefix: 'checkbox-group',
-    },
-  ],
   LoadingIndicator: [
     {
       action: 'displayed',
