@@ -182,15 +182,14 @@ const formConfig = {
               ],
             },
 
-            'view:ageWarningNotification': {
+            minorHighSchoolQuestions: {
               'ui:description': ageWarning,
               'ui:options': {
+                expandUnder: 'veteranDateOfBirth',
                 hideIf: formData => {
                   let hideCondition;
-                  if (
-                    !eighteenOrOver(formData.veteranDateOfBirth) &&
-                    SeventeenOrOlder(formData.veteranDateOfBirth)
-                  ) {
+                  const dob = get('veteranDateOfBirth', formData);
+                  if (!eighteenOrOver(dob) && SeventeenOrOlder(dob)) {
                     hideCondition = false;
                   } else {
                     hideCondition = true;
@@ -202,13 +201,6 @@ const formConfig = {
                   }
                   return hideCondition;
                 },
-              },
-            },
-
-            minorHighSchoolQuestions: {
-              'ui:options': {
-                expandUnder: 'view:ageWarningNotification',
-                hideIf: formData => eighteenOrOver(formData.veteranDateOfBirth),
               },
               minorHighSchoolQuestion: {
                 'ui:title':
@@ -290,11 +282,6 @@ const formConfig = {
 
               veteranDateOfBirth: {
                 $ref: '#/definitions/date',
-              },
-
-              'view:ageWarningNotification': {
-                type: 'object',
-                properties: {},
               },
 
               minorHighSchoolQuestions: {
