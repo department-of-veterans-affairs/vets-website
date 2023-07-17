@@ -66,6 +66,45 @@ const youWereDiagnosedWith = avs => {
   return null;
 };
 
+const vitalSigns = avs => {
+  if (avs.data.vitals.length > 0) {
+    const vitalSignItems = avs.data.vitals.map((vitalSign, idx) => (
+      <>
+        <p key={idx}>
+          {vitalSign.type}
+          <br />
+          {vitalSign.value}
+        </p>
+        <hr />
+      </>
+    ));
+
+    return (
+      <div>
+        <h3>Vitals as of this appointment</h3>
+        {/* TODO: Check semantics and spacing */}
+        {vitalSignItems}
+      </div>
+    );
+  }
+
+  return null;
+};
+
+const procedures = avs => {
+  if (avs.data.procedures?.length > 0) {
+    // TODO: get procedures.
+
+    return (
+      <div>
+        <h3>Procedures</h3>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const YourAppointment = props => {
   const { avs } = props;
 
@@ -75,6 +114,8 @@ const YourAppointment = props => {
       {providers(avs)}
       {reasonForAppointment(avs)}
       {youWereDiagnosedWith(avs)}
+      {vitalSigns(avs)}
+      {procedures(avs)}
     </div>
   );
 };
