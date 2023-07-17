@@ -17,9 +17,10 @@ function validateName(errors, pageData) {
  * fullName: fullNameNoSuffixUI((title) => `Your ${title}`))
  * ```
  * @param {(title: string) => string} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
+ * @param {UIOptions} [uiOptions] optional 'ui:options' to apply to every field
  * @returns {UISchemaOptions} uiSchema
  */
-const fullNameNoSuffixUI = formatTitle => {
+const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
   return {
     'ui:validations': [validateName],
     first: {
@@ -31,6 +32,7 @@ const fullNameNoSuffixUI = formatTitle => {
       },
       'ui:options': {
         uswds: true,
+        ...uiOptions,
       },
     },
     middle: {
@@ -39,6 +41,7 @@ const fullNameNoSuffixUI = formatTitle => {
       'ui:autocomplete': 'additional-name',
       'ui:options': {
         uswds: true,
+        ...uiOptions,
       },
     },
     last: {
@@ -50,6 +53,7 @@ const fullNameNoSuffixUI = formatTitle => {
       },
       'ui:options': {
         uswds: true,
+        ...uiOptions,
       },
     },
   };
@@ -62,11 +66,12 @@ const fullNameNoSuffixUI = formatTitle => {
  * fullName: fullNameUI((title) => `Your ${title}`))
  * ```
  * @param {(title: string) => string} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
+ * @param {UIOptions} [uiOptions] optional 'ui:options' to apply to every field
  * @returns {UISchemaOptions} uiSchema
  */
-const fullNameUI = formatTitle => {
+const fullNameUI = (formatTitle, uiOptions = {}) => {
   return {
-    ...fullNameNoSuffixUI(formatTitle),
+    ...fullNameNoSuffixUI(formatTitle, uiOptions),
     suffix: {
       'ui:title': formatTitle ? formatTitle('middle name') : 'Suffix',
       'ui:autocomplete': 'honorific-suffix',
@@ -74,6 +79,7 @@ const fullNameUI = formatTitle => {
       'ui:options': {
         widgetClassNames: 'form-select-medium',
         uswds: true,
+        ...uiOptions,
       },
     },
   };
@@ -86,16 +92,18 @@ const fullNameUI = formatTitle => {
  * fullName: fullNameWithMaidenNameUI((title) => `Your ${title}`))
  * ```
  * @param {(title: string) => string} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
+ * @param {UIOptions} [uiOptions] optional 'ui:options' to apply to every field
  * @returns {UISchemaOptions} uiSchema
  */
-const fullNameWithMaidenNameUI = formatTitle => {
+const fullNameWithMaidenNameUI = (formatTitle, uiOptions) => {
   return {
-    ...fullNameUI(formatTitle),
+    ...fullNameUI(formatTitle, uiOptions),
     maiden: {
       'ui:title': "Mother's maiden name",
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         uswds: true,
+        ...uiOptions,
       },
     },
   };

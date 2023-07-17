@@ -26,11 +26,9 @@ const getChannelsByItemId = (itemId, channelEntities) => {
 };
 
 const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
-  // using the Mhv Notification Settings feature toggle to determine if we should show the email channel,
-  // since the email channel is not yet supported and all Mhv notifications are email based for now
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const allEnabled = useToggleValue(
-    TOGGLE_NAMES.profileShowMhvNotificationSettings,
+    TOGGLE_NAMES.profileShowEmailNotificationSettings,
   );
   // this is filtering all the channels that end with 1, which is the text channel
   // once the support for email is added, we'll need to remove this filter along with the feature toggle reliance
@@ -115,8 +113,8 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
 
 NotificationItem.propTypes = {
   channelIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  description: PropTypes.string,
   itemId: PropTypes.string.isRequired,
+  description: PropTypes.string,
   itemName: PropTypes.string,
 };
 

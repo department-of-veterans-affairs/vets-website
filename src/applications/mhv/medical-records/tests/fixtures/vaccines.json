@@ -3,69 +3,65 @@
     "name": "COVID-19 vaccine",
     "id": 121,
     "date": "June 14, 2022",
-    "type": "COVID-19 booster",
-    "dosage": "1st booster",
-    "series": "Phizer",
-    "facility": "school parking lot",
+    "location": "school parking lot",
     "reactions": ["sore arm", "fever"],
-    "comments": [
-      "Protects from delta variant",
-      "May need another booster for other variants"
+    "notes": [
+      "Protects from delta variant"
     ]
   },
   {
     "name": "COVID-19 vaccine",
     "id": 122,
     "date": "April 1, 2022",
-    "facility": "some super long name of a facility that will hopefully be several lines so I can test the ellipsis some super long name of a facility that will hopefully be several lines so I can test the ellipsis",
+    "location": "some super long name of a location that will hopefully be several lines so I can test the ellipsis some super long name of a location that will hopefully be several lines so I can test the ellipsis",
     "reactions": ["Just this one"]
   },
   {
     "name": "Flu vaccine",
     "id": 123,
     "date": "April 1, 2022",
-    "facility": "school parking lot"
+    "location": "school parking lot"
   },
   {
     "name": "Flu vaccine",
     "id": 124,
     "date": "April 1, 2022",
-    "facility": "school parking lot"
+    "location": "school parking lot"
   },
   {
     "name": "PneumoPPV vaccine",
     "id": 125,
     "date": "April 2, 2022",
-    "facility": "school parking lot"
+    "location": "school parking lot"
   },
   {
     "name": "Flu vaccine",
     "id": 126,
     "date": "April 1, 2022",
-    "facility": "school parking lot"
+    "location": "school parking lot"
   },
   {
     "name": "PneumoPPV vaccine",
     "id": 127,
     "date": "April 5, 2019",
-    "facility": "school parking lot"
+    "location": "school parking lot"
   },
   {
     "name": "Td vaccine",
     "id": 128,
     "date": "April 1, 2022",
-    "facility": "school parking lot"
+    "location": "school parking lot"
   },
   {
     "name": "Flu vaccine",
     "id": 129,
     "date": "April 1, 2022",
-    "facility": "school parking lot"
+    "location": "school parking lot"
   },
   {
     "name": "Flu vaccine",
     "id": 130,
     "date": "April 1, 2022",
-    "facility": "school parking lot"
+    "location": "school parking lot"
   }
 ]

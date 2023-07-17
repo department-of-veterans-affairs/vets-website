@@ -77,13 +77,11 @@ export const ConfirmationPage = () => {
         ) : null}
         <h4>You’ve selected these issues for review</h4>
         <ul className="vads-u-margin-top--0">{issues}</ul>
-        <button
-          type="button"
-          className="usa-button screen-only"
+        <va-button
+          class="screen-only"
           onClick={window.print}
-        >
-          Print this confirmation
-        </button>
+          text="Print this confirmation"
+        />
       </div>
       <h3>What to expect next</h3>
       <p>
