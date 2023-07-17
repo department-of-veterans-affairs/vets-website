@@ -89,3 +89,21 @@ export const interpretationMap = {
 export const emptyField = 'None noted';
 
 export const testing = false;
+
+export const vitalTypes = {
+  BLOOD_PRESSURE: 'BLOOD_PRESSURE',
+  BREATHING_RATE: 'BLOOD_SUGAR',
+  HEART_RATE: 'HEART_RATE',
+  HEIGHT: 'HEIGHT',
+  TEMPERATURE: 'TEMPERATURE',
+  WEIGHT: 'WEIGHT',
+};
+
+export const vitalTypeDisplayNames = {
+  BLOOD_PRESSURE: 'Blood pressure',
+  BREATHING_RATE: 'Breathing rate',
+  HEART_RATE: 'Heart rate',
+  HEIGHT: 'Height',
+  TEMPERATURE: 'Temperature',
+  WEIGHT: 'Weight',
+};
