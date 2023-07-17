@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
+import moment from 'moment';
 import ItemList from '../shared/ItemList';
 import { vitalTypeDisplayNames } from '../../util/constants';
 
@@ -18,6 +19,9 @@ const VitalListItem = props => {
           <h4>{vitalTypeDisplayNames[record.type]}</h4>
           <div className="vads-u-line-height--3">
             Result: {record.measurement}
+          </div>
+          <div className="vads-u-line-height--3">
+            {moment(record.date).format('LLL')}
           </div>
           <div className="location-collapsed vads-u-line-height--3">
             Location: {record.location}

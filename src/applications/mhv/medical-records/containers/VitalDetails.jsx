@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
@@ -152,7 +151,7 @@ const VitalDetails = () => {
     if (vitalDetails?.length) {
       return (
         <>
-          <h1>{vitalTypeDisplayNames[macroCase(vitalType)]}</h1>
+          <h1>{vitalTypeDisplayNames[vitalDetails[0].type]}</h1>
           <section className="set-width-486">
             <PrintDownload list download={generateVitalsPdf} />
             <div className="vads-u-padding-y--1 vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
@@ -165,15 +164,16 @@ const VitalDetails = () => {
               {currentVitals?.length > 0 &&
                 currentVitals?.map((vital, idx) => (
                   <li key={idx}>
-                    <h2>Result:</h2>
+                    <h2>{moment(vital.date).format('LLL')}</h2>
+                    <h3>Result:</h3>
                     <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                       {vital.measurement}
                     </p>
-                    <h2>Location:</h2>
+                    <h3>Location:</h3>
                     <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
                       {vital.location}
                     </p>
-                    <h2>Provider notes:</h2>
+                    <h3>Provider notes:</h3>
                     {vital?.notes?.length > 0 ? (
                       <ul className="comment-list">
                         {vital.notes.map((comment, commentIdx) => (
@@ -192,13 +192,12 @@ const VitalDetails = () => {
               {vitalDetails?.length > 0 &&
                 vitalDetails?.map((vital, idx) => (
                   <li key={idx}>
-                    <h2>Measurement:</h2>
+                    <h2>{moment(vital.date).format('LLL')}</h2>
+                    <h3>Result:</h3>
                     <p>{vital.measurement}</p>
-                    <h2>{idx === 0 ? 'Most recent date:' : 'Date:'}</h2>
-                    <p>{formatDateLong(vital.date)}</p>
-                    <h2>Location:</h2>
+                    <h3>Location:</h3>
                     <p>{vital.location}</p>
-                    <h2>Provider notes:</h2>
+                    <h3>Provider notes:</h3>
                     {vital?.notes?.length > 0 ? (
                       <ul className="comment-list">
                         {vital.notes.map((comment, commentIdx) => (
