@@ -116,16 +116,17 @@ const Vaccines = () => {
     <div id="vaccines">
       <PrintHeader />
       <h1 className="page-title">Vaccines</h1>
-      <p>
-        This is a complete list of vaccines that the VA has on file for you.
-      </p>
-      <p className="print-only vads-u-margin-bottom--0 max-80">
-        Your VA Vaccines list may not be complete. If you have any questions
-        about your information, visit the FAQs or contact your VA Health care
-        team.
-      </p>
-      <PrintDownload list download={generateVaccinesPdf} />
-
+      <section className="set-width-486">
+        <p>
+          This is a complete list of vaccines that the VA has on file for you.
+        </p>
+        <p className="print-only vads-u-margin-bottom--0 max-80">
+          Your VA Vaccines list may not be complete. If you have any questions
+          about your information, visit the FAQs or contact your VA Health care
+          team.
+        </p>
+        <PrintDownload list download={generateVaccinesPdf} />
+      </section>
       {content()}
     </div>
   );

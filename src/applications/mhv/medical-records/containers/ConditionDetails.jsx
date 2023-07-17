@@ -131,39 +131,40 @@ const ConditionDetails = () => {
           <h1 className="vads-u-margin-bottom--0">
             {conditionDetails.name.split(' (')[0]}
           </h1>
-          <div className="condition-subheader vads-u-margin-bottom--3">
-            <div className="time-header">
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Date and time entered:{' '}
-              </h2>
-              <p>{formattedDate}</p>
+          <section className="set-width-486">
+            <div className="condition-subheader vads-u-margin-bottom--3">
+              <div className="time-header">
+                <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                  Date and time entered:{' '}
+                </h2>
+                <p>{formattedDate}</p>
+              </div>
+              <PrintDownload list download={download} />
             </div>
-            <PrintDownload list download={download} />
-          </div>
-
-          <div className="condition-details max-80">
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Status of health condition
-            </h2>
-            <p>{conditionDetails.active ? 'Active' : 'Inactive'}</p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Provider
-            </h2>
-            <p>{conditionDetails.provider}</p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Location
-            </h2>
-            <p>
-              {conditionDetails.facility ||
-                'There is no facility reported at this time'}
-            </p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              SNOMED Clinical term
-            </h2>
-            <p>{conditionDetails.name}</p>
-            <h2 className="vads-u-margin-bottom--0">Provider comments</h2>
-            <ItemList list={conditionDetails.comments} />
-          </div>
+            <div className="condition-details max-80">
+              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                Status of health condition
+              </h2>
+              <p>{conditionDetails.active ? 'Active' : 'Inactive'}</p>
+              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                Provider
+              </h2>
+              <p>{conditionDetails.provider}</p>
+              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                Location
+              </h2>
+              <p>
+                {conditionDetails.facility ||
+                  'There is no facility reported at this time'}
+              </p>
+              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                SNOMED Clinical term
+              </h2>
+              <p>{conditionDetails.name}</p>
+              <h2 className="vads-u-margin-bottom--0">Provider comments</h2>
+              <ItemList list={conditionDetails.comments} />
+            </div>
+          </section>
         </>
       );
     }
