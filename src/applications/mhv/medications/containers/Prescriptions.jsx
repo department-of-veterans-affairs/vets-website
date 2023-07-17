@@ -175,9 +175,6 @@ const Prescriptions = () => {
     if (prescriptions) {
       return (
         <div className="landing-page">
-          <button type="button" onClick={handleSortRxList}>
-            sort
-          </button>
           <PrintHeader />
           <h1 className="page-title">Medications</h1>
           <div className="vads-u-margin-bottom--2 no-print">
