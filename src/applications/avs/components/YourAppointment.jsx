@@ -105,6 +105,25 @@ const procedures = avs => {
   return null;
 };
 
+const clinicMedications = avs => {
+  if (avs.data.vaMedications?.length > 0) {
+    // TODO: get clinic meds.
+
+    return (
+      <div>
+        <h3>Medications ordered for administration in clinic</h3>
+        <p>
+          Medications ordered for administration during your visit to a VA
+          clinic or emergency department.
+        </p>
+        {/* TODO: add "What do these medications terms mean?" */}
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const YourAppointment = props => {
   const { avs } = props;
 
@@ -116,6 +135,7 @@ const YourAppointment = props => {
       {youWereDiagnosedWith(avs)}
       {vitalSigns(avs)}
       {procedures(avs)}
+      {clinicMedications(avs)}
     </div>
   );
 };
