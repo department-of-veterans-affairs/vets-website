@@ -49,42 +49,36 @@ const renderDeductions = job => {
   );
 };
 
-const renderEmploymentHistory = (job, index) => {
-  if (job.isCurrent) {
-    return (
-      <>
-        <dl className="review">{renderWorkDates(job, index)}</dl>
-        <dl className="review">{renderGrossMonthlyIncome(job, index)}</dl>
-        <dl className="review">{renderDeductions(job)}</dl>
-      </>
-    );
-  }
-  return (
-    <>
-      <dl className="review">{renderWorkDates(job, index)}</dl>
-    </>
-  );
-};
-
-const EmploymentHistorySummaryReview = ({ data }) => {
+const EmploymentHistorySummaryReview = ({ data, title }) => {
   const {
     employmentRecords = [],
   } = data.personalData.employmentHistory.veteran;
+  const {
+    spEmploymentRecords = [],
+  } = data.personalData.employmentHistory.spouse;
+
+  const isSpouse = title.toLowerCase().includes('spouse');
+
+  const recordArray = isSpouse ? spEmploymentRecords : employmentRecords;
 
   return (
     <>
-      {employmentRecords.map((job, index) => {
+      {recordArray.map((job, index) => {
         return (
           <div
             className="form-review-panel-page"
-            key={index + job.amountDueMonthly}
+            key={index + job.employerName}
           >
             <div className="form-review-panel-page-header-row">
               <h4 className="vads-u-font-size--h5">
-                {job.type} employment at {job.employerName}
+                {job.type} at {job.employerName}
               </h4>
             </div>
-            <dl>{renderEmploymentHistory(job, index)}</dl>
+            <dl className="review">
+              {renderWorkDates(job, index)}
+              {renderGrossMonthlyIncome(job, index)}
+              {renderDeductions(job)}
+            </dl>
           </div>
         );
       })}
@@ -98,6 +92,9 @@ EmploymentHistorySummaryReview.propTypes = {
       employmentHistory: PropTypes.shape({
         veteran: PropTypes.shape({
           employmentRecords: PropTypes.array,
+        }),
+        spouse: PropTypes.shape({
+          spEmploymentRecords: PropTypes.array,
         }),
       }),
     }),
