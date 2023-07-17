@@ -16,7 +16,7 @@ const v3WCUI = ssnOrVaFileNumberUI(title => `V3 - ${title}`);
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsfTitle: titleUI('RJSF'),
+    'view:title': titleUI('RJSF'),
     ssn: {
       ...ssnUI(),
       'ui:title': 'Social security number',
@@ -27,7 +27,7 @@ export default {
         pattern: 'Your VA file number must be 8 or 9 digits',
       },
     },
-    wcTitle: inlineTitleUI('Web component'),
+    'view:wcTitle': inlineTitleUI('Web component'),
     wcOldSsn: {
       ...ssnNewUI(),
       'ui:options': {
@@ -40,24 +40,24 @@ export default {
         uswds: false,
       },
     },
-    wcv3Title: inlineTitleUI('Web component v3'),
+    'view:wcv3Title': inlineTitleUI('Web component v3'),
     wcv3SsnNew: v3WCUI.socialSecurityNumber,
     wcv3VaFileNumberNew: v3WCUI.vaFileNumber,
   },
   schema: {
     type: 'object',
     properties: {
-      rjsfTitle: titleSchema,
+      'view:title': titleSchema,
       ssn: {
         $ref: '#/definitions/ssn',
       },
       vaFileNumber: {
         $ref: '#/definitions/vaFileNumber',
       },
-      wcTitle: inlineTitleSchema,
+      'view:wcTitle': inlineTitleSchema,
       wcOldSsn: ssnNewSchema,
       wcOldVaFileNumber: vaFileNumberNewSchema,
-      wcv3Title: inlineTitleSchema,
+      'view:wcv3Title': inlineTitleSchema,
       wcv3SsnNew: ssnNewSchema,
       wcv3VaFileNumberNew: vaFileNumberNewSchema,
     },

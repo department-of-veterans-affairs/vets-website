@@ -13,7 +13,7 @@ import { CompensationTypeDescription } from 'applications/hca/components/FormDes
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsfTitle: titleUI('RJSF'),
+    'view:title': titleUI('RJSF'),
     vaCompensationType: {
       'ui:title': 'Do you receive VA disability compensation?',
       'ui:description': CompensationTypeDescription,
@@ -38,7 +38,7 @@ export default {
         },
       },
     },
-    wcv3Title: inlineTitleUI('Web component v3'),
+    'view:inlineTitle': inlineTitleUI('Web component v3'),
     wcv3VaCompensationType: radioUI({
       title: 'Do you receive VA disability compensation?',
       description: CompensationTypeDescription,
@@ -73,7 +73,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsfTitle: titleSchema,
+      'view:title': titleSchema,
       vaCompensationType: {
         type: 'string',
         enum: ['lowDisability', 'highDisability', 'none'],
@@ -81,7 +81,7 @@ export default {
       isCurrentlyActiveDuty: {
         type: 'boolean',
       },
-      wcv3Title: inlineTitleSchema,
+      'view:inlineTitle': inlineTitleSchema,
       wcv3VaCompensationType: radioSchema([
         'lowDisability',
         'highDisability',
