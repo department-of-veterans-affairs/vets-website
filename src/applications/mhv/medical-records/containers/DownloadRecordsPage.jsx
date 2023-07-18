@@ -1,15 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const DownloadRecordsPage = () => {
   const dispatch = useDispatch();
-  const fullState = useSelector(state => state);
-  const [editShareStatus, setEditShareStatus] = useState(false);
-  const [shareStatus, setShareStatus] = useState('Sharing through VHIE');
-  const [formSelection, setFormSelection] = useState(null);
 
   useEffect(
     () => {
@@ -60,12 +54,18 @@ const DownloadRecordsPage = () => {
         </ul>
 
         <button className="link-button" type="button">
-          <i className="fas fa-download vads-u-margin-right--0p5" />
+          <i
+            className="fas fa-download vads-u-margin-right--0p5"
+            aria-hidden="true"
+          />
           Download PDF document
         </button>
         <br />
         <button className="link-button" type="button">
-          <i className="fas fa-download vads-u-margin-right--0p5" />
+          <i
+            className="fas fa-download vads-u-margin-right--0p5"
+            aria-hidden="true"
+          />
           Download Text file
         </button>
         <h3 className="vads-u-margin-top--2">

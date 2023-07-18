@@ -7,7 +7,6 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 const SettingsPage = () => {
   const dispatch = useDispatch();
   const fullState = useSelector(state => state);
-  const [editShareStatus, setEditShareStatus] = useState(false);
   const [optedIn, setOptedIn] = useState(true);
 
   useEffect(
