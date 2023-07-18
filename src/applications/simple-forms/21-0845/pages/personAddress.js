@@ -11,7 +11,11 @@ export default {
     type: 'object',
     required: ['personAddress'],
     properties: {
-      personAddress: schema({ definitions }, true, 'address', { street2: 5 }),
+      personAddress: schema({ definitions }, true, 'address', {
+        street: 30,
+        street2: 5,
+        city: 18,
+      }),
     },
   },
 };

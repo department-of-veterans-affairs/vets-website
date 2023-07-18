@@ -17,7 +17,9 @@ export default {
     required: ['organizationAddress'],
     properties: {
       organizationAddress: schema({ definitions }, true, 'address', {
+        street: 30,
         street2: 5,
+        city: 18,
       }),
     },
   },

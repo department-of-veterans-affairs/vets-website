@@ -24,6 +24,11 @@ div:has(.schemaform-sip-alert) {
   margin: 0 0 !important;
 }
 
+#root_personAddress_street2,
+#root_organizationAddress_street2 {
+  max-width: 10rem;
+}
+
 #root_releaseDuration-label > .schemaform-required-span {
   display: none !important;
 }
