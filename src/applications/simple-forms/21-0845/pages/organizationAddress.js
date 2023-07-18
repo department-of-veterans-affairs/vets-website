@@ -9,13 +9,16 @@ export default {
       root: '',
       country: 'Organization’s country',
       street: 'Organization’s street address',
+      street2: 'Apt./Unit number',
     }),
   },
   schema: {
     type: 'object',
     required: ['organizationAddress'],
     properties: {
-      organizationAddress: schema({ definitions }, true),
+      organizationAddress: schema({ definitions }, true, 'address', {
+        street2: 5,
+      }),
     },
   },
 };

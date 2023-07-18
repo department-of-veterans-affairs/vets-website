@@ -5,13 +5,13 @@ import { uiSchema, schema } from '../../shared/definitions/pdfAddress';
 export default {
   uiSchema: {
     'ui:title': 'Person’s address',
-    personAddress: uiSchema({ root: '' }),
+    personAddress: uiSchema({ root: '', street2: 'Apt./Unit number' }),
   },
   schema: {
     type: 'object',
     required: ['personAddress'],
     properties: {
-      personAddress: schema({ definitions }, true),
+      personAddress: schema({ definitions }, true, 'address', { street2: 5 }),
     },
   },
 };
