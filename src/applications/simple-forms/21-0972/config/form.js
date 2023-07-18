@@ -13,7 +13,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
-import transformForSubmit from '../../shared/config/submit-transformer';
+import transformForSubmit from './submit-transformer';
 
 import preparerPersonalInformation from '../pages/preparerPersonalInformation';
 import preparerAddress from '../pages/preparerAddress';
