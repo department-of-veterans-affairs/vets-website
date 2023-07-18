@@ -8,49 +8,56 @@ import EnrollmentStatusFAQ from '../../../../components/IntroductionPage/Enrollm
 import EnrollmentStatusWarning from '../../../../components/IntroductionPage/EnrollmentStatus/Warning';
 
 describe('hca <EnrollmentStatus>', () => {
-  let getEnrollmentStatusSpy;
-  let defaultProps = {};
-
-  beforeEach(() => {
-    getEnrollmentStatusSpy = sinon.spy();
-    defaultProps = {
+  describe('when the `enrollmentStatus` prop is populated', () => {
+    const props = {
       applicationDate: '2019-04-24T00:00:00.000-06:00',
       enrollmentDate: '2019-04-30T00:00:00.000-06:00',
       enrollmentStatus: 'enrolled',
-      getEnrollmentStatus: getEnrollmentStatusSpy,
+      getEnrollmentStatus: sinon.spy(),
       preferredFacility: '463 - CHEY6',
       route: {
         formConfig: {},
         pageList: [],
       },
     };
+
+    it('should render EnrollmentStatusWarning component with correct props', () => {
+      const wrapper = shallow(<EnrollmentStatus {...props} />);
+      const selector = wrapper.find(EnrollmentStatusWarning);
+      const {
+        applicationDate,
+        enrollmentDate,
+        enrollmentStatus,
+        preferredFacility,
+      } = props;
+      expect(selector.prop('applicationDate')).to.equal(applicationDate);
+      expect(selector.prop('enrollmentDate')).to.equal(enrollmentDate);
+      expect(selector.prop('enrollmentStatus')).to.equal(enrollmentStatus);
+      expect(selector.prop('preferredFacility')).to.equal(preferredFacility);
+      wrapper.unmount();
+    });
+
+    it('should render EnrollmentStatusFAQ component with correct props', () => {
+      const wrapper = shallow(<EnrollmentStatus {...props} />);
+      const selector = wrapper.find(EnrollmentStatusFAQ);
+      const { enrollmentStatus, route } = props;
+      expect(selector.prop('enrollmentStatus')).to.equal(enrollmentStatus);
+      expect(selector.prop('route')).to.equal(route);
+      wrapper.unmount();
+    });
   });
 
-  it('renders an EnrollmentStatusWarning with the correct props', () => {
-    const wrapper = shallow(<EnrollmentStatus {...defaultProps} />);
-    const statusWarning = wrapper.find(EnrollmentStatusWarning);
-    expect(statusWarning.prop('applicationDate')).to.equal(
-      defaultProps.applicationDate,
-    );
-    expect(statusWarning.prop('enrollmentDate')).to.equal(
-      defaultProps.enrollmentDate,
-    );
-    expect(statusWarning.prop('enrollmentStatus')).to.equal(
-      defaultProps.enrollmentStatus,
-    );
-    expect(statusWarning.prop('preferredFacility')).to.equal(
-      defaultProps.preferredFacility,
-    );
-    wrapper.unmount();
-  });
-
-  it('renders an EnrollmentStatusFAQ with the correct props', () => {
-    const wrapper = shallow(<EnrollmentStatus {...defaultProps} />);
-    const statusFAQ = wrapper.find(EnrollmentStatusFAQ);
-    expect(statusFAQ.prop('enrollmentStatus')).to.equal(
-      defaultProps.enrollmentStatus,
-    );
-    expect(statusFAQ.prop('route')).to.equal(defaultProps.route);
-    wrapper.unmount();
+  describe('when the `enrollmentStatus` prop is omitted', () => {
+    const props = {
+      applicationDate: null,
+      enrollmentDate: null,
+      enrollmentStatus: null,
+      preferredFacility: null,
+    };
+    it('should not render any components', () => {
+      const wrapper = shallow(<EnrollmentStatus {...props} />);
+      expect(wrapper).to.be.empty;
+      wrapper.unmount();
+    });
   });
 });

@@ -75,7 +75,7 @@ const EnrollmentStatusFAQ = props => {
         <>
           <ProcessTimeline />
 
-          <div className="vads-u-margin-y--3">
+          <div className="hca-sip-intro vads-u-margin-y--3">
             <SaveInProgressIntro
               messages={formConfig.savedFormMessages}
               downtime={formConfig.downtime}

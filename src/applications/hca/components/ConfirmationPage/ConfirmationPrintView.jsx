@@ -34,12 +34,10 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
           <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
             Veteran’s name
           </dt>
-          <dd>
-            {name.first} {name.middle} {name.last} {name.suffix}
-          </dd>
+          <dd className="hca-veteran-fullname">{name}</dd>
         </div>
         {!!timestamp && (
-          <div>
+          <div className="hca-application-date">
             <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
               Date you applied
             </dt>

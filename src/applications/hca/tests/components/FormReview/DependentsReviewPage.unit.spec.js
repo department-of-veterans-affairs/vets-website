@@ -8,22 +8,26 @@ import DependentsReviewPage from '../../../components/FormReview/DependentsRevie
 describe('hca DependentsReviewPage', () => {
   const defaultProps = { data: { dependents: [] }, editPage: sinon.spy() };
 
-  it('should render', () => {
-    const view = render(<DependentsReviewPage {...defaultProps} />);
-    expect(view.container.querySelector('.form-review-panel-page')).to.exist;
+  describe('when the component renders', () => {
+    it('should render the form element', () => {
+      const { container } = render(<DependentsReviewPage {...defaultProps} />);
+      const selector = container.querySelector('.rjsf');
+      expect(selector).to.not.be.empty;
+    });
   });
 
   describe('when no dependents are declared', () => {
     it('should not render edit button', () => {
-      const view = render(<DependentsReviewPage {...defaultProps} />);
-      expect(view.container.querySelector('.edit-btn')).to.not.exist;
+      const { container } = render(<DependentsReviewPage {...defaultProps} />);
+      const selector = container.querySelector('.edit-btn');
+      expect(selector).to.not.exist;
     });
 
     it('should render dependents declaration question', () => {
-      const view = render(<DependentsReviewPage {...defaultProps} />);
-      const selector = view.container.querySelectorAll('.review-row');
+      const { container } = render(<DependentsReviewPage {...defaultProps} />);
+      const selector = container.querySelectorAll('.review-row');
       expect(selector).to.have.lengthOf(1);
-      expect(view.container.querySelector('.review-row')).to.contain.text(
+      expect(container.querySelector('.review-row')).to.contain.text(
         'Do you have any dependents to report?',
       );
     });
@@ -47,20 +51,40 @@ describe('hca DependentsReviewPage', () => {
     };
 
     it('should render edit button', () => {
-      const view = render(<DependentsReviewPage {...props} />);
-      expect(view.container.querySelector('.edit-btn')).to.exist;
-    });
-
-    it('should fire event on edit button click', () => {
-      const view = render(<DependentsReviewPage {...props} />);
-      fireEvent.click(view.container.querySelector('.edit-btn'));
-      expect(props.editPage.called).to.be.true;
+      const { container } = render(<DependentsReviewPage {...props} />);
+      const selector = container.querySelector('.edit-btn');
+      expect(selector).to.exist;
     });
 
     it('should render dependents list items', () => {
-      const view = render(<DependentsReviewPage {...props} />);
-      const selector = view.container.querySelectorAll('.review-row');
+      const { container } = render(<DependentsReviewPage {...props} />);
+      const selector = container.querySelectorAll('.review-row');
       expect(selector).to.have.lengthOf(2);
+    });
+  });
+
+  describe('when the user clicks on the edit button', () => {
+    const props = {
+      ...defaultProps,
+      data: {
+        dependents: [
+          {
+            fullName: { first: 'John', last: 'Smith' },
+            dependentRelation: 'Son',
+          },
+          {
+            fullName: { first: 'Mary', last: 'Smith' },
+            dependentRelation: 'Daughter',
+          },
+        ],
+      },
+    };
+
+    it('should fire event to trigger the edit flow', () => {
+      const { container } = render(<DependentsReviewPage {...props} />);
+      const selector = container.querySelector('.edit-btn');
+      fireEvent.click(selector);
+      expect(props.editPage.called).to.be.true;
     });
   });
 });
