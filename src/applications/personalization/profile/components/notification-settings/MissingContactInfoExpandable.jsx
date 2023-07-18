@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import { Link } from 'react-router-dom';
 import { VaAlertExpandable } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -27,6 +28,13 @@ const AddYourInfoDescription = ({ channel }) => {
   return null;
 };
 
+AddYourInfoDescription.propTypes = {
+  channel: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
 const UnavailableItemsList = ({ items }) => {
   return (
     <ul>
@@ -35,6 +43,14 @@ const UnavailableItemsList = ({ items }) => {
       ))}
     </ul>
   );
+};
+
+UnavailableItemsList.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 const AddYourInfoLink = ({ channel }) => {
@@ -58,6 +74,12 @@ const AddYourInfoLink = ({ channel }) => {
   );
 };
 
+AddYourInfoLink.propTypes = {
+  channel: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
 export const MissingContactInfoExpandable = ({
   showEmailNotificationSettings = false,
 }) => {
@@ -68,11 +90,7 @@ export const MissingContactInfoExpandable = ({
 
   const unavailableItems = useUnavailableItems();
 
-  if (
-    !showEmailNotificationSettings ||
-    missingChannels.length > 1 ||
-    missingChannels.length === 0
-  ) {
+  if (!showEmailNotificationSettings || missingChannels.length !== 1) {
     return null;
   }
 
@@ -92,4 +110,8 @@ export const MissingContactInfoExpandable = ({
       </div>
     </VaAlertExpandable>
   );
+};
+
+MissingContactInfoExpandable.propTypes = {
+  showEmailNotificationSettings: PropTypes.bool,
 };

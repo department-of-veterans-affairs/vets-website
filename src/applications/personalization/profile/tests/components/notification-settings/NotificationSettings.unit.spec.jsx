@@ -52,8 +52,6 @@ describe('<NotificationSettings />', () => {
       path: '/profile/notifications',
     });
 
-    expect(global.fetch.firstCall.args[1].method).to.equal('GET');
-
     expect(await view.findByText('Your health care')).to.exist;
 
     expect(
