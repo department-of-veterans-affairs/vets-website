@@ -21,8 +21,6 @@ const HomePage = ({
 }) => {
   useEffect(
     () => {
-      router.push(ROUTES.HOME);
-
       const clearForm = () => {
         updateDependentsField('');
         updateYearField('');
