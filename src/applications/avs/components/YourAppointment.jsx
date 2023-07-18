@@ -10,8 +10,8 @@ const clinicsVisited = avs => {
         <ul>
           {/* TODO: style lists without bullets. */}
           {/* TODO: add building icon. */}
-          <li>{clinic.site}</li>
-          <li>{clinic.clinic}</li>
+          <li key="clinicSite">{clinic.site}</li>
+          <li key="clinicName">{clinic.clinic}</li>
           {/* TODO: add details link. */}
         </ul>
       </div>
@@ -22,7 +22,7 @@ const clinicsVisited = avs => {
 
 const providers = avs => {
   const providerListItems = avs.data.providers.map((provider, idx) => (
-    <li key={idx}>{provider}</li>
+    <li key={`provider-${idx}`}>{provider}</li>
   ));
   return (
     <div>
@@ -34,9 +34,9 @@ const providers = avs => {
 
 const reasonForAppointment = avs => {
   if (avs.data.reasonForVisit.length > 0) {
-    const reasonForVisitListItems = avs.data.reasonForVisit.map(
-      (reason, idx) => <li key={idx}>{reason.diagnosis}</li>,
-    );
+    const reasonForVisitListItems = avs.data.reasonForVisit.map(reason => (
+      <li key={reason.code}>{reason.diagnosis}</li>
+    ));
 
     return (
       <div>
@@ -51,8 +51,8 @@ const reasonForAppointment = avs => {
 
 const youWereDiagnosedWith = avs => {
   if (avs.data.diagnoses.length > 0) {
-    const diagnosisListItems = avs.data.diagnoses.map((diagnosis, idx) => (
-      <li key={idx}>{diagnosis.diagnosis}</li>
+    const diagnosisListItems = avs.data.diagnoses.map(diagnosis => (
+      <li key={diagnosis.code}>{diagnosis.diagnosis}</li>
     ));
 
     return (
@@ -69,14 +69,14 @@ const youWereDiagnosedWith = avs => {
 const vitalSigns = avs => {
   if (avs.data.vitals.length > 0) {
     const vitalSignItems = avs.data.vitals.map((vitalSign, idx) => (
-      <>
-        <p key={idx}>
+      <div key={`vital-${idx}`}>
+        <p>
           {vitalSign.type}
           <br />
           {vitalSign.value}
         </p>
         <hr />
-      </>
+      </div>
     ));
 
     return (
