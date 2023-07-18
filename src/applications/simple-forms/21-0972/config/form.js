@@ -1,6 +1,6 @@
 import React from 'react';
-import footerContent from 'platform/forms/components/FormFooter';
-import environment from 'platform/utilities/environment';
+import footerContent from '@department-of-veterans-affairs/platform-forms/components/FormFooter';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
   claimantAddressTitle,
@@ -81,8 +81,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   transformForSubmit,
   trackingPrefix: '21-0972-alternate-signer-',
   dev: {
