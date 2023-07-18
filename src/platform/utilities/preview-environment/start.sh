@@ -16,6 +16,7 @@ cd $SOURCE_REF
 Commenting out directory creation for 
 mkdir -p website
 cd website
+git config --global --add safe.directory "*"
 
 # Clone vagov-content
 echo "Starting vagov-content"
@@ -58,7 +59,6 @@ yarn build --env api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs
 # # Serve the content-build
 # echo "Install and serve content-build"
 # cd ../content-build
-# git config --global --add safe.directory "*"
 # yarn install
 # wait
 # echo "Copy environment file template into place"
