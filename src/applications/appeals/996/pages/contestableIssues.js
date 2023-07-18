@@ -19,6 +19,7 @@ const contestableIssues = {
       'ui:title': ' ',
       'ui:field': 'StringField',
       'ui:widget': ContestableIssuesWidget,
+      'ui:required': () => true,
       'ui:options': {
         forceDivWrapper: true,
         keepInPageOnReview: true,

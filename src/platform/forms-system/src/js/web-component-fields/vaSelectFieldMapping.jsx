@@ -12,7 +12,7 @@ export default function vaSelectFieldMapping(props) {
         ? ''
         : childrenProps.formData,
     onVaSelect: (event, value) => {
-      const newVal = value ?? event.target.value ?? undefined;
+      const newVal = value || event.target.value || undefined;
       childrenProps.onChange(newVal);
     },
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
