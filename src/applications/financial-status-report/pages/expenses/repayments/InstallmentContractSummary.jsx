@@ -58,8 +58,9 @@ const InstallmentContractSummary = ({
   }) => {
     const formattedFields = {
       Creditor: creditorName,
-      'Original Loan Amount':
-        originalAmount && currencyFormatter(originalAmount),
+      'Original Loan Amount': originalAmount
+        ? currencyFormatter(originalAmount)
+        : null,
       'Unpaid balance': unpaidBalance && currencyFormatter(unpaidBalance),
       'Minimum monthly payment amount':
         amountDueMonthly && currencyFormatter(amountDueMonthly),
@@ -72,12 +73,12 @@ const InstallmentContractSummary = ({
       <p className="vads-u-margin--0">
         {Object.entries(formattedFields).map(
           ([key, value]) =>
-            value && (
+            value ? (
               <React.Fragment key={key}>
                 <strong>{key}:</strong> {value}
                 <br />
               </React.Fragment>
-            ),
+            ) : null,
         )}
       </p>
     );
