@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Loading = ({ label, message }) => (
-  <va-loading-indicator label={label} message={message} />
+  <va-loading-indicator
+    data-testid="priority-group-alert-loading"
+    label={label}
+    message={message}
+  />
 );
 
 Loading.propTypes = {

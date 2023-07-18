@@ -9,11 +9,12 @@ import Error from './Error';
 import Loading from './Loading';
 import PriorityGroup from './PriorityGroup';
 import SignInPrompt from './SignInPrompt';
-import { fetchEnrollmentStatus } from '../actions';
+import { fetchEnrollmentStatus as actualFetchEnrollmentStatus } from '../actions';
 
 export const App = ({
   enrollmentStatus,
   error,
+  fetchEnrollmentStatus = actualFetchEnrollmentStatus,
   handleSignInClick,
   isSignedIn,
   loading,
@@ -41,6 +42,7 @@ App.propTypes = {
     priorityGroup: PropTypes.string,
   }),
   error: PropTypes.bool,
+  fetchEnrollmentStatus: PropTypes.func,
   handleSignInClick: PropTypes.func,
   isSignedIn: PropTypes.bool,
   loading: PropTypes.bool,

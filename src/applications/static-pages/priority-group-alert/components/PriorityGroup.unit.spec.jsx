@@ -4,8 +4,8 @@ import { render } from '@testing-library/react';
 import PriorityGroup from './PriorityGroup';
 
 const initialProps = {
-  updatedAt: '2023/07/13',
-  value: '8G',
+  effectiveDate: '2019-01-02T21:58:55.000-06:00',
+  priorityGroup: 'Group 8G',
 };
 
 const setup = (props = {}) =>
@@ -19,8 +19,8 @@ describe('Priority Group Component', () => {
 
   it('displays the assigned priority group', () => {
     const wrapper = setup();
-    const content = 'Your assigned priority group is 8G (as of 2023/07/13)';
-    expect(wrapper.findByText(content)).to.exist;
+    const content = 'Your assigned priority group is 8G (as of 2019-01-02)';
+    expect(wrapper.getByText(content)).to.exist;
   });
 
   it('links to an article about form 10-10EZR', () => {

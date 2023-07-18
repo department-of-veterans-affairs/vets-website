@@ -21,21 +21,10 @@ const enrollmentStatus = {
   priorityGroup: 'Group 8G',
 };
 
-const mockApiSuccess = (path, data) => {
+const mockApi = (path, data, status = 200) => {
   const url = `${environment.API_URL}${path}`;
   const server = setupServer(
-    rest.get(url, (_, res, ctx) => res(ctx.json(data))),
-  );
-  server.listen();
-  return server;
-};
-
-const mockApiFailure = path => {
-  const url = `${environment.API_URL}${path}`;
-  const server = setupServer(
-    rest.get(url, (_, res, ctx) =>
-      res(ctx.status(404), ctx.json({ errorMessage: 'Not Found' })),
-    ),
+    rest.get(url, (_, res, ctx) => res(ctx.status(status), ctx.json(data))),
   );
   server.listen();
   return server;
@@ -69,7 +58,7 @@ describe('Enrollment Status actions', () => {
   describe('fetchEnrollmentStatus', () => {
     it('gets the enrollment status', done => {
       const path = '/v0/health_care_applications/enrollment_status';
-      const server = mockApiSuccess(path, enrollmentStatus);
+      const server = mockApi(path, enrollmentStatus);
       const dispatch = sinon.spy();
       const thunk = fetchEnrollmentStatus();
       thunk(dispatch, initialState)
@@ -84,7 +73,7 @@ describe('Enrollment Status actions', () => {
 
     it('dispatches an error', done => {
       const path = '/v0/health_care_applications/enrollment_status';
-      const server = mockApiFailure(path);
+      const server = mockApi(path, { errorMessage: 'Not Found' }, 404);
       const dispatch = sinon.spy();
       const sentry = sinon.spy(Sentry, 'captureException');
       const thunk = fetchEnrollmentStatus();
