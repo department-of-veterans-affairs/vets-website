@@ -6,6 +6,7 @@ import Select from '@department-of-veterans-affairs/component-library/Select';
 import environment from 'platform/utilities/environment';
 import { getActivePages } from 'platform/forms-system/src/js/helpers';
 import localStorage from 'platform/utilities/storage/localStorage';
+import '@department-of-veterans-affairs/component-library/i18n-setup';
 
 const docsPage =
   'https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/forms/save-in-progress-menu';

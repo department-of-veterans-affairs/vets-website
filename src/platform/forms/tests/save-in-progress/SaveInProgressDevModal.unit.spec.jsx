@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM /* , { act } */ from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
-import '@department-of-veterans-affairs/component-library/i18n-setup';
+
 import { getFormDOM } from 'platform/testing/unit/schemaform-utils.jsx';
 import cloneDeep from '../../../utilities/data/cloneDeep';
 import SipsDevModal from '../../save-in-progress/SaveInProgressDevModal';
