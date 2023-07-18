@@ -1,45 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { currency as currencyFormatter } from '../../utils/helpers';
 
-const renderWorkDates = (job, index) => {
-  if (!job.isCurrent) {
-    return (
-      <div className="review-row" key={job.type + index}>
-        <dt>Dates</dt>
-        <dd>
-          {job.from} - {job.to}
-        </dd>
-      </div>
-    );
-  }
-  return (
-    <div className="review-row" key={job.type + index}>
-      <dt>Dates</dt>
-      <dd>{job.from} - Present</dd>
-    </div>
-  );
-};
-
-const renderGrossMonthlyIncome = (job, index) => {
+const renderGrossMonthlyIncome = (job, index, isSpouse) => {
   if (!job.isCurrent) return null;
 
   return (
-    <div className="review-row" key={job.type + index}>
+    <div
+      className="review-row"
+      key={
+        isSpouse
+          ? `spouse${index}${job.employerName}${job.type}gmi`
+          : `vet${index}${job.employerName}${job.type}gmi`
+      }
+    >
       <dt>Gross monthly income</dt>
       <dd>{currencyFormatter(job.grossMonthlyIncome)}</dd>
     </div>
   );
 };
 
-const renderDeductions = job => {
+const renderDeductions = (job, isSpouse) => {
   if (!job.isCurrent) return null;
 
   return (
     <>
       {job.deductions.map((deduction, deductionIndex) => {
         return (
-          <div className="review-row" key={job.type + deductionIndex}>
+          <div
+            className="review-row"
+            key={
+              isSpouse
+                ? `spouse${deductionIndex}${job.employerName}${
+                    job.type
+                  }deduction`
+                : `vet${deductionIndex}${job.employerName}${job.type}deduction`
+            }
+          >
             <dt>{deduction.name}</dt>
             <dd>{currencyFormatter(deduction.amount)}</dd>
           </div>
@@ -49,7 +47,35 @@ const renderDeductions = job => {
   );
 };
 
-const EmploymentHistorySummaryReview = ({ data, title }) => {
+const formatDate = date => {
+  // dates are currently formatted as YYYY-MM-DD
+  //  however, we only want to display the month and year and
+  //  day is populated with XX which does not play well with formatters
+  return moment(new Date(date.substring(0, 8))).format('MMMM YYYY');
+};
+
+const renderWorkDates = (job, index, isSpouse) => {
+  const startDate = formatDate(job.from);
+  const endDate = job.isCurrent ? 'Present' : formatDate(job.to);
+
+  return (
+    <div
+      className="review-row"
+      key={
+        isSpouse
+          ? `spouse${index}${job.employerName}${job.type}date`
+          : `vet${index}${job.employerName}${job.type}date`
+      }
+    >
+      <dt>Dates</dt>
+      <dd>
+        {startDate} - {endDate}
+      </dd>
+    </div>
+  );
+};
+
+const EmploymentHistorySummaryReview = ({ data, name }) => {
   const {
     employmentRecords = [],
   } = data.personalData.employmentHistory.veteran;
@@ -57,7 +83,7 @@ const EmploymentHistorySummaryReview = ({ data, title }) => {
     spEmploymentRecords = [],
   } = data.personalData.employmentHistory.spouse;
 
-  const isSpouse = title.toLowerCase().includes('spouse');
+  const isSpouse = name.toLowerCase().includes('spouse');
 
   const recordArray = isSpouse ? spEmploymentRecords : employmentRecords;
 
@@ -67,17 +93,22 @@ const EmploymentHistorySummaryReview = ({ data, title }) => {
         return (
           <div
             className="form-review-panel-page"
-            key={index + job.employerName}
+            key={
+              isSpouse
+                ? `spouse${index}${job.employerName}${job.type}`
+                : `vet${index}${job.employerName}${job.type}`
+            }
           >
             <div className="form-review-panel-page-header-row">
               <h4 className="vads-u-font-size--h5">
+                {isSpouse ? "Spouse's " : ''}
                 {job.type} at {job.employerName}
               </h4>
             </div>
             <dl className="review">
-              {renderWorkDates(job, index)}
-              {renderGrossMonthlyIncome(job, index)}
-              {renderDeductions(job)}
+              {renderWorkDates(job, index, isSpouse)}
+              {renderGrossMonthlyIncome(job, index, isSpouse)}
+              {renderDeductions(job, isSpouse)}
             </dl>
           </div>
         );
@@ -99,7 +130,7 @@ EmploymentHistorySummaryReview.propTypes = {
       }),
     }),
   }),
-  title: PropTypes.string,
+  name: PropTypes.string,
 };
 
 export default EmploymentHistorySummaryReview;
