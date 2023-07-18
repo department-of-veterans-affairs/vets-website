@@ -2,20 +2,20 @@
 # Use the mounted EFS volume to retrieve instance repos, install, and build
 echo "Navigate into /app/website/slow"
 cd website/slow
-# echo "Generating timestamp"
-# TIMESTAMP=$(date +%s)
-# echo "Timestamp value: " $TIMESTAMP
-# echo "Moving: " $SOURCE_REF " to " $SOURCE_REF"-"$TIMESTAMP
-# mv -vf $SOURCE_REF $SOURCE_REF"-"$TIMESTAMP
-# echo "Removing previous build in background"
-# rm -rf $SOURCE_REF"-"$TIMESTAMP &
-# echo "Creating directory: " $SOURCE_REF
-# mkdir $SOURCE_REF
-# echo "Navigate into: " $SOURCE_REF
-# cd $SOURCE_REF
-# Commenting out directory creation for 
-# mkdir -p website
-# cd website
+echo "Generating timestamp"
+TIMESTAMP=$(date +%s)
+echo "Timestamp value: " $TIMESTAMP
+echo "Moving: " $SOURCE_REF " to " $SOURCE_REF"-"$TIMESTAMP
+mv -vf $SOURCE_REF $SOURCE_REF"-"$TIMESTAMP
+echo "Removing previous build in background"
+rm -rf $SOURCE_REF"-"$TIMESTAMP &
+echo "Creating directory: " $SOURCE_REF
+mkdir $SOURCE_REF
+echo "Navigate into: " $SOURCE_REF
+cd $SOURCE_REF
+Commenting out directory creation for 
+mkdir -p website
+cd website
 
 # Clone vagov-content
 echo "Starting vagov-content"
