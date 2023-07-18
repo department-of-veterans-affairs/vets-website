@@ -8,7 +8,7 @@ import moment from 'moment';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/exports';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
-import { ACCESSORY } from '../constants';
+import { ACCESSORY, DLC_PHONE } from '../constants';
 
 class Accessories extends Component {
   componentDidMount() {
@@ -87,7 +87,7 @@ class Accessories extends Component {
                 <p>
                   If you need accessories like domes, wax guards, cleaning
                   supplies, or dessicant, call the DLC Customer Service Section
-                  at <va-telephone contact="3032736200" /> or email{' '}
+                  at <va-telephone contact={DLC_PHONE} /> or email{' '}
                   <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
               </div>
@@ -177,7 +177,7 @@ class Accessories extends Component {
               need an accessory that hasn’t been ordered within the last 2
               years, call the DLC Customer Service Section at
               <va-telephone
-                contact="3032736200"
+                contact={DLC_PHONE}
                 className="vads-u-margin--0p5"
               />
               or email

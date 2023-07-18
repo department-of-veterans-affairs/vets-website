@@ -8,7 +8,7 @@ import moment from 'moment';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/exports';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
-import { BATTERY } from '../constants';
+import { BATTERY, DLC_PHONE } from '../constants';
 
 class Batteries extends Component {
   componentDidMount() {
@@ -95,7 +95,7 @@ class Batteries extends Component {
                 <p>
                   If you need unavailable batteries sooner, call the DLC
                   Customer Service Section at{' '}
-                  <va-telephone contact="3032736200" /> or email{' '}
+                  <va-telephone contact={DLC_PHONE} /> or email{' '}
                   <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
               </div>
@@ -189,7 +189,7 @@ class Batteries extends Component {
               placed an order for resupply items within the last 2 years. If you
               need to order batteries, call the DLC Customer Service Section at
               <va-telephone
-                contact="3032736200"
+                contact={DLC_PHONE}
                 className="vads-u-margin--0p5"
               />
               or email
@@ -234,6 +234,7 @@ Batteries.propTypes = {
       productId: PropTypes.number,
     }),
   ),
+  setData: PropTypes.func,
   supplies: PropTypes.arrayOf(
     PropTypes.shape({
       deviceName: PropTypes.string,

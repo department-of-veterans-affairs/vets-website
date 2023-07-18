@@ -1,12 +1,14 @@
-import classnames from 'classnames';
-import moment from 'moment';
-import { setData } from 'platform/forms-system/src/js/actions';
-import recordEvent from 'platform/monitoring/record-event';
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-import { APNEA } from '../constants';
+import PropTypes from 'prop-types';
+
+import classnames from 'classnames';
+import moment from 'moment';
+
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/exports';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+
+import { APNEA, DLC_PHONE } from '../constants';
 
 class ApneaSupplies extends Component {
   componentDidMount() {
@@ -85,7 +87,7 @@ class ApneaSupplies extends Component {
                 <p>
                   If you need accessories like domes, wax guards, cleaning
                   supplies, or dessicant, call the DLC Customer Service Section
-                  at <va-telephone contact="3032736200" /> or email{' '}
+                  at <va-telephone contact={DLC_PHONE} /> or email{' '}
                   <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
               </div>
@@ -174,8 +176,8 @@ class ApneaSupplies extends Component {
               placed an order for resupply items within the last 2 years. If you
               need an accessory that hasn’t been ordered within the last 2
               years, call the DLC Customer Service Section at
-              <Telephone
-                contact="303-273-6200"
+              <va-telephone
+                contact={DLC_PHONE}
                 className="vads-u-margin--0p5"
               />
               or email
@@ -213,6 +215,14 @@ ApneaSupplies.defaultProps = {
 };
 
 ApneaSupplies.propTypes = {
+  eligibility: PropTypes.object,
+  formData: PropTypes.object,
+  order: PropTypes.arrayOf(
+    PropTypes.shape({
+      productId: PropTypes.number,
+    }),
+  ),
+  setData: PropTypes.func,
   supplies: PropTypes.arrayOf(
     PropTypes.shape({
       deviceName: PropTypes.string,
@@ -226,12 +236,6 @@ ApneaSupplies.propTypes = {
       size: PropTypes.string,
     }),
   ),
-  order: PropTypes.arrayOf(
-    PropTypes.shape({
-      productId: PropTypes.number,
-    }),
-  ),
-  eligibility: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
