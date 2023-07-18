@@ -7,7 +7,7 @@ import particularFolderResponse from './fixtures/drafts-response.json';
 import customFolderResponse from './fixtures/message-custom-response.json';
 import mockSearchMessages from './fixtures/search-COVID-results.json';
 import mockSearchCustomMessages from './fixtures/search-MEDICATION-results.json';
-import mockTrashFolder from './fixtures/folder-deleted-metadata.json';
+import mockTrashFolder from './fixtures/trashResponse/folder-deleted-metadata.json';
 import mockCustomFolder from './fixtures/folder-custom-metadata.json';
 
 describe(manifest.appName, () => {

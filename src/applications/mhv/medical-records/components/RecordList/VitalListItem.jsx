@@ -24,11 +24,7 @@ const VitalListItem = props => {
             Location: {record.facility}
           </div>
           <div className="print-only">
-            Provider comments:{' '}
-            <ItemList
-              list={record.comments}
-              emptyMessage="No comments at this time"
-            />
+            Provider comments: <ItemList list={record.comments} />
           </div>
           <Link
             to={`/health-history/vitals/${record.name

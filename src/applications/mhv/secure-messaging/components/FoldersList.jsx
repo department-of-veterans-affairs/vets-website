@@ -19,13 +19,15 @@ const FoldersList = props => {
             >
               <Link to={folderPathByFolderId(folder.id)}>
                 <i className="fas fa-folder fa-lg" aria-hidden="true" />
-                {folder.id === Folders.DELETED.id
-                  ? Folders.DELETED.header
-                  : folder.name}{' '}
-                {showUnread &&
-                  folder.unreadCount > 0 &&
-                  folder.id !== Folders.DRAFTS.id &&
-                  `(${folder.unreadCount} unread messages)`}
+                <span data-dd-privacy="mask">
+                  {folder.id === Folders.DELETED.id
+                    ? Folders.DELETED.header
+                    : folder.name}{' '}
+                  {showUnread &&
+                    folder.unreadCount > 0 &&
+                    folder.id !== Folders.DRAFTS.id &&
+                    `(${folder.unreadCount} unread messages)`}
+                </span>
               </Link>
             </li>
           ))}

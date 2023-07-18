@@ -7,7 +7,7 @@ const MedicationsListCard = props => {
   const { rx } = props;
   let history = false;
   let isExpired = false;
-  if (rx.refillStatus === 'expired' || rx.refillStatus === 'discontinued') {
+  if (rx.refillStatus === 'expired') {
     isExpired = true;
   }
   if (rx.refillStatus === 'refillinprocess') {
