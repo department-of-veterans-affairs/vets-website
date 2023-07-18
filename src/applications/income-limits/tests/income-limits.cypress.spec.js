@@ -474,7 +474,7 @@ xdescribe('Income Limits', () => {
       h.verifyLoadingIndicatorShown();
 
       h.checkServiceAlertText(
-        `We’ve run into a problemThe zip code you entered doesn't exist in our database.`,
+        `We’ve run into a problemYour information couldn’t go through. Please enter a valid 5 digit zip code.`,
       );
       h.verifyLoadingIndicatorNotShown();
     });
@@ -516,7 +516,7 @@ xdescribe('Income Limits', () => {
       h.verifyLoadingIndicatorShown();
 
       h.checkServiceAlertText(
-        `We’ve run into a problemThe year you entered doesn't exist in our database.`,
+        `We’ve run into a problemYour information couldn’t go through. Please select a year again.`,
       );
       h.verifyLoadingIndicatorNotShown();
     });
@@ -558,7 +558,7 @@ xdescribe('Income Limits', () => {
       h.verifyLoadingIndicatorShown();
 
       h.checkServiceAlertText(
-        `We’ve run into a problemThe number of dependents you entered is not between 0 and 100`,
+        `We’ve run into a problemYour information couldn’t go through. Please enter a number of dependents between 0 and 100.`,
       );
       h.verifyLoadingIndicatorNotShown();
     });
@@ -604,6 +604,36 @@ xdescribe('Income Limits', () => {
         `We’ve run into a problemWe’re sorry. Something went wrong on our end. Please try again.`,
       );
       h.verifyLoadingIndicatorNotShown();
+    });
+  });
+
+  describe('preventing deep linking', () => {
+    it('should redirect to home if an URL is navigated to without the correct data', () => {
+      cy.visit('/health-care/income-limits');
+
+      // Home
+      h.verifyElement(h.CURRENT_LINK);
+      cy.injectAxeThenAxeCheck();
+
+      cy.visit('/health-care/income-limits/zip');
+      // Home
+      h.verifyElement(h.CURRENT_LINK);
+
+      cy.visit('/health-care/income-limits/dependents');
+      // Home
+      h.verifyElement(h.CURRENT_LINK);
+
+      cy.visit('/health-care/income-limits/year');
+      // Home
+      h.verifyElement(h.CURRENT_LINK);
+
+      cy.visit('/health-care/income-limits/results');
+      // Home
+      h.verifyElement(h.CURRENT_LINK);
+
+      cy.visit('/health-care/income-limits/review');
+      // Home
+      h.verifyElement(h.CURRENT_LINK);
     });
   });
 });

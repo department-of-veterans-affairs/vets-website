@@ -1,27 +1,46 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPrescriptionsList } from '../actions/prescriptions';
+import {
+  getPrescriptionsList,
+  setSortedRxList,
+} from '../actions/prescriptions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintHeader from './PrintHeader';
+import { rxListSortingOptions } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 
 const Prescriptions = () => {
   const currentDate = new Date();
   const prescriptions = useSelector(
-    state => state.rx.prescriptions.prescriptionsList,
+    state => state.rx.prescriptions?.prescriptionsList,
   );
+  const defaultSortOption = rxListSortingOptions[0].ACTIVE.value;
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
 
   const dispatch = useDispatch();
-  const [rxList, setRxList] = useState([]);
+  const [pdfList, setPdfList] = useState([]);
+  const [sortOption, setSortOption] = useState('');
 
-  const buildPrescriptionList = useCallback(
+  const sortRxList = useCallback(
     () => {
-      return prescriptions.map(rx => {
+      const newList = [...prescriptions];
+      newList.sort(a => {
+        return a.refillStatus.toLowerCase() === sortOption.toLowerCase()
+          ? -1
+          : 0;
+      });
+      dispatch(setSortedRxList(newList));
+    },
+    [dispatch, prescriptions, sortOption],
+  );
+
+  const buildPrescriptionPDFList = useCallback(
+    () => {
+      return prescriptions?.map(rx => {
         return {
           header: rx.prescriptionName,
           items: [
@@ -113,10 +132,19 @@ const Prescriptions = () => {
   useEffect(
     () => {
       if (prescriptions) {
-        setRxList(buildPrescriptionList());
+        setPdfList(buildPrescriptionPDFList());
       }
     },
-    [buildPrescriptionList, prescriptions],
+    [buildPrescriptionPDFList, prescriptions],
+  );
+
+  useEffect(
+    () => {
+      if (sortOption) {
+        sortRxList();
+      }
+    },
+    [sortOption, sortRxList],
   );
 
   const pdfData = {
@@ -132,7 +160,7 @@ const Prescriptions = () => {
       'This is a list of your current prescriptions, allergies, and adverse reactions.',
     results: {
       header: '',
-      items: rxList,
+      items: pdfList,
     },
   };
 
@@ -167,10 +195,22 @@ const Prescriptions = () => {
                   </li>
                 </ul>
               </va-additional-info>
-              <MedicationsListSort />
+              <MedicationsListSort
+                setSortOption={setSortOption}
+                sortOption={sortOption}
+                defaultSortOption={defaultSortOption}
+              />
               <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
             </div>
-            <MedicationsList rxList={prescriptions} />
+            {prescriptions ? (
+              <MedicationsList rxList={prescriptions} />
+            ) : (
+              <va-loading-indicator
+                message="Loading..."
+                setFocus
+                data-testid="loading-indicator"
+              />
+            )}
           </div>
           <div className="rx-landing-page-footer no-print">
             <div className="footer-header vads-u-font-size--h2 vads-u-font-weight--bold vads-u-padding-y--1 vads-u-border-bottom--1px vads-u-border-color--gray-light">
