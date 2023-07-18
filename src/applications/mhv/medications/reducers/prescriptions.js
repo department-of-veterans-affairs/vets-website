@@ -28,6 +28,12 @@ export const prescriptionsReducer = (state = initialState, action) => {
         }),
       };
     }
+    case Actions.Prescriptions.SET_SORTED_LIST: {
+      return {
+        ...state,
+        prescriptionsList: action.rxList,
+      };
+    }
     default:
       return state;
   }

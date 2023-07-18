@@ -83,6 +83,13 @@ export default {
           'ui:required': () => true,
           'ui:errorMessages': {
             required: 'Please list at least one condition',
+            maxLength: 'Please limit your answer to no more than 75 characters',
+          },
+          'ui:options': {
+            updateSchema: () => ({
+              type: 'string',
+              maxLength: 75,
+            }),
           },
         },
         [providerFacilityFields.treatmentDateRange]: {

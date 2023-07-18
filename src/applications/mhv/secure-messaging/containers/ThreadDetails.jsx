@@ -13,9 +13,9 @@ import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { getTriageTeams } from '../actions/triageTeams';
 import { clearDraft } from '../actions/draftDetails';
 import InterstitialPage from './InterstitialPage';
-import { PrintMessageOptions } from '../util/constants';
+import { PrintMessageOptions, PageTitles } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
-import { navigateToFolderByFolderId } from '../util/helpers';
+import { navigateToFolderByFolderId, updatePageTitle } from '../util/helpers';
 import { retrieveFolder } from '../actions/folders';
 
 const ThreadDetails = props => {
@@ -103,6 +103,7 @@ const ThreadDetails = props => {
       if (isDraft || isReply) {
         setH1Focus(true);
         focusElement(header.current);
+        updatePageTitle(PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG);
       }
     },
     [acknowledged],

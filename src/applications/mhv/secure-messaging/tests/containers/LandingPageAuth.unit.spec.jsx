@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 import LandingPageAuth from '../../containers/LandingPageAuth';
+import { PageTitles } from '../../util/constants';
 import reducer from '../../reducers';
 import folderList from '../fixtures/folder-response.json';
 import { unreadCountInbox } from '../../util/helpers';
@@ -35,7 +36,13 @@ describe('Landing dashboard', () => {
     screen = setup();
   });
 
-  it('renders without errors', () => {
+  it('verifies page title tag for landing page', async () => {
+    await waitFor(() => {
+      expect(global.document.title).to.equal(PageTitles.DEFAULT_PAGE_TITLE_TAG);
+    });
+  });
+
+  it('renders without errors', async () => {
     expect(
       screen.getByText(
         'Communicate privately and securely with your VA health care team online.',

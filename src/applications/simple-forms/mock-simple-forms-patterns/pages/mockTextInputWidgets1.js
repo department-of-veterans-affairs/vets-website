@@ -19,7 +19,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsfTitle: titleUI('RJSF'),
+    'view:title': titleUI('RJSF'),
     emailOld: {
       ...emailOldUI(),
       'ui:title': 'TextWidget - emailUI',
@@ -29,7 +29,7 @@ export default {
       ...ssnUI(),
       'ui:title': 'TextWidget - ssnUI',
     },
-    wcTitle: inlineTitleUI('Web component'),
+    'view:wcTitle': inlineTitleUI('Web component'),
     wcOldTextEmail: {
       ...emailUI('VaTextInputField - emailUI'),
       'ui:options': {
@@ -48,7 +48,7 @@ export default {
         uswds: false,
       },
     },
-    wcv3Title: inlineTitleUI('Web component v3'),
+    'view:wcv3Title': inlineTitleUI('Web component v3'),
     wcv3TextEmailNew: emailUI(null, true),
     wcv3TextPhoneNew: phoneUI('VaTextInputField - phoneUI'),
     wcv3TextSsnNew: ssnNewUI(),
@@ -56,7 +56,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsfTitle: titleSchema,
+      'view:title': titleSchema,
       emailOld: {
         type: 'string',
         pattern: '^\\S+@\\S+$',
@@ -69,11 +69,11 @@ export default {
         type: 'string',
         pattern: '^[0-9]{9}$',
       },
-      wcTitle: inlineTitleSchema,
+      'view:wcTitle': inlineTitleSchema,
       wcOldTextEmail: emailSchema,
       wcOldTextPhone: phoneSchema,
       wcOldTextSsn: ssnNewSchema,
-      wcv3Title: inlineTitleSchema,
+      'view:wcv3Title': inlineTitleSchema,
       wcv3TextEmailNew: emailSchema,
       wcv3TextPhoneNew: phoneSchema,
       wcv3TextSsnNew: ssnNewSchema,

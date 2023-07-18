@@ -15,6 +15,24 @@ import radio from '../pages/mockRadio';
 import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran';
 import select from '../pages/mockSelect';
 import date from '../pages/mockDate';
+import arraySinglePage from '../pages/mockArraySinglePage';
+import arrayMultiplePageStart from '../pages/mockArrayMultiplePageStart';
+import arrayMultiplePageItem from '../pages/mockArrayMultiplePageItem';
+
+// helps for dev testing and e2e
+const INCLUDE_PAGE = {
+  text: true,
+  radio: true,
+  checkbox: true,
+  select: true,
+  date: true,
+  arraySingle: true,
+  arrayMulti: true,
+};
+
+function includePage(page) {
+  return INCLUDE_PAGE[page] ?? true;
+}
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -44,47 +62,54 @@ const formConfig = {
       pages: {
         textInput: {
           path: 'text-input',
-          title: 'Text Input',
+          title: 'Text Input', // for review page (has to be more than one word)
           uiSchema: textInput.uiSchema,
           schema: textInput.schema,
           initialData: textInput.initialData,
+          // dont use depends here - needs first page for e2e
         },
         textInputWidgets1: {
           path: 'text-input-widgets1',
-          title: 'Text Input Widgets 1',
+          title: 'Text Input Widgets 1', // for review page (has to be more than one word)
           uiSchema: textInputWidgets1.uiSchema,
           schema: textInputWidgets1.schema,
+          depends: () => includePage('text'),
         },
         textInputFullName: {
           path: 'text-input-full-name',
-          title: 'Text Input Full Name',
+          title: 'Text Input Full Name', // for review page (has to be more than one word)
           uiSchema: textInputFullName.uiSchema,
           schema: textInputFullName.schema,
           initialData: textInputFullName.initialData,
+          depends: () => includePage('text'),
         },
         textInputAddress: {
+          title: 'Text Input Address', // for review page (has to be more than one word)
           path: 'text-input-address',
-          title: 'Text Input Address',
           uiSchema: textInputAddress.uiSchema,
           schema: textInputAddress.schema,
           initialData: textInputAddress.initialData,
+          depends: () => includePage('text'),
         },
         textInputSsn: {
+          title: 'SSN Pattern', // for review page (has to be more than one word)
           path: 'ssn-pattern',
-          title: 'SSN Pattern',
           uiSchema: textInputSsn.uiSchema,
           schema: textInputSsn.schema,
+          depends: () => includePage('text'),
         },
       },
+      depends: () => false,
     },
     checkbox: {
       title: 'Checkbox',
       pages: {
         checkboxAndTextInput: {
+          title: 'Checkbox and text input', // for review page (has to be more than one word)
           path: 'checkbox-and-text-input',
-          title: 'Checkbox and text input',
           uiSchema: checkboxAndTextInput.uiSchema,
           schema: checkboxAndTextInput.schema,
+          depends: () => includePage('checkbox'),
         },
       },
     },
@@ -92,10 +117,11 @@ const formConfig = {
       title: 'Select',
       pages: {
         select: {
+          title: 'Select Page', // for review page (has to be more than one word)
           path: 'select',
-          title: 'Select',
           uiSchema: select.uiSchema,
           schema: select.schema,
+          depends: () => includePage('select'),
         },
       },
     },
@@ -103,10 +129,11 @@ const formConfig = {
       title: 'Radio',
       pages: {
         radio: {
+          title: 'Radio Page', // for review page (has to be more than one word)
           path: 'radio',
-          title: 'Radio',
           uiSchema: radio.uiSchema,
           schema: radio.schema,
+          depends: () => includePage('radio'),
         },
         radioRelationshipToVeteran: {
           path: 'radio-relationship-to-veteran',
@@ -120,10 +147,44 @@ const formConfig = {
       title: 'Date',
       pages: {
         date: {
+          title: 'Dates / time', // for review page (has to be more than one word)
           path: 'date',
-          title: 'Date',
           uiSchema: date.uiSchema,
           schema: date.schema,
+          depends: () => includePage('date'),
+        },
+      },
+    },
+    arraySinglePage: {
+      title: 'Array Single Page',
+      pages: {
+        arraySinglePage: {
+          path: 'array-single-page',
+          title: 'Information for Single Page', // for review page (has to be more than one word)
+          uiSchema: arraySinglePage.uiSchema,
+          schema: arraySinglePage.schema,
+          depends: () => includePage('arraySingle'),
+        },
+      },
+    },
+    arrayMultiplePage: {
+      title: 'Array Multiple Pages',
+      pages: {
+        multiplePageStart: {
+          title: 'Multiple Page Start Title', // for review page (has to be more than one word)
+          path: 'array-multiple-page',
+          uiSchema: arrayMultiplePageStart.uiSchema,
+          schema: arrayMultiplePageStart.schema,
+          depends: () => includePage('arrayMulti'),
+        },
+        multiplePageItem: {
+          title: 'Multiple Page Item Title', // for review page (has to be more than one word)
+          path: 'array-multiple-page/:index',
+          showPagePerItem: true,
+          arrayPath: 'exampleArrayData',
+          uiSchema: arrayMultiplePageItem.uiSchema,
+          schema: arrayMultiplePageItem.schema,
+          depends: () => includePage('arrayMulti'),
         },
       },
     },
