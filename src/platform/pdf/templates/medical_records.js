@@ -156,7 +156,7 @@ const generateResultsContent = async (doc, parent, data) => {
         item,
         hasHorizontalRule,
       );
-      if (doc.y + blockHeight > 750) await doc.addPage();
+      if (doc.y + blockHeight > 740) await doc.addPage();
 
       await generateResultItemContent(item, doc, results, hasHorizontalRule);
     }

@@ -25,7 +25,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
 
     // Rename and modify the test data as needed.
-    dataSets: ['maximal-test', 'minimal-test'],
+    dataSets: ['no-api-issues', 'minimal-test', 'maximal-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -44,6 +44,19 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(testData => {
+            cy.findByText('Continue', { selector: 'button' }).click();
+            // prevent continuing without any issues selected
+            cy.location('pathname').should(
+              'eq',
+              `${BASE_URL}/${CONTESTABLE_ISSUES_PATH}`,
+            );
+            cy.get('va-alert[status="error"] h3').should(
+              'contain',
+              testData.contestableIssues?.length
+                ? 'You’ll need to select an issue'
+                : 'Sorry, we couldn’t find any eligible issues',
+            );
+
             testData.additionalIssues?.forEach(additionalIssue => {
               if (additionalIssue.issue && additionalIssue[SELECTED]) {
                 cy.get('.add-new-issue').click();
@@ -57,7 +70,7 @@ const testConfig = createTestConfig(
                 cy.get('#submit').click();
               }
             });
-            testData.contestableIssues.forEach(issue => {
+            testData.contestableIssues?.forEach(issue => {
               if (issue[SELECTED]) {
                 cy.get(
                   `h4:contains("${issue.attributes.ratingIssueSubjectText}")`,

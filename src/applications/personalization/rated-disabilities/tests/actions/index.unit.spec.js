@@ -91,7 +91,9 @@ describe('Rated Disabilities actions: fetchTotalDisabilityRating', () => {
 
   it('should attach the appropriate source to the analytics event when EVSS is source', () => {
     const total = {
-      data: { attributes: { userPercentOfDisability: 80, source: 'EVSS' } },
+      data: {
+        attributes: { userPercentOfDisability: 80, sourceSystem: 'EVSS' },
+      },
     };
     setFetchJSONResponse(global.fetch.onCall(0), total);
     const analyticsSpy = sinon.spy();
@@ -113,7 +115,7 @@ describe('Rated Disabilities actions: fetchTotalDisabilityRating', () => {
   it('should attach the appropriate source to the analytics event when Lighthouse is source', () => {
     const total = {
       data: {
-        attributes: { userPercentOfDisability: 80, source: 'Lighthouse' },
+        attributes: { userPercentOfDisability: 80, sourceSystem: 'Lighthouse' },
       },
     };
     setFetchJSONResponse(global.fetch.onCall(0), total);
@@ -164,7 +166,7 @@ describe('Rated Disabilities actions: fetchTotalDisabilityRating', () => {
   it('should pass source to error analytics call if present', () => {
     const response = {
       data: {
-        attributes: { source: 'EVSS' },
+        attributes: { sourceSystem: 'EVSS' },
       },
       errors: [
         {

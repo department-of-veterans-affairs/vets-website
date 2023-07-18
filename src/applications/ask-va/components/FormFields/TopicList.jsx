@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import environment from 'platform/utilities/environment';
 
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -36,7 +37,8 @@ const TopicList = props => {
 
   // fetch, map and set our list of facilities based on the state selection
   const getUsers = async () => {
-    const response = await apiRequest(`/ask_va/static_data`)
+    const apiRequestUrl = `${environment.API_URL}/ask_va_api/v0/static_data`;
+    const response = await apiRequest(apiRequestUrl)
       .then(res => {
         return res;
       })

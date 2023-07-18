@@ -24,7 +24,6 @@ import {
   getItemSchema,
   readableList,
   calculateIndexOffset,
-  checkContestableIssueError,
 } from '../../utils/helpers';
 
 describe('getEligibleContestableIssues', () => {
@@ -477,21 +476,5 @@ describe('calculateIndexOffset', () => {
     expect(calculateIndexOffset(2, 2)).to.eq(0);
     expect(calculateIndexOffset(4, 2)).to.eq(2);
     expect(calculateIndexOffset(5, 4)).to.eq(1);
-  });
-});
-
-describe('checkContestableIssueError', () => {
-  it('should return false if no error', () => {
-    expect(checkContestableIssueError()).to.be.false;
-  });
-  it('should return false if 404 error', () => {
-    expect(checkContestableIssueError({ errors: [{ status: '404' }] })).to.be
-      .false;
-  });
-  it('should return true', () => {
-    expect(checkContestableIssueError({})).to.be.true;
-    expect(checkContestableIssueError({ error: 'blah' })).to.be.true;
-    expect(checkContestableIssueError({ errors: [{ status: '123' }] })).to.be
-      .true;
   });
 });

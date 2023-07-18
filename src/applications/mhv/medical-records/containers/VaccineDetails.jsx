@@ -110,21 +110,23 @@ const VaccineDetails = () => {
         <>
           <PrintHeader />
           <h1 className="vaccine-header">{vaccineDetails.name}</h1>
-          <PrintDownload list download={generateVaccinePdf} />
-          <div className="detail-block max-80">
-            <h2 className="vads-u-margin-top--0">Date received</h2>
-            <p>{formattedDate}</p>
-            <h2>Manufacturer</h2>
-            <p>{vaccineDetails.manufacturer}</p>
-            <h2>Location</h2>
-            <p>{vaccineDetails.location}</p>
-            <h2 className="vads-u-margin-bottom--0">
-              Reactions recorded by provider
-            </h2>
-            <ItemList list={vaccineDetails.reactions} />
-            <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
-            <ItemList list={vaccineDetails.notes} />
-          </div>
+          <section className="set-width-480">
+            <PrintDownload list download={generateVaccinePdf} />
+            <div className="detail-block max-80">
+              <h2 className="vads-u-margin-top--0">Date received</h2>
+              <p>{formattedDate}</p>
+              <h2>Manufacturer</h2>
+              <p>{vaccineDetails.manufacturer}</p>
+              <h2>Location</h2>
+              <p>{vaccineDetails.location}</p>
+              <h2 className="vads-u-margin-bottom--0">
+                Reactions recorded by provider
+              </h2>
+              <ItemList list={vaccineDetails.reactions} />
+              <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
+              <ItemList list={vaccineDetails.notes} />
+            </div>
+          </section>
         </>
       );
     }
