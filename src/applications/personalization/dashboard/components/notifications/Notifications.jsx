@@ -5,7 +5,7 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import environment from '~/platform/utilities/environment';
 import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 import { fetchNotifications } from '../../../common/actions/notifications';
-import { DebtNotificationAlert as DebtNotification } from './DebtNotificationAlert';
+import DebtNotificationAlert from './DebtNotificationAlert';
 import TestNotification from './TestNotification';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 
@@ -63,7 +63,7 @@ export const Notifications = ({
           </Toggler.Enabled>
 
           <Toggler.Disabled>
-            <DebtNotification
+            <DebtNotificationAlert
               key={n.id}
               hasError={notificationsError}
               notification={n}
