@@ -390,22 +390,23 @@ const ReplyForm = props => {
               <DraftSavedInfo userSaved={userSaved} />
               <div className="compose-form-actions vads-u-display--flex">
                 {!cannotReply && (
-                  <va-button
-                    text="Send"
-                    class="vads-u-flex--1 send-button vads-u-margin-bottom--1"
-                    data-testid="Send-Button"
-                    onClick={sendMessageHandler}
-                  />
+                  <>
+                    <va-button
+                      text="Send"
+                      class="vads-u-flex--1 send-button vads-u-margin-bottom--1"
+                      data-testid="Send-Button"
+                      onClick={sendMessageHandler}
+                    />
+                    <va-button
+                      id="save-draft-button"
+                      text="Save draft"
+                      secondary
+                      class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1"
+                      data-testid="Save-Draft-Button"
+                      onClick={e => saveDraftHandler('manual', e)}
+                    />
+                  </>
                 )}
-
-                <va-button
-                  id="save-draft-button"
-                  text="Save draft"
-                  secondary
-                  class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1"
-                  data-testid="Save-Draft-Button"
-                  onClick={e => saveDraftHandler('manual', e)}
-                />
                 {/* UCD requested to keep button even when not saved as draft */}
                 <DeleteDraft
                   draftId={newDraftId}

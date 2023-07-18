@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { dateFormat } from '../../util/helpers';
-import { ErrorMessages } from '../../util/constants';
 
 const DraftSavedInfo = props => {
   const { userSaved, attachments } = props;
@@ -43,7 +42,7 @@ const DraftSavedInfo = props => {
         visible="true"
       >
         <p className="vads-u-margin-y--0">
-          {ErrorMessages.ComposeForm.UNABLE_TO_SAVE_OTHER}
+          {`${saveError.title}... ${saveError.detail}.`}
         </p>
       </va-alert>
     );

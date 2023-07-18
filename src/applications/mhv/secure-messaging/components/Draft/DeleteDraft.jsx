@@ -45,7 +45,7 @@ const DeleteDraft = props => {
         text="Delete draft"
         secondary
         data-testid="delete-draft-button"
-        class="usa-button-secondary delete-draft-button vads-u-flex--1 vads-u-margin-bottom--1"
+        class="usa-button-secondary delete-draft-button vads-u-margin-bottom--1"
         onClick={e => {
           setIsModalVisible(true);
           props.setLastFocusableElement(e.target);

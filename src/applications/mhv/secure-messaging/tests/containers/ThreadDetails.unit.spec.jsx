@@ -248,8 +248,8 @@ describe('Thread Details container', () => {
     ).to.exist;
 
     expect(screen.getByText(olderMessage.body, { exact: false })).to.exist;
-    expect(screen.queryByTestId('Send-Button')).to.be.null;
-    expect(screen.getByTestId('Save-Draft-Button')).to.exist;
+    expect(screen.queryByTestId('Send-Button')).to.not.exist;
+    expect(screen.queryByTestId('Save-Draft-Button')).to.not.exist;
     expect(screen.getByTestId('delete-draft-button')).to.exist;
   });
 
