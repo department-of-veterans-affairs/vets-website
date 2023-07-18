@@ -387,7 +387,6 @@ const LandingPage = () => {
           </va-accordion-item>
         </va-accordion>
       </section>
-      <va-back-to-top />
     </div>
   );
 };
