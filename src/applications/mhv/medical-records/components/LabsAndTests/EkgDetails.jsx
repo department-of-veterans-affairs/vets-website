@@ -88,7 +88,7 @@ const EkgDetails = props => {
               <p>{formattedDate}</p>
             </div>
             <div className="electrocardiogram-buttons no-print">
-              <PrintDownload list download={download} />
+              <PrintDownload download={download} />
               <va-additional-info trigger="What to know about downloading records">
                 <ul>
                   <li>
