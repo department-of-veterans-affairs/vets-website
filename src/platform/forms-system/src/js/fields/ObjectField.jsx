@@ -289,9 +289,10 @@ class ObjectField extends React.Component {
               <ExpandingGroup
                 open={visible.length > 0}
                 key={index}
-                expandedContentFocus={
-                  uiSchema['ui:options'].expandedContentFocus
-                }
+                expandedContentFocus={get(
+                  [visible[0], 'ui:options', 'expandedContentFocus'],
+                  uiSchema,
+                )}
               >
                 {renderProp(first)}
                 <div

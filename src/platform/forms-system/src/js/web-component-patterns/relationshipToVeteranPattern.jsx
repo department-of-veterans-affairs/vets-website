@@ -26,10 +26,10 @@ export const relationshipToVeteranUI = (
       'ui:options': {
         expandUnder: 'relationshipToVeteran',
         expandUnderCondition: 'other',
+        expandedContentFocus: true,
       },
     },
     'ui:options': {
-      expandedContentFocus: true,
       updateSchema: (formData, formSchema) => {
         if (formSchema.properties.otherRelationshipToVeteran['ui:collapsed']) {
           return { ...formSchema, required: ['relationshipToVeteran'] };
