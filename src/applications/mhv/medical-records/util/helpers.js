@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
+import { snakeCase } from 'lodash';
 import { emptyField, interpretationMap } from './constants';
 
 /**
@@ -129,4 +130,13 @@ export const sendErrorToSentry = (error, page) => {
   Sentry.captureMessage(
     `MHV - Medical Records - ${page} - PDF generation error`,
   );
+};
+
+/**
+ * Macro case is naming with all letters Capitalized but the words are joined with _ ( underscore)
+ * @param {String} str string
+ * @returns {String} MACRO_CASE
+ */
+export const macroCase = str => {
+  return snakeCase(str).toUpperCase();
 };
