@@ -5,6 +5,7 @@ import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/export
 import moment from 'moment';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
+import { sendErrorToSentry } from '../../util/helpers';
 
 const EkgDetails = props => {
   const { record } = props;
@@ -44,7 +45,7 @@ const EkgDetails = props => {
             items: [
               {
                 title: 'Date',
-                value: moment(record.date).format('MMMM Do YYYY') || ' ',
+                value: moment(record.date).format('LL') || ' ',
                 inline: true,
               },
               {
@@ -66,7 +67,7 @@ const EkgDetails = props => {
     try {
       await generatePdf('medicalRecords', 'electrocardiogram_report', pdfData);
     } catch (error) {
-      // Error logging/presentation goes here...
+      sendErrorToSentry(error, 'EKG');
     }
   };
 
