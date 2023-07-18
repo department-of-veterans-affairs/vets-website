@@ -32,7 +32,7 @@ export const NotificationCheckbox = ({
     onValueChange(e);
   };
 
-  const checkboxId = `${channelId}-checkbox`;
+  const checkboxId = `checkbox-${channelId}`;
 
   let errorSpan = '';
   let errorSpanId;
@@ -93,23 +93,15 @@ export const NotificationCheckbox = ({
       {!loadingMessage && !successMessage && errorSpan}
       {!loadingMessage && !errorMessage && successSpan}
       {!errorMessage && !successMessage && loadingSpan}
-      {!loadingMessage && !disabled ? (
+      {!loadingMessage && (
         <VaCheckbox
           checked={checked}
           label={label}
           onVaChange={handleChange}
           data-testid={checkboxId}
-          id={`checkbox-${channelId}`}
-          uswds
-          className={last ? 'vads-u-padding-bottom--0p5' : ''}
-        />
-      ) : (
-        <VaCheckbox
-          checked={checked}
-          label={label}
-          data-testid={checkboxId}
-          uswds
+          id={checkboxId}
           disabled={disabled}
+          uswds
           className={last ? 'vads-u-padding-bottom--0p5' : ''}
         />
       )}
