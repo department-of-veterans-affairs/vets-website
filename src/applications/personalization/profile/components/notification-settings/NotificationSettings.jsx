@@ -39,7 +39,6 @@ const NotificationSettings = ({
   facilities,
   fetchNotificationSettings,
   mobilePhoneNumber,
-  shouldFetchNotificationSettings,
   shouldShowAPIError,
   shouldShowLoadingIndicator,
 }) => {
@@ -47,17 +46,31 @@ const NotificationSettings = ({
 
   const {
     toggles: notificationToggles,
-    channelsWithContactInfo,
     useAvailableGroups,
   } = useNotificationSettingsUtils();
 
-  const allContactInfoOnFile = useMemo(
+  const requiredContactInfoOnFile = useMemo(
     () => {
       return notificationToggles?.showEmailNotificationSettings
-        ? !!emailAddress && mobilePhoneNumber
+        ? !!(emailAddress || mobilePhoneNumber)
         : !!mobilePhoneNumber;
     },
     [emailAddress, mobilePhoneNumber, notificationToggles],
+  );
+
+  const showMissingContactInfoAlert = React.useMemo(
+    () =>
+      !shouldShowLoadingIndicator &&
+      !shouldShowAPIError &&
+      !requiredContactInfoOnFile,
+    [requiredContactInfoOnFile, shouldShowAPIError, shouldShowLoadingIndicator],
+  );
+
+  const shouldFetchNotificationSettings = useMemo(
+    () => {
+      return !showMissingContactInfoAlert && !shouldShowAPIError;
+    },
+    [showMissingContactInfoAlert, shouldShowAPIError],
   );
 
   React.useEffect(
@@ -76,38 +89,13 @@ const NotificationSettings = ({
 
   React.useEffect(
     () => {
-      if (shouldFetchNotificationSettings && !notificationToggles.loading) {
+      if (shouldFetchNotificationSettings) {
         fetchNotificationSettings({
           facilities,
         });
       }
     },
-    [
-      fetchNotificationSettings,
-      shouldFetchNotificationSettings,
-      notificationToggles,
-    ],
-  );
-
-  const showMissingContactInfoAlert = React.useMemo(
-    () =>
-      !shouldShowLoadingIndicator &&
-      !shouldShowAPIError &&
-      !allContactInfoOnFile,
-    [allContactInfoOnFile, shouldShowAPIError, shouldShowLoadingIndicator],
-  );
-
-  // shown as long as we aren't loading data and they have at least one
-  // communication channel with contact info on file
-  const showNotificationOptions = React.useMemo(
-    () => {
-      return (
-        !shouldShowLoadingIndicator &&
-        !shouldShowAPIError &&
-        channelsWithContactInfo.length > 0
-      );
-    },
-    [channelsWithContactInfo, shouldShowAPIError, shouldShowLoadingIndicator],
+    [fetchNotificationSettings, shouldFetchNotificationSettings],
   );
 
   const availableGroups = useAvailableGroups();
@@ -131,7 +119,7 @@ const NotificationSettings = ({
           }
         />
       )}
-      {showNotificationOptions &&
+      {!showMissingContactInfoAlert &&
         availableGroups.length > 0 && (
           <>
             <FieldHasBeenUpdatedAlert />
@@ -185,7 +173,6 @@ NotificationSettings.propTypes = {
     entities: PropTypes.object,
     ids: PropTypes.arrayOf(PropTypes.string),
   }),
-  shouldFetchNotificationSettings: PropTypes.bool,
   shouldShowAPIError: PropTypes.bool,
 };
 
@@ -195,9 +182,6 @@ const mapStateToProps = state => {
   const hasLoadingError = !!communicationPreferencesState.loadingErrors;
   const emailAddress = selectVAPEmailAddress(state);
   const mobilePhoneNumber = selectVAPMobilePhone(state);
-  const noContactInfoOnFile = !emailAddress && !mobilePhoneNumber;
-  const shouldFetchNotificationSettings =
-    !noContactInfoOnFile && !hasVAPServiceError;
   const shouldShowAPIError = hasVAPServiceError || hasLoadingError;
   const facilities = selectPatientFacilities(state);
 
@@ -206,7 +190,6 @@ const mapStateToProps = state => {
     facilities,
     mobilePhoneNumber,
     notificationGroups: selectGroups(communicationPreferencesState),
-    shouldFetchNotificationSettings,
     shouldShowAPIError,
     shouldShowLoadingIndicator:
       communicationPreferencesState.loadingStatus === LOADING_STATES.pending,
