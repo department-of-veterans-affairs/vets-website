@@ -52,7 +52,8 @@ describe('Print button', () => {
     const printAllMessages = screen.getByTestId('radio-print-all-messages');
     expect(printAllMessages).to.have.attribute(
       'label',
-      'Print all messages in this conversation (2 messages)',
+      'Print all messages in this conversation',
     );
+    expect(printAllMessages).to.have.attribute('description', '(2 messages)');
   });
 });
