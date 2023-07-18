@@ -1,4 +1,4 @@
-import { states } from 'platform/forms/address';
+import { usStates } from '@department-of-veterans-affairs/platform-forms/exports';
 
 export const MDOT_API_ERROR = 'MDOT_API_ERROR';
 export const MDOT_RESET_ERRORS = 'MDOT_RESET_ERRORS';
@@ -14,11 +14,11 @@ export const schemaFields = {
   viewVeteranInfoField: 'view:veteranInfo',
 };
 
-export const militaryStates = states.USA.filter(
+export const militaryStates = usStates.USA.filter(
   state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA',
 ).map(state => state.value);
 
-export const militaryLabels = states.USA.filter(
+export const militaryLabels = usStates.USA.filter(
   state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA',
 ).map(state => state.label);
 

@@ -1,11 +1,13 @@
-import classnames from 'classnames';
-import moment from 'moment';
-import { setData } from 'platform/forms-system/src/js/actions';
-import recordEvent from 'platform/monitoring/record-event';
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import PropTypes from 'prop-types';
+
+import classnames from 'classnames';
+import moment from 'moment';
+
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/exports';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+
 import { ACCESSORY } from '../constants';
 
 class Accessories extends Component {
@@ -174,8 +176,8 @@ class Accessories extends Component {
               placed an order for resupply items within the last 2 years. If you
               need an accessory that hasn’t been ordered within the last 2
               years, call the DLC Customer Service Section at
-              <Telephone
-                contact="303-273-6200"
+              <va-telephone
+                contact="3032736200"
                 className="vads-u-margin--0p5"
               />
               or email
@@ -213,6 +215,14 @@ Accessories.defaultProps = {
 };
 
 Accessories.propTypes = {
+  eligibility: PropTypes.object,
+  formData: PropTypes.object,
+  order: PropTypes.arrayOf(
+    PropTypes.shape({
+      productId: PropTypes.number,
+    }),
+  ),
+  setData: PropTypes.func,
   supplies: PropTypes.arrayOf(
     PropTypes.shape({
       deviceName: PropTypes.string,
@@ -226,19 +236,13 @@ Accessories.propTypes = {
       size: PropTypes.string,
     }),
   ),
-  order: PropTypes.arrayOf(
-    PropTypes.shape({
-      productId: PropTypes.number,
-    }),
-  ),
-  eligibility: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
-  supplies: state.form?.data?.supplies,
+  eligibility: state.form?.data?.eligibility,
   formData: state.form?.data,
   order: state.form?.data?.order,
-  eligibility: state.form?.data?.eligibility,
+  supplies: state.form?.data?.supplies,
 });
 
 const mapDispatchToProps = {
