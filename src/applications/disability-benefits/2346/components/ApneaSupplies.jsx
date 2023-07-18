@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-import { ACCESSORY } from '../constants';
+import { APNEA } from '../constants';
 
-class Accessories extends Component {
+class ApneaSupplies extends Component {
   componentDidMount() {
     const areAccessorySuppliesEligible = this.props.eligibility?.accessories;
     if (!areAccessorySuppliesEligible) {
@@ -49,7 +49,7 @@ class Accessories extends Component {
     const { supplies, order, eligibility } = this.props;
     const currentDate = moment();
     const accessorySupplies = supplies.filter(
-      supply => supply.productGroup === ACCESSORY,
+      supply => supply.productGroup === APNEA,
     );
     const areAccessorySuppliesEligible = eligibility.accessories;
     const haveAccessoriesBeenOrderedInLastTwoYears =
@@ -205,14 +205,14 @@ class Accessories extends Component {
   }
 }
 
-Accessories.defaultProps = {
+ApneaSupplies.defaultProps = {
   formData: {},
   supplies: [],
   order: [],
   eligibility: {},
 };
 
-Accessories.propTypes = {
+ApneaSupplies.propTypes = {
   supplies: PropTypes.arrayOf(
     PropTypes.shape({
       deviceName: PropTypes.string,
@@ -248,4 +248,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Accessories);
+)(ApneaSupplies);

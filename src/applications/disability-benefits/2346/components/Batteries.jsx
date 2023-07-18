@@ -1,4 +1,3 @@
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import classnames from 'classnames';
 import moment from 'moment';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -94,13 +93,8 @@ class Batteries extends Component {
                 <p>
                   If you need unavailable batteries sooner, call the DLC
                   Customer Service Section at{' '}
-                  <a
-                    aria-label="3 0 3. 2 7 3. 6 2 0 0."
-                    href="tel:303-273-6200"
-                  >
-                    303-273-6200
-                  </a>{' '}
-                  or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+                  <va-telephone contact="3032736200" /> or email{' '}
+                  <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
               </div>
             </va-alert>
@@ -187,7 +181,7 @@ class Batteries extends Component {
             </div>
           ))}
         {batterySupplies.length > 0 && (
-          <AdditionalInfo triggerText="What if my device isn’t listed here?">
+          <va-additional-info triggerText="What if my device isn’t listed here?">
             <p>
               Your hearing aid device may not be listed here if you haven’t
               placed an order for resupply items within the last 2 years. If you
@@ -216,7 +210,7 @@ class Batteries extends Component {
             >
               Find contact information for your local VA medical center.
             </a>
-          </AdditionalInfo>
+          </va-additional-info>
         )}
       </div>
     );

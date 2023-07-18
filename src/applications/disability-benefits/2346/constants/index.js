@@ -82,3 +82,4 @@ export const states50AndDC = [
 
 export const ACCESSORY = 'Accessory';
 export const BATTERY = 'Battery';
+export const APNEA = 'Apnea';
