@@ -43,4 +43,14 @@ describe('Priority Group Alert Widget', () => {
       .exist;
     server.close();
   });
+
+  it('displays <Loading /> when loading', () => {
+    const wrapper = setup({ loading: true });
+    expect(wrapper.findByText('Loading...')).to.exist;
+  });
+
+  it("displays <Error /> when the API just can't even", () => {
+    const wrapper = setup({ error: true });
+    expect(wrapper.findByText("Sorry, we couldn't find that")).to.exist;
+  });
 });

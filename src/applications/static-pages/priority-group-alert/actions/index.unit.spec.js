@@ -3,16 +3,18 @@ import sinon from 'sinon';
 // import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import * as Sentry from '@sentry/browser';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
-  FETCH_ENROLLMENT_STATUS_FAILED,
-  FETCH_ENROLLMENT_STATUS_STARTED,
-  FETCH_ENROLLMENT_STATUS_SUCCEEDED,
-  fetchEnrollmentStatusFailed,
-  fetchEnrollmentStatusStarted,
-  fetchEnrollmentStatusSucceeded,
+  FETCH_ENROLLMENT_STATUS_BEGIN,
+  FETCH_ENROLLMENT_STATUS_ERROR,
+  FETCH_ENROLLMENT_STATUS_SUCCESS,
+  fetchEnrollmentStatusBegin,
+  fetchEnrollmentStatusError,
+  fetchEnrollmentStatusSuccess,
   fetchEnrollmentStatus,
 } from '.';
+import { initialState } from '../reducers';
 
 const enrollmentStatus = {
   effectiveDate: '2019-01-02T21:58:55.000-06:00',
@@ -32,39 +34,35 @@ const mockApiFailure = path => {
   const url = `${environment.API_URL}${path}`;
   const server = setupServer(
     rest.get(url, (_, res, ctx) =>
-      res(ctx.status(404), ctx.json({ error: 'Not Found' })),
+      res(ctx.status(404), ctx.json({ errorMessage: 'Not Found' })),
     ),
   );
   server.listen();
   return server;
 };
 
-const initialState = {
-  data: {},
-  error: false,
-  loading: false,
-};
-
 describe('Enrollment Status actions', () => {
-  describe('fetchEnrollmentStatusStarted', () => {
-    it('returns FETCH_ENROLLMENT_STATUS_STARTED action', () => {
-      const { type } = fetchEnrollmentStatusStarted();
-      expect(type).to.equal(FETCH_ENROLLMENT_STATUS_STARTED);
+  describe('fetchEnrollmentStatusBegin', () => {
+    it('returns FETCH_ENROLLMENT_STATUS_BEGIN action', () => {
+      const { type } = fetchEnrollmentStatusBegin();
+      expect(type).to.equal(FETCH_ENROLLMENT_STATUS_BEGIN);
     });
   });
 
-  describe('fetchEnrollmentStatusSucceeded', () => {
-    it('returns FETCH_ENROLLMENT_STATUS_SUCCEEDED action with data', () => {
-      const { data, type } = fetchEnrollmentStatusSucceeded(enrollmentStatus);
-      expect(data).to.equal(enrollmentStatus);
-      expect(type).to.equal(FETCH_ENROLLMENT_STATUS_SUCCEEDED);
+  describe('fetchEnrollmentStatusError', () => {
+    it('returns FETCH_ENROLLMENT_STATUS_ERROR action', () => {
+      const message = { errorMessage: 'it broke' };
+      const { type, payload } = fetchEnrollmentStatusError(message);
+      expect(type).to.equal(FETCH_ENROLLMENT_STATUS_ERROR);
+      expect(payload).to.equal(message);
     });
   });
 
-  describe('fetchEnrollmentStatusFailed', () => {
-    it('returns FETCH_ENROLLMENT_STATUS_FAILED action', () => {
-      const { type } = fetchEnrollmentStatusFailed();
-      expect(type).to.equal(FETCH_ENROLLMENT_STATUS_FAILED);
+  describe('fetchEnrollmentStatusSuccess', () => {
+    it('returns FETCH_ENROLLMENT_STATUS_SUCCESS action with data', () => {
+      const { type, payload } = fetchEnrollmentStatusSuccess(enrollmentStatus);
+      expect(payload).to.equal(enrollmentStatus);
+      expect(type).to.equal(FETCH_ENROLLMENT_STATUS_SUCCESS);
     });
   });
 
@@ -76,26 +74,25 @@ describe('Enrollment Status actions', () => {
       const thunk = fetchEnrollmentStatus();
       thunk(dispatch, initialState)
         .then(() => {
-          expect(dispatch.calledWith(fetchEnrollmentStatusStarted)).to.be.true;
+          expect(dispatch.calledWith(fetchEnrollmentStatusBegin)).to.be.true;
         })
-        .catch(err => done(err))
         .finally(() => {
           server.close();
           done();
         });
     });
 
-    it('dispatches a failure', done => {
+    it('dispatches an error', done => {
       const path = '/v0/health_care_applications/enrollment_status';
       const server = mockApiFailure(path);
       const dispatch = sinon.spy();
+      const sentry = sinon.spy(Sentry, 'captureException');
       const thunk = fetchEnrollmentStatus();
       thunk(dispatch, initialState)
         .then(() => {
-          expect(dispatch.calledWith(fetchEnrollmentStatusFailed)).to.be.true;
-        })
-        .catch(err => {
-          done(err);
+          expect(dispatch.calledWith(fetchEnrollmentStatusError)).to.be.true;
+          expect(sentry.called).to.be.true;
+          expect(sentry.firstCall.args[0]).to.eq({ errorMessage: 'Not Found' });
         })
         .finally(() => {
           server.close();

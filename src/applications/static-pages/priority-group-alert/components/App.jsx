@@ -5,6 +5,8 @@ import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
+import Error from './Error';
+import Loading from './Loading';
 import PriorityGroup from './PriorityGroup';
 import SignInPrompt from './SignInPrompt';
 import { fetchEnrollmentStatus } from '../actions';
@@ -16,13 +18,19 @@ export const App = ({
   isSignedIn,
   loading,
 }) => {
-  useEffect(() => fetchEnrollmentStatus(), [isSignedIn]);
-  const showPriorityGroup = !loading && !error && isSignedIn;
+  useEffect(() => fetchEnrollmentStatus(), []);
+  const showSignInPrompt = !error && !loading && !isSignedIn;
+  const showPriorityGroup = !error && !loading && isSignedIn;
+  const showLoadingIndicator = !error && loading;
 
   return (
     <>
-      {!isSignedIn && <SignInPrompt handleSignInClick={handleSignInClick} />}
+      {showSignInPrompt && (
+        <SignInPrompt handleSignInClick={handleSignInClick} />
+      )}
       {showPriorityGroup && <PriorityGroup {...enrollmentStatus} />}
+      {showLoadingIndicator && <Loading />}
+      {error && <Error />}
     </>
   );
 };
@@ -38,11 +46,11 @@ App.propTypes = {
   loading: PropTypes.bool,
 };
 
-const mapStateToProps = store => ({
-  isSignedIn: isLoggedIn(store),
-  loading: store.loading,
-  enrollmentStatus: store.enrollmentStatus,
-  error: store.error,
+const mapStateToProps = state => ({
+  isSignedIn: isLoggedIn(state),
+  loading: state.loading,
+  enrollmentStatus: state.payload,
+  error: state.error,
 });
 
 const mapDispatchToProps = dispatch => ({
