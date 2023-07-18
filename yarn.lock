@@ -2511,24 +2511,24 @@
     "@datadog/browser-core" "4.22.0"
     "@datadog/browser-rum-core" "4.22.0"
 
-"@datadog/native-appsec@^1.2.0":
+"@datadog/native-appsec@^1.2.1":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@datadog/native-appsec/-/native-appsec-1.3.0.tgz#b67dd79f1fb1b5d6a18b41f1f8da8e5af11d5349"
   integrity sha512-YlGTovMBj1nWlQMFwz4Bg9H1dMzz/Qdcxo4EdM5ZNXKUGcJHyv8rvrBh6Jyfn8dKuINJ3ESmmb0CFGFnQAnFtg==
   dependencies:
     node-gyp-build "^3.9.0"
 
-"@datadog/native-metrics@^1.2.0":
+"@datadog/native-metrics@^1.4.0":
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/@datadog/native-metrics/-/native-metrics-1.6.0.tgz#1c7958964460149911f6964c32b1a8692ee3ce8f"
   integrity sha512-+8jBzd0nlLV+ay3Vb87DLwz8JHAS817hRhSRQ6zxhud9TyvvcNTNN+VA2sb2fe5UK4aMDvj/sGVJjEtgr4RHew==
   dependencies:
     node-gyp-build "^3.9.0"
 
-"@datadog/pprof@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@datadog/pprof/-/pprof-0.4.0.tgz#9d6acb23dd8edfff0171cbb52ac559bbab13ba74"
-  integrity sha512-TG9w9xAqr/Dr6WI/StSirkGKiT9gQXMFx0zJeC/yjYtZWCO/8X7fwfCZJOMcQq4yBvMyKMDHFSNp1XVAKIRorQ==
+"@datadog/pprof@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@datadog/pprof/-/pprof-0.5.1.tgz#7c49a8e321dd4bc9bed398376da7ecb5194c6926"
+  integrity sha512-Q4Qg8EpW1U/Vtd1GUONoKJmf91jxdzLLdDDidyW+nug2tq879MNi1Eh7q4bYETz93DAbV85lDUXDe0Ffkd4pDw==
   dependencies:
     delay "^5.0.0"
     findit2 "^2.2.3"
@@ -2536,18 +2536,18 @@
     node-gyp-build "^3.9.0"
     p-limit "^3.0.0"
     pify "^5.0.0"
-    protobufjs "~6.11.0"
+    protobufjs "~6.11.3"
     rimraf "^3.0.2"
     semver "^7.3.5"
     source-map "^0.7.3"
     split "^1.0.1"
 
-"@datadog/sketches-js@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-1.0.4.tgz#6213c26e3459fed80b075d80ffff551979fb0e6a"
-  integrity sha512-9S5fdz448dLfGw4jSH1A4GZpkLWBufdsJu4PeevEjDvkauEmE175xBiBLfYHQEdKe7lEVNB4IRtUZqY16QRVUw==
+"@datadog/sketches-js@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-1.0.5.tgz#e3202c14e98c5e3aa530944aa03534ccbb9cafaf"
+  integrity sha512-1ZKyHxxgDI+zY0r+7msMUhFdLR7gkRgKGcNLdYjtXVyo5H64q16J/Khfp5+YAXOedKizKzT0Jf0kLwQ/IBU/pA==
   dependencies:
-    protobufjs "^6.10.2"
+    protobufjs "^6.11.3"
 
 "@department-of-veterans-affairs/component-library@^17.0.0":
   version "17.0.0"
@@ -7439,15 +7439,15 @@ dayjs@1.10.7, dayjs@^1.10.4:
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.7.tgz#2cf5f91add28116748440866a0a1d26f3a6ce468"
   integrity sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==
 
-dd-trace@~2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/dd-trace/-/dd-trace-2.8.0.tgz#d82d2d71fcdec79f7bb035e3d607c987aa21203f"
-  integrity sha512-O5xl1elC70Om7VMJ95lOyqu6xZnjqX1zP1PkzUP0M4H2IMPo7VYzNOETzHqlxYX++vHtOfFoImgOV8lP6k0ItA==
+dd-trace@~2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/dd-trace/-/dd-trace-2.11.0.tgz#6d066b9c60e6433bf9770789ed25a9b9d5fc00e3"
+  integrity sha512-UA4OGIIlW5NswS2y/2Qjy7p+oTJkWuetOurK/1fCetOSJLTp++Hh5Fys+RNn48meJfrayW4XMgCUinQsHU9qgg==
   dependencies:
-    "@datadog/native-appsec" "^1.2.0"
-    "@datadog/native-metrics" "^1.2.0"
-    "@datadog/pprof" "^0.4.0"
-    "@datadog/sketches-js" "^1.0.4"
+    "@datadog/native-appsec" "^1.2.1"
+    "@datadog/native-metrics" "^1.4.0"
+    "@datadog/pprof" "^0.5.1"
+    "@datadog/sketches-js" "^1.0.5"
     "@types/node" ">=12"
     crypto-randomuuid "^1.0.0"
     diagnostics_channel "^1.1.0"
@@ -16125,10 +16125,10 @@ proto-list@~1.2.1:
   resolved "https://registry.yarnpkg.com/proto-list/-/proto-list-1.2.4.tgz#212d5bfe1318306a420f6402b8e26ff39647a849"
   integrity sha512-vtK/94akxsTMhe0/cbfpR+syPuszcuwhqVjJq26CuNDgFGj682oRBXOP5MJpv2r7JtE8MsiepGIqvvOTBwn2vA==
 
-protobufjs@^6.10.2, protobufjs@~6.11.0:
-  version "6.11.2"
-  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-6.11.2.tgz#de39fabd4ed32beaa08e9bb1e30d08544c1edf8b"
-  integrity sha512-4BQJoPooKJl2G9j3XftkIXjoC9C0Av2NOrWmbLWT1vH32GcSUHjM0Arra6UfTsVyfMAuFzaLucXn1sadxJydAw==
+protobufjs@^6.11.3, protobufjs@~6.11.3:
+  version "6.11.3"
+  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-6.11.3.tgz#637a527205a35caa4f3e2a9a4a13ddffe0e7af74"
+  integrity sha512-xL96WDdCZYdU7Slin569tFX712BxsxslWwAfAhCYjQKGTq7dAU91Lomy6nLLhh/dyGhk/YH4TwTSRxTzhuHyZg==
   dependencies:
     "@protobufjs/aspromise" "^1.1.2"
     "@protobufjs/base64" "^1.1.2"
