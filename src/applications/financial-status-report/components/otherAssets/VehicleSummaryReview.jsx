@@ -21,8 +21,9 @@ const VehicleSummaryReview = ({ data, title }) => {
               key={vehicle.make + vehicle.resaleValue + index}
             >
               <dt>
-                {vehicle.year ? vehicle.year : ''} {vehicle.make}{' '}
-                {vehicle.model}
+                {`${vehicle.year ? `${vehicle.year} ` : ''}${vehicle.make} ${
+                  vehicle.model
+                }`}
               </dt>
               <dd>{currencyFormatter(vehicle.resaleValue)}</dd>
             </div>
