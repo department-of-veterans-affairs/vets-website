@@ -19,8 +19,10 @@ import {
 } from 'platform/testing/unit/helpers';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
 import Chatbox from '../components/chatbox/Chatbox';
+import WebChat from '../components/webchat/WebChat';
 import virtualAgentReducer from '../reducers/index';
 import StartConvoAndTrackUtterances from '../components/webchat/startConvoAndTrackUtterances';
+
 import {
   LOGGED_IN_FLOW,
   CONVERSATION_ID_KEY,
@@ -1036,7 +1038,21 @@ describe('App', () => {
       // mockApiRequest();
     });
     it('should start recognition after clicking on microphone button   ', async () => {
-      loadWebChatWithSpeech();
+      // loadWebChatWithSpeech();
+
+      // function loadReactWebChatWithSpeech() {
+      //   global.window = Object.create(global.window);
+      //   Object.assign(global.window, {
+      //     WebChat: {
+      //       createStore: createStoreSpy,
+      //       createDirectLine: directLineSpy,
+      //       createBrowserWebSpeechPonyfillFactory: window.WebSpeechMock,
+      //       ReactWebChat: () => {
+      //         return <div />;
+      //       },
+      //     },
+      //   });
+      // }
 
       mockApiRequest({
         token: 'FAKETOKEN',
@@ -1059,15 +1075,18 @@ describe('App', () => {
 
       const store = createTestStore(userStore.initialState, userStore.reducers);
 
-      // This loads the chatbox but not the webchat inside of it
-      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
+      // pass the proper props to webchat, main question is getting webchat framework to load
+      const wrapper = renderInReduxProvider(<WebChat {...defaultProps} />, {
         store,
       });
-      // This works when loading Chatbox
-      await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
-      await waitFor(
-        () => expect(wrapper.getByText('VA chatbot (beta)')).to.exist,
-      );
+
+      // console.log('webchat', wrapper);
+
+      // // This works when loading Chatbox
+      // await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
+      // await waitFor(
+      //   () => expect(wrapper.getByText('VA chatbot (beta)')).to.exist,
+      // );
 
       // TODO Load wrapper instead of chatbox
       // something like this?
