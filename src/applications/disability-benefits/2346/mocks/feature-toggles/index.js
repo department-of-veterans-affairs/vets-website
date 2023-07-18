@@ -6,7 +6,7 @@ const generateFeatureToggles = (toggles = {}) => {
       type: 'feature_toggles',
       features: [
         {
-          name: 'supply_reordering_sleep_apnea_enabled',
+          name: 'supply-reordering-sleep-apnea-enabled',
           value: supplyReorderingSleepApneaEnabled,
         },
       ],
