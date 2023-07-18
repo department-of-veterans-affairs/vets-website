@@ -18,7 +18,7 @@ export const App = ({
   isSignedIn,
   loading,
 }) => {
-  useEffect(() => fetchEnrollmentStatus(), []);
+  useEffect(() => (isSignedIn ? fetchEnrollmentStatus() : null), [isSignedIn]);
   const showSignInPrompt = !error && !loading && !isSignedIn;
   const showPriorityGroup = !error && !loading && isSignedIn;
   const showLoadingIndicator = !error && loading;
@@ -47,10 +47,10 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  enrollmentStatus: state.data,
+  error: state.error,
   isSignedIn: isLoggedIn(state),
   loading: state.loading,
-  enrollmentStatus: state.payload,
-  error: state.error,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,12 +1,10 @@
 import * as Sentry from '@sentry/browser';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities';
 
-/* eslint-disable max-len */
 export const FETCH_ENROLLMENT_STATUS_BEGIN = 'FETCH_ENROLLMENT_STATUS_BEGIN';
 export const FETCH_ENROLLMENT_STATUS_ERROR = 'FETCH_ENROLLMENT_STATUS_ERROR';
 export const FETCH_ENROLLMENT_STATUS_SUCCESS =
   'FETCH_ENROLLMENT_STATUS_SUCCESS';
-/* eslint-enable max-len */
 
 export const fetchEnrollmentStatusBegin = () => ({
   type: FETCH_ENROLLMENT_STATUS_BEGIN,
