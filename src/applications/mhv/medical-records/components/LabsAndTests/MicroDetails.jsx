@@ -97,9 +97,9 @@ const MicroDetails = props => {
     };
 
     try {
-      await generatePdf('medicalRecords', 'vitals_report', pdfData);
+      await generatePdf('medicalRecords', 'microbiology_report', pdfData);
     } catch (error) {
-      sendErrorToSentry(error, 'Vital details');
+      sendErrorToSentry(error, 'Microbiology details');
     }
   };
 
