@@ -26,6 +26,7 @@ import OtherExpensesSummaryReview from '../../components/otherExpenses/OtherExpe
 import InstallmentContract from '../../components/InstallmentContract';
 import InstallmentContractSummary from '../../pages/expenses/repayments/InstallmentContractSummary';
 import HouseholdExpensesSummaryReview from '../../components/householdExpenses/HouseholdExpensesSummaryReview';
+import CreditCardBillsSummaryReview from '../../components/householdExpenses/CreditCardBillsSummaryReview';
 
 export default {
   householdExpensesChapter: {
@@ -164,7 +165,7 @@ export default {
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
         CustomPage: CreditCardBillSummary,
-        CustomPageReview: null,
+        CustomPageReview: CreditCardBillsSummaryReview,
       },
       installmentContracts: {
         path: 'installment-contracts',

@@ -89,3 +89,6 @@ export const selectFeaturePrintList = state =>
 
 export const selectFeatureDescriptiveBackLink = state =>
   toggleValues(state).vaOnlineSchedulingDescriptiveBackLink;
+
+export const selectFeatureStaticLandingPage = state =>
+  toggleValues(state).vaOnlineSchedulingStaticLandingPage;

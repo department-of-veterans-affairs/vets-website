@@ -12,59 +12,59 @@ describe('Print download menu component', () => {
   it('should display a toggle menu button', () => {
     const screen = render(<PrintDownload list />);
 
-    const emptyMessageElement = screen.getByText(
+    const printDownloadButton = screen.getByText(
       'Print or download this list',
       {
         exact: true,
         selector: 'span',
       },
     );
-    expect(emptyMessageElement).to.exist;
+    expect(printDownloadButton).to.exist;
   });
 
   it('should say record when not a list', () => {
     const screen = render(<PrintDownload />);
 
-    const emptyMessageElement = screen.getByText(
+    const printDownloadNoList = screen.getByText(
       'Print or download this record',
       {
         exact: true,
         selector: 'span',
       },
     );
-    expect(emptyMessageElement).to.exist;
+    expect(printDownloadNoList).to.exist;
   });
 
   it('should display a print button', () => {
     const screen = render(<PrintDownload list />);
 
-    const emptyMessageElement = screen.getByText('Print list', {
+    const printButton = screen.getByText('Print list', {
       exact: true,
       selector: 'button',
     });
-    expect(emptyMessageElement).to.exist;
+    expect(printButton).to.exist;
   });
 
   it('should display a download pdf file button', () => {
     const screen = render(<PrintDownload list />);
 
-    const emptyMessageElement = screen.getByText('Download list as PDF', {
+    const downloadButton = screen.getByText('Download list as PDF', {
       exact: true,
       selector: 'button',
     });
-    expect(emptyMessageElement).to.exist;
+    expect(downloadButton).to.exist;
   });
 
   it('should display a download text file button', () => {
     const screen = render(<PrintDownload list />);
 
-    const emptyMessageElement = screen.getByText(
+    const downloadTextButton = screen.getByText(
       'Download list as a text file',
       {
         exact: true,
         selector: 'button',
       },
     );
-    expect(emptyMessageElement).to.exist;
+    expect(downloadTextButton).to.exist;
   });
 });

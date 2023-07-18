@@ -10,7 +10,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsfTitle: titleUI('RJSF'),
+    'view:title': titleUI('RJSF'),
     selectDefault: {
       'ui:title': 'title - select rjsf',
       'ui:description': 'description',
@@ -43,7 +43,7 @@ export default {
         },
       },
     },
-    wcTitle: inlineTitleUI('Web component'),
+    'view:wcTitle': inlineTitleUI('Web component'),
     wcOldSelectFirst: {
       'ui:title': 'title - select web component',
       'ui:webComponentField': VaSelectField,
@@ -90,7 +90,7 @@ export default {
         },
       },
     },
-    wcv3: inlineTitleUI('Web component v3'),
+    'view:wcv3Title': inlineTitleUI('Web component v3'),
     wcv3Text: {
       'ui:title': 'title - text web component',
       'ui:webComponentField': VaTextInputField,
@@ -134,7 +134,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsfTitle: titleSchema,
+      'view:title': titleSchema,
       selectDefault: {
         type: 'string',
         enum: ['option1', 'option2'],
@@ -143,7 +143,7 @@ export default {
         type: 'string',
         enum: ['option1', 'option2'],
       },
-      wcTitle: inlineTitleSchema,
+      'view:wcTitle': inlineTitleSchema,
       wcOldSelectFirst: {
         type: 'string',
         enum: ['option1', 'option2'],
@@ -155,7 +155,7 @@ export default {
         type: 'string',
         enum: ['option1', 'option2'],
       },
-      wcv3: inlineTitleSchema,
+      'view:wcv3Title': inlineTitleSchema,
       wcv3Text: {
         type: 'string',
       },

@@ -1,8 +1,6 @@
 {
   "data": {
-    "rjsfTitle": {},
     "dateDefault": "1999-02-02",
-    "wcv3Title": {},
     "dateWCV3": "2000-02-12",
     "vaCompensationType": "none",
     "isCurrentlyActiveDuty": false,
@@ -12,7 +10,6 @@
     "selectDefault": "option1",
     "wcOldSelectFirst": "option1",
     "wcOldSelectSecond": "option1",
-    "wcv3": {},
     "wcv3Select": "option1",
     "rjsfCheckSimpleTextInput": "Lorem ipsum dolor sit amet",
     "rjsfCheckRequiredCheckbox": true,
@@ -22,7 +19,6 @@
     "wcOldCheckRequiredCheckbox": true,
     "wcOldCheckSsn": "454544545",
     "wcOldCheckboxWithBackground": {},
-    "wcV3Title": {},
     "wcV3CheckSimpleText": "s",
     "wcV3CheckRequiredCheckbox": true,
     "wcV3CheckSsn": "454544545",
@@ -31,7 +27,6 @@
     "wcOldSsn": "454544545",
     "wcv3SsnNew": "454544545",
     "addressOld": {
-      "view:militaryBaseDescription": {},
       "country": "USA",
       "street": "1234 Main St",
       "city": "City",
@@ -39,7 +34,6 @@
       "postalCode": "12345"
     },
     "wcv3Address": {
-      "view:militaryBaseDescription": {},
       "country": "USA",
       "street": "1234 Main St",
       "city": "City",
@@ -64,6 +58,56 @@
     "requiredOld": "Lorem ipsum dolor sit amet",
     "wcOldRequired": "Lorem ipsum dolor sit amet",
     "wcv3RequiredNew": "Lorem ipsum dolor sit amet",
-    "wcv3TextAreaNew": "Lorem ipsum dolor sit amet"
+    "wcv3TextAreaNew": "Lorem ipsum dolor sit amet",
+    "exampleArrayOne": [
+      {
+        "facilityName": "facility a",
+        "from": "2000-01-09",
+        "to": "2001-02-09"
+      },
+      {
+        "facilityName": "facility b",
+        "from": "2010-03-03",
+        "to": "2011-12-19"
+      }
+    ],
+    "exampleArrayTwo": [
+      {
+        "name": "Record a",
+        "proof": true
+      },
+      {
+        "name": "Record b",
+        "proof": false,
+        "checkbox": true
+      }
+    ],
+    "exampleArrayData": [
+      {
+        "address": {
+          "country": "USA",
+          "street": "street",
+          "city": "city",
+          "postalCode": "11111"
+        },
+        "fullName": {
+          "first": "Alpha",
+          "middle": "Bravo",
+          "last": "Cap"
+        }
+      },
+      {
+        "address": {
+          "country": "AUS",
+          "street": "street2",
+          "city": "city2",
+          "postalCode": "22222"
+        },
+        "fullName": {
+          "first": "Delta",
+          "last": "Cap"
+        }
+      }
+    ]
   }
 }

@@ -11,4 +11,9 @@ export default {
   select: formChapters.select.pages.select.path,
   radio: formChapters.radio.pages.radio.path,
   date: formChapters.date.pages.date.path,
+  arraySinglePage: formChapters.arraySinglePage.pages.arraySinglePage.path,
+  arrayMultiplePage:
+    formChapters.arrayMultiplePage.pages.multiplePageStart.path,
+  arrayMultiplePageItem:
+    formChapters.arrayMultiplePage.pages.multiplePageItem.path,
 };
