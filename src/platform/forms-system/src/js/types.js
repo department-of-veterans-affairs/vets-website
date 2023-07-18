@@ -30,6 +30,11 @@
  * @property {Downtime} [downtime]
  * @property {(props: any) => JSX.Element} [errorText]
  * @property {(props: any) => JSX.Element} [footerContent]
+ * @property {string} [formAppClassNames] A css class that is applied to the outer html of the form app.
+ *   - Applied to every page including Introduction and Confirmation pages.
+ *   - Includes navigation (top) and form content.
+ *
+ *   Recommendation: `"form-app-<unique-text-or-id>"`
  * @property {string} [formId]
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]

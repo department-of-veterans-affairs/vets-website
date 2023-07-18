@@ -79,8 +79,13 @@ class FormApp extends React.Component {
       );
     }
 
+    let formAppClassNames = 'form-app-container';
+    if (formConfig.formAppClassNames) {
+      formAppClassNames += ` ${formConfig.formAppClassNames}`;
+    }
+
     return (
-      <div>
+      <div className={formAppClassNames}>
         <div className="row">
           <div className="usa-width-two-thirds medium-8 columns">
             <Element name="topScrollElement" />
