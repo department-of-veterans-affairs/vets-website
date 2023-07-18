@@ -554,7 +554,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     const store = createTestStore(initialState);
 
     // And the user has chosen today as their preferred date
-    const preferredDate = moment();
+    const preferredDate = moment().startOf('day');
     await setPreferredDate(store, preferredDate);
 
     // And there are slots available today and tomorrow
