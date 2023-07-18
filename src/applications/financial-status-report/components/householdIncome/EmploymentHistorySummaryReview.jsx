@@ -102,7 +102,7 @@ const EmploymentHistorySummaryReview = ({ data, name }) => {
             <div className="form-review-panel-page-header-row">
               <h4 className="vads-u-font-size--h5">
                 {isSpouse ? "Spouse's " : ''}
-                {job.type} at {job.employerName}
+                {job.type} employment at {job.employerName}
               </h4>
             </div>
             <dl className="review">
