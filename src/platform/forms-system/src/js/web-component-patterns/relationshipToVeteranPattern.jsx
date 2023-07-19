@@ -1,27 +1,22 @@
 import { radioUI, radioSchema } from './radioPattern';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 
-export const relationshipToVeteranUI = (
-  relationshipToVeteranTitle,
-  otherRelationshipToVeteranTitle,
-) => {
+export const relationshipToVeteranUI = personTitle => {
   return {
     relationshipToVeteran: radioUI({
-      title:
-        relationshipToVeteranTitle ??
-        'What’s your relationship to the veteran?',
+      title: `What’s your relationship to the ${personTitle ?? 'veteran'}?`,
       labels: {
-        spouse: 'Spouse',
-        child: 'Child',
-        parent: 'Parent',
-        executor: 'Executor/Administrator of Estate',
-        other: 'A relationship not listed here',
+        spouse: `I’m the ${personTitle ?? 'veteran'}’s spouse`,
+        child: `I’m the ${personTitle ?? 'veteran'}’s child`,
+        parent: `I’m the ${personTitle ?? 'veteran'}’s parent`,
+        executor: `I’m the ${personTitle ??
+          'veteran'}’s executor or administrator of estate`,
+        other: 'We don’t have a relationship that’s listed here',
       },
     }),
     otherRelationshipToVeteran: {
-      'ui:title':
-        otherRelationshipToVeteranTitle ??
-        'Since your relationship with the veteran was not listed, please describe it here',
+      'ui:title': `Since your relationship with the ${personTitle ??
+        'veteran'} was not listed, please describe it here`,
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'relationshipToVeteran',
