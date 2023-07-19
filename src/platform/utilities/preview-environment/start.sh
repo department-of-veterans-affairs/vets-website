@@ -71,3 +71,4 @@ yarn build --use-cached-assets --api="http://vets-website-rework-pe-fronten-dev-
 wait
 echo "Serve up content-build"
 yarn serve 
+sleep 600
