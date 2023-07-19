@@ -31,12 +31,13 @@ export const LIMITED_INFORMATION_ITEMS = {
 export const RELEASE_DURATIONS = {
   ONCE_ONLY: 'Only release my information this 1 time',
   UNTIL_DATE: 'Release my information until a specific date that I’ll choose',
-  UNTIL_NOTICE: 'Release my information until I send written notice to stop',
+  UNTIL_NOTICE:
+    'Continue to release my information until I send written notice to stop',
 };
 
 export const SECURITY_QUESTIONS = {
   MOTHER_BIRTHPLACE: 'What’s the city and state your mother was born in?',
-  HIGH_SCHOOL_NAME: 'What’s the name of the high school you attended?',
+  HIGH_SCHOOL_NAME: 'What’s the name of the last high school you attended?',
   FIRST_PET_NAME: 'What’s the name of your first pet?',
   FAVORITE_TEACHER_NAME: 'What’s the name of your favorite teacher?',
   FATHER_MIDDLE_NAME: 'What’s your father’s middle name?',
