@@ -253,7 +253,7 @@ const ComposeForm = props => {
   const saveDraftHandler = async (type, e) => {
     if (type === 'manual') {
       setUserSaved(true);
-      setLastFocusableElement(e.target.shadowRoot.querySelector('button'));
+      setLastFocusableElement(e.target);
       await setMessageInvalid(false);
       if (checkMessageValidity()) {
         setNavigationError(null);
