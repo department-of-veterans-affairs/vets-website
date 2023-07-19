@@ -14,7 +14,8 @@ import LabAndTestDetails from './containers/LabAndTestDetails';
 import Allergies from './containers/Allergies';
 import AllergyDetails from './containers/AllergyDetails';
 import CareSummariesDetails from './containers/CareSummariesDetails';
-import ShareRecordsPage from './containers/ShareRecordsPage';
+import DownloadRecordsPage from './containers/DownloadRecordsPage';
+import SettingsPage from './containers/SettingsPage';
 import RadiologyImagesList from './containers/RadiologyImagesList';
 import RadiologySingleImage from './containers/RadiologySingleImage';
 import App from './containers/App';
@@ -45,8 +46,11 @@ const routes = (
       >
         <RadiologySingleImage />
       </Route>
-      <Route path="/share-your-medical-record" key="ShareRecords">
-        <ShareRecordsPage />
+      <Route path="/download-your-medical-records" key="DownloadRecords">
+        <DownloadRecordsPage />
+      </Route>
+      <Route path="/settings" key="Settings">
+        <SettingsPage />
       </Route>
       <Route exact path="/health-history" key="HealthHistory">
         <HealthHistory />

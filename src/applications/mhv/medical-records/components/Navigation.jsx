@@ -44,9 +44,14 @@ const Navigation = () => {
           datatestid: 'vitals-sidebar',
         },
         {
-          path: '/share-your-medical-record',
-          label: 'Share your medical record',
-          datatestid: 'share-your-medical-record-sidebar',
+          path: '/download-your-medical-records',
+          label: 'Download all medical records',
+          datatestid: 'download-your-medical-records-sidebar',
+        },
+        {
+          path: '/settings',
+          label: 'Medical records settings',
+          datatestid: 'settings-sidebar',
         },
       ],
     },
