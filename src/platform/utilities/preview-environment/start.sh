@@ -7,8 +7,8 @@ TIMESTAMP=$(date +%s)
 echo "Timestamp value: " $TIMESTAMP
 echo "Moving: " $SOURCE_REF " to " $SOURCE_REF"-"$TIMESTAMP
 mv -vf $SOURCE_REF $SOURCE_REF"-"$TIMESTAMP
-echo "Removing previous build in background"
-rm -rf $SOURCE_REF"-"$TIMESTAMP &
+# echo "Removing previous build in background"
+# rm -rf $SOURCE_REF"-"$TIMESTAMP &
 echo "Creating directory: " $SOURCE_REF
 mkdir $SOURCE_REF
 echo "Navigate into: " $SOURCE_REF
