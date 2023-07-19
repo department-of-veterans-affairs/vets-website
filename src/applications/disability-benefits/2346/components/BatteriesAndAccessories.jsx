@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
 import { DLC_PHONE } from '../constants';
+import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
 import Accessories from './Accessories';
 import ApneaSupplies from './ApneaSupplies';
 import Batteries from './Batteries';
 
 const BatteriesAndAccessories = () => {
+  // Retrieve feature flag values to control behavior
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const featureToggles = useSelector(selectFeatureToggles);
+  const {
+    isSupplyReorderingSleepApneaEnabled,
+    isLoadingFeatureFlags,
+  } = featureToggles;
+
+  if (isLoadingFeatureFlags)
+    return <va-loading-indicator message="Loading your information..." />;
+
   return (
     <>
       <h3>Add supplies to your order</h3>
@@ -21,7 +34,7 @@ const BatteriesAndAccessories = () => {
       </p>
       <Batteries />
       <Accessories />
-      <ApneaSupplies />
+      {isSupplyReorderingSleepApneaEnabled && <ApneaSupplies />}
     </>
   );
 };
