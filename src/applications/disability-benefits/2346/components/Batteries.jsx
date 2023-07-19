@@ -5,8 +5,11 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import moment from 'moment';
 
-import { setData } from '@department-of-veterans-affairs/platform-forms-system/exports';
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+// import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+// FIXME: figure out why cypress doesn't like this import.
+// eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
+import recordEvent from 'platform/monitoring/record-event';
 
 import { BATTERY, DLC_PHONE } from '../constants';
 
