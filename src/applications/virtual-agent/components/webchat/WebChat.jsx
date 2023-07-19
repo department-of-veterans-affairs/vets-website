@@ -120,23 +120,30 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
 
   /** NOT PRODUCTION READY --- will be replaced by api request * */
   async function createPonyFill(webchat) {
-    const res = await axios.post(
-      process.env.SPEECH_URL,
-      {},
-      {
-        headers: {
-          'Ocp-Apim-Subscription-Key': process.env.SPEECH_KEY,
-        },
-      },
-    );
-    if (res.status !== 200) {
-      throw new Error('Failed to fetch authorization token and region.');
+    // const res = await axios.post(
+    //   'ENDPOINT URL - see in 1pass',
+    //   {},
+    //   {
+    //     headers: {
+    //       'Ocp-Apim-Subscription-Key': 'ENV specific SUBSCRIPTION KEY - see in 1pass',
+    //     },
+    //   },
+    // );
+    // if (res.status !== 200) {
+    //   throw new Error('Failed to fetch authorization token and region.');
+    // }
+
+    async function callVirtualAgentVoiceTokenApi() {
+      return apiRequest('/virtual_agent_voice_token', {
+        method: 'POST',
+      });
     }
+    const token = callVirtualAgentVoiceTokenApi(); // expecting some token ie:  eyJhbGciOiJFUzI1NiIsImtpZCI6ImtleTEiLCJ0eXAiOiJKV1QifQ.eyJyZWdpb24iOiJlYXN0dXMiLCJzdWJzY3JpcHRpb24taWQiOiJlM2U1NTlhYTBhYjY0NDBlYjkwOWY00dHBzOi8vYXBpLmNvZ25pdGl2ZS5taWNyb3NvZnQuY29tL2ludGVyb
 
     return webchat.createCognitiveServicesSpeechServicesPonyfillFactory({
       credentials: {
         region: 'eastus',
-        authorizationToken: res.data,
+        authorizationToken: token,
       },
     });
   }

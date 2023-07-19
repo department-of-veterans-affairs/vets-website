@@ -9,7 +9,6 @@ import {
   IS_TRACKING_UTTERANCES,
   RECENT_UTTERANCES,
   CONVERSATION_ID_KEY,
-  IS_RX_SKILL,
 } from '../../chatbox/utils';
 
 // define thunks for actions
@@ -99,21 +98,5 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   }
   if (JSON.parse(sessionStorage.getItem(IS_TRACKING_UTTERANCES))) {
     sendWindowEvent('webchat-message-activity');
-  }
-
-  const payload = action.payload || {};
-  const dataorEmpty = payload.activity || {};
-  const text = dataorEmpty.text || '';
-  const rxSkillWasTriggered = text.includes('Welcome to the RX Skill');
-  const rxSkillWasExited = text.includes('You have exited the RX Skill');
-
-  if (rxSkillWasTriggered) {
-    setSessionStorageAsString(IS_RX_SKILL, true);
-    sendWindowEvent('rxSkill');
-    // window.dispatchEvent(new Event('rxSkill'));
-  }
-  if (rxSkillWasExited) {
-    setSessionStorageAsString(IS_RX_SKILL, false);
-    sendWindowEvent('rxSkill');
   }
 };
