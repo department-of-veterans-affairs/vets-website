@@ -4,16 +4,11 @@ import {
   preparerSigningReasonOptions,
 } from '../definitions/constants';
 
-export default function transformForSubmit(formConfig, form) {
-  let transformedData = JSON.parse(sharedTransformForSubmit(formConfig, form));
-
-  const preparerQualifications = transformedData?.preparerQualifications;
-  let booleanPreparerQualifications = {};
-  const preparerSigningReason = transformedData?.preparerSigningReason;
-  let booleanPreparerSigningReason = {};
+function booleanPreparerQualifications(preparerQualifications) {
+  let booleanPreparerQualificationsOutput = {};
 
   if (preparerQualifications) {
-    booleanPreparerQualifications = {
+    booleanPreparerQualificationsOutput = {
       'court-appointed-rep': preparerQualifications.includes(
         preparerQualificationsOptions.COURT_APPOINTED_REP,
       ),
@@ -29,8 +24,14 @@ export default function transformForSubmit(formConfig, form) {
     };
   }
 
+  return booleanPreparerQualificationsOutput;
+}
+
+function booleanPreparerSigningReason(preparerSigningReason) {
+  let booleanPreparerSigningReasonOutput = {};
+
   if (preparerSigningReason) {
-    booleanPreparerSigningReason = {
+    booleanPreparerSigningReasonOutput = {
       under18: preparerSigningReason.includes(
         preparerSigningReasonOptions.UNDER18,
       ),
@@ -43,13 +44,19 @@ export default function transformForSubmit(formConfig, form) {
     };
   }
 
+  return booleanPreparerSigningReasonOutput;
+}
+
+export default function transformForSubmit(formConfig, form) {
+  let transformedData = JSON.parse(sharedTransformForSubmit(formConfig, form));
+
   transformedData = {
     ...transformedData,
     preparerQualifications: {
-      ...booleanPreparerQualifications,
+      ...booleanPreparerQualifications(transformedData?.preparerQualifications),
     },
     preparerSigningReason: {
-      ...booleanPreparerSigningReason,
+      ...booleanPreparerSigningReason(transformedData?.preparerSigningReason),
     },
   };
 
