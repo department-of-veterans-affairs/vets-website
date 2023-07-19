@@ -171,7 +171,7 @@ class ApneaSupplies extends Component {
           ))}
         {accessorySupplies.length > 0 && (
           <va-additional-info
-            triggerText="What if the accessories I need aren’t listed here?"
+            trigger="What if the accessories I need aren’t listed here?"
             className="vads-u-margin-bottom--2"
           >
             <p>

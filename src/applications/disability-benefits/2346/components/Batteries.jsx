@@ -186,7 +186,7 @@ class Batteries extends Component {
             </div>
           ))}
         {batterySupplies.length > 0 && (
-          <va-additional-info triggerText="What if my device isn’t listed here?">
+          <va-additional-info trigger="What if my device isn’t listed here?">
             <p>
               Your hearing aid device may not be listed here if you haven’t
               placed an order for resupply items within the last 2 years. If you
