@@ -61,9 +61,10 @@ const InstallmentContractSummary = ({
       'Original Loan Amount': originalAmount
         ? currencyFormatter(originalAmount)
         : null,
-      'Unpaid balance': unpaidBalance && currencyFormatter(unpaidBalance),
-      'Minimum monthly payment amount':
-        amountDueMonthly && currencyFormatter(amountDueMonthly),
+      'Unpaid balance': unpaidBalance ? currencyFormatter(unpaidBalance) : null,
+      'Minimum monthly payment amount': amountDueMonthly
+        ? currencyFormatter(amountDueMonthly)
+        : null,
       'Date received': dateStarted,
       'Amount overdue': amountPastDue
         ? currencyFormatter(amountPastDue)
