@@ -2,10 +2,12 @@ import { parse } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 
+const parseVistaDateTime = date => {
+  return parse(date, 'MM/dd/yyyy@HH:mm', new Date());
+};
+
 const getFormattedAppointmentDate = avs => {
-  return formatDateLong(
-    parse(avs.data.appointments[0]?.datetime, 'MM/dd/yyyy@HH:mm', new Date()),
-  );
+  return formatDateLong(parseVistaDateTime(avs.data.appointments[0]?.datetime));
 };
 
 const getFormattedGenerationDate = avs => {
@@ -27,4 +29,8 @@ const getFormattedGenerationDate = avs => {
   )} ${shortTimeZone}`;
 };
 
-export { getFormattedAppointmentDate, getFormattedGenerationDate };
+export {
+  getFormattedAppointmentDate,
+  getFormattedGenerationDate,
+  parseVistaDateTime,
+};

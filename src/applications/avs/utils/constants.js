@@ -1,3 +1,15 @@
+const APPOINTMENT_TYPES = {
+  RECALL: {
+    key: 'RECALL',
+    // TODO: Find out if this is correct.
+    label: 'Recall',
+  },
+  SCHEDULED: {
+    key: 'SCHEDULED',
+    label: 'Scheduled',
+  },
+};
+
 const ORDER_TYPES = {
   CONSULT: {
     key: 'CONSULT',
@@ -21,4 +33,4 @@ const ORDER_TYPES = {
   },
 };
 
-export { ORDER_TYPES };
+export { APPOINTMENT_TYPES, ORDER_TYPES };
