@@ -421,13 +421,14 @@ const ComposeForm = props => {
               </a>
             </VaModal>
 
-            <button
-              type="button"
-              className="link-button edit-input-button"
+            <va-button
+              id="edit-list-button"
+              text="Edit list"
+              secondary=""
+              class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1 hydrated"
+              data-testid="Edit-List-Button"
               onClick={() => setEditListModal(true)}
-            >
-              Edit List
-            </button>
+            />
           </>
         )}
         <div className="compose-form-div">
