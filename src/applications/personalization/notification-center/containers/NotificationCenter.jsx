@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import environment from '~/platform/utilities/environment';
 // import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 import DebtNotification from '../../common/components/DebtNotification';
+import OtherNotification from '../../common/components/OtherNotification';
 import { fetchNotifications } from '../../common/actions/notifications';
 
 const debtTemplateId = environment.isProduction()
@@ -21,24 +22,32 @@ export const NotificationCenter = ({
     },
     [getNotifications],
   );
-  const debtNotifications = notifications.filter(
-    n => n.attributes.templateId === debtTemplateId,
-  );
 
-  if (!debtNotifications || !debtNotifications.length || notificationsError) {
+  // empty state for no notifications, or error fetching
+  if (!notifications.length || notificationsError) {
     return null;
   }
 
   return (
     <div data-testid="notification-center">
       <h1>Notification Center</h1>
-      {debtNotifications.map(n => (
-        <DebtNotification
-          key={n.id}
-          hasError={notificationsError}
-          notification={n}
-        />
-      ))}
+      {/* can convert this into switch cases when we have at least 3 types */}
+      {Object.keys(notifications).map(
+        n =>
+          notifications[n].attributes.templateId === debtTemplateId ? (
+            <DebtNotification
+              key={notifications[n].id}
+              hasError={notificationsError}
+              notification={notifications[n]}
+            />
+          ) : (
+            <OtherNotification
+              key={notifications[n].id}
+              hasError={notificationsError}
+              notification={notifications[n]}
+            />
+          ),
+      )}
     </div>
   );
 };
