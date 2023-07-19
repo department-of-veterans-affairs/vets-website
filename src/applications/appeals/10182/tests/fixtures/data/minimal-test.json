@@ -25,6 +25,8 @@
     "hearingTypePreference": "central_office",
     "socOptIn": false,
     "view:additionalEvidence": false,
+    "requestingExtension": false,
+    "appealingVhaDenial": false,
 
     "contestableIssues": [
       {

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { SELECTED } from '../../constants';
+import { SELECTED, SHOW_PART3 } from '../../constants';
 import { getDate } from '../../utils/dates';
 
 import {
@@ -13,6 +13,7 @@ import {
   getAddress,
   getPhone,
   getTimeZone,
+  getPart3Data,
 } from '../../utils/submit';
 
 const validDate1 = getDate({ offset: { months: -2 } });
@@ -375,5 +376,35 @@ describe('getTimeZone', () => {
   it('should return a string', () => {
     // result will be a location string, not stubbing for this test
     expect(getTimeZone().length).to.be.greaterThan(1);
+  });
+});
+
+describe('getPart3Data', () => {
+  const getResult = ({ ext = false, denial = false } = {}) => ({
+    requestingExtension: ext,
+    appealingVhaDenial: denial,
+  });
+  it('should return an empty object', () => {
+    expect(getPart3Data({})).to.deep.equal({});
+  });
+  it('should return part 3 default data', () => {
+    expect(getPart3Data({ [SHOW_PART3]: true })).to.deep.equal(getResult());
+  });
+  it('should return appealing VHA denial as true', () => {
+    const data = { [SHOW_PART3]: true, appealingVhaDenial: true };
+    const result = getResult({ denial: true });
+    expect(getPart3Data(data)).to.deep.equal(result);
+  });
+  it('should return extension reason', () => {
+    const formData = {
+      [SHOW_PART3]: true,
+      requestingExtension: true,
+      extensionReason: 'yep',
+    };
+    const result = {
+      ...getResult({ ext: true }),
+      extensionReason: 'yep',
+    };
+    expect(getPart3Data(formData)).to.deep.equal(result);
   });
 });
