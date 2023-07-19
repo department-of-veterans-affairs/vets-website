@@ -65,7 +65,7 @@ describe('the Supplemental Claims Sub-task', () => {
 
     fireEvent.click($('va-button[continue]', container), mouseClick);
     expect($('form[data-page="other"]', container)).to.exist;
-    expect($('a[download]', container)).to.exist;
+    expect($('va-link', container)).to.exist;
 
     fireEvent.click($('va-button[back]', container), mouseClick);
     expect($('form[data-page="start"]', container)).to.exist;
