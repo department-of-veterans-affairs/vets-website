@@ -19,16 +19,16 @@ cd website
 git config --global --add safe.directory "*"
 
 # Clone vagov-content
-echo "Starting vagov-content"
-git clone --depth 1 https://github.com/department-of-veterans-affairs/vagov-content
+#echo "Starting vagov-content"
+#git clone --depth 1 https://github.com/department-of-veterans-affairs/vagov-content
 
 # Clone vets-gov-json schema
-echo "Starting vets-json-schema"
-git clone --depth 1 https://github.com/department-of-veterans-affairs/vets-json-schema.git
+#echo "Starting vets-json-schema"
+#git clone --depth 1 https://github.com/department-of-veterans-affairs/vets-json-schema.git
 
 # Clone veteran-facing-services-tools
-echo "Starting veteran-facing-services-tools"
-git clone --depth 1 https://github.com/department-of-veterans-affairs/veteran-facing-services-tools
+#echo "Starting veteran-facing-services-tools"
+#git clone --depth 1 https://github.com/department-of-veterans-affairs/veteran-facing-services-tools
 
 # Clone content-build
 echo "Starting content-build"
@@ -58,7 +58,7 @@ git clone --depth 1 https://github.com/department-of-veterans-affairs/content-bu
 
 # Serve the content-build
 echo "Install and serve content-build"
-cd ../content-build
+cd content-build
 yarn install
 wait
 echo "Copy environment file template into place"
@@ -70,5 +70,5 @@ echo "Build using previously cached assets"
 yarn build --use-cached-assets --api="http://vets-website-rework-pe-fronten-dev-platform-api.vfs.va.gov"
 wait
 echo "Serve up content-build"
-yarn serve 
+yarn serve
 sleep 600
