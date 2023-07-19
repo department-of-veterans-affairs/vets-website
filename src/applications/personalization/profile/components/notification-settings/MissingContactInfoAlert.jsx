@@ -4,17 +4,6 @@ import PropTypes from 'prop-types';
 import { MISSING_CONTACT_INFO } from '@@vap-svc/constants';
 import MissingContactInfoAlertLink from './MissingContactInfoAlertLink';
 
-const missingEmailAddressContent = (
-  <>
-    <p>
-      To manage settings for email notifications, first add an email address to
-      your profile.
-    </p>
-    <p>
-      <MissingContactInfoAlertLink missingInfo={MISSING_CONTACT_INFO.EMAIL} />
-    </p>
-  </>
-);
 const missingMobilePhoneContent = (
   <>
     <p>
@@ -27,22 +16,39 @@ const missingMobilePhoneContent = (
   </>
 );
 
-export const getAlertData = ({ missingEmailAddress, missingMobilePhone }) => {
-  if (missingEmailAddress && missingMobilePhone) {
+const missingAllContactInfoContent = (
+  <>
+    <p>
+      We don’t have your contact email address or mobile phone number. To manage
+      your notification settings, first update your contact information.{' '}
+    </p>
+
+    <p>
+      <MissingContactInfoAlertLink missingInfo={MISSING_CONTACT_INFO.EMAIL} />
+    </p>
+
+    <p>
+      <MissingContactInfoAlertLink missingInfo={MISSING_CONTACT_INFO.MOBILE} />
+    </p>
+  </>
+);
+
+export const getAlertData = ({
+  missingEmailAddress,
+  missingMobilePhone,
+  showEmailNotificationSettings,
+}) => {
+  if (
+    missingEmailAddress &&
+    missingMobilePhone &&
+    showEmailNotificationSettings
+  ) {
     return {
-      content: missingMobilePhoneContent,
-      title: 'We don’t have your mobile phone number',
-    };
-    // TODO: uncomment when email is a supported communication channel
-    // return missingAllContactInfoContent;
-  }
-  if (missingEmailAddress) {
-    return {
-      content: missingEmailAddressContent,
-      title: 'We don’t have your email address',
+      content: missingAllContactInfoContent,
+      title: 'We don’t have your contact information',
     };
   }
-  if (missingMobilePhone) {
+  if (missingMobilePhone && !showEmailNotificationSettings) {
     return {
       content: missingMobilePhoneContent,
       title: 'We don’t have your mobile phone number',
@@ -50,26 +56,16 @@ export const getAlertData = ({ missingEmailAddress, missingMobilePhone }) => {
   }
   return { content: null, title: null };
 };
-// TODO: uncomment when email is a supported communication channel
-// const missingAllContactInfoContent = (
-//   <>
-//     <p>
-//       We don’t have your contact email address or mobile phone number. To manage
-//       your notification settings, first update your contact information.{' '}
-//     </p>
-//     <p>
-//       <AddContactInfoLink missingInfo={MISSING_CONTACT_INFO.ALL} />
-//     </p>
-//   </>
-// );
 
 const MissingContactInfoAlert = ({
   missingMobilePhone,
   missingEmailAddress,
+  showEmailNotificationSettings,
 }) => {
   const { content, title } = getAlertData({
     missingEmailAddress,
     missingMobilePhone,
+    showEmailNotificationSettings,
   });
 
   if (content) {
@@ -89,6 +85,7 @@ const MissingContactInfoAlert = ({
 MissingContactInfoAlert.propTypes = {
   missingEmailAddress: PropTypes.bool,
   missingMobilePhone: PropTypes.bool,
+  showEmailNotificationSettings: PropTypes.bool,
 };
 
 export default MissingContactInfoAlert;

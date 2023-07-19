@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Select from '@department-of-veterans-affairs/component-library/Select';
+import {
+  VaModal,
+  VaSelect,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import environment from 'platform/utilities/environment';
 import { getActivePages } from 'platform/forms-system/src/js/helpers';
 import localStorage from 'platform/utilities/storage/localStorage';
+import '@department-of-veterans-affairs/component-library/i18n-setup';
 
 const docsPage =
   'https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/forms/save-in-progress-menu';
@@ -116,15 +119,19 @@ const SipsDevModal = props => {
               value={textData}
               onInput={e => handlers.onChange(e.target.value)}
             />
-            <Select
-              label="Return url"
+            <VaSelect
               name="sips_url"
-              options={availablePaths}
-              value={{ value: sipsUrl }}
-              includeBlankOption={false}
-              onValueChange={value => setSipsUrl(value.value)}
-              additionalClass="additional-class"
-            />
+              label="Return url"
+              value={sipsUrl}
+              onVaSelect={event => setSipsUrl(event.target.value)}
+            >
+              {availablePaths &&
+                availablePaths.map(path => (
+                  <option key={path.value} value={path.value}>
+                    {path.label}
+                  </option>
+                ))}
+            </VaSelect>
             <p />
             <a href={docsPage}>
               <i aria-hidden="true" className="fas fa-info-circle" role="img" />{' '}
