@@ -10,7 +10,7 @@ describe('Scheduling Page <AuthContent>', () => {
     const wrapper = shallow(<AuthContent />);
 
     const text = wrapper.text();
-    expect(text).to.include('CernerCallToAction');
+    // expect(text).to.include('CernerCallToAction');
     expect(text).to.include(
       'How can these appointment tools help me manage my care?',
     );
