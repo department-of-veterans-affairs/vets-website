@@ -51,7 +51,7 @@ const App = () => {
       user={user}
       serviceRequired={[backendServices.MESSAGING]}
     >
-      <div className="secure-messaging-page-container vads-l-grid-container">
+      <div className="vads-l-grid-container">
         <SmBreadcrumbs />
         <div className="secure-messaging-container vads-u-display--flex">
           <Navigation />
@@ -60,7 +60,9 @@ const App = () => {
             <AuthorizedRoutes />
           </Switch>
         </div>
-        <va-back-to-top />
+        <div className="bottom-container">
+          <va-back-to-top />
+        </div>
       </div>
     </RequiredLoginView>
   );
