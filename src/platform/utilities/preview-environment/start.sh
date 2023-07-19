@@ -13,7 +13,6 @@ echo "Creating directory: " $SOURCE_REF
 mkdir $SOURCE_REF
 echo "Navigate into: " $SOURCE_REF
 cd $SOURCE_REF
-Commenting out directory creation for 
 mkdir -p website
 cd website
 git config --global --add safe.directory "*"
