@@ -1,6 +1,11 @@
 import moment from 'moment';
 
-import { SELECTED, MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../constants';
+import {
+  SELECTED,
+  MAX_LENGTH,
+  SUBMITTED_DISAGREEMENTS,
+  SHOW_PART3,
+} from '../constants';
 import { replaceSubmittedData, fixDateFormat } from './replace';
 
 /**
@@ -17,6 +22,12 @@ import { replaceSubmittedData, fixDateFormat } from './replace';
  *   enum to "virtual_hearing", "video_conference" or "central_office"
  * @property {Boolean} socOptIn - check box indicating the Veteran has opted in
  *   to the new appeal process (always false)
+ * @property {Boolean} requestingExtension - yes/no indicating the Veteran is
+ *   requesting an extension
+ * @property {String} extensionReason - Text of why the Veteran is requesting an
+ *   extension
+ * @property {Boolean} appealingVhaDenial - yes/no indicating the Veteran is
+ *   appealing a VHA denial
  * @property {Boolean} view:additionalEvidence - Veteran choice to upload more
  *   evidence
  */
@@ -359,3 +370,29 @@ export const getTimeZone = () =>
   // supports IE11
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
   Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+/**
+ *
+ * @param {Boolean} requestingExtension - yes/no indicating the Veteran is
+ *   requesting an extension
+ * @param {String} extensionReason - Text of why the Veteran is requesting an
+ *   extension
+ * @param {Boolean} appealingVhaDenial - yes/no indicating the Veteran is
+ *   appealing a VHA denial
+ * @returns {Object} data from part III, box 11 of form expiring on 3/31/2025
+ */
+export const getPart3Data = formData => {
+  if (!formData[SHOW_PART3]) {
+    return {};
+  }
+  const {
+    requestingExtension = false,
+    extensionReason = '',
+    appealingVhaDenial = false,
+  } = formData;
+  const result = { requestingExtension, appealingVhaDenial };
+  if (requestingExtension) {
+    result.extensionReason = extensionReason;
+  }
+  return result;
+};

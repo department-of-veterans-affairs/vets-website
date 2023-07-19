@@ -22,6 +22,8 @@ import {
   needsHearingType,
   appStateSelector,
   getIssueName,
+  showPart3,
+  showExtensionReason,
 } from '../utils/helpers';
 
 import { CONTESTABLE_ISSUES_PATH } from '../constants';
@@ -33,6 +35,9 @@ import contactInfo from '../pages/contactInfo';
 import contestableIssues from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
+import extensionRequest from '../pages/extensionRequest';
+import extensionReason from '../pages/extensionReason';
+import appealingVhaDenial from '../pages/appealingVhaDenial';
 import filingDeadlines from '../pages/filingDeadlines';
 import issueSummary from '../pages/issueSummary';
 import boardReview from '../pages/boardReview';
@@ -123,6 +128,27 @@ const formConfig = {
           path: 'filing-deadlines',
           uiSchema: filingDeadlines.uiSchema,
           schema: filingDeadlines.schema,
+        },
+        extensionRequest: {
+          title: 'Request an extension',
+          path: 'extension-request',
+          depends: showPart3,
+          uiSchema: extensionRequest.uiSchema,
+          schema: extensionRequest.schema,
+        },
+        extensionReason: {
+          title: 'Reason for extension',
+          path: 'extension-reason',
+          depends: showExtensionReason,
+          uiSchema: extensionReason.uiSchema,
+          schema: extensionReason.schema,
+        },
+        appealingVhaDenial: {
+          title: 'Appealing denial of VA health care benefits',
+          path: 'appealing-denial',
+          depends: showPart3,
+          uiSchema: appealingVhaDenial.uiSchema,
+          schema: appealingVhaDenial.schema,
         },
         contestableIssues: {
           title: 'Issues eligible for review',
