@@ -120,14 +120,16 @@ const immunizations = avs => {
   if (avs.data.immunizations?.length > 0) {
     const immunizationItems = avs.data.immunizations.map(
       (immunization, idx) => (
-        <p key={idx}>
-          {immunization.name}
-          <br />
-          Date: {immunization.date}
-          <br />
-          Facility: {immunization.facility}
+        <div key={idx}>
+          <p>
+            {immunization.name}
+            <br />
+            Date: {immunization.date}
+            <br />
+            Facility: {immunization.facility}
+          </p>
           <hr />
-        </p>
+        </div>
       ),
     );
 
