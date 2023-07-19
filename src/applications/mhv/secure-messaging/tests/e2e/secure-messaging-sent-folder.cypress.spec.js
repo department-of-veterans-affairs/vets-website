@@ -39,7 +39,6 @@ describe('Secure Messaging Sent Folder checks', () => {
     PatientMessagesSentPage.loadMessages();
     PatientMessagesSentPage.inputFilterData('test');
     PatientMessagesSentPage.filterMessages();
-
     PatientMessagesSentPage.verifyFilterResults('test');
     cy.injectAxe();
     cy.axeCheck('main', {

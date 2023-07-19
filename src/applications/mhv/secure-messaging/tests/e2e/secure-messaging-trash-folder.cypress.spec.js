@@ -10,7 +10,7 @@ describe('Secure Messaging Trash Folder checks', () => {
     landingPage.loadInboxMessages();
   });
   it('Axe Check Trash Folder', () => {
-    PatientMessageTrashPage.loadTrashMessages();
+    PatientMessageTrashPage.loadMessages();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -22,7 +22,7 @@ describe('Secure Messaging Trash Folder checks', () => {
   });
 
   it('Verify folder header', () => {
-    PatientMessageTrashPage.loadTrashMessages();
+    PatientMessageTrashPage.loadMessages();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -36,10 +36,9 @@ describe('Secure Messaging Trash Folder checks', () => {
   });
 
   it('Verify filter works correctly', () => {
-    PatientMessageTrashPage.loadTrashMessages();
+    PatientMessageTrashPage.loadMessages();
     PatientMessageTrashPage.inputFilterData('test');
-    PatientMessageTrashPage.filterTrashMessages();
-
+    PatientMessageTrashPage.filterMessages();
     PatientMessageTrashPage.verifyFilterResults('test');
     cy.injectAxe();
     cy.axeCheck('main', {
@@ -52,9 +51,9 @@ describe('Secure Messaging Trash Folder checks', () => {
   });
 
   it('Verify clear filter btn works correctly', () => {
-    PatientMessageTrashPage.loadTrashMessages();
+    PatientMessageTrashPage.loadMessages();
     PatientMessageTrashPage.inputFilterData('any');
-    PatientMessageTrashPage.filterTrashMessages();
+    PatientMessageTrashPage.filterMessages();
     PatientMessageTrashPage.clearFilter();
 
     cy.injectAxe();
