@@ -25,7 +25,7 @@ const LandingPage = () => {
     <div className="landing-page">
       <section>
         <h1>Medical records</h1>
-        <p className="vads-u-font-size--h3">
+        <p className="va-introtext">
           Review, print, download, and share your VA medical records with our
           online tool.
         </p>
