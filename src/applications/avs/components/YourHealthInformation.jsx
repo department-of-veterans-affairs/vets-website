@@ -10,13 +10,10 @@ const getAppointments = (type, appointments) => {
   return appointments.filter(appointment => appointment.type === type.label);
 };
 
-const appointments = avs => {
-  if (avs.data.appointments?.length > 0) {
-    const items = getAppointments(
-      APPOINTMENT_TYPES.SCHEDULED,
-      avs.data.appointments,
-    );
-    const scheduledAppointments = items.map((item, idx) => (
+const getAppointmentContent = (type, appointments) => {
+  const items = getAppointments(type, appointments);
+  if (items.length > 0) {
+    return items.map((item, idx) => (
       <div key={idx}>
         <h5>{formatDateLong(parseVistaDateTime(item.datetime))}</h5>
         <p>
@@ -25,7 +22,21 @@ const appointments = avs => {
         </p>
       </div>
     ));
+  }
 
+  return null;
+};
+
+const appointments = avs => {
+  if (avs.data.appointments?.length > 0) {
+    const scheduledAppointments = getAppointmentContent(
+      APPOINTMENT_TYPES.SCHEDULED,
+      avs.data.appointments,
+    );
+    const recallAppointments = getAppointmentContent(
+      APPOINTMENT_TYPES.RECALL,
+      avs.data.appointments,
+    );
     return (
       <div>
         <h3>Upcoming appointments</h3>
@@ -34,6 +45,19 @@ const appointments = avs => {
             <h4>Scheduled appointments</h4>
             <p>Appointments in the next 13 months:</p>
             <ul>{scheduledAppointments}</ul>
+          </div>
+        )}
+        {recallAppointments && (
+          <div>
+            <h4>Recall appointments</h4>
+            <p>
+              Please know that Recall appointments are not confirmed
+              appointments. You will receive a reminder approximately 3 weeks
+              before the Recall date to call and request the appointment. When
+              you call, you will be assigned a confirmed appointment date and
+              time.
+            </p>
+            <ul>{recallAppointments}</ul>
           </div>
         )}
       </div>
