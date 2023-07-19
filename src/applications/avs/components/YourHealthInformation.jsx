@@ -27,6 +27,42 @@ const getAppointmentContent = (type, appointments) => {
   return null;
 };
 
+const primaryCareProvider = avs => {
+  if (avs.data.primaryCareProviders) {
+    return (
+      <div>
+        <h3>Primary care provider</h3>
+        <ul>
+          {/* TODO: Confirm that this is correct */}
+          <li>{avs.data.primaryCareProviders[0]}</li>
+          {avs.data.primaryCareTeam && <li>{avs.data.primaryCareTeam}</li>}
+        </ul>
+      </div>
+    );
+  }
+
+  return null;
+};
+
+const primaryCareTeam = avs => {
+  if (avs.data.primaryCareTeamMembers.length > 0) {
+    const teamMembers = avs.data.primaryCareTeamMembers.map((member, idx) => (
+      <li key={idx}>
+        {member.name} - {member.title}
+      </li>
+    ));
+
+    return (
+      <div>
+        <h3>Primary care team</h3>
+        <ul>{teamMembers}</ul>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const appointments = avs => {
   if (avs.data.appointments?.length > 0) {
     const scheduledAppointments = getAppointmentContent(
@@ -67,35 +103,12 @@ const appointments = avs => {
   return null;
 };
 
-const primaryCareProvider = avs => {
-  if (avs.data.primaryCareProviders) {
+const smokingStatus = avs => {
+  if (avs.data.patientInfo?.smokingStatus) {
     return (
       <div>
-        <h3>Primary care provider</h3>
-        <ul>
-          {/* TODO: Confirm that this is correct */}
-          <li>{avs.data.primaryCareProviders[0]}</li>
-          {avs.data.primaryCareTeam && <li>{avs.data.primaryCareTeam}</li>}
-        </ul>
-      </div>
-    );
-  }
-
-  return null;
-};
-
-const primaryCareTeam = avs => {
-  if (avs.data.primaryCareTeamMembers.length > 0) {
-    const teamMembers = avs.data.primaryCareTeamMembers.map((member, idx) => (
-      <li key={idx}>
-        {member.name} - {member.title}
-      </li>
-    ));
-
-    return (
-      <div>
-        <h3>Primary care team</h3>
-        <ul>{teamMembers}</ul>
+        <h3>Smoking status</h3>
+        <p>{avs.data.patientInfo.smokingStatus}</p>
       </div>
     );
   }
@@ -118,6 +131,9 @@ const YourHealthInformation = props => {
       {primaryCareProvider(avs)}
       {primaryCareTeam(avs)}
       {appointments(avs)}
+      {/* TODO: add Appointment Notes section? */}
+      {/* TODO: add problem list */}
+      {smokingStatus(avs)}
     </div>
   );
 };
