@@ -5,7 +5,6 @@ const {
 const user = require('../../common/mocks/users');
 const notifications = require('../../common/mocks/notifications');
 
-/* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
     myVaUseExperimental: true,
