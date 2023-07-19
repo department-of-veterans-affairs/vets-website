@@ -24,6 +24,7 @@ describe(manifest.appName, () => {
   describe('Load Draft messages', () => {
     before(() => {
       site.login();
+      FolderLoadPage.loadInboxMessages();
       FolderLoadPage.loadDraftMessages();
     });
     it('Check the header', () => {
@@ -41,6 +42,7 @@ describe(manifest.appName, () => {
   describe('Load Sent messages', () => {
     before(() => {
       site.login();
+      FolderLoadPage.loadInboxMessages();
       FolderLoadPage.loadSentMessages();
     });
     it('Check the header', () => {
@@ -58,6 +60,7 @@ describe(manifest.appName, () => {
   describe('Load Trash messages', () => {
     before(() => {
       site.login();
+      FolderLoadPage.loadInboxMessages();
       FolderLoadPage.loadDeletedMessages();
     });
     it('Check the header', () => {
