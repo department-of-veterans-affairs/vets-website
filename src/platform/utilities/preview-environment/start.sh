@@ -9,10 +9,11 @@ cd website/slow
 # mv -vf $SOURCE_REF $SOURCE_REF"-"$TIMESTAMP
 # echo "Removing previous build in background"
 # rm -rf $SOURCE_REF"-"$TIMESTAMP &
-echo "Creating directory: " $SOURCE_REF
-mkdir -p $SOURCE_REF
+# echo "Creating directory: " $SOURCE_REF
+# mkdir -p $SOURCE_REF
 echo "Navigate into: " $SOURCE_REF
-cd $SOURCE_REF
+# cd $SOURCE_REF
+cd pe_slow_content_build-1689786553
 mkdir -p website
 cd website
 git config --global --add safe.directory "*"
