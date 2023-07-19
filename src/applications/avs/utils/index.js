@@ -6,6 +6,10 @@ const parseVistaDateTime = date => {
   return parse(date, 'MM/dd/yyyy@HH:mm', new Date());
 };
 
+const parseVistaDate = date => {
+  return parse(date, 'MM/dd/yyyy', new Date());
+};
+
 const getFormattedAppointmentDate = avs => {
   return formatDateLong(parseVistaDateTime(avs.data.appointments[0]?.datetime));
 };
@@ -32,5 +36,6 @@ const getFormattedGenerationDate = avs => {
 export {
   getFormattedAppointmentDate,
   getFormattedGenerationDate,
+  parseVistaDate,
   parseVistaDateTime,
 };

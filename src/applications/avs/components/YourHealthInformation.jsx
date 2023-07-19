@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 
-import { getFormattedAppointmentDate, parseVistaDateTime } from '../utils';
+import {
+  getFormattedAppointmentDate,
+  parseVistaDate,
+  parseVistaDateTime,
+} from '../utils';
 import { APPOINTMENT_TYPES } from '../utils/constants';
 
 const getAppointments = (type, appointments) => {
@@ -144,6 +148,40 @@ const immunizations = avs => {
   return null;
 };
 
+const allergiesAndReactions = avs => {
+  if (avs.data.allergiesReactions?.allergies.length > 0) {
+    const allergyItems = avs.data.allergiesReactions.allergies.map(
+      (item, idx) => (
+        <div key={idx}>
+          <p>
+            {item.allergen}
+            <br />
+            Verified date: {formatDateLong(parseVistaDate(item.verifiedDate))}
+            <br />
+            Severity: {item.severity}
+            <br />
+            Reaction: {item.reactions.join(', ')}
+            <br />
+            Allergy type: {item.type}
+            <br />
+            Site: {item.site}
+          </p>
+          <hr />
+        </div>
+      ),
+    );
+
+    return (
+      <div>
+        <h3>Allergies and adverse drug reactions (signs / symptoms)</h3>
+        {allergyItems}
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const YourHealthInformation = props => {
   const { avs } = props;
   const appointmentDate = getFormattedAppointmentDate(avs);
@@ -163,6 +201,7 @@ const YourHealthInformation = props => {
       {/* TODO: add problem list */}
       {smokingStatus(avs)}
       {immunizations(avs)}
+      {allergiesAndReactions(avs)}
     </div>
   );
 };
