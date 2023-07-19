@@ -116,6 +116,32 @@ const smokingStatus = avs => {
   return null;
 };
 
+const immunizations = avs => {
+  if (avs.data.immunizations?.length > 0) {
+    const immunizationItems = avs.data.immunizations.map(
+      (immunization, idx) => (
+        <p key={idx}>
+          {immunization.name}
+          <br />
+          Date: {immunization.date}
+          <br />
+          Facility: {immunization.facility}
+          <hr />
+        </p>
+      ),
+    );
+
+    return (
+      <div>
+        <h3>Immunizations</h3>
+        {immunizationItems}
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const YourHealthInformation = props => {
   const { avs } = props;
   const appointmentDate = getFormattedAppointmentDate(avs);
@@ -134,6 +160,7 @@ const YourHealthInformation = props => {
       {/* TODO: add Appointment Notes section? */}
       {/* TODO: add problem list */}
       {smokingStatus(avs)}
+      {immunizations(avs)}
     </div>
   );
 };
