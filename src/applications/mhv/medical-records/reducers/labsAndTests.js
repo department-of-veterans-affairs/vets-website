@@ -4,7 +4,12 @@ import {
   concatObservationInterpretations,
   getObservationValueWithUnits,
 } from '../util/helpers';
-import { LoincCodes, FhirResourceTypes, labTypes } from '../util/constants';
+import {
+  LoincCodes,
+  FhirResourceTypes,
+  labTypes,
+  emptyField,
+} from '../util/constants';
 
 const initialState = {
   /**
@@ -73,14 +78,14 @@ const convertMicrobiologyRecord = record => {
     category: '',
     orderedBy: 'Beth M. Smith',
     requestedBy: 'John J. Lydon',
-    date: record.effectiveDateTime,
-    sampleFrom: 'Blood',
-    // sampleTested: record.specimen,
+    date: record.effectiveDateTime || emptyField,
+    sampleFrom: record.type?.text || emptyField,
+    sampleTested: record.specimen?.text || emptyField,
     orderingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    // collectingLocation: record.performer,
+    collectingLocation: record.performer?.text || emptyField,
     labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    // results: record.conclusion || record.result,
+    results: record.conclusion || record.result || emptyField,
   };
 };
 
