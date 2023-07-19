@@ -26,7 +26,7 @@ class PatientComposePage {
       mockDraftMessage,
     ).as('message');
     cy.tabToElement('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .realPress(['Enter']);
     // cy.wait('@message');
   };
