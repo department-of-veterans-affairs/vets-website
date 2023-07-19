@@ -4,7 +4,6 @@ import unset from 'platform/utilities/data/unset';
 import moment from 'moment';
 
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
-import applicantInformation from 'platform/forms/pages/applicantInformation';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import {
   schema as addressSchema,
@@ -16,13 +15,22 @@ import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import yearUI from 'platform/forms-system/src/js/definitions/year';
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import {
+  validateBooleanGroup,
+  validateCurrentOrFutureDate,
+} from 'platform/forms-system/src/js/validation';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import applicantDescription from 'platform/forms/components/ApplicantDescription';
+import { genderLabels } from 'platform/static-data/labels';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import PreSubmitInfo from '../pages/PreSubmitInfo';
 import contactInformationPage from '../../pages/contactInformation';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
+import GuardianInformation from '../pages/GuardianInformation';
 
 import manifest from '../manifest.json';
 
@@ -46,6 +54,9 @@ import {
   benefitsRelinquishedDescription,
   prefillTransformer,
   reserveKickerWarning,
+  SeventeenOrOlder,
+  eighteenOrOver,
+  ageWarning,
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
@@ -76,6 +87,9 @@ const {
 const {
   postHighSchoolTrainings,
   date,
+  fullName,
+  ssn,
+  gender,
   dateRange,
   year,
   currentlyActiveDuty,
@@ -114,6 +128,9 @@ const formConfig = {
   defaultDefinitions: {
     date,
     dateRange,
+    fullName,
+    gender,
+    ssn,
     year,
     address,
     serviceBefore1977,
@@ -134,44 +151,163 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        applicantInformation: merge(
-          {},
-          applicantInformation(fullSchema1990, {
-            isVeteran: true,
-            fields: [
-              'veteranFullName',
-              'veteranSocialSecurityNumber',
-              'veteranDateOfBirth',
-              'gender',
-            ],
-            required: [
-              'veteranFullName',
-              'veteranSocialSecurityNumber',
-              'veteranDateOfBirth',
-            ],
-          }),
-          {
-            uiSchema: {
-              veteranDateOfBirth: {
-                'ui:validations': [
-                  (errors, dob) => {
-                    // If we have a complete date, check to make sure it’s a valid dob
-                    if (
-                      /\d{4}-\d{2}-\d{2}/.test(dob) &&
-                      moment(dob).isAfter(
-                        moment()
-                          .endOf('day')
-                          .subtract(17, 'years'),
-                      )
-                    ) {
-                      errors.addError('You must be at least 17 to apply');
+        applicantInformation: {
+          path: 'applicant/information',
+          title: 'Applicant information',
+          initialData: {},
+
+          uiSchema: {
+            'ui:description': applicantDescription,
+            veteranFullName: fullNameUI,
+
+            veteranSocialSecurityNumber: {
+              ...ssnUI,
+              'ui:title': 'Social Security number',
+            },
+
+            veteranDateOfBirth: {
+              ...currentOrPastDateUI('Your date of birth'),
+              'ui:errorMessages': {
+                pattern: 'Please provide a valid date',
+                required: 'Please enter a date',
+                futureDate: 'Please provide a valid date',
+              },
+              'ui:validations': [
+                (errors, dob) => {
+                  // If we have a complete date, check to make sure it’s a valid dob
+                  if (/\d{4}-\d{2}-\d{2}/.test(dob) && !SeventeenOrOlder(dob)) {
+                    errors.addError('You must be at least 17 to apply');
+                  }
+                },
+              ],
+            },
+
+            minorHighSchoolQuestions: {
+              'ui:description': ageWarning,
+              'ui:options': {
+                expandUnder: 'veteranDateOfBirth',
+                hideIf: formData => {
+                  let hideCondition;
+                  const dob = get('veteranDateOfBirth', formData);
+                  if (!eighteenOrOver(dob) && SeventeenOrOlder(dob)) {
+                    hideCondition = false;
+                  } else {
+                    hideCondition = true;
+                  }
+
+                  if (environment.isProduction()) {
+                    // delete this statement when going to prod
+                    hideCondition = true;
+                  }
+                  return hideCondition;
+                },
+              },
+              minorHighSchoolQuestion: {
+                'ui:title':
+                  'Applicant has graduated high school or received GED?',
+                'ui:widget': 'yesNo',
+                /* Uncomment out this required when going to prod and delete other required field */
+                // 'ui:required': formData =>
+                //   !eighteenOrOver(formData.veteranDateOfBirth),
+                'ui:required': formData => {
+                  let isRequired = false;
+                  if (!eighteenOrOver(formData.veteranDateOfBirth)) {
+                    isRequired = true;
+                  }
+                  if (environment.isProduction()) {
+                    isRequired = false;
+                  }
+                  return isRequired;
+                },
+              },
+              highSchoolGedGradDate: {
+                ...currentOrPastDateUI('Date graduated'),
+                'ui:options': {
+                  expandUnder: 'minorHighSchoolQuestion',
+                },
+                'ui:required': formData => {
+                  let isRequired = false;
+                  if (!eighteenOrOver(formData.veteranDateOfBirth)) {
+                    const yesNoResults =
+                      formData.minorHighSchoolQuestions.minorHighSchoolQuestion;
+                    if (yesNoResults) {
+                      isRequired = true;
                     }
-                  },
-                ],
+                    if (!yesNoResults) {
+                      isRequired = false;
+                    }
+                  }
+                  if (environment.isProduction()) {
+                    // delete this if statement when going to prod
+                    isRequired = false;
+                  }
+                  return isRequired;
+                },
+              },
+              highSchoolGedExpectedGradDate: {
+                'ui:title': 'Date expected to graduate',
+                'ui:widget': 'date',
+                'ui:options': {
+                  expandUnder: 'minorHighSchoolQuestion',
+                  expandUnderCondition: false,
+                },
+                'ui:validations': [validateCurrentOrFutureDate],
+                'ui:errorMessages': {
+                  pattern: 'Please enter a valid current or future date',
+                  required: 'Please enter a date',
+                },
+              },
+            },
+
+            gender: {
+              'ui:widget': 'radio',
+              'ui:title': 'Gender',
+              'ui:options': {
+                labels: genderLabels,
               },
             },
           },
-        ),
+          schema: {
+            type: 'object',
+            properties: {
+              veteranFullName: {
+                type: 'object',
+                required: ['first', 'last'],
+                properties: fullName.properties,
+              },
+
+              veteranSocialSecurityNumber: {
+                $ref: '#/definitions/ssn',
+              },
+
+              veteranDateOfBirth: {
+                $ref: '#/definitions/date',
+              },
+
+              minorHighSchoolQuestions: {
+                type: 'object',
+                properties: {
+                  minorHighSchoolQuestion: {
+                    type: 'boolean',
+                  },
+                  highSchoolGedGradDate: {
+                    type: 'object',
+                    $ref: '#/definitions/date',
+                  },
+                  highSchoolGedExpectedGradDate: {
+                    type: 'object',
+                    $ref: '#/definitions/date',
+                  },
+                },
+              },
+
+              gender: {
+                $ref: '#/definitions/gender',
+              },
+            },
+            required: ['veteranSocialSecurityNumber', 'veteranDateOfBirth'],
+          },
+        },
       },
     },
     benefitsEligibility: {
@@ -212,7 +348,9 @@ const formConfig = {
               chapter32: {
                 'ui:title': benefitsLabels.chapter32,
                 'ui:options': {
-                  hideIf: () => !environment.isProduction(),
+                  hideIf: () => {
+                    return !environment.isProduction();
+                  },
                 },
               },
             },
@@ -609,6 +747,12 @@ const formConfig = {
           },
         },
         directDeposit: createDirectDepositPage1990(),
+      },
+    },
+    GuardianInformation: {
+      title: 'Guardian information',
+      pages: {
+        guardianInformation: GuardianInformation(fullSchema1990, {}),
       },
     },
   },

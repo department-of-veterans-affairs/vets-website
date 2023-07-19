@@ -94,7 +94,7 @@ const ThreadListItem = props => {
           ))}
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
-        <div className={getClassNames()}>
+        <div className={getClassNames()} data-dd-privacy="mask">
           {location.pathname !== Paths.SENT ? (
             <>
               <span>
@@ -140,6 +140,7 @@ const ThreadListItem = props => {
           }`}
           className="message-subject-link vads-u-margin-y--0p5"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
+          data-dd-privacy="mask"
         >
           {hasAttachment ? (
             <span id={`message-link-has-attachment-${messageId}`}>
@@ -162,7 +163,9 @@ const ThreadListItem = props => {
               alt="Attachment icon"
             />
           )}
-          <span>{formattedDate()}</span>
+          <span data-testid="thread-date" data-dd-privacy="mask">
+            {formattedDate()}
+          </span>
         </p>
       </div>
     </div>

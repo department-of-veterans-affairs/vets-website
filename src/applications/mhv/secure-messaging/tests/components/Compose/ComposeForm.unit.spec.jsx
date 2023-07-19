@@ -157,7 +157,7 @@ describe('Compose form component', () => {
 
     const draftMessageHeadingText = await screen.getAllByRole('heading', {
       name: 'COVID: Covid-Inquiry',
-      level: 3,
+      level: 2,
     });
     const deleteButton = await screen.getByTestId('delete-draft-button');
 

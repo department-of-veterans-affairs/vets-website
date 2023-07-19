@@ -37,8 +37,7 @@ export const vitalReducer = (state = initialState, action) => {
       return {
         ...state,
         vitalDetails: state.vitalsList.filter(
-          vital =>
-            vital.name.toLowerCase().replace(/\s+/g, '') === action.vitalType,
+          vital => vital.type === action.vitalType,
         ),
       };
     }

@@ -291,14 +291,3 @@ export const returnPhoneObject = phone => {
   }
   return result;
 };
-
-/**
- * Contestable issues loading error check
- * If there's an error, show an alert warning, but if the backend returns a 404
- * error (no issues found), we need to allow the Veteran to start the form
- * anyway
- * @param {Object} error - error object or string (rejected invalid benefit type)
- * @returns {Boolean}
- */
-export const checkContestableIssueError = error =>
-  (error && error?.errors?.[0]?.status !== '404') || false;

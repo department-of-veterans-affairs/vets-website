@@ -6,7 +6,6 @@ import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
-import { getAllVaccines } from '../api/MrApi';
 import { RecordType, emptyField } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import {
@@ -48,7 +47,7 @@ const Vaccines = () => {
     [dispatch],
   );
 
-  const generateVaccinesPdf = async res => {
+  const generateVaccinesPdf = async () => {
     const pdfData = {
       headerLeft: name,
       headerRight: `Date of birth: ${dob}`,
@@ -65,7 +64,7 @@ const Vaccines = () => {
       },
     };
 
-    res.forEach(item => {
+    vaccines.forEach(item => {
       pdfData.results.items.push({
         header: item.name,
         items: [
@@ -76,18 +75,18 @@ const Vaccines = () => {
           },
           {
             title: 'Location',
-            value: item.facility || emptyField,
+            value: item.location || emptyField,
             inline: true,
           },
           {
             title: 'Reaction',
             value: processList(item.reactions),
-            inline: !item.reactions,
+            inline: !item.reactions.length,
           },
           {
             title: 'Provider notes',
-            value: processList(item.comments),
-            inline: !item.comments,
+            value: processList(item.notes),
+            inline: !item.notes.length,
           },
         ],
       });
@@ -98,10 +97,6 @@ const Vaccines = () => {
     } catch (error) {
       sendErrorToSentry(error, 'Vaccines');
     }
-  };
-
-  const download = () => {
-    getAllVaccines().then(res => generateVaccinesPdf(res));
   };
 
   const content = () => {
@@ -121,16 +116,17 @@ const Vaccines = () => {
     <div id="vaccines">
       <PrintHeader />
       <h1 className="page-title">Vaccines</h1>
-      <p>
-        This is a complete list of vaccines that the VA has on file for you.
-      </p>
-      <p className="print-only vads-u-margin-bottom--0 max-80">
-        Your VA Vaccines list may not be complete. If you have any questions
-        about your information, visit the FAQs or contact your VA Health care
-        team.
-      </p>
-      <PrintDownload list download={download} />
-
+      <section className="set-width-486">
+        <p>
+          This is a complete list of vaccines that the VA has on file for you.
+        </p>
+        <p className="print-only vads-u-margin-bottom--0 max-80">
+          Your VA Vaccines list may not be complete. If you have any questions
+          about your information, visit the FAQs or contact your VA Health care
+          team.
+        </p>
+        <PrintDownload list download={generateVaccinesPdf} />
+      </section>
       {content()}
     </div>
   );

@@ -21,6 +21,7 @@ import OtherAssetsSummaryReview from '../../components/otherAssets/OtherAssetsSu
 import EnhancedVehicleRecord from '../../components/EnhancedVehicleRecord';
 import VehicleSummaryWidget from '../../pages/assets/vehicles/VehicleSummaryWidget';
 import MonetaryAssetsSummaryReview from '../../components/monetary/MonetaryAssetsSummaryReview';
+import VehicleSummaryReview from '../../components/otherAssets/VehicleSummaryReview';
 
 export default {
   householdAssetsChapter: {
@@ -125,7 +126,7 @@ export default {
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
         CustomPage: VehicleSummaryWidget,
-        CustomPageReview: null,
+        CustomPageReview: VehicleSummaryReview,
       },
       recreationalVehicles: {
         path: 'recreational-vehicles',

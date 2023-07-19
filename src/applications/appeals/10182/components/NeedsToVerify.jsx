@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const NeedsToVerify = ({ pathname }) => (
-  <va-alert status="warning">
+  <va-alert status="continue" class="vads-u-margin-bottom--2">
     <h2 slot="headline">Verify your identity to start your request</h2>
     <p>
       Before we give you access to your personal information, we need to make

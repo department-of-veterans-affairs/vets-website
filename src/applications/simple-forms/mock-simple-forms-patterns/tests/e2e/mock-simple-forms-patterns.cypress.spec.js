@@ -23,6 +23,15 @@ import manifest from '../../manifest.json';
 
 import pagePaths from './pagePaths';
 
+/**
+ * Returns /path/0 for example instead of /path/:index
+ * @param {string} pagePath
+ * @param {number | string} index
+ */
+const replaceArrayIndexPath = (pagePath, index = 0) => {
+  return pagePath.replace(/:index/, index);
+};
+
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
@@ -195,6 +204,110 @@ const testConfig = createTestConfig(
             selectYesNoWebComponent(
               'wcv3IsCurrentlyActiveDuty',
               data.wcv3IsCurrentlyActiveDuty,
+            );
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [pagePaths.arraySinglePage]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            // array example 1
+            fillTextWebComponent(
+              'exampleArrayOne_0_facilityName',
+              data.exampleArrayOne[0].facilityName,
+            );
+            fillDateWebComponentPattern(
+              'exampleArrayOne_0_from',
+              data.exampleArrayOne[0].from,
+            );
+            fillDateWebComponentPattern(
+              'exampleArrayData_0_to',
+              data.exampleArrayData[0].to,
+            );
+            cy.findByText(/add another facility/i, {
+              selector: 'button',
+            }).click();
+            fillTextWebComponent(
+              'exampleArrayOne_1_facilityName',
+              data.exampleArrayOne[1].facilityName,
+            );
+            fillDateWebComponentPattern(
+              'exampleArrayOne_1_from',
+              data.exampleArrayOne[1].from,
+            );
+            fillDateWebComponentPattern(
+              'exampleArrayData_1_to',
+              data.exampleArrayData[1].to,
+            );
+
+            // array example 2
+            fillTextWebComponent(
+              'exampleArrayTwo_0_name',
+              data.exampleArrayTwo[0].name,
+            );
+            selectYesNoWebComponent(
+              'exampleArrayTwo_0_proof',
+              data.exampleArrayTwo[0].proof,
+            );
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [pagePaths.arrayMultiplePage]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            // array example 1
+            fillFullNameWebComponentPattern(
+              'exampleArrayData_0_fullName',
+              data.exampleArrayData[0].fullName,
+            );
+
+            cy.findByText(/add another child/i, {
+              selector: 'button',
+            }).click();
+
+            fillFullNameWebComponentPattern(
+              'exampleArrayData_1_fullName',
+              data.exampleArrayData[1].fullName,
+            );
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [replaceArrayIndexPath(pagePaths.arrayMultiplePageItem, 0)]: ({
+        afterHook,
+      }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressWebComponentPattern(
+              'address',
+              data.exampleArrayData[0].address,
+            );
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [replaceArrayIndexPath(pagePaths.arrayMultiplePageItem, 1)]: ({
+        afterHook,
+      }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressWebComponentPattern(
+              'address',
+              data.exampleArrayData[1].address,
             );
 
             cy.axeCheck();

@@ -48,6 +48,7 @@ import DependentAgesReview from '../../components/DependentAgesReview';
 import EmploymentWorkDates from '../../components/EmploymentWorkDates';
 import SpouseEmploymentWorkDates from '../../components/SpouseEmploymentWorkDates';
 import OtherIncomeSummaryReview from '../../components/otherIncome/OtherIncomeSummaryReview';
+import EmploymentHistorySummaryReview from '../../components/householdIncome/EmploymentHistorySummaryReview';
 
 export default {
   householdIncomeChapter: {
@@ -152,7 +153,7 @@ export default {
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
         CustomPage: EmploymentHistoryWidget,
-        CustomPageReview: null,
+        CustomPageReview: EmploymentHistorySummaryReview,
       },
       income: {
         title: 'Income',
@@ -362,7 +363,7 @@ export default {
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
         CustomPage: SpouseEmploymentHistoryWidget,
-        CustomPageReview: null,
+        CustomPageReview: EmploymentHistorySummaryReview,
       },
       spouseEmployment: {
         path: 'spouse-employment',
