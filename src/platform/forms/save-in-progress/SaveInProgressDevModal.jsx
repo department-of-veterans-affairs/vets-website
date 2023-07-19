@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+// eslint-disable-next-line deprecate/import
 import Select from '@department-of-veterans-affairs/component-library/Select';
 
 import environment from 'platform/utilities/environment';
