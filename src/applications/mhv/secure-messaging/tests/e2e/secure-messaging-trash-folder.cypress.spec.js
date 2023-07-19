@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageTrashPage from './pages/PatientMessageTrashPage';
 
-describe('Secure Messaging Trash Folder AXE Check', () => {
+describe('Secure Messaging Trash Folder checks', () => {
   beforeEach(() => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
@@ -10,6 +10,7 @@ describe('Secure Messaging Trash Folder AXE Check', () => {
     landingPage.loadInboxMessages();
   });
   it('Axe Check Trash Folder', () => {
+    PatientMessageTrashPage.loadTrashMessages();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -20,7 +21,7 @@ describe('Secure Messaging Trash Folder AXE Check', () => {
     });
   });
 
-  it('Verify header of trash folder', () => {
+  it('Verify folder header', () => {
     PatientMessageTrashPage.loadTrashMessages();
     cy.injectAxe();
     cy.axeCheck('main', {
