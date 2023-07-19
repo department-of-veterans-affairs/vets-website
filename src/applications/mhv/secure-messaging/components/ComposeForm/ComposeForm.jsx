@@ -18,7 +18,6 @@ import { sortRecipients } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
-import HowToAttachFiles from '../HowToAttachFiles';
 import {
   draftAutoSaveTimeout,
   Categories,
@@ -470,8 +469,6 @@ const ComposeForm = props => {
           />
         </div>
         <section className="attachments-section">
-          <div className="compose-attachments-heading">Attachments</div>
-          <HowToAttachFiles />
           <AttachmentsList
             compose
             attachments={attachments}
@@ -485,29 +482,35 @@ const ComposeForm = props => {
           />
         </section>
         <DraftSavedInfo userSaved={userSaved} attachments={attachments} />
-        <div className="compose-form-actions vads-u-display--flex">
-          <va-button
-            text="Send"
-            class="vads-u-flex--1 send-button vads-u-margin-bottom--1"
+        <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
+          <button
+            type="button"
+            id="send-button"
+            className="usa-button usa-button-primary vads-u-width--full medium-screen:vads-u-flex--1 vads-u-margin-top--0 medium-screen:vads-u-margin-right--1 vads-u-margin-right--0"
             data-testid="Send-Button"
             onClick={sendMessageHandler}
-          />
-          <va-button
+          >
+            Send
+          </button>
+
+          <button
+            type="button"
             id="save-draft-button"
-            text="Save draft"
-            secondary
-            class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1"
+            className={`usa-button usa-button-secondary save-draft-button vads-u-flex--1 vads-u-margin-top--0 ${
+              draft ? 'vads-u-margin-right--1' : ''
+            }`}
             data-testid="Save-Draft-Button"
             onClick={e => saveDraftHandler('manual', e)}
-          />
+          >
+            <i className="fas fa-save" />
+            &nbsp;Save draft
+          </button>
 
-          {draft && (
-            <DeleteDraft
-              draftId={draft.messageId}
-              setLastFocusableElement={setLastFocusableElement}
-              setNavigationError={setNavigationError}
-            />
-          )}
+          <DeleteDraft
+            draftId={draft?.messageId}
+            setLastFocusableElement={setLastFocusableElement}
+            setNavigationError={setNavigationError}
+          />
         </div>
       </div>
     </form>

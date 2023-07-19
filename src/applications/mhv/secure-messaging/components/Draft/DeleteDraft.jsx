@@ -17,17 +17,19 @@ const DeleteDraft = props => {
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
   const handleDeleteDraftConfirm = () => {
-    props.setNavigationError(null);
-    setIsModalVisible(false);
-    dispatch(deleteDraft(props.draftId)).then(() => {
-      dispatch(clearMessageHistory());
-      navigateToFolderByFolderId(
-        activeFolder
-          ? activeFolder.folderId
-          : Constants.DefaultFolders.DRAFTS.id,
-        history,
-      );
-    });
+    if (props.draftId) {
+      props.setNavigationError(null);
+      setIsModalVisible(false);
+      dispatch(deleteDraft(props.draftId)).then(() => {
+        dispatch(clearMessageHistory());
+        navigateToFolderByFolderId(
+          activeFolder
+            ? activeFolder.folderId
+            : Constants.DefaultFolders.DRAFTS.id,
+          history,
+        );
+      });
+    }
   };
 
   const handleDeleteModalClose = () => {
@@ -40,17 +42,22 @@ const DeleteDraft = props => {
   return (
     <>
       {/* TODO add GA event */}
-      <va-button
+      <button
+        type="button"
+        id="delete-draft-button"
         ref={deleteDraftButtonRef}
-        text="Delete draft"
-        secondary
+        className="usa-button usa-button-secondary delete-draft-button vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--0"
         data-testid="delete-draft-button"
-        class="usa-button-secondary delete-draft-button vads-u-flex--1 vads-u-margin-bottom--1"
         onClick={e => {
-          setIsModalVisible(true);
-          props.setLastFocusableElement(e.target);
+          if (props.draftId) {
+            setIsModalVisible(true);
+            props.setLastFocusableElement(e.target);
+          }
         }}
-      />
+      >
+        <i className="fas fa-trash-alt" />
+        &nbsp;Delete draft
+      </button>
       <DeleteDraftModal
         visible={isModalVisible}
         onClose={handleDeleteModalClose}
