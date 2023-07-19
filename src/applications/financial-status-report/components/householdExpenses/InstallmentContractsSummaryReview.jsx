@@ -3,72 +3,53 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { currency as currencyFormatter } from '../../utils/helpers';
 
-const renderContractType = (contract, index) => {
+const renderContractType = contract => {
   return (
-    <div
-      className="review-row"
-      key={contract.amountDueMonthly + index + contract.creditorName}
-    >
+    <div className="review-row">
       <dt>Contract type</dt>
       <dd>{contract.purpose}</dd>
     </div>
   );
 };
 
-const renderCreditorName = (contract, index) => {
+const renderCreditorName = contract => {
   if (!contract.creditorName) return null;
 
   return (
-    <div
-      className="review-row"
-      key={contract.amountDueMonthly + index + contract.creditorName}
-    >
-      {' '}
+    <div className="review-row">
       <dt>Creditor name</dt>
       <dd>{contract.creditorName}</dd>
     </div>
   );
 };
 
-const renderOriginalLoanAmount = (contract, index) => {
+const renderOriginalLoanAmount = contract => {
   if (contract.originalAmount === '0') return null;
 
   return (
-    <div
-      className="review-row"
-      key={contract.amountDueMonthly + index + contract.creditorName}
-    >
-      {' '}
+    <div className="review-row">
       <dt>Original loan amount</dt>
       <dd>{currencyFormatter(contract.originalAmount)}</dd>
     </div>
   );
 };
 
-const renderUnpaidBalance = (contract, index) => {
+const renderUnpaidBalance = contract => {
   if (contract.unpaidBalance === '0') return null;
 
   return (
-    <div
-      className="review-row"
-      key={contract.amountDueMonthly + index + contract.creditorName}
-    >
-      {' '}
+    <div className="review-row">
       <dt>Unpaid balance</dt>
       <dd>{currencyFormatter(contract.unpaidBalance)}</dd>
     </div>
   );
 };
 
-const renderMinMonthlyPayment = (contract, index) => {
+const renderMinMonthlyPayment = contract => {
   if (contract.amountDueMonthly === '0') return null;
 
   return (
-    <div
-      className="review-row"
-      key={contract.amountDueMonthly + index + contract.creditorName}
-    >
-      {' '}
+    <div className="review-row">
       <dt>Minimum monthly payment</dt>
       <dd>{currencyFormatter(contract.amountDueMonthly)}</dd>
     </div>
@@ -82,29 +63,22 @@ const formatDate = date => {
   return moment(new Date(date.substring(0, 8))).format('MMMM YYYY');
 };
 
-const renderLoanStartDate = (contract, index) => {
+const renderLoanStartDate = contract => {
   const startDate = formatDate(contract.dateStarted);
 
   return (
-    <div
-      className="review-row"
-      key={`vet${index}${contract.purpose}${contract.amountPastDue}date`}
-    >
+    <div className="review-row">
       <dt>Loan start date</dt>
       <dd>{startDate}</dd>
     </div>
   );
 };
 
-const renderAmountOverdue = (contract, index) => {
+const renderAmountOverdue = contract => {
   if (contract.amountPastDue === '0') return null;
 
   return (
-    <div
-      className="review-row"
-      key={contract.amountDueMonthly + index + contract.creditorName}
-    >
-      {' '}
+    <div className="review-row">
       <dt>Amount overdue</dt>
       <dd>{currencyFormatter(contract.amountPastDue)}</dd>
     </div>
@@ -128,22 +102,20 @@ const InstallmentContractsSummaryReview = ({ data }) => {
               </h4>
             </div>
             <dl className="review">
-              {renderContractType(contract, index)}
-              {contract.creditorName
-                ? renderCreditorName(contract, index)
-                : null}
+              {renderContractType(contract)}
+              {contract.creditorName ? renderCreditorName(contract) : null}
               {contract.originalAmount > 0
-                ? renderOriginalLoanAmount(contract, index)
+                ? renderOriginalLoanAmount(contract)
                 : null}
               {contract.unpaidBalance > 0
-                ? renderUnpaidBalance(contract, index)
+                ? renderUnpaidBalance(contract)
                 : null}
               {contract.amountDueMonthly > 0
-                ? renderMinMonthlyPayment(contract, index)
+                ? renderMinMonthlyPayment(contract)
                 : null}
-              {renderLoanStartDate(contract, index)}
+              {renderLoanStartDate(contract)}
               {contract.amountPastDue > 0
-                ? renderAmountOverdue(contract, index)
+                ? renderAmountOverdue(contract)
                 : null}
             </dl>
           </div>
