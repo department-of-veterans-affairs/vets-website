@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { animateScroll as scroll } from 'react-scroll';
@@ -58,7 +58,7 @@ const NotificationSettings = ({
     [emailAddress, mobilePhoneNumber, notificationToggles],
   );
 
-  const showMissingContactInfoAlert = React.useMemo(
+  const showMissingContactInfoAlert = useMemo(
     () =>
       !shouldShowLoadingIndicator &&
       !shouldShowAPIError &&
@@ -73,7 +73,7 @@ const NotificationSettings = ({
     [showMissingContactInfoAlert, shouldShowAPIError],
   );
 
-  React.useEffect(
+  useEffect(
     () => {
       // issue: 48011
       // used via passed state from contact info - mobile update alert link
@@ -87,7 +87,7 @@ const NotificationSettings = ({
     [location.state?.scrollToTop],
   );
 
-  React.useEffect(
+  useEffect(
     () => {
       if (shouldFetchNotificationSettings) {
         fetchNotificationSettings({

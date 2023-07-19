@@ -24,7 +24,7 @@ const ContactInfoOnFile = ({
         {showEmailNotificationSettings ? (
           <li className="vads-u-margin-y--0p5">
             <strong>Email address: </strong>
-            {emailAddress ? `${emailAddress} ` : ''}
+            {emailAddress && `${emailAddress} `}
             <Link
               to={generateContactInfoLink({
                 fieldName: FIELD_NAMES.EMAIL,
@@ -44,18 +44,14 @@ const ContactInfoOnFile = ({
 
         <li className="vads-u-margin-y--0p5">
           <strong>Mobile phone: </strong>
-          {mobilePhoneNumber ? (
-            <>
-              <VaTelephone
-                data-testid="mobile-phone-number-on-file"
-                contact={`${mobilePhoneNumber.areaCode}${
-                  mobilePhoneNumber.phoneNumber
-                }`}
-                notClickable
-              />{' '}
-            </>
-          ) : (
-            ''
+          {mobilePhoneNumber && (
+            <VaTelephone
+              data-testid="mobile-phone-number-on-file"
+              contact={`${mobilePhoneNumber.areaCode}${
+                mobilePhoneNumber.phoneNumber
+              }`}
+              notClickable
+            />
           )}
           <Link
             to={generateContactInfoLink({
