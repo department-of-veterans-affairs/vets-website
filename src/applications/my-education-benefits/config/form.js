@@ -984,7 +984,7 @@ const formConfig = {
                       const invalidContactMethods = [];
 
                       const dupePhonePresent = duplicatePhone?.filter(
-                        entry => entry.dupe === 'true',
+                        entry => entry.dupe === true,
                       );
                       if (!mobilePhoneNumber || dupePhonePresent?.length > 0) {
                         invalidContactMethods.push('Mobile Phone');
@@ -994,7 +994,7 @@ const formConfig = {
                       }
 
                       const dupeEmailPresent = duplicateEmail?.filter(
-                        entry => entry.dupe === 'true',
+                        entry => entry.dupe === true,
                       );
 
                       if (dupeEmailPresent?.length > 0) {
