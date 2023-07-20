@@ -20,7 +20,7 @@ const GetStartedContent = ({ route, showLoginAlert, toggleLoginModal }) => {
           <va-button
             text="Sign in to check your application status"
             onClick={() => toggleLoginModal(true, 'hcainfo')}
-            data-testid="login-alert-button"
+            data-testid="hca-login-alert-button"
           />
         </va-alert>
       ) : (

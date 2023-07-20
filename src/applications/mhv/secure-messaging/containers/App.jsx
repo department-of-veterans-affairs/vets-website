@@ -60,9 +60,9 @@ const App = () => {
             <AuthorizedRoutes />
           </Switch>
         </div>
-      </div>
-      <div className="vads-u-padding-right--1">
-        <va-back-to-top aria-label="Back to top" />
+        <div className="bottom-container">
+          <va-back-to-top />
+        </div>
       </div>
     </RequiredLoginView>
   );
