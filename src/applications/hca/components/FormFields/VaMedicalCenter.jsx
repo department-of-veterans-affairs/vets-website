@@ -87,7 +87,7 @@ const VaMedicalCenter = props => {
   // render the static facility name on review page
   if (reviewMode) {
     return (
-      <span data-testid="ez-facility-reviewmode">{getFacilityName(value)}</span>
+      <span data-testid="hca-facility-name">{getFacilityName(value)}</span>
     );
   }
 

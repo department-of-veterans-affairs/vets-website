@@ -14,8 +14,8 @@ describe('hca FeatureToggles selector', () => {
     },
   };
 
-  describe('makeSelectFeatureToggles', () => {
-    it('returns feature toggles', () => {
+  describe('when `makeSelectFeatureToggles` executes', () => {
+    it('should return feature toggles', () => {
       const selectFeatureToggles = makeSelectFeatureToggles();
       expect(selectFeatureToggles(state)).to.eql({
         isLoadingFeatureFlags: false,
