@@ -16,7 +16,7 @@ const initializeRealUserMonitoring = () => {
       clientToken: 'pubb208973905b7f32eb100b1c27688ecc9',
       site: 'ddog-gov.com',
       service: 'benefits-notice-of-disagreement',
-      env: 'prod',
+      env: environment.vspEnvironment(), // 'vagovprod'
       version: '1.0.0',
       sampleRate: 100,
       sessionReplaySampleRate: 100,
