@@ -986,6 +986,7 @@ const formConfig = {
                       const dupePhonePresent = duplicatePhone?.filter(
                         entry => entry.dupe === true,
                       );
+
                       if (!mobilePhoneNumber || dupePhonePresent?.length > 0) {
                         invalidContactMethods.push('Mobile Phone');
                       }
