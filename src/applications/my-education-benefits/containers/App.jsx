@@ -163,8 +163,8 @@ export const App = ({
 
       if (formData?.duplicatePhone && formData?.duplicateEmail) {
         getDuplicateContactInfo(
-          formData?.duplicatePhone,
           formData?.duplicateEmail,
+          formData?.duplicatePhone,
         );
       }
 
