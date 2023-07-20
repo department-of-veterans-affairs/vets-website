@@ -417,8 +417,24 @@ const analyticsEvents = {
   ],
   'va-modal': [
     {
+      action: 'click',
+      event: 'cta-modal-click',
+      prefix: 'modal',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-modal',
+        custom_string_1: 'component-library',
+        mapping: {
+          'button-clickLabel': 'custom_string_2',
+          'button-status': 'status',
+          'button-title': 'heading_1',
+          version: 'component_version',
+        },
+      },
+    },
+    {
       action: 'show',
-      event: 'int-modal-show',
+      event: 'int-modal-click',
       prefix: 'modal',
       ga4: {
         event: 'interaction',
