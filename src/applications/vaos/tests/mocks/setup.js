@@ -156,42 +156,6 @@ export function renderFromRoutes({ initialState, store = null, path = '/' }) {
 }
 
 /**
- * This function returns a date for which adjusting the timezone
- * to the provided zone results in a date on a different day.
- *
- * For example, if you're on ET and you call this function with
- * America/Denver, then you'll get a time of 12:30 am, because that will
- * be a different day of the month than the same time in America/Denver
- *
- * If the local zone and the passed zone are the same, you'll get a 12:30
- * am date, similar to zones that are ahead of the passed zone.
- *
- * @export
- * @param {string} [zone=America/Denver] The timezone of the facility being used for testing
- * @returns {string} An ISO date string for a date that will cross over midnight
- */
-export function getTimezoneTestDate(zone = 'America/Denver') {
-  let mockedDate;
-  const localOffset = moment().utcOffset();
-  const facilityTimezone = moment()
-    .tz(zone)
-    .utcOffset();
-
-  if (localOffset >= facilityTimezone) {
-    mockedDate = moment()
-      .set('hour', 0)
-      .set('minute', 30);
-  } else {
-    mockedDate = moment()
-      .subtract(1, 'day')
-      .set('hour', 23)
-      .set('minute', 30);
-  }
-
-  return mockedDate.format('YYYY-MM-DD[T]HH:mm:ss');
-}
-
-/**
  * This function returns a date string for use with MockDate
  *
  * @export
