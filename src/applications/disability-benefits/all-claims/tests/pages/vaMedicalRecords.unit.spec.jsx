@@ -77,7 +77,7 @@ describe('VA Medical Records', () => {
     form.unmount();
   });
 
-  it('should not submit without all required info', () => {
+  it('can submit with empty info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -98,9 +98,8 @@ describe('VA Medical Records', () => {
     );
 
     form.find('form').simulate('submit');
-    // Required fields: Facility name and related disability
-    expect(form.find('.usa-input-error-message').length).to.equal(2);
-    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
