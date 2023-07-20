@@ -1,14 +1,13 @@
-import React from 'react';
-import { Route } from 'react-router';
-import { Routes } from 'react-router-dom-v5-compat';
-import LandingPage from './components/page/LandingPage';
-import AvaFormPage from './components/page/AvaFormPage';
+import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
+import formConfig from './config/form';
+import App from './containers/App.jsx';
 
-const routes = (
-  <Routes>
-    <Route path="/" component={LandingPage} />
-    <Route path="/ask-a-question" component={AvaFormPage} />
-  </Routes>
-);
+const route = {
+  path: '/',
+  component: App,
+  indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
 
-export default routes;
+  childRoutes: createRoutesWithSaveInProgress(formConfig),
+};
+
+export default route;

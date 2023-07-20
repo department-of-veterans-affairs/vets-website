@@ -654,16 +654,49 @@ const analyticsEvents = {
       action: 'linkClick',
       event: 'nav-paginate-number',
       prefix: 'pagination',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-pagination',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'pagination-page-number': 'custom_number_1',
+          'pagination-event': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
     {
       action: 'linkClick',
       event: 'nav-paginate-previous',
       prefix: 'pagination',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-pagination',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'pagination-page-number': 'custom_number_1',
+          'pagination-event': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
     {
       action: 'linkClick',
       event: 'nav-paginate-next',
       prefix: 'pagination',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-pagination',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'pagination-page-number': 'custom_number_1',
+          'pagination-event': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-progress-bar': [
@@ -671,6 +704,17 @@ const analyticsEvents = {
       action: 'change',
       event: 'nav-progress-bar-change',
       prefix: 'progress-bar',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-progress-bar',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'progress-bar-label': 'custom_string_2',
+          'progress-bar-percent': 'custom_number_1',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-segmented-progress-bar': [
@@ -678,6 +722,17 @@ const analyticsEvents = {
       action: 'change',
       event: 'nav-segmented-progress-bar-change',
       prefix: 'segmented-progress-bar',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-segmented-progress-bar',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'segmented-progress-bar-current': 'custom_number_1',
+          'segmented-progress-bar-total': 'custom_number_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-telephone': [

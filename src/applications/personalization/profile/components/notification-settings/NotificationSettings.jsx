@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { animateScroll as scroll } from 'react-scroll';
@@ -13,11 +13,11 @@ import {
   selectGroups,
 } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
+import { useNotificationSettingsUtils } from '@@profile/hooks';
 
 import {
   hasVAPServiceConnectionError,
-  // TODO: uncomment when email is a supported communication channel
-  // selectVAPEmailAddress,
+  selectVAPEmailAddress,
   selectVAPMobilePhone,
 } from '~/platform/user/selectors';
 
@@ -32,68 +32,73 @@ import HealthCareGroupSupportingText from './HealthCareGroupSupportingText';
 import MissingContactInfoAlert from './MissingContactInfoAlert';
 import NotificationGroup from './NotificationGroup';
 import { FieldHasBeenUpdated as FieldHasBeenUpdatedAlert } from '../alerts/FieldHasBeenUpdated';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { MissingContactInfoExpandable } from './MissingContactInfoExpandable';
 
 const NotificationSettings = ({
-  allContactInfoOnFile,
   emailAddress,
   facilities,
   fetchNotificationSettings,
   mobilePhoneNumber,
-  noContactInfoOnFile,
-  notificationGroups,
-  shouldFetchNotificationSettings,
   shouldShowAPIError,
   shouldShowLoadingIndicator,
 }) => {
   const location = useLocation();
 
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const showQuickSubmitGroup = useToggleValue(
-    TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting,
+  const {
+    toggles: notificationToggles,
+    useAvailableGroups,
+  } = useNotificationSettingsUtils();
+
+  const requiredContactInfoOnFile = useMemo(
+    () => {
+      return notificationToggles?.showEmailNotificationSettings
+        ? !!(emailAddress || mobilePhoneNumber)
+        : !!mobilePhoneNumber;
+    },
+    [emailAddress, mobilePhoneNumber, notificationToggles],
   );
 
-  React.useEffect(() => {
-    // issue: 48011
-    // used via passed state from contact info - mobile update alert link
-    if (location.state?.scrollToTop) {
-      scroll.scrollToTop({ duration: 0, smooth: false });
-    }
+  const showMissingContactInfoAlert = useMemo(
+    () =>
+      !shouldShowLoadingIndicator &&
+      !shouldShowAPIError &&
+      !requiredContactInfoOnFile,
+    [requiredContactInfoOnFile, shouldShowAPIError, shouldShowLoadingIndicator],
+  );
 
-    focusElement('[data-focus-target]');
-    document.title = `Notification Settings | Veterans Affairs`;
-  }, []);
+  const shouldFetchNotificationSettings = useMemo(
+    () => {
+      return !showMissingContactInfoAlert && !shouldShowAPIError;
+    },
+    [showMissingContactInfoAlert, shouldShowAPIError],
+  );
 
-  React.useEffect(
+  useEffect(
+    () => {
+      // issue: 48011
+      // used via passed state from contact info - mobile update alert link
+      if (location.state?.scrollToTop) {
+        scroll.scrollToTop({ duration: 0, smooth: false });
+      }
+
+      focusElement('[data-focus-target]');
+      document.title = `Notification Settings | Veterans Affairs`;
+    },
+    [location.state?.scrollToTop],
+  );
+
+  useEffect(
     () => {
       if (shouldFetchNotificationSettings) {
-        fetchNotificationSettings({ facilities });
+        fetchNotificationSettings({
+          facilities,
+        });
       }
     },
     [fetchNotificationSettings, shouldFetchNotificationSettings],
   );
 
-  // if either phone number or email address is not set
-  const showMissingContactInfoAlert = React.useMemo(
-    () =>
-      !shouldShowLoadingIndicator &&
-      !shouldShowAPIError &&
-      !allContactInfoOnFile,
-    [allContactInfoOnFile, shouldShowAPIError, shouldShowLoadingIndicator],
-  );
-
-  // shown as long as we aren't loading data and they have at least one
-  // communication channel on file
-  const showNotificationOptions = React.useMemo(
-    () => {
-      return (
-        !shouldShowLoadingIndicator &&
-        !shouldShowAPIError &&
-        !noContactInfoOnFile
-      );
-    },
-    [noContactInfoOnFile, shouldShowAPIError, shouldShowLoadingIndicator],
-  );
+  const availableGroups = useAvailableGroups();
 
   return (
     <>
@@ -109,49 +114,53 @@ const NotificationSettings = ({
         <MissingContactInfoAlert
           missingMobilePhone={!mobilePhoneNumber}
           missingEmailAddress={!emailAddress}
+          showEmailNotificationSettings={
+            notificationToggles.showEmailNotificationSettings
+          }
         />
       )}
-      {showNotificationOptions && (
-        <>
-          <FieldHasBeenUpdatedAlert />
-          <ContactInfoOnFile
-            emailAddress={emailAddress}
-            mobilePhoneNumber={mobilePhoneNumber}
-          />
-          {notificationGroups.ids.map(groupId => {
-            // filtering out the quick submit group for now until it is ready
-            if (
-              groupId === NOTIFICATION_GROUPS.QUICK_SUBMIT &&
-              !showQuickSubmitGroup
-            ) {
-              return null;
-            }
-            // we handle the health care group a little differently
-            if (groupId === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
-              return (
-                <NotificationGroup groupId={groupId} key={groupId}>
-                  <HealthCareGroupSupportingText />
-                </NotificationGroup>
-              );
-            }
+      {!showMissingContactInfoAlert &&
+        availableGroups.length > 0 && (
+          <>
+            <FieldHasBeenUpdatedAlert />
+            <ContactInfoOnFile
+              emailAddress={emailAddress}
+              mobilePhoneNumber={mobilePhoneNumber}
+              showEmailNotificationSettings={
+                notificationToggles.showEmailNotificationSettings
+              }
+            />
+            <MissingContactInfoExpandable
+              showEmailNotificationSettings={
+                notificationToggles.showEmailNotificationSettings
+              }
+            />
+            <hr aria-hidden="true" />
+            {availableGroups.map(({ id }) => {
+              // we handle the health care group a little differently
+              if (id === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
+                return (
+                  <NotificationGroup groupId={id} key={id}>
+                    <HealthCareGroupSupportingText />
+                  </NotificationGroup>
+                );
+              }
 
-            return <NotificationGroup groupId={groupId} key={groupId} />;
-          })}
-          <p className="vads-u-margin-bottom--0">
-            <strong>Note:</strong> We have limited notification options at this
-            time. Check back for more options in the future.
-          </p>
-        </>
-      )}
+              return <NotificationGroup groupId={id} key={id} />;
+            })}
+            <p className="vads-u-margin-bottom--0">
+              <strong>Note:</strong> We have limited notification options at
+              this time. Check back for more options in the future.
+            </p>
+          </>
+        )}
     </>
   );
 };
 
 NotificationSettings.propTypes = {
   fetchNotificationSettings: PropTypes.func.isRequired,
-  noContactInfoOnFile: PropTypes.bool.isRequired,
   shouldShowLoadingIndicator: PropTypes.bool.isRequired,
-  allContactInfoOnFile: PropTypes.object,
   emailAddress: PropTypes.string,
   facilities: PropTypes.arrayOf(
     PropTypes.shape({
@@ -164,7 +173,6 @@ NotificationSettings.propTypes = {
     entities: PropTypes.object,
     ids: PropTypes.arrayOf(PropTypes.string),
   }),
-  shouldFetchNotificationSettings: PropTypes.bool,
   shouldShowAPIError: PropTypes.bool,
 };
 
@@ -172,27 +180,16 @@ const mapStateToProps = state => {
   const communicationPreferencesState = selectCommunicationPreferences(state);
   const hasVAPServiceError = hasVAPServiceConnectionError(state);
   const hasLoadingError = !!communicationPreferencesState.loadingErrors;
-
-  // TODO: uncomment when email is a supported notification channel
-  // const emailAddress = selectVAPEmailAddress(state);
-  const emailAddress = null;
+  const emailAddress = selectVAPEmailAddress(state);
   const mobilePhoneNumber = selectVAPMobilePhone(state);
-  const noContactInfoOnFile = !emailAddress && !mobilePhoneNumber;
-  // TODO: uncomment when email is a supported notification channel
-  // const allContactInfoOnFile = emailAddress && mobilePhoneNumber;
-  const allContactInfoOnFile = mobilePhoneNumber;
-  const shouldFetchNotificationSettings =
-    !noContactInfoOnFile && !hasVAPServiceError;
   const shouldShowAPIError = hasVAPServiceError || hasLoadingError;
   const facilities = selectPatientFacilities(state);
+
   return {
-    allContactInfoOnFile,
     emailAddress,
     facilities,
     mobilePhoneNumber,
-    noContactInfoOnFile,
     notificationGroups: selectGroups(communicationPreferencesState),
-    shouldFetchNotificationSettings,
     shouldShowAPIError,
     shouldShowLoadingIndicator:
       communicationPreferencesState.loadingStatus === LOADING_STATES.pending,

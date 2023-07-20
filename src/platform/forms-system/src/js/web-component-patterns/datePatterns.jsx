@@ -26,6 +26,25 @@ const currentOrPastDateUI = title => {
   };
 };
 
+/**
+ * Web component uiSchema for current or past dates with digit select for month
+ *
+ * ```js
+ * exampleDate: currentOrPastDateDigitsUI('Date of event')
+ * exampleDate: {
+ *  ...currentOrPastDateDigitsUI('Date of event')
+ * }
+ * ```
+ * @param {string} title
+ * @returns {UISchemaOptions} uiSchema
+ */
+const currentOrPastDateDigitsUI = title => ({
+  ...currentOrPastDateUI(title),
+  'ui:options': {
+    monthSelect: false,
+  },
+});
+
 /** @type {UISchemaOptions} */
 const DATE_OF_BIRTH_UI = {
   ...currentOrPastDateUI('Date of birth'),
@@ -61,11 +80,18 @@ const currentOrPastDateSchema = commonDefinitions.date;
 /**
  * @returns `commonDefinitions.date`
  */
+const currentOrPastDateDigitsSchema = commonDefinitions.date;
+
+/**
+ * @returns `commonDefinitions.date`
+ */
 const dateOfBirthSchema = commonDefinitions.date;
 
 export {
   currentOrPastDateUI,
+  currentOrPastDateDigitsUI,
   dateOfBirthUI,
   currentOrPastDateSchema,
+  currentOrPastDateDigitsSchema,
   dateOfBirthSchema,
 };
