@@ -15,9 +15,7 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
     cy.tabToElement('.welcome-message > :nth-child(4) > a').should(
       'have.focus',
     );
-    cy.tabToElement('.vads-u-padding-right--1 > .hydrated').should(
-      'have.focus',
-    );
+    cy.tabToElement('va-back-to-top').should('have.focus');
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '~/platform/utilities/environment';
 import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
-import DebtNotification from './DebtNotification';
+import { fetchNotifications } from '../../../common/actions/notifications';
+import DebtNotificationAlert from './DebtNotificationAlert';
 import TestNotification from './TestNotification';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-import { fetchNotifications } from '../../actions/notifications';
 
 const debtTemplateId = environment.isProduction()
   ? '7efc2b8b-e59a-4571-a2ff-0fd70253e973'
@@ -63,7 +63,7 @@ export const Notifications = ({
           </Toggler.Enabled>
 
           <Toggler.Disabled>
-            <DebtNotification
+            <DebtNotificationAlert
               key={n.id}
               hasError={notificationsError}
               notification={n}
@@ -78,19 +78,7 @@ export const Notifications = ({
 Notifications.propTypes = {
   getNotifications: PropTypes.func.isRequired,
   dismissalError: PropTypes.bool,
-  notifications: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      attributes: PropTypes.shape({
-        createdAt: PropTypes.string.isRequired,
-        dismissed: PropTypes.bool.isRequired,
-        templateId: PropTypes.string.isRequired,
-        updatedAt: PropTypes.string,
-        vaProfileId: PropTypes.string.isRequired,
-      }),
-    }),
-  ),
+  notifications: PropTypes.array,
   notificationsError: PropTypes.bool,
 };
 
