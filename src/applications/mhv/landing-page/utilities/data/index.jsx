@@ -65,7 +65,7 @@ const resolveLandingPageLinks = (
         href: null,
         oldHref: mhvUrl(authdWithSSOe, 'secure-messaging'),
         text: (
-          <>
+          <span>
             {unreadMessageCount > 0 && (
               <span className="indicator" role="status">
                 <span className="sr-only">
@@ -74,7 +74,7 @@ const resolveLandingPageLinks = (
               </span>
             )}
             Inbox
-          </>
+          </span>
         ),
         toggle: null,
       },
