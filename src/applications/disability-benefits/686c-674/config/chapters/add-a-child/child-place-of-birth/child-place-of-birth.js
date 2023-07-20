@@ -128,6 +128,16 @@ export const uiSchema = {
             expandUnderCondition: true,
           },
         }),
+        biologicalStepchild: {
+          'ui:title': 'Is stepchild the biological child of your spouse?',
+          'ui:widget': 'radio',
+          'ui:required': (formData, index) =>
+            formData?.childrenToAdd[`${index}`]?.childStatus?.stepchild ===
+            true,
+          'ui:options': {
+            expandUnder: 'stepchild',
+          },
+        },
       },
       'view:childStatusInformation': {
         'ui:title': 'Additional evidence needed to add children',
