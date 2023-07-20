@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink, useLocation } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { useSelector } from 'react-redux';
-import { selectFeatureStatusImprovement } from '../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 import { GA_PREFIX } from '../utils/constants';
 
 export default function VAOSBreadcrumbs({ children }) {
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
   );
   const location = useLocation();
   const isPast = location.pathname.includes('/past');
@@ -55,32 +55,27 @@ export default function VAOSBreadcrumbs({ children }) {
       class="vaos-hide-for-print"
     >
       <a href="/" key="home" onClick={handleClick('home')}>
-        Home
+        {featureBreadcrumbUrlUpdate ? 'VA.gov home' : 'Home'}
       </a>
       <a
         href="/health-care"
         key="health-care"
         onClick={handleClick('health-care')}
       >
-        Health care
+        {featureBreadcrumbUrlUpdate ? 'My HealtheVet' : 'Health care'}
       </a>
-      <a
-        href="/health-care/schedule-view-va-appointments"
-        key="schedule-view-va-appointments"
-        onClick={handleClick('schedule-managed')}
-      >
-        Schedule and manage health appointments
-      </a>
-      {!featureStatusImprovement && (
-        <NavLink to="/" id="vaos-home">
-          VA online scheduling
-        </NavLink>
+      {!featureBreadcrumbUrlUpdate && (
+        <a
+          href="/health-care/schedule-view-va-appointments"
+          key="schedule-view-va-appointments"
+          onClick={handleClick('schedule-managed')}
+        >
+          Schedule and manage health appointments
+        </a>
       )}
-      {featureStatusImprovement && (
-        <NavLink to="/" id="vaos-home">
-          Appointments
-        </NavLink>
-      )}
+      <NavLink to="/" id="vaos-home">
+        Appointments
+      </NavLink>
 
       {isPast && (
         <li className="va-breadcrumbs-li">
@@ -90,14 +85,13 @@ export default function VAOSBreadcrumbs({ children }) {
         </li>
       )}
 
-      {featureStatusImprovement &&
-        isPending && (
-          <li className="va-breadcrumbs-li">
-            <NavLink to="/pending" id="pending">
-              Pending
-            </NavLink>
-          </li>
-        )}
+      {isPending && (
+        <li className="va-breadcrumbs-li">
+          <NavLink to="/pending" id="pending">
+            Pending
+          </NavLink>
+        </li>
+      )}
 
       {children}
     </va-breadcrumbs>
