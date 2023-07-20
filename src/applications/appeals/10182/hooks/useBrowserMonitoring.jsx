@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles'; // update
+import { makeSelectFeatureToggles } from '../utils/feature-toggles';
 
 const initializeRealUserMonitoring = () => {
   // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
