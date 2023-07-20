@@ -40,7 +40,7 @@ export default {
               aria-hidden="true"
               role="img"
             />
-            <span className="sr-only">opens in a new window</span>
+            <span className="sr-only">[ opens in a new browser-tab ]</span>
           </a>
           . Then submit it in person or by mail.
         </p>
