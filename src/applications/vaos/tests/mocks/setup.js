@@ -192,8 +192,7 @@ export function getTimezoneTestDate(zone = 'America/Denver') {
 }
 
 /**
- * This function returns a date for which adjusting the timezone
- * to the provided zone results in a date on a different day.
+ * This function returns a date string for use with MockDate
  *
  * @export
  * @returns {string} An ISO date string for a date
