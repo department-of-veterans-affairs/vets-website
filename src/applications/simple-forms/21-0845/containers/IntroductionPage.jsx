@@ -57,6 +57,8 @@ class IntroductionPage extends React.Component {
           <a href="tel:+18008271000" aria-label="1. 8 0 0. 8 2 7. 1 0 0 0.">
             1-800-827-1000
           </a>{' '}
+          {/* To replicate <va-telephone> 1-800 display bug, uncomment the link-instance below.  Observe that no dashes display at all. */}
+          {/* <va-telephone contact="18008271000" /> */}
           or online through <a href="https://ask.va.gov/">Ask VA</a>. Upon
           notification from you VA will no longer give out benefit or claim
           information (except for the information VA has already given out based
