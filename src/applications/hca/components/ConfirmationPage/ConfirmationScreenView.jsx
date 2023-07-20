@@ -34,9 +34,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
             <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
               Veteran’s name
             </dt>
-            <dd className="hca-veteran-fullname">
-              {name.first} {name.middle} {name.last} {name.suffix}
-            </dd>
+            <dd className="hca-veteran-fullname">{name}</dd>
           </div>
           {!!timestamp && (
             <div className="hca-application-date vads-u-margin-bottom--2">
