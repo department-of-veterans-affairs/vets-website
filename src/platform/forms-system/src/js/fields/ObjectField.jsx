@@ -180,7 +180,7 @@ class ObjectField extends React.Component {
     const { showFieldLabel } = uiOptions;
     const fieldsetClassNames = classNames(
       uiOptions.classNames,
-      'vads-u-margin-y--2',
+      'vads-u-margin-top--2',
     );
 
     const forceDivWrapper = !!uiOptions.forceDivWrapper;
