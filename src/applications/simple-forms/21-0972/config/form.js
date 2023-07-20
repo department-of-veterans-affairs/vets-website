@@ -1,6 +1,6 @@
 import React from 'react';
-import footerContent from 'platform/forms/components/FormFooter';
-import environment from 'platform/utilities/environment';
+import footerContent from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
   claimantAddressTitle,
@@ -13,7 +13,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
-import transformForSubmit from '../../shared/config/submit-transformer';
+import transformForSubmit from './submit-transformer';
 
 import preparerPersonalInformation from '../pages/preparerPersonalInformation';
 import preparerAddress from '../pages/preparerAddress';
@@ -81,8 +81,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   transformForSubmit,
   trackingPrefix: '21-0972-alternate-signer-',
   dev: {

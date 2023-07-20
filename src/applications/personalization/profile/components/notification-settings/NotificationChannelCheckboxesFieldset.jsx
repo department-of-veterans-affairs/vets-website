@@ -20,7 +20,6 @@ export const NotificationChannelCheckboxesFieldset = ({
 
   const fieldsetClasses = classNames(
     'vads-u-position--relative',
-    'vads-u-margin-y--2',
     'vads-u-border-left--4px',
     'vads-u-padding-left--1p5',
     'vads-u-padding-bottom--1p5',
@@ -35,16 +34,15 @@ export const NotificationChannelCheckboxesFieldset = ({
 
   return (
     <fieldset className={fieldsetClasses} disabled={hasSomePendingUpdates}>
-      <div className="clearfix">
-        <legend className="vads-u-padding--0">
-          <h3 className={legendHeadingClasses}>{itemName}</h3>
-        </legend>
-      </div>
-      {description ? (
-        <p className="vads-u-margin-y--0p5 vads-u-color--gray-medium">
-          {description}
-        </p>
-      ) : null}
+      <legend className="vads-u-padding--0">
+        <h3 className={legendHeadingClasses}>{itemName}</h3>
+        {description ? (
+          <p className="vads-u-margin-y--0p5 vads-u-color--gray-medium vads-u-font-size--base vads-u-font-weight--normal">
+            {description}
+          </p>
+        ) : null}
+      </legend>
+
       {children}
     </fieldset>
   );

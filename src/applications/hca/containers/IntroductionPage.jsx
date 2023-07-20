@@ -52,7 +52,7 @@ const IntroductionPage = props => {
       >
         {!showLoader &&
           !showLOA3Content && (
-            <p>
+            <p data-testid="hca-loa1-description">
               VA health care covers care for your physical and mental health.
               This includes a range of services from checkups to surgeries to
               home health care. It also includes prescriptions and medical
