@@ -12,9 +12,11 @@ const PriorityGroup = ({ effectiveDate, priorityGroup }) => {
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Navigator/languages
   const { language } = navigator;
+  const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
-  const utcDate = new Date(effectiveDate);
-  const date = new Intl.DateTimeFormat(language).format(utcDate);
+  const utcDate = new Date(effectiveDate); // effectiveDate: 2019-01-02T21:58:55.000-06:00
+  const dateOptions = { dateStyle: 'long', timeZone };
+  const date = new Intl.DateTimeFormat(language, dateOptions).format(utcDate);
 
   const headline = `Your assigned priority group is ${group} as of ${date}`;
 
