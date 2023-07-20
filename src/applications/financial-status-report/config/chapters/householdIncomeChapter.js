@@ -51,6 +51,8 @@ import OtherIncomeSummaryReview from '../../components/householdIncome/OtherInco
 import EmploymentHistorySummaryReview from '../../components/employment/EmploymentHistorySummaryReview';
 import EmploymentQuestionSummaryReview from '../../components/employment/EmploymentQuestionSummaryReview';
 
+import { isStreamlinedHouseholdIncome } from '../../utils/depends';
+
 export default {
   householdIncomeChapter: {
     title: 'Household income',
@@ -60,7 +62,9 @@ export default {
         title: 'Employment',
         uiSchema: employment.uiSchema,
         schema: employment.schema,
-        depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        depends: formData =>
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       // loop begins
       employmentRecords: {
@@ -70,7 +74,8 @@ export default {
         schema: employmentRecords.schema,
         depends: formData =>
           formData.questions.vetIsEmployed &&
-          !formData['view:enhancedFinancialStatusReport'],
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
       },
       employmentQuestion: {
@@ -80,7 +85,9 @@ export default {
         CustomPageReview: EmploymentQuestionSummaryReview,
         uiSchema: {},
         schema: { type: 'object', properties: {} },
-        depends: formData => formData['view:enhancedFinancialStatusReport'],
+        depends: formData =>
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       enhancedEmploymentRecords: {
         path: 'enhanced-employment-records',
@@ -89,7 +96,8 @@ export default {
         schema: { type: 'object', properties: {} },
         depends: formData =>
           formData.questions.vetIsEmployed &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
         CustomPage: EnhancedEmploymentRecord,
         CustomPageReview: null,
@@ -101,7 +109,8 @@ export default {
         schema: { type: 'object', properties: {} },
         depends: formData =>
           formData.questions.vetIsEmployed &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
         CustomPage: EmploymentWorkDates,
         CustomPageReview: null,
@@ -113,7 +122,8 @@ export default {
         schema: { type: 'object', properties: {} },
         depends: formData =>
           formData.questions.vetIsEmployed &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
         CustomPage: GrossMonthlyIncomeInput,
         CustomPageReview: null,
@@ -125,7 +135,8 @@ export default {
         schema: { type: 'object', properties: {} },
         depends: formData =>
           formData.questions.vetIsEmployed &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
         CustomPage: PayrollDeductionChecklist,
         CustomPageReview: null,
@@ -139,7 +150,8 @@ export default {
         // needed to bypass bug on review & submit page
         depends: formData =>
           formData.questions.vetIsEmployed &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         CustomPage: PayrollDeductionInputList,
         CustomPageReview: null,
       },
@@ -151,7 +163,8 @@ export default {
         schema: { type: 'object', properties: {} },
         depends: formData =>
           formData.questions.vetIsEmployed &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
         CustomPage: EmploymentHistoryWidget,
         CustomPageReview: EmploymentHistorySummaryReview,
@@ -166,21 +179,26 @@ export default {
         editModeOnReviewPage: true,
         depends: formData =>
           formData.questions.vetIsEmployed &&
-          !formData['view:enhancedFinancialStatusReport'],
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       benefits: {
         path: 'benefits',
         title: 'Benefits',
         uiSchema: benefits.uiSchema,
         schema: benefits.schema,
-        depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        depends: formData =>
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       benefitsEnhanced: {
         path: 'your-benefits',
         title: 'Benefits',
         uiSchema: benefits.enhancedUiSchema,
         schema: benefits.enhancedSchema,
-        depends: formData => formData['view:enhancedFinancialStatusReport'],
+        depends: formData =>
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       editBenefitsEnhanced: {
         path: 'edit-benefits',
@@ -197,7 +215,9 @@ export default {
         title: 'Social Security',
         uiSchema: socialSecurity.uiSchema,
         schema: socialSecurity.schema,
-        depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        depends: formData =>
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       socialSecurityRecords: {
         path: 'social-security-records',
@@ -206,14 +226,17 @@ export default {
         schema: socialSecurityRecords.schema,
         depends: formData =>
           formData.questions.hasSocialSecurity &&
-          !formData['view:enhancedFinancialStatusReport'],
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       additionalIncome: {
         path: 'additional-income',
         title: 'Additional income',
         uiSchema: additionalIncome.uiSchema,
         schema: additionalIncome.schema,
-        depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        depends: formData =>
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       additionalIncomeRecords: {
         path: 'additional-income-records',
@@ -222,7 +245,8 @@ export default {
         schema: additionalIncomeRecords.schema,
         depends: formData =>
           formData.questions.hasAdditionalIncome &&
-          !formData['view:enhancedFinancialStatusReport'],
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
       },
       additionalIncomeChecklist: {
@@ -230,7 +254,9 @@ export default {
         title: 'Additional income options',
         uiSchema: additionalIncomeChecklist.uiSchema,
         schema: additionalIncomeChecklist.schema,
-        depends: formData => formData['view:enhancedFinancialStatusReport'],
+        depends: formData =>
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       additionalIncomeValues: {
         path: 'additional-income-values',
@@ -239,7 +265,8 @@ export default {
         schema: additionalIncomeValues.schema,
         depends: formData =>
           formData.additionalIncome?.addlIncRecords?.length &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       otherIncomeSummary: {
         path: 'other-income-summary',
@@ -251,7 +278,8 @@ export default {
         schema: { type: 'object', properties: {} },
         depends: formData =>
           formData.additionalIncome?.addlIncRecords?.length &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       addOtherIncome: {
         path: 'add-other-income',
@@ -267,6 +295,7 @@ export default {
         title: 'Spouse information',
         uiSchema: spouseInformation.uiSchema,
         schema: spouseInformation.schema,
+        depends: formData => !isStreamlinedHouseholdIncome(formData),
       },
       spouseName: {
         path: 'spouse-name',
@@ -275,7 +304,8 @@ export default {
         schema: spouseName.schema,
         depends: formData =>
           formData.questions.isMarried &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       spouseEmploymentQuestion: {
         path: 'enhanced-spouse-employment-question',
@@ -286,7 +316,8 @@ export default {
         schema: { type: 'object', properties: {} },
         depends: formData =>
           formData.questions.isMarried &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: false,
       },
       enhancedSpouseEmploymentRecords: {
@@ -297,7 +328,8 @@ export default {
         depends: formData =>
           formData.questions.isMarried &&
           formData.questions.spouseIsEmployed &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
         CustomPage: EnhancedSpouseEmploymentRecord,
         CustomPageReview: null,
@@ -309,7 +341,8 @@ export default {
         schema: { type: 'object', properties: {} },
         depends: formData =>
           formData.questions.spouseIsEmployed &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
         CustomPage: SpouseEmploymentWorkDates,
         CustomPageReview: null,
@@ -322,7 +355,8 @@ export default {
         depends: formData =>
           formData.questions.isMarried &&
           formData.questions.spouseIsEmployed &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
         CustomPage: SpouseGrossMonthlyIncomeInput,
         CustomPageReview: null,
@@ -335,7 +369,8 @@ export default {
         depends: formData =>
           formData.questions.isMarried &&
           formData.questions.spouseIsEmployed &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
         CustomPage: SpousePayrollDeductionChecklist,
         CustomPageReview: null,
@@ -350,7 +385,8 @@ export default {
         depends: formData =>
           formData.questions.isMarried &&
           formData.questions.spouseIsEmployed &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         CustomPage: SpousePayrollDeductionInputList,
         CustomPageReview: null,
       },
@@ -361,7 +397,8 @@ export default {
         schema: { type: 'object', properties: {} },
         depends: formData =>
           formData.questions.spouseIsEmployed &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
         CustomPage: SpouseEmploymentHistoryWidget,
         CustomPageReview: EmploymentHistorySummaryReview,
@@ -373,7 +410,8 @@ export default {
         schema: spouseEmployment.schema,
         depends: formData =>
           formData.questions.isMarried &&
-          !formData['view:enhancedFinancialStatusReport'],
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       spouseEmploymentRecords: {
         path: 'spouse-employment-records',
@@ -383,7 +421,8 @@ export default {
         depends: formData =>
           formData.questions.isMarried &&
           formData.questions.spouseIsEmployed &&
-          !formData['view:enhancedFinancialStatusReport'],
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
       },
       spouseIncome: {
@@ -396,7 +435,8 @@ export default {
         depends: formData =>
           formData.questions.isMarried &&
           formData.questions.spouseIsEmployed &&
-          !formData['view:enhancedFinancialStatusReport'],
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
       },
       spouseBenefits: {
@@ -404,7 +444,9 @@ export default {
         title: 'Spouse benefits',
         uiSchema: spouseBenefits.uiSchema,
         schema: spouseBenefits.schema,
-        depends: formData => formData.questions.isMarried,
+        depends: formData =>
+          formData.questions.isMarried &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       spouseBenefitRecords: {
         path: 'spouse-benefit-records',
@@ -412,7 +454,9 @@ export default {
         uiSchema: spouseBenefitRecords.uiSchema,
         schema: spouseBenefitRecords.schema,
         depends: formData =>
-          formData.questions.isMarried && formData.questions.spouseHasBenefits,
+          formData.questions.isMarried &&
+          formData.questions.spouseHasBenefits &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       spouseSocialSecurity: {
         path: 'spouse-social-security',
@@ -421,7 +465,8 @@ export default {
         schema: spouseSocialSecurity.schema,
         depends: formData =>
           formData.questions.isMarried &&
-          !formData['view:enhancedFinancialStatusReport'],
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       spouseSocialSecurityRecords: {
         path: 'spouse-social-security-records',
@@ -431,7 +476,8 @@ export default {
         depends: formData =>
           formData.questions.isMarried &&
           formData.questions.spouseHasSocialSecurity &&
-          !formData['view:enhancedFinancialStatusReport'],
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       spouseAdditionalIncome: {
         path: 'spouse-additional-income',
@@ -440,7 +486,8 @@ export default {
         schema: spouseAdditionalIncome.schema,
         depends: formData =>
           formData.questions.isMarried &&
-          !formData['view:enhancedFinancialStatusReport'],
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       spouseAdditionalIncomeRecords: {
         path: 'spouse-additional-income-records',
@@ -450,7 +497,8 @@ export default {
         depends: formData =>
           formData.questions.isMarried &&
           formData.questions.spouseHasAdditionalIncome &&
-          !formData['view:enhancedFinancialStatusReport'],
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
       },
       spouseAdditionalIncomeCheckList: {
@@ -460,7 +508,8 @@ export default {
         schema: spouseAdditionalIncomeCheckList.schema,
         depends: formData =>
           formData.questions.isMarried &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       spouseAdditionalIncomeValues: {
         path: 'spouse-additional-income-values',
@@ -470,7 +519,8 @@ export default {
         depends: formData =>
           formData.questions.isMarried &&
           formData.additionalIncome?.spouse?.spAddlIncome?.length > 0 &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       spouseOtherIncomeSummary: {
         path: 'spouse-other-income-summary',
@@ -483,7 +533,8 @@ export default {
         depends: formData =>
           formData.questions.isMarried &&
           formData.additionalIncome?.spouse?.spAddlIncome?.length > 0 &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       spouseAddOtherIncome: {
         path: 'spouse-add-other-income',
@@ -499,14 +550,18 @@ export default {
         title: 'Dependents',
         uiSchema: dependents.uiSchema,
         schema: dependents.schema,
-        depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        depends: formData =>
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       dependentCount: {
         path: 'dependents-count',
         title: 'Dependents',
         uiSchema: dependents.uiSchemaEnhanced,
         schema: dependents.schemaEnhanced,
-        depends: formData => formData['view:enhancedFinancialStatusReport'],
+        depends: formData =>
+          formData['view:enhancedFinancialStatusReport'] &&
+          !isStreamlinedHouseholdIncome(formData),
       },
       dependentRecords: {
         path: 'dependent-records',
@@ -515,7 +570,8 @@ export default {
         schema: dependentRecords.schema,
         depends: formData =>
           !formData['view:enhancedFinancialStatusReport'] &&
-          formData.questions?.hasDependents,
+          formData.questions?.hasDependents &&
+          !isStreamlinedHouseholdIncome(formData),
         editModeOnReviewPage: true,
       },
       dependentAges: {
@@ -526,7 +582,8 @@ export default {
         depends: formData =>
           formData['view:enhancedFinancialStatusReport'] &&
           formData.questions?.hasDependents &&
-          formData.questions.hasDependents !== '0',
+          formData.questions.hasDependents !== '0' &&
+          !isStreamlinedHouseholdIncome(formData),
         CustomPage: DependentAges,
         CustomPageReview: DependentAgesReview,
         editModeOnReviewPage: false,
