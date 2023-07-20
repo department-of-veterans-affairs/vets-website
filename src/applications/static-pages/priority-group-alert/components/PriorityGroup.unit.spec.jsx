@@ -25,10 +25,9 @@ describe('Priority Group Component', () => {
 
   it('links to an article about form 10-10EZR', () => {
     const wrapper = setup();
-    expect(wrapper).to.exist;
     const link = wrapper.getByRole('link', { name: 'form 10-10EZR' });
     expect(link).to.exist;
-    expect(link.href.endsWith('/health-care/update-health-information/')).to.be
+    expect(link.href.endsWith('/health-care/update-health-information')).to.be
       .true;
   });
 });

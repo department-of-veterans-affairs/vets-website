@@ -145,6 +145,7 @@ export default Object.freeze({
     'show_new_schedule_view_appointments_page',
   showNewSecureMessagingPage: 'show_new_secure_messaging_page',
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
+  showPriorityGroupAlertWidget: 'show_priority_group_alert_widget',
   showUpdatedFryDeaApp: 'show_updated_fry_dea_app',
   signInServiceEnabled: 'sign_in_service_enabled',
   stemAutomatedDecision: 'stem_automated_decision',

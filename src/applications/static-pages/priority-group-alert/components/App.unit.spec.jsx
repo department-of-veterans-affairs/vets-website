@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 import { App } from './App';
 
 const initialProps = {
+  enabled: true,
   error: false,
   handleSignInClick: () => {},
   fetchEnrollmentStatus: () => {},
@@ -14,7 +15,19 @@ const initialProps = {
 const setup = (props = {}) => render(<App {...initialProps} {...props} />);
 
 describe('Priority Group Alert Widget', () => {
-  it('displays <SignInPrompt /> when the user is signed out', () => {
+  it('renders <PactAct /> when the feature is disabled', () => {
+    const wrapper = setup({ enabled: false });
+    const headerContent = /The PACT Act expands benefit access for Veterans/;
+    expect(wrapper.getByText(headerContent)).to.exist;
+    const linkName =
+      'Learn how the PACT Act may affect your VA benefits and care';
+    const link = wrapper.getByRole('link', { name: linkName });
+    expect(link).to.exist;
+    expect(link.href.endsWith('/resources/the-pact-act-and-your-va-benefits'))
+      .to.be.true;
+  });
+
+  it('renders <SignInPrompt /> when signed out', () => {
     const wrapper = setup();
     const headerContent = 'You might already have an assigned priority group';
     expect(wrapper.getByText(headerContent)).to.exist;
@@ -22,7 +35,14 @@ describe('Priority Group Alert Widget', () => {
     expect(wrapper.getByRole('button', buttonContent)).to.exist;
   });
 
-  it('displays <PriorityGroup /> when the user is signed in', () => {
+  it('renders <UnknownGroup /> when priorityGroup is not set', () => {
+    const enrollmentStatus = {};
+    const wrapper = setup({ isSignedIn: true, enrollmentStatus });
+    const message = 'You have not yet been assigned to a priority group';
+    expect(wrapper.getByText(message)).to.exist;
+  });
+
+  it('renders <PriorityGroup /> when priorityGroup is set', () => {
     const enrollmentStatus = {
       effectiveDate: '2019-01-02T21:58:55.000-06:00',
       priorityGroup: 'Group 8G',
@@ -32,13 +52,14 @@ describe('Priority Group Alert Widget', () => {
     expect(wrapper.getByText(message)).to.exist;
   });
 
-  it('displays <Loading /> when loading', () => {
+  it('renders <Loading /> when loading', () => {
     const wrapper = setup({ loading: true });
     expect(wrapper.getByTestId('priority-group-alert-loading')).to.exist;
   });
 
-  it("displays <Error /> when the API just can't even", () => {
+  it("renders <ApiError /> when the API just can't even", () => {
     const wrapper = setup({ error: true });
-    expect(wrapper.getByText("Sorry, we couldn't find that")).to.exist;
+    const message = "We can't access your priority group information";
+    expect(wrapper.getByText(message)).to.exist;
   });
 });

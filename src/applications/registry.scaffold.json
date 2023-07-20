@@ -126,5 +126,10 @@
     "appName": "Notification Center",
     "rootUrl": "/notification-center",
     "entryName": "notification-center"
+  },
+  {
+    "appName": "VA Priority Groups",
+    "rootUrl": "/health-care/eligibility/priority-groups",
+    "entryName": "priority-group-alert"
   }
 ]

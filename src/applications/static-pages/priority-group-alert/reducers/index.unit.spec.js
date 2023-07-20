@@ -39,4 +39,13 @@ describe('Enrollment Status Reducer', () => {
       expect(state.loading).to.be.false;
     });
   });
+
+  describe('some other action type', () => {
+    it('does not change state', () => {
+      const payload = { some: 'object' };
+      const action = { type: 'OTHER_ACTION_TYPE', payload };
+      const state = reducer(initialState, action);
+      expect(state).to.deep.equal(initialState);
+    });
+  });
 });

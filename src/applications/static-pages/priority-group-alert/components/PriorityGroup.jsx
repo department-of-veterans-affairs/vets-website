@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { environment } from '@department-of-veterans-affairs/platform-utilities';
+
+const url = path => `${environment.BaseUrl}${path}`;
 
 const PriorityGroup = ({ effectiveDate, priorityGroup }) => {
   const group = priorityGroup.replace('Group ', '');
@@ -18,7 +21,9 @@ const PriorityGroup = ({ effectiveDate, priorityGroup }) => {
         <p className="vads-u-margin-y--0">
           If your income has changed or your service-connected disability has
           gotten worse, you may qualify for a different priority group. Use
-          <a href="/health-care/update-health-information/">form 10-10EZR</a>
+          <a href={url('/health-care/update-health-information')}>
+            form 10-10EZR
+          </a>
           to update your information.
         </p>
       </div>

@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-// import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import * as Sentry from '@sentry/browser';
