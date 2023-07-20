@@ -1,7 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import HealthConditions from './containers/HealthConditions';
-import HealthHistory from './containers/HealthHistory';
 import VaccineDetails from './containers/VaccineDetails';
 import Vaccines from './containers/Vaccines';
 import VitalDetails from './containers/VitalDetails';
@@ -51,9 +50,6 @@ const routes = (
       </Route>
       <Route path="/settings" key="Settings">
         <SettingsPage />
-      </Route>
-      <Route exact path="/health-history" key="HealthHistory">
-        <HealthHistory />
       </Route>
       <Route exact path="/health-history/allergies" key="Allergies">
         <Allergies />
