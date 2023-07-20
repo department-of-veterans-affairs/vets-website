@@ -308,7 +308,7 @@ export const removeEmptyEntries = object =>
  * @property {String} stateCode
  * @property {String} zipCode5
  * @property {String} countryName
- * @property {String} countryCodeISO2
+ * @property {String} countryCodeIso2
  * @property {String} internationalPostalCode
  */
 /**
@@ -324,7 +324,8 @@ export const removeEmptyEntries = object =>
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
  */
-export const getAddress = ({ veteran = {} } = {}) => {
+export const getAddress = (formData = {}) => {
+  const { veteran = {} } = formData;
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
   const internationalPostalCode = truncate(
@@ -340,9 +341,12 @@ export const getAddress = ({ veteran = {} } = {}) => {
     zipCode5: internationalPostalCode
       ? '00000'
       : truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
-    // Include both countryName & countryCodeISO2. The backend will sort it out
-    countryName: veteran.address?.countryName || '',
-    countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY), // v2
+    // Include countryName (v1) or countryCodeISO2 (v2)
+    countryName: formData[SHOW_PART3] ? '' : veteran.address?.countryName || '',
+    // note "ISO2" is submitted, "Iso2" is from profile address
+    countryCodeISO2: formData[SHOW_PART3]
+      ? truncate('countryCodeIso2', MAX_LENGTH.COUNTRY)
+      : '',
     internationalPostalCode,
   });
 };
