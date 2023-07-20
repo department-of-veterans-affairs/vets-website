@@ -9,6 +9,9 @@ class LandingPage {
     this.pageUrl = '/my-health/';
   }
 
+  unreadMessageIndicator = () =>
+    cy.get('[role="status"]', { timeout: Timeouts.slow });
+
   validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')

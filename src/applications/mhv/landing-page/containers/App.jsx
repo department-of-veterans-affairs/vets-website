@@ -9,7 +9,10 @@ import LandingPage from '../components/LandingPage';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getFolderList } from '../api/SmApi';
 import { isLandingPageEnabledForUser } from '../utilities/feature-toggles';
-import { resolveLandingPageLinks } from '../utilities/data';
+import {
+  countUnreadMessages,
+  resolveLandingPageLinks,
+} from '../utilities/data';
 
 import { useDatadogRum } from '../hooks/useDatadogRum';
 
@@ -40,13 +43,9 @@ const App = () => {
   useEffect(
     () => {
       async function loadMessages() {
-        const messages = await getFolderList();
-        const unreadMessages = messages.data.reduce(
-          (accumulator, currentValue) => {
-            return accumulator + currentValue.attributes.unreadCount;
-          },
-          0,
-        );
+        const folders = await getFolderList();
+        const unreadMessages = countUnreadMessages(folders);
+
         setUnreadMessageCount(unreadMessages);
       }
 

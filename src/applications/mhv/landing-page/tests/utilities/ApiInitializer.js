@@ -1,5 +1,6 @@
 import featureToggles from '../../api/mocks/feature-toggles';
 import userData from '../../api/mocks/user';
+import messageData from '../../api/mocks/folders';
 
 class ApiInitializer {
   initializeFeatureToggle = {
@@ -28,6 +29,23 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           mhvLandingPageEnabled: true,
         }),
+      );
+    },
+  };
+
+  initializeMessageData = {
+    withUnreadMessages: () => {
+      cy.intercept(
+        'GET',
+        '/my_health/v1/messaging/folders*',
+        messageData.allFoldersWithUnreadMessages,
+      );
+    },
+    withNoUnreadMessages: () => {
+      cy.intercept(
+        'GET',
+        '/my_health/v1/messaging/folders*',
+        messageData.oneFolderWithNoUnreadMessages,
       );
     },
   };

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const allFolders = {
+const allFoldersWithUnreadMessages = {
   data: [
     {
       id: '0',
@@ -50,7 +50,7 @@ const allFolders = {
   },
 };
 
-const oneFolder = {
+const oneFolderWithUnreadMessages = {
   data: {
     id: '0',
     type: 'folders',
@@ -67,7 +67,25 @@ const oneFolder = {
   },
 };
 
+const oneFolderWithNoUnreadMessages = {
+  data: {
+    id: '0',
+    type: 'folders',
+    attributes: {
+      folderId: 0,
+      name: 'Inbox',
+      count: 260,
+      unreadCount: 0,
+      systemFolder: true,
+    },
+    links: {
+      self: 'https://staging-api.va.gov/my_health/v1/messaging/folders/0',
+    },
+  },
+};
+
 module.exports = {
-  allFolders,
-  oneFolder,
+  allFoldersWithUnreadMessages,
+  oneFolderWithUnreadMessages,
+  oneFolderWithNoUnreadMessages,
 };

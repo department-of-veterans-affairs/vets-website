@@ -1,7 +1,11 @@
 /* eslint-disable camelcase */
 import { expect } from 'chai';
-import { resolveLandingPageLinks, resolveToggleLink } from './index';
+import { countUnreadMessages, resolveToggleLink } from './index';
 import manifest from '../../manifest.json';
+import {
+  allFoldersWithUnreadMessages,
+  oneFolderWithUnreadMessages,
+} from '../../api/mocks/folders';
 
 const initializeFeatureToggles = ({
   mhvLinkOneEnabled = false,
@@ -17,6 +21,25 @@ const initializeFeatureToggles = ({
 
 describe(manifest.appName, () => {
   describe('utilities/data', () => {
+    describe('countUnreadMessages', () => {
+      it('should return correct count for multiple folders', () => {
+        const count = countUnreadMessages(allFoldersWithUnreadMessages);
+
+        expect(count).to.equal(29);
+      });
+
+      it('should return correct count for single folder', () => {
+        const count = countUnreadMessages(oneFolderWithUnreadMessages);
+
+        expect(count).to.equal(68);
+      });
+
+      it('should return 0 if undefined', () => {
+        const count = countUnreadMessages();
+
+        expect(count).to.equal(0);
+      });
+    });
     describe('resolveToggleLink', () => {
       it('resolves to the new href when available and no toggle matches', () => {
         const link = {
@@ -64,38 +87,6 @@ describe(manifest.appName, () => {
 
         expect(resolvedLink.href).to.equal('/new');
       });
-    });
-    describe('resolveLandingPageLinks', () => {
-      it('includes unread message count when greater than 0', () => {
-        const unreadMessageCount = 4;
-        const links = resolveLandingPageLinks(
-          undefined,
-          { featureToggles: {} },
-          unreadMessageCount,
-        );
-
-        expect(
-          links.cards.some(c => c.title === `Messages [${unreadMessageCount}]`),
-        ).to.be.true;
-      });
-    });
-    it('display default header when message count is 0', () => {
-      const links = resolveLandingPageLinks(
-        undefined,
-        { featureToggles: {} },
-        0,
-      );
-
-      expect(links.cards.some(c => c.title === `Messages`)).to.be.true;
-    });
-    it('display default header when message count is undefined', () => {
-      const links = resolveLandingPageLinks(
-        undefined,
-        { featureToggles: {} },
-        undefined,
-      );
-
-      expect(links.cards.some(c => c.title === `Messages`)).to.be.true;
     });
   });
 });
