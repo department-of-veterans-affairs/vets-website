@@ -9,6 +9,28 @@ import {
   enhancedFSRFeatureToggle,
 } from '../../utils/helpers';
 
+export const formFlows = {
+  'Below GMT': [
+    veteranInformationChapter,
+    householdIncomeChapter,
+    householdAssetsChapter,
+  ],
+  'Above GMT,   Below 150% of GMT': [
+    veteranInformationChapter,
+    householdIncomeChapter,
+    householdAssetsChapter,
+    householdExpensesChapter,
+  ],
+  'Above 150% of GMT': [
+    veteranInformationChapter,
+    householdIncomeChapter,
+    householdAssetsChapter,
+    householdExpensesChapter,
+    resolutionOptionsChapter,
+    bankruptcyAttestationChapter,
+  ],
+};
+
 export const buildForm = () => {
   let chaptersConfig = {};
   if (streamlinedWaiverFeatureToggle) {
@@ -16,7 +38,6 @@ export const buildForm = () => {
       ...veteranInformationChapter,
       ...householdIncomeChapter,
       ...householdAssetsChapter,
-      ...householdExpensesChapter,
     };
   } else if (enhancedFSRFeatureToggle) {
     chaptersConfig = {

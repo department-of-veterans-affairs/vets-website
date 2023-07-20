@@ -1,0 +1,159 @@
+{
+  "personalIdentification": {
+    "ssn": "4437",
+    "fileNumber": "4437",
+    "fsrReason": ""
+  },
+  "personalData": {
+    "veteranFullName": {
+      "first": "Mark",
+      "middle": "",
+      "last": "Webb"
+    },
+    "address": {
+      "addresslineOne": "1200 Park Ave",
+      "addresslineTwo": "c/o Pixar",
+      "addresslineThree": "",
+      "city": "Emeryville",
+      "stateOrProvince": "CA",
+      "zipOrPostalCode": "94608",
+      "countryName": "US"
+    },
+    "telephoneNumber": "(510) 922-4444",
+    "dateOfBirth": "10/04/1950",
+    "married": false,
+    "spouseFullName": {
+      "first": "",
+      "middle": "",
+      "last": ""
+    },
+    "agesOfOtherDependents": [
+      "2",
+      "2"
+    ],
+    "employmentHistory": []
+  },
+  "income": [
+    {
+      "veteranOrSpouse": "VETERAN",
+      "monthlyGrossSalary": "0.00",
+      "deductions": {
+        "taxes": "0.00",
+        "retirement": "0.00",
+        "socialSecurity": "0.00",
+        "otherDeductions": {
+          "name": "",
+          "amount": "0.00"
+        }
+      },
+      "totalDeductions": "0.00",
+      "netTakeHomePay": "0.00",
+      "otherIncome": {
+        "name": "",
+        "amount": "0.00"
+      },
+      "totalMonthlyNetIncome": "0.00"
+    },
+    {
+      "veteranOrSpouse": "SPOUSE",
+      "monthlyGrossSalary": "0.00",
+      "deductions": {
+        "taxes": "0.00",
+        "retirement": "0.00",
+        "socialSecurity": "0.00",
+        "otherDeductions": {
+          "name": "",
+          "amount": "0.00"
+        }
+      },
+      "totalDeductions": "0.00",
+      "netTakeHomePay": "0.00",
+      "otherIncome": {
+        "name": "",
+        "amount": "0.00"
+      },
+      "totalMonthlyNetIncome": "0.00"
+    }
+  ],
+  "expenses": {
+    "rentOrMortgage": "2.00",
+    "food": "0.00",
+    "utilities": "4.00",
+    "otherLivingExpenses": {
+      "name": "Renter's or home insurance",
+      "amount": "2.00"
+    },
+    "expensesInstallmentContractsAndOtherDebts": "0.00",
+    "totalMonthlyExpenses": "8.00"
+  },
+  "discretionaryIncome": {
+    "netMonthlyIncomeLessExpenses": "-8.00",
+    "amountCanBePaidTowardDebt": "0.00"
+  },
+  "assets": {
+    "cashInBank": "0.00",
+    "cashOnHand": "0.00",
+    "usSavingsBonds": "0.00",
+    "stocksAndOtherBonds": "0.00",
+    "realEstateOwned": "0.00",
+    "otherAssets": [
+      {
+        "name": "Antiques",
+        "amount": "2"
+      }
+    ],
+    "totalAssets": "2.00"
+  },
+  "installmentContractsAndOtherDebts": [],
+  "totalOfInstallmentContractsAndOtherDebts": {
+    "originalAmount": "0.00",
+    "unpaidBalance": "0.00",
+    "amountDueMonthly": "0.00",
+    "amountPastDue": "0.00"
+  },
+  "additionalData": {
+    "bankruptcy": {
+      "courtLocation": "",
+      "docketNumber": ""
+    },
+    "additionalComments": "\nIndividual expense amount: Renter's or home insurance ($2.00)"
+  },
+  "applicantCertifications": {
+    "veteranSignature": "Mark  Webb",
+    "veteranDateSigned": "07/20/2023"
+  },
+  "selectedDebtsAndCopays": [
+    {
+      "fileNumber": "796121200",
+      "payeeNumber": "00",
+      "personEntitled": "AJHONS",
+      "deductionCode": "30",
+      "benefitType": "Comp & Pen",
+      "diaryCode": "080",
+      "diaryCodeDescription": "Referred to the Department of the Treasury",
+      "amountOverpaid": "0.00",
+      "amountWithheld": "0.00",
+      "originalAr": "136.24",
+      "currentAr": "100.00",
+      "debtHistory": [
+        {
+          "date": "02/25/2009",
+          "letterCode": "914",
+          "description": "Paid In Full - Account balance cleared via offset, not including TOP."
+        },
+        {
+          "date": "02/07/2009",
+          "letterCode": "905",
+          "description": "Administrative Write Off"
+        },
+        {
+          "date": "12/03/2008",
+          "letterCode": "487",
+          "description": "Death Case Pending Action"
+        }
+      ],
+      "id": "0.00",
+      "debtType": "DEBT"
+    }
+  ]
+}

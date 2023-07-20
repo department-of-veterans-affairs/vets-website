@@ -390,14 +390,18 @@ export const transform = (formConfig, form) => {
       ),
     },
     additionalData: {
+      // bankruptcy  - additionalData?.bankruptcy?.dateDischarged || '',
       bankruptcy: {
-        hasBeenAdjudicatedBankrupt: questions.hasBeenAdjudicatedBankrupt,
-        dateDischarged: dateFormatter(additionalData.bankruptcy.dateDischarged),
-        courtLocation: additionalData.bankruptcy.courtLocation,
-        docketNumber: additionalData.bankruptcy.docketNumber,
+        hasBeenAdjudicatedBankrupt: questions?.hasBeenAdjudicatedBankrupt,
+        dateDischarged: dateFormatter(
+          additionalData?.bankruptcy?.dateDischarged || '',
+        ),
+        courtLocation: additionalData?.bankruptcy?.courtLocation || '',
+        docketNumber: additionalData?.bankruptcy?.docketNumber || '',
       },
       additionalComments: mergeAdditionalComments(
-        additionalData.additionalComments,
+        //  additionalData?.additionalComments || '',
+        additionalData?.additionalComments || '',
         enhancedFSRActive ? filteredExpenses : otherExpenses,
       ),
     },
@@ -413,6 +417,5 @@ export const transform = (formConfig, form) => {
   const convertIntegerToString = (key, value) => {
     return typeof value === 'number' ? value.toFixed(2).toString() : value;
   };
-
   return JSON.stringify(submissionObj, convertIntegerToString);
 };
