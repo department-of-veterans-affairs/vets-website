@@ -10,12 +10,9 @@ import { transform } from '../utils/transform';
 import { SubmissionAlert } from '../components/Alerts';
 import { WIZARD_STATUS } from '../wizard/constants';
 import submitForm from './submitForm';
-import veteranInformationChapter from './chapters/veteranInformationChapter';
-import householdIncomeChapter from './chapters/householdIncomeChapter';
-import householdAssetsChapter from './chapters/householdAssetsChapter';
-import householdExpensesChapter from './chapters/householdExpensesChapter';
-import resolutionOptionsChapter from './chapters/resolutionOptionsChapter';
-import bankruptcyAttestationChapter from './chapters/bankruptcyAttestationChapter';
+import { buildForm } from './chapters/_buildChapters';
+
+const chaptersConfig = buildForm();
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -58,17 +55,8 @@ const formConfig = {
     reviewPageTitle: 'Review your request',
     submitButtonText: 'Submit your request',
   },
-  // when true, initial focus on page to H3s by default, and enable page
-  // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
-  chapters: {
-    ...veteranInformationChapter,
-    ...householdIncomeChapter,
-    ...householdAssetsChapter,
-    ...householdExpensesChapter,
-    ...resolutionOptionsChapter,
-    ...bankruptcyAttestationChapter,
-  },
+  chapters: chaptersConfig, // from _buildForm.js
 };
 
 export default formConfig;
