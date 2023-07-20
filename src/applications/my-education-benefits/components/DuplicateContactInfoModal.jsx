@@ -90,7 +90,7 @@ function DuplicateContactInfoModal(props) {
         <ul>
           <li>Contact you if we have questions about your application</li>
           <li>Tell you important information about your benefits</li>
-          <li>Prompt you to verify our enrollment</li>
+          <li>Prompt you to verify your enrollment</li>
         </ul>
       </VaModal>
     </div>
