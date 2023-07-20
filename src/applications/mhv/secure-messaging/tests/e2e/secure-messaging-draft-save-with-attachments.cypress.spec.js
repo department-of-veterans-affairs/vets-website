@@ -20,12 +20,20 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     patientInterstitialPage.getContinueButton().click();
+    cy.intercept(
+      'PUT',
+      `/my_health/v1/messaging/message_drafts/${
+        mockDraftResponse.data.attributes.messageId
+      }`,
+      mockDraftResponse,
+    ).as('autosaveResponse');
     composePage.attachMessageFromFile('sample_docx.docx');
     composePage.saveDraftButton().click();
     cy.get('[visible=""] > p').should(
       'contain',
       'If you save this message as a draft',
     );
+    cy.wait('@autosaveResponse');
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

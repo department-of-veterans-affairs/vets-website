@@ -68,7 +68,7 @@ const ProfileWrapper = ({
                   isInMVI={isInMVI}
                 />
               </div>
-              <div className="vads-l-col--12 vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-l-col--9 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--6 small-desktop-screen:vads-l-col--8">
+              <div className="vads-l-col--12 vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-l-col--9 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--6 small-desktop-screen:vads-l-col--8 medium-screen:vads-u-min-height--viewport">
                 {/* children will be passed in from React Router one level up */}
                 {children}
               </div>

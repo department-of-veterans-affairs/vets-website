@@ -47,6 +47,10 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
+          cy.get('va-omb-info')
+            .get('div')
+            .get('va-button')
+            .should('exist');
           cy.get('.help-talk va-telephone:first')
             .contains('800-827-1000')
             .should('have.prop', 'href');
