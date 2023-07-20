@@ -14,7 +14,6 @@ import preparerContactInformation from '../pages/preparerContactInformation';
 import deceasedClaimantPersonalInformation from '../pages/deceasedClaimantPersonalInformation';
 import veteranIdentificationInformation from '../pages/veteranIdentificationInformation';
 import relationshipToDeceasedClaimant from '../pages/relationshipToDeceasedClaimant';
-import otherRelationshipToDeceasedClaimant from '../pages/otherRelationshipToDeceasedClaimant';
 import additionalInformation from '../pages/additionalInformation';
 
 // mock-data import for local development
@@ -131,14 +130,6 @@ const formConfig = {
           title: 'Your relationship',
           uiSchema: relationshipToDeceasedClaimant.uiSchema,
           schema: relationshipToDeceasedClaimant.schema,
-        },
-        otherRelationshipToDeceasedClaimant: {
-          path: 'other-relationship-to-deceased-claimant',
-          title: 'Your relationship',
-          depends: formData =>
-            formData.relationshipToDeceasedClaimant === 'other',
-          uiSchema: otherRelationshipToDeceasedClaimant.uiSchema,
-          schema: otherRelationshipToDeceasedClaimant.schema,
         },
       },
     },

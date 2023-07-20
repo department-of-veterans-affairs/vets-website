@@ -26,7 +26,9 @@
   "veteranDateOfBirth": "1929-10-21",
   "veteranSsn": "999442222",
   "veteranVaFileNumber": "111223333",
-  "relationshipToDeceasedClaimant": "other",
-  "otherRelationshipToDeceasedClaimant": "friend",
+  "relationshipToDeceasedClaimant": {
+    "relationshipToVeteran": "other",
+    "otherRelationshipToVeteran": "friend"
+  },
   "additionalInformation": "Other stuff that goes in here"
 }

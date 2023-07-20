@@ -13,7 +13,7 @@ import {
   fillTextWebComponent,
   introductionPageFlow,
   reviewAndSubmitPageFlow,
-  selectRadioWebComponent,
+  selectRelationshipToVeteranPattern,
 } from '../../../shared/tests/e2e/helpers';
 
 import formConfig from '../../config/form';
@@ -84,34 +84,6 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.relationshipToDeceasedClaimant]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            selectRadioWebComponent(
-              'relationshipToDeceasedClaimant',
-              data.relationshipToDeceasedClaimant,
-            );
-
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.otherRelationshipToDeceasedClaimant]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillTextWebComponent(
-              'otherRelationshipToDeceasedClaimant',
-              data.otherRelationshipToDeceasedClaimant,
-            );
-
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
       [pagePaths.deceasedClaimantPersonalInformation]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -123,6 +95,20 @@ const testConfig = createTestConfig(
             fillDateWebComponentPattern(
               'deceasedClaimantDateOfDeath',
               data.deceasedClaimantDateOfDeath,
+            );
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [pagePaths.relationshipToDeceasedClaimant]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            selectRelationshipToVeteranPattern(
+              'relationshipToDeceasedClaimant',
+              data.relationshipToDeceasedClaimant,
             );
 
             cy.axeCheck();

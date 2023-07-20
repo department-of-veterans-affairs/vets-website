@@ -142,6 +142,25 @@ export const fillDateWebComponentPattern = (fieldName, value) => {
   }
 };
 
+export const selectRelationshipToVeteranPattern = (fieldName, value) => {
+  if (typeof value !== 'undefined') {
+    selectRadioWebComponent(
+      `${fieldName}_relationshipToVeteran`,
+      value?.relationshipToVeteran,
+    );
+    if (value?.relationshipToVeteran === 'other') {
+      // need to use custom text filler with realType
+      // see note above in date component filler for more info
+      cy.get(
+        `va-text-input[name="root_${fieldName}_otherRelationshipToVeteran"]`,
+      )
+        .shadow()
+        .find('input')
+        .realType(value?.otherRelationshipToVeteran);
+    }
+  }
+};
+
 // page test definitions
 
 export const introductionPageFlow = () => {

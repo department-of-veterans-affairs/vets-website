@@ -19,5 +19,7 @@
   "deceasedClaimantDateOfDeath": "1982-03-02",
   "veteranDateOfBirth": "1929-10-21",
   "veteranSsn": "999442222",
-  "relationshipToDeceasedClaimant": "executor"
+  "relationshipToDeceasedClaimant": {
+    "relationshipToVeteran": "executor"
+  }
 }
