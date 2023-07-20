@@ -55,7 +55,10 @@ const EmploymentQuestionSummaryReview = ({ data, name }) => {
 
 EmploymentQuestionSummaryReview.propTypes = {
   data: PropTypes.shape({
-    questions: PropTypes.array,
+    questions: PropTypes.shape({
+      spouseIsEmployed: PropTypes.bool,
+      vetIsEmployed: PropTypes.bool,
+    }),
   }),
   name: PropTypes.string,
 };
