@@ -320,7 +320,8 @@ describe('getAddress', () => {
           city: 'Big City',
           stateCode: 'NV',
           zipCode: '10101',
-          countryName: 'USA',
+          countryName: 'United States',
+          countryCodeISO2: 'US',
           internationalPostalCode: '12345',
           extra: 'will not be included',
         }),
@@ -332,7 +333,8 @@ describe('getAddress', () => {
       city: 'Big City',
       stateCode: 'NV',
       zipCode5: '00000',
-      countryName: 'USA',
+      countryName: 'United States',
+      countryCodeISO2: 'US',
       internationalPostalCode: '12345',
     });
     expect(

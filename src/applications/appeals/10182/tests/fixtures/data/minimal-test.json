@@ -9,6 +9,7 @@
         "addressLine3": "Box 4",
         "city": "New York",
         "countryName": "United States",
+        "countryCodeISO2": "US",
         "stateCode": "NY",
         "zipCode": "30012"
       },

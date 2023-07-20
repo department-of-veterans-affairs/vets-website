@@ -308,6 +308,7 @@ export const removeEmptyEntries = object =>
  * @property {String} stateCode
  * @property {String} zipCode5
  * @property {String} countryName
+ * @property {String} countryCodeISO2
  * @property {String} internationalPostalCode
  */
 /**
@@ -339,8 +340,9 @@ export const getAddress = ({ veteran = {} } = {}) => {
     zipCode5: internationalPostalCode
       ? '00000'
       : truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
+    // Include both countryName & countryCodeISO2. The backend will sort it out
     countryName: veteran.address?.countryName || '',
-    // countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY), // v2
+    countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY), // v2
     internationalPostalCode,
   });
 };
