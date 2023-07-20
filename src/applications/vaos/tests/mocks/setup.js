@@ -191,7 +191,13 @@ export function getTimezoneTestDate(zone = 'America/Denver') {
   return mockedDate.format('YYYY-MM-DD[T]HH:mm:ss');
 }
 
-// Temporary WIP
+/**
+ * This function returns a date for which adjusting the timezone
+ * to the provided zone results in a date on a different day.
+ *
+ * @export
+ * @returns {string} An ISO date string for a date
+ */
 export function getTestDate() {
   return moment()
     .set('hour', 0)
