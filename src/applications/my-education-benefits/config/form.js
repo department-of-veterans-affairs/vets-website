@@ -1036,10 +1036,10 @@ const formConfig = {
                 'ui:widget': 'radio',
                 'ui:required': formData =>
                   formData?.duplicatePhone?.some(
-                    entry => entry?.dupe === 'false',
+                    entry => entry?.dupe === false,
                   ) ||
                   formData?.duplicateEmail?.some(
-                    entry => entry?.dupe === 'false',
+                    entry => entry?.dupe === false,
                   ),
                 'ui:validations': [
                   (errors, field, formData) => {
@@ -1050,10 +1050,10 @@ const formConfig = {
                       formFields.viewPhoneNumbers
                     ].mobilePhoneNumber;
                     const hasDupePhone = formData?.duplicatePhone?.filter(
-                      entry => entry?.dupe === 'true',
+                      entry => entry?.dupe === true,
                     );
                     const hasDupeEmail = formData?.duplicateEmail?.filter(
-                      entry => entry?.dupe === 'true',
+                      entry => entry?.dupe === true,
                     );
 
                     if (isYes) {
@@ -1080,10 +1080,10 @@ const formConfig = {
                 'ui:options': {
                   hideIf: formData =>
                     formData?.duplicateEmail?.some(
-                      entry => entry?.dupe === 'true',
+                      entry => entry?.dupe === true,
                     ) &&
                     formData?.duplicatePhone?.some(
-                      entry => entry?.dupe === 'true',
+                      entry => entry?.dupe === true,
                     ),
                   widgetProps: {
                     Yes: { 'data-info': 'yes' },
@@ -1125,9 +1125,7 @@ const formConfig = {
                   formData[formFields.viewPhoneNumbers][
                     formFields.mobilePhoneNumber
                   ].isInternational ||
-                  formData?.duplicatePhone?.some(
-                    entry => entry?.dupe === 'true',
-                  ),
+                  formData?.duplicatePhone?.some(entry => entry?.dupe === true),
               },
             },
             'view:noMobilePhoneAlert': {
@@ -1188,13 +1186,13 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   formData?.duplicateEmail?.some(
-                    entry => entry?.dupe === 'false',
+                    entry => entry?.dupe === false,
                   ) ||
                   (formData?.duplicateEmail?.some(
-                    entry => entry?.dupe === 'true',
+                    entry => entry?.dupe === true,
                   ) &&
                     formData?.duplicatePhone?.some(
-                      entry => entry?.dupe === 'true',
+                      entry => entry?.dupe === true,
                     )),
               },
             },
@@ -1218,13 +1216,13 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   formData?.duplicatePhone?.some(
-                    entry => entry?.dupe === 'false',
+                    entry => entry?.dupe === false,
                   ) ||
                   (formData?.duplicateEmail?.some(
-                    entry => entry?.dupe === 'true',
+                    entry => entry?.dupe === true,
                   ) &&
                     formData?.duplicatePhone?.some(
-                      entry => entry?.dupe === 'true',
+                      entry => entry?.dupe === true,
                     )),
               },
             },
@@ -1251,10 +1249,10 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   formData?.duplicatePhone?.some(
-                    entry => entry?.dupe === 'false',
+                    entry => entry?.dupe === false,
                   ) ||
                   formData?.duplicateEmail?.some(
-                    entry => entry?.dupe === 'false',
+                    entry => entry?.dupe === false,
                   ),
               },
             },
