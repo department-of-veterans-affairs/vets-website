@@ -19,7 +19,7 @@ describe('Priority Group Component', () => {
 
   it('displays the assigned priority group', () => {
     const wrapper = setup();
-    const content = 'Your assigned priority group is 8G (as of 2019-01-02)';
+    const content = 'Your assigned priority group is 8G as of 1/2/2019';
     expect(wrapper.getByText(content)).to.exist;
   });
 

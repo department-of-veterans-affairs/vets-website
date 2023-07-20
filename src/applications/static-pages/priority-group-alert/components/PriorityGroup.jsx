@@ -1,14 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+// import moment from 'moment';
 import { environment } from '@department-of-veterans-affairs/platform-utilities';
 
 const url = path => `${environment.BaseUrl}${path}`;
 
 const PriorityGroup = ({ effectiveDate, priorityGroup }) => {
   const group = priorityGroup.replace('Group ', '');
-  const date = moment(effectiveDate).format('YYYY-MM-DD');
-  const headline = `Your assigned priority group is ${group} (as of ${date})`;
+  // const date = moment(effectiveDate).format('YYYY-MM-DD');
+  // const date = moment(effectiveDate).format('MM/DD/YYYY'); // fails in CI due to TZ?
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Navigator/languages
+  const { language } = navigator;
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
+  const utcDate = new Date(effectiveDate);
+  const date = new Intl.DateTimeFormat(language).format(utcDate);
+
+  const headline = `Your assigned priority group is ${group} as of ${date}`;
 
   return (
     <va-alert

@@ -28,11 +28,12 @@ describe('Priority Group Alert Widget', () => {
   });
 
   it('renders <SignInPrompt /> when signed out', () => {
-    const wrapper = setup();
+    // const wrapper = setup();
+    const { getByRole, getByText } = setup();
     const headerContent = 'You might already have an assigned priority group';
-    expect(wrapper.getByText(headerContent)).to.exist;
+    expect(getByText(headerContent)).to.exist;
     const buttonContent = 'Sign in to view your priority group';
-    expect(wrapper.getByRole('button', buttonContent)).to.exist;
+    expect(getByRole('button', buttonContent)).to.exist;
   });
 
   it('renders <UnknownGroup /> when priorityGroup is not set', () => {
@@ -48,7 +49,7 @@ describe('Priority Group Alert Widget', () => {
       priorityGroup: 'Group 8G',
     };
     const wrapper = setup({ isSignedIn: true, enrollmentStatus });
-    const message = 'Your assigned priority group is 8G (as of 2019-01-02)';
+    const message = 'Your assigned priority group is 8G as of 1/2/2019';
     expect(wrapper.getByText(message)).to.exist;
   });
 
