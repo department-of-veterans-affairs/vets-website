@@ -405,8 +405,8 @@ const ReplyForm = props => {
                   data-testid="Save-Draft-Button"
                   onClick={e => saveDraftHandler('manual', e)}
                 >
-                  <i className="fas fa-save" />
-                  &nbsp;Save draft
+                  <i className="fas fa-save" aria-hidden="true" />
+                  Save draft
                 </button>
                 {/* UCD requested to keep button even when not saved as draft */}
                 <DeleteDraft

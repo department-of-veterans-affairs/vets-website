@@ -55,8 +55,8 @@ const DeleteDraft = props => {
           }
         }}
       >
-        <i className="fas fa-trash-alt" />
-        &nbsp;Delete draft
+        <i className="fas fa-trash-alt" aria-hidden="true" />
+        Delete draft
       </button>
       <DeleteDraftModal
         visible={isModalVisible}
