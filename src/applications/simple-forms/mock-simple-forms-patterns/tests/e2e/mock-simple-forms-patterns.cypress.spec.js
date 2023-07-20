@@ -217,8 +217,8 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             // web components
             selectRadioWebComponent(
-              'wcv3RelationshipToVeteranNew',
-              data.wcv3RelationshipToVeteranNew,
+              'wcv3RelationshipToVeteran',
+              data.wcv3RelationshipToVeteran,
             );
 
             cy.axeCheck();
