@@ -10,7 +10,7 @@ function CustomPhoneNumberField(props) {
     if (props?.showMebEnhancements08) {
       props.updateGlobalPhoneNumber(event);
       props.fetchDuplicateContactInfo(props.duplicateEmail, [
-        { value: event, isDupe: '' },
+        { value: event, dupe: '' },
       ]);
     }
   }

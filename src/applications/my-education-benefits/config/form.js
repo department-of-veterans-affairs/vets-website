@@ -984,7 +984,7 @@ const formConfig = {
                       const invalidContactMethods = [];
 
                       const dupePhonePresent = duplicatePhone?.filter(
-                        entry => entry.isDupe === 'true',
+                        entry => entry.dupe === 'true',
                       );
                       if (!mobilePhoneNumber || dupePhonePresent?.length > 0) {
                         invalidContactMethods.push('Mobile Phone');
@@ -994,7 +994,7 @@ const formConfig = {
                       }
 
                       const dupeEmailPresent = duplicateEmail?.filter(
-                        entry => entry.isDupe === 'true',
+                        entry => entry.dupe === 'true',
                       );
 
                       if (dupeEmailPresent?.length > 0) {
@@ -1036,10 +1036,10 @@ const formConfig = {
                 'ui:widget': 'radio',
                 'ui:required': formData =>
                   formData?.duplicatePhone?.some(
-                    entry => entry?.isDupe === 'false',
+                    entry => entry?.dupe === 'false',
                   ) ||
                   formData?.duplicateEmail?.some(
-                    entry => entry?.isDupe === 'false',
+                    entry => entry?.dupe === 'false',
                   ),
                 'ui:validations': [
                   (errors, field, formData) => {
@@ -1050,10 +1050,10 @@ const formConfig = {
                       formFields.viewPhoneNumbers
                     ].mobilePhoneNumber;
                     const hasDupePhone = formData?.duplicatePhone?.filter(
-                      entry => entry?.isDupe === 'true',
+                      entry => entry?.dupe === 'true',
                     );
                     const hasDupeEmail = formData?.duplicateEmail?.filter(
-                      entry => entry?.isDupe === 'true',
+                      entry => entry?.dupe === 'true',
                     );
 
                     if (isYes) {
@@ -1080,10 +1080,10 @@ const formConfig = {
                 'ui:options': {
                   hideIf: formData =>
                     formData?.duplicateEmail?.some(
-                      entry => entry?.isDupe === 'true',
+                      entry => entry?.dupe === 'true',
                     ) &&
                     formData?.duplicatePhone?.some(
-                      entry => entry?.isDupe === 'true',
+                      entry => entry?.dupe === 'true',
                     ),
                   widgetProps: {
                     Yes: { 'data-info': 'yes' },
@@ -1126,7 +1126,7 @@ const formConfig = {
                     formFields.mobilePhoneNumber
                   ].isInternational ||
                   formData?.duplicatePhone?.some(
-                    entry => entry?.isDupe === 'true',
+                    entry => entry?.dupe === 'true',
                   ),
               },
             },
@@ -1188,13 +1188,13 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   formData?.duplicateEmail?.some(
-                    entry => entry?.isDupe === 'false',
+                    entry => entry?.dupe === 'false',
                   ) ||
                   (formData?.duplicateEmail?.some(
-                    entry => entry?.isDupe === 'true',
+                    entry => entry?.dupe === 'true',
                   ) &&
                     formData?.duplicatePhone?.some(
-                      entry => entry?.isDupe === 'true',
+                      entry => entry?.dupe === 'true',
                     )),
               },
             },
@@ -1218,13 +1218,13 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   formData?.duplicatePhone?.some(
-                    entry => entry?.isDupe === 'false',
+                    entry => entry?.dupe === 'false',
                   ) ||
                   (formData?.duplicateEmail?.some(
-                    entry => entry?.isDupe === 'true',
+                    entry => entry?.dupe === 'true',
                   ) &&
                     formData?.duplicatePhone?.some(
-                      entry => entry?.isDupe === 'true',
+                      entry => entry?.dupe === 'true',
                     )),
               },
             },
@@ -1251,10 +1251,10 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   formData?.duplicatePhone?.some(
-                    entry => entry?.isDupe === 'false',
+                    entry => entry?.dupe === 'false',
                   ) ||
                   formData?.duplicateEmail?.some(
-                    entry => entry?.isDupe === 'false',
+                    entry => entry?.dupe === 'false',
                   ),
               },
             },

@@ -11,7 +11,7 @@ function DuplicateContactInfoModal(props) {
         props?.duplicatePhone,
       );
       const filteredPotentialDuplicates = allPotentialDuplicates?.filter(
-        entry => entry?.isDupe === 'true' && entry.acknowledged === undefined,
+        entry => entry?.dupe === 'true' && entry.acknowledged === undefined,
       );
 
       if (filteredPotentialDuplicates?.length === 0) {
@@ -48,10 +48,10 @@ function DuplicateContactInfoModal(props) {
     let modalText;
 
     const filteredPotentialDuplicateEmails = props?.duplicateEmail?.filter(
-      entry => entry?.isDupe === 'true' && entry.acknowledged === undefined,
+      entry => entry?.dupe === 'true' && entry.acknowledged === undefined,
     );
     const filteredPotentialDuplicatesMobile = props?.duplicatePhone?.filter(
-      entry => entry?.isDupe === 'true' && entry.acknowledged === undefined,
+      entry => entry?.dupe === 'true' && entry.acknowledged === undefined,
     );
 
     if (

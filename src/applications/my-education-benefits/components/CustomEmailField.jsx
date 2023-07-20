@@ -11,8 +11,8 @@ function CustomEmailField(props) {
     // Any changes to the values will be picked up by the handle change
     if (props?.showMebEnhancements08) {
       props.fetchDuplicateContactInfo(
-        [{ value: props.email, isDupe: '' }],
-        [{ value: props.phoneNumber, isDupe: '' }],
+        [{ value: props.email, dupe: '' }],
+        [{ value: props.phoneNumber, dupe: '' }],
       );
     }
   }, []);
@@ -21,7 +21,7 @@ function CustomEmailField(props) {
     if (props?.showMebEnhancements08) {
       props.updateGlobalEmail(event);
       props.fetchDuplicateContactInfo(
-        [{ value: event, isDupe: '' }],
+        [{ value: event, dupe: '' }],
         props.duplicatePhone,
       );
     }
