@@ -2,9 +2,9 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import { DebtNotification } from '../../../components/notifications/DebtNotification';
+import { DebtNotificationAlert } from '../../../components/notifications/DebtNotificationAlert';
 
-describe('<DebtNotification />', () => {
+describe('<DebtNotificationAlert />', () => {
   it('should render', () => {
     const notification = {
       id: '12345',
@@ -18,7 +18,7 @@ describe('<DebtNotification />', () => {
       },
     };
     const tree = render(
-      <DebtNotification
+      <DebtNotificationAlert
         notification={notification}
         dismissNotification={() => {}}
       />,
