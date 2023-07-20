@@ -434,7 +434,7 @@ const analyticsEvents = {
     },
     {
       action: 'show',
-      event: 'int-modal-click',
+      event: 'int-modal-show',
       prefix: 'modal',
       ga4: {
         event: 'interaction',
