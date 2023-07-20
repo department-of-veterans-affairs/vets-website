@@ -260,7 +260,50 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a no-auth if the api returns a 401', done => {
       server.use(
         rest.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), (req, res, ctx) => {
-          return res(ctx.status(401), ctx.json({ status: 401 }));
+          return res(
+            ctx.status(401),
+            ctx.json({
+              errors: [
+                {
+                  status: '401',
+                  detail: 'Not authorized',
+                },
+              ],
+            }),
+          );
+        }),
+      );
+      const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
+      const dispatch = sinon.spy();
+
+      thunk(dispatch, getState)
+        .then(() => {
+          expect(
+            dispatch.calledWith(
+              setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.noAuth),
+            ),
+          ).to.be.true;
+          expect(dispatch.calledWith(logOut())).to.be.true;
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
+    });
+    it('dispatches a no-auth if the api returns a 403', done => {
+      server.use(
+        rest.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), (req, res, ctx) => {
+          return res(
+            ctx.status(403),
+            ctx.json({
+              errors: [
+                {
+                  status: '403',
+                  detail: 'Invalid Authenticity Token',
+                },
+              ],
+            }),
+          );
         }),
       );
       const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -283,7 +326,17 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a failure on any other failure', done => {
       server.use(
         rest.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), (req, res, ctx) => {
-          return res(ctx.status(500), ctx.json({ status: 500 }));
+          return res(
+            ctx.status(500),
+            ctx.json({
+              errors: [
+                {
+                  status: '500',
+                  detail: 'Unknown Service Error',
+                },
+              ],
+            }),
+          );
         }),
       );
 

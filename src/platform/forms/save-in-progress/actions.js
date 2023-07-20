@@ -88,7 +88,12 @@ const validateFetchInProgressFormsErrors = status => {
 };
 
 const validateSaveInProgressErrors = (status, trackingPrefix) => {
-  if ([401].includes(status?.status)) {
+  if (
+    status?.errors?.length && // check for errors array
+    (status?.errors[0]?.status === '401' || // check for 401 Not Authorized
+      (status?.errors[0]?.status === '403' && // check for 403 Invalid Authenticity Token
+        status?.errors[0]?.detail === 'Invalid Authenticity Token'))
+  ) {
     recordEvent({ event: `${trackingPrefix}sip-form-save-signed-out` });
     return SAVE_STATUSES.noAuth;
   }

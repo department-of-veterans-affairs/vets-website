@@ -41,12 +41,11 @@ export function saveFormApi(
   });
   const apiUrl = inProgressApi(formId);
   const saveFormApiHeaders = {
-    'X-Key-Inflection': 'camel',
+    ...(!VA_FORM_IDS_SKIP_INFLECTION.includes(formId) && {
+      'X-Key-Inflection': 'camel',
+    }),
     'Content-Type': 'application/json',
   };
-  if (VA_FORM_IDS_SKIP_INFLECTION.includes(formId)) {
-    delete saveFormApiHeaders['X-Key-Inflection'];
-  }
 
   return apiRequest(apiUrl, {
     method: 'PUT',
