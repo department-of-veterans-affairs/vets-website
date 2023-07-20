@@ -20,14 +20,15 @@ import {
   SET_DISMISSED_HCA_NOTIFICATION,
 } from '../../utils/actions';
 
-let dispatch;
-
 describe('hca actions', () => {
-  describe('getEnrollmentStatus', () => {
+  let dispatch;
+
+  describe('when `getEnrollmentStatus` executes', () => {
     beforeEach(() => {
       dispatch = sinon.spy();
     });
-    describe('on fetch success', () => {
+
+    describe('when fetch operation succeeds', () => {
       it('should dispatch a fetch succeeded action with data', () => {
         const mockData = { data: 'data' };
         const getState = () => ({
@@ -48,7 +49,7 @@ describe('hca actions', () => {
       });
     });
 
-    describe('on fetch failure', () => {
+    describe('when fetch operation fails', () => {
       it('should dispatch a fetch failed action', () => {
         const mockData = { data: 'data' };
         const getState = () => ({
@@ -117,12 +118,12 @@ describe('hca actions', () => {
     });
   });
 
-  describe('getDismissedHCANotification', () => {
+  describe('when `getDismissedHCANotification` executes', () => {
     beforeEach(() => {
       dispatch = sinon.spy();
     });
 
-    describe('on fetch success', () => {
+    describe('when fetch operation succeeds', () => {
       it('should dispatch a fetch succeeded action with data', () => {
         const mockData = { data: 'data' };
         mockApiRequest(mockData);
@@ -138,7 +139,7 @@ describe('hca actions', () => {
       });
     });
 
-    describe('on fetch failure', () => {
+    describe('when fetch operation fails', () => {
       it('should dispatch a fetch failed action', () => {
         const mockData = { data: 'data' };
         mockApiRequest(mockData, false);
@@ -154,7 +155,7 @@ describe('hca actions', () => {
     });
   });
 
-  describe('setDismissedHCANotification', () => {
+  describe('when `setDismissedHCANotification` executes', () => {
     const statusEffectiveAtDate = 1565025055759;
     beforeEach(() => {
       mockFetch();
@@ -173,12 +174,14 @@ describe('hca actions', () => {
           }),
         );
       });
+
       it('should dispatch a SET_DISMISSED_HCA_NOTIFICATION action with the effective date', () => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_DISMISSED_HCA_NOTIFICATION,
           data: statusEffectiveAtDate,
         });
       });
+
       it('should call the correct POST endpoint', () => {
         expect(global.fetch.firstCall.args[0]).to.contain(
           '/v0/notifications/dismissed_statuses',
@@ -198,12 +201,14 @@ describe('hca actions', () => {
           }),
         );
       });
+
       it('should dispatch a SET_DISMISSED_HCA_NOTIFICATION action with the effective date', () => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_DISMISSED_HCA_NOTIFICATION,
           data: statusEffectiveAtDate,
         });
       });
+
       it('should call the correct PUT endpoint if a notification is being dismissed for the second time', () => {
         expect(global.fetch.firstCall.args[0]).to.contain(
           '/notifications/dismissed_statuses/form_10_10ez',
