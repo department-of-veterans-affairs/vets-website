@@ -311,22 +311,19 @@ describe('getAddress', () => {
     expect(getAddress(wrap({ zipCode: '10101' }))).to.deep.equal({
       zipCode5: '10101',
     });
-    expect(
-      getAddress(
-        wrap({
-          addressLine1: '123 test',
-          addressLine2: 'c/o foo',
-          addressLine3: 'suite 99',
-          city: 'Big City',
-          stateCode: 'NV',
-          zipCode: '10101',
-          countryName: 'United States',
-          countryCodeISO2: 'US',
-          internationalPostalCode: '12345',
-          extra: 'will not be included',
-        }),
-      ),
-    ).to.deep.equal({
+    const testAddress = wrap({
+      addressLine1: '123 test',
+      addressLine2: 'c/o foo',
+      addressLine3: 'suite 99',
+      city: 'Big City',
+      stateCode: 'NV',
+      zipCode: '10101',
+      countryName: 'United States',
+      countryCodeIso2: 'US', // Iso is camel-case here
+      internationalPostalCode: '12345',
+      extra: 'will not be included',
+    });
+    expect(getAddress(testAddress)).to.deep.equal({
       addressLine1: '123 test',
       addressLine2: 'c/o foo',
       addressLine3: 'suite 99',
@@ -334,7 +331,16 @@ describe('getAddress', () => {
       stateCode: 'NV',
       zipCode5: '00000',
       countryName: 'United States',
-      countryCodeISO2: 'US',
+      internationalPostalCode: '12345',
+    });
+    expect(getAddress({ ...testAddress, [SHOW_PART3]: true })).to.deep.equal({
+      addressLine1: '123 test',
+      addressLine2: 'c/o foo',
+      addressLine3: 'suite 99',
+      city: 'Big City',
+      stateCode: 'NV',
+      zipCode5: '00000',
+      countryCodeISO2: 'US', // ISO is all caps here
       internationalPostalCode: '12345',
     });
     expect(

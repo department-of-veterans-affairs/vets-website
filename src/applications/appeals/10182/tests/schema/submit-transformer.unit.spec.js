@@ -1,5 +1,7 @@
 import { expect } from 'chai';
 
+import cloneDeep from 'platform/utilities/data/cloneDeep';
+
 import formConfig from '../../config/form';
 
 import { transform } from '../../config/submit-transformer';
@@ -34,17 +36,14 @@ describe('transform', () => {
     // copy over variables that change based on date & location
     transformedResult.data.attributes.timezone = 'America/Los_Angeles';
 
-    expect(transformedResult).to.deep.equal({
-      ...transformedMaximalData,
-      data: {
-        type: 'noticeOfDisagreement',
-        attributes: {
-          ...transformedMaximalData.data.attributes,
-          requestingExtension: true,
-          extensionReason: 'Lorem ipsum',
-          appealingVhaDenial: false,
-        },
-      },
-    });
+    const result = cloneDeep(transformedMaximalData);
+    result.data.attributes.veteran.address.countryCodeISO2 = 'US';
+    delete result.data.attributes.veteran.address.countryName;
+
+    result.data.attributes.requestingExtension = true;
+    result.data.attributes.extensionReason = 'Lorem ipsum';
+    result.data.attributes.appealingVhaDenial = false;
+
+    expect(transformedResult).to.deep.equal(result);
   });
 });
