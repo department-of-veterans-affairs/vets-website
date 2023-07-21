@@ -15,11 +15,11 @@ const VeteranProfileInformation = ({ goBack, goForward, user }) => {
   return (
     <>
       <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
-        {dob ? (
-          <p>This is the personal information we have on file for you.</p>
-        ) : (
-          <p>Here’s the name we have on file for you.</p>
-        )}
+        <p data-testid="hca-veteran-profile-intro">
+          {dob
+            ? 'This is the personal information we have on file for you.'
+            : 'Here’s the name we have on file for you.'}
+        </p>
         <div className="vads-u-border-left--7px vads-u-border-color--primary vads-u-padding-y--1 vads-u-margin-bottom--3">
           <div className="vads-u-padding-left--1">
             <p

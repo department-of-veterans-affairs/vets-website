@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 import { scrollToTop } from '../utilities/scroll-to-top';
+import { getPreviousYear } from '../utilities/utils';
 import { ROUTES } from '../constants';
 import {
   updateEditMode,
@@ -124,7 +125,11 @@ const ZipCodePage = ({
 
   return (
     <>
-      <h1>Donec id elit vitae sapien finibus sagittis?</h1>
+      {pastMode && year ? (
+        <h1>What was your zip code in {year - 1}?</h1>
+      ) : (
+        <h1>What was your zip code last year?</h1>
+      )}
       <form>
         <VaNumberInput
           className="input-size-3"
@@ -132,7 +137,10 @@ const ZipCodePage = ({
           error={
             (formError && 'Please enter a valid 5 digit zip code.') || null
           }
-          hint="Zip code hint text"
+          hint={`Enter the zip code for where you lived for all or most of ${getPreviousYear(
+            pastMode,
+            year,
+          )}.`}
           id="zipCode"
           inputmode="numeric"
           label="Zip code"

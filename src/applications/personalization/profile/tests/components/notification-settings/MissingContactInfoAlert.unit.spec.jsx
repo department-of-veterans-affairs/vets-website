@@ -33,26 +33,17 @@ describe('MissingContactInfoAlert', () => {
     expect(view.getByText(/We don’t have your mobile phone number/i)).to.exist;
   });
 
-  it('renders when Email is missing', () => {
+  it('renders when Mobile and Email are missing, and showEmailNotificationSettings is true', () => {
     const view = renderWithStoreAndRouter(
       <MissingContactInfoAlert
         missingEmailAddress
-        missingMobilePhone={false}
+        missingMobilePhone
+        showEmailNotificationSettings
       />,
       { initialState },
     );
 
     expect(view.queryByTestId('missing-contact-info-alert')).to.exist;
-    expect(view.getByText(/We don’t have your email address/i)).to.exist;
-  });
-
-  it('renders when Mobile and Email are missing', () => {
-    const view = renderWithStoreAndRouter(
-      <MissingContactInfoAlert missingEmailAddress missingMobilePhone />,
-      { initialState },
-    );
-
-    expect(view.queryByTestId('missing-contact-info-alert')).to.exist;
-    expect(view.getByText(/We don’t have your mobile phone number/i)).to.exist;
+    expect(view.getByText(/We don’t have your contact information/i)).to.exist;
   });
 });

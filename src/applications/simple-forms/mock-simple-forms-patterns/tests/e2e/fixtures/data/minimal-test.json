@@ -59,6 +59,9 @@
     "wcOldRequired": "Lorem ipsum dolor sit amet",
     "wcv3RequiredNew": "Lorem ipsum dolor sit amet",
     "wcv3TextAreaNew": "Lorem ipsum dolor sit amet",
+    "wcv3RelationshipToVeteran": {
+      "relationshipToVeteran": "spouse"
+    },
     "exampleArrayOne": [
       {
         "facilityName": "facility a",

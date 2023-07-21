@@ -13,8 +13,8 @@ const SettingsPage = () => {
     () => {
       dispatch(
         setBreadcrumbs([{ url: '/my-health', label: 'Dashboard' }], {
-          url: '/my-health/medical-records/share-your-medical-record',
-          label: 'Share your medical record',
+          url: '/my-health/medical-records/settings',
+          label: 'Settings',
         }),
       );
     },
