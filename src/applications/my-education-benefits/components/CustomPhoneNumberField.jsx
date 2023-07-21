@@ -20,7 +20,7 @@ function CustomPhoneNumberField(props) {
       <PhoneNumberWidget
         {...props}
         onChange={handleChange}
-        value={props.phoneNumber}
+        value={props.mobilePhone}
       />
     </>
   );
@@ -33,7 +33,10 @@ CustomPhoneNumberField.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  phoneNumber: state?.form?.data?.mobilePhone,
+  mobilePhone:
+    state?.data?.mobilePhone ||
+    state?.data?.formData?.data?.attributes?.claimant?.contactInfo
+      ?.mobilePhoneNumber,
   duplicatePhone: state?.data?.duplicatePhone,
   email: state?.form?.data?.email?.email,
   duplicateEmail: state?.data?.duplicateEmail,

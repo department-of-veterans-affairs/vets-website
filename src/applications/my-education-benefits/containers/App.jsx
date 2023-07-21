@@ -142,13 +142,6 @@ export const App = ({
         });
       }
 
-      if (mobilePhone !== formData?.mobilePhone) {
-        setFormData({
-          ...formData,
-          mobilePhone,
-        });
-      }
-
       if (formData?.mobilePhone && formData?.email?.email) {
         getDuplicateContactInfo(
           [{ value: formData?.email?.email, dupe: '' }],
@@ -205,10 +198,34 @@ export const App = ({
       showMebEnhancements,
       showMebEnhancements06,
       email,
+      mobilePhone,
       getDuplicateContactInfo,
     ],
   );
 
+  useEffect(
+    () => {
+      if (mobilePhone !== formData?.mobilePhone) {
+        setFormData({
+          ...formData,
+          data: {
+            ...formData?.data,
+            attributes: {
+              ...formData?.data?.attributes,
+              claimant: {
+                ...formData?.data?.attributes?.claimant,
+                contactinfo: {
+                  ...formData?.data?.attributes?.claimant?.contactInfo,
+                  mobilePhoneNumber: mobilePhone,
+                },
+              },
+            },
+          },
+        });
+      }
+    },
+    [mobilePhone],
+  );
   // Commenting out until Direct Deposit component is updated
   // useEffect(
   //   () => {
@@ -267,6 +284,7 @@ const mapStateToProps = state => {
   const claimantInfo = transformedClaimantInfo.formData;
   const email = state?.data?.email;
   const mobilePhone =
+    state?.data?.mobilePhone ||
     state?.data?.formData?.data?.attributes?.claimant?.contactInfo
       ?.mobilePhoneNumber;
 
