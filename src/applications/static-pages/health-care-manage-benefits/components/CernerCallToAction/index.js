@@ -160,7 +160,7 @@ export class CernerCallToAction extends Component {
                 To manage appointments at these facilities, go to My VA Health:
               </p>
               <div className="vads-u-margin-y--1">
-                <ul className="vads-u-margin-left--1p5">
+                <ul className="vads-u-margin-left--1p5 vads-u-margin-bottom--1">
                   <ListItem
                     facilities={facilities}
                     ehrDataByVhaId={ehrDataByVhaId}
@@ -176,8 +176,9 @@ export class CernerCallToAction extends Component {
                   Go to My VA Health
                 </a>
               </div>
-              <va-additional-info trigger="Having trouble opening My VA health? Try these steps:">
-                <ul>
+              <va-additional-info trigger="Having trouble opening My VA health?">
+                Try these steps:
+                <ul className="vads-u-margin-left--1p5">
                   <li>Disable your browser's pop-up blocker</li>
                   <li>
                     Sign in to My VA health with the same account you used to
