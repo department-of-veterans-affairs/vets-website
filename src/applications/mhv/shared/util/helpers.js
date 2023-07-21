@@ -13,7 +13,7 @@ export const formatName = ({ first, middle, last, suffix }) => {
 };
 
 /**
- * @param {Object} user user profile object from redux store (state.user.profile) {first, middle, last, suffix}
+ * @param {Object} user user profile object from redux store (state.user.profile)
  * @param {Object} title title of the doc (displayed at the top of the doc)
  * @param {Object} subject subject of the doc (metadata)
  * @param {Object} preface preface below the title (displayed below the title)
