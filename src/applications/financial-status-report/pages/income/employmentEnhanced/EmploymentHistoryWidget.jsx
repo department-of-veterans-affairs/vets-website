@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { useSelector, connect } from 'react-redux';
-import EmploymentHistorySummaryCard from '../../../components/EmploymentHistorySummaryCard';
+import EmploymentHistorySummaryCard from '../../../components/employment/EmploymentHistorySummaryCard';
 import { EmptyMiniSummaryCard } from '../../../components/shared/MiniSummaryCard';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearJobIndex } from '../../../utils/session';

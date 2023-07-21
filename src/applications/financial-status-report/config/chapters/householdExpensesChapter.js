@@ -15,7 +15,7 @@ import {
   otherExpensesPages,
 } from '../../pages';
 
-import CreditCardBill from '../../components/CreditCardBill';
+import CreditCardBill from '../../components/creditCards/CreditCardBill';
 import CreditCardBillSummary from '../../pages/expenses/creditCardBills/CreditCardBillSummary';
 import AddUtilityBill from '../../components/utilityBills/AddUtilityBill';
 import UtilityBillSummary from '../../components/utilityBills/UtilityBillSummary';
@@ -23,7 +23,7 @@ import UtilityBillSummaryReview from '../../components/utilityBills/UtilityBillS
 import AddOtherExpense from '../../components/otherExpenses/AddOtherExpense';
 import OtherExpensesSummary from '../../components/otherExpenses/OtherExpensesSummary';
 import OtherExpensesSummaryReview from '../../components/otherExpenses/OtherExpensesSummaryReview';
-import InstallmentContract from '../../components/InstallmentContract';
+import InstallmentContract from '../../components/householdExpenses/InstallmentContract';
 import InstallmentContractSummary from '../../pages/expenses/repayments/InstallmentContractSummary';
 import HouseholdExpensesSummaryReview from '../../components/householdExpenses/HouseholdExpensesSummaryReview';
 import CreditCardBillsSummaryReview from '../../components/householdExpenses/CreditCardBillsSummaryReview';
