@@ -82,7 +82,7 @@ export const descriptionUI = (text, uiOptions = {}) => {
 export const inlineTitleUI = (title, description) => {
   return {
     'ui:title': (
-      <h3 className="vads-u-color--gray-dark vads-u-margin-top--4 vads-u-margin-bottom--neg1">
+      <h3 className="vads-u-color--gray-dark vads-u-margin-top--4 vads-u-margin-bottom--neg3">
         {title}
       </h3>
     ),

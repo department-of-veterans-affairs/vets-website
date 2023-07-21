@@ -1,0 +1,9 @@
+.rjsf-object-field {
+  margin-bottom: 0 !important;
+
+  & + .form-nav-buttons,
+  & + .form-progress-buttons,
+  & + .schemaform-save-container {
+    margin-top: 40px !important;
+  }
+}
