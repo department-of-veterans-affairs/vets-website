@@ -17,11 +17,11 @@ export const getGMT = (dependents, year, zipCode) => {
   return apiRequest(REQUEST_URL)
     .then(({ data }) => {
       // incomeStatus is 150% of the GMT
-      const incomeStatus = data.gmt_threshold * 1.5;
+      const incomeStatus = data.gmtThreshold * 1.5;
       // assetStatus is 6.5% of the GMT
-      const assetStatus = data.gmt_threshold * 0.065;
+      const assetStatus = data.gmtThreshold * 0.065;
       // discressionaryStatus is 1.25% of the GMT
-      const discressionaryStatus = data.gmt_threshold * 0.0125;
+      const discressionaryStatus = data.gmtThreshold * 0.0125;
 
       return {
         ...data,
