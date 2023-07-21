@@ -496,9 +496,10 @@ const ComposeForm = props => {
           <button
             type="button"
             id="save-draft-button"
-            className={`usa-button usa-button-secondary save-draft-button vads-u-flex--1 vads-u-margin-top--0 ${
-              draft ? 'vads-u-margin-right--1' : ''
-            }`}
+            // className={`usa-button usa-button-secondary save-draft-button vads-u-flex--1 vads-u-margin-top--0 ${
+            //   draft ? 'xsmall-screen:vads-u-margin-right--1 vads-u-margin-right--0' : ''
+            // }`}
+            className="usa-button usa-button-secondary save-draft-button vads-u-width--full xsmall-screen:vads-u-flex--1 vads-u-margin-top--0 xsmall-screen:vads-u-margin-right--1 vads-u-margin-right--0"
             data-testid="Save-Draft-Button"
             onClick={e => saveDraftHandler('manual', e)}
           >
