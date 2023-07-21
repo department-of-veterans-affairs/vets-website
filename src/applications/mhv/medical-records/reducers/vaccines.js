@@ -29,7 +29,7 @@ const convertVaccine = vaccine => {
     date: formatDateLong(vaccine.occurrenceDateTime) || emptyField,
     location: vaccine.location?.display || emptyField,
     manufacturer: vaccine.manufacturer || emptyField,
-    reactions: vaccine.reaction || [],
+    reactions: vaccine.reaction?.map(item => item.detail?.display) || [],
     notes: vaccine.note?.map(note => note.text) || [],
   };
 };
