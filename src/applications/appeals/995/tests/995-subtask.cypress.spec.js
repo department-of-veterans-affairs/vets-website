@@ -52,7 +52,9 @@ describe('995 subtask', () => {
         'contain',
         '/decision-reviews/supplemental-claim#find-addresses-for-other-benef-8804',
       );
-    cy.contains('Download VA Form 20-0995').should('have.attr', 'href');
+    cy.contains('Download VA Form 20-0995')
+      .should('have.attr', 'href')
+      .and('contain', 'https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf');
 
     cy.axeCheck();
   });
