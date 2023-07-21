@@ -1,7 +1,6 @@
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import labsAndTests from '../tests/fixtures/labsAndTests.json';
-import careSummariesAndNotes from '../tests/fixtures/careSummariesAndNotes.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import allergies from '../tests/fixtures/allergies.json';
@@ -47,36 +46,18 @@ export const getLabOrTest = id => {
 };
 
 export const getNotes = () => {
-  if (environment.BUILDTYPE === 'localhost' && testing) {
-    return apiRequest(
-      `${apiBasePath}/medical_records/clinical_notes?patient_id=1174378`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(careSummariesAndNotes);
-    }, 1000);
+  return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 };
 
 export const getNote = id => {
-  if (environment.BUILDTYPE === 'localhost' && testing) {
-    return apiRequest(`${apiBasePath}/medical_records/clinical_notes/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      const summary = careSummariesAndNotes.find(sum => +sum.id === +id);
-      resolve(summary);
-    }, 1000);
+  return apiRequest(`${apiBasePath}/medical_records/clinical_notes/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 };
 

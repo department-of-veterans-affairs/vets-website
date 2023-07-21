@@ -1,9 +1,6 @@
-import {
-  formatDateLong,
-  environment,
-} from '@department-of-veterans-affairs/platform-utilities/exports';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { testing } from '../util/constants';
+import { emptyField } from '../util/constants';
 
 const initialState = {
   /**
@@ -20,14 +17,17 @@ const initialState = {
 const convertNote = note => {
   return {
     id: note.id,
-    name: note.type.coding[0].display,
+    name: note.type.text || note.type.coding[0].display,
+    type: note.type.coding[0].code,
+    dateSigned: formatDateLong(note.date),
+    dateUpdated: formatDateLong(note.meta.lastUpdated),
     startDate: formatDateLong(note.date),
     endDate: formatDateLong(note.meta.lastUpdated),
-    summary: note.description,
-    // admittingPhysician: note.asdf,
-    // dischargePhysician: note.asdf,
-    // facility: note.asdf,
-    // reactions: note.asdf,
+    summary: Buffer.from(note.content[0].attachment.data, 'base64').toString(),
+    location: note.context.related[0].text || emptyField,
+    physician: note.author[0].display || emptyField,
+    admittingPhysician: note.author[0].display || emptyField,
+    dischargePhysician: note.author[0].display || emptyField,
   };
 };
 
@@ -36,23 +36,15 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
     case Actions.CareSummariesAndNotes.GET: {
       return {
         ...state,
-        careSummariesAndNotesDetails:
-          environment.BUILDTYPE === 'localhost' && testing
-            ? convertNote(action.response)
-            : action.response,
+        careSummariesAndNotesDetails: convertNote(action.response),
       };
     }
     case Actions.CareSummariesAndNotes.GET_LIST: {
       return {
         ...state,
-        careSummariesAndNotesList:
-          environment.BUILDTYPE === 'localhost' && testing
-            ? action.response.entry.map(note => {
-                return convertNote(note.resource);
-              })
-            : action.response.map(careSummariesAndNotes => {
-                return { ...careSummariesAndNotes };
-              }),
+        careSummariesAndNotesList: action.response.entry.map(note => {
+          return convertNote(note.resource);
+        }),
       };
     }
     default:
