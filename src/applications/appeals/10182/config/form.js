@@ -21,8 +21,8 @@ import {
   wantsToUploadEvidence,
   needsHearingType,
   appStateSelector,
-  getIssueName,
 } from '../utils/helpers';
+import { getIssueTitle } from '../content/areaOfDisagreement';
 
 import { CONTESTABLE_ISSUES_PATH } from '../constants';
 
@@ -143,7 +143,7 @@ const formConfig = {
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         areaOfDisagreementFollowUp: {
-          title: getIssueName,
+          title: getIssueTitle,
           path: 'area-of-disagreement/:index',
           showPagePerItem: true,
           arrayPath: 'areaOfDisagreement',
