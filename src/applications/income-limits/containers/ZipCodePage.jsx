@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 import { scrollToTop } from '../utilities/scroll-to-top';
+import { getPreviousYear } from '../utilities/utils';
 import { ROUTES } from '../constants';
 import {
   updateEditMode,
@@ -25,8 +26,10 @@ const ZipCodePage = ({
   updateZipValError,
   year,
   zipCode,
+  zipValidationServiceError,
 }) => {
   const [formError, setFormError] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   // Checks that a zip was entered and is numbers only and has length of 5
   const inputValid = zip => {
@@ -56,10 +59,12 @@ const ZipCodePage = ({
   const onContinueClick = async () => {
     // Zip meets input criteria
     if (inputValid(zipCode)) {
+      setSubmitting(true);
       setFormError(false);
 
       // Check zip against VES database
       const response = await validateZip(zipCode);
+      setSubmitting(false);
 
       // Service issue
       // Status codes only returned for not-ok responses
@@ -67,6 +72,7 @@ const ZipCodePage = ({
         updateZipValError(true);
       } else {
         updateZipValError(false);
+        setSubmitting(false);
 
         // eslint-disable-next-line camelcase
         const zipIsValid = response?.zip_is_valid;
@@ -97,8 +103,11 @@ const ZipCodePage = ({
   };
 
   const onZipInput = event => {
-    setFormError(false);
-    updateZipValError(false);
+    if (formError || zipValidationServiceError) {
+      setFormError(false);
+      updateZipValError(false);
+    }
+
     updateZipCodeField(event.target.value);
   };
 
@@ -116,7 +125,11 @@ const ZipCodePage = ({
 
   return (
     <>
-      <h1>Donec id elit vitae sapien finibus sagittis?</h1>
+      {pastMode && year ? (
+        <h1>What was your zip code in {year - 1}?</h1>
+      ) : (
+        <h1>What was your zip code last year?</h1>
+      )}
       <form>
         <VaNumberInput
           className="input-size-3"
@@ -124,7 +137,10 @@ const ZipCodePage = ({
           error={
             (formError && 'Please enter a valid 5 digit zip code.') || null
           }
-          hint="Zip code hint text"
+          hint={`Enter the zip code for where you lived for all or most of ${getPreviousYear(
+            pastMode,
+            year,
+          )}.`}
           id="zipCode"
           inputmode="numeric"
           label="Zip code"
@@ -136,12 +152,21 @@ const ZipCodePage = ({
           required
           value={zipCode || ''}
         />
-        <VaButtonPair
-          data-testid="il-buttonPair"
-          onPrimaryClick={onContinueClick}
-          onSecondaryClick={onBackClick}
-          continue
-        />
+        {!submitting && (
+          <VaButtonPair
+            data-testid="il-buttonPair"
+            onPrimaryClick={onContinueClick}
+            onSecondaryClick={onBackClick}
+            continue
+          />
+        )}
+        {submitting && (
+          <va-loading-indicator
+            data-testid="il-loading-indicator"
+            set-focus
+            message="Reviewing your information..."
+          />
+        )}
       </form>
     </>
   );
@@ -152,6 +177,7 @@ const mapStateToProps = state => ({
   pastMode: state?.incomeLimits?.pastMode,
   year: state?.incomeLimits?.form?.year,
   zipCode: state?.incomeLimits?.form?.zipCode,
+  zipValidationServiceError: state?.incomeLimits?.zipValidationServiceError,
 });
 
 const mapDispatchToProps = {
@@ -171,6 +197,7 @@ ZipCodePage.propTypes = {
   updateZipValError: PropTypes.func,
   year: PropTypes.string,
   zipCode: PropTypes.string,
+  zipValidationServiceError: PropTypes.bool,
 };
 
 export default connect(

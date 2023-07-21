@@ -31,39 +31,75 @@ const HomePage = ({
       scrollToTop();
       clearForm();
     },
-    [updateDependentsField, updateYearField, updateZipCodeField],
+    [router, updateDependentsField, updateYearField, updateZipCodeField],
   );
 
-  const goToCurrent = () => {
+  const goToCurrent = event => {
+    event.preventDefault();
     togglePastMode(false);
     router.push(ROUTES.ZIPCODE);
   };
 
-  const goToPast = () => {
+  const goToPast = event => {
+    event.preventDefault();
     togglePastMode(true);
     router.push(ROUTES.YEAR);
   };
 
   return (
     <>
-      <h1>Home Page</h1>
+      <h1>Income limits and your VA health care</h1>
+      <p>
+        Answer 2 questions to find out how your income may affect your VA health
+        care eligibility and costs.
+      </p>
+      <h2>What to know before you start:</h2>
+      <ul className="vads-u-margin-left--1">
+        <li>
+          Some Veterans are eligible for VA health care no matter their income.
+          You may be eligible based on your VA disability rating, service
+          history, or other factors. If you think you may be eligible, we
+          encourage you to apply anytime.{' '}
+          <va-link
+            href="https://www.va.gov/health-care/eligibility/"
+            text="Review health care eligibility factors"
+          />
+        </li>
+        <li>
+          If you’re not eligible for VA health care based on other factors, you
+          may still be eligible based on your income.
+        </li>
+        <li>
+          If your income changes after you&#8217;re enrolled in VA health care,
+          you can report the update to us. We&#8217;ll review your current
+          income and may adjust your copay costs.
+        </li>
+        <li>
+          You&#8217;ll need information about your{' '}
+          {new Date().getFullYear() - 1} household income and deductions to
+          check income limits. Limits vary by where you live and change each
+          year.
+        </li>
+      </ul>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a
         data-testid="income-limits-current"
         href="#"
-        className="vads-u-display--block vads-u-margin-bottom--1"
+        className="vads-u-display--block vads-u-margin-bottom--1 vads-u-margin-top--3 vads-c-action-link--green"
         onClick={goToCurrent}
       >
-        Current income limits
+        Check current income limits
       </a>
+      <h2>Past income limits</h2>
+      <p>You can also use this tool to review income limits for past years.</p>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a
         data-testid="income-limits-past"
         href="#"
-        className="vads-u-display--block"
+        className="vads-u-display--block vads-u-margin-top--4 vads-c-action-link--blue"
         onClick={goToPast}
       >
-        Past income limits
+        Check income limits for a previous year
       </a>
     </>
   );

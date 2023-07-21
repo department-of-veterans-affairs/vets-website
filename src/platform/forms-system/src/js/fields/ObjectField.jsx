@@ -2,15 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import groupBy from 'lodash/groupBy';
-import get from '../../../../utilities/data/get';
-import set from '../../../../utilities/data/set';
-
 import {
   deepEquals,
   getDefaultFormState,
   orderProperties,
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
 
 import ExpandingGroup from '../components/ExpandingGroup';
 import { pureWithDeepEquals } from '../helpers';
@@ -70,6 +69,7 @@ class ObjectField extends React.Component {
   componentDidMount() {
     setFirstFields(this.props.idSchema.$id);
   }
+
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (
@@ -170,14 +170,14 @@ class ObjectField extends React.Component {
     } = this.props;
     const { definitions, fields } = this.props.registry;
     const { TitleField } = fields;
-    const SchemaField = this.SchemaField;
+    const { SchemaField } = this;
     const formData = Object.keys(this.props.formData || {}).length
       ? this.props.formData
       : getDefaultFormState(schema, {}, definitions);
     const uiOptions = uiSchema['ui:options'] || {};
 
     // description and title setup
-    const showFieldLabel = uiOptions.showFieldLabel;
+    const { showFieldLabel } = uiOptions;
     const fieldsetClassNames = classNames(
       uiOptions.classNames,
       'vads-u-margin-y--2',
@@ -286,7 +286,14 @@ class ObjectField extends React.Component {
               prop => !schema.properties[prop]['ui:collapsed'],
             );
             return (
-              <ExpandingGroup open={visible.length > 0} key={index}>
+              <ExpandingGroup
+                open={visible.length > 0}
+                key={index}
+                expandedContentFocus={get(
+                  [visible[0], 'ui:options', 'expandedContentFocus'],
+                  uiSchema,
+                )}
+              >
                 {renderProp(first)}
                 <div
                   className={get(

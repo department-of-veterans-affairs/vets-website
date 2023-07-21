@@ -7,55 +7,53 @@ const Navigation = () => {
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const location = useLocation();
 
-  const healthHistoryPaths = [
-    {
-      path: '/health-history/care-summaries-and-notes',
-      label: 'Care summaries and notes',
-      datatestid: 'care-summaries-and-notes-sidebar',
-    },
-    {
-      path: '/health-history/vaccines',
-      label: 'Vaccines',
-      datatestid: 'vaccines-sidebar',
-    },
-    {
-      path: '/health-history/allergies',
-      label: 'Allergies',
-      datatestid: 'allergies-sidebar',
-    },
-    {
-      path: '/health-history/health-conditions',
-      label: 'Health conditions',
-      datatestid: 'health-conditions-sidebar',
-    },
-    {
-      path: '/health-history/vitals',
-      label: 'Vitals',
-      datatestid: 'vitals-sidebar',
-    },
-  ];
-
   const paths = [
     {
       path: '/',
       label: 'About VA medical records',
       datatestid: 'about-va-medical-records-sidebar',
-    },
-    {
-      path: '/labs-and-tests',
-      label: 'Lab and test results',
-      datatestid: 'labs-and-tests-sidebar',
-    },
-    {
-      path: '/health-history',
-      label: 'Health history',
-      datatestid: 'health-history-sidebar',
-      subpaths: healthHistoryPaths,
-    },
-    {
-      path: '/share-your-medical-record',
-      label: 'Share your medical record',
-      datatestid: 'share-your-medical-record-sidebar',
+      subpaths: [
+        {
+          path: '/labs-and-tests',
+          label: 'Lab and test results',
+          datatestid: 'labs-and-tests-sidebar',
+        },
+        {
+          path: '/health-history/care-summaries-and-notes',
+          label: 'Care summaries and notes',
+          datatestid: 'care-summaries-and-notes-sidebar',
+        },
+        {
+          path: '/health-history/vaccines',
+          label: 'Vaccines',
+          datatestid: 'vaccines-sidebar',
+        },
+        {
+          path: '/health-history/allergies',
+          label: 'Allergies',
+          datatestid: 'allergies-sidebar',
+        },
+        {
+          path: '/health-history/health-conditions',
+          label: 'Health conditions',
+          datatestid: 'health-conditions-sidebar',
+        },
+        {
+          path: '/health-history/vitals',
+          label: 'Vitals',
+          datatestid: 'vitals-sidebar',
+        },
+        {
+          path: '/download-your-medical-records',
+          label: 'Download all medical records',
+          datatestid: 'download-your-medical-records-sidebar',
+        },
+        {
+          path: '/settings',
+          label: 'Medical records settings',
+          datatestid: 'settings-sidebar',
+        },
+      ],
     },
   ];
 
@@ -101,7 +99,11 @@ const Navigation = () => {
     let relativePath;
     if (path === '/' && location.pathname === '/') return 'is-active';
     const pathArr = location.pathname.slice(1).split('/');
-    if (pathArr.length === 2 && pathArr[0] === 'labs-and-tests') {
+    if (
+      pathArr.length > 1 &&
+      pathArr.length < 5 &&
+      pathArr[0] === 'labs-and-tests'
+    ) {
       relativePath = '/labs-and-tests';
     } else if (pathArr.length === 3)
       relativePath = `/${pathArr[0]}/${pathArr[1]}`;
@@ -110,9 +112,12 @@ const Navigation = () => {
     return '';
   };
 
-  const handleSubpathsOpen = path => {
-    return location.pathname !== '/' && location.pathname.includes(path);
-  };
+  // We no longer have dynamically opening/closing nav, but leaving this the handleSubpathsOpen
+  // function in case we add it again later.
+
+  // const handleSubpathsOpen = path => {
+  //   return location.pathname !== '/' && location.pathname.includes(path);
+  // };
 
   const subMenu = subpaths => {
     return (
@@ -165,7 +170,7 @@ const Navigation = () => {
                   </div>
 
                   {path.subpaths &&
-                    handleSubpathsOpen(path.path) &&
+                    // handleSubpathsOpen(path.path) &&
                     subMenu(path.subpaths)}
                 </li>
               ))}

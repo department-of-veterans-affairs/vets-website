@@ -248,9 +248,13 @@ class SaveInProgressIntro extends React.Component {
                 </>
               )}
               <p>
-                <strong>Note:</strong> You can sign in after you start your{' '}
-                {appType}. But you&rsquo;ll lose any information you already
-                filled in.
+                {!this.props.hideUnauthedStartLink && (
+                  <>
+                    <strong>Note:</strong> You can sign in after you start your{' '}
+                    {appType}. But you&rsquo;ll lose any information you already
+                    filled in.
+                  </>
+                )}
               </p>
               {unauthStartButton}
               {!this.props.hideUnauthedStartLink && (

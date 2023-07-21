@@ -19,7 +19,6 @@ const defaults = prefix => ({
     'view:noSSN',
     `${prefix}SocialSecurityNumber`,
     `${prefix}DateOfBirth`,
-    'view:ageWarningNotification',
     'minorHighSchoolQuestions',
     'gender',
     'relationshipAndChildType',
@@ -51,10 +50,6 @@ export default function applicantInformationUpdate(schema, options) {
     ...schema.properties,
     'view:noSSN': {
       type: 'boolean',
-    },
-    'view:ageWarningNotification': {
-      type: 'object',
-      properties: {},
     },
     minorHighSchoolQuestions: {
       type: 'object',
@@ -90,17 +85,10 @@ export default function applicantInformationUpdate(schema, options) {
           futureDate: 'Please provide a valid date',
         },
       },
-      'view:ageWarningNotification': {
+      minorHighSchoolQuestions: {
         'ui:description': ageWarning,
         'ui:options': {
-          hideIf: formData => {
-            return eighteenOrOver(formData.relativeDateOfBirth);
-          },
-        },
-      },
-      minorHighSchoolQuestions: {
-        'ui:options': {
-          expandUnder: 'view:ageWarningNotification',
+          expandUnder: [`${prefix}DateOfBirth`],
           hideIf: formData => eighteenOrOver(formData.relativeDateOfBirth),
         },
         minorHighSchoolQuestion: {

@@ -33,6 +33,9 @@ export const DefaultFolders = {
     header: 'Trash',
     desc: `These are the messages you moved to the trash from your inbox or folders. We won't permanently delete any messages.`,
   },
+  CUSTOM_FOLDER: {
+    desc: `This is a folder you created. You can add conversations to this folder by moving them from your inbox or other folders.`,
+  },
 };
 
 export const ErrorMessages = {
@@ -155,6 +158,7 @@ export const Alerts = {
 export const Errors = {
   Code: {
     BLOCKED_USER: 'SM119',
+    BLOCKED_USER2: 'SM151',
   },
 };
 
@@ -302,4 +306,13 @@ export const PrintMessageOptions = {
 export const BreadcrumbViews = {
   DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
   MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3',
+};
+
+export const PageTitles = {
+  DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veterans Affairs',
+  PAGE_TITLE_TAG: '- MHV Secure Messaging | Veterans Affairs',
+  EDIT_DRAFT_PAGE_TITLE_TAG:
+    'Edit draft - MHV Secure Messaging | Veterans Affairs',
+  MY_FOLDERS_PAGE_TITLE_TAG:
+    'My folders - MHV Secure Messaging | Veterans Affairs',
 };

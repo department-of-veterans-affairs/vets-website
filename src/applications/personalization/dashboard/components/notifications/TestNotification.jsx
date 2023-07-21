@@ -3,8 +3,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { VaNotification } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { dismissNotificationById } from '../../../common/actions/notifications';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-import { dismissNotificationById } from '../../actions/notifications';
+
+/*
+ * This component uses the va-notification web component 
+ * and is more updated than DebtNotificationAlert
+ */
 
 export const TestNotification = ({ notification, dismissNotification }) => {
   const [visible, setVisible] = useState(true);

@@ -7,18 +7,20 @@ import FinancialInformation from '../../../components/FormPages/FinancialInforma
 describe('hca FinancialInformation', () => {
   const props = { data: {}, goBack: () => {}, goForward: () => {} };
 
-  it('should render', () => {
-    const view = render(<FinancialInformation {...props} />);
-    const selector = view.container.querySelector(
-      '[data-testid="hca-custom-page-title"]',
-    );
-    expect(selector).to.exist;
-    expect(selector).to.contain.text('Financial information you’ll need');
-  });
+  describe('when the component renders', () => {
+    it('should render with correct title', () => {
+      const { container } = render(<FinancialInformation {...props} />);
+      const selector = container.querySelector(
+        '[data-testid="hca-custom-page-title"]',
+      );
+      expect(selector).to.exist;
+      expect(selector).to.contain.text('Financial information you’ll need');
+    });
 
-  it('should render progress buttons', () => {
-    const view = render(<FinancialInformation {...props} />);
-    expect(view.container.querySelector('.usa-button-primary')).to.exist;
-    expect(view.container.querySelector('.usa-button-secondary')).to.exist;
+    it('should render navigation buttons', () => {
+      const { container } = render(<FinancialInformation {...props} />);
+      expect(container.querySelector('.usa-button-primary')).to.exist;
+      expect(container.querySelector('.usa-button-secondary')).to.exist;
+    });
   });
 });

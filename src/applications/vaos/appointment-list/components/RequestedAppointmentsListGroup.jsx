@@ -140,18 +140,21 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
             />
           </div>
         )}
-        {isPrintList && (
-          <p className="vaos-hide-for-print xsmall-screen:vads-u-margin-bottom--1 small-screen:vads-u-margin-bottom--2">
-            {paragraphText}
-          </p>
-        )}
+        {isPrintList &&
+          appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
+            <p className="vaos-hide-for-print xsmall-screen:vads-u-margin-bottom--1 small-screen:vads-u-margin-bottom--2">
+              {paragraphText}
+            </p>
+          )}
         {appointmentsByStatus.map(statusBucket => {
           return (
             <React.Fragment key={statusBucket[0]}>
               {statusBucket[0] === APPOINTMENT_STATUS.cancelled && (
                 <>
                   <h2>Canceled requests</h2>
-                  <p>These appointment requests have been canceled.</p>
+                  <p className="vaos-hide-for-print">
+                    These appointment requests have been canceled.
+                  </p>
                 </>
               )}
               {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}

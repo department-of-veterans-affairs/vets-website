@@ -11,7 +11,7 @@ import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/V
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsfTitle: titleUI('RJSF'),
+    'view:title': titleUI('RJSF'),
     simpleOld: {
       'ui:title': 'TextWidget - with string description',
       'ui:description': 'Text description',
@@ -33,59 +33,7 @@ export default {
       'ui:title': 'TextWidget - disabled',
       'ui:disabled': true,
     },
-    wcTitle: inlineTitleUI('Web component'),
-    wcOldSimple: {
-      'ui:title': 'VaTextInputField - with string description',
-      'ui:webComponentField': VaTextInputField,
-      'ui:description': 'Text description',
-      'ui:options': {
-        uswds: false,
-      },
-    },
-    wcOldRequired: {
-      'ui:title': 'VaTextInputField - with JSX description',
-      'ui:webComponentField': VaTextInputField,
-      'ui:description': (
-        <va-additional-info trigger="JSX description">
-          We need the Veteran’s Social Security number or tax identification
-          number to process the application when it’s submitted online, but it’s
-          not a requirement to apply for the program.
-        </va-additional-info>
-      ),
-      'ui:errorMessages': {
-        required: 'Please enter a value',
-      },
-      'ui:options': {
-        hideIf: formData => formData.hide,
-        hideOnReview: true,
-        uswds: false,
-      },
-    },
-    wcOldHint: {
-      'ui:title': 'VaTextInputField - with string hint',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        hint: 'This is a hint',
-        uswds: false,
-      },
-    },
-    wcOldInputmodeDecimal: {
-      'ui:title': 'VaTextInputField - with decimal inputmode',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        inputmode: 'decimal',
-        uswds: false,
-      },
-    },
-    wcOldDisabled: {
-      'ui:title': 'VaTextInputField - disabled',
-      'ui:webComponentField': VaTextInputField,
-      'ui:disabled': true,
-      'ui:options': {
-        uswds: false,
-      },
-    },
-    wcv3Title: inlineTitleUI('Web component v3'),
+    'view:wcv3Title': inlineTitleUI('Web component v3'),
     wcv3SimpleNew: {
       'ui:title': 'VaTextInputField - with string description',
       'ui:webComponentField': VaTextInputField,
@@ -143,7 +91,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsfTitle: titleSchema,
+      'view:title': titleSchema,
       simpleOld: {
         type: 'string',
       },
@@ -153,23 +101,7 @@ export default {
       disabledOld: {
         type: 'string',
       },
-      wcTitle: inlineTitleSchema,
-      wcOldSimple: {
-        type: 'string',
-      },
-      wcOldRequired: {
-        type: 'string',
-      },
-      wcOldHint: {
-        type: 'string',
-      },
-      wcOldInputmodeDecimal: {
-        type: 'string',
-      },
-      wcOldDisabled: {
-        type: 'string',
-      },
-      wcv3Title: inlineTitleSchema,
+      'view:wcv3Title': inlineTitleSchema,
       wcv3SimpleNew: {
         type: 'string',
       },
@@ -189,11 +121,6 @@ export default {
         type: 'string',
       },
     },
-    required: [
-      'requiredOld',
-      'wcOldRequired',
-      'wcv3RequiredNew',
-      'wcv3TextAreaNew',
-    ],
+    required: ['requiredOld', 'wcv3RequiredNew', 'wcv3TextAreaNew'],
   },
 };
