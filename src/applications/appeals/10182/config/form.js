@@ -125,7 +125,7 @@ const formConfig = {
           schema: filingDeadlines.schema,
         },
         contestableIssues: {
-          title: 'Issues eligible for review',
+          title: 'You’ve selected these issues for review',
           path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
