@@ -142,10 +142,37 @@ export const App = ({
         });
       }
 
-      if (formData?.mobilePhone && formData?.email?.email) {
+      // setFormData({
+      //   ...formData,
+      //   data: {
+      //     ...formData?.data,
+      //     attributes: {
+      //       ...formData?.data?.attributes,
+      //       claimant: {
+      //         ...formData?.data?.attributes?.claimant,
+      //         contactinfo: {
+      //           ...formData?.data?.attributes?.claimant?.contactInfo,
+      //           mobilePhoneNumber: mobilePhone,
+      //         },
+      //       },
+      //     },
+      //   },
+      // });
+
+      // formData?.data?.attributes?.claimant?.contactInfo?.mobilePhoneNumber
+
+      if (
+        formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
+        formData?.email?.email
+      ) {
         getDuplicateContactInfo(
           [{ value: formData?.email?.email, dupe: '' }],
-          [{ value: formData?.mobilePhone, dupe: '' }],
+          [
+            {
+              value: formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
+              dupe: '',
+            },
+          ],
         );
       }
 
