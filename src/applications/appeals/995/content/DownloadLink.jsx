@@ -20,23 +20,14 @@ const DownloadLink = ({
   };
 
   return (
-    <a
+    <va-link
+      download
       href={FORM_URL}
-      download="VBA-20-0995-ARE.pdf"
-      type="application/pdf"
+      filename="VBA-20-0995-ARE.pdf"
+      filetype="PDF"
+      text={content}
       onClick={handler.onClick}
-    >
-      <i
-        aria-hidden="true"
-        className="fas fa-download vads-u-padding-right--1"
-        role="img"
-      />
-      {content}{' '}
-      <dfn>
-        <abbr title="Portable Document Format">PDF</abbr> (1.7
-        <abbr title="Megabytes">MB</abbr>)
-      </dfn>
-    </a>
+    />
   );
 };
 
