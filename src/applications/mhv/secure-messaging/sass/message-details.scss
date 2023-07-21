@@ -72,7 +72,7 @@
     flex-wrap: nowrap;
     margin: 0px;
     padding: 0px;
-    @media (max-width: $small-screen) {
+    @media (max-width: $xsmall-screen) {
       li {
         width: 100%;
       }
