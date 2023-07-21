@@ -81,7 +81,7 @@
       box-shadow: 2px $color-primary;
       border-radius: 5px;
       margin-right: 10px;
-      margin-left: 10px;
+      margin-left: 0;
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
@@ -90,7 +90,7 @@
         width: 20px;
         height: 20px;
       }
-      @media (max-width: $small-screen) {
+      @media (max-width: $xsmall-screen) {
         margin-right: 0;
         margin-left: 0;
         display: inline-block;
