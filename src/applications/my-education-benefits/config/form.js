@@ -1244,7 +1244,7 @@ const formConfig = {
                       href="https://www.va.gov/education/verify-school-enrollment/"
                       rel="noreferrer"
                     >
-                      Learn about other ways to verify your enrollment
+                      Learn more about the Enrollment Verifications
                     </a>
                   </>
                 </va-alert>
