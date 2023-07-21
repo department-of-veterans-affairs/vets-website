@@ -102,8 +102,7 @@ describe('Schemaform <SipsDevModal>', () => {
     // open the sips modal
     dom.click('.va-button-link');
     dom.fillData('va-textarea', JSON.stringify(newData));
-    const vaSelect = dom.querySelector('va-select');
-    vaSelect.__events.vaSelect({ target: { value: '/page-2' } });
+    dom.fillData('select', '/page-2');
     dom.click('.usa-button-primary'); // replace button
     expect(result).to.deep.equal({
       formId: 'test',
@@ -136,8 +135,7 @@ describe('Schemaform <SipsDevModal>', () => {
     // open the sips modal
     dom.click('.va-button-link');
     dom.fillData('va-textarea', JSON.stringify(newData));
-    const vaSelect = dom.querySelector('va-select');
-    vaSelect.__events.vaSelect({ target: { value: '/page-2' } });
+    dom.fillData('select', '/page-2');
     // replace button
     dom.click('.usa-button-primary');
     expect(result).to.deep.equal({
@@ -172,8 +170,7 @@ describe('Schemaform <SipsDevModal>', () => {
     // open the sips modal
     dom.click('.va-button-link');
     dom.fillData('va-textarea', JSON.stringify(newData));
-    const vaSelect = dom.querySelector('va-select');
-    vaSelect.__events.vaSelect({ target: { value: '/page-1' } });
+    dom.fillData('select', '/page-1');
     // merge button
     dom.click('.usa-button-secondary');
     expect(result).to.deep.equal({
@@ -208,8 +205,7 @@ describe('Schemaform <SipsDevModal>', () => {
     // open the sips modal
     dom.click('.va-button-link');
     dom.fillData('va-textarea', JSON.stringify(newData));
-    const vaSelect = dom.querySelector('va-select');
-    vaSelect.__events.vaSelect({ target: { value: '/page-1' } });
+    dom.fillData('select', '/page-1');
     // merge button
     dom.click('.usa-button-secondary');
     expect(result).to.deep.equal({
