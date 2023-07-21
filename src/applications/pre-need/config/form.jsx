@@ -17,7 +17,6 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
-import * as militaryHistoryTest from './pages/militaryHistoryTest';
 import * as burialBenefits from './pages/burialBenefits';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 
@@ -76,195 +75,6 @@ const {
 } = fullSchemaPreNeed.definitions;
 
 const nonRequiredFullName = omit('required', fullName);
-
-// const applicantMilitaryInformation = {
-//   applicantMilitaryHistory: {
-//     path: 'applicant-military-history',
-//     uiSchema: {
-//       application: {
-//         veteran: {
-//           serviceRecords: serviceRecordsUI,
-//         },
-//       },
-//     },
-//     schema: {
-//       type: 'object',
-//       properties: {
-//         application: {
-//           type: 'object',
-//           properties: {
-//             veteran: {
-//               type: 'object',
-//               properties: {
-//                 serviceRecords: veteran.properties.serviceRecords,
-//               },
-//             },
-//           },
-//         },
-//       },
-//     },
-//   },
-//   applicantMilitaryName: {
-//     path: 'applicant-military-name',
-//     uiSchema: merge({}, militaryNameUI, {
-//       application: {
-//         veteran: {
-//           serviceName: {
-//             first: {
-//               'ui:required': form =>
-//                 get('application.veteran.view:hasServiceName', form) === true,
-//             },
-//             last: {
-//               'ui:required': form =>
-//                 get('application.veteran.view:hasServiceName', form) === true,
-//             },
-//           },
-//         },
-//       },
-//     }),
-//     schema: {
-//       type: 'object',
-//       properties: {
-//         application: {
-//           type: 'object',
-//           properties: {
-//             veteran: {
-//               type: 'object',
-//               required: ['view:hasServiceName'],
-//               properties: {
-//                 'view:hasServiceName': {
-//                   type: 'boolean',
-//                 },
-//                 serviceName: nonRequiredFullName,
-//               },
-//             },
-//           },
-//         },
-//       },
-//     },
-//   },
-// };
-
-const sponsorMilitaryInformation = {
-  sponsorMilitaryHistory: {
-    path: 'sponsor-military-history',
-    uiSchema: {
-      application: {
-        veteran: {
-          serviceRecords: merge({}, serviceRecordsUI, {
-            'ui:title': 'Sponsor’s service periods',
-            'ui:description':
-              'Please provide all your sponsor’s service periods. If you need to add another service period, please click the Add Another Service Period button.',
-            items: {
-              'ui:order': [
-                'serviceBranch',
-                'dateRange',
-                'dischargeType',
-                'highestRank',
-                'nationalGuardState',
-              ],
-              serviceBranch: {
-                'ui:title': 'Sponsor’s branch of service',
-              },
-              dateRange: dateRangeUI(
-                'Sponsor’s service start date',
-                'Sponsor’s service end date',
-                'Service start date must be before end date',
-              ),
-              dischargeType: {
-                'ui:title': 'Sponsor’s discharge character of service',
-              },
-              highestRank: {
-                'ui:title': 'Sponsor’s highest rank attained',
-              },
-              nationalGuardState: {
-                'ui:title': 'Sponsor’s state (for National Guard Service only)',
-              },
-            },
-          }),
-        },
-      },
-    },
-    schema: {
-      type: 'object',
-      properties: {
-        application: {
-          type: 'object',
-          properties: {
-            veteran: {
-              type: 'object',
-              properties: {
-                serviceRecords: veteran.properties.serviceRecords,
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-  sponsorMilitaryName: {
-    path: 'sponsor-military-name',
-    uiSchema: merge({}, militaryNameUI, {
-      application: {
-        veteran: {
-          'view:hasServiceName': {
-            'ui:title': 'Did your sponsor serve under another name?',
-          },
-          serviceName: merge({}, fullNameUI, {
-            first: {
-              'ui:title': 'Sponsor’s first name',
-              'ui:required': form =>
-                get('application.veteran.view:hasServiceName', form) === true,
-            },
-            last: {
-              'ui:title': 'Sponsor’s last name',
-              'ui:required': form =>
-                get('application.veteran.view:hasServiceName', form) === true,
-            },
-            middle: {
-              'ui:title': 'Sponsor’s middle name',
-            },
-            suffix: {
-              'ui:title': 'Sponsor’s suffix',
-            },
-          }),
-        },
-      },
-    }),
-    schema: {
-      type: 'object',
-      properties: {
-        application: {
-          type: 'object',
-          properties: {
-            veteran: {
-              type: 'object',
-              required: ['view:hasServiceName'],
-              properties: {
-                'view:hasServiceName': {
-                  type: 'boolean',
-                },
-                serviceName: nonRequiredFullName,
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-// function GetMilitaryInformation() {
-function getMilitaryInformation() {
-  // Two sets of military history pages dependent on
-  // whether the applicant is the veteran or not.
-  // If not, "Sponsor’s" precedes all the field labels.
-  /* const data = useSelector(state => state.form.data || {});
-  if (isVeteran(data)) {
-    return applicantMilitaryInformation;
-  } */
-  return sponsorMilitaryInformation;
-}
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -565,9 +375,192 @@ const formConfig = {
       },
     },
     militaryHistory: {
-      title: militaryHistoryTest.GetTestTitle,
-      // pages: GetMilitaryInformation(),
-      pages: getMilitaryInformation(),
+      title: 'Military history',
+      pages: {
+        // Two sets of military history pages dependent on
+        // whether the applicant is the veteran or not.
+        // If not, "Sponsor’s" precedes all the field labels.
+        applicantMilitaryHistory: {
+          path: 'applicant-military-history',
+          depends: isVeteran,
+          uiSchema: {
+            application: {
+              veteran: {
+                serviceRecords: serviceRecordsUI,
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  veteran: {
+                    type: 'object',
+                    properties: {
+                      serviceRecords: veteran.properties.serviceRecords,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        applicantMilitaryName: {
+          path: 'applicant-military-name',
+          depends: isVeteran,
+          uiSchema: merge({}, militaryNameUI, {
+            application: {
+              veteran: {
+                serviceName: {
+                  first: {
+                    'ui:required': form =>
+                      get('application.veteran.view:hasServiceName', form) ===
+                      true,
+                  },
+                  last: {
+                    'ui:required': form =>
+                      get('application.veteran.view:hasServiceName', form) ===
+                      true,
+                  },
+                },
+              },
+            },
+          }),
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  veteran: {
+                    type: 'object',
+                    required: ['view:hasServiceName'],
+                    properties: {
+                      'view:hasServiceName': {
+                        type: 'boolean',
+                      },
+                      serviceName: nonRequiredFullName,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        sponsorMilitaryHistory: {
+          path: 'sponsor-military-history',
+          depends: formData => !isVeteran(formData),
+          uiSchema: {
+            application: {
+              veteran: {
+                serviceRecords: merge({}, serviceRecordsUI, {
+                  'ui:title': 'Sponsor’s service periods',
+                  'ui:description':
+                    'Please provide all your sponsor’s service periods. If you need to add another service period, please click the Add Another Service Period button.',
+                  items: {
+                    'ui:order': [
+                      'serviceBranch',
+                      'dateRange',
+                      'dischargeType',
+                      'highestRank',
+                      'nationalGuardState',
+                    ],
+                    serviceBranch: {
+                      'ui:title': 'Sponsor’s branch of service',
+                    },
+                    dateRange: dateRangeUI(
+                      'Sponsor’s service start date',
+                      'Sponsor’s service end date',
+                      'Service start date must be before end date',
+                    ),
+                    dischargeType: {
+                      'ui:title': 'Sponsor’s discharge character of service',
+                    },
+                    highestRank: {
+                      'ui:title': 'Sponsor’s highest rank attained',
+                    },
+                    nationalGuardState: {
+                      'ui:title':
+                        'Sponsor’s state (for National Guard Service only)',
+                    },
+                  },
+                }),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  veteran: {
+                    type: 'object',
+                    properties: {
+                      serviceRecords: veteran.properties.serviceRecords,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        sponsorMilitaryName: {
+          path: 'sponsor-military-name',
+          depends: formData => !isVeteran(formData),
+          uiSchema: merge({}, militaryNameUI, {
+            application: {
+              veteran: {
+                'view:hasServiceName': {
+                  'ui:title': 'Did your sponsor serve under another name?',
+                },
+                serviceName: merge({}, fullNameUI, {
+                  first: {
+                    'ui:title': 'Sponsor’s first name',
+                    'ui:required': form =>
+                      get('application.veteran.view:hasServiceName', form) ===
+                      true,
+                  },
+                  last: {
+                    'ui:title': 'Sponsor’s last name',
+                    'ui:required': form =>
+                      get('application.veteran.view:hasServiceName', form) ===
+                      true,
+                  },
+                  middle: {
+                    'ui:title': 'Sponsor’s middle name',
+                  },
+                  suffix: {
+                    'ui:title': 'Sponsor’s suffix',
+                  },
+                }),
+              },
+            },
+          }),
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  veteran: {
+                    type: 'object',
+                    required: ['view:hasServiceName'],
+                    properties: {
+                      'view:hasServiceName': {
+                        type: 'boolean',
+                      },
+                      serviceName: nonRequiredFullName,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     },
     burialBenefits: {
       title: 'Burial benefits',
