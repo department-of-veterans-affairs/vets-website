@@ -39,6 +39,8 @@ export const App = ({
   showMebEnhancements06,
   email,
   mobilePhone,
+  duplicateEmail,
+  duplicatePhone,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
@@ -147,25 +149,31 @@ export const App = ({
         });
       }
 
-      if (formData?.duplicateEmail === undefined && formData?.email?.email) {
-        setFormData({
-          ...formData,
-          duplicateEmail: [{ value: formData?.email?.email, dupe: '' }],
-        });
-      }
-
-      if (formData?.duplicatePhone === undefined && formData?.mobilePhone) {
-        setFormData({
-          ...formData,
-          duplicatePhone: [{ value: formData?.mobilePhone, dupe: '' }],
-        });
-      }
-
-      if (formData?.duplicatePhone && formData?.duplicateEmail) {
+      if (formData?.mobilePhone && formData?.email?.email) {
         getDuplicateContactInfo(
-          formData?.duplicateEmail,
-          formData?.duplicatePhone,
+          [{ value: formData?.email?.email, dupe: '' }],
+          [{ value: formData?.mobilePhone, dupe: '' }],
         );
+      }
+
+      if (
+        duplicateEmail?.length > 0 &&
+        duplicateEmail !== formData?.duplicateEmail
+      ) {
+        setFormData({
+          ...formData,
+          duplicateEmail,
+        });
+      }
+
+      if (
+        duplicatePhone?.length > 0 &&
+        duplicatePhone !== formData?.duplicatePhone
+      ) {
+        setFormData({
+          ...formData,
+          duplicatePhone,
+        });
       }
 
       if (showMebEnhancements !== formData.showMebEnhancements) {

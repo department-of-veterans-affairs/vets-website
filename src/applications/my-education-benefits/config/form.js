@@ -993,7 +993,6 @@ const formConfig = {
                       if (!homePhoneNumber) {
                         invalidContactMethods.push('Home Phone');
                       }
-
                       const dupeEmailPresent = duplicateEmail?.filter(
                         entry => entry.dupe === true,
                       );

@@ -8,7 +8,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 export const getAppData = state => ({
   eligibility: state.data?.eligibility,
   duplicateEmail: state.data?.duplicateEmail,
-  duplciatePhone: state.data?.duplciatePhone,
+  duplicatePhone: state.data?.duplicatePhone,
   email: state?.data?.email,
   mobilePhone:
     state?.data?.formData?.data?.attributes?.claimant?.contactInfo
