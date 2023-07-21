@@ -33,10 +33,7 @@ CustomPhoneNumberField.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  mobilePhone:
-    state?.data?.mobilePhone ||
-    state?.data?.formData?.data?.attributes?.claimant?.contactInfo
-      ?.mobilePhoneNumber,
+  mobilePhone: state?.form?.data['view:phoneNumbers']?.mobilePhoneNumber?.phone,
   duplicatePhone: state?.data?.duplicatePhone,
   email: state?.form?.data?.email?.email,
   duplicateEmail: state?.data?.duplicateEmail,

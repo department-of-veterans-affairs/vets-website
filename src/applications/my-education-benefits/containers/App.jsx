@@ -208,17 +208,11 @@ export const App = ({
       if (mobilePhone !== formData?.mobilePhone) {
         setFormData({
           ...formData,
-          data: {
-            ...formData?.data,
-            attributes: {
-              ...formData?.data?.attributes,
-              claimant: {
-                ...formData?.data?.attributes?.claimant,
-                contactinfo: {
-                  ...formData?.data?.attributes?.claimant?.contactInfo,
-                  mobilePhoneNumber: mobilePhone,
-                },
-              },
+          'view:phoneNumbers': {
+            ...formData['view:phoneNumbers'],
+            mobilePhoneNumber: {
+              ...formData['view:phoneNumbers'].mobilePhoneNumber,
+              phone: mobilePhone,
             },
           },
         });
