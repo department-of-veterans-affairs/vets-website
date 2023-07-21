@@ -53,6 +53,7 @@ import {
   nonRequiredFullNameUI,
   buriedWSponsorsEligibility,
 } from '../utils/helpers';
+import submitForm from './submitForm';
 
 const {
   claimant,
@@ -107,6 +108,7 @@ const formConfig = {
   title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
   preSubmitInfo,
+  submit: submitForm,
   footerContent: ({ currentLocation }) => (
     <Footer formConfig={formConfig} currentLocation={currentLocation} />
   ),
