@@ -283,6 +283,11 @@ export function stringifyFormReplacer(key, value) {
     return newValues.length > 0 ? newValues : undefined;
   }
 
+  // Replace double-quotes and backslashes with single-quotes and forward-slashes
+  if (typeof value === 'string') {
+    return value.replace(/"/g, "'").replace(/\\/g, '/');
+  }
+
   return value;
 }
 
