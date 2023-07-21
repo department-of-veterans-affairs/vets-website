@@ -3,7 +3,7 @@ import {
   VIC_EMAIL_CAPTURE_SUCCESS,
   VIC_EMAIL_CAPTURE_FAILURE,
   VIC_SET_EMAIL,
-  VIC_SET_TOUCHED,
+  VIC_SET_DIRTY,
 } from '../actions';
 
 const initialState = {
@@ -31,7 +31,7 @@ function emailForm(state = initialState, action) {
           ? null
           : [{ title: 'Email is invalid' }],
       };
-    case VIC_SET_TOUCHED:
+    case VIC_SET_DIRTY:
       return {
         ...state,
         dirty: true,

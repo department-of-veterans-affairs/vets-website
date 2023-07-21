@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 // eslint-disable-next-line deprecate/import
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import { submitEmail, setEmail, setTouched } from '../actions';
+import { submitEmail, setEmail, setDirty } from '../actions';
 
 class EmailCapture extends React.Component {
   constructor(props) {
@@ -59,7 +59,7 @@ class EmailCapture extends React.Component {
               name="email"
               field={this.props.email}
               onInput={update => this.props.setEmail(update)}
-              onBlur={update => this.props.setTouched(update)}
+              onBlur={update => this.props.setDirty(update)}
               required
             />
             <div>
@@ -102,7 +102,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   submitEmail,
   setEmail,
-  setTouched,
+  setDirty,
 };
 
 export default connect(
