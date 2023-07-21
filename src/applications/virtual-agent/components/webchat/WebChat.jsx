@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import environment from 'platform/utilities/environment';
+import { apiRequest } from 'platform/utilities/api';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
 // import PropTypes from 'prop-types';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
@@ -120,30 +120,16 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
 
   /** NOT PRODUCTION READY --- will be replaced by api request * */
   async function createPonyFill(webchat) {
-    // const res = await axios.post(
-    //   'ENDPOINT URL - see in 1pass',
-    //   {},
-    //   {
-    //     headers: {
-    //       'Ocp-Apim-Subscription-Key': 'ENV specific SUBSCRIPTION KEY - see in 1pass',
-    //     },
-    //   },
-    // );
-    // if (res.status !== 200) {
-    //   throw new Error('Failed to fetch authorization token and region.');
-    // }
-
     async function callVirtualAgentVoiceTokenApi() {
-      return apiRequest('/virtual_agent_voice_token', {
+      return apiRequest('/virtual_agent_speech_token', {
         method: 'POST',
       });
     }
-    const token = callVirtualAgentVoiceTokenApi(); // expecting some token ie:  eyJhbGciOiJFUzI1NiIsImtpZCI6ImtleTEiLCJ0eXAiOiJKV1QifQ.eyJyZWdpb24iOiJlYXN0dXMiLCJzdWJzY3JpcHRpb24taWQiOiJlM2U1NTlhYTBhYjY0NDBlYjkwOWY00dHBzOi8vYXBpLmNvZ25pdGl2ZS5taWNyb3NvZnQuY29tL2ludGVyb
-
+    const speechToken = await callVirtualAgentVoiceTokenApi();
     return webchat.createCognitiveServicesSpeechServicesPonyfillFactory({
       credentials: {
         region: 'eastus',
-        authorizationToken: token,
+        authorizationToken: speechToken.token,
       },
     });
   }
