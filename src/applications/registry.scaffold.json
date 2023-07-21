@@ -130,6 +130,6 @@
   {
     "appName": "VA Priority Groups",
     "rootUrl": "/health-care/eligibility/priority-groups",
-    "entryName": "priority-group-alert"
+    "widgetType": "priority-group-alert"
   }
 ]
