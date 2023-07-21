@@ -3,6 +3,7 @@ import mockSentFolderMetaResponse from '../fixtures/sentResponse/folder-sent-met
 import mockSingleMessageResponse from '../fixtures/sentResponse/sent-single-message-response.json';
 import mockThreadResponse from '../fixtures/sentResponse/sent-thread-response.json';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
+import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
 
 // import testThreadResponse from '../fixtures/sentResponse/test-thread-response.json'
 
@@ -55,6 +56,42 @@ class PatientMessageSentPage {
       sentSearchResponse,
     );
     cy.get('[data-testid="filter-messages-button"]').click();
+  };
+
+  sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
+    cy.get('#sort-order-dropdown')
+      .shadow()
+      .find('#select')
+      .select(`${text}`);
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-1/threads**',
+      sortedResponse,
+    );
+    cy.get('[data-testid="sort-button"]').click({ force: true });
+  };
+
+  listBeforeSort = () => {
+    cy.get('.thread-list-item')
+      .find('.received-date')
+      .then(list => {
+        const listBeforeSort = Cypress._.map(list, el => el.innerText);
+        cy.log(cy.wrap(listBeforeSort));
+      });
+  };
+
+  listAfterSort = () => {
+    this.sortMessagesByDate('Oldest to newest');
+    cy.get('.thread-list-item')
+      .find('.received-date')
+      .then(list => {
+        const listAfterSort = Cypress._.map(list, el => el.innerText);
+        cy.log(cy.wrap(listAfterSort));
+      });
+  };
+
+  verifySortedList = () => {
+    expect(this.listBeforeSort).not.to.deep.eq(this.listAfterSort);
   };
 
   clearFilter = () => {
