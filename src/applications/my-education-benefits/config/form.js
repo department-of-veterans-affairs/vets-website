@@ -1202,7 +1202,10 @@ const formConfig = {
                   <>
                     You can’t choose to get text notifications because your
                     mobile phone number is on file for another person with
-                    education benefits.
+                    education benefits. You will not be able to take full
+                    advantage of VA’s electronic notifications and enrollment
+                    verifications available. If you cannot, certain electronic
+                    services will be limited or unavailable.
                     <a
                       target="_blank"
                       href="https://www.va.gov/education/verify-school-enrollment"
