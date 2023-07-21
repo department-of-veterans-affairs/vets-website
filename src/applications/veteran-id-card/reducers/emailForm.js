@@ -3,23 +3,20 @@ import {
   VIC_EMAIL_CAPTURE_SUCCESS,
   VIC_EMAIL_CAPTURE_FAILURE,
   VIC_SET_EMAIL,
+  VIC_SET_TOUCHED,
 } from '../actions';
 
 const initialState = {
   errors: null,
   submitting: false,
   success: false,
-  email: {
-    value: '',
-    dirty: false,
-  },
+  email: '',
+  dirty: false,
 };
 
-function validEmail(email) {
-  const { value, dirty } = email;
-
+function validEmail(email, dirty) {
   if (dirty) {
-    return value.match(/[^@\s]+@([^@\s]+\.)+[^@\s]+/);
+    return email.match(/[^@\s]+@([^@\s]+\.)+[^@\s]+/);
   }
   return true;
 }
@@ -30,7 +27,15 @@ function emailForm(state = initialState, action) {
       return {
         ...state,
         email: action.email,
-        errors: validEmail(action.email)
+        errors: validEmail(action.email, state.dirty)
+          ? null
+          : [{ title: 'Email is invalid' }],
+      };
+    case VIC_SET_TOUCHED:
+      return {
+        ...state,
+        dirty: true,
+        errors: validEmail(state.email, true)
           ? null
           : [{ title: 'Email is invalid' }],
       };
