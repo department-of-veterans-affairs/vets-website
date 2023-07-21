@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../monitoring/record-event';
 import { logOut } from '../../user/authentication/actions';
+import { teardownProfileSession } from '../../user/profile/utilities';
 import { apiRequest } from '../../utilities/api';
 import { inProgressApi } from '../helpers';
 import { removeFormApi, saveFormApi } from './api';
@@ -290,6 +291,7 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
 
         if (errorStatus === SAVE_STATUSES.noAuth) {
           dispatch(logOut());
+          teardownProfileSession();
         }
         dispatch(setSaveFormStatus(saveType, errorStatus));
       });
