@@ -59,8 +59,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/notice_of_disagreements`,
-  // update once v2 (add part III data) is available
-  submitUrlV2: `${environment.API_URL}/v0/notice_of_disagreements`,
   trackingPrefix: '10182-board-appeal-',
 
   downtime: {
