@@ -14,7 +14,15 @@ const initialState = {
   careSummariesAndNotesDetails: undefined,
 };
 
-const convertNote = note => {
+/**
+ * Convert the FHIR note resource from the backend into the appropriate model.
+ * @param {Object} note a FHIR DocumentReference resource
+ * @returns a note object that this application can use, or null if the param is null/undefined
+ */
+export const convertNote = note => {
+  if (typeof note === 'undefined' || note === null) {
+    return null;
+  }
   return {
     id: note.id,
     name: note.type.text || note.type.coding[0].display,

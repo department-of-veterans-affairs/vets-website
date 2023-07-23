@@ -3,34 +3,26 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
-
-const note = {
-  id: '954',
-  name: 'Physician procedure note',
-  type: '11505-5',
-  dateSigned: 'August 5, 2022',
-  dateUpdated: 'June 2, 2023',
-  startDate: 'August 5, 2022',
-  endDate: 'June 2, 2023',
-  summary: 'summary',
-  location: 'None noted',
-  physician: 'AHMED,MARUF',
-  admittingPhysician: 'AHMED,MARUF',
-  dischargePhysician: 'AHMED,MARUF',
-};
+import notes from '../fixtures/notes.json';
+import { convertNote } from '../../reducers/careSummariesAndNotes';
 
 describe('CareSummariesAndNotesListItem', () => {
   const initialState = {
     mr: {
       careSummariesAndNotes: {
-        careSummariesAndNotesDetails: note,
+        careSummariesAndNotesList: notes.entry.map(item =>
+          convertNote(item.resource),
+        ),
       },
     },
   };
 
   const setup = (state = initialState) => {
     return renderWithStoreAndRouter(
-      <RecordListItem record={note} type="care summaries and notes" />,
+      <RecordListItem
+        record={convertNote(notes.entry[0].resource)}
+        type="care summaries and notes"
+      />,
       {
         initialState: state,
         reducers: reducer,

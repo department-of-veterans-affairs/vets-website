@@ -4,29 +4,24 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
 import { RecordType } from '../../util/constants';
-
-const vaccine = {
-  id: '957',
-  name: 'INFLUENZA, INJECTABLE, QUADRIVALENT',
-  date: 'August 5, 2022',
-  location: 'None noted',
-  manufacturer: 'None noted',
-  reactions: ['FEVER'],
-  notes: ['test comment'],
-};
+import vaccines from '../fixtures/vaccines.json';
+import { convertVaccine } from '../../reducers/vaccines';
 
 describe('VaccineListItem', () => {
   const initialState = {
     mr: {
       vaccines: {
-        vaccineDetails: vaccine,
+        vaccinesList: vaccines.entry.map(item => convertVaccine(item.resource)),
       },
     },
   };
 
   const setup = (state = initialState) => {
     return renderWithStoreAndRouter(
-      <RecordListItem record={vaccine} type={RecordType.VACCINES} />,
+      <RecordListItem
+        record={convertVaccine(vaccines.entry[0].resource)}
+        type={RecordType.VACCINES}
+      />,
       {
         initialState: state,
         reducers: reducer,
