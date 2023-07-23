@@ -3,24 +3,34 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
-import careSummariesAndNotes from '../fixtures/careSummariesAndNotes.json';
 
-describe('CareSummariesAndNotesListItem component', () => {
+const note = {
+  id: '954',
+  name: 'Physician procedure note',
+  type: '11505-5',
+  dateSigned: 'August 5, 2022',
+  dateUpdated: 'June 2, 2023',
+  startDate: 'August 5, 2022',
+  endDate: 'June 2, 2023',
+  summary: 'summary',
+  location: 'None noted',
+  physician: 'AHMED,MARUF',
+  admittingPhysician: 'AHMED,MARUF',
+  dischargePhysician: 'AHMED,MARUF',
+};
+
+describe('CareSummariesAndNotesListItem', () => {
   const initialState = {
     mr: {
       careSummariesAndNotes: {
-        careSummariesAndNotesList: careSummariesAndNotes,
-        careSummariesAndNotesDetails: careSummariesAndNotes[0],
+        careSummariesAndNotesDetails: note,
       },
     },
   };
 
   const setup = (state = initialState) => {
     return renderWithStoreAndRouter(
-      <RecordListItem
-        record={careSummariesAndNotes[0]}
-        type="care summaries and notes"
-      />,
+      <RecordListItem record={note} type="care summaries and notes" />,
       {
         initialState: state,
         reducers: reducer,
@@ -31,17 +41,27 @@ describe('CareSummariesAndNotesListItem component', () => {
 
   it('renders without errors', () => {
     const screen = setup();
-    expect(screen.getByText('Primary care progress note', { exact: true })).to
+    expect(screen.getByText('Physician procedure note', { exact: true })).to
       .exist;
   });
 
-  it('should contain the name and date of the record', () => {
+  it('should contain the name of the record', () => {
     const screen = setup();
-    const recordName = screen.getByText('Primary care progress note', {
+    const recordName = screen.getByText('Physician procedure note', {
       exact: true,
     });
-    const recordDate = screen.getByText('April', { exact: false });
     expect(recordName).to.exist;
+  });
+
+  it('should contain the start date of the record', () => {
+    const screen = setup();
+    const recordDate = screen.getByText('August', { exact: false });
+    expect(recordDate).to.exist;
+  });
+
+  it('should contain the end date of the record', () => {
+    const screen = setup();
+    const recordDate = screen.getByText('June', { exact: false });
     expect(recordDate).to.exist;
   });
 
