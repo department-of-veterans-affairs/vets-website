@@ -49,12 +49,14 @@ export const transform = (formConfig, form) => {
       },
       veteranContactInformation: { address = {}, mobilePhone = {} } = {},
     },
+    // TODO: Cannot read properties of undefined (reading 'creditCardBills') - Dan Path
     expenses: {
       creditCardBills = [],
       expenseRecords = [],
       food = 0,
       rentOrMortgage = 0,
-    },
+      // adding a default value for expenses resolves this error
+    } = {},
     otherExpenses = [],
     utilityRecords,
     assets,
@@ -65,10 +67,7 @@ export const transform = (formConfig, form) => {
     realEstateRecords,
     currEmployment,
     spCurrEmployment,
-    additionalIncome: {
-      addlIncRecords,
-      spouse: { spAddlIncome },
-    },
+    additionalIncome: { addlIncRecords, spouse: { spAddlIncome } } = {},
     income,
     socialSecurity,
     benefits,
@@ -389,15 +388,19 @@ export const transform = (formConfig, form) => {
         'amountPastDue',
       ),
     },
+
+    // TODO: Cannot read properties of undefined (reading 'bankruptcy') - additionalData?.bankruptcy?.dateDischarged,
     additionalData: {
       bankruptcy: {
-        hasBeenAdjudicatedBankrupt: questions.hasBeenAdjudicatedBankrupt,
-        dateDischarged: dateFormatter(additionalData.bankruptcy.dateDischarged),
-        courtLocation: additionalData.bankruptcy.courtLocation,
-        docketNumber: additionalData.bankruptcy.docketNumber,
+        hasBeenAdjudicatedBankrupt: questions?.hasBeenAdjudicatedBankrupt,
+        dateDischarged: dateFormatter(
+          additionalData?.bankruptcy?.dateDischarged,
+        ),
+        courtLocation: additionalData?.bankruptcy?.courtLocation,
+        docketNumber: additionalData?.bankruptcy?.docketNumber,
       },
       additionalComments: mergeAdditionalComments(
-        additionalData.additionalComments,
+        additionalData?.additionalComments,
         enhancedFSRActive ? filteredExpenses : otherExpenses,
       ),
     },

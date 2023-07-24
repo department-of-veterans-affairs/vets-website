@@ -1,0 +1,212 @@
+{
+  "personalIdentification": {
+      "ssn": "4437",
+      "fileNumber": "4437",
+      "fsrReason": ""
+  },
+  "personalData": {
+      "veteranFullName": {
+          "first": "Mark",
+          "middle": "",
+          "last": "Webb"
+      },
+      "address": {
+          "addresslineOne": "1200 Park Ave",
+          "addresslineTwo": "c/o Pixar",
+          "addresslineThree": "",
+          "city": "Emeryville",
+          "stateOrProvince": "CA",
+          "zipOrPostalCode": "94608",
+          "countryName": "US"
+      },
+      "telephoneNumber": "(510) 922-4444",
+      "dateOfBirth": "10/04/1950",
+      "married": false,
+      "spouseFullName": {
+          "first": "",
+          "middle": "",
+          "last": ""
+      },
+      "agesOfOtherDependents": [],
+      "employmentHistory": []
+  },
+  "income": [
+      {
+          "veteranOrSpouse": "VETERAN",
+          "monthlyGrossSalary": "0.00",
+          "deductions": {
+              "taxes": "0.00",
+              "retirement": "0.00",
+              "socialSecurity": "0.00",
+              "otherDeductions": {
+                  "name": "",
+                  "amount": "0.00"
+              }
+          },
+          "totalDeductions": "0.00",
+          "netTakeHomePay": "0.00",
+          "otherIncome": {
+              "name": "",
+              "amount": "0.00"
+          },
+          "totalMonthlyNetIncome": "0.00"
+      },
+      {
+          "veteranOrSpouse": "SPOUSE",
+          "monthlyGrossSalary": "0.00",
+          "deductions": {
+              "taxes": "0.00",
+              "retirement": "0.00",
+              "socialSecurity": "0.00",
+              "otherDeductions": {
+                  "name": "",
+                  "amount": "0.00"
+              }
+          },
+          "totalDeductions": "0.00",
+          "netTakeHomePay": "0.00",
+          "otherIncome": {
+              "name": "",
+              "amount": "0.00"
+          },
+          "totalMonthlyNetIncome": "0.00"
+      }
+  ],
+  "expenses": {
+      "rentOrMortgage": "0.00",
+      "food": "0.00",
+      "utilities": "0.00",
+      "otherLivingExpenses": {
+          "name": "",
+          "amount": "0.00"
+      },
+      "expensesInstallmentContractsAndOtherDebts": "0.00",
+      "totalMonthlyExpenses": "0.00"
+  },
+  "discretionaryIncome": {
+      "netMonthlyIncomeLessExpenses": "0.00",
+      "amountCanBePaidTowardDebt": "0.00"
+  },
+  "assets": {
+      "cashInBank": "0.00",
+      "cashOnHand": "0.00",
+      "usSavingsBonds": "0.00",
+      "stocksAndOtherBonds": "0.00",
+      "realEstateOwned": "0.00",
+      "totalAssets": "0.00"
+  },
+  "installmentContractsAndOtherDebts": [],
+  "totalOfInstallmentContractsAndOtherDebts": {
+      "originalAmount": "0.00",
+      "unpaidBalance": "0.00",
+      "amountDueMonthly": "0.00",
+      "amountPastDue": "0.00"
+  },
+  "additionalData": {
+      "bankruptcy": {}
+  },
+  "applicantCertifications": {
+      "veteranSignature": "Mark  Webb",
+      "veteranDateSigned": "07/24/2023"
+  },
+  "selectedDebtsAndCopays": [
+      {
+          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "pSSeqNum": "1.00",
+          "pSTotSeqNum": "1.00",
+          "pSFacilityNum": "757",
+          "pSFacPhoneNum": null,
+          "pSTotStatement": "3.00",
+          "pSStatementVal": "0000037953E",
+          "pSStatementDate": "05242023",
+          "pSStatementDateOutput": "05/24/2023",
+          "pSProcessDate": "12102020",
+          "pSProcessDateOutput": "12/10/2020",
+          "pHPatientLstNme": "HHUFHYULSEHU",
+          "pHPatientFstNme": "CDAA",
+          "pHPatientMidNme": "A",
+          "pHAddress1": "7780 RED MAPLE CT",
+          "pHAddress2": null,
+          "pHAddress3": null,
+          "pHCity": "HUBER HEIGHTS",
+          "pHState": "OH",
+          "pHZipCde": "45424",
+          "pHZipCdeOutput": "45424",
+          "pHCtryNme": null,
+          "pHAmtDue": "105.24",
+          "pHAmtDueOutput": "105.24&nbsp;&nbsp;",
+          "pHPrevBal": "103.21",
+          "pHPrevBalOutput": "103.21&nbsp;&nbsp;",
+          "pHTotCharges": "2.03",
+          "pHTotChargesOutput": "2.03&nbsp;&nbsp;",
+          "pHTotCredits": "0.00",
+          "pHTotCreditsOutput": ".00&nbsp;&nbsp;",
+          "pHNewBalance": "105.24",
+          "pHNewBalanceOutput": "105.24&nbsp;&nbsp;",
+          "pHSpecialNotes": null,
+          "pHroParaCdes": "0125304050556065708085",
+          "pHNumOfLines": "2.00",
+          "pHDfnNumber": "197750.00",
+          "pHCernerStatementNumber": "0.00",
+          "pHCernerPatientId": "                ",
+          "pHCernerAccountNumber": "                ",
+          "pHIcnNumber": "                 ",
+          "pHAccountNumber": "7570000000197750.00",
+          "pHLargeFontIndcator": "0.00",
+          "details": [
+              {
+                  "pDDatePosted": null,
+                  "pDDatePostedOutput": "",
+                  "pDTransDesc": "INTEREST/ADM. CHARGE (Int:0.10 Adm:1.93 Other:0.00",
+                  "pDTransDescOutput": "INTEREST/ADM. CHARGE (Int:0.10 Adm:1.93 Other:0.00",
+                  "pDTransAmt": "2.03",
+                  "pDTransAmtOutput": "2.03&nbsp;&nbsp;",
+                  "pDRefNo": null
+              },
+              {
+                  "pDDatePosted": null,
+                  "pDDatePostedOutput": "",
+                  "pDTransDesc": "Please refer to previous statement of rights.",
+                  "pDTransDescOutput": "&nbsp;&nbsp;&nbsp;Please refer to previous statement of rights.",
+                  "pDTransAmt": "0.00",
+                  "pDTransAmtOutput": ".00&nbsp;&nbsp;",
+                  "pDRefNo": null
+              }
+          ],
+          "station": {
+              "facilitYNum": "757",
+              "visNNum": "10",
+              "facilitYDesc": "CHALMERS P WYLIE VA ACC (757)",
+              "cyclENum": "004",
+              "remiTToFlag": "L",
+              "maiLInsertFlag": "0",
+              "staTAddress1": "420 N JAMES RD",
+              "staTAddress2": null,
+              "staTAddress3": null,
+              "city": "Columbus",
+              "state": "OH",
+              "ziPCde": "432191834",
+              "ziPCdeOutput": "43219-1834",
+              "baRCde": "*432191834203*",
+              "teLNumFlag": "S",
+              "teLNum": "1-866-812-0318",
+              "teLNum2": null,
+              "contacTInfo": null,
+              "dM2TelNum": null,
+              "contacTInfo2": null,
+              "toPTelNum": null,
+              "lbXFedexAddress1": null,
+              "lbXFedexAddress2": null,
+              "lbXFedexAddress3": null,
+              "lbXFedexCity": null,
+              "lbXFedexState": null,
+              "lbXFedexZipCde": null,
+              "lbXFedexBarCde": null,
+              "lbXFedexContact": null,
+              "lbXFedexContactTelNum": null,
+              "facilityName": "Chalmers P. Wylie Veterans Outpatient Clinic"
+          },
+          "debtType": "COPAY"
+      }
+  ]
+}
