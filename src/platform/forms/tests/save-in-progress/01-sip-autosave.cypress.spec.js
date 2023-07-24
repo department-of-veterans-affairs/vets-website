@@ -89,6 +89,9 @@ describe('SIP Autosave Test', () => {
     cy.get('.schemaform-sip-save-link');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
       statusCode: 401,
+      body: {
+        errors: [{ status: '401', detail: 'Not authorized' }],
+      },
     });
     cy.fill('input[name="root_veteranFullName_first"]', 'Bob');
     cy.get('.usa-alert-error');
