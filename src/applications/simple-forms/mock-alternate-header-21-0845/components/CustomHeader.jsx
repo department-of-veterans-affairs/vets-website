@@ -16,7 +16,7 @@ const CustomHeader = ({ formData, formConfig, router, currentLocation }) => {
   const { additionalRoutes } = formConfig;
   let nonFormPages = [];
   if (additionalRoutes) {
-    nonFormPages = additionalRoutes.map(route => route.path);
+    nonFormPages = additionalRoutes.map((route) => route.path);
   }
   const lastPathComponent = currentLocation.pathname.split('/').pop();
   const isIntroductionPage = trimmedPathname.endsWith('introduction');
