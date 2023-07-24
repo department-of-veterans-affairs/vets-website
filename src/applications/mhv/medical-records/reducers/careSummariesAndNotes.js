@@ -1,6 +1,7 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import { emptyField } from '../util/constants';
+import { isArrayAndHasItems } from '../util/helpers';
 
 const initialState = {
   /**
@@ -25,17 +26,29 @@ export const convertNote = note => {
   }
   return {
     id: note.id,
-    name: note.type.text || note.type.coding[0].display,
-    type: note.type.coding[0].code,
+    name:
+      note.type?.text ||
+      (isArrayAndHasItems(note.type?.coding) && note.type.coding[0].display),
+    type: isArrayAndHasItems(note.type?.coding) && note.type.coding[0].code,
     dateSigned: formatDateLong(note.date),
     dateUpdated: formatDateLong(note.meta.lastUpdated),
     startDate: formatDateLong(note.date),
     endDate: formatDateLong(note.meta.lastUpdated),
-    summary: Buffer.from(note.content[0].attachment.data, 'base64').toString(),
-    location: note.context.related[0].text || emptyField,
-    physician: note.author[0].display || emptyField,
-    admittingPhysician: note.author[0].display || emptyField,
-    dischargePhysician: note.author[0].display || emptyField,
+    summary:
+      (isArrayAndHasItems(note.content) &&
+        typeof note.content[0].attachment?.data === 'string' &&
+        Buffer.from(note.content[0].attachment.data, 'base64').toString()) ||
+      emptyField,
+    location:
+      (isArrayAndHasItems(note.context?.related) &&
+        note.context.related[0].text) ||
+      emptyField,
+    physician:
+      (isArrayAndHasItems(note.author) && note.author[0].display) || emptyField,
+    admittingPhysician:
+      (isArrayAndHasItems(note.author) && note.author[0].display) || emptyField,
+    dischargePhysician:
+      (isArrayAndHasItems(note.author) && note.author[0].display) || emptyField,
   };
 };
 
