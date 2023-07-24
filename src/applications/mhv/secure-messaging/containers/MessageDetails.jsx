@@ -75,7 +75,7 @@ const MessageDetail = () => {
   let pageTitle;
 
   if (isSent) {
-    pageTitle = 'Sent messages';
+    pageTitle = 'Sent';
   } else if (isTrash) {
     pageTitle = 'Trash';
   } else {
