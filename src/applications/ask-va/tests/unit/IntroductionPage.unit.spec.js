@@ -40,8 +40,8 @@ const getData = ({
           userFullName: {
             first: 'Peter',
             middle: 'B',
-            last: 'Parker'
-          }
+            last: 'Parker',
+          },
         },
       },
       form: {
@@ -76,7 +76,9 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
     expect($('h1', container).textContent).to.eq('Ask VA');
-    expect($$('h2', container)[1].textContent).to.eq('Hello, follow the steps below to apply for ask the va test.');
+    expect($$('h2', container)[1].textContent).to.eq(
+      'Hello, follow the steps below to apply for ask the va test.',
+    );
     expect($('button', container).textContent).to.eq(
       'Sign in to start your application',
     );
@@ -89,6 +91,8 @@ describe('IntroductionPage', () => {
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect($('h2', container).textContent).to.eq('Peter, follow the steps below to apply for ask the va test.');
+    expect($('h2', container).textContent).to.eq(
+      'Peter, follow the steps below to apply for ask the va test.',
+    );
   });
 });

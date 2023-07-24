@@ -12,9 +12,9 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { apiRequest } from 'platform/utilities/api';
+import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import { ServerErrorAlert } from '../../config/helpers'; // '  ../config/helpers';
 // import { set } from 'date-fns';
-import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 
 const TopicList = props => {
   const {
@@ -88,8 +88,10 @@ const TopicList = props => {
     if (loggedIn) {
       const email = profile.email.split('@')[1];
       if (email === 'email.com') setShowAlert(true);
+      getUsers(STATIC_DATA_AUTH);
+    } else {
+      getUsers(STATIC_DATA);
     }
-    loggedIn ? getUsers(STATIC_DATA_AUTH) : getUsers(STATIC_DATA);
   };
 
   useEffect(
@@ -115,9 +117,11 @@ const TopicList = props => {
   return !error ? (
     <>
       {loggedIn && (
-        <strong>{`Hello, ${profile.userFullName.first} ${
-          profile.userFullName.last
-        } Email: ${profile.email}`}</strong>
+        <strong>
+          {`Hello, ${profile.userFullName.first} ${
+            profile.userFullName.last
+          } Email: ${profile.email}`}
+        </strong>
       )}
       {showAlert ? (
         <VaAlert status="info" class="vads-u-margin-y--4">
@@ -157,7 +161,7 @@ const TopicList = props => {
       <VaModal
         clickToClose
         status="info TEST"
-        modalTitle={'You must Sign In to continue'}
+        modalTitle="You must Sign In to continue"
         onCloseEvent={onModalNo}
         visible={showModal}
       >
