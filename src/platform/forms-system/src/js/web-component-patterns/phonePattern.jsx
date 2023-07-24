@@ -23,6 +23,11 @@ export const phoneUI = title => {
     'ui:options': {
       inputType: 'tel',
     },
+    'ui:errorMessages': {
+      required: 'Please enter a 10-digit phone number (with or without dashes)',
+      minLength:
+        'Please enter a 10-digit phone number (with or without dashes)',
+    },
   };
 };
 

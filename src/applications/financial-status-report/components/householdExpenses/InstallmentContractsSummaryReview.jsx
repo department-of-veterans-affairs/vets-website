@@ -97,7 +97,7 @@ const InstallmentContractsSummaryReview = ({ data }) => {
             key={index + contract.amountDueMonthly}
           >
             <div className="form-review-panel-page-header-row">
-              <h4 className="vads-u-font-size--h5">
+              <h4 className="form-review-panel-page-header vads-u-font-size--h5">
                 Installment contract {index + 1}
               </h4>
             </div>
