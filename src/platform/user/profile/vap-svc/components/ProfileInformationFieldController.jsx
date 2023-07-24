@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { selectVAProfilePersonalInformation } from 'applications/personalization/profile/selectors';
 import { recordCustomProfileEvent } from 'applications/personalization/profile/util/analytics';
 import ProfileInformationEditView from 'applications/personalization/profile/components/ProfileInformationEditView';
-import ProfileInformationEditViewVAFSC from 'applications/personalization/profile/components/ProfileInformationEditViewVAFSC';
 import ProfileInformationView from 'applications/personalization/profile/components/ProfileInformationView';
 import { getInitialFormValues } from 'applications/personalization/profile/util/contact-information/formValues';
 import { isFieldEmpty } from 'applications/personalization/profile/util';
@@ -16,8 +15,8 @@ import {
   focusElement,
   waitForRenderThenFocus,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
 
+import recordEvent from '../../../../monitoring/record-event';
 import prefixUtilityClasses from '../../../../utilities/prefix-utility-classes';
 import * as VAP_SERVICE from '../constants';
 
@@ -40,7 +39,6 @@ import {
   selectVAPServiceTransaction,
   selectEditViewData,
   selectMostRecentlyUpdatedField,
-  selectUseInformationEditViewVAFSC,
 } from '../selectors';
 
 import { ACTIVE_EDIT_VIEWS, FIELD_NAMES } from '../constants';
@@ -308,8 +306,8 @@ class ProfileInformationFieldController extends React.Component {
       data,
       isEnrolledInVAHealthCare,
       ariaDescribedBy,
-      shouldUseInformationEditViewVAFSC,
     } = this.props;
+
     const activeSection = VAP_SERVICE.FIELD_TITLES[
       activeEditView
     ]?.toLowerCase();
@@ -390,29 +388,7 @@ class ProfileInformationFieldController extends React.Component {
     );
 
     if (showEditView || forceEditView) {
-      content = shouldUseInformationEditViewVAFSC ? (
-        <>
-          <ProfileInformationEditViewVAFSC
-            getInitialFormValues={() =>
-              getInitialFormValues({
-                fieldName,
-                data: this.props.data,
-                modalData: this.props.editViewData,
-              })
-            }
-            onCancel={this.onCancel}
-            fieldName={this.props.fieldName}
-            apiRoute={this.props.apiRoute}
-            convertCleanDataToPayload={this.props.convertCleanDataToPayload}
-            uiSchema={this.props.uiSchema}
-            formSchema={this.requireFieldBasedOnInitialValue(
-              this.props.formSchema,
-            )}
-            title={title}
-            forceEditView={forceEditView}
-          />
-        </>
-      ) : (
+      content = (
         <ProfileInformationEditView
           getInitialFormValues={() =>
             getInitialFormValues({
@@ -517,7 +493,6 @@ ProfileInformationFieldController.propTypes = {
   isEmpty: PropTypes.bool.isRequired,
   isEnrolledInVAHealthCare: PropTypes.bool.isRequired,
   openModal: PropTypes.func.isRequired,
-  shouldUseInformationEditViewVAFSC: PropTypes.bool.isRequired,
   showEditView: PropTypes.bool.isRequired,
   showValidationView: PropTypes.bool.isRequired,
   uiSchema: PropTypes.object.isRequired,
@@ -598,10 +573,6 @@ export const mapStateToProps = (state, ownProps) => {
     formSchema,
     isEnrolledInVAHealthCare,
     showUpdateSuccessAlert: shouldShowUpdateSuccessAlert(state, fieldName),
-    shouldUseInformationEditViewVAFSC: selectUseInformationEditViewVAFSC(
-      state,
-      fieldName,
-    ),
   };
 };
 
