@@ -40,7 +40,6 @@ const useBrowserMonitoring = () => {
 
   useEffect(
     () => {
-      // set up our own flag
       if (isLoadingFeatureFlags) return;
       if (isBrowserMonitoringEnabled) {
         initializeRealUserMonitoring();
@@ -52,5 +51,4 @@ const useBrowserMonitoring = () => {
   );
 };
 
-// TODO: call from wherever
 export { useBrowserMonitoring };
