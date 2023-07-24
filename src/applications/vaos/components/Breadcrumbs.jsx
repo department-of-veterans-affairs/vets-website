@@ -58,9 +58,11 @@ export default function VAOSBreadcrumbs({ children }) {
         {featureBreadcrumbUrlUpdate ? 'VA.gov home' : 'Home'}
       </a>
       <a
-        href="/health-care"
-        key="health-care"
-        onClick={handleClick('health-care')}
+        href={featureBreadcrumbUrlUpdate ? '/my-health' : '/health-care'}
+        key={featureBreadcrumbUrlUpdate ? '/my-health' : 'health-care'}
+        onClick={handleClick(
+          featureBreadcrumbUrlUpdate ? '/my-health' : 'health-care',
+        )}
       >
         {featureBreadcrumbUrlUpdate ? 'My HealtheVet' : 'Health care'}
       </a>
