@@ -13,9 +13,9 @@ import submitForm from './submitForm';
 import veteranInformationChapter from './chapters/veteranInformationChapter';
 import householdIncomeChapter from './chapters/householdIncomeChapter';
 import householdAssetsChapter from './chapters/householdAssetsChapter';
-import householdExpensesChapter from './chapters/householdExpensesChapter';
-import resolutionOptionsChapter from './chapters/resolutionOptionsChapter';
-import bankruptcyAttestationChapter from './chapters/bankruptcyAttestationChapter';
+// import householdExpensesChapter from './chapters/householdExpensesChapter';
+// import resolutionOptionsChapter from './chapters/resolutionOptionsChapter';
+// import bankruptcyAttestationChapter from './chapters/bankruptcyAttestationChapter';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -65,9 +65,9 @@ const formConfig = {
     ...veteranInformationChapter,
     ...householdIncomeChapter,
     ...householdAssetsChapter,
-    ...householdExpensesChapter,
-    ...resolutionOptionsChapter,
-    ...bankruptcyAttestationChapter,
+    // ...householdExpensesChapter,
+    // ...resolutionOptionsChapter,
+    // ...bankruptcyAttestationChapter,
   },
 };
 
