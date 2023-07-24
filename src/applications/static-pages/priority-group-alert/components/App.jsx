@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring';
-import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
-import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
-import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import recordEvent from 'platform/monitoring/record-event';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { isLoggedIn } from 'platform/user/selectors';
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import ApiError from './ApiError';
 import Loading from './Loading';
 import PactAct from './PactAct';
