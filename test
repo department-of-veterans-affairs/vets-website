@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+landingPage() {
+  NODE_OPTIONS="--trace-warnings" \
+    yarn test:unit --log-level trace \
+      ./src/applications/mhv/landing-page/**/*.unit.spec.{js,jsx}
+}
+
+priorityGroupAlert() {
+  NODE_OPTIONS="--trace-warnings" \
+    yarn test:unit --log-level trace \
+      ./src/applications/static-pages/priority-group-alert/**/*.unit.spec.{js,jsx}
+}
+
+landingPage
+#priorityGroupAlert
