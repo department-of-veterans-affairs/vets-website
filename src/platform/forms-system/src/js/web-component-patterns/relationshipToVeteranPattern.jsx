@@ -23,6 +23,9 @@ export const relationshipToVeteranUI = personTitle => {
         expandUnderCondition: 'other',
         expandedContentFocus: true,
       },
+      'ui:errorMessages': {
+        required: `Please enter your relationship to the ${person}`,
+      },
     },
     'ui:options': {
       updateSchema: (formData, formSchema) => {
