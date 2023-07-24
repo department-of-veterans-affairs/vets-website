@@ -56,6 +56,7 @@ const FolderHeader = props => {
       </h1>
       <>{handleFolderDescription()}</>
       {folder.folderId === Folders.INBOX.id && <ComposeMessageButton />}
+      {folder.folderId === Folders.SENT.id && <ComposeMessageButton />}
       <ManageFolderButtons />
       {folder.count > 0 && (
         <SearchForm
