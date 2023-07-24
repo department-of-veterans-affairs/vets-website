@@ -73,5 +73,5 @@
 # yarn serve
 # sleep 600
 
-cd /app/website/slow/pe_slow_content_build-1689786553/website/content-build
+cd /home/ec2-user/efs-mount-point/pvc-84434ec1-ed4b-40c3-ba97-796e2dcdf8ad/pe_slow_content_build-1689786553/website/content-build
 yarn serve
