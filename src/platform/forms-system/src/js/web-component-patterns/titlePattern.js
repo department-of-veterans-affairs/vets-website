@@ -25,7 +25,39 @@ export const titleUI = (title, description) => {
     'ui:title': (
       <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">{title}</h3>
     ),
-    'ui:description': description || null,
+    'ui:description': description ? (
+      <p className="vads-u-margin-bottom--0">{description}</p>
+    ) : null,
+  };
+};
+
+/**
+ * Simple text description
+ *
+ * ```js
+ * exampleText: descriptionUI('A block of text goes here')
+ * exampleText: descriptionUI(<p>A block of text goes here</p>)
+ * exampleText: descriptionUI(<p className="vads-u-margin-bottom--0">
+    Tell us more.
+        <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
+          We understand ...
+        </AdditionalInfo>
+    </p>)
+ * exampleText: descriptionUI('A block of text goes here', {
+ *    hideOnReview: true
+ * })
+ * ```
+ * @param {string | JSX.Element} [text] 'ui:description'
+ * @param {UIOptions} [uiOptions] 'ui:options'
+ *
+ * @returns {UISchemaOptions}
+ */
+export const descriptionUI = (text, uiOptions = {}) => {
+  return {
+    'ui:description': text,
+    'ui:options': {
+      ...uiOptions,
+    },
   };
 };
 
@@ -67,3 +99,4 @@ export const titleSchema = {
 };
 
 export const inlineTitleSchema = titleSchema;
+export const descriptionSchema = titleSchema;

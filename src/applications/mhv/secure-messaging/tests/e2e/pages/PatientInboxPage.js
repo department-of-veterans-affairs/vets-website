@@ -352,7 +352,7 @@ class PatientInboxPage {
   };
 
   navigateReply = () => {
-    cy.tabToElement('[data-testid="reply-button-top"]');
+    cy.tabToElement('[data-testid="reply-button-body"]');
     cy.realPress(['Enter']);
   };
 
@@ -395,6 +395,24 @@ class PatientInboxPage {
     cy.get('[data-testid="filter-messages-button"]').click({
       waitForAnimations: true,
     });
+  };
+
+  composeMessage = () => {
+    cy.get('#recipient-dropdown')
+      .shadow()
+      .find('#select')
+      .select(1, { force: true });
+    cy.get('[data-testid="compose-category-radio-button"]')
+      .first()
+      .click();
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('#inputField')
+      .type('testSubject');
+    cy.get('#compose-message-body')
+      .shadow()
+      .find('#textarea')
+      .type('testMessage');
   };
 
   composeDraftByKeyboard = () => {

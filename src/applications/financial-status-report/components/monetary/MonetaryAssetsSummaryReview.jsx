@@ -6,8 +6,12 @@ const MonetaryAssetsSummaryReview = ({ data }) => {
   const { monetaryAssets = [] } = data.assets;
 
   return (
-    <>
-      <h4>Monetary assets</h4>
+    <div className="form-review-panel-page">
+      <div className="form-review-panel-page-header-row">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+          Monetary assets
+        </h4>
+      </div>
       <dl className="review">
         {monetaryAssets.map((income, index) => {
           return (
@@ -21,7 +25,7 @@ const MonetaryAssetsSummaryReview = ({ data }) => {
           );
         })}
       </dl>
-    </>
+    </div>
   );
 };
 

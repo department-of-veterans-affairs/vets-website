@@ -26,7 +26,7 @@ describe('Secure Messaging Compose with No Provider', () => {
       mockDraftMessage,
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .click();
     composePage.verifySelcteRespitantErrorMessage();
     cy.injectAxe();

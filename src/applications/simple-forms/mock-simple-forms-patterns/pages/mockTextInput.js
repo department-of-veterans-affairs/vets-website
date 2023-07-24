@@ -11,7 +11,7 @@ import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/V
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsfTitle: titleUI('RJSF'),
+    'view:title': titleUI('RJSF'),
     simpleOld: {
       'ui:title': 'TextWidget - with string description',
       'ui:description': 'Text description',
@@ -33,7 +33,7 @@ export default {
       'ui:title': 'TextWidget - disabled',
       'ui:disabled': true,
     },
-    wcv3Title: inlineTitleUI('Web component v3'),
+    'view:wcv3Title': inlineTitleUI('Web component v3'),
     wcv3SimpleNew: {
       'ui:title': 'VaTextInputField - with string description',
       'ui:webComponentField': VaTextInputField,
@@ -91,7 +91,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      rjsfTitle: titleSchema,
+      'view:title': titleSchema,
       simpleOld: {
         type: 'string',
       },
@@ -101,7 +101,7 @@ export default {
       disabledOld: {
         type: 'string',
       },
-      wcv3Title: inlineTitleSchema,
+      'view:wcv3Title': inlineTitleSchema,
       wcv3SimpleNew: {
         type: 'string',
       },

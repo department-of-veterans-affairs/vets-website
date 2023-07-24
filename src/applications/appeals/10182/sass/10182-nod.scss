@@ -76,7 +76,7 @@
 
   .checkbox-hidden {
     .widget-content {
-      margin: 2rem 0 0 2rem;
+      margin: 2rem 0 0 0;
     }
   }
 }
@@ -92,17 +92,6 @@ ul.issues,
   .va-profile-wrapper button {
     width: auto;
   }
-}
-
-/* IE11 hack to fix edit button placement, see
- * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
- */
- _:-ms-fullscreen, :root dl.review dd.widget-content.widget-edit .widget-content-wrap {
-  width: calc(100% - 175px); /* 175px ~= width of the edit button x2.5 */
-}
-/* IE11 fix legend not wrapping on small screens */
-legend.schemaform-block-title {
-  width: 100%;
 }
 
 /* empty header on additional-issues-intro page */
@@ -248,5 +237,13 @@ article[data-location="review-and-submit"] {
   }
   dd {
     word-break: break-all;
+  }
+
+  .form-review-panel-page-header {
+    padding-right: 1rem;
+    line-height: 2.5rem;
+  }
+  .form-review-panel-page-header-row {
+    align-items: flex-start;
   }
 }
