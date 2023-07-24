@@ -169,8 +169,7 @@ const testConfig = createTestConfig(
       },
       'resolution-options': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-radio-option[value="Compromise"]').click();
-          cy.get(`input[name="compromise-resolution-amount"]`).type('100');
+          cy.get('va-radio-option[value="Waiver"]').click();
           cy.get('.usa-button-primary').click();
         });
       },
