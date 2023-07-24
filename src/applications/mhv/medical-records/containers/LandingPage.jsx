@@ -14,7 +14,7 @@ const LandingPage = () => {
       dispatch(
         setBreadcrumbs([{ url: '/my-health', label: 'Dashboard' }], {
           url: '/my-health/medical-records',
-          label: 'About medical records',
+          label: 'Medical records',
         }),
       );
     },
