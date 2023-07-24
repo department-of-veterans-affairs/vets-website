@@ -417,6 +417,22 @@ const analyticsEvents = {
   ],
   'va-modal': [
     {
+      action: 'click',
+      event: 'cta-modal-click',
+      prefix: 'modal',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-modal',
+        custom_string_1: 'component-library',
+        mapping: {
+          'modal-clickLabel': 'custom_string_2',
+          'modal-status': 'status',
+          'modal-title': 'heading_1',
+          version: 'component_version',
+        },
+      },
+    },
+    {
       action: 'show',
       event: 'int-modal-show',
       prefix: 'modal',
@@ -428,7 +444,7 @@ const analyticsEvents = {
           'modal-status': 'status',
           'modal-title': 'heading_1',
           'modal-primaryButtonText': 'custom_string_2',
-          'modal-secondayButtonText': 'custom_string_3',
+          'modal-secondaryButtonText': 'custom_string_3',
           version: 'component_version',
         },
       },

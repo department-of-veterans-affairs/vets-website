@@ -7,30 +7,24 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.relationshipToDeceasedClaimantChapter.pages.otherRelationshipToDeceasedClaimant;
+} = formConfig.chapters.deceasedClaimantPersonalInformationChapter.pages.deceasedClaimantPersonalInformation;
 
-const pageTitle = 'other relationship to deceased claimant';
+const pageTitle = 'deceased claimant personal information';
 
-const mockData = {
-  relationshipToDeceasedClaimant: 'other',
-};
-
-const expectedNumberOfFields = 1;
+const expectedNumberOfFields = 4;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
   expectedNumberOfFields,
   pageTitle,
-  mockData,
 );
 
-const expectedNumberOfErrors = 1;
+const expectedNumberOfErrors = 3;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,
   expectedNumberOfErrors,
   pageTitle,
-  mockData,
 );

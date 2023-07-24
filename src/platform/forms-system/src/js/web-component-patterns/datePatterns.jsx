@@ -50,6 +50,7 @@ const DATE_OF_BIRTH_UI = {
   ...currentOrPastDateUI('Date of birth'),
   'ui:errorMessages': {
     pattern: 'Please provide a valid date',
+    required: 'Please enter date of birth',
   },
 };
 
