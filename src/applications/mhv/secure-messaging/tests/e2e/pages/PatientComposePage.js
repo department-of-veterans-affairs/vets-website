@@ -10,7 +10,7 @@ class PatientComposePage {
       mockDraftMessage,
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .click({ force: true });
     cy.wait('@message');
   };
@@ -26,7 +26,7 @@ class PatientComposePage {
       mockDraftMessage,
     ).as('message');
     cy.tabToElement('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .realPress(['Enter']);
     // cy.wait('@message');
   };
@@ -113,7 +113,7 @@ class PatientComposePage {
       mockDraftMessage,
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .click();
   };
 
