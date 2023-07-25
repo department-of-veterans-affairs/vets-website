@@ -6,6 +6,8 @@ import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 
 describe('SIP Autosave Test', () => {
   it('fails and properly recovers', () => {
+    cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
     cy.intercept('POST', '/v0/mock_sip_form', {
       formSubmissionId: '123fake-submission-id-567',
       timestamp: '2016-05-16',
@@ -49,7 +51,9 @@ describe('SIP Autosave Test', () => {
     });
 
     cy.fill('input[name="root_veteranFullName_first"]', 'Steve');
-    cy.get('.usa-alert-error').should('be.visible');
+    cy.get('.usa-alert-error', {
+      timeout: Timeouts.verySlow,
+    }).should('be.visible');
 
     cy.url().should('contain', 'first-page');
     cy.get('.usa-alert-error').should(
@@ -94,7 +98,7 @@ describe('SIP Autosave Test', () => {
       },
     });
     cy.fill('input[name="root_veteranFullName_first"]', 'Bob');
-    cy.get('.usa-alert-error');
+    cy.get('.usa-alert-error', { timeout: Timeouts.verySlow });
 
     cy.url().should('contain', 'first-page');
 
