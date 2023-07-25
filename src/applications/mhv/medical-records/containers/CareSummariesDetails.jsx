@@ -5,6 +5,7 @@ import { getCareSummaryAndNotesDetails } from '../actions/careSummariesAndNotes'
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import AdmissionAndDischargeDetails from '../components/CareSummaries/AdmissionAndDischargeDetails';
 import ProgressNoteDetails from '../components/CareSummaries/ProgressNoteDetails';
+import { LoincCodes } from '../util/constants';
 
 const CareSummariesDetails = () => {
   const dispatch = useDispatch();
@@ -48,11 +49,11 @@ const CareSummariesDetails = () => {
   );
 
   if (careSummary?.name) {
-    switch (careSummary?.name.toLowerCase()) {
-      case 'admission and discharge summary':
-        return <AdmissionAndDischargeDetails results={careSummary} />;
-      case 'primary care progress note':
-        return <ProgressNoteDetails results={careSummary} />;
+    switch (careSummary.type) {
+      case LoincCodes.DISCHARGE_SUMMARY:
+        return <AdmissionAndDischargeDetails record={careSummary} />;
+      case LoincCodes.PHYSICIAN_PROCEDURE_NOTE:
+        return <ProgressNoteDetails record={careSummary} />;
       default:
         return <p>Something else</p>;
     }

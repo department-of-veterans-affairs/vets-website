@@ -141,7 +141,7 @@ const Navigation = () => {
   };
 
   return (
-    <div className="secure-messaging-navigation vads-u-flex--auto vads-u-padding-bottom--7 medium-screen:vads-u-padding-bottom--0">
+    <div className="secure-messaging-navigation vads-u-flex--auto vads-u-padding-bottom--2 medium-screen:vads-u-padding-bottom--0">
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div

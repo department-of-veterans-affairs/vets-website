@@ -1,19 +1,108 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import { useSelector } from 'react-redux';
 import PrintHeader from '../shared/PrintHeader';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
+import { processList, sendErrorToSentry } from '../../util/helpers';
+import { generatePdfScaffold } from '../../../shared/util/helpers';
 
 const ChemHemDetails = props => {
   const { record, fullState } = props;
-
+  const user = useSelector(state => state.user.profile);
   const formattedDate = formatDateLong(record?.date);
 
-  const download = () => {};
+  const generateChemHemPdf = async () => {
+    const title = `Lab and test results: ${record.name} on ${formatDateLong(
+      record.date,
+    )}`;
+    const subject = 'VA Medical Record';
+    const preface =
+      'If you have questions about these results, send a secure message to your care team. ';
+    const scaffold = generatePdfScaffold(user, title, subject, preface);
+
+    scaffold.details = {
+      header: 'Details about this test',
+      items: [
+        {
+          title: 'Type of test',
+          value: record.type,
+          inline: true,
+        },
+        {
+          title: 'Sample tested',
+          value: record.sampleTested,
+          inline: true,
+        },
+        {
+          title: 'Ordered by',
+          value: record.orderedBy,
+          inline: true,
+        },
+        {
+          title: 'Ordering location',
+          value: record.orderingLocation,
+          inline: true,
+        },
+        {
+          title: 'Collecting location',
+          value: record.collectingLocation,
+          inline: true,
+        },
+        {
+          title: 'Provider notes',
+          value: processList(record.comments),
+          inline: !record.comments,
+        },
+      ],
+    };
+    scaffold.results = {
+      header: 'Results',
+      preface:
+        "If your results are outside the standard range, this doesn't automatically mean you have a health problem. Your provider will review your results and explain what they mean for your health.",
+      sectionSeparators: true,
+      items: record.results.map(item => ({
+        header: item.name,
+        items: [
+          {
+            title: 'Result',
+            value: item.result,
+            inline: true,
+          },
+          {
+            title: 'Standard range',
+            value: item.standardRange,
+            inline: true,
+          },
+          {
+            title: 'Status',
+            value: item.status,
+            inline: true,
+          },
+          {
+            title: 'Lab location',
+            value: item.labLocation,
+            inline: true,
+          },
+          {
+            title: 'Interpretation',
+            value: item.interpretation,
+            inline: true,
+          },
+        ],
+      })),
+    };
+    try {
+      await generatePdf('medicalRecords', 'microbiology_report', scaffold);
+    } catch (error) {
+      sendErrorToSentry(error, 'Microbiology details');
+    }
+  };
 
   const content = () => {
     if (record) {
@@ -29,7 +118,7 @@ const ChemHemDetails = props => {
               <p>{formattedDate}</p>
             </div>
             <div className="no-print">
-              <PrintDownload list download={download} />
+              <PrintDownload list download={generateChemHemPdf} />
               <va-additional-info trigger="What to know about downloading records">
                 <ul>
                   <li>
