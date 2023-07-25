@@ -37,6 +37,7 @@ export const App = ({
   showMebCh33SelfForm,
   showMebEnhancements,
   showMebEnhancements06,
+  showMebEnhancements08,
   email,
   mobilePhone,
   duplicateEmail,
@@ -163,7 +164,8 @@ export const App = ({
 
       if (
         formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
-        formData?.email?.email
+        formData?.email?.email &&
+        showMebEnhancements08
       ) {
         getDuplicateContactInfo(
           [{ value: formData?.email?.email, dupe: '' }],
@@ -208,6 +210,14 @@ export const App = ({
           showMebEnhancements06,
         });
       }
+
+      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
+        setFormData({
+          ...formData,
+          showMebEnhancements08,
+        });
+      }
+
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
@@ -224,6 +234,7 @@ export const App = ({
       showMebCh33SelfForm,
       showMebEnhancements,
       showMebEnhancements06,
+      showMebEnhancements08,
       email,
       mobilePhone,
       getDuplicateContactInfo,
@@ -294,6 +305,7 @@ App.propTypes = {
   mobilePhone: PropTypes.string,
   showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
+  showMebEnhancements08: PropTypes.bool,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
 };
