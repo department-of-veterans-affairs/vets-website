@@ -1,4 +1,5 @@
 import environment from 'platform/utilities/environment';
+import { focusElement } from 'platform/utilities/ui';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
@@ -49,6 +50,16 @@ import {
 
 import manifest from '../manifest.json';
 import hearingType from '../pages/hearingType';
+
+// add custom focust for the contact info mailing address edit page
+const confirmContactInfoEditMailingAddress = {
+  ...contactInfo.confirmContactInfoEditMailingAddress,
+  scrollAndFocusTarget: () => {
+    // even when not having this focusElement call the h3 still gets focused, sooo not sure if I should include this
+    // or just leave it blank since it's the default behavior if scrollAndFocusTarget is set to an empty function
+    focusElement('#main h3');
+  },
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -112,7 +123,7 @@ const formConfig = {
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
         },
-        ...contactInfo,
+        ...{ ...contactInfo, confirmContactInfoEditMailingAddress },
       },
     },
     conditions: {
