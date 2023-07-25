@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/browser';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities';
+import { apiRequest } from 'platform/utilities/api';
 
 export const FETCH_ENROLLMENT_STATUS_BEGIN = 'FETCH_ENROLLMENT_STATUS_BEGIN';
 export const FETCH_ENROLLMENT_STATUS_ERROR = 'FETCH_ENROLLMENT_STATUS_ERROR';

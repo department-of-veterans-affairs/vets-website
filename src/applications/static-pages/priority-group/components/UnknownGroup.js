@@ -1,7 +1,4 @@
 import React from 'react';
-import { environment } from '@department-of-veterans-affairs/platform-utilities';
-
-const url = path => `${environment.BaseUrl}${path}`;
 
 const UnknownGroup = () => (
   <va-alert close-btn-aria-label="Close notification" status="success" visible>
@@ -12,7 +9,7 @@ const UnknownGroup = () => (
         groups. If you have already applied for VA health care, you will see
         your priority group here once it is assigned.If you have not applied for
         VA health care, you can
-        <a href={url('/health-care/how-to-apply')}>
+        <a href="https://va.gov/health-care/how-to-apply">
           learn more about the application process
         </a>
         .

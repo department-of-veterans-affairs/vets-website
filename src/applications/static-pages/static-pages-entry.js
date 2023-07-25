@@ -3,11 +3,11 @@ import LazyLoad from 'vanilla-lazyload/dist/lazyload';
 import * as Sentry from '@sentry/browser';
 // Relative imports.
 import './analytics';
-import '@department-of-veterans-affairs/platform-polyfills';
-import startSitewideComponents from '@department-of-veterans-affairs/platform-site-wide';
-import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
-import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
-import showVaAlertExpandable from '@department-of-veterans-affairs/platform-site-wide/alerts/showVaAlertExpandable';
+import 'platform/polyfills';
+import startSitewideComponents from 'platform/site-wide';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import createCommonStore from 'platform/startup/store';
+import showVaAlertExpandable from 'platform/site-wide/alerts/showVaAlertExpandable';
 import alertsBuildShow from './widget-creators/alerts-dismiss-view';
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import { icsCreate } from './widget-creators/ics-generator';
@@ -83,7 +83,7 @@ import createEducationLettersLoginWidget from './view-education-letters-login/cr
 import create2110210Access from './simple-forms/21-10210/entry';
 import create214142Access from './simple-forms/21-4142/entry';
 import create264555Access from './simple-forms/26-4555/entry';
-import createPriorityGroupAlertWidget from './priority-group-alert';
+import createPriorityGroupAlertWidget from './priority-group';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
