@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
+import {
+  fetchSharingStatus,
+  updateSharingStatus,
+  clearSharingStatus,
+} from '../actions/sharing';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const SettingsPage = () => {
   const dispatch = useDispatch();
+
   const fullState = useSelector(state => state);
-  const [optedIn, setOptedIn] = useState(true);
+  const isSharing = useSelector(state => state.mr.sharing.isSharing);
+  const statusError = useSelector(state => state.mr.sharing.statusError);
+
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
   useEffect(
     () => {
@@ -21,8 +30,124 @@ const SettingsPage = () => {
     [dispatch],
   );
 
+  useEffect(
+    () => {
+      dispatch(fetchSharingStatus());
+    },
+    [dispatch],
+  );
+
+  const handleUpdateSharing = currentOptInStatus => {
+    dispatch(clearSharingStatus()).then(() => {
+      dispatch(updateSharingStatus(!currentOptInStatus)).then(() => {
+        setShowSuccessAlert(true);
+      });
+    });
+  };
+
+  const sharingCardContent = () => {
+    if (statusError) {
+      if (['optin', 'optout'].includes(statusError.type)) {
+        const optInError = statusError.type === 'optin';
+        return (
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="error"
+            visible
+          >
+            <h3 className="vads-u-margin-top--0">
+              You can’t {optInError ? 'opt back in' : 'opt out'} right now
+            </h3>
+            <p>
+              We’re sorry. Something went wrong in our system. Try again later.
+            </p>
+            <p>
+              You can also {optInError ? 'opt in to' : 'opt out of'} sharing
+              your records by submitting a form to your VA health facility.
+            </p>
+            <p>
+              <a href="/my-health/medical-records/settings">
+                Learn how to opt {optInError ? 'in' : 'out'} using a form
+              </a>
+            </p>
+          </va-alert>
+        );
+      }
+      return (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="error"
+          visible
+        >
+          <h3 className="vads-u-margin-top--0">
+            We can’t access your sharing setting right now
+          </h3>
+          <p>
+            We’re sorry. Something went wrong in our system. Try again later.
+          </p>
+          <p>
+            If you’re still having trouble, call your VA health facility and ask
+            for the medical records office.
+          </p>
+          <p>Find your VA health facility</p>
+        </va-alert>
+      );
+    }
+    if (isSharing === undefined) {
+      return (
+        <div className="card vads-u-padding--3 vads-u-background-color--gray-lightest">
+          <va-loading-indicator
+            message="Loading..."
+            class="vads-u-margin--4"
+            data-testid="sharing-status-loading-indicator"
+          />
+        </div>
+      );
+    }
+    return (
+      <div className="card vads-u-padding--3 vads-u-background-color--gray-lightest">
+        <h3 className="vads-u-margin-top--0">
+          Your sharing setting: {isSharing ? 'Opted in' : 'Opted out'}
+        </h3>
+        <va-alert
+          background-only
+          class="vads-u-margin-bottom--1"
+          close-btn-aria-label="Close notification"
+          disable-analytics="false"
+          full-width="false"
+          status="success"
+          visible={showSuccessAlert}
+        >
+          <p className="vads-u-margin-y--0">
+            You’ve opted {isSharing ? 'back in to' : 'out of'} sharing
+          </p>
+        </va-alert>
+        {isSharing ? (
+          <p>
+            We automatically include you in this online sharing program. You can
+            opt out (ask us not to share your records) at any time.
+          </p>
+        ) : (
+          <p>
+            We’re not currently sharing your records online with your community
+            care providers. If you want us to start sharing your records, you
+            can opt back in.
+          </p>
+        )}
+        <va-button
+          text={isSharing ? 'Opt out' : 'Opt back in'}
+          onClick={() =>
+            // setShareStatus(formSelection);
+            // setOptedIn(!isSharing);
+            handleUpdateSharing(isSharing)
+          }
+        />
+      </div>
+    );
+  };
+
   return (
-    <div className="vads-u-margin-bottom--5">
+    <div className="settings vads-u-margin-bottom--5">
       <section>
         <h1>Share your medical record</h1>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 va-introtext">
@@ -58,30 +183,7 @@ const SettingsPage = () => {
             contacts
           </li>
         </ul>
-        <div className="card vads-u-padding--3 vads-u-background-color--gray-lightest">
-          <h3 className="vads-u-margin-top--0">
-            Your sharing setting: {optedIn ? 'Opted in' : 'Opted out'}
-          </h3>
-          {optedIn ? (
-            <p>
-              We automatically include you in this online sharing program. You
-              can opt out (ask us not to share your records) at any time.
-            </p>
-          ) : (
-            <p>
-              We’re not currently sharing your records online with your
-              community care providers. If you want us to start sharing your
-              records, you can opt back in.
-            </p>
-          )}
-          <va-button
-            text={optedIn ? 'Opt out' : 'Opt back in'}
-            onClick={() => {
-              // setShareStatus(formSelection);
-              setOptedIn(!optedIn);
-            }}
-          />
-        </div>
+        {sharingCardContent()}
       </section>
       <section className="set-width-486">
         <h2>Manage notification settings</h2>
