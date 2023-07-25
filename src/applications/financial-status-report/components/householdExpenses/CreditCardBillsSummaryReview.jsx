@@ -43,7 +43,7 @@ const CreditCardBillsSummaryReview = ({ data }) => {
             key={index + bill.amountDueMonthly}
           >
             <div className="form-review-panel-page-header-row">
-              <h4 className="vads-u-font-size--h5">
+              <h4 className="form-review-panel-page-header vads-u-font-size--h5">
                 Credit card bill {index + 1}
               </h4>
             </div>

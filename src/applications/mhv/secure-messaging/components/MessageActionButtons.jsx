@@ -6,7 +6,7 @@ import MoveMessageToFolderBtn from './MessageActionButtons/MoveMessageToFolderBt
 import PrintBtn from './MessageActionButtons/PrintBtn';
 import { DefaultFolders } from '../util/constants';
 import ActionButtons from './shared/ActionButtons';
-import ReplyButton from './MessageActionButtons/ReplyButton';
+import ReplyBtn from './MessageActionButtons/ReplyBtn';
 import TrashButton from './MessageActionButtons/TrashButton';
 import { Actions } from '../util/actionTypes';
 
@@ -38,11 +38,25 @@ const MessageActionButtons = props => {
       };
 
       const buttons = [];
+
       buttons.push(
         <li key="print">
           <PrintBtn handlePrint={handlePrint} id={id} />
         </li>,
       );
+
+      if (folders) {
+        buttons.push(
+          <MoveMessageToFolderBtn
+            activeFolder={activeFolder}
+            key="moveMessageToFolderBtn"
+            isVisible={activeFolder?.folderId !== DefaultFolders.SENT.id}
+            threadId={threadId}
+            messageId={id}
+            allFolders={folders}
+          />,
+        );
+      }
 
       buttons.push(
         <TrashButton
@@ -56,25 +70,17 @@ const MessageActionButtons = props => {
           }
         />,
       );
-      if (folders) {
+
+      if (activeFolder?.folderId === DefaultFolders.SENT.id) {
         buttons.push(
-          <MoveMessageToFolderBtn
-            activeFolder={activeFolder}
-            key="moveMessageToFolderBtn"
-            isVisible={activeFolder?.folderId !== DefaultFolders.SENT.id}
-            threadId={threadId}
-            messageId={id}
-            allFolders={folders}
+          <ReplyBtn
+            key="replyBtn"
+            visible={!hideReplyButton}
+            onReply={props.onReply}
           />,
         );
       }
-      buttons.push(
-        <ReplyButton
-          key="replyButton"
-          visible={!hideReplyButton}
-          onReply={props.onReply}
-        />,
-      );
+
       return buttons;
     },
     [activeFolder, folders, hideReplyButton, id, props, threadId],

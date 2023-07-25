@@ -1,30 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 
 const ProgressNoteDetails = props => {
-  const { results } = props;
-
-  const dateSigned = formatDateLong(results?.dateSigned);
-  const dateUpdated = formatDateLong(results?.dateUpdated);
+  const { record } = props;
 
   const download = () => {};
 
   const content = () => {
-    if (results) {
+    if (record) {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">{results.name}</h1>
+          <h1 className="vads-u-margin-bottom--0">{record.name}</h1>
           <section className="set-width-486">
             <div className="time-header">
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Date:{' '}
               </h2>
-              <p>{dateSigned}</p>
+              <p>{record.dateSigned}</p>
             </div>
+
             <div className="no-print">
               <PrintDownload download={download} />
               <va-additional-info trigger="What to know about downloading records">
@@ -42,28 +39,30 @@ const ProgressNoteDetails = props => {
                 </ul>
               </va-additional-info>
             </div>
+
             <div className="test-details-container max-80">
               <h2>Details</h2>
               <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                 Location
               </h3>
-              <p>{results.facility}</p>
+              <p>{record.location}</p>
               <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                 Signed by
               </h3>
-              <p>{results.signedBy}</p>
+              <p>{record.physician}</p>
               <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                 Last updated
               </h3>
-              <p>{dateUpdated}</p>
+              <p>{record.dateUpdated}</p>
               <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                 Date signed
               </h3>
-              <p>{dateSigned}</p>
+              <p>{record.dateSigned}</p>
             </div>
+
             <div className="test-results-container">
               <h2>Note</h2>
-              <p>{results.note}</p>
+              <p>{record.summary}</p>
             </div>
           </section>
         </>
@@ -82,5 +81,5 @@ const ProgressNoteDetails = props => {
 export default ProgressNoteDetails;
 
 ProgressNoteDetails.propTypes = {
-  results: PropTypes.object,
+  record: PropTypes.object,
 };

@@ -3,23 +3,14 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import VaccineDetails from '../../containers/VaccineDetails';
 import reducer from '../../reducers';
+import vaccine from '../fixtures/vaccine.json';
+import { convertVaccine } from '../../reducers/vaccines';
 
 describe('Vaccines details container', () => {
   const initialState = {
     mr: {
       vaccines: {
-        vaccineDetails: {
-          id: '123',
-          name: 'COVID-19 vaccine',
-          date: '2022-06-14T17:42:46.000Z',
-          location: 'school parking lot',
-          manufacturer: 'Pfizer',
-          reactions: ['sore arm', 'fever'],
-          notes: [
-            'Protects from delta variant',
-            'May need another booster for other variants',
-          ],
-        },
+        vaccineDetails: convertVaccine(vaccine),
       },
     },
   };
@@ -28,7 +19,7 @@ describe('Vaccines details container', () => {
     return renderWithStoreAndRouter(<VaccineDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/vaccine-details/123',
+      path: '/vaccine-details/957',
     });
   };
 
@@ -63,8 +54,8 @@ describe('Vaccines details container', () => {
 
   it('displays the formatted received date', () => {
     const screen = setup();
-    const formattedDate = screen.getByText('June 14, 2022', {
-      exact: true,
+    const formattedDate = screen.getByText('August', {
+      exact: false,
       selector: 'p',
     });
     expect(formattedDate).to.exist;
@@ -72,7 +63,7 @@ describe('Vaccines details container', () => {
 
   it('displays the manufacturer', () => {
     const screen = setup();
-    const manufacturer = screen.getByText(
+    const manufacturer = screen.getAllByText(
       initialState.mr.vaccines.vaccineDetails.manufacturer,
       {
         exact: true,
@@ -84,7 +75,7 @@ describe('Vaccines details container', () => {
 
   it('displays the location', () => {
     const screen = setup();
-    const location = screen.getByText(
+    const location = screen.getAllByText(
       initialState.mr.vaccines.vaccineDetails.location,
       {
         exact: true,
