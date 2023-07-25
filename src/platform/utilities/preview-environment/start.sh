@@ -76,3 +76,4 @@ cd /app/website/slow/pe_slow_content_build-1689786553/website/vets-website
 yarn watch &
 cd /app/website/slow/pe_slow_content_build-1689786553/website/content-build
 yarn serve
+sleep 600
