@@ -89,6 +89,7 @@ export default Object.freeze({
   mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
   myVaUseExperimental: 'my_va_experimental',
   myVaUseLighthouseClaims: 'my_va_lighthouse_claims',
+  nodPart3Update: 'nod_part3_update',
   omniChannelLink: 'omni_channel_link',
   pdfWarningBanner: 'pdf_warning_banner',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',

@@ -98,6 +98,6 @@ CommunityCareLanguagePage.propTypes = {
   pageChangeInProgress: PropTypes.bool.isRequired,
   routeToNextAppointmentPage: PropTypes.func.isRequired,
   routeToPreviousAppointmentPage: PropTypes.func.isRequired,
-  schema: PropTypes.object.isRequired,
   updateFormData: PropTypes.func.isRequired,
+  schema: PropTypes.object,
 };

@@ -31,25 +31,23 @@ const EmploymentQuestionSummaryReview = ({ data, name }) => {
   const isSpouse = name.toLowerCase().includes('spouse');
 
   return (
-    <>
-      <div
-        className="form-review-panel-page"
-        key={
-          isSpouse
-            ? `spouse${questions.spouseIsEmployed}`
-            : `vet${questions.vetIsEmployed}`
-        }
-      >
-        <div className="form-review-panel-page-header-row">
-          <h4 className="vads-u-font-size--h5">
-            {isSpouse ? "Spouse's employment status" : 'Employment status'}
-          </h4>
-        </div>
-        <dl className="review">
-          {renderEmploymentSelection(questions, isSpouse)}
-        </dl>
+    <div
+      className="form-review-panel-page"
+      key={
+        isSpouse
+          ? `spouse${questions.spouseIsEmployed}`
+          : `vet${questions.vetIsEmployed}`
+      }
+    >
+      <div className="form-review-panel-page-header-row">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+          {isSpouse ? "Spouse's employment status" : 'Employment status'}
+        </h4>
       </div>
-    </>
+      <dl className="review">
+        {renderEmploymentSelection(questions, isSpouse)}
+      </dl>
+    </div>
   );
 };
 
