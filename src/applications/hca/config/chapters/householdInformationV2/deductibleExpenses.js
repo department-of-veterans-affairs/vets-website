@@ -27,7 +27,7 @@ export default {
       'ui:description': MedicalExpensesDescription,
       deductibleMedicalExpenses: {
         ...currencyUI(
-          `Enter the amount you or your spouse paid in non-reimbursable medical expenses in ${lastYear}`,
+          `Enter the amount you or your spouse (if you’re married) paid in non-reimbursable medical expenses in ${lastYear}`,
         ),
         'ui:validations': [validateCurrency],
       },
