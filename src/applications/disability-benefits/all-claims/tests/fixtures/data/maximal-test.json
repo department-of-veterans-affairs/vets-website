@@ -118,6 +118,14 @@
           "phlebitis": true,
           "kneereplacement": true
         }
+      },
+      {
+        "treatmentCenterName": "No city, no disability names test",
+        "treatmentCenterAddress": {
+          "country": "USA",
+          "city": ""
+        },
+        "treatedDisabilityNames": {}
       }
     ],
     "view:hasEvidence": true,

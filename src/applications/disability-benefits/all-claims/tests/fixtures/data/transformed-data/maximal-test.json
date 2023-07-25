@@ -56,6 +56,14 @@
           "city": "Ugandan City"
         },
         "treatedDisabilityNames": ["asthma", "phlebitis", "knee replacement"]
+      },
+      {
+        "treatmentCenterName": "No city, no disability names test",
+        "treatmentCenterAddress": {
+          "country": "USA",
+          "city": ""
+        },
+        "treatedDisabilityNames": []
       }
     ],
     "confinements": [

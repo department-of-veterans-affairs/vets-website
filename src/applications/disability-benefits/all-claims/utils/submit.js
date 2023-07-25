@@ -154,7 +154,7 @@ export const setActionTypes = formData => {
  *                   "Originally-cased" = the case of the name in the disabilities list.
  */
 export function transformRelatedDisabilities(
-  conditionContainer,
+  conditionContainer = {},
   claimedConditions,
 ) {
   const findCondition = (list, name = '') =>
