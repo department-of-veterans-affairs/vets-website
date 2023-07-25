@@ -197,12 +197,8 @@ article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0
   text-transform: capitalize;
 }
 
-article[data-location^="area-of-disagreement/"],
-article[data-location="issue-summary"],
-article[data-location="evidence-submission"] {
-  fieldset {
-    margin-top: 0 !important;
-  }
+form.rjsf > fieldset {
+  margin-top: 0 !important;
 }
 
 /* additional evidence */
