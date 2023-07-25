@@ -5,7 +5,6 @@ import { validateCurrency } from '../../../utils/validation';
 import {
   DeductibleExpensesV2Description,
   EducationalExpensesDescription,
-  FuneralExpensesDescription,
   MedicalExpensesDescription,
 } from '../../../components/FormDescriptions';
 
@@ -44,7 +43,8 @@ export default {
     'view:deductibleFuneralExpenses': {
       'ui:title':
         'Funeral and burial expenses for a spouse or dependent who died',
-      'ui:description': FuneralExpensesDescription,
+      'ui:description':
+        'Funeral and burial expenses are any payments made by you, like prepaid expenses.',
       deductibleFuneralExpenses: {
         ...currencyUI(
           `Enter the amount you paid in funeral or burial expenses in ${lastYear}`,

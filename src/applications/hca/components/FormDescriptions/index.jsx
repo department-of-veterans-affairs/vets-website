@@ -403,16 +403,9 @@ export const FinancialDisclosureDescription = (
   </>
 );
 
-export const FuneralExpensesDescription = (
-  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-    Funeral and burial expenses are any payments made by you, like prepaid
-    expenses.
-  </div>
-);
-
 export const GrossIncomeDescription = (
   <>
-    <div className="vads-u-color--gray-medium vads-u-margin-y--1">
+    <div className="vads-u-margin-y--1">
       Gross income is income before taxes and any other deductions are
       subtracted.
     </div>
@@ -529,15 +522,9 @@ export const MedicalExpensesDescription = (
   </va-additional-info>
 );
 
-export const NetIncomeDescription = (
-  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-    Net income is income after any taxes and other deductions are subtracted.
-  </div>
-);
-
 export const OtherIncomeDescription = (
   <>
-    <div className="vads-u-color--gray-medium vads-u-margin-y--1">
+    <div className="vads-u-margin-y--1">
       Other income is additional income that doesn’t come from a job.
     </div>
 
