@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ReplyButton = props => {
+const ReplyBtn = props => {
   return (
     props.visible && (
       <li>
@@ -27,8 +27,8 @@ const ReplyButton = props => {
   );
 };
 
-ReplyButton.propTypes = {
+ReplyBtn.propTypes = {
   visible: PropTypes.bool,
   onReply: PropTypes.func,
 };
-export default ReplyButton;
+export default ReplyBtn;

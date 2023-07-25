@@ -64,6 +64,7 @@ export default {
             }),
             // index is appended to this ID in the TextWidget
             ariaDescribedby: 'other_hint_text',
+            hideEmptyValueInReview: true,
           },
         },
       },
