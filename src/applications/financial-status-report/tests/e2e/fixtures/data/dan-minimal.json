@@ -3,9 +3,9 @@
     "hasRecreationalVehicle": false,
     "hasVehicle": false,
     "hasRealEstate": false,
-    "hasDependents": "0",
+    "hasDependents": "1",
     "isMarried": false,
-    "vetIsEmployed": false
+    "vetIsEmployed": true
   },
   "view:components": {
     "view:realEstateAdditionalInfo": {},
@@ -86,10 +86,45 @@
       }
     },
     "employmentHistory": {
-      "veteran": {},
-      "spouse": {}
+      "veteran": {
+        "employmentRecords": [
+          {
+            "type": "Full time",
+            "from": "2020-03-XX",
+            "to": "",
+            "isCurrent": true,
+            "employerName": "Dan's Wizard Hole",
+            "grossMonthlyIncome": "3313",
+            "deductions": [
+              {
+                "name": "Federal tax",
+                "amount": "426.75"
+              },
+              {
+                "name": "State tax",
+                "amount": "426.75"
+              }
+            ]
+          }
+        ]
+      },
+      "spouse": {},
+      "newRecord": {
+        "type": "",
+        "from": "",
+        "to": "",
+        "isCurrent": false,
+        "employerName": "",
+        "grossMonthlyIncome": "",
+        "deductions": []
+      }
     },
-    "spouseFullName": {}
+    "spouseFullName": {},
+    "dependents": [
+      {
+        "dependentAge": "12"
+      }
+    ]
   },
   "personalIdentification": {
     "ssn": "4437",
@@ -215,12 +250,25 @@
   "benefits": {
     "spouseBenefits": {}
   },
-  "assets": {},
+  "assets": {
+    "monetaryAssets": [
+      {
+        "name": "Savings accounts",
+        "amount": "500"
+      }
+    ]
+  },
   "view:combinedFinancialStatusReport": true,
   "view:enhancedFinancialStatusReport": true,
   "income": [
     {
       "veteranOrSpouse": "VETERAN"
     }
-  ]
+  ],
+  "agreed": false,
+  "AGREED": false,
+  "streamlined": {
+    "value": true,
+    "type": "short"
+  }
 }
