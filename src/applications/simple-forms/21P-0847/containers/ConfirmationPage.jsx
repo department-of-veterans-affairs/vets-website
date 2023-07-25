@@ -5,9 +5,9 @@ import { connect, useSelector } from 'react-redux';
 import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
 
 const content = {
-  headlineText: 'Thank you for submitting your request',
+  headlineText: 'You’ve submitted your request to be a substitute claimant',
   nextStepsText:
-    'You may now submit evidence in support of pending claims or appeals for potential accrued benefits for the claimant.',
+    'We’ll mail you a letter to tell you our decision on your request.',
 };
 
 const childContent = (
@@ -16,24 +16,24 @@ const childContent = (
       What are my next steps?
     </h2>
     <p>
-      Once a substitution request is granted, the substitute claimant must
-      complete any action required by law or regulation within the time period
-      remaining for the original claimant to take such action on the date of
-      their death. The substitute has the same rights as would have applied to
-      the original claimant had they not died, including the rights regarding
-      hearings, representation, legacy appeals, decision review options for a
-      claim not finally adjudicated, and submission of evidence. The substitue
-      also has the right to request a decision review of a deceased claimant’s
-      claim that is not yet final.
+      After we approve your substitution request, you’re responsible for taking
+      any next steps that are needed to help finish the claim. You’ll have the
+      same deadlines to take the next steps as the deceased claimant would have
+      had if they survived. You’ll also have the same rights as the original
+      claimant would have had if they survived. This means you can request a
+      decision review if you disagree with a decision. You also have a right to
+      submit new evidence and ask for help from a representative. For most VA
+      benefits, you have 1 year from the date on your decision letter to request
+      a Higher-Level Review or a Board Appeal.
     </p>
     <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
       What if I change my mind?
     </h2>
     <p>
-      If you change your mind and do not want to be the substitute for the
-      deceased claimant, write us a letter to revoke your request.
+      If you no longer want to be the substitute claimant, send us a letter to
+      tell us to withdraw your request.
     </p>
-    <p>For compensation claims, please send your request to:</p>
+    <p>For disability compensation claims, mail your letter to this address:</p>
     <p className="va-address-block">
       Department of Veterans Affairs <br />
       Claims Intake Center
@@ -43,7 +43,9 @@ const childContent = (
       Janesville, WI 53547-5192
       <br />
     </p>
-    <p>For pension & survivor benefit claims, please send your request to:</p>
+    <p>
+      For pension and survivor benefit claims, mail your letter to this address:
+    </p>
     <p className="va-address-block">
       Department of Veterans Affairs <br />
       Pension Intake Center
@@ -54,10 +56,12 @@ const childContent = (
       <br />
     </p>
     <p className="vads-u-margin-bottom--0">
-      You may also bring the letter to revoke your request to your nearest VA
+      You may also bring the letter to cancel your request to your nearest VA
       regional office.
     </p>
     <a href="/find-locations">Find a VA regional office near you</a>
+    <br />
+    <br />
   </>
 );
 

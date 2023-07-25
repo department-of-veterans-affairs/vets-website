@@ -3,8 +3,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { VaNotification } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { dismissNotificationById } from '../../../common/actions/notifications';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-import { dismissNotificationById } from '../../actions/notifications';
+
+/*
+ * This component uses the va-notification web component 
+ * and is more updated than DebtNotificationAlert
+ */
 
 export const TestNotification = ({ notification, dismissNotification }) => {
   const [visible, setVisible] = useState(true);
@@ -30,21 +35,13 @@ export const TestNotification = ({ notification, dismissNotification }) => {
           has-close-text
           headline="You have new debt."
           headline-level="3"
+          date-time={createdAtFormatted}
           href="/manage-va-debt/your-debt"
           symbol="action-required"
           text="Manage your VA debt"
           visible
           class="vads-u-margin-bottom--1p5"
-        >
-          <time
-            slot="date"
-            dateTime={moment(notification.attributes.createdAt).format(
-              'YYYY-MM-DD HH:mm:ss',
-            )}
-          >
-            {createdAtFormatted}
-          </time>
-        </VaNotification>
+        />
       )}
     </DashboardWidgetWrapper>
   );
