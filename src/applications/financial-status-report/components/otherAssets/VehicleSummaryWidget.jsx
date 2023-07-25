@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { clearJobIndex } from '../../../utils/session';
+import { clearJobIndex } from '../../utils/session';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
-} from '../../../components/shared/MiniSummaryCard';
+} from '../shared/MiniSummaryCard';
 
-import { currency as currencyFormatter } from '../../../utils/helpers';
+import { currency as currencyFormatter } from '../../utils/helpers';
 
 const VehicleSummaryWidget = ({
   data,

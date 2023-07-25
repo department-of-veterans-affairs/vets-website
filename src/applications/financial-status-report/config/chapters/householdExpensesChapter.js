@@ -15,8 +15,8 @@ import {
   otherExpensesPages,
 } from '../../pages';
 
-import CreditCardBill from '../../components/creditCards/CreditCardBill';
-import CreditCardBillSummary from '../../pages/expenses/creditCardBills/CreditCardBillSummary';
+import CreditCardBill from '../../components/householdExpenses/CreditCardBill';
+import CreditCardBillSummary from '../../components/householdExpenses/CreditCardBillSummary';
 import AddUtilityBill from '../../components/utilityBills/AddUtilityBill';
 import UtilityBillSummary from '../../components/utilityBills/UtilityBillSummary';
 import UtilityBillSummaryReview from '../../components/utilityBills/UtilityBillSummaryReview';
@@ -24,7 +24,7 @@ import AddOtherExpense from '../../components/otherExpenses/AddOtherExpense';
 import OtherExpensesSummary from '../../components/otherExpenses/OtherExpensesSummary';
 import OtherExpensesSummaryReview from '../../components/otherExpenses/OtherExpensesSummaryReview';
 import InstallmentContract from '../../components/householdExpenses/InstallmentContract';
-import InstallmentContractSummary from '../../pages/expenses/repayments/InstallmentContractSummary';
+import InstallmentContractSummary from '../../components/householdExpenses/InstallmentContractSummary';
 import HouseholdExpensesSummaryReview from '../../components/householdExpenses/HouseholdExpensesSummaryReview';
 import CreditCardBillsSummaryReview from '../../components/householdExpenses/CreditCardBillsSummaryReview';
 import InstallmentContractsSummaryReview from '../../components/householdExpenses/InstallmentContractsSummaryReview';

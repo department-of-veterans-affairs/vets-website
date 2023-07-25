@@ -19,7 +19,7 @@ import AddAsset from '../../components/otherAssets/AddAsset';
 import OtherAssetsSummary from '../../components/otherAssets/OtherAssetsSummary';
 import OtherAssetsSummaryReview from '../../components/otherAssets/OtherAssetsSummaryReview';
 import EnhancedVehicleRecord from '../../components/household/EnhancedVehicleRecord';
-import VehicleSummaryWidget from '../../pages/assets/vehicles/VehicleSummaryWidget';
+import VehicleSummaryWidget from '../../components/otherAssets/VehicleSummaryWidget';
 import MonetaryAssetsSummaryReview from '../../components/monetary/MonetaryAssetsSummaryReview';
 import VehicleSummaryReview from '../../components/otherAssets/VehicleSummaryReview';
 

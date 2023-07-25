@@ -4,13 +4,13 @@ import { useSelector, connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router';
 import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { clearJobIndex } from '../../../utils/session';
+import { clearJobIndex } from '../../utils/session';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
-} from '../../../components/shared/MiniSummaryCard';
+} from '../shared/MiniSummaryCard';
 
-import { currency as currencyFormatter } from '../../../utils/helpers';
+import { currency as currencyFormatter } from '../../utils/helpers';
 
 const CreditCardBillSummary = ({
   goToPath,

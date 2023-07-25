@@ -34,9 +34,9 @@ import SpousePayrollDeductionChecklist from '../../components/householdIncome/Sp
 import SpousePayrollDeductionInputList from '../../components/householdIncome/SpousePayrollDeductionInputList';
 import PayrollDeductionChecklist from '../../components/householdIncome/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../../components/householdIncome/PayrollDeductionInputList';
-import EmploymentHistoryWidget from '../../pages/income/employmentEnhanced/EmploymentHistoryWidget';
+import EmploymentHistoryWidget from '../../components/employment/EmploymentHistoryWidget';
 import EnhancedBenefitsEdit from '../../components/debtsAndCopays/EnhancedBenefitsEdit';
-import SpouseEmploymentHistoryWidget from '../../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
+import SpouseEmploymentHistoryWidget from '../../components/employment/SpouseEmploymentHistoryWidget';
 import SpouseEmploymentQuestion from '../../components/employment/SpouseEmploymentQuestion';
 import EmploymentQuestion from '../../components/employment/EmploymentQuestion';
 import OtherIncomeSummary from '../../components/householdIncome/OtherIncomeSummary';
@@ -47,7 +47,7 @@ import DependentAges from '../../components/household/DependentAges';
 import DependentAgesReview from '../../components/household/DependentAgesReview';
 import EmploymentWorkDates from '../../components/employment/EmploymentWorkDates';
 import SpouseEmploymentWorkDates from '../../components/employment/SpouseEmploymentWorkDates';
-import OtherIncomeSummaryReview from '../../components/otherIncome/OtherIncomeSummaryReview';
+import OtherIncomeSummaryReview from '../../components/householdIncome/OtherIncomeSummaryReview';
 import EmploymentHistorySummaryReview from '../../components/employment/EmploymentHistorySummaryReview';
 import EmploymentQuestionSummaryReview from '../../components/employment/EmploymentQuestionSummaryReview';
 
