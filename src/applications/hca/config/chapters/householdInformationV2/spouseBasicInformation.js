@@ -12,7 +12,7 @@ const {
 
 export default {
   uiSchema: {
-    'ui:title': 'Spouse\u2019s information',
+    'ui:title': 'Spouse\u2019s basic information',
     'ui:description':
       'Fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
     spouseFullName: {

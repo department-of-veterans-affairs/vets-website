@@ -164,7 +164,7 @@ const formConfig = {
       pages: {
         veteranProfileInformation: {
           path: 'veteran-information/personal-information',
-          title: 'Veteran\u2019s profile information',
+          title: 'Veteran\u2019s personal information',
           depends: formData => formData['view:isLoggedIn'],
           CustomPage: VeteranProfileInformation,
           CustomPageReview: null,
@@ -391,8 +391,8 @@ const formConfig = {
       title: 'Household financial information',
       pages: {
         v2FinancialOnboarding: {
-          path: 'household-information-v2/financial-onboarding',
-          title: 'Financial onboarding',
+          path: 'household-information-v2/financial-information-use',
+          title: 'Financial information use',
           depends: formData =>
             !isShortFormEligible(formData) &&
             formData['view:isHouseholdV2Enabled'],
@@ -402,8 +402,8 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
         },
         v2FinancialDisclosure: {
-          path: 'household-information-v2/financial-disclosure',
-          title: 'Financial disclosure',
+          path: 'household-information-v2/share-financial-information',
+          title: 'Share financial information',
           depends: formData =>
             !isShortFormEligible(formData) &&
             formData['view:isHouseholdV2Enabled'],
@@ -411,8 +411,8 @@ const formConfig = {
           schema: v2FinancialDisclosure.schema,
         },
         v2FinancialConfirmation: {
-          path: 'household-information-v2/confirm-financial-disclosure',
-          title: 'Financial disclosure confirmation',
+          path: 'household-information-v2/share-financial-information-confirm',
+          title: 'Share financial information confirmation',
           depends: formData =>
             !isShortFormEligible(formData) &&
             !formData.discloseFinancialInformation &&
@@ -423,7 +423,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
         },
         v2FinancialInformation: {
-          path: 'household-information-v2/financial-information',
+          path: 'household-information-v2/financial-information-needed',
           title: 'Financial information needed',
           depends: formData =>
             !isShortFormEligible(formData) &&
