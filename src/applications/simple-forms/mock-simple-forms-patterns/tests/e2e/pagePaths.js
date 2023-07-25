@@ -10,6 +10,8 @@ export default {
   checkboxAndTextInput: formChapters.checkbox.pages.checkboxAndTextInput.path,
   select: formChapters.select.pages.select.path,
   radio: formChapters.radio.pages.radio.path,
+  radioRelationshipToVeteran:
+    formChapters.radio.pages.radioRelationshipToVeteran.path,
   date: formChapters.date.pages.date.path,
   arraySinglePage: formChapters.arraySinglePage.pages.arraySinglePage.path,
   arrayMultiplePage:

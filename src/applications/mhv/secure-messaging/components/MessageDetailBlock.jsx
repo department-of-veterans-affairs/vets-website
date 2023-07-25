@@ -5,6 +5,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
 import { useDispatch } from 'react-redux';
 import MessageActionButtons from './MessageActionButtons';
+import ReplyButton from './ReplyButton';
 import AttachmentsList from './AttachmentsList';
 import { Categories, Paths, PageTitles } from '../util/constants';
 import { dateFormat, updatePageTitle } from '../util/helpers';
@@ -136,12 +137,18 @@ const MessageDetailBlock = props => {
             </>
           )}
       </section>
+      <ReplyButton
+        key="replyButton"
+        visible={!cannotReply}
+        onReply={handleReplyButton}
+      />
     </div>
   );
 };
 MessageDetailBlock.propTypes = {
   cannotReply: PropTypes.bool,
   message: PropTypes.object,
+  onReply: PropTypes.func,
 };
 
 export default MessageDetailBlock;

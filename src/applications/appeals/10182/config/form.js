@@ -21,10 +21,10 @@ import {
   wantsToUploadEvidence,
   needsHearingType,
   appStateSelector,
-  getIssueName,
   showPart3,
   showExtensionReason,
 } from '../utils/helpers';
+import { getIssueTitle } from '../content/areaOfDisagreement';
 
 import { CONTESTABLE_ISSUES_PATH } from '../constants';
 
@@ -151,7 +151,7 @@ const formConfig = {
           schema: appealingVhaDenial.schema,
         },
         contestableIssues: {
-          title: 'Issues eligible for review',
+          title: 'You’ve selected these issues for review',
           path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
@@ -169,7 +169,7 @@ const formConfig = {
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         areaOfDisagreementFollowUp: {
-          title: getIssueName,
+          title: getIssueTitle,
           path: 'area-of-disagreement/:index',
           showPagePerItem: true,
           arrayPath: 'areaOfDisagreement',
