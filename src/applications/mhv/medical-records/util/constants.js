@@ -17,10 +17,14 @@ export const labTypes = {
 };
 
 export const LoincCodes = {
+  // lab and test results
   MICROBIOLOGY: '79381-0',
   PATHOLOGY: '60567-5',
   EKG: '11524-6',
   RADIOLOGY: '18748-4',
+  // care summaries and notes
+  PHYSICIAN_PROCEDURE_NOTE: '11505-5',
+  DISCHARGE_SUMMARY: '18842-5',
 };
 
 export const FhirResourceTypes = {
