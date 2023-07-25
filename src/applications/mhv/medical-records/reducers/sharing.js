@@ -53,7 +53,7 @@ export const sharingReducer = (state = initialState, action) => {
     }
     case Actions.Sharing.CLEAR: {
       return {
-        initialState,
+        ...initialState,
       };
     }
     default:

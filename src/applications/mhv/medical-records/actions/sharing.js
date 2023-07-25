@@ -23,7 +23,7 @@ export const updateSharingStatus = optIn => async dispatch => {
   } catch (e) {
     dispatch({
       type: Actions.Sharing.STATUS_ERROR,
-      response: { type: 'update', error: e },
+      response: { type: optIn ? 'optin' : 'optout', error: e },
     });
   }
 };
