@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
+import {
+  fetchSharingStatus,
+  updateSharingStatus,
+  clearSharingStatus,
+} from '../actions/sharing';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const SettingsPage = () => {
+  const isSharing = useSelector(state => state.mr.sharing.isSharing);
+  const statusError = useSelector(state => state.mr.sharing.statusError);
+
   const dispatch = useDispatch();
   const fullState = useSelector(state => state);
-  const [optedIn, setOptedIn] = useState(true);
 
   useEffect(
     () => {
@@ -21,8 +28,86 @@ const SettingsPage = () => {
     [dispatch],
   );
 
+  useEffect(
+    () => {
+      dispatch(fetchSharingStatus());
+    },
+    [dispatch],
+  );
+
+  const handleUpdateSharing = currentOptInStatus => {
+    dispatch(clearSharingStatus()).then(() => {
+      dispatch(updateSharingStatus(!currentOptInStatus));
+    });
+  };
+
+  const sharingCardContent = () => {
+    if (statusError) {
+      if (statusError.type === 'update') {
+        return (
+          <>
+            <h3 className="vads-u-margin-top--0">
+              We couldn’t update your sharing setting
+            </h3>
+            <p>
+              We encountered an error while updating your sharing status. Please
+              try again later.
+            </p>
+          </>
+        );
+      }
+      return (
+        <>
+          <h3 className="vads-u-margin-top--0">
+            We couldn’t determine your sharing setting
+          </h3>
+          <p>
+            We encountered an error while looking up your sharing status. Please
+            try again later.
+          </p>
+        </>
+      );
+    }
+    if (isSharing === undefined) {
+      return (
+        <va-loading-indicator
+          message="Loading..."
+          class="vads-u-margin--4"
+          data-testid="sharing-status-loading-indicator"
+        />
+      );
+    }
+    return (
+      <>
+        <h3 className="vads-u-margin-top--0">
+          Your sharing setting: {isSharing ? 'Opted in' : 'Opted out'}
+        </h3>
+        {isSharing ? (
+          <p>
+            We automatically include you in this online sharing program. You can
+            opt out (ask us not to share your records) at any time.
+          </p>
+        ) : (
+          <p>
+            We’re not currently sharing your records online with your community
+            care providers. If you want us to start sharing your records, you
+            can opt back in.
+          </p>
+        )}
+        <va-button
+          text={isSharing ? 'Opt out' : 'Opt back in'}
+          onClick={() =>
+            // setShareStatus(formSelection);
+            // setOptedIn(!isSharing);
+            handleUpdateSharing(isSharing)
+          }
+        />
+      </>
+    );
+  };
+
   return (
-    <div className="vads-u-margin-bottom--5">
+    <div className="settings vads-u-margin-bottom--5">
       <section>
         <h1>Share your medical record</h1>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 va-introtext">
@@ -59,28 +144,7 @@ const SettingsPage = () => {
           </li>
         </ul>
         <div className="card vads-u-padding--3 vads-u-background-color--gray-lightest">
-          <h3 className="vads-u-margin-top--0">
-            Your sharing setting: {optedIn ? 'Opted in' : 'Opted out'}
-          </h3>
-          {optedIn ? (
-            <p>
-              We automatically include you in this online sharing program. You
-              can opt out (ask us not to share your records) at any time.
-            </p>
-          ) : (
-            <p>
-              We’re not currently sharing your records online with your
-              community care providers. If you want us to start sharing your
-              records, you can opt back in.
-            </p>
-          )}
-          <va-button
-            text={optedIn ? 'Opt out' : 'Opt back in'}
-            onClick={() => {
-              // setShareStatus(formSelection);
-              setOptedIn(!optedIn);
-            }}
-          />
+          {sharingCardContent()}
         </div>
       </section>
       <section className="set-width-486">
