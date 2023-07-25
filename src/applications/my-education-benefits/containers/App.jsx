@@ -165,7 +165,7 @@ export const App = ({
       if (
         formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
         formData?.email?.email &&
-        showMebEnhancements08
+        formData?.showMebEnhancements08
       ) {
         getDuplicateContactInfo(
           [{ value: formData?.email?.email, dupe: '' }],
