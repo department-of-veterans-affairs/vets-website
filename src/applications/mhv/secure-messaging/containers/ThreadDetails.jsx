@@ -54,6 +54,7 @@ const ThreadDetails = props => {
     },
     [draftMessage, dispatch, folder],
   );
+
   useEffect(
     () => {
       if (threadId) {

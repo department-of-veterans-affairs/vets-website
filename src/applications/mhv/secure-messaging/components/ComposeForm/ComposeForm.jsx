@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   VaModal,
   VaSelect,
@@ -33,6 +33,7 @@ const ComposeForm = props => {
   const { draft, recipients } = props;
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
 
   const defaultRecipientsList = [{ id: 0, name: ' ' }];
   const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
@@ -57,6 +58,12 @@ const ComposeForm = props => {
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
+  const replyToMessageId = useSelector(
+    state => state.sm.draftDetails.replyToMessageId,
+  );
+  const replyFromInboxMessageId = useSelector(
+    state => state.sm.messageDetails?.message?.messageId,
+  );
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const fullState = useSelector(state => state);
 
@@ -126,6 +133,12 @@ const ComposeForm = props => {
     },
     [recipients, draft],
   );
+  const returnToFolder = () =>
+    (location.pathname === Paths.COMPOSE && history.push(Paths.INBOX)) ||
+    (location.pathname === `${Paths.MESSAGE_THREAD}${replyToMessageId}/` &&
+      history.push(Paths.DRAFTS)) ||
+    (location.pathname === `${Paths.REPLY}${replyFromInboxMessageId}/` &&
+      history.push(Paths.INBOX));
 
   useEffect(
     () => {
@@ -142,11 +155,11 @@ const ComposeForm = props => {
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
           dispatch(sendMessage(sendData, true))
-            .then(() => history.push(Paths.INBOX))
+            .then(() => returnToFolder())
             .catch(setSendMessageFlag(false));
         } else {
           dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
-            history.push(Paths.INBOX),
+            returnToFolder(),
           );
         }
       }

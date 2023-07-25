@@ -189,6 +189,12 @@ describe('Thread Details container', () => {
 
     const state = {
       sm: {
+        folders: {
+          folder: {
+            folderId: 0,
+            name: 'Inbox',
+          },
+        },
         triageTeams: {
           triageTeams: recipients,
         },
@@ -272,6 +278,12 @@ describe('Thread Details container', () => {
 
     const state = {
       sm: {
+        folders: {
+          folder: {
+            folderId: 0,
+            name: 'Inbox',
+          },
+        },
         triageTeams: {
           triageTeams: recipients,
         },
