@@ -4,8 +4,10 @@ import moment from 'moment';
 
 import recordEvent from '~/platform/monitoring/record-event';
 import {
+  getLighthouseClaimStatusDescription,
   getPhaseDescription,
   isClaimComplete,
+  isLighthouseClaimComplete,
   getClaimType,
 } from '../../utils/claims-helpers';
 
@@ -31,11 +33,9 @@ function handleViewClaim() {
 const claimInfo = (claim, useLighthouseClaims) => {
   if (useLighthouseClaims) {
     return {
-      inProgress:
-        claim.attributes.decisionLetterSent ||
-        claim.attributes.status === 'COMPLETE',
+      inProgress: !isLighthouseClaimComplete(claim),
       claimDate: claim.attributes.claimDate,
-      status: capitalizeFirstLetter(claim.attributes.status?.toLowerCase()),
+      status: getLighthouseClaimStatusDescription(claim.attributes.status),
     };
   }
   return {

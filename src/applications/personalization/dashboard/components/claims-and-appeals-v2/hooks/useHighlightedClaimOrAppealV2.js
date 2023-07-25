@@ -9,6 +9,12 @@ const isWithinPast60Days = date => {
   );
 };
 
+const isClaimOpen = claim => {
+  if (!claim?.attributes) return false;
+  if ('open' in claim.attributes) return claim.attributes.open; // evss
+  return claim.attributes.closeDate === null; // lighthouse
+};
+
 const getAppealUpdateDate = appeal => {
   const appealEvents = appeal?.attributes.events || [];
   return appealEvents[appealEvents.length - 1]?.date;
@@ -82,8 +88,9 @@ const useHighlightedClaimOrAppealV2 = (appealsData, claimsData) => {
       ) {
         mostRecentAppeal = null;
       }
+
       if (
-        !mostRecentClaim?.attributes?.open &&
+        !isClaimOpen(mostRecentClaim) &&
         !isWithinPast60Days(getClaimUpdateDate(mostRecentClaim))
       ) {
         mostRecentClaim = null;
