@@ -304,7 +304,7 @@ const ReplyForm = props => {
   if (replyMessage) {
     return (
       <>
-        <h1 ref={header} className="page-title">
+        <h1 ref={header} className="vads-u-margin-top--0">
           {setMessageTitle()}
         </h1>
         <CannotReplyAlert visible={cannotReply} />

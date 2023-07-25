@@ -76,7 +76,7 @@ const Compose = () => {
     if (!isDraftPage && triageTeams) {
       return (
         <>
-          <h1 className="page-title" ref={header}>
+          <h1 className="vads-u-margin-top--0" ref={header}>
             {pageTitle}
           </h1>
           <EmergencyNote dropDownFlag />
