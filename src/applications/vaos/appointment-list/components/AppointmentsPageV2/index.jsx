@@ -139,6 +139,7 @@ export default function AppointmentsPageV2() {
   let prefix = 'Your';
   const isPending = location.pathname.endsWith('/pending');
   const isPast = location.pathname.endsWith('/past');
+  const featureBreadcrumb = true;
 
   if (featureStatusImprovement) {
     if (isPending) {
@@ -153,8 +154,11 @@ export default function AppointmentsPageV2() {
   }
   useEffect(
     () => {
-      if (featureStatusImprovement) {
+      if (featureStatusImprovement && !featureBreadcrumb) {
         document.title = `${pageTitle} | VA online scheduling | Veterans Affairs`;
+        scrollAndFocus('h1');
+      } else if (featureStatusImprovement && featureBreadcrumb) {
+        document.title = `${pageTitle} | Veterans Affairs`;
         scrollAndFocus('h1');
       } else {
         document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
@@ -167,6 +171,7 @@ export default function AppointmentsPageV2() {
       location.pathname,
       prefix,
       pageTitle,
+      featureBreadcrumb,
     ],
   );
 
