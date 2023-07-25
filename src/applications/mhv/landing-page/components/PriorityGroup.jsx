@@ -1,15 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { environment } from '@department-of-veterans-affairs/platform-utilities';
-import { fetchEnrollmentStatus as actualFetchEnrollmentStatus } from '../actions';
 
-const url = path => `${environment.BaseUrl}${path}`;
-
-export const PriorityGroup = ({
-  fetchEnrollmentStatus = actualFetchEnrollmentStatus,
-  value,
-}) => {
+export const PriorityGroup = ({ fetchEnrollmentStatus, value }) => {
   useEffect(() => fetchEnrollmentStatus(), []);
   if (!value) return <></>;
   const priorityGroup = value.replace('Group ', '');
@@ -18,7 +11,7 @@ export const PriorityGroup = ({
       <i className="fas fa-clipboard-check" />
       Your healthcare priority group: {priorityGroup}
       <br />
-      <a href={url('/health-care/eligibility/priority-groups')}>
+      <a href="https://va.gov/health-care/eligibility/priority-groups">
         Learn more about priority groups
       </a>
     </div>

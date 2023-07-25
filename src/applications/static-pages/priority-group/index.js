@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-const createPriorityGroupAlertWidget = async (store, widgetType) => {
+const createPriorityGroupAlertWidget = (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (!root) return;
 

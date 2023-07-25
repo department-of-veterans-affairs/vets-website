@@ -1,42 +1,52 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import recordEvent from 'platform/monitoring/record-event';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { isLoggedIn } from 'platform/user/selectors';
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import ApiError from './ApiError';
 import Loading from './Loading';
 import PactAct from './PactAct';
 import PriorityGroup from './PriorityGroup';
 import SignInPrompt from './SignInPrompt';
-import { fetchEnrollmentStatus as actualFetchEnrollmentStatus } from '../actions';
+import {
+  fetchEnrollmentStatus as fetchEnrollmentStatusFn,
+  handleSignInClick as handleSignInClickFn,
+} from '../actions';
 import UnknownGroup from './UnknownGroup';
 
 export const App = ({
   enabled,
   enrollmentStatus,
   error,
-  fetchEnrollmentStatus = actualFetchEnrollmentStatus,
+  fetchEnrollmentStatus,
   handleSignInClick,
-  isSignedIn,
   loading,
+  signedIn,
 }) => {
-  useEffect(() => (enabled && isSignedIn ? fetchEnrollmentStatus() : null), [
+  // useEffect(() => (enabled && signedIn ? fetchEnrollmentStatus() : null), [
+  //   enabled,
+  //   signedIn,
+  // ]);
+
+  useEffect(() => fetchEnrollmentStatus(), [
     enabled,
-    isSignedIn,
+    fetchEnrollmentStatus,
+    signedIn,
   ]);
-  const showSignInPrompt = enabled && !error && !loading && !isSignedIn;
-  const showLoadingIndicator = enabled && !error && loading;
+  const showSignInPrompt = enabled && !error && !loading && !signedIn;
+  const showLoadingIndicator = enabled && !error && loading && signedIn;
   const showUnknownGroup =
-    enabled && !error && !loading && !enrollmentStatus?.priorityGroup;
+    enabled &&
+    !error &&
+    !loading &&
+    signedIn &&
+    !enrollmentStatus?.priorityGroup;
   const showPriorityGroup =
     enabled &&
     !error &&
     !loading &&
-    isSignedIn &&
+    signedIn &&
     !!enrollmentStatus?.priorityGroup;
 
   return (
@@ -62,29 +72,29 @@ App.propTypes = {
   error: PropTypes.bool,
   fetchEnrollmentStatus: PropTypes.func,
   handleSignInClick: PropTypes.func,
-  isSignedIn: PropTypes.bool,
   loading: PropTypes.bool,
+  signedIn: PropTypes.bool,
 };
 
 App.defaultProps = {
   enabled: false,
-  isSignedIn: false,
+  fetchEnrollmentStatus: () => {},
+  handleSignInClick: () => {},
+  signedIn: false,
 };
 
 const mapStateToProps = state => ({
   enabled: toggleValues(state)[FEATURE_FLAG_NAMES.showPriorityGroupAlertWidget],
   enrollmentStatus: state.data,
   error: state.error,
-  isSignedIn: isLoggedIn(state),
   loading: state.loading,
+  signedIn: isLoggedIn(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  handleSignInClick: () => {
-    recordEvent({ event: AUTH_EVENTS.LOGIN });
-    dispatch(toggleLoginModal(true));
-  },
-});
+const mapDispatchToProps = {
+  handleSignInClick: handleSignInClickFn,
+  fetchEnrollmentStatus: fetchEnrollmentStatusFn,
+};
 
 export default connect(
   mapStateToProps,
