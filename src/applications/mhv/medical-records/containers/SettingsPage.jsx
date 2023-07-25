@@ -23,7 +23,7 @@ const SettingsPage = () => {
       dispatch(
         setBreadcrumbs([{ url: '/my-health', label: 'Dashboard' }], {
           url: '/my-health/medical-records/settings',
-          label: 'Settings',
+          label: 'Medical records settings',
         }),
       );
     },
