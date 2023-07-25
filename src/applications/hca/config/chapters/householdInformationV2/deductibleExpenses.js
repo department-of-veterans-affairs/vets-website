@@ -3,6 +3,7 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import { validateCurrency } from '../../../utils/validation';
 import {
+  DeductibleExpensesV2Description,
   EducationalExpensesDescription,
   FuneralExpensesDescription,
   MedicalExpensesDescription,
@@ -19,9 +20,7 @@ const lastYear = date.getFullYear() - 1;
 
 export default {
   uiSchema: {
-    'ui:title': `Deductible expenses from ${lastYear}`,
-    'ui:description':
-      'These deductible expenses will lower the amount of money we count as your income.',
+    'ui:title': DeductibleExpensesV2Description,
     'view:deductibleMedicalExpenses': {
       'ui:title': 'Non-reimbursable medical expenses',
       'ui:description': MedicalExpensesDescription,
