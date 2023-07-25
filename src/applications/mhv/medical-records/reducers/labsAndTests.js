@@ -4,7 +4,12 @@ import {
   concatObservationInterpretations,
   getObservationValueWithUnits,
 } from '../util/helpers';
-import { LoincCodes, FhirResourceTypes, labTypes } from '../util/constants';
+import {
+  LoincCodes,
+  FhirResourceTypes,
+  labTypes,
+  emptyField,
+} from '../util/constants';
 
 const initialState = {
   /**
@@ -26,12 +31,12 @@ const initialState = {
 const convertChemHemObservation = results => {
   return results.filter(obs => obs.valueQuantity).map(result => {
     return {
-      name: result.code.coding.text,
-      result: getObservationValueWithUnits(result),
-      standardRange: result.referenceRange[0].text,
-      status: result.status,
-      // labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-      interpretation: concatObservationInterpretations(result),
+      name: result.code.text,
+      result: getObservationValueWithUnits(result) || emptyField,
+      standardRange: result.referenceRange[0].text || emptyField,
+      status: result.status || emptyField,
+      labLocation: result.labLocation || emptyField,
+      interpretation: concatObservationInterpretations(result) || emptyField,
     };
   });
 };
@@ -49,15 +54,14 @@ const convertChemHemRecord = record => {
     type: labTypes.CHEM_HEM,
     name: concatCategoryCodeText(record),
     category: concatCategoryCodeText(record),
-    // orderedBy: 'Beth M. Smith',
-    // requestedBy: 'John J. Lydon',
+    orderedBy: record.physician || emptyField,
+    requestedBy: record.physician || emptyField,
     date: record.effectiveDateTime,
-    // orderingLocation:
-    //   '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    // collectingLocation:
-    //   '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
+    orderingLocation: record.location || emptyField,
+    collectingLocation: record.location || emptyField,
     comments: [record.conclusion],
     results: convertChemHemObservation(results),
+    sampleTested: record.sampleTested || emptyField,
   };
 };
 
@@ -73,14 +77,14 @@ const convertMicrobiologyRecord = record => {
     category: '',
     orderedBy: 'Beth M. Smith',
     requestedBy: 'John J. Lydon',
-    date: record.effectiveDateTime,
-    sampleFrom: 'Blood',
-    // sampleTested: record.specimen,
+    date: record.effectiveDateTime || emptyField,
+    sampleFrom: record.type?.text || emptyField,
+    sampleTested: record.specimen?.text || emptyField,
     orderingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    // collectingLocation: record.performer,
+    collectingLocation: record.performer?.text || emptyField,
     labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    // results: record.conclusion || record.result,
+    results: record.conclusion || record.result || emptyField,
   };
 };
 

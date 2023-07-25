@@ -5,7 +5,7 @@ import nonStandardLimits from './fixtures/non-standard-fixture.json';
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
 
-// Temporarily disabling these tests because there is a flaky hector that fails 4 out of 20 times
+// Temporarily disabling these tests because there is a flaky selector that fails 4 out of 20 times
 // An upgrade to the latest Cypress fixes this problem and Platform is actively working on it
 // https://dsva.slack.com/archives/CBU0KDSB1/p1687455543337769
 xdescribe('Income Limits', () => {
@@ -315,8 +315,8 @@ xdescribe('Income Limits', () => {
       h.verifyElement(h.RESULTSPAGE);
       h.checkAccordionValue(h.RESULTS_1, '$16,037 or less', 0);
       h.checkAccordionValue(h.RESULTS_2, '$16,038 - $39,849', 1);
-      h.checkAccordionValue(h.RESULTS_3, '$39,850 - $43,834', 2);
-      h.checkAccordionValue(h.RESULTS_4, '$43,835 or more', 3);
+      h.checkAccordionValue(h.RESULTS_4, '$39,850 - $43,834', 2);
+      h.checkAccordionValue(h.RESULTS_5, '$43,835 or more', 3);
     });
   });
 

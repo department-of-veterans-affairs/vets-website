@@ -16,7 +16,6 @@ describe('hca <PreSubmitNotice>', () => {
     subscribe: () => {},
     dispatch: () => {},
   };
-
   const defaultProps = {
     formData: {},
     preSubmitInfo: {
@@ -31,112 +30,109 @@ describe('hca <PreSubmitNotice>', () => {
     onSectionComplete: sinon.spy(),
   };
 
-  it('should render', () => {
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <PreSubmitNotice {...defaultProps} />
-      </Provider>,
-    );
-    const checkbox = container.querySelector(
-      `[name="${defaultProps.preSubmitInfo.field}"]`,
-    );
-
-    expect(
-      container.querySelectorAll(
-        'li',
-        '[data-testid="hca-agreement-statements"]',
-      ),
-    ).to.have.lengthOf(4);
-    expect(container.querySelector('va-additional-info')).to.exist;
-    expect(checkbox).to.exist;
-    expect(checkbox).to.have.attribute(
-      'label',
-      defaultProps.preSubmitInfo.label,
-    );
-    expect(checkbox).to.have.attribute(
-      'required',
-      `${defaultProps.preSubmitInfo.required}`,
-    );
+  describe('when the component renders', () => {
+    it('should render with default attributes', () => {
+      const { container } = render(
+        <Provider store={defaultStore}>
+          <PreSubmitNotice {...defaultProps} />
+        </Provider>,
+      );
+      const {
+        preSubmitInfo: { label, required, field },
+      } = defaultProps;
+      const selectors = {
+        checkbox: container.querySelector(`[name="${field}"]`),
+        benefits: container.querySelector('va-additional-info'),
+        statements: container.querySelectorAll(
+          'li',
+          '[data-testid="hca-agreement-statements"]',
+        ),
+      };
+      expect(selectors.statements).to.have.lengthOf(4);
+      expect(selectors.benefits).to.exist;
+      expect(selectors.checkbox).to.exist;
+      expect(selectors.checkbox).to.have.attr('label', label);
+      expect(selectors.checkbox).to.have.attr('required', `${required}`);
+    });
   });
 
-  it('should render error message if form data value is false and `showError` is set to true', () => {
-    const props = { ...defaultProps, showError: true };
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <PreSubmitNotice {...props} />
-      </Provider>,
-    );
-    const checkbox = container.querySelector(
-      `[name="${defaultProps.preSubmitInfo.field}"]`,
-    );
+  describe('when the form is submitted', () => {
+    it('should not render error message if data value is `true`', () => {
+      const props = {
+        ...defaultProps,
+        formData: { privacyAgreementAccepted: true },
+      };
+      const { container } = render(
+        <Provider store={defaultStore}>
+          <PreSubmitNotice {...props} />
+        </Provider>,
+      );
+      const {
+        preSubmitInfo: { field, error },
+      } = defaultProps;
+      const selector = container.querySelector(`[name="${field}"]`);
+      expect(selector).to.not.have.attribute('error', error);
+    });
 
-    expect(checkbox).to.have.attribute(
-      'error',
-      defaultProps.preSubmitInfo.error,
-    );
-  });
-
-  it('should not render error message if form data value is true', () => {
-    const props = {
-      ...defaultProps,
-      formData: { privacyAgreementAccepted: true },
-    };
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <PreSubmitNotice {...props} />
-      </Provider>,
-    );
-    const checkbox = container.querySelector(
-      `[name="${defaultProps.preSubmitInfo.field}"]`,
-    );
-
-    expect(checkbox).to.not.have.attribute(
-      'error',
-      defaultProps.preSubmitInfo.error,
-    );
-  });
-
-  it('should not render error message if form has been submitted', () => {
-    const store = {
-      getState: () => ({
-        form: {
-          submission: {
-            status: 'submitPending',
+    it('should not render error message if submission status is pending', () => {
+      const store = {
+        getState: () => ({
+          form: {
+            submission: {
+              status: 'submitPending',
+            },
           },
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
-    const props = {
-      ...defaultProps,
-      formData: { privacyAgreementAccepted: true },
-    };
-    const { container } = render(
-      <Provider store={store}>
-        <PreSubmitNotice {...props} />
-      </Provider>,
-    );
-    const checkbox = container.querySelector(
-      `[name="${defaultProps.preSubmitInfo.field}"]`,
-    );
-
-    expect(checkbox).to.not.have.attribute(
-      'error',
-      defaultProps.preSubmitInfo.error,
-    );
+        }),
+        subscribe: () => {},
+        dispatch: () => {},
+      };
+      const props = {
+        ...defaultProps,
+        formData: { privacyAgreementAccepted: true },
+      };
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitNotice {...props} />
+        </Provider>,
+      );
+      const {
+        preSubmitInfo: { field, error },
+      } = defaultProps;
+      const selector = container.querySelector(`[name="${field}"]`);
+      expect(selector).to.not.have.attribute('error', error);
+    });
   });
 
-  it('should fire `onSectionComplete` when the checkbox is clicked', () => {
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <PreSubmitNotice {...defaultProps} />
-      </Provider>,
-    );
-    const checkbox = container.querySelector(
-      `[name="${defaultProps.preSubmitInfo.field}"]`,
-    );
-    fireEvent.click(checkbox);
-    expect(defaultProps.onSectionComplete.called).to.be.true;
+  describe('when an error occurs', () => {
+    it('should render error message if data value is `false` and `showError` is `true`', () => {
+      const props = { ...defaultProps, showError: true };
+      const { container } = render(
+        <Provider store={defaultStore}>
+          <PreSubmitNotice {...props} />
+        </Provider>,
+      );
+      const {
+        preSubmitInfo: { field, error },
+      } = defaultProps;
+      const selector = container.querySelector(`[name="${field}"]`);
+      expect(selector).to.have.attribute('error', error);
+    });
+  });
+
+  describe('when the checkbox is clicked', () => {
+    it('should fire `onSectionComplete` function', () => {
+      const { container } = render(
+        <Provider store={defaultStore}>
+          <PreSubmitNotice {...defaultProps} />
+        </Provider>,
+      );
+      const {
+        onSectionComplete,
+        preSubmitInfo: { field },
+      } = defaultProps;
+      const selector = container.querySelector(`[name="${field}"]`);
+      fireEvent.click(selector);
+      expect(onSectionComplete.called).to.be.true;
+    });
   });
 });

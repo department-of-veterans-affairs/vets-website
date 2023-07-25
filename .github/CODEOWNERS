@@ -58,7 +58,7 @@ src/applications/sah @department-of-veterans-affairs/benefits-team-1-frontend
 
 # VSA Debt
 
-src/applications/disability-benefits/2346 @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/1010-health-apps-frontend
+src/applications/disability-benefits/2346 @department-of-veterans-affairs/va-cto-health-products
 src/applications/debt-letters @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/1010-health-apps-frontend
 src/applications/burials @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 src/applications/financial-status-report @department-of-veterans-affairs/vsa-debt-frontend

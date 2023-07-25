@@ -11,8 +11,12 @@ const OtherIncomeSummaryReview = ({ data, title }) => {
   const recordArray = isSpouse ? spAddlIncome : addlIncRecords;
 
   return (
-    <>
-      <h4>{isSpouse ? 'Spouse’s additional income' : 'Additional income'}</h4>
+    <div className="form-review-panel-page">
+      <div className="form-review-panel-page-header-row">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+          {isSpouse ? 'Spouse’s additional income' : 'Additional income'}
+        </h4>
+      </div>
       <dl className="review">
         {recordArray.map((income, index) => {
           return (
@@ -26,7 +30,7 @@ const OtherIncomeSummaryReview = ({ data, title }) => {
           );
         })}
       </dl>
-    </>
+    </div>
   );
 };
 
