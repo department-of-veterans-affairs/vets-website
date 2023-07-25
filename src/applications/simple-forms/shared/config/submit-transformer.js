@@ -5,7 +5,9 @@ const replacer = (_key, value) => {
   // [except start of unicode-sequences (e.g., '\u00E9')]
   // with single-quotes and forward-slashes
   if (typeof value === 'string') {
-    return value.replace(/"/gm, "'").replace(/\\(?!u[\d,a-fA-F]{4})/gm, '/');
+    return value
+      .replace(/"/gm, "'")
+      .replace(/\\(?![u,U][\d,a-fA-F]{4})/gm, '/');
   }
 
   return value;
