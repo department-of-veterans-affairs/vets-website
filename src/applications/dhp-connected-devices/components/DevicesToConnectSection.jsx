@@ -46,6 +46,23 @@ export const DevicesToConnectSection = ({
     return (
       <>
         <div>
+          <strong>
+            Data that you share with VA may not be actively monitored by your VA
+            care team.
+          </strong>{' '}
+          If you have a healthcare concern or specific questions about any of
+          your device data that you’ve shared with VA, please reach out to your
+          VA care team directly via{' '}
+          <a
+            href="https://www.myhealth.va.gov"
+            target="_blank"
+            rel="noreferrer"
+          >
+            My HealtheVet
+          </a>
+          .
+        </div>
+        <div>
           Choose a device type below to connect. You will be directed to an
           external website and asked to enter your sign in information for that
           device. When complete, you will return to this page on VA.gov.
