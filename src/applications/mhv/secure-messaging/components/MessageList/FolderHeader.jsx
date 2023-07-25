@@ -10,7 +10,7 @@ import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 const FolderHeader = props => {
   const { folder, searchProps } = props;
   const location = useLocation();
-  const [showComposeMessage, setShowComposeMessage] = useState(false);
+
   const handleFolderDescription = () => {
     let text = '';
     switch (folder.folderId) {
@@ -23,11 +23,9 @@ const FolderHeader = props => {
         break;
       case Folders.DELETED.id: // Trash
         text = Folders.DELETED.desc;
-        setShowComposeMessage(false);
         break;
       default:
-        text = Folders.CUSTOM_FOLDER.desc; // Custom Folder Sub-header;
-        setShowComposeMessage(false);
+        text = Folders.CUSTOM_FOLDER.desc; // Custom Folder Sub-headerr;
         break;
     }
     return (
@@ -58,6 +56,7 @@ const FolderHeader = props => {
       </h1>
       <>{handleFolderDescription()}</>
       {folder.folderId === Folders.INBOX.id && <ComposeMessageButton />}
+      {folder.folderId === Folders.SENT.id && <ComposeMessageButton />}
       <ManageFolderButtons />
       {folder.count > 0 && (
         <SearchForm
