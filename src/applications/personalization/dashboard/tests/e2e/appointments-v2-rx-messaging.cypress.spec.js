@@ -2,7 +2,7 @@ import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system
 
 import { v2 } from '../../mocks/appointments';
 import { mockFolderResponse } from '../../utils/mocks/messaging/folder';
-import { generateFeatureToggles } from '../../mocks/feature-toggles';
+import { generateFeatureToggles } from '../../../common/mocks/feature-toggles';
 
 import {
   makeUserObject,

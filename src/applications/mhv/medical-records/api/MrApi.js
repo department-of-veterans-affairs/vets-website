@@ -1,7 +1,10 @@
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import vaccines from '../tests/fixtures/vaccines.json';
+import vaccine from '../tests/fixtures/vaccine.json';
+import notes from '../tests/fixtures/notes.json';
+import note from '../tests/fixtures/note.json';
 import labsAndTests from '../tests/fixtures/labsAndTests.json';
-import careSummariesAndNotes from '../tests/fixtures/careSummariesAndNotes.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import allergies from '../tests/fixtures/allergies.json';
@@ -11,17 +14,11 @@ const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
 export const getLabsAndTests = () => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
-    return apiRequest(
-      // `${apiBasePath}/medical_records/labs_and_tests?patient_id=258974`, // labs (chem/hem)
-      // `${apiBasePath}/medical_records/labs_and_tests?patient_id=1865867`, // micro
-      // `${apiBasePath}/medical_records/labs_and_tests?patient_id=1861684`, // micro
-      `${apiBasePath}/medical_records/labs_and_tests?patient_id=646151`, // micro
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    return apiRequest(`${apiBasePath}/medical_records/labs_and_tests`, {
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+    });
   }
   return new Promise(resolve => {
     setTimeout(() => {
@@ -48,18 +45,15 @@ export const getLabOrTest = id => {
 
 export const getNotes = () => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
-    return apiRequest(
-      `${apiBasePath}/medical_records/clinical_notes?patient_id=1174378`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+    });
   }
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(careSummariesAndNotes);
+      resolve(notes);
     }, 1000);
   });
 };
@@ -74,22 +68,18 @@ export const getNote = id => {
   }
   return new Promise(resolve => {
     setTimeout(() => {
-      const summary = careSummariesAndNotes.find(sum => +sum.id === +id);
-      resolve(summary);
+      resolve(note);
     }, 1000);
   });
 };
 
 export const mockGetVitalsList = () => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
-    return apiRequest(
-      `${apiBasePath}/medical_records/vitals?patient_id=30163`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    return apiRequest(`${apiBasePath}/medical_records/vitals`, {
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+    });
   }
   return new Promise(resolve => {
     setTimeout(() => {
@@ -100,14 +90,11 @@ export const mockGetVitalsList = () => {
 
 export const getConditions = () => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
-    return apiRequest(
-      `${apiBasePath}/medical_records/conditions?patient_id=39254`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    return apiRequest(`${apiBasePath}/medical_records/conditions`, {
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+    });
   }
   return new Promise(resolve => {
     setTimeout(() => {
@@ -134,14 +121,11 @@ export const getCondition = id => {
 
 export const getAllergies = () => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
-    return apiRequest(
-      `${apiBasePath}/medical_records/allergies?patient_id=30163`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    return apiRequest(`${apiBasePath}/medical_records/allergies`, {
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+    });
   }
   return new Promise(resolve => {
     setTimeout(() => {
@@ -171,15 +155,22 @@ export const getAllergy = id => {
  * @returns list of patient's vaccines in FHIR format
  */
 export const getVaccineList = () => {
-  return apiRequest(
-    // Temporarily hard-coding a patient ID for development.
-    `${apiBasePath}/medical_records/vaccines?patient_id=2952`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
+  if (environment.BUILDTYPE === 'localhost' && testing) {
+    return apiRequest(
+      // Temporarily hard-coding a patient ID for development.
+      `${apiBasePath}/medical_records/vaccines`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    },
-  );
+    );
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(vaccines);
+    }, 1000);
+  });
 };
 
 /**
@@ -188,9 +179,16 @@ export const getVaccineList = () => {
  * @returns vaccine details in FHIR format
  */
 export const getVaccine = id => {
-  return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
+  if (environment.BUILDTYPE === 'localhost' && testing) {
+    return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(vaccine);
+    }, 1000);
   });
 };

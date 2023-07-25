@@ -10,7 +10,7 @@ const Navigation = () => {
   const paths = [
     {
       path: '/',
-      label: 'About VA medical records',
+      label: 'Medical records',
       datatestid: 'about-va-medical-records-sidebar',
       subpaths: [
         {

@@ -211,6 +211,21 @@ const testConfig = createTestConfig(
           });
         });
       },
+      [pagePaths.radioRelationshipToVeteran]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            // web components
+            selectRadioWebComponent(
+              'wcv3RelationshipToVeteran',
+              data.wcv3RelationshipToVeteran,
+            );
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
       [pagePaths.arraySinglePage]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
