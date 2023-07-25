@@ -17,7 +17,7 @@ describe('Secure Messaging Save Draft', () => {
     landingPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse);
-    patientInterstitialPage.getContinueButton().click();
+    patientInterstitialPage.getContinueButton().should('not.exist');
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
