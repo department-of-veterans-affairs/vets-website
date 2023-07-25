@@ -100,6 +100,23 @@ const NotificationSettings = ({
 
   const availableGroups = useAvailableGroups();
 
+  const shouldShowNotificationGroups = useMemo(
+    () => {
+      return (
+        !shouldShowAPIError &&
+        !showMissingContactInfoAlert &&
+        !shouldShowLoadingIndicator &&
+        availableGroups.length > 0
+      );
+    },
+    [
+      shouldShowAPIError,
+      showMissingContactInfoAlert,
+      shouldShowLoadingIndicator,
+      availableGroups,
+    ],
+  );
+
   return (
     <>
       <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
@@ -119,41 +136,40 @@ const NotificationSettings = ({
           }
         />
       )}
-      {!showMissingContactInfoAlert &&
-        availableGroups.length > 0 && (
-          <>
-            <FieldHasBeenUpdatedAlert />
-            <ContactInfoOnFile
-              emailAddress={emailAddress}
-              mobilePhoneNumber={mobilePhoneNumber}
-              showEmailNotificationSettings={
-                notificationToggles.showEmailNotificationSettings
-              }
-            />
-            <MissingContactInfoExpandable
-              showEmailNotificationSettings={
-                notificationToggles.showEmailNotificationSettings
-              }
-            />
-            <hr aria-hidden="true" />
-            {availableGroups.map(({ id }) => {
-              // we handle the health care group a little differently
-              if (id === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
-                return (
-                  <NotificationGroup groupId={id} key={id}>
-                    <HealthCareGroupSupportingText />
-                  </NotificationGroup>
-                );
-              }
+      {shouldShowNotificationGroups && (
+        <>
+          <FieldHasBeenUpdatedAlert />
+          <ContactInfoOnFile
+            emailAddress={emailAddress}
+            mobilePhoneNumber={mobilePhoneNumber}
+            showEmailNotificationSettings={
+              notificationToggles.showEmailNotificationSettings
+            }
+          />
+          <MissingContactInfoExpandable
+            showEmailNotificationSettings={
+              notificationToggles.showEmailNotificationSettings
+            }
+          />
+          <hr aria-hidden="true" />
+          {availableGroups.map(({ id }) => {
+            // we handle the health care group a little differently
+            if (id === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
+              return (
+                <NotificationGroup groupId={id} key={id}>
+                  <HealthCareGroupSupportingText />
+                </NotificationGroup>
+              );
+            }
 
-              return <NotificationGroup groupId={id} key={id} />;
-            })}
-            <p className="vads-u-margin-bottom--0">
-              <strong>Note:</strong> We have limited notification options at
-              this time. Check back for more options in the future.
-            </p>
-          </>
-        )}
+            return <NotificationGroup groupId={id} key={id} />;
+          })}
+          <p className="vads-u-margin-bottom--0">
+            <strong>Note:</strong> We have limited notification options at this
+            time. Check back for more options in the future.
+          </p>
+        </>
+      )}
     </>
   );
 };

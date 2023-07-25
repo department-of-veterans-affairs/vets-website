@@ -108,15 +108,16 @@ const ReviewPage = ({
 
   return (
     <>
-      <h1>Aenean tristique mollis</h1>
+      <h1>Review your information</h1>
       <p className="il-review">
-        Fusce risus lacus, efficitur ac magna vitae, cursus lobortis dui.
+        Make any edits that you may need to. Then select{' '}
+        <strong>Continue</strong>.
       </p>
       <ul data-testid="il-review">
         {pastMode && (
           <li>
             <span data-testid="review-year">
-              <strong>Vitae:</strong>
+              <strong>Year:</strong>
               <br /> {yearInput}
             </span>
             <span className="income-limits-edit">
@@ -134,7 +135,7 @@ const ReviewPage = ({
         )}
         <li>
           <span data-testid="review-zip">
-            <strong>Nisci orci:</strong>
+            <strong>Zip code:</strong>
             <br /> {zipCodeInput}
           </span>
           <span className="income-limits-edit">
@@ -151,7 +152,7 @@ const ReviewPage = ({
         </li>
         <li>
           <span data-testid="review-dependents">
-            <strong>Malesuada felis ultrices:</strong>
+            <strong>Number of dependents:</strong>
             <br /> {dependentsInput}
           </span>
           <span className="income-limits-edit">

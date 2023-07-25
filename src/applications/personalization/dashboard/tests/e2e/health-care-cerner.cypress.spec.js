@@ -1,6 +1,6 @@
 import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system/enrolled.json';
 import vamcErc from '../fixtures/vamc-ehr.json';
-import { generateFeatureToggles } from '../../mocks/feature-toggles';
+import { generateFeatureToggles } from '../../../common/mocks/feature-toggles';
 
 import {
   makeUserObject,
