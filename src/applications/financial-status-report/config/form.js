@@ -28,6 +28,7 @@ const formConfig = {
   wizardStorageKey: WIZARD_STATUS,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  VA_FORM_IDS: VA_FORM_IDS.FORM_5655,
   preSubmitInfo: PreSubmitSignature,
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
