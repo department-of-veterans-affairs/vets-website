@@ -20,7 +20,6 @@ const MessageDetail = () => {
     state => state.sm.messageDetails.messageHistory,
   );
   const isTrash = window.location.pathname.includes(Paths.DELETED);
-  const isSent = window.location.pathname.includes(Paths.SENT);
   const location = useLocation();
   const history = useHistory();
   const [cannotReplyAlert, setcannotReplyAlert] = useState(true);
@@ -74,9 +73,7 @@ const MessageDetail = () => {
 
   let pageTitle;
 
-  if (isSent) {
-    pageTitle = 'Sent';
-  } else if (isTrash) {
+  if (isTrash) {
     pageTitle = 'Trash';
   } else {
     pageTitle = 'Message';
