@@ -94,7 +94,7 @@ const FolderThreadListView = props => {
         }
       };
     },
-    [dispatch, location.pathname, params.folderId, testing],
+    [dispatch, location.pathname, params.folderId],
   );
 
   useEffect(
@@ -127,16 +127,7 @@ const FolderThreadListView = props => {
         }
       }
     },
-    [
-      folder.folderId,
-      dispatch,
-      folder.name,
-      threadSort?.folderId,
-      threadSort.value,
-      threadSort.page,
-      searchFolder?.folderId,
-      location.pathname,
-    ],
+    [folder?.folderId, dispatch],
   );
 
   useEffect(
@@ -155,13 +146,7 @@ const FolderThreadListView = props => {
         );
       }
     },
-    [
-      dispatch,
-      threadSort.value,
-      threadSort.folderId,
-      threadSort.page,
-      folder.folderId,
-    ],
+    [dispatch, threadSort.value, threadSort.folderId, threadSort.page],
   );
 
   useEffect(
