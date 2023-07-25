@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { DefaultFolders as Folders, PageTitles } from '../../util/constants';
@@ -10,7 +10,7 @@ import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 const FolderHeader = props => {
   const { folder, searchProps } = props;
   const location = useLocation();
-  let showComposeMessage = true;
+  const [showComposeMessage, setShowComposeMessage] = useState(false);
   const handleFolderDescription = () => {
     let text = '';
     switch (folder.folderId) {
@@ -23,11 +23,11 @@ const FolderHeader = props => {
         break;
       case Folders.DELETED.id: // Trash
         text = Folders.DELETED.desc;
-        showComposeMessage = false;
+        setShowComposeMessage(false);
         break;
       default:
         text = Folders.CUSTOM_FOLDER.desc; // Custom Folder Sub-header;
-        showComposeMessage = false;
+        setShowComposeMessage(false);
         break;
     }
     return (
