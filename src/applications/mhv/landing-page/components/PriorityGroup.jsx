@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 export const PriorityGroup = ({ fetchEnrollmentStatus, value }) => {
-  useEffect(() => fetchEnrollmentStatus(), []);
+  useEffect(() => fetchEnrollmentStatus(), [fetchEnrollmentStatus]);
   if (!value) return <></>;
   const priorityGroup = value.replace('Group ', '');
   return (
@@ -21,6 +21,10 @@ export const PriorityGroup = ({ fetchEnrollmentStatus, value }) => {
 PriorityGroup.propTypes = {
   fetchEnrollmentStatus: PropTypes.func,
   value: PropTypes.string,
+};
+
+PriorityGroup.defaultProps = {
+  fetchEnrollmentStatus: () => {},
 };
 
 const mapStateToProps = state => ({
