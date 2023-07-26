@@ -241,7 +241,7 @@ export const DeductibleExpensesV2Description = () => {
   const date = new Date();
   return (
     <>
-      Deductible expenses from ${date.getFullYear - 1}
+      Deductible expenses from ${date.getFullYear() - 1}
       <span className="sr-only">.</span>
       <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
         These deductible expenses will lower the amount of money we count as
