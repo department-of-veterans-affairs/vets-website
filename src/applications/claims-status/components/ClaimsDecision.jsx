@@ -48,7 +48,7 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
         <div>
           <p className="vads-u-margin-y--0 vads-u-margin-bottom--2">
             <strong>
-              Decision letters aren’t available to download right now
+              Decision letters aren’t available to download right now.
             </strong>
             We’re fixing some problems with this tool. Check back later. If you
             need information about your decision letters now, call us at
