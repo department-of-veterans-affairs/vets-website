@@ -1,4 +1,4 @@
-import AvailableDebts from '../../components/AvailableDebts';
+import AvailableDebts from '../../components/debtsAndCopays/AvailableDebts';
 
 export const uiSchema = {
   availableDebts: {

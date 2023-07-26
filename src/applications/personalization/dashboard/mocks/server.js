@@ -1,6 +1,9 @@
 const delay = require('mocker-api/lib/delay');
-const { generateFeatureToggles } = require('./feature-toggles');
-const user = require('./users');
+const {
+  generateFeatureToggles,
+} = require('../../common/mocks/feature-toggles');
+const user = require('../../common/mocks/users');
+const notifications = require('../../common/mocks/notifications');
 const { createSuccessPayment } = require('./payment-history');
 const { createAppealsSuccess } = require('./appeals-success');
 const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
@@ -8,7 +11,6 @@ const { createClaimsSuccess } = require('./evss-claims');
 const { createLighthouseClaimsSuccess } = require('./lighthouse-claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
 const { createUnreadMessagesSuccess } = require('./messaging');
-const notifications = require('./notifications');
 const { user81Copays } = require('./medical-copays');
 const { v2 } = require('./appointments');
 

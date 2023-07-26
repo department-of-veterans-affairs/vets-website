@@ -32,9 +32,10 @@ import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
+import CustomEmailField from '../components/CustomEmailField';
+import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
 import DateReviewField from '../components/DateReviewField';
 // import DirectDepositViewField from '../components/DirectDepositViewField';
-import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
 import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -46,6 +47,7 @@ import CustomPreSubmitInfo from '../components/PreSubmitInfo';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
 import TextNotificationsDisclaimer from '../components/TextNotificationsDisclaimer';
 import YesNoReviewField from '../components/YesNoReviewField';
+import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 
 import { ELIGIBILITY } from '../actions';
 import { formFields } from '../constants';
@@ -166,7 +168,7 @@ function titleCase(str) {
 }
 
 function phoneUISchema(category) {
-  return {
+  const schema = {
     'ui:options': {
       hideLabelText: true,
       showFieldLabel: false,
@@ -198,6 +200,13 @@ function phoneUISchema(category) {
       },
     },
   };
+
+  // use custom component if mobile phone
+  if (category === 'mobile') {
+    schema.phone['ui:widget'] = CustomPhoneNumberField;
+  }
+
+  return schema;
 }
 
 function phoneSchema() {
@@ -670,7 +679,7 @@ const formConfig = {
               email: {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
-                'ui:reviewField': EmailReviewField,
+                'ui:widget': CustomEmailField,
               },
               confirmEmail: {
                 ...emailUI('Confirm email address'),
@@ -688,6 +697,9 @@ const formConfig = {
                   }
                 },
               ],
+            },
+            'view:confirmDuplicateData': {
+              'ui:description': DuplicateContactInfoModal,
             },
           },
           schema: {
@@ -711,6 +723,10 @@ const formConfig = {
                   email,
                   confirmEmail: email,
                 },
+              },
+              'view:confirmDuplicateData': {
+                type: 'object',
+                properties: {},
               },
             },
           },
@@ -957,13 +973,32 @@ const formConfig = {
                     form =>
                       form[formFields.viewPhoneNumbers].mobilePhoneNumber.phone,
                     form => form[formFields.viewPhoneNumbers].phoneNumber.phone,
-                    (mobilePhoneNumber, homePhoneNumber) => {
+                    form => form?.duplicateEmail,
+                    form => form?.duplicatePhone,
+                    (
+                      mobilePhoneNumber,
+                      homePhoneNumber,
+                      duplicateEmail,
+                      duplicatePhone,
+                    ) => {
                       const invalidContactMethods = [];
-                      if (!mobilePhoneNumber) {
+
+                      const dupePhonePresent = duplicatePhone?.filter(
+                        entry => entry.dupe === true,
+                      );
+
+                      if (!mobilePhoneNumber || dupePhonePresent?.length > 0) {
                         invalidContactMethods.push('Mobile Phone');
                       }
                       if (!homePhoneNumber) {
                         invalidContactMethods.push('Home Phone');
+                      }
+                      const dupeEmailPresent = duplicateEmail?.filter(
+                        entry => entry.dupe === true,
+                      );
+
+                      if (dupeEmailPresent?.length > 0) {
+                        invalidContactMethods.push('Email');
                       }
 
                       return {
@@ -973,6 +1008,7 @@ const formConfig = {
                       };
                     },
                   );
+
                   return form => filterContactMethods(form);
                 })(),
               },
@@ -998,6 +1034,13 @@ const formConfig = {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
                 'ui:widget': 'radio',
+                'ui:required': formData =>
+                  formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === false,
+                  ) ||
+                  formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === false,
+                  ),
                 'ui:validations': [
                   (errors, field, formData) => {
                     const isYes = field.slice(0, 4).includes('Yes');
@@ -1006,6 +1049,12 @@ const formConfig = {
                     const { isInternational } = formData[
                       formFields.viewPhoneNumbers
                     ].mobilePhoneNumber;
+                    const hasDupePhone = formData?.duplicatePhone?.filter(
+                      entry => entry?.dupe === true,
+                    );
+                    const hasDupeEmail = formData?.duplicateEmail?.filter(
+                      entry => entry?.dupe === true,
+                    );
 
                     if (isYes) {
                       if (!phoneExist) {
@@ -1016,11 +1065,26 @@ const formConfig = {
                         errors.addError(
                           "You can't select that response because you have an international mobile phone number",
                         );
+                      } else if (hasDupePhone?.length > 0) {
+                        errors.addError(
+                          "You can't select that response because your mobile phone number is on file for another person",
+                        );
                       }
+                    } else if (hasDupeEmail?.length > 0 && !isYes) {
+                      errors.addError(
+                        "You can't select that response because your email is on file for another person",
+                      );
                     }
                   },
                 ],
                 'ui:options': {
+                  hideIf: formData =>
+                    formData?.duplicateEmail?.some(
+                      entry => entry?.dupe === true,
+                    ) &&
+                    formData?.duplicatePhone?.some(
+                      entry => entry?.dupe === true,
+                    ),
                   widgetProps: {
                     Yes: { 'data-info': 'yes' },
                     No: { 'data-info': 'no' },
@@ -1060,7 +1124,8 @@ const formConfig = {
                   ) ||
                   formData[formFields.viewPhoneNumbers][
                     formFields.mobilePhoneNumber
-                  ].isInternational,
+                  ].isInternational ||
+                  formData?.duplicatePhone?.some(entry => entry?.dupe === true),
               },
             },
             'view:noMobilePhoneAlert': {
@@ -1102,6 +1167,98 @@ const formConfig = {
                   ].isInternational,
               },
             },
+            'view:emailOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get email notifications because your
+                    email is on file for another person with education benefits.
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === false,
+                  ) ||
+                  (formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === true,
+                  ) &&
+                    formData?.duplicatePhone?.some(
+                      entry => entry?.dupe === true,
+                    )),
+              },
+            },
+            'view:mobilePhoneOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get text notifications because your
+                    mobile phone number is on file for another person with
+                    education benefits. You will not be able to take full
+                    advantage of VA’s electronic notifications and enrollment
+                    verifications available. If you cannot, certain electronic
+                    services will be limited or unavailable.
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === false,
+                  ) ||
+                  (formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === true,
+                  ) &&
+                    formData?.duplicatePhone?.some(
+                      entry => entry?.dupe === true,
+                    )),
+              },
+            },
+            'view:duplicateEmailAndPhoneAndNoHomePhone': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get text notifications because your
+                    mobile phone number is on file for another person with
+                    education benefits. You will not be able to take full
+                    advantage of VA’s electronic notifications and enrollment
+                    verifications available. If you cannot, certain electronic
+                    services will be limited or unavailable.{' '}
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment/"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === false,
+                  ) ||
+                  formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === false,
+                  ),
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -1116,7 +1273,7 @@ const formConfig = {
               },
               [formFields.viewReceiveTextMessages]: {
                 type: 'object',
-                required: [formFields.receiveTextMessages],
+                // required: [formFields.receiveTextMessages],
                 properties: {
                   [formFields.receiveTextMessages]: {
                     type: 'string',
@@ -1136,6 +1293,18 @@ const formConfig = {
                 properties: {},
               },
               'view:internationalTextMessageAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:emailOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:mobilePhoneOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:duplicateEmailAndPhoneAndNoHomePhone': {
                 type: 'object',
                 properties: {},
               },

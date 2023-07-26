@@ -90,6 +90,7 @@ export default Object.freeze({
   myVaUseExperimental: 'my_va_experimental',
   myVaUseLighthouseClaims: 'my_va_lighthouse_claims',
   nodBrowserMonitoringEnabled: 'nod_browser_monitoring_enabled',
+  nodPart3Update: 'nod_part3_update',
   omniChannelLink: 'omni_channel_link',
   pdfWarningBanner: 'pdf_warning_banner',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',

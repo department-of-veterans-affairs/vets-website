@@ -1,6 +1,7 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import { emptyField } from '../util/constants';
+import { isArrayAndHasItems } from '../util/helpers';
 
 const initialState = {
   /**
@@ -19,7 +20,7 @@ const initialState = {
  * @param {Object} vaccine a FHIR vaccine resource
  * @returns a vaccine object that this application can use, or null if the param is null/undefined
  */
-const convertVaccine = vaccine => {
+export const convertVaccine = vaccine => {
   if (typeof vaccine === 'undefined' || vaccine === null) {
     return null;
   }
@@ -29,8 +30,11 @@ const convertVaccine = vaccine => {
     date: formatDateLong(vaccine.occurrenceDateTime) || emptyField,
     location: vaccine.location?.display || emptyField,
     manufacturer: vaccine.manufacturer || emptyField,
-    reactions: vaccine.reaction || [],
-    notes: vaccine.note?.map(note => note.text) || [],
+    reactions: vaccine.reaction?.map(item => item.detail?.display) || [],
+    notes:
+      (isArrayAndHasItems(vaccine.note) &&
+        vaccine.note.map(note => note.text)) ||
+      [],
   };
 };
 

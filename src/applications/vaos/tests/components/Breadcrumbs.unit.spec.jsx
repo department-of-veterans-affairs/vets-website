@@ -17,7 +17,7 @@ describe('VAOS <Breadcrumbs>', () => {
     expect(screen.getByText(/Health care/i)).to.be.ok;
     expect(screen.getByText(/Schedule and manage health appointments/i)).to.be
       .ok;
-    expect(screen.getByText(/VA online scheduling/i)).to.be.ok;
+    expect(screen.getByRole('link', { name: 'Appointments' })).to.be.ok;
     expect(screen.getByText(/test/i)).to.be.ok;
   });
 });

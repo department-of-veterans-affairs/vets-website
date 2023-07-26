@@ -12,8 +12,8 @@ const GetHelp = () => (
     </p>
     <p>
       <strong>
-        If you need help to gather your information or fill out your
-        application/form,{' '}
+        If you need help to gather your information or fill out your form or
+        application,{' '}
       </strong>
       <va-link
         href="/vso/"
