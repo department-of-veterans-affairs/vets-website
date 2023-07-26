@@ -11,9 +11,14 @@ const setup = (props = {}) =>
   render(<PriorityGroup {...initialProps} {...props} />);
 
 describe('Priority Group Component', () => {
-  it('renders', () => {
+  it('renders when value is set', () => {
     const wrapper = setup();
     expect(wrapper).to.exist;
+  });
+
+  it('does not render when value is unset', () => {
+    const wrapper = setup({ value: null });
+    expect(wrapper).not.to.exist;
   });
 
   it('displays the assigned priority group', () => {

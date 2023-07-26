@@ -66,8 +66,10 @@ App.propTypes = {
 
 App.defaultProps = {
   enabled: false,
+  error: false,
   fetchEnrollmentStatus: () => {},
   handleSignInClick: () => {},
+  loading: false,
   signedIn: false,
 };
 
