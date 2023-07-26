@@ -13,7 +13,7 @@ import submitForm from './submitForm';
 import veteranInformationChapter from './chapters/veteranInformationChapter';
 import householdIncomeChapter from './chapters/householdIncomeChapter';
 import householdAssetsChapter from './chapters/householdAssetsChapter';
-// import householdExpensesChapter from './chapters/householdExpensesChapter';
+import householdExpensesChapter from './chapters/householdExpensesChapter';
 // import resolutionOptionsChapter from './chapters/resolutionOptionsChapter';
 // import bankruptcyAttestationChapter from './chapters/bankruptcyAttestationChapter';
 
@@ -28,7 +28,6 @@ const formConfig = {
   wizardStorageKey: WIZARD_STATUS,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  VA_FORM_IDS: VA_FORM_IDS.FORM_5655,
   preSubmitInfo: PreSubmitSignature,
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
@@ -62,14 +61,32 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+
+  // config dan path (Veternan Info, Income, Assets)
+  // chapters: {
+  //   ...veteranInformationChapter,
+  //   ...householdIncomeChapter,
+  //   ...householdAssetsChapter,
+  // },
+
+  // config zoey path (Veternan Info, Income, Assets, Expenses)
+
   chapters: {
     ...veteranInformationChapter,
     ...householdIncomeChapter,
     ...householdAssetsChapter,
-    // ...householdExpensesChapter,
-    // ...resolutionOptionsChapter,
-    // ...bankruptcyAttestationChapter,
+    ...householdExpensesChapter,
   },
+
+  // config default path (Veternan Info, Income, Assets, Expenses, Resolution Options, Bankruptcy Attestation)
+  // chapters: {
+  //   ...veteranInformationChapter,
+  //   ...householdIncomeChapter,
+  //   ...householdAssetsChapter,
+  //   ...householdExpensesChapter,
+  //   ...resolutionOptionsChapter,
+  //   ...bankruptcyAttestationChapter,
+  // },
 };
 
 export default formConfig;
