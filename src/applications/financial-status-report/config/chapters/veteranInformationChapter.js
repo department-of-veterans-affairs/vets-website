@@ -1,6 +1,5 @@
 import {
   veteranInfo,
-  availableDebts,
   combinedDebts,
   contactInfo,
   contactInformation,
@@ -44,29 +43,11 @@ export default {
         initialData: {
           selectedDebts: [],
           selectedDebtsAndCopays: [],
-          debt: {
-            currentAr: 0,
-            debtHistory: [{ date: '' }],
-            deductionCode: '',
-            originalAr: 0,
-          },
-        },
-        path: 'available-debts',
-        title: 'Available Debts',
-        uiSchema: availableDebts.uiSchema,
-        schema: availableDebts.schema,
-        depends: formData => !formData['view:combinedFinancialStatusReport'],
-      },
-      combinedAvailableDebts: {
-        initialData: {
-          selectedDebts: [],
-          selectedDebtsAndCopays: [],
         },
         path: 'all-available-debts',
         title: 'Available Debts',
         uiSchema: combinedDebts.uiSchema,
         schema: combinedDebts.schema,
-        depends: formData => formData['view:combinedFinancialStatusReport'],
       },
       contactInfo: {
         initialData: {

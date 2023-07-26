@@ -22,7 +22,6 @@ import { WIZARD_STATUS } from '../wizard/constants';
 import {
   fsrWizardFeatureToggle,
   fsrFeatureToggle,
-  combinedFSRFeatureToggle,
   enhancedFSRFeatureToggle,
 } from '../utils/helpers';
 import user from '../mocks/user.json';
@@ -130,7 +129,6 @@ const App = ({
     () => {
       setFormData({
         ...formData,
-        'view:combinedFinancialStatusReport': showCombinedFSR,
         'view:enhancedFinancialStatusReport': showEnhancedFSR,
       });
     },
@@ -203,7 +201,6 @@ const mapStateToProps = state => ({
   profile: selectProfile(state) || {},
   showWizard: fsrWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
-  showCombinedFSR: combinedFSRFeatureToggle(state),
   showEnhancedFSR: enhancedFSRFeatureToggle(state),
   isStartingOver: state.form.isStartingOver,
 });

@@ -15,10 +15,6 @@ export const fsrFeatureToggle = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.showFinancialStatusReport];
 };
 
-export const combinedFSRFeatureToggle = state => {
-  return toggleValues(state)[FEATURE_FLAG_NAMES.combinedFinancialStatusReport];
-};
-
 export const enhancedFSRFeatureToggle = state => {
   return toggleValues(state)[
     FEATURE_FLAG_NAMES.combinedFinancialStatusReportEnhancements
@@ -308,16 +304,15 @@ export const getTotalAssets = ({
   assets,
   realEstateRecords,
   questions,
-  'view:combinedFinancialStatusReport': combinedFSRActive,
   'view:enhancedFinancialStatusReport': enhancedFSRActive,
 }) => {
   const formattedREValue = Number(
     assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
-  const totRecVehicles = !combinedFSRActive
-    ? sumValues(assets.recVehicles, 'recVehicleAmount')
-    : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
+  const totRecVehicles = Number(
+    assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+  );
   const totVehicles = questions?.hasVehicle
     ? sumValues(assets.automobiles, 'resaleValue')
     : 0;
