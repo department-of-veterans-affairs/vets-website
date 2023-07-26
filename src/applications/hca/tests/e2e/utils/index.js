@@ -37,7 +37,7 @@ export const advanceToHouseholdV2 = () => {
   cy.get('[name="root_vaPensionType"]').check('No');
   goToNextPage('/military-service/service-information');
   goToNextPage('/military-service/additional-information');
-  goToNextPage('/household-information-v2/financial-onboarding');
+  goToNextPage('/household-information-v2/financial-information-use');
 };
 
 export const advanceFromHouseholdV2ToReview = () => {
