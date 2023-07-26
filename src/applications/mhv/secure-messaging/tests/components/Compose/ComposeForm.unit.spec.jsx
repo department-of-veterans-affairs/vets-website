@@ -72,8 +72,8 @@ describe('Compose form component', () => {
       },
     );
 
-    const editListLink = await screen.getByText('Edit List', {
-      selector: 'button',
+    const editListLink = await screen.getByTestId('Edit-List-Button', {
+      selector: 'va-button',
       exact: true,
     });
     expect(
@@ -157,7 +157,7 @@ describe('Compose form component', () => {
 
     const draftMessageHeadingText = await screen.getAllByRole('heading', {
       name: 'COVID: Covid-Inquiry',
-      level: 3,
+      level: 2,
     });
     const deleteButton = await screen.getByTestId('delete-draft-button');
 

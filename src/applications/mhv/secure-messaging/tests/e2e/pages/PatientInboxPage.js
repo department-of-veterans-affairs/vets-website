@@ -352,7 +352,7 @@ class PatientInboxPage {
   };
 
   navigateReply = () => {
-    cy.tabToElement('[data-testid="reply-button-top"]');
+    cy.tabToElement('[data-testid="reply-button-body"]');
     cy.realPress(['Enter']);
   };
 
@@ -362,7 +362,7 @@ class PatientInboxPage {
       .should('have.text', 'Draft was successfully deleted.');
   };
 
-  loadLandingPagebyTabbingandEnterKey = () => {
+  loadLandingPageByTabbingAndEnterKey = () => {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
@@ -395,6 +395,24 @@ class PatientInboxPage {
     cy.get('[data-testid="filter-messages-button"]').click({
       waitForAnimations: true,
     });
+  };
+
+  composeMessage = () => {
+    cy.get('#recipient-dropdown')
+      .shadow()
+      .find('#select')
+      .select(1, { force: true });
+    cy.get('[data-testid="compose-category-radio-button"]')
+      .first()
+      .click();
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('#inputField')
+      .type('testSubject');
+    cy.get('#compose-message-body')
+      .shadow()
+      .find('#textarea')
+      .type('testMessage');
   };
 
   composeDraftByKeyboard = () => {

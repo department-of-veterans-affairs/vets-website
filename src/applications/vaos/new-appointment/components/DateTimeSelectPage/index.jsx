@@ -256,5 +256,5 @@ export default function DateTimeSelectPage() {
 
 ErrorMessage.propTypes = {
   facilityId: PropTypes.string.isRequired,
-  history: PropTypes.objectOf.isRequired,
+  history: PropTypes.object.isRequired,
 };

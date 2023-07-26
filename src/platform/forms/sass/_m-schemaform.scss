@@ -24,7 +24,7 @@
 }
 
 legend {
-  color: $color-primary-darkest;
+  color: $color-gray-dark;
   font-size: 1.35em;
   font-weight: 700;
   line-height: 1.5;
@@ -341,7 +341,7 @@ fieldset.schemaform-field-template {
   list-style: none;
   padding-left: 0;
   overflow-wrap: break-word;
-  word-break: break-all;
+  word-break: break-word;
   > li {
     list-style: none;
   }

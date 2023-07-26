@@ -139,6 +139,7 @@ export default function FormNav(props) {
     ],
   );
 
+  const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
   // show progress-bar and stepText only if hideFormNavProgress is falsy.
   return (
     <div>
@@ -146,30 +147,32 @@ export default function FormNav(props) {
         <va-segmented-progress-bar
           total={chaptersLengthDisplay}
           current={currentChapterDisplay}
+          uswds={v3SegmentedProgressBar}
+          heading-text={chapterName ?? ''} // functionality only available for v3
         />
       )}
-      <div className="schemaform-chapter-progress">
-        <div className="nav-header nav-header-schemaform">
-          {showHeader &&
-            !hideFormNavProgress && (
-              <h2
-                id="nav-form-header"
-                data-testid="navFormHeader"
-                className="vads-u-font-size--h4"
-              >
-                {stepText}
-                {inProgressMessage}
-              </h2>
-            )}
-          {!showHeader &&
-            !hideFormNavProgress && (
-              <div data-testid="navFormDiv" className="vads-u-font-size--h4">
-                {stepText}
-                {inProgressMessage}
-              </div>
-            )}
-        </div>
-      </div>
+      {!v3SegmentedProgressBar &&
+        !hideFormNavProgress && (
+          <div className="schemaform-chapter-progress">
+            <div className="nav-header nav-header-schemaform">
+              {showHeader ? (
+                <h2
+                  id="nav-form-header"
+                  data-testid="navFormHeader"
+                  className="vads-u-font-size--h4"
+                >
+                  {stepText}
+                  {inProgressMessage}
+                </h2>
+              ) : (
+                <div data-testid="navFormDiv" className="vads-u-font-size--h4">
+                  {stepText}
+                  {inProgressMessage}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
     </div>
   );
 }

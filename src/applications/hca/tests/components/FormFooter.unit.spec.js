@@ -1,42 +1,51 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import FormFooter from '../../components/FormFooter';
+import { FormFooter } from '../../components/FormFooter';
 import formConfig from '../../config/form';
 
 describe('hca <FormFooter>', () => {
-  it('should render help information on Form Footer', () => {
-    const mockStore = {
-      getState: () => ({
-        hcaEnrollmentStatus: {
-          isLoadingApplicationStatus: false,
-          showReapplyContent: false,
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: false,
-          },
-          profile: {
-            loading: false,
-            loa: { current: 0 },
-          },
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
+  describe('when not on the confirmation page', () => {
+    describe('when `shouldHideFormFooter` returns `false`', () => {
+      it('should render markup with the correct title', () => {
+        const props = {
+          currentLocation: { pathname: '/introduction' },
+          isHidden: false,
+          formConfig,
+        };
+        const { container } = render(<FormFooter {...props} />);
+        const selectors = {
+          title: container.querySelector('.help-heading'),
+          content: container.querySelectorAll('.help-talk'),
+        };
+        expect(selectors.title).to.exist;
+        expect(selectors.title).to.contain.text('Need help?');
+        expect(selectors.content).to.have.length;
+      });
+    });
 
-    const view = render(
-      <Provider store={mockStore}>
-        <FormFooter
-          formConfig={formConfig}
-          currentLocation={{ pathname: '/introduction' }}
-        />
-      </Provider>,
-    );
+    describe('when `shouldHideFormFooter` returns `true`', () => {
+      it('should not render', () => {
+        const props = {
+          currentLocation: { pathname: '/introduction' },
+          isHidden: true,
+          formConfig,
+        };
+        const { container } = render(<FormFooter {...props} />);
+        expect(container).to.be.empty;
+      });
+    });
+  });
 
-    expect(view.container).to.contain.text('Need help?');
+  describe('when on the confirmation page', () => {
+    it('should not render', () => {
+      const props = {
+        currentLocation: { pathname: '/confirmation' },
+        formConfig,
+      };
+      const { container } = render(<FormFooter {...props} />);
+      expect(container).to.be.empty;
+    });
   });
 });

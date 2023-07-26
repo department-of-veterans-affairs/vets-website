@@ -14,7 +14,6 @@ import {
 import {
   DependentSupportDescription,
   GrossIncomeDescription,
-  NetIncomeDescription,
   OtherIncomeDescription,
 } from '../components/FormDescriptions';
 
@@ -199,7 +198,7 @@ export const dependentUISchema = {
   },
   education: {
     attendedSchoolLastYear: {
-      'ui:title': `If your dependent is between 18 and 23 years old, were they enrolled as a full time student in ${lastYear}?`,
+      'ui:title': `If your dependent is between 18 and 23 years old, were they enrolled as a full-time or part-time student in ${lastYear}?`,
       'ui:widget': 'yesNo',
     },
     dependentEducationExpenses: {
@@ -212,7 +211,7 @@ export const dependentUISchema = {
   additional: {
     disabledBefore18: {
       'ui:title':
-        'Was your dependent permanently and totally disabled before the age of 18?',
+        'Is your dependent living with a permanent disability that happened before they turned 18 years old?',
       'ui:widget': 'yesNo',
     },
     cohabitedLastYear: {
@@ -226,15 +225,14 @@ export const dependentUISchema = {
   },
   support: {
     receivedSupportLastYear: {
-      'ui:title':
-        'If your dependent didn\u2019t live with you last year, did you provide financial support?',
+      'ui:title': `If your dependent didn\u2019t live with you in ${lastYear}, did you provide financial support?`,
       'ui:description': DependentSupportDescription,
       'ui:widget': 'yesNo',
     },
   },
   income: {
     'view:grossIncome': {
-      'ui:title': 'Your dependent\u2019s gross income from work',
+      'ui:title': 'Gross income from work',
       'ui:description': GrossIncomeDescription,
       grossIncome: {
         ...currencyUI(
@@ -244,9 +242,9 @@ export const dependentUISchema = {
       },
     },
     'view:netIncome': {
-      'ui:title':
-        'Your dependent\u2019s net annual income from a farm, property, or business',
-      'ui:description': NetIncomeDescription,
+      'ui:title': 'Net income from a farm, property, or business',
+      'ui:description':
+        'Net income is income after any taxes and other deductions are subtracted.',
       netIncome: {
         ...currencyUI(
           `Enter your dependent\u2019s net annual income from a farm, ranch, property or business from ${lastYear}`,
@@ -256,11 +254,11 @@ export const dependentUISchema = {
       },
     },
     'view:otherIncome': {
-      'ui:title': 'Your dependent\u2019s other income',
+      'ui:title': 'Other income',
       'ui:description': OtherIncomeDescription,
       otherIncome: {
         ...currencyUI(
-          `Enter your dependent\u2019s other income from ${lastYear}`,
+          `Enter your dependent\u2019s other annual income from ${lastYear}`,
         ),
         'ui:validations': [validateCurrency],
         'ui:required': () => true,
@@ -287,7 +285,7 @@ export const dependentSchema = {
           first: {
             type: 'string',
             minLength: 1,
-            maxLength: 30,
+            maxLength: 25,
             pattern: '^.*\\S.*',
           },
           middle: {
@@ -297,7 +295,7 @@ export const dependentSchema = {
           last: {
             type: 'string',
             minLength: 2,
-            maxLength: 30,
+            maxLength: 35,
             pattern: '^.*\\S.*',
           },
           suffix: {

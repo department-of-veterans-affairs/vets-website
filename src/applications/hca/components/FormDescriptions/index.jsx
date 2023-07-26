@@ -69,18 +69,26 @@ export const DemographicInfoDescription = (
 );
 
 export const HomeAddressDescription = (
-  <p className="vads-u-line-height--6 vads-u-margin-bottom--4">
-    Any updates you make here to your address will apply only to this
-    application.
-  </p>
+  <>
+    Home address
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
+      Any updates you make here to your address will apply only to this
+      application.
+    </div>
+  </>
 );
 
 export const MailingAddressDescription = (
-  <p className="vads-u-line-height--6 vads-u-margin-bottom--4">
-    We’ll send any important information about your application to this address.
-    Any updates you make here to your address will apply only to this
-    application.
-  </p>
+  <>
+    Mailing address
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
+      We’ll send any important information about your application to this
+      address. Any updates you make here to your address will apply only to this
+      application.
+    </div>
+  </>
 );
 
 export const SIGIGenderDescription = (
@@ -118,9 +126,10 @@ export const SIGIGenderDescription = (
 export const ServiceHistoryTitle = (
   <>
     Service history
-    <span className="vads-u-display--block vads-u-margin-y--2 vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-color--base">
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
       Check all that apply to you.
-    </span>
+    </div>
   </>
 );
 
@@ -227,6 +236,21 @@ export const DeductibleExpensesDescription = (
   </>
 );
 
+// NOTE: for household v2 only -- rename when v2 is fully-adopted
+export const DeductibleExpensesV2Description = () => {
+  const date = new Date();
+  return (
+    <legend className="schemaform-block-title">
+      Deductible expenses from {date.getFullYear() - 1}
+      <span className="sr-only">.</span>
+      <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-y--2">
+        These deductible expenses will lower the amount of money we count as
+        your income.
+      </div>
+    </legend>
+  );
+};
+
 export const DependentDescription = () => {
   const date = new Date();
   return (
@@ -255,14 +279,13 @@ export const DependentDescription = () => {
             They’re under 18 years old, <strong>or</strong>
           </li>
           <li>
-            They’re between the ages of 18 and 23 years old and were attending
-            high school, college, or vocational school full-time or part-time
-            enrolled as a full time student in {date.getFullYear() - 1},{' '}
-            <strong>or</strong>
+            They’re between the ages of 18 and 23 years old and were enrolled as
+            a full-time or part-time student in high school, college, or
+            vocational school in {date.getFullYear() - 1}, <strong>or</strong>
           </li>
           <li>
             They’re living with a permanent disability that happened before they
-            turned 18
+            turned 18 years old
           </li>
         </ul>
       </div>
@@ -272,7 +295,7 @@ export const DependentDescription = () => {
 
 export const DependentSupportDescription = (
   <va-additional-info
-    trigger="What we consider financial support"
+    trigger="What we consider financial support for a dependent"
     class="vads-u-margin-top--2 vads-u-margin-bottom--3"
   >
     <div>
@@ -285,7 +308,7 @@ export const DependentSupportDescription = (
       </p>
       <ul className="vads-u-margin-bottom--0">
         <li>Tuition or medical bills</li>
-        <li>Monthly child or spousal support</li>
+        <li>Monthly child support</li>
         <li>One-time payment financial support</li>
       </ul>
     </div>
@@ -380,17 +403,10 @@ export const FinancialDisclosureDescription = (
   </>
 );
 
-export const FuneralExpensesDescription = (
-  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-    Funeral and burial expenses are any payments made by you, like prepaid
-    expenses.
-  </div>
-);
-
 export const GrossIncomeDescription = (
   <>
-    <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-      Gross income is your income before taxes and any other deductions are
+    <div className="vads-u-margin-y--1">
+      Gross income is income before taxes and any other deductions are
       subtracted.
     </div>
 
@@ -488,40 +504,37 @@ export const MedicalExpensesDescription = (
     <div>
       <p className="vads-u-margin-top--0">
         Non-reimbursable medical expenses include costs you or your spouse paid
-        for these types of health care for yourselves, your dependents, or other
-        you have the moral obligation to support:
+        for these types of health care for yourselves, your dependents, or
+        others you have the moral obligation to support:
       </p>
-      <ul className="vads-u-margin-bottom--0">
+      <ul>
         <li>Doctor or dentist appointments</li>
         <li>Medications</li>
         <li>Medicare or health insurance</li>
         <li>Inpatient hospital care</li>
         <li>Nursing home care</li>
       </ul>
+      <p className="vads-u-margin-bottom--0">
+        We only consider expenses non-reimbursable if your health insurance
+        doesn’t pay you back for the cost.
+      </p>
     </div>
   </va-additional-info>
 );
 
-export const NetIncomeDescription = (
-  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-    Net income is your income after any taxes and other deductions are
-    subtracted.
-  </div>
-);
-
 export const OtherIncomeDescription = (
   <>
-    <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-      Other income is your additional income that does not come from a job.
+    <div className="vads-u-margin-y--1">
+      Other income is additional income that doesn’t come from a job.
     </div>
 
     <va-additional-info
-      trigger="What we consider other income"
+      trigger="What we consider other annual income"
       class="vads-u-margin-y--1"
     >
       <div>
         <p className="vads-u-font-weight--bold vads-u-margin-top--0">
-          Other income includes things like:
+          Other income includes things like this:
         </p>
         <ul className="vads-u-margin-bottom--0">
           <li>Retirement benefits</li>
@@ -535,29 +548,67 @@ export const OtherIncomeDescription = (
   </>
 );
 
-export const SpouseAdditionalInformation = () => {
+export const SpouseBasicInformationDescription = (
+  <>
+    Spouse’s personal information
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-y--2">
+      Fill this out to the best of your knowledge. The more accurate your
+      responses, the faster we can process your application.
+    </div>
+  </>
+);
+
+export const SpouseAdditionalInformationTitle = (
+  <>
+    Spouse’s additional information
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2">
+      Fill this out to the best of your knowledge. The more accurate your
+      responses, the faster we can process your application.
+    </div>
+  </>
+);
+
+export const SpouseAdditionalInformationDescription = () => {
   const date = new Date();
   return (
-    <>
-      <p>
-        Fill this out to the best of your knowledge. The more accurate your
-        responses, the faster we can process your application.
-      </p>
-
-      <va-additional-info
-        trigger="Why we ask for this information"
-        class="vads-u-margin-top--2 vads-u-margin-bottom--4"
-      >
-        <div>
-          <p className="vads-u-margin-top--0">
-            This information helps us determine if your spouse was your
-            dependent in {date.getFullYear() - 1}.
-          </p>
-        </div>
-      </va-additional-info>
-    </>
+    <va-additional-info
+      trigger="Why we ask for this information"
+      class="vads-u-margin-top--1 vads-u-margin-bottom--4"
+    >
+      <div>
+        <p className="vads-u-margin-top--0">
+          This information helps us determine if your spouse was your dependent
+          in {date.getFullYear() - 1}.
+        </p>
+      </div>
+    </va-additional-info>
   );
 };
+
+export const SpouseFinancialSupportDescription = (
+  <va-additional-info
+    trigger="What we consider financial support for a spouse"
+    class="vads-u-margin-y--2"
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        We consider any payments, even if they aren’t regular or the same
+        amount, to be financial support.
+      </p>
+      <p>
+        <strong>
+          Financial support includes payments for these types of payments:
+        </strong>
+      </p>
+      <ul className="vads-u-margin-bottom--0">
+        <li>Monthly spousal support</li>
+        <li>One-time payment financial support</li>
+      </ul>
+    </div>
+  </va-additional-info>
+);
 
 /** CHAPTER 5: Insurance Information */
 export const EssentialCoverageDescription = (

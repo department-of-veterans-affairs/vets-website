@@ -48,10 +48,10 @@ describe('EKG details component', () => {
   it('should display the formatted date', () => {
     const screen = setup();
 
-    const emptyMessageElement = screen.getByText('April 13, 2022', {
+    const dateElement = screen.getByText('April 13, 2022', {
       exact: true,
       selector: 'p',
     });
-    expect(emptyMessageElement).to.exist;
+    expect(dateElement).to.exist;
   });
 });

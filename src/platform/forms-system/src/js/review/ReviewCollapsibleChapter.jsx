@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import uniqueId from 'lodash/uniqueId';
 import classNames from 'classnames';
 import { getScrollOptions } from 'platform/utilities/ui';
+import environment from 'platform/utilities/environment';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
@@ -13,6 +15,7 @@ import { focusOnChange, getFocusableElements } from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, showReviewField } from '../helpers';
 import ArrayField from './ArrayField';
+import { getPreviousPagePath, checkValidPagePath } from '../routing';
 
 import { isValidForm } from '../validation';
 import { reduceErrors } from '../utilities/data/reduceErrors';
@@ -62,6 +65,18 @@ class ReviewCollapsibleChapter extends React.Component {
     }
 
     this.handleEdit(key, false, index);
+  };
+
+  goToPath = customPath => {
+    const { form, pageList, location } = this.props;
+
+    const path =
+      customPath &&
+      checkValidPagePath(pageList, this.props.form.data, customPath)
+        ? customPath
+        : getPreviousPagePath(pageList, form.data, location.pathname);
+
+    this.props.router.push(path);
   };
 
   shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
@@ -277,7 +292,7 @@ class ReviewCollapsibleChapter extends React.Component {
           // noop for navigation to prevent JS error
           goBack={noop}
           goForward={noop}
-          goToPath={noop}
+          goToPath={this.goToPath}
         />
       );
     }
@@ -289,6 +304,7 @@ class ReviewCollapsibleChapter extends React.Component {
         title={page.title}
         data={props.form.data}
         pagePerItemIndex={page.index}
+        goToPath={this.goToPath}
       />
     );
   };
@@ -422,7 +438,11 @@ class ReviewCollapsibleChapter extends React.Component {
                 aria-describedby={`collapsibleButton${this.id}`}
               >
                 <span className="sr-only">Error</span>
-                {chapterTitle} needs to be updated
+                {environment.isProduction() ? (
+                  <span>{chapterTitle} needs to be updated</span>
+                ) : (
+                  <span>Some information has changed. Please review.</span>
+                )}
               </va-alert>
             )}
             <div id={`collapsible-${this.id}`}>{pageContent}</div>
@@ -446,13 +466,21 @@ ReviewCollapsibleChapter.propTypes = {
   onEdit: PropTypes.func.isRequired,
   pageList: PropTypes.array.isRequired,
   setFormErrors: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
   reviewErrors: PropTypes.shape({}),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReviewCollapsibleChapter);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ReviewCollapsibleChapter),
+);
 
 // for tests
 export { ReviewCollapsibleChapter };

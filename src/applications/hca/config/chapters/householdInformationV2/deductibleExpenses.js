@@ -3,8 +3,8 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import { validateCurrency } from '../../../utils/validation';
 import {
+  DeductibleExpensesV2Description,
   EducationalExpensesDescription,
-  FuneralExpensesDescription,
   MedicalExpensesDescription,
 } from '../../../components/FormDescriptions';
 
@@ -19,15 +19,13 @@ const lastYear = date.getFullYear() - 1;
 
 export default {
   uiSchema: {
-    'ui:title': `Your deductible expenses from ${lastYear}`,
-    'ui:description':
-      'These deductible expenses will lower the amount of money we count as your income.',
+    'ui:title': DeductibleExpensesV2Description,
     'view:deductibleMedicalExpenses': {
       'ui:title': 'Non-reimbursable medical expenses',
       'ui:description': MedicalExpensesDescription,
       deductibleMedicalExpenses: {
         ...currencyUI(
-          `Enter the amount you or your spouse paid in non-reimbursable medical expenses in ${lastYear}`,
+          `Enter the amount you or your spouse (if you’re married) paid in non-reimbursable medical expenses in ${lastYear}`,
         ),
         'ui:validations': [validateCurrency],
       },
@@ -45,7 +43,8 @@ export default {
     'view:deductibleFuneralExpenses': {
       'ui:title':
         'Funeral and burial expenses for a spouse or dependent who died',
-      'ui:description': FuneralExpensesDescription,
+      'ui:description':
+        'Funeral and burial expenses are any payments made by you, like prepaid expenses.',
       deductibleFuneralExpenses: {
         ...currencyUI(
           `Enter the amount you paid in funeral or burial expenses in ${lastYear}`,

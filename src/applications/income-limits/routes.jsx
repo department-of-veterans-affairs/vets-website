@@ -10,7 +10,10 @@ import { ROUTES } from './constants';
 const routes = {
   path: '/',
   component: IncomeLimitsApp,
-  indexRoute: { component: HomePage },
+  indexRoute: {
+    onEnter: (nextState, replace) => replace('/introduction'),
+    component: HomePage,
+  },
   childRoutes: [
     { path: ROUTES.HOME, component: HomePage },
     { path: ROUTES.DEPENDENTS, component: DependentsPage },

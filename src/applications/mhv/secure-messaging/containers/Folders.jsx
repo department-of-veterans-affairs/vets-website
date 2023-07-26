@@ -5,6 +5,8 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import recordEvent from 'platform/monitoring/record-event';
 import { getFolders, newFolder } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
+import { PageTitles } from '../util/constants';
+import { updatePageTitle } from '../util/helpers';
 import FoldersList from '../components/FoldersList';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import CreateFolderModal from '../components/Modals/CreateFolderModal';
@@ -38,6 +40,7 @@ const Folders = () => {
     () => {
       if (!isModalVisible) {
         focusElement(document.querySelector('h1'));
+        updatePageTitle(PageTitles.MY_FOLDERS_PAGE_TITLE_TAG);
       }
     },
     [isModalVisible],

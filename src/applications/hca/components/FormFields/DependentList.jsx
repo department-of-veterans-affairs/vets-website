@@ -91,7 +91,7 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
         key={index}
         id={`hca-dependent-item--${index}`}
         ref={el => listItemsRef.current.push(el)}
-        className="hca-dependent-list--tile vads-u-border--2px vads-u-border-color--gray-light"
+        className="hca-dependent-list--card vads-u-border--1px vads-u-border-color--gray-medium"
       >
         <span
           className="vads-u-display--block vads-u-line-height--2 vads-u-font-weight--bold"
@@ -121,7 +121,7 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
           </Link>
           <button
             type="button"
-            className="va-button-link hca-button-action vads-u-color--secondary-dark vads-u-font-weight--bold"
+            className="va-button-link hca-button-remove"
             onClick={() => handlers.showConfirm({ index, name: dependentName })}
           >
             <i
@@ -142,7 +142,7 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
       </ul>
 
       <VaModal
-        modalTitle="Remove this dependent"
+        modalTitle="Remove this dependent?"
         primaryButtonText="Yes, remove dependent"
         secondaryButtonText="No, cancel"
         onPrimaryButtonClick={handlers.onConfirm}
