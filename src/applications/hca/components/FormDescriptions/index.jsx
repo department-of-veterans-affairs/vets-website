@@ -240,14 +240,14 @@ export const DeductibleExpensesDescription = (
 export const DeductibleExpensesV2Description = () => {
   const date = new Date();
   return (
-    <>
-      Deductible expenses from ${date.getFullYear() - 1}
+    <legend className="schemaform-label vads-u-margin-bottom--4">
+      Deductible expenses from {date.getFullYear() - 1}
       <span className="sr-only">.</span>
-      <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
+      <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2">
         These deductible expenses will lower the amount of money we count as
         your income.
       </div>
-    </>
+    </legend>
   );
 };
 
