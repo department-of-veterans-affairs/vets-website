@@ -8,7 +8,7 @@ const initialProps = {
   error: false,
   handleSignInClick: () => {},
   fetchEnrollmentStatus: () => {},
-  isSignedIn: false,
+  signedIn: false,
   loading: false,
 };
 
@@ -38,7 +38,7 @@ describe('Priority Group Alert Widget', () => {
 
   it('renders <UnknownGroup /> when priorityGroup is not set', () => {
     const enrollmentStatus = {};
-    const wrapper = setup({ isSignedIn: true, enrollmentStatus });
+    const wrapper = setup({ signedIn: true, enrollmentStatus });
     const message = 'You have not yet been assigned to a priority group';
     expect(wrapper.getByText(message)).to.exist;
   });
@@ -48,7 +48,7 @@ describe('Priority Group Alert Widget', () => {
       effectiveDate: '2019-01-02T21:58:55.000-06:00',
       priorityGroup: 'Group 8G',
     };
-    const wrapper = setup({ isSignedIn: true, enrollmentStatus });
+    const wrapper = setup({ signedIn: true, enrollmentStatus });
     const message = 'Your assigned priority group is 8G as of January 2, 2019';
     expect(wrapper.getByText(message)).to.exist;
   });

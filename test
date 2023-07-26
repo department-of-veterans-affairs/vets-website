@@ -6,11 +6,11 @@ landingPage() {
       ./src/applications/mhv/landing-page/**/*.unit.spec.{js,jsx}
 }
 
-priorityGroupAlert() {
+priorityGroupWidget() {
   NODE_OPTIONS="--trace-warnings" \
     yarn test:unit --log-level trace \
-      ./src/applications/static-pages/priority-group-alert/**/*.unit.spec.{js,jsx}
+      ./src/applications/static-pages/priority-group/**/*.unit.spec.{js,jsx}
 }
 
-landingPage
-#priorityGroupAlert
+#landingPage
+priorityGroupWidget

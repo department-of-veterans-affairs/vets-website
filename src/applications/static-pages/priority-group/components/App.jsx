@@ -24,18 +24,13 @@ export const App = ({
   loading,
   signedIn,
 }) => {
-  // useEffect(() => (enabled && signedIn ? fetchEnrollmentStatus() : null), [
-  //   enabled,
-  //   signedIn,
-  // ]);
-
-  useEffect(() => fetchEnrollmentStatus(), [
+  useEffect(() => enabled && signedIn && fetchEnrollmentStatus(), [
     enabled,
     fetchEnrollmentStatus,
     signedIn,
   ]);
   const showSignInPrompt = enabled && !error && !loading && !signedIn;
-  const showLoadingIndicator = enabled && !error && loading && signedIn;
+  const showLoadingIndicator = enabled && !error && loading;
   const showUnknownGroup =
     enabled &&
     !error &&
