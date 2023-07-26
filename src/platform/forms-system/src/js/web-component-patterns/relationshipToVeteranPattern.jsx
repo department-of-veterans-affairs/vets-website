@@ -17,7 +17,7 @@ export const relationshipToVeteranUI = personTitle => {
         },
       }),
       'ui:errorMessages': {
-        required: `Please enter your relationship to the ${person}`,
+        required: `Please select your relationship to the ${person}`,
       },
     },
     otherRelationshipToVeteran: {
