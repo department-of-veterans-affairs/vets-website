@@ -52,7 +52,7 @@ import manifest from '../manifest.json';
 import hearingType from '../pages/hearingType';
 
 /**
- * add custom focust for the contact info mailing address edit page
+ * add custom focus for the contact info mailing address edit page
  * fixes issue [#61243](https://github.com/department-of-veterans-affairs/va.gov-team/issues/61243)
  */
 const confirmContactInfoEditMailingAddress = {
