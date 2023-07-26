@@ -31,7 +31,7 @@ const DisabilityConfirmation = ({ data, goBack, goForward }) => {
       <div className="row form-progress-buttons schemaform-buttons">
         <div className="small-5 medium-4 columns">
           <ProgressButton
-            buttonClass="hca-progress-button usa-button-secondary"
+            buttonClass="hca-button-progress usa-button-secondary"
             onButtonClick={goBack}
             buttonText="Back"
             beforeText="«"
@@ -39,7 +39,7 @@ const DisabilityConfirmation = ({ data, goBack, goForward }) => {
         </div>
         <div className="small-5 medium-4 end columns">
           <ProgressButton
-            buttonClass="hca-progress-button usa-button-primary"
+            buttonClass="hca-button-progress usa-button-primary"
             onButtonClick={onConfirm}
             buttonText="Confirm"
             afterText="»"

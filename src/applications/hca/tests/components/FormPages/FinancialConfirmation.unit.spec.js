@@ -20,7 +20,7 @@ describe('hca FinancialConfirmation', () => {
     it('should render navigation buttons', () => {
       const { container } = render(<FinancialConfirmation {...props} />);
       expect(
-        container.querySelectorAll('.hca-progress-button'),
+        container.querySelectorAll('.hca-button-progress'),
       ).to.have.lengthOf(2);
     });
   });

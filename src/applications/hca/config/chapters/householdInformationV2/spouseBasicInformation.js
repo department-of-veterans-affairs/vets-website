@@ -2,6 +2,7 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { SpouseBasicInformationDescription } from '../../../components/FormDescriptions';
 
 const {
   dateOfMarriage,
@@ -12,9 +13,7 @@ const {
 
 export default {
   uiSchema: {
-    'ui:title': 'Spouse\u2019s basic information',
-    'ui:description':
-      'Fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
+    'ui:title': SpouseBasicInformationDescription,
     spouseFullName: {
       ...fullNameUI,
       first: {

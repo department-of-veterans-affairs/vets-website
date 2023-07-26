@@ -45,6 +45,7 @@ const formConfig = {
   trackingPrefix: 'mock-simple-forms-patterns-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
   formId: 'FORM_MOCK_SF_PATTERNS',
   saveInProgress: {},
   version: 0,

@@ -5,7 +5,7 @@ import mockSingleMessageResponse from '../fixtures/trashResponse/trash-single-me
 import trashSearchResponse from '../fixtures/trashResponse/trash-search-response.json';
 
 class PatientMessageTrashPage {
-  loadTrashMessages = (mockMessagesResponse = mockTrashMessages) => {
+  loadMessages = (mockMessagesResponse = mockTrashMessages) => {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-3',
@@ -19,7 +19,7 @@ class PatientMessageTrashPage {
     cy.get('[data-testid="trash-sidebar"]').click();
   };
 
-  loadDetailedTrashMessage = (detailedMessage = mockSingleMessageResponse) => {
+  loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
@@ -46,7 +46,7 @@ class PatientMessageTrashPage {
       .type(`${text}`);
   };
 
-  filterTrashMessages = () => {
+  filterMessages = () => {
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/folders/-3/search',
@@ -57,7 +57,7 @@ class PatientMessageTrashPage {
 
   clearFilter = () => {
     this.inputFilterData('any');
-    this.filterTrashMessages();
+    this.filterMessages();
     cy.get('[text="Clear Filters"]').click();
   };
 

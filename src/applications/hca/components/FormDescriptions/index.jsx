@@ -69,18 +69,26 @@ export const DemographicInfoDescription = (
 );
 
 export const HomeAddressDescription = (
-  <p className="vads-u-line-height--6 vads-u-margin-bottom--4">
-    Any updates you make here to your address will apply only to this
-    application.
-  </p>
+  <>
+    Home address
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
+      Any updates you make here to your address will apply only to this
+      application.
+    </div>
+  </>
 );
 
 export const MailingAddressDescription = (
-  <p className="vads-u-line-height--6 vads-u-margin-bottom--4">
-    We’ll send any important information about your application to this address.
-    Any updates you make here to your address will apply only to this
-    application.
-  </p>
+  <>
+    Mailing address
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
+      We’ll send any important information about your application to this
+      address. Any updates you make here to your address will apply only to this
+      application.
+    </div>
+  </>
 );
 
 export const SIGIGenderDescription = (
@@ -118,9 +126,10 @@ export const SIGIGenderDescription = (
 export const ServiceHistoryTitle = (
   <>
     Service history
-    <span className="vads-u-display--block vads-u-margin-y--2 vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-color--base">
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
       Check all that apply to you.
-    </span>
+    </div>
   </>
 );
 
@@ -226,6 +235,21 @@ export const DeductibleExpensesDescription = (
     </va-additional-info>
   </>
 );
+
+// NOTE: for household v2 only -- rename when v2 is fully-adopted
+export const DeductibleExpensesV2Description = () => {
+  const date = new Date();
+  return (
+    <>
+      Deductible expenses from ${date.getFullYear - 1}
+      <span className="sr-only">.</span>
+      <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
+        These deductible expenses will lower the amount of money we count as
+        your income.
+      </div>
+    </>
+  );
+};
 
 export const DependentDescription = () => {
   const date = new Date();
@@ -379,16 +403,9 @@ export const FinancialDisclosureDescription = (
   </>
 );
 
-export const FuneralExpensesDescription = (
-  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-    Funeral and burial expenses are any payments made by you, like prepaid
-    expenses.
-  </div>
-);
-
 export const GrossIncomeDescription = (
   <>
-    <div className="vads-u-color--gray-medium vads-u-margin-y--1">
+    <div className="vads-u-margin-y--1">
       Gross income is income before taxes and any other deductions are
       subtracted.
     </div>
@@ -505,15 +522,9 @@ export const MedicalExpensesDescription = (
   </va-additional-info>
 );
 
-export const NetIncomeDescription = (
-  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-    Net income is income after any taxes and other deductions are subtracted.
-  </div>
-);
-
 export const OtherIncomeDescription = (
   <>
-    <div className="vads-u-color--gray-medium vads-u-margin-y--1">
+    <div className="vads-u-margin-y--1">
       Other income is additional income that doesn’t come from a job.
     </div>
 
@@ -537,27 +548,42 @@ export const OtherIncomeDescription = (
   </>
 );
 
-export const SpouseAdditionalInformation = () => {
+export const SpouseBasicInformationDescription = (
+  <>
+    Spouse’s basic information
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-y--2">
+      Fill this out to the best of your knowledge. The more accurate your
+      responses, the faster we can process your application.
+    </div>
+  </>
+);
+
+export const SpouseAdditionalInformationTitle = (
+  <>
+    Spouse’s additional information
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2">
+      Fill this out to the best of your knowledge. The more accurate your
+      responses, the faster we can process your application.
+    </div>
+  </>
+);
+
+export const SpouseAdditionalInformationDescription = () => {
   const date = new Date();
   return (
-    <>
-      <p>
-        Fill this out to the best of your knowledge. The more accurate your
-        responses, the faster we can process your application.
-      </p>
-
-      <va-additional-info
-        trigger="Why we ask for this information"
-        class="vads-u-margin-top--2 vads-u-margin-bottom--4"
-      >
-        <div>
-          <p className="vads-u-margin-top--0">
-            This information helps us determine if your spouse was your
-            dependent in {date.getFullYear() - 1}.
-          </p>
-        </div>
-      </va-additional-info>
-    </>
+    <va-additional-info
+      trigger="Why we ask for this information"
+      class="vads-u-margin-top--1 vads-u-margin-bottom--4"
+    >
+      <div>
+        <p className="vads-u-margin-top--0">
+          This information helps us determine if your spouse was your dependent
+          in {date.getFullYear() - 1}.
+        </p>
+      </div>
+    </va-additional-info>
   );
 };
 
