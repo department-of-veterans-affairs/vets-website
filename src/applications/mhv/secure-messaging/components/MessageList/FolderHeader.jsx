@@ -19,9 +19,11 @@ const FolderHeader = props => {
         case Folders.INBOX.id:
         case Folders.SENT.id: // Inbox
           setFolderDescription(Folders.INBOX.desc);
+          setShowComposeMessage(true);
           break;
         case Folders.DRAFTS.id: // Drafts
           setFolderDescription(Folders.DRAFTS.desc);
+          setShowComposeMessage(true);
           break;
         case Folders.DELETED.id: // Trash
           setFolderDescription(Folders.DELETED.desc);
