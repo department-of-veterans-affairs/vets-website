@@ -279,7 +279,7 @@
     "markdown-it": "^12.3.2",
     "markdown-it-link-attributes": "^4.0.0",
     "moment": "~2.29.4",
-    "moment-timezone": "^0.5.34",
+    "moment-timezone": "^0.5.35",
     "octokit": "^1.7.1",
     "octokit-plugin-create-pull-request": "^3.11.0",
     "prop-types": "^15.6.1",
