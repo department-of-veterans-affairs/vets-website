@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import { datadogRum } from '@datadog/browser-rum';
+import environment from 'platform/utilities/environment';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
@@ -261,11 +262,11 @@ datadogRum.init({
   clientToken: 'pub300747eeaef98ae4eb9c8d66f3c747c1',
   site: 'ddog-gov.com',
   service: 'benefits-526ez',
-  env: 'prod',
+  env: environment.vspEnvironment(),
   // Specify a version number to identify the deployed version of your application in Datadog
   // version: '1.0.0',
-  sessionSampleRate: 100,
-  sessionReplaySampleRate: 100,
+  sessionSampleRate: 10,
+  sessionReplaySampleRate: 20,
   trackUserInteractions: true,
   trackResources: true,
   trackLongTasks: true,
