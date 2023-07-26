@@ -123,7 +123,6 @@ class ProfileInformationFieldController extends React.Component {
       if (this.props.transaction) {
         focusElement(`div#${fieldName}-transaction-status`);
       } else if (showUpdateSuccessAlert) {
-        focusElement('[data-testid=update-success-alert]');
         // Success check after confirming suggested address
         if (forceEditView && typeof successCallback === 'function') {
           successCallback();
