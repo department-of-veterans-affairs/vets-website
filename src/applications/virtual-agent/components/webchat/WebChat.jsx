@@ -12,6 +12,7 @@ import {
   CONVERSATION_ID_KEY,
   TOKEN_KEY,
   clearBotSessionStorage,
+  IS_RX_SKILL,
 } from '../chatbox/utils';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
@@ -142,7 +143,33 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       setBotPonyfill(() => res);
     });
   }, []);
+  const [isRXSkill, setIsRXSkill] = useState();
+  useEffect(
+    () => {
+      const getRXStorageSession = () =>
+        setIsRXSkill(() => sessionStorage.getItem(IS_RX_SKILL));
 
+      window.addEventListener('signinSkill', getRXStorageSession);
+      return () =>
+        window.removeEventListener('signinSkill', getRXStorageSession);
+    },
+    [isRXSkill],
+  );
+
+  if (isRXSkill === 'true') {
+    return (
+      <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
+        <ReactWebChat
+          styleOptions={styleOptions}
+          directLine={directLine}
+          store={store}
+          renderMarkdown={renderMarkdown}
+          onTelemetry={handleTelemetry}
+          webSpeechPonyfillFactory={speechPonyfill}
+        />
+      </div>
+    );
+  }
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
@@ -151,7 +178,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
         store={store}
         renderMarkdown={renderMarkdown}
         onTelemetry={handleTelemetry}
-        webSpeechPonyfillFactory={speechPonyfill}
       />
     </div>
   );
