@@ -1,14 +1,28 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
+import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 
 describe('Secure Messaging Custom Folder AXE Check', () => {
-  it('Axe Check Custom Folder List', () => {
+  beforeEach(() => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
-    cy.get('[data-testid="my-folders-sidebar"]').click();
-    cy.contains('TEST2').click();
+    PatientMessageCustomFolderPage.loadMessages();
+  });
+  it('Axe Check Custom Folder List', () => {
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+  });
+  it('check detailed message', () => {
+    PatientMessageCustomFolderPage.loadDetailedMessage();
+
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

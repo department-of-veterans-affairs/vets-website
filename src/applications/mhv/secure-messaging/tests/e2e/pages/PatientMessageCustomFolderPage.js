@@ -1,19 +1,48 @@
-import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
-import mockSentFolderMetaResponse from '../fixtures/sentResponse/folder-sent-metadata.json';
+import mockThreadResponse from '../fixtures/customResponse/custom-thread-response.json';
+import mockCustomFolderMetaResponse from '../fixtures/customResponse/folder-custom-metadata.json';
+import mockSingleMessageResponse from '../fixtures/customResponse/custom-single-message-response.json';
 
 class PatientMessageCustomFolderPage {
-  loadMessages = (mockMessagesResponse = mockSentMessages) => {
+  loadMessages = (
+    folderName = mockCustomFolderMetaResponse.data.attributes.name,
+    folderNumber = mockCustomFolderMetaResponse.data.attributes.folderId,
+    mockMessagesResponse = mockThreadResponse,
+  ) => {
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1',
-      mockSentFolderMetaResponse,
-    ).as('sentFolder');
+      `/my_health/v1/messaging/folders/${folderNumber}`,
+      mockCustomFolderMetaResponse,
+    ).as('customFolder');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1/threads**',
+      `/my_health/v1/messaging/folders/${folderNumber}/threads**`,
       mockMessagesResponse,
-    ).as('sentFolderMessages');
-    cy.get('[data-testid="sent-sidebar"]').click();
+    ).as('customFolderMessages');
+
+    cy.get('[data-testid="my-folders-sidebar"]').click();
+    cy.contains(`${folderName}`).click();
+  };
+
+  loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        detailedMessage.data.attributes.messageId
+      }/thread`,
+      mockThreadResponse,
+    ).as('threadResponse');
+
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        detailedMessage.data.attributes.messageId
+      }`,
+      mockSingleMessageResponse,
+    ).as('detailedMessage');
+
+    cy.get('[data-testid="thread-list-item"]')
+      .first()
+      .click();
   };
 }
 
