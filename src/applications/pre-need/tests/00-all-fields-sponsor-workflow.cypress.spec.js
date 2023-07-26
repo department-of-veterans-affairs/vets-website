@@ -4,7 +4,7 @@ import cemeteries from './fixtures/mocks/cemeteries.json';
 
 describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
   // Test skipped to match Nightwatch
-  it.skip('fills the form and navigates accordingly', () => {
+  it('fills the form and navigates accordingly', () => {
     cy.intercept('POST', '/v0/preneeds/burial_forms', {
       data: {
         attributes: {
