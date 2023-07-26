@@ -22,8 +22,7 @@ import { getPreviousYear, redirectIfFormIncomplete } from '../utilities/utils';
  * 2) Non-standard: GMT < NMT  In some rural areas, the Geographic Means Test is lower than the National Means Test
  */
 const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
-  const APPLY_URL =
-    'https://www.va.gov/health-care/apply/application/introduction';
+  const APPLY_URL = '/health-care/apply/application/introduction';
 
   useEffect(
     () => {
@@ -131,7 +130,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
         {pastMode && pastFlowCopy}
         {!pastMode && currentFlowCopy}
         <va-link
-          href="https://www.va.gov/resources/va-health-care-income-limits"
+          href="/resources/va-health-care-income-limits"
           text="Learn more about income limits and deductions"
         />
         <h2>Select your {previousYear} household income range</h2>
@@ -208,7 +207,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             {!pastMode && (
               <>
                 <va-link
-                  href="https://www.va.gov/health-care/eligibility/"
+                  href="/health-care/eligibility/"
                   text="Find out if you may be eligible for VA health care"
                 />
                 <p>
@@ -217,7 +216,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
                   health care.
                 </p>
                 <va-link
-                  href="https://www.va.gov/health-care/health-needs-conditions/mental-health/"
+                  href="/health-care/health-needs-conditions/mental-health/"
                   text="Find out how to get mental health care"
                 />
                 <p>You can also explore non-VA health insurance options.</p>
@@ -239,37 +238,37 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
         <ul className="il-results-more-info">
           <li>
             <va-link
-              href="https://www.va.gov/health-care/eligibility/"
+              href="/health-care/eligibility/"
               text="Eligibility for VA health care"
             />
           </li>
           <li>
             <va-link
-              href="https://www.va.gov/health-care/copay-rates/"
+              href="/health-care/copay-rates/"
               text="Current VA health care copay rates"
             />
           </li>
           <li>
             <va-link
-              href="https://www.va.gov/health-care/update-health-information/"
+              href="/health-care/update-health-information/"
               text="Update your VA health benefits information"
             />
           </li>
           <li>
             <va-link
-              href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+              href="/health-care/get-reimbursed-for-travel-pay/"
               text="VA travel pay reimbursement"
             />
           </li>
           <li>
             <va-link
-              href="https://www.va.gov/health-care/health-needs-conditions/mental-health/"
+              href="/health-care/health-needs-conditions/mental-health/"
               text="VA mental health services"
             />
           </li>
           <li>
             <va-link
-              href="https://www.va.gov/health-care/about-va-health-benefits/"
+              href="/health-care/about-va-health-benefits/"
               text="About VA health benefits"
             />
           </li>

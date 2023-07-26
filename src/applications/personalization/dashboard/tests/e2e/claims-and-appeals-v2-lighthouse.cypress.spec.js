@@ -77,7 +77,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
       'when there is a recent claim update but there is a 500 from the appeals API',
       () => {
         beforeEach(() => {
-          cy.intercept('/v0/benefits_claims', claimsSuccess());
+          cy.intercept('/v0/benefits_claims', claimsSuccess(1));
           cy.intercept('/v0/appeals', {
             statusCode: 500,
             body: error500,
@@ -113,7 +113,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
       'when there is a 404 from the appeals API and all claims closed over 60 days ago',
       () => {
         beforeEach(() => {
-          cy.intercept('/v0/benefits_claims', claimsSuccess(100, false));
+          cy.intercept('/v0/benefits_claims', claimsSuccess(90, false));
           cy.intercept('/v0/appeals', {
             statusCode: 404,
             body: appeals404,

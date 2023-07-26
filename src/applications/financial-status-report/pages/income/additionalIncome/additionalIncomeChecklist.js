@@ -1,4 +1,4 @@
-import AdditionalIncomeCheckList from '../../../components/AdditionalIncomeCheckList';
+import AdditionalIncomeCheckList from '../../../components/householdIncome/AdditionalIncomeCheckList';
 
 export const uiSchema = {
   'ui:title': '',

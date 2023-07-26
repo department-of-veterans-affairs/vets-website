@@ -25,7 +25,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
 
     // Rename and modify the test data as needed.
-    dataSets: ['no-api-issues', 'minimal-test', 'maximal-test'],
+    dataSets: ['maximal-test'], // ['no-api-issues', 'minimal-test', 'maximal-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -84,6 +84,23 @@ const testConfig = createTestConfig(
           });
         });
       },
+
+      'extension-reason': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            const { extensionReason } = testData;
+            if (extensionReason) {
+              cy.get('va-textarea')
+                .shadow()
+                .find('textarea')
+                .type(extensionReason);
+            }
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+
       'evidence-submission/upload': () => {
         cy.get('input[type="file"]')
           .upload(

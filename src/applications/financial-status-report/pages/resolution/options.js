@@ -1,6 +1,6 @@
 import React from 'react';
-import FinancialOverview from '../../components/FinancialOverview';
-import ResolutionDebtCards from '../../components/ResolutionDebtCards';
+import FinancialOverview from '../../components/monetary/FinancialOverview';
+import ResolutionDebtCards from '../../components/resolution/ResolutionDebtCards';
 import { validateCurrency } from '../../utils/validations';
 
 export const uiSchema = {

@@ -89,20 +89,6 @@ describe('FormApp', () => {
       $('va-loading-indicator', container).getAttribute('message'),
     ).to.contain('Loading application');
   });
-  it('should render WIP alert', () => {
-    const { props, data } = getData({ showNod: false });
-    const { container } = render(
-      <Provider store={mockStore(data)}>
-        <FormApp {...props} />
-      </Provider>,
-    );
-
-    // FormTitle rendered separately in WIP page
-    expect($('h1', container).textContent).to.contain('Board Appeal');
-    expect($('va-alert', container).innerHTML).to.contain(
-      'still working on this feature',
-    );
-  });
 
   it('should call API if logged in', async () => {
     mockApiRequest(contestableIssuesResponse);
