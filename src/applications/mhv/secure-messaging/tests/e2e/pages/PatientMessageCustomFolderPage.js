@@ -44,6 +44,19 @@ class PatientMessageCustomFolderPage {
       .first()
       .click();
   };
+
+  verifyFolderHeader = (
+    text = mockCustomFolderMetaResponse.data.attributes.name,
+  ) => {
+    cy.get('[data-testid="folder-header"]').should('have.text', `${text}`);
+  };
+
+  verifyResponseBodyLength = (responseData = mockThreadResponse) => {
+    cy.get('[data-testid="thread-list-item"]').should(
+      'have.length',
+      `${responseData.data.length}`,
+    );
+  };
 }
 
 export default new PatientMessageCustomFolderPage();

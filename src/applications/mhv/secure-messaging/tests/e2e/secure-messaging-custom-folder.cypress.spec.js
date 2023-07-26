@@ -20,9 +20,8 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
       },
     });
   });
-  it('check detailed message', () => {
-    PatientMessageCustomFolderPage.loadDetailedMessage();
 
+  it('Verify folder heade', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -31,5 +30,7 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
         },
       },
     });
+    PatientMessageCustomFolderPage.verifyFolderHeader();
+    PatientMessageCustomFolderPage.verifyResponseBodyLength();
   });
 });
