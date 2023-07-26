@@ -1,8 +1,8 @@
 import * as Sentry from '@sentry/browser';
-import { apiRequest } from 'platform/utilities/api';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import recordEvent from 'platform/monitoring/record-event';
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+import { apiRequest } from '~/platform/utilities/api';
+import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
+import recordEvent from '~/platform/monitoring/record-event';
+import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
 
 export const FETCH_ENROLLMENT_STATUS_BEGIN = 'FETCH_ENROLLMENT_STATUS_BEGIN';
 export const FETCH_ENROLLMENT_STATUS_ERROR = 'FETCH_ENROLLMENT_STATUS_ERROR';

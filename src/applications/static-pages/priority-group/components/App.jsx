@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { isLoggedIn } from 'platform/user/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import { isLoggedIn } from '~/platform/user/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import ApiError from './ApiError';
 import Loading from './Loading';
 import PactAct from './PactAct';
@@ -12,7 +12,7 @@ import SignInPrompt from './SignInPrompt';
 import {
   fetchEnrollmentStatus as fetchEnrollmentStatusFn,
   handleSignInClick as handleSignInClickFn,
-} from '../actions';
+} from '~/platform/site-wide/priority-group/actions';
 import UnknownGroup from './UnknownGroup';
 
 export const App = ({
@@ -31,18 +31,11 @@ export const App = ({
   ]);
   const showSignInPrompt = enabled && !error && !loading && !signedIn;
   const showLoadingIndicator = enabled && !error && loading;
+  const hasPriorityGroup = !!enrollmentStatus?.priorityGroup;
   const showUnknownGroup =
-    enabled &&
-    !error &&
-    !loading &&
-    signedIn &&
-    !enrollmentStatus?.priorityGroup;
+    enabled && !error && !loading && signedIn && !hasPriorityGroup;
   const showPriorityGroup =
-    enabled &&
-    !error &&
-    !loading &&
-    signedIn &&
-    !!enrollmentStatus?.priorityGroup;
+    enabled && !error && !loading && signedIn && hasPriorityGroup;
 
   return (
     <>
@@ -80,9 +73,9 @@ App.defaultProps = {
 
 const mapStateToProps = state => ({
   enabled: toggleValues(state)[FEATURE_FLAG_NAMES.showPriorityGroupAlertWidget],
-  enrollmentStatus: state.data,
-  error: state.error,
-  loading: state.loading,
+  enrollmentStatus: state?.priorityGroup?.data,
+  error: state?.priorityGroup?.error,
+  loading: state?.priorityGroup?.loading,
   signedIn: isLoggedIn(state),
 });
 

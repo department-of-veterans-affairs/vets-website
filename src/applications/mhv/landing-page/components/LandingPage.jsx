@@ -3,7 +3,7 @@ import CardLayout from './CardLayout';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
-// import PriorityGroup from './PriorityGroup';
+import PriorityGroup from './PriorityGroup';
 
 const LandingPage = ({ data = null }) => {
   const { cards = null, hubs } = data;
@@ -15,7 +15,7 @@ const LandingPage = ({ data = null }) => {
     >
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <HeaderLayout />
-        {/* <PriorityGroup /> */}
+        <PriorityGroup />
         <CardLayout data={cards} />
       </div>
       <HubLinks hubs={hubs} />

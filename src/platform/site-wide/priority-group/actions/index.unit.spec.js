@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import * as Sentry from '@sentry/browser';
-import environment from 'platform/utilities/environment';
+import environment from '~/platform/utilities/environment';
 import {
   FETCH_ENROLLMENT_STATUS_BEGIN,
   FETCH_ENROLLMENT_STATUS_ERROR,
