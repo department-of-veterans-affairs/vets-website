@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router';
 import PropTypes from 'prop-types';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   // START ligthouse_migration
   submit5103 as submit5103Action,
@@ -16,14 +16,17 @@ import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 // START lighthouse_migration
 import { cstUseLighthouse } from '../selectors';
 // END lighthouse_migration
-import { setUpPage } from '../utils/page';
+import { setUpPage, setFocus } from '../utils/page';
 
 class AskVAPage extends React.Component {
   constructor() {
     super();
     this.goToStatusPage = this.goToStatusPage.bind(this);
     this.setSubmittedDocs = this.setSubmittedDocs.bind(this);
-    this.state = { submittedDocs: false };
+    this.state = {
+      submittedDocs: false,
+      submitErrorMessage: null,
+    };
   }
 
   componentDidMount() {
@@ -46,7 +49,21 @@ class AskVAPage extends React.Component {
   }
 
   setSubmittedDocs(val) {
-    this.setState({ submittedDocs: val });
+    this.setState({
+      submittedDocs: val,
+      submitErrorMessage: null,
+    });
+  }
+
+  validate(isValid) {
+    const errorMessage = "Select the box if you've provided all your evidence";
+    if (isValid) {
+      this.setState({ submitErrorMessage: null });
+      return true;
+    }
+    this.setState({ submitErrorMessage: errorMessage });
+    setFocus('va-checkbox');
+    return false;
   }
 
   goToStatusPage() {
@@ -63,10 +80,10 @@ class AskVAPage extends React.Component {
     } = this.props;
 
     const submitFunc = useLighthouse ? submit5103 : submitRequest;
-    const submitDisabled =
-      !this.state.submittedDocs ||
+    const canSubmit =
+      this.state.submittedDocs ||
       loadingDecisionRequest ||
-      decisionRequestError;
+      decisionRequestError !== null;
 
     let buttonMsg = 'Submit';
     if (loadingDecisionRequest) {
@@ -109,23 +126,26 @@ class AskVAPage extends React.Component {
                 </li>
                 <li>The date benefits will begin if we approve your claim</li>
               </ul>
-              <div className="usa-alert usa-alert-info background-color-only claims-alert">
-                <Checkbox
-                  className="claims-alert-checkbox"
-                  checked={this.state.submittedDocs}
-                  onValueChange={update => this.setSubmittedDocs(update)}
-                  label="I have submitted all evidence that will support my claim and I’m not going to turn in any more information. I would like VA to make a decision on my claim based on the information already provided."
+              <div>
+                <VaCheckbox
+                  description=""
+                  error={this.state.submitErrorMessage}
+                  hint={null}
+                  label="I don't have any other documents to provide to support my claim. I'd like you to make a decision on my claim based on the evidence you have already."
+                  onVaChange={e => this.setSubmittedDocs(e.target.checked)}
+                  onBlur={function noRefCheck() {}}
+                  required
+                  class="vads-u-background-color--gray-light-alt vads-u-padding--2 vads-u-margin-bottom--2"
                 />
               </div>
               <button
-                disabled={submitDisabled}
                 type="button"
-                className={
-                  submitDisabled
-                    ? 'usa-button-primary usa-button-disabled'
-                    : 'usa-button-primary'
-                }
-                onClick={() => submitFunc(this.props.params.id)}
+                className="usa-button-primary"
+                onClick={() => {
+                  if (this.validate(canSubmit)) {
+                    submitFunc(this.props.params.id);
+                  }
+                }}
               >
                 {buttonMsg}
               </button>
@@ -135,7 +155,7 @@ class AskVAPage extends React.Component {
                   onClick={this.goToStatusPage}
                   type="button"
                 >
-                  Not yet–I still have more evidence to submit
+                  I have more evidence to submit
                 </button>
               ) : null}
             </div>
