@@ -14,7 +14,6 @@ import {
 import {
   DependentSupportDescription,
   GrossIncomeDescription,
-  NetIncomeDescription,
   OtherIncomeDescription,
 } from '../components/FormDescriptions';
 
@@ -244,7 +243,8 @@ export const dependentUISchema = {
     },
     'view:netIncome': {
       'ui:title': 'Net income from a farm, property, or business',
-      'ui:description': NetIncomeDescription,
+      'ui:description':
+        'Net income is income after any taxes and other deductions are subtracted.',
       netIncome: {
         ...currencyUI(
           `Enter your dependent\u2019s net annual income from a farm, ranch, property or business from ${lastYear}`,

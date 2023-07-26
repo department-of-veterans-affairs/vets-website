@@ -25,7 +25,7 @@ const getPreparerFullName = formData => {
 const content = {
   headlineText: 'You’ve submitted your lay witness request.',
   nextStepsText:
-    'Once we’ve reviewed your submission, a coordinator will contact you to discuss next steps.',
+    'Once we’ve reviewed your submission, we’ll contact you to discuss next steps.',
 };
 
 export const ConfirmationPage = () => {

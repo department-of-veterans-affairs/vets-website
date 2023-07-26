@@ -7,6 +7,7 @@ import { careSummariesAndNotesReducer } from './careSummariesAndNotes';
 import { vaccineReducer } from './vaccines';
 import { vitalReducer } from './vitals';
 import { allergyReducer } from './allergies';
+import { sharingReducer } from './sharing';
 
 const rootReducer = {
   mr: combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = {
     vaccines: vaccineReducer,
     vitals: vitalReducer,
     conditions: conditionReducer,
+    sharing: sharingReducer,
   }),
 };
 

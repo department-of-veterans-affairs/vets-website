@@ -240,8 +240,7 @@ const Dashboard = ({
               ) : null}
 
               {isLOA3 &&
-                shouldShowV2Dashboard &&
-                canAccessPaymentHistory && (
+                shouldShowV2Dashboard && (
                   <>
                     <DebtsV2 />
                     <BenefitPaymentsV2
@@ -301,6 +300,7 @@ const mapStateToProps = state => {
   const hasLoadedDisabilityRating = canAccessRatingInfo
     ? state.totalRating?.loading === false
     : true;
+
   const hasLoadedMilitaryInformation = canAccessMilitaryHistory
     ? state.vaProfile?.militaryInformation
     : true;
