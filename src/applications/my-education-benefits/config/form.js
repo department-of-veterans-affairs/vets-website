@@ -1036,10 +1036,10 @@ const formConfig = {
                 'ui:widget': 'radio',
                 'ui:required': formData =>
                   formData?.duplicatePhone?.some(
-                    entry => entry?.dupe === false,
+                    entry => entry?.dupe === false && entry?.dupe !== '',
                   ) ||
                   formData?.duplicateEmail?.some(
-                    entry => entry?.dupe === false,
+                    entry => entry?.dupe === false && entry?.dupe !== '',
                   ),
                 'ui:validations': [
                   (errors, field, formData) => {
@@ -1186,7 +1186,7 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   formData?.duplicateEmail?.some(
-                    entry => entry?.dupe === false,
+                    entry => entry?.dupe === false && entry?.dupe !== '',
                   ) ||
                   (formData?.duplicateEmail?.some(
                     entry => entry?.dupe === true,
@@ -1219,7 +1219,7 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   formData?.duplicatePhone?.some(
-                    entry => entry?.dupe === false,
+                    entry => entry?.dupe === false && entry?.dupe !== '',
                   ) ||
                   (formData?.duplicateEmail?.some(
                     entry => entry?.dupe === true,
@@ -1252,10 +1252,10 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   formData?.duplicatePhone?.some(
-                    entry => entry?.dupe === false,
+                    entry => entry?.dupe === false && entry?.dupe !== '',
                   ) ||
                   formData?.duplicateEmail?.some(
-                    entry => entry?.dupe === false,
+                    entry => entry?.dupe === false && entry?.dupe !== '',
                   ),
               },
             },
