@@ -11,32 +11,39 @@ const FolderHeader = props => {
   const { folder, searchProps } = props;
   const location = useLocation();
   const [showComposeMessage, setShowComposeMessage] = useState(false);
+  const [folderDescription, setFolderDescription] = useState(null);
+
+  useEffect(
+    () => {
+      switch (folder.folderId) {
+        case Folders.INBOX.id:
+        case Folders.SENT.id: // Inbox
+          setFolderDescription(Folders.INBOX.desc);
+          break;
+        case Folders.DRAFTS.id: // Drafts
+          setFolderDescription(Folders.DRAFTS.desc);
+          break;
+        case Folders.DELETED.id: // Trash
+          setFolderDescription(Folders.DELETED.desc);
+          setShowComposeMessage(false);
+          break;
+        default:
+          setFolderDescription(Folders.CUSTOM_FOLDER.desc); // Custom Folder Sub-header;
+          setShowComposeMessage(false);
+          break;
+      }
+    },
+    [folder],
+  );
+
   const handleFolderDescription = () => {
-    let text = '';
-    switch (folder.folderId) {
-      case Folders.INBOX.id:
-      case Folders.SENT.id: // Inbox
-        text = Folders.INBOX.desc;
-        break;
-      case Folders.DRAFTS.id: // Drafts
-        text = Folders.DRAFTS.desc;
-        break;
-      case Folders.DELETED.id: // Trash
-        text = Folders.DELETED.desc;
-        setShowComposeMessage(false);
-        break;
-      default:
-        text = Folders.CUSTOM_FOLDER.desc; // Custom Folder Sub-header;
-        setShowComposeMessage(false);
-        break;
-    }
     return (
-      text && (
+      folderDescription && (
         <p
           data-testid="folder-description"
           className="va-introtext folder-description vads-u-margin-top--0"
         >
-          {text}
+          {folderDescription}
         </p>
       )
     );
