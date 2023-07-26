@@ -85,7 +85,7 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'cfsr-recreational-vehicle-records': ({ afterHook }) => {
+      'recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
           cy.findByLabelText(
             /What is the estimated value of all of your trailers, campers, and boats?/,

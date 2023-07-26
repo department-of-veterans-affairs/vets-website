@@ -135,13 +135,11 @@ export default {
         schema: recreationalVehicles.schema,
       },
       recreationalVehicleRecords: {
-        path: 'cfsr-recreational-vehicle-records',
+        path: 'recreational-vehicle-records',
         title: 'Recreational vehicles',
         uiSchema: recreationalVehicleRecords.recreationalVehicleUISchema,
         schema: recreationalVehicleRecords.recreationalVehicleSchema,
-        depends: formData =>
-          formData.questions.hasRecreationalVehicle &&
-          formData['view:combinedFinancialStatusReport'],
+        depends: formData => formData.questions.hasRecreationalVehicle,
         editModeOnReviewPage: false,
       },
       otherAssets: {
