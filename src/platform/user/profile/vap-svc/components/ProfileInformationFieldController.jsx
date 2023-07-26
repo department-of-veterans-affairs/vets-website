@@ -16,8 +16,9 @@ import {
   waitForRenderThenFocus,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import recordEvent from '~/platform/monitoring/record-event';
-import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
+import recordEvent from 'platform/monitoring/record-event';
+
+import prefixUtilityClasses from '../../../../utilities/prefix-utility-classes';
 
 import * as VAP_SERVICE from '../constants';
 
