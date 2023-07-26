@@ -149,16 +149,16 @@ const formConfig = {
   saveInProgress: {
     messages: {
       inProgress:
-        'Your hearing aid batteries and accessories (MDOT) is in progress.',
+        'You have a hearing aid and sleep apnea supplies order in progress.',
       expired:
-        'Your saved hearing aid batteries and accessories (MDOT) has expired. If you want to apply for hearing aid batteries and accessories, please start a new order.',
-      saved: 'Your hearing aid batteries and accessories order has been saved.',
+        'Your saved hearing aid and sleep apnea supplies order has expired. Please start a new order.',
+      saved: 'Your hearing aid and sleep apnea supplies order has been saved.',
     },
   },
   version: 0,
   prefillEnabled: true,
-  title: 'Order hearing aid batteries and accessories',
-  subTitle: 'VA Form 2346A',
+  title: 'Order hearing aid and sleep apnea supplies',
+  subTitle: '',
   savedFormMessages: {
     notFound:
       'You can’t reorder your items at this time because your items aren’t available for reorder or we can’t find your records in our system. For help, please call the Denver Logistics Center (DLC) at 303-273-6200 or email us at dalc.css@va.gov.',

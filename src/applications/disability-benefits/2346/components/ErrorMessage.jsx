@@ -17,7 +17,7 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
             </span>
             <span className="vads-u-margin-top--1">
               If you need an item sooner, call the DLC Customer Service Section
-              at <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
+              at <va-telephone contact="3032736200" /> or email{' '}
               <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </span>
           </div>
@@ -30,14 +30,14 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
           <h3 slot="headline">We can’t find your records in our system</h3>
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             <span>
-              You can’t order hearing aid batteries or accessories at this time
+              You can’t order hearing aid or sleep apnea supplies at this time
               because we can’t find your records in our system or we’re missing
               some information needed for you to order.
             </span>
 
             <span className="vads-u-margin-top--1">
-              If you think this is incorrect, call your audiologist to update
-              your record.{' '}
+              If you think this is incorrect, call your health care provider to
+              update your record.{' '}
               <a
                 href="https://www.va.gov/find-locations/"
                 target="_blank"
@@ -56,14 +56,13 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
           <h3 slot="headline">You can’t reorder your items at this time</h3>
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             <span>
-              You can’t order hearing aid batteries or accessories online at
-              this time because you haven’t placed an order within the past two
-              years
+              You can’t order hearing aid or sleep apnea supplies online at this
+              time because you haven’t placed an order within the past two years
             </span>
 
             <span className="vads-u-margin-top--1">
               If you need to place an order, call the DLC Customer Service
-              Section at <a href="tel:303-273-6200">303-273-6200</a> or email{' '}
+              Section at <va-telephone contact="3032736200" /> or email{' '}
               <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </span>
           </div>
@@ -80,7 +79,7 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
             <span>We can’t fulfill an order for this Veteran</span>
             <span className="vads-u-margin-top--1">
               If this information is incorrect, please call Veterans Benefits
-              Assistance at <a href="tel:800-827-1000">800-827-1000</a>, Monday
+              Assistance at <va-telephone contact="8008271000" />, Monday
               through Friday, 8:00 a.m. to 9:00 p.m. E.T.
             </span>
           </div>
@@ -94,19 +93,17 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
           <h3 slot="headline">We’re sorry. Something went wrong on our end.</h3>
           <div className="mdot-server-error-alert">
             <p>
-              You can’t place an order for hearing aid batteries and accessories
+              You can’t place an order for hearing aid and sleep apnea supplies
               because something went wrong on our end.
             </p>
             <p className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-font-family--serif">
               What you can do
             </p>
             <p className="vads-u-margin-top--0">
-              For help ordering hearing aid batteries and accessories, please
+              For help ordering hearing aid and sleep apnea supplies, please
               call the DLC Customer Service Section at{' '}
-              <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
-                303-273-6200
-              </a>{' '}
-              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+              <va-telephone contact="3032736200" /> or email{' '}
+              <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </p>
           </div>
         </va-alert>

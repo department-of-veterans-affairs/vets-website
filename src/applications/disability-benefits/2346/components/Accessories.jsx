@@ -163,7 +163,7 @@ class Accessories extends Component {
                       ),
                     })}
                   >
-                    Order this accessory
+                    Order this hearing aid accessory
                   </label>
                 </div>
               )}

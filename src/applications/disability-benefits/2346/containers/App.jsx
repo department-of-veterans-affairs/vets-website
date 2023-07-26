@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchFormStatus } from '../actions';
 import formConfig from '../config/form';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ErrorMessage from '../components/ErrorMessage';
 
 class App extends Component {
@@ -24,14 +23,13 @@ class App extends Component {
           {/* this will get updated when this route is added */}
           <a href="/health-care">Health care</a>
           <a href="/health-care/order-hearing-aid-batteries-and-accessories">
-            Order hearing aid batteries and accessories
+            Order hearing aid and sleep apnea supplies
           </a>
-          <span className="vads-u-color--black">
-            <strong>Order form 2346</strong>
-          </span>
         </Breadcrumbs>
         {pending && (
-          <LoadingIndicator setFocus message="Loading your information..." />
+          <va-loading-indicator>
+            Loading your information...
+          </va-loading-indicator>
         )}
         {isError &&
           !pending &&

@@ -73,24 +73,24 @@ class ApneaSupplies extends Component {
       <div className="accessory-page">
         {accessorySupplies.length > 0 && (
           <h3 className="vads-u-font-size--h4 vads-u-margin-top--5">
-            Select the hearing aid accessories you need
+            Select the sleep apnea supplies you need
           </h3>
         )}
         {!haveAccessoriesBeenOrderedInLastTwoYears &&
           !areAccessorySuppliesEligible && (
             <va-alert status="info" visible>
               <h3 slot="headline">
-                You can’t add accessories to your order at this time
+                You can’t add sleep apnea supplies to your order at this time
               </h3>
               <div className="accessories-two-year-alert-content">
                 <p>
-                  You can only order accessories that you’ve received in the
-                  past 2 years.
+                  You can only order sleep apnea supplies that you’ve received
+                  in the past 2 years.
                 </p>
                 <p>
-                  If you need accessories like domes, wax guards, cleaning
-                  supplies, or dessicant, call the DLC Customer Service Section
-                  at <va-telephone contact={DLC_PHONE} /> or email{' '}
+                  If you need a sleep apnea supply that is not listed here, call
+                  the DLC Customer Service Section at{' '}
+                  <va-telephone contact={DLC_PHONE} /> or email{' '}
                   <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
               </div>
@@ -133,7 +133,7 @@ class ApneaSupplies extends Component {
                 <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
                   <div className="usa-alert-body">
                     <h3 className="usa-alert-heading vads-u-font-family--sans">
-                      You can't order this accessory online until{' '}
+                      You can't order this sleep apnea supply online until{' '}
                       {moment(accessorySupply.nextAvailabilityDate).format(
                         'MMMM D, YYYY',
                       )}
@@ -163,7 +163,7 @@ class ApneaSupplies extends Component {
                       ),
                     })}
                   >
-                    Order this accessory
+                    Order this sleep apnea supply
                   </label>
                 </div>
               )}
@@ -171,14 +171,14 @@ class ApneaSupplies extends Component {
           ))}
         {accessorySupplies.length > 0 && (
           <va-additional-info
-            trigger="What if the accessories I need aren’t listed here?"
+            trigger="What if the sleep apnea supplies I need aren’t listed here?"
             className="vads-u-margin-bottom--2"
           >
             <p>
-              The accessories you need may not be listed here if you haven’t
-              placed an order for resupply items within the last 2 years. If you
-              need an accessory that hasn’t been ordered within the last 2
-              years, call the DLC Customer Service Section at
+              The sleep apnea supplies you need may not be listed here if you
+              haven’t placed an order for resupply items within the last 2
+              years. If you need a sleep apnea supply that hasn’t been ordered
+              within the last 2 years, call the DLC Customer Service Section at
               <va-telephone
                 contact={DLC_PHONE}
                 className="vads-u-margin--0p5"
@@ -192,17 +192,6 @@ class ApneaSupplies extends Component {
               </a>
               .
             </p>
-            <p>
-              If you need a smaller dome for your hearing aid, you'll need to
-              call your audiologist.
-            </p>
-            <a
-              href="https://www.va.gov/find-locations/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Find contact information for your local VA medical center.
-            </a>
           </va-additional-info>
         )}
       </div>
