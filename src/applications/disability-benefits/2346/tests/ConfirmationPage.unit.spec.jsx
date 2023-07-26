@@ -390,7 +390,7 @@ describe('ConfirmationPage', () => {
     const confirmationPage = mount(<ConfirmationPage store={fakeStore} />);
     const vaAlert = confirmationPage.find('va-alert').last();
     expect(vaAlert.find('h4').text()).to.equal(
-      'Request for Batteries and Accessories (Form 2346A)',
+      'Request for Hearing Aid or Sleep Apnea Supplies',
     );
     expect(
       vaAlert
