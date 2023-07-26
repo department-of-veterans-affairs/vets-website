@@ -1,9 +1,9 @@
 import React from 'react';
-import ItemLoop from '../../../components/ItemLoop';
-import CardDetailsView from '../../../components/CardDetailsView';
-import CustomReviewField from '../../../components/CustomReviewField';
+import ItemLoop from '../../../components/shared/ItemLoop';
+import CardDetailsView from '../../../components/shared/CardDetailsView';
+import CustomReviewField from '../../../components/shared/CustomReviewField';
 import { validateCurrency } from '../../../utils/validations';
-import Typeahead from '../../../components/Typeahead';
+import Typeahead from '../../../components/shared/Typeahead';
 import {
   formatOptions,
   recreationalVehicleTypes,
