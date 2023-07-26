@@ -51,12 +51,13 @@ import {
 import manifest from '../manifest.json';
 import hearingType from '../pages/hearingType';
 
-// add custom focust for the contact info mailing address edit page
+/**
+ * add custom focust for the contact info mailing address edit page
+ * fixes issue [#61243](https://github.com/department-of-veterans-affairs/va.gov-team/issues/61243)
+ */
 const confirmContactInfoEditMailingAddress = {
   ...contactInfo.confirmContactInfoEditMailingAddress,
   scrollAndFocusTarget: () => {
-    // even when not having this focusElement call the h3 still gets focused, sooo not sure if I should include this
-    // or just leave it blank since it's the default behavior if scrollAndFocusTarget is set to an empty function
     focusElement('#main h3');
   },
 };
