@@ -550,7 +550,7 @@ export const OtherIncomeDescription = (
 
 export const SpouseBasicInformationDescription = (
   <>
-    Spouse’s basic information
+    Spouse’s personal information
     <span className="sr-only">.</span>
     <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-y--2">
       Fill this out to the best of your knowledge. The more accurate your

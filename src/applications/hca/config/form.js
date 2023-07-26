@@ -445,8 +445,8 @@ const formConfig = {
           schema: v2MaritalStatus.schema,
         },
         v2SpouseBasicInformation: {
-          path: 'household-information-v2/spouse-basic-information',
-          title: 'Spouse\u2019s basic information',
+          path: 'household-information-v2/spouse-personal-information',
+          title: 'Spouse\u2019s personal information',
           initialData: {},
           depends: formData =>
             !isShortFormEligible(formData) &&
