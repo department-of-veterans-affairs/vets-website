@@ -16,7 +16,7 @@ import {
 
 import formConfig from '../config/form';
 import { fetchFormStatus } from '../actions';
-import { ErrorAlert } from '../components/Alerts';
+import { ErrorAlert } from '../components/alerts/Alerts';
 import WizardContainer from '../wizard/WizardContainer';
 import { WIZARD_STATUS } from '../wizard/constants';
 import {

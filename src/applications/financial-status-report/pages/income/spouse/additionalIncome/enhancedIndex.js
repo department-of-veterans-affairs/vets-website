@@ -1,4 +1,4 @@
-import SpouseAdditionalIncomeCheckList from '../../../../components/SpouseAdditionalIncomeCheckList';
+import SpouseAdditionalIncomeCheckList from '../../../../components/householdIncome/SpouseAdditionalIncomeCheckList';
 
 export const uiSchema = {
   'ui:title': 'Monthly housing expenses',
