@@ -129,35 +129,23 @@ export const fsrReasonDisplay = resolutionOption => {
   }
 };
 
-export const getFsrReason = (debts, combinedFSR) => {
-  const reasons = combinedFSR
-    ? debts.map(({ resolutionOption }) => fsrReasonDisplay(resolutionOption))
-    : debts.map(({ resolution }) => resolution.resolutionType);
+export const getFsrReason = debts => {
+  const reasons = debts.map(({ resolutionOption }) =>
+    fsrReasonDisplay(resolutionOption),
+  );
   const uniqReasons = [...new Set(reasons)];
 
   return uniqReasons.join(', ');
 };
 
-export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
-  return combinedFSR
-    ? debts
-        .filter(item => item.resolutionComment !== undefined)
-        .reduce(
-          (acc, debt) =>
-            acc +
-            Number(debt.resolutionComment?.replaceAll(/[^0-9.-]/g, '') ?? 0),
-          0,
-        )
-    : debts
-        .filter(item => item.resolution.offerToPay !== undefined)
-        .reduce(
-          (acc, debt) =>
-            acc +
-            Number(
-              debt.resolution?.offerToPay?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-            ),
-          0,
-        );
+export const getAmountCanBePaidTowardDebt = debts => {
+  return debts
+    .filter(item => item.resolutionComment !== undefined)
+    .reduce(
+      (acc, debt) =>
+        acc + Number(debt.resolutionComment?.replaceAll(/[^0-9.-]/g, '') ?? 0),
+      0,
+    );
 };
 
 export const mergeAdditionalComments = (additionalComments, expenses) => {
