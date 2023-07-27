@@ -103,15 +103,14 @@ class IntroductionPage extends React.Component {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the intent to file"
+          startText="Start your intent to file"
           hideUnauthedStartLink
         >
-          Please complete the 21-0966 form to apply for benefits claims.
+          Please complete the 21-0966 form to send your intent to file.
         </SaveInProgressIntro>
 
         {userLoggedIn && claimNotTriggeredDisclaimerContent}
 
-        <p />
         <va-omb-info
           res-burden="5"
           omb-number="2900-0826"
