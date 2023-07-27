@@ -3,18 +3,12 @@
  */
 import moment from '../../lib/moment-tz';
 
-import { APPOINTMENT_STATUS, APPOINTMENT_TYPES } from '../../utils/constants';
+import { APPOINTMENT_TYPES } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import {
   transformATLASLocation,
   transformCommunityProvider,
 } from '../location/transformers';
-
-import {
-  CANCELLED_APPOINTMENT_SET,
-  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
-  PAST_APPOINTMENTS_HIDE_STATUS_SET,
-} from '../../utils/appointment';
 
 /**
  * Determines what type of appointment a VAR appointment object is depending on
@@ -83,27 +77,6 @@ function getVistaStatus(appointment) {
 }
 
 /**
- *  Maps FHIR appointment statuses to statuses from var-resources requests
- *
- * @param {Object} appointment A MAS or CC appointment object
- * @param {Boolean} isPast Whether or not the appointment is prior to today's date
- * @returns {String} Appointment status
- */
-function getConfirmedStatus(appointment, isPast) {
-  const currentStatus = getVistaStatus(appointment);
-
-  if (
-    (isPast && PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
-    (!isPast && FUTURE_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus))
-  ) {
-    return null;
-  }
-
-  const cancelled = CANCELLED_APPOINTMENT_SET.has(currentStatus);
-
-  return cancelled ? APPOINTMENT_STATUS.cancelled : APPOINTMENT_STATUS.booked;
-}
-/**
  * Finds the datetime of the appointment depending on the appointment type
  * and returns it as a moment object
  *
@@ -124,18 +97,6 @@ function getMomentConfirmedDate(appt) {
   return timezone
     ? moment(appt.startDate).tz(timezone)
     : moment(appt.startDate);
-}
-
-/**
- *  Determines whether current time is less than appointment time
- *  +60 min or +240 min in the case of video
- * @param {*} appt VAR appointment object
- */
-export function isPastAppointment(appt) {
-  const isVideo = isVideoVisit(appt);
-  const threshold = isVideo ? 240 : 60;
-  const apptDateTime = moment(getMomentConfirmedDate(appt));
-  return apptDateTime.add(threshold, 'minutes').isBefore(moment());
 }
 
 /**
@@ -278,7 +239,6 @@ function setLocation(appt) {
 export function transformConfirmedAppointment(appt) {
   const minutesDuration = getAppointmentDuration(appt);
   const start = getMomentConfirmedDate(appt).format();
-  const isPast = isPastAppointment(appt);
   const isCC = isCommunityCare(appt);
   const videoData = setVideoData(appt);
 
@@ -292,7 +252,7 @@ export function transformConfirmedAppointment(appt) {
     resourceType: 'Appointment',
     // Temporary fix until https://issues.mobilehealth.va.gov/browse/VAOSR-2058 is complete
     id: appt.id || appt.vvsAppointments[0].id || null,
-    status: getConfirmedStatus(appt, isPast),
+    status: true,
     description: getVistaStatus(appt),
     start,
     minutesDuration,
@@ -308,7 +268,7 @@ export function transformConfirmedAppointment(appt) {
     ...getCommunityCareData(appt),
     vaos: {
       isVideo: videoData.isVideo,
-      isPastAppointment: isPast,
+      isPastAppointment: true,
       appointmentType: getAppointmentType(appt),
       isCommunityCare: isCC,
       isExpressCare: false,
