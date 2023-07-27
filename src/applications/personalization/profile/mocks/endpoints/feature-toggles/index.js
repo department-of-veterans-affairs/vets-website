@@ -3,7 +3,6 @@ const { snakeCase } = require('lodash');
 const defaultToggleValues = {
   profileDoNotRequireInternationalZipCode: true,
   profileShowPronounsAndSexualOrientation: false,
-  profileUseVAFSC: false,
   profileHideDirectDepositCompAndPen: false,
   profileShowPaymentsNotificationSetting: true,
   profileUseInfoCard: true,
