@@ -1,0 +1,99 @@
+{
+  "data": {
+    "id": "",
+    "type": "users_scaffolds",
+    "attributes": {
+      "services": [
+        "facilities",
+        "hca",
+        "edu-benefits",
+        "form-save-in-progress",
+        "form-prefill",
+        "rx",
+        "messaging",
+        "health-records",
+        "evss-claims",
+        "lighthouse",
+        "form526",
+        "user-profile",
+        "appeals-status",
+        "id-card",
+        "identity-proofed"
+      ],
+      "account": {
+        "accountUuid": "dafeec65-c830-49fd-b838-05c67989b7d1"
+      },
+      "profile": {
+        "email": "vets.gov.user+0@gmail.com",
+        "firstName": "Hector",
+        "middleName": "J",
+        "lastName": "Allen",
+        "birthDate": "1932-02-05",
+        "gender": "M",
+        "zip": "60131",
+        "lastSignedIn": "2023-07-26T23:53:33.270Z",
+        "loa": {
+          "current": 3,
+          "highest": 3
+        },
+        "multifactor": true,
+        "verified": true,
+        "signIn": {
+          "serviceName": "idme",
+          "authBroker": "sis",
+          "clientId": "vaweb"
+        },
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
+        "inheritedProofVerified": false,
+        "claims": {
+          "appeals": true,
+          "ch33BankAccounts": true,
+          "coe": true,
+          "communicationPreferences": false,
+          "connectedApps": true,
+          "medicalCopays": true,
+          "militaryHistory": true,
+          "paymentHistory": true,
+          "personalInformation": true,
+          "ratingInfo": true
+        }
+      },
+      "vaProfile": {
+        "status": "OK",
+        "birthDate": "19320205",
+        "familyName": "Allen",
+        "gender": "M",
+        "givenNames": ["Hector", "J"],
+        "isCernerPatient": true,
+        "facilities": [
+          {
+            "facilityId": "442",
+            "isCerner": false
+          },
+          {
+            "facilityId": "463",
+            "isCerner": true
+          }
+        ],
+        "vaPatient": true,
+        "mhvAccountState": "OK"
+      },
+      "veteranStatus": {
+        "status": "OK",
+        "isVeteran": true,
+        "servedInMilitary": true
+      },
+      "inProgressForms": [],
+      "prefillsAvailable": ["21-0966"],
+      "vet360ContactInformation": {},
+      "session": {
+        "authBroker": "sis",
+        "ssoe": false,
+        "transactionid": null
+      }
+    }
+  },
+  "meta": {
+    "errors": null
+  }
+}
