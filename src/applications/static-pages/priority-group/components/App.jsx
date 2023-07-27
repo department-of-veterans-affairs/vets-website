@@ -12,7 +12,7 @@ import SignInPrompt from './SignInPrompt';
 import {
   fetchEnrollmentStatus as fetchEnrollmentStatusFn,
   handleSignInClick as handleSignInClickFn,
-} from '~/platform/site-wide/priority-group/actions';
+} from '../actions';
 import UnknownGroup from './UnknownGroup';
 
 export const App = ({

@@ -39,8 +39,7 @@
       "./accessible-VCL-modal": "./accessible-VCL-modal.js",
       "./main": "./index.js",
       "./moment-setup": "./moment-setup.js",
-      "./wc-loader": "./wc-loader.js",
-      "./priority-group/actions": "./priority-group/actions/index.js"
+      "./wc-loader": "./wc-loader.js"
     },
     "peerDependencies": {
       "react": "*",

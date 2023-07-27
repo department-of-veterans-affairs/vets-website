@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchEnrollmentStatus as fetchEnrollmentStatusFn } from '@department-of-veterans-affairs/platform-site-wide/priority-group/actions';
+import { fetchEnrollmentStatus as fetchEnrollmentStatusFn } from '../actions';
 
 export const PriorityGroup = ({ fetchEnrollmentStatus, value }) => {
   useEffect(() => fetchEnrollmentStatus(), [fetchEnrollmentStatus]);
