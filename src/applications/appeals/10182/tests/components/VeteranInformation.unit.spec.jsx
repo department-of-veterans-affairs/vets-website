@@ -40,6 +40,7 @@ describe('<VeteranInformation>', () => {
 
     expect(text).to.contain('Date of birth: January 5, 2000');
     expect(text).to.contain('Gender: Female');
+    expect(wrapper.find('.dd-privacy-mask').length).to.eq(4);
 
     wrapper.unmount();
   });
