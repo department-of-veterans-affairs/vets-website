@@ -21,19 +21,27 @@
         },
         "ssn": "234-24-4444",
         "dateOfBirth": "1990-03-02",
-        "relationshipToVet": "1",
+        "relationshipToVet": "2",
         "email": "test@test.com",
         "phoneNumber": "5555555555"
       },
-      "hasCurrentlyBuried": "2",
+      "hasCurrentlyBuried": "1",
+      "currentlyBuriedPersons": {
+          "name": {
+            "first": "Terry",
+            "last": "Greene"
+          }
+        },
       "veteran": {
-        "view:hasServiceName": false,
-        "serviceRecords": [
-          {
+        "view:hasServiceName": true,
+        "serviceName": {
+          "first": "Andrew",
+          "last": "Smith"
+        },
+        "serviceRecords": {
             "dateRange": {},
             "serviceBranch": "AL"
-          }
-        ],
+          },
         "gender": "Male",
         "maritalStatus": "Single",
         "race": {
@@ -46,10 +54,15 @@
           "isWhite": false
         },
         "militaryStatus": "A",
-        "currentName": {},
+        "currentName": {
+          "first": "Jane",
+          "last": "Johnson"
+        },
+        "ssn": "234-55-4443",
         "address": {
           "country": "USA"
-        }
+        },
+        "isDeceased": "no"
       }
     },
     "privacyAgreementAccepted": false
