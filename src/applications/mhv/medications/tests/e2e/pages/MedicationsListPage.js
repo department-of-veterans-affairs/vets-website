@@ -1,6 +1,6 @@
 class MedicationsListPage {
   clickGotoMedicationsLink = () => {
-    cy.contains('Go to your medications').click({ force: true });
+    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
   };
 
   verifyTextInsideDropDownOnListPage = () => {
