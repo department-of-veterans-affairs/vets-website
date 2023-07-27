@@ -6,9 +6,9 @@ import Scroll from 'react-scroll';
 import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
-import GetFormHelp from '../components/GetFormHelp';
+import GetFormHelp from '../components/shared/GetFormHelp';
 import { deductionCodes } from '../constants/deduction-codes';
-import DownloadFormPDF from '../components/DownloadFormPDF';
+import DownloadFormPDF from '../components/shared/DownloadFormPDF';
 import { fsrConfirmationEmailToggle, fsrReasonDisplay } from '../utils/helpers';
 import { DEBT_TYPES } from '../constants';
 

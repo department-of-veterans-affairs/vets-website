@@ -1,9 +1,15 @@
-import { getSelected, hasSomeSelected, hasDuplicates } from '../utils/helpers';
+import {
+  getSelected,
+  hasSomeSelected,
+  hasDuplicates,
+  showExtensionReason,
+} from '../utils/helpers';
 import { issueErrorMessages } from '../content/addIssue';
 import {
   noneSelected,
   maxSelectedErrorMessage,
 } from '../content/contestableIssues';
+import { content as extensionReasonContent } from '../content/extensionReason';
 import { MAX_LENGTH } from '../constants';
 
 /**
@@ -78,5 +84,20 @@ export const missingIssueName = (errors, data) => {
 export const maxNameLength = (errors, data) => {
   if (data.length > MAX_LENGTH.ISSUE_NAME) {
     errors.addError(issueErrorMessages.maxLength);
+  }
+};
+
+export const extensionReason = (
+  errors,
+  _fieldData,
+  formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
+  const data = appStateData || formData || {};
+  if (showExtensionReason(data) && !data.extensionReason) {
+    errors.addError(extensionReasonContent.errorMessage);
   }
 };

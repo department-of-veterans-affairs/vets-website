@@ -5,19 +5,23 @@ import { expect } from 'chai';
 import CustomReviewField from '../../../components/FormReview/CustomReviewField';
 
 describe('hca <CustomReviewField>', () => {
-  it('should render the field title and field value', () => {
-    const uiSchema = {
-      'ui:title': 'Review Field Title',
-    };
-    const formData = 'field value';
-
-    const { getByText } = render(
-      <CustomReviewField>
-        <div uiSchema={uiSchema} formData={formData} />
-      </CustomReviewField>,
-    );
-
-    expect(getByText(/review field title/i)).to.exist;
-    expect(getByText(/field value/i)).to.exist;
+  describe('when the component renders', () => {
+    it('should render the correct field title & value', () => {
+      const props = {
+        uiSchema: { 'ui:title': 'Review Field Title' },
+        formData: 'Value',
+      };
+      const { container } = render(
+        <CustomReviewField>
+          <div {...props} />
+        </CustomReviewField>,
+      );
+      const selectors = {
+        title: container.querySelector('dt', '.review-row'),
+        value: container.querySelector('dd', '.review-row'),
+      };
+      expect(selectors.title).to.contain.text(props.uiSchema['ui:title']);
+      expect(selectors.value).to.contain.text(props.formData);
+    });
   });
 });

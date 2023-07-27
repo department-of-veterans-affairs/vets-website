@@ -1,31 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 
 const AdmissionAndDischargeDetails = props => {
-  const { results } = props;
-
-  const admissionDate = formatDateLong(results?.startDate);
-  const dischargeDate = formatDateLong(results?.endDate);
+  const { record } = props;
 
   const download = () => {};
 
   const content = () => {
-    if (results) {
+    if (record) {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">{results.name}</h1>
+          <h1 className="vads-u-margin-bottom--0">{record.name}</h1>
           <div className="time-header">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Dates:{' '}
             </h2>
             <p>
-              {admissionDate} to {dischargeDate}
+              {record.startDate} to {record.endDate}
             </p>
           </div>
+
           <section className="set-width-486">
             <p className="vads-u-margin-bottom--0">
               Review a summary of your stay at a hospital or other health
@@ -49,33 +46,34 @@ const AdmissionAndDischargeDetails = props => {
               </va-additional-info>
             </div>
           </section>
+
           <div className="test-details-container max-80">
             <h2>Details</h2>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h3>
-            <p>{results.facility || 'Not noted'}</p>
+            <p>{record.location}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Admission date
             </h3>
-            <p>{admissionDate || 'Not noted'}</p>
+            <p>{record.startDate}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Discharge date
             </h3>
-            <p>{dischargeDate || 'Not noted'}</p>
+            <p>{record.endDate}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Admitted by
             </h3>
-            <p>{results.admittingPhysician || 'Not noted'}</p>
+            <p>{record.admittingPhysician || record.physician}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Discharged by
             </h3>
-            <p>{results.dischargePhysician || 'Not noted'}</p>
+            <p>{record.dischargePhysician || record.physician}</p>
           </div>
 
           <div className="test-results-container">
             <h2>Summary</h2>
-            <p>{results.summary}</p>
+            <p>{record.summary}</p>
           </div>
         </>
       );
@@ -93,5 +91,5 @@ const AdmissionAndDischargeDetails = props => {
 export default AdmissionAndDischargeDetails;
 
 AdmissionAndDischargeDetails.propTypes = {
-  results: PropTypes.object,
+  record: PropTypes.object,
 };

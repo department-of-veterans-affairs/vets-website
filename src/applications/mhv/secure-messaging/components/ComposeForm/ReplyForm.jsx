@@ -14,7 +14,6 @@ import DeleteDraft from '../Draft/DeleteDraft';
 import { sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import EmergencyNote from '../EmergencyNote';
-import HowToAttachFiles from '../HowToAttachFiles';
 import { dateFormat, navigateToFolderByFolderId } from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
@@ -375,8 +374,6 @@ const ReplyForm = props => {
                 error={bodyError}
               />
               <section className="attachments-section vads-u-margin-top--2">
-                <strong>Attachments</strong>
-                <HowToAttachFiles />
                 <AttachmentsList
                   attachments={attachments}
                   setAttachments={setAttachments}
@@ -389,24 +386,29 @@ const ReplyForm = props => {
                 />
               </section>
               <DraftSavedInfo userSaved={userSaved} />
-              <div className="compose-form-actions vads-u-display--flex">
+              <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
                 {!cannotReply && (
-                  <va-button
-                    text="Send"
-                    class="vads-u-flex--1 send-button vads-u-margin-bottom--1"
+                  <button
+                    type="button"
+                    id="send-button"
+                    className="usa-button usa-button-primary vads-u-width--full medium-screen:vads-u-flex--1 vads-u-margin-top--0 medium-screen:vads-u-margin-right--1 vads-u-margin-right--0"
                     data-testid="Send-Button"
                     onClick={sendMessageHandler}
-                  />
+                  >
+                    Send
+                  </button>
                 )}
 
-                <va-button
+                <button
+                  type="button"
                   id="save-draft-button"
-                  text="Save draft"
-                  secondary
-                  class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1"
+                  className="usa-button usa-button-secondary save-draft-button vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--1"
                   data-testid="Save-Draft-Button"
                   onClick={e => saveDraftHandler('manual', e)}
-                />
+                >
+                  <i className="fas fa-save" aria-hidden="true" />
+                  Save draft
+                </button>
                 {/* UCD requested to keep button even when not saved as draft */}
                 <DeleteDraft
                   draftId={newDraftId}

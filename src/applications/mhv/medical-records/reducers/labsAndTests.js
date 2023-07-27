@@ -31,12 +31,12 @@ const initialState = {
 const convertChemHemObservation = results => {
   return results.filter(obs => obs.valueQuantity).map(result => {
     return {
-      name: result.code.coding.text,
-      result: getObservationValueWithUnits(result),
-      standardRange: result.referenceRange[0].text,
-      status: result.status,
-      // labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-      interpretation: concatObservationInterpretations(result),
+      name: result.code.text,
+      result: getObservationValueWithUnits(result) || emptyField,
+      standardRange: result.referenceRange[0].text || emptyField,
+      status: result.status || emptyField,
+      labLocation: result.labLocation || emptyField,
+      interpretation: concatObservationInterpretations(result) || emptyField,
     };
   });
 };
@@ -54,15 +54,14 @@ const convertChemHemRecord = record => {
     type: labTypes.CHEM_HEM,
     name: concatCategoryCodeText(record),
     category: concatCategoryCodeText(record),
-    // orderedBy: 'Beth M. Smith',
-    // requestedBy: 'John J. Lydon',
+    orderedBy: record.physician || emptyField,
+    requestedBy: record.physician || emptyField,
     date: record.effectiveDateTime,
-    // orderingLocation:
-    //   '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    // collectingLocation:
-    //   '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
+    orderingLocation: record.location || emptyField,
+    collectingLocation: record.location || emptyField,
     comments: [record.conclusion],
     results: convertChemHemObservation(results),
+    sampleTested: record.sampleTested || emptyField,
   };
 };
 

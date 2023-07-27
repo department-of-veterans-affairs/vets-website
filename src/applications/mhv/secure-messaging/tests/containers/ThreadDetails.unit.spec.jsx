@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent } from '@testing-library/react';
 import moment from 'moment';
 import ThreadDetails from '../../containers/ThreadDetails';
 import { PageTitles } from '../../util/constants';
@@ -145,11 +144,8 @@ describe('Thread Details container', () => {
 
     const screen = setup(state);
 
-    fireEvent.click(await screen.findByText('Continue to draft'));
-
-    expect(
-      await screen.findByText('Edit draft', { exact: true, selector: 'h1' }),
-    ).to.exist;
+    expect(screen.findByText('Edit draft', { exact: true, selector: 'h1' })).to
+      .exist;
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
@@ -215,7 +211,7 @@ describe('Thread Details container', () => {
     };
     const screen = setup(state);
 
-    fireEvent.click(await screen.findByText('Continue to reply'));
+    expect(await screen.queryByText('Continue to reply')).to.not.exist;
 
     expect(await screen.findByText(`${category}: ${subject}`, { exact: false }))
       .to.exist;
@@ -304,7 +300,7 @@ describe('Thread Details container', () => {
     };
     const screen = setup(state);
 
-    fireEvent.click(await screen.findByText('Continue to reply'));
+    expect(await screen.queryByText('Continue to reply')).to.not.exist;
 
     expect(
       await screen.findByText(`${category}: ${subject}`, {
