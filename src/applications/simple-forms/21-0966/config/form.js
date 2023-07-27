@@ -29,7 +29,9 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for benefits claims.',
   },
-  title: '21-0966 Intent to file a claim',
+  title: 'Notify VA of your intent to file a claim',
+  subTitle:
+    'Intent to file a claim for compensation and/or pension, or survivors pension and/or DIC (VA Form 21-0966)',
   defaultDefinitions: {},
   chapters: {
     chapter1: {
