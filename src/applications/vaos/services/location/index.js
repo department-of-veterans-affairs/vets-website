@@ -24,7 +24,7 @@ import {
   setSupportedSchedulingMethods,
   transformCommunityProvider,
   transformCommunityProviders,
-} from './transformers.v2';
+} from './transformers';
 import { getRealFacilityId } from '../../utils/appointment';
 
 /**
