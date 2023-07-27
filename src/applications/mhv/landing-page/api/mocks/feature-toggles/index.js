@@ -5,10 +5,7 @@ const generateFeatureToggles = (toggles = {}) => {
     data: {
       type: 'feature_toggles',
       features: [
-        {
-          name: 'mhv_landing_page_enabled',
-          value: mhvLandingPageEnabled,
-        },
+        { name: 'mhv_landing_page_enabled', value: mhvLandingPageEnabled },
       ],
     },
   };
