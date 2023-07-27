@@ -78,7 +78,7 @@ export const DevicesToConnectSection = ({
   const devicesToConnect = () => {
     return (
       <>
-        <div>{disclaimerText()}</div>
+        {disclaimerText()}
         {areAllDevicesConnected() && (
           <p data-testid="all-devices-connected-alert">
             There are no devices available to connect.
