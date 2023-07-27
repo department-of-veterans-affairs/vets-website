@@ -18,7 +18,7 @@ import {
 import { AppointmentList } from '../../../appointment-list';
 import {
   createTestStore,
-  getTestDate,
+  getTimezoneTestDate,
   renderWithStoreAndRouter,
 } from '../../mocks/setup';
 import { getVARequestMock, getCCRequestMock } from '../../mocks/v0';
@@ -26,7 +26,7 @@ import { getVAOSRequestMock } from '../../mocks/v2';
 import { createMockFacilityByVersion } from '../../mocks/data';
 import { mockFacilityFetchByVersion } from '../../mocks/fetch';
 
-const testDate = getTestDate();
+const testDate = getTimezoneTestDate();
 
 const initialState = {
   featureToggles: {

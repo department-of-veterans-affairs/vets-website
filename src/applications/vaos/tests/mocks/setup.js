@@ -191,14 +191,6 @@ export function getTimezoneTestDate(zone = 'America/Denver') {
   return mockedDate.format('YYYY-MM-DD[T]HH:mm:ss');
 }
 
-// Temporary WIP
-export function getTestDate() {
-  return moment()
-    .set('hour', 0)
-    .set('minute', 30)
-    .format('YYYY-MM-DD[T]HH:mm:ss');
-}
-
 /**
  * Renders the type of facility page and chooses the option indicated by the label param
  *

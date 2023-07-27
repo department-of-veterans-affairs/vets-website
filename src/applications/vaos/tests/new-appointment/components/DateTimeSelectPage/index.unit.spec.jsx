@@ -15,7 +15,7 @@ import {
   setVAFacility,
   setClinic,
   setPreferredDate,
-  getTestDate,
+  getTimezoneTestDate,
 } from '../../../mocks/setup';
 
 import DateTimeSelectPage from '../../../../new-appointment/components/DateTimeSelectPage';
@@ -39,7 +39,7 @@ const initialState = {
 describe('VAOS <DateTimeSelectPage>', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTestDate());
+    MockDate.set(getTimezoneTestDate());
     mockFacilityFetchByVersion({
       facility: createMockCheyenneFacilityByVersion({
         version: 0,

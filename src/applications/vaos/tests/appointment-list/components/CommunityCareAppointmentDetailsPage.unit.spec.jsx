@@ -8,7 +8,10 @@ import {
   mockSingleVAOSAppointmentFetch,
   mockVAOSAppointmentsFetch,
 } from '../../mocks/helpers.v2';
-import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
+import {
+  renderWithStoreAndRouter,
+  getTimezoneTestDate,
+} from '../../mocks/setup';
 import { createMockAppointmentByVersion } from '../../mocks/data';
 
 import { AppointmentList } from '../../../appointment-list';
@@ -27,7 +30,7 @@ const initialState = {
 describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTestDate());
+    MockDate.set(getTimezoneTestDate());
   });
   afterEach(() => {
     MockDate.reset();

@@ -7,7 +7,10 @@ import { within } from '@testing-library/dom';
 import reducers from '../../../redux/reducer';
 import { getVAOSRequestMock } from '../../mocks/v2';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
-import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
+import {
+  renderWithStoreAndRouter,
+  getTimezoneTestDate,
+} from '../../mocks/setup';
 import RequestedAppointmentsList from '../../../appointment-list/components/RequestedAppointmentsList';
 
 const initialState = {
@@ -26,7 +29,7 @@ const initialStateVAOSService = {
 describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTestDate());
+    MockDate.set(getTimezoneTestDate());
   });
 
   afterEach(() => {

@@ -12,7 +12,10 @@ import {
   mockSingleAppointmentFetch,
   mockVACancelFetches,
 } from '../../../mocks/helpers';
-import { renderWithStoreAndRouter, getTestDate } from '../../../mocks/setup';
+import {
+  renderWithStoreAndRouter,
+  getTimezoneTestDate,
+} from '../../../mocks/setup';
 
 import { AppointmentList } from '../../../../appointment-list';
 import { getICSTokens } from '../../../../utils/calendar';
@@ -43,7 +46,7 @@ const initialState = {
 describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTestDate());
+    MockDate.set(getTimezoneTestDate());
     mockFacilitiesFetchByVersion();
   });
   afterEach(() => {
@@ -163,7 +166,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     };
     // When fetching the specific appointment id
     const url = '/va/1234';
-    const futureDate = moment(getTestDate());
+    const futureDate = moment(getTimezoneTestDate());
 
     const appointment = getVAOSAppointmentMock();
     appointment.id = '1234';
@@ -281,7 +284,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       },
     };
     const url = '/va/1234';
-    const futureDate = moment(getTestDate());
+    const futureDate = moment(getTimezoneTestDate());
     // When the appointment is canceled
     const appointment = getVAOSAppointmentMock();
     appointment.id = '1234';

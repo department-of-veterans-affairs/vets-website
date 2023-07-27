@@ -12,7 +12,10 @@ import {
   mockSingleAppointmentFetch,
 } from '../../../mocks/helpers';
 import { getVideoAppointmentMock } from '../../../mocks/v0';
-import { renderWithStoreAndRouter, getTestDate } from '../../../mocks/setup';
+import {
+  renderWithStoreAndRouter,
+  getTimezoneTestDate,
+} from '../../../mocks/setup';
 import { AppointmentList } from '../../../../appointment-list';
 import { getICSTokens } from '../../../../utils/calendar';
 import { getVAOSAppointmentMock } from '../../../mocks/v2';
@@ -39,7 +42,7 @@ describe.skip('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     beforeEach(() => {
       mockFetch();
-      const sameDayDate = moment(getTestDate())
+      const sameDayDate = moment(getTimezoneTestDate())
         .add(330, 'minutes')
         .format('YYYY-MM-DD[T]HH:mm:ss');
       MockDate.set(sameDayDate);
@@ -977,7 +980,7 @@ describe.skip('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     it('should verify Video Connect at home calendar ics file format', async () => {
       const appointment = getVideoAppointmentMock();
-      const startDate = moment(getTestDate()).add(3, 'days');
+      const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       appointment.attributes = {
         ...appointment.attributes,
         facilityId: '983',
@@ -1095,7 +1098,7 @@ describe.skip('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     it('should verify Video Connect at VA location calendar ics file format', async () => {
       const appointment = getVideoAppointmentMock();
-      const startDate = moment(getTestDate()).add(3, 'days');
+      const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       appointment.attributes = {
         ...appointment.attributes,
         facilityId: '983',
@@ -1217,7 +1220,7 @@ describe.skip('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     it('should verify Video Connect at ATLAS calendar ics file format', async () => {
       // Given a user with an ATLAS video appointment
-      const startDate = moment(getTestDate()).add(3, 'days');
+      const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       const appointment = getVideoAppointmentMock({
         facilityId: '983',
         startDate: startDate.format(),
