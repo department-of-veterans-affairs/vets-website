@@ -216,7 +216,7 @@ const responses = {
     const {
       practitioners = [{ identifier: [{ system: null, value: null }] }],
     } = req.body;
-    const providerNpi = practitioners[0].identifier[0].value;
+    const providerNpi = practitioners[0]?.identifier[0].value;
     const submittedAppt = {
       id: `mock${currentMockId}`,
       attributes: {
@@ -640,7 +640,7 @@ const responses = {
         { name: 'vaOnlineSchedulingUseDsot', value: true },
         { name: 'vaOnlineSchedulingRequestFlowUpdate', value: true },
         { name: 'vaOnlineSchedulingConvertUtcToLocal', value: false },
-        { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: false },
+        { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: true },
         { name: 'vaOnlineSchedulingPrintList', value: true },
         { name: 'va_online_scheduling_descriptive_back_link', value: true },
         { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
