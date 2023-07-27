@@ -1,8 +1,8 @@
 import React from 'react';
-import TableDetailsView from '../../../components/TableDetailsView';
-import CustomReviewField from '../../../components/CustomReviewField';
-import Typeahead from '../../../components/Typeahead';
-import ItemLoop from '../../../components/ItemLoop';
+import TableDetailsView from '../../../components/shared/TableDetailsView';
+import CustomReviewField from '../../../components/shared/CustomReviewField';
+import Typeahead from '../../../components/shared/Typeahead';
+import ItemLoop from '../../../components/shared/ItemLoop';
 import { validateCurrency } from '../../../utils/validations';
 import {
   formatOptions,

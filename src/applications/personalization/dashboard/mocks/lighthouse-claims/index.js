@@ -1,4 +1,4 @@
-const subDays = require('date-fns/addDays');
+const subDays = require('date-fns/subDays');
 const format = require('date-fns/format');
 
 const createLighthouseClaimsSuccess = (updatedDaysAgo = 1, open = true) => {
@@ -15,14 +15,14 @@ const createLighthouseClaimsSuccess = (updatedDaysAgo = 1, open = true) => {
             phaseChangeDate: formattedDaysAgo,
           },
           claimType: 'Dependency',
-          closeDate: null,
+          closeDate: open ? null : '2013-10-31',
           decisionLetterSent: false,
-          developmentLetterSent: true,
+          developmentLetterSent: false,
           documentsNeeded: false,
           endProductCode: '404',
           evidenceWaiverSubmitted5103: false,
           lighthouseId: 266374,
-          status: open ? 'Initial review' : 'Complete',
+          status: open ? 'INITIAL_REVIEW' : 'COMPLETE',
         },
       },
       {
@@ -34,14 +34,14 @@ const createLighthouseClaimsSuccess = (updatedDaysAgo = 1, open = true) => {
             phaseChangeDate: '2018-06-12',
           },
           claimType: 'Dependency',
-          closeDate: null,
+          closeDate: formattedDaysAgo,
           decisionLetterSent: false,
           developmentLetterSent: false,
           documentsNeeded: false,
           endProductCode: '404',
           evidenceWaiverSubmitted5103: false,
           lighthouseId: 600121251,
-          status: 'Complete',
+          status: 'COMPLETE',
         },
       },
       {
@@ -53,14 +53,14 @@ const createLighthouseClaimsSuccess = (updatedDaysAgo = 1, open = true) => {
             phaseChangeDate: '2016-12-06',
           },
           claimType: 'Compensation',
-          closeDate: null,
+          closeDate: formattedDaysAgo,
           decisionLetterSent: false,
           developmentLetterSent: false,
           documentsNeeded: false,
           endProductCode: '404',
           evidenceWaiverSubmitted5103: false,
           lighthouseId: 600090417,
-          status: 'Complete',
+          status: 'COMPLETE',
         },
       },
     ],
