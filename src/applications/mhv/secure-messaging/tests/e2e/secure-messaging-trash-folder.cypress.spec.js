@@ -8,9 +8,9 @@ describe('Secure Messaging Trash Folder checks', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
+    PatientMessageTrashPage.loadMessages();
   });
   it('Axe Check Trash Folder', () => {
-    PatientMessageTrashPage.loadMessages();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -22,7 +22,6 @@ describe('Secure Messaging Trash Folder checks', () => {
   });
 
   it('Verify folder header', () => {
-    PatientMessageTrashPage.loadMessages();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -36,7 +35,6 @@ describe('Secure Messaging Trash Folder checks', () => {
   });
 
   it('Verify filter works correctly', () => {
-    PatientMessageTrashPage.loadMessages();
     PatientMessageTrashPage.inputFilterData('test');
     PatientMessageTrashPage.filterMessages();
     PatientMessageTrashPage.verifyFilterResults('test');
@@ -51,7 +49,6 @@ describe('Secure Messaging Trash Folder checks', () => {
   });
 
   it('Verify clear filter btn works correctly', () => {
-    PatientMessageTrashPage.loadMessages();
     PatientMessageTrashPage.inputFilterData('any');
     PatientMessageTrashPage.filterMessages();
     PatientMessageTrashPage.clearFilter();
@@ -65,5 +62,20 @@ describe('Secure Messaging Trash Folder checks', () => {
       },
     });
     PatientMessageTrashPage.verifyFilterFieldCleared();
+  });
+
+  it('Check sorting works properly', () => {
+    PatientMessageTrashPage.listBeforeSort();
+    PatientMessageTrashPage.listAfterSort();
+    PatientMessageTrashPage.verifySortedList();
+
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });
