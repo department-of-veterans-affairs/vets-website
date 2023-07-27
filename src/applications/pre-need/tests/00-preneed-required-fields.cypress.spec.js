@@ -1,14 +1,7 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
+import requiredHelpers from './utils/cypress-required-field-helpers';
 import testData from './schema/minimal-test.json';
 import cemeteries from './fixtures/mocks/cemeteries.json';
-
-const applicantInfoErrors = [
-  '#root_application_claimant_name_first-error-message',
-  '#root_application_claimant_name_last-error-message',
-  '#root_application_claimant_ssn-error-message',
-  '#root_application_claimant_dateOfBirth-error-message',
-  '#root_application_claimant_relationshipToVet-error-message',
-];
 
 describe('Pre-need form VA 40-10007 Required Fields', () => {
   it('fills the form triggering validation on required fields', () => {
@@ -58,7 +51,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     cy.get('.form-panel .usa-button-primary').click();
 
-    applicantInfoErrors.map(id => cy.get(id).should('be.visible'));
+    requiredHelpers.errorMap(requiredHelpers.applicantInfoErrors);
 
     cy.fill(
       'input[name=root_application_claimant_name_first]',
@@ -91,6 +84,10 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       .shadow()
       .find('.progress-bar-segmented div.progress-segment:nth-child(2)')
       .should('have.class', 'progress-segment-complete');
+
+    cy.get('.form-panel .usa-button-primary').click();
+
+    requiredHelpers.errorMap(requiredHelpers.veteranInfoErrors);
 
     cy.fill(
       'input[name=root_application_veteran_currentName_first]',
