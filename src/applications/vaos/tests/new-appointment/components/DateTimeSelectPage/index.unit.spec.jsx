@@ -15,7 +15,6 @@ import {
   setVAFacility,
   setClinic,
   setPreferredDate,
-  getTimezoneTestDate,
 } from '../../../mocks/setup';
 
 import DateTimeSelectPage from '../../../../new-appointment/components/DateTimeSelectPage';
@@ -36,10 +35,15 @@ const initialState = {
   },
 };
 
+const testDate = moment()
+  .set('hour', 0)
+  .set('minute', 30)
+  .format('YYYY-MM-DD[T]HH:mm:ss');
+
 describe('VAOS <DateTimeSelectPage>', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTimezoneTestDate());
+    MockDate.set(testDate);
     mockFacilityFetchByVersion({
       facility: createMockCheyenneFacilityByVersion({
         version: 0,
@@ -554,7 +558,8 @@ describe('VAOS <DateTimeSelectPage>', () => {
     const store = createTestStore(initialState);
 
     // And the user has chosen today as their preferred date
-    const preferredDate = moment().startOf('day');
+    const preferredDate = moment();
+
     await setPreferredDate(store, preferredDate);
 
     // And there are slots available today and tomorrow
