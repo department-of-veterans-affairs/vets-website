@@ -97,6 +97,12 @@ describe('getEligibleContestableIssues', () => {
       issue2.raw,
     ]);
   });
+  it('should keep older decision dates when show part 3 feature is enabled', () => {
+    expect(
+      // showPart3 feature flag
+      getEligibleContestableIssues([issue1.raw, issue2.raw], true),
+    ).to.deep.equal([issue1.raw, issue2.raw]);
+  });
 });
 
 describe('createIssueName', () => {

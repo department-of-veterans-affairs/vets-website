@@ -11,7 +11,7 @@ import manifest from '../../manifest.json';
 
 describe(manifest.appName, () => {
   describe('is landing page enabled for user', () => {
-    it('app is disabled if the the feature toggle is disabled', () => {
+    it('app is disabled if the feature toggle is disabled', () => {
       const state = {
         featureToggles: {
           mhv_landing_page_enabled: false,
