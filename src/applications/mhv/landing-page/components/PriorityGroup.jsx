@@ -26,6 +26,7 @@ PriorityGroup.propTypes = {
 
 PriorityGroup.defaultProps = {
   fetchEnrollmentStatus: () => {},
+  value: null,
 };
 
 const mapStateToProps = state => ({
