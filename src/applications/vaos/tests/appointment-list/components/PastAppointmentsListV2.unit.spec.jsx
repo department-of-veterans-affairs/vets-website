@@ -285,7 +285,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   });
 
   // TODO: Not sure if this test is still valid for v2 appointments. See
-  // ../appointment/transformers.v2.js:338
+  // ../appointment/transformers.js:338
   it.skip('should not display when they have hidden statuses', () => {
     const data = {
       id: '1234',
