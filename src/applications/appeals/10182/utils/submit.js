@@ -70,7 +70,7 @@ import { replaceSubmittedData, fixDateFormat } from './replace';
  * @prop {ContestableIssues} - Array of both eligible & ineligible contestable
  *  issues
  */
-export const getEligibleContestableIssues = (issues, showPart3) => {
+export const getEligibleContestableIssues = (issues, { showPart3 }) => {
   const today = moment().startOf('day');
   return (issues || []).filter(issue => {
     const {
