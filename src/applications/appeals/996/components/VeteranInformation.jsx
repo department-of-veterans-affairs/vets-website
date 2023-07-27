@@ -6,25 +6,27 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import { genderLabels } from 'platform/static-data/labels';
 import { selectProfile } from 'platform/user/selectors';
-
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
-// separate each number so the screenreader reads "number ending with 1 2 3 4"
-// instead of "number ending with 1,234"
-const mask = value => {
-  const number = (value || '').toString().slice(-4);
-  return srSubstitute(
-    `●●●–●●–${number}`,
-    `ending with ${number.split('').join(' ')}`,
-  );
-};
+import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
 
 const VeteranInformation = ({ profile = {}, veteran = {} }) => {
   const { ssnLastFour, vaFileLastFour } = veteran;
   const { dob, gender, userFullName = {} } = profile;
-
   const { first, middle, last, suffix } = userFullName;
-  const momentDob = moment(dob || null); // called with undefined = today's date
+
+  // called with undefined = today's date
+  const momentDob = moment(dob || null, FORMAT_YMD);
+
+  // separate each number so the screenreader reads "number ending with 1 2 3 4"
+  // instead of "number ending with 1,234"
+  const mask = value => {
+    const number = (value || '').toString().slice(-4);
+    return srSubstitute(
+      `●●●–●●–${number}`,
+      `ending with ${number.split('').join(' ')}`,
+    );
+  };
 
   return (
     <>
@@ -37,22 +39,33 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
           {suffix ? `, ${suffix}` : null}
         </strong>
         {ssnLastFour ? (
-          <p className="ssn">Social Security number: {mask(ssnLastFour)}</p>
+          <p className="ssn">
+            Social Security number:{' '}
+            <span className="dd-privacy-mask">{mask(ssnLastFour)}</span>
+          </p>
         ) : null}
         {vaFileLastFour ? (
-          <p className="vafn">VA file number: {mask(vaFileLastFour)}</p>
+          <p className="vafn">
+            VA file number:{' '}
+            <span className="dd-privacy-mask">{mask(vaFileLastFour)}</span>
+          </p>
         ) : null}
         <p>
           Date of birth:{' '}
           {momentDob.isValid() ? (
-            <span className="dob">{momentDob.format('LL')}</span>
+            <span className="dob dd-privacy-mask">
+              {momentDob.format(FORMAT_READABLE)}
+            </span>
           ) : null}
         </p>
         <p>
-          Gender: <span className="gender">{genderLabels?.[gender] || ''}</span>
+          Gender:{' '}
+          <span className="gender dd-privacy-mask">
+            {genderLabels?.[gender] || ''}
+          </span>
         </p>
       </div>
-      <br />
+      <br role="presentation" />
       <p>
         <strong>Note:</strong> If you need to update your personal information,
         please call Veterans Benefits Assistance toll free at{' '}
