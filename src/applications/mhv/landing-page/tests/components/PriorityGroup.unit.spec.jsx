@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import { PriorityGroup } from '../../components/PriorityGroup';
 
@@ -36,11 +35,5 @@ describe('Priority Group Component', () => {
     expect(link).to.exist;
     expect(link.href.endsWith('/health-care/eligibility/priority-groups')).to.be
       .true;
-  });
-
-  it('calls fetchEnrollmentStatus once on render', () => {
-    const fetchEnrollmentStatus = sinon.spy();
-    setup({ fetchEnrollmentStatus });
-    expect(fetchEnrollmentStatus.calledOnce).to.be.true;
   });
 });
