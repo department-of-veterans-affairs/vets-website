@@ -6,6 +6,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import formConfig from '../config/form';
 import {
   nodPart3UpdateFeature,
@@ -95,6 +96,9 @@ export const FormApp = ({
       {children}
     </RoutedSavableApp>
   );
+
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring();
 
   return (
     <article id="form-10182" data-location={`${location?.pathname?.slice(1)}`}>
