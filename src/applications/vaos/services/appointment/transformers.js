@@ -5,7 +5,6 @@ import moment from '../../lib/moment-tz';
 
 import { APPOINTMENT_STATUS, APPOINTMENT_TYPES } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
-import { transformATLASLocation } from '../location/transformers';
 
 import {
   CANCELLED_APPOINTMENT_SET,
@@ -181,9 +180,9 @@ function setVideoData(appt) {
     kind: videoData.appointmentKind,
     url: getVideoVisitLink(appt),
     isAtlas: !!videoData.tasInfo,
-    atlasLocation: videoData.tasInfo
-      ? transformATLASLocation(videoData.tasInfo)
-      : null,
+    // atlasLocation: videoData.tasInfo
+    //   ? transformATLASLocation(videoData.tasInfo)
+    //   : null,
     atlasConfirmationCode: videoData.tasInfo?.confirmationCode,
     duration: videoData.duration,
   };
