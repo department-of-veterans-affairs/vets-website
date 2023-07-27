@@ -36,7 +36,9 @@ class PatientMessageTrashPage {
       mockSingleMessageResponse,
     ).as('detailedMessage');
 
-    cy.get('[data-testid="thread-list-item"]').first.click();
+    cy.get('[data-testid="thread-list-item"]')
+      .first()
+      .click();
   };
 
   inputFilterData = text => {
