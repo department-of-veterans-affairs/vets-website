@@ -9,9 +9,9 @@ landingPage() {
 priorityGroupWidget() {
   NODE_OPTIONS="--trace-warnings" \
     yarn test:unit --log-level trace \
-      ./src/applications/mhv/landing-page/tests/components/PriorityGroup.unit.spec.jsx \
       ./src/applications/static-pages/priority-group/**/*.unit.spec.{js,jsx} \
-      ./src/platform/site-wide/priority-group/**/*.unit.spec.js
+      ./src/platform/site-wide/priority-group/**/*.unit.spec.js \
+      ./src/applications/mhv/landing-page/**/*.unit.spec.{js,jsx}
 }
 
 #landingPage
