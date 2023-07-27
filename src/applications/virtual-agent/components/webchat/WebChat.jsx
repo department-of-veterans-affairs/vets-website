@@ -149,9 +149,8 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       const getRXStorageSession = () =>
         setIsRXSkill(() => sessionStorage.getItem(IS_RX_SKILL));
 
-      window.addEventListener('signinSkill', getRXStorageSession);
-      return () =>
-        window.removeEventListener('signinSkill', getRXStorageSession);
+      window.addEventListener('rxSkill', getRXStorageSession);
+      return () => window.removeEventListener('rxSkill', getRXStorageSession);
     },
     [isRXSkill],
   );

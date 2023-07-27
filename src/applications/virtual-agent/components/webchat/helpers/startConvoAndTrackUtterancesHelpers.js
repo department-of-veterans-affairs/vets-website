@@ -103,8 +103,10 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   const payload = action.payload || {};
   const dataorEmpty = payload.activity || {};
   const text = dataorEmpty.text || '';
-  const rxSkillWasTriggered = text.includes('Welcome to the RX Skill');
-  const rxSkillWasExited = text.includes('You have exited the RX Skill');
+  const rxSkillWasTriggered = text.includes(
+    'active prescription ready for refill.',
+  );
+  const rxSkillWasExited = text.includes('Returning to the main chatbot...');
 
   if (rxSkillWasTriggered) {
     setSessionStorageAsString(IS_RX_SKILL, true);
