@@ -15,6 +15,27 @@ export default function App() {
   );
   const content = isLoading ? <va-loading-indicator set-focus /> : pageContent;
 
+  const disclaimerText = () => {
+    return (
+      <p>
+        <strong>
+          This page is meant for Digital Health Pathway pilot participants only.
+        </strong>{' '}
+        If you have not received an invitation to join a DHP pilot program but
+        are interested in sharing your device data with your VA care team,
+        please visit the{' '}
+        <a
+          href="https://mobile.va.gov/app/share-my-health-data"
+          target="_blank"
+          rel="noreferrer"
+        >
+          VA Share My Health Data app
+        </a>
+        .
+      </p>
+    );
+  };
+
   return (
     <div className="usa-grid-full margin landing-page">
       <MetaTags>
@@ -31,23 +52,7 @@ export default function App() {
               will become available to your care team.
             </p>
           </div>
-          <p>
-            <strong>
-              This page is meant for Digital Health Pathway pilot participants
-              only.
-            </strong>{' '}
-            If you have not received an invitation to join a DHP pilot program
-            but are interested in sharing your device data with your VA care
-            team, please visit the{' '}
-            <a
-              href="https://mobile.va.gov/app/share-my-health-data"
-              target="_blank"
-              rel="noreferrer"
-            >
-              VA Share My Health Data app
-            </a>
-            .
-          </p>
+          {disclaimerText()}
           {content}
           <FrequentlyAskedQuestions />
         </article>

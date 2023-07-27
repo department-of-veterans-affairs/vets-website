@@ -42,7 +42,7 @@ export const DevicesToConnectSection = ({
     );
   };
 
-  const devicesToConnect = () => {
+  const disclaimerText = () => {
     return (
       <>
         <div>
@@ -71,6 +71,14 @@ export const DevicesToConnectSection = ({
             that device. When complete, you will return to this page on VA.gov.
           </p>
         </div>
+      </>
+    );
+  };
+
+  const devicesToConnect = () => {
+    return (
+      <>
+        <div>{disclaimerText()}</div>
         {areAllDevicesConnected() && (
           <p data-testid="all-devices-connected-alert">
             There are no devices available to connect.
