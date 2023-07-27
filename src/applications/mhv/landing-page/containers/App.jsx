@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
@@ -6,22 +6,31 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 
 import LandingPage from '../components/LandingPage';
 
-import { isLandingPageEnabledForUser } from '../utilities/feature-toggles';
-import { resolveLandingPageLinks } from '../utilities/data';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { getFolderList } from '../api/SmApi';
+import { isLandingPageEnabledForUser } from '../utilities/feature-toggles';
+import {
+  countUnreadMessages,
+  resolveLandingPageLinks,
+} from '../utilities/data';
 
 import { useDatadogRum } from '../hooks/useDatadogRum';
 
 const App = () => {
   const fullState = useSelector(state => state);
   const { featureToggles, user } = fullState;
+  const [unreadMessageCount, setUnreadMessageCount] = useState();
 
   const data = useMemo(
     () => {
       const authdWithSSOe = isAuthenticatedWithSSOe(fullState) || false;
-      return resolveLandingPageLinks(authdWithSSOe, featureToggles);
+      return resolveLandingPageLinks(
+        authdWithSSOe,
+        featureToggles,
+        unreadMessageCount,
+      );
     },
-    [featureToggles, user?.profile?.session?.ssoe],
+    [featureToggles, fullState, unreadMessageCount],
   );
 
   const appEnabled = useMemo(
@@ -29,6 +38,22 @@ const App = () => {
       return isLandingPageEnabledForUser(fullState);
     },
     [fullState],
+  );
+
+  useEffect(
+    () => {
+      async function loadMessages() {
+        const folders = await getFolderList();
+        const unreadMessages = countUnreadMessages(folders);
+
+        setUnreadMessageCount(unreadMessages);
+      }
+
+      if (appEnabled) {
+        loadMessages();
+      }
+    },
+    [appEnabled],
   );
 
   useDatadogRum();

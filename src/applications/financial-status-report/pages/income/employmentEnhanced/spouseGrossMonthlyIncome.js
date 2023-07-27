@@ -1,5 +1,5 @@
 import React from 'react';
-import SpouseGrossMonthlyIncomeInput from '../../../components/SpouseGrossMonthlyIncomeInput';
+import SpouseGrossMonthlyIncomeInput from '../../../components/householdIncome/SpouseGrossMonthlyIncomeInput';
 
 export const uiSchema = {
   grossMonthlyIncome: {

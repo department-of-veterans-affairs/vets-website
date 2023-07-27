@@ -54,6 +54,7 @@
  * @property {(form: any, formConfig: any) => any} [transformForSubmit]
  * @property {string} [urlPrefix]
  * @property {boolean} [useCustomScrollAndFocus]
+ * @property {boolean} [v3SegmentedProgressBar] - if true, the V3 segmented progress bar web component is used in place of the v2
  * @property {boolean} [verifyRequiredPrefill]
  * @property {number} [version]
  * @property {string} [wizardStorageKey]

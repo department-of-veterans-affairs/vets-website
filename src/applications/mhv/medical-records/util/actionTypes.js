@@ -26,4 +26,10 @@ export const Actions = {
     GET: 'MR_ALLERGY_GET',
     GET_LIST: 'MR_ALLERGIES_GET_LIST,',
   },
+  Sharing: {
+    STATUS: 'MR_SHARING_STATUS',
+    STATUS_ERROR: 'MR_SHARING_STATUS_ERROR',
+    UPDATE: 'MR_SHARING_UPDATE',
+    CLEAR: 'MR_SHARING_CLEAR',
+  },
 };

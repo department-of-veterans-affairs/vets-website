@@ -112,7 +112,7 @@ describe('MHV landing page', () => {
       expect(container.querySelector('h1')).to.not.exist;
       expect(replace.called).to.be.true;
     });
-    it('user is authenticated with login gov and feature enabled -- should renders landing page', () => {
+    it('user is authenticated with login gov and feature enabled -- should render landing page', () => {
       const middleware = [thunk];
       const mockStore = configureStore(middleware);
       const initState = generateInitState({
@@ -146,7 +146,7 @@ describe('MHV landing page', () => {
       expect(container.querySelector('h1')).to.exist;
       expect(container.querySelector('h1')).to.have.text('My HealtheVet');
     });
-    it('user is authenticated withMHV and feature enabled -- should not show the landing page', () => {
+    it('user is authenticated with MHV and feature enabled -- should not show the landing page', () => {
       const middleware = [thunk];
       const mockStore = configureStore(middleware);
       const initState = generateInitState({
