@@ -84,6 +84,7 @@ describe('Enrollment Status actions', () => {
         })
         .finally(() => {
           server.close();
+          sentry.restore();
           done();
         });
     });

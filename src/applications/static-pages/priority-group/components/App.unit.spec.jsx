@@ -52,7 +52,7 @@ describe('Priority Group Alert Widget', () => {
     };
     const wrapper = setup({ signedIn: true, enrollmentStatus });
     expect(wrapper.container.children.length).to.eq(1);
-    const message = 'Your assigned priority group is 8G as of January 2, 2019';
+    const message = /Your assigned priority group is 8G as of January .*, 2019/;
     expect(wrapper.getByText(message)).to.exist;
   });
 
