@@ -19,7 +19,6 @@ import {
 } from 'platform/testing/unit/helpers';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
 import Chatbox from '../components/chatbox/Chatbox';
-import WebChat from '../components/webchat/WebChat';
 import virtualAgentReducer from '../reducers/index';
 import StartConvoAndTrackUtterances from '../components/webchat/startConvoAndTrackUtterances';
 
@@ -60,20 +59,6 @@ describe('App', () => {
       },
     });
   }
-  function loadWebChatWithSpeech() {
-    global.window = Object.create(global.window);
-    Object.assign(global.window, {
-      WebChat: {
-        createStore: createStoreSpy,
-        createDirectLine: directLineSpy,
-        createBrowserWebSpeechPonyfillFactory: window.WebSpeechMock,
-        ReactWebChat: () => {
-          return <div />;
-        },
-      },
-    });
-  }
-
   function createTestStore(initialState, reducers = {}) {
     return createStore(
       combineReducers({
@@ -1020,84 +1005,8 @@ describe('App', () => {
     });
   });
   describe('voice is enabled for the RX skill', () => {
-    const providerObject = {
-      initialState: {
-        featureToggles: { loading: false },
-        virtualAgentData: { termsAccepted: true },
-        user: {
-          login: { currentlyLoggedIn: true },
-          profile: {
-            userFullName: { first: 'MARK' },
-            accountUuid: 'fake_uuid',
-          },
-        },
-      },
-      reducers: virtualAgentReducer,
-    };
     it('retrieves the speech token from the api', () => {
-      // mockApiRequest();
-    });
-    it('should start recognition after clicking on microphone button   ', async () => {
-      // loadWebChatWithSpeech();
-
-      // function loadReactWebChatWithSpeech() {
-      //   global.window = Object.create(global.window);
-      //   Object.assign(global.window, {
-      //     WebChat: {
-      //       createStore: createStoreSpy,
-      //       createDirectLine: directLineSpy,
-      //       createBrowserWebSpeechPonyfillFactory: window.WebSpeechMock,
-      //       ReactWebChat: () => {
-      //         return <div />;
-      //       },
-      //     },
-      //   });
-      // }
-
-      mockApiRequest({
-        token: 'FAKETOKEN',
-        apiSession: 'FAKEAPISESSION',
-      });
-      const userStore = {
-        initialState: {
-          featureToggles: { loading: false },
-          virtualAgentData: { termsAccepted: true },
-          user: {
-            login: { currentlyLoggedIn: true },
-            profile: {
-              userFullName: { first: 'MARK' },
-              accountUuid: 'fake_uuid',
-            },
-          },
-        },
-        reducers: virtualAgentReducer,
-      };
-
-      const store = createTestStore(userStore.initialState, userStore.reducers);
-
-      // pass the proper props to webchat, main question is getting webchat framework to load
-      const wrapper = renderInReduxProvider(<WebChat {...defaultProps} />, {
-        store,
-      });
-
-      // console.log('webchat', wrapper);
-
-      // // This works when loading Chatbox
-      // await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
-      // await waitFor(
-      //   () => expect(wrapper.getByText('VA chatbot (beta)')).to.exist,
-      // );
-
-      // TODO Load wrapper instead of chatbox
-      // something like this?
-      // const wrapper = renderInReduxProvider(
-      //  <WebChat token="fakeToken" WebChatFramework="TODO" apiSession="TODO" />,
-      //   store,
-      // );
-      // or
-      // const wrapper =  <WebChat token="fakeToken" WebChatFramework="TODO" apiSession="TODO" />
-      // when webchat is loaded, this should work instead of the above
-      // const button = wrapper.getByTitle('Speak');
+      mockApiRequest();
     });
   });
 });

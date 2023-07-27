@@ -283,7 +283,7 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
       const activity = {
         type: 'message',
-        text: 'You have exited the RX Skill',
+        text: 'active prescription ready for refill.',
         from: { role: 'bot' },
       };
       const rxActivity = {
