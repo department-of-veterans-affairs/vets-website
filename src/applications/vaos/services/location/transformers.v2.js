@@ -6,6 +6,8 @@ import {
   VHA_FHIR_ID,
 } from '../../utils/constants';
 
+import { arrayToObject } from '../../utils/data';
+
 /**
  * Transforms a facility object from the MFS v2 facilities endpoint into our
  * VAOS Location format
@@ -47,6 +49,89 @@ export function transformFacilityV2(facility) {
       postalCode: facility.physicalAddress.postalCode,
     },
   };
+}
+
+/**
+ * Sets requestSupported and directSchedulingSupported in legacyVAR
+ * for locations that are retrieved from the v1 facilities API.  This
+ * also replaces the ids when running locally or on staging since there
+ * is a mismatch between VAMF facility ids and the facilities API
+ *
+ * @export
+ * @param {Object} params Parameters needed for fetching locations
+ * @param {Location} params.location A location resource
+ * @param {Array<Object>} params.settings An array of settings objects for a given location
+ * @returns {Location} A Location resource
+ */
+export function setSupportedSchedulingMethods({ location, settings } = {}) {
+  const { id } = location;
+
+  const facilitySettings = settings.find(f => f.id === id);
+
+  const { identifier } = location;
+  const vhaIdentifier = location.identifier.find(i => i.system === VHA_FHIR_ID);
+
+  if (!vhaIdentifier) {
+    identifier.push({
+      system: VHA_FHIR_ID,
+      value: id,
+    });
+  }
+
+  return {
+    ...location,
+    id,
+    identifier,
+    legacyVAR: {
+      ...location.legacyVAR,
+      settings: arrayToObject(facilitySettings?.services),
+    },
+  };
+}
+
+/**
+ * Transforms a single vets-api PPMS provider format into a Location
+ * resource
+ *
+ * @export
+ * @param {Object<PPMSProvider>} provider A PPMS provider
+ * @returns {Array<Location>} A Location resource
+ */
+
+export function transformCommunityProvider(provider) {
+  return {
+    id: provider.id,
+    identifier: [{ system: 'PPMS', value: provider.uniqueId }],
+    resourceType: 'Location',
+    address: {
+      line: [provider.address?.street],
+      city: provider.address?.city,
+      state: provider.address?.state,
+      postalCode: provider.address?.zip || provider.address?.zipCode, // or providerZipCode????
+    },
+    providerName:
+      provider.lastName &&
+      `${provider.firstName || ''} ${provider.lastName || ''}`,
+    practiceName: provider.practiceName,
+
+    // TODO: Refactor!!!!
+    name: provider.name || provider.practiceName,
+
+    position: { longitude: provider.long, latitude: provider.lat },
+    telecom: [{ system: 'phone', value: provider.caresitePhone }],
+  };
+}
+
+/**
+ * Transforms an array of vets-api PPMS provider format into an array of Location
+ * resources
+ *
+ * @export
+ * @param {Array<PPMSProvider>} providers A list of PPMS providers
+ * @returns {Array<Location>} A list of Location resources
+ */
+export function transformCommunityProviders(providers) {
+  return providers.map(provider => transformCommunityProvider(provider));
 }
 
 /**
