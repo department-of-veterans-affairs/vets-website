@@ -18,6 +18,7 @@ const MessageThreadItem = props => {
     attachments,
     hasAttachments,
     body,
+    folderId,
     messageId,
     preloaded,
     readReceipt,
@@ -27,7 +28,7 @@ const MessageThreadItem = props => {
     triageGroupName,
   } = message;
 
-  const isRead = readReceipt === 'READ';
+  const isSentOrRead = folderId === -1 || readReceipt === 'READ';
   const fromMe = recipientName === triageGroupName;
   const from = fromMe ? 'Me' : `${senderName}`;
 
@@ -39,13 +40,13 @@ const MessageThreadItem = props => {
 
   const accordionAriaLabel = useMemo(
     () => {
-      return `${!isRead ? 'New ' : ''}message ${
+      return `${!isSentOrRead ? 'New ' : ''}message ${
         fromMe ? 'sent' : 'received'
       } ${dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}, ${
         hasAttachments || attachment ? 'with attachment' : ''
       } from ${senderName}."`;
     },
-    [attachment, fromMe, hasAttachments, isRead, senderName, sentDate],
+    [attachment, fromMe, hasAttachments, isSentOrRead, senderName, sentDate],
   );
 
   return (
@@ -53,7 +54,7 @@ const MessageThreadItem = props => {
       data-dd-privacy="mask" // need to mask entire accordion as the subheader with the sender name cannot masked
       aria-label={accordionAriaLabel}
       className={`older-message ${
-        !isRead ? 'accordion-unread' : 'accordion-read'
+        !isSentOrRead ? 'accordion-unread' : 'accordion-read'
       }`}
       ref={accordionItemRef}
       subheader={from}
@@ -63,7 +64,7 @@ const MessageThreadItem = props => {
       data-testid={`expand-message-button-${messageId}`}
     >
       <h3 slot="headline">{dateFormat(sentDate, 'MMMM D [at] h:mm a z')}</h3>
-      {!isRead && (
+      {!isSentOrRead && (
         <i
           role="img"
           aria-hidden
