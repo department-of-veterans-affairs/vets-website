@@ -1,5 +1,5 @@
-import { generateFeatureToggles } from '../../../mocks/feature-toggles';
-import { cernerUser } from '../../../mocks/users';
+import { generateFeatureToggles } from '../../../../common/mocks/feature-toggles';
+import { cernerUser } from '../../../../common/mocks/users';
 import vamcErc from '../../fixtures/vamc-ehr.json';
 
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';

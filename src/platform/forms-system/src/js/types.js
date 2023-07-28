@@ -54,6 +54,7 @@
  * @property {(form: any, formConfig: any) => any} [transformForSubmit]
  * @property {string} [urlPrefix]
  * @property {boolean} [useCustomScrollAndFocus]
+ * @property {boolean} [v3SegmentedProgressBar] - if true, the V3 segmented progress bar web component is used in place of the v2
  * @property {boolean} [verifyRequiredPrefill]
  * @property {number} [version]
  * @property {string} [wizardStorageKey]
@@ -216,6 +217,7 @@
  * @property {string} [duplicateKey] - For arrays.
  * @property {boolean} [enableAnalytics] - Enable google analytic events. Sent on blur. Use a browser extension such as Adswerve to view the events in the console.
  * @property {string} [expandUnder] - The key of the uiSchema directly before this field
+ * @property {boolean} [expandContentFocus] - Used with expandUnder. When the field expands under, it exclusively shows a vertical, blue bar, is indented, and focuses on the field's input.
  * @property {boolean | (value: string, formData: any) => boolean} [expandUnderCondition] `expandUnderCondition: (value, formData) => !!value`
  * @property {boolean} [forceDivWrapper] - Used as an a11y helper when you need to wrap a field in a div
  * @property {boolean} [freeInput] - for AutoSuggest widget

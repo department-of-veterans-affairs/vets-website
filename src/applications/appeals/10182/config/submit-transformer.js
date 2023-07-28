@@ -5,6 +5,7 @@ import {
   getAddress,
   getPhone,
   getTimeZone,
+  getPart3Data,
 } from '../utils/submit';
 
 export function transform(formConfig, form) {
@@ -25,6 +26,7 @@ export function transform(formConfig, form) {
           hearingTypePreference: formData.hearingTypePreference || '',
           timezone: getTimeZone(),
           socOptIn: false,
+          ...getPart3Data(formData),
         },
       },
       included: addAreaOfDisagreement(addIncludedIssues(formData), formData),

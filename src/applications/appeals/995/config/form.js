@@ -191,7 +191,7 @@ const formConfig = {
       title: 'Issues for review',
       pages: {
         contestableIssues: {
-          title: 'Issues',
+          title: 'You’ve selected these issues for review',
           path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,

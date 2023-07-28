@@ -1,17 +1,16 @@
 import { expect } from 'chai';
 import formConfig from '../../config/form';
 
-const { migrations } = formConfig;
-
 describe('HCA migrations', () => {
-  describe('first migration', () => {
+  const { migrations } = formConfig;
+
+  describe('when first migration runs', () => {
     it('should remove hispanic property and add in view: object', () => {
       const data = {
         formData: {
           isSpanishHispanicLatino: false,
         },
       };
-
       expect(migrations[0](data)).to.eql({
         formData: {
           'view:demographicCategories': {
@@ -20,6 +19,7 @@ describe('HCA migrations', () => {
         },
       });
     });
+
     it('should not remove existing hispanic choice', () => {
       const data = {
         formData: {
@@ -29,7 +29,6 @@ describe('HCA migrations', () => {
           },
         },
       };
-
       expect(migrations[0](data)).to.eql({
         formData: {
           'view:demographicCategories': {
@@ -39,30 +38,32 @@ describe('HCA migrations', () => {
       });
     });
   });
-  describe('second migration', () => {
+
+  describe('when second migration runs', () => {
     const migration = migrations[1];
+
     it('should convert report children field', () => {
       const data = {
         formData: {
           'view:reportChildren': false,
         },
       };
-
       expect(migration(data).formData).to.eql({
         'view:reportDependents': data.formData['view:reportChildren'],
       });
     });
+
     it('should change name of empty children array', () => {
       const data = {
         formData: {
           children: [],
         },
       };
-
       expect(migration(data).formData).to.eql({
         dependents: [],
       });
     });
+
     it('should change field names inside children items', () => {
       const data = {
         formData: {
@@ -77,7 +78,6 @@ describe('HCA migrations', () => {
           ],
         },
       };
-
       expect(migration(data).formData).to.eql({
         dependents: [
           {
@@ -93,8 +93,10 @@ describe('HCA migrations', () => {
       });
     });
   });
-  describe('third migration', () => {
+
+  describe('when third migration runs', () => {
     const migration = migrations[2];
+
     it('should update url when it matches', () => {
       const data = {
         formData: {
@@ -104,13 +106,13 @@ describe('HCA migrations', () => {
           returnUrl: '/household-information/child-information',
         },
       };
-
       const { formData, metadata } = migration(data);
       expect(metadata.returnUrl).to.equal(
         '/household-information/dependent-information',
       );
       expect(formData).to.equal(data.formData);
     });
+
     it('should leave url alone when it does not match', () => {
       const data = {
         formData: {
@@ -120,14 +122,15 @@ describe('HCA migrations', () => {
           returnUrl: '/household-information/spouse-information',
         },
       };
-
       const { formData, metadata } = migration(data);
       expect(metadata.returnUrl).to.equal(data.metadata.returnUrl);
       expect(formData).to.equal(data.formData);
     });
   });
-  describe('fourth migration', () => {
+
+  describe('when fourth migration runs', () => {
     const migration = migrations[3];
+
     it('should leave data alone if not set', () => {
       const data = {
         formData: {},
@@ -135,11 +138,11 @@ describe('HCA migrations', () => {
           returnUrl: '/household-information/spouse-information',
         },
       };
-
       const { formData, metadata } = migration(data);
       expect(metadata).to.equal(data.metadata);
       expect(formData).to.equal(data.formData);
     });
+
     it('should set to none if all false', () => {
       const data = {
         formData: {
@@ -151,7 +154,6 @@ describe('HCA migrations', () => {
           returnUrl: '/household-information/spouse-information',
         },
       };
-
       const { formData, metadata } = migration(data);
       expect(metadata).to.equal(data.metadata);
       expect(formData.vaCompensationType).to.equal('none');
@@ -159,6 +161,7 @@ describe('HCA migrations', () => {
       expect(formData.receivesVaPension).to.be.undefined;
       expect(formData.isVaServiceConnected).to.be.undefined;
     });
+
     it('should set to highDisability if isVaServiceConnected', () => {
       const data = {
         formData: {
@@ -170,7 +173,6 @@ describe('HCA migrations', () => {
           returnUrl: '/household-information/spouse-information',
         },
       };
-
       const { formData, metadata } = migration(data);
       expect(metadata).to.equal(data.metadata);
       expect(formData.vaCompensationType).to.equal('highDisability');
@@ -178,6 +180,7 @@ describe('HCA migrations', () => {
       expect(formData.receivesVaPension).to.be.undefined;
       expect(formData.isVaServiceConnected).to.be.undefined;
     });
+
     it('should set to lowDisability if compensableVaServiceConnected', () => {
       const data = {
         formData: {
@@ -189,7 +192,6 @@ describe('HCA migrations', () => {
           returnUrl: '/household-information/spouse-information',
         },
       };
-
       const { formData, metadata } = migration(data);
       expect(metadata).to.equal(data.metadata);
       expect(formData.vaCompensationType).to.equal('lowDisability');
@@ -197,6 +199,7 @@ describe('HCA migrations', () => {
       expect(formData.receivesVaPension).to.be.undefined;
       expect(formData.isVaServiceConnected).to.be.undefined;
     });
+
     it('should set to pension if receivesVaPension', () => {
       const data = {
         formData: {
@@ -208,7 +211,6 @@ describe('HCA migrations', () => {
           returnUrl: '/household-information/spouse-information',
         },
       };
-
       const { formData, metadata } = migration(data);
       expect(metadata).to.equal(data.metadata);
       expect(formData.vaCompensationType).to.equal('pension');
@@ -216,6 +218,7 @@ describe('HCA migrations', () => {
       expect(formData.receivesVaPension).to.be.undefined;
       expect(formData.isVaServiceConnected).to.be.undefined;
     });
+
     it('should set url if any other combination of choices', () => {
       const data = {
         formData: {
@@ -227,7 +230,6 @@ describe('HCA migrations', () => {
           returnUrl: '/household-information/spouse-information',
         },
       };
-
       const { formData, metadata } = migration(data);
       expect(metadata.returnUrl).to.equal('/va-benefits/basic-information');
       expect(formData.vaCompensationType).to.be.undefined;
@@ -235,6 +237,7 @@ describe('HCA migrations', () => {
       expect(formData.receivesVaPension).to.be.undefined;
       expect(formData.isVaServiceConnected).to.be.undefined;
     });
+
     it('should not set url if prefill', () => {
       const data = {
         formData: {
@@ -247,15 +250,16 @@ describe('HCA migrations', () => {
           returnUrl: '/household-information/spouse-information',
         },
       };
-
       const { metadata } = migration(data);
       expect(metadata.returnUrl).to.equal(
         '/household-information/spouse-information',
       );
     });
   });
-  describe('fifth migration', () => {
+
+  describe('when fifth migration runs', () => {
     const migration = migrations[4];
+
     it('should unset required fields that are blank strings', () => {
       const data = {
         formData: {
@@ -269,11 +273,11 @@ describe('HCA migrations', () => {
           },
         },
       };
-
       const { formData } = migration(data);
       expect(formData.veteranFullName).to.eql({});
       expect(formData.veteranAddress).to.eql({});
     });
+
     it('set the return URL to veteran address when address updated', () => {
       const data = {
         formData: {
@@ -283,13 +287,13 @@ describe('HCA migrations', () => {
           },
         },
       };
-
       const { formData, metadata } = migration(data);
       expect(formData.veteranAddress).to.eql({});
       expect(metadata.returnUrl).to.equal(
         'veteran-information/veteran-address',
       );
     });
+
     it('set the return URL to veteran information when veteranFullName updated', () => {
       const data = {
         formData: {
@@ -299,7 +303,6 @@ describe('HCA migrations', () => {
           },
         },
       };
-
       const { formData, metadata } = migration(data);
       expect(formData.veteranFullName).to.eql({});
       expect(metadata.returnUrl).to.equal(
@@ -307,8 +310,10 @@ describe('HCA migrations', () => {
       );
     });
   });
-  describe('sixth migration', () => {
+
+  describe('when sixth migration runs', () => {
     const migration = migrations[5];
+
     it('should unset insurance fields that are blank strings', () => {
       const data = {
         formData: {
@@ -324,7 +329,6 @@ describe('HCA migrations', () => {
           ],
         },
       };
-
       const { formData } = migration(data);
       expect(formData.providers[0]).to.eql({});
       expect(formData.providers[1]).to.deep.eql({ insuranceGroupCode: '   t' });

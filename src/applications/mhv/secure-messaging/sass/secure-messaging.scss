@@ -21,6 +21,10 @@
   }
 }
 
+.bottom-container {
+  background-color: $color-white;
+}
+
 .breadcrumb-angle .desktop-view-crumb {
   color: unset;
   pointer-events: auto;
@@ -167,10 +171,6 @@ va-modal va-radio {
   }
 }
 
-.page-title {
-  margin: 24px 0;
-}
-
 .link-button,
 .link-button:hover,
 .link-button:active {
@@ -194,7 +194,6 @@ va-modal va-radio {
       flex-direction: column;
     }
     .secure-messaging-navigation {
-      margin-top: 24px;
       margin-right: 0px;
     }
   }
