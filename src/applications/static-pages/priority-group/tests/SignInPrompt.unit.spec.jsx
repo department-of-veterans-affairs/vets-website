@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import SignInPrompt from './SignInPrompt';
+import SignInPrompt from '../components/SignInPrompt';
 
 const setup = (props = {}) => render(<SignInPrompt {...props} />);
 

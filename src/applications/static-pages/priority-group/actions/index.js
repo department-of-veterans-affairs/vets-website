@@ -23,15 +23,17 @@ export const fetchEnrollmentStatusSuccess = payload => ({
   payload,
 });
 
-export const fetchEnrollmentStatus = () => dispatch => {
+export const fetchEnrollmentStatus = () => async dispatch => {
   dispatch(fetchEnrollmentStatusBegin());
   const apiVersion = { apiVersion: 'v0' };
-  return apiRequest(`/health_care_applications/enrollment_status`, apiVersion)
-    .then(data => dispatch(fetchEnrollmentStatusSuccess(data)))
-    .catch(err => {
-      Sentry.captureException(err);
-      return dispatch(fetchEnrollmentStatusError(err));
-    });
+  const path = '/health_care_applications/enrollment_status';
+  try {
+    const response = await apiRequest(path, apiVersion);
+    dispatch(fetchEnrollmentStatusSuccess(response));
+  } catch (err) {
+    Sentry.captureException(err);
+    dispatch(fetchEnrollmentStatusError(err));
+  }
 };
 
 export const handleSignInClick = () => dispatch => {

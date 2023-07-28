@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { App } from './App';
+import { App } from '../components/App';
 
 const initialProps = {
   enabled: true,

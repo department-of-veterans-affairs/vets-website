@@ -14,6 +14,7 @@ export const initialState = {
 
 export const enrollmentStatusReducer = (state = initialState, action) => {
   const { payload, type } = action;
+  console.log({ action }); // eslint-disable-line no-console
   switch (type) {
     case FETCH_ENROLLMENT_STATUS_BEGIN:
       return {
@@ -28,7 +29,8 @@ export const enrollmentStatusReducer = (state = initialState, action) => {
         ...state,
         priorityGroup: {
           ...state.priorityGroup,
-          data: payload,
+          value: payload.priorityGroup,
+          effectiveDate: payload.effectiveDate,
           error: false,
           loading: false,
         },
@@ -38,7 +40,7 @@ export const enrollmentStatusReducer = (state = initialState, action) => {
         ...state,
         priorityGroup: {
           ...state.priorityGroup,
-          data: payload,
+          payload,
           error: true,
           loading: false,
         },
@@ -46,4 +48,8 @@ export const enrollmentStatusReducer = (state = initialState, action) => {
     default:
       return state;
   }
+};
+
+export default {
+  priorityGroup: enrollmentStatusReducer,
 };

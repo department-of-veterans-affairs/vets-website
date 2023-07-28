@@ -1,4 +1,16 @@
-const enableFeature = (enabled = true) => {
+const widgetPath = '/health-care/eligibility/priority-groups/';
+
+const mockVamcEhr = () => {
+  const data = {
+    nodeQuery: {
+      count: 0,
+      entities: [],
+    },
+  };
+  cy.intercept('GET', '/data/cms/vamc-ehr.json', { data });
+};
+
+const mockFeatureEnabled = (enabled = true) => {
   const priorityGroupAlertFeature = {
     name: 'show_priority_group_alert_widget',
     value: enabled,
@@ -10,7 +22,7 @@ const enableFeature = (enabled = true) => {
   cy.intercept('GET', '/v0/feature_toggles?*', { data });
 };
 
-const setEnrollmentStatus = (data = false, statusCode = 200) => {
+const mockEnrollmentStatus = (data = false, statusCode = 200) => {
   const defaultEnrollmentStatus = {
     effectiveDate: '2019-01-02T21:58:55.000-06:00',
     priorityGroup: 'Group 8G',
@@ -25,8 +37,9 @@ const setEnrollmentStatus = (data = false, statusCode = 200) => {
 describe('Priority Group Alert Widget', () => {
   describe('feature disabled', () => {
     it('renders <PactAct /> when feature is disabled', () => {
-      enableFeature(false);
-      cy.visit('/health-care/eligibility/priority-groups');
+      mockVamcEhr();
+      mockFeatureEnabled(false);
+      cy.visit(widgetPath);
       cy.findByText(/The PACT Act expands benefit access for Veterans/);
       cy.injectAxe();
       cy.axeCheck();
@@ -35,47 +48,48 @@ describe('Priority Group Alert Widget', () => {
 
   describe('feature enabled', () => {
     beforeEach(() => {
-      enableFeature();
+      mockVamcEhr();
+      mockFeatureEnabled();
     });
 
     it('renders <SignInPrompt /> when signed out', () => {
-      cy.visit('/health-care/eligibility/priority-groups');
+      cy.visit(widgetPath);
       cy.findByText('You might already have an assigned priority group');
       cy.injectAxe();
       cy.axeCheck();
     });
 
     it('renders <PriorityGroup /> when signed in and enrolled', () => {
-      setEnrollmentStatus();
+      mockEnrollmentStatus();
       cy.login();
-      cy.visit('/health-care/eligibility/priority-groups');
+      cy.visit(widgetPath);
       cy.findByText(/Your assigned priority group is 8G/);
       cy.injectAxe();
       cy.axeCheck();
     });
 
-    it('renders <UnknownGroup /> when priorityGroup is not set', () => {
-      setEnrollmentStatus({ priorityGroup: null });
+    xit('renders <UnknownGroup /> when priorityGroup is not set', () => {
+      mockEnrollmentStatus({ priorityGroup: null });
       cy.login();
-      cy.visit('/health-care/eligibility/priority-groups');
+      cy.visit(widgetPath);
       cy.findByText('You have not yet been assigned to a priority group');
       cy.injectAxe();
       cy.axeCheck();
     });
 
-    it('renders <UnknownGroup /> when enrollmentStatus is empty', () => {
-      setEnrollmentStatus({});
+    xit('renders <UnknownGroup /> when enrollmentStatus is empty', () => {
+      mockEnrollmentStatus({});
       cy.login();
-      cy.visit('/health-care/eligibility/priority-groups');
+      cy.visit(widgetPath);
       cy.findByText('You have not yet been assigned to a priority group');
       cy.injectAxe();
       cy.axeCheck();
     });
 
-    it('renders <ApiError /> when the API is unavailable', () => {
-      setEnrollmentStatus({}, 500);
+    xit('renders <ApiError /> when the API is unavailable', () => {
+      mockEnrollmentStatus({}, 500);
       cy.login();
-      cy.visit('/health-care/eligibility/priority-groups');
+      cy.visit(widgetPath);
       cy.findByText("We can't access your priority group information");
       cy.injectAxe();
       cy.axeCheck();

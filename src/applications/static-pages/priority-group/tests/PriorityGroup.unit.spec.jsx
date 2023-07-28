@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import PriorityGroup from './PriorityGroup';
+import PriorityGroup from '../components/PriorityGroup';
 
 const initialProps = {
   effectiveDate: '2019-01-02T21:58:55.000-06:00',

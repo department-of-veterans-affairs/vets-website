@@ -85,7 +85,7 @@ import create214142Access from './simple-forms/21-4142/entry';
 import create264555Access from './simple-forms/26-4555/entry';
 
 import createPriorityGroupAlertWidget from './priority-group';
-import { enrollmentStatusReducer } from './priority-group/reducers';
+import priorityGroupReducer from './priority-group/reducers';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -100,7 +100,7 @@ const store = createCommonStore({
   ...post911GIBillStatusReducer,
   ...thirdPartyAppsReducer,
   ...dependencyVerificationReducer,
-  ...enrollmentStatusReducer,
+  ...priorityGroupReducer,
 });
 
 // Add the site-wide source tag to the sentry scope.

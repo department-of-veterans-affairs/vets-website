@@ -13,15 +13,20 @@ import {
   fetchEnrollmentStatus as fetchEnrollmentStatusFn,
   handleSignInClick as handleSignInClickFn,
 } from '../actions';
+import {
+  priorityGroup as selectPriorityGroup,
+  effectiveDate as selectEffectiveDate,
+} from '../selectors';
 import UnknownGroup from './UnknownGroup';
 
 export const App = ({
+  effectiveDate,
   enabled,
-  enrollmentStatus,
   error,
   fetchEnrollmentStatus,
   handleSignInClick,
   loading,
+  priorityGroup,
   signedIn,
 }) => {
   useEffect(() => enabled && signedIn && fetchEnrollmentStatus(), [
@@ -31,12 +36,13 @@ export const App = ({
   ]);
   const showSignInPrompt = enabled && !error && !loading && !signedIn;
   const showLoadingIndicator = enabled && !error && loading;
-  const hasPriorityGroup = !!enrollmentStatus?.priorityGroup;
+  const hasPriorityGroup = !!priorityGroup;
   const showUnknownGroup =
     enabled && !error && !loading && signedIn && !hasPriorityGroup;
   const showPriorityGroup =
     enabled && !error && !loading && signedIn && hasPriorityGroup;
 
+  console.log({ priorityGroup, effectiveDate }); // eslint-disable-line no-console
   return (
     <>
       {!enabled && <PactAct />}
@@ -44,7 +50,12 @@ export const App = ({
         <SignInPrompt handleSignInClick={handleSignInClick} />
       )}
       {showUnknownGroup && <UnknownGroup />}
-      {showPriorityGroup && <PriorityGroup {...enrollmentStatus} />}
+      {showPriorityGroup && (
+        <PriorityGroup
+          effectiveDate={effectiveDate}
+          priorityGroup={priorityGroup}
+        />
+      )}
       {showLoadingIndicator && <Loading />}
       {error && <ApiError />}
     </>
@@ -52,15 +63,13 @@ export const App = ({
 };
 
 App.propTypes = {
+  effectiveDate: PropTypes.string,
   enabled: PropTypes.bool,
-  enrollmentStatus: PropTypes.shape({
-    effectiveDate: PropTypes.string,
-    priorityGroup: PropTypes.string,
-  }),
   error: PropTypes.bool,
   fetchEnrollmentStatus: PropTypes.func,
   handleSignInClick: PropTypes.func,
   loading: PropTypes.bool,
+  priorityGroup: PropTypes.string,
   signedIn: PropTypes.bool,
 };
 
@@ -74,10 +83,11 @@ App.defaultProps = {
 };
 
 const mapStateToProps = state => ({
+  effectiveDate: selectEffectiveDate(state),
   enabled: toggleValues(state)[FEATURE_FLAG_NAMES.showPriorityGroupAlertWidget],
-  enrollmentStatus: state?.priorityGroup?.data,
   error: state?.priorityGroup?.error,
   loading: state?.priorityGroup?.loading,
+  priorityGroup: selectPriorityGroup(state),
   signedIn: isLoggedIn(state),
 });
 
