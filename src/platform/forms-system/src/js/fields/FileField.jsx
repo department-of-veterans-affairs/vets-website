@@ -504,7 +504,7 @@ const FileField = props => {
               <li key={index} id={fileListId} className={itemClasses}>
                 {file.uploading && (
                   <div className="schemaform-file-uploading">
-                    <strong id={fileNameId} className="dd-privacy-mask">
+                    <strong id={fileNameId} className="dd-privacy-hidden">
                       {file.name}
                     </strong>
                     <br />
@@ -523,7 +523,7 @@ const FileField = props => {
                 {description && <p>{description}</p>}
                 {!file.uploading && (
                   <>
-                    <strong id={fileNameId} className="dd-privacy-mask">
+                    <strong id={fileNameId} className="dd-privacy-hidden">
                       {file.name}
                     </strong>
                     {file?.size && <div> {displayFileSize(file.size)}</div>}

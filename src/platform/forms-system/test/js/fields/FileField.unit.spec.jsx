@@ -96,7 +96,7 @@ describe('Schemaform <FileField>', () => {
     );
 
     expect($('li', container).textContent).to.contain('Test file name.pdf');
-    expect($('strong.dd-privacy-mask', container)).to.exist;
+    expect($('strong.dd-privacy-hidden', container)).to.exist;
   });
 
   it('should remove files with empty file object when initializing', async () => {

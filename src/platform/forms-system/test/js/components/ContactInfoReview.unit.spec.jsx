@@ -47,7 +47,6 @@ describe('<ContactInfoReview>', () => {
     expect($('button.edit-page', container)).to.exist;
     expect($('h4', container).textContent).to.eq(content.title);
     expect($$('dt', container).length).to.eq(9);
-    expect($$('dd', container).length).to.eq(9);
     expect($$('dd.dd-privacy-hidden', container).length).to.eq(9);
     expect(container.innerHTML).to.contain('Home phone');
   });
