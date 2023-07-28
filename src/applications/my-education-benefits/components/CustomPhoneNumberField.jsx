@@ -9,9 +9,11 @@ function CustomPhoneNumberField(props) {
   function handleChange(event) {
     if (props?.showMebEnhancements08) {
       props.updateGlobalPhoneNumber(event);
-      props.fetchDuplicateContactInfo(props.duplicateEmail, [
-        { value: event, dupe: '' },
-      ]);
+      if (event?.length > 9) {
+        props.fetchDuplicateContactInfo(props.duplicateEmail, [
+          { value: event, dupe: '' },
+        ]);
+      }
     }
   }
 

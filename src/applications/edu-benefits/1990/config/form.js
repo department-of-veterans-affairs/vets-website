@@ -5,15 +5,9 @@ import moment from 'moment';
 
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import {
-  schema as addressSchema,
-  uiSchema as addressUI,
-} from 'platform/forms/definitions/address';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import yearUI from 'platform/forms-system/src/js/definitions/year';
 import {
   validateBooleanGroup,
@@ -29,16 +23,13 @@ import PreSubmitInfo from '../pages/PreSubmitInfo';
 import contactInformationPage from '../../pages/contactInformation';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
-import createSchoolSelectionPage from '../../pages/schoolSelection';
 import GuardianInformation from '../pages/GuardianInformation';
 
 import manifest from '../manifest.json';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
-import employmentHistoryPage from '../../pages/employmentHistory';
 import createDirectDepositPage1990 from '../pages/DirectDeposit';
 
-import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -69,23 +60,17 @@ const {
   chapter33,
   chapter30,
   chapter1606,
-  chapter32,
   seniorRotcScholarshipProgram,
   seniorRotc,
-  civilianBenefitsAssistance,
   additionalContributions,
   activeDutyKicker,
   reserveKicker,
   benefitsRelinquished,
   benefitsRelinquishedDate,
-  faaFlightCertificatesInformation,
-  highSchoolOrGedCompletionDate,
   serviceAcademyGraduationYear,
-  secondaryContact,
 } = fullSchema1990.properties;
 
 const {
-  postHighSchoolTrainings,
   date,
   fullName,
   ssn,
@@ -138,7 +123,6 @@ const formConfig = {
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
-  // preSubmitInfo,
   preSubmitInfo: {
     CustomComponent: PreSubmitInfo,
     required: true,
@@ -194,11 +178,6 @@ const formConfig = {
                   } else {
                     hideCondition = true;
                   }
-
-                  if (environment.isProduction()) {
-                    // delete this statement when going to prod
-                    hideCondition = true;
-                  }
                   return hideCondition;
                 },
               },
@@ -206,19 +185,8 @@ const formConfig = {
                 'ui:title':
                   'Applicant has graduated high school or received GED?',
                 'ui:widget': 'yesNo',
-                /* Uncomment out this required when going to prod and delete other required field */
-                // 'ui:required': formData =>
-                //   !eighteenOrOver(formData.veteranDateOfBirth),
-                'ui:required': formData => {
-                  let isRequired = false;
-                  if (!eighteenOrOver(formData.veteranDateOfBirth)) {
-                    isRequired = true;
-                  }
-                  if (environment.isProduction()) {
-                    isRequired = false;
-                  }
-                  return isRequired;
-                },
+                'ui:required': formData =>
+                  !eighteenOrOver(formData.veteranDateOfBirth),
               },
               highSchoolGedGradDate: {
                 ...currentOrPastDateUI('Date graduated'),
@@ -236,10 +204,6 @@ const formConfig = {
                     if (!yesNoResults) {
                       isRequired = false;
                     }
-                  }
-                  if (environment.isProduction()) {
-                    // delete this if statement when going to prod
-                    isRequired = false;
                   }
                   return isRequired;
                 },
@@ -345,14 +309,6 @@ const formConfig = {
               chapter1606: {
                 'ui:title': benefitsLabels.chapter1606,
               },
-              chapter32: {
-                'ui:title': benefitsLabels.chapter32,
-                'ui:options': {
-                  hideIf: () => {
-                    return !environment.isProduction();
-                  },
-                },
-              },
             },
           },
           schema: {
@@ -369,7 +325,6 @@ const formConfig = {
                   },
                   chapter30,
                   chapter1606,
-                  chapter32,
                 },
               },
             },
@@ -537,13 +492,6 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Contributions',
             'ui:description': 'Select all that apply:',
-            civilianBenefitsAssistance: {
-              'ui:title':
-                'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.',
-              'ui:options': {
-                hideIf: () => !environment.isProduction(),
-              },
-            },
             additionalContributions: {
               'ui:title':
                 'I made contributions (up to $600) to increase the amount of my monthly benefits.',
@@ -595,7 +543,6 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              civilianBenefitsAssistance,
               additionalContributions,
               activeDutyKicker,
               reserveKicker,
@@ -612,68 +559,6 @@ const formConfig = {
         },
       },
     },
-    educationHistory: {
-      title: 'Education history',
-      pages: {
-        educationHistory: {
-          title: 'Education history',
-          // There’s only one page in this chapter (right?), so this url seems a
-          //  bit heavy-handed.
-          path: 'education-history/education-information',
-          depends: () => environment.isProduction(),
-          uiSchema: {
-            highSchoolOrGedCompletionDate: currentOrPastMonthYearUI(
-              'When did you earn your high school diploma or equivalency certificate?',
-            ),
-            postHighSchoolTrainings: postHighSchoolTrainingsUI,
-            faaFlightCertificatesInformation: {
-              'ui:title':
-                'If you have any FAA flight certificates, please list them here.',
-              'ui:widget': 'textarea',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              highSchoolOrGedCompletionDate,
-              postHighSchoolTrainings,
-              faaFlightCertificatesInformation,
-            },
-          },
-        },
-      },
-    },
-    employmentHistory: {
-      title: 'Employment history',
-      depends: () => environment.isProduction(),
-      pages: {
-        employmentHistory: merge({}, employmentHistoryPage(fullSchema1990), {
-          path: 'employment-history/employment-information',
-          depends: () => environment.isProduction(),
-        }),
-      },
-    },
-    schoolSelection: {
-      title: 'School selection',
-      pages: {
-        schoolSelection: merge(
-          {},
-          createSchoolSelectionPage(fullSchema1990, {
-            fields: [
-              'educationProgram',
-              'educationObjective',
-              'educationStartDate',
-              'currentlyActiveDuty',
-            ],
-            required: ['educationType'],
-          }),
-          {
-            path: 'school-selection/school-information',
-            depends: () => environment.isProduction(),
-          },
-        ),
-      },
-    },
     personalInformation: {
       title: 'Personal information',
       pages: {
@@ -682,55 +567,6 @@ const formConfig = {
             'ui:title': 'Contact information',
           },
         }),
-        secondaryContact: {
-          title: 'Secondary contact',
-          depends: () => environment.isProduction(),
-          path: 'personal-information/secondary-contact',
-          uiSchema: {
-            'ui:title': 'Secondary contact',
-            'ui:description':
-              'This person should know where you can be reached at all times.',
-            secondaryContact: {
-              fullName: {
-                'ui:title': 'Name',
-              },
-              phone: phoneUI('Telephone number'),
-              'view:address': {
-                'ui:title': 'Address',
-                sameAddress: {
-                  'ui:title':
-                    'Address for secondary contact is the same as mine',
-                },
-                address: merge({}, addressUI('', false), {
-                  'ui:options': {
-                    hideIf: formData =>
-                      formData.secondaryContact &&
-                      formData.secondaryContact['view:address'].sameAddress,
-                  },
-                }),
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              secondaryContact: {
-                type: 'object',
-                properties: {
-                  fullName: secondaryContact.properties.fullName,
-                  phone: secondaryContact.properties.phone,
-                  'view:address': {
-                    type: 'object',
-                    properties: {
-                      sameAddress: secondaryContact.properties.sameAddress,
-                      address: addressSchema(fullSchema1990),
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
         dependents: {
           title: 'Dependent information',
           path: 'personal-information/dependents',

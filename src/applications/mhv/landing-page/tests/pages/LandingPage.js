@@ -2,12 +2,15 @@
 // eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
 import Timeouts from 'platform/testing/e2e/timeouts';
 
-import MockUser from '../../mocks/api/user';
+import MockUser from '../../api/mocks/user';
 
 class LandingPage {
   constructor() {
     this.pageUrl = '/my-health/';
   }
+
+  unreadMessageIndicator = () =>
+    cy.get('[role="status"]', { timeout: Timeouts.slow });
 
   validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
