@@ -6,7 +6,6 @@ import { clearDraft } from '../actions/draftDetails';
 import { retrieveMessageThread } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
-import EmergencyNote from '../components/EmergencyNote';
 import InterstitialPage from './InterstitialPage';
 import { closeAlert } from '../actions/alerts';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
@@ -79,7 +78,6 @@ const Compose = () => {
           <h1 className="page-title" ref={header}>
             {pageTitle}
           </h1>
-          <EmergencyNote dropDownFlag />
           <ComposeForm draft={draftMessage} recipients={triageTeams} />
         </>
       );
