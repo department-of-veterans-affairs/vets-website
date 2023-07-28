@@ -78,6 +78,8 @@ export const descriptionUI = (text, uiOptions = {}) => {
  * ```
  * @param {string | JSX.Element} [title] 'ui:title'
  * @param {string | JSX.Element} [description] 'ui:description'
+ *
+ * @returns {UISchemaOptions}
  */
 export const inlineTitleUI = (title, description) => {
   return {

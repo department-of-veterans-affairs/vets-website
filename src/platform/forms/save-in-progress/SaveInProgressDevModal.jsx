@@ -11,7 +11,7 @@ import localStorage from 'platform/utilities/storage/localStorage';
 import '@department-of-veterans-affairs/component-library/i18n-setup';
 
 const docsPage =
-  'https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/forms/save-in-progress-menu';
+  'https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-how-to-use-the-save-in-progress-m';
 
 const checkHash = () => {
   const hash = (window?.location?.hash || '').toLowerCase();
@@ -127,8 +127,8 @@ const SipsDevModal = props => {
             >
               {availablePaths &&
                 availablePaths.map(path => (
-                  <option key={path.value} value={path.value}>
-                    {path.label}
+                  <option key={path} value={path}>
+                    {path}
                   </option>
                 ))}
             </VaSelect>

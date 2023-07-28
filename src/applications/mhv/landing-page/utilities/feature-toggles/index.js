@@ -1,5 +1,5 @@
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 
 const ENABLED_LOGIN_PROVIDERS = Object.freeze([
@@ -9,7 +9,7 @@ const ENABLED_LOGIN_PROVIDERS = Object.freeze([
 
 const isLandingPageEnabledForUser = (state = {}) => {
   const { featureToggles, user } = state;
-  if (!featureToggles[FEATURE_FLAG_NAMES.mvhLandingPageEnabled]) {
+  if (!featureToggles[FEATURE_FLAG_NAMES.mhvLandingPageEnabled]) {
     return false;
   }
   const { currentlyLoggedIn } = user?.login;
