@@ -2,6 +2,8 @@ import React, { /* useEffect, */ useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Formik } from 'formik';
+import PropTypes from 'prop-types';
+
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -90,6 +92,18 @@ function SponsorSelectionPage({
     </Formik>
   );
 }
+
+SponsorSelectionPage.propTypes = {
+  data: PropTypes.object,
+  errorMessage: PropTypes.string,
+  firstSponsor: PropTypes.object,
+  formContext: PropTypes.object,
+  formData: PropTypes.object,
+  setFormData: PropTypes.func,
+  showMebEnhancements08: PropTypes.bool,
+  sponsors: PropTypes.object,
+  updatePage: PropTypes.func,
+};
 
 const mapStateToProps = state => ({
   fetchedSponsors: state.data?.fetchedSponsors,
