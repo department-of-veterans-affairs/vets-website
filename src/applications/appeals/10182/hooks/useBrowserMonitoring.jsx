@@ -21,6 +21,7 @@ const initializeRealUserMonitoring = () => {
       sampleRate: 100,
       sessionReplaySampleRate: 100,
       trackInteractions: true,
+      trackUserInteractions: true,
       trackFrustrations: true,
       trackResources: true,
       trackLongTasks: true,

@@ -21,7 +21,7 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
     });
   });
 
-  it('Verify folder heade', () => {
+  it('Verify folder header', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -32,5 +32,17 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
     });
     PatientMessageCustomFolderPage.verifyFolderHeader();
     PatientMessageCustomFolderPage.verifyResponseBodyLength();
+  });
+
+  it('Check sorting works properly', () => {
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    PatientMessageCustomFolderPage.verifySorting();
   });
 });
