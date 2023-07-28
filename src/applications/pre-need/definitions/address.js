@@ -9,7 +9,6 @@ import {
   isValidUSZipCode,
   isValidCanPostalCode,
 } from 'platform/forms/address';
-import environment from 'platform/utilities/environment';
 
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
@@ -72,7 +71,7 @@ function validateAddress(errors, address, formData, currentSchema) {
   }
 
   validatePostalCodes(errors, address);
-  if (!environment.isProduction() && currentSchema.required.length) {
+  if (currentSchema.required.length) {
     const requiredArray = currentSchema.required;
     validateNotAllWhiteSpaces(
       errors.street,
