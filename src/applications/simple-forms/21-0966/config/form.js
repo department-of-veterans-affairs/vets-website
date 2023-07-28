@@ -5,6 +5,10 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 
+// pages
+import claimantTypePg from '../pages/claimantType';
+
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -25,26 +29,22 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits claims.',
-    noAuth:
-      'Please sign in again to continue your application for benefits claims.',
+    notFound: 'Please start over to apply for intent to file.',
+    noAuth: 'Please sign in again to continue your intent to file.',
   },
   title: 'Notify VA of your intent to file a claim',
   subTitle:
     'Intent to file a claim for compensation and/or pension, or survivors pension and/or DIC (VA Form 21-0966)',
   defaultDefinitions: {},
   chapters: {
-    chapter1: {
-      title: 'Chapter 1',
+    claimantTypeChapter: {
+      title: '[Claimant type]',
       pages: {
-        page1: {
-          path: 'first-page',
-          title: 'First Page',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+        claimantTypePage: {
+          path: 'claimant-type',
+          title: 'Is this the form I need?',
+          uiSchema: claimantTypePg.uiSchema,
+          schema: claimantTypePg.schema,
         },
       },
     },
