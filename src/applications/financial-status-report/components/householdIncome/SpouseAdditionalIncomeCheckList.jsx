@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { otherIncome } from '../../constants/checkboxSelections';
+
 import Checklist from '../shared/CheckList';
+import { calculatedTotalIncome } from '../../utils/streamlinedDepends';
 
 const SpouseAdditionalIncomeCheckList = () => {
   const dispatch = useDispatch();
@@ -10,6 +12,20 @@ const SpouseAdditionalIncomeCheckList = () => {
 
   const { additionalIncome } = formData ?? {};
   const { spAddlIncome = [] } = additionalIncome?.spouse ?? {};
+
+  // useEffect to set incomeBelowGMT on mount
+  useEffect(() => {
+    dispatch(
+      setData({
+        ...formData,
+        gmtData: {
+          ...formData?.gmtData,
+          incomeBelowGMT:
+            calculatedTotalIncome(formData) < formData?.gmtData?.gmtThreshold,
+        },
+      }),
+    );
+  }, []);
 
   const onChange = ({ target }) => {
     const { value } = target;

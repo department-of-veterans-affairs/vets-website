@@ -8,7 +8,7 @@ import { validateIsNumber } from '../../utils/validations';
 import ButtonGroup from '../shared/ButtonGroup';
 import ReviewControl from '../shared/ReviewControl';
 
-const DependentAges = ({ goToPath, isReviewMode = false }) => {
+const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
   const {
@@ -95,12 +95,14 @@ const DependentAges = ({ goToPath, isReviewMode = false }) => {
             ? 'Please enter your dependent(s) age.'
             : errors[i],
       );
-      setErrors(newErrors);
-    } else if (isReviewMode) {
-      setIsEditing(false);
-    } else {
-      goToPath('/monetary-asset-checklist');
+      return setErrors(newErrors);
     }
+    if (isReviewMode) {
+      return setIsEditing(false);
+    }
+    return formData['view:streamlinedWaiver']
+      ? goForward(formData)
+      : goToPath('/monetary-asset-checklist');
   };
 
   const onCancel = event => {

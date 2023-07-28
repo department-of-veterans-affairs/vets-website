@@ -6,6 +6,8 @@ import {
   resolutionComments,
 } from '../../pages';
 
+import { isStreamlinedShortForm } from '../../utils/streamlinedDepends';
+
 export default {
   resolutionOptionsChapter: {
     title: 'Repayment or relief options',
@@ -15,6 +17,7 @@ export default {
         title: 'Resolution Option Explainer',
         uiSchema: resolutionExplainer.uiSchema,
         schema: resolutionExplainer.schema,
+        depends: formData => !isStreamlinedShortForm(formData),
       },
       resolutionOption: {
         title: 'Resolution Option',
@@ -52,6 +55,7 @@ export default {
         title: 'Resolution comments',
         uiSchema: resolutionComments.uiSchema,
         schema: resolutionComments.schema,
+        depends: formData => !isStreamlinedShortForm(formData),
       },
     },
   },

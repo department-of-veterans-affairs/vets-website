@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -7,6 +7,8 @@ import {
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
 import { currency as currencyFormatter } from '../../utils/helpers';
+
+import { calculatedTotalIncome } from '../../utils/streamlinedDepends';
 
 const SpouseOtherIncomeSummary = ({
   data,
@@ -18,6 +20,21 @@ const SpouseOtherIncomeSummary = ({
   const { additionalIncome } = data;
   const { spouse } = additionalIncome;
   const { spAddlIncome = [] } = spouse;
+
+  // useEffect to set incomeBelowGMT if income records changes
+  useEffect(
+    () => {
+      setFormData({
+        ...data,
+        gmtData: {
+          ...data?.gmtData,
+          incomeBelowGMT:
+            calculatedTotalIncome(data) < data?.gmtData?.gmtThreshold,
+        },
+      });
+    },
+    [spAddlIncome],
+  );
 
   const onDelete = deleteIndex => {
     setFormData({
