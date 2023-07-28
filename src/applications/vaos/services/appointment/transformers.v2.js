@@ -7,7 +7,7 @@ import {
   PURPOSE_TEXT_V2,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
-import { transformFacilityV2 } from '../location/transformers';
+import { transformFacilityV2 } from '../location/transformers.v2';
 import {
   getPatientInstruction,
   getProviderName,
