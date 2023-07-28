@@ -18,10 +18,7 @@ import {
   routeToPreviousAppointmentPage,
   updateReasonForAppointmentData,
 } from '../redux/actions';
-import {
-  selectFeatureVAOSServiceRequests,
-  selectFeatureAcheronService,
-} from '../../redux/selectors';
+import { selectFeatureAcheronService } from '../../redux/selectors';
 
 function isValidComment(value) {
   // exclude the ^ since the caret is a delimiter for MUMPS (Vista)
@@ -109,7 +106,6 @@ export default function ReasonForAppointmentPage() {
   const pageTitle = isCommunityCare
     ? 'Tell us the reason for this appointment'
     : 'Choose a reason for this appointment';
-  const useV2 = useSelector(state => selectFeatureVAOSServiceRequests(state));
   const useAcheron = useSelector(state => selectFeatureAcheronService(state));
 
   useEffect(() => {
@@ -120,7 +116,7 @@ export default function ReasonForAppointmentPage() {
         pageKey,
         pageUISchema,
         pageInitialSchema,
-        useV2,
+
         useAcheron,
       ),
     );
@@ -144,7 +140,6 @@ export default function ReasonForAppointmentPage() {
                 pageKey,
                 pageUISchema,
                 newData,
-                useV2,
                 useAcheron,
               ),
             )

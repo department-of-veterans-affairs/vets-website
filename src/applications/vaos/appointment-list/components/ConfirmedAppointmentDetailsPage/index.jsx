@@ -20,12 +20,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const {
-    appointment,
-    appointmentDetailsStatus,
-    facilityData,
-    useV2,
-  } = useSelector(
+  const { appointment, appointmentDetailsStatus, facilityData } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
   );
@@ -98,16 +93,11 @@ export default function ConfirmedAppointmentDetailsPage() {
         <DetailsVideo appointment={appointment} facilityData={facilityData} />
       )}
       {isVA && (
-        <DetailsVA
-          appointment={appointment}
-          facilityData={facilityData}
-          useV2={useV2}
-        />
+        <DetailsVA appointment={appointment} facilityData={facilityData} />
       )}
       {isCommunityCare && (
         <DetailsCC
           appointment={appointment}
-          useV2={useV2}
           featureVaosV2Next={featureVaosV2Next}
         />
       )}

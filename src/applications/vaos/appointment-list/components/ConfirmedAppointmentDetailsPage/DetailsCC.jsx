@@ -14,11 +14,7 @@ import CCInstructions from './CCInstructions';
 import { getTypeOfCareById } from '../../../utils/appointment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
-export default function DetailsCC({
-  appointment,
-  useV2 = false,
-  featureVaosV2Next = false,
-}) {
+export default function DetailsCC({ appointment, featureVaosV2Next = false }) {
   const header = 'Community care provider';
   const facility = appointment.communityCareProvider;
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
@@ -28,7 +24,7 @@ export default function DetailsCC({
     TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink,
   );
   const ShowTypeOfCare = () => {
-    if (useV2 && typeOfCare) {
+    if (typeOfCare) {
       return (
         <>
           <h2
@@ -79,7 +75,7 @@ export default function DetailsCC({
       <StatusAlert appointment={appointment} />
       <ShowTypeOfCare />
       <TypeHeader isCC>{header}</TypeHeader>
-      <ProviderName appointment={appointment} useV2={useV2} />
+      <ProviderName appointment={appointment} />
       <ShowTreatmentSpecialty />
       <FacilityAddress
         facility={facility}
@@ -98,5 +94,4 @@ export default function DetailsCC({
 DetailsCC.propTypes = {
   appointment: PropTypes.object.isRequired,
   featureVaosV2Next: PropTypes.bool,
-  useV2: PropTypes.bool,
 };

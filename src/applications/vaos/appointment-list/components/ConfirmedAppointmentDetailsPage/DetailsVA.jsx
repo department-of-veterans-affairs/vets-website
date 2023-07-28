@@ -41,17 +41,14 @@ export default function DetailsVA({ appointment, facilityData }) {
     !isCompAndPenAppointment ||
     (isCompAndPenAppointment && (isPastAppointment || canceled));
 
-  // v0 does not return a stopCode for covid as serviceType, instead we check for isCovid
-  // remove the check for isCovid when we migrate entirely to v2
   const ShowTypeOfCare = () => {
-    const typeOfCare = isCovid ? 'COVID-19 vaccine' : typeOfCareName;
     return (
-      !!typeOfCare && (
+      !!typeOfCareName && (
         <>
           {isCompAndPenAppointment && !isPastAppointment && !canceled ? (
             <>
               <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
-                {typeOfCare}
+                {typeOfCareName}
               </h2>
               <p className="vads-l-col--12 vads-u-margin-top--0 medium-screen:vads-l-col--8">
                 This appointment is for disability rating purposes only. It
@@ -65,7 +62,7 @@ export default function DetailsVA({ appointment, facilityData }) {
                 <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
                   Type of care:
                 </h2>
-                <div className="vads-u-display--inline"> {typeOfCare}</div>
+                <div className="vads-u-display--inline"> {typeOfCareName}</div>
               </>
             )
           )}
@@ -122,5 +119,4 @@ export default function DetailsVA({ appointment, facilityData }) {
 DetailsVA.propTypes = {
   appointment: PropTypes.object.isRequired,
   facilityData: PropTypes.object.isRequired,
-  useV2: PropTypes.bool,
 };

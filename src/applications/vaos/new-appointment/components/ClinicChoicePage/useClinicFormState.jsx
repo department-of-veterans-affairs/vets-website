@@ -11,10 +11,7 @@ import {
   selectPastAppointments,
 } from '../../redux/selectors';
 import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
-import {
-  selectFeatureClinicFilter,
-  selectFeatureVAOSServiceVAAppointments,
-} from '../../../redux/selectors';
+import { selectFeatureClinicFilter } from '../../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -42,9 +39,6 @@ export default function useClinicFormState() {
   const featureClinicFilter = useSelector(state =>
     selectFeatureClinicFilter(state),
   );
-  const useV2 = useSelector(state =>
-    selectFeatureVAOSServiceVAAppointments(state),
-  );
 
   const formState = useFormState({
     initialSchema() {
@@ -55,16 +49,9 @@ export default function useClinicFormState() {
       // filter the clinics based on Direct Scheduling value from VATS
       // v2 uses boolean while v0 uses Y/N string
       if (featureClinicFilter) {
-        if (useV2) {
-          filteredClinics = clinics.filter(
-            clinic => clinic.patientDirectScheduling === true,
-          );
-        } else {
-          // v0 is pre-filtered; don't need this this line
-          filteredClinics = clinics.filter(
-            clinic => clinic.patientDirectScheduling === 'Y',
-          );
-        }
+        filteredClinics = clinics.filter(
+          clinic => clinic.patientDirectScheduling === true,
+        );
       }
 
       // Past appointment history check
