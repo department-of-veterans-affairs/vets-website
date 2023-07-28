@@ -10,7 +10,7 @@ function isCellDisabled({ date, availableSlots, minDate, maxDate }) {
   // in the array.
   if (
     (Array.isArray(availableSlots) &&
-      !availableSlots.some(slot => slot.start.startsWith(date))) ||
+      !availableSlots.some(slot => slot?.start.startsWith(date))) ||
     moment(date).isBefore(moment().format('YYYY-MM-DD'))
   ) {
     disabled = true;
