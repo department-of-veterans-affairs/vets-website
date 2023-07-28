@@ -27,6 +27,7 @@ import {
 } from '../../util/constants';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
 
 const ComposeForm = props => {
@@ -92,6 +93,13 @@ const ComposeForm = props => {
       });
     }
   };
+
+  useEffect(
+    () => {
+      dispatch(getCategories());
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {

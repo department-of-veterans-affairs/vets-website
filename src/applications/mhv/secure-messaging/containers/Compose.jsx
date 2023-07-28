@@ -19,6 +19,7 @@ const Compose = () => {
 
   const [acknowledged, setAcknowledged] = useState(false);
   const [draftType, setDraftType] = useState('');
+  const [pageTitle, setPageTitle] = useState('Start a new message');
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
@@ -55,13 +56,14 @@ const Compose = () => {
     [isDraftPage, draftMessage, history, dispatch],
   );
 
-  let pageTitle;
-
-  if (isDraftPage) {
-    pageTitle = 'Edit draft';
-  } else {
-    pageTitle = 'Start a new message';
-  }
+  useEffect(
+    () => {
+      if (isDraftPage) {
+        setPageTitle('Edit draft');
+      }
+    },
+    [isDraftPage],
+  );
 
   useEffect(
     () => {
