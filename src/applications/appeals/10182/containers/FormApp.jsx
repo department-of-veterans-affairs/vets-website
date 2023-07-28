@@ -15,6 +15,7 @@ import {
   getIssueNameAndDate,
   processContestableIssues,
 } from '../utils/helpers';
+import { getEligibleContestableIssues } from '../utils/submit';
 
 import { SHOW_PART3 } from '../constants';
 
@@ -48,8 +49,13 @@ export const FormApp = ({
         ) {
           setFormData({
             ...formData,
+            // getEligibleContestableIssues removes issues that are deferred,
+            // missing a title, or have an invalid date, while
+            // processContestableIssues sorts the issues
             contestableIssues: processContestableIssues(
-              contestableIssues?.issues,
+              getEligibleContestableIssues(contestableIssues?.issues, {
+                showPart3,
+              }),
             ),
           });
         } else if (

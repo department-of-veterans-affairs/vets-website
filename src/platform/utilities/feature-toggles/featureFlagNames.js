@@ -107,7 +107,6 @@ export default Object.freeze({
   profileUseInfoCard: 'profile_use_info_card',
   profileUseFieldEditingPage: 'profile_use_field_editing_page',
   profileUseNotificationSettingsCheckboxes: 'profile_use_notification_settings_checkboxes',
-  profileUseVAFSC: 'profile_use_vafsc',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
   searchRepresentative: 'search_representative',

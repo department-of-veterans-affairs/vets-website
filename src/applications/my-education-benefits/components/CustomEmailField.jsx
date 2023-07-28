@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { isValidEmail } from 'platform/forms/validations';
 import EmailWidget from 'platform/forms-system/src/js/widgets/EmailWidget';
 
 import { fetchDuplicateContactInfo, updateGlobalEmail } from '../actions';
@@ -9,10 +10,12 @@ function CustomEmailField(props) {
   function handleChange(event) {
     if (props?.showMebEnhancements08) {
       props.updateGlobalEmail(event);
-      props.fetchDuplicateContactInfo(
-        [{ value: event, dupe: '' }],
-        props.duplicatePhone,
-      );
+      if (event && isValidEmail(event)) {
+        props.fetchDuplicateContactInfo(
+          [{ value: event, dupe: '' }],
+          props.duplicatePhone,
+        );
+      }
     }
   }
 

@@ -5,10 +5,7 @@ import moment from '../../lib/moment-tz';
 
 import { APPOINTMENT_STATUS, APPOINTMENT_TYPES } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
-import {
-  transformATLASLocation,
-  transformCommunityProvider,
-} from '../location/transformers';
+import { transformATLASLocation } from '../location/transformers';
 
 import {
   CANCELLED_APPOINTMENT_SET,
@@ -192,49 +189,6 @@ function setVideoData(appt) {
   };
 }
 
-function getCommunityCareData(appt) {
-  if (!isCommunityCare(appt)) {
-    return {
-      communityCareProvider: null,
-    };
-  }
-
-  const apptType = getAppointmentType(appt);
-  return {
-    communityCareProvider:
-      apptType === APPOINTMENT_TYPES.ccAppointment
-        ? {
-            firstName: appt.name?.firstName,
-            lastName: appt.name?.lastName,
-            providerName: appt.name?.lastName
-              ? `${appt.name.firstName || ''} ${appt.name.lastName || ''}`
-              : null,
-            practiceName: appt.providerPractice,
-            address: appt.address
-              ? {
-                  line: [appt.address.street],
-                  city: appt.address.city,
-                  state: appt.address.state,
-                  postalCode: appt.address.zipCode,
-                }
-              : null,
-            telecom: appt.providerPhone
-              ? [
-                  {
-                    system: 'phone',
-                    value: appt.providerPhone,
-                  },
-                ]
-              : null,
-          }
-        : null,
-    preferredCommunityCareProviders:
-      appt.ccAppointmentRequest?.preferredProviders?.map(provider =>
-        transformCommunityProvider(provider),
-      ) || null,
-  };
-}
-
 /**
  * Builds the location object which usually contain Location (Facility)
  * and HealthcareService (Clinic) or video conference info
@@ -305,7 +259,6 @@ export function transformConfirmedAppointment(appt) {
       CANCELLATION_REASON_MAP.get(getVistaStatus(appt)) || null,
     location: setLocation(appt),
     videoData,
-    ...getCommunityCareData(appt),
     vaos: {
       isVideo: videoData.isVideo,
       isPastAppointment: isPast,
