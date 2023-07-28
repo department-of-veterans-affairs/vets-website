@@ -10,6 +10,7 @@ import {
   selectFeatureStatusImprovement,
   selectFeatureAppointmentList,
   selectFeaturePrintList,
+  selectFeatureBreadcrumbUrlUpdate,
 } from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
@@ -130,6 +131,9 @@ export default function AppointmentsPageV2() {
     selectPendingAppointments(state),
   );
   const isPrintList = useSelector(state => selectFeaturePrintList(state));
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
   const {
     dropdownValue,
     subPageTitle,
@@ -139,7 +143,6 @@ export default function AppointmentsPageV2() {
   let prefix = 'Your';
   const isPending = location.pathname.endsWith('/pending');
   const isPast = location.pathname.endsWith('/past');
-  const featureBreadcrumb = true;
 
   if (featureStatusImprovement) {
     if (isPending) {
@@ -154,10 +157,10 @@ export default function AppointmentsPageV2() {
   }
   useEffect(
     () => {
-      if (featureStatusImprovement && !featureBreadcrumb) {
+      if (featureStatusImprovement && !featureBreadcrumbUrlUpdate) {
         document.title = `${pageTitle} | VA online scheduling | Veterans Affairs`;
         scrollAndFocus('h1');
-      } else if (featureStatusImprovement && featureBreadcrumb) {
+      } else if (featureStatusImprovement && featureBreadcrumbUrlUpdate) {
         document.title = `${pageTitle} | Veterans Affairs`;
         scrollAndFocus('h1');
       } else {
@@ -171,7 +174,7 @@ export default function AppointmentsPageV2() {
       location.pathname,
       prefix,
       pageTitle,
-      featureBreadcrumb,
+      featureBreadcrumbUrlUpdate,
     ],
   );
 

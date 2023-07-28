@@ -40,7 +40,7 @@ describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
 
     mockDirectScheduleSlotsApi({ clinicId: '455', start, end, apiVersion: 2 });
 
-    cy.visit('health-care/schedule-view-va-appointments/appointments');
+    cy.visit('my-health/appointments');
     cy.injectAxe();
     cy.axeCheckBestPractice();
 
@@ -156,7 +156,7 @@ describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
     mockDirectScheduleSlotsApi({ clinicId: '455', start, end, apiVersion: 2 });
     mockUserTransitionAvailabilities();
 
-    cy.visit('health-care/schedule-view-va-appointments/appointments');
+    cy.visit('my-health/appointments');
     cy.injectAxe();
 
     cy.wait(['@v2:get:appointments']);

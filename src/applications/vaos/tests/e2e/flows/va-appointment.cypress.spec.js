@@ -95,7 +95,7 @@ describe('VAOS direct schedule flow using VAOS service', () => {
     mockLoginApi();
     mockSchedulingConfigurationApi({ typeOfCareId: 'primaryCare' });
 
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit('my-health/appointments/');
     cy.wait('@mockUser');
     cy.injectAxe();
     cy.axeCheckBestPractice();
@@ -179,7 +179,7 @@ describe('VAOS direct schedule flow using VAOS service', () => {
       isRequest: true,
     });
 
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit('my-health/appointments/');
     cy.injectAxe();
     cy.axeCheckBestPractice();
 
@@ -272,7 +272,7 @@ describe('VAOS direct schedule flow using VAOS service', () => {
       isRequest: true,
     });
 
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit('my-health/appointments/');
     cy.injectAxe();
 
     // Start flow

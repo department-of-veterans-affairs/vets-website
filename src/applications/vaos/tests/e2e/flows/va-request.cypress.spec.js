@@ -101,7 +101,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     mockFacilitiesApi({ data, apiVersion: 2 });
     mockClinicApi({ locations: ['983'], apiVersion: 2 });
 
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit('my-health/appointments/');
     cy.injectAxe();
 
     // Start flow
@@ -188,7 +188,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     });
     mockVamcEhr();
 
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit('my-health/appointments/');
     cy.injectAxe();
 
     // Start flow
@@ -307,7 +307,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     });
     mockVamcEhr();
 
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit('my-health/appointments/');
     cy.injectAxe();
 
     // Start flow
