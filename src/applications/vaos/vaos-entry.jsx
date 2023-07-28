@@ -11,5 +11,7 @@ startApp({
   url: environment.isProduction() ? manifest.rootUrl : manifest.newRootUrl,
   createRoutesWithStore,
   reducer,
-  entryName: manifest.entryName,
+  entryName: environment.isProduction()
+    ? manifest.entryName
+    : manifest.newEntryName,
 });
