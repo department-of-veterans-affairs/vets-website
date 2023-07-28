@@ -79,7 +79,7 @@ class PatientMessageSentPage {
     cy.get('[data-testid="sort-button"]').click({ force: true });
   };
 
-  verifySortedList = () => {
+  verifySorting = () => {
     let listBefore;
     let listAfter;
     cy.get('.thread-list-item')

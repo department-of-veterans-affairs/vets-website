@@ -65,9 +65,7 @@ describe('Secure Messaging Trash Folder checks', () => {
   });
 
   it('Check sorting works properly', () => {
-    PatientMessageTrashPage.listBeforeSort();
-    PatientMessageTrashPage.listAfterSort();
-    PatientMessageTrashPage.verifySortedList();
+    PatientMessageTrashPage.verifySorting();
 
     cy.injectAxe();
     cy.axeCheck('main', {
