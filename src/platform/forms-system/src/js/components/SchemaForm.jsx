@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { merge, once } from 'lodash';
-import set from '../../../../utilities/data/set';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import set from '../../../../utilities/data/set';
 
 import { uiSchemaValidate, transformErrors } from '../validation';
 import FieldTemplate from './FieldTemplate';
@@ -18,6 +18,7 @@ import BasicArrayField from '../fields/BasicArrayField';
 import TitleField from '../fields/TitleField';
 import ReviewObjectField from '../review/ObjectField';
 import { scrollToFirstError } from '../utilities/ui';
+import checkEmptyFormData from '../utilities/data/checkEmptyFormData';
 
 /*
  * Each page uses this component and passes in config. This is where most of the page level
@@ -48,6 +49,7 @@ class SchemaForm extends React.Component {
       StringField,
     };
   }
+
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(newProps) {
     if (
@@ -100,7 +102,13 @@ class SchemaForm extends React.Component {
   }
 
   onBlur(id) {
-    if (!this.state.formContext.touched[id]) {
+    const { isEmpty, hasProperty } = checkEmptyFormData(id, this.props.data);
+
+    // - Only set touched if the field is not empty ('', null, undefined)
+    //   because we don't want to show errors as the user tabs through fields
+    // - If the property isn't found on formData for some reason, for example
+    //   id = 'root', then favor legacy logic to go ahead and set touched
+    if (!this.state.formContext.touched[id] && (!isEmpty || !hasProperty)) {
       const formContext = set(['touched', id], true, this.state.formContext);
       this.setState({ formContext });
     }
@@ -120,24 +128,22 @@ class SchemaForm extends React.Component {
       trackingPrefix,
     } = props;
     return {
-      formContext: Object.assign(
-        {
-          touched: {},
-          submitted: false,
-          onEdit,
-          hideTitle,
-          setTouched: this.setTouched,
-          reviewTitle,
-          pageTitle: title,
-          pagePerItemIndex,
-          reviewMode,
-          hideHeaderRow,
-          uploadFile,
-          onError: this.onError,
-          trackingPrefix,
-        },
-        formContext,
-      ),
+      formContext: {
+        touched: {},
+        submitted: false,
+        onEdit,
+        hideTitle,
+        setTouched: this.setTouched,
+        reviewTitle,
+        pageTitle: title,
+        pagePerItemIndex,
+        reviewMode,
+        hideHeaderRow,
+        uploadFile,
+        onError: this.onError,
+        trackingPrefix,
+        ...formContext,
+      },
     };
   }
 
