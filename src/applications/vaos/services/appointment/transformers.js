@@ -1,287 +1,454 @@
-/**
- * @module services/Appointment/transformers
- */
-import moment from '../../lib/moment-tz';
-
-import { APPOINTMENT_STATUS, APPOINTMENT_TYPES } from '../../utils/constants';
-import { getTimezoneByFacilityId } from '../../utils/timezone';
-
+import moment from 'moment';
 import {
-  CANCELLED_APPOINTMENT_SET,
-  FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
-  PAST_APPOINTMENTS_HIDE_STATUS_SET,
+  APPOINTMENT_TYPES,
+  PURPOSE_TEXT,
+  TYPE_OF_VISIT,
+  COVID_VACCINE_ID,
+  PURPOSE_TEXT_V2,
+} from '../../utils/constants';
+import { getTimezoneByFacilityId } from '../../utils/timezone';
+import { transformFacilityV2 } from '../location/transformers';
+import {
+  getPatientInstruction,
+  getProviderName,
+  getTypeOfCareById,
 } from '../../utils/appointment';
 
 /**
- * Determines what type of appointment a VAR appointment object is depending on
- * the existence of certain fields
+ * Gets appointment info from comments field for Va appointment Requests.
  *
- * @param {Object} appt VAR appointment object
- * @returns {String} Appointment type
+ * @param {String} comments VA appointment comments value
+ * @param {String} key key of appointment info you want returned
+ * @returns {Array} returns formatted data
  */
+export function getAppointmentInfoFromComments(comments, key) {
+  const data = [];
+  const appointmentInfo = comments?.split('|');
+
+  if (key === 'modality') {
+    const preferredModality = appointmentInfo
+      ? appointmentInfo
+          .filter(item => item.includes('preferred modality:'))[0]
+          ?.split(':')[1]
+          ?.trim()
+      : null;
+
+    if (appointmentInfo) {
+      data.push(preferredModality);
+    }
+    return data;
+  }
+
+  if (key === 'contact') {
+    const phone = appointmentInfo
+      ? appointmentInfo
+          .filter(item => item.includes('phone number:'))[0]
+          ?.split(':')[1]
+          ?.trim()
+      : null;
+    const email = appointmentInfo
+      ? appointmentInfo
+          .filter(item => item.includes('email:'))[0]
+          ?.split(':')[1]
+          ?.trim()
+      : null;
+
+    const transformedPhone = { system: 'phone', value: phone };
+    const transformedEmail = { system: 'email', value: email };
+
+    data.push(transformedPhone, transformedEmail);
+    return data;
+  }
+
+  if (key === 'preferredDate') {
+    const preferredDates = appointmentInfo
+      ? appointmentInfo
+          .filter(item => item.includes('preferred dates:'))[0]
+          ?.split(':')[1]
+          ?.split(',')
+      : null;
+    preferredDates?.map(date => {
+      const preferredDatePeriod = date?.split(' ');
+      if (preferredDatePeriod[1] === 'AM') {
+        const transformedDate = {
+          start: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
+            'YYYY-MM-DD',
+          )}T00:00:00Z`,
+          end: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
+            'YYYY-MM-DD',
+          )}T11:59:00Z"`,
+        };
+        data.push(transformedDate);
+      } else {
+        const transformedDate = {
+          start: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
+            'YYYY-MM-DD',
+          )}T12:00:00Z`,
+          end: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
+            'YYYY-MM-DD',
+          )}T23:59:00Z`,
+        };
+        data.push(transformedDate);
+      }
+      return data;
+    });
+  }
+  if (key === 'reasonCode') {
+    const reasonCode = appointmentInfo
+      ? appointmentInfo
+          .filter(item => item.includes('reason code:'))[0]
+          ?.split(':')[1]
+      : null;
+    const transformedReasonCode = { code: reasonCode };
+    if (reasonCode) {
+      data.push(transformedReasonCode);
+    }
+    return data;
+  }
+  if (key === 'comments') {
+    const commentsInfo = comments?.split('|comments:');
+    const appointmentComments = commentsInfo ? commentsInfo[1] : null;
+    const transformedComments = { text: appointmentComments };
+    if (appointmentComments) {
+      data.push(transformedComments);
+    }
+    return data;
+  }
+  return data;
+}
 function getAppointmentType(appt) {
-  if (appt.typeOfCareId?.startsWith('CC')) {
-    return APPOINTMENT_TYPES.ccRequest;
-  }
-  if (appt.typeOfCareId) {
-    return APPOINTMENT_TYPES.request;
-  }
-  if (appt.vvsAppointments?.length || (appt.clinicId && !appt.communityCare)) {
-    return APPOINTMENT_TYPES.vaAppointment;
-  }
-  if (appt.appointmentTime || appt.communityCare === true) {
+  if (appt.kind === 'cc' && appt.start) {
     return APPOINTMENT_TYPES.ccAppointment;
   }
-
-  return null;
-}
-
-/**
- * Returns whether or not an appointment or request is a community care
- *
- * @param {Object} appt VAR appointment object
- * @returns {Boolean}
- */
-function isCommunityCare(appt) {
-  const apptType = getAppointmentType(appt);
-  return (
-    apptType === APPOINTMENT_TYPES.ccRequest ||
-    apptType === APPOINTMENT_TYPES.ccAppointment
-  );
-}
-
-/**
- * Returns whether or not a confirmed VA appointment is a video visit
- *
- * @param {Object} appt VAR appointment object
- */
-function isVideoVisit(appt) {
-  return !!appt.vvsAppointments?.length;
-}
-
-/**
- * Returns status for a vista appointment
- *
- * @param {Object} appointment Vista appointment object
- * @returns {String} Status
- */
-function getVistaStatus(appointment) {
-  if (
-    appointment.vdsAppointments?.length ||
-    appointment.vvsAppointments?.length
-  ) {
-    return isVideoVisit(appointment)
-      ? appointment.vvsAppointments?.[0]?.status?.code
-      : appointment.vdsAppointments?.[0]?.currentStatus;
+  if (appt.kind === 'cc' && appt.requestedPeriods?.length) {
+    return APPOINTMENT_TYPES.ccRequest;
+  }
+  if (appt.kind !== 'cc' && appt.requestedPeriods?.length) {
+    return APPOINTMENT_TYPES.request;
   }
 
-  return null;
+  return APPOINTMENT_TYPES.vaAppointment;
 }
 
 /**
- *  Maps FHIR appointment statuses to statuses from var-resources requests
+ * Gets the type of visit that matches our array of visit constant
  *
- * @param {Object} appointment A MAS or CC appointment object
- * @param {Boolean} isPast Whether or not the appointment is prior to today's date
- * @returns {String} Appointment status
+ * @param {Object} id VAOS Service appointment object
+ * @returns {String} type of visit string
  */
-function getConfirmedStatus(appointment, isPast) {
-  const currentStatus = getVistaStatus(appointment);
-
-  if (
-    (isPast && PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
-    (!isPast && FUTURE_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus))
-  ) {
-    return null;
-  }
-
-  const cancelled = CANCELLED_APPOINTMENT_SET.has(currentStatus);
-
-  return cancelled ? APPOINTMENT_STATUS.cancelled : APPOINTMENT_STATUS.booked;
+function getTypeOfVisit(id) {
+  return TYPE_OF_VISIT.find(type => type.id === id)?.name;
 }
+
 /**
- * Finds the datetime of the appointment depending on the appointment type
+ * Finds the datetime of the appointment depending on vista site location
  * and returns it as a moment object
  *
- * @param {Object} appt VAR appointment object
+ * @param {Object} appt VAOS Service appointment object
  * @returns {Object} Returns appointment datetime as moment object
  */
 function getMomentConfirmedDate(appt) {
-  if (isCommunityCare(appt) && appt.timeZone) {
-    const zoneSplit = appt.timeZone.split(' ');
-    const offset = zoneSplit.length > 1 ? zoneSplit[0] : '+0:00';
-    return moment
-      .utc(appt.appointmentTime, 'MM/DD/YYYY HH:mm:ss')
-      .utcOffset(offset);
-  }
+  const timezone = getTimezoneByFacilityId(appt.locationId);
 
-  const timezone = getTimezoneByFacilityId(appt.sta6aid || appt.facilityId);
-
-  return timezone
-    ? moment(appt.startDate).tz(timezone)
-    : moment(appt.startDate);
+  return timezone ? moment(appt.start).tz(timezone) : moment(appt.start);
 }
 
 /**
  *  Determines whether current time is less than appointment time
  *  +60 min or +240 min in the case of video
- * @param {*} appt VAR appointment object
+ * @param {*} appt VAOS Service appointment object
  */
 export function isPastAppointment(appt) {
-  const isVideo = isVideoVisit(appt);
+  const isVideo = appt.kind === 'telehealth';
   const threshold = isVideo ? 240 : 60;
   const apptDateTime = moment(getMomentConfirmedDate(appt));
   return apptDateTime.add(threshold, 'minutes').isBefore(moment());
 }
 
 /**
- * Returns url for user to join video conference
- *
- * @param {Object} appt VAR appointment object
- * @returns {String} URL of video visit
+ *  Determines whether current time is before appointment time
+ * @param {*} appt VAOS Service appointment object
+ * @param {*} isRequest is appointment a request
  */
-function getVideoVisitLink(appt) {
-  return appt.vvsAppointments?.[0]?.patients?.[0]?.virtualMeetingRoom?.url;
-}
-
-/**
- * Returns appointment duration in minutes. The default is 60 minutes.
- *
- * @param {Object} appt VAR appointment object
- * @returns {Number} appointment duration in minutes
- */
-function getAppointmentDuration(appt) {
-  const appointmentLength = parseInt(
-    appt.vdsAppointments?.[0]?.appointmentLength ||
-      appt.vvsAppointments?.[0]?.duration,
-    10,
+export function isFutureAppointment(appt, isRequest) {
+  const apptDateTime = moment(appt.start);
+  return (
+    !isRequest &&
+    !isPastAppointment(appt) &&
+    apptDateTime.isValid() &&
+    apptDateTime.isAfter(moment().startOf('day'))
   );
-  return Number.isNaN(appointmentLength) ? 60 : appointmentLength;
 }
 
-function setVideoData(appt) {
-  if (
-    getAppointmentType(appt) !== APPOINTMENT_TYPES.vaAppointment ||
-    !isVideoVisit(appt)
-  ) {
-    return { isVideo: false };
-  }
-
-  const videoData = appt.vvsAppointments[0];
+/**
+ * Gets the atlas location and sitecode
+ *
+ * @param {Object} appt VAOS Service appointment object
+ * @returns {String} returns format data
+ */
+function getAtlasLocation(appt) {
+  const { atlas } = appt.telehealth;
   return {
-    isVideo: true,
-    facilityId: appt.sta6aid || appt.facilityId,
-    providers: (videoData.providers || [])
-      .filter(provider => !!provider.name)
-      .map(provider => ({
-        name: provider.name,
-        display: `${provider.name.firstName} ${provider.name.lastName}`,
+    id: atlas.siteCode,
+    resourceType: 'Location',
+    address: {
+      line: [atlas.address.streetAddress],
+      city: atlas.address.city,
+      state: atlas.address.state,
+      postalCode: atlas.address.zipCode,
+    },
+    position: {
+      longitude: atlas.address.longitude,
+      latitude: atlas.address.latitude,
+    },
+  };
+}
+
+function getPatientContact(appt) {
+  if (appt.contact?.telecom?.length > 0) {
+    // for non acheron service
+    return {
+      telecom: appt.contact?.telecom.map(contact => ({
+        system: contact.type,
+        value: contact.value,
       })),
-    kind: videoData.appointmentKind,
-    url: getVideoVisitLink(appt),
-    isAtlas: !!videoData.tasInfo,
-    // atlasLocation: videoData.tasInfo
-    //   ? transformATLASLocation(videoData.tasInfo)
-    //   : null,
-    atlasConfirmationCode: videoData.tasInfo?.confirmationCode,
-    duration: videoData.duration,
+    };
+  }
+  return {
+    telecom: getAppointmentInfoFromComments(appt.reasonCode?.text, 'contact'),
   };
 }
 
 /**
- * Builds the location object which usually contain Location (Facility)
- * and HealthcareService (Clinic) or video conference info
+ * Gets the reasonCode from reasonCode.text field for DS
  *
- * @param {VARAppointment} appt  VAR appointment object
- * @returns {LocationIdentifiers} An object containing location identifiers for the appointment
+ * @param {Object} appt VAOS Service appointment object
+ * @param {Object} key key of reasonCode info you want returned
+ * @returns {String} returns format data
  */
-function setLocation(appt) {
-  const type = getAppointmentType(appt);
-  const location = {
-    vistaId: null,
-    stationId: null,
-    clinicId: null,
-    clinicName: null,
-  };
+function getReasonCodeDS(appt, key) {
+  let data;
+  const reasonCode = appt.reasonCode?.text?.split('|');
+  if (reasonCode) {
+    if (key === 'code') {
+      data = reasonCode
+        .filter(item => item.includes('reasonCode:'))[0]
+        ?.split(':')[1]
+        ?.trim();
+    }
+    if (key === 'comments') {
+      data = reasonCode
+        .filter(item => item.includes('comments:'))[0]
+        ?.split('comments:')[1]
+        ?.trim();
+    }
+  }
+  return data;
+}
+export function transformVAOSAppointment(appt) {
+  const appointmentType = getAppointmentType(appt);
+  const isCC = appt.kind === 'cc';
+  const isVideo = appt.kind === 'telehealth';
+  const isAtlas = !!appt.telehealth?.atlas;
+  const isPast = isPastAppointment(appt);
+  const isRequest =
+    appointmentType === APPOINTMENT_TYPES.request ||
+    appointmentType === APPOINTMENT_TYPES.ccRequest;
+  const isUpcoming = isFutureAppointment(appt, isRequest);
+  const providers = appt.practitioners;
+  const timezone = getTimezoneByFacilityId(appt.locationId);
 
-  if (type === APPOINTMENT_TYPES.vaAppointment) {
-    location.vistaId = appt.facilityId;
-    location.clinicId = appt.clinicId;
-    location.stationId = appt.sta6aid;
-    location.clinicName =
-      appt.clinicFriendlyName ||
-      appt.vdsAppointments?.[0]?.clinic?.name ||
-      appt.vvsAppointments?.[0]?.patients?.[0]?.location?.clinic?.name ||
-      null;
-  } else if (type === APPOINTMENT_TYPES.request) {
-    location.vistaId = appt.facility?.facilityCode?.substring(0, 3);
-    location.stationId = appt.facility?.facilityCode;
+  const start = timezone ? moment(appt.start).tz(timezone) : moment(appt.start);
+  const serviceCategoryName = appt.serviceCategory?.[0]?.text;
+  const isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
+  const isCancellable = appt.cancellable;
+
+  let videoData = { isVideo };
+  if (isVideo) {
+    videoData = {
+      isVideo,
+      facilityId: appt.locationId,
+      kind: appt.telehealth?.vvsKind,
+      url: appt.telehealth?.url,
+      duration: appt.minutesDuration,
+      providers: (providers || []).map(provider => ({
+        name: {
+          firstName: provider.name?.given,
+          lastName: provider.name?.family,
+        },
+        display: `${provider.name?.given} ${provider.name?.family}`,
+      })),
+      isAtlas,
+      atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
+      atlasConfirmationCode: appt.telehealth?.atlas?.confirmationCode,
+    };
   }
 
-  return location;
-}
+  let requestFields = {};
+  const commentsReasonCode = getAppointmentInfoFromComments(
+    appt.reasonCode?.text,
+    'reasonCode',
+  );
+  const appointmentComments = getAppointmentInfoFromComments(
+    appt.reasonCode?.text,
+    'comments',
+  );
+  const commentsPreferredDate = getAppointmentInfoFromComments(
+    appt.reasonCode?.text,
+    'preferredDate',
+  );
+  if (isRequest) {
+    const created = moment.parseZone(appt.created).format('YYYY-MM-DD');
+    const requestedPeriods =
+      commentsPreferredDate.length > 0
+        ? commentsPreferredDate
+        : appt.requestedPeriods;
+    const reqPeriods = requestedPeriods?.map(d => ({
+      // by passing the format into the moment constructor, we are
+      // preventing the local time zone conversion from occuring
+      // which was causing incorrect dates to be displayed
+      start: `${moment(d.start, 'YYYY-MM-DDTHH:mm:ss').format(
+        'YYYY-MM-DDTHH:mm:ss',
+      )}.000`,
+      end: `${moment(d.end, 'YYYY-MM-DDTHH:mm:ss').format(
+        'YYYY-MM-DDTHH:mm:ss',
+      )}.999`,
+    }));
 
-/**
- * Transforms VAR appointment to FHIR appointment resource
- *
- * @export
- * @param {Object} appt An appointment from MAS or the VAR community care api
- * @returns {Appointment} An Appointment resource
- */
-export function transformConfirmedAppointment(appt) {
-  const minutesDuration = getAppointmentDuration(appt);
-  const start = getMomentConfirmedDate(appt).format();
-  const isPast = isPastAppointment(appt);
-  const isCC = isCommunityCare(appt);
-  const videoData = setVideoData(appt);
+    const hasReasonCode =
+      commentsReasonCode.length > 0 || appt.reasonCode?.coding?.length > 0;
+    const reasonCode =
+      commentsReasonCode.length > 0
+        ? commentsReasonCode[0]
+        : appt.reasonCode?.coding?.[0];
+    const reason = hasReasonCode
+      ? PURPOSE_TEXT.find(
+          purpose =>
+            purpose.serviceName === reasonCode.code ||
+            purpose.commentShort === reasonCode.code,
+        )?.short
+      : null;
+    requestFields = {
+      requestedPeriod: reqPeriods,
+      created,
+      reason,
+      preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
+      requestVisitType: getTypeOfVisit(appt.kind),
+      type: {
+        coding: [
+          {
+            code: appt.serviceType || null,
+            display: getTypeOfCareById(appt.serviceType)?.name,
+          },
+        ],
+      },
+      contact: getPatientContact(appt),
+    };
+  }
 
-  const CANCELLATION_REASON_MAP = new Map([
-    ['CANCELLED BY PATIENT', 'pat'],
-    ['CANCELLED BY CLINIC', 'prov'],
-    [null, null],
-  ]);
-
+  // TODO: verfy in RI
+  let facilityData;
+  if (appt.location && appt.location.attributes) {
+    facilityData = transformFacilityV2(appt.location.attributes);
+  }
+  // get appt reason code from reasonCode.text field for DS
+  const reasonCode = appt.reasonCode?.coding
+    ? appt.reasonCode?.coding
+    : getReasonCodeDS(appt, 'code');
+  let comment = null;
+  const coding =
+    commentsReasonCode.length > 0 ? commentsReasonCode : reasonCode;
+  const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
+    purpose =>
+      purpose.serviceName === (coding?.[0]?.code || coding) ||
+      purpose.commentShort === (coding?.[0]?.code || coding),
+  )?.serviceName;
+  const comments =
+    appointmentComments.length > 0 ? appointmentComments[0] : appt.reasonCode;
+  const reasonCodeText = getReasonCodeDS(appt, 'comments')
+    ? getReasonCodeDS(appt, 'comments')
+    : comments?.text;
+  const text = appt.reasonCode ? reasonCodeText : null;
+  if (coding && code && text) {
+    comment = `${code}: ${text}`;
+  } else if (coding && code) {
+    comment = code;
+  } else {
+    comment = text;
+  }
   return {
     resourceType: 'Appointment',
-    // Temporary fix until https://issues.mobilehealth.va.gov/browse/VAOSR-2058 is complete
-    id: appt.id || appt.vvsAppointments[0].id || null,
-    status: getConfirmedStatus(appt, isPast),
-    description: getVistaStatus(appt),
-    start,
-    minutesDuration,
+    id: appt.id,
+    status: appt.status,
+    cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
+    start: !isRequest ? start.format() : null,
+    // This contains the vista status for v0 appointments, but
+    // we don't have that for v2, so this is a made up status
+    description: appt.kind !== 'cc' ? 'VAOS_UNKNOWN' : null,
+    minutesDuration: Number.isNaN(parseInt(appt.minutesDuration, 10))
+      ? 60
+      : appt.minutesDuration,
+    location: {
+      // TODO: what happens when vaos service can't find sta6aid for the appointment
+      vistaId: appt.locationId?.substr(0, 3) || null,
+      clinicId: appt.clinic,
+      stationId: appt.locationId,
+      clinicName: appt.friendlyName || appt.serviceName || null,
+    },
     comment:
-      appt.instructionsToVeteran ||
-      (!appt.communityCare && appt.vdsAppointments?.[0]?.bookingNote) ||
-      appt.vvsAppointments?.[0]?.instructionsTitle ||
-      null,
-    cancelationReason:
-      CANCELLATION_REASON_MAP.get(getVistaStatus(appt)) || null,
-    location: setLocation(appt),
+      isVideo && !!appt.patientInstruction
+        ? getPatientInstruction(appt)
+        : comment,
     videoData,
+    communityCareProvider:
+      isCC && !isRequest
+        ? {
+            practiceName: appt.extension?.ccLocation?.practiceName,
+            treatmentSpecialty: appt.extension?.ccTreatingSpecialty,
+            address: appt.extension?.ccLocation?.address,
+            telecom: appt.extension?.ccLocation?.telecom,
+            providers: (providers || []).map(provider => ({
+              name: {
+                firstName: provider.name?.given.join(' '),
+                lastName: provider.name?.family,
+              },
+              providerName: provider.name
+                ? `${provider.name.given.join(' ')} ${provider.name.family}`
+                : null,
+            })),
+            providerName:
+              providers !== undefined ? getProviderName(appt) : null,
+          }
+        : null,
+    preferredProviderName:
+      isCC && isRequest && appt.preferredProviderName
+        ? { providerName: appt.preferredProviderName }
+        : null,
+    practitioners:
+      appt.practitioners && typeof appt.practitioners !== 'undefined'
+        ? appt.practitioners
+        : [],
+    ...requestFields,
     vaos: {
-      isVideo: videoData.isVideo,
+      isPendingAppointment: isRequest,
+      isUpcomingAppointment: isUpcoming,
+      isVideo,
       isPastAppointment: isPast,
-      appointmentType: getAppointmentType(appt),
+      isCompAndPenAppointment: isCompAndPen,
+      isCancellable,
+      appointmentType,
       isCommunityCare: isCC,
       isExpressCare: false,
-      timeZone: isCC ? appt.timeZone : null,
-      isPhoneAppointment: appt.phoneOnly || false,
-      // CDQC is the standard COVID vaccine char4 code
-      isCOVIDVaccine: appt.char4 === 'CDQC',
+      isPhoneAppointment: appt.kind === 'phone',
+      isCOVIDVaccine: appt.serviceType === COVID_VACCINE_ID,
       apiData: appt,
+      timeZone: null,
+      facilityData,
     },
-    version: 1,
+    version: 2,
   };
 }
 
-/**
- * Transforms MAS appointment to FHIR appointment resource
- *
- * @export
- * @param {Array<Object>} appointments An array of appointments from MAS
- *   or the VAR community care api
- * @returns {Array<Appointment>} An array of FHIR Appointment resource
- */
-export function transformConfirmedAppointments(appointments) {
-  return appointments.map(appt => transformConfirmedAppointment(appt));
+export function transformVAOSAppointments(appts) {
+  return appts.map(appt => transformVAOSAppointment(appt));
 }

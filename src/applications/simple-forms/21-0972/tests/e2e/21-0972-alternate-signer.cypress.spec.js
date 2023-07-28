@@ -247,8 +247,6 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', testFormConfig.submitUrl, mockSubmit);
     },
-
-    skip: Cypress.env('CI'),
   },
   manifest,
   testFormConfig,
