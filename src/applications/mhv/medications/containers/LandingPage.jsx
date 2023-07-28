@@ -21,6 +21,7 @@ const LandingPage = () => {
             <a
               className="vads-c-action-link--green"
               href="/my-health/medications/prescriptions"
+              data-testid="prescriptions-nav-link"
             >
               Go to your medications
             </a>
