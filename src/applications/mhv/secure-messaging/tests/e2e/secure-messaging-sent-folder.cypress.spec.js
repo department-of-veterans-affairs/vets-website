@@ -35,9 +35,6 @@ describe('Secure Messaging Sent Folder checks', () => {
   });
 
   it('Verify filter works correctly', () => {
-    PatientMessagesSentPage.inputFilterData('test');
-    PatientMessagesSentPage.filterMessages();
-    PatientMessagesSentPage.verifyFilterResults('test');
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -46,27 +43,27 @@ describe('Secure Messaging Sent Folder checks', () => {
         },
       },
     });
+    PatientMessagesSentPage.inputFilterData('test');
+    PatientMessagesSentPage.filterMessages();
+    PatientMessagesSentPage.verifyFilterResults('test');
   });
 
   it('Verify clear filter btn works correctly', () => {
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     PatientMessagesSentPage.inputFilterData('any');
     PatientMessagesSentPage.filterMessages();
     PatientMessagesSentPage.clearFilter();
     PatientMessagesSentPage.verifyFilterFieldCleared();
-
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
   });
 
   it('Check sorting works properly', () => {
-    PatientMessagesSentPage.verifySorting();
-
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -75,5 +72,6 @@ describe('Secure Messaging Sent Folder checks', () => {
         },
       },
     });
+    PatientMessagesSentPage.verifySorting();
   });
 });

@@ -35,24 +35,20 @@ describe('Secure Messaging Trash Folder checks', () => {
   });
 
   it('Verify filter works correctly', () => {
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     PatientMessageTrashPage.inputFilterData('test');
     PatientMessageTrashPage.filterMessages();
     PatientMessageTrashPage.verifyFilterResults('test');
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
   });
 
   it('Verify clear filter btn works correctly', () => {
-    PatientMessageTrashPage.inputFilterData('any');
-    PatientMessageTrashPage.filterMessages();
-    PatientMessageTrashPage.clearFilter();
-
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -61,12 +57,13 @@ describe('Secure Messaging Trash Folder checks', () => {
         },
       },
     });
+    PatientMessageTrashPage.inputFilterData('any');
+    PatientMessageTrashPage.filterMessages();
+    PatientMessageTrashPage.clearFilter();
     PatientMessageTrashPage.verifyFilterFieldCleared();
   });
 
   it('Check sorting works properly', () => {
-    PatientMessageTrashPage.verifySorting();
-
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -75,5 +72,6 @@ describe('Secure Messaging Trash Folder checks', () => {
         },
       },
     });
+    PatientMessageTrashPage.verifySorting();
   });
 });
