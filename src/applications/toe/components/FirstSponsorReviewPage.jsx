@@ -74,7 +74,6 @@ FirstSponsorReviewPage.propTypes = {
       last: PropTypes.string,
       suffix: PropTypes.string,
     }),
-    showMebEnhancements08: PropTypes.bool,
     sponsors: PropTypes.shape({
       sponsors: PropTypes.arrayOf(
         PropTypes.shape({
@@ -85,6 +84,7 @@ FirstSponsorReviewPage.propTypes = {
     }),
   }),
   editPage: PropTypes.func,
+  showMebEnhancements08: PropTypes.bool,
   title: PropTypes.string,
 };
 
@@ -92,6 +92,7 @@ const mapStateToProps = state => ({
   firstSponsor: state.form?.data?.firstSponsor,
   sponsors: state.form?.data?.sponsors,
   ...getAppData(state),
+  showMebEnhancements08: state.form?.data?.showMebEnhancements08,
 });
 
 export default connect(mapStateToProps)(FirstSponsorReviewPage);
