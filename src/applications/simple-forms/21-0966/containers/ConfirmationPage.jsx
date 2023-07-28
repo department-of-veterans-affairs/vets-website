@@ -37,18 +37,29 @@ export class ConfirmationPage extends React.Component {
           status="success"
           visible
         >
-          <h2 slot="headline">
-            Thank you for submitting your authorization request
-          </h2>
+          <h2 slot="headline">You've submitted your Intent to File request</h2>
           <p>
-            After we review your application, we will contact the private
-            provider or hospital to obtain the requested records. If we cannot
-            obtain the records within 15 days we will send you a follow up
-            letter.
+            Your Intent to File (ITF) for %%claim type%% will expire on %%One
+            Year from Date%%.
           </p>
         </va-alert>
+        <h3>What are my next steps?</h3>
+        <p>
+          You should submit your claim as soon as possible. By filing the claim
+          today, you may be able to receive retroactive payments based on the
+          date you filed your Intent.
+        </p>
+        {/* TODO: Inject form-data values below after other pages are done. */}
+        <p>
+          Your ITF for %%claim type%% expires on %%ITF Expiration Date%%. You’ll
+          need to submit your claim by this dates in order to receive payments
+          starting from your ITF filing date.
+        </p>
+        <a href="#wip" className="vads-c-action-link--green">
+          Start your %%claim type%%
+        </a>
         <div className="inset">
-          <h3 className="vads-u-margin-top--0">Your application information</h3>
+          <h3 className="vads-u-margin-top--0">Your submission information</h3>
           {fullName ? (
             <>
               <h4>Applicant</h4>
@@ -101,18 +112,19 @@ ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
       fullName: {
-        first: PropTypes.string,
+        first: PropTypes.string.isRequired,
         middle: PropTypes.string,
-        last: PropTypes.string,
+        last: PropTypes.string.isRequired,
         suffix: PropTypes.string,
       },
-    }),
-    formId: PropTypes.string,
+    }).isRequired,
     submission: PropTypes.shape({
-      timestamp: PropTypes.string,
-    }),
-  }),
-  name: PropTypes.string,
+      timestamp: PropTypes.string.isRequired,
+      response: PropTypes.shape({
+        confirmationNumber: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 function mapStateToProps(state) {
