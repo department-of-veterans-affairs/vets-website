@@ -39,7 +39,7 @@ describe('<VeteranInformation>', () => {
     expect(wrapper.find('.vafn').text()).to.contain('8765');
     expect(wrapper.find('.dob').text()).to.contain('January 5, 2000');
     expect(wrapper.find('.gender').text()).to.contain('Female');
-    expect(wrapper.find('.dd-privacy-mask').length).to.eq(4);
+    expect(wrapper.find('.dd-privacy-mask').length).to.eq(5);
 
     wrapper.unmount();
   });

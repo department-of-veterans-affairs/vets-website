@@ -34,7 +34,7 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
         Confirm the personal information we have on file for you.
       </h3>
       <div className="blue-bar-block">
-        <strong className="name">
+        <strong className="name dd-privacy-mask">
           {`${first || ''} ${middle || ''} ${last || ''}`}
           {suffix ? `, ${suffix}` : null}
         </strong>
