@@ -246,9 +246,6 @@ export function checkEligibility({ location, showModal }) {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      state,
-    );
     const featureClinicFilter = selectFeatureClinicFilter(state);
 
     dispatch({
@@ -266,7 +263,6 @@ export function checkEligibility({ location, showModal }) {
         location,
         typeOfCare,
         directSchedulingEnabled,
-        useV2: featureVAOSServiceVAAppointments,
         featureClinicFilter,
       });
 
@@ -303,9 +299,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     try {
       const initialState = getState();
-      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-        initialState,
-      );
       const { newAppointment } = initialState;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
@@ -324,7 +317,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         if (!typeOfCareFacilities) {
           typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
             siteIds,
-            useV2: featureFacilitiesServiceV2,
           });
         }
 
@@ -506,7 +498,6 @@ export function openReasonForAppointment(
   page,
   uiSchema,
   schema,
-  useV2 = false,
   useAcheron = false,
 ) {
   return {
@@ -514,7 +505,6 @@ export function openReasonForAppointment(
     page,
     uiSchema,
     schema,
-    useV2,
     useAcheron,
   };
 }
@@ -523,7 +513,6 @@ export function updateReasonForAppointmentData(
   page,
   uiSchema,
   data,
-  useV2 = false,
   useAcheron = false,
 ) {
   return {
@@ -531,7 +520,6 @@ export function updateReasonForAppointmentData(
     page,
     uiSchema,
     data,
-    useV2,
     useAcheron,
   };
 }

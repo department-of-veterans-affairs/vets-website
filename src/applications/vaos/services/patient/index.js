@@ -78,7 +78,6 @@ const VAOS_SERVICE_REQUEST_LIMIT = 'facility-request-limit-exceeded';
  * @param {'direct'|'request'|null} [params.type=null] The type to check eligibility for. By default,
  *   will check both
  * }
- * @param {boolean} [params.useV2=false] Use the v2 apis when making eligibility calls
  * @returns {PatientEligibility} Patient eligibility data
  */
 export async function fetchPatientEligibility({
@@ -267,7 +266,6 @@ function logEligibilityExplanation(
  * @param {TypeOfCare} params.typeOfCare Type of care object for the currently chosen type of care
  * @param {Location} params.location The current location to check eligibility against
  * @param {boolean} params.directSchedulingEnabled If direct scheduling is currently enabled
- * @param {boolean} [params.useV2=false] Use the v2 apis when making eligibility calls
  * @param {boolean} [params.featureClinicFilter=false] feature flag to filter clinics based on VATS
  * @returns {FlowEligibilityReturnData} Eligibility results, plus clinics and past appointments
  *   so that they can be cache and reused later
@@ -276,7 +274,6 @@ export async function fetchFlowEligibilityAndClinics({
   typeOfCare,
   location,
   directSchedulingEnabled,
-  useV2 = false,
   featureClinicFilter = false,
   useAcheron = false,
 }) {
@@ -358,7 +355,7 @@ export async function fetchFlowEligibilityAndClinics({
 
   // Similar to above, but for direct scheduling
   // v2 needs to filter clinics
-  if (useV2 && featureClinicFilter) {
+  if (featureClinicFilter) {
     results.clinics = results?.clinics?.filter(
       clinic => clinic.patientDirectScheduling === true,
     );
@@ -392,12 +389,10 @@ export async function fetchFlowEligibilityAndClinics({
     }
 
     if (featureClinicFilter) {
-      // v2 uses boolean while v0 uses Yes/No string for patientHistoryRequired
-      const enable = useV2 ? true : 'Yes';
       if (
         typeOfCare.id !== PRIMARY_CARE &&
         typeOfCare.id !== MENTAL_HEALTH &&
-        directTypeOfCareSettings.patientHistoryRequired === enable &&
+        directTypeOfCareSettings.patientHistoryRequired === true &&
         !hasMatchingClinics(
           results.clinics,
           results.pastAppointments,

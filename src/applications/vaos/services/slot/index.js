@@ -28,7 +28,6 @@ import { transformV2Slots } from './transformers.v2';
  * @param {string} slotsRequest.clinicId clinic id
  * @param {string} slotsRequest.startDate start date to search for appointments lots formatted as YYYY-MM-DD
  * @param {string} slotsRequest.endDate end date to search for appointments lots formatted as YYYY-MM-DD
- * @param {Boolean} useV2 Toggle fetching appointments via VAOS api services version 2
  * @returns {Array<Slot>} A list of Slot resources
  */
 export async function getSlots({ siteId, clinicId, startDate, endDate }) {

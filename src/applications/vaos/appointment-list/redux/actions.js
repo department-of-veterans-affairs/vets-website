@@ -11,7 +11,6 @@ import { recordItemsRetrieved } from '../../utils/events';
 import {
   selectSystemIds,
   selectFeatureVAOSServiceRequests,
-  selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureAcheronService,
 } from '../../redux/selectors';
@@ -185,7 +184,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             endDate: moment()
               .add(featureVAOSServiceRequests ? 1 : 0, 'days')
               .format('YYYY-MM-DD'),
-            useV2: featureVAOSServiceRequests,
             useAcheron: featureAcheronVAOSServiceRequests,
           })
             .then(requests => {
@@ -500,16 +498,11 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
         state,
       );
-      const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-        state,
-      );
+
       const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
         state,
       );
-      const useV2 =
-        type === 'cc'
-          ? featureVAOSServiceCCAppointments
-          : featureVAOSServiceVAAppointments;
+
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
           ? APPOINTMENT_TYPES.ccAppointment
@@ -527,7 +520,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         appointment = await fetchBookedAppointment({
           id,
           type,
-          useV2,
+
           useAcheron: featureAcheronVAOSServiceRequests,
         });
       }

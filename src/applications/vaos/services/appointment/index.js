@@ -76,8 +76,6 @@ function apptRequestSort(a, b) {
  * @async
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
- * @param {Boolean} useV2VA Toggle fetching VA appointments via VAOS api services version 2
- * @param {Boolean} useV2CC Toggle fetching CC appointments via VAOS api services version 2
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
 export async function fetchAppointments({
@@ -185,7 +183,6 @@ export async function fetchRequestById({ id, useAcheron }) {
  * @export
  * @async
  * @param {string} id MAS or community care booked appointment id
- * @param {Boolean} useV2 Toggle fetching VA or CC appointment via VAOS api services version 2
  * @returns {Appointment} A transformed appointment with the given id
  */
 export async function fetchBookedAppointment({ id, useAcheron = false }) {
@@ -828,8 +825,6 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
         const p1 = await fetchAppointments({
           startDate: curr.start,
           endDate: curr.end,
-          useV2VA: true,
-          useV2CC: true,
         });
         batch.push(p1);
         return Promise.resolve([...batch].flat());
