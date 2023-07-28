@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import { datadogRum } from '@datadog/browser-rum';
-import environment from 'platform/utilities/environment';
-
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
@@ -265,13 +264,15 @@ datadogRum.init({
   env: environment.vspEnvironment(),
   // Specify a version number to identify the deployed version of your application in Datadog
   // version: '1.0.0',
-  sessionSampleRate: 10,
-  sessionReplaySampleRate: 20,
+  sessionSampleRate: 10, // Set to 100 to test locally
+  sessionReplaySampleRate: 20, // Set to !00 to test locally
   trackUserInteractions: true,
   trackResources: true,
   trackLongTasks: true,
   defaultPrivacyLevel: 'mask-user-input',
 });
 
-datadogRum.startSessionReplayRecording();
+if (isLoggedIn) {
+  datadogRum.startSessionReplayRecording();
+}
 export default connect(mapStateToProps)(Form526Entry);
