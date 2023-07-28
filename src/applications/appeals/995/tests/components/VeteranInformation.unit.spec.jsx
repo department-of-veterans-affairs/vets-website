@@ -35,6 +35,7 @@ describe('<VeteranInformation>', () => {
     expect($('.vafn', container).textContent).to.contain('8765');
     expect($('.dob', container).textContent).to.contain('January 5, 2000');
     expect($('.gender', container).textContent).to.contain('Female');
-    expect($$('.dd-privacy-mask', container).length).to.eq(5);
+    expect($$('.dd-privacy-mask', container).length).to.eq(3);
+    expect($$('.dd-privacy-hidden', container).length).to.eq(2);
   });
 });
