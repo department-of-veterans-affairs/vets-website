@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -71,6 +72,22 @@ function SponsorCheckboxGroup({
     </VaCheckboxGroup>
   );
 }
+
+SponsorCheckboxGroup.propTypes = {
+  errorMessage: PropTypes.string,
+  fetchedSponsorsComplete: PropTypes.bool,
+  firstSponsor: PropTypes.object,
+  formContext: PropTypes.object,
+  formData: PropTypes.object,
+  loadingMessage: PropTypes.string,
+  setFormData: PropTypes.func.isRequired,
+  showMebEnhancements08: PropTypes.bool.isRequired,
+  sponsors: PropTypes.object,
+};
+SponsorCheckboxGroup.defaultProps = {
+  errorMessage: 'Please select at least one sponsor',
+  loadingMessage: 'Loading your sponsors...',
+};
 
 const mapStateToProps = state => ({
   fetchedSponsors: state.data?.fetchedSponsors,
