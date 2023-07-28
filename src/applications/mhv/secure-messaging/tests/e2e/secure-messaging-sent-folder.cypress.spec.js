@@ -65,8 +65,6 @@ describe('Secure Messaging Sent Folder checks', () => {
   });
 
   it('Check sorting works properly', () => {
-    PatientMessagesSentPage.listBeforeSort();
-    PatientMessagesSentPage.listAfterSort();
     PatientMessagesSentPage.verifySortedList();
 
     cy.injectAxe();
