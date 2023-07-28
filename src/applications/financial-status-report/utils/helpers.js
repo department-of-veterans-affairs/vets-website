@@ -156,7 +156,9 @@ export const mergeAdditionalComments = (additionalComments, expenses) => {
   const individualExpensesStr = `Individual expense amount: ${individualExpenses}`;
 
   return individualExpenses
-    ? `${additionalComments}\n${individualExpensesStr}`
+    ? `${
+        additionalComments !== undefined ? additionalComments : ''
+      }\n${individualExpensesStr}`
     : additionalComments;
 };
 

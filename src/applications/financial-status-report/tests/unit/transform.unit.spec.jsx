@@ -265,48 +265,6 @@ describe('fsr transform helper functions', () => {
     });
   });
 
-  describe('getTotalAssets helper', () => {
-    it('should return total value of assets', () => {
-      const totalAssets = {
-        questions: {
-          hasVehicle: true,
-        },
-        assets: {
-          otherAssets: [
-            {
-              amount: '10',
-            },
-            {
-              amount: '10',
-            },
-          ],
-          recVehicles: [
-            {
-              recVehicleAmount: '100',
-            },
-          ],
-          automobiles: [
-            {
-              resaleValue: '100',
-            },
-            {
-              resaleValue: '100',
-            },
-          ],
-        },
-        realEstateRecords: [
-          {
-            realEstateAmount: '1000',
-          },
-          {
-            realEstateAmount: '1000',
-          },
-        ],
-      };
-      expect(getTotalAssets(totalAssets)).to.equal(2320);
-    });
-  });
-
   describe('otherDeductionsName helper', () => {
     const allFilters = [
       'State tax',
@@ -1133,7 +1091,7 @@ describe('fsr transform information', () => {
         ).to.equal('61.02');
       });
     });
-    describe('cFSR - getTotalAssets helper', () => {
+    describe('getTotalAssets helper', () => {
       it('should return total value of assets excluding vehicles', () => {
         const totalAssets = {
           questions: {
