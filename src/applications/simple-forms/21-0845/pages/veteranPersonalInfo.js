@@ -17,13 +17,14 @@ export default {
       'ui:widget': 'date',
       'ui:validations': [validateDateOfBirth],
       'ui:errorMessages': {
+        required: 'Please provide a date of birth',
         pattern: 'Please provide a valid date of birth',
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['veteranFullName'],
+    required: ['veteranFullName', 'veteranDateOfBirth'],
     properties: {
       veteranFullName: schema({
         pdfMaxLengths: { first: 12, middle: 18, last: 18 },
