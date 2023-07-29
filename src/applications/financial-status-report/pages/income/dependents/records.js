@@ -1,7 +1,7 @@
 import React from 'react';
-import ItemLoop from '../../../components/ItemLoop';
-import CardDetailsView from '../../../components/CardDetailsView';
-import DependentAges from '../../../components/DependentAges';
+import ItemLoop from '../../../components/shared/ItemLoop';
+import CardDetailsView from '../../../components/shared/CardDetailsView';
+import DependentAges from '../../../components/household/DependentAges';
 
 export const uiSchema = {
   'ui:title': () => (

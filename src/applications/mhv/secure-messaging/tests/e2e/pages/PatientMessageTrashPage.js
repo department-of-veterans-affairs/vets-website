@@ -1,11 +1,12 @@
-import mockTrashFolderMetaResponse from '../fixtures/trashResponse/folder-deleted-metadata.json';
 import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
+import mockTrashFolderMetaResponse from '../fixtures/trashResponse/folder-deleted-metadata.json';
 import mockThreadResponse from '../fixtures/trashResponse/trash-thread-response.json';
 import mockSingleMessageResponse from '../fixtures/trashResponse/trash-single-message-response.json';
 import trashSearchResponse from '../fixtures/trashResponse/trash-search-response.json';
+import mockSortedMessages from '../fixtures/trashResponse/sorted-trash-message-response.json';
 
 class PatientMessageTrashPage {
-  loadTrashMessages = (mockMessagesResponse = mockTrashMessages) => {
+  loadMessages = (mockMessagesResponse = mockTrashMessages) => {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-3',
@@ -19,7 +20,7 @@ class PatientMessageTrashPage {
     cy.get('[data-testid="trash-sidebar"]').click();
   };
 
-  loadDetailedTrashMessage = (detailedMessage = mockSingleMessageResponse) => {
+  loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
@@ -36,7 +37,9 @@ class PatientMessageTrashPage {
       mockSingleMessageResponse,
     ).as('detailedMessage');
 
-    cy.get('[data-testid="thread-list-item"]').first.click();
+    cy.get('[data-testid="thread-list-item"]')
+      .first()
+      .click();
   };
 
   inputFilterData = text => {
@@ -46,7 +49,7 @@ class PatientMessageTrashPage {
       .type(`${text}`);
   };
 
-  filterTrashMessages = () => {
+  filterMessages = () => {
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/folders/-3/search',
@@ -57,8 +60,43 @@ class PatientMessageTrashPage {
 
   clearFilter = () => {
     this.inputFilterData('any');
-    this.filterTrashMessages();
+    this.filterMessages();
     cy.get('[text="Clear Filters"]').click();
+  };
+
+  sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
+    cy.get('#sort-order-dropdown')
+      .shadow()
+      .find('#select')
+      .select(`${text}`);
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-3/threads**',
+      sortedResponse,
+    );
+    cy.get('[data-testid="sort-button"]').click({ force: true });
+  };
+
+  verifySorting = () => {
+    let listBefore;
+    let listAfter;
+    cy.get('.thread-list-item')
+      .find('.received-date')
+      .then(list => {
+        listBefore = Cypress._.map(list, el => el.innerText);
+        cy.log(listBefore);
+      })
+      .then(() => {
+        this.sortMessagesByDate('Oldest to newest');
+        cy.get('.thread-list-item')
+          .find('.received-date')
+          .then(list2 => {
+            listAfter = Cypress._.map(list2, el => el.innerText);
+            cy.log(listAfter);
+            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
+            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
+          });
+      });
   };
 
   verifyFolderHeader = text => {
