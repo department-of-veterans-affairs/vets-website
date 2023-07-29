@@ -1,12 +1,26 @@
 import footerContent from 'platform/forms/components/FormFooter';
-import manifest from '../manifest.json';
+import {
+  defaultFocusSelector,
+  waitForRenderThenFocus,
+} from 'platform/utilities/ui';
 
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 
+import manifest from '../manifest.json';
+import IntroductionPage from '../containers/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
 // pages
 import claimantTypePg from '../pages/claimantType';
+
+const pageFocus = () => {
+  return () => {
+    const focusSelector = document.location.pathname.includes('claimant-type')
+      ? '.schemaform-block-title'
+      : defaultFocusSelector;
+
+    waitForRenderThenFocus(focusSelector);
+  };
+};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -36,15 +50,18 @@ const formConfig = {
   subTitle:
     'Intent to file a claim for compensation and/or pension, or survivors pension and/or DIC (VA Form 21-0966)',
   defaultDefinitions: {},
+  useCustomScrollAndFocus: true,
   chapters: {
     claimantTypeChapter: {
-      title: '[Claimant type]',
+      title: 'Claimant type',
       pages: {
         claimantTypePage: {
           path: 'claimant-type',
           title: 'Is this the form I need?',
+          scrollAndFocusTarget: pageFocus(),
           uiSchema: claimantTypePg.uiSchema,
           schema: claimantTypePg.schema,
+          pageClass: 'claimant-type',
         },
       },
     },
