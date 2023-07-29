@@ -11,7 +11,9 @@ export default {
     type: 'object',
     required: ['personFullName'],
     properties: {
-      personFullName: schema(),
+      personFullName: schema({
+        pdfMaxLengths: { first: 12, middle: 18, last: 18 },
+      }),
     },
   },
 };

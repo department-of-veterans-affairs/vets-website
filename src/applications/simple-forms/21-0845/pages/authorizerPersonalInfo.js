@@ -10,7 +10,9 @@ export default {
     type: 'object',
     required: ['authorizerFullName'],
     properties: {
-      authorizerFullName: schema(),
+      authorizerFullName: schema({
+        pdfMaxLengths: { first: 12, middle: 18, last: 18 },
+      }),
     },
   },
 };

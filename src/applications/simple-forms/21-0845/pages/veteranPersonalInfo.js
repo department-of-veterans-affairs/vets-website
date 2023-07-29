@@ -25,7 +25,9 @@ export default {
     type: 'object',
     required: ['veteranFullName'],
     properties: {
-      veteranFullName: schema(),
+      veteranFullName: schema({
+        pdfMaxLengths: { first: 12, middle: 18, last: 18 },
+      }),
       veteranDateOfBirth: definitions.date,
     },
   },
