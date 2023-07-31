@@ -66,6 +66,7 @@ const MedicationsListCard = props => {
           <Link
             className="vads-u-margin-y--0p5"
             to={`/prescriptions/${rx.prescriptionId}`}
+            data-testid="medications-history-details-link"
           >
             Medication history and details
             <span className="righ-angle">
