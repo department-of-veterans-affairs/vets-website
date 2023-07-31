@@ -133,38 +133,11 @@ export const App = ({
         });
       }
 
-      if (email && email !== formData?.email?.email) {
-        setFormData({
-          ...formData,
-          email: {
-            ...formData?.email,
-            email,
-          },
-        });
-      }
-
-      // setFormData({
-      //   ...formData,
-      //   data: {
-      //     ...formData?.data,
-      //     attributes: {
-      //       ...formData?.data?.attributes,
-      //       claimant: {
-      //         ...formData?.data?.attributes?.claimant,
-      //         contactinfo: {
-      //           ...formData?.data?.attributes?.claimant?.contactInfo,
-      //           mobilePhoneNumber: mobilePhone,
-      //         },
-      //       },
-      //     },
-      //   },
-      // });
-
-      // formData?.data?.attributes?.claimant?.contactInfo?.mobilePhoneNumber
-
       if (
         formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
         formData?.email?.email &&
+        !formData?.duplicateEmail &&
+        !formData?.duplicatePhone &&
         formData?.showMebEnhancements08
       ) {
         getDuplicateContactInfo(
@@ -235,7 +208,6 @@ export const App = ({
       showMebEnhancements,
       showMebEnhancements06,
       showMebEnhancements08,
-      email,
       mobilePhone,
       getDuplicateContactInfo,
     ],
@@ -258,6 +230,22 @@ export const App = ({
     },
     [mobilePhone],
   );
+
+  useEffect(
+    () => {
+      if (email && email !== formData?.email?.email) {
+        setFormData({
+          ...formData,
+          email: {
+            ...formData?.email,
+            email,
+          },
+        });
+      }
+    },
+    [email],
+  );
+
   // Commenting out until Direct Deposit component is updated
   // useEffect(
   //   () => {
@@ -315,7 +303,7 @@ const mapStateToProps = state => {
   const firstName = state.data?.formData?.data?.attributes?.claimant?.firstName;
   const transformedClaimantInfo = prefillTransformer(null, null, null, state);
   const claimantInfo = transformedClaimantInfo.formData;
-  const email = state?.data?.email;
+  const email = state?.form?.data?.email?.email;
   const mobilePhone =
     state?.data?.mobilePhone ||
     state?.data?.formData?.data?.attributes?.claimant?.contactInfo
