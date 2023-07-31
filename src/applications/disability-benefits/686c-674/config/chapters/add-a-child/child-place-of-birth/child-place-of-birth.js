@@ -130,7 +130,7 @@ export const uiSchema = {
         }),
         biologicalStepchild: {
           'ui:title': 'Is stepchild the biological child of your spouse?',
-          'ui:widget': 'radio',
+          'ui:widget': 'yesNo',
           'ui:required': (formData, index) =>
             formData?.childrenToAdd[`${index}`]?.childStatus?.stepchild ===
             true,
