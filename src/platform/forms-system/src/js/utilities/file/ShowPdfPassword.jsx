@@ -83,7 +83,7 @@ const PasswordLabel = () => (
 
 const PasswordSuccess = () => (
   <>
-    <p>PDF password</p>
+    <p className="vads-u-margin-top--2">PDF password</p>
     <strong>The PDF password has been added.</strong>
   </>
 );
