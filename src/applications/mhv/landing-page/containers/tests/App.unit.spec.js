@@ -11,7 +11,7 @@ import sinon from 'sinon';
 import App from '../App';
 
 const oldWindow = global.window;
-const generateInitState = ({
+const generateInitialState = ({
   loading = false,
   mhvLandingPageEnabled = true,
   serviceName = 'idme',
@@ -60,166 +60,100 @@ const generateInitState = ({
   };
 };
 
+const setup = (initialState = {}) => {
+  const middleware = [thunk];
+  const mockStore = configureStore(middleware);
+  const state = generateInitialState(initialState);
+  const store = mockStore(state);
+  return render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+  );
+};
+
 describe('MHV landing page', () => {
   describe('App Container', () => {
     afterEach(() => {
       global.window = oldWindow;
     });
+
     it('feature toggles are still loading -- should show loading indicator', () => {
-      const middleware = [thunk];
-      const mockStore = configureStore(middleware);
-      const initState = generateInitState({
-        loading: true,
-      });
-      const store = mockStore(initState);
-      const { container } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
+      const { container } = setup({ loading: true });
       expect(container.querySelector('va-loading-indicator ')).to.exist;
     });
+
     it('user is not loaded -- should loading indicator', () => {
-      const middleware = [thunk];
-      const mockStore = configureStore(middleware);
-      const initState = generateInitState({
-        loading: false,
+      const initialState = {
         profileLoading: true,
-      });
-      const store = mockStore(initState);
-      const { container } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
+      };
+      const { container } = setup(initialState);
       expect(container.querySelector('va-loading-indicator ')).to.exist;
     });
+
     it('user is authenticated, but feature is disabled -- should not show the landing page', () => {
-      const middleware = [thunk];
-      const mockStore = configureStore(middleware);
-      const initState = generateInitState({
-        loading: false,
+      const replace = sinon.spy();
+      global.window.location = { ...global.window.location, replace };
+      const { container } = setup({
         mhvLandingPageEnabled: false,
       });
-      const store = mockStore(initState);
-      const replace = sinon.spy();
-      global.window.location = { ...global.window.location, replace };
-      const { container } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
       expect(container.querySelector('h1')).to.not.exist;
       expect(replace.called).to.be.true;
     });
+
     it('user is authenticated with login gov and feature enabled -- should render landing page', () => {
-      const middleware = [thunk];
-      const mockStore = configureStore(middleware);
-      const initState = generateInitState({
-        loading: false,
-        mhvLandingPageEnabled: true,
+      const { container } = setup({
         serviceName: CSP_IDS.LOGIN_GOV,
       });
-      const store = mockStore(initState);
-      const { container } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
       expect(container.querySelector('h1')).to.exist;
       expect(container.querySelector('h1')).to.have.text('My HealtheVet');
     });
+
     it('user is authenticated with idme and feature enable -- should renders landing page', () => {
-      const middleware = [thunk];
-      const mockStore = configureStore(middleware);
-      const initState = generateInitState({
-        loading: false,
-        mhvLandingPageEnabled: true,
+      const { container } = setup({
         serviceName: CSP_IDS.ID_ME,
       });
-      const store = mockStore(initState);
-      const { container } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
       expect(container.querySelector('h1')).to.exist;
       expect(container.querySelector('h1')).to.have.text('My HealtheVet');
     });
+
     it('user is authenticated with MHV and feature enabled -- should not show the landing page', () => {
-      const middleware = [thunk];
-      const mockStore = configureStore(middleware);
-      const initState = generateInitState({
-        loading: false,
-        mhvLandingPageEnabled: true,
+      const replace = sinon.spy();
+      global.window.location = { ...global.window.location, replace };
+      const { container } = setup({
         serviceName: CSP_IDS.MHV,
       });
-      const store = mockStore(initState);
-      const replace = sinon.spy();
-      global.window.location = { ...global.window.location, replace };
-      const { container } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
       expect(container.querySelector('h1')).to.not.exist;
       expect(replace.called).to.be.true;
     });
+
     it('user is not authenticated and feature enabled -- should not show the landing page', () => {
-      const middleware = [thunk];
-      const mockStore = configureStore(middleware);
-      const initState = generateInitState({
-        loading: false,
-        mhvLandingPageEnabled: true,
+      const replace = sinon.spy();
+      global.window.location = { ...global.window.location, replace };
+      const { container } = setup({
         currentlyLoggedIn: false,
       });
-      const store = mockStore(initState);
-      const replace = sinon.spy();
-      global.window.location = { ...global.window.location, replace };
-      const { container } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
       expect(container.querySelector('h1')).to.not.exist;
       expect(replace.called).to.be.true;
     });
+
     it('user is a cerner patient and feature enabled -- should not show the landing page', () => {
-      const middleware = [thunk];
-      const mockStore = configureStore(middleware);
-      const initState = generateInitState({
-        loading: false,
-        mhvLandingPageEnabled: true,
+      const replace = sinon.spy();
+      global.window.location = { ...global.window.location, replace };
+      const { container } = setup({
         serviceName: CSP_IDS.MHV,
         isCerner: true,
       });
-      const store = mockStore(initState);
-      const replace = sinon.spy();
-      global.window.location = { ...global.window.location, replace };
-      const { container } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
       expect(container.querySelector('h1')).to.not.exist;
       expect(replace.called).to.be.true;
     });
+
     it('user is authenticated with feature enabled but has no facilities -- should not show the landing page', () => {
-      const middleware = [thunk];
-      const mockStore = configureStore(middleware);
-      const initState = generateInitState({
-        loading: false,
-        mhvLandingPageEnabled: true,
-        hasFacilities: false,
-      });
-      const store = mockStore(initState);
       const replace = sinon.spy();
       global.window.location = { ...global.window.location, replace };
-      const { container } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
+      const { container } = setup({
+        hasFacilities: false,
+      });
       expect(container.querySelector('h1')).to.not.exist;
       expect(replace.called).to.be.true;
     });
