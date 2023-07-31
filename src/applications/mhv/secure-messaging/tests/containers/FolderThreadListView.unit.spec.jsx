@@ -33,7 +33,7 @@ describe('Folder Thread List View container', () => {
     });
   });
 
-  it(`verifies page title tag for 'Sent messages' FolderThreadListView page`, async () => {
+  it(`verifies page title tag for 'Sent' FolderThreadListView page`, async () => {
     const initialState = {
       sm: {
         messageDetails: { message: messageResponse },
