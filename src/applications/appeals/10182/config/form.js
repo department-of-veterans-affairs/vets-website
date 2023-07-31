@@ -1,5 +1,4 @@
 import environment from 'platform/utilities/environment';
-import { focusElement } from 'platform/utilities/ui';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
@@ -50,17 +49,6 @@ import {
 
 import manifest from '../manifest.json';
 import hearingType from '../pages/hearingType';
-
-/**
- * add custom focus for the contact info mailing address edit page
- * fixes issue [#61243](https://github.com/department-of-veterans-affairs/va.gov-team/issues/61243)
- */
-const confirmContactInfoEditMailingAddress = {
-  ...contactInfo.confirmContactInfoEditMailingAddress,
-  scrollAndFocusTarget: () => {
-    focusElement('#main h3');
-  },
-};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -124,7 +112,7 @@ const formConfig = {
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
         },
-        ...{ ...contactInfo, confirmContactInfoEditMailingAddress },
+        ...contactInfo,
       },
     },
     conditions: {
