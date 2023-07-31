@@ -33,6 +33,7 @@ const DischargeType = ({
   const radioButtonProps = {
     name: key,
     label: 'Which of the following categories best describes you?',
+    'label-header-level': '2',
     key,
     value: formValues[key],
     onVaValueChange: e => {
@@ -45,7 +46,7 @@ const DischargeType = ({
   };
 
   return (
-    <div className="vads-u-margin-top--6">
+    <div className="vads-u-margin-top--6 converted-h4">
       <Element name={key} />
       <VaRadio {...radioButtonProps}>
         {options.map((option, index) => (

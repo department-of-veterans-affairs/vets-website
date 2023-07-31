@@ -50,22 +50,28 @@ const DischargeYearQuestion = ({
   );
 
   return (
-    <fieldset className="fieldset-input dischargeYear" key={key}>
-      <Element name={key} />
-      <VaSelect
-        autocomplete="false"
-        label="What year were you discharged from the military?"
-        name={key}
-        vaKeyDown={handleKeyDown}
-        value={{ value: dischargeYear }}
-        onVaSelect={update => {
-          updateField(key, update.detail.value);
-          scrollToLast();
-        }}
-      >
-        {yearOptions}
-      </VaSelect>
-    </fieldset>
+    <>
+      <legend>
+        <h2 className="converted-h4">
+          What year were you discharged from the military?
+        </h2>
+      </legend>
+      <fieldset className="fieldset-input dischargeYear" key={key}>
+        <Element name={key} />
+        <VaSelect
+          autocomplete="false"
+          name={key}
+          vaKeyDown={handleKeyDown}
+          value={{ value: dischargeYear }}
+          onVaSelect={update => {
+            updateField(key, update.detail.value);
+            scrollToLast();
+          }}
+        >
+          {yearOptions}
+        </VaSelect>
+      </fieldset>
+    </>
   );
 };
 

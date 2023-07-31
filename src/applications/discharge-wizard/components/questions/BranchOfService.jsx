@@ -35,6 +35,7 @@ const BranchOfServiceQuestion = ({
   const radioButtonProps = {
     name: key,
     label: 'In which branch of service did you serve?',
+    'label-header-level': '2',
     key,
     value: formValues[key],
     onVaValueChange: e => {
@@ -47,7 +48,7 @@ const BranchOfServiceQuestion = ({
   };
 
   return (
-    <div className="vads-u-margin-top--6">
+    <div className="vads-u-margin-top--6 converted-h4">
       <Element name={key} />
       <VaRadio {...radioButtonProps}>
         {options.map((option, index) => (

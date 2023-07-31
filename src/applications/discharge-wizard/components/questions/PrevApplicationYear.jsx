@@ -40,6 +40,7 @@ const PrevApplicationYear = ({
   const radioButtonProps = {
     name: key,
     label: 'What year did you apply for a discharge upgrade?',
+    'label-header-level': '2',
     key,
     value: formValues[key],
     onVaValueChange: e => {
@@ -52,7 +53,7 @@ const PrevApplicationYear = ({
   };
 
   return (
-    <div className="vads-u-margin-top--6">
+    <div className="vads-u-margin-top--6 converted-h4">
       <Element name={key} />
       <VaRadio {...radioButtonProps}>
         {options.map((option, index) => (

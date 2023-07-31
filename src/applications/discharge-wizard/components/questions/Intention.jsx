@@ -34,6 +34,7 @@ const Intention = ({
     name: key,
     label:
       'Do you want to change your name, discharge date, or anything written in the “other remarks” section of your DD214?',
+    'label-header-level': '2',
     key,
     value: formValues[key],
     onVaValueChange: e => {
@@ -46,7 +47,7 @@ const Intention = ({
   };
 
   return (
-    <div className="vads-u-margin-top--6">
+    <div className="vads-u-margin-top--6 converted-h4">
       <Element name={key} />
       <VaRadio {...radioButtonProps}>
         {options.map((option, index) => (

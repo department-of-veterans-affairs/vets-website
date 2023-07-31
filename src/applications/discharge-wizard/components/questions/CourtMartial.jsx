@@ -45,6 +45,7 @@ const CourtMartial = ({
   const radioButtonProps = {
     name: key,
     label: 'Was your discharge the outcome of a general court-martial?',
+    'label-header-level': '2',
     key,
     value: formValues[key],
     onVaValueChange: e => {
@@ -57,7 +58,7 @@ const CourtMartial = ({
   };
 
   return (
-    <div className="vads-u-margin-top--6">
+    <div className="vads-u-margin-top--6 converted-h4">
       <Element name={key} />
       <VaRadio {...radioButtonProps}>
         {options.map((option, index) => (
