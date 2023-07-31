@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+
 import {
   FETCH_ENROLLMENT_STATUS_BEGIN,
   FETCH_ENROLLMENT_STATUS_ERROR,
@@ -48,4 +50,10 @@ export const enrollmentStatusReducer = (state = initialState, action) => {
   }
 };
 
-export default enrollmentStatusReducer;
+const mhvLandingPageReducer = combineReducers({
+  enrollmentStatus: enrollmentStatusReducer,
+});
+
+export default {
+  mhvLandingPageReducer,
+};
