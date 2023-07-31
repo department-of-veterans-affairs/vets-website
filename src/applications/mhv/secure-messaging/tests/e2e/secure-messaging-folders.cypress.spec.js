@@ -20,6 +20,7 @@ describe(manifest.appName, () => {
     FolderLoadPage.getFolderHeader('Inbox');
     FolderLoadPage.verifyBackToMessagesButton();
   });
+<<<<<<< HEAD
 
   it('Check the Draft folder', () => {
     FolderLoadPage.loadDraftMessages();
@@ -28,6 +29,22 @@ describe(manifest.appName, () => {
       rules: {
         'aria-required-children': {
           enabled: false,
+=======
+  describe('Load Sent messages', () => {
+    before(() => {
+      site.login();
+      FolderLoadPage.loadInboxMessages();
+      FolderLoadPage.loadSentMessages();
+    });
+    it('Check the header', () => {
+      FolderLoadPage.getFolderHeader('Sent');
+      cy.injectAxe();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+>>>>>>> fa3d33237f ([MHV-45213] Changed 'Sent messages' to 'Sent')
         },
       },
     });
