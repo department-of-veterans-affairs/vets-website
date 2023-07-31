@@ -1,5 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+
 import get from '../../../../utilities/data/get';
 import { isReactComponent } from '../../../../utilities/ui';
 // import environment from 'platform/utilities/environment';
@@ -7,7 +9,6 @@ import { isReactComponent } from '../../../../utilities/ui';
 /*
  * This is the template for each field (which in the schema library means label + widget)
  */
-
 export default function FieldTemplate(props) {
   const {
     id,
@@ -30,15 +31,16 @@ export default function FieldTemplate(props) {
   ) : null;
   const label = uiSchema['ui:title'] || props.label || '';
   const isDateField = uiSchema['ui:widget'] === 'date';
-  const showFieldLabel =
-    uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
-  const useLabelElement = showFieldLabel === 'label';
+  const uiOptions = uiSchema['ui:options'] || {};
+
+  const { showFieldLabel } = uiOptions;
+  const useLabelElement =
+    showFieldLabel === 'label' || showFieldLabel === 'no-wrap';
 
   const description = uiSchema['ui:description'];
   const textDescription = typeof description === 'string' ? description : null;
-  const DescriptionField = isReactComponent(description)
-    ? uiSchema['ui:description']
-    : null;
+  const DescriptionField = isReactComponent(description) ? description : null;
+
   const isFieldGroup =
     isDateField ||
     uiSchema['ui:widget'] === 'yesNo' ||
@@ -88,25 +90,33 @@ export default function FieldTemplate(props) {
   const useFieldsetLegend =
     (isFieldGroup || !!showFieldLabel) && !useLabelElement;
 
-  const labelElement = useFieldsetLegend ? (
-    <legend id={`${id}-label`} className={labelClassNames}>
-      {label}
-      {requiredSpan}
-    </legend>
-  ) : (
-    <label id={`${id}-label`} className={labelClassNames} htmlFor={id}>
-      {label}
-      {requiredSpan}
+  let labelElement;
+  if (useFieldsetLegend) {
+    labelElement = (
+      <legend id={`${id}-label`} className={labelClassNames}>
+        {label}
+        {requiredSpan}
+      </legend>
+    );
+  } else {
+    labelElement =
+      showFieldLabel === 'no-wrap' ? (
+        label
+      ) : (
+        <label id={`${id}-label`} className={labelClassNames} htmlFor={id}>
+          {label}
+          {requiredSpan}
 
-      {/* Only show this error to screenreader users */}
-      {errorSpanSrOnly}
-    </label>
-  );
+          {/* Only show this error to screenreader users */}
+          {errorSpanSrOnly}
+        </label>
+      );
+  }
 
   // Don't render hidden or empty labels - prevents duplicate IDs on review &
   // submit page
   const showLabel =
-    !uiSchema['ui:options']?.hideLabelText &&
+    !uiOptions?.hideLabelText &&
     (typeof label !== 'string' || (requiredSpan || label.trim()));
 
   if (typeof WebComponentField === 'function') {
@@ -118,7 +128,7 @@ export default function FieldTemplate(props) {
         label={showLabel ? label : null}
         required={required}
         error={hasErrors ? rawErrors[0] : null}
-        uiOptions={uiSchema['ui:options']}
+        uiOptions={uiOptions}
         index={formContext?.pagePerItemIndex}
         childrenProps={children.props}
       />
@@ -131,7 +141,7 @@ export default function FieldTemplate(props) {
       {showLabel && labelElement}
       {DescriptionField && (
         <DescriptionField
-          options={uiSchema['ui:options']}
+          options={uiOptions}
           index={formContext?.pagePerItemIndex}
         />
       )}
@@ -150,3 +160,28 @@ export default function FieldTemplate(props) {
 
   return <div className={containerClassNames}>{content}</div>;
 }
+
+FieldTemplate.propTypes = {
+  children: PropTypes.element,
+  formContext: PropTypes.shape({
+    pagePerItemIndex: PropTypes.number,
+    submitted: PropTypes.bool,
+    touched: PropTypes.shape({}),
+  }),
+  help: PropTypes.element,
+  id: PropTypes.string,
+  label: PropTypes.any,
+  rawErrors: PropTypes.array,
+  readonly: PropTypes.bool,
+  required: PropTypes.bool,
+  schema: PropTypes.shape({
+    type: PropTypes.string,
+  }),
+  uiSchema: PropTypes.shape({
+    'ui:description': PropTypes.any,
+    'ui:title': PropTypes.any,
+    'ui:options': PropTypes.shape({}),
+    'ui:webComponentField': PropTypes.any,
+    'ui:widget': PropTypes.any,
+  }),
+};

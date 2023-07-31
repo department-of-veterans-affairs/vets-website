@@ -326,6 +326,35 @@ describe('Schemaform <FieldTemplate>', () => {
     expect(tree.subTree('label').text()).to.equal('Title');
     expect(tree.subTree('fieldset')).to.be.false;
   });
+  it('should not render fieldset or label wrapper if showFieldLabel is set to no-wrap', () => {
+    const schema = {
+      type: 'string',
+    };
+    const uiSchema = {
+      'ui:title': <h3>Title</h3>,
+      'ui:widget': 'radio',
+      'ui:options': {
+        showFieldLabel: 'no-wrap',
+      },
+    };
+    const formContext = {
+      touched: {},
+    };
+    const tree = SkinDeep.shallowRender(
+      <FieldTemplate
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        formContext={formContext}
+      >
+        <div className="field-child" />
+      </FieldTemplate>,
+    );
+
+    expect(tree.subTree('h3').text()).to.equal('Title');
+    expect(tree.subTree('label')).to.be.false;
+    expect(tree.subTree('fieldset')).to.be.false;
+  });
   it('should not render a label if no title provided', () => {
     const schema = {
       type: 'string',
