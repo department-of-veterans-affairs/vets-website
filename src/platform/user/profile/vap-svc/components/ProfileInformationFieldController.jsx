@@ -127,7 +127,8 @@ class ProfileInformationFieldController extends React.Component {
         if (forceEditView && typeof successCallback === 'function') {
           successCallback();
         }
-      } else {
+      } else if (!forceEditView) {
+        // forcesEditView will result in now standard edit button being rendered, so we don't want to focus on it
         // focusElement did not work here on iphone or safari, so using waitForRenderThenFocus
         waitForRenderThenFocus(`#${getEditButtonId(fieldName)}`, document, 50);
       }
