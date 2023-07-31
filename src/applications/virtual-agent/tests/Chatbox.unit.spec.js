@@ -18,7 +18,9 @@ import {
   mockMultipleApiRequests,
 } from 'platform/testing/unit/helpers';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
+
 import Chatbox from '../components/chatbox/Chatbox';
+
 import virtualAgentReducer from '../reducers/index';
 import StartConvoAndTrackUtterances from '../components/webchat/startConvoAndTrackUtterances';
 
@@ -1002,11 +1004,6 @@ describe('App', () => {
           expect(window.ReactDOM).to.eql(ReactDOM);
         });
       });
-    });
-  });
-  describe('voice is enabled for the RX skill', () => {
-    it('retrieves the speech token from the api', () => {
-      mockApiRequest();
     });
   });
 });
