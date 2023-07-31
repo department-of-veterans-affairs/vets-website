@@ -37,7 +37,10 @@ export default function FieldTemplate(props) {
   const useLabelElement =
     showFieldLabel === 'label' || showFieldLabel === 'no-wrap';
 
-  const description = uiSchema['ui:description'];
+  // The children may also include the description
+  const description = uiOptions?.hideDuplicateDescription
+    ? null
+    : uiSchema['ui:description'];
   const textDescription = typeof description === 'string' ? description : null;
   const DescriptionField = isReactComponent(description) ? description : null;
 

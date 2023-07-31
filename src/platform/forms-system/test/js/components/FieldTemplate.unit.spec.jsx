@@ -217,6 +217,35 @@ describe('Schemaform <FieldTemplate>', () => {
 
     expect(tree.text()).to.contain('Blah');
   });
+  it('should hide the description using ui:option', () => {
+    const schema = {
+      type: 'string',
+    };
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:description': <div>Blah</div>,
+      'ui:options': {
+        hideDuplicateDescription: true,
+      },
+    };
+    const formContext = {
+      touched: {},
+    };
+    const errors = ['Some error'];
+    const tree = SkinDeep.shallowRender(
+      <FieldTemplate
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        rawErrors={errors}
+        formContext={formContext}
+      >
+        <div className="field-child" />
+      </FieldTemplate>,
+    );
+
+    expect(tree.text()).to.not.contain('Blah');
+  });
   it('should render description component', () => {
     const schema = {
       type: 'string',
