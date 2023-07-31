@@ -29,11 +29,14 @@ describe('fsr transform helper functions', () => {
   describe('getFsrReason helper', () => {
     it('should return string of unique fsr reasons comma separated', () => {
       const debts = [
-        { resolution: { resolutionType: 'Resolution 1' } },
-        { resolution: { resolutionType: 'Resolution 1' } },
-        { resolution: { resolutionType: 'Resolution 3' } },
+        { resolutionOption: 'monthly' },
+        { resolutionOption: 'monthly' },
+        { resolutionOption: 'waiver' },
+        { resolutionOption: 'compromise' },
       ];
-      expect(getFsrReason(debts)).to.equal('Resolution 1, Resolution 3');
+      expect(getFsrReason(debts)).to.equal(
+        'Extended monthly payments, Waiver, Compromise',
+      );
     });
   });
 
@@ -767,7 +770,7 @@ describe('fsr transform information', () => {
       ).to.equal('12394.41');
       expect(
         submissionObj.discretionaryIncome.amountCanBePaidTowardDebt,
-      ).to.equal('800.97');
+      ).to.equal('61.02');
     });
   });
   describe('assets', () => {
@@ -795,7 +798,7 @@ describe('fsr transform information', () => {
       expect(submissionObj.assets.usSavingsBonds).to.equal('25000.65');
       expect(submissionObj.assets.stocksAndOtherBonds).to.equal('50000.84');
       expect(submissionObj.assets.realEstateOwned).to.equal('800000.81');
-      expect(submissionObj.assets.totalAssets).to.equal('1099005.78');
+      expect(submissionObj.assets.totalAssets).to.equal('1084005.55');
     });
     describe('automobiles', () => {
       it('has valid structure', () => {
