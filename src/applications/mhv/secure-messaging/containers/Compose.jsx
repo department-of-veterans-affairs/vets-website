@@ -10,6 +10,7 @@ import InterstitialPage from './InterstitialPage';
 import { closeAlert } from '../actions/alerts';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { PageTitles, Paths } from '../util/constants';
+import { getPatientSignature } from '../actions/preferences';
 
 const Compose = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const Compose = () => {
   useEffect(
     () => {
       dispatch(getTriageTeams());
+      dispatch(getPatientSignature());
 
       if (location.pathname === Paths.COMPOSE) {
         dispatch(clearDraft());

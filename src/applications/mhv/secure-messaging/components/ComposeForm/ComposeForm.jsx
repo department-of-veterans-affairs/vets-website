@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -14,7 +14,7 @@ import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 import DeleteDraft from '../Draft/DeleteDraft';
-import { sortRecipients } from '../../util/helpers';
+import { messageSignatureFormatter, sortRecipients } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
@@ -60,6 +60,7 @@ const ComposeForm = props => {
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const fullState = useSelector(state => state);
+  const signature = useSelector(state => state.sm.preferences.signature);
 
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
@@ -75,6 +76,13 @@ const ComposeForm = props => {
     TEST_RESULTS,
     EDUCATION,
   } = Categories;
+
+  const formattededSignature = useMemo(
+    () => {
+      return messageSignatureFormatter(signature);
+    },
+    [signature],
+  );
 
   const setUnsavedNavigationError = typeOfError => {
     if (typeOfError === 'attachment') {
@@ -478,7 +486,7 @@ const ComposeForm = props => {
               className="message-body"
               data-testid="message-body-field"
               onInput={messageBodyHandler}
-              value={messageBody}
+              value={messageBody || formattededSignature} // populate with the signature, unless theee is a saved draft
               error={bodyError}
               data-dd-privacy="mask"
             />
