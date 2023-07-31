@@ -10,11 +10,6 @@ const HeaderLayout = () => {
             Welcome to My HealtheVet on VA.gov&mdash;where you can manage your
             VA health care and your health.
           </p>
-          <p>
-            <a href="/resources/my-healthevet-on-vagov-what-to-know">
-              Learn more about My HealtheVet on VA.gov
-            </a>
-          </p>
         </div>
       </div>
       <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--6">

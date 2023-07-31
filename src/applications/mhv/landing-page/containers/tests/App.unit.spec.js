@@ -4,6 +4,7 @@ import { expect } from 'chai';
 
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import sinon from 'sinon';
@@ -65,7 +66,7 @@ describe('MHV landing page', () => {
       global.window = oldWindow;
     });
     it('feature toggles are still loading -- should show loading indicator', () => {
-      const middleware = [];
+      const middleware = [thunk];
       const mockStore = configureStore(middleware);
       const initState = generateInitState({
         loading: true,
@@ -79,7 +80,7 @@ describe('MHV landing page', () => {
       expect(container.querySelector('va-loading-indicator ')).to.exist;
     });
     it('user is not loaded -- should loading indicator', () => {
-      const middleware = [];
+      const middleware = [thunk];
       const mockStore = configureStore(middleware);
       const initState = generateInitState({
         loading: false,
@@ -94,7 +95,7 @@ describe('MHV landing page', () => {
       expect(container.querySelector('va-loading-indicator ')).to.exist;
     });
     it('user is authenticated, but feature is disabled -- should not show the landing page', () => {
-      const middleware = [];
+      const middleware = [thunk];
       const mockStore = configureStore(middleware);
       const initState = generateInitState({
         loading: false,
@@ -112,7 +113,7 @@ describe('MHV landing page', () => {
       expect(replace.called).to.be.true;
     });
     it('user is authenticated with login gov and feature enabled -- should render landing page', () => {
-      const middleware = [];
+      const middleware = [thunk];
       const mockStore = configureStore(middleware);
       const initState = generateInitState({
         loading: false,
@@ -129,7 +130,7 @@ describe('MHV landing page', () => {
       expect(container.querySelector('h1')).to.have.text('My HealtheVet');
     });
     it('user is authenticated with idme and feature enable -- should renders landing page', () => {
-      const middleware = [];
+      const middleware = [thunk];
       const mockStore = configureStore(middleware);
       const initState = generateInitState({
         loading: false,
@@ -146,7 +147,7 @@ describe('MHV landing page', () => {
       expect(container.querySelector('h1')).to.have.text('My HealtheVet');
     });
     it('user is authenticated with MHV and feature enabled -- should not show the landing page', () => {
-      const middleware = [];
+      const middleware = [thunk];
       const mockStore = configureStore(middleware);
       const initState = generateInitState({
         loading: false,
@@ -165,7 +166,7 @@ describe('MHV landing page', () => {
       expect(replace.called).to.be.true;
     });
     it('user is not authenticated and feature enabled -- should not show the landing page', () => {
-      const middleware = [];
+      const middleware = [thunk];
       const mockStore = configureStore(middleware);
       const initState = generateInitState({
         loading: false,
@@ -184,7 +185,7 @@ describe('MHV landing page', () => {
       expect(replace.called).to.be.true;
     });
     it('user is a cerner patient and feature enabled -- should not show the landing page', () => {
-      const middleware = [];
+      const middleware = [thunk];
       const mockStore = configureStore(middleware);
       const initState = generateInitState({
         loading: false,
@@ -204,7 +205,7 @@ describe('MHV landing page', () => {
       expect(replace.called).to.be.true;
     });
     it('user is authenticated with feature enabled but has no facilities -- should not show the landing page', () => {
-      const middleware = [];
+      const middleware = [thunk];
       const mockStore = configureStore(middleware);
       const initState = generateInitState({
         loading: false,
