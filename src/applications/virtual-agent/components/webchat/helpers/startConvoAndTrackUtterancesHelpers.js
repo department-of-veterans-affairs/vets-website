@@ -104,11 +104,9 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   const dataorEmpty = payload.activity || {};
   const text = dataorEmpty.text || '';
   const rxSkillWasTriggered = text.includes(
-    'Which login service provider do you',
+    'You can request refills, list active prescriptions, or track shipments.',
   );
-  const rxSkillWasExited = text.includes(
-    'Would you like to ask another question?',
-  );
+  const rxSkillWasExited = text.includes('Returning to the main chatbot...');
 
   if (rxSkillWasTriggered) {
     setSessionStorageAsString(IS_RX_SKILL, true);

@@ -254,7 +254,8 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
       const activity = {
         type: 'message',
-        text: 'Welcome to the RX Skill',
+        text:
+          'You can request refills, list active prescriptions, or track shipments.',
         from: { role: 'bot' },
       };
       const rxActivity = {
@@ -283,7 +284,7 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
       const activity = {
         type: 'message',
-        text: 'active prescription ready for refill.',
+        text: 'Returning to the main chatbot...',
         from: { role: 'bot' },
       };
       const rxActivity = {
