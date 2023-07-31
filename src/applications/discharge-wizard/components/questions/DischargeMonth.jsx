@@ -39,26 +39,22 @@ const DischargeMonthQuestion = ({
     return null;
   }
   return (
-    <>
-      <legend>
-        <h2 className="converted-h4">What month were you discharged?</h2>
-      </legend>
-      <fieldset className="fieldset-input dischargeMonth" key={key}>
-        <Element name={key} />
-        <VaSelect
-          autocomplete="false"
-          name={key}
-          vaKeyDown={handleKeyDown}
-          value={{ value: formValues[key] }}
-          onVaSelect={update => {
-            updateField(key, update.detail.value);
-            scrollToLast();
-          }}
-        >
-          {monthOptions}
-        </VaSelect>
-      </fieldset>
-    </>
+    <fieldset className="fieldset-input dischargeMonth" key={key}>
+      <Element name={key} />
+      <VaSelect
+        autocomplete="false"
+        label="What month were you discharged?"
+        name={key}
+        vaKeyDown={handleKeyDown}
+        value={{ value: formValues[key] }}
+        onVaSelect={update => {
+          updateField(key, update.detail.value);
+          scrollToLast();
+        }}
+      >
+        {monthOptions}
+      </VaSelect>
+    </fieldset>
   );
 };
 
