@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import checkEmptyFormData from '../../../src/js/utilities/data/checkEmptyFormData';
+import getFormDataFromSchemaId from '../../../src/js/utilities/data/getFormDataFromSchemaId';
 
-describe('checkEmptyFormData tests', () => {
+describe('getFormDataFromSchemaId tests', () => {
   it('finds the correct formData for given schemaId', async () => {
     const formData = {
       fullName: {
@@ -9,20 +9,11 @@ describe('checkEmptyFormData tests', () => {
       },
     };
 
-    let { isEmpty, hasProperty } = checkEmptyFormData(
-      'root_fullName',
-      formData,
-    );
-    expect(isEmpty).to.be.false;
-    expect(hasProperty).to.be.true;
+    let data = getFormDataFromSchemaId('root_fullName', formData);
+    expect(data).to.be.an('object');
 
-    ({ isEmpty, hasProperty } = checkEmptyFormData(
-      'root_fullName_first',
-      formData,
-    ));
-
-    expect(isEmpty).to.be.false;
-    expect(hasProperty).to.be.true;
+    data = getFormDataFromSchemaId('root_fullName_first', formData);
+    expect(data).to.eq('John');
   });
 
   it('cannot find an field that is not in the formData', async () => {
@@ -32,13 +23,11 @@ describe('checkEmptyFormData tests', () => {
       },
     };
 
-    let { isEmpty, hasProperty } = checkEmptyFormData('root_apple', formData);
-    expect(isEmpty).to.be.true;
-    expect(hasProperty).to.be.false;
+    let data = getFormDataFromSchemaId('root_apple', formData);
+    expect(data).to.be.undefined;
 
-    ({ isEmpty, hasProperty } = checkEmptyFormData('root_first', formData));
-    expect(isEmpty).to.be.true;
-    expect(hasProperty).to.be.false;
+    data = getFormDataFromSchemaId('root_first', formData);
+    expect(data).to.be.undefined;
   });
 
   it('"root" just refers to the formData, but there is no property "root"', async () => {
@@ -48,9 +37,8 @@ describe('checkEmptyFormData tests', () => {
       },
     };
 
-    const { isEmpty, hasProperty } = checkEmptyFormData('root', formData);
-    expect(isEmpty).to.be.false;
-    expect(hasProperty).to.be.false;
+    const data = getFormDataFromSchemaId('root', formData);
+    expect(data).to.be.an('object');
   });
 
   it('should find data in arrays', async () => {
@@ -69,32 +57,25 @@ describe('checkEmptyFormData tests', () => {
       ],
     };
 
-    let { isEmpty, hasProperty } = checkEmptyFormData(
+    let data = getFormDataFromSchemaId(
       'root_arrayExample_0_facilityName',
       formData,
     );
-    expect(isEmpty).to.be.false;
-    expect(hasProperty).to.be.true;
+    expect(data).to.be.eq('facilities_1');
 
-    ({ isEmpty, hasProperty } = checkEmptyFormData(
-      'root_arrayExample_0',
-      formData,
-    ));
-    expect(isEmpty).to.be.false;
-    expect(hasProperty).to.be.true;
+    data = getFormDataFromSchemaId('root_arrayExample_0', formData);
+    expect(data).to.be.an('object');
   });
 
   it('should not find data with empty form data', async () => {
     let formData = null;
 
-    let { isEmpty, hasProperty } = checkEmptyFormData('root', formData);
-    expect(isEmpty).to.be.true;
-    expect(hasProperty).to.be.false;
+    let data = getFormDataFromSchemaId('root', formData);
+    expect(data).to.be.undefined;
 
     formData = {};
 
-    ({ isEmpty, hasProperty } = checkEmptyFormData('root', formData));
-    expect(isEmpty).to.be.false;
-    expect(hasProperty).to.be.false;
+    data = getFormDataFromSchemaId('root', formData);
+    expect(data).to.be.an('object');
   });
 });

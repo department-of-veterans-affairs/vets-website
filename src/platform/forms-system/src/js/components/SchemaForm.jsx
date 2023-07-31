@@ -18,7 +18,7 @@ import BasicArrayField from '../fields/BasicArrayField';
 import TitleField from '../fields/TitleField';
 import ReviewObjectField from '../review/ObjectField';
 import { scrollToFirstError } from '../utilities/ui';
-import checkEmptyFormData from '../utilities/data/checkEmptyFormData';
+import getFormDataFromSchemaId from '../utilities/data/getFormDataFromSchemaId';
 
 /*
  * Each page uses this component and passes in config. This is where most of the page level
@@ -102,15 +102,17 @@ class SchemaForm extends React.Component {
   }
 
   onBlur(id) {
-    const { isEmpty, hasProperty } = checkEmptyFormData(id, this.props.data);
+    if (!this.state.formContext.touched[id]) {
+      const data = getFormDataFromSchemaId(id, this.props.data);
+      const isEmpty = data === undefined || data === null || data === '';
 
-    // - Only set touched if the field is not empty ('', null, undefined)
-    //   because we don't want to show errors as the user tabs through fields
-    // - If the property isn't found on formData for some reason, for example
-    //   id = 'root', then favor legacy logic to go ahead and set touched
-    if (!this.state.formContext.touched[id] && (!isEmpty || !hasProperty)) {
-      const formContext = set(['touched', id], true, this.state.formContext);
-      this.setState({ formContext });
+      // - Only set touched if the field is not empty ('', null, undefined)
+      //   because we don't want to show errors as the user tabs through fields
+      // - 'root' does not have a corresponding formData so set touched to true (legacy behavior)
+      if (id === 'root' || !isEmpty) {
+        const formContext = set(['touched', id], true, this.state.formContext);
+        this.setState({ formContext });
+      }
     }
   }
 
