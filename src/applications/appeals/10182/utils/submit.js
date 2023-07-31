@@ -70,7 +70,7 @@ import { replaceSubmittedData, fixDateFormat } from './replace';
  * @prop {ContestableIssues} - Array of both eligible & ineligible contestable
  *  issues
  */
-export const getEligibleContestableIssues = issues => {
+export const getEligibleContestableIssues = (issues, { showPart3 } = {}) => {
   const today = moment().startOf('day');
   return (issues || []).filter(issue => {
     const {
@@ -86,7 +86,7 @@ export const getEligibleContestableIssues = issues => {
     if (isDeferred || !date.isValid() || !ratingIssueSubjectText) {
       return false;
     }
-    return date.add(1, 'years').isAfter(today);
+    return showPart3 || date.add(1, 'years').isAfter(today);
   });
 };
 

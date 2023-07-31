@@ -38,13 +38,6 @@
   },
   "veteranSocialSecurityNumber": "111223333",
   "veteranDateOfBirth": "1980-01-01",
-  "secondaryContact": {
-    "view:address": {
-      "address": {
-        "country": "USA"
-      }
-    }
-  },
   "serviceBefore1977": {},
   "bankAccount": {}
 }
