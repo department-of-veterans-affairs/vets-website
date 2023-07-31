@@ -1,7 +1,6 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
 
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
@@ -16,14 +15,7 @@ import { routesForNav } from '../../routesForNav';
 import { EditFallbackContent } from './EditFallbackContent';
 import { EditContext } from './EditContext';
 import { EditConfirmCancelModal } from './EditConfirmCancelModal';
-
-const DivWithBackIcon = styled.div`
-  &:before {
-    content: ' ‹ ';
-    display: inline-block;
-    padding: 0px 0.35em;
-  }
-`;
+import { EditBreadcrumb } from './EditBreadcrumb';
 
 const useQuery = () => {
   const { search } = useLocation();
@@ -143,43 +135,49 @@ export const Edit = () => {
       <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseFieldEditingPage}>
         <Toggler.Enabled>
           {/* this modal is triggered by breadcrumb being clicked with unsaved edits */}
-          <EditConfirmCancelModal
-            isVisible={showConfirmCancelModal}
-            activeSection={fieldInfo.fieldName.toLowerCase()}
-            onHide={() => setShowConfirmCancelModal(false)}
-          />
 
           {fieldInfo && !hasVAPServiceError ? (
-            <div
-              className="vads-u-display--block medium-screen:vads-u-display--block"
-              id="profile-edit-field-page"
-            >
-              <DivWithBackIcon className="vads-u-margin-top--2 vads-u-margin-bottom--3">
-                <a onClick={handlers.breadCrumbClick} href={returnPath}>
+            <>
+              <EditConfirmCancelModal
+                isVisible={showConfirmCancelModal}
+                activeSection={fieldInfo.fieldName.toLowerCase()}
+                onHide={() => setShowConfirmCancelModal(false)}
+              />
+              <div
+                className="vads-u-display--block medium-screen:vads-u-display--block"
+                id="profile-edit-field-page"
+              >
+                <EditBreadcrumb
+                  className="vads-u-margin-top--2 vads-u-margin-bottom--3"
+                  onClickHandler={handlers.breadCrumbClick}
+                  href={returnPath}
+                >
                   Back to {returnPathName}
-                </a>
-              </DivWithBackIcon>
+                </EditBreadcrumb>
 
-              <p className="vads-u-margin-bottom--0p5">NOTIFICATION SETTINGS</p>
+                <p className="vads-u-margin-bottom--0p5">
+                  NOTIFICATION SETTINGS
+                </p>
 
-              <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
-                {`Add or update your ${fieldInfo.title.toLowerCase()}`}
-              </h1>
+                <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
+                  {`Add or update your ${fieldInfo.title.toLowerCase()}`}
+                </h1>
 
-              <InitializeVAPServiceIDContainer>
-                {/* the EditConfirmCancelModal is passed here as props to allow a custom modal to be used
+                <InitializeVAPServiceIDContainer>
+                  {/* the EditConfirmCancelModal is passed here as props to allow a custom modal to be used
                 for when the user clicks 'cancel' on the form with unsaved edits */}
-                <ProfileInformationFieldController
-                  fieldName={fieldInfo.fieldName}
-                  forceEditView
-                  isDeleteDisabled
-                  saveButtonText="Save to profile"
-                  successCallback={handlers.success}
-                  cancelCallback={handlers.cancel}
-                  CustomConfirmCancelModal={EditConfirmCancelModal}
-                />
-              </InitializeVAPServiceIDContainer>
-            </div>
+                  <ProfileInformationFieldController
+                    fieldName={fieldInfo.fieldName}
+                    forceEditView
+                    isDeleteDisabled
+                    saveButtonText="Save to profile"
+                    successCallback={handlers.success}
+                    cancelCallback={handlers.cancel}
+                    CustomConfirmCancelModal={EditConfirmCancelModal}
+                  />
+                </InitializeVAPServiceIDContainer>
+              </div>
+            </>
           ) : (
             <EditFallbackContent />
           )}
