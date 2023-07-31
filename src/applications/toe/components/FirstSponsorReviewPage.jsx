@@ -1,25 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-
-import { getAppData } from '../selectors';
 import {
   IM_NOT_SURE_LABEL,
   IM_NOT_SURE_VALUE,
   SPONSOR_NOT_LISTED_VALUE,
 } from '../constants';
 
-function FirstSponsorReviewPage({
-  data,
-  editPage,
-  title,
-  showMebEnhancements08,
-}) {
+function FirstSponsorReviewPage({ data, editPage, title }) {
   let firstSponsorName;
-  if (
-    !showMebEnhancements08 &&
-    data.firstSponsor === SPONSOR_NOT_LISTED_VALUE
-  ) {
+  if (data.firstSponsor === SPONSOR_NOT_LISTED_VALUE) {
     firstSponsorName = [
       'Sponsor that I’ve added:',
       data.sponsorFullName.first,
@@ -65,34 +54,9 @@ function FirstSponsorReviewPage({
   );
 }
 
-FirstSponsorReviewPage.propTypes = {
-  data: PropTypes.shape({
-    firstSponsor: PropTypes.string,
-    sponsorFullName: PropTypes.shape({
-      first: PropTypes.string,
-      middle: PropTypes.string,
-      last: PropTypes.string,
-      suffix: PropTypes.string,
-    }),
-    sponsors: PropTypes.shape({
-      sponsors: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.string,
-          name: PropTypes.string,
-        }),
-      ),
-    }),
-  }),
-  editPage: PropTypes.func,
-  showMebEnhancements08: PropTypes.bool,
-  title: PropTypes.string,
-};
-
 const mapStateToProps = state => ({
   firstSponsor: state.form?.data?.firstSponsor,
-  sponsors: state.form?.data?.sponsors,
-  ...getAppData(state),
-  showMebEnhancements08: state.form?.data?.showMebEnhancements08,
+  sponsors: state.form.data.sponsors,
 });
 
 export default connect(mapStateToProps)(FirstSponsorReviewPage);

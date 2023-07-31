@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import PropTypes from 'prop-types';
 
 import { setData } from 'platform/forms-system/src/js/actions';
-import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import { getAppData } from '../selectors';
+import CheckboxGroup from '@department-of-veterans-affairs/component-library/CheckboxGroup';
 
 import {
   mapFormSponsors,
@@ -22,19 +19,15 @@ function SponsorCheckboxGroup({
   formData,
   loadingMessage = 'Loading your sponsors...',
   setFormData,
-  showMebEnhancements08,
   sponsors,
 }) {
   const [dirty, setDirty] = useState(false);
 
-  const onValueChange = event => {
-    const {
-      target: { id, checked },
-    } = event;
+  const onValueChange = ({ value }, checked) => {
     const _sponsors = updateSponsorsOnValueChange(
       sponsors,
       firstSponsor,
-      id,
+      value,
       checked,
     );
 
@@ -49,45 +42,36 @@ function SponsorCheckboxGroup({
     return <></>;
   }
 
-  const { anySelectedOptions, options } = mapSponsorsToCheckboxOptions(
+  const { anySelectedOptions, options, values } = mapSponsorsToCheckboxOptions(
     sponsors,
-    showMebEnhancements08,
   );
 
   return (
-    <VaCheckboxGroup
-      label="Which sponsor's benefits would you like to use?"
-      hint="Select all sponsors whose benefits you would like to apply for."
-      onVaChange={onValueChange}
-      required
-      error={
-        !anySelectedOptions && (dirty || formContext.submitted)
-          ? errorMessage
-          : ''
+    <CheckboxGroup
+      additionalFieldsetClass="vads-u-margin-top--0"
+      additionalLegendClass="toe-sponsors_legend vads-u-margin-top--0"
+      errorMessage={
+        !anySelectedOptions && (dirty || formContext?.submitted) && errorMessage
       }
-    >
-      {options.map(({ label, value, selected }) => (
-        <va-checkbox id={value} key={label} label={label} checked={selected} />
-      ))}
-    </VaCheckboxGroup>
+      label={
+        // I'm getting conflicting linting issues here.
+        // eslint-disable-next-line react/jsx-wrap-multilines
+        <>
+          <span className="toe-sponsors-labels_label--main">
+            Which sponsor's benefits would you like to use?
+          </span>
+          <span className="toe-sponsors-labels_label--secondary">
+            Select all sponsors whose benefits you would like to apply for
+          </span>
+        </>
+      }
+      onValueChange={onValueChange}
+      options={options}
+      required
+      values={values}
+    />
   );
 }
-
-SponsorCheckboxGroup.propTypes = {
-  errorMessage: PropTypes.string,
-  fetchedSponsorsComplete: PropTypes.bool,
-  firstSponsor: PropTypes.object,
-  formContext: PropTypes.object,
-  formData: PropTypes.object,
-  loadingMessage: PropTypes.string,
-  setFormData: PropTypes.func.isRequired,
-  showMebEnhancements08: PropTypes.bool.isRequired,
-  sponsors: PropTypes.object,
-};
-SponsorCheckboxGroup.defaultProps = {
-  errorMessage: 'Please select at least one sponsor',
-  loadingMessage: 'Loading your sponsors...',
-};
 
 const mapStateToProps = state => ({
   fetchedSponsors: state.data?.fetchedSponsors,
@@ -96,7 +80,6 @@ const mapStateToProps = state => ({
   formData: state.form?.data || {},
   sponsors: state.form?.data?.sponsors,
   sponsorsSavedState: state.form.loadedData?.formData?.sponsors,
-  ...getAppData(state),
 });
 
 const mapDispatchToProps = {
