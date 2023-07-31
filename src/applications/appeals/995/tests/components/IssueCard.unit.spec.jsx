@@ -42,6 +42,7 @@ describe('<IssueCard>', () => {
     expect($('h4', container)).to.exist;
     expect($('input[type="checkbox"]', container)).to.exist;
     expect($('.widget-title', container).textContent).to.eq('issue-10');
+    expect($('.widget-title.dd-privacy-hidden', container)).to.exist;
     expect($('.widget-content', container).textContent).to.contain('blah');
     expect($('.widget-content', container).textContent).to.contain(
       'Current rating: 10%',
