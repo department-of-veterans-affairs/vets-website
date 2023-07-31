@@ -2,6 +2,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import requiredHelpers from './utils/cypress-required-field-helpers';
 import testData from './schema/minimal-test.json';
 import cemeteries from './fixtures/mocks/cemeteries.json';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
 
 describe('Pre-need form VA 40-10007 Required Fields', () => {
   it('fills the form triggering validation on required fields', () => {
@@ -23,6 +24,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       },
     });
     cy.intercept('GET', '/v0/preneeds/cemeteries', cemeteries);
+    cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
 
     cy.visit(
       '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility',
@@ -49,9 +51,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       .find('.progress-bar-segmented div.progress-segment:nth-child(1)')
       .should('have.class', 'progress-segment-complete');
 
-    cy.get('.form-panel .usa-button-primary').click();
-
-    requiredHelpers.errorMap(requiredHelpers.applicantInfoErrors);
+    requiredHelpers.errorCheck(requiredHelpers.applicantInfoErrors);
 
     cy.fill(
       'input[name=root_application_claimant_name_first]',
@@ -85,9 +85,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       .find('.progress-bar-segmented div.progress-segment:nth-child(2)')
       .should('have.class', 'progress-segment-complete');
 
-    cy.get('.form-panel .usa-button-primary').click();
-
-    requiredHelpers.errorMap(requiredHelpers.veteranInfoErrors);
+    requiredHelpers.errorCheck(requiredHelpers.veteranInfoErrors);
 
     cy.fill(
       'input[name=root_application_veteran_currentName_first]',
@@ -125,6 +123,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     cy.url().should('not.contain', '/veteran-information');
 
     // Military History
+    requiredHelpers.errorCheck(requiredHelpers.militaryHistoryErrors);
 
     cy.get(
       `input[name="root_application_veteran_serviceRecords_0_serviceBranch"]`,
@@ -156,8 +155,14 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     cy.url().should('not.contain', '/sponsor-military-history');
 
     // Previous Names page
+    requiredHelpers.errorCheck(requiredHelpers.previousNameErrors1);
+
     cy.get('label[for$="hasServiceNameYes"]').should('be.visible');
     cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
+    cy.get('.form-panel .usa-button-primary').click();
+
+    requiredHelpers.errorCheck(requiredHelpers.previousNameErrors2);
+
     cy.fill(
       'input[name=root_application_veteran_serviceName_first]',
       testData.data.application.veteran.serviceName.first,
@@ -171,13 +176,19 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     cy.get('.form-panel .usa-button-primary').click();
     cy.url().should('not.contain', '/sponsor-military-name');
 
-    // Benefit Selection page
+    // Benefit Selection page 1
+    requiredHelpers.errorCheck(requiredHelpers.burialBenefitsErrors1);
+
     cy.selectRadio(
       'root_application_hasCurrentlyBuried',
       testData.data.application.hasCurrentlyBuried,
     );
     cy.axeCheck();
     cy.get('.form-panel .usa-button-primary').click();
+
+    // Benefit Selection page 2
+    requiredHelpers.errorCheck(requiredHelpers.burialBenefitsErrors2);
+
     cy.fill(
       'input[name=root_application_currentlyBuriedPersons_0_name_first]',
       testData.data.application.currentlyBuriedPersons.name.first,
@@ -200,6 +211,9 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       .shadow()
       .find('.progress-bar-segmented div.progress-segment:nth-child(6)')
       .should('have.class', 'progress-segment-complete');
+
+    requiredHelpers.errorCheck(requiredHelpers.applicantContactInfoErrors);
+
     cy.fillAddress(
       'root_application_claimant_address',
       testData.data.application.claimant.address,
@@ -216,6 +230,8 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     // Veteran Contact Information page
     cy.axeCheck();
     cy.get('.form-panel .usa-button-primary').click();
+
+    // Preparer information
     cy.url().should('not.contain', '/sponsor-mailing-address');
 
     cy.get(
@@ -225,6 +241,9 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       .shadow()
       .find('.progress-bar-segmented div.progress-segment:nth-child(6)')
       .should('have.class', 'progress-segment-complete');
+
+    requiredHelpers.errorCheck(requiredHelpers.preparerInfoErrors1);
+
     cy.selectRadio(
       'root_application_applicant_applicantRelationshipToClaimant',
       testData.data.application.applicant.applicantRelationshipToClaimant,
@@ -233,9 +252,15 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       testData.data.application.applicant.applicantRelationshipToClaimant ===
       'Authorized Agent/Rep'
     ) {
-      cy.fillName(
-        'root_application_applicant_view:applicantInfo_name',
-        testData.data.application.applicant['view:applicantInfo'].name,
+      requiredHelpers.errorCheck(requiredHelpers.preparerInfoErrors2);
+
+      cy.fill(
+        'input[name$="root_application_applicant_view:applicantInfo_name_first"]',
+        testData.data.application.applicant.name.first,
+      );
+      cy.fill(
+        'input[name$="root_application_applicant_view:applicantInfo_name_last"]',
+        testData.data.application.applicant.name.last,
       );
       cy.fillAddress(
         'root_application_applicant_view\\:applicantInfo_mailingAddress',
@@ -243,15 +268,17 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
           .mailingAddress,
       );
       cy.fill(
-        'input[name$="applicantPhoneNumber"]',
-        testData.data.application.applicant['view:applicantInfo'][
-          'view:contactInfo'
-        ].applicantPhoneNumber,
+        'input[name$="root_application_applicant_view:applicantInfo_view:contactInfo_applicantPhoneNumber"]',
+        testData.data.application.applicant.phoneNumber,
       );
 
       cy.axeCheck();
       cy.get('.form-panel .usa-button-primary').click();
       cy.url().should('not.contain', '/preparer');
+
+      // Review/Submit page
+      cy.get('.form-progress-buttons .usa-button-primary').click();
+      cy.get('#error-message').should('be.visible');
 
       cy.get('[name="privacyAgreementAccepted"]')
         .find('label[for="checkbox-element"]')

@@ -2,7 +2,22 @@
   "data": {
     "application": {
       "applicant": {
-        "applicantRelationshipToClaimant": "Self"
+        "applicantRelationshipToClaimant": "Authorized Agent/Rep",
+        "name": {
+          "first": "Jeff",
+          "last": "Graham"
+        },
+        "view:applicantInfo": {
+          "mailingAddress": {
+            "street": "11 small sea st",
+            "street2": "Apt B",
+            "city": "Charleston",
+            "country": "USA",
+            "state": "WV",
+            "postalCode": "25301"
+          }
+        },
+        "phoneNumber": "5554445555"
       },
       "claimant": {
         "address": {

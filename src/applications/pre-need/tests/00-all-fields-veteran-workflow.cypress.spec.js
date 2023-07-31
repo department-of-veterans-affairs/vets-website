@@ -1,6 +1,7 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 import testData from './schema/maximal-test.json';
 import cemeteries from './fixtures/mocks/cemeteries.json';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
 
 describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
   it('fills the form and navigates accordingly', () => {
@@ -22,6 +23,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       },
     });
     cy.intercept('GET', '/v0/preneeds/cemeteries', cemeteries);
+    cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
 
     cy.visit(
       '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility',
