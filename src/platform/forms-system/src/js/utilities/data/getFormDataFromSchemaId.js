@@ -3,7 +3,7 @@ import get from 'lodash/get';
 /**
  * @param {string} schemaId e.g. `'root_fullName_first'`
  * @param {Object | undefined} formData
- * @returns {{ isEmpty: boolean, hasProperty: boolean }}
+ * @returns corresponding value in formData (deeply nested)
  */
 export default function getFormDataFromSchemaId(schemaId, formData) {
   if (!schemaId || !formData) {
