@@ -315,27 +315,24 @@ export function updateSponsorsOnValueChange(
   return _sponsors;
 }
 
-export function mapSponsorsToCheckboxOptions(sponsors) {
+export function mapSponsorsToCheckboxOptions(sponsors, showMebEnhancements08) {
   const options =
     sponsors?.sponsors?.map((sponsor, index) => ({
       label: `Sponsor ${index + 1}: ${sponsor.name}`,
       selected: sponsor.selected,
       value: `sponsor-${sponsor.id}`,
     })) || [];
-  options.push({
-    label: SPONSOR_NOT_LISTED_LABEL,
-    selected: sponsors?.someoneNotListed,
-    value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
-  });
+  if (!showMebEnhancements08 && sponsors?.someoneNotListed) {
+    options.push({
+      label: SPONSOR_NOT_LISTED_LABEL,
+      selected: sponsors?.someoneNotListed,
+      value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
+    });
+  }
   const anySelectedOptions = !!options?.filter(o => o.selected)?.length;
-  const values = Object.fromEntries(
-    new Map(options?.map(option => [option.value, !!option.selected])),
-  );
-
   return {
     anySelectedOptions,
     options,
-    values,
   };
 }
 
