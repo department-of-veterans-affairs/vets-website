@@ -21,7 +21,7 @@ export class ConfirmationPage extends React.Component {
     const { submission, formId, data } = form;
     const issues = getSelected(data || []).map((issue, index) => (
       <li key={index} className="vads-u-margin-bottom--0">
-        {getIssueName(issue)}
+        <span className="dd-privacy-hidden">{getIssueName(issue)}</span>
       </li>
     ));
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
@@ -50,12 +50,14 @@ export class ConfirmationPage extends React.Component {
             Request a Board Appeal{' '}
             <span className="additional">(Form {formId})</span>
           </h3>
-          for {fullName}
-          {name.suffix && `, ${name.suffix}`}
+          for <span className="dd-privacy-hidden">{fullName}</span>
+          {name.suffix && (
+            <span className="dd-privacy-hidden">{`, ${name.suffix}`}</span>
+          )}
           {submitDate.isValid() && (
             <p>
               <strong>Date submitted</strong>
-              <br />
+              <br role="presentation" />
               <span>{submitDate.format(FORMAT_READABLE)}</span>
             </p>
           )}
@@ -94,7 +96,7 @@ export class ConfirmationPage extends React.Component {
           don’t request another appeal. Call us at{' '}
           <va-telephone contact={CONTACTS.VA_BENEFITS} />.
         </p>
-        <br />
+        <br role="presentation" />
         <a
           href="/claim-or-appeal-status/"
           className="usa-button usa-button-primary"
