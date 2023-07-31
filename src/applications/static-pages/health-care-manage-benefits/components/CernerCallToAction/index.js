@@ -18,6 +18,7 @@ import {
   otherFacilitiesPropType,
 } from '../../propTypes';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import widgetTypes from '../../../widgetTypes';
 
 function ListItem({ facilities, ehrDataByVhaId }) {
   return facilities.map(facility => {
@@ -93,6 +94,50 @@ export class CernerCallToAction extends Component {
     });
   };
 
+  getFillins = widgetType => {
+    if (widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE === widgetType) {
+      return {
+        cta1: 'manage appointments at',
+        cta2: 'appointments',
+        featureLocation: 'VA.gov',
+      };
+    }
+    if (widgetTypes.REFILL_TRACK_PRESCRIPTIONS_PAGE === widgetType) {
+      return {
+        cta1: 'refill prescriptions from',
+        cta2: 'medications',
+        featureLocation: 'My HealtheVet',
+      };
+    }
+    if (widgetTypes.SECURE_MESSAGING_PAGE === widgetType) {
+      return {
+        cta1: 'send a secure message to a provider at',
+        cta2: 'messages',
+        featureLocation: 'My HealtheVet',
+      };
+    }
+    if (widgetTypes.GET_MEDICAL_RECORDS_PAGE === widgetType) {
+      return {
+        cta1: 'get your medical records from',
+        cta2: 'health records',
+        featureLocation: 'HealtheVet',
+      };
+    }
+    if (widgetTypes.VIEW_TEST_AND_LAB_RESULTS_PAGE === widgetType) {
+      return {
+        cta1: 'view lab and test results from',
+        cta2: 'health records',
+        featureLocation: 'HealtheVet',
+      };
+    }
+
+    return {
+      cta1: '',
+      cta2: '',
+      featureLocation: '',
+    };
+  };
+
   render() {
     const { onCTALinkClick } = this;
     const {
@@ -102,6 +147,7 @@ export class CernerCallToAction extends Component {
       myVAHealthLink,
       myHealtheVetLink,
       featureStaticLandingPage,
+      widgetType,
     } = this.props;
     const { error, fetching, facilities } = this.state;
 
@@ -143,6 +189,7 @@ export class CernerCallToAction extends Component {
         ? 'Go to the VA appointments tool'
         : 'Go to My HealtheVet';
 
+    const fillins = this.getFillins(widgetType);
     return (
       <div
         className={classNames('usa-alert', 'usa-alert-warning', {
@@ -157,7 +204,7 @@ export class CernerCallToAction extends Component {
                 Choose the right health portal
               </h3>
               <p className="vads-u-font-weight--bold">
-                To manage appointments at these facilities, go to My VA Health:
+                {`To ${fillins.cta1} these facilities, go to My VA Health:`}
               </p>
               <div className="vads-u-margin-y--1">
                 <ul className="vads-u-margin-left--1p5 vads-u-margin-bottom--1">
@@ -187,7 +234,9 @@ export class CernerCallToAction extends Component {
                 </ul>
               </va-additional-info>
               <p className="vads-u-font-weight--bold">
-                For any other facility, go to appointments on VA.gov.
+                {`For any other facility, go to ${fillins.cta2} on ${
+                  fillins.featureLocation
+                }.`}
               </p>
               <a
                 className="vads-c-action-link--blue"
@@ -196,7 +245,7 @@ export class CernerCallToAction extends Component {
                 rel="noreferrer noopener"
                 target="_blank"
               >
-                Go to appointments on VA.gov
+                {`Go to ${fillins.cta2} on VA.gov`}
               </a>
             </>
           )}
@@ -315,6 +364,7 @@ CernerCallToAction.propTypes = {
   linksHeaderText: PropTypes.string.isRequired,
   myHealtheVetLink: PropTypes.string.isRequired,
   myVAHealthLink: PropTypes.string.isRequired,
+  widgetType: PropTypes.string.isRequired,
   cernerFacilities: cernerFacilitiesPropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,
   featureStaticLandingPage: PropTypes.bool,
