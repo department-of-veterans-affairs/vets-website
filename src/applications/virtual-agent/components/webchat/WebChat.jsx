@@ -119,7 +119,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     }
   };
 
-  /** NOT PRODUCTION READY --- will be replaced by api request * */
   async function createPonyFill(webchat) {
     async function callVirtualAgentVoiceTokenApi() {
       return apiRequest('/virtual_agent_speech_token', {
@@ -134,7 +133,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       },
     });
   }
-  /** END OF NOT PRODUCTION READY */
 
   const [speechPonyfill, setBotPonyfill] = useState();
 
