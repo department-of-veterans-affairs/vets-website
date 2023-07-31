@@ -1,12 +1,13 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 
-const replacer = (_key, value) => {
-  // Replace double-quotes and non-escaping backslashes
-  // with single-quotes and forward-slashes
+const escapedCharacterReplacer = (_key, value) => {
   if (typeof value === 'string') {
     return value
-      .replace(/"/gm, "'")
-      .replace(/\\(?!(f|n|r|t|[u,U][\d,a-fA-F]{4}))/gm, '/');
+      .replaceAll('"', "'")
+      .replaceAll('/', '[forwardslash]')
+      .replace(/(?:\r\n|\n\n|\r|\n)/g, '; ')
+      .replace(/(?:\t|\f|\b)/g, '')
+      .replace(/\\(?!(f|n|r|t|[u,U][\d,a-fA-F]{4}))/gm, '[backslash]');
   }
 
   return value;
@@ -19,6 +20,6 @@ export default function transformForSubmit(formConfig, form) {
 
   return JSON.stringify(
     { ...transformedData, formNumber: formConfig.formId },
-    replacer,
+    escapedCharacterReplacer,
   );
 }
