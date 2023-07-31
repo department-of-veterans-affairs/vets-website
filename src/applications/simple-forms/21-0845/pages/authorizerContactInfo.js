@@ -15,6 +15,7 @@ export default {
       'ui:title': 'Email address',
       'ui:widget': 'email',
       'ui:errorMessages': {
+        required: 'Please enter an email address.',
         format:
           'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
       },
@@ -22,7 +23,7 @@ export default {
     authorizerEmailConsent: {
       'ui:title':
         'I agree to receive electronic correspondence from VA in regards to my claim.',
-      'ui:required': formData => formData.authorizerEmail,
+      'ui:widget': 'checkbox',
       'ui:errorMessages': {
         required: 'Please agree to receive electronic correspondence from VA.',
       },
@@ -33,7 +34,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['authorizerPhone'],
+    required: ['authorizerPhone', 'authorizerEmail', 'authorizerEmailConsent'],
     properties: {
       authorizerPhone: definitions.phone,
       authorizerEmail: definitions.email,

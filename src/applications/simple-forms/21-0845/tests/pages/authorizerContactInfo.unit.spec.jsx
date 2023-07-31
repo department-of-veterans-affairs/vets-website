@@ -20,7 +20,14 @@ testNumberOfFields(
   pageTitle,
 );
 
-const expectedNumberOfErrors = 1;
+const expectedNumberOfErrors = 3;
+testNumberOfErrorsOnSubmit(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfErrors,
+  pageTitle,
+);
 testNumberOfErrorsOnSubmit(
   formConfig,
   schema,
