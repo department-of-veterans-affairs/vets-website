@@ -2,9 +2,9 @@ import React from 'react';
 
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { cloneDeep } from 'lodash';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { cloneDeep } from 'lodash';
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
