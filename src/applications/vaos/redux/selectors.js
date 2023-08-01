@@ -1,18 +1,30 @@
 // eslint-disable-next-line import/no-unresolved
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
-import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
 import {
+  selectVAPResidentialAddress,
   selectPatientFacilities,
   selectIsCernerPatient,
-} from 'platform/user/cerner-dsot/selectors';
+} from '@department-of-veterans-affairs/platform-user/selectors';
+import {
+  selectCernerFacilityIds,
+  selectCernerFacilities,
+} from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 
 export const selectRegisteredCernerFacilityIds = state => {
-  const data = selectPatientFacilities(state);
+  const patientFacilities = selectPatientFacilities(state);
+  const cernerFacilities = selectCernerFacilityIds(state);
 
-  return (
-    data
-      ?.filter(f => f.isCerner && f.usesCernerAppointments)
-      .map(f => f.facilityId) || []
+  return patientFacilities.reduce((accumulator, current) => {
+    if (cernerFacilities.includes(current.facilityId))
+      return [...accumulator, current.facilityId];
+    return accumulator;
+  }, []);
+};
+
+export const selectRegisteredCernerFacilities = state => {
+  const ids = selectRegisteredCernerFacilityIds(state);
+  return selectCernerFacilities(state).filter(facility =>
+    ids.includes(facility.vhaId),
   );
 };
 

@@ -4,7 +4,7 @@ import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import DowntimeNotification, {
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
 import {
   selectFeatureStatusImprovement,
@@ -24,6 +24,7 @@ import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import AppointmentListNavigation from '../AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
+import CernerAlert from '../../../components/CernerAlert';
 
 const DROPDOWN_VALUES = {
   upcoming: 'upcoming',
@@ -208,6 +209,7 @@ export default function AppointmentsPageV2() {
             {paragraphText}
           </p>
         )}
+      <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
       <DowntimeNotification
         appTitle="VA online scheduling tool"
         isReady
