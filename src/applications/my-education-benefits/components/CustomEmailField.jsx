@@ -32,7 +32,6 @@ function CustomEmailField(props) {
             ...props?.formData?.email,
             email: event,
           },
-          duplicateEmail: [{ value: '', dupe: '' }],
         });
       }
     }
