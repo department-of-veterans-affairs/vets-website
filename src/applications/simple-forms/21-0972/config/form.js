@@ -98,6 +98,9 @@ const formConfig = {
     },
   },
   formId: '21-0972',
+  customText: {
+    appType: 'form',
+  },
   saveInProgress: {
     messages: {
       inProgress: 'Your alternate signer application (21-0972) is in progress.',
@@ -113,7 +116,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for alternate signer.',
   },
-  title: 'Sign for benefits on behalf of another person',
+  title: 'Sign VA claim forms as an alternate signer',
   subTitle: 'Alternate signer certification (VA Form 21-0972)',
   defaultDefinitions: {},
   chapters: {

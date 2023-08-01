@@ -182,12 +182,12 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Post-tramatic stress disorder" id="twelfth">
+      <va-accordion-item header="Posttramatic stress disorder" id="twelfth">
         <ul>
           <li>
             <a href="/find-forms/about-form-21-0781">
               Statement in Support of Claim for Service Connection for
-              Post-Traumatic Stress Disorder (PTSD) (VA Form 21-0781)
+              Posttraumatic Stress Disorder (PTSD) (VA Form 21-0781)
             </a>
           </li>
           <li>
