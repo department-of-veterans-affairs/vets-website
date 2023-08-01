@@ -54,6 +54,7 @@ export default {
         },
         otherEntry: {
           'ui:title': otherLabel,
+          'ui:reviewField': AreaOfDisagreementReviewField,
           'ui:description': otherDescription,
           'ui:options': {
             updateSchema: (formData, _schema, _uiSchema, index) => ({
