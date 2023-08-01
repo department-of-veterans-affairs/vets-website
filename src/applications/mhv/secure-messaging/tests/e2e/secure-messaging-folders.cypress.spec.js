@@ -3,80 +3,63 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import FolderLoadPage from './pages/FolderLoadPage';
 
 describe(manifest.appName, () => {
-  const site = new SecureMessagingSite();
-  describe('Load Inbox messages', () => {
-    before(() => {
-      site.login();
-      FolderLoadPage.loadInboxMessages();
-    });
-    it('Check the header', () => {
-      cy.injectAxe();
-      cy.axeCheck('main', {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
-        },
-      });
-      FolderLoadPage.getFolderHeader('Inbox');
-      FolderLoadPage.verifyBackToMessagesButton();
-    });
+  beforeEach(() => {
+    const site = new SecureMessagingSite();
+    site.login();
+    FolderLoadPage.loadInboxMessages();
   });
-  describe('Load Draft messages', () => {
-    before(() => {
-      site.login();
-      FolderLoadPage.loadInboxMessages();
-      FolderLoadPage.loadDraftMessages();
-    });
-    it('Check the header', () => {
-      cy.injectAxe();
-      cy.axeCheck('main', {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
+  it('Check the Inbox folder', () => {
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
         },
-      });
-      FolderLoadPage.getFolderHeader('Drafts');
-      FolderLoadPage.verifyBackToMessagesButton();
+      },
     });
+    FolderLoadPage.getFolderHeader('Inbox');
+    FolderLoadPage.verifyBackToMessagesButton();
   });
-  describe('Load Sent messages', () => {
-    before(() => {
-      site.login();
-      FolderLoadPage.loadInboxMessages();
-      FolderLoadPage.loadSentMessages();
-    });
-    it('Check the header', () => {
-      cy.injectAxe();
-      cy.axeCheck('main', {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
+
+  it('Check the Draft folder', () => {
+    FolderLoadPage.loadDraftMessages();
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
         },
-      });
-      FolderLoadPage.getFolderHeader('Sent messages');
-      FolderLoadPage.verifyBackToMessagesButton();
+      },
     });
+    FolderLoadPage.getFolderHeader('Drafts');
+    FolderLoadPage.verifyBackToMessagesButton();
   });
-  describe('Load Trash messages', () => {
-    before(() => {
-      site.login();
-      FolderLoadPage.loadInboxMessages();
-      FolderLoadPage.loadDeletedMessages();
-    });
-    it('Check the header', () => {
-      cy.injectAxe();
-      cy.axeCheck('main', {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
+
+  it('Check the Sent folder', () => {
+    FolderLoadPage.loadSentMessages();
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
         },
-      });
-      FolderLoadPage.getFolderHeader('Trash');
-      FolderLoadPage.verifyBackToMessagesButton();
+      },
     });
+    FolderLoadPage.getFolderHeader('Sent messages');
+    FolderLoadPage.verifyBackToMessagesButton();
+  });
+
+  it('Check the header', () => {
+    FolderLoadPage.loadDeletedMessages();
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    FolderLoadPage.getFolderHeader('Trash');
+    FolderLoadPage.verifyBackToMessagesButton();
   });
 });
