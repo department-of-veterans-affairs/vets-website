@@ -17,13 +17,7 @@ const Vitals = () => {
     () => {
       dispatch(
         setBreadcrumbs(
-          [
-            { url: '/my-health/medical-records/', label: 'Dashboard' },
-            {
-              url: '/my-health/medical-records/health-history',
-              label: 'Health history',
-            },
-          ],
+          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
           { url: '/my-health/medical-records/vitals', label: 'VA vitals' },
         ),
       );

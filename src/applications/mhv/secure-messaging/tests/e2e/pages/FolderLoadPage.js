@@ -2,6 +2,7 @@ import mockMessages from '../fixtures/messages-response.json';
 import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import mockToggles from '../fixtures/toggles-response.json';
+import mockRecipients from '../fixtures/recipients-response.json';
 
 class FolderLoadPage {
   foldersSetup = () => {
@@ -60,6 +61,20 @@ class FolderLoadPage {
 
   getFolderHeader = text => {
     cy.get('[data-testid="folder-header"]').should('have.text', `${text}`);
+  };
+
+  verifyBackToMessagesButton = () => {
+    cy.intercept('GET', '/my_health/v1/messaging/recipients*', mockRecipients);
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging//folders/0/messages*',
+      mockMessages,
+    );
+
+    cy.contains('Back to messages')
+      .should('be.visible')
+      .click({ force: true });
+    cy.get('h1').should('contain', 'Messages');
   };
 }
 

@@ -10,7 +10,6 @@ describe(manifest.appName, () => {
       FolderLoadPage.loadInboxMessages();
     });
     it('Check the header', () => {
-      FolderLoadPage.getFolderHeader('Inbox');
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {
@@ -19,6 +18,8 @@ describe(manifest.appName, () => {
           },
         },
       });
+      FolderLoadPage.getFolderHeader('Inbox');
+      FolderLoadPage.verifyBackToMessagesButton();
     });
   });
   describe('Load Draft messages', () => {
@@ -28,7 +29,6 @@ describe(manifest.appName, () => {
       FolderLoadPage.loadDraftMessages();
     });
     it('Check the header', () => {
-      FolderLoadPage.getFolderHeader('Drafts');
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {
@@ -37,6 +37,8 @@ describe(manifest.appName, () => {
           },
         },
       });
+      FolderLoadPage.getFolderHeader('Drafts');
+      FolderLoadPage.verifyBackToMessagesButton();
     });
   });
   describe('Load Sent messages', () => {
@@ -46,7 +48,6 @@ describe(manifest.appName, () => {
       FolderLoadPage.loadSentMessages();
     });
     it('Check the header', () => {
-      FolderLoadPage.getFolderHeader('Sent messages');
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {
@@ -55,6 +56,8 @@ describe(manifest.appName, () => {
           },
         },
       });
+      FolderLoadPage.getFolderHeader('Sent messages');
+      FolderLoadPage.verifyBackToMessagesButton();
     });
   });
   describe('Load Trash messages', () => {
@@ -64,7 +67,6 @@ describe(manifest.appName, () => {
       FolderLoadPage.loadDeletedMessages();
     });
     it('Check the header', () => {
-      FolderLoadPage.getFolderHeader('Trash');
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {
@@ -73,6 +75,8 @@ describe(manifest.appName, () => {
           },
         },
       });
+      FolderLoadPage.getFolderHeader('Trash');
+      FolderLoadPage.verifyBackToMessagesButton();
     });
   });
 });
