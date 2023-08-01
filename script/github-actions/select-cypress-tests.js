@@ -304,12 +304,10 @@ function main() {
     'Paths of disallowed tests that share paths with changed code base paths: ',
     blockedPathsWithCodeChanges,
   );
-  if (blockedPathsWithCodeChanges.length > 0) {
-    core.exportVariable(
-      'E2E_BLOCKED_PATHS',
-      JSON.stringify(blockedPathsWithCodeChanges),
-    );
-  }
+  core.exportVariable(
+    'E2E_BLOCKED_PATHS',
+    JSON.stringify(blockedPathsWithCodeChanges),
+  );
 
   const testsToRunNormally = testsSelectedByTestSelection.filter(
     test =>
