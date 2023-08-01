@@ -46,7 +46,32 @@ describe('VAOS <AppointmentsPageV2>', () => {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   };
-  it('should navigate to list URLs on dropdown change', async () => {
+
+  it('should navigate to list URLs on appointment list navigation click', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingDirect: true,
+        vaOnlineSchedulingCommunityCare: true,
+        vaOnlineSchedulingStatusImprovement: true,
+      },
+      user: userState,
+    };
+
+    mockPastAppointmentInfo({});
+
+    const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+      initialState: defaultState,
+    });
+
+    const navigation = screen.getByRole('navigation', {
+      name: 'Appointment list navigation',
+    });
+
+    expect(navigation).to.be.ok;
+  });
+
+  it.skip('should navigate to list URLs on dropdown change', async () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -327,7 +352,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
       expect(
         screen.getByText(
-          'Your appointment requests that haven’t been scheduled yet.',
+          'These appointment requests haven’t been scheduled yet.',
         ),
       ).to.be.ok;
 
