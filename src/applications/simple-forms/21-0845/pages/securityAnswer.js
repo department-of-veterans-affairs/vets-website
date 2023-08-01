@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { AUTHORIZER_TYPES, SECURITY_QUESTIONS } from '../definitions/constants';
+import { SECURITY_QUESTIONS } from '../definitions/constants';
 import { camelCaseToSnakeAllCaps } from '../utils';
 
 export default {
   uiSchema: {
     'ui:title': ({ formData }) => {
-      if (formData.authorizerType === AUTHORIZER_TYPES.VETERAN) {
-        return (
+      return (
+        <legend id="root_securityAnswer-label" className="schemaform-label">
           <span className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
             {
               SECURITY_QUESTIONS[
@@ -15,20 +15,7 @@ export default {
               ]
             }
           </span>
-        );
-      }
-
-      return (
-        <span className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
-          Provide your answer for:
-          <br />“
-          {
-            SECURITY_QUESTIONS[
-              camelCaseToSnakeAllCaps(formData.securityQuestion)
-            ]
-          }
-          ”
-        </span>
+        </legend>
       );
     },
     'ui:description':
