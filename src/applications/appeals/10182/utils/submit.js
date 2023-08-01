@@ -369,9 +369,9 @@ export const getPhone = ({ veteran = {} } = {}) => {
 };
 
 /**
- *
- * @param {*} formData
- * @returns
+ * Return v0 or v1 key with email data
+ * @param {Veteran} veteran - Veteran formData object
+ * @returns {Object} submittable email
  */
 export const getEmail = (formData = {}) => {
   // v0 uses emailAddressText
