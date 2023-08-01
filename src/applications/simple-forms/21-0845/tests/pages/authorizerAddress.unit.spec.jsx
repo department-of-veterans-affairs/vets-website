@@ -12,7 +12,6 @@ import formConfig from '../../config/form';
 import authTypeNonVet from '../e2e/fixtures/data/authTypeNonVet.json';
 
 const {
-  arrayPath,
   defaultDefinitions,
   schema,
   uiSchema,
@@ -42,8 +41,6 @@ describe(`${pageTitle} - custom-street2-label`, () => {
   it('renders street2 custom-label', () => {
     const screen = render(
       <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
         definitions={defaultDefinitions}
         schema={schema}
         data={authTypeNonVet.data}
