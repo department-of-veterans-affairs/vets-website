@@ -4,10 +4,9 @@ const escapedCharacterReplacer = (_key, value) => {
   if (typeof value === 'string') {
     return value
       .replaceAll('"', "'")
-      .replaceAll('/', '[forwardslash]')
       .replace(/(?:\r\n|\n\n|\r|\n)/g, '; ')
       .replace(/(?:\t|\f|\b)/g, '')
-      .replace(/\\(?!(f|n|r|t|[u,U][\d,a-fA-F]{4}))/gm, '[backslash]');
+      .replace(/\\(?!(f|n|r|t|[u,U][\d,a-fA-F]{4}))/gm, '/');
   }
 
   return value;
