@@ -3,12 +3,13 @@ import moment from 'moment';
 
 export function getSelectedLabel(date, selectedDates) {
   const matchingTimes = selectedDates.filter(selected =>
-    selected.startsWith(date),
+    selected?.startsWith(date),
   );
 
   if (matchingTimes.length === 2) {
     return 'AM and PM selected.';
-  } else if (moment(matchingTimes[0]).hours() >= 12) {
+  }
+  if (moment(matchingTimes[0]).hours() >= 12) {
     return 'PM selected.';
   }
 
@@ -18,7 +19,7 @@ export function getSelectedLabel(date, selectedDates) {
 export default function SelectedIndicator({ date, selectedDates }) {
   const bubbles = selectedDates
     .reduce((selectedFieldValues, currentDate) => {
-      if (currentDate.startsWith(date)) {
+      if (currentDate?.startsWith(date)) {
         selectedFieldValues.push(
           moment(currentDate).hour() >= 12 ? 'PM' : 'AM',
         );
