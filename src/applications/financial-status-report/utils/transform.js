@@ -281,8 +281,6 @@ export const transform = (formConfig, form) => {
         'amountPastDue',
       ),
     },
-
-    // TODO: Cannot read properties of undefined (reading 'bankruptcy') - additionalData?.bankruptcy?.dateDischarged,
     additionalData: {
       bankruptcy: {
         hasBeenAdjudicatedBankrupt: questions?.hasBeenAdjudicatedBankrupt,

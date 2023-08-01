@@ -174,13 +174,10 @@ export const getMonthlyExpenses = ({
     : sumValues(utilityRecords, 'monthlyUtilityAmount');
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
-
-  // TODO: Cannot read properties of undefined (reading 'creditCardBills') - add check for creditCardBills
   const creditCardBills = sumValues(
     expenses?.creditCardBills,
     'amountDueMonthly',
   );
-
   // efsr note: food is included in otherExpenses
   const food = Number(get(expenses, 'food', 0));
   // efsr note: Rent & Mortgage is included in expenseRecords

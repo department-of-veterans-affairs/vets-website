@@ -122,20 +122,16 @@ describe('fsr transform helper functions', () => {
     });
   });
 
-  // Depends on sumValues, filterReduceByName, otherDeductionsAmt
   // Depends on sumValues, filterReduceByName, otherDeductionsAmt - calculateIncome
   describe('efsr-calculateIncome helper', () => {
     it('should return monthly income based on veterans net and other income, and spouses net and other income', () => {
       const result = calculateIncome(inputObject.data);
-
       // Veteran's income
       const { vetIncome } = result;
       expect(vetIncome.totalMonthlyNetIncome).to.equal(12621.51);
-
       // Spouse's income
       const { spIncome } = result;
       expect(spIncome.totalMonthlyNetIncome).to.equal(7976.339999999999);
-
       // Total income
       expect(result.totalMonthlyNetIncome).to.equal(20597.85);
     });
