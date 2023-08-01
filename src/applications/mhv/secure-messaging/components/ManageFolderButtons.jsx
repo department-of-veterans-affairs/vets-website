@@ -23,7 +23,6 @@ const ManageFolderButtons = () => {
   const location = useLocation();
   const [folderId, setFolderId] = useState(null);
   const folders = useSelector(state => state.sm.folders.folderList);
-  const messages = useSelector(state => state.sm.messages.messageList);
   const folder = useSelector(state => state.sm.folders.folder);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const [isEmptyWarning, setIsEmptyWarning] = useState(false);
@@ -65,7 +64,7 @@ const ManageFolderButtons = () => {
 
   const openDelModal = () => {
     dispatch(closeAlert());
-    if (messages?.length > 0) {
+    if (folder.count > 0) {
       setIsEmptyWarning(true);
     } else {
       setIsEmptyWarning(false);
