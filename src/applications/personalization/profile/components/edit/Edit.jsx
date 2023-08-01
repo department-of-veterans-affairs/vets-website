@@ -111,6 +111,11 @@ export const Edit = () => {
   const handlers = {
     cancel: () => {
       clearBeforeUnloadListener();
+
+      // ensures any field editing state is cleared
+      // and that hasUnsavedEdits is set to false
+      dispatch(openModal(null));
+
       history.push(returnPath);
     },
     success: () => {
