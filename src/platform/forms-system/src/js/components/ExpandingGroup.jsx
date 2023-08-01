@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import classnames from 'classnames';
-import { waitForRenderThenFocus, focusElement } from 'platform/utilities/ui';
 
 /*
  * Component that expands to show a hidden child element with a fade in/slide down animation
@@ -25,31 +24,6 @@ export default function ExpandingGroup({
     'form-expanding-group',
     { 'form-expanding-group-open': open && !expandedContentFocus },
     { 'form-expanding-group-plus': showPlus },
-  );
-
-  useEffect(
-    () => {
-      if (open && expandedContentFocus) {
-        const formExpandingGroupOpen = document.querySelector(
-          '.form-expanding-group-open',
-        );
-        const expandedContentWebComponent = formExpandingGroupOpen.querySelector(
-          'va-text-input, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date',
-        );
-
-        if (expandedContentWebComponent) {
-          waitForRenderThenFocus(
-            'input, select, textarea',
-            expandedContentWebComponent.shadowRoot,
-          );
-        } else {
-          focusElement(
-            formExpandingGroupOpen.querySelector('input, select, textarea'),
-          );
-        }
-      }
-    },
-    [open],
   );
 
   return (
