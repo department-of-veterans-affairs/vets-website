@@ -458,6 +458,12 @@ jobs:
       # requires the cypress-tests job to run was not satisfied. This update forces
       # the job to always run, and skips each step if no tests are selected.
       # Previously, the above conditional was included in the job's if statement.
+      - name: Check if E2E tests can run
+        run: node script/github-actions/check-e2e-status.js
+        with:
+          NOT_STRESS_TEST: needs.cypress-tests-prep.outputs.tests-to-stress-test == '[]'
+          E2E_BLOCKED_PATHS: needs.cypress-tests-prep.outputs.e2e-blocked-paths
+
       - name: Configure AWS credentials
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: aws-actions/configure-aws-credentials@v1

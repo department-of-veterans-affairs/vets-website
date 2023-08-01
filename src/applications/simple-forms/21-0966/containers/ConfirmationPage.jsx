@@ -25,7 +25,7 @@ export class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <div className="print-only">
+        <div className="print-onlyyy">
           <img
             src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
             alt="VA logo"

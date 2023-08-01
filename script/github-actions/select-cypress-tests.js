@@ -296,13 +296,21 @@ function main() {
       .slice(specPath.indexOf('src'), 3)
       .join('/'),
   );
-  console.log('Apps Adjusted: ', appsAdjusted);
-  console.log(
-    'common paths: ',
-    allDisallowedTestsWithWarnings.filter(entry =>
-      appsAdjusted.some(appPath => entry.includes(appPath)),
-    ),
+  console.log('Base paths with changed code: ', appsAdjusted);
+  const blockedPathsWithCodeChanges = allDisallowedTestsWithWarnings.filter(
+    entry => appsAdjusted.some(appPath => entry.includes(appPath)),
   );
+  console.log(
+    'Paths of disallowed tests that share paths with changed code base paths: ',
+    blockedPathsWithCodeChanges,
+  );
+  if (blockedPathsWithCodeChanges.length > 0) {
+    core.setOutput(
+      'e2e-blocked-paths',
+      JSON.stringify(blockedPathsWithCodeChanges),
+    );
+  }
+
   const testsToRunNormally = testsSelectedByTestSelection.filter(
     test =>
       !disallowedTests.includes(test) &&
