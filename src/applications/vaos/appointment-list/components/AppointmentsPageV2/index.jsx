@@ -19,40 +19,17 @@ import AppointmentListNavigation from '../AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 
-const DROPDOWN_VALUES = {
-  upcoming: 'upcoming',
-  requested: 'requested',
-  past: 'past',
-  canceled: 'canceled',
-};
-
-function getDropdownValueFromLocation(pathname) {
-  if (pathname.endsWith(DROPDOWN_VALUES.requested)) {
-    return {
-      dropdownValue: DROPDOWN_VALUES.requested,
-      subPageTitle: 'Requested',
-      subHeading: 'Requested appointments',
-    };
+function getSubPageTitle(pathname) {
+  if (pathname.endsWith('requested')) {
+    return 'Requested';
   }
-  if (pathname.endsWith(DROPDOWN_VALUES.past)) {
-    return {
-      dropdownValue: DROPDOWN_VALUES.past,
-      subPageTitle: 'Past appointments',
-      subHeading: 'Past appointments',
-    };
+  if (pathname.endsWith('past')) {
+    return 'Past appointments';
   }
-  if (pathname.endsWith(DROPDOWN_VALUES.canceled)) {
-    return {
-      dropdownValue: DROPDOWN_VALUES.canceled,
-      subPageTitle: 'Canceled appointments',
-      subHeading: 'Canceled appointments',
-    };
+  if (pathname.endsWith('canceled')) {
+    return 'Canceled appointments';
   }
-  return {
-    dropdownValue: DROPDOWN_VALUES.upcoming,
-    subPageTitle: 'Your appointments',
-    subHeading: 'Your appointments',
-  };
+  return 'Your appointments';
 }
 
 function renderWarningNotification() {
@@ -94,7 +71,7 @@ export default function AppointmentsPageV2() {
     selectPendingAppointments(state),
   );
   const isPrintList = useSelector(state => selectFeaturePrintList(state));
-  const { subPageTitle } = getDropdownValueFromLocation(location.pathname);
+  const subPageTitle = getSubPageTitle(location.pathname);
 
   let prefix = 'Your';
   const isPending = location.pathname.endsWith('/pending');
