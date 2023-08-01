@@ -12,10 +12,7 @@ const LandingPage = () => {
         <div className="main-content">
           <section>
             <h1>About Medications</h1>
-            <p className="vads-u-font-size--h3">
-              Learn how to manage your VA prescriptions and review all
-              medications in your VA medical records.
-            </p>
+            <p className="vads-u-font-size--h3">Intro/lead text</p>
           </section>
           <section>
             <a
@@ -37,7 +34,7 @@ const LandingPage = () => {
               Email your feedback and questions to us at <FeedbackEmail />.
             </p>
             <p>
-              Note: You still have access to the pharmacy tool on the My
+              <b>Note:</b> You still have access to the pharmacy tool on the My
               HealtheVet website. You can go back to that site at any time.{' '}
               <a
                 href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'pharmacy')}
@@ -295,6 +292,7 @@ const LandingPage = () => {
                 </a>
               </va-accordion-item>
             </va-accordion>
+            <br />
             <br />
           </section>
         </div>
