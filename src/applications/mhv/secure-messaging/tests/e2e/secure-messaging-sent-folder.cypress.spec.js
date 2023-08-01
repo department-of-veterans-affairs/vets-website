@@ -30,7 +30,7 @@ describe('Secure Messaging Sent Folder checks', () => {
         },
       },
     });
-    PatientMessagesSentPage.verifyFolderHeader('Sent');
+    PatientMessagesSentPage.verifyFolderHeader('Sent messages');
     PatientMessagesSentPage.verifyResponseBodyLength();
   });
 
