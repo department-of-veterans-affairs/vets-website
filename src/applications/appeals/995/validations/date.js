@@ -30,9 +30,12 @@ export const validateDate = (errors, rawString = '', fullData) => {
   if (
     !year ||
     !day ||
+    isNaN(day) ||
     day === '0' ||
     !month ||
+    isNaN(month) ||
     month === '0' ||
+    isNaN(year) ||
     dateString?.length < FORMAT_YMD.length
   ) {
     // The va-memorable-date component currently overrides the error message

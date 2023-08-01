@@ -21,10 +21,13 @@ const SettingsPage = () => {
   useEffect(
     () => {
       dispatch(
-        setBreadcrumbs([{ url: '/my-health', label: 'Dashboard' }], {
-          url: '/my-health/medical-records/settings',
-          label: 'Medical records settings',
-        }),
+        setBreadcrumbs(
+          [{ url: '/my-health/medical-records', label: 'Medical records' }],
+          {
+            url: '/my-health/medical-records/settings',
+            label: 'Medical records settings',
+          },
+        ),
       );
     },
     [dispatch],

@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { getDate } from '../../utils/dates';
 import { validateDate, isValidDate } from '../../validations/date';
 import { issueErrorMessages } from '../../content/addIssue';
+import { SHOW_PART3 } from '../../constants';
 
 describe('validateDate & isValidDate', () => {
   let errorMessage = [];
@@ -110,5 +111,10 @@ describe('validateDate & isValidDate', () => {
     expect(errorMessage[1]).to.not.contain('year');
     expect(errorMessage[1]).to.contain('other');
     expect(isValidDate(date)).to.be.false;
+  });
+  it('should not throw an error for older dates when feature toggle is set to support the new form', () => {
+    const date = getDate({ offset: { years: -2 } });
+    validateDate(errors, date, { [SHOW_PART3]: true });
+    expect(errorMessage[0]).to.be.undefined;
   });
 });
