@@ -15,9 +15,9 @@ export const evidenceUploadIntroDescription = (
         You can submit more evidence by mailing it to this address:
         <p className="vads-u-padding-y--2">
           Board of Veterans’ Appeals
-          <br />
+          <br role="presentation" />
           PO Box 27063
-          <br />
+          <br role="presentation" />
           Washington, D.C. 20038
         </p>
         You can also fax it to{' '}
