@@ -14,11 +14,13 @@ export const selectRegisteredCernerFacilityIds = state => {
   const patientFacilities = selectPatientFacilities(state);
   const cernerFacilities = selectCernerFacilityIds(state);
 
-  return patientFacilities.reduce((accumulator, current) => {
-    if (cernerFacilities.includes(current.facilityId))
-      return [...accumulator, current.facilityId];
-    return accumulator;
-  }, []);
+  return (
+    patientFacilities?.reduce((accumulator, current) => {
+      if (cernerFacilities.includes(current.facilityId))
+        return [...accumulator, current.facilityId];
+      return accumulator;
+    }, []) || []
+  );
 };
 
 export const selectRegisteredCernerFacilities = state => {
