@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+/* eslint-disable no-console */
 
 const core = require('@actions/core');
 const fs = require('fs');
@@ -278,6 +279,13 @@ function main() {
       CHANGED_FILE_PATHS.includes(test.substring(test.indexOf('src/'))) &&
       !newTests.includes(test),
   );
+  const appsAdjusted = CHANGED_FILE_PATHS.map(specPath =>
+    specPath
+      .split('/')
+      .slice(specPath.indexOf('src'), 3)
+      .join('/'),
+  );
+  console.log('Apps Adjusted: ', appsAdjusted);
   const testsToRunNormally = testsSelectedByTestSelection.filter(
     test =>
       !disallowedTests.includes(test) &&

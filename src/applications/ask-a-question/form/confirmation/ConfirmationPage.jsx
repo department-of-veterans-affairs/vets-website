@@ -18,7 +18,9 @@ export class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h2 className="confirmation-page-title">We've received your message</h2>
+        <h2 className="confirmationnn-page-title">
+          We've received your message
+        </h2>
         <p>
           Thank you for contacting us. We usually process messages within 5
           business days.
