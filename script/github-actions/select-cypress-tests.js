@@ -305,8 +305,8 @@ function main() {
     blockedPathsWithCodeChanges,
   );
   if (blockedPathsWithCodeChanges.length > 0) {
-    core.setOutput(
-      'e2e-blocked-paths',
+    core.exportVariable(
+      'E2E_BLOCKED_PATHS',
       JSON.stringify(blockedPathsWithCodeChanges),
     );
   }
