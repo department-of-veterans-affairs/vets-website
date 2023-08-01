@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import Timeouts from 'platform/testing/e2e/timeouts';
+import environment from 'platform/utilities/environment';
 
 import {
   mockAppointmentsApi,
@@ -13,6 +14,9 @@ import {
   vaosSetup,
 } from '../vaos-cypress-helpers';
 
+const rootUrl = environment.isProduction()
+  ? 'health-care/schedule-view-va-appointments/appointments'
+  : 'my-health/appointments';
 describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
   const start = moment()
     // Adding number months to account for the test clicking the 'next' button to
@@ -40,7 +44,7 @@ describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
 
     mockDirectScheduleSlotsApi({ clinicId: '455', start, end, apiVersion: 2 });
 
-    cy.visit('my-health/appointments');
+    cy.visit(rootUrl);
     cy.injectAxe();
     cy.axeCheckBestPractice();
 
@@ -156,7 +160,7 @@ describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
     mockDirectScheduleSlotsApi({ clinicId: '455', start, end, apiVersion: 2 });
     mockUserTransitionAvailabilities();
 
-    cy.visit('my-health/appointments');
+    cy.visit(rootUrl);
     cy.injectAxe();
 
     cy.wait(['@v2:get:appointments']);

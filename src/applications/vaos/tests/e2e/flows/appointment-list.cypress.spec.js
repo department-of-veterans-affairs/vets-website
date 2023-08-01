@@ -1,6 +1,7 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 import moment from 'moment';
+import environment from 'platform/utilities/environment';
 import {
   mockFeatureToggles,
   mockAppointmentsApi,
@@ -16,6 +17,9 @@ import {
   mockVamcEhr,
 } from '../vaos-cypress-helpers';
 
+const rootUrl = environment.isProduction()
+  ? 'health-care/schedule-view-va-appointments/appointments/'
+  : 'my-health/appointments/';
 describe('VAOS appointment list', () => {
   describe('appointments details', () => {
     beforeEach(() => {
@@ -45,7 +49,7 @@ describe('VAOS appointment list', () => {
 
       mockAppointmentsApi({ data, apiVersion: 2 });
 
-      cy.visit('my-health/appointments/');
+      cy.visit(rootUrl);
       cy.injectAxe();
 
       cy.wait(['@v2:get:appointments']);
@@ -80,7 +84,7 @@ describe('VAOS appointment list', () => {
       mockAppointmentsApi({ data, apiVersion: 2 });
       mockFacilityApi({ id: 'vha_442GC', apiVersion: 1 });
 
-      cy.visit('my-health/appointments/');
+      cy.visit(rootUrl);
       cy.injectAxe();
 
       cy.wait(['@v2:get:appointments']);
@@ -140,7 +144,7 @@ describe('VAOS appointment list', () => {
         apiVersion: 2,
       });
 
-      cy.visit('my-health/appointments/');
+      cy.visit(rootUrl);
       cy.injectAxe();
 
       cy.wait(['@v2:get:appointments']);
@@ -200,7 +204,7 @@ describe('VAOS appointment list', () => {
       mockAppointmentsApi({ data, apiVersion: 2 });
       mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
 
-      cy.visit('my-health/appointments/');
+      cy.visit(rootUrl);
       cy.injectAxe();
 
       cy.wait(['@v2:get:appointments']);
@@ -254,7 +258,7 @@ describe('VAOS appointment list', () => {
       mockAppointmentsApi({ data, apiVersion: 2 });
       mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
 
-      cy.visit('my-health/appointments/');
+      cy.visit(rootUrl);
       cy.injectAxe();
 
       cy.wait(['@v2:get:appointments']);
@@ -296,7 +300,7 @@ describe('VAOS appointment list', () => {
       mockAppointmentsApi({ data, apiVersion: 2 });
       mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
 
-      cy.visit('my-health/appointments/');
+      cy.visit(rootUrl);
       cy.injectAxe();
 
       cy.wait(['@v2:get:appointments']);
@@ -333,7 +337,7 @@ describe('VAOS appointment list', () => {
       mockFacilityApi({ id: 'vha_442GC', apiVersion: 1 });
       mockCancelReasonsApi({ facilityId: '983' });
 
-      cy.visit('my-health/appointments/');
+      cy.visit(rootUrl);
       cy.injectAxe();
 
       cy.wait(['@v2:get:appointments']);
@@ -365,7 +369,7 @@ describe('VAOS appointment list', () => {
       mockLoginApi();
       mockUserTransitionAvailabilities();
 
-      cy.visit('my-health/appointments/');
+      cy.visit(rootUrl);
       cy.injectAxe();
 
       cy.wait(['@v2:get:appointments']);
@@ -446,7 +450,7 @@ describe('VAOS appointment list', () => {
       mockUserTransitionAvailabilities();
       mockVamcEhr();
 
-      cy.visit('my-health/appointments');
+      cy.visit(rootUrl);
       cy.wait(['@v2:get:appointments']);
       cy.injectAxe();
 
@@ -517,7 +521,7 @@ describe('VAOS appointment list', () => {
       mockLoginApi();
       mockUserTransitionAvailabilities();
 
-      cy.visit('my-health/appointments/');
+      cy.visit(rootUrl);
       cy.injectAxe();
 
       cy.wait(['@v2:get:appointments']);
@@ -602,7 +606,7 @@ describe('VAOS appointment list', () => {
 
       mockAppointmentsApi({ data, apiVersion: 2 });
 
-      cy.visit('my-health/appointments/');
+      cy.visit(rootUrl);
       cy.injectAxe();
 
       cy.wait(['@v2:get:appointments']);
@@ -640,7 +644,7 @@ describe('VAOS appointment list', () => {
 
       mockAppointmentsApi({ data, apiVersion: 2 });
 
-      cy.visit('my-health/appointments/');
+      cy.visit(rootUrl);
       cy.injectAxe();
 
       cy.wait(['@v2:get:appointments']);
