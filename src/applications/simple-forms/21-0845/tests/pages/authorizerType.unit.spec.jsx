@@ -7,7 +7,7 @@ import {
   testNumberOfFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
-import authTypeVet from '../e2e/fixtures/data/authTypeVet.json';
+import authTypeNonVet from '../e2e/fixtures/data/authTypeNonVet.json';
 
 const {
   arrayPath,
@@ -44,8 +44,8 @@ describe(`${pageTitle} - hideFormNavProgress`, () => {
         pagePerItemIndex={0}
         definitions={defaultDefinitions}
         schema={schema}
-        data={authTypeVet.data}
-        formData={authTypeVet.data}
+        data={authTypeNonVet.data}
+        formData={authTypeNonVet.data}
         uiSchema={uiSchema}
       />,
     );
