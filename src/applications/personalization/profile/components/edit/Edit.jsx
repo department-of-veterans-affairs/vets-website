@@ -140,10 +140,9 @@ export const Edit = () => {
     <EditContext.Provider value={{ onCancel: handlers.cancel }}>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseFieldEditingPage}>
         <Toggler.Enabled>
-          {/* this modal is triggered by breadcrumb being clicked with unsaved edits */}
-
           {fieldInfo && !hasVAPServiceError ? (
             <>
+              {/* this modal is triggered by breadcrumb being clicked with unsaved edits */}
               <EditConfirmCancelModal
                 isVisible={showConfirmCancelModal}
                 activeSection={fieldInfo.fieldName.toLowerCase()}
@@ -171,7 +170,7 @@ export const Edit = () => {
 
                 <InitializeVAPServiceIDContainer>
                   {/* the EditConfirmCancelModal is passed here as props to allow a custom modal to be used
-                for when the user clicks 'cancel' on the form with unsaved edits */}
+                  for when the user clicks 'cancel' on the form with unsaved edits */}
                   <ProfileInformationFieldController
                     fieldName={fieldInfo.fieldName}
                     forceEditView
