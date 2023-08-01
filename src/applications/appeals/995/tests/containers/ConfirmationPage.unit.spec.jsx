@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import moment from 'moment';
 
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
 
@@ -20,6 +20,7 @@ const getData = () => ({
         first: 'Foo',
         middle: 'Man',
         last: 'Choo',
+        suffix: 'Esq.',
       },
     },
   },
@@ -65,7 +66,9 @@ describe('Confirmation page', () => {
         <ConfirmationPage />
       </Provider>,
     );
-    expect($('.inset', container).textContent).to.contain('Foo Man Choo');
+    expect($('.dd-privacy-hidden', container).textContent).to.contain(
+      'Foo Man Choo, Esq.',
+    );
   });
   it('should render the submit date', () => {
     const data = getData();
@@ -86,6 +89,7 @@ describe('Confirmation page', () => {
     const list = $('ul', container);
     expect(list.textContent).to.contain('test 543');
     expect(list.textContent).not.to.contain('test 987');
+    expect($$('span.dd-privacy-hidden', container).length).to.eq(1);
   });
   it('should focus on H2 inside va-alert', async () => {
     const { container } = render(
