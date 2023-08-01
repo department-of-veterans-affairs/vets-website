@@ -1,10 +1,19 @@
+import React from 'react';
+
+import { expect } from 'chai';
+import { render } from '@testing-library/react';
+
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
+import authTypeNonVet from '../e2e/fixtures/data/authTypeNonVet.json';
 
 const {
+  arrayPath,
+  defaultDefinitions,
   schema,
   uiSchema,
 } = formConfig.chapters.authorizerAddressChapter.pages.authAddrPage;
@@ -28,3 +37,22 @@ testNumberOfErrorsOnSubmit(
   expectedNumberOfErrors,
   pageTitle,
 );
+
+describe(`${pageTitle} - custom-street2-label`, () => {
+  it('renders street2 custom-label', () => {
+    const screen = render(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={defaultDefinitions}
+        schema={schema}
+        data={authTypeNonVet.data}
+        formData={authTypeNonVet.data}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    expect(screen.queryAllByText('Street address line 2')).to.have.lengthOf(0);
+    expect(screen.queryAllByText('Apt./Unit number')).to.have.lengthOf(1);
+  });
+});
