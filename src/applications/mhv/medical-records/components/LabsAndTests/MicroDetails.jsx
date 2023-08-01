@@ -77,7 +77,7 @@ const MicroDetails = props => {
               },
               {
                 title: 'Date completed',
-                value: record.date,
+                value: formatDateLong(record.date),
                 inline: true,
               },
             ],
