@@ -106,9 +106,8 @@ class SchemaForm extends React.Component {
       const data = getFormDataFromSchemaId(id, this.props.data);
       // - Only set touched if the field is not empty
       //   because we don't want to show errors as the user tabs through fields
-      // - 'root' does not have a corresponding formData so set touched to true (legacy behavior)
       const isEmpty = data === undefined || data === null || data === '';
-      if (id === 'root' || !isEmpty) {
+      if (!isEmpty) {
         const formContext = set(['touched', id], true, this.state.formContext);
         this.setState({ formContext });
       }
