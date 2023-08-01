@@ -274,7 +274,7 @@ function main() {
   ).map(spec => spec.spec_path);
   const allDisallowedTestsWithWarnings = ALLOW_LIST.filter(
     spec => spec.allowed === false && getDaysSinceDate(spec.warned_at) > 60,
-  );
+  ).map(spec => spec.spec_path);
   console.log(allDisallowedTestsWithWarnings);
   // groups of tests based on test selection and filtering the groups from the allow list
   const testsSelectedByTestSelection = selectTests(graph, CHANGED_FILE_PATHS);
