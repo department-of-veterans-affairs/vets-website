@@ -105,7 +105,12 @@ class SchemaForm extends React.Component {
     if (!this.state.formContext.touched[id]) {
       const data = getFormDataFromSchemaId(id, this.props.data);
       const isEmpty = data === undefined || data === null || data === '';
-      if (!isEmpty) {
+      // - Prefer to only set as touched if the field is NOT empty,
+      //   so that we won't show an error message prematurely.
+      // - If data is not found for some reason (e.g. schema uses snake case
+      //   properties which can't be parsed in a 'root_' string) then go
+      //   ahead and mark as touched which will show a potential error message.
+      if (!isEmpty || data === 'FORM_DATA_NOT_FOUND') {
         const formContext = set(['touched', id], true, this.state.formContext);
         this.setState({ formContext });
       }
