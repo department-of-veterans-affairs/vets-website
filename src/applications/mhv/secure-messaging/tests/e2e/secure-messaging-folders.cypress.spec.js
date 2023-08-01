@@ -37,7 +37,7 @@ describe(manifest.appName, () => {
       FolderLoadPage.loadSentMessages();
     });
     it('Check the header', () => {
-      FolderLoadPage.getFolderHeader('Sent messages');
+      FolderLoadPage.getFolderHeader('Sent');
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {
