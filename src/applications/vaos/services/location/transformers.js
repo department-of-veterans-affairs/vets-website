@@ -1,209 +1,52 @@
-/**
- * @module services/Location/transformers
- */
+import {
+  AUDIOLOGY_TYPES_OF_CARE,
+  TYPES_OF_CARE,
+  TYPES_OF_EYE_CARE,
+  TYPES_OF_SLEEP_CARE,
+  VHA_FHIR_ID,
+} from '../../utils/constants';
 
-import moment from 'moment';
-import { getTestFacilityId } from '../../utils/appointment';
-import { VHA_FHIR_ID } from '../../utils/constants';
-import { arrayToObject, dedupeArray } from '../../utils/data';
-
-function isFacilityOpenAllDay(hours) {
-  if (!hours) return false;
-
-  // Remove all whitespace.
-  const sanitizedOperatingHours = hours.replace(/\s/g, '');
-
-  // Escape early if it is 'Sunrise - Sunset'.
-  return (
-    sanitizedOperatingHours.toLowerCase() === 'sunrise-sunset' ||
-    sanitizedOperatingHours === '24/7'
-  );
-}
-
-function isFacilityClosed(hours) {
-  if (!hours) return true;
-
-  if (isFacilityOpenAllDay(hours)) {
-    return false;
-  }
-
-  // Remove all whitespace.
-  const sanitizedOperatingHours = hours.replace(/\s/g, '');
-
-  // Derive if the hours are closed.
-  return (
-    sanitizedOperatingHours === '-' ||
-    sanitizedOperatingHours.toLowerCase().includes('close')
-  );
-}
-
-function parseHours(operatingHours) {
-  if (!operatingHours) {
-    return [null, null];
-  }
-
-  if (
-    isFacilityOpenAllDay(operatingHours) ||
-    isFacilityClosed(operatingHours)
-  ) {
-    return [null, null];
-  }
-
-  // Remove all whitespace.
-  const sanitizedOperatingHours = operatingHours.replace(/\s/g, '');
-
-  if (!sanitizedOperatingHours.includes('-')) {
-    return [operatingHours, null];
-  }
-
-  // Derive the opening and closing hours.
-  const [openingHour, closingHour] = sanitizedOperatingHours.split('-');
-
-  // Format the hours based on 'hmmA' format.
-  let formattedOpeningHour = moment(openingHour, 'hmmA').format('HH:mm');
-  let formattedClosingHour = moment(closingHour, 'hmmA').format('HH:mm');
-
-  // Attempt to format the hours based on 'h:mmA' if there's a colon.
-  if (openingHour.includes(':')) {
-    formattedOpeningHour = moment(openingHour, 'h:mmA').format('HH:mm');
-  }
-  if (closingHour.includes(':')) {
-    formattedClosingHour = moment(closingHour, 'h:mmA').format('HH:mm');
-  }
-
-  // Derive the formatted operating hours.
-  const hoursArray = [formattedOpeningHour, formattedClosingHour];
-
-  // Return original string if invalid date.
-  if (hoursArray[0].search(/Invalid date/i) === 0) {
-    hoursArray[0] = null;
-  }
-  if (hoursArray[1].search(/Invalid date/i) === 0) {
-    hoursArray[1] = null;
-  }
-
-  // Return the formatted operating hours.
-  return hoursArray;
-}
-
-function transformOperatingHours(facilityHours) {
-  return Object.entries(facilityHours || {})
-    .filter(entry => !isFacilityClosed(entry[1]))
-    .map(([day, hours]) => {
-      const [openingTime, closingTime] = parseHours(hours);
-
-      return {
-        daysOfWeek: [day.toLowerCase().substr(0, 3)],
-        allDay: isFacilityOpenAllDay(hours),
-        openingTime,
-        closingTime,
-      };
-    });
-}
+import { arrayToObject } from '../../utils/data';
 
 /**
- * Returns whether or not the facility has a COVID vaccine phone line
- *
- * @param {Location} facility A facility resource
- * @returns {Boolean} Whether or not the facility has a COVID vaccine phone line
- */
-function hasCovidPhoneNumber(facility) {
-  return !!facility.detailedServices?.find(
-    service => service.name === 'COVID-19 vaccines',
-  )?.appointmentPhones[0]?.number;
-}
-
-/**
- * Transforms a facility object from the VA facilities api into our
+ * Transforms a facility object from the MFS v2 facilities endpoint into our
  * VAOS Location format
  *
  * @export
- * @param {VAFacility} facility A facility from the VA facilities api
- * @returns {Location} A FHIR Location resource
+ * @param {VAFacility} facility A facility from the MFS v2 facilities endpoint
+ * @returns {Location} A Location resource
  */
-export function transformFacility(facility) {
-  const id = getTestFacilityId(facility.uniqueId);
-  const facilityObj = {
+export function transformFacilityV2(facility) {
+  return {
     resourceType: 'Location',
-    id,
-    vistaId: id.substr(0, 3),
+    id: facility.id,
+    vistaId: facility.vistaSite,
+    name: facility.name,
     identifier: [
       {
         system: 'http://med.va.gov/fhir/urn',
-        value: `urn:va:division:${id.substr(0, 3)}:${id}`,
+        value: `urn:va:division:${facility.vistaSite}:${facility.id}`,
       },
       {
         system: VHA_FHIR_ID,
-        value: id,
+        value: facility.id,
       },
     ],
-    name: facility.name,
     telecom: [
       {
         system: 'phone',
         value: facility.phone?.main,
       },
     ],
-    address: facility.address?.physical
-      ? {
-          line: [
-            facility.address.physical.address1,
-            facility.address.physical.address2,
-            facility.address.physical.address3,
-          ].filter(line => !!line),
-          city: facility.address.physical.city,
-          state: facility.address.physical.state,
-          postalCode: facility.address.physical.zip,
-        }
-      : null,
     position: {
       longitude: facility.long,
       latitude: facility.lat,
     },
-    hoursOfOperation: transformOperatingHours(facility.hours),
-  };
-
-  if (hasCovidPhoneNumber(facility)) {
-    facilityObj.telecom.push({
-      system: 'covid',
-      value: facility.detailedServices?.find(
-        service => service.name === 'COVID-19 vaccines',
-      )?.appointmentPhones[0]?.number,
-    });
-  }
-
-  return facilityObj;
-}
-
-/**
- * Transform an ATLAS facility from VVS (via MAS) to our Location format
- *
- * @export
- * @param {VARAtlasFacility} tasInfo The tasInfo object from legacyVAR
- * @returns {Location} A FHIR Location resource
- */
-export function transformATLASLocation(tasInfo) {
-  const { address, siteCode } = tasInfo;
-  const {
-    city,
-    longitude,
-    latitude,
-    state,
-    streetAddress,
-    zipCode: postalCode,
-  } = address;
-  return {
-    resourceType: 'Location',
-    id: siteCode,
     address: {
-      line: [streetAddress],
-      city,
-      state,
-      postalCode,
-    },
-    position: {
-      longitude,
-      latitude,
+      line: facility.physicalAddress.line,
+      city: facility.physicalAddress.city,
+      state: facility.physicalAddress.state,
+      postalCode: facility.physicalAddress.postalCode,
     },
   };
 }
@@ -244,17 +87,6 @@ export function setSupportedSchedulingMethods({ location, settings } = {}) {
       settings: arrayToObject(facilitySettings?.services),
     },
   };
-}
-
-/**
- * Transforms a list of facilities api facilities into a list of Locations
- *
- * @export
- * @param {Array<VAFacility>} facilities A list of facilities from the facilities api
- * @returns {Array<Location>} A list of Location resources
- */
-export function transformFacilities(facilities) {
-  return facilities.map(transformFacility);
 }
 
 /**
@@ -303,88 +135,48 @@ export function transformCommunityProviders(providers) {
 }
 
 /**
- * Transforms the list of request and direct scheduling settings from VATS
- * into a combined settings object
- *
- * @export
- * @param {Array<Array>} [settings=[[],[]]] The array of settings from MFS v1
- * @returns {Array<FacilitySettings>} A list of settings for a VA facility
- */
-export function transformSettings([request = [], direct = []]) {
-  // Trying to handle if we get different sets of facilities from each setttings list
-  // by converting the lists to objects and creating a unique list of ids
-  const directSettings = arrayToObject(direct);
-  const requestSettings = arrayToObject(request);
-  const facilityIds = dedupeArray([
-    ...direct.map(d => d.id),
-    ...request.map(r => r.id),
-  ]);
-
-  return facilityIds.map(id => {
-    // Similar to above, trying to handle us potentially getting different sets of
-    // types of care between the two types of settings
-    const serviceIds = dedupeArray([
-      ...(directSettings[id]?.coreSettings.map(d => d.id) || []),
-      ...(requestSettings[id]?.requestSettings.map(r => r.id) || []),
-    ]);
-    const requestServiceSettings = arrayToObject(
-      requestSettings[id]?.requestSettings,
-    );
-    const directServiceSettings = arrayToObject(
-      directSettings[id]?.coreSettings,
-    );
-
-    return {
-      id,
-      services: serviceIds.map(serviceId => {
-        const directCareSettings = directServiceSettings[serviceId];
-        const requestCareSettings = requestServiceSettings[serviceId];
-
-        return {
-          id: serviceId,
-          name:
-            requestCareSettings?.typeOfCare || directCareSettings?.typeOfCare,
-          direct: {
-            enabled: !!directCareSettings?.patientHistoryRequired,
-            patientHistoryRequired:
-              directCareSettings?.patientHistoryRequired?.toLowerCase() ===
-              'yes',
-            patientHistoryDuration: directCareSettings?.patientHistoryDuration,
-          },
-          request: {
-            enabled: !!requestCareSettings?.patientHistoryRequired,
-            patientHistoryRequired:
-              requestCareSettings?.patientHistoryRequired?.toLowerCase() ===
-              'yes',
-            patientHistoryDuration: requestCareSettings?.patientHistoryDuration,
-            submittedRequestLimit: requestCareSettings?.submittedRequestLimit,
-          },
-        };
-      }),
-    };
-  });
-}
-
-/**
  * Transforms parent facilities from var-resources into Location objects
  *
  * @export
- * @param {Array<VARFacility>} parentFacilities A list of parent facilities from var-resources
+ * @param {Array<VARFacility>} parentFacilities A list of facilities from var-resources
  * @returns {Array<Location>} A list of Locations
  */
-export function transformParentFacilities(parentFacilities) {
-  return parentFacilities.map(facility => {
-    return {
-      resourceType: 'Location',
-      id: facility.id,
-      vistaId: facility.rootStationCode,
-      name: facility.authoritativeName,
-      address: {
-        line: [],
-        city: facility.city,
-        state: facility.stateAbbrev,
-        postalCode: null,
-      },
-    };
-  });
+export function transformParentFacilitiesV2(facilities) {
+  return facilities
+    .filter(facility => {
+      return facility.id === facility.vastParent;
+    })
+    .map(transformFacilityV2);
+}
+
+/**
+ * Transforms a list of MFS v2 facilities into a list of Locations
+ *
+ * @export
+ * @param {Array<MFSFacility>} facilities A list of facilities from MFS v2 facilities endpoint
+ * @returns {Array<Location>} A list of Location resources
+ */
+export function transformFacilitiesV2(facilities) {
+  return facilities.map(transformFacilityV2);
+}
+
+function getTypeOfCareIdFromV2(id) {
+  const allTypesOfCare = [
+    ...TYPES_OF_EYE_CARE,
+    ...TYPES_OF_SLEEP_CARE,
+    ...AUDIOLOGY_TYPES_OF_CARE,
+    ...TYPES_OF_CARE,
+  ];
+
+  return allTypesOfCare.find(care => care.idV2 === id)?.id;
+}
+
+export function transformSettingsV2(settings) {
+  return settings.map(setting => ({
+    ...setting,
+    services: setting.services.map(service => ({
+      ...service,
+      id: getTypeOfCareIdFromV2(service.id),
+    })),
+  }));
 }
