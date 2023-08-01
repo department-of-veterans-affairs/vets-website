@@ -27,7 +27,7 @@ const getReturnRouteInfo = (path, routes) => {
     return routePath === path;
   });
   if (!returnRouteInfo) {
-    return null;
+    return { ...routes[0], name: 'profile' };
   }
   return returnRouteInfo;
 };
@@ -47,21 +47,22 @@ const getFieldInfo = fieldName => {
   };
 };
 
-const beforeUnloadListener = e => {
+const beforeUnloadHandler = e => {
   e.preventDefault();
   e.returnValue = '';
 };
 
 const clearBeforeUnloadListener = () => {
-  window.removeEventListener('beforeunload', beforeUnloadListener, {
-    capture: true,
-  });
+  window.removeEventListener('beforeunload', beforeUnloadHandler);
 };
 
 export const Edit = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const query = useQuery();
+
+  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
+  const [hasBeforeUnloadListener, setHasBeforeUnloadListener] = useState(false);
 
   const fieldInfo = getFieldInfo(query.get('fieldName'));
 
@@ -85,8 +86,6 @@ export const Edit = () => {
     state => state.vapService.hasUnsavedEdits,
   );
 
-  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
-
   useEffect(() => {
     if (fieldInfo?.fieldName && !hasVAPServiceError) {
       dispatch(openModal(fieldInfo.fieldName, fieldData));
@@ -95,16 +94,18 @@ export const Edit = () => {
 
   useEffect(
     () => {
-      if (hasUnsavedEdits) {
-        window.addEventListener('beforeunload', beforeUnloadListener, {
-          capture: true,
-        });
+      if (hasUnsavedEdits && !hasBeforeUnloadListener) {
+        window.addEventListener('beforeunload', beforeUnloadHandler);
+        setHasBeforeUnloadListener(true);
         return;
       }
 
-      clearBeforeUnloadListener();
+      if (!hasUnsavedEdits && hasBeforeUnloadListener) {
+        setHasBeforeUnloadListener(false);
+        clearBeforeUnloadListener();
+      }
     },
-    [hasUnsavedEdits],
+    [hasUnsavedEdits, hasBeforeUnloadListener],
   );
 
   const handlers = {
@@ -152,7 +153,7 @@ export const Edit = () => {
                   onClickHandler={handlers.breadCrumbClick}
                   href={returnPath}
                 >
-                  Back to {returnPathName}
+                  {`Back to ${returnPathName}`}
                 </EditBreadcrumb>
 
                 <p className="vads-u-margin-bottom--0p5">

@@ -12,14 +12,6 @@ const MissingContactInfoAlertLink = ({ missingInfo }) => {
   const linkInfo = useMemo(
     () => {
       const linkMap = {
-        [MISSING_CONTACT_INFO.ALL]: {
-          linkText: 'Update your contact information',
-          linkTarget: generateContactInfoLink({
-            fieldName: 'phoneNumbers',
-            focusOnEditButton: false,
-            returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
-          }),
-        },
         [MISSING_CONTACT_INFO.EMAIL]: {
           linkText: 'Add an email address to your profile',
           linkTarget: generateContactInfoLink({
@@ -27,6 +19,7 @@ const MissingContactInfoAlertLink = ({ missingInfo }) => {
             focusOnEditButton: true,
             returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
           }),
+          linkTestId: 'add-email-address-link',
         },
         [MISSING_CONTACT_INFO.MOBILE]: {
           linkText: 'Add a phone number to your profile',
@@ -35,6 +28,7 @@ const MissingContactInfoAlertLink = ({ missingInfo }) => {
             focusOnEditButton: true,
             returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
           }),
+          linkTestId: 'add-mobile-phone-link',
         },
       };
       return linkMap[missingInfo];
@@ -44,8 +38,8 @@ const MissingContactInfoAlertLink = ({ missingInfo }) => {
   return (
     <va-link
       href={linkInfo.linkTarget}
-      data-testid="add-contact-info-link"
       text={linkInfo.linkText}
+      data-testid={linkInfo.linkTestId}
       active
     />
   );
