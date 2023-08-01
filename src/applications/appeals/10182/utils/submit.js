@@ -295,7 +295,8 @@ export const removeEmptyEntries = object =>
  * Veteran~submittable
  * @property {Address~submittable} address
  * @property {Phone~submittable} phone
- * @property {String} emailAddressText
+ * @property {String} emailAddressText (v0)
+ * @property {String} email (v1)
  * @property {Boolean} homeless
  */
 /**
@@ -365,6 +366,18 @@ export const getPhone = ({ veteran = {} } = {}) => {
     phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
     phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
   });
+};
+
+/**
+ *
+ * @param {*} formData
+ * @returns
+ */
+export const getEmail = (formData = {}) => {
+  // v0 uses emailAddressText
+  // v1 uses email
+  const key = formData[SHOW_PART3] ? 'email' : 'emailAddressText';
+  return { [key]: formData.veteran?.email || '' };
 };
 
 /**

@@ -4,6 +4,7 @@ import {
   addUploads,
   getAddress,
   getPhone,
+  getEmail,
   getTimeZone,
   getPart3Data,
 } from '../utils/submit';
@@ -20,7 +21,7 @@ export function transform(formConfig, form) {
             homeless: formData.homeless || false,
             address: getAddress(formData),
             phone: getPhone(formData),
-            emailAddressText: formData.veteran?.email || '',
+            ...getEmail(formData), // emailAddressText: formData.veteran?.email || '',
           },
           boardReviewOption: formData.boardReviewOption || '',
           hearingTypePreference: formData.hearingTypePreference || '',
