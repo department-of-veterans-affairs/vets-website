@@ -216,7 +216,13 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed by
             </h3>
-            <p>{prescription?.presciberName || 'None noted'}</p>
+            <p>
+              {prescription.providerFirstName
+                ? `${prescription.providerLastName}, ${
+                    prescription.providerFirstName
+                  }`
+                : 'None noted'}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
             </h3>
@@ -263,8 +269,8 @@ const PrescriptionDetails = () => {
 
           <div className="medication-details-div vads-u-margin-bottom--8">
             <h2 className="vads-u-margin-top--3">Refill history</h2>
-            {prescription.history && prescription.history.length > 0 ? (
-              prescription.history.map(entry => (
+            {prescription.rxRfRecords && prescription.rxRfRecords.length > 0 ? (
+              prescription.rxRfRecords.map(entry => (
                 <div key={entry.requestDate}>
                   <h3 className="vads-u-font-size--lg vads-u-font-family--sans">
                     {dateFormat(entry.requestDate, 'MMMM YYYY')}
