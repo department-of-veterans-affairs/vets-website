@@ -7,7 +7,8 @@ import {
 } from './helpers';
 
 // incomeCalculator.js
-export const calculateIncome = (
+
+export const getMonthlyIncome = (
   enhancedFSRActive,
   employmentRecords,
   currEmployment,
@@ -82,5 +83,65 @@ export const calculateIncome = (
       amount: otherIncome,
     },
     totalMonthlyNetIncome: netIncome + otherIncome,
+  };
+};
+
+export const calculateIncome = formData => {
+  const {
+    'view:enhancedFinancialStatusReport': enhancedFSRActive,
+    additionalIncome: {
+      addlIncRecords,
+      spouse: { spAddlIncome },
+    },
+    personalData: {
+      employmentHistory: {
+        veteran: { employmentRecords = [] },
+        spouse: { spEmploymentRecords = [] },
+      },
+    },
+    socialSecurity,
+    benefits,
+    currEmployment,
+    spCurrEmployment,
+    income,
+  } = formData;
+
+  // Calculate income for veteran
+  const vetIncome = getMonthlyIncome(
+    enhancedFSRActive,
+    employmentRecords,
+    currEmployment,
+    addlIncRecords,
+    socialSecurity,
+    income,
+    benefits,
+    'veteran',
+  );
+
+  let spIncome = null;
+
+  // Calculate income for spouse only if spouse data exists
+  if (spEmploymentRecords || spCurrEmployment || spAddlIncome) {
+    spIncome = getMonthlyIncome(
+      enhancedFSRActive,
+      spEmploymentRecords,
+      spCurrEmployment,
+      spAddlIncome,
+      socialSecurity,
+      income,
+      benefits,
+      'spouse',
+    );
+  }
+
+  // get monthly totals
+  const totalMonthlyNetIncome =
+    vetIncome.totalMonthlyNetIncome +
+    (spIncome ? spIncome.totalMonthlyNetIncome : 0);
+
+  return {
+    vetIncome,
+    spIncome,
+    totalMonthlyNetIncome,
   };
 };

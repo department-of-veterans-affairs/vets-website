@@ -40,10 +40,6 @@ export const transform = (formConfig, form) => {
       telephoneNumber,
       dateOfBirth,
       dependents,
-      employmentHistory: {
-        veteran: { employmentRecords = [] },
-        spouse: { spEmploymentRecords = [] },
-      },
       veteranContactInformation: { address = {}, mobilePhone = {} } = {},
     },
     // TODO: Cannot read properties of undefined (reading 'creditCardBills') - Dan Path
@@ -61,46 +57,16 @@ export const transform = (formConfig, form) => {
     additionalData,
     selectedDebtsAndCopays = [],
     realEstateRecords,
-    currEmployment,
-    spCurrEmployment,
-    additionalIncome: { addlIncRecords, spouse: { spAddlIncome } } = {},
-    income,
-    socialSecurity,
-    benefits,
   } = form.data;
 
   // enhanced fsr flag
   const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
-  // Calculate income for veteran
-  const vetIncome = calculateIncome(
-    enhancedFSRActive,
-    employmentRecords,
-    currEmployment,
-    addlIncRecords,
-    socialSecurity,
-    income,
-    benefits,
-    'veteran',
+
+  // === Income ===
+  const { vetIncome, spIncome, totalMonthlyNetIncome } = calculateIncome(
+    form.data,
   );
 
-  let spIncome = null;
-
-  // Calculate income for spouse only if spouse data exists
-  if (spEmploymentRecords || spCurrEmployment || spAddlIncome) {
-    spIncome = calculateIncome(
-      enhancedFSRActive,
-      spEmploymentRecords,
-      spCurrEmployment,
-      spAddlIncome,
-      socialSecurity,
-      income,
-      benefits,
-      'spouse',
-    );
-  }
-  // get monthly totals
-  const totMonthlyNetIncome =
-    vetIncome.totalMonthlyNetIncome + spIncome.totalMonthlyNetIncome;
   // === expenses ===
   // rent & mortgage expenses for box 18
   const rentOrMortgageExpenses = expenseRecords.filter(
@@ -262,7 +228,7 @@ export const transform = (formConfig, form) => {
       totalMonthlyExpenses: totMonthlyExpenses,
     },
     discretionaryIncome: {
-      netMonthlyIncomeLessExpenses: totMonthlyNetIncome - totMonthlyExpenses,
+      netMonthlyIncomeLessExpenses: totalMonthlyNetIncome - totMonthlyExpenses,
       amountCanBePaidTowardDebt,
     },
     assets: {
