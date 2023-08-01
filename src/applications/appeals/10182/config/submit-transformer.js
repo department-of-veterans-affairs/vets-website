@@ -21,7 +21,7 @@ export function transform(formConfig, form) {
             homeless: formData.homeless || false,
             address: getAddress(formData),
             phone: getPhone(formData),
-            ...getEmail(formData), // emailAddressText: formData.veteran?.email || '',
+            ...getEmail(formData),
           },
           boardReviewOption: formData.boardReviewOption || '',
           hearingTypePreference: formData.hearingTypePreference || '',
