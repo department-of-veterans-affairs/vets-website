@@ -119,6 +119,7 @@ export const IssueCard = ({
 
   const titleClass = [
     'widget-title',
+    'dd-privacy-hidden',
     'vads-u-font-size--h4',
     'vads-u-margin--0',
     'capitalize',
