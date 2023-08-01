@@ -65,7 +65,9 @@ const IDPage = props => {
     const fullName = {
       ...form.data.veteranFullName,
       first: idFormData.firstName,
+      middle: idFormData.middleName,
       last: idFormData.lastName,
+      suffix: idFormData.suffix,
     };
     setFormData({
       ...form.data,

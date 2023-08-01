@@ -175,7 +175,9 @@ const formConfig = {
           path: 'veteran-information/profile-information',
           title: 'Veteran\u2019s name',
           initialData: {},
-          depends: formData => !formData['view:isLoggedIn'],
+          depends: formData =>
+            !formData['view:isLoggedIn'] &&
+            !formData['view:isRemoveIDFieldsEnabled'],
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
@@ -183,7 +185,9 @@ const formConfig = {
           path: 'veteran-information/profile-information-ssn',
           title: 'Social Security number',
           initialData: {},
-          depends: formData => !formData['view:isLoggedIn'],
+          depends: formData =>
+            !formData['view:isLoggedIn'] &&
+            !formData['view:isRemoveIDFieldsEnabled'],
           uiSchema: personalInformationSsn.uiSchema,
           schema: personalInformationSsn.schema,
         },
@@ -192,7 +196,9 @@ const formConfig = {
           title: 'Date of birth',
           initialData: {},
           depends: formData =>
-            !formData['view:isLoggedIn'] || !formData['view:userDob'],
+            (!formData['view:isLoggedIn'] &&
+              !formData['view:isRemoveIDFieldsEnabled']) ||
+            (formData['view:isLoggedIn'] && !formData['view:userDob']),
           uiSchema: personalInformationDOB.uiSchema,
           schema: personalInformationDOB.schema,
         },
