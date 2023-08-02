@@ -9,7 +9,7 @@ registerCypressHelpers();
 describe('Edit page', () => {
   beforeEach(() => {
     mockProfileLOA3();
-    cy.login(user.responses.loa3User72);
+    cy.login(user.loa3User72);
   });
 
   describe('Cancelling from edit page with no unsaved changes', () => {

@@ -127,7 +127,7 @@ export function mockProfileLOA3() {
   cy.intercept('/v0/profile/service_history', serviceHistory);
   cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
   cy.intercept('/v0/ppiu/payment_information', mockPaymentInfoNotEligible);
-  cy.intercept('/v0/user', user.responses.loa3User72);
+  cy.intercept('/v0/user', user.loa3User72);
 
   const togglesAllOn = true;
   mockFeatureToggles(() => generateFeatureToggles({}, togglesAllOn));
