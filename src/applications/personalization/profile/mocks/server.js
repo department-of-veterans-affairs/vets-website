@@ -6,6 +6,7 @@ const { set } = require('lodash');
 const user = require('./endpoints/user');
 const mhvAcccount = require('./endpoints/mhvAccount');
 const address = require('./endpoints/address');
+const emailAddress = require('./endpoints/email-adresses');
 const phoneNumber = require('./endpoints/phone-number');
 const status = require('./endpoints/status');
 const ratingInfo = require('./endpoints/rating-info');
@@ -169,6 +170,12 @@ const responses = {
   },
   'POST /v0/profile/telephones': (_req, res) => {
     return res.status(200).json(phoneNumber.transactions.received);
+  },
+  'POST /v0/profile/email_addresses': (_req, res) => {
+    return res.status(200).json(emailAddress.transactions.received);
+  },
+  'PUT /v0/profile/email_addresses': (_req, res) => {
+    return res.status(200).json(emailAddress.transactions.received);
   },
   'PUT /v0/profile/addresses': (req, res) => {
     // return res.status(401).json(require('../tests/fixtures/401.json'));
