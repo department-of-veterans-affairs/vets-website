@@ -30,7 +30,7 @@ const App = props => {
     isFacilitiesApiEnabled = false,
     isHouseholdV2Enabled = false,
     isSigiEnabled = false,
-    isRemoveIDFieldsEnabled = false,
+    isRemoveIdFieldsEnabled = false,
   } = features;
 
   // Attempt to fetch disability rating for authenticated users
@@ -86,7 +86,7 @@ const App = props => {
           ...formData,
           ...defaultViewFields,
           'view:isHouseholdV2Enabled': isHouseholdV2Enabled,
-          'view:isRemoveIDFieldsEnabled': isRemoveIDFieldsEnabled,
+          'view:isRemoveIdFieldsEnabled': isRemoveIdFieldsEnabled,
         });
       }
     },
@@ -99,7 +99,7 @@ const App = props => {
       isSigiEnabled,
       isHouseholdV2Enabled,
       isFacilitiesApiEnabled,
-      isRemoveIDFieldsEnabled,
+      isRemoveIdFieldsEnabled,
       totalDisabilityRating,
       formData.veteranFullName,
     ],
@@ -159,7 +159,7 @@ const mapStateToProps = state => ({
     isFacilitiesApiEnabled: state.featureToggles.hcaUseFacilitiesApi,
     isHouseholdV2Enabled: state.featureToggles.hcaHouseholdV2Enabled,
     isSigiEnabled: state.featureToggles.hcaSigiEnabled,
-    isRemoveIDFieldsEnabled: state.featureToggles.hcaRemoveIDFieldsEnabled,
+    isRemoveIdFieldsEnabled: state.featureToggles.hcaRemoveIdFieldsEnabled,
   },
   formData: state.form.data,
   hasSavedForm: state.user.profile.savedForms.some(

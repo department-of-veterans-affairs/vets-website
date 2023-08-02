@@ -25,7 +25,7 @@ describe('hca FeatureToggles selector', () => {
         isFacilitiesApiEnabled: false,
         isHouseholdV2Enabled: false,
         isSigiEnabled: false,
-        isRemoveIDFieldsEnabled: true,
+        isRemoveIdFieldsEnabled: true,
       });
     });
   });

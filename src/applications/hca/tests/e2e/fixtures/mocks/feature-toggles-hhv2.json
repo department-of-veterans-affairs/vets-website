@@ -19,7 +19,7 @@
         "value": true
       },
       {
-        "name": "hcaRemoveIDFieldsEnabled",
+        "name": "hcaRemoveIdFieldsEnabled",
         "value": false
       }
     ]

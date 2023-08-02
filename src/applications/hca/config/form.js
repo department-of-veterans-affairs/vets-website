@@ -177,7 +177,7 @@ const formConfig = {
           initialData: {},
           depends: formData =>
             !formData['view:isLoggedIn'] &&
-            !formData['view:isRemoveIDFieldsEnabled'],
+            !formData['view:isRemoveIdFieldsEnabled'],
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
@@ -187,7 +187,7 @@ const formConfig = {
           initialData: {},
           depends: formData =>
             !formData['view:isLoggedIn'] &&
-            !formData['view:isRemoveIDFieldsEnabled'],
+            !formData['view:isRemoveIdFieldsEnabled'],
           uiSchema: personalInformationSsn.uiSchema,
           schema: personalInformationSsn.schema,
         },
@@ -197,7 +197,7 @@ const formConfig = {
           initialData: {},
           depends: formData =>
             (!formData['view:isLoggedIn'] &&
-              !formData['view:isRemoveIDFieldsEnabled']) ||
+              !formData['view:isRemoveIdFieldsEnabled']) ||
             (formData['view:isLoggedIn'] && !formData['view:userDob']),
           uiSchema: personalInformationDOB.uiSchema,
           schema: personalInformationDOB.schema,
