@@ -14,5 +14,19 @@ class MedicationsListPage {
       force: true,
     });
   };
+
+  clickPrintOrDownloadThisListDropDown = () => {
+    cy.get('[data-testid="print-records-button"] > span').click({
+      force: true,
+    });
+  };
+
+  verifyPrintMedicationsListonListPage = () => {
+    cy.get('[class="menu-options menu-options-open"]').should(
+      'contain',
+      'Print list',
+    );
+    cy.contains('Print list').should('be.enabled');
+  };
 }
 export default MedicationsListPage;
