@@ -13,11 +13,15 @@ const ShowIssuesList = ({ issues }) => (
         </strong>
         <div>
           Decision date:{' '}
-          {getDate({
-            date:
-              issue.attributes?.approxDecisionDate || issue.decisionDate || '',
-            pattern: FORMAT_READABLE,
-          })}
+          <span className="dd-privacy-hidden">
+            {getDate({
+              date:
+                issue.attributes?.approxDecisionDate ||
+                issue.decisionDate ||
+                '',
+              pattern: FORMAT_READABLE,
+            })}
+          </span>
         </div>
       </li>
     ))}
