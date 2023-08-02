@@ -1,12 +1,71 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
+import { sendErrorToSentry } from '../../util/helpers';
+import { generatePdfScaffold } from '../../../shared/util/helpers';
 
 const ProgressNoteDetails = props => {
   const { record } = props;
+  const user = useSelector(state => state.user.profile);
 
-  const download = () => {};
+  const generateCareNotesPDF = async () => {
+    const title = 'Care summaries and notes';
+    const subject = 'VA Medical Record';
+    const scaffold = generatePdfScaffold(user, title, subject);
+
+    scaffold.details = {
+      header: 'Details',
+      items: [
+        {
+          title: 'Location',
+          value: record.location,
+          inline: true,
+        },
+        {
+          title: 'Signed by',
+          value: record.physician,
+          inline: true,
+        },
+        {
+          title: 'Last updated',
+          value: record.dateUpdated,
+          inline: true,
+        },
+        {
+          title: 'Date signed',
+          value: record.dateSigned,
+          inline: true,
+        },
+      ],
+    };
+    scaffold.results = {
+      header: 'Notes',
+      items: [
+        {
+          items: [
+            {
+              title: '',
+              value: record.summary,
+              inline: false,
+            },
+          ],
+        },
+      ],
+    };
+
+    try {
+      await generatePdf('medicalRecords', 'care_notes_report', scaffold);
+    } catch (error) {
+      sendErrorToSentry(error, 'Care Note details');
+    }
+  };
+
+  const download = () => {
+    generateCareNotesPDF();
+  };
 
   const content = () => {
     if (record) {

@@ -48,7 +48,7 @@ class PatientMessageSentPage {
     cy.get('#filter-input')
       .shadow()
       .find('#inputField')
-      .type(`${text}`);
+      .type(`${text}`, { force: true });
   };
 
   filterMessages = () => {
@@ -57,20 +57,20 @@ class PatientMessageSentPage {
       '/my_health/v1/messaging/folders/-1/search',
       sentSearchResponse,
     );
-    cy.get('[data-testid="filter-messages-button"]').click();
+    cy.get('[data-testid="filter-messages-button"]').click({ force: true });
   };
 
   clearFilter = () => {
     this.inputFilterData('any');
     this.filterMessages();
-    cy.get('[text="Clear Filters"]').click();
+    cy.get('[text="Clear Filters"]').click({ force: true });
   };
 
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
     cy.get('#sort-order-dropdown')
       .shadow()
       .find('#select')
-      .select(`${text}`);
+      .select(`${text}`, { force: true });
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-1/threads**',
