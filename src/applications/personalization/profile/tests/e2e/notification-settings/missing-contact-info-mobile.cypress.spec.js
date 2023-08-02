@@ -58,7 +58,7 @@ describe('Notification Settings For Mobile Phone', () => {
             }).should('exist');
           });
 
-        cy.findByRole('link', { name: /add your email/i }).should('not.exist');
+        cy.findByTestId('add-email-address-link').should('not.exist');
         cy.axeCheck();
       });
     });

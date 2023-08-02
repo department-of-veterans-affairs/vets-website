@@ -16,10 +16,20 @@ const profileToggles = {
   profileShowEmailNotificationSettings: false,
 };
 
-const generateFeatureToggles = (values = profileToggles) => {
-  const mergedValues = { ...profileToggles, ...values };
+const makeAllTogglesTrue = toggles => {
+  const result = { ...toggles };
+  Object.keys(result).forEach(key => {
+    result[key] = true;
+  });
+  return result;
+};
 
-  const features = Object.entries(mergedValues).map(([key, value]) => {
+const generateFeatureToggles = (values = profileToggles, allOn = false) => {
+  const toggles = allOn
+    ? makeAllTogglesTrue(profileToggles)
+    : { ...profileToggles, ...values };
+
+  const features = Object.entries(toggles).map(([key, value]) => {
     return {
       name: snakeCase(key),
       value,
