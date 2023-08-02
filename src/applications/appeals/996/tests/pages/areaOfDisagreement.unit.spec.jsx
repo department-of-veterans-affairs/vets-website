@@ -1,15 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import { fireEvent, render } from '@testing-library/react';
 import sinon from 'sinon';
 
-import {
-  DefinitionTester,
-  selectCheckbox,
-  fillData,
-} from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
+import { AreaOfDisagreementReviewField } from '../../content/areaOfDisagreement';
 
 describe('area of disagreement page', () => {
   const {
@@ -30,7 +28,7 @@ describe('area of disagreement page', () => {
   };
 
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={{}}
         arrayPath={arrayPath}
@@ -41,17 +39,24 @@ describe('area of disagreement page', () => {
       />,
     );
 
-    expect(form.find('input[type="checkbox"]').length).to.equal(3);
-    expect(form.find('input[type="text"]').length).to.equal(1);
-    expect(form.find('h3').text()).to.contain('Tinnitus');
-    expect(form.find('h3').text()).to.contain('January 1, 2021');
-    expect(form.find('h3 .dd-privacy-hidden')).to.exist;
-    form.unmount();
+    expect($$('input[type="checkbox"]', container).length).to.equal(3);
+    expect($$('input[type="text"]', container).length).to.equal(1);
+    expect(
+      $$('input[aria-describedby="disagreement-title"]', container).length,
+    ).to.equal(3);
+    expect(
+      $('#root_otherEntry', container).getAttribute('aria-describedby'),
+    ).to.equal('disagreement-title other_hint_text_0');
+    const header = $('h3', container);
+    expect(header.id).to.equal('disagreement-title');
+    expect(header.textContent).to.contain('Tinnitus');
+    expect(header.textContent).to.contain('January 1, 2021');
+    expect($('h3 .dd-privacy-hidden', container)).to.exist;
   });
 
   it('should not allow submit when nothing is checked and the input is blank', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={{}}
         arrayPath={arrayPath}
@@ -63,13 +68,14 @@ describe('area of disagreement page', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
+    fireEvent.submit($('form', container));
+    expect($('.usa-input-error-message', container)).to.exist;
     expect(onSubmit.called).to.be.false;
-    form.unmount();
   });
+
   it('should allow submit when an area is checked', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container, getByLabelText } = render(
       <DefinitionTester
         definitions={{}}
         arrayPath={arrayPath}
@@ -81,14 +87,14 @@ describe('area of disagreement page', () => {
       />,
     );
 
-    selectCheckbox(form, 'root_disagreementOptions_serviceConnection', true);
-    form.find('form').simulate('submit');
+    fireEvent.click(getByLabelText('The service connection'));
+    fireEvent.submit($('form', container));
     expect(onSubmit.called).to.be.true;
-    form.unmount();
   });
+
   it('should allow submit with additional text', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={{}}
         arrayPath={arrayPath}
@@ -100,9 +106,48 @@ describe('area of disagreement page', () => {
       />,
     );
 
-    fillData(form, '[name="root_otherEntry"]', 'foo');
-    form.find('form').simulate('submit');
+    fireEvent.change($('[name="root_otherEntry"]', container), {
+      target: { value: 'foo' },
+    });
+    fireEvent.submit($('form', container));
     expect(onSubmit.called).to.be.true;
-    form.unmount();
+  });
+
+  it('should render AreaOfDisagreementReviewField', () => {
+    const title = 'Your evaluation of my condition';
+    const { container } = render(
+      <AreaOfDisagreementReviewField>
+        {React.createElement(
+          'div',
+          {
+            id: 'foo',
+            name: 'evaluation',
+            formData: {},
+          },
+          'Bar',
+        )}
+      </AreaOfDisagreementReviewField>,
+    );
+    expect($('dt', container).textContent).to.equal(title);
+    expect($('dd', container).textContent).to.equal('Bar');
+    expect($$('dd.dd-privacy-hidden', container).length).to.equal(0);
+  });
+  it('should render AreaOfDisagreementReviewField with hidden Datadog class', () => {
+    const title = 'Something else:';
+    const { container } = render(
+      <AreaOfDisagreementReviewField>
+        {React.createElement(
+          'div',
+          {
+            id: 'foo',
+            name: 'otherEntry',
+            formData: {},
+          },
+          'Bar',
+        )}
+      </AreaOfDisagreementReviewField>,
+    );
+    expect($('dt', container).textContent).to.equal(title);
+    expect($('dd.dd-privacy-hidden', container).textContent).to.equal('Bar');
   });
 });
