@@ -16,6 +16,7 @@ const data = {
         first: 'Foo',
         middle: 'Man',
         last: 'Choo',
+        suffix: 'Esq.',
       },
     },
   },
@@ -59,7 +60,7 @@ describe('Confirmation page', () => {
   });
   it('should render the user name', () => {
     const tree = mount(<ConfirmationPage store={fakeStore} />);
-    expect(tree.text()).to.contain('Foo Man Choo');
+    expect(tree.text()).to.contain('Foo Man Choo, Esq.');
     tree.unmount();
   });
   it('should render the submit date', () => {
@@ -75,8 +76,10 @@ describe('Confirmation page', () => {
     expect(list).not.to.contain('test 987');
     tree.unmount();
   });
-  it('should reset the wizard sessionStorage', () => {
+  it('should have Datadog class names to hide PII', () => {
     const tree = mount(<ConfirmationPage store={fakeStore} />);
+    expect(tree.find('span.dd-privacy-hidden').length).to.eq(3);
+    expect(tree.find('li .dd-privacy-hidden').length).to.eq(1);
     tree.unmount();
   });
 });
