@@ -206,20 +206,20 @@ const ReplyForm = props => {
     [draft],
   );
 
-  const setMessageTitle = () => {
-    const casedCategory =
-      category === 'COVID' ? category : capitalize(category);
-    if (category && subject) {
+  const messageTitle = useMemo(
+    () => {
+      const casedCategory =
+        category === 'COVID' ? category : capitalize(category);
+      if (category && !subject) {
+        return `${casedCategory}:`;
+      }
+      if (!category && subject) {
+        return subject;
+      }
       return `${casedCategory}: ${subject}`;
-    }
-    if (category && !subject) {
-      return `${casedCategory}:`;
-    }
-    if (!category && subject) {
-      return subject;
-    }
-    return 'New message';
-  };
+    },
+    [category, subject],
+  );
 
   const checkMessageValidity = () => {
     let messageValid = true;
@@ -317,7 +317,7 @@ const ReplyForm = props => {
     return (
       <>
         <h1 ref={header} className="page-title">
-          {setMessageTitle()}
+          {messageTitle}
         </h1>
         <CannotReplyAlert visible={cannotReply} />
 
