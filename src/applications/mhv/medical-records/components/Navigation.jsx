@@ -19,27 +19,27 @@ const Navigation = () => {
           datatestid: 'labs-and-tests-sidebar',
         },
         {
-          path: '/health-history/care-summaries-and-notes',
+          path: '/care-summaries-and-notes',
           label: 'Care summaries and notes',
           datatestid: 'care-summaries-and-notes-sidebar',
         },
         {
-          path: '/health-history/vaccines',
+          path: '/vaccines',
           label: 'Vaccines',
           datatestid: 'vaccines-sidebar',
         },
         {
-          path: '/health-history/allergies',
+          path: '/allergies',
           label: 'Allergies',
           datatestid: 'allergies-sidebar',
         },
         {
-          path: '/health-history/health-conditions',
+          path: '/health-conditions',
           label: 'Health conditions',
           datatestid: 'health-conditions-sidebar',
         },
         {
-          path: '/health-history/vitals',
+          path: '/vitals',
           label: 'Vitals',
           datatestid: 'vitals-sidebar',
         },

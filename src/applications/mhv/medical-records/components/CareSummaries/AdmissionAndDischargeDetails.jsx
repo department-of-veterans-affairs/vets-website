@@ -1,12 +1,72 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
+import { sendErrorToSentry } from '../../util/helpers';
+import { generatePdfScaffold } from '../../../shared/util/helpers';
 
 const AdmissionAndDischargeDetails = props => {
   const { record } = props;
+  const user = useSelector(state => state.user.profile);
 
-  const download = () => {};
+  const generateCareNotesPDF = async () => {
+    const title = 'Admission and discharge summary';
+    const subject = 'VA Medical Record';
+    const scaffold = generatePdfScaffold(user, title, subject);
+
+    scaffold.details = {
+      header: 'Details',
+      items: [
+        {
+          title: 'Location',
+          value: record.location,
+          inline: true,
+        },
+        {
+          title: 'Admission date',
+          value: record.admissionDate,
+          inline: true,
+        },
+        {
+          title: 'Discharge date',
+          value: record.dischargeDate,
+          inline: true,
+        },
+        {
+          title: 'Admitted by',
+          value: record.admittedBy,
+          inline: true,
+        },
+        {
+          title: 'Discharge by',
+          value: record.dischargeBy,
+          inline: true,
+        },
+      ],
+    };
+    scaffold.results = {
+      header: 'Summary',
+      items: [
+        {
+          items: [
+            {
+              title: '',
+              value: record.summary,
+              inline: false,
+            },
+          ],
+        },
+      ],
+    };
+
+    try {
+      await generatePdf('medicalRecords', 'care_summaries_report', scaffold);
+    } catch (error) {
+      sendErrorToSentry(error, 'Care Summary details');
+    }
+  };
 
   const content = () => {
     if (record) {
@@ -29,7 +89,7 @@ const AdmissionAndDischargeDetails = props => {
               facility (called an admission and discharge summary).
             </p>
             <div className="no-print">
-              <PrintDownload download={download} />
+              <PrintDownload download={generateCareNotesPDF} />
               <va-additional-info trigger="What to know about downloading records">
                 <ul>
                   <li>
