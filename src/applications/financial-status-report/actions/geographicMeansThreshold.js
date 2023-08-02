@@ -8,7 +8,7 @@ export const getGMT = (dependents, year, zipCode) => {
     environment.API_URL
   }${CONTEXT_ROOT}/${zipCode}/${year}/${dependents}`;
   // For testing locally -- borrowed from income_limits app
-  const LOCAL_REQUEST_URL = `https://api.va.gov/income_limits/v1/limitsByZipCode/${zipCode}/${year}/${dependents}`;
+  const LOCAL_REQUEST_URL = `https://staging-api.va.gov/income_limits/v1/limitsByZipCode/${zipCode}/${year}/${dependents}`;
 
   const REQUEST_URL = environment.isLocalhost()
     ? LOCAL_REQUEST_URL
@@ -16,19 +16,19 @@ export const getGMT = (dependents, year, zipCode) => {
 
   return apiRequest(REQUEST_URL)
     .then(({ data }) => {
-      // incomeStatus is 150% of the GMT
-      const incomeStatus = data.gmtThreshold * 1.5;
-      // assetStatus is 6.5% of the GMT
-      const assetStatus = data.gmtThreshold * 0.065;
+      // incomeUpperThreshold is 150% of the GMT
+      const incomeUpperThreshold = data.gmtThreshold * 1.5;
+      // assetThreshold is 6.5% of the GMT
+      const assetThreshold = data.gmtThreshold * 0.065;
       // discressionaryStatus is 1.25% of the GMT
-      const discressionaryStatus = data.gmtThreshold * 0.0125;
+      const discressionaryIncomeThreshold = data.gmtThreshold * 0.0125;
 
       return {
         ...data,
         error: null,
-        incomeStatus,
-        assetStatus,
-        discressionaryStatus,
+        incomeUpperThreshold,
+        assetThreshold,
+        discressionaryIncomeThreshold,
       };
     })
     .catch(({ error }) => {

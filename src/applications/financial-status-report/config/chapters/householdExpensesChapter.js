@@ -28,8 +28,12 @@ import InstallmentContractSummary from '../../components/householdExpenses/Insta
 import HouseholdExpensesSummaryReview from '../../components/householdExpenses/HouseholdExpensesSummaryReview';
 import CreditCardBillsSummaryReview from '../../components/householdExpenses/CreditCardBillsSummaryReview';
 import InstallmentContractsSummaryReview from '../../components/householdExpenses/InstallmentContractsSummaryReview';
+import TransitionTest from '../../components/TransitionTest';
 
-import { isStreamlinedShortForm } from '../../utils/streamlinedDepends';
+import {
+  isStreamlinedLongForm,
+  isStreamlinedShortForm,
+} from '../../utils/streamlinedDepends';
 
 export default {
   householdExpensesChapter: {
@@ -291,6 +295,18 @@ export default {
         returnUrl: 'other-expenses-summary',
       },
       // End Other Living Expenses
+      streamlinedLongTransitionPage: {
+        // Transition page - streamlined long form only
+        path: 'transition-page',
+        title: ' ',
+        CustomPage: TransitionTest,
+        CustomPageReview: null,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
+        depends: formData =>
+          formData?.gmtData?.isElidgibleForStreamlined &&
+          isStreamlinedLongForm(formData),
+      },
     },
   },
 };

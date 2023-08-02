@@ -6,18 +6,28 @@ import {
   resolutionComments,
 } from '../../pages';
 
-import { isStreamlinedShortForm } from '../../utils/streamlinedDepends';
+import {
+  isStreamlinedLongForm,
+  isStreamlinedShortForm,
+} from '../../utils/streamlinedDepends';
 
 export default {
   resolutionOptionsChapter: {
     title: 'Repayment or relief options',
+    depends: formData =>
+      !isStreamlinedShortForm(formData) && !isStreamlinedLongForm(formData),
     pages: {
       optionExplainer: {
         path: 'option-explainer',
         title: 'Resolution Option Explainer',
         uiSchema: resolutionExplainer.uiSchema,
         schema: resolutionExplainer.schema,
-        depends: formData => !isStreamlinedShortForm(formData),
+        depends: formData => {
+          return (
+            !isStreamlinedShortForm(formData) &&
+            !isStreamlinedLongForm(formData)
+          );
+        },
       },
       resolutionOption: {
         title: 'Resolution Option',
@@ -55,7 +65,8 @@ export default {
         title: 'Resolution comments',
         uiSchema: resolutionComments.uiSchema,
         schema: resolutionComments.schema,
-        depends: formData => !isStreamlinedShortForm(formData),
+        depends: formData =>
+          !isStreamlinedShortForm(formData) && !isStreamlinedLongForm(formData),
       },
     },
   },

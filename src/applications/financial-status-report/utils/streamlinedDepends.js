@@ -1,37 +1,13 @@
 import { DEBT_TYPES } from '../constants';
 
-// export const calculatedTotalAssets = formData => {
-//   // Get employment income && other income && benefits*?
-//   return 100;
-// };
-
-// export const calculatedDiscressionaryIncome = formData => {
-//   // Get employment income && other income && benefits*?
-//   return 100;
-// };
-
-// export const isStreamlinedLongForm = formData => {
-//   return (
-//     formData?.gmtData?.gmtThreshold <= calculatedTotalIncome(formData) &&
-//     formData?.gmtData?.incomeStatus > calculatedTotalIncome(formData) &&
-//     formData?.gmtData?.assetStatus > calculatedTotalAssets(formData) &&
-//     formData?.gmtData?.discressionaryStatus <
-//       calculatedDiscressionaryIncome(formData)
-//   );
-// };
-
-// =============================================================================
-// Calculations in form (non-depends)
-// Idea below here is to set a gmt flag in redux as we add to form values
-// these gmt flags will be used to determine which pages to show
-// =============================================================================
-
-export const VHA_LIMIT = 5000;
+const VHA_LIMIT = 5000;
 
 /**
  * @param {object} formData - all formData
- * @returns true if streamlined is true, and there are only copays selected, and
- *  the total oustanding balance is less than VHA_LIMIT ~ $5000
+ * @returns true if the following conditions are met:
+ * - Streamlined wiaver feature flag is true
+ * - Only copays have been selected
+ * - Selected copay balances are below $5,000
  */
 export const isElidgibleForStreamlined = formData => {
   if (formData?.selectedDebtsAndCopays?.length === 0) return false;
@@ -48,27 +24,91 @@ export const isElidgibleForStreamlined = formData => {
   );
 };
 
-// isStreamlinedShortForm
-// Short form:
-//  - income below GMT
-//  - assets (cash on hand  specific page) below 6.5% of GMT
-export const isStreamlinedShortForm = ({ assets, gmtData }) => {
-  const assetBelow = parseInt(assets?.cashOnHand, 10) < gmtData?.assetStatus;
+/**
+ * @param {object} formData - all formData
+ * @returns true if the following conditions are met:
+ * - isElidgeibleForStreamlined is true
+ * - Total income below GMT
+ * - Assets (cash on hand  specific page) below 6.5% of GMT
+ */
+export const isStreamlinedShortForm = formData => {
+  const { assets, gmtData } = formData;
+  const assetBelow = parseInt(assets?.cashOnHand, 10) < gmtData?.assetThreshold;
 
-  return gmtData?.incomeBelowGMT && assetBelow;
+  return (
+    gmtData?.isElidgibleForStreamlined && gmtData?.incomeBelowGMT && assetBelow
+  );
 };
 
-// calculatedTotalIncome
-// Need to calculate veteran and spouse total income from:
-//  - employment income
-//  - other income
-//  - benefits
-export const calculatedTotalIncome = ({
+/**
+ * @param {object} formData - all formData
+ * @returns true if the following conditions are met:
+ * - isElidgeibleForStreamlined is true
+ * - Income is above GMT
+ * - Income is below 150% of GMT
+ * - Total assets below 6.5% of GMT
+ * - Discressionary income below 1.25% of GMT
+ */
+export const isStreamlinedLongForm = formData => {
+  const { gmtData } = formData;
+
+  return (
+    gmtData?.isElidgibleForStreamlined &&
+    !gmtData?.incomeBelowGMT &&
+    gmtData?.incomeBelowOneFiftyGMT &&
+    gmtData?.assetsBelowGMT &&
+    gmtData?.discressionaryBelow
+  );
+};
+
+// =============================================================================
+// Calculations in form (non-depends)
+// Idea below here is to set a gmt flag in redux so we don't have to run these
+// calculations on every page load. We can just check the flag for depends
+// =============================================================================
+
+/**
+ * @param {object} formData - all formData
+ * @returns Total income from veteran and spouse based on:
+ * - employment income
+ * - "other" income
+ * - benefits
+ */
+export const calculateTotalIncome = ({
   additionalIncome: { addlIncRecords = [] },
 }) => {
   // placeholder data, using editable numbers for now:
   return addlIncRecords.reduce(
     (acc, income) => acc + parseInt(income.amount, 10),
+    0,
+  );
+};
+
+/**
+ * @param {object} formData - all formData
+ * @returns Discresionary income total baseed on total income less expenses
+ */
+export const calculateDiscressionaryIncome = ({ otherExpenses = [] }) => {
+  if (otherExpenses.length === 0) return 0;
+
+  // placeholder data, using editable numbers for now:
+  return otherExpenses.reduce(
+    (acc, expense) => acc + parseInt(expense.amount, 10),
+    0,
+  );
+};
+
+/**
+ * @param {object} formData - all formData
+ * @returns Sum of total assets
+ *  Long form only; short form uses cash on hand
+ */
+export const calculateTotalAssets = ({ assets: { otherAssets = [] } }) => {
+  if (otherAssets.length === 0) return 0;
+
+  // placeholder data, using editable numbers for now:
+  return otherAssets.reduce(
+    (acc, asset) => acc + parseInt(asset.amount, 10),
     0,
   );
 };

@@ -31,6 +31,7 @@ export default {
   householdAssetsChapter: {
     title: 'Household assets',
     pages: {
+      // Cash on hand - last check for streamlined short form
       cashOnHand: {
         path: 'cash-on-hand',
         title: 'Cash on hand',
@@ -42,6 +43,7 @@ export default {
           gmtData?.isElidgibleForStreamlined && gmtData?.incomeBelowGMT,
       },
       streamlinedShortTransitionPage: {
+        // Transition page - streamlined short form only
         path: 'transition-page',
         title: ' ',
         CustomPage: TransitionTest,

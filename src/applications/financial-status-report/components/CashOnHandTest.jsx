@@ -56,7 +56,7 @@ const CashOnHand = ({
             className="usa-button-secondary vads-u-width--auto"
             onClick={goBack}
           >
-            Cancel
+            Back
           </button>
           <button
             type="submit"
