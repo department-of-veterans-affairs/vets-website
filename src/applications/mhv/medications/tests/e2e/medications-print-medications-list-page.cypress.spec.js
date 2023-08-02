@@ -9,6 +9,6 @@ describe('Medications List Page Print List', () => {
     site.login();
     listPage.clickGotoMedicationsLink();
     listPage.clickPrintOrDownloadThisListDropDown();
-    listPage.verifyPrintMedicationsListonListPage();
+    listPage.verifyPrintMedicationsListEnabledOnListPage();
   });
 });

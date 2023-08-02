@@ -21,7 +21,7 @@ class MedicationsListPage {
     });
   };
 
-  verifyPrintMedicationsListonListPage = () => {
+  verifyPrintMedicationsListEnabledOnListPage = () => {
     cy.get('[class="menu-options menu-options-open"]').should(
       'contain',
       'Print list',
