@@ -142,16 +142,13 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     });
   }, []);
   const [isRXSkill, setIsRXSkill] = useState();
-  useEffect(
-    () => {
-      const getRXStorageSession = () =>
-        setIsRXSkill(() => sessionStorage.getItem(IS_RX_SKILL));
+  useEffect(() => {
+    const getRXStorageSession = () =>
+      setIsRXSkill(() => sessionStorage.getItem(IS_RX_SKILL));
 
-      window.addEventListener('rxSkill', getRXStorageSession);
-      return () => window.removeEventListener('rxSkill', getRXStorageSession);
-    },
-    [isRXSkill],
-  );
+    window.addEventListener('rxSkill', getRXStorageSession);
+    return () => window.removeEventListener('rxSkill', getRXStorageSession);
+  }, [isRXSkill]);
 
   if (isRXSkill === 'true') {
     // check if window.WebChat exists
@@ -163,11 +160,11 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       // change the placeholder text of send box
       sendBox.setAttribute(
         'aria-label',
-        'Type or enable the microphone to speak a message',
+        'Type or enable the microphone to speak',
       );
       sendBox.setAttribute(
         'placeholder',
-        'Type or enable the microphone to speak a message ',
+        'Type or enable the microphone to speak',
       );
     }
     return (
