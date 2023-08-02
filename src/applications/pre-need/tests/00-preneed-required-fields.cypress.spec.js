@@ -1,6 +1,6 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 import requiredHelpers from './utils/cypress-required-field-helpers';
-import testData from './schema/minimal-test.json';
+import testData from './schema/required-fields-test.json';
 import cemeteries from './fixtures/mocks/cemeteries.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 
