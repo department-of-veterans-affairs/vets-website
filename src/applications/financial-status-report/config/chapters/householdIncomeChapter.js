@@ -26,30 +26,30 @@ import {
   dependentRecords,
 } from '../../pages';
 
-import EnhancedEmploymentRecord from '../../components/EnhancedEmploymentRecord';
-import EnhancedSpouseEmploymentRecord from '../../components/EnhancedSpouseEmploymentRecord';
-import GrossMonthlyIncomeInput from '../../components/GrossMonthlyIncomeInput';
-import SpouseGrossMonthlyIncomeInput from '../../components/SpouseGrossMonthlyIncomeInput';
-import SpousePayrollDeductionChecklist from '../../components/SpousePayrollDeductionChecklist';
-import SpousePayrollDeductionInputList from '../../components/SpousePayrollDeductionInputList';
-import PayrollDeductionChecklist from '../../components/PayrollDeductionChecklist';
-import PayrollDeductionInputList from '../../components/PayrollDeductionInputList';
-import EmploymentHistoryWidget from '../../pages/income/employmentEnhanced/EmploymentHistoryWidget';
-import EnhancedBenefitsEdit from '../../components/EnhancedBenefitsEdit';
-import SpouseEmploymentHistoryWidget from '../../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
-import SpouseEmploymentQuestion from '../../components/SpouseEmploymentQuestion';
-import EmploymentQuestion from '../../components/EmploymentQuestion';
-import OtherIncomeSummary from '../../components/OtherIncomeSummary';
-import AddIncome from '../../components/AddIncome';
-import SpouseOtherIncomeSummary from '../../components/SpouseOtherIncomeSummary';
-import SpouseAddIncome from '../../components/SpouseAddIncome';
-import DependentAges from '../../components/DependentAges';
-import DependentAgesReview from '../../components/DependentAgesReview';
-import EmploymentWorkDates from '../../components/EmploymentWorkDates';
-import SpouseEmploymentWorkDates from '../../components/SpouseEmploymentWorkDates';
-import OtherIncomeSummaryReview from '../../components/otherIncome/OtherIncomeSummaryReview';
-import EmploymentHistorySummaryReview from '../../components/householdIncome/EmploymentHistorySummaryReview';
-import EmploymentQuestionSummaryReview from '../../components/householdIncome/EmploymentQuestionSummaryReview';
+import EnhancedEmploymentRecord from '../../components/employment/EnhancedEmploymentRecord';
+import EnhancedSpouseEmploymentRecord from '../../components/employment/EnhancedSpouseEmploymentRecord';
+import GrossMonthlyIncomeInput from '../../components/householdIncome/GrossMonthlyIncomeInput';
+import SpouseGrossMonthlyIncomeInput from '../../components/householdIncome/SpouseGrossMonthlyIncomeInput';
+import SpousePayrollDeductionChecklist from '../../components/householdIncome/SpousePayrollDeductionChecklist';
+import SpousePayrollDeductionInputList from '../../components/householdIncome/SpousePayrollDeductionInputList';
+import PayrollDeductionChecklist from '../../components/householdIncome/PayrollDeductionChecklist';
+import PayrollDeductionInputList from '../../components/householdIncome/PayrollDeductionInputList';
+import EmploymentHistoryWidget from '../../components/employment/EmploymentHistoryWidget';
+import EnhancedBenefitsEdit from '../../components/debtsAndCopays/EnhancedBenefitsEdit';
+import SpouseEmploymentHistoryWidget from '../../components/employment/SpouseEmploymentHistoryWidget';
+import SpouseEmploymentQuestion from '../../components/employment/SpouseEmploymentQuestion';
+import EmploymentQuestion from '../../components/employment/EmploymentQuestion';
+import OtherIncomeSummary from '../../components/householdIncome/OtherIncomeSummary';
+import AddIncome from '../../components/householdIncome/AddIncome';
+import SpouseOtherIncomeSummary from '../../components/householdIncome/SpouseOtherIncomeSummary';
+import SpouseAddIncome from '../../components/householdIncome/SpouseAddIncome';
+import DependentAges from '../../components/household/DependentAges';
+import DependentAgesReview from '../../components/household/DependentAgesReview';
+import EmploymentWorkDates from '../../components/employment/EmploymentWorkDates';
+import SpouseEmploymentWorkDates from '../../components/employment/SpouseEmploymentWorkDates';
+import OtherIncomeSummaryReview from '../../components/householdIncome/OtherIncomeSummaryReview';
+import EmploymentHistorySummaryReview from '../../components/employment/EmploymentHistorySummaryReview';
+import EmploymentQuestionSummaryReview from '../../components/employment/EmploymentQuestionSummaryReview';
 
 export default {
   householdIncomeChapter: {

@@ -33,7 +33,7 @@ const Allergies = () => {
     () => {
       dispatch(
         setBreadcrumbs(
-          [{ url: '/my-health/medical-records/', label: 'Dashboard' }],
+          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
           {
             url: '/my-health/medical-records/allergies',
             label: 'Allergies',

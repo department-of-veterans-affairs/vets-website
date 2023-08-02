@@ -16,7 +16,14 @@ const titlePrefix = 'Decision for';
  */
 export const getIssueTitle = data => {
   const date = moment(getIssueDate(data), FORMAT_YMD).format(FORMAT_READABLE);
-  return `${titlePrefix} ${getIssueName(data)} dated ${date}`;
+  return (
+    <>
+      {titlePrefix}{' '}
+      <span className="dd-privacy-hidden">{getIssueName(data)}</span>
+      {' dated '}
+      {date}
+    </>
+  );
 };
 
 // formContext.pagePerItemIndex is undefined here? Use index added to data :(
