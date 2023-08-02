@@ -1,15 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { otherAssetOptions } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
+import { calculateTotalAssets } from '../../utils/streamlinedDepends';
 
 const OtherAssetsChecklist = () => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
 
-  const { assets } = formData;
+  const { assets, gmtData } = formData;
   const { otherAssets = [] } = assets;
+
+  useEffect(() => {
+    if (!gmtData?.isElidgibleForStreamlined) return;
+
+    const calculatedAssets = calculateTotalAssets(formData);
+    dispatch(
+      setData({
+        ...formData,
+        gmtData: {
+          ...gmtData,
+          assetsBelowGMT: calculatedAssets < gmtData?.assetThreshold,
+        },
+      }),
+    );
+  }, []);
 
   const onChange = ({ target }) => {
     const { value } = target;

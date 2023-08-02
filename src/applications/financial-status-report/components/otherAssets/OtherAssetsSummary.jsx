@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -7,6 +7,7 @@ import {
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
 import { currency as currencyFormatter } from '../../utils/helpers';
+import { calculateTotalAssets } from '../../utils/streamlinedDepends';
 
 const OtherAssetsSummary = ({
   data,
@@ -15,8 +16,24 @@ const OtherAssetsSummary = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { assets } = data;
+  const { assets, gmtData } = data;
   const { otherAssets = [] } = assets;
+
+  useEffect(
+    () => {
+      if (!gmtData?.isElidgibleForStreamlined) return;
+
+      const calculatedAssets = calculateTotalAssets(data);
+      setFormData({
+        ...data,
+        gmtData: {
+          ...gmtData,
+          assetsBelowGMT: calculatedAssets < gmtData?.assetThreshold,
+        },
+      });
+    },
+    [otherAssets],
+  );
 
   const onDelete = deleteIndex => {
     setFormData({

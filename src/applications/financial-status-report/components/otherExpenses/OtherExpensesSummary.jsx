@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -7,15 +7,37 @@ import {
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
 import { currency as currencyFormatter } from '../../utils/helpers';
+import { calculateDiscressionaryIncome } from '../../utils/streamlinedDepends';
 
 const OtherExpensesSummary = ({
   data,
   goToPath,
+  goForward,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { otherExpenses = [] } = data;
+  const { gmtData, otherExpenses = [] } = data;
+
+  useEffect(
+    () => {
+      if (!gmtData?.isElidgibleForStreamlined) return;
+
+      const calculatedDiscressionaryIncome = calculateDiscressionaryIncome(
+        data,
+      );
+      setFormData({
+        ...data,
+        gmtData: {
+          ...gmtData,
+          discressionaryBelow:
+            calculatedDiscressionaryIncome <
+            gmtData?.discressionaryIncomeThreshold,
+        },
+      });
+    },
+    [otherExpenses],
+  );
 
   const onDelete = deleteIndex => {
     const newExpenses = otherExpenses.filter(
@@ -33,10 +55,6 @@ const OtherExpensesSummary = ({
       return goToPath('/other-expenses-checklist');
     }
     return goToPath('/other-expenses-values');
-  };
-
-  const goForward = () => {
-    return goToPath('/option-explainer');
   };
 
   const cardBody = text => (

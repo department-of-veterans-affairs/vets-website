@@ -4,24 +4,28 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { otherIncome } from '../../constants/checkboxSelections';
 
 import Checklist from '../shared/CheckList';
-import { calculatedTotalIncome } from '../../utils/streamlinedDepends';
+import { calculateTotalIncome } from '../../utils/streamlinedDepends';
 
 const SpouseAdditionalIncomeCheckList = () => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
 
-  const { additionalIncome } = formData ?? {};
+  const { gmtData, additionalIncome } = formData ?? {};
   const { spAddlIncome = [] } = additionalIncome?.spouse ?? {};
 
   // useEffect to set incomeBelowGMT on mount
   useEffect(() => {
+    if (!gmtData?.isElidgibleForStreamlined) return;
+
+    const calculatedIncome = calculateTotalIncome(formData);
     dispatch(
       setData({
         ...formData,
         gmtData: {
-          ...formData?.gmtData,
-          incomeBelowGMT:
-            calculatedTotalIncome(formData) < formData?.gmtData?.gmtThreshold,
+          ...gmtData,
+          incomeBelowGMT: calculatedIncome < gmtData?.gmtThreshold,
+          incomeBelowOneFiftyGMT:
+            calculatedIncome < gmtData?.incomeUpperThreshold,
         },
       }),
     );

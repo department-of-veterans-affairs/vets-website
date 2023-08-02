@@ -8,7 +8,7 @@ import {
 } from '../shared/MiniSummaryCard';
 import { currency as currencyFormatter } from '../../utils/helpers';
 
-import { calculatedTotalIncome } from '../../utils/streamlinedDepends';
+import { calculateTotalIncome } from '../../utils/streamlinedDepends';
 
 const SpouseOtherIncomeSummary = ({
   data,
@@ -17,19 +17,23 @@ const SpouseOtherIncomeSummary = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { additionalIncome } = data;
+  const { gmtData, additionalIncome } = data;
   const { spouse } = additionalIncome;
   const { spAddlIncome = [] } = spouse;
 
   // useEffect to set incomeBelowGMT if income records changes
   useEffect(
     () => {
+      if (!gmtData?.isElidgibleForStreamlined) return;
+
+      const calculatedIncome = calculateTotalIncome(data);
       setFormData({
         ...data,
         gmtData: {
-          ...data?.gmtData,
-          incomeBelowGMT:
-            calculatedTotalIncome(data) < data?.gmtData?.gmtThreshold,
+          ...gmtData,
+          incomeBelowGMT: calculatedIncome < gmtData?.gmtThreshold,
+          incomeBelowOneFiftyGMT:
+            calculatedIncome < gmtData?.incomeUpperThreshold,
         },
       });
     },
