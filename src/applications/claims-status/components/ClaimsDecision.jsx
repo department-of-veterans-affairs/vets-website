@@ -78,8 +78,8 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
 );
 
 ClaimsDecision.propTypes = {
+  showClaimLettersLink: PropTypes.bool.isRequired,
   completedDate: PropTypes.string,
-  showClaimLettersLink: PropTypes.bool,
 };
 
 export default ClaimsDecision;

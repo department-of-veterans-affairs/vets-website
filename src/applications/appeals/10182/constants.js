@@ -28,6 +28,10 @@ export const FORMAT_READABLE = 'LL';
 // contestable issue dates
 export const FORMAT_YMD = 'YYYY-MM-DD';
 
+// NOD update (Part III, box 11) allows for past decision dates, but we should
+// limit them. Picking 100 years until told otherwise
+export const MAX_YEARS_PAST = 100;
+
 export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
 
 export const MAX_FILE_SIZE_MB = 100;
