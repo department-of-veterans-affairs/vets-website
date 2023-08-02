@@ -1,55 +1,17 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 import requiredHelpers from './utils/cypress-required-field-helpers';
 import testData from './schema/required-fields-test.json';
-import cemeteries from './fixtures/mocks/cemeteries.json';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
+import preneedHelpers from './utils/cypress-preneed-helpers';
 
 describe('Pre-need form VA 40-10007 Required Fields', () => {
-  it('fills the form triggering validation on required fields', () => {
-    cy.intercept('POST', '/v0/preneeds/burial_forms', {
-      data: {
-        attributes: {
-          confirmationNumber: '123fake-submission-id-567',
-          submittedAt: '2016-05-16',
-        },
-      },
-    });
-    cy.intercept('POST', '/v0/preneeds/preneed_attachments', {
-      data: {
-        attributes: {
-          attachmentId: '1',
-          name: 'VA40-10007.pdf',
-          confirmationCode: 'e2128ec4-b2fc-429c-bad2-e4b564a80d20',
-        },
-      },
-    });
-    cy.intercept('GET', '/v0/preneeds/cemeteries', cemeteries);
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-
-    cy.visit(
-      '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility',
-    );
-    cy.get('body').should('be.visible');
-    cy.title().should(
-      'contain',
-      'Apply online for pre-need determination of eligibility in a VA National Cemetery | Veterans Affairs',
-    );
-    cy.get('.schemaform-title', { timeout: Timeouts.slow }).should(
-      'be.visible',
-    );
-    cy.get('.schemaform-start-button')
-      .first()
-      .click();
-
-    cy.url().should('not.contain', '/introduction');
-
-    cy.get('input[name="root_application_claimant_name_first"]');
+  it('triggers validation on all required fields then completes the form with only those fields', () => {
+    preneedHelpers.interceptSetup();
+    preneedHelpers.visitIntro();
 
     // Applicant Information
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(1)')
-      .should('have.class', 'progress-segment-complete');
+    cy.get('input[name="root_application_claimant_name_first"]');
+
+    preneedHelpers.validateProgressBar('1');
 
     requiredHelpers.errorCheck(requiredHelpers.applicantInfoErrors);
     cy.injectAxeThenAxeCheck();
@@ -75,7 +37,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       testData.data.application.claimant.relationshipToVet,
     );
 
-    cy.get('.form-panel .usa-button-primary').click();
+    preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/applicant-information');
 
     // Veteran Information
@@ -119,7 +81,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       testData.data.application.veteran.isDeceased,
     );
 
-    cy.get('.form-panel .usa-button-primary').click();
+    preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/veteran-information');
 
     // Military History
@@ -159,7 +121,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       .find('.progress-bar-segmented div.progress-segment:nth-child(3)')
       .should('have.class', 'progress-segment-complete');
 
-    cy.get('.form-panel .usa-button-primary').click();
+    preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-military-history');
 
     // Previous Names page
@@ -168,7 +130,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     cy.get('label[for$="hasServiceNameYes"]').should('be.visible');
     cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
-    cy.get('.form-panel .usa-button-primary').click();
+    preneedHelpers.clickContinue();
 
     requiredHelpers.errorCheck(requiredHelpers.previousNameErrors2);
     cy.axeCheck();
@@ -182,7 +144,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       testData.data.application.veteran.serviceName.last,
     );
 
-    cy.get('.form-panel .usa-button-primary').click();
+    preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-military-name');
 
     // Benefit Selection page 1
@@ -193,7 +155,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       'root_application_hasCurrentlyBuried',
       testData.data.application.hasCurrentlyBuried,
     );
-    cy.get('.form-panel .usa-button-primary').click();
+    preneedHelpers.clickContinue();
 
     // Benefit Selection page 2
     requiredHelpers.errorCheck(requiredHelpers.burialBenefitsErrors2);
@@ -213,11 +175,11 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
         },
       );
     }
-    cy.get('.form-panel .usa-button-primary').click();
+    preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/burial-benefits');
 
     // Supporting Documents page
-    cy.get('.form-panel .usa-button-primary').click();
+    preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/supporting-documents');
 
     // Applicant/Claimant Contact Information page
@@ -239,11 +201,11 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       'input[name$="phoneNumber"]',
       testData.data.application.claimant.phoneNumber,
     );
-    cy.get('.form-panel .usa-button-primary').click();
+    preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/applicant-contact-information');
 
     // Veteran Contact Information page
-    cy.get('.form-panel .usa-button-primary').click();
+    preneedHelpers.clickContinue();
 
     // Preparer information
     cy.url().should('not.contain', '/sponsor-mailing-address');
@@ -288,7 +250,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
         testData.data.application.applicant.phoneNumber,
       );
 
-      cy.get('.form-panel .usa-button-primary').click();
+      preneedHelpers.clickContinue();
       cy.url().should('not.contain', '/preparer');
 
       // Review/Submit page
