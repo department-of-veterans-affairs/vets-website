@@ -43,7 +43,7 @@ describe('Reply form component', () => {
 
   it('renders the reply form', async () => {
     const screen = render();
-    const { getByText, getByTestId } = screen;
+    const { getByText } = screen;
 
     const patientSafetyNotice = document.querySelector(
       "[trigger='Only use messages for non-urgent needs']",
@@ -61,11 +61,6 @@ describe('Reply form component', () => {
       `(Draft) To: ${senderName}\n(Team: ${triageGroupName})`,
     );
 
-    expect(getByTestId('message-body-field'))
-      .to.have.attribute('value')
-      .to.equal(
-        `\n\n\n${signature.signatureName}\n${signature.signatureTitle}`,
-      );
     expect(getByText('Attachments'))
       .to.have.attribute('class')
       .to.contain('message-body-attachments-label');
@@ -78,5 +73,27 @@ describe('Reply form component', () => {
     expect(screen.getByText('Message you are replying to.', { selector: 'h2' }))
       .to.have.attribute('class')
       .to.equal('sr-only');
+  });
+
+  it('renders the message signature in the textarea if a signature is included', async () => {
+    const screen = render();
+    expect(screen.getByTestId('message-body-field'))
+      .to.have.attribute('value')
+      .to.equal(
+        `\n\n\n${signature.signatureName}\n${signature.signatureTitle}`,
+      );
+  });
+
+  it('does not render the message signature in the textarea if a signature is NOT included', async () => {
+    const signatureExcluded = signatureReducers.signatureDisabled.signature;
+    const customState = {
+      sm: {
+        preferences: { signature: signatureExcluded },
+      },
+    };
+    const screen = render(customState);
+    const messageBodyInput = screen.getByTestId('message-body-field');
+    expect(messageBodyInput).to.exist;
+    expect(messageBodyInput).to.not.have.attribute('value');
   });
 });
