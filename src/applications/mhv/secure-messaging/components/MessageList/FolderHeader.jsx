@@ -10,7 +10,6 @@ import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 const FolderHeader = props => {
   const { folder, searchProps } = props;
   const location = useLocation();
-  const [showComposeMessage, setShowComposeMessage] = useState(false);
   const [folderDescription, setFolderDescription] = useState(null);
 
   useEffect(
@@ -19,19 +18,15 @@ const FolderHeader = props => {
         case Folders.INBOX.id:
         case Folders.SENT.id: // Inbox
           setFolderDescription(Folders.INBOX.desc);
-          setShowComposeMessage(true);
           break;
         case Folders.DRAFTS.id: // Drafts
           setFolderDescription(Folders.DRAFTS.desc);
-          setShowComposeMessage(true);
           break;
         case Folders.DELETED.id: // Trash
           setFolderDescription(Folders.DELETED.desc);
-          setShowComposeMessage(false);
           break;
         default:
           setFolderDescription(Folders.CUSTOM_FOLDER.desc); // Custom Folder Sub-header;
-          setShowComposeMessage(false);
           break;
       }
     },
@@ -66,7 +61,7 @@ const FolderHeader = props => {
         {handleHeader(folder.folderId, folder)}
       </h1>
       <>{handleFolderDescription()}</>
-      {showComposeMessage && <ComposeMessageButton />}
+      {folder.folderId === Folders.INBOX.id && <ComposeMessageButton />}
       <ManageFolderButtons />
       {folder.count > 0 && (
         <SearchForm
