@@ -19,7 +19,6 @@ describe('Navigate to Message Details ', () => {
       'contain',
       'Print',
     );
-
     cy.tabToElement('[class="usa-button-secondary"]').should('contain', 'Move');
     cy.tabToElement('[class="usa-button-secondary"]').should(
       'contain',
