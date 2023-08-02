@@ -142,23 +142,20 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     });
   }, []);
   const [isRXSkill, setIsRXSkill] = useState();
-  useEffect(
-    () => {
-      const getRXStorageSession = () =>
-        setIsRXSkill(() => sessionStorage.getItem(IS_RX_SKILL));
+  useEffect(() => {
+    const getRXStorageSession = () =>
+      setIsRXSkill(() => sessionStorage.getItem(IS_RX_SKILL));
 
-      window.addEventListener('rxSkill', getRXStorageSession);
-      return () => window.removeEventListener('rxSkill', getRXStorageSession);
-    },
-    [isRXSkill],
-  );
+    window.addEventListener('rxSkill', getRXStorageSession);
+    return () => window.removeEventListener('rxSkill', getRXStorageSession);
+  }, [isRXSkill]);
 
   if (isRXSkill === 'true') {
     // check if window.WebChat exists
     if (window.WebChat) {
       // find the send box element
       const sendBox = document.querySelector(
-        'input[placeholder="Type your message"]',
+        'input[class="webchat__send-box-text-box__input"]',
       );
       // change the placeholder text of send box
       sendBox.setAttribute(
