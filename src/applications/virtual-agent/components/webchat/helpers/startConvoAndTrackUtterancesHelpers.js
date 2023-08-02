@@ -104,7 +104,7 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   const dataorEmpty = payload.activity || {};
   const text = dataorEmpty.text || '';
   const rxSkillWasTriggered = text.includes(
-    'You can request refills, list active prescriptions, or track shipments.',
+    'Which login service provider do you need help with',
   );
   const rxSkillWasExited = text.includes('Returning to the main chatbot...');
 
