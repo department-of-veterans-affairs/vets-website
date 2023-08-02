@@ -7,6 +7,7 @@ import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-tog
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import {
   fillAddressWebComponentPattern,
+  fillDateWebComponentPattern,
   fillFullNameWebComponentPattern,
   fillTextAreaWebComponent,
   fillTextWebComponent,
@@ -21,6 +22,15 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
 import pagePaths from './pagePaths';
+
+/**
+ * Returns /path/0 for example instead of /path/:index
+ * @param {string} pagePath
+ * @param {number | string} index
+ */
+const replaceArrayIndexPath = (pagePath, index = 0) => {
+  return pagePath.replace(/:index/, index);
+};
 
 const testConfig = createTestConfig(
   {
@@ -41,9 +51,8 @@ const testConfig = createTestConfig(
             cy.fillPage();
 
             // web components
-            fillTextWebComponent('requiredNew', data?.requiredNew);
-            fillTextWebComponent('requiredNewV3', data?.requiredNewV3);
-            fillTextAreaWebComponent('textAreaNewV3', data?.textAreaNewV3);
+            fillTextWebComponent('wcv3RequiredNew', data?.wcv3RequiredNew);
+            fillTextAreaWebComponent('wcv3TextAreaNew', data?.wcv3TextAreaNew);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -59,12 +68,8 @@ const testConfig = createTestConfig(
 
             // web components
             fillFullNameWebComponentPattern(
-              'spouseFullNameNew',
-              data.spouseFullNameNew,
-            );
-            fillFullNameWebComponentPattern(
-              'spouseFullNameNewV3',
-              data.spouseFullNameNewV3,
+              'wcv3SpouseFullNameNew',
+              data.wcv3SpouseFullNameNew,
             );
 
             cy.axeCheck();
@@ -94,7 +99,7 @@ const testConfig = createTestConfig(
             }
 
             // web components
-            fillAddressWebComponentPattern('addressNew', data.addressNew);
+            fillAddressWebComponentPattern('wcv3Address', data.wcv3Address);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -109,8 +114,8 @@ const testConfig = createTestConfig(
             cy.fillPage();
 
             // web components
-            fillTextWebComponent('ssnNew', data.ssnNew);
-            fillTextWebComponent('ssnNewV3', data.ssnNewV3);
+            fillTextWebComponent('wcOldSsn', data.wcOldSsn);
+            fillTextWebComponent('wcv3SsnNew', data.wcv3SsnNew);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -125,21 +130,17 @@ const testConfig = createTestConfig(
             cy.fillPage();
 
             // web components
-            fillTextWebComponent('wcSimpleText', data.wcSimpleText);
-            selectCheckboxWebComponent(
-              'wcRequiredCheckbox',
-              data.wcRequiredCheckbox,
+            fillTextWebComponent(
+              'wcV3CheckSimpleText',
+              data.wcV3CheckSimpleText,
             );
-            fillTextWebComponent('wcSsn', data.wcSsn);
-            fillTextWebComponent('wcV3SimpleText', data.wcV3SimpleText);
 
-            // bug: if can't check checkbox, then click label.
-            cy.get(`va-checkbox[name="root_wcV3RequiredCheckbox"]`)
-              .shadow()
-              .find('label')
-              .click();
+            selectCheckboxWebComponent(
+              'wcV3CheckRequiredCheckbox',
+              data.wcV3CheckRequiredCheckbox,
+            );
 
-            fillTextWebComponent('wcV3Ssn', data.wcV3Ssn);
+            fillTextWebComponent('wcV3CheckSsn', data.wcV3CheckSsn);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -154,9 +155,15 @@ const testConfig = createTestConfig(
             cy.fillPage();
 
             // web components
-            selectDropdownWebComponent('selectWC', data.selectWC);
-            selectDropdownWebComponent('selectWC2', data.selectWC2);
-            selectDropdownWebComponent('selectWC2V3', data.selectWC2V3);
+            selectDropdownWebComponent(
+              'wcOldSelectFirst',
+              data.wcOldSelectFirst,
+            );
+            selectDropdownWebComponent(
+              'wcOldSelectSecond',
+              data.wcOldSelectSecond,
+            );
+            selectDropdownWebComponent('wcv3Select', data.wcv3Select);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -166,8 +173,14 @@ const testConfig = createTestConfig(
       [pagePaths.date]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(async () => {
-          cy.get('@testData').then(() => {
-            // tested separately - susceptible to bugs
+          cy.get('@testData').then(data => {
+            // widgets
+            cy.fillPage();
+
+            // web components
+            fillDateWebComponentPattern('dateWCV3', data.dateWCV3);
+
+            cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
@@ -181,25 +194,135 @@ const testConfig = createTestConfig(
 
             // web components
             selectRadioWebComponent(
-              'wcVaCompensationType',
-              data.wcVaCompensationType,
-            );
-            // use underscores to separate sub-property names
-            selectYesNoWebComponent(
-              'wcCurrentlyActiveDuty_yes',
-              data.wcCurrentlyActiveDuty.yes,
-            );
-            selectRadioWebComponent(
-              'wcVaTileCompensationType',
-              data.wcVaTileCompensationType,
-            );
-            selectRadioWebComponent(
               'wcv3VaCompensationType',
               data.wcv3VaCompensationType,
             );
             selectRadioWebComponent(
               'wcv3VaTileCompensationType',
               data.wcv3VaTileCompensationType,
+            );
+            selectYesNoWebComponent(
+              'wcv3IsCurrentlyActiveDuty',
+              data.wcv3IsCurrentlyActiveDuty,
+            );
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [pagePaths.radioRelationshipToVeteran]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            // web components
+            selectRadioWebComponent(
+              'wcv3RelationshipToVeteran',
+              data.wcv3RelationshipToVeteran,
+            );
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [pagePaths.arraySinglePage]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            // array example 1
+            fillTextWebComponent(
+              'exampleArrayOne_0_facilityName',
+              data.exampleArrayOne[0].facilityName,
+            );
+            fillDateWebComponentPattern(
+              'exampleArrayOne_0_from',
+              data.exampleArrayOne[0].from,
+            );
+            fillDateWebComponentPattern(
+              'exampleArrayData_0_to',
+              data.exampleArrayData[0].to,
+            );
+            cy.findByText(/add another facility/i, {
+              selector: 'button',
+            }).click();
+            fillTextWebComponent(
+              'exampleArrayOne_1_facilityName',
+              data.exampleArrayOne[1].facilityName,
+            );
+            fillDateWebComponentPattern(
+              'exampleArrayOne_1_from',
+              data.exampleArrayOne[1].from,
+            );
+            fillDateWebComponentPattern(
+              'exampleArrayData_1_to',
+              data.exampleArrayData[1].to,
+            );
+
+            // array example 2
+            fillTextWebComponent(
+              'exampleArrayTwo_0_name',
+              data.exampleArrayTwo[0].name,
+            );
+            selectYesNoWebComponent(
+              'exampleArrayTwo_0_proof',
+              data.exampleArrayTwo[0].proof,
+            );
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [pagePaths.arrayMultiplePage]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            // array example 1
+            fillFullNameWebComponentPattern(
+              'exampleArrayData_0_fullName',
+              data.exampleArrayData[0].fullName,
+            );
+
+            cy.findByText(/add another child/i, {
+              selector: 'button',
+            }).click();
+
+            fillFullNameWebComponentPattern(
+              'exampleArrayData_1_fullName',
+              data.exampleArrayData[1].fullName,
+            );
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [replaceArrayIndexPath(pagePaths.arrayMultiplePageItem, 0)]: ({
+        afterHook,
+      }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressWebComponentPattern(
+              'address',
+              data.exampleArrayData[0].address,
+            );
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [replaceArrayIndexPath(pagePaths.arrayMultiplePageItem, 1)]: ({
+        afterHook,
+      }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressWebComponentPattern(
+              'address',
+              data.exampleArrayData[1].address,
             );
 
             cy.axeCheck();

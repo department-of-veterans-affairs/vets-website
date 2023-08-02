@@ -6,9 +6,9 @@ import Scroll from 'react-scroll';
 import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
-import GetFormHelp from '../components/GetFormHelp';
+import GetFormHelp from '../components/shared/GetFormHelp';
 import { deductionCodes } from '../constants/deduction-codes';
-import DownloadFormPDF from '../components/DownloadFormPDF';
+import DownloadFormPDF from '../components/shared/DownloadFormPDF';
 import { fsrConfirmationEmailToggle, fsrReasonDisplay } from '../utils/helpers';
 import { DEBT_TYPES } from '../constants';
 
@@ -59,13 +59,14 @@ const RequestDetailsCard = ({ data, response }) => {
 
   return (
     <div className="inset">
-      <h4 className="vads-u-margin-top--0">
-        Request help for VA debt <span>(Form 5655)</span>
-      </h4>
+      <h2 className="vads-u-margin-top--0p5 vads-u-font-size-h3">
+        Request help for VA debt{' '}
+        <span className="vads-u-font-weight--normal">(Form 5655)</span>
+      </h2>
       {name && (
-        <span>
+        <p>
           for {name.first} {name.middle} {name.last} {name.suffix}
-        </span>
+        </p>
       )}
       <>
         <p>
@@ -79,12 +80,6 @@ const RequestDetailsCard = ({ data, response }) => {
           {moment(response.timestamp).format('MMMM D, YYYY')}
         </p>
         <p className="vads-u-margin-bottom--0p5">
-          <strong>Your request was sent to</strong>
-        </p>
-        <p className="vads-u-margin-y--0">Debt Management Center</p>
-        <p className="vads-u-margin-y--0">P.O. Box 11930</p>
-        <p className="vads-u-margin-y--0">St. Paul, MN 55111-0930</p>
-        <p>
           <DownloadFormPDF
             pdfContent={response.content}
             useContent={combinedFSR}
@@ -182,11 +177,6 @@ const ConfirmationPage = ({ form, download }) => {
                 Manage my VA debt
               </a>
               to check the status of your current debts.
-            </p>
-            <p>
-              If you have a question about the status of your request call us at
-              800-827-0648 (or 1-612-713-6415 from overseas). We’re here Monday
-              through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </li>
         </ol>

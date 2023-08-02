@@ -1,5 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "./prescription-details";
+@import "./print-download";
 
 .link-button,
 .link-button:hover,
@@ -25,8 +26,20 @@
     max-width: 480px;
   }
 }
+.link-to-details {
+  i {
+    font-size: 16px;
+    margin-left: 6px;
+  }
+  .right-angle {
+    text-decoration: none;
+  }
 
+}
 .landing-page {
+  @media (min-width: $medium-screen) {
+    margin-left: -180px;
+  }
   h1 {
     color: $color-gray-dark;
     margin: 0;
@@ -35,7 +48,6 @@
     margin-top: -25px;
     width: 272;
   }
-
   .rx-page-total-info {
     margin-top: 15px;
     margin-bottom: 15px;
@@ -47,6 +59,12 @@
   }
   .landing-page-content {
     max-width: 500px;
+  }
+  section {
+    .feedback {
+      float: right;
+      width: 130px;
+    }
   }
   .rx-card-container{
     max-width: 500px;
@@ -88,7 +106,6 @@
         margin-bottom: 15px;
       }
     }
-
   }
 }
 
@@ -99,6 +116,9 @@
     display: none;
     margin: 0px !important;
     padding: 0px !important;
+  }
+  .no-break {
+    break-inside: avoid;
   }
   h1 {
     font-size: 30;

@@ -1,3 +1,4 @@
+import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { veteranFields } from '../../../definitions/constants';
 import {
@@ -17,10 +18,9 @@ const vetInfoPage = {
   uiSchema: {
     'ui:description': VeteranContactDescription({ showPageIntro: true }),
     [veteranFields.fullName]: fullNameUI(vetInputLabel),
-    [veteranFields.ssn]: {
-      ...ssnUI(vetInputLabel),
+    [veteranFields.ssn]: merge({}, ssnUI(vetInputLabel), {
       'ui:description': VeteranSSNDescription,
-    },
+    }),
     [veteranFields.dateOfBirth]: dateOfBirthUI(vetInputLabel),
     [veteranFields.gender]: genderUI(vetInputLabel),
   },

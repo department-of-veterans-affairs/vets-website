@@ -61,6 +61,7 @@ class SaveInProgressIntro extends React.Component {
     let alert;
     let includesFormControls = false;
     const {
+      alertTitle,
       formId,
       renderSignInMessage,
       prefillEnabled,
@@ -222,9 +223,7 @@ class SaveInProgressIntro extends React.Component {
       ) : (
         <div className="usa-alert usa-alert-info schemaform-sip-alert">
           <div className="usa-alert-body">
-            <H className="usa-alert-heading">
-              Sign in now to save your work in progress
-            </H>
+            <H className="usa-alert-heading">{alertTitle}</H>
             <div className="usa-alert-text">
               {this.props.displayNonVeteranMessaging ? (
                 <p>
@@ -249,9 +248,13 @@ class SaveInProgressIntro extends React.Component {
                 </>
               )}
               <p>
-                <strong>Note:</strong> You can sign in after you start your{' '}
-                {appType}. But you&rsquo;ll lose any information you already
-                filled in.
+                {!this.props.hideUnauthedStartLink && (
+                  <>
+                    <strong>Note:</strong> You can sign in after you start your{' '}
+                    {appType}. But you&rsquo;ll lose any information you already
+                    filled in.
+                  </>
+                )}
               </p>
               {unauthStartButton}
               {!this.props.hideUnauthedStartLink && (
@@ -402,6 +405,7 @@ SaveInProgressIntro.propTypes = {
   toggleLoginModal: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   afterButtonContent: PropTypes.element,
+  alertTitle: PropTypes.string,
   ariaDescribedby: PropTypes.string,
   ariaLabel: PropTypes.string,
   buttonOnly: PropTypes.bool,
@@ -437,6 +441,7 @@ SaveInProgressIntro.propTypes = {
 };
 
 SaveInProgressIntro.defaultProps = {
+  alertTitle: 'Sign in now to save your work in progress',
   retentionPeriod: '60 days',
   unauthStartText: '',
   formConfig: {

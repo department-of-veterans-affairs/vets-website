@@ -1,5 +1,6 @@
-import Benefits from '../../components/Benefits';
-import EnhancedBenefits from '../../components/EnhancedBenefits';
+import React from 'react';
+import Benefits from '../../components/debtsAndCopays/Benefits';
+import EnhancedBenefits from '../../components/debtsAndCopays/EnhancedBenefits';
 
 export const uiSchema = {
   'ui:title': 'Your VA benefits',
@@ -26,7 +27,13 @@ export const schema = {
 };
 
 export const enhancedUiSchema = {
-  'ui:title': 'Your VA benefits',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Your VA benefits</h3>
+      </legend>
+    </>
+  ),
   'view:components': {
     'view:vaBenefitsOnFile': {
       'ui:field': EnhancedBenefits,

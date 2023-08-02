@@ -76,7 +76,7 @@
 
   .checkbox-hidden {
     .widget-content {
-      margin: 2rem 0 0 2rem;
+      margin: 2rem 0 0 0;
     }
   }
 }
@@ -92,17 +92,6 @@ ul.issues,
   .va-profile-wrapper button {
     width: auto;
   }
-}
-
-/* IE11 hack to fix edit button placement, see
- * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
- */
- _:-ms-fullscreen, :root dl.review dd.widget-content.widget-edit .widget-content-wrap {
-  width: calc(100% - 175px); /* 175px ~= width of the edit button x2.5 */
-}
-/* IE11 fix legend not wrapping on small screens */
-legend.schemaform-block-title {
-  width: 100%;
 }
 
 /* empty header on additional-issues-intro page */
@@ -208,6 +197,10 @@ article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0
   text-transform: capitalize;
 }
 
+form.rjsf > fieldset {
+  margin-top: 0 !important;
+}
+
 /* additional evidence */
 article[data-location$="/upload"] {
   #root_evidence_add_label {
@@ -224,6 +217,12 @@ article[data-location$="/upload"] {
   }
 }
 
+/* board review option & hearing type pages */
+#root_hearingTypePreference-label,
+#root_boardReviewOption-label {
+  margin-bottom: 2rem;
+}
+
 article[data-location="review-and-submit"] {
   /* hide when reviewing content. Shows when editing */
   dt .hide-on-review, dd .hide-on-review {
@@ -234,5 +233,13 @@ article[data-location="review-and-submit"] {
   }
   dd {
     word-break: break-all;
+  }
+
+  .form-review-panel-page-header {
+    padding-right: 1rem;
+    line-height: 2.5rem;
+  }
+  .form-review-panel-page-header-row {
+    align-items: flex-start;
   }
 }

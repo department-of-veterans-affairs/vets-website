@@ -16,6 +16,7 @@ const {
 } = require('./endpoints/personal-information');
 const {
   maximalSetOfPreferences,
+  generateSuccess,
 } = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 const paymentInformation = require('./endpoints/payment-information');
@@ -27,6 +28,10 @@ const {
   baseUserTransitionAvailabilities,
 } = require('./endpoints/user-transition-availabilities');
 
+const error500 = require('../tests/fixtures/500.json');
+const error401 = require('../tests/fixtures/401.json');
+const error403 = require('../tests/fixtures/403.json');
+
 const maintenanceWindows = require('./endpoints/maintenance-windows');
 
 // seed data for VAMC drupal source of truth json file
@@ -37,6 +42,13 @@ const { debug, delaySingleResponse } = require('./script/utils');
 
 // uncomment if using status retries
 // let retries = 0;
+
+// use one of these to provide a generic error for any endpoint
+const genericErrors = {
+  error500,
+  error401,
+  error403,
+};
 
 /* eslint-disable camelcase */
 const responses = {
@@ -70,8 +82,12 @@ const responses = {
           generateFeatureToggles({
             profileUseInfoCard: true,
             profileUseFieldEditingPage: true,
-            profileShowMhvNotificationSettings: false,
             profileLighthouseDirectDeposit: true,
+            profileUseNotificationSettingsCheckboxes: false,
+            profileShowEmailNotificationSettings: false,
+            profileShowMhvNotificationSettings: false,
+            profileShowPaymentsNotificationSetting: false,
+            profileShowQuickSubmitNotificationSetting: false,
           }),
         ),
       0,
@@ -86,7 +102,7 @@ const responses = {
     // This is a 'normal' payment history / control case data
     // paymentInformation.base
 
-    return res.status(200).json(paymentInformation.base);
+    return res.status(200).json(paymentInformation.notEligible);
   },
   'PUT /v0/ppiu/payment_information': (_req, res) => {
     // substitute the various errors arrays to test various update error responses
@@ -197,9 +213,36 @@ const responses = {
       _.set(status.success, 'data.attributes.transactionId', req.params.id),
     );
   },
-  'GET /v0/profile/communication_preferences': (_req, res) => {
-    return res.json(maximalSetOfPreferences);
+  'GET /v0/profile/communication_preferences': (req, res) => {
+    if (req?.query?.error === 'true') {
+      return res.status(500).json(genericErrors.error500);
+    }
+    return delaySingleResponse(() => res.json(maximalSetOfPreferences), 1);
   },
+  'PATCH /v0/profile/communication_preferences/:pref': (req, res) => {
+    const {
+      communicationItem: {
+        id: communicationItemId,
+        communicationChannel: {
+          id: communicationChannelId,
+          communicationPermission: { allowed },
+        },
+      },
+    } = req.body;
+
+    const mockedRes = _.cloneDeep(generateSuccess());
+
+    _.merge(mockedRes, {
+      bio: {
+        communicationItemId,
+        communicationChannelId,
+        allowed,
+      },
+    });
+
+    delaySingleResponse(() => res.json(mockedRes), 1);
+  },
+
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
 };
 

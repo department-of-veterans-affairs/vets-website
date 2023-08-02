@@ -3,8 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement, scrollTo } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
@@ -14,7 +13,7 @@ import { getSelected, getIssueName } from '../utils/helpers';
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.confirmation-page-title');
-    scrollToTop('topScrollElement');
+    scrollTo('topScrollElement');
   }
 
   render() {
@@ -22,7 +21,7 @@ export class ConfirmationPage extends React.Component {
     const { submission, formId, data } = form;
     const issues = getSelected(data || []).map((issue, index) => (
       <li key={index} className="vads-u-margin-bottom--0">
-        {getIssueName(issue)}
+        <span className="dd-privacy-hidden">{getIssueName(issue)}</span>
       </li>
     ));
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
@@ -45,18 +44,20 @@ export class ConfirmationPage extends React.Component {
           Your request has been submitted
         </h2>
         <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
+        <p className="screen-only">Print this page for your records.</p>
         <div className="inset">
           <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
             Request a Board Appeal{' '}
             <span className="additional">(Form {formId})</span>
           </h3>
-          for {fullName}
-          {name.suffix && `, ${name.suffix}`}
+          for <span className="dd-privacy-hidden">{fullName}</span>
+          {name.suffix && (
+            <span className="dd-privacy-hidden">{`, ${name.suffix}`}</span>
+          )}
           {submitDate.isValid() && (
             <p>
               <strong>Date submitted</strong>
-              <br />
+              <br role="presentation" />
               <span>{submitDate.format(FORMAT_READABLE)}</span>
             </p>
           )}
@@ -95,7 +96,7 @@ export class ConfirmationPage extends React.Component {
           don’t request another appeal. Call us at{' '}
           <va-telephone contact={CONTACTS.VA_BENEFITS} />.
         </p>
-        <br />
+        <br role="presentation" />
         <a
           href="/claim-or-appeal-status/"
           className="usa-button usa-button-primary"

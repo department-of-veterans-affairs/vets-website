@@ -6,6 +6,8 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { focusElement } from 'platform/utilities/ui';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 // updatePage isn't available for CustomPage on non-review pages, see
@@ -90,12 +92,17 @@ const AddIssue = props => {
       { issue: issueName, decisionDate: issueDate },
     ],
   });
-  const showError = nameErrorMessage[0] || uniqueErrorMessage[0];
+
+  const showIssueNameError = nameErrorMessage[0] || uniqueErrorMessage[0];
+  const [invalidDate = '', invalidDateParts = ''] = dateErrorMessage || [];
+
+  const isInvalid = part =>
+    invalidDateParts.includes(part) || invalidDateParts.includes('other');
 
   // submit issue with validation
   const addOrUpdateIssue = () => {
     setSubmitted(true);
-    if (!showError && dateErrorMessage.length === 0) {
+    if (!showIssueNameError && !invalidDate) {
       const selectedCount =
         getSelected(data).length + (currentData[SELECTED] ? 0 : 1);
 
@@ -109,6 +116,15 @@ const AddIssue = props => {
       };
       setFormData({ ...data, additionalIssues: issues });
       goToPath(returnPath);
+    } else if (showIssueNameError) {
+      focusElement('input', {}, $('#issue-name')?.shadowRoot);
+    } else {
+      const date = $('va-memorable-date');
+      const monthInput = $('va-text-input.input-month', date?.shadowRoot);
+      if (monthInput) {
+        focusElement('input', {}, monthInput.shadowRoot);
+        $('input', monthInput.shadowRoot)?.select();
+      }
     }
   };
 
@@ -162,19 +178,21 @@ const AddIssue = props => {
           <h3 className="vads-u-margin--0">{content.title[addOrEdit]}</h3>
         </legend>
         <VaTextInput
-          id="add-nod-issue"
-          name="add-nod-issue"
+          id="issue-name"
+          name="issue-name"
           type="text"
           label={content.name.label}
           required
           value={issueName}
           onInput={handlers.onIssueNameChange}
           onBlur={handlers.onInputBlur}
-          error={((submitted || inputDirty) && showError) || null}
+          error={((submitted || inputDirty) && showIssueNameError) || null}
         >
           {content.name.hint}
         </VaTextInput>
-        <br />
+
+        <br role="presentation" />
+
         <VaMemorableDate
           name="decision-date"
           label={content.date.label}
@@ -184,6 +202,9 @@ const AddIssue = props => {
           onDateBlur={handlers.onDateBlur}
           value={issueDate}
           error={((submitted || dateDirty) && dateErrorMessage[0]) || null}
+          invalidMonth={isInvalid('month')}
+          invalidDay={isInvalid('day')}
+          invalidYear={isInvalid('year')}
           aria-describedby="decision-date-description"
         />
         <p>
@@ -192,13 +213,13 @@ const AddIssue = props => {
             secondary
             class="vads-u-width--auto"
             onClick={handlers.onCancel}
-            text="Cancel"
+            text={content.button.cancel}
           />
           <va-button
             id="submit"
             class="vads-u-width--auto"
             onClick={handlers.onUpdate}
-            text={`${addOrEdit === 'add' ? 'Add' : 'Update'} issue`}
+            text={content.button[addOrEdit]}
           />
         </p>
       </fieldset>

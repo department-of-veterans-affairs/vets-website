@@ -38,7 +38,7 @@ const UtilityBillSummary = ({
   };
 
   const cardBody = text => (
-    <p>
+    <p className="vads-u-margin--0">
       Monthly amount: <b>{currencyFormatter(text)}</b>
     </p>
   );
@@ -53,7 +53,9 @@ const UtilityBillSummary = ({
           className="schemaform-block-title"
           name="addedUtilityBillsSummary"
         >
-          You have added these utility bills
+          <h3 className="vads-u-margin--0">
+            You have added these utility bills
+          </h3>
         </legend>
         <div className="vads-l-grid-container--full">
           {!utilityRecords.length ? (

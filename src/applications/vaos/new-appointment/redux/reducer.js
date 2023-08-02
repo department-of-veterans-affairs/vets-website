@@ -61,8 +61,6 @@ import {
   FACILITY_TYPES,
   FLOW_TYPES,
   FETCH_STATUS,
-  PURPOSE_TEXT,
-  PURPOSE_TEXT_V2,
 } from '../../utils/constants';
 
 import { getTypeOfCare } from './selectors';
@@ -149,8 +147,6 @@ function resetFormDataOnTypeOfCareChange(pages, oldData, data) {
 }
 
 export default function formReducer(state = initialState, action) {
-  const { useV2, useAcheron } = action;
-
   switch (action.type) {
     case FORM_PAGE_OPENED: {
       const { data, schema } = setupFormData(
@@ -621,29 +617,7 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
       const formData = state.data;
-
-      // Default char limit for CC appointment request is 250 and
-      // VA direct schedule and appointment request is 100.
-      let reasonMaxChars =
-        formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE ? 250 : 100;
-      if (state.flowType === FLOW_TYPES.REQUEST) {
-        if (useV2 && useAcheron) {
-          reasonMaxChars = REASON_MAX_CHARS.request;
-        }
-      } else if (state.flowType === FLOW_TYPES.DIRECT) {
-        if (useV2) {
-          const prependText = PURPOSE_TEXT_V2.find(
-            purpose => purpose.id === formData.reasonForAppointment,
-          )?.short;
-          reasonMaxChars = reasonMaxChars - (prependText?.length || 0) - 2;
-        } else {
-          const prependText = PURPOSE_TEXT.find(
-            purpose => purpose.id === formData.reasonForAppointment,
-          )?.short;
-          reasonMaxChars =
-            REASON_MAX_CHARS.direct - (prependText?.length || 0) - 2;
-        }
-      }
+      const reasonMaxChars = 250;
 
       let reasonSchema = set(
         'properties.reasonAdditionalInfo.maxLength',
@@ -682,37 +656,7 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_CHANGED: {
-      let newSchema = state.pages.reasonForAppointment;
-
-      if (state.flowType === FLOW_TYPES.DIRECT) {
-        if (useV2) {
-          // Default char limit for CC appointment request is 250 and
-          // VA direct schedule and appointment request is 100.
-          const formData = state.data;
-          const reasonMaxChars =
-            formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE ? 250 : 100;
-
-          const prependText = PURPOSE_TEXT_V2.filter(purpose => {
-            return purpose.id !== 'other';
-          }).find(purpose => {
-            return purpose.id === action.data.reasonForAppointment;
-          })?.short;
-          newSchema = set(
-            'properties.reasonAdditionalInfo.maxLength',
-            reasonMaxChars - (prependText?.length || 0) - 2,
-            newSchema,
-          );
-        } else {
-          const prependText = PURPOSE_TEXT.find(
-            purpose => purpose.id === action.data.reasonForAppointment,
-          )?.short;
-          newSchema = set(
-            'properties.reasonAdditionalInfo.maxLength',
-            REASON_MAX_CHARS.direct - (prependText?.length || 0) - 2,
-            newSchema,
-          );
-        }
-      }
+      const newSchema = state.pages.reasonForAppointment;
 
       const { data, schema } = updateSchemaAndData(
         newSchema,

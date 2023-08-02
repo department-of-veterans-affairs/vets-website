@@ -1,30 +1,132 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
+import { scrollToTop } from '../utilities/scroll-to-top';
+import {
+  updateDependents,
+  updatePastMode,
+  updateYear,
+  updateZipCode,
+} from '../actions';
 import { ROUTES } from '../constants';
 
-const HomePage = ({ pastMode, router }) => {
-  useEffect(() => {
-    if (pastMode) {
-      router.push(ROUTES.YEAR);
-    } else {
-      router.push(ROUTES.ZIPCODE);
-    }
-  });
+const HomePage = ({
+  router,
+  togglePastMode,
+  updateDependentsField,
+  updateYearField,
+  updateZipCodeField,
+}) => {
+  useEffect(
+    () => {
+      const clearForm = () => {
+        updateDependentsField('');
+        updateYearField('');
+        updateZipCodeField('');
+      };
 
-  return <div />;
+      waitForRenderThenFocus('h1');
+      scrollToTop();
+      clearForm();
+    },
+    [router, updateDependentsField, updateYearField, updateZipCodeField],
+  );
+
+  const goToCurrent = event => {
+    event.preventDefault();
+    togglePastMode(false);
+    router.push(ROUTES.ZIPCODE);
+  };
+
+  const goToPast = event => {
+    event.preventDefault();
+    togglePastMode(true);
+    router.push(ROUTES.YEAR);
+  };
+
+  return (
+    <>
+      <h1>Income limits and your VA health care</h1>
+      <p>
+        Answer 2 questions to find out how your income may affect your VA health
+        care eligibility and costs.
+      </p>
+      <h2>What to know before you start:</h2>
+      <ul className="vads-u-margin-left--1">
+        <li>
+          Some Veterans are eligible for VA health care no matter their income.
+          You may be eligible based on your VA disability rating, service
+          history, or other factors. If you think you may be eligible, we
+          encourage you to apply anytime.{' '}
+          <va-link
+            href="/health-care/eligibility/"
+            text="Review health care eligibility factors"
+          />
+        </li>
+        <li>
+          If you’re not eligible for VA health care based on other factors, you
+          may still be eligible based on your income.
+        </li>
+        <li>
+          If your income changes after you&#8217;re enrolled in VA health care,
+          you can report the update to us. We&#8217;ll review your current
+          income and may adjust your copay costs.
+        </li>
+        <li>
+          You&#8217;ll need information about your{' '}
+          {new Date().getFullYear() - 1} household income and deductions to
+          check income limits. Limits vary by where you live and change each
+          year.
+        </li>
+      </ul>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+      <a
+        data-testid="income-limits-current"
+        href="#"
+        className="vads-u-display--block vads-u-margin-bottom--1 vads-u-margin-top--3 vads-c-action-link--green"
+        onClick={goToCurrent}
+      >
+        Check current income limits
+      </a>
+      <h2>Past income limits</h2>
+      <p>You can also use this tool to review income limits for past years.</p>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+      <a
+        data-testid="income-limits-past"
+        href="#"
+        className="vads-u-display--block vads-u-margin-top--4 vads-c-action-link--blue"
+        onClick={goToPast}
+      >
+        Check income limits for a previous year
+      </a>
+    </>
+  );
 };
 
 const mapStateToProps = state => ({
   pastMode: state?.incomeLimits?.pastMode,
 });
 
+const mapDispatchToProps = {
+  togglePastMode: updatePastMode,
+  updateDependentsField: updateDependents,
+  updateYearField: updateYear,
+  updateZipCodeField: updateZipCode,
+};
+
 HomePage.propTypes = {
-  pastMode: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  togglePastMode: PropTypes.func.isRequired,
+  updateDependentsField: PropTypes.func.isRequired,
+  updateYearField: PropTypes.func.isRequired,
+  updateZipCodeField: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(HomePage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HomePage);

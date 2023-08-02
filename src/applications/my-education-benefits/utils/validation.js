@@ -30,6 +30,8 @@ export const validateHomePhone = (errors, phone, formData) => {
 };
 
 export const validateMobilePhone = (errors, phone, formData) => {
+  if (phone?.length === 0) return;
+
   const { isInternational } = formData[
     formFields.viewPhoneNumbers
   ].mobilePhoneNumber;

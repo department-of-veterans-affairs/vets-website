@@ -1,5 +1,5 @@
 import mockCommunicationPreferences from '@@profile/tests/fixtures/communication-preferences/get-200-maximal.json';
-import { generateFeatureToggles } from 'applications/personalization/profile/mocks/endpoints/feature-toggles';
+import { generateFeatureToggles } from '@@profile/mocks/endpoints/feature-toggles';
 
 import {
   mockNotificationSettingsAPIs,

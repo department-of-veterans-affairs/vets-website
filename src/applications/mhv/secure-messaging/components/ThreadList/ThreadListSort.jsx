@@ -1,94 +1,82 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
-import { threadSortingOptions } from '../../util/constants';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { Paths, threadSortingOptions } from '../../util/constants';
 
-const SENDER_ALPHA_ASCENDING = 'sender-alpha-asc';
-const SENDER_ALPHA_DESCENDING = 'sender-alpha-desc';
-const RECEPIENT_ALPHA_ASCENDING = 'recepient-alpha-asc';
-const RECEPIENT_ALPHA_DESCENDING = 'recepient-alpha-desc';
 const SORT_CONVERSATIONS_LABEL = 'Show conversations in this order';
 
 const ThreadListSort = props => {
-  const { defaultSortOrder, setSortOrder, setSortBy, sortCallback } = props;
+  const { sortOrder, sortCallback } = props;
   const location = useLocation();
-  const [sortOrderValue, setSortOrderValue] = useState(defaultSortOrder);
+  const [sortOrderValue, setSortOrderValue] = useState(sortOrder);
 
-  useEffect(
-    () => {
-      switch (sortOrderValue) {
-        case threadSortingOptions.ASCENDING:
-          setSortOrder(threadSortingOptions.ASCENDING);
-          if (location.pathname === '/drafts') {
-            setSortBy(threadSortingOptions.SORT_BY_DRAFT_DATE);
-            break;
-          }
-          setSortBy(threadSortingOptions.SORT_BY_SENT_DATE);
-          break;
-        case threadSortingOptions.DESCENDING:
-          setSortOrder(threadSortingOptions.DESCENDING);
-          if (location.pathname === '/drafts') {
-            setSortBy(threadSortingOptions.SORT_BY_DRAFT_DATE);
-            break;
-          }
-          setSortBy(threadSortingOptions.SORT_BY_SENT_DATE);
-          break;
-        case SENDER_ALPHA_ASCENDING:
-          setSortOrder(threadSortingOptions.ASCENDING);
-          setSortBy(threadSortingOptions.SORT_BY_SENDER);
-          break;
-        case SENDER_ALPHA_DESCENDING:
-          setSortOrder(threadSortingOptions.DESCENDING);
-          setSortBy(threadSortingOptions.SORT_BY_SENDER);
-          break;
-        case RECEPIENT_ALPHA_ASCENDING:
-          setSortOrder(threadSortingOptions.ASCENDING);
-          setSortBy(threadSortingOptions.SORT_BY_RECEPIENT);
-          break;
-        case RECEPIENT_ALPHA_DESCENDING:
-          setSortOrder(threadSortingOptions.DESCENDING);
-          setSortBy(threadSortingOptions.SORT_BY_RECEPIENT);
-          break;
-        default:
-          setSortOrder(threadSortingOptions.ASCENDING);
-          setSortBy(threadSortingOptions.SORT_BY_SENT_DATE);
-      }
-    },
-    [sortOrderValue, setSortBy, setSortOrder, location],
-  );
+  const handleSortButtonClick = async () => {
+    sortCallback(sortOrderValue);
+    recordEvent({
+      event: 'cta-button-click',
+      'button-type': 'primary',
+      'button-click-label': 'Sort messages',
+    });
+  };
 
   return (
     <div className="thread-list-sort">
+      <h2 className="sr-only">Sort conversations</h2>
       <VaSelect
         id="sort-order-dropdown"
         label={SORT_CONVERSATIONS_LABEL}
         name="sort-order"
-        value={defaultSortOrder}
+        value={sortOrder}
         onVaSelect={e => {
           setSortOrderValue(e.detail.value);
         }}
       >
-        <option value={threadSortingOptions.DESCENDING}>
-          Newest to oldest
+        <option
+          value={
+            location.pathname === Paths.DRAFTS
+              ? threadSortingOptions.DRAFT_DATE_DESCENDING.value
+              : threadSortingOptions.SENT_DATE_DESCENDING.value
+          }
+        >
+          {location.pathname === Paths.DRAFTS
+            ? threadSortingOptions.DRAFT_DATE_DESCENDING.label
+            : threadSortingOptions.SENT_DATE_DESCENDING.label}
         </option>
-        <option value={threadSortingOptions.ASCENDING}>Oldest to newest</option>
-        {location.pathname === '/sent' || location.pathname === '/drafts' ? (
+
+        <option
+          value={
+            location.pathname === Paths.DRAFTS
+              ? threadSortingOptions.DRAFT_DATE_ASCENDING.value
+              : threadSortingOptions.SENT_DATE_ASCENDING.value
+          }
+        >
+          {location.pathname === Paths.DRAFTS
+            ? threadSortingOptions.DRAFT_DATE_ASCENDING.label
+            : threadSortingOptions.SENT_DATE_ASCENDING.label}
+        </option>
+
+        {location.pathname === Paths.SENT ||
+        location.pathname === Paths.DRAFTS ? (
           <>
-            <option value={RECEPIENT_ALPHA_ASCENDING}>
-              A to Z - Recipient’s name
+            <option
+              value={threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.value}
+            >
+              {threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.label}
             </option>
-            <option value={RECEPIENT_ALPHA_DESCENDING}>
-              Z to A - Recipient’s name
+            <option
+              value={threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.value}
+            >
+              {threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.label}
             </option>
           </>
         ) : (
           <>
-            <option value={SENDER_ALPHA_ASCENDING}>
+            <option value={threadSortingOptions.SENDER_ALPHA_ASCENDING.value}>
               A to Z - Sender’s name
             </option>
-            <option value={SENDER_ALPHA_DESCENDING}>
+            <option value={threadSortingOptions.SENDER_ALPHA_DESCENDING.value}>
               Z to A - Sender’s name
             </option>
           </>
@@ -100,24 +88,15 @@ const ThreadListSort = props => {
         text="Sort"
         label="Sort"
         data-testid="sort-button"
-        onClick={() => {
-          sortCallback();
-          recordEvent({
-            event: 'cta-button-click',
-            'button-type': 'primary',
-            'button-click-label': 'Sort messages',
-          });
-        }}
+        onClick={handleSortButtonClick}
       />
     </div>
   );
 };
 
 ThreadListSort.propTypes = {
-  defaultSortOrder: PropTypes.string.isRequired,
-  setSortBy: PropTypes.func.isRequired,
-  setSortOrder: PropTypes.func.isRequired,
   sortCallback: PropTypes.func.isRequired,
+  sortOrder: PropTypes.string.isRequired,
 };
 
 export default ThreadListSort;

@@ -25,9 +25,9 @@ export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
   } else {
     wrapClassNames.push('vads-u-margin-top--0');
   }
-  return (
+  return onReviewPage && inReviewMode ? null : (
     <>
-      <legend className="vads-u-width--full">
+      <legend className="vads-u-width--full vads-u-padding-top--0 vads-u-border-top--0">
         <Wrap className={wrapClassNames.join(' ')}>
           Select the issues you’d like us to review
         </Wrap>
@@ -59,8 +59,8 @@ export const MaxSelectionsAlert = ({ closeModal }) => (
   >
     You are limited to {MAX_LENGTH.SELECTIONS} selected issues for each Notice
     of Disagreement request. If you would like to select more than{' '}
-    {MAX_LENGTH.SELECTIONS}, please submit this request and create a new request
-    for the remaining issues.
+    {MAX_LENGTH.SELECTIONS}, submit this request and create a new request for
+    the remaining issues.
   </VaModal>
 );
 
@@ -96,8 +96,8 @@ export const NoIssuesLoadedAlert = ({ submitted }) => {
       <va-alert status="error" class="vads-u-margin-bottom--2">
         <h3 slot="headline">Sorry, we couldn’t find any eligible issues</h3>
         <p>
-          If you’d like to add an issue for review, please select "Add a new
-          issue" to get started.
+          If you’d like to add an issue for review, select "Add a new issue" to
+          get started.
         </p>
       </va-alert>
     </div>

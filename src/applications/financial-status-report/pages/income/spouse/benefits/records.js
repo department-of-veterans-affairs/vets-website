@@ -1,7 +1,14 @@
+import React from 'react';
 import { validateCurrency } from '../../../../utils/validations';
 
 export const uiSchema = {
-  'ui:title': 'Your spouse information',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Your spouse information</h3>
+      </legend>
+    </>
+  ),
   benefits: {
     spouseBenefits: {
       'ui:options': {

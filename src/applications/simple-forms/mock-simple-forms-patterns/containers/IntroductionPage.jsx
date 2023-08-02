@@ -65,7 +65,22 @@ class IntroductionPage extends React.Component {
               <a href="/mock-simple-forms-patterns/radio">Radio</a>
             </li>
             <li>
+              <a href="/mock-simple-forms-patterns/radio-relationship-to-veteran">
+                Radio relationship to veteran
+              </a>
+            </li>
+            <li>
               <a href="/mock-simple-forms-patterns/date">Date</a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/array-single-page">
+                Array in a single page
+              </a>
+            </li>
+            <li>
+              <a href="/mock-simple-forms-patterns/array-multiple-page">
+                Array with multiple pages
+              </a>
             </li>
           </ul>
         </div>

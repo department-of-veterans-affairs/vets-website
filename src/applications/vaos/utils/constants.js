@@ -457,10 +457,14 @@ export const ERROR_CODES = [
     code: 10006,
     detail: 'Failure to fetch Requests',
   },
+  {
+    code: 6000,
+    detail: 'There were errors fetching appointments/requests from VSP',
+  },
 ];
 export const SERVICE_CATEGORY = [
   {
     id: COMP_AND_PEN,
-    displayName: 'Compensation and pension exam',
+    displayName: 'Claim exam',
   },
 ];

@@ -59,6 +59,7 @@ export const validateVaToDate = (errors, data) => {
 
   if (!isValidDateRange(fromDate, toDate, true)) {
     errors.addError(errorMessages.endDateBeforeStart);
+    errors.addError('other'); // invalid inputs
   }
 };
 
@@ -181,6 +182,7 @@ export const validatePrivateToDate = (errors, data) => {
 
   if (!isValidDateRange(fromDate, toDate, true)) {
     errors.addError(errorMessages.endDateBeforeStart);
+    errors.addError('other'); // invalid inputs
   }
 };
 

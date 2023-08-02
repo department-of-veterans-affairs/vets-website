@@ -1,4 +1,3 @@
-import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
@@ -21,8 +20,10 @@ import {
   wantsToUploadEvidence,
   needsHearingType,
   appStateSelector,
-  getIssueName,
+  showPart3,
+  showExtensionReason,
 } from '../utils/helpers';
+import { getIssueTitle } from '../content/areaOfDisagreement';
 
 import { CONTESTABLE_ISSUES_PATH } from '../constants';
 
@@ -33,6 +34,9 @@ import contactInfo from '../pages/contactInfo';
 import contestableIssues from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
+import extensionRequest from '../pages/extensionRequest';
+import extensionReason from '../pages/extensionReason';
+import appealingVhaDenial from '../pages/appealingVhaDenial';
 import filingDeadlines from '../pages/filingDeadlines';
 import issueSummary from '../pages/issueSummary';
 import boardReview from '../pages/boardReview';
@@ -53,7 +57,7 @@ import hearingType from '../pages/hearingType';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/notice_of_disagreements`,
+  submitUrl: '/notice_of_disagreements',
   trackingPrefix: '10182-board-appeal-',
 
   downtime: {
@@ -91,12 +95,16 @@ const formConfig = {
   confirmation: ConfirmationPage,
 
   defaultDefinitions: {},
+  // when true, initial focus on page to H3s by default, and enable page
+  // scrollAndFocusTarget (selector string or function to scroll & focus)
+  useCustomScrollAndFocus: true,
+
   chapters: {
     infoPages: {
-      title: 'Veteran details',
+      title: 'Veteran Information',
       pages: {
         veteranInformation: {
-          title: 'Veteran details',
+          title: 'Veteran information',
           path: 'veteran-details',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
@@ -120,8 +128,29 @@ const formConfig = {
           uiSchema: filingDeadlines.uiSchema,
           schema: filingDeadlines.schema,
         },
+        extensionRequest: {
+          title: 'Request an extension',
+          path: 'extension-request',
+          depends: showPart3,
+          uiSchema: extensionRequest.uiSchema,
+          schema: extensionRequest.schema,
+        },
+        extensionReason: {
+          title: 'Reason for extension',
+          path: 'extension-reason',
+          depends: showExtensionReason,
+          uiSchema: extensionReason.uiSchema,
+          schema: extensionReason.schema,
+        },
+        appealingVhaDenial: {
+          title: 'Appealing denial of VA health care benefits',
+          path: 'appealing-denial',
+          depends: showPart3,
+          uiSchema: appealingVhaDenial.uiSchema,
+          schema: appealingVhaDenial.schema,
+        },
         contestableIssues: {
-          title: 'Issues eligible for review',
+          title: 'You’ve selected these issues for review',
           path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
@@ -139,7 +168,7 @@ const formConfig = {
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         areaOfDisagreementFollowUp: {
-          title: getIssueName,
+          title: getIssueTitle,
           path: 'area-of-disagreement/:index',
           showPagePerItem: true,
           arrayPath: 'areaOfDisagreement',

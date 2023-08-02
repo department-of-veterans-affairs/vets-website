@@ -119,6 +119,7 @@ export const IssueCard = ({
 
   const titleClass = [
     'widget-title',
+    'dd-privacy-hidden',
     'vads-u-font-size--h4',
     'vads-u-margin--0',
     'capitalize',
@@ -155,7 +156,7 @@ export const IssueCard = ({
         <va-button
           secondary
           class={removeButtonClass}
-          aria-label={`remove ${issueName}`}
+          label={`remove ${issueName}`}
           onClick={handlers.onRemove}
           text="Remove"
         />

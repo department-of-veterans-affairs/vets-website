@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Link } from 'react-router-dom';
-import { dateFormat } from '../../util/helpers';
 
 const ConditionListItem = props => {
   const { record } = props;
-  const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
+  const formattedDate = formatDateLong(record?.date);
 
   const content = () => {
     if (record) {
@@ -17,7 +17,7 @@ const ConditionListItem = props => {
           <h4>{record.name}</h4>
           <p className="vads-u-margin--0">Date entered: {formattedDate}</p>
           <Link
-            to={`/health-history/condition-details/${record.id}`}
+            to={`/health-conditions/${record.id}`}
             className="vads-u-margin--0 no-print"
           >
             <strong>Details</strong>

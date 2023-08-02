@@ -4,6 +4,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import reducers from '../../../reducers';
 import ThreadListItem from '../../../components/ThreadList/ThreadListItem';
 import { dateFormat } from '../../../util/helpers';
+import { Paths } from '../../../util/constants';
 
 describe('Thread List component', () => {
   const initialState = {
@@ -135,8 +136,7 @@ describe('Thread List component', () => {
   });
 
   it('when on sent messages, dont show sender name only recepient name', async () => {
-    screen = setup({ ...options, path: '/sent' });
-
+    screen = setup({ ...options, path: Paths.SENT });
     const senderName = await screen.queryByText('SENDERNAMETEST');
     const recipientName = await screen.getByText('FREEMAN', { exact: false });
 

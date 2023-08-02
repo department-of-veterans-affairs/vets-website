@@ -1,11 +1,18 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import RemoveAttachmentModal from './Modals/RemoveAttachmentModal';
+import HowToAttachFiles from './HowToAttachFiles';
 
 const AttachmentsList = props => {
   const { attachments, setAttachments, editingEnabled } = props;
   const attachmentReference = useRef(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isAttachmentRemoved, setIsAttachmentRemoved] = useState(false);
+  const [removedAttachmentName, setRemovedAttachmentName] = useState('');
+  const [fileToRemove, setFileToRemove] = useState(null);
+  const [recentlyRemovedFile, setRecentlyRemovedFile] = useState(false);
 
   const getSize = num => {
     if (num > 999999) {
@@ -37,17 +44,26 @@ const AttachmentsList = props => {
       }
       return item.size !== file.size;
     });
+    setRemovedAttachmentName(file.name);
     setAttachments(newAttArr);
+    setIsAttachmentRemoved(true);
+
     focusElement(
       document
         .querySelector('.attach-file-button')
         .shadowRoot.querySelector('button'),
     );
-  };
 
+    if (newAttArr.some(item => item.name !== file.name)) {
+      setRecentlyRemovedFile(true);
+    }
+  };
   return (
     <div>
-      {' '}
+      <div className="message-body-attachments-label vads-u-margin-bottom--1">
+        Attachments
+      </div>
+      {editingEnabled && <HowToAttachFiles />}
       <ul className="attachments-list">
         {!!attachments.length &&
           attachments.map(file => (
@@ -55,26 +71,41 @@ const AttachmentsList = props => {
               {editingEnabled && (
                 <div className="editable-attachment vads-u-display--flex vads-u-flex-direction--row">
                   <span
+                    data-dd-privacy="mask"
                     ref={attachmentReference}
                     className="vads-u-flex--1"
                     role="alert"
-                    aria-label={`${file.name}, ${getSize(
-                      file.size || file.attachmentSize,
-                    )}, file successfully attached. Button available: Remove ${
-                      file.name
-                    }`}
+                    aria-live="polite"
+                    aria-label={
+                      recentlyRemovedFile
+                        ? null
+                        : `${file.name}, ${getSize(
+                            file.size || file.attachmentSize,
+                          )}, file successfully attached. Button available: Remove ${
+                            file.name
+                          }`
+                    }
                   >
-                    <i className="fas fa-paperclip" aria-hidden="true" />
+                    <i
+                      className="fas fa-paperclip"
+                      alt="Attachment icon"
+                      aria-hidden="true"
+                    />
                     <span>{file.name} </span>(
                     {getSize(file.size || file.attachmentSize)})
                   </span>
-                  <va-button
-                    onClick={() => removeAttachment(file)}
-                    secondary
-                    text="REMOVE"
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsModalVisible(true);
+                      setFileToRemove(file);
+                    }}
                     aria-label={`remove ${file.name}`}
-                    class="remove-attachment-button vads-u-flex--auto"
-                  />
+                    className="remove-attachment-button vads-u-flex--auto vads-u-margin-right--1p5 vads-u-padding-y--2"
+                  >
+                    <span className="remove-attachment-icon vads-u-padding-right--3" />
+                    REMOVE
+                  </button>
                 </div>
               )}
               {!editingEnabled && (
@@ -93,13 +124,16 @@ const AttachmentsList = props => {
                     }}
                   >
                     <i
-                      role="img"
                       aria-labelledby="has-attachment"
                       className="fas fa-paperclip"
                       aria-hidden="true"
                       alt="Attachment icon"
                     />
-                    <span id="has-attachment" ref={attachmentReference}>
+                    <span
+                      id="has-attachment"
+                      ref={attachmentReference}
+                      data-dd-privacy="mask"
+                    >
                       {file.name}
                     </span>
                     ({getSize(file.size || file.attachmentSize)})
@@ -110,6 +144,31 @@ const AttachmentsList = props => {
             </li>
           ))}
       </ul>
+      <RemoveAttachmentModal
+        visible={isModalVisible}
+        onClose={() => {
+          setIsModalVisible(false);
+          setIsAttachmentRemoved(false);
+        }}
+        onDelete={() => {
+          setIsModalVisible(false);
+          removeAttachment(fileToRemove);
+        }}
+      />
+      {isAttachmentRemoved ? (
+        <>
+          <div
+            ref={attachmentReference}
+            role="status"
+            aria-live="polite"
+            className="sr-only"
+            id="attachment-removed-successfully"
+            data-dd-privacy="mask"
+          >
+            {`File ${removedAttachmentName} successfully removed. Attach file, button.`}
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };

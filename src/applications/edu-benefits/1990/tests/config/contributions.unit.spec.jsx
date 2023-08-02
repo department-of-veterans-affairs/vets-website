@@ -8,7 +8,7 @@ import {
   getFormDOM,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../1990/config/form';
+import formConfig from '../../config/form';
 
 describe('Edu 1990 contributions', () => {
   const {
@@ -28,7 +28,7 @@ describe('Edu 1990 contributions', () => {
 
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(5);
+    expect(formDOM.querySelectorAll('input').length).to.equal(4);
   });
   it('should have no required inputs', () => {
     const onSubmit = sinon.spy();
@@ -81,6 +81,6 @@ describe('Edu 1990 contributions', () => {
     const formDOM = getFormDOM(form);
     formDOM.setCheckbox('#root_view\\:activeDutyRepayingPeriod', true);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(7);
+    expect(formDOM.querySelectorAll('input').length).to.equal(6);
   });
 });

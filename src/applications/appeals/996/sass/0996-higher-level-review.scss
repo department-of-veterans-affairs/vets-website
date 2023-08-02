@@ -95,11 +95,13 @@ article[data-location="contact-information"] {
 
     .widget-title {
       margin: 0;
-      white-space: nowrap;
       text-transform: capitalize;
+      /*
+      white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
       width: calc(100% - 7rem);
+      */
     }
 
     .widget-content {
@@ -132,32 +134,9 @@ article[data-location="contact-information"] {
     }
   }
 
-  .widget-outline {
-    background: transparent;
-    border: solid 4px $color-primary-alt-light;
-    border-radius: 7px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    max-width: auto; /* IE11 */
-    max-width: unset;
-
-    &.selected {
-      border-color: $color-primary;
-    }
-
-    &::before {
-      position: absolute;
-      margin-left: 1.5rem;
-      margin-top: 1.5rem;
-    }
-  }
-
   .checkbox-hidden {
     .widget-content {
-      margin: 2rem 0 0 2rem;
+      margin: 2rem 0 0 0;
     }
   }
 }
@@ -181,17 +160,6 @@ ul.issues,
   .va-profile-wrapper button {
     width: auto;
   }
-}
-
-/* IE11 hack to fix edit button placement, see
- * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
- */
- _:-ms-fullscreen, :root dl.review dd.widget-content.widget-edit .widget-content-wrap {
-  width: calc(100% - 175px); /* 175px ~= width of the edit button x2.5 */
-}
-/* IE11 fix legend not wrapping on small screens */
-legend.schemaform-block-title {
-  width: 100%;
 }
 
 .eligible-issues-error h3 {
@@ -240,7 +208,7 @@ article[data-location="add-issue"] {
   .input-error-date legend {
     font-weight: bold !important;
   }
-  #add-hlr-issue {
+  #issue-name {
     margin-top: 0;
   }
   /* Hide extra "Required" label */
@@ -283,6 +251,11 @@ label[for^="root_disagreementOptions"] {
   margin-top: 0;
 }
 
+/* opt-in label (not bold in review & submit accordion */
+label > .opt-in-title {
+  font-weight: 700;
+}
+
 /* Step 3 */
 /* Informal conference */
 /* global */
@@ -301,9 +274,6 @@ label[for^="root_disagreementOptions"] {
 }
 
 /* page specific */
-article[data-contact-choice] .contact-choice {
-  display: none;
-}
 
 article[data-location^="area-of-disagreement"],
 article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0ScrollElement"] + form {
@@ -333,21 +303,10 @@ article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0
   }
 }
 
-article[data-contact-choice="rep"] .contact-choice.selected-rep,
-article[data-contact-choice="me"] .contact-choice.selected-me {
-  display: inline-block;
-}
-
 article[data-location="informal-conference/representative-info"],
 article[data-location="informal-conference/representative-information"] {
   .schemaform-field-container {
     margin-top: 0;
-  }
-}
-
-article[data-location="informal-conference/availability"] {
-  #root_informalConferenceTimes_time2-label {
-    margin-top: 2rem;
   }
 }
 
@@ -365,7 +324,19 @@ article[data-location="review-and-submit"] {
     }
   }
   dd {
-    word-break: break-all;
+    word-break: break-word;
+  }
+  /* hide when reviewing content. Shows when editing */
+  dt .hide-on-review, dd .hide-on-review {
+    display: none;
+  }
+
+  .form-review-panel-page-header {
+    padding-right: 1rem;
+    line-height: 2.5rem;
+  }
+  .form-review-panel-page-header-row {
+    align-items: flex-start;
   }
 }
 
@@ -388,13 +359,9 @@ article[data-location="review-and-submit"] {
       margin-bottom: 0;
     }
 
-    dd.widget-content {
-      margin: 2.5rem 0 0 1rem;
-    }
-
     .checkbox-hidden {
       .widget-content {
-        margin: 0 0 0 1rem;
+        margin: 2rem 0 0 0;
       }
     }
   }

@@ -149,6 +149,9 @@ export const createAndStoreReturnUrl = () => {
       returnUrl = window.location.origin;
     }
   } else {
+    if (sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)) {
+      return sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL);
+    }
     // If we are not on the USiP, we should always return the user back to their current location
     returnUrl = window.location.toString();
   }

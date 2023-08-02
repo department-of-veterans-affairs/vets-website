@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 import { within } from '@testing-library/react';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor } from '@testing-library/dom';
 import {
   createTestStore,
@@ -11,12 +11,10 @@ import {
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../mocks/setup';
-import { getParentSiteMock } from '../../../mocks/v0';
 import {
   mockCCProviderFetch,
   mockCommunityCareEligibility,
   mockGetCurrentPosition,
-  mockParentSites,
 } from '../../../mocks/helpers';
 
 import CommunityCareProviderSelectionPage from '../../../../new-appointment/components/CommunityCareProviderSelectionPage';
@@ -24,7 +22,10 @@ import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
 import { FACILITY_SORT_METHODS } from '../../../../utils/constants';
 import { createMockFacilityByVersion } from '../../../mocks/data';
-import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
+import {
+  mockFacilitiesFetchByVersion,
+  mockFacilityFetchByVersion,
+} from '../../../mocks/fetch';
 import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
 import { getSchedulingConfigurationMock } from '../../../mocks/v2';
 
@@ -52,42 +53,7 @@ const initialState = {
 describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () => {
   beforeEach(() => {
     mockFetch();
-    mockParentSites(
-      ['983'],
-      [
-        {
-          id: '983',
-          attributes: {
-            ...getParentSiteMock({ id: '983' }).attributes,
-            city: 'Bozeman',
-            stateAbbrev: 'MT',
-            institutionCode: '983',
-            rootStationCode: '983',
-            parentStationCode: '983',
-          },
-        },
-        {
-          id: '983GJ',
-          attributes: {
-            ...getParentSiteMock({ id: '983GJ' }).attributes,
-            city: 'Belgrade',
-            stateAbbrev: 'MT',
-            institutionCode: '983GJ',
-            rootStationCode: '983',
-            parentStationCode: '983GJ',
-          },
-        },
-        {
-          id: '983GC',
-          attributes: {
-            ...getParentSiteMock({ id: '983GC' }).attributes,
-            institutionCode: '983GC',
-            rootStationCode: '983',
-            parentStationCode: '983GC',
-          },
-        },
-      ],
-    );
+
     mockCommunityCareEligibility({
       parentSites: ['983', '983GJ', '983GC'],
       supportedSites: ['983', '983GJ'],
@@ -103,27 +69,25 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       ),
       CC_PROVIDERS_DATA,
     );
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '983',
-        lat: 38.5615,
-        long: 122.9988,
-      }),
+    mockFacilitiesFetchByVersion({
+      children: true,
+      ids: ['983'],
+      facilities: [
+        createMockFacilityByVersion({
+          id: '983',
+          address: {
+            line: [],
+            city: 'Belgrade',
+          },
+          lat: 38.5615,
+          long: 122.9988,
+        }),
+      ],
     });
     mockSchedulingConfigurations(
       [
         getSchedulingConfigurationMock({
           id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '983GJ',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '983GC',
           typeOfCareId: 'primaryCare',
           requestEnabled: true,
         }),
@@ -458,8 +422,8 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       },
     });
     const facilityPosition = {
-      latitude: 39.1362562,
-      longitude: -83.1804804,
+      latitude: 38.5615,
+      longitude: 122.9988,
       fail: false,
     };
 
@@ -516,10 +480,10 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     expect(providerSelect).to.be.ok;
 
     const options = within(providerSelect).getAllByRole('option');
-    // first facility should not be selected
-    expect(options[0].value).not.to.equal(providerSelect.value);
-    // current location should be selected
-    expect(options[1].value).to.equal(providerSelect.value);
+    // Facility should be selected
+    expect(options[0].value).to.equal(providerSelect.value);
+    // Current location should not be selected
+    expect(options[1].value).not.to.equal(providerSelect.value);
   });
 
   it('should defalut to home address when user has a residential address', async () => {
@@ -559,17 +523,6 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       ),
       CC_PROVIDERS_DATA,
     );
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '442GJ',
-        name: 'Facility that is enabled',
-        lat: 39.1362562,
-        long: -83.1804804,
-        version: 0,
-      }),
-      version: 0,
-    });
 
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);

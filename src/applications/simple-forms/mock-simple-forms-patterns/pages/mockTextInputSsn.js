@@ -3,20 +3,20 @@ import {
   ssnSchema as ssnNewSchema,
   vaFileNumberSchema as vaFileNumberNewSchema,
   vaFileNumberUI as vaFileNumberNewUI,
-  serviceNumberUI as serviceNumberNewUI,
-  serviceNumberSchema as serviceNumberNewSchema,
-  ssnOrVaFileNumberOrServiceNumberUI,
+  ssnOrVaFileNumberUI,
   titleSchema,
   titleUI,
+  inlineTitleUI,
+  inlineTitleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { ssnUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
-const v3WCUI = ssnOrVaFileNumberOrServiceNumberUI(title => `V3 - ${title}`);
+const v3WCUI = ssnOrVaFileNumberUI(title => `V3 - ${title}`);
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI('RJSF'),
+    'view:title': titleUI('RJSF'),
     ssn: {
       ...ssnUI(),
       'ui:title': 'Social security number',
@@ -27,60 +27,41 @@ export default {
         pattern: 'Your VA file number must be 8 or 9 digits',
       },
     },
-    serviceNumber: {
-      'ui:title': 'Service number',
-    },
-    wc: titleUI('Web component', {
-      classNames: 'vads-u-margin-top--4',
-    }),
-    ssnNew: {
+    'view:wcTitle': inlineTitleUI('Web component'),
+    wcOldSsn: {
       ...ssnNewUI(),
       'ui:options': {
         uswds: false,
       },
     },
-    vaFileNumberNew: {
+    wcOldVaFileNumber: {
       ...vaFileNumberNewUI(),
       'ui:options': {
         uswds: false,
       },
     },
-    serviceNumberNew: {
-      ...serviceNumberNewUI(),
-      'ui:options': {
-        uswds: false,
-      },
-    },
-    wcv3: titleUI('Web component v3', {
-      classNames: 'vads-u-margin-top--4',
-    }),
-    ssnNewV3: v3WCUI.socialSecurityNumber,
-    vaFileNumberNewV3: v3WCUI.vaFileNumber,
-    serviceNumberNewV3: v3WCUI.serviceNumber,
+    'view:wcv3Title': inlineTitleUI('Web component v3'),
+    wcv3SsnNew: v3WCUI.socialSecurityNumber,
+    wcv3VaFileNumberNew: v3WCUI.vaFileNumber,
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
+      'view:title': titleSchema,
       ssn: {
         $ref: '#/definitions/ssn',
       },
       vaFileNumber: {
         $ref: '#/definitions/vaFileNumber',
       },
-      serviceNumber: {
-        $ref: '#/definitions/veteranServiceNumber',
-      },
-      wc: titleSchema,
-      ssnNew: ssnNewSchema,
-      vaFileNumberNew: vaFileNumberNewSchema,
-      serviceNumberNew: serviceNumberNewSchema,
-      wcv3: titleSchema,
-      ssnNewV3: ssnNewSchema,
-      vaFileNumberNewV3: vaFileNumberNewSchema,
-      serviceNumberNewV3: serviceNumberNewSchema,
+      'view:wcTitle': inlineTitleSchema,
+      wcOldSsn: ssnNewSchema,
+      wcOldVaFileNumber: vaFileNumberNewSchema,
+      'view:wcv3Title': inlineTitleSchema,
+      wcv3SsnNew: ssnNewSchema,
+      wcv3VaFileNumberNew: vaFileNumberNewSchema,
     },
-    required: ['ssn', 'ssnNew', 'ssnNewV3'],
+    required: ['ssn', 'wcOldSsn', 'wcv3SsnNew'],
   },
   initialData: {},
 };

@@ -314,10 +314,17 @@ class PatientInboxPage {
       .contains(`Continue to ${!type ? 'start message' : type} `);
   };
 
-  loadComposeMessagePage = () => {
+  navigateToComposePage = () => {
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
     const interstitialPage = new PatientInterstitialPage();
     interstitialPage.getContinueButton().click({ force: true });
+  };
+
+  navigateToComposePageByKeyboard = () => {
+    cy.tabToElement('[data-testid="compose-message-link"]');
+    cy.realPress(['Enter']);
+    cy.tabToElement('[data-testid="continue-button"]');
+    cy.realPress(['Enter']);
   };
 
   navigatePrintCancelButton = () => {
@@ -345,7 +352,7 @@ class PatientInboxPage {
   };
 
   navigateReply = () => {
-    cy.tabToElement('[data-testid="reply-button-top"]');
+    cy.tabToElement('[data-testid="reply-button-body"]');
     cy.realPress(['Enter']);
   };
 
@@ -355,7 +362,7 @@ class PatientInboxPage {
       .should('have.text', 'Draft was successfully deleted.');
   };
 
-  loadLandingPagebyTabbingandEnterKey = () => {
+  loadLandingPageByTabbingAndEnterKey = () => {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
@@ -364,7 +371,12 @@ class PatientInboxPage {
   };
 
   openAdvancedSearch = () => {
-    cy.get('#first').click();
+    cy.get('#additional-filter-accordion')
+      .shadow()
+      .contains('Add filters')
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   selectAdvancedSearchCategory = () => {
@@ -380,7 +392,27 @@ class PatientInboxPage {
   };
 
   submitSearchButton = () => {
-    cy.get('[data-testid="filter-messages-button"]').click();
+    cy.get('[data-testid="filter-messages-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  composeMessage = () => {
+    cy.get('#recipient-dropdown')
+      .shadow()
+      .find('#select')
+      .select(1, { force: true });
+    cy.get('[data-testid="compose-category-radio-button"]')
+      .first()
+      .click();
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('#inputField')
+      .type('testSubject');
+    cy.get('#compose-message-body')
+      .shadow()
+      .find('#textarea')
+      .type('testMessage');
   };
 
   composeDraftByKeyboard = () => {
@@ -412,6 +444,28 @@ class PatientInboxPage {
     cy.wait('@draft_message').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });
+  };
+
+  verifySorting = () => {
+    let listBefore;
+    let listAfter;
+    cy.get('.thread-list-item')
+      .find('.received-date')
+      .then(list => {
+        listBefore = Cypress._.map(list, el => el.innerText);
+        cy.log(listBefore);
+      })
+      .then(() => {
+        this.sortMessagesByDate('Oldest to newest');
+        cy.get('.thread-list-item')
+          .find('.received-date')
+          .then(list2 => {
+            listAfter = Cypress._.map(list2, el => el.innerText);
+            cy.log(listAfter);
+            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
+            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
+          });
+      });
   };
 }
 

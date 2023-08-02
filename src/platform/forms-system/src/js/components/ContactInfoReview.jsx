@@ -87,7 +87,7 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
       return value ? (
         <div key={label + index} className="review-row">
           <dt>{label}</dt>
-          <dd>{value}</dd>
+          <dd className="dd-privacy-hidden">{value}</dd>
         </div>
       ) : null;
     })

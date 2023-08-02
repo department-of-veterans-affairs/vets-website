@@ -9,6 +9,7 @@ import formConfig from '../config/form';
 import {
   fetchPersonalInformation,
   fetchEligibility,
+  fetchDuplicateContactInfo,
   // fetchDirectDeposit, Commenting out until we update the component to handle astrisks see TOE app
 } from '../actions';
 import { formFields } from '../constants';
@@ -27,6 +28,7 @@ export const App = ({
   // getDirectDeposit,
   getEligibility,
   getPersonalInfo,
+  getDuplicateContactInfo,
   isLOA3,
   isLoggedIn,
   location,
@@ -36,9 +38,16 @@ export const App = ({
   showMebCh33SelfForm,
   showMebEnhancements,
   showMebEnhancements06,
+  showMebEnhancements08,
+  email,
+  mobilePhone,
+  duplicateEmail,
+  duplicatePhone,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
+  const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
+
   // Commenting out next line until component can handle astrisks (See TOE app)
   // const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
@@ -48,8 +57,9 @@ export const App = ({
         return;
       }
 
-      if (!fetchedPersonalInfo) {
+      if (!fetchedPersonalInfo || !fetchedContactInfo) {
         setFetchedPersonalInfo(true);
+        setFetchedContactInfo(true);
         getPersonalInfo(showMebCh33SelfForm);
       } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
@@ -146,6 +156,45 @@ export const App = ({
           showMebCh33SelfForm,
         });
       }
+
+      if (
+        formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
+        formData?.email?.email &&
+        !formData?.duplicateEmail &&
+        !formData?.duplicatePhone &&
+        formData?.showMebEnhancements08
+      ) {
+        getDuplicateContactInfo(
+          [{ value: formData?.email?.email, dupe: '' }],
+          [
+            {
+              value: formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
+              dupe: '',
+            },
+          ],
+        );
+      }
+
+      if (
+        duplicateEmail?.length > 0 &&
+        duplicateEmail !== formData?.duplicateEmail
+      ) {
+        setFormData({
+          ...formData,
+          duplicateEmail,
+        });
+      }
+
+      if (
+        duplicatePhone?.length > 0 &&
+        duplicatePhone !== formData?.duplicatePhone
+      ) {
+        setFormData({
+          ...formData,
+          duplicatePhone,
+        });
+      }
+
       if (showMebEnhancements !== formData.showMebEnhancements) {
         setFormData({
           ...formData,
@@ -158,6 +207,14 @@ export const App = ({
           showMebEnhancements06,
         });
       }
+
+      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
+        setFormData({
+          ...formData,
+          showMebEnhancements08,
+        });
+      }
+
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
@@ -174,7 +231,43 @@ export const App = ({
       showMebCh33SelfForm,
       showMebEnhancements,
       showMebEnhancements06,
+      showMebEnhancements08,
+      mobilePhone,
+      getDuplicateContactInfo,
     ],
+  );
+
+  useEffect(
+    () => {
+      if (mobilePhone !== formData?.mobilePhone) {
+        setFormData({
+          ...formData,
+          'view:phoneNumbers': {
+            ...formData['view:phoneNumbers'],
+            mobilePhoneNumber: {
+              ...formData['view:phoneNumbers'].mobilePhoneNumber,
+              phone: mobilePhone,
+            },
+          },
+        });
+      }
+    },
+    [mobilePhone],
+  );
+
+  useEffect(
+    () => {
+      if (email && email !== formData?.email?.email) {
+        setFormData({
+          ...formData,
+          email: {
+            ...formData?.email,
+            email,
+          },
+        });
+      }
+    },
+    [email],
   );
 
   // Commenting out until Direct Deposit component is updated
@@ -218,11 +311,15 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
-  showMebCh33SelfForm: PropTypes.bool,
   showMebDgi40Features: PropTypes.bool,
-  showMebDgi42Features: PropTypes.bool,
+  showMebCh33SelfForm: PropTypes.bool,
+  email: PropTypes.string,
+  mobilePhone: PropTypes.string,
   showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
+  showMebEnhancements08: PropTypes.bool,
+  duplicateEmail: PropTypes.array,
+  duplicatePhone: PropTypes.array,
 };
 
 const mapStateToProps = state => {
@@ -230,11 +327,19 @@ const mapStateToProps = state => {
   const firstName = state.data?.formData?.data?.attributes?.claimant?.firstName;
   const transformedClaimantInfo = prefillTransformer(null, null, null, state);
   const claimantInfo = transformedClaimantInfo.formData;
+  const email = state?.form?.data?.email?.email;
+  const mobilePhone =
+    state?.data?.mobilePhone ||
+    state?.data?.formData?.data?.attributes?.claimant?.contactInfo
+      ?.mobilePhoneNumber;
+
   return {
     ...getAppData(state),
     formData,
     firstName,
     claimantInfo,
+    email,
+    mobilePhone,
   };
 };
 
@@ -243,6 +348,7 @@ const mapDispatchToProps = {
   getEligibility: fetchEligibility,
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,
+  getDuplicateContactInfo: fetchDuplicateContactInfo,
 };
 
 export default connect(

@@ -50,7 +50,7 @@ class PatientReplyPage {
       .then(message => {
         cy.log(JSON.stringify(message));
         expect(message.recipientId).to.eq(
-          replyMessage.data.attributes.recipientId,
+          replyMessage.data.attributes.senderId,
         );
         expect(message.category).to.eq(replyMessage.data.attributes.category);
         expect(message.subject).to.eq(replyMessage.data.attributes.subject);

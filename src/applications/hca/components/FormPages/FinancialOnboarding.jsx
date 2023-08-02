@@ -1,4 +1,3 @@
-import moment from 'moment';
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -10,14 +9,15 @@ const HouseholdFinancialOnboarding = props => {
     contentBeforeButtons,
     contentAfterButtons,
   } = props;
-  const previousYear = moment().subtract(1, 'years');
+  const date = new Date();
+  const lastYear = date.getFullYear() - 1;
 
   return (
     <>
       <p>
         Next we’ll ask about your household financial information from{' '}
-        {previousYear.format('Y')}. We’ll ask about income and expenses for you,
-        your spouse (if you’re married), and any dependents you may have.
+        {lastYear}. We’ll ask about income and expenses for you, your spouse (if
+        you’re married), and any dependents you may have.
       </p>
 
       <h3 data-testid="hca-custom-page-title">
@@ -57,8 +57,8 @@ const HouseholdFinancialOnboarding = props => {
       </ul>
 
       <p>
-        Note: We verify the financial information you provide with the Internal
-        Revenue Service (IRS).
+        <strong>Note:</strong> We verify the financial information you provide
+        with the Internal Revenue Service (IRS).
       </p>
 
       <va-additional-info trigger="Learn more about enhanced eligibility status for VA health care">

@@ -44,7 +44,8 @@ describe('area of disagreement page', () => {
     expect(form.find('input[type="checkbox"]').length).to.equal(3);
     expect(form.find('input[type="text"]').length).to.equal(1);
     expect(form.find('h3').text()).to.contain('Tinnitus');
-    expect(form.find('.decision-date').text()).to.contain('January 1, 2021');
+    expect(form.find('h3').text()).to.contain('January 1, 2021');
+    expect(form.find('h3 .dd-privacy-hidden')).to.exist;
     form.unmount();
   });
 

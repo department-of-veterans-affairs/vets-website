@@ -1,11 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
+import { scrollToTop } from '../utilities/scroll-to-top';
+import { redirectIfFormIncomplete } from '../utilities/utils';
+import { getLimits } from '../api';
 import { ROUTES } from '../constants';
-import { updateEditMode } from '../actions';
+import {
+  updateEditMode,
+  updateResults,
+  updateResultsValidationErrorText,
+  updateResultsValidationServiceError,
+} from '../actions';
 
 const ReviewPage = ({
   dependentsInput,
@@ -13,21 +21,80 @@ const ReviewPage = ({
   pastMode,
   router,
   toggleEditMode,
+  updateLimitsResults,
+  updateResultsErrorText,
+  updateResultsValidationError,
   yearInput,
   zipCodeInput,
 }) => {
+  const [submitting, setSubmitting] = useState(false);
+
   useEffect(() => {
     if (editMode) {
       updateEditMode(false);
     }
   });
 
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  useEffect(
+    () => {
+      redirectIfFormIncomplete(
+        dependentsInput,
+        pastMode,
+        router,
+        yearInput,
+        zipCodeInput,
+      );
 
-  const onContinueClick = () => {
-    router.push(ROUTES.RESULTS);
+      waitForRenderThenFocus('h1');
+      scrollToTop();
+    },
+    [dependentsInput, pastMode, router, yearInput, zipCodeInput],
+  );
+
+  const onContinueClick = async () => {
+    const year = yearInput || new Date().getFullYear();
+
+    if (dependentsInput && year && zipCodeInput) {
+      setSubmitting(true);
+
+      const response = await getLimits({
+        dependents: dependentsInput,
+        year,
+        zipCode: zipCodeInput,
+      });
+
+      setSubmitting(false);
+
+      if (response?.data) {
+        updateLimitsResults(response?.data);
+        router.push(ROUTES.RESULTS);
+      } else if (!response || response?.error || response?.errors) {
+        // A 422 invalid request returns response.error
+        // A 404 response returns response.errors
+        updateResultsValidationError(true);
+
+        const messageText = {
+          DEPENDENTS:
+            'Your information couldn’t go through. Please enter a number of dependents between 0 and 100.',
+          YEAR:
+            'Your information couldn’t go through. Please select a year again.',
+          ZIP:
+            'Your information couldn’t go through. Please enter a valid 5 digit zip code.',
+        };
+
+        const checkMessage = value => {
+          return response?.error?.toLowerCase().includes(value);
+        };
+
+        if (checkMessage('zip')) {
+          updateResultsErrorText(messageText.ZIP);
+        } else if (checkMessage('dependents')) {
+          updateResultsErrorText(messageText.DEPENDENTS);
+        } else if (checkMessage('year')) {
+          updateResultsErrorText(messageText.YEAR);
+        }
+      }
+    }
   };
 
   const onBackClick = () => {
@@ -41,74 +108,81 @@ const ReviewPage = ({
 
   return (
     <>
-      <h1>Aenean tristique mollis</h1>
-      <p>Fusce risus lacus, efficitur ac magna vitae, cursus lobortis dui.</p>
-      <table className="usa-table-borderless" data-testid="il-review">
-        <tbody>
-          {pastMode && (
-            <tr>
-              <td data-testid="review-year">
-                <strong>Vitae:</strong>
-                <br aria-hidden="true" /> {yearInput}
-              </td>
-              <td className="income-limits-edit">
-                <button
-                  aria-label="Edit year"
-                  className="va-button-link"
-                  href="#"
-                  onClick={() => handleEditClick(ROUTES.YEAR)}
-                  name="year"
-                  type="button"
-                >
-                  Edit
-                </button>
-              </td>
-            </tr>
-          )}
-          <tr>
-            <td data-testid="review-zip">
-              <strong>Nisci orci:</strong>
-              <br aria-hidden="true" /> {zipCodeInput}
-            </td>
-            <td className="income-limits-edit">
-              <button
-                aria-label="Edit zip code"
-                className="va-button-link"
+      <h1>Review your information</h1>
+      <p className="il-review">
+        Make any edits that you may need to. Then select{' '}
+        <strong>Continue</strong>.
+      </p>
+      <ul data-testid="il-review">
+        {pastMode && (
+          <li>
+            <span data-testid="review-year">
+              <strong>Year:</strong>
+              <br /> {yearInput}
+            </span>
+            <span className="income-limits-edit">
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <a
+                aria-label="Edit year"
                 href="#"
-                onClick={() => handleEditClick(ROUTES.ZIPCODE)}
-                name="zipCode"
-                type="button"
+                onClick={() => handleEditClick(ROUTES.YEAR)}
+                name="year"
               >
                 Edit
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td data-testid="review-dependents">
-              <strong>Malesuada felis ultrices:</strong>
-              <br aria-hidden="true" /> {dependentsInput}
-            </td>
-            <td className="income-limits-edit">
-              <button
-                aria-label="Edit number of dependents"
-                className="va-button-link"
-                href="#"
-                onClick={() => handleEditClick(ROUTES.DEPENDENTS)}
-                name="dependents"
-                type="button"
-              >
-                Edit
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <VaButtonPair
-        data-testid="il-buttonPair"
-        onPrimaryClick={onContinueClick}
-        onSecondaryClick={onBackClick}
-        continue
-      />
+              </a>
+            </span>
+          </li>
+        )}
+        <li>
+          <span data-testid="review-zip">
+            <strong>Zip code:</strong>
+            <br /> {zipCodeInput}
+          </span>
+          <span className="income-limits-edit">
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a
+              aria-label="Edit zip code"
+              href="#"
+              onClick={() => handleEditClick(ROUTES.ZIPCODE)}
+              name="zipCode"
+            >
+              Edit
+            </a>
+          </span>
+        </li>
+        <li>
+          <span data-testid="review-dependents">
+            <strong>Number of dependents:</strong>
+            <br /> {dependentsInput}
+          </span>
+          <span className="income-limits-edit">
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a
+              aria-label="Edit number of dependents"
+              href="#"
+              onClick={() => handleEditClick(ROUTES.DEPENDENTS)}
+              name="dependents"
+            >
+              Edit
+            </a>
+          </span>
+        </li>
+      </ul>
+      {!submitting && (
+        <VaButtonPair
+          data-testid="il-buttonPair"
+          onPrimaryClick={onContinueClick}
+          onSecondaryClick={onBackClick}
+          continue
+        />
+      )}
+      {submitting && (
+        <va-loading-indicator
+          data-testid="il-loading-indicator"
+          set-focus
+          message="Reviewing your information..."
+        />
+      )}
     </>
   );
 };
@@ -123,6 +197,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   toggleEditMode: updateEditMode,
+  updateLimitsResults: updateResults,
+  updateResultsErrorText: updateResultsValidationErrorText,
+  updateResultsValidationError: updateResultsValidationServiceError,
 };
 
 ReviewPage.propTypes = {
@@ -133,7 +210,11 @@ ReviewPage.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   toggleEditMode: PropTypes.func.isRequired,
+  updateLimitsResults: PropTypes.func.isRequired,
+  updateResultsErrorText: PropTypes.func.isRequired,
+  updateResultsValidationError: PropTypes.func.isRequired,
   zipCodeInput: PropTypes.string.isRequired,
+  resultsValidationError: PropTypes.func,
   yearInput: PropTypes.string,
 };
 

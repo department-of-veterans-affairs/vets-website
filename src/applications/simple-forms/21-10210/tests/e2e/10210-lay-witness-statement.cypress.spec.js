@@ -1,5 +1,4 @@
 import path from 'path';
-import cloneDeep from 'lodash/cloneDeep';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
@@ -9,13 +8,7 @@ import manifest from '../../manifest.json';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import { getSignerFullName } from './helpers';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
-
-// Disable formConfig props that were meant for local-dev only.
-const testFormConfig = cloneDeep(formConfig);
-testFormConfig.dev = {};
-testFormConfig.chapters.statementInfoChapter.pages.claimOwnershipPage.initialData = {
-  data: {},
-};
+import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
 
 const testConfig = createTestConfig(
   {
@@ -29,15 +22,20 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.findByText(/start/i, { selector: 'button' });
-          cy.get('.usa-alert-text .schemaform-start-button').click({
-            force: true,
-          });
+          cy.findByText(/without signing in/i).click({ force: true });
         });
       },
       'witness-personal-information-a': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
+            const { first, last } = data.witnessFullName;
             const label = data.witnessRelationshipToClaimant;
+            cy.get('#root_witnessFullName_first')
+              .clear()
+              .type(first);
+            cy.get('#root_witnessFullName_last')
+              .clear()
+              .type(last);
             cy.get(`va-checkbox[label="${label}"]`)
               .shadow()
               .get('#checkbox-element')
@@ -54,7 +52,14 @@ const testConfig = createTestConfig(
       'witness-personal-information-b': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
+            const { first, last } = data.witnessFullName;
             const label = data.witnessRelationshipToClaimant;
+            cy.get('#root_witnessFullName_first')
+              .clear()
+              .type(first);
+            cy.get('#root_witnessFullName_last')
+              .clear()
+              .type(last);
             cy.get(`va-checkbox[label="${label}"]`)
               .shadow()
               .get('#checkbox-element')
@@ -71,16 +76,8 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const signerFullName = getSignerFullName(data);
-
-            cy.get('#veteran-signature')
-              .shadow()
-              .get('#inputField')
-              .type(signerFullName);
-            cy.get(`input[name="veteran-certify"]`).check();
-            cy.findAllByText(/Submit statement/i, {
-              selector: 'button',
-            }).click();
+            const signerName = getSignerFullName(data);
+            reviewAndSubmitPageFlow(signerName, 'Submit statement');
           });
         });
       },
@@ -88,15 +85,11 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-      cy.intercept('POST', testFormConfig.submitUrl, mockSubmit);
+      cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     },
-
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
   },
   manifest,
-  testFormConfig,
+  formConfig,
 );
 
 testForm(testConfig);

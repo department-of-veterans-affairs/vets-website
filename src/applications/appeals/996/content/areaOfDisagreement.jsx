@@ -7,7 +7,7 @@ import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
 export const missingAreaOfDisagreementErrorMessage =
   'Please choose or enter a reason for disagreement';
 
-const titlePrefix = 'What do you disagree with regarding';
+const titlePrefix = 'Decision for';
 
 /**
  * Title for review & submit page, text string returned
@@ -16,7 +16,14 @@ const titlePrefix = 'What do you disagree with regarding';
  */
 export const getIssueTitle = data => {
   const date = moment(getIssueDate(data), FORMAT_YMD).format(FORMAT_READABLE);
-  return `${titlePrefix} ${getIssueName(data)} (${date})?`;
+  return (
+    <>
+      {titlePrefix}{' '}
+      <span className="dd-privacy-hidden">{getIssueName(data)}</span>
+      {' dated'}
+      {date}
+    </>
+  );
 };
 
 // formContext.pagePerItemIndex is undefined here? Use index added to data :(
@@ -24,22 +31,14 @@ export const issueName = ({ formData, formContext } = {}) => {
   const index = formContext.pagePerItemIndex || formData.index;
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/27096
   const Header = formContext.onReviewPage ? 'h4' : 'h3';
-  const date = moment(getIssueDate(formData), FORMAT_YMD).format(
-    FORMAT_READABLE,
-  );
   return (
     <legend
       className="schemaform-block-title schemaform-title-underline"
       aria-describedby={`area-of-disagreement-label-${index}`}
     >
       <Header className="vads-u-margin-top--0">
-        {`${titlePrefix} ${getIssueName(formData)}?`}
+        {getIssueTitle(formData)}
       </Header>
-      {date && (
-        <span className="decision-date vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
-          Decision date: {date}
-        </span>
-      )}
     </legend>
   );
 };

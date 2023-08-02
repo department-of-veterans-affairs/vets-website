@@ -27,7 +27,7 @@ describe('hca SpouseBasicInformation config', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(10);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(11);
   });
 
   it('should not submit empty form', () => {
@@ -43,7 +43,7 @@ describe('hca SpouseBasicInformation config', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -61,6 +61,11 @@ describe('hca SpouseBasicInformation config', () => {
 
     simulateInputChange(formDOM, '#root_spouseFullName_first', 'Mary');
     simulateInputChange(formDOM, '#root_spouseFullName_last', 'Smith');
+    simulateInputChange(
+      formDOM,
+      '#root_spouseSocialSecurityNumber',
+      '232422344',
+    );
     simulateInputChange(formDOM, '#root_spouseDateOfBirthMonth', '10');
     simulateInputChange(formDOM, '#root_spouseDateOfBirthDay', '15');
     simulateInputChange(formDOM, '#root_spouseDateOfBirthYear', '1991');

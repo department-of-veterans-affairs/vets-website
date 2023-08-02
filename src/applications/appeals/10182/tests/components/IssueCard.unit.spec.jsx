@@ -41,6 +41,7 @@ describe('<IssueCard>', () => {
     const { container } = render(<IssueCard {...props} item={issue} />);
     expect($$('input[type="checkbox"]', container).length).to.equal(1);
     expect($('.widget-title', container).textContent).to.eq('issue-10');
+    expect($('.widget-title.dd-privacy-hidden', container)).to.exist;
     expect($('.widget-content', container).textContent).to.contain('blah');
     expect($('.widget-content', container).textContent).to.contain(
       'Current rating: 10%',

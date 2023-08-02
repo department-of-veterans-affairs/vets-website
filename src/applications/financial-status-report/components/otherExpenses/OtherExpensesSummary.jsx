@@ -40,7 +40,7 @@ const OtherExpensesSummary = ({
   };
 
   const cardBody = text => (
-    <p>
+    <p className="vads-u-margin--0">
       Monthly amount: <b>{currencyFormatter(text)}</b>
     </p>
   );
@@ -54,7 +54,7 @@ const OtherExpensesSummary = ({
           className="schemaform-block-title"
           name="addedOtherLiviingExpensesSummary"
         >
-          You have added these expenses
+          <h3 className="vads-u-margin--0">You have added these expenses</h3>
         </legend>
         <div className="vads-l-grid-container--full">
           {!otherExpenses.length ? (

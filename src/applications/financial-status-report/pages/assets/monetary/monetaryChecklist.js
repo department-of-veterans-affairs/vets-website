@@ -1,10 +1,10 @@
 import MonetaryCheckList from '../../../components/monetary/MonetaryCheckList';
 
 export const uiSchema = {
-  'ui:title': 'Your household assets',
-  monetaryAssets: {
-    'ui:title': 'Select any of these financial assets you have:',
-    'ui:widget': MonetaryCheckList,
+  'ui:title': '',
+  'ui:field': MonetaryCheckList,
+  monetaryCheckList: {
+    'ui:title': 'monetaryCheckList',
     'ui:options': {
       hideOnReview: true,
     },
@@ -14,7 +14,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    monetaryAssets: {
+    monetaryCheckList: {
       type: 'boolean',
     },
   },

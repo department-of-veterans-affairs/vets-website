@@ -189,6 +189,24 @@ class PatientMessageDraftsPage {
     cy.wait('@deletedDraftResponse');
   };
 
+  confirmDeleteReplyDraftWithEnterKey = draftMessage => {
+    cy.log(`delete message id = ${draftMessage.data.attributes.messageId}`);
+
+    cy.intercept(
+      'DELETE',
+      `/my_health/v1/messaging/messages/${
+        draftMessage.data.attributes.messageId
+      }`,
+      { statuscode: 204 },
+    ).as('deletedDraftResponse');
+
+    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
+    cy.tabToElement('[data-testid="delete-draft-modal"]').realPress(['Enter']);
+    cy.wait('@deletedDraftResponse')
+      .its('request.url')
+      .should('include', `${draftMessage.data.attributes.messageId}`);
+  };
+
   getMessageSubjectField = () => {
     return cy
       .get('[data-testid="message-subject-field"]')
@@ -211,7 +229,7 @@ class PatientMessageDraftsPage {
   };
 
   openAdvancedSearch = () => {
-    cy.get('#first').click();
+    cy.get('#additional-filter-accordion').click();
   };
 
   selectAdvancedSearchCategory = () => {
@@ -267,6 +285,28 @@ class PatientMessageDraftsPage {
 
   verifyFocusOnConfirmationMessage = () => {
     cy.get('.last-save-time').should('have.focus');
+  };
+
+  verifySorting = () => {
+    let listBefore;
+    let listAfter;
+    cy.get('.thread-list-item')
+      .find('.received-date')
+      .then(list => {
+        listBefore = Cypress._.map(list, el => el.innerText);
+        cy.log(listBefore);
+      })
+      .then(() => {
+        this.sortMessagesByDate('Oldest to newest');
+        cy.get('.thread-list-item')
+          .find('.received-date')
+          .then(list2 => {
+            listAfter = Cypress._.map(list2, el => el.innerText);
+            cy.log(listAfter);
+            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
+            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
+          });
+      });
   };
 }
 
