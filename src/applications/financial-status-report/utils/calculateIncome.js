@@ -36,7 +36,7 @@ const safeNumber = input => {
  * @returns {Object} An object with the monthly income details
  */
 
-export const getMonthlyIncome = (
+export const calculateIncome = (
   enhancedFSRActive,
   employmentRecords = [],
   currEmployment = [],
@@ -114,7 +114,7 @@ export const getMonthlyIncome = (
  * @returns An object with veteran, spouse, and total income
  */
 
-export const calculateIncome = formData => {
+export const getMonthlyIncome = formData => {
   const {
     'view:enhancedFinancialStatusReport': enhancedFSRActive,
     additionalIncome: {
@@ -134,7 +134,7 @@ export const calculateIncome = formData => {
     income,
   } = formData;
 
-  const vetIncome = getMonthlyIncome(
+  const vetIncome = calculateIncome(
     enhancedFSRActive,
     employmentRecords,
     currEmployment,
@@ -152,7 +152,7 @@ export const calculateIncome = formData => {
     spCurrEmployment?.length ||
     spAddlIncome.length
   ) {
-    spIncome = getMonthlyIncome(
+    spIncome = calculateIncome(
       enhancedFSRActive,
       spEmploymentRecords,
       spCurrEmployment,

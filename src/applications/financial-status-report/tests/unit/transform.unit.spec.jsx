@@ -14,7 +14,7 @@ import {
   otherDeductionsName,
   nameStr,
 } from '../../utils/helpers';
-import { calculateIncome } from '../../utils/incomeCalculator';
+import { getMonthlyIncome } from '../../utils/calculateIncome';
 
 describe('fsr transform helper functions', () => {
   describe('dateFormatter helper', () => {
@@ -125,7 +125,7 @@ describe('fsr transform helper functions', () => {
   // Depends on sumValues, filterReduceByName, otherDeductionsAmt - calculateIncome
   describe('calculateIncome helper', () => {
     it('should return monthly income based on veterans net and other income, and spouses net and other income', () => {
-      const result = calculateIncome(inputObject.data);
+      const result = getMonthlyIncome(inputObject.data);
       // Veteran's income
       const { vetIncome } = result;
       expect(vetIncome.totalMonthlyNetIncome).to.equal(12621.51);

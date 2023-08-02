@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { currency, getMonthlyExpenses } from '../../utils/helpers';
-import { calculateIncome } from '../../utils/incomeCalculator';
+import { getMonthlyIncome } from '../../utils/calculateIncome';
 
 const FinancialOverview = ({ formData }) => {
-  const { totalMonthlyNetIncome } = calculateIncome(formData);
+  const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
   const monthlyExpenses = getMonthlyExpenses(formData);
   const incomeMinusExpenses = totalMonthlyNetIncome - monthlyExpenses;
 

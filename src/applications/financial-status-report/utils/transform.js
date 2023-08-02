@@ -10,7 +10,7 @@ import {
   mergeAdditionalComments,
   filterReduceByName,
 } from './helpers';
-import { calculateIncome } from './incomeCalculator';
+import { getMonthlyIncome } from './calculateIncome';
 import { getFormattedPhone } from './contactInformation';
 
 export const transform = (formConfig, form) => {
@@ -42,13 +42,11 @@ export const transform = (formConfig, form) => {
       dependents,
       veteranContactInformation: { address = {}, mobilePhone = {} } = {},
     },
-    // TODO: Cannot read properties of undefined (reading 'creditCardBills') - Dan Path
     expenses: {
       creditCardBills = [],
       expenseRecords = [],
       food = 0,
       rentOrMortgage = 0,
-      // adding a default value for expenses resolves this error
     } = {},
     otherExpenses = [],
     utilityRecords,
@@ -63,7 +61,7 @@ export const transform = (formConfig, form) => {
   const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
 
   // === Income ===
-  const { vetIncome, spIncome, totalMonthlyNetIncome } = calculateIncome(
+  const { vetIncome, spIncome, totalMonthlyNetIncome } = getMonthlyIncome(
     form.data,
   );
 

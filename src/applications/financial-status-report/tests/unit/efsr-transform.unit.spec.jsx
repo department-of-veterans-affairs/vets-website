@@ -15,7 +15,7 @@ import {
   otherDeductionsName,
   nameStr,
 } from '../../utils/helpers';
-import { calculateIncome } from '../../utils/incomeCalculator';
+import { getMonthlyIncome } from '../../utils/calculateIncome';
 
 describe('efsr-fsr transform helper functions', () => {
   describe('efsr-dateFormatter helper', () => {
@@ -123,10 +123,10 @@ describe('efsr-fsr transform helper functions', () => {
     });
   });
 
-  // Depends on sumValues, filterReduceByName, otherDeductionsAmt - calculateIncome
-  describe('efsr-calculateIncome helper', () => {
+  // Depends on sumValues, filterReduceByName, otherDeductionsAmt - getMonthlyIncome
+  describe('efsr calculateIncome helper', () => {
     it('should return monthy income based on veterans net and other income, and spouses net and other income', () => {
-      const result = calculateIncome(inputObject.data);
+      const result = getMonthlyIncome(inputObject.data);
 
       // Veteran's income
       const { vetIncome } = result;
