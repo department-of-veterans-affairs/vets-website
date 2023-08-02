@@ -127,24 +127,32 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     cy.axeCheck();
 
     cy.get(
-      `input[name="root_application_veteran_serviceRecords_0_serviceBranch"]`,
-    ).click();
-    cy.fill(
-      `input[name="root_application_veteran_serviceRecords_0_serviceBranch"]`,
-      testData.data.application.veteran.serviceRecords.serviceBranch,
+      'input[name="root_application_veteran_serviceRecords_0_serviceBranch"]',
+      { timeout: Timeouts.verySlow },
     );
-    cy.get(
-      `input[name="root_application_veteran_serviceRecords_0_serviceBranch"]`,
-    ).trigger('keydown', { keyCode: 40 });
-    cy.get(
-      `input[name="root_application_veteran_serviceRecords_0_serviceBranch"]`,
-    ).trigger('keyup', { keyCode: 40 });
-    cy.get(
-      `input[name="root_application_veteran_serviceRecords_0_serviceBranch"]`,
-    ).trigger('keydown', { keyCode: 13 });
-    cy.get(
-      `input[name="root_application_veteran_serviceRecords_0_serviceBranch"]`,
-    ).trigger('keyup', { keyCode: 13 });
+    testData.data.application.veteran.serviceRecords.forEach(
+      (branch, index) => {
+        cy.get(
+          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+        ).click();
+        cy.fill(
+          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+          branch.serviceBranch,
+        );
+        cy.get(
+          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+        ).trigger('keydown', { keyCode: 40 });
+        cy.get(
+          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+        ).trigger('keyup', { keyCode: 40 });
+        cy.get(
+          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+        ).trigger('keydown', { keyCode: 13 });
+        cy.get(
+          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+        ).trigger('keyup', { keyCode: 13 });
+      },
+    );
 
     cy.get('va-segmented-progress-bar')
       .shadow()
@@ -191,14 +199,20 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     requiredHelpers.errorCheck(requiredHelpers.burialBenefitsErrors2);
     cy.axeCheck();
 
-    cy.fill(
-      'input[name=root_application_currentlyBuriedPersons_0_name_first]',
-      testData.data.application.currentlyBuriedPersons.name.first,
-    );
-    cy.fill(
-      'input[name=root_application_currentlyBuriedPersons_0_name_last]',
-      testData.data.application.currentlyBuriedPersons.name.last,
-    );
+    if (testData.data.application.currentlyBuriedPersons.length) {
+      testData.data.application.currentlyBuriedPersons.forEach(
+        (person, index) => {
+          cy.fill(
+            `input[name=root_application_currentlyBuriedPersons_${index}_name_first]`,
+            person.name.first,
+          );
+          cy.fill(
+            `input[name=root_application_currentlyBuriedPersons_${index}_name_last]`,
+            person.name.last,
+          );
+        },
+      );
+    }
     cy.get('.form-panel .usa-button-primary').click();
     cy.url().should('not.contain', '/burial-benefits');
 

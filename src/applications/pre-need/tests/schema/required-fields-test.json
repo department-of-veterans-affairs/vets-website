@@ -41,22 +41,26 @@
         "phoneNumber": "5555555555"
       },
       "hasCurrentlyBuried": "1",
-      "currentlyBuriedPersons": {
+      "currentlyBuriedPersons": [
+        {
           "name": {
             "first": "Terry",
             "last": "Greene"
           }
-        },
+        }
+      ],
       "veteran": {
         "view:hasServiceName": true,
         "serviceName": {
           "first": "Andrew",
           "last": "Smith"
         },
-        "serviceRecords": {
+        "serviceRecords": [
+          {
             "dateRange": {},
             "serviceBranch": "AL"
-          },
+          }
+        ],
         "gender": "Male",
         "maritalStatus": "Single",
         "race": {

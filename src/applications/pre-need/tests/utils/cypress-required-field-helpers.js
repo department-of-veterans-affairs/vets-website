@@ -1,5 +1,5 @@
 function errorCheck(errorList) {
-  cy.get('.form-panel .usa-button-primary').click();
+  cy.get('.form-panel .usa-button-primary').click({ waitForAnimations: true });
   errorList.map(id =>
     cy.get(`#root_application_${id}-error-message`).should('be.visible'),
   );
