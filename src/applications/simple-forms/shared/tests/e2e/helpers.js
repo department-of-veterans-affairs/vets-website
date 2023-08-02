@@ -149,14 +149,12 @@ export const selectRelationshipToVeteranPattern = (fieldName, value) => {
       value?.relationshipToVeteran,
     );
     if (value?.relationshipToVeteran === 'other') {
-      // need to use custom text filler with realType
-      // see note above in date component filler for more info
       cy.get(
         `va-text-input[name="root_${fieldName}_otherRelationshipToVeteran"]`,
       )
         .shadow()
         .find('input')
-        .realType(value?.otherRelationshipToVeteran);
+        .type(value?.otherRelationshipToVeteran);
     }
   }
 };
