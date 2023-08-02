@@ -1,3 +1,4 @@
+// import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import {
   defaultFocusSelector,
@@ -11,7 +12,11 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 // pages
 import claimantTypePg from '../pages/claimantType';
+import veteranPersonalInfoPg from '../pages/veteranPersonalInfo';
+// initialData [for LOCAL development]
+// import flow1 from '../tests/e2e/fixtures/data/flow1.json';
 
+// const mockData = flow1.data;
 const pageFocus = () => {
   return () => {
     const focusSelector = document.location.pathname.includes('claimant-type')
@@ -58,10 +63,28 @@ const formConfig = {
         claimantTypePage: {
           path: 'claimant-type',
           title: 'Is this the form I need?',
+          // we want req'd fields prefilled for LOCAL testing/previewing
+          // one single initialData prop here will suffice for entire form
+          // initialData:
+          //   !!mockData && environment.isLocalhost() ? mockData : undefined,
           scrollAndFocusTarget: pageFocus(),
           uiSchema: claimantTypePg.uiSchema,
           schema: claimantTypePg.schema,
           pageClass: 'claimant-type',
+        },
+      },
+    },
+    veteranPersonalInfoChapter: {
+      title: 'Your personal information',
+      // chapter-level depends prop doesn't seem to work
+      pages: {
+        veteranPersonalInfoPage: {
+          depends: formData => formData?.claimantType === 'veteran',
+          path: 'veteran-personal-information',
+          title: 'Veteran personal information',
+          uiSchema: veteranPersonalInfoPg.uiSchema,
+          schema: veteranPersonalInfoPg.schema,
+          pageClass: 'veteran-personal-information',
         },
       },
     },

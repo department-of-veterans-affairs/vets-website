@@ -1,0 +1,12 @@
+{
+  "data": {
+    "claimantType": "veteran",
+    "veteranFullName": {
+      "first": "John",
+      "middle": "",
+      "last": "Veteran",
+      "suffix": null
+    },
+    "veteranDateOfBirth": "2000-01-01"
+  }
+}
