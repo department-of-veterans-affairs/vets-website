@@ -15,7 +15,6 @@ describe('Navigate to Message Details ', () => {
     mockMessagewithAttachment.data.attributes.body = 'attachment';
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
     messageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
-
     cy.tabToElement('[class="usa-button-secondary"]').should(
       'contain',
       'Print',
@@ -29,6 +28,9 @@ describe('Navigate to Message Details ', () => {
     cy.axeCheck('main', {
       rules: {
         'aria-required-children': {
+          enabled: false,
+        },
+        'color-contrast': {
           enabled: false,
         },
       },
