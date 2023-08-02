@@ -5,7 +5,6 @@ import mockMessagewithAttachment from '../fixtures/message-response-withattachme
 import mockMessages from '../fixtures/messages-response.json';
 
 describe('Navigate to Message Details ', () => {
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('Keyboard Navigation to Print Button', () => {
     const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
