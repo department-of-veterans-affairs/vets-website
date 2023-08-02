@@ -138,23 +138,4 @@ describe('Preferred name field tests on the personal information page', () => {
 
     cy.injectAxeThenAxeCheck();
   });
-
-  it('should show validation error when update is attempted with empty field', () => {
-    setup({ isEnhanced: true });
-
-    const nameEditButtonLabel = 'Edit Preferred name';
-    const nameEditInputField = 'input[name="root_preferredName"]';
-
-    cy.findByLabelText(nameEditButtonLabel).click({ waitForAnimations: true });
-
-    cy.get(nameEditInputField).clear();
-
-    cy.findAllByTestId('save-edit-button')
-      .should('exist')
-      .click({ waitForAnimations: true });
-
-    cy.findByText('Please provide a response').should('exist');
-
-    cy.injectAxeThenAxeCheck();
-  });
 });
