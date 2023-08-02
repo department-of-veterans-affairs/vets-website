@@ -21,7 +21,7 @@ export const getIssueTitle = data => {
       {titlePrefix}{' '}
       <span className="dd-privacy-hidden">{getIssueName(data)}</span>
       {' dated '}
-      {date}
+      <span className="dd-privacy-hidden">{date}</span>
     </>
   );
 };
@@ -77,6 +77,7 @@ const titles = {
   serviceConnection: 'The service connection',
   effectiveDate: 'The effective date of award',
   evaluation: 'Your evaluation of my condition',
+  otherEntry: 'Something else:',
 };
 
 export const { serviceConnection } = titles;
@@ -94,10 +95,14 @@ export const otherDescription = ({ index }) => (
 );
 
 // Only show set values (ignore false & undefined)
-export const AreaOfDisagreementReviewField = ({ children }) =>
-  children?.props.formData ? (
+export const AreaOfDisagreementReviewField = ({ children }) => {
+  const { formData, name } = children?.props || {};
+  return formData ? (
     <div className="review-row">
-      <dt>{titles[children.props.name]}</dt>
-      <dd>{children}</dd>
+      <dt>{titles[name]}</dt>
+      <dd className={name === 'otherEntry' ? 'dd-privacy-hidden' : ''}>
+        {children}
+      </dd>
     </div>
   ) : null;
+};

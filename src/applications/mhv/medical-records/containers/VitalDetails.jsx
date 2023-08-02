@@ -38,18 +38,13 @@ const VitalDetails = () => {
       dispatch(
         setBreadcrumbs(
           [
-            { url: '/my-health/medical-records/', label: 'Dashboard' },
             {
-              url: '/my-health/medical-records/health-history',
-              label: 'Health history',
-            },
-            {
-              url: '/my-health/medical-records/health-history/vitals',
-              label: 'VA vitals',
+              url: '/my-health/medical-records/vitals',
+              label: 'Vitals',
             },
           ],
           {
-            url: `/my-health/medical-records/health-history/vitals/${vitalType}`,
+            url: `/my-health/medical-records/vitals/${vitalType}`,
             label: vitalTypeDisplayNames[macroCase(vitalType)],
           },
         ),

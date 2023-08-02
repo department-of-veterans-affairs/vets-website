@@ -22,6 +22,11 @@ const contactInfo = {
         },
         enableAnalytics: true,
         classNames: 'vads-u-margin-top--0',
+        widgetProps: {
+          // ID from evidenceUploadIntroDescription
+          Y: { 'aria-describedby': 'additional-evidence-description' },
+          N: { 'aria-describedby': 'additional-evidence-description' },
+        },
       },
     },
   },
