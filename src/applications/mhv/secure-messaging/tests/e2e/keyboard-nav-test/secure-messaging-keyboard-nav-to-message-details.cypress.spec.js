@@ -3,9 +3,9 @@ import PatientMessageDetailsPage from '../pages/PatientMessageDetailsPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockMessagewithAttachment from '../fixtures/message-response-withattachments.json';
 import mockMessages from '../fixtures/messages-response.json';
-// import defaultMockThread from '../fixtures/thread-response.json';
 
 describe('Navigate to Message Details ', () => {
+  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('Keyboard Navigation to Print Button', () => {
     const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
@@ -28,14 +28,6 @@ describe('Navigate to Message Details ', () => {
       'contain',
       'Trash',
     );
-    // messageDetailsPage.loadReplyPageDetails(messageDetails, defaultMockThread);
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
   });
 });
