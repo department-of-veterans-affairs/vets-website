@@ -43,7 +43,7 @@ const App = () => {
   useEffect(
     () => {
       async function loadMessages() {
-        const folders = await getFolderList();
+        const folders = await getFolderList().catch(() => []);
         const unreadMessages = countUnreadMessages(folders);
 
         setUnreadMessageCount(unreadMessages);
