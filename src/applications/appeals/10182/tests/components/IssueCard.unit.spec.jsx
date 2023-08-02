@@ -41,6 +41,7 @@ describe('<IssueCard>', () => {
     const { container } = render(<IssueCard {...props} item={issue} />);
     expect($$('input[type="checkbox"]', container).length).to.equal(1);
     expect($('.widget-title', container).textContent).to.eq('issue-10');
+    expect($('.widget-title.dd-privacy-hidden', container)).to.exist;
     expect($('.widget-content', container).textContent).to.contain('blah');
     expect($('.widget-content', container).textContent).to.contain(
       'Current rating: 10%',
@@ -49,6 +50,7 @@ describe('<IssueCard>', () => {
       'Decision date: January 10, 2021',
     );
     expect($$('a.edit-issue-link').length).to.equal(0);
+    expect($$('.dd-privacy-hidden').length).to.equal(4);
   });
   it('should render an Additional issue', () => {
     const props = getProps({ onEdit: () => {} });
@@ -60,6 +62,7 @@ describe('<IssueCard>', () => {
       'Decision date: February 22, 2021',
     );
     expect($$('a.edit-issue-link').length).to.equal(1);
+    expect($$('.dd-privacy-hidden').length).to.equal(2);
   });
   it('should render a selected issue with appendId included', () => {
     const props = getProps();
@@ -110,6 +113,7 @@ describe('<IssueCardContent>', () => {
       'Decision date: January 20, 2021',
     );
     expect($$('a.edit-issue-link').length).to.equal(0);
+    expect($$('.dd-privacy-hidden').length).to.equal(3);
   });
   it('should render AdditionalIssue content', () => {
     const issue = getAdditionalIssue('21');
@@ -117,5 +121,6 @@ describe('<IssueCardContent>', () => {
     expect($('.widget-content-wrap', container).textContent).to.contain(
       'Decision date: February 21, 2021',
     );
+    expect($$('.dd-privacy-hidden').length).to.equal(1);
   });
 });
