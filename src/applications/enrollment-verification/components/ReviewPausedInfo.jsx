@@ -12,6 +12,7 @@ export default function ReviewPausedInfo({
       status="warning"
       trigger="If you submit this verification, we’ll pause your monthly education payments"
     >
+      {/* <div tabIndex="0"> */}
       <div>
         {skippedAheadIncorrectMonth && (
           <p>
