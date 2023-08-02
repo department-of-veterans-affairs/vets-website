@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   VaButtonPair,
   VaNumberInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+// import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 
-import { scrollToTop } from '../utilities/scroll-to-top';
+// import { scrollToTop } from '../utilities/scroll-to-top';
 import { getPreviousYear } from '../utilities/utils';
 import { ROUTES } from '../constants';
 import {
@@ -28,6 +29,7 @@ const ZipCodePage = ({
   zipCode,
   zipValidationServiceError,
 }) => {
+  const breadcrumbsRef = useRef('.income-limits-breadcrumbs');
   const [formError, setFormError] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -35,6 +37,10 @@ const ZipCodePage = ({
   const inputValid = zip => {
     return zipCode && zip.match(/^[0-9]+$/) && zip.length === 5;
   };
+
+  useEffect(() => {
+    focusElement(breadcrumbsRef.current);
+  }, []);
 
   useEffect(
     () => {
@@ -47,11 +53,10 @@ const ZipCodePage = ({
 
       if (shouldRedirectToHome) {
         router.push(ROUTES.HOME);
-        return;
       }
 
-      waitForRenderThenFocus('h1');
-      scrollToTop();
+      // waitForRenderThenFocus('h1');
+      // scrollToTop();
     },
     [pastMode, router, year],
   );

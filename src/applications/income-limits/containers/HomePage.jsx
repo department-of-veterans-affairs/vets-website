@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+// import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 
-import { scrollToTop } from '../utilities/scroll-to-top';
+// import { scrollToTop } from '../utilities/scroll-to-top';
+
 import {
   updateDependents,
   updatePastMode,
@@ -19,6 +21,11 @@ const HomePage = ({
   updateYearField,
   updateZipCodeField,
 }) => {
+  const breadcrumbsRef = useRef('.income-limits-breadcrumbs');
+
+  useEffect(() => {
+    focusElement(breadcrumbsRef.current);
+  }, []);
   useEffect(
     () => {
       const clearForm = () => {
@@ -27,8 +34,10 @@ const HomePage = ({
         updateZipCodeField('');
       };
 
-      waitForRenderThenFocus('h1');
-      scrollToTop();
+      focusElement(breadcrumbsRef.current);
+
+      // waitForRenderThenFocus('h1');
+      // scrollToTop();
       clearForm();
     },
     [router, updateDependentsField, updateYearField, updateZipCodeField],
