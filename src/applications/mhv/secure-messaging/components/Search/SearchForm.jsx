@@ -11,7 +11,7 @@ import { DateRangeValues } from '../../util/inputContants';
 import { dateFormat } from '../../util/helpers';
 
 const SearchForm = props => {
-  const { folder, keyword, resultsCount, query } = props;
+  const { folder, keyword, resultsCount, query, threadCount } = props;
   const dispatch = useDispatch();
   const location = useLocation();
   const folders = useSelector(state => state.sm.folders.folderList);
@@ -247,7 +247,7 @@ const SearchForm = props => {
             new message. These emails include the message ID.
           </va-additional-info>
         )}
-        {folders && (
+        {threadCount && (
           <div>
             <FilterBox
               ref={filterBoxRef}
@@ -300,6 +300,7 @@ SearchForm.propTypes = {
   keyword: PropTypes.string,
   query: PropTypes.object,
   resultsCount: PropTypes.number,
+  threadCount: PropTypes.array,
 };
 
 export default SearchForm;

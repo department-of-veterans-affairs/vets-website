@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import searchResults from '../../fixtures/search-response.json';
 import folder from '../../fixtures/folder-inbox-metadata.json';
 import folderList from '../../fixtures/folder-inbox-response.json';
+import threadList from '../../fixtures/thread-list-response.json';
 import reducer from '../../../reducers';
 import SearchForm from '../../../components/Search/SearchForm';
 
@@ -62,6 +63,7 @@ describe('Search form', () => {
         keyword="test"
         resultsCount={searchResults.length}
         query={query}
+        threadCount={threadList}
       />,
       {
         initialState,
@@ -92,6 +94,7 @@ describe('Search form', () => {
         folder={folder}
         resultsCount={searchResults.length}
         query={query}
+        threadCount={threadList}
       />,
       {
         initialState,

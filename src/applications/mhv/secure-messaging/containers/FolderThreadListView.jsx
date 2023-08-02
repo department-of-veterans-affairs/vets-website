@@ -257,6 +257,7 @@ const FolderThreadListView = props => {
           <>
             <FolderHeader
               folder={folder}
+              threadCount={threadList}
               searchProps={{ searchResults, awaitingResults, keyword, query }}
             />
 

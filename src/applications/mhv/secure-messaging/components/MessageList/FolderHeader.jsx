@@ -8,7 +8,7 @@ import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 
 const FolderHeader = props => {
-  const { folder, searchProps } = props;
+  const { folder, searchProps, threadCount } = props;
   const location = useLocation();
 
   const handleFolderDescription = () => {
@@ -57,12 +57,13 @@ const FolderHeader = props => {
       <>{handleFolderDescription()}</>
       {folder.folderId === Folders.INBOX.id && <ComposeMessageButton />}
       <ManageFolderButtons />
-      {folder.count > 0 && (
+      {threadCount?.length > 0 && (
         <SearchForm
           folder={folder}
           keyword=""
           resultsCount={searchProps.searchResults?.length}
           {...searchProps}
+          threadCount={threadCount}
         />
       )}
     </>
@@ -72,6 +73,7 @@ const FolderHeader = props => {
 FolderHeader.propTypes = {
   folder: PropTypes.object,
   searchProps: PropTypes.object,
+  threadCount: PropTypes.array,
 };
 
 export default FolderHeader;
