@@ -61,6 +61,7 @@ export const transform = (formConfig, form) => {
   const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
 
   // === Income ===
+  // Extract the values from getMonthlyIncome
   const { vetIncome, spIncome, totalMonthlyNetIncome } = getMonthlyIncome(
     form.data,
   );

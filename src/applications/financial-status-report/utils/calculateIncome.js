@@ -6,6 +6,28 @@ import {
   filterReduceByName,
 } from './helpers';
 
+// default income object
+
+const defaultIncome = {
+  grossSalary: '0.00',
+  deductions: {
+    taxes: '0.00',
+    retirement: '0.00',
+    socialSecurity: '0.00',
+    otherDeductions: {
+      name: '',
+      amount: '0.00',
+    },
+  },
+  totalDeductions: '0.00',
+  netTakeHomePay: '0.00',
+  otherIncome: {
+    name: '',
+    amount: '0.00',
+  },
+  totalMonthlyNetIncome: '0.00',
+};
+
 // filters for deductions
 const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
 const retirementFilters = ['401K', 'IRA', 'Pension'];
@@ -46,9 +68,10 @@ export const calculateIncome = (
   benefits = {},
   beneficiaryType,
 ) => {
+  // currEmployment is for FSR 1.0
   const grossSalary = enhancedFSRActive
-    ? sumValues(employmentRecords, 'grossMonthlyIncome')
-    : sumValues(currEmployment, `${beneficiaryType}GrossSalary`);
+    ? sumValues(employmentRecords || [], 'grossMonthlyIncome')
+    : sumValues(currEmployment || [], `${beneficiaryType}GrossSalary`);
 
   const addlInc = sumValues(addlIncRecords, 'amount');
 
@@ -116,7 +139,6 @@ export const calculateIncome = (
 
 export const getMonthlyIncome = formData => {
   const {
-    'view:enhancedFinancialStatusReport': enhancedFSRActive,
     additionalIncome: {
       addlIncRecords = [],
       spouse: { spAddlIncome = [] } = {},
@@ -132,37 +154,36 @@ export const getMonthlyIncome = formData => {
     currEmployment,
     spCurrEmployment,
     income,
+    'view:enhancedFinancialStatusReport': enhancedFSRActive,
   } = formData;
 
-  const vetIncome = calculateIncome(
-    enhancedFSRActive,
-    employmentRecords,
-    currEmployment,
-    addlIncRecords,
-    socialSecurity,
-    income,
-    benefits,
-    'veteran',
-  );
-
-  let spIncome = null;
-
-  if (
-    spEmploymentRecords.length ||
-    spCurrEmployment?.length ||
-    spAddlIncome.length
-  ) {
-    spIncome = calculateIncome(
+  const vetIncome =
+    calculateIncome(
       enhancedFSRActive,
-      spEmploymentRecords,
-      spCurrEmployment,
-      spAddlIncome,
-      socialSecurity,
-      income,
-      benefits,
-      'spouse',
-    );
-  }
+      employmentRecords || [],
+      currEmployment || [],
+      addlIncRecords || [],
+      socialSecurity || {},
+      income || [],
+      benefits || {},
+      'veteran',
+    ) || defaultIncome;
+
+  const spIncome =
+    spEmploymentRecords?.length ||
+    spCurrEmployment?.length ||
+    spAddlIncome?.length
+      ? calculateIncome(
+          enhancedFSRActive,
+          spEmploymentRecords || [],
+          spCurrEmployment || [],
+          spAddlIncome || [],
+          socialSecurity || {},
+          income || [],
+          benefits || {},
+          'spouse',
+        )
+      : defaultIncome;
 
   const totalMonthlyNetIncome =
     vetIncome.totalMonthlyNetIncome +
