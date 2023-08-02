@@ -7,16 +7,16 @@ import {
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import {
   selectCernerFacilityIds,
-  selectCernerFacilities,
+  selectEhrDataByVhaId,
 } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 
 export const selectRegisteredCernerFacilityIds = state => {
   const patientFacilities = selectPatientFacilities(state);
-  const cernerFacilities = selectCernerFacilityIds(state);
+  const cernerFacilityIds = selectCernerFacilityIds(state);
 
   return (
     patientFacilities?.reduce((accumulator, current) => {
-      if (cernerFacilities.includes(current.facilityId))
+      if (cernerFacilityIds.includes(current.facilityId) || current.isCerner)
         return [...accumulator, current.facilityId];
       return accumulator;
     }, []) || []
@@ -24,10 +24,15 @@ export const selectRegisteredCernerFacilityIds = state => {
 };
 
 export const selectRegisteredCernerFacilities = state => {
-  const ids = selectRegisteredCernerFacilityIds(state);
-  return selectCernerFacilities(state).filter(facility =>
-    ids.includes(facility.vhaId),
-  );
+  const patientFacilities = selectPatientFacilities(state);
+  const allFacilities = selectEhrDataByVhaId(state);
+
+  return patientFacilities?.reduce((accumulator, current) => {
+    const facility = allFacilities[current.facilityId];
+    if (facility?.ehr === 'cerner' || current.isCerner)
+      return [...accumulator, facility];
+    return accumulator;
+  }, []);
 };
 
 export const selectIsRegisteredToSacramentoVA = state =>
