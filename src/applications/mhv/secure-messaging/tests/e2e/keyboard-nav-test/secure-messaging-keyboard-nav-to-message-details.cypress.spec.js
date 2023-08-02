@@ -29,7 +29,6 @@ describe('Navigate to Message Details ', () => {
       'Trash',
     );
     // messageDetailsPage.loadReplyPageDetails(messageDetails, defaultMockThread);
-    messageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
