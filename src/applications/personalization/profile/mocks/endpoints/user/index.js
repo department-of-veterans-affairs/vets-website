@@ -1466,4 +1466,4 @@ const handleUserRequest = (req, res) => {
   // return res.json(allMockResponses.loa3User72);
 };
 
-module.exports = { responses, handleUserRequest };
+module.exports = { ...responses, handleUserRequest };

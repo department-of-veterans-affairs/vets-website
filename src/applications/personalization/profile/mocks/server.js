@@ -54,17 +54,16 @@ const genericErrors = {
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/user': (_req, res) => {
-    const { responses: userResponses } = user;
     // example user data cases
-    // return res.json(userResponses.loa3User72); // default user (success)
-    // return res.json(userResponses.loa1User); // user with loa1
-    // return res.json(userResponses.badAddress); // user with bad address
-    // return res.json(userResponses.loa3User); // user with loa3
-    // return res.json(userResponses.nonVeteranUser); // non-veteran user
-    // return res.json(userResponses.externalServiceError); // external service error
-    // return res.json(userResponses.loa3UserWithNoMobilePhone); // user with no mobile phone number
-    // return res.json(userResponses.loa3UserWithNoEmail); // user with no email address
-    return res.json(userResponses.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
+    // return res.json(user.loa3User72); // default user (success)
+    // return res.json(user.loa1User); // user with loa1
+    // return res.json(user.badAddress); // user with bad address
+    // return res.json(user.loa3User); // user with loa3
+    // return res.json(user.nonVeteranUser); // non-veteran user
+    // return res.json(user.externalServiceError); // external service error
+    // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
+    // return res.json(user.loa3UserWithNoEmail); // user with no email address
+    return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
   },
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
