@@ -1,3 +1,4 @@
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
@@ -77,7 +78,7 @@ const convertMicrobiologyRecord = record => {
     category: '',
     orderedBy: 'Beth M. Smith',
     requestedBy: 'John J. Lydon',
-    date: record.effectiveDateTime || emptyField,
+    date: formatDateLong(record.effectiveDateTime) || emptyField,
     sampleFrom: record.type?.text || emptyField,
     sampleTested: record.specimen?.text || emptyField,
     orderingLocation:
