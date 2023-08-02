@@ -11,7 +11,7 @@ export const idFormSchema = {
       maxLength: 25,
       pattern: '^.*\\S.*',
     },
-    middle: {
+    middleName: {
       type: 'string',
       maxLength: 30,
     },
