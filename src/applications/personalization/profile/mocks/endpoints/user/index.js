@@ -1422,7 +1422,7 @@ const loa3UserWithNoEmailOrMobilePhone = set(
   null,
 );
 
-const allMockResponses = {
+const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
   loa3UserWithNoMobilePhone,
@@ -1437,18 +1437,19 @@ const allMockResponses = {
   ),
 };
 
+// handler that can be used to customize the user data returned
 const handleUserRequest = (req, res) => {
   // here we can customize the return of the user request
   // the main mechanism that we customize around is the query string passed to the request
 
   // handle test case of BAI being cleared on user request
   if (req?.query?.bai === 'clear') {
-    return res.json(allMockResponses.loa3User72);
+    return res.json(responses.loa3User72);
   }
 
   // the now query string is used to get the current user data right after an update to a field
   if (req?.query?.now) {
-    return res.json(allMockResponses.loa3User72);
+    return res.json(responses.loa3User72);
   }
 
   // example user data cases
@@ -1460,9 +1461,9 @@ const handleUserRequest = (req, res) => {
   // return res.json(allMockResponses.externalServiceError); // external service error
   // return res.json(allMockResponses.loa3UserWithNoMobilePhone); // user with no mobile phone number
   // return res.json(allMockResponses.loa3UserWithNoEmail); // user with no email address
-  // return res.json(allMockResponses.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
+  return res.json(responses.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
 
-  return res.json(allMockResponses.loa3User72);
+  // return res.json(allMockResponses.loa3User72);
 };
 
-module.exports = { ...allMockResponses, handleUserRequest };
+module.exports = { responses, handleUserRequest };
