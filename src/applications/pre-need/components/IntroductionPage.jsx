@@ -222,7 +222,7 @@ class IntroductionPage extends React.Component {
                     Other information for certain applicants you can provide:
                   </h4>
                   <ul>
-                    <li className="vads-u-margin-y--2">
+                    <li>
                       <strong>
                         If you’re applying as the legally married spouse or
                         surviving spouse of a service member or Veteran
