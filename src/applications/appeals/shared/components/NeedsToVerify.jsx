@@ -34,7 +34,7 @@ const NeedsToVerify = ({ pathname }) => {
           href={`/verify?next=${pathname}`}
           className="verify-link vads-c-action-link--green"
         >
-          Verify your identity
+          Verify your identity to start your request
         </a>
       </p>
     </va-alert>

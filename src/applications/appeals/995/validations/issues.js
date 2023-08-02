@@ -1,9 +1,16 @@
-import { getSelected, hasSomeSelected, hasDuplicates } from '../utils/helpers';
+import {
+  getSelected,
+  hasSomeSelected,
+  hasDuplicates,
+  getIssueName,
+  getIssueDate,
+} from '../utils/helpers';
 import {
   noneSelected,
   maxSelectedErrorMessage,
 } from '../content/contestableIssues';
 import { errorMessages, MAX_LENGTH } from '../constants';
+import { validateDate } from './date';
 
 export const selectionRequired = (
   errors,
@@ -38,20 +45,37 @@ export const uniqueIssue = (
   }
 };
 
-export const maxIssues = (error, data) => {
+export const maxIssues = (errors, data) => {
   if (getSelected(data).length > MAX_LENGTH.SELECTIONS) {
-    error.addError(maxSelectedErrorMessage);
+    errors.addError(maxSelectedErrorMessage);
   }
 };
 
-export const missingIssueName = (error, data) => {
+export const missingIssueName = (errors, data) => {
   if (!data) {
-    error.addError(errorMessages.missingIssue);
+    errors.addError(errorMessages.missingIssue);
   }
 };
 
-export const maxNameLength = (error, data) => {
+export const maxNameLength = (errors, data) => {
   if (data.length > MAX_LENGTH.ISSUE_NAME) {
-    error.addError(errorMessages.maxLength);
+    errors.addError(errorMessages.maxLength);
   }
+};
+
+export const checkIssues = (
+  errors,
+  _fieldData,
+  formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
+  const data = Object.keys(appStateData || {}).length ? appStateData : formData;
+  // Only use selected in case an API loaded issues includes an invalid date
+  getSelected(data).forEach(issue => {
+    missingIssueName(errors, getIssueName(issue));
+    validateDate(errors, getIssueDate(issue));
+  });
 };
