@@ -95,7 +95,7 @@ export default function AppointmentsPageV2() {
   );
 
   const paragraphText =
-    'Your appointment requests that haven’t been scheduled yet.';
+    'These appointment requests haven’t been scheduled yet.';
 
   return (
     <PageLayout showBreadcrumbs showNeedHelp>

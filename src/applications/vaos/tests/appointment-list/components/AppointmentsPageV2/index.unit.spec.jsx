@@ -232,7 +232,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
       expect(
         screen.getByText(
-          'Your appointment requests that haven’t been scheduled yet.',
+          'These appointment requests haven’t been scheduled yet.',
         ),
       ).to.be.ok;
 
