@@ -210,7 +210,6 @@ const ChemHemDetails = props => {
                 </p>
               </div>
               <ChemHemResults results={record.results} />
-              <va-back-to-top class="no-print" />
             </div>
           </section>
         </>

@@ -6,11 +6,11 @@ export const evidenceUploadIntroTitle = (
 
 export const evidenceUploadIntroDescription = (
   <>
-    <p>
+    <p id="additional-evidence-description">
       You can choose to submit more evidence now or within 90 days after we
       receive this request.
     </p>
-    <div className="vads-u-margin-y--2">
+    <div className="vads-u-margin-top--2">
       <va-additional-info trigger="How do I submit evidence later?">
         You can submit more evidence by mailing it to this address:
         <p className="vads-u-padding-y--2">
