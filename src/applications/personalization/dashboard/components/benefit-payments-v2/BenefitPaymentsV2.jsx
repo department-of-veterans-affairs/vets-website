@@ -6,6 +6,7 @@ import PaymentsCardV2 from './PaymentsCardV2';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
+import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 import { canAccess } from '../../../common/selectors';
 import { API_NAMES } from '../../../common/constants';
 
@@ -68,13 +69,27 @@ PopularActionsForPayments.propTypes = {
 const PaymentsError = () => {
   return (
     <div className="vads-u-margin-bottom--2p5">
-      <va-alert status="error" show-icon data-testid="payments-v2-error">
-        <h2 slot="headline">We can’t access your payment history</h2>
-        <div>
-          We’re sorry. We can’t access your payment history right now. We’re
-          working to fix this problem. Please check back later.
-        </div>
-      </va-alert>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUpdateErrorsWarnings}>
+        <Toggler.Enabled>
+          <va-alert status="warning" show-icon data-testid="payments-v2-error">
+            <h2 slot="headline">We can’t access your payment history</h2>
+            <div>
+              We’re sorry. We can’t access your payment history right now. We’re
+              working to fix this problem. Please check back later.
+            </div>
+          </va-alert>
+        </Toggler.Enabled>
+
+        <Toggler.Disabled>
+          <va-alert status="error" show-icon data-testid="payments-v2-error">
+            <h2 slot="headline">We can’t access your payment history</h2>
+            <div>
+              We’re sorry. We can’t access your payment history right now. We’re
+              working to fix this problem. Please check back later.
+            </div>
+          </va-alert>
+        </Toggler.Disabled>
+      </Toggler>
     </div>
   );
 };
