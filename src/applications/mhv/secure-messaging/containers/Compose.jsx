@@ -79,7 +79,7 @@ const Compose = () => {
     if (!isDraftPage && triageTeams) {
       return (
         <>
-          <h1 className="page-title" ref={header}>
+          <h1 className="page-title vads-u-margin-top--0" ref={header}>
             {pageTitle}
           </h1>
           <ComposeForm draft={draftMessage} recipients={triageTeams} />

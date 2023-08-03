@@ -126,7 +126,7 @@ const ThreadDetails = props => {
     if (isDraft) {
       return (
         <div className="compose-container">
-          <h1 className="page-title" ref={header}>
+          <h1 className="page-title vads-u-margin-top--0" ref={header}>
             Edit draft
           </h1>
           <ComposeForm draft={draftMessage} recipients={triageTeams} />

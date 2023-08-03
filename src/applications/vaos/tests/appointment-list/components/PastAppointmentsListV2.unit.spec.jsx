@@ -5,10 +5,7 @@ import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 import { mockFetch } from 'platform/testing/unit/helpers';
-import {
-  renderWithStoreAndRouter,
-  getTimezoneTestDate,
-} from '../../mocks/setup';
+import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import PastAppointmentsListV2, {
   getPastAppointmentDateRangeOptions,
 } from '../../../appointment-list/components/PastAppointmentsListV2';
@@ -46,7 +43,7 @@ const testDates = () => {
 describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTimezoneTestDate());
+    MockDate.set(getTestDate());
     mockFacilitiesFetchByVersion({ version: 0 });
   });
 
@@ -288,7 +285,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
   });
 
   // TODO: Not sure if this test is still valid for v2 appointments. See
-  // ../appointment/transformers.v2.js:338
+  // ../appointment/transformers.js:338
   it.skip('should not display when they have hidden statuses', () => {
     const data = {
       id: '1234',

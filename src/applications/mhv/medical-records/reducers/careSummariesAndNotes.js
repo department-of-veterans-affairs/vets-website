@@ -49,6 +49,10 @@ export const convertNote = note => {
       (isArrayAndHasItems(note.author) && note.author[0].display) || emptyField,
     dischargePhysician:
       (isArrayAndHasItems(note.author) && note.author[0].display) || emptyField,
+    admissionDate: emptyField,
+    dischargeDate: emptyField,
+    admittedBy: emptyField,
+    dischargeBy: emptyField,
   };
 };
 
