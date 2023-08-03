@@ -17,7 +17,7 @@ const ConditionListItem = props => {
           <h4>{record.name}</h4>
           <p className="vads-u-margin--0">Date entered: {formattedDate}</p>
           <Link
-            to={`/health-history/health-conditions/${record.id}`}
+            to={`/health-conditions/${record.id}`}
             className="vads-u-margin--0 no-print"
           >
             <strong>Details</strong>

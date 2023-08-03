@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
-import environment from 'platform/utilities/environment';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-// import PropTypes from 'prop-types';
 import _ from 'lodash';
+import environment from 'platform/utilities/environment';
+import { apiRequest } from 'platform/utilities/api';
+// import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import StartConvoAndTrackUtterances from './startConvoAndTrackUtterances';
 import MarkdownRenderer from './markdownRenderer';
@@ -11,6 +12,7 @@ import {
   CONVERSATION_ID_KEY,
   TOKEN_KEY,
   clearBotSessionStorage,
+  IS_RX_SKILL,
 } from '../chatbox/utils';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
@@ -117,6 +119,70 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     }
   };
 
+  async function createPonyFill(webchat) {
+    async function callVirtualAgentVoiceTokenApi() {
+      return apiRequest('/virtual_agent_speech_token', {
+        method: 'POST',
+      });
+    }
+    const speechToken = await callVirtualAgentVoiceTokenApi();
+    return webchat.createCognitiveServicesSpeechServicesPonyfillFactory({
+      credentials: {
+        region: 'eastus',
+        authorizationToken: speechToken.token,
+      },
+    });
+  }
+
+  const [speechPonyfill, setBotPonyfill] = useState();
+
+  useEffect(() => {
+    createPonyFill(window.WebChat).then(res => {
+      setBotPonyfill(() => res);
+    });
+  }, []);
+  const [isRXSkill, setIsRXSkill] = useState();
+  useEffect(
+    () => {
+      const getRXStorageSession = () =>
+        setIsRXSkill(() => sessionStorage.getItem(IS_RX_SKILL));
+
+      window.addEventListener('rxSkill', getRXStorageSession);
+      return () => window.removeEventListener('rxSkill', getRXStorageSession);
+    },
+    [isRXSkill],
+  );
+
+  if (isRXSkill === 'true') {
+    // check if window.WebChat exists
+    if (window.WebChat) {
+      // find the send box element
+      const sendBox = document.querySelector(
+        'input[class="webchat__send-box-text-box__input"]',
+      );
+      // change the placeholder text of send box
+      sendBox.setAttribute(
+        'aria-label',
+        'Type or enable the microphone to speak',
+      );
+      sendBox.setAttribute(
+        'placeholder',
+        'Type or enable the microphone to speak',
+      );
+    }
+    return (
+      <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
+        <ReactWebChat
+          styleOptions={styleOptions}
+          directLine={directLine}
+          store={store}
+          renderMarkdown={renderMarkdown}
+          onTelemetry={handleTelemetry}
+          webSpeechPonyfillFactory={speechPonyfill}
+        />
+      </div>
+    );
+  }
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat

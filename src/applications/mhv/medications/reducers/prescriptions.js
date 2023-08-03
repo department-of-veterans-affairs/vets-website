@@ -34,6 +34,23 @@ export const prescriptionsReducer = (state = initialState, action) => {
         prescriptionsList: action.rxList,
       };
     }
+    case Actions.Prescriptions.FILL: {
+      return {
+        ...state,
+      };
+    }
+    case Actions.Prescriptions.FILL_ERROR: {
+      return {
+        ...state,
+        prescriptionsList: state.prescriptionsList?.map(
+          rx => (rx.id === action.err.id ? { ...rx, error: action.err } : rx),
+        ),
+        prescriptionDetails: {
+          ...state.prescriptionDetails,
+          error: action.err,
+        },
+      };
+    }
     default:
       return state;
   }

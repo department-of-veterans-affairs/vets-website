@@ -28,7 +28,7 @@ describe('Vital details container', () => {
     return renderWithStoreAndRouter(<VitalDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/health-history/vitals/blood-pressure',
+      path: '/vitals/blood-pressure',
     });
   };
 
