@@ -54,6 +54,8 @@ describe('verify navigation to medication details Page', () => {
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     detailsPage.clickWhatToKnowAboutMedicationsDropDown();
     detailsPage.verifyTextInsideDropDownOnDetailsPage();
+    detailsPage.verifyButtonText();
+    detailsPage.verifyStatusText();
 
     cy.injectAxe();
     cy.axeCheck('main', {

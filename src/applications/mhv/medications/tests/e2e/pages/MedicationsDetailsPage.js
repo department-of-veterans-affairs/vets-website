@@ -11,6 +11,14 @@ class MedicationsDetailsPage {
     });
   };
 
+  verifyButtonText = () => {
+    cy.contains('Refill prescription');
+  };
+
+  verifyStatusText = () => {
+    cy.contains('What does this status mean?');
+  };
+
   clickMedicationHistoryAndDetailsLink = prescriptionDetails => {
     cy.intercept(
       'GET',
