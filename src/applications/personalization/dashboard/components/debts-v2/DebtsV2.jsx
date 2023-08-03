@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -29,15 +30,40 @@ const NoOutstandingDebtsText = () => {
 const OutstandingDebtsError = () => {
   return (
     <div className="vads-u-margin-bottom--2p5">
-      <va-alert status="error" show-icon data-testid="outstanding-debts-error">
-        <h2 slot="headline">
-          We can’t access some of your financial information.
-        </h2>
-        <div>
-          We’re sorry. We can’t access some of your financial information right
-          now. We’re working to fix this problem. Please check back later.
-        </div>
-      </va-alert>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUpdateErrorsWarnings}>
+        <Toggler.Enabled>
+          <va-alert
+            status="warning"
+            show-icon
+            data-testid="outstanding-debts-error"
+          >
+            <h2 slot="headline">
+              We can’t access some of your financial information.
+            </h2>
+            <div>
+              We’re sorry. We can’t access some of your financial information
+              right now. We’re working to fix this problem. Please check back
+              later.
+            </div>
+          </va-alert>
+        </Toggler.Enabled>
+        <Toggler.Disabled>
+          <va-alert
+            status="error"
+            show-icon
+            data-testid="outstanding-debts-error"
+          >
+            <h2 slot="headline">
+              We can’t access some of your financial information.
+            </h2>
+            <div>
+              We’re sorry. We can’t access some of your financial information
+              right now. We’re working to fix this problem. Please check back
+              later.
+            </div>
+          </va-alert>
+        </Toggler.Disabled>
+      </Toggler>
     </div>
   );
 };
@@ -110,7 +136,7 @@ const BenefitPaymentsAndDebtV2 = ({
       {shouldShowV2Dashboard && (
         <>
           <div className="vads-l-row">
-            {(hasDebtError || hasCopayError) && (
+            {(hasCopayError || hasDebtError) && (
               <>
                 <DashboardWidgetWrapper>
                   <OutstandingDebtsError />
@@ -136,11 +162,11 @@ const BenefitPaymentsAndDebtV2 = ({
             {copaysCount > 0 && (
               <>
                 <DashboardWidgetWrapper>
-                  {hasDebtError && <OutstandingDebtsError />}
+                  {/* {!hasCopayError && <OutstandingDebtsError />} */}
                   <CopaysCardV2 copays={copays} />
                 </DashboardWidgetWrapper>
                 <DashboardWidgetWrapper>
-                  <PopularActionsForDebts />
+                  {!debtsCount && !hasDebtError && <PopularActionsForDebts />}
                 </DashboardWidgetWrapper>
               </>
             )}
