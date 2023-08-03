@@ -34,6 +34,11 @@ const HomePage = ({
     [router, updateDependentsField, updateYearField, updateZipCodeField],
   );
 
+  useEffect(() => {
+    document.title =
+      'Income limits and your VA health care | Income Limits | Veterans Affairs';
+  });
+
   const goToCurrent = event => {
     event.preventDefault();
     togglePastMode(false);

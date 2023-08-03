@@ -36,6 +36,10 @@ const ZipCodePage = ({
     return zipCode && zip.match(/^[0-9]+$/) && zip.length === 5;
   };
 
+  useEffect(() => {
+    document.title = 'What was your zip code last year?';
+  });
+
   useEffect(
     () => {
       // If pastMode is null, the home screen hasn't been used yet
