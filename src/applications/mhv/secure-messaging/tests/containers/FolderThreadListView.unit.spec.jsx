@@ -140,9 +140,7 @@ describe('Folder Thread List View container', () => {
       expect(global.document.title).to.equal(
         `${customFolder.name} ${PageTitles.PAGE_TITLE_TAG}`,
       );
-      const folderName = screen.getByRole('heading', { level: 1 });
-      expect(folderName).to.exist;
-      expect(folderName).to.have.text(customFolder.name);
+      expect(screen.getByText(customFolder.name, { selector: 'h1' })).to.exist;
       const folderDescription = screen.getByTestId('folder-description');
       expect(folderDescription).to.exist;
       expect(folderDescription).to.have.text(DefaultFolders.CUSTOM_FOLDER.desc);
