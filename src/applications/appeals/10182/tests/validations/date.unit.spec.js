@@ -117,4 +117,14 @@ describe('validateDate & isValidDate', () => {
     validateDate(errors, date, { [SHOW_PART3]: true });
     expect(errorMessage[0]).to.be.undefined;
   });
+  it('should throw an error for dates in the distant past when feature toggle is set to support the new form', () => {
+    const date = getDate({ offset: { years: -110 } });
+    validateDate(errors, date, { [SHOW_PART3]: true });
+    expect(errorMessage[0]).to.eq(issueErrorMessages.recentDate);
+    expect(errorMessage[1]).to.not.contain('month');
+    expect(errorMessage[1]).to.not.contain('day');
+    expect(errorMessage[1]).to.contain('year');
+    expect(errorMessage[1]).to.not.contain('other');
+    expect(isValidDate(date)).to.be.false;
+  });
 });

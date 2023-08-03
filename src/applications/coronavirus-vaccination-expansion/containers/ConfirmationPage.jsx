@@ -4,7 +4,7 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 
-const scroller = Scroll.scroller;
+const { scroller } = Scroll;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
     duration: 500,
@@ -31,9 +31,9 @@ export class ConfirmationPage extends React.Component {
         <h2>When can I get a COVID-19 at VA?</h2>
         <p>
           At this time, some VA health facilities have a limited amount of
-          vaccines. We’re working to determine how quickly we can begin to offer
-          vaccines to people other than Veterans who are already enrolled in VA
-          health care. This may vary by facility. Some facilities may be able to
+          vaccines. We’re working to determine how quickly we can begin to offer
+          vaccines to people other than Veterans who are already enrolled in VA
+          health care. This may vary by facility. Some facilities may be able to
           offer vaccines to these groups now, while others may not.
         </p>
         <p>
@@ -90,7 +90,7 @@ export class ConfirmationPage extends React.Component {
           href="/health-care/how-to-apply/"
           className="vads-u-padding-bottom--4 vads-u-display--block"
         >
-          Find out if you're eligible for VA health care and how to apply
+          Find out if you're eligible for VA health care and how to apply
         </a>
       </div>
     );
