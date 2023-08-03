@@ -749,11 +749,11 @@ jobs:
   allow-list-merge-status:
     name: E2E Allow List Merge Status Check
     runs-on: ubuntu-latest
-    needs: [update-e2e-allow-list, fetch-e2e-allow-list]
+    needs: [cypress-tests-prep, update-e2e-allow-list, fetch-e2e-allow-list]
     if: ${{ always() }}
     continue-on-error: true
     env:
-      E2E_BLOCKED_PATHS: ${{ needs.update-e2e-allow-list.outputs.e2e_blocked_paths }}
+      E2E_BLOCKED_PATHS: ${{ needs.cypress-tests-prep.outputs.e2e_blocked_paths }}
       ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
     steps:
       - name: Checkout
