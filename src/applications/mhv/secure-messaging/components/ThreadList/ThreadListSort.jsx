@@ -26,7 +26,7 @@ const ThreadListSort = props => {
       <h2 className="sr-only">Sort conversations</h2>
       <VaSelect
         id="sort-order-dropdown"
-        className="vads-u-margin-right--1 vads-u-width--full small-screen:vads-u-flex--1"
+        className="small-screen:vads-u-margin-right--1 vads-u-width--full small-screen:vads-u-flex--1"
         label={SORT_CONVERSATIONS_LABEL}
         name="sort-order"
         value={sortOrder}

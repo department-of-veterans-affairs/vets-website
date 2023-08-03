@@ -55,24 +55,30 @@
   flex-wrap: wrap;
 
   va-select {
-    margin-right: 16px;
-    max-width: 225px;
-    min-width: 220px;
+
+    @media (min-width: $small-screen) {
+      max-width: 225px;
+    }
   }
 
   va-button {
     display: contents;
     height: 37px;
     padding: 0;
-    align-self: flex-end;
   }
 
   va-button::part(button) {
     height: 4.2rem;
-    width: fit-content;
-    min-width: 78px;
+    flex-grow: 1;
+    margin-right: 0;
     margin-bottom: 3px;
     align-self: flex-end;
+
+    @media (min-width: $small-screen) {
+      width: fit-content;
+      max-width: 78px;
+      margin-right: auto;
+    }
   }
 }
 
