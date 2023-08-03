@@ -177,10 +177,14 @@ const ManageFolderButtons = () => {
           <p>{Alerts.Folder.DELETE_FOLDER_CONFIRM_BODY}</p>
           <va-button
             ref={removeButton}
-            text="Remove"
+            text="Yes, remove this folder"
             onClick={confirmDelFolder}
           />
-          <va-button secondary="true" text="Cancel" onClick={closeDelModal} />
+          <va-button
+            secondary="true"
+            text="No, keep this folder"
+            onClick={closeDelModal}
+          />
         </VaModal>
       )}
       <VaModal
