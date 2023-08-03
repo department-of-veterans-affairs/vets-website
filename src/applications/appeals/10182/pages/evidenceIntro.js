@@ -8,6 +8,11 @@ const contactInfo = {
   uiSchema: {
     'ui:title': evidenceUploadIntroTitle,
     'ui:description': evidenceUploadIntroDescription,
+    'ui:options': {
+      forceDivWrapper: true,
+      showFieldLabel: 'no-wrap', // new option
+      hideDuplicateDescription: true, // new option
+    },
     'view:additionalEvidence': {
       'ui:title': evidenceUploadIntroLabel,
       'ui:widget': 'yesNo',
@@ -16,6 +21,12 @@ const contactInfo = {
           N: 'No, I’ll submit it later.',
         },
         enableAnalytics: true,
+        classNames: 'vads-u-margin-top--0',
+        widgetProps: {
+          // ID from evidenceUploadIntroDescription
+          Y: { 'aria-describedby': 'additional-evidence-description' },
+          N: { 'aria-describedby': 'additional-evidence-description' },
+        },
       },
     },
   },

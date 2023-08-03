@@ -1,4 +1,5 @@
 import React from 'react';
+import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
@@ -13,6 +14,18 @@ function CustomPhoneNumberField(props) {
         props.fetchDuplicateContactInfo(props.duplicateEmail, [
           { value: event, dupe: '' },
         ]);
+      } else {
+        props.setFormData({
+          ...props?.formData,
+          duplicatePhone: [{ value: '', dupe: '' }],
+          'view:phoneNumbers': {
+            ...props.formData['view:phoneNumbers'],
+            mobilePhoneNumber: {
+              ...props.formData['view:phoneNumbers'].mobilePhoneNumber,
+              phone: event,
+            },
+          },
+        });
       }
     }
   }
@@ -40,9 +53,11 @@ const mapStateToProps = state => ({
   email: state?.form?.data?.email?.email,
   duplicateEmail: state?.data?.duplicateEmail,
   showMebEnhancements08: state?.featureToggles?.showMebEnhancements08,
+  formData: state?.form?.data,
 });
 
 const mapDispatchToProps = {
+  setFormData: setData,
   fetchDuplicateContactInfo,
   updateGlobalPhoneNumber,
 };

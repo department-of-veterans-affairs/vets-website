@@ -39,18 +39,13 @@ const VaccineDetails = () => {
       dispatch(
         setBreadcrumbs(
           [
-            { url: '/my-health/medical-records/', label: 'Dashboard' },
             {
-              url: '/my-health/medical-records/health-history',
-              label: 'Health history',
-            },
-            {
-              url: '/my-health/medical-records/health-history/vaccines',
-              label: 'VA vaccines',
+              url: '/my-health/medical-records/vaccines',
+              label: 'Vaccines',
             },
           ],
           {
-            url: `/my-health/medical-records/health-history/vaccines/${vaccineId}`,
+            url: `/my-health/medical-records/vaccines/${vaccineId}`,
             label: vaccineDetails?.name,
           },
         ),

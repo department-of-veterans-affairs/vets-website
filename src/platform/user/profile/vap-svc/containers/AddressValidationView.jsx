@@ -12,8 +12,7 @@ import { hasBadAddress } from 'applications/personalization/profile/selectors';
 import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
-import { focusElement, scrollAndFocus } from 'platform/utilities/ui';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
 import * as VAP_SERVICE from '../constants';
 import {
   openModal,
@@ -29,7 +28,7 @@ import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessa
 class AddressValidationView extends React.Component {
   componentDidMount() {
     // scroll on the alert since the web component doesn't have a focus/suto-scroll method built in like the React component
-    scrollAndFocus($('va-alert'));
+    waitForRenderThenFocus('#address-validation-alert-heading');
   }
 
   componentDidUpdate(prevProps) {
@@ -218,8 +217,8 @@ class AddressValidationView extends React.Component {
           className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-bottom--0p5">
-            <span>{street}</span>
-            <span>{cityStateZip}</span>
+            <span className="dd-privacy-hidden">{street}</span>
+            <span className="dd-privacy-hidden">{cityStateZip}</span>
             <span>{country}</span>
           </div>
         </label>
@@ -261,7 +260,9 @@ class AddressValidationView extends React.Component {
             status="warning"
             visible
           >
-            <h4 slot="headline">{addressValidationMessage.headline}</h4>
+            <h4 id="address-validation-alert-heading" slot="headline">
+              {addressValidationMessage.headline}
+            </h4>
             <addressValidationMessage.ModalText
               editFunction={this.onEditClick}
             />
