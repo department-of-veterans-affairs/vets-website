@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import { sendErrorToSentry } from '../../util/helpers';
@@ -12,7 +13,9 @@ const AdmissionAndDischargeDetails = props => {
   const user = useSelector(state => state.user.profile);
 
   const generateCareNotesPDF = async () => {
-    const title = 'Admission and discharge summary';
+    const title = `Admission and discharge summary on ${formatDateLong(
+      record.date,
+    )}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
 
