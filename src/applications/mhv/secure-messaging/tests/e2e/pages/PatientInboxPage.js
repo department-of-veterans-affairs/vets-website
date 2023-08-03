@@ -376,13 +376,14 @@ class PatientInboxPage {
       .contains('Add filters')
       .click({
         waitForAnimations: true,
+        force: true,
       });
   };
 
   selectAdvancedSearchCategory = () => {
     cy.get('#category-dropdown')
       .find('#select')
-      .select('COVID');
+      .select('COVID', { force: true });
   };
 
   selectAdvancedSearchCategoryCustomFolder = () => {
@@ -394,6 +395,7 @@ class PatientInboxPage {
   submitSearchButton = () => {
     cy.get('[data-testid="filter-messages-button"]').click({
       waitForAnimations: true,
+      force: true,
     });
   };
 
