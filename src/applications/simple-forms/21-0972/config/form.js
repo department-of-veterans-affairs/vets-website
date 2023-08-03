@@ -9,6 +9,7 @@ import {
   claimantPersonalInformationTitle,
   claimantSsnTitle,
 } from './helpers';
+import { claimantIdentificationDisplayOptions } from '../definitions/constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -225,10 +226,45 @@ const formConfig = {
     preparerQualificationsChapter: {
       title: 'Qualifications',
       pages: {
-        preparerQualifications1: {
-          path: 'preparer-qualifications-1',
+        preparerQualifications1A: {
+          // for veteran claimant
+          path: 'preparer-qualifications-1a',
           title: 'Qualifications',
-          uiSchema: preparerQualifications1.uiSchema,
+          depends: {
+            claimantIdentification:
+              claimantIdentificationDisplayOptions.VETERAN,
+          },
+          uiSchema: preparerQualifications1.uiSchemaA,
+          schema: preparerQualifications1.schema,
+        },
+        preparerQualifications1B: {
+          // for spouse claimant
+          path: 'preparer-qualifications-1b',
+          title: 'Qualifications',
+          depends: {
+            claimantIdentification: claimantIdentificationDisplayOptions.SPOUSE,
+          },
+          uiSchema: preparerQualifications1.uiSchemaB,
+          schema: preparerQualifications1.schema,
+        },
+        preparerQualifications1C: {
+          // for parent claimant
+          path: 'preparer-qualifications-1c',
+          title: 'Qualifications',
+          depends: {
+            claimantIdentification: claimantIdentificationDisplayOptions.PARENT,
+          },
+          uiSchema: preparerQualifications1.uiSchemaC,
+          schema: preparerQualifications1.schema,
+        },
+        preparerQualifications1D: {
+          // for child claimant
+          path: 'preparer-qualifications-1d',
+          title: 'Qualifications',
+          depends: {
+            claimantIdentification: claimantIdentificationDisplayOptions.CHILD,
+          },
+          uiSchema: preparerQualifications1.uiSchemaD,
           schema: preparerQualifications1.schema,
         },
         preparerQualifications2: {
