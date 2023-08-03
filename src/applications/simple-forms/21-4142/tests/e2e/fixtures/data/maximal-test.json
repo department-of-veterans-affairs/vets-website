@@ -101,7 +101,6 @@
     },
     "veteran": {
       "homePhone": "9876543210",
-      "internationalPhone": "9876543210",
       "email": "email@address.com",
       "address": {
         "isMilitary": true,
