@@ -100,6 +100,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 
   va-radio::part(header) {
     font-size: 18px;
+    font-weight: bold;
   }
 
   va-select::part(label) {
