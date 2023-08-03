@@ -46,6 +46,7 @@ const ZipCodePage = ({
 
       if (shouldRedirectToHome) {
         router.push(ROUTES.HOME);
+        return;
       }
       focusElement(breadcrumbsRef.current);
     },
