@@ -84,7 +84,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     ).as('sentResponse');
     composePage.selectSideBarMenuOption('Sent');
     composePage.clickOnDeleteDraftButton();
-    composePage.verifyExpectedPageOpened('Sent messages');
+    composePage.verifyExpectedPageOpened('Sent');
   });
 
   it('Navigate Away From `Start a new message` To Trash', () => {

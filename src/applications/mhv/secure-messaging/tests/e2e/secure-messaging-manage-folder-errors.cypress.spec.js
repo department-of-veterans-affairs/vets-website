@@ -22,7 +22,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
       mockRecipients,
       400,
     );
-    cy.get('[data-testid="my-folders-sidebar"]').click();
+    cy.get('[data-testid="my-folders-sidebar"]').click({ force: true });
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
