@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -111,9 +112,11 @@ const mapStateToProps = state => ({
   duplicateEmail: state?.data?.duplicateEmail,
   duplicatePhone: state?.data?.duplicatePhone,
   openModal: state?.data?.openModal,
+  formData: state?.form?.data,
 });
 
 const mapDispatchToProps = {
+  setFormData: setData,
   acknowledgeDuplicate,
   toggleModal,
 };

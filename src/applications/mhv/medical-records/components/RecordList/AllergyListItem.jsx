@@ -48,7 +48,7 @@ const AllergyListItem = props => {
           </div>
 
           <Link
-            to={`/health-history/allergies/${record.id}`}
+            to={`/allergies/${record.id}`}
             className="vads-u-margin--0 no-print"
           >
             <strong>Details</strong>
