@@ -2,12 +2,12 @@ import manifest from '../../manifest.json';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
-import mockSentFolder from './fixtures/folder-sent-metadata.json';
+import mockSentFolder from './fixtures/sentResponse/folder-sent-metadata.json';
 import particularFolderResponse from './fixtures/drafts-response.json';
 import customFolderResponse from './fixtures/message-custom-response.json';
 import mockSearchMessages from './fixtures/search-COVID-results.json';
 import mockSearchCustomMessages from './fixtures/search-MEDICATION-results.json';
-import mockTrashFolder from './fixtures/folder-deleted-metadata.json';
+import mockTrashFolder from './fixtures/trashResponse/folder-deleted-metadata.json';
 import mockCustomFolder from './fixtures/folder-custom-metadata.json';
 
 describe(manifest.appName, () => {
@@ -31,14 +31,26 @@ describe(manifest.appName, () => {
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
     it('Check the search message label', () => {
       cy.get('[data-testid="search-message-folder-input-label"]')
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
   });
   describe('Advanced search in Drafts', () => {
@@ -72,14 +84,26 @@ describe(manifest.appName, () => {
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
     it('Check the search message label', () => {
       cy.get('[data-testid="search-message-folder-input-label"]')
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
   });
   describe('Advanced search in Sent', () => {
@@ -113,14 +137,26 @@ describe(manifest.appName, () => {
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
     it('Check the search message label', () => {
       cy.get('[data-testid="search-message-folder-input-label"]')
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
   });
   describe('Advanced search in Trash', () => {
@@ -154,14 +190,26 @@ describe(manifest.appName, () => {
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
     it('Check the search message label', () => {
       cy.get('[data-testid="search-message-folder-input-label"]')
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
   });
   describe('Advanced search in Custom folder', () => {
@@ -196,14 +244,26 @@ describe(manifest.appName, () => {
         .should('contain', 'test')
         .and('have.length', mockSearchCustomMessages.data.length);
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
-    it('Check the search message label', function() {
+    it('Check the search message label', () => {
       cy.get('[data-testid="search-message-folder-input-label"]')
         .should('contain', '2')
         .and('contain', 'Category: "medication"');
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
   });
 });

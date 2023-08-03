@@ -220,13 +220,20 @@
     ],
     "employmentHistory": {
       "spouse": {
-        "employmentRecords": [
+        "spEmploymentRecords": [
           {
             "type": "Full time",
             "from": "2018-6-XX",
             "to": "",
             "isCurrent": true,
-            "employerName": "Spouse Current"
+            "employerName": "Spouse Current",
+            "grossMonthlyIncome": "100",
+            "deductions": [
+              {
+                "name": "State tax",
+                "amount": "10"
+              }
+            ]
           },
           {
             "type": "Full time",
@@ -340,6 +347,7 @@
     "ssn": "1234",
     "fileNumber": "5678"
   },
+  "selectedDebts": [],
   "selectedDebtsAndCopays": [
     {
       "fileNumber": "796121200",
@@ -1248,30 +1256,6 @@
     "deductionCode": "",
     "originalAr": 0
   },
-  "spCurrEmployment": [
-    {
-      "spouseGrossSalary": "4000.45",
-      "deductions": [
-        {
-          "name": "Federal tax",
-          "amount": "325.54"
-        },
-        {
-          "name": "Health insurance",
-          "amount": "250.34"
-        },
-        {
-          "name": "Garnishment",
-          "amount": "150"
-        }
-      ],
-      "type": "Full time",
-      "from": "2018-6-XX",
-      "to": "",
-      "isCurrent": true,
-      "employerName": "Spouse Current"
-    }
-  ],
   "financialOverview": {},
   "availableOptions": {},
   "income": [

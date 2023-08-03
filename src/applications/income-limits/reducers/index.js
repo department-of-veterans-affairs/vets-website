@@ -1,28 +1,26 @@
-import { IL_UPDATE_ZIP, IL_UPDATE_DEPENDENTS } from '../constants';
+import {
+  IL_EDIT_MODE,
+  IL_UPDATE_DEPENDENTS,
+  IL_PAST_MODE,
+  IL_RESULTS_VAL_ERROR,
+  IL_RESULTS_VAL_ERROR_TEXT,
+  IL_UPDATE_RESULTS,
+  IL_UPDATE_YEAR,
+  IL_UPDATE_ZIP,
+  IL_ZIP_VAL_ERROR,
+} from '../constants';
 
-/* eslint-disable camelcase */
 const initialState = {
+  editMode: false,
   form: {
     dependents: null,
+    year: null,
     zipCode: null,
   },
-  results: {
-    county_name: 'Some County, XX',
-    income_year: 2023,
-    limits: {
-      national_threshold: {
-        '0_dependent': 44444,
-        '1_dependent': 55555,
-        additional_dependents: 6666,
-      },
-      pension_threshold: {
-        '0_dependent': 11111,
-        '1_dependent': 22222,
-        additional_dependents: 3333,
-      },
-      gmt_threshold: 77777,
-    },
-  },
+  pastMode: null,
+  results: null,
+  resultsValidationServiceError: false,
+  zipValidationServiceError: false,
 };
 
 const incomeLimits = (state = initialState, action) => {
@@ -35,6 +33,14 @@ const incomeLimits = (state = initialState, action) => {
           dependents: action.payload,
         },
       };
+    case IL_UPDATE_YEAR:
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          year: action.payload,
+        },
+      };
     case IL_UPDATE_ZIP:
       return {
         ...state,
@@ -42,6 +48,36 @@ const incomeLimits = (state = initialState, action) => {
           ...state.form,
           zipCode: action.payload,
         },
+      };
+    case IL_EDIT_MODE:
+      return {
+        ...state,
+        editMode: action.payload,
+      };
+    case IL_PAST_MODE:
+      return {
+        ...state,
+        pastMode: action.payload,
+      };
+    case IL_UPDATE_RESULTS:
+      return {
+        ...state,
+        results: action.payload,
+      };
+    case IL_ZIP_VAL_ERROR:
+      return {
+        ...state,
+        zipValidationServiceError: action.payload,
+      };
+    case IL_RESULTS_VAL_ERROR:
+      return {
+        ...state,
+        resultsValidationServiceError: action.payload,
+      };
+    case IL_RESULTS_VAL_ERROR_TEXT:
+      return {
+        ...state,
+        resultsValidationErrorText: action.payload,
       };
     default:
       return state;

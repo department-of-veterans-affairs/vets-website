@@ -4,8 +4,10 @@ import moment from 'moment';
 
 import recordEvent from '~/platform/monitoring/record-event';
 import {
+  getLighthouseClaimStatusDescription,
   getPhaseDescription,
   isClaimComplete,
+  isLighthouseClaimComplete,
   getClaimType,
 } from '../../utils/claims-helpers';
 
@@ -28,14 +30,32 @@ function handleViewClaim() {
   });
 }
 
-const ClaimV2 = ({ claim }) => {
+const claimInfo = (claim, useLighthouseClaims) => {
+  if (useLighthouseClaims) {
+    return {
+      inProgress: !isLighthouseClaimComplete(claim),
+      claimDate: claim.attributes.claimDate,
+      status: getLighthouseClaimStatusDescription(claim.attributes.status),
+    };
+  }
+  return {
+    inProgress: !isClaimComplete(claim),
+    claimDate: claim.attributes.dateFiled,
+    status: listPhase(claim.attributes.phase),
+  };
+};
+
+const ClaimV2 = ({ claim, useLighthouseClaims = false }) => {
   if (!claim.attributes) {
     throw new TypeError(
       '`claim` prop is malformed; it should have an `attributes` property.',
     );
   }
-  const inProgress = !isClaimComplete(claim);
-  const dateRecd = moment(claim.attributes.dateFiled).format('MMMM D, YYYY');
+  const { inProgress, claimDate, status } = claimInfo(
+    claim,
+    useLighthouseClaims,
+  );
+  const dateRecd = moment(claimDate).format('MMMM D, YYYY');
   return (
     <div className="vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-background-color--gray-lightest">
       <h3 className="vads-u-margin-top--0">
@@ -47,9 +67,7 @@ const ClaimV2 = ({ claim }) => {
           className="fas fa-fw fa-check-circle vads-u-margin-right--1 vads-u-margin-top--0p5 vads-u-color--green"
         />
         <div>
-          <p className="vads-u-margin-y--0">
-            {listPhase(claim.attributes.phase)}
-          </p>
+          <p className="vads-u-margin-y--0">{status}</p>
           {inProgress && claim.attributes.developmentLetterSent ? (
             <p className="vads-u-margin-y--0">
               We sent you a development letter
@@ -77,6 +95,7 @@ const ClaimV2 = ({ claim }) => {
 
 ClaimV2.propTypes = {
   claim: PropTypes.object.isRequired,
+  useLighthouseClaims: PropTypes.bool,
 };
 
 export default ClaimV2;

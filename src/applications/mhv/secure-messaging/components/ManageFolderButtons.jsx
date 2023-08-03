@@ -14,7 +14,7 @@ import {
   retrieveFolder,
 } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
-import { Alerts, ErrorMessages } from '../util/constants';
+import { Alerts, ErrorMessages, Paths } from '../util/constants';
 
 const ManageFolderButtons = () => {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const ManageFolderButtons = () => {
 
   useEffect(
     () => {
-      if (location.pathname.includes('/folder')) {
+      if (location.pathname.includes(Paths.FOLDERS)) {
         setFolderId(params.folderId);
       }
     },
@@ -61,24 +61,6 @@ const ManageFolderButtons = () => {
         focusElement(folderNameInput.current.shadowRoot.querySelector('input'));
     },
     [nameWarning],
-  );
-
-  useEffect(
-    () => {
-      if (deleteModal) {
-        focusElement(removeButton.current);
-      }
-    },
-    [deleteModal],
-  );
-
-  useEffect(
-    () => {
-      if (isEmptyWarning) {
-        focusElement(emptyFolderConfirmBtn.current);
-      }
-    },
-    [isEmptyWarning],
   );
 
   const openDelModal = () => {
@@ -209,6 +191,7 @@ const ManageFolderButtons = () => {
         onCloseEvent={closeRenameModal}
       >
         <VaTextInput
+          data-dd-privacy="mask"
           ref={folderNameInput}
           label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
           value={folderName}

@@ -11,10 +11,14 @@
       break-inside: avoid;
     }
     h2 {
+      font-size: 17px;
+      margin: 0px 0px 16px;
+    }
+    h3 {
       font-size: 15px;
       margin: 16px 0px 0px;
     }
-    h2:first-child {
+    h3:first-child {
       margin: 0px;
     }
     p {

@@ -8,6 +8,7 @@ import MessageDetailBlock from '../components/MessageDetailBlock';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import AlertBox from '../components/shared/AlertBox';
 import { closeAlert } from '../actions/alerts';
+import { Paths } from '../util/constants';
 
 const MessageDetail = () => {
   const { messageId, threadId } = useParams();
@@ -18,8 +19,8 @@ const MessageDetail = () => {
   const messageHistory = useSelector(
     state => state.sm.messageDetails.messageHistory,
   );
-  const isTrash = window.location.pathname.includes('/trash');
-  const isSent = window.location.pathname.includes('/sent');
+  const isTrash = window.location.pathname.includes(Paths.DELETED);
+  const isSent = window.location.pathname.includes(Paths.SENT);
   const location = useLocation();
   const history = useHistory();
   const [cannotReplyAlert, setcannotReplyAlert] = useState(true);
@@ -38,7 +39,7 @@ const MessageDetail = () => {
   useEffect(
     () => {
       if (draftMessage?.messageId && message?.draftDate !== null) {
-        history.push(`/draft/${threadId}`);
+        history.push(`${Paths.DRAFT}${threadId}/`);
       }
     },
     [draftMessage, history, message, threadId],

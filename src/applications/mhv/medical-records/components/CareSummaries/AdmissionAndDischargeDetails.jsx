@@ -1,87 +1,139 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dateFormat, downloadFile } from '../../util/helpers';
+import { useSelector } from 'react-redux';
+import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import PrintHeader from '../shared/PrintHeader';
-import { getVaccinePdf } from '../../api/MrApi';
 import PrintDownload from '../shared/PrintDownload';
+import { sendErrorToSentry } from '../../util/helpers';
+import { generatePdfScaffold } from '../../../shared/util/helpers';
 
 const AdmissionAndDischargeDetails = props => {
-  const { results } = props;
+  const { record } = props;
+  const user = useSelector(state => state.user.profile);
 
-  const admissionDate = dateFormat(results?.startDate, 'MMMM D, YYYY');
-  const dischargeDate = dateFormat(results?.endDate, 'MMMM D, YYYY');
+  const generateCareNotesPDF = async () => {
+    const title = 'Admission and discharge summary';
+    const subject = 'VA Medical Record';
+    const scaffold = generatePdfScaffold(user, title, subject);
 
-  const download = () => {
-    getVaccinePdf(1).then(res =>
-      downloadFile('AdmissionDischarge.pdf', res.pdf),
-    );
+    scaffold.details = {
+      header: 'Details',
+      items: [
+        {
+          title: 'Location',
+          value: record.location,
+          inline: true,
+        },
+        {
+          title: 'Admission date',
+          value: record.admissionDate,
+          inline: true,
+        },
+        {
+          title: 'Discharge date',
+          value: record.dischargeDate,
+          inline: true,
+        },
+        {
+          title: 'Admitted by',
+          value: record.admittedBy,
+          inline: true,
+        },
+        {
+          title: 'Discharge by',
+          value: record.dischargeBy,
+          inline: true,
+        },
+      ],
+    };
+    scaffold.results = {
+      header: 'Summary',
+      items: [
+        {
+          items: [
+            {
+              title: '',
+              value: record.summary,
+              inline: false,
+            },
+          ],
+        },
+      ],
+    };
+
+    try {
+      await generatePdf('medicalRecords', 'care_summaries_report', scaffold);
+    } catch (error) {
+      sendErrorToSentry(error, 'Care Summary details');
+    }
   };
 
   const content = () => {
-    if (results) {
+    if (record) {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">{results.name}</h1>
+          <h1 className="vads-u-margin-bottom--0">{record.name}</h1>
           <div className="time-header">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Dates:{' '}
             </h2>
             <p>
-              {admissionDate} to {dischargeDate}
+              {record.startDate} to {record.endDate}
             </p>
           </div>
 
-          <p className="vads-u-margin-bottom--0">
-            Review a summary of your stay at a hospital or other health facility
-            (called an admission and discharge summary).
-          </p>
-
-          <div className="no-print">
-            <PrintDownload download={download} />
-            <va-additional-info trigger="What to know about downloading records">
-              <ul>
-                <li>
-                  <strong>If you’re on a public or shared computer,</strong>{' '}
-                  print your records instead of downloading. Downloading will
-                  save a copy of your records to the public computer.
-                </li>
-                <li>
-                  <strong>If you use assistive technology,</strong> a Text file
-                  (.txt) may work better for technology such as screen reader,
-                  screen enlargers, or Braille displays.
-                </li>
-              </ul>
-            </va-additional-info>
-          </div>
+          <section className="set-width-486">
+            <p className="vads-u-margin-bottom--0">
+              Review a summary of your stay at a hospital or other health
+              facility (called an admission and discharge summary).
+            </p>
+            <div className="no-print">
+              <PrintDownload download={generateCareNotesPDF} />
+              <va-additional-info trigger="What to know about downloading records">
+                <ul>
+                  <li>
+                    <strong>If you’re on a public or shared computer,</strong>{' '}
+                    print your records instead of downloading. Downloading will
+                    save a copy of your records to the public computer.
+                  </li>
+                  <li>
+                    <strong>If you use assistive technology,</strong> a Text
+                    file (.txt) may work better for technology such as screen
+                    reader, screen enlargers, or Braille displays.
+                  </li>
+                </ul>
+              </va-additional-info>
+            </div>
+          </section>
 
           <div className="test-details-container max-80">
             <h2>Details</h2>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h3>
-            <p>{results.facility || 'Not noted'}</p>
+            <p>{record.location}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Admission date
             </h3>
-            <p>{admissionDate || 'Not noted'}</p>
+            <p>{record.startDate}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Discharge date
             </h3>
-            <p>{dischargeDate || 'Not noted'}</p>
+            <p>{record.endDate}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Admitted by
             </h3>
-            <p>{results.admittingPhysician || 'Not noted'}</p>
+            <p>{record.admittingPhysician || record.physician}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Discharged by
             </h3>
-            <p>{results.dischargePhysician || 'Not noted'}</p>
+            <p>{record.dischargePhysician || record.physician}</p>
           </div>
 
           <div className="test-results-container">
             <h2>Summary</h2>
-            <p>{results.summary}</p>
+            <p>{record.summary}</p>
           </div>
         </>
       );
@@ -99,5 +151,5 @@ const AdmissionAndDischargeDetails = props => {
 export default AdmissionAndDischargeDetails;
 
 AdmissionAndDischargeDetails.propTypes = {
-  results: PropTypes.object,
+  record: PropTypes.object,
 };

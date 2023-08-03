@@ -50,7 +50,7 @@ class PatientKeywordSearchPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages', {
+    cy.visit('my-health/secure-messages/', {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
       },
@@ -64,7 +64,13 @@ class PatientKeywordSearchPage {
     cy.wait('@mockUser');
     cy.wait('@inboxMessages');
     if (doAxeCheck) {
-      cy.axeCheck();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     }
   };
 

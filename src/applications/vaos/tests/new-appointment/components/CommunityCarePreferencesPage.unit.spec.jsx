@@ -20,6 +20,8 @@ import {
 import { GA_PREFIX } from '../../../utils/constants';
 
 import CommunityCarePreferencesPage from '../../../new-appointment/components/CommunityCarePreferencesPage';
+import { mockSchedulingConfigurations } from '../../mocks/helpers.v2';
+import { getSchedulingConfigurationMock } from '../../mocks/v2';
 
 const initialState = {
   featureToggles: {
@@ -31,7 +33,9 @@ const initialState = {
     },
   },
 };
-describe('VAOS <CommunityCarePreferencesPage>', () => {
+
+// NOTE: The CommunityCarePreferencesPage is no longer used. The CommunityCareProviderSelectionPage is used instead.
+describe.skip('VAOS <CommunityCarePreferencesPage>', () => {
   beforeEach(() => mockFetch());
   it('should render the page with appropriate inputs and prevent submission without required fields', async () => {
     mockParentSites(
@@ -53,6 +57,17 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
       supportedSites: ['983'],
       careType: 'PrimaryCare',
     });
+    mockSchedulingConfigurations(
+      [
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      ],
+      true,
+    );
+
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
@@ -114,6 +129,17 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
       supportedSites: ['983'],
       careType: 'PrimaryCare',
     });
+    mockSchedulingConfigurations(
+      [
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      ],
+      true,
+    );
+
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
@@ -191,6 +217,27 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
       supportedSites: ['983', '983GJ'],
       careType: 'PrimaryCare',
     });
+    mockSchedulingConfigurations(
+      [
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983GJ',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983GC',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      ],
+      true,
+    );
+
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
@@ -198,7 +245,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
       store,
     });
 
-    expect((await screen.findAllByRole('radio')).length).to.equal(4);
+    expect((await screen.findAllByRole('radio')).length).to.equal(5);
     expect(screen.getByLabelText('Bozeman, MT')).to.exist;
     expect(screen.getByLabelText('Belgrade, MT')).to.exist;
 

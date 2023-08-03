@@ -18,15 +18,24 @@
   }
 }
 
-/* Contestable issue cards (contestable issue page & review/submit page) */
-dl.review {
+/* Contested issue cards (contested issue page & review/submit page)
+ * This could go in the schemaform css, it's used in form 526 & HLR
+ */
+ .issues {
+
   .widget-wrapper {
     display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 
-    dt.widget-checkbox-wrap {
+    .widget-checkbox-wrap {
       margin: 0;
-      width: 5rem;
-      min-width: 5rem;
+      width: 4rem;
+      min-width: 4rem;
+
+      label {
+        margin-top: 0;
+      }
 
       [type="checkbox"] {
         width: 1.8rem;
@@ -35,26 +44,13 @@ dl.review {
       }
     }
 
-    dt label {
-      margin-top: 0;
-    }
-
-    .widget-title {
-      margin: 0;
-      white-space: nowrap;
-      text-transform: capitalize;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      width: calc(100% - 7rem);
-    }
-
-    dd.widget-content {
+    .widget-content {
       width: 100%;
       margin-inline-start: 0; /* override user agent */
       text-align: left;
       margin: 0;
     }
-    dd.widget-content.widget-edit {
+    .widget-content.widget-edit {
       margin-top: 0;
       margin-right: 0;
       display: flex;
@@ -73,44 +69,29 @@ dl.review {
         align-self: center;
       }
     }
-    .change-issue-link:visited {
+    .edit-issue-link:visited {
       color: inherit;
     }
   }
 
   .checkbox-hidden {
-    dt.widget-checkbox-wrap {
-      width: 0;
-    }
-
-    .widget-title {
-      margin-left: 0;
-      width: 100%;
-      overflow: visible;
-      white-space: normal;
-    }
-
     .widget-content {
-      margin: 2rem 0 0 2rem;
+      margin: 2rem 0 0 0;
     }
   }
+}
+
+ul.issues-summary,
+ul.issues,
+.usa-accordion-bordered ul li ul.issues {
+  list-style: none;
+  padding: 0;
 }
 
 @media screen and (min-width: 481px) {
   .va-profile-wrapper button {
     width: auto;
   }
-}
-
-/* IE11 hack to fix edit button placement, see
- * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
- */
- _:-ms-fullscreen, :root dl.review dd.widget-content.widget-edit .widget-content-wrap {
-  width: calc(100% - 175px); /* 175px ~= width of the edit button x2.5 */
-}
-/* IE11 fix legend not wrapping on small screens */
-legend.schemaform-block-title {
-  width: 100%;
 }
 
 /* empty header on additional-issues-intro page */
@@ -216,6 +197,10 @@ article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0
   text-transform: capitalize;
 }
 
+form.rjsf > fieldset {
+  margin-top: 0 !important;
+}
+
 /* additional evidence */
 article[data-location$="/upload"] {
   #root_evidence_add_label {
@@ -232,6 +217,12 @@ article[data-location$="/upload"] {
   }
 }
 
+/* board review option & hearing type pages */
+#root_hearingTypePreference-label,
+#root_boardReviewOption-label {
+  margin-bottom: 2rem;
+}
+
 article[data-location="review-and-submit"] {
   /* hide when reviewing content. Shows when editing */
   dt .hide-on-review, dd .hide-on-review {
@@ -242,5 +233,13 @@ article[data-location="review-and-submit"] {
   }
   dd {
     word-break: break-all;
+  }
+
+  .form-review-panel-page-header {
+    padding-right: 1rem;
+    line-height: 2.5rem;
+  }
+  .form-review-panel-page-header-row {
+    align-items: flex-start;
   }
 }

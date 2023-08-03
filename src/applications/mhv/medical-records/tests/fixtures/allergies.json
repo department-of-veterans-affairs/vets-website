@@ -2,7 +2,7 @@
     {
         "id": 123,
         "name": "Penicillin",
-        "date": "2022-04-01T17:42:46.000Z",
+        "date": "April 1, 2022",
         "reaction": ["Urticaria"],
         "type": "Drug allergy",
         "drugClass": "Penicillin-G related penicillins",
@@ -13,7 +13,7 @@
     {
         "id": 124,
         "name": "Aspirin related medications",
-        "date": "2021-06-30T17:42:46.000Z",
+        "date": "June 30, 2021",
         "reaction": ["Urticaria"],
         "type": "Drug allergy",
         "drugClass": "Penicillin-G related penicillins",
@@ -27,7 +27,7 @@
     {
         "id": 125,
         "name": "Adhesive tape",
-        "date": "2019-06-08T17:42:46.000Z",
+        "date": "June 8, 2019",
         "reaction": ["Rash"],
         "type": "Contact allergy",
         "drugClass": "Penicillin-G related penicillins",
@@ -40,6 +40,6 @@
     {
         "id": 126,
         "name": "Prazosin",
-        "dateEntered": "2018-03-15T17:42:46.000Z"
+        "dateEntered": "March 15, 2018"
     }
 ]

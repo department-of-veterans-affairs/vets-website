@@ -4,31 +4,32 @@ import unset from 'platform/utilities/data/unset';
 import moment from 'moment';
 
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
-import contactInformationPage from '../../pages/contactInformation';
-import applicantInformation from 'platform/forms/pages/applicantInformation';
-import GetFormHelp from '../../components/GetFormHelp';
-import ErrorText from '../../components/ErrorText';
-import createSchoolSelectionPage from '../../pages/schoolSelection';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import {
-  schema as addressSchema,
-  uiSchema as addressUI,
-} from 'platform/forms/definitions/address';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import yearUI from 'platform/forms-system/src/js/definitions/year';
+import {
+  validateBooleanGroup,
+  validateCurrentOrFutureDate,
+} from 'platform/forms-system/src/js/validation';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import applicantDescription from 'platform/forms/components/ApplicantDescription';
+import { genderLabels } from 'platform/static-data/labels';
+import fullNameUI from 'platform/forms/definitions/fullName';
+import PreSubmitInfo from '../pages/PreSubmitInfo';
+import contactInformationPage from '../../pages/contactInformation';
+import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
+import GuardianInformation from '../pages/GuardianInformation';
 
 import manifest from '../manifest.json';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
-import employmentHistoryPage from '../../pages/employmentHistory';
-import createDirectDepositPage from '../../pages/directDeposit';
+import createDirectDepositPage1990 from '../pages/DirectDeposit';
 
-import postHighSchoolTrainingsUI from '../../definitions/postHighSchoolTrainings';
-import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
-import yearUI from 'platform/forms-system/src/js/definitions/year';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -36,18 +37,17 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import BenefitsRelinquishmentField from '../BenefitsRelinquishmentField';
 
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
-
 import {
   transform,
   benefitsEligibilityBox,
   benefitsRelinquishmentWarning,
   benefitsRelinquishmentLabels,
   benefitsRelinquishedDescription,
-  directDepositDescription,
   prefillTransformer,
   reserveKickerWarning,
+  SeventeenOrOlder,
+  eighteenOrOver,
+  ageWarning,
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
@@ -60,24 +60,21 @@ const {
   chapter33,
   chapter30,
   chapter1606,
-  chapter32,
   seniorRotcScholarshipProgram,
   seniorRotc,
-  civilianBenefitsAssistance,
   additionalContributions,
   activeDutyKicker,
   reserveKicker,
   benefitsRelinquished,
   benefitsRelinquishedDate,
-  faaFlightCertificatesInformation,
-  highSchoolOrGedCompletionDate,
   serviceAcademyGraduationYear,
-  secondaryContact,
 } = fullSchema1990.properties;
 
 const {
-  postHighSchoolTrainings,
   date,
+  fullName,
+  ssn,
+  gender,
   dateRange,
   year,
   currentlyActiveDuty,
@@ -116,6 +113,9 @@ const formConfig = {
   defaultDefinitions: {
     date,
     dateRange,
+    fullName,
+    gender,
+    ssn,
     year,
     address,
     serviceBefore1977,
@@ -123,7 +123,11 @@ const formConfig = {
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
-  preSubmitInfo,
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    required: true,
+    field: 'privacyAgreementAccepted',
+  },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
@@ -131,44 +135,143 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        applicantInformation: merge(
-          {},
-          applicantInformation(fullSchema1990, {
-            isVeteran: true,
-            fields: [
-              'veteranFullName',
-              'veteranSocialSecurityNumber',
-              'veteranDateOfBirth',
-              'gender',
-            ],
-            required: [
-              'veteranFullName',
-              'veteranSocialSecurityNumber',
-              'veteranDateOfBirth',
-            ],
-          }),
-          {
-            uiSchema: {
-              veteranDateOfBirth: {
-                'ui:validations': [
-                  (errors, dob) => {
-                    // If we have a complete date, check to make sure it’s a valid dob
-                    if (
-                      /\d{4}-\d{2}-\d{2}/.test(dob) &&
-                      moment(dob).isAfter(
-                        moment()
-                          .endOf('day')
-                          .subtract(17, 'years'),
-                      )
-                    ) {
-                      errors.addError('You must be at least 17 to apply');
+        applicantInformation: {
+          path: 'applicant/information',
+          title: 'Applicant information',
+          initialData: {},
+
+          uiSchema: {
+            'ui:description': applicantDescription,
+            veteranFullName: fullNameUI,
+
+            veteranSocialSecurityNumber: {
+              ...ssnUI,
+              'ui:title': 'Social Security number',
+            },
+
+            veteranDateOfBirth: {
+              ...currentOrPastDateUI('Your date of birth'),
+              'ui:errorMessages': {
+                pattern: 'Please provide a valid date',
+                required: 'Please enter a date',
+                futureDate: 'Please provide a valid date',
+              },
+              'ui:validations': [
+                (errors, dob) => {
+                  // If we have a complete date, check to make sure it’s a valid dob
+                  if (/\d{4}-\d{2}-\d{2}/.test(dob) && !SeventeenOrOlder(dob)) {
+                    errors.addError('You must be at least 17 to apply');
+                  }
+                },
+              ],
+            },
+
+            minorHighSchoolQuestions: {
+              'ui:description': ageWarning,
+              'ui:options': {
+                expandUnder: 'veteranDateOfBirth',
+                hideIf: formData => {
+                  let hideCondition;
+                  const dob = get('veteranDateOfBirth', formData);
+                  if (!eighteenOrOver(dob) && SeventeenOrOlder(dob)) {
+                    hideCondition = false;
+                  } else {
+                    hideCondition = true;
+                  }
+                  return hideCondition;
+                },
+              },
+              minorHighSchoolQuestion: {
+                'ui:title':
+                  'Applicant has graduated high school or received GED?',
+                'ui:widget': 'yesNo',
+                'ui:required': formData =>
+                  !eighteenOrOver(formData.veteranDateOfBirth),
+              },
+              highSchoolGedGradDate: {
+                ...currentOrPastDateUI('Date graduated'),
+                'ui:options': {
+                  expandUnder: 'minorHighSchoolQuestion',
+                },
+                'ui:required': formData => {
+                  let isRequired = false;
+                  if (!eighteenOrOver(formData.veteranDateOfBirth)) {
+                    const yesNoResults =
+                      formData.minorHighSchoolQuestions.minorHighSchoolQuestion;
+                    if (yesNoResults) {
+                      isRequired = true;
                     }
-                  },
-                ],
+                    if (!yesNoResults) {
+                      isRequired = false;
+                    }
+                  }
+                  return isRequired;
+                },
+              },
+              highSchoolGedExpectedGradDate: {
+                'ui:title': 'Date expected to graduate',
+                'ui:widget': 'date',
+                'ui:options': {
+                  expandUnder: 'minorHighSchoolQuestion',
+                  expandUnderCondition: false,
+                },
+                'ui:validations': [validateCurrentOrFutureDate],
+                'ui:errorMessages': {
+                  pattern: 'Please enter a valid current or future date',
+                  required: 'Please enter a date',
+                },
+              },
+            },
+
+            gender: {
+              'ui:widget': 'radio',
+              'ui:title': 'Gender',
+              'ui:options': {
+                labels: genderLabels,
               },
             },
           },
-        ),
+          schema: {
+            type: 'object',
+            properties: {
+              veteranFullName: {
+                type: 'object',
+                required: ['first', 'last'],
+                properties: fullName.properties,
+              },
+
+              veteranSocialSecurityNumber: {
+                $ref: '#/definitions/ssn',
+              },
+
+              veteranDateOfBirth: {
+                $ref: '#/definitions/date',
+              },
+
+              minorHighSchoolQuestions: {
+                type: 'object',
+                properties: {
+                  minorHighSchoolQuestion: {
+                    type: 'boolean',
+                  },
+                  highSchoolGedGradDate: {
+                    type: 'object',
+                    $ref: '#/definitions/date',
+                  },
+                  highSchoolGedExpectedGradDate: {
+                    type: 'object',
+                    $ref: '#/definitions/date',
+                  },
+                },
+              },
+
+              gender: {
+                $ref: '#/definitions/gender',
+              },
+            },
+            required: ['veteranSocialSecurityNumber', 'veteranDateOfBirth'],
+          },
+        },
       },
     },
     benefitsEligibility: {
@@ -206,9 +309,6 @@ const formConfig = {
               chapter1606: {
                 'ui:title': benefitsLabels.chapter1606,
               },
-              chapter32: {
-                'ui:title': benefitsLabels.chapter32,
-              },
             },
           },
           schema: {
@@ -225,7 +325,6 @@ const formConfig = {
                   },
                   chapter30,
                   chapter1606,
-                  chapter32,
                 },
               },
             },
@@ -393,10 +492,6 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Contributions',
             'ui:description': 'Select all that apply:',
-            civilianBenefitsAssistance: {
-              'ui:title':
-                'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.',
-            },
             additionalContributions: {
               'ui:title':
                 'I made contributions (up to $600) to increase the amount of my monthly benefits.',
@@ -448,7 +543,6 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              civilianBenefitsAssistance,
               additionalContributions,
               activeDutyKicker,
               reserveKicker,
@@ -465,64 +559,6 @@ const formConfig = {
         },
       },
     },
-    educationHistory: {
-      title: 'Education history',
-      pages: {
-        educationHistory: {
-          title: 'Education history',
-          // There’s only one page in this chapter (right?), so this url seems a
-          //  bit heavy-handed.
-          path: 'education-history/education-information',
-          uiSchema: {
-            highSchoolOrGedCompletionDate: currentOrPastMonthYearUI(
-              'When did you earn your high school diploma or equivalency certificate?',
-            ),
-            postHighSchoolTrainings: postHighSchoolTrainingsUI,
-            faaFlightCertificatesInformation: {
-              'ui:title':
-                'If you have any FAA flight certificates, please list them here.',
-              'ui:widget': 'textarea',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              highSchoolOrGedCompletionDate,
-              postHighSchoolTrainings,
-              faaFlightCertificatesInformation,
-            },
-          },
-        },
-      },
-    },
-    employmentHistory: {
-      title: 'Employment history',
-      pages: {
-        employmentHistory: merge({}, employmentHistoryPage(fullSchema1990), {
-          path: 'employment-history/employment-information',
-        }),
-      },
-    },
-    schoolSelection: {
-      title: 'School selection',
-      pages: {
-        schoolSelection: merge(
-          {},
-          createSchoolSelectionPage(fullSchema1990, {
-            fields: [
-              'educationProgram',
-              'educationObjective',
-              'educationStartDate',
-              'currentlyActiveDuty',
-            ],
-            required: ['educationType'],
-          }),
-          {
-            path: 'school-selection/school-information',
-          },
-        ),
-      },
-    },
     personalInformation: {
       title: 'Personal information',
       pages: {
@@ -531,54 +567,6 @@ const formConfig = {
             'ui:title': 'Contact information',
           },
         }),
-        secondaryContact: {
-          title: 'Secondary contact',
-          path: 'personal-information/secondary-contact',
-          uiSchema: {
-            'ui:title': 'Secondary contact',
-            'ui:description':
-              'This person should know where you can be reached at all times.',
-            secondaryContact: {
-              fullName: {
-                'ui:title': 'Name',
-              },
-              phone: phoneUI('Telephone number'),
-              'view:address': {
-                'ui:title': 'Address',
-                sameAddress: {
-                  'ui:title':
-                    'Address for secondary contact is the same as mine',
-                },
-                address: merge({}, addressUI('', false), {
-                  'ui:options': {
-                    hideIf: formData =>
-                      formData.secondaryContact &&
-                      formData.secondaryContact['view:address'].sameAddress,
-                  },
-                }),
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              secondaryContact: {
-                type: 'object',
-                properties: {
-                  fullName: secondaryContact.properties.fullName,
-                  phone: secondaryContact.properties.phone,
-                  'view:address': {
-                    type: 'object',
-                    properties: {
-                      sameAddress: secondaryContact.properties.sameAddress,
-                      address: addressSchema(fullSchema1990),
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
         dependents: {
           title: 'Dependent information',
           path: 'personal-information/dependents',
@@ -594,11 +582,13 @@ const formConfig = {
             },
           },
         },
-        directDeposit: merge({}, createDirectDepositPage(fullSchema1990), {
-          uiSchema: {
-            'ui:description': directDepositDescription,
-          },
-        }),
+        directDeposit: createDirectDepositPage1990(),
+      },
+    },
+    GuardianInformation: {
+      title: 'Guardian information',
+      pages: {
+        guardianInformation: GuardianInformation(fullSchema1990, {}),
       },
     },
   },

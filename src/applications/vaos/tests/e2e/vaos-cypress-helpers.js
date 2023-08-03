@@ -211,6 +211,7 @@ export function mockFeatureToggles({
   v2Requests = false,
   v2Facilities = false,
   v2DirectSchedule = false,
+  acheron = false,
 } = {}) {
   cy.intercept(
     {
@@ -266,6 +267,10 @@ export function mockFeatureToggles({
             {
               name: 'vaOnlineSchedulingVAOSServiceCCAppointments',
               value: true,
+            },
+            {
+              name: 'vaOnlineSchedulingAcheronService',
+              value: acheron,
             },
           ],
         },
@@ -469,6 +474,18 @@ export function mockCCProvidersApi() {
   ).as('v1:get:provider');
 }
 
+export function mockAppointmentApi({ data, id } = {}) {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `/vaos/v2/appointments/${id}`,
+    },
+    req => {
+      req.reply({ data });
+    },
+  ).as('v2:get:appointment');
+}
+
 export function mockAppointmentsApi({
   data,
   status = APPOINTMENT_STATUS.booked,
@@ -521,8 +538,6 @@ export function mockAppointmentsApi({
       req => req.reply({ data: '' }),
     ).as('v0:cancel:appointment');
   } else if (apiVersion === 2) {
-    const db = [];
-
     cy.intercept(
       {
         method: 'GET',
@@ -574,25 +589,9 @@ export function mockAppointmentsApi({
           },
         };
 
-        db.push(newAppointment.data);
         req.reply(newAppointment);
       },
     ).as('v2:create:appointment');
-
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: '/vaos/v2/appointments/mock1',
-        query: {
-          _include: '*',
-        },
-      },
-      req => {
-        req.reply({
-          data: db[0],
-        });
-      },
-    ).as('v2:get:appointment');
   }
 }
 
@@ -705,9 +704,6 @@ export function mockFacilitiesApi({ count, data, apiVersion = 0 }) {
       {
         method: 'GET',
         pathname: '/v1/facilities/va',
-        query: {
-          ids: '*',
-        },
       },
       req => {
         const tokens = req.query.ids.split(',');
@@ -893,6 +889,18 @@ export function mockCCEligibilityApi({
       });
     },
   ).as('v0:get:cc-eligibility');
+}
+// TODO: Refactor into 'mockCCEligibilityApi'!
+export function mockGetEligibilityCC(typeOfCare = 'PrimaryCare') {
+  cy.intercept(`/vaos/v2/community_care/eligibility/${typeOfCare}`, req => {
+    req.reply({
+      data: {
+        id: typeOfCare,
+        type: 'cc_eligibility',
+        attributes: { eligible: true },
+      },
+    });
+  }).as('eligibility-cc');
 }
 
 export function mockClinicApi({
@@ -1120,4 +1128,46 @@ export function vaosSetup() {
     expect(requestedDate.isSame(testDate, 'day')).to.ok;
     return true;
   });
+}
+
+export function mockVamcEhr({ isCerner = false } = {}) {
+  const fieldVamcEhrSystem = isCerner ? 'cerner' : 'vista';
+
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/data/cms/vamc-ehr.json',
+    },
+    req => {
+      req.reply({
+        data: {
+          nodeQuery: {
+            count: 2,
+            entities: [
+              {
+                fieldFacilityLocatorApiId: 'vha_983',
+                title: 'Cheyenne VA Medical Center',
+                fieldRegionPage: {
+                  entity: {
+                    title: 'VA Cheyenne health care',
+                    fieldVamcEhrSystem,
+                  },
+                },
+              },
+              {
+                fieldFacilityLocatorApiId: 'vha_984',
+                title: 'Dayton VA Medical Center',
+                fieldRegionPage: {
+                  entity: {
+                    title: 'VA Dayton health care',
+                    fieldVamcEhrSystem,
+                  },
+                },
+              },
+            ],
+          },
+        },
+      });
+    },
+  ).as('drupal-source-of-truth');
 }

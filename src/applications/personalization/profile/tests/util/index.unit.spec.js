@@ -62,176 +62,192 @@ describe('profile utils', () => {
       expect(eventDataObject).to.deep.equal(defaultDataObject);
     });
     it('returns the correct data when a bad address error is passed', () => {
-      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
-        {
-          title: 'Unprocessable Entity',
-          detail: 'One or more unprocessable user payment properties',
-          code: '126',
-          source: 'EVSS::PPIU::Service',
-          status: '422',
-          meta: {
-            messages: [
-              {
-                key: 'cnp.payment.generic.error.message',
-                severity: 'ERROR',
-                text:
-                  'Generic CnP payment update error. Update response: Update Failed: Required field not entered for mailing address update',
-              },
-            ],
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject({
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'One or more unprocessable user payment properties',
+            code: '126',
+            source: 'EVSS::PPIU::Service',
+            status: '422',
+            meta: {
+              messages: [
+                {
+                  key: 'cnp.payment.generic.error.message',
+                  severity: 'ERROR',
+                  text:
+                    'Generic CnP payment update error. Update response: Update Failed: Required field not entered for mailing address update',
+                },
+              ],
+            },
           },
-        },
-      ]);
+        ],
+      });
       expect(eventDataObject).to.deep.equal(badAddressDataObject);
     });
     it('returns the correct data when a work phone number error is passed', () => {
-      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
-        {
-          title: 'Unprocessable Entity',
-          detail: 'One or more unprocessable user payment properties',
-          code: '126',
-          source: 'EVSS::PPIU::Service',
-          status: '422',
-          meta: {
-            messages: [
-              {
-                key: 'cnp.payment.generic.error.message',
-                severity: 'ERROR',
-                text:
-                  'Generic CnP payment update error. Update response: Update Failed: Day phone number is invalid, must be 7 digits',
-              },
-            ],
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject({
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'One or more unprocessable user payment properties',
+            code: '126',
+            source: 'EVSS::PPIU::Service',
+            status: '422',
+            meta: {
+              messages: [
+                {
+                  key: 'cnp.payment.generic.error.message',
+                  severity: 'ERROR',
+                  text:
+                    'Generic CnP payment update error. Update response: Update Failed: Day phone number is invalid, must be 7 digits',
+                },
+              ],
+            },
           },
-        },
-      ]);
+        ],
+      });
       expect(eventDataObject).to.deep.equal(badWorkPhoneDataObject);
     });
     it('returns the correct data when a day phone number error is passed', () => {
-      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
-        {
-          title: 'Unprocessable Entity',
-          detail: 'One or more unprocessable user payment properties',
-          code: '126',
-          source: 'EVSS::PPIU::Service',
-          status: '422',
-          meta: {
-            messages: [
-              {
-                key: 'cnp.payment.generic.error.message',
-                severity: 'ERROR',
-                text:
-                  'Generic CnP payment update error. Update response: Update Failed: Night area number is invalid, must be 3 digits',
-              },
-            ],
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject({
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'One or more unprocessable user payment properties',
+            code: '126',
+            source: 'EVSS::PPIU::Service',
+            status: '422',
+            meta: {
+              messages: [
+                {
+                  key: 'cnp.payment.generic.error.message',
+                  severity: 'ERROR',
+                  text:
+                    'Generic CnP payment update error. Update response: Update Failed: Night area number is invalid, must be 3 digits',
+                },
+              ],
+            },
           },
-        },
-      ]);
+        ],
+      });
       expect(eventDataObject).to.deep.equal(badHomePhoneDataObject);
     });
     it('returns the correct data when a routing number flagged for fraud error is passed', () => {
-      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
-        {
-          code: '135',
-          detail: 'Routing number related to potential fraud',
-          meta: {
-            messages: [
-              {
-                key: 'cnp.payment.routing.number.fraud.message',
-                severity: 'ERROR',
-                text: 'Routing number related to potential fraud',
-              },
-            ],
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject({
+        errors: [
+          {
+            code: '135',
+            detail: 'Routing number related to potential fraud',
+            meta: {
+              messages: [
+                {
+                  key: 'cnp.payment.routing.number.fraud.message',
+                  severity: 'ERROR',
+                  text: 'Routing number related to potential fraud',
+                },
+              ],
+            },
+            source: 'EVSS::PPIU::Service',
+            status: '422',
+            title: 'Potential Fraud',
           },
-          source: 'EVSS::PPIU::Service',
-          status: '422',
-          title: 'Potential Fraud',
-        },
-      ]);
+        ],
+      });
       expect(eventDataObject).to.deep.equal(
         routingNumberFlaggedForFraudDataObject,
       );
     });
     it('returns the correct data when an account flagged for fraud error is passed', () => {
-      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
-        {
-          code: '136',
-          detail: 'The account has been flagged',
-          meta: {
-            messages: [
-              {
-                key: 'cnp.payment.flashes.on.record.message',
-                severity: 'ERROR',
-                text: 'Flashes on record',
-              },
-            ],
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject({
+        errors: [
+          {
+            code: '136',
+            detail: 'The account has been flagged',
+            meta: {
+              messages: [
+                {
+                  key: 'cnp.payment.flashes.on.record.message',
+                  severity: 'ERROR',
+                  text: 'Flashes on record',
+                },
+              ],
+            },
+            source: 'EVSS::PPIU::Service',
+            status: '422',
+            title: 'Account Flagged',
           },
-          source: 'EVSS::PPIU::Service',
-          status: '422',
-          title: 'Account Flagged',
-        },
-      ]);
+        ],
+      });
       expect(eventDataObject).to.deep.equal(accountFlaggedForFraudDataObject);
     });
     it('returns the correct data when an invalid routing number error is passed', () => {
-      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
-        {
-          title: 'Unprocessable Entity',
-          detail: 'One or more unprocessable user payment properties',
-          code: '126',
-          source: 'EVSS::PPIU::Service',
-          status: '422',
-          meta: {
-            messages: [
-              {
-                key: 'payment.accountRoutingNumber.invalidCheckSum',
-                severity: 'ERROR',
-                text: '',
-              },
-            ],
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject({
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'One or more unprocessable user payment properties',
+            code: '126',
+            source: 'EVSS::PPIU::Service',
+            status: '422',
+            meta: {
+              messages: [
+                {
+                  key: 'payment.accountRoutingNumber.invalidCheckSum',
+                  severity: 'ERROR',
+                  text: '',
+                },
+              ],
+            },
           },
-        },
-      ]);
+        ],
+      });
       expect(eventDataObject).to.deep.equal(invalidRoutingNumberDataObject);
     });
     it('returns the correct data when an invalid routing number error is passed', () => {
-      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
-        {
-          title: 'Unprocessable Entity',
-          detail: 'One or more unprocessable user payment properties',
-          code: '126',
-          source: 'EVSS::PPIU::Service',
-          status: '422',
-          meta: {
-            messages: [
-              {
-                key: 'cnp.payment.generic.error.message',
-                severity: 'ERROR',
-                text: 'Invalid Routing Number',
-              },
-            ],
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject({
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'One or more unprocessable user payment properties',
+            code: '126',
+            source: 'EVSS::PPIU::Service',
+            status: '422',
+            meta: {
+              messages: [
+                {
+                  key: 'cnp.payment.generic.error.message',
+                  severity: 'ERROR',
+                  text: 'Invalid Routing Number',
+                },
+              ],
+            },
           },
-        },
-      ]);
+        ],
+      });
       expect(eventDataObject).to.deep.equal(invalidRoutingNumberDataObject);
     });
     it('returns the correct data when a payment restriction indicators error is passed', () => {
-      const eventDataObject = createCNPDirectDepositAnalyticsDataObject([
-        {
-          title: 'Unprocessable Entity',
-          detail: 'One or more unprocessable user payment properties',
-          code: '126',
-          source: 'EVSS::PPIU::Service',
-          status: '422',
-          meta: {
-            messages: [
-              {
-                key: 'payment.restriction.indicators.present',
-                severity: 'ERROR',
-                text: '',
-              },
-            ],
+      const eventDataObject = createCNPDirectDepositAnalyticsDataObject({
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'One or more unprocessable user payment properties',
+            code: '126',
+            source: 'EVSS::PPIU::Service',
+            status: '422',
+            meta: {
+              messages: [
+                {
+                  key: 'payment.restriction.indicators.present',
+                  severity: 'ERROR',
+                  text: '',
+                },
+              ],
+            },
           },
-        },
-      ]);
+        ],
+      });
       expect(eventDataObject).to.deep.equal(
         paymentRestrictionIndicatorsDataObject,
       );
@@ -303,7 +319,7 @@ describe('profile utils', () => {
           },
         },
       ];
-      expect(hasInvalidHomePhoneNumberError(errors)).to.equal(false);
+      expect(hasInvalidHomePhoneNumberError(errors)).to.not.be.ok;
     });
 
     it('should return false with multiple errors with text not matching desired error conditions', () => {
@@ -331,7 +347,7 @@ describe('profile utils', () => {
           },
         },
       ];
-      expect(hasInvalidHomePhoneNumberError(errors)).to.equal(false);
+      expect(!!hasInvalidHomePhoneNumberError(errors)).to.be.not.ok;
     });
   });
 });

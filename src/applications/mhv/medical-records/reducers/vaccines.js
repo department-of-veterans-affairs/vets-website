@@ -1,4 +1,7 @@
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
+import { emptyField } from '../util/constants';
+import { isArrayAndHasItems } from '../util/helpers';
 
 const initialState = {
   /**
@@ -17,33 +20,28 @@ const initialState = {
  * @param {Object} vaccine a FHIR vaccine resource
  * @returns a vaccine object that this application can use, or null if the param is null/undefined
  */
-const convertVaccine = vaccine => {
+export const convertVaccine = vaccine => {
   if (typeof vaccine === 'undefined' || vaccine === null) {
     return null;
   }
   return {
     id: vaccine.id,
     name: vaccine.vaccineCode?.text,
-    date: vaccine.occurrenceDateTime,
-    // type: ?
-    // dosage: ?
-    // facility: Possibly needs a separate call to Encounter,
-    // reactions: Possibly needs separate calls to Observation,
-    comments: vaccine.note?.text,
+    date: formatDateLong(vaccine.occurrenceDateTime) || emptyField,
+    location: vaccine.location?.display || emptyField,
+    manufacturer: vaccine.manufacturer || emptyField,
+    reactions: vaccine.reaction?.map(item => item.detail?.display) || [],
+    notes:
+      (isArrayAndHasItems(vaccine.note) &&
+        vaccine.note.map(note => note.text)) ||
+      [],
   };
 };
 
 export const vaccineReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Vaccines.GET: {
-      // The server returns a bundle which includes ancillary data. Filter to
-      // isolate the vaccine. There will only ever be one.
-      const vaccine = action.response?.entry
-        ? action.response.entry.filter(
-            entry => entry.resource.resourceType === 'Immunization',
-          )[0].resource
-        : null;
-      // const vaccine = action.response;
+      const vaccine = action.response;
       return {
         ...state,
         vaccineDetails: convertVaccine(vaccine),

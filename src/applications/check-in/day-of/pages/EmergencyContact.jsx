@@ -72,8 +72,10 @@ const EmergencyContact = props => {
       />
       <EmergencyContactDisplay
         emergencyContact={emergencyContact}
+        eyebrow={t('check-in')}
         yesAction={yesClick}
         noAction={noClick}
+        router={router}
       />
     </>
   );

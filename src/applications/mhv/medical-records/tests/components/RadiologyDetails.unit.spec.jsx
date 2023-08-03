@@ -16,11 +16,10 @@ describe('Radiology details component', () => {
     imagingProvider: 'John J. Lydon',
     id: 122,
     date: '2022-04-13T17:42:46.000Z',
-    vaccineId: '000001',
     imagingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     reactions: ['Just this one'],
-    labResults:
+    results:
       'This exam was performed at 673RD MED GRP, Elmendorf AFB. The report is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************',
     images: ['image', 'image', 'image'],
   };
@@ -35,7 +34,7 @@ describe('Radiology details component', () => {
 
   const setup = (state = initialState) => {
     return renderWithStoreAndRouter(
-      <RadiologyDetails results={mockRadio} fullState={state} />,
+      <RadiologyDetails record={mockRadio} fullState={state} />,
       {
         initialState: state,
         reducers: reducer,
@@ -71,10 +70,10 @@ describe('Radiology details component', () => {
   it('should display the lab results', () => {
     const screen = setup();
 
-    const labResults = screen.getByText(mockRadio.labResults.split('\n')[0], {
+    const results = screen.getByText(mockRadio.results.split('\n')[0], {
       exact: false,
       selector: 'p',
     });
-    expect(labResults).to.exist;
+    expect(results).to.exist;
   });
 });

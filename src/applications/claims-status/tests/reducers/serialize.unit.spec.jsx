@@ -24,6 +24,7 @@ describe('Claim Serializer', () => {
           {
             id: 1,
             trackedItemId: null,
+            uploadDate: '2010-10-01',
           },
         ],
         trackedItems: [],
@@ -32,7 +33,15 @@ describe('Claim Serializer', () => {
 
     const serializedClaim = serializeClaim(claim);
 
-    expect(serializedClaim).to.eql(claim);
+    expect(serializedClaim).to.eql({
+      ...claim,
+      attributes: {
+        ...claim.attributes,
+        supportingDocuments: [
+          { ...claim.attributes.supportingDocuments[0], date: '2010-10-01' },
+        ],
+      },
+    });
   });
 
   it('should return no supporting docs when there is only one and it is associated with a tracked item', () => {

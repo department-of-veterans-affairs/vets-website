@@ -164,7 +164,7 @@ const formConfig = {
       pages: {
         veteranProfileInformation: {
           path: 'veteran-information/personal-information',
-          title: 'Veteran\u2019s profile information',
+          title: 'Veteran\u2019s personal information',
           depends: formData => formData['view:isLoggedIn'],
           CustomPage: VeteranProfileInformation,
           CustomPageReview: null,
@@ -175,7 +175,9 @@ const formConfig = {
           path: 'veteran-information/profile-information',
           title: 'Veteran\u2019s name',
           initialData: {},
-          depends: formData => !formData['view:isLoggedIn'],
+          depends: formData =>
+            !formData['view:isLoggedIn'] &&
+            !formData['view:isRemoveIdFieldsEnabled'],
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
@@ -183,7 +185,9 @@ const formConfig = {
           path: 'veteran-information/profile-information-ssn',
           title: 'Social Security number',
           initialData: {},
-          depends: formData => !formData['view:isLoggedIn'],
+          depends: formData =>
+            !formData['view:isLoggedIn'] &&
+            !formData['view:isRemoveIdFieldsEnabled'],
           uiSchema: personalInformationSsn.uiSchema,
           schema: personalInformationSsn.schema,
         },
@@ -192,7 +196,9 @@ const formConfig = {
           title: 'Date of birth',
           initialData: {},
           depends: formData =>
-            !formData['view:isLoggedIn'] || !formData['view:userDob'],
+            (!formData['view:isLoggedIn'] &&
+              !formData['view:isRemoveIdFieldsEnabled']) ||
+            (formData['view:isLoggedIn'] && !formData['view:userDob']),
           uiSchema: personalInformationDOB.uiSchema,
           schema: personalInformationDOB.schema,
         },
@@ -388,11 +394,11 @@ const formConfig = {
     },
     // NOTE: for household v2 only -- rename routes when v2 is fully-adopted
     householdInformationV2: {
-      title: 'Household information',
+      title: 'Household financial information',
       pages: {
         v2FinancialOnboarding: {
-          path: 'household-information-v2/financial-onboarding',
-          title: 'Financial onboarding',
+          path: 'household-information-v2/financial-information-use',
+          title: 'Financial information use',
           depends: formData =>
             !isShortFormEligible(formData) &&
             formData['view:isHouseholdV2Enabled'],
@@ -402,8 +408,8 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
         },
         v2FinancialDisclosure: {
-          path: 'household-information-v2/financial-disclosure',
-          title: 'Financial disclosure',
+          path: 'household-information-v2/share-financial-information',
+          title: 'Share financial information',
           depends: formData =>
             !isShortFormEligible(formData) &&
             formData['view:isHouseholdV2Enabled'],
@@ -411,8 +417,8 @@ const formConfig = {
           schema: v2FinancialDisclosure.schema,
         },
         v2FinancialConfirmation: {
-          path: 'household-information-v2/confirm-financial-disclosure',
-          title: 'Financial disclosure confirmation',
+          path: 'household-information-v2/share-financial-information-confirm',
+          title: 'Share financial information confirmation',
           depends: formData =>
             !isShortFormEligible(formData) &&
             !formData.discloseFinancialInformation &&
@@ -423,7 +429,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
         },
         v2FinancialInformation: {
-          path: 'household-information-v2/financial-information',
+          path: 'household-information-v2/financial-information-needed',
           title: 'Financial information needed',
           depends: formData =>
             !isShortFormEligible(formData) &&
@@ -445,8 +451,8 @@ const formConfig = {
           schema: v2MaritalStatus.schema,
         },
         v2SpouseBasicInformation: {
-          path: 'household-information-v2/spouse-basic-information',
-          title: 'Spouse\u2019s basic information',
+          path: 'household-information-v2/spouse-personal-information',
+          title: 'Spouse\u2019s personal information',
           initialData: {},
           depends: formData =>
             !isShortFormEligible(formData) &&
@@ -472,6 +478,7 @@ const formConfig = {
           depends: formData =>
             !isShortFormEligible(formData) &&
             includeSpousalInformation(formData) &&
+            !formData.cohabitedLastYear &&
             formData['view:isHouseholdV2Enabled'],
           uiSchema: v2SpouseFinancialSupport.uiSchema,
           schema: v2SpouseFinancialSupport.schema,

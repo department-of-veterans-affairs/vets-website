@@ -1,8 +1,10 @@
 import React, { useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
+import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from 'platform/utilities/ui';
 
 import {
@@ -16,6 +18,40 @@ import DownloadLink from './DownloadLink';
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
 // case we end up filtering out deferred and expired issues
+export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
+  let Wrap = 'h3';
+  const wrapClassNames = ['vads-u-font-size--h3'];
+  if (onReviewPage) {
+    // Using a div in review mode, see
+    // https://dsva.slack.com/archives/C8E985R32/p1672863010797129?thread_ts=1672860474.162309&cid=C8E985R32
+    Wrap = inReviewMode ? 'div' : 'h4';
+    wrapClassNames.push(
+      'vads-u-font-family--serif',
+      `vads-u-margin-top--${inReviewMode ? '2' : '0'}`,
+    );
+  } else {
+    wrapClassNames.push('vads-u-margin-top--0');
+  }
+  return onReviewPage && inReviewMode ? null : (
+    <>
+      <legend className="vads-u-width--full vads-u-padding-top--0 vads-u-border-top--0">
+        <Wrap className={wrapClassNames.join(' ')}>
+          Select the issues you’d like us to review
+        </Wrap>
+      </legend>
+      <div className="vads-u-margin-bottom--2">
+        These are the issues we have on file for you. If an issue is missing
+        from the list, you can add it here.
+      </div>
+    </>
+  );
+};
+
+ContestableIssuesLegend.propTypes = {
+  inReviewMode: PropTypes.bool,
+  onReviewPage: PropTypes.bool,
+};
+
 export const ContestableIssuesTitle = ({ formData = {} } = {}) => {
   if (formData.contestedIssues?.length === 0) {
     return (
@@ -115,7 +151,10 @@ export const disabilitiesExplanationAlert = (
 );
 
 export const disabilitiesExplanation = (
-  <va-additional-info trigger="Don’t see the issue you’re looking for?">
+  <va-additional-info
+    trigger="Don’t see the issue you’re looking for?"
+    class="vads-u-margin-top--4"
+  >
     {disabilitiesList}
   </va-additional-info>
 );
@@ -139,13 +178,59 @@ export const MaxSelectionsAlert = ({ closeModal }) => (
   </VaModal>
 );
 
-export const noneSelected = 'Please select at least one issue';
+MaxSelectionsAlert.propTypes = {
+  closeModal: PropTypes.func,
+};
+
+export const NoIssuesLoadedAlert = ({ submitted }) => {
+  const wrapAlert = useRef(null);
+
+  useEffect(
+    () => {
+      if (wrapAlert?.current) {
+        scrollAndFocus(wrapAlert.current);
+      }
+    },
+    [wrapAlert, submitted],
+  );
+
+  recordEvent({
+    event: 'visible-alert-box',
+    'alert-box-type': 'error',
+    'alert-box-heading': 'Sorry, we couldn’t find any eligible issues',
+    'error-key': 'missing_eligible_issues',
+    'alert-box-full-width': false,
+    'alert-box-background-only': false,
+    'alert-box-closeable': false,
+    'reason-for-alert': 'Missing eligible issues',
+  });
+
+  return (
+    <div ref={wrapAlert}>
+      <va-alert status="error" class="vads-u-margin-bottom--2">
+        <h3 slot="headline">Sorry, we couldn’t find any eligible issues</h3>
+        <p>
+          If you’d like to add an issue for review, please select "Add a new
+          issue" to get started.
+        </p>
+      </va-alert>
+    </div>
+  );
+};
+
+NoIssuesLoadedAlert.propTypes = {
+  submitted: PropTypes.bool,
+};
+
+export const noneSelected =
+  'You must select at least 1 issue before you can continue filling out your request.';
 
 /**
  * Shows the alert box only if the form has been submitted
  */
-export const NoneSelectedAlert = ({ count }) => {
+export const NoneSelectedAlert = ({ count, headerLevel = 3 }) => {
   const wrapAlert = useRef(null);
+  const Header = `H${headerLevel}`;
 
   useEffect(
     () => {
@@ -155,18 +240,50 @@ export const NoneSelectedAlert = ({ count }) => {
     },
     [wrapAlert],
   );
+
+  const title = `You’ll need to ${
+    count === 0 ? 'add, and select,' : 'select'
+  } an issue`;
+
+  recordEvent({
+    event: 'visible-alert-box',
+    'alert-box-type': 'error',
+    'alert-box-heading': title,
+    'error-key': 'no_issues_selected',
+    'alert-box-full-width': false,
+    'alert-box-background-only': false,
+    'alert-box-closeable': false,
+    'reason-for-alert': 'Missing eligible issues',
+  });
+
   return (
     <div ref={wrapAlert}>
-      <va-alert status="error">
-        <h3
+      <va-alert status="error" class="vads-u-margin-bottom--2">
+        <Header
           slot="headline"
           className="eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2"
         >
-          {`Please ${
-            count === 0 ? 'add, and select,' : 'select'
-          } at least one issue, so we can process your request`}
-        </h3>
+          {title}
+        </Header>
+        <p>{noneSelected}</p>
       </va-alert>
     </div>
   );
+};
+
+NoneSelectedAlert.propTypes = {
+  count: PropTypes.number,
+  headerLevel: PropTypes.number,
+};
+
+export const removeModalContent = {
+  title: 'Are you sure you want to remove this issue?',
+  description: issueName => (
+    <span>
+      We’ll remove <strong>{issueName}</strong> from the issues you’d like us to
+      review
+    </span>
+  ),
+  yesButton: 'Yes, remove this',
+  noButton: 'No, keep this',
 };

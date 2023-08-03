@@ -37,7 +37,7 @@ export const advanceToHouseholdV2 = () => {
   cy.get('[name="root_vaPensionType"]').check('No');
   goToNextPage('/military-service/service-information');
   goToNextPage('/military-service/additional-information');
-  goToNextPage('/household-information-v2/financial-onboarding');
+  goToNextPage('/household-information-v2/financial-information-use');
 };
 
 export const advanceFromHouseholdV2ToReview = () => {
@@ -93,12 +93,18 @@ export const fillDependentBasicInformation = dependent => {
 };
 
 export const fillSpousalBasicInformation = () => {
-  const { spouseDateOfBirth, spouseFullName, dateOfMarriage } = testData;
+  const {
+    spouseDateOfBirth,
+    spouseFullName,
+    spouseSocialSecurityNumber,
+    dateOfMarriage,
+  } = testData;
 
   cy.get('#root_spouseFullName_first').type(spouseFullName.first);
   cy.get('#root_spouseFullName_middle').type(spouseFullName.middle);
   cy.get('#root_spouseFullName_last').type(spouseFullName.last);
   cy.get('#root_spouseFullName_suffix').type(spouseFullName.suffix);
+  cy.get('#root_spouseSocialSecurityNumber').type(spouseSocialSecurityNumber);
 
   const [birthYear, birthMonth, birthDay] = spouseDateOfBirth
     .split('-')

@@ -29,7 +29,9 @@ const SignatureCheckbox = ({
     : undefined;
 
   const handleCheck = event => {
-    setIsChecked(event.target.value);
+    setIsChecked(
+      event.target.shadowRoot.querySelector('#checkbox-element').checked,
+    );
     recordEvent({
       'caregivers-poa-certification-checkbox-checked': event.target.value,
       fullName,

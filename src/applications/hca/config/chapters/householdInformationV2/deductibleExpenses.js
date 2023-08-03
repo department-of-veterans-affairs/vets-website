@@ -2,9 +2,11 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import { validateCurrency } from '../../../utils/validation';
-import { DeductableExpensesAlert } from '../../../components/FormAlerts';
-import { EducationalExpensesDescription } from '../../../components/FormDescriptions';
-import CustomReviewField from '../../../components/FormReview/CustomReviewField';
+import {
+  DeductibleExpensesV2Description,
+  EducationalExpensesDescription,
+  MedicalExpensesDescription,
+} from '../../../components/FormDescriptions';
 
 const {
   deductibleEducationExpenses,
@@ -12,42 +14,69 @@ const {
   deductibleMedicalExpenses,
 } = fullSchemaHca.properties;
 
+const date = new Date();
+const lastYear = date.getFullYear() - 1;
+
 export default {
   uiSchema: {
-    'ui:title': 'Last year\u2019s deductible expenses',
-    'ui:description': DeductableExpensesAlert,
-    deductibleMedicalExpenses: {
-      ...currencyUI(
-        'Amount you or your spouse paid in non-reimbursable medical expenses this past year.',
-      ),
-      'ui:validations': [validateCurrency],
+    'ui:title': DeductibleExpensesV2Description,
+    'view:deductibleMedicalExpenses': {
+      'ui:title': 'Non-reimbursable medical expenses',
+      'ui:description': MedicalExpensesDescription,
+      deductibleMedicalExpenses: {
+        ...currencyUI(
+          `Enter the amount you or your spouse (if you’re married) paid in non-reimbursable medical expenses in ${lastYear}`,
+        ),
+        'ui:validations': [validateCurrency],
+      },
     },
-    deductibleFuneralExpenses: {
-      ...currencyUI(
-        'Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.',
-      ),
-      'ui:validations': [validateCurrency],
-    },
-    deductibleEducationExpenses: {
-      ...currencyUI(
-        'Amount you paid for anything related to your own college or vocational education this past year.',
-      ),
+    'view:deductibleEducationExpenses': {
+      'ui:title': 'College or vocational education expenses',
       'ui:description': EducationalExpensesDescription,
-      'ui:validations': [validateCurrency],
-      'ui:reviewField': CustomReviewField,
+      deductibleEducationExpenses: {
+        ...currencyUI(
+          `Enter the amount you paid for your own college or vocational education in ${lastYear}`,
+        ),
+        'ui:validations': [validateCurrency],
+      },
+    },
+    'view:deductibleFuneralExpenses': {
+      'ui:title':
+        'Funeral and burial expenses for a spouse or dependent who died',
+      'ui:description':
+        'Funeral and burial expenses are any payments made by you, like prepaid expenses.',
+      deductibleFuneralExpenses: {
+        ...currencyUI(
+          `Enter the amount you paid in funeral or burial expenses in ${lastYear}`,
+        ),
+        'ui:validations': [validateCurrency],
+      },
     },
   },
   schema: {
     type: 'object',
-    required: [
-      'deductibleMedicalExpenses',
-      'deductibleFuneralExpenses',
-      'deductibleEducationExpenses',
-    ],
     properties: {
-      deductibleMedicalExpenses,
-      deductibleFuneralExpenses,
-      deductibleEducationExpenses,
+      'view:deductibleMedicalExpenses': {
+        type: 'object',
+        required: ['deductibleMedicalExpenses'],
+        properties: {
+          deductibleMedicalExpenses,
+        },
+      },
+      'view:deductibleEducationExpenses': {
+        type: 'object',
+        required: ['deductibleEducationExpenses'],
+        properties: {
+          deductibleEducationExpenses,
+        },
+      },
+      'view:deductibleFuneralExpenses': {
+        type: 'object',
+        required: ['deductibleFuneralExpenses'],
+        properties: {
+          deductibleFuneralExpenses,
+        },
+      },
     },
   },
 };

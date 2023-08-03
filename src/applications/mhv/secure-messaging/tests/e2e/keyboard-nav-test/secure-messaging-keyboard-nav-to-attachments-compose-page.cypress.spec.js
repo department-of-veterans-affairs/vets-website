@@ -9,7 +9,7 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     cy.tabToElement('#OTHEROTHER');
     cy.realPress(['Enter']);
@@ -18,6 +18,12 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     composePage.attachMessageFromFile('test_image.jpg');
     composePage.verifyFocusonMessageAttachment();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

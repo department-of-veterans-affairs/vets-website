@@ -1,11 +1,9 @@
-import React, { useMemo } from 'react';
-import environment from 'platform/utilities/environment';
-import { useSelector, connect } from 'react-redux';
-// import PropTypes from 'prop-types';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import axios from 'axios';
+import React, { useMemo, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import _ from 'lodash';
+import environment from 'platform/utilities/environment';
+import { apiRequest } from 'platform/utilities/api';
+// import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import StartConvoAndTrackUtterances from './startConvoAndTrackUtterances';
 import MarkdownRenderer from './markdownRenderer';
@@ -14,12 +12,12 @@ import {
   CONVERSATION_ID_KEY,
   TOKEN_KEY,
   clearBotSessionStorage,
+  IS_RX_SKILL,
 } from '../chatbox/utils';
 
-const JWT_TOKEN = 'JWT_TOKEN';
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
-const WebChat = ({ token, WebChatFramework, apiSession, fetchJwtToken }) => {
+const WebChat = ({ token, WebChatFramework, apiSession }) => {
   const { ReactWebChat, createDirectLine, createStore } = WebChatFramework;
   const csrfToken = localStorage.getItem('csrfToken');
   const userFirstName = useSelector(state =>
@@ -28,20 +26,6 @@ const WebChat = ({ token, WebChatFramework, apiSession, fetchJwtToken }) => {
   const userUuid = useSelector(state => state.user.profile.accountUuid);
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
 
-  const fetchJwtTokenAndSaveToSessionStorage = async () => {
-    try {
-      const JwtResponse = await axios.get(
-        'https://sqa.eauth.va.gov/MAP/users/v2/session/jwt',
-        { withCredentials: true },
-      );
-      sessionStorage.setItem(JWT_TOKEN, JwtResponse.data);
-    } catch (error) {
-      sessionStorage.setItem(JWT_TOKEN, error.message);
-    }
-  };
-  if (fetchJwtToken) {
-    fetchJwtTokenAndSaveToSessionStorage();
-  }
   const store = useMemo(
     () =>
       createStore(
@@ -135,6 +119,70 @@ const WebChat = ({ token, WebChatFramework, apiSession, fetchJwtToken }) => {
     }
   };
 
+  async function createPonyFill(webchat) {
+    async function callVirtualAgentVoiceTokenApi() {
+      return apiRequest('/virtual_agent_speech_token', {
+        method: 'POST',
+      });
+    }
+    const speechToken = await callVirtualAgentVoiceTokenApi();
+    return webchat.createCognitiveServicesSpeechServicesPonyfillFactory({
+      credentials: {
+        region: 'eastus',
+        authorizationToken: speechToken.token,
+      },
+    });
+  }
+
+  const [speechPonyfill, setBotPonyfill] = useState();
+
+  useEffect(() => {
+    createPonyFill(window.WebChat).then(res => {
+      setBotPonyfill(() => res);
+    });
+  }, []);
+  const [isRXSkill, setIsRXSkill] = useState();
+  useEffect(
+    () => {
+      const getRXStorageSession = () =>
+        setIsRXSkill(() => sessionStorage.getItem(IS_RX_SKILL));
+
+      window.addEventListener('rxSkill', getRXStorageSession);
+      return () => window.removeEventListener('rxSkill', getRXStorageSession);
+    },
+    [isRXSkill],
+  );
+
+  if (isRXSkill === 'true') {
+    // check if window.WebChat exists
+    if (window.WebChat) {
+      // find the send box element
+      const sendBox = document.querySelector(
+        'input[class="webchat__send-box-text-box__input"]',
+      );
+      // change the placeholder text of send box
+      sendBox.setAttribute(
+        'aria-label',
+        'Type or enable the microphone to speak',
+      );
+      sendBox.setAttribute(
+        'placeholder',
+        'Type or enable the microphone to speak',
+      );
+    }
+    return (
+      <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
+        <ReactWebChat
+          styleOptions={styleOptions}
+          directLine={directLine}
+          store={store}
+          renderMarkdown={renderMarkdown}
+          onTelemetry={handleTelemetry}
+          webSpeechPonyfillFactory={speechPonyfill}
+        />
+      </div>
+    );
+  }
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
@@ -148,17 +196,4 @@ const WebChat = ({ token, WebChatFramework, apiSession, fetchJwtToken }) => {
   );
 };
 
-// useVirtualAgentToken.propTypes = {
-//   virtualAgentFetchJwtToken: PropTypes.bool,
-// };
-
-const fetchVirtualAgentJwtToken = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.virtualAgentFetchJwtToken];
-
-// const virtualAgentFetchJwtToken = () => true;
-
-const mapStateToProps = state => ({
-  fetchJwtToken: fetchVirtualAgentJwtToken(state),
-});
-
-export default connect(mapStateToProps)(WebChat);
+export default WebChat;

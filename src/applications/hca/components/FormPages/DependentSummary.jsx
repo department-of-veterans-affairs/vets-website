@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import DependentDeclarationField from '../FormFields/DependentDeclarationField';
@@ -27,7 +28,7 @@ const DependentSummary = props => {
     dependents = [],
     [DEPENDENT_VIEW_FIELDS.report]: reportDependents = null,
   } = data;
-  const pageTitle = dependents.length ? 'Review your Dependents' : 'Dependents';
+  const pageTitle = dependents.length ? 'Review your dependents' : '';
   const mode = onReviewPage ? 'update' : 'edit';
 
   /**
@@ -80,8 +81,14 @@ const DependentSummary = props => {
 
   return (
     <form className="rjsf">
-      <fieldset className="vads-u-margin-y--2">
-        <legend id="root__title" className="schemaform-block-title">
+      <fieldset className="vads-u-margin-bottom--2">
+        <legend
+          id="root__title"
+          className={classNames({
+            'schemaform-block-title': true,
+            'sr-only': !pageTitle,
+          })}
+        >
           {pageTitle}
         </legend>
 

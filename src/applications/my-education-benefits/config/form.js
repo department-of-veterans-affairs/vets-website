@@ -27,13 +27,15 @@ import toursOfDutyUI from '../definitions/toursOfDuty';
 
 import AccordionField from '../components/AccordionField';
 import ApplicantIdentityView from '../components/ApplicantIdentityView';
+import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
 import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
+import CustomEmailField from '../components/CustomEmailField';
+import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
 import DateReviewField from '../components/DateReviewField';
 // import DirectDepositViewField from '../components/DirectDepositViewField';
-import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
 import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -45,6 +47,7 @@ import CustomPreSubmitInfo from '../components/PreSubmitInfo';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
 import TextNotificationsDisclaimer from '../components/TextNotificationsDisclaimer';
 import YesNoReviewField from '../components/YesNoReviewField';
+import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 
 import { ELIGIBILITY } from '../actions';
 import { formFields } from '../constants';
@@ -165,7 +168,7 @@ function titleCase(str) {
 }
 
 function phoneUISchema(category) {
-  return {
+  const schema = {
     'ui:options': {
       hideLabelText: true,
       showFieldLabel: false,
@@ -197,6 +200,13 @@ function phoneUISchema(category) {
       },
     },
   };
+
+  // use custom component if mobile phone
+  if (category === 'mobile') {
+    schema.phone['ui:widget'] = CustomPhoneNumberField;
+  }
+
+  return schema;
 }
 
 function phoneSchema() {
@@ -396,6 +406,7 @@ const formConfig = {
           title: 'Your information',
           path: 'applicant-information/personal-information',
           subTitle: 'Your information',
+          CustomPageReview: ApplicantInformationReviewPage,
           instructions:
             'This is the personal information we have on file for you.',
           uiSchema: {
@@ -422,8 +433,7 @@ const formConfig = {
                 </>
               ),
               'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
+                hideIf: formData => formData.showMebEnhancements06,
               },
             },
             [formFields.formId]: {
@@ -441,28 +451,40 @@ const formConfig = {
               },
             },
             'view:applicantInformation': {
+              'ui:options': {
+                hideIf: formData => !formData.showMebEnhancements06,
+              },
               'ui:description': (
                 <>
                   <ApplicantIdentityView />
                 </>
               ),
-              'ui:options': {
-                hideIf: formData =>
-                  !formData.showMebEnhancements06 || !formData.isLOA3,
-              },
             },
             [formFields.viewUserFullName]: {
+              'ui:options': {
+                hideIf: formData => formData.showMebEnhancements06,
+              },
               'ui:description': (
-                <p className="meb-review-page-only">
-                  If you’d like to update your personal information, please edit
-                  the form fields below.
-                </p>
+                <>
+                  <p className="meb-review-page-only">
+                    If you’d like to update your personal information, please
+                    edit the form fields below.
+                  </p>
+                </>
               ),
               [formFields.userFullName]: {
+                'ui:options': {
+                  hideIf: formData => formData.showMebEnhancements06,
+                },
+                'ui:required': formData => !formData?.showMebEnhancements06,
                 ...fullNameUI,
                 first: {
                   ...fullNameUI.first,
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
                   'ui:title': 'Your first name',
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidName(field)) {
@@ -484,6 +506,10 @@ const formConfig = {
                 last: {
                   ...fullNameUI.last,
                   'ui:title': 'Your last name',
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidLastName(field)) {
@@ -509,6 +535,10 @@ const formConfig = {
                 middle: {
                   ...fullNameUI.middle,
                   'ui:title': 'Your middle name',
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidName(field)) {
@@ -527,19 +557,15 @@ const formConfig = {
                     },
                   ],
                 },
-                'ui:options': {
-                  hideIf: formData =>
-                    formData.showMebEnhancements06 && formData.isLOA3,
-                },
               },
             },
             [formFields.dateOfBirth]: {
+              'ui:options': {
+                hideIf: formData => formData.showMebEnhancements06,
+              },
+              'ui:required': formData => !formData?.showMebEnhancements06,
               ...currentOrPastDateUI('Your date of birth'),
               'ui:reviewField': CustomReviewDOBField,
-              'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
-              },
             },
           },
           schema: {
@@ -557,7 +583,7 @@ const formConfig = {
                 properties: {},
               },
               [formFields.viewUserFullName]: {
-                required: [formFields.userFullName],
+                // required: [formFields.userFullName],
                 type: 'object',
                 properties: {
                   [formFields.userFullName]: {
@@ -653,7 +679,7 @@ const formConfig = {
               email: {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
-                'ui:reviewField': EmailReviewField,
+                'ui:widget': CustomEmailField,
               },
               confirmEmail: {
                 ...emailUI('Confirm email address'),
@@ -671,6 +697,9 @@ const formConfig = {
                   }
                 },
               ],
+            },
+            'view:confirmDuplicateData': {
+              'ui:description': DuplicateContactInfoModal,
             },
           },
           schema: {
@@ -694,6 +723,10 @@ const formConfig = {
                   email,
                   confirmEmail: email,
                 },
+              },
+              'view:confirmDuplicateData': {
+                type: 'object',
+                properties: {},
               },
             },
           },
@@ -940,13 +973,32 @@ const formConfig = {
                     form =>
                       form[formFields.viewPhoneNumbers].mobilePhoneNumber.phone,
                     form => form[formFields.viewPhoneNumbers].phoneNumber.phone,
-                    (mobilePhoneNumber, homePhoneNumber) => {
+                    form => form?.duplicateEmail,
+                    form => form?.duplicatePhone,
+                    (
+                      mobilePhoneNumber,
+                      homePhoneNumber,
+                      duplicateEmail,
+                      duplicatePhone,
+                    ) => {
                       const invalidContactMethods = [];
-                      if (!mobilePhoneNumber) {
+
+                      const dupePhonePresent = duplicatePhone?.filter(
+                        entry => entry.dupe === true,
+                      );
+
+                      if (!mobilePhoneNumber || dupePhonePresent?.length > 0) {
                         invalidContactMethods.push('Mobile Phone');
                       }
                       if (!homePhoneNumber) {
                         invalidContactMethods.push('Home Phone');
+                      }
+                      const dupeEmailPresent = duplicateEmail?.filter(
+                        entry => entry.dupe === true,
+                      );
+
+                      if (dupeEmailPresent?.length > 0) {
+                        invalidContactMethods.push('Email');
                       }
 
                       return {
@@ -956,6 +1008,7 @@ const formConfig = {
                       };
                     },
                   );
+
                   return form => filterContactMethods(form);
                 })(),
               },
@@ -981,6 +1034,13 @@ const formConfig = {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
                 'ui:widget': 'radio',
+                'ui:required': formData =>
+                  formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === false && entry?.dupe !== '',
+                  ) ||
+                  formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === false && entry?.dupe !== '',
+                  ),
                 'ui:validations': [
                   (errors, field, formData) => {
                     const isYes = field.slice(0, 4).includes('Yes');
@@ -989,6 +1049,12 @@ const formConfig = {
                     const { isInternational } = formData[
                       formFields.viewPhoneNumbers
                     ].mobilePhoneNumber;
+                    const hasDupePhone = formData?.duplicatePhone?.filter(
+                      entry => entry?.dupe === true,
+                    );
+                    const hasDupeEmail = formData?.duplicateEmail?.filter(
+                      entry => entry?.dupe === true,
+                    );
 
                     if (isYes) {
                       if (!phoneExist) {
@@ -999,11 +1065,26 @@ const formConfig = {
                         errors.addError(
                           "You can't select that response because you have an international mobile phone number",
                         );
+                      } else if (hasDupePhone?.length > 0) {
+                        errors.addError(
+                          "You can't select that response because your mobile phone number is on file for another person",
+                        );
                       }
+                    } else if (hasDupeEmail?.length > 0 && !isYes) {
+                      errors.addError(
+                        "You can't select that response because your email is on file for another person",
+                      );
                     }
                   },
                 ],
                 'ui:options': {
+                  hideIf: formData =>
+                    formData?.duplicateEmail?.some(
+                      entry => entry?.dupe === true,
+                    ) &&
+                    formData?.duplicatePhone?.some(
+                      entry => entry?.dupe === true,
+                    ),
                   widgetProps: {
                     Yes: { 'data-info': 'yes' },
                     No: { 'data-info': 'no' },
@@ -1043,7 +1124,8 @@ const formConfig = {
                   ) ||
                   formData[formFields.viewPhoneNumbers][
                     formFields.mobilePhoneNumber
-                  ].isInternational,
+                  ].isInternational ||
+                  formData?.duplicatePhone?.some(entry => entry?.dupe === true),
               },
             },
             'view:noMobilePhoneAlert': {
@@ -1085,6 +1167,104 @@ const formConfig = {
                   ].isInternational,
               },
             },
+            'view:emailOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get email notifications because your
+                    email is on file for another person with education benefits.
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === false && entry?.dupe !== '',
+                  ) ||
+                  (formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === true,
+                  ) &&
+                    formData?.duplicatePhone?.some(
+                      entry => entry?.dupe === true,
+                    )) ||
+                  (!formData?.duplicateEmail && !formData?.duplicatePhone),
+              },
+            },
+            'view:mobilePhoneOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get text notifications because your
+                    mobile phone number is on file for another person with
+                    education benefits. You will not be able to take full
+                    advantage of VA’s electronic notifications and enrollment
+                    verifications available. If you cannot, certain electronic
+                    services will be limited or unavailable.
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  (formData?.duplicatePhone &&
+                    formData?.duplicatePhone?.some(
+                      entry => entry?.dupe === false && entry?.dupe !== '',
+                    )) ||
+                  (formData?.duplicateEmail &&
+                    formData?.duplicateEmail?.some(
+                      entry => entry?.dupe === true,
+                    ) &&
+                    formData?.duplicatePhone &&
+                    formData?.duplicatePhone?.some(
+                      entry => entry?.dupe === true,
+                    )) ||
+                  (!formData?.duplicateEmail && !formData?.duplicatePhone),
+              },
+            },
+            'view:duplicateEmailAndPhoneAndNoHomePhone': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get text notifications because your
+                    mobile phone number is on file for another person with
+                    education benefits. You will not be able to take full
+                    advantage of VA’s electronic notifications and enrollment
+                    verifications available. If you cannot, certain electronic
+                    services will be limited or unavailable.{' '}
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment/"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === false && entry?.dupe !== '',
+                  ) ||
+                  formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === false && entry?.dupe !== '',
+                  ) ||
+                  (!formData?.duplicateEmail && !formData?.duplicatePhone),
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -1099,7 +1279,7 @@ const formConfig = {
               },
               [formFields.viewReceiveTextMessages]: {
                 type: 'object',
-                required: [formFields.receiveTextMessages],
+                // required: [formFields.receiveTextMessages],
                 properties: {
                   [formFields.receiveTextMessages]: {
                     type: 'string',
@@ -1119,6 +1299,18 @@ const formConfig = {
                 properties: {},
               },
               'view:internationalTextMessageAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:emailOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:mobilePhoneOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:duplicateEmailAndPhoneAndNoHomePhone': {
                 type: 'object',
                 properties: {},
               },

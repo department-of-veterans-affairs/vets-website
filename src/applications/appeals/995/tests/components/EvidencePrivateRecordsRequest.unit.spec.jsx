@@ -4,6 +4,7 @@ import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
 import EvidencePrivateRecordsRequest from '../../components/EvidencePrivateRecordsRequest';
+import { privateRecordsRequestTitle } from '../../content/evidencePrivateRecordsRequest';
 import {
   errorMessages,
   EVIDENCE_PRIVATE,
@@ -23,6 +24,27 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     expect($('va-radio', container)).to.exist;
     expect($('va-additional-info', container)).to.exist;
     expect($$('button', container).length).to.eq(2);
+  });
+
+  it('should capture google analytics', () => {
+    const { container } = render(
+      <div>
+        <EvidencePrivateRecordsRequest setFormData={() => {}} />
+      </div>,
+    );
+
+    const changeEvent = new CustomEvent('selected', {
+      detail: { value: 'y' },
+    });
+    $('va-radio', container).__events.vaValueChange(changeEvent);
+
+    const event = global.window.dataLayer.slice(-1)[0];
+    expect(event).to.deep.equal({
+      event: 'int-radio-button-option-click',
+      'radio-button-label': privateRecordsRequestTitle,
+      'radio-button-optionLabel': 'Yes',
+      'radio-button-required': true,
+    });
   });
 
   it('should submit page with error (required question)', () => {

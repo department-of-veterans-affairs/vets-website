@@ -12,8 +12,7 @@ import stub from '../../constants/stub.json';
 describe('Find VA Forms <SearchForm>', () => {
   it('should render', () => {
     const tree = shallow(<SearchForm />);
-    const input = tree.find('input');
-
+    const input = tree.find('[data-e2e-id="find-form-search-form"]');
     expect(input.length).to.be.equal(1);
     tree.unmount();
   });
@@ -36,33 +35,5 @@ describe('Find VA Forms <SearchForm>', () => {
     tree.unmount();
 
     global.window = oldWindow;
-  });
-
-  it('updates the query in state', () => {
-    const tree = shallow(<SearchForm />);
-    const input = tree.find('input');
-
-    input.simulate('change', { target: { value: 'new value' } });
-    expect(tree.find('input').props().value).to.equal('new value');
-
-    tree.unmount();
-  });
-
-  it('fetches data on submit', () => {
-    const fetchForms = sinon.stub().resolves(stub);
-    const tree = shallow(<SearchForm fetchForms={fetchForms} />);
-    const input = tree.find('input');
-
-    input.simulate('change', { target: { value: 'health' } });
-
-    const form = tree.find('form');
-    const preventDefault = sinon.stub();
-
-    form.simulate('submit', { preventDefault });
-
-    expect(fetchForms.calledOnce).to.be.true;
-    expect(preventDefault.calledOnce).to.be.true;
-
-    tree.unmount();
   });
 });

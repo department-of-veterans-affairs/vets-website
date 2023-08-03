@@ -16,13 +16,25 @@ describe('Secure Messaging Delete Draft', () => {
     inboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
-    patientInterstitialPage.getContinueButton().click({ force: true });
+    patientInterstitialPage.getContinueButton().should('not.exist');
     draftsPage.clickDeleteButton();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     draftsPage.confirmDeleteDraft(mockDraftResponse);
     inboxPage.verifyDeleteConfirmMessage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

@@ -1,25 +1,25 @@
 import moment from 'moment-timezone';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { DefaultFolders as Folders } from './constants';
+import { DefaultFolders as Folders, Paths } from './constants';
 
 export const folderPathByFolderId = folderId => {
   let path = '';
   if (folderId !== null) {
     switch (parseInt(folderId, 10)) {
       case Folders.INBOX.id:
-        path = '/inbox';
+        path = Paths.INBOX;
         break;
       case Folders.DRAFTS.id:
-        path = '/drafts';
+        path = Paths.DRAFTS;
         break;
       case Folders.SENT.id:
-        path = '/sent';
+        path = Paths.SENT;
         break;
       case Folders.DELETED.id:
-        path = '/trash';
+        path = Paths.DELETED;
         break;
       default:
-        path = `/folder/${folderId}`;
+        path = `${Paths.FOLDERS}${folderId}/`;
         break;
     }
   } else {
@@ -39,7 +39,7 @@ export const unreadCountInbox = folders => {
 };
 
 export const navigateToFoldersPage = history => {
-  history.push('/folders');
+  history.push(Paths.FOLDERS);
 };
 
 export const today = new Date();
@@ -135,6 +135,10 @@ export const handleHeader = (folderId, folder) => {
   }
 };
 
+export const updatePageTitle = newTitle => {
+  document.title = newTitle;
+};
+
 export const updateMessageInThread = (thread, response) => {
   const { data, included } = response;
   const updatedMessage = data.attributes;
@@ -161,4 +165,16 @@ export const updateMessageInThread = (thread, response) => {
     }
     return message;
   });
+};
+
+export const convertPathNameToTitleCase = str => {
+  const formattedStr = str.replace(/\//g, '').trim(); // Remove slashes and trim whitespace
+  const words = formattedStr.split('_'); // Split the string by underscores
+
+  const capitalizedWords = words.map(word => {
+    const lowerCasedWord = word.toLowerCase();
+    return lowerCasedWord.charAt(0).toUpperCase() + lowerCasedWord.slice(1);
+  });
+
+  return capitalizedWords.join(' '); // Join the words with spaces
 };

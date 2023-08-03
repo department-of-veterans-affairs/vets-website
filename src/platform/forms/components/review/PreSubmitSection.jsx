@@ -9,7 +9,6 @@ import {
   VaPrivacyAgreement,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 // platform - forms - selectors
 import { preSubmitSelector } from 'platform/forms/selectors/review';
@@ -128,12 +127,14 @@ export function PreSubmitSection(props) {
             )}
             <p>
               I have read and accept the{' '}
-              <a
-                aria-label="Privacy policy, will open in new tab"
-                target="_blank"
-                href="/privacy-policy/"
-              >
+              <a href="/privacy-policy/" target="_blank">
                 privacy policy
+                <i
+                  className="fas fa-arrow-up-right-from-square"
+                  aria-hidden="true"
+                  role="img"
+                />
+                <span className="sr-only">opens in a new window</span>
               </a>
               .
             </p>
@@ -167,25 +168,13 @@ export function PreSubmitSection(props) {
               }`}
               required
             />
-            <Checkbox
+            <VaCheckbox
               id="veteran-certify"
               name="veteran-certify"
-              label="I certify the information above is correct and true to the best of my knowledge and belief."
-              checked={form?.data.statementOfTruthCertified}
-              onValueChange={value =>
-                setPreSubmit('statementOfTruthCertified', value)
+              label={
+                statementOfTruth.checkboxLabel ||
+                'I certify the information above is correct and true to the best of my knowledge and belief.'
               }
-              errorMessage={
-                showPreSubmitError && !form?.data.statementOfTruthCertified
-                  ? 'You must certify by checking the box'
-                  : undefined
-              }
-              required
-            />
-            {/* <VaCheckbox
-              id="veteran-certify"
-              name="veteran-certify"
-              label="I certify the information above is correct and true to the best of my knowledge and belief."
               checked={form?.data.statementOfTruthCertified}
               onVaChange={event =>
                 setPreSubmit('statementOfTruthCertified', event.target.checked)
@@ -196,7 +185,7 @@ export function PreSubmitSection(props) {
                   : undefined
               }
               required
-            /> */}
+            />
           </article>
         </>
       ) : (

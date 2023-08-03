@@ -10,9 +10,9 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { createStore } from 'redux';
 import { render } from '@testing-library/react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import formConfig from '../../config/form';
 import { SAVED_SEPARATION_DATE } from '../../constants';
+import { selfAssessmentHeadline } from '../../content/selfAssessmentAlert';
 
 const invalidDocumentData = {
   additionalDocuments: [
@@ -123,6 +123,23 @@ describe('526EZ document upload', () => {
     form.unmount();
   });
 
+  it('should not display alert if not BDD', () => {
+    const { queryByText } = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={validDocumentData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(selfAssessmentHeadline)).to.not.exist;
+  });
+
   it('should display alert when BDD SHA enabled', () => {
     const fakeStore = createStore(() => ({
       featureToggles: {},
@@ -149,10 +166,8 @@ describe('526EZ document upload', () => {
       </Provider>,
     );
 
-    if (!environment.isProduction()) {
-      form.getByText(
-        'Please submit your Separation Health Assessment - Part A Self-Assessment as soon as possible',
-      );
-    }
+    form.getByText(
+      'Please submit your Separation Health Assessment - Part A Self-Assessment as soon as possible',
+    );
   });
 });

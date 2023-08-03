@@ -5,36 +5,33 @@ import moment from 'moment';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { normalizeFullName } from '../../utils/helpers';
 
 const VeteranProfileInformation = ({ goBack, goForward, user }) => {
   const { userFullName, dob } = user;
-  const normalizedDOB = dob && moment(dob).format('MMMM DD, YYYY');
-  const normalizedFullName = `${userFullName?.first} ${userFullName?.middle ||
-    ''} ${userFullName?.last} ${userFullName?.suffix || ''}`.replace(
-    / +(?= )/g,
-    '',
-  );
+  const veteranDOB = dob && moment(dob).format('MMMM DD, YYYY');
+  const veteranName = normalizeFullName(userFullName, true);
 
   return (
     <>
       <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
-        {dob ? (
-          <p>This is the personal information we have on file for you.</p>
-        ) : (
-          <p>Here’s the name we have on file for you.</p>
-        )}
+        <p data-testid="hca-veteran-profile-intro">
+          {dob
+            ? 'This is the personal information we have on file for you.'
+            : 'Here’s the name we have on file for you.'}
+        </p>
         <div className="vads-u-border-left--7px vads-u-border-color--primary vads-u-padding-y--1 vads-u-margin-bottom--3">
           <div className="vads-u-padding-left--1">
             <p
               className="vads-u-font-weight--bold vads-u-margin--1px"
               data-testid="hca-veteran-fullname"
             >
-              {normalizedFullName}
+              {veteranName}
             </p>
 
             {dob ? (
               <p className="vads-u-margin--1px" data-testid="hca-veteran-dob">
-                Date of birth: {normalizedDOB}
+                Date of birth: {veteranDOB}
               </p>
             ) : null}
           </div>

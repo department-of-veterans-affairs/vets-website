@@ -197,7 +197,7 @@ const ContactInfo = ({
       <form onSubmit={handlers.onSubmit}>
         <MainHeader
           id="confirmContactInformationHeader"
-          className="vads-u-margin-top--0"
+          className="vads-u-margin-top--4"
         >
           {content.title}
         </MainHeader>

@@ -1,9 +1,9 @@
 import React from 'react';
-import ItemLoop from '../../../components/ItemLoop';
-import CardDetailsView from '../../../components/CardDetailsView';
-import CustomReviewField from '../../../components/CustomReviewField';
+import ItemLoop from '../../../components/shared/ItemLoop';
+import CardDetailsView from '../../../components/shared/CardDetailsView';
+import CustomReviewField from '../../../components/shared/CustomReviewField';
 import { validateCurrency } from '../../../utils/validations';
-import Typeahead from '../../../components/Typeahead';
+import Typeahead from '../../../components/shared/Typeahead';
 import {
   formatOptions,
   recreationalVehicleTypes,
@@ -26,7 +26,7 @@ const combinedFSRRecreationalUIVehicleSchema = {
   'ui:title': () => (
     <>
       <legend className="schemaform-block-title">
-        Your trailers, campers, and boats
+        <h3 className="vads-u-margin--0">Your trailers, campers, and boats</h3>
       </legend>
     </>
   ),

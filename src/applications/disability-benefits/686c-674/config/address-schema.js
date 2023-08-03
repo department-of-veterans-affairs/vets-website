@@ -233,7 +233,14 @@ export const addressUISchema = (
         'ui:autocomplete': 'address-line1',
         'ui:errorMessages': {
           required: 'Street address is required',
-          pattern: 'Street address must be under 100 characters',
+          pattern: 'Street address must be 35 characters or less',
+        },
+        'ui:options': {
+          updateSchema: (formData, schema) => {
+            return Object.assign(schema, {
+              maxLength: 35,
+            });
+          },
         },
       },
       addressLine2: {
@@ -255,8 +262,74 @@ export const addressUISchema = (
         'ui:autocomplete': 'address-level2',
         'ui:errorMessages': {
           required: 'City is required',
-          pattern: 'City must be under 100 characters',
+          pattern: 'City must be 30 characters or less',
         },
+        'ui:validations': [
+          (errors, city, formData, _schema, _uiSchema, _index) => {
+            // This variable represents whether a veteran checked the "I live on a military base outside of the U.S." checkbox on the page
+            // running this validation. This is stored within `formData` as `view:livesOnMilitaryBase` (`MILITARY_BASE_PATH`), but the path
+            // thereto differs depending on the page running the validation.
+            let livesOnMilitaryBase =
+              // This is the relevant path for most pages and their corresponding panels on the 'review and submit' page.
+              get(livesOnMilitaryBasePath, formData) ||
+              // This is the path for the `reportStepchildNotInHousehold.stepchildInformation` page. We can't use `livesOnMilitaryBasePath`
+              // -- which uses the `path` passed into `addressUISchema` (`stepChildren[INDEX].address`) -- because on this "per item" page,
+              // `formData` is actually the data for a particular stepChild, instead of the complete `formData` object.
+              // See https://github.com/department-of-veterans-affairs/vets-website/blob/8a6967285d2fcce22372f309066b52a982afaa6e/src/platform/forms-system/src/js/containers/FormPage.jsx#L56.
+              get(`address[${MILITARY_BASE_PATH}]`, formData) ||
+              // This is the path for `addChild.addChildInformation` page, another "per item" page that must be handled similarly to the
+              // `reportStepchildNotInHousehold.stepchildInformation` page above.
+              get(`childAddressInfo.address[${MILITARY_BASE_PATH}]`, formData);
+
+            // We need to isolate the following validations to the review-and-submit page because they are designed to operate on the complete
+            // formData object. If these validations were run on, say, the `studentAddressMarriageTuition` page, they would fail to raise a
+            // validation error on `studentAddressMarriageTuition` page, if either of the `some` checks below returned `true`. All this
+            // headache could be avoided if `_index` above wasn't null.
+            if (window.location.href.includes('review-and-submit')) {
+              livesOnMilitaryBase =
+                livesOnMilitaryBase ||
+                // This is the path for each stepChild in the `reportStepchildNotInHousehold.stepchildInformation` page's corresponding panel
+                // on the 'review and submit' page. We can't use `livesOnMilitaryBasePath` -- which uses the `path` passed into `addressUISchema`
+                // (`stepChildren[INDEX].address`) -- because `_index` above is `null`. Without an `index`, we are unable to replace `INDEX` using
+                // `insertArrayIndex` as is done in the `countryName` field. The absence of an index, unless intentional, may be a longstanding
+                // platform bug. To work around this issue, `some` is used below.
+                (formData.stepChildren || []).some(stepChild =>
+                  get(`address[${MILITARY_BASE_PATH}]`, stepChild),
+                ) ||
+                // Same story here, but for each child in the `addChild.addChildInformation` page's corresponding panel on the 'review and submit'
+                // page.
+                (formData.childrenToAdd || []).some(stepChild =>
+                  get(
+                    `childAddressInfo.address[${MILITARY_BASE_PATH}]`,
+                    stepChild,
+                  ),
+                );
+            }
+
+            if (
+              // The 'I live on a United States military base outside of the U.S. checkbox is only visible if `isMilitaryBaseAddress` is `true`.
+              isMilitaryBaseAddress &&
+              ['APO', 'FPO', 'DPO'].includes(city?.toUpperCase()) &&
+              !livesOnMilitaryBase
+            ) {
+              // This error is necessary to prevent veterans from sending bad data to BIS (formerly, BGS). Without it, veterans would list a
+              // city of APO/FPO/DPO with a US State code (e.g. FL), instead of a Military State code (e.g. AA), which would result in a BIS
+              // error and a failed Form 686c submission. Veterans would also list a military base address (e.g. APO AE) with a foreign
+              // country (e.g. Libya), instead of "United States." This, too, would result in a BIS error and a failed Form 686c submission.
+              // Adding the following error forces the veteran to send a correctly formatted address to BIS. Unfortunately, it also presents
+              // an accessibility issue where, upon checking the checkbox referenced by the error, the newly appeared APO/FPO/DPO dropdown
+              // shows the error: "Please select a valid option," without describing which field is errored. A similar issue is described here:
+              // https://github.com/department-of-veterans-affairs/va.gov-team/issues/16784 (a platform-wide issue), and the means to its
+              // resolution is described here: https://github.com/department-of-veterans-affairs/va.gov-team/issues/5577 (a platform-wide
+              // solution). Alternatively, an update could be made to the form system validation code. See
+              // `src/platform/forms-system/src/js/validation.js` (`defaultMessages.enum`). There are no reasonable workarounds that I am
+              // aware of.
+              errors.addError(
+                `For ${city} addresses, you must check the “${checkBoxTitleState} live on a United States military base outside of the U.S.” checkbox above`,
+              );
+            }
+          },
+        ],
         'ui:options': {
           replaceSchema: (formData, schema, uiSchema, index) => {
             let militaryBasePath = livesOnMilitaryBasePath;
@@ -279,7 +352,7 @@ export const addressUISchema = (
               type: 'string',
               title: 'City',
               minLength: 1,
-              maxLength: 100,
+              maxLength: 30,
               pattern: '^.*\\S.*',
             };
           },

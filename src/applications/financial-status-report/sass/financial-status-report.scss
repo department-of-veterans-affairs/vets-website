@@ -15,7 +15,7 @@
   font-weight: inherit;
 }
 
-.schemaform-review-page-warning {
+.schemaform-review-page-error {
   margin: 0;
 }
 
@@ -31,13 +31,6 @@
     content: "\f00c";
     font-family: "Font Awesome 5 Free";
     padding-right: 2px;
-  }
-}
-
-.dependent-count {
-  label,
-  .usa-input-error-message {
-    width: $usa-form-width;
   }
 }
 
@@ -241,7 +234,6 @@
   }
 }
 
-
 .field-disabled {
   pointer-events: none;
   input,
@@ -338,13 +330,26 @@
   background-color: transparent;
   width: auto !important;
   font-weight: bold;
-  &:hover {
-    color: $color-secondary-dark;
-    background-color: $color-secondary-lightest;
-  }
+  &:hover,
   &:active {
     color: $color-secondary-darkest;
     background-color: $color-secondary-lightest;
   }
 }
 
+/* Hide mobile phone extension entry, per design */
+#edit-mobilePhone {
+  form[name="Contact Info Form"]
+    .schemaform-field-template:not(.schemaform-first-field) {
+    display: none;
+  }
+}
+
+@mixin hide-button($selector) {
+  .form-review-panel #{$selector} {
+    display: none;
+  }
+}
+
+@include hide-button("button.edit-page");
+@include hide-button(".edit-btn.primary-outline");

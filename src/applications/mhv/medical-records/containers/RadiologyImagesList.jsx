@@ -1,26 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { getLabAndTest } from '../actions/labsAndTests';
+import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintDownload from '../components/shared/PrintDownload';
 import PrintHeader from '../components/shared/PrintHeader';
-import { dateFormat, downloadFile } from '../util/helpers';
-import { getVaccinePdf } from '../api/MrApi';
+import GenerateRadiologyPdf from '../components/LabsAndTests/GenerateRadiologyPdf';
 
 const RadiologyImagesList = () => {
   const dispatch = useDispatch();
   const { labId } = useParams();
   const [currentImageCount, setCurrentImageCount] = useState(5);
-  const labAndTestDetails = useSelector(
-    state => state.mr.labsAndTests.labsAndTestsDetails,
-  );
+  // const labAndTestDetails = useSelector(
+  //   state => state.mr.labsAndTests.labsAndTestsDetails,
+  // );
+  const labAndTestDetails = {
+    name: 'ANKLE LEFT 3 VIEWS',
+    category: 'Radiology',
+    orderedBy: 'Beth M. Smith',
+    orderingLocation:
+      '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
+    reason: 'Injury',
+    clinicalHistory: 'Information',
+    imagingProvider: 'John J. Lydon',
+    id: 122,
+    date: '2022-04-13T17:42:46.000Z',
+    imagingLocation:
+      '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
+    reactions: ['Just this one'],
+    results:
+      'This exam was performed at 673RD MED GRP, Elmendorf AFB. The report is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************',
+    images: [
+      'image',
+      'image',
+      'image',
+      'image',
+      'image',
+      'image',
+      'image',
+      'image',
+      'image',
+      'image',
+    ],
+  };
 
-  const formattedDate = dateFormat(labAndTestDetails?.date, 'MMMM D, YYYY');
+  const formattedDate = formatDateLong(labAndTestDetails?.date);
 
   const download = () => {
-    getVaccinePdf(1).then(res => downloadFile('radiology.pdf', res.pdf));
+    GenerateRadiologyPdf(labAndTestDetails);
   };
 
   useEffect(
@@ -29,11 +58,6 @@ const RadiologyImagesList = () => {
         dispatch(
           setBreadcrumbs(
             [
-              { url: '/my-health/medical-records/', label: 'Dashboard' },
-              {
-                url: '/my-health/medical-records/labs-and-tests',
-                label: 'Lab and test results',
-              },
               {
                 url: `/my-health/medical-records/labs-and-tests/${labId}`,
                 label: labAndTestDetails?.name,
@@ -53,7 +77,7 @@ const RadiologyImagesList = () => {
   useEffect(
     () => {
       if (labId) {
-        dispatch(getLabAndTest(labId));
+        dispatch(getlabsAndTestsDetails(labId));
       }
     },
     [labId, dispatch],

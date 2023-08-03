@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemLoop from '../../../components/ItemLoop';
-import CardDetailsView from '../../../components/CardDetailsView';
+import ItemLoop from '../../../components/shared/ItemLoop';
+import CardDetailsView from '../../../components/shared/CardDetailsView';
 import { validateCurrency } from '../../../utils/validations';
 
 const VehicleInfo = (

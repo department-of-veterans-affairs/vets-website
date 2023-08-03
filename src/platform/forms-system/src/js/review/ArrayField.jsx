@@ -247,16 +247,16 @@ class ArrayField extends React.Component {
     return (
       <div
         name={fieldName}
-        className={itemsNeeded ? 'schemaform-review-array-warning' : ''}
+        className={itemsNeeded ? 'schemaform-review-array-error' : ''}
       >
         {title && (
           <div className="form-review-panel-page-header-row">
+            {itemsNeeded && (
+              <span className="schemaform-review-array-error-icon" />
+            )}
             <h4 className="form-review-panel-page-header vads-u-font-size--h4">
               {title}
             </h4>
-            {itemsNeeded && (
-              <span className="schemaform-review-array-warning-icon" />
-            )}
           </div>
         )}
         <div className="va-growable va-growable-review">

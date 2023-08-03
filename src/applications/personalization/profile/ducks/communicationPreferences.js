@@ -194,7 +194,7 @@ export const selectGroups = state => {
 export const selectGroupById = (state, groupId) => {
   return selectGroups(state).entities[groupId];
 };
-const selectItems = state => {
+export const selectItems = state => {
   return state.items;
 };
 export const selectItemById = (state, itemId) => {
@@ -248,6 +248,7 @@ function communicationChannelsReducer(accumulator, item) {
       parentItem: itemId,
       isAllowed: channel.communicationPermission?.allowed ?? null,
       permissionId: channel.communicationPermission?.id ?? null,
+      defaultSendIndicator: channel?.defaultSendIndicator ?? null,
       ui: {
         updateStatus: LOADING_STATES.idle,
         errors: null,
@@ -256,6 +257,19 @@ function communicationChannelsReducer(accumulator, item) {
     accumulator.entities[channelId] = communicationChannel;
   });
   return accumulator;
+}
+
+// used to clear out any existing UI alerts on all channels,
+// before we attempt to start a new update request
+function resetUiStateOnAllChannels(state) {
+  const newState = { ...state };
+  Object.keys(newState.channels.entities).forEach(key => {
+    newState.channels.entities[key].ui = {
+      updateStatus: LOADING_STATES.idle,
+      errors: null,
+    };
+  });
+  return newState;
 }
 
 // MAIN REDUCER
@@ -334,6 +348,7 @@ export default function reducer(state = initialState, action = {}) {
       };
     }
     case SAVE_CHANNEL_STARTED: {
+      resetUiStateOnAllChannels(state);
       const { channelId, isAllowed } = action.payload;
       const updatedChannel = { ...selectChannelById(state, channelId) };
       updatedChannel.isAllowed = isAllowed;
@@ -358,6 +373,7 @@ export default function reducer(state = initialState, action = {}) {
       };
       const newState = { ...state };
       newState.channels.entities[channelId] = { ...updatedChannel };
+
       return newState;
     }
     case SAVE_CHANNEL_FAILED: {

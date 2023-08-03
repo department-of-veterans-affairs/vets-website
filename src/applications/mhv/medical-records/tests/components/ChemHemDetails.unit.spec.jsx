@@ -18,7 +18,7 @@ describe('Chem Hem details component', () => {
     collectingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     comments: ["Jesse Roberts' blood panel is standard"],
-    labResults: [
+    results: [
       {
         name: 'WBC',
         result: '5.0 K/ccm',
@@ -41,7 +41,7 @@ describe('Chem Hem details component', () => {
 
   const setup = (state = initialState) => {
     return renderWithStoreAndRouter(
-      <ChemHemDetails results={mockChemHem} fullState={state} />,
+      <ChemHemDetails record={mockChemHem} fullState={state} />,
       {
         initialState: state,
         reducers: reducer,
@@ -66,7 +66,7 @@ describe('Chem Hem details component', () => {
 
   it('should display the test results', () => {
     const screen = setup();
-    const results = screen.getByText(mockChemHem.labResults[0].name, {
+    const results = screen.getByText(mockChemHem.results[0].name, {
       exact: true,
       selector: 'h3',
     });
@@ -76,10 +76,10 @@ describe('Chem Hem details component', () => {
   it('should display the formatted date', () => {
     const screen = setup();
 
-    const emptyMessageElement = screen.getByText('June 14, 2022', {
+    const dateElement = screen.getByText('June 14, 2022', {
       exact: true,
       selector: 'p',
     });
-    expect(emptyMessageElement).to.exist;
+    expect(dateElement).to.exist;
   });
 });

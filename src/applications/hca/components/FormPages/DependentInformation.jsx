@@ -3,20 +3,19 @@ import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import DependentListLoopForm from '../FormFields/DependentListLoopForm';
 
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
-import { createLiteralMap } from '../../utils/helpers';
+import { isOfCollegeAge, getDependentPageList } from '../../utils/helpers';
 import {
   DEPENDENT_VIEW_FIELDS,
   SESSION_ITEM_NAME,
   SHARED_PATHS,
 } from '../../utils/constants';
-import {
-  dependentSchema as schema,
-  dependentUISchema as uiSchema,
-} from '../../definitions/dependent';
+
+const date = new Date();
+const lastYear = date.getFullYear() - 1;
 
 // declare shared data & route attrs from the form
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
@@ -25,24 +24,25 @@ const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
 const SUB_PAGES = [
   {
     id: 'basic',
-    title: 'basic information',
+    title: '%s\u2019s personal information',
   },
   {
     id: 'education',
-    title: 'educational expenses',
+    title: '%s\u2019s education expenses',
+    depends: { key: 'dateOfBirth', value: isOfCollegeAge },
   },
   {
     id: 'additional',
-    title: 'additional information',
+    title: '%s\u2019s additional information',
   },
   {
     id: 'support',
-    title: 'additional information',
+    title: 'Financial support for %s',
     depends: { key: 'cohabitedLastYear', value: false },
   },
   {
     id: 'income',
-    title: 'annual income',
+    title: `%s\u2019s annual income from ${lastYear}`,
     depends: { key: 'view:dependentIncome', value: true },
   },
 ];
@@ -119,6 +119,9 @@ const DependentInformation = props => {
   const handlers = {
     onCancel: () => {
       showModal(false);
+      document
+        .getElementById('hca-modal-cancel')
+        .shadowRoot.children[0].focus();
     },
     onChange: formData => {
       setLocalData({ ...localData, ...formData });
@@ -153,44 +156,6 @@ const DependentInformation = props => {
     },
   };
 
-  // append a title attribute to the uiSchema based on the current `page` -- use dependents full name, if available
-  const currentUISchema = useMemo(
-    () => {
-      const name =
-        currentPage.id !== 'basic'
-          ? `${localData.fullName.first} ${localData.fullName.last}`
-          : 'Dependent';
-      return {
-        ...uiSchema[currentPage.id],
-        'ui:title': `${name} - ${currentPage.title}`,
-      };
-    },
-    [currentPage, localData],
-  );
-
-  // construct cancel description for modal based on page mode and form data
-  const cancelDescription = useMemo(
-    () => {
-      const { fullName = {} } = localData || {};
-      const normalizedFullName = `${fullName.first} ${
-        fullName.last
-      } ${fullName.suffix || ''}`.replace(/ +(?= )/g, '');
-
-      const contentMap = createLiteralMap([
-        [
-          'This will stop adding the dependent. You’ll return to a list of any previously added dependents and this dependent will not be added.',
-          ['add'],
-        ],
-        [
-          `This will stop editing ${normalizedFullName}. You will return to a list of any previously added dependents and your edits will not be applied.`,
-          ['edit', 'update'],
-        ],
-      ]);
-      return contentMap[mode];
-    },
-    [localData, mode],
-  );
-
   // apply focus to the `page` title on change -- runs only after first render
   useAfterRenderEffect(
     () => {
@@ -200,9 +165,7 @@ const DependentInformation = props => {
     [currentPage],
   );
 
-  /**
-   * set form data on each change to the localData object state
-   */
+  // set form data on each change to the localData object state
   useEffect(
     () => {
       const slices = {
@@ -233,34 +196,27 @@ const DependentInformation = props => {
   useEffect(
     () => {
       if (localData) {
-        const pagesToSet = SUB_PAGES.reduce((acc, page) => {
-          if ('depends' in page) {
-            const { key, value } = page.depends;
-            if (localData[key] === value) {
-              acc.push(page);
-            }
-          } else {
-            acc.push(page);
-          }
-          return acc;
-        }, []);
+        const pagesToSet = getDependentPageList(SUB_PAGES, localData);
         setActivePages(pagesToSet);
       }
     },
     [localData],
   );
 
-  return (
-    <>
-      {currentPage ? (
-        <SchemaForm
-          name="Dependent"
-          title="Dependent"
+  /**
+   * build list of forms, with display conditional, based on current page id
+   *
+   * NOTE: This is a bit of a hack, as we cannot reset the submitted state of the
+   * SchemaForm component
+   */
+  const FormList = SUB_PAGES.map(({ id, title }) => {
+    return currentPage.id === id ? (
+      <>
+        <DependentListLoopForm
           data={localData}
-          uiSchema={currentUISchema}
-          schema={schema[currentPage.id]}
-          onSubmit={handlers.onSubmit}
+          page={{ id, title }}
           onChange={handlers.onChange}
+          onSubmit={handlers.onSubmit}
         >
           {/** Cancel confirmation modal trigger */}
           <div className="vads-u-margin-y--2">
@@ -268,6 +224,7 @@ const DependentInformation = props => {
               text={`Cancel ${action.label} this dependent`}
               onClick={handlers.showConfirm}
               secondary
+              id="hca-modal-cancel"
             />
           </div>
 
@@ -275,11 +232,17 @@ const DependentInformation = props => {
           {contentBeforeButtons}
           <FormNavButtons goBack={handlers.onGoBack} submitToContinue />
           {contentAfterButtons}
-        </SchemaForm>
-      ) : null}
+        </DependentListLoopForm>
+      </>
+    ) : null;
+  });
+
+  return (
+    <>
+      {FormList}
 
       <VaModal
-        modalTitle={`Cancel ${action.label} this dependent`}
+        modalTitle={`Cancel ${action.label} this dependent?`}
         primaryButtonText={`Yes, cancel ${action.label}`}
         secondaryButtonText={`No, continue ${action.label}`}
         onPrimaryButtonClick={handlers.onConfirm}
@@ -289,7 +252,11 @@ const DependentInformation = props => {
         status="warning"
         clickToClose
       >
-        <p className="vads-u-margin--0">{cancelDescription}</p>
+        <p className="vads-u-margin--0">
+          If you cancel {action.label} this dependent, we won’t save their
+          information. You’ll return to a screen where you can add or remove
+          dependents.
+        </p>
       </VaModal>
     </>
   );

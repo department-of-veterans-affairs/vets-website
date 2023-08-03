@@ -8,141 +8,347 @@ import {
   isShortFormEligible,
   includeSpousalInformation,
   getInsuranceAriaLabel,
+  isOfCollegeAge,
+  getDependentPageList,
+  normalizeFullName,
 } from '../../utils/helpers';
 import { HIGH_DISABILITY_MINIMUM } from '../../utils/constants';
 
 describe('hca helpers', () => {
   // NOTE: for household v1 only -- remove when v2 is fully-adopted
-  describe('expensesLessThanIncome', () => {
-    it('should return true if expenses less than income', () => {
-      const formData = {
-        veteranNetIncome: 3,
-        deductibleMedicalExpenses: 2,
-      };
+  describe('when `expensesLessThanIncome` executes', () => {
+    describe('when only Veteran income is declared', () => {
+      describe('when expenses are less than Veteran income', () => {
+        it('should return `true`', () => {
+          const formData = {
+            veteranNetIncome: 3,
+            deductibleMedicalExpenses: 2,
+          };
+          const result = expensesLessThanIncome('deductibleMedicalExpenses')(
+            formData,
+          );
+          expect(result).to.be.true;
+        });
+      });
 
-      expect(expensesLessThanIncome('deductibleEducationExpenses')(formData)).to
-        .be.true;
+      describe('when expenses are greater than Veteran income', () => {
+        it('should return `false`', () => {
+          const formData = {
+            veteranNetIncome: 3,
+            deductibleMedicalExpenses: 4,
+          };
+          const result = expensesLessThanIncome('deductibleMedicalExpenses')(
+            formData,
+          );
+          expect(result).to.be.false;
+        });
+      });
     });
-    it('should return false if expenses greater than income', () => {
-      const formData = {
-        veteranNetIncome: 3,
-        deductibleMedicalExpenses: 4,
-      };
 
-      expect(expensesLessThanIncome('deductibleEducationExpenses')(formData)).to
-        .be.true;
+    describe('when spousal income is declared', () => {
+      describe('when expenses are less than Veteran and spousal income', () => {
+        it('should return `true`', () => {
+          const formData = {
+            veteranNetIncome: 3,
+            deductibleMedicalExpenses: 2,
+            'view:spouseIncome': { spouseGrossIncome: 3 },
+          };
+          const result = expensesLessThanIncome('deductibleMedicalExpenses')(
+            formData,
+          );
+          expect(result).to.be.true;
+        });
+      });
+
+      describe('when expenses are greater than Veteran and spousal income', () => {
+        it('should return `false`', () => {
+          const formData = {
+            veteranNetIncome: 3,
+            deductibleMedicalExpenses: 8,
+            'view:spouseIncome': { spouseGrossIncome: 3 },
+          };
+          const result = expensesLessThanIncome('deductibleMedicalExpenses')(
+            formData,
+          );
+          expect(result).to.be.false;
+        });
+      });
     });
-    it('should include income from dependents', () => {
-      const formData = {
-        deductibleMedicalExpenses: 2,
-        dependents: [
-          {
-            grossIncome: 3,
+
+    describe('when dependent income is declared', () => {
+      describe('when expenses are less than Veteran, spousal & dependent income', () => {
+        it('should return `true`', () => {
+          const formData = {
+            veteranNetIncome: 3,
+            deductibleMedicalExpenses: 2,
+            'view:spouseIncome': { spouseGrossIncome: 3 },
+            dependents: [{ grossIncome: 3 }],
+          };
+          const result = expensesLessThanIncome('deductibleMedicalExpenses')(
+            formData,
+          );
+          expect(result).to.be.true;
+        });
+      });
+
+      describe('when expenses are greater than Veteran, spousal & dependent income', () => {
+        it('should return `false`', () => {
+          const formData = {
+            veteranNetIncome: 3,
+            deductibleMedicalExpenses: 10,
+            'view:spouseIncome': { spouseGrossIncome: 3 },
+            dependents: [{ grossIncome: 3 }],
+          };
+          const result = expensesLessThanIncome('deductibleMedicalExpenses')(
+            formData,
+          );
+          expect(result).to.be.false;
+        });
+      });
+    });
+
+    describe('when all expense values have data', () => {
+      it('should return `true` for the expense field under the last non-zero field', () => {
+        const formData = {
+          dependents: [{ grossIncome: 3 }],
+          deductibleEducationExpenses: 0,
+          deductibleFuneralExpenses: 0,
+          deductibleMedicalExpenses: 4,
+        };
+        const results = {
+          medical: expensesLessThanIncome('deductibleMedicalExpenses')(
+            formData,
+          ),
+          education: expensesLessThanIncome('deductibleEducationExpenses')(
+            formData,
+          ),
+          funeral: expensesLessThanIncome('deductibleFuneralExpenses')(
+            formData,
+          ),
+        };
+        expect(results.medical).to.be.false;
+        expect(results.education).to.be.true;
+        expect(results.funeral).to.be.true;
+      });
+
+      it('should return `true` for just the last expense field when all fields have non-zero data', () => {
+        const formData = {
+          dependents: [{ grossIncome: 3 }],
+          deductibleEducationExpenses: 4,
+          deductibleFuneralExpenses: 4,
+          deductibleMedicalExpenses: 4,
+        };
+        const results = {
+          medical: expensesLessThanIncome('deductibleMedicalExpenses')(
+            formData,
+          ),
+          education: expensesLessThanIncome('deductibleEducationExpenses')(
+            formData,
+          ),
+          funeral: expensesLessThanIncome('deductibleFuneralExpenses')(
+            formData,
+          ),
+        };
+        expect(results.medical).to.be.true;
+        expect(results.education).to.be.false;
+        expect(results.funeral).to.be.true;
+      });
+    });
+  });
+
+  describe('when `prefillTransformer` executes', () => {
+    const formData = {
+      veteranFullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
+      gender: 'M',
+      veteranDateOfBirth: '1933-05-04',
+      veteranSocialSecurityNumber: '796121200',
+      homePhone: '4445551212',
+      email: 'test2@test1.net',
+      lastServiceBranch: 'air force',
+      lastEntryDate: '2001-03-21',
+      postNov111998Combat: true,
+      lastDischargeDate: '2014-07-21',
+      dischargeType: 'honorable',
+      vaCompensationType: 'lowDisability',
+      'view:demographicCategories': { isSpanishHispanicLatino: false },
+    };
+
+    describe('when profile data omits mailing address', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {
+              residentialAddress: {
+                addressLine1: 'PSC 808 Box 37',
+                addressLine2: null,
+                addressLine3: null,
+                addressPou: 'RESIDENCE/CHOICE',
+                addressType: 'OVERSEAS MILITARY',
+                city: 'FPO',
+                countryCodeFips: 'US',
+                countryCodeIso2: 'US',
+                countryCodeIso3: 'USA',
+                countryName: 'United States',
+                createdAt: '2018-04-21T20:09:50Z',
+                effectiveEndDate: '2018-04-21T20:09:50Z',
+                effectiveStartDate: '2018-04-21T20:09:50Z',
+                id: 124,
+                internationalPostalCode: '54321',
+                latitude: 37.5615,
+                longitude: -121.9988,
+                province: 'string',
+                sourceDate: '2018-04-21T20:09:50Z',
+                stateCode: 'AE',
+                updatedAt: '2018-04-21T20:09:50Z',
+                zipCode: '09618',
+                zipCodeSuffix: '1234',
+              },
+            },
           },
-        ],
-      };
-
-      expect(expensesLessThanIncome('deductibleEducationExpenses')(formData)).to
-        .be.true;
-    });
-    it('should include spouse income', () => {
-      const formData = {
-        deductibleMedicalExpenses: 2,
-        'view:spouseIncome': {
-          spouseGrossIncome: 3,
         },
       };
 
-      expect(expensesLessThanIncome('deductibleEducationExpenses')(formData)).to
-        .be.true;
+      it('should auto-fill correct formData from user state', () => {
+        const { formData: prefillData } = prefillTransformer(
+          null,
+          formData,
+          null,
+          state,
+        );
+        expect(Object.keys(prefillData)).to.have.lengthOf(15);
+        expect(prefillData.veteranAddress).to.equal(undefined);
+        expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(7);
+        expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(
+          undefined,
+        );
+      });
     });
-    it('should show only if last non-zero expense amount', () => {
-      const formData = {
-        dependents: [
-          {
-            grossIncome: 3,
+
+    describe('when profile data includes mailing address', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {
+              residentialAddress: {
+                addressLine1: 'PSC 808 Box 37',
+                addressLine2: null,
+                addressLine3: null,
+                addressPou: 'RESIDENCE/CHOICE',
+                addressType: 'OVERSEAS MILITARY',
+                city: 'FPO',
+                countryCodeFips: 'US',
+                countryCodeIso2: 'US',
+                countryCodeIso3: 'USA',
+                countryName: 'United States',
+                createdAt: '2018-04-21T20:09:50Z',
+                effectiveEndDate: '2018-04-21T20:09:50Z',
+                effectiveStartDate: '2018-04-21T20:09:50Z',
+                id: 124,
+                internationalPostalCode: '54321',
+                latitude: 37.5615,
+                longitude: -121.9988,
+                province: 'string',
+                sourceDate: '2018-04-21T20:09:50Z',
+                stateCode: 'AE',
+                updatedAt: '2018-04-21T20:09:50Z',
+                zipCode: '09618',
+                zipCodeSuffix: '1234',
+              },
+              mailingAddress: {
+                addressLine1: '1493 Martin Luther King Rd',
+                addressLine2: 'Apt 1',
+                addressLine3: null,
+                addressPou: 'CORRESPONDENCE',
+                addressType: 'DOMESTIC',
+                city: 'Fulton',
+                countryName: 'United States',
+                countryCodeFips: 'US',
+                countryCodeIso2: 'US',
+                countryCodeIso3: 'USA',
+                createdAt: '2018-04-21T20:09:50Z',
+                effectiveEndDate: '2018-04-21T20:09:50Z',
+                effectiveStartDate: '2018-04-21T20:09:50Z',
+                id: 123,
+                internationalPostalCode: '54321',
+                province: 'string',
+                sourceDate: '2018-04-21T20:09:50Z',
+                stateCode: 'NY',
+                updatedAt: '2018-04-21T20:09:50Z',
+                zipCode: '97062',
+                zipCodeSuffix: '1234',
+              },
+            },
           },
-        ],
-        deductibleEducationExpenses: 0,
-        deductibleFuneralExpenses: 0,
-        deductibleMedicalExpenses: 4,
+        },
       };
 
-      expect(expensesLessThanIncome('deductibleMedicalExpenses')(formData)).to
-        .be.false;
-      expect(expensesLessThanIncome('deductibleEducationExpenses')(formData)).to
-        .be.true;
-      expect(expensesLessThanIncome('deductibleFuneralExpenses')(formData)).to
-        .be.true;
-    });
-    it('should show warning just under last field if all expenses are filled', () => {
-      const formData = {
-        dependents: [
-          {
-            grossIncome: 3,
-          },
-        ],
-        deductibleEducationExpenses: 4,
-        deductibleFuneralExpenses: 4,
-        deductibleMedicalExpenses: 4,
-      };
-
-      expect(expensesLessThanIncome('deductibleMedicalExpenses')(formData)).to
-        .be.true;
-      expect(expensesLessThanIncome('deductibleEducationExpenses')(formData)).to
-        .be.false;
-      expect(expensesLessThanIncome('deductibleFuneralExpenses')(formData)).to
-        .be.true;
+      it('should auto-fill correct formData from user state', () => {
+        const { formData: prefillData } = prefillTransformer(
+          null,
+          formData,
+          null,
+          state,
+        );
+        expect(Object.keys(prefillData)).to.have.lengthOf(16);
+        expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(7);
+        expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(7);
+        expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.false;
+      });
     });
   });
 
-  describe('transformAttachments', () => {
-    it('should do nothing if there are no attachments to transform', () => {
-      const inputData = { firstName: 'Pat' };
-      const transformedData = transformAttachments(inputData);
-      expect(transformedData).to.deep.equal(inputData);
+  describe('when `transformAttachments` executes', () => {
+    describe('when there are no attachements', () => {
+      it('should do nothing', () => {
+        const inputData = { firstName: 'Pat' };
+        const transformedData = transformAttachments(inputData);
+        expect(transformedData).to.deep.equal(inputData);
+      });
     });
-    it('should transform `attachmentId`s to `dd214` booleans', () => {
-      const inputData = {
-        firstName: 'Pat',
-        attachments: [
-          {
-            name: 'file1',
-            size: 1,
-            confirmationCode: 'uuid123',
-            attachmentId: '1',
-          },
-          {
-            name: 'file2',
-            size: 1,
-            confirmationCode: 'uuid456',
-            attachmentId: '2',
-          },
-        ],
-      };
-      const expectedOutputData = {
-        firstName: 'Pat',
-        attachments: [
-          {
-            name: 'file1',
-            size: 1,
-            confirmationCode: 'uuid123',
-            dd214: true,
-          },
-          {
-            name: 'file2',
-            size: 1,
-            confirmationCode: 'uuid456',
-            dd214: false,
-          },
-        ],
-      };
-      const transformedData = transformAttachments(inputData);
-      expect(transformedData).to.deep.equal(expectedOutputData);
+
+    describe('when there are attachements', () => {
+      it('should transform `attachmentId`s to `dd214` booleans', () => {
+        const inputData = {
+          firstName: 'Pat',
+          attachments: [
+            {
+              name: 'file1',
+              size: 1,
+              confirmationCode: 'uuid123',
+              attachmentId: '1',
+            },
+            {
+              name: 'file2',
+              size: 1,
+              confirmationCode: 'uuid456',
+              attachmentId: '2',
+            },
+          ],
+        };
+        const expectedOutputData = {
+          firstName: 'Pat',
+          attachments: [
+            {
+              name: 'file1',
+              size: 1,
+              confirmationCode: 'uuid123',
+              dd214: true,
+            },
+            {
+              name: 'file2',
+              size: 1,
+              confirmationCode: 'uuid456',
+              dd214: false,
+            },
+          ],
+        };
+        const transformedData = transformAttachments(inputData);
+        expect(transformedData).to.deep.equal(expectedOutputData);
+      });
     });
   });
 
-  describe('didEnrollmentStatusChange', () => {
+  describe('when `didEnrollmentStatusChange` executes', () => {
     const defaultProps = {
       enrollmentStatus: null,
       noESRRecordFound: false,
@@ -150,263 +356,280 @@ describe('hca helpers', () => {
     };
     let prevProps;
     let newProps;
-    it('returns `false` if none of the relevant props have changed', () => {
-      prevProps = { ...defaultProps };
-      newProps = { ...defaultProps };
-      expect(didEnrollmentStatusChange(prevProps, newProps)).to.equal(false);
+
+    describe('when none of the declared props have changed', () => {
+      it('should return `false`', () => {
+        prevProps = { ...defaultProps };
+        newProps = { ...defaultProps };
+        expect(didEnrollmentStatusChange(prevProps, newProps)).to.be.false;
+      });
     });
-    it('returns `true` if `enrollmentStatus` changed', () => {
-      prevProps = { ...defaultProps };
-      newProps = { ...defaultProps, enrollmentStatus: 'enrolled' };
-      expect(didEnrollmentStatusChange(prevProps, newProps)).to.equal(true);
+
+    describe('when `enrollmentStatus` changes', () => {
+      it('should return `true`', () => {
+        prevProps = { ...defaultProps };
+        newProps = { ...defaultProps, enrollmentStatus: 'enrolled' };
+        expect(didEnrollmentStatusChange(prevProps, newProps)).to.be.true;
+      });
     });
-    it('returns `true` if `noESRRecordFound` changed', () => {
-      prevProps = { ...defaultProps };
-      newProps = { ...defaultProps, noESRRecordFound: true };
-      expect(didEnrollmentStatusChange(prevProps, newProps)).to.equal(true);
+
+    describe('when `noESRRecordFound` changes', () => {
+      it('should return `true`', () => {
+        prevProps = { ...defaultProps };
+        newProps = { ...defaultProps, noESRRecordFound: true };
+        expect(didEnrollmentStatusChange(prevProps, newProps)).to.be.true;
+      });
     });
-    it('returns `true` if `shouldRedirect` changed', () => {
-      prevProps = { ...defaultProps };
-      newProps = { ...defaultProps, shouldRedirect: true };
-      expect(didEnrollmentStatusChange(prevProps, newProps)).to.equal(true);
+
+    describe('when `shouldRedirect` changes', () => {
+      it('should return `true`', () => {
+        prevProps = { ...defaultProps };
+        newProps = { ...defaultProps, shouldRedirect: true };
+        expect(didEnrollmentStatusChange(prevProps, newProps)).to.be.true;
+      });
     });
   });
 
-  describe('isShortFormEligible', () => {
+  describe('when `isShortFormEligible` executes ', () => {
     const formData = {
       vaCompensationType: 'none',
       'view:totalDisabilityRating': 0,
     };
-    it('returns `false` if disability rating is too low, and compensation type is not `highDisability`', () => {
-      expect(isShortFormEligible(formData)).to.equal(false);
+
+    describe('when disability rating is less than the high-disability minimum', () => {
+      describe('when compensation type is not `highDisability`', () => {
+        it('should return `false`', () => {
+          expect(isShortFormEligible(formData)).to.be.false;
+        });
+      });
+
+      describe('when compensation type is `highDisability`', () => {
+        it('should return `true`', () => {
+          expect(
+            isShortFormEligible({
+              ...formData,
+              vaCompensationType: 'highDisability',
+            }),
+          ).to.be.true;
+        });
+      });
     });
-    it('returns `true` if disability rating is too low, but compensation type is `highDisability`', () => {
-      expect(
-        isShortFormEligible({
-          ...formData,
-          vaCompensationType: 'highDisability',
-        }),
-      ).to.equal(true);
-    });
-    it('returns `true` if disability rating is greater or equal to the high disability minimum', () => {
-      expect(
-        isShortFormEligible({
-          ...formData,
-          'view:totalDisabilityRating': HIGH_DISABILITY_MINIMUM,
-        }),
-      ).to.equal(true);
+
+    describe('when disability rating is greater or equal to the high-disability minimum', () => {
+      it('should return `true`', () => {
+        expect(
+          isShortFormEligible({
+            ...formData,
+            'view:totalDisabilityRating': HIGH_DISABILITY_MINIMUM,
+          }),
+        ).to.be.true;
+      });
     });
   });
 
-  describe('includeSpousalInformation', () => {
+  describe('when `includeSpousalInformation` executes', () => {
     const formData = {
       discloseFinancialInformation: false,
       maritalStatus: 'never married',
     };
-    it('returns `false` if user chooses not to disclose their financial information', () => {
-      expect(includeSpousalInformation(formData)).to.equal(false);
-    });
-    it('returns `false` if user chooses to disclose their financial information, but is not married', () => {
-      expect(
-        includeSpousalInformation({
-          ...formData,
-          discloseFinancialInformation: true,
-        }),
-      ).to.equal(false);
-    });
-    it('returns `true` if user chooses to disclose their financial information and is legally married', () => {
-      expect(
-        includeSpousalInformation({
-          ...formData,
-          discloseFinancialInformation: true,
-          maritalStatus: 'married',
-        }),
-      ).to.equal(true);
-    });
-    it('returns `true` if user chooses to disclose their financial information and is legally married, but separated', () => {
-      expect(
-        includeSpousalInformation({
-          ...formData,
-          discloseFinancialInformation: true,
-          maritalStatus: 'separated',
-        }),
-      ).to.equal(true);
-    });
-  });
 
-  describe('getInsuranceAriaLabel', () => {
-    it('returns a generic label if the provider name is not provided', () => {
-      const formData = {};
-      expect(getInsuranceAriaLabel(formData)).to.equal('insurance policy');
+    describe('when financial disclose is `false`', () => {
+      it('should return `false`', () => {
+        expect(includeSpousalInformation(formData)).to.be.false;
+      });
     });
-    it('returns the provider name with the policy number when provided', () => {
-      const formData = {
-        insuranceName: 'Aetna',
-        insurancePolicyNumber: '005588',
-      };
-      expect(getInsuranceAriaLabel(formData)).to.equal(
-        'Aetna, Policy number 005588',
-      );
-    });
-    it('returns the provider name with the group code when provided', () => {
-      const formData = {
-        insuranceName: 'Aetna',
-        insuranceGroupCode: '005588',
-      };
-      expect(getInsuranceAriaLabel(formData)).to.equal(
-        'Aetna, Group code 005588',
-      );
+
+    describe('when financial disclosure is `true`', () => {
+      describe('when marital status is `never married`', () => {
+        it('should return `false`', () => {
+          expect(
+            includeSpousalInformation({
+              ...formData,
+              discloseFinancialInformation: true,
+            }),
+          ).to.be.false;
+        });
+      });
+
+      describe('when marital status is `married`', () => {
+        it('should return `true`', () => {
+          expect(
+            includeSpousalInformation({
+              ...formData,
+              discloseFinancialInformation: true,
+              maritalStatus: 'married',
+            }),
+          ).to.be.true;
+        });
+      });
+
+      describe('when marital status is `separated`', () => {
+        it('should return `true`', () => {
+          expect(
+            includeSpousalInformation({
+              ...formData,
+              discloseFinancialInformation: true,
+              maritalStatus: 'separated',
+            }),
+          ).to.be.true;
+        });
+      });
     });
   });
 
-  it('prefillTransformer should auto-fill formData from user state', () => {
-    const formData = {
-      veteranFullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
-      gender: 'M',
-      veteranDateOfBirth: '1933-05-04',
-      veteranSocialSecurityNumber: '796121200',
-      homePhone: '4445551212',
-      email: 'test2@test1.net',
-      lastServiceBranch: 'air force',
-      lastEntryDate: '2001-03-21',
-      postNov111998Combat: true,
-      lastDischargeDate: '2014-07-21',
-      dischargeType: 'honorable',
-      vaCompensationType: 'lowDisability',
-      'view:demographicCategories': { isSpanishHispanicLatino: false },
-    };
+  describe('when `getInsuranceAriaLabel` executes', () => {
+    describe('when the provider name is not provided', () => {
+      it('should return a generic label', () => {
+        const formData = {};
+        expect(getInsuranceAriaLabel(formData)).to.equal('insurance policy');
+      });
+    });
 
-    const state = {
-      user: {
-        profile: {
-          vapContactInfo: {
-            residentialAddress: {
-              addressLine1: 'PSC 808 Box 37',
-              addressLine2: null,
-              addressLine3: null,
-              addressPou: 'RESIDENCE/CHOICE',
-              addressType: 'OVERSEAS MILITARY',
-              city: 'FPO',
-              countryCodeFips: 'US',
-              countryCodeIso2: 'US',
-              countryCodeIso3: 'USA',
-              countryName: 'United States',
-              createdAt: '2018-04-21T20:09:50Z',
-              effectiveEndDate: '2018-04-21T20:09:50Z',
-              effectiveStartDate: '2018-04-21T20:09:50Z',
-              id: 124,
-              internationalPostalCode: '54321',
-              latitude: 37.5615,
-              longitude: -121.9988,
-              province: 'string',
-              sourceDate: '2018-04-21T20:09:50Z',
-              stateCode: 'AE',
-              updatedAt: '2018-04-21T20:09:50Z',
-              zipCode: '09618',
-              zipCodeSuffix: '1234',
-            },
-            mailingAddress: {
-              addressLine1: '1493 Martin Luther King Rd',
-              addressLine2: 'Apt 1',
-              addressLine3: null,
-              addressPou: 'CORRESPONDENCE',
-              addressType: 'DOMESTIC',
-              city: 'Fulton',
-              countryName: 'United States',
-              countryCodeFips: 'US',
-              countryCodeIso2: 'US',
-              countryCodeIso3: 'USA',
-              createdAt: '2018-04-21T20:09:50Z',
-              effectiveEndDate: '2018-04-21T20:09:50Z',
-              effectiveStartDate: '2018-04-21T20:09:50Z',
-              id: 123,
-              internationalPostalCode: '54321',
-              province: 'string',
-              sourceDate: '2018-04-21T20:09:50Z',
-              stateCode: 'NY',
-              updatedAt: '2018-04-21T20:09:50Z',
-              zipCode: '97062',
-              zipCodeSuffix: '1234',
-            },
-          },
-        },
-      },
-    };
+    describe('when the provider name is provided', () => {
+      describe('when the policy number when provided', () => {
+        it('should return the provider name & policy number', () => {
+          const formData = {
+            insuranceName: 'Aetna',
+            insurancePolicyNumber: '005588',
+          };
+          expect(getInsuranceAriaLabel(formData)).to.equal(
+            'Aetna, Policy number 005588',
+          );
+        });
+      });
 
-    const prefillData = prefillTransformer(null, formData, null, state)
-      .formData;
-
-    // should have autofill length
-    expect(Object.keys(prefillData).length).to.equal(16);
-    // should have autofill residential address length
-    expect(Object.keys(prefillData.veteranAddress).length).to.equal(7);
-    // should have autofill mailing if exist address length
-    expect(Object.keys(prefillData.veteranHomeAddress).length).to.equal(7);
-    // if addresses match check whether they do or not
-    expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(false);
+      describe('when the group code when provided', () => {
+        it('should return the provider name & group code', () => {
+          const formData = {
+            insuranceName: 'Aetna',
+            insuranceGroupCode: '005588',
+          };
+          expect(getInsuranceAriaLabel(formData)).to.equal(
+            'Aetna, Group code 005588',
+          );
+        });
+      });
+    });
   });
 
-  it('prefillTransformer should auto-fill formData from user state', () => {
-    const formData = {
-      veteranFullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
-      gender: 'M',
-      veteranDateOfBirth: '1933-05-04',
-      veteranSocialSecurityNumber: '796121200',
-      homePhone: '4445551212',
-      email: 'test2@test1.net',
-      lastServiceBranch: 'air force',
-      lastEntryDate: '2001-03-21',
-      postNov111998Combat: true,
-      lastDischargeDate: '2014-07-21',
-      dischargeType: 'honorable',
-      vaCompensationType: 'lowDisability',
-      'view:demographicCategories': { isSpanishHispanicLatino: false },
+  describe('when `isOfCollegeAge` executes', () => {
+    describe('when birthdate is greater than 23 years from testdate', () => {
+      it('should return `false`', () => {
+        const birthdate = '1986-06-01';
+        const testdate = '2023-06-01';
+        expect(isOfCollegeAge(birthdate, testdate)).to.be.false;
+      });
+    });
+
+    describe('when birthdate is less than 18 years from testdate', () => {
+      it('should return `false`', () => {
+        const birthdate = '2005-06-02';
+        const testdate = '2023-06-01';
+        expect(isOfCollegeAge(birthdate, testdate)).to.be.false;
+      });
+    });
+
+    describe('when birthdate is exactly 18 years from testdate', () => {
+      it('should return `true`', () => {
+        const birthdate = '2005-06-01';
+        const testdate = '2023-06-01';
+        expect(isOfCollegeAge(birthdate, testdate)).to.be.true;
+      });
+    });
+
+    describe('when birthdate is exactly 23 years from testdate', () => {
+      it('should return `true`', () => {
+        const birthdate = '2000-06-01';
+        const testdate = '2023-06-01';
+        expect(isOfCollegeAge(birthdate, testdate)).to.be.true;
+      });
+    });
+
+    describe('when birthdate is between 18 and 23 years from testdate', () => {
+      it('should return `true`', () => {
+        const birthdate = '2003-06-01';
+        const testdate = '2023-06-01';
+        expect(isOfCollegeAge(birthdate, testdate)).to.be.true;
+      });
+    });
+  });
+
+  describe('when `getDependentPageList` executes', () => {
+    const pages = [
+      { id: 'page1', title: 'Page 1' },
+      { id: 'page2', title: 'Page 2', depends: { key: 'key1', value: false } },
+      { id: 'page3', title: 'Page 3' },
+      { id: 'page4', title: 'Page 4', depends: { key: 'key2', value: true } },
+      { id: 'page5', title: 'Page 5', depends: { key: 'key3', value: false } },
+    ];
+
+    describe('when page entries do not have conditional dependencies', () => {
+      it('should return a list of only pages without a conditional dependency', () => {
+        const formData = {};
+        expect(getDependentPageList(pages, formData)).to.have.lengthOf(2);
+      });
+    });
+
+    describe('when two conditional dependencies do not match', () => {
+      it('should return a list of three (3) pages', () => {
+        const formData = { key1: true, key2: true, key3: true };
+        expect(getDependentPageList(pages, formData)).to.have.lengthOf(3);
+      });
+    });
+
+    describe('when one conditional dependency does not match', () => {
+      it('should return a list of four (4) pages', () => {
+        const formData = { key1: false, key2: true, key3: true };
+        expect(getDependentPageList(pages, formData)).to.have.lengthOf(4);
+      });
+    });
+
+    describe('when all conditional dependencies match', () => {
+      it('should return a list of all pages', () => {
+        const formData = { key1: false, key2: true, key3: false };
+        expect(getDependentPageList(pages, formData)).to.have.lengthOf(5);
+      });
+    });
+  });
+
+  describe('when `normalizeFullName` executes', () => {
+    const fullName = {
+      first: 'John',
+      middle: 'William',
+      last: 'Smith',
+      suffix: 'Jr.',
     };
 
-    const state = {
-      user: {
-        profile: {
-          vapContactInfo: {
-            residentialAddress: {
-              addressLine1: 'PSC 808 Box 37',
-              addressLine2: null,
-              addressLine3: null,
-              addressPou: 'RESIDENCE/CHOICE',
-              addressType: 'OVERSEAS MILITARY',
-              city: 'FPO',
-              countryCodeFips: 'US',
-              countryCodeIso2: 'US',
-              countryCodeIso3: 'USA',
-              countryName: 'United States',
-              createdAt: '2018-04-21T20:09:50Z',
-              effectiveEndDate: '2018-04-21T20:09:50Z',
-              effectiveStartDate: '2018-04-21T20:09:50Z',
-              id: 124,
-              internationalPostalCode: '54321',
-              latitude: 37.5615,
-              longitude: -121.9988,
-              province: 'string',
-              sourceDate: '2018-04-21T20:09:50Z',
-              stateCode: 'AE',
-              updatedAt: '2018-04-21T20:09:50Z',
-              zipCode: '09618',
-              zipCodeSuffix: '1234',
-            },
-          },
-        },
-      },
-    };
+    describe('when name object is omitted from the function', () => {
+      it('should gracefully return an empty string', () => {
+        expect(normalizeFullName()).to.be.empty;
+      });
+    });
 
-    const prefillData = prefillTransformer(null, formData, null, state)
-      .formData;
+    describe('when name object is provided to the function', () => {
+      describe('when the `outputMiddle` param is excluded', () => {
+        it('should return first name, last name and suffix', () => {
+          expect(normalizeFullName(fullName)).to.equal('John Smith Jr.');
+        });
+      });
 
-    // should have autofill length
-    expect(Object.keys(prefillData).length).to.equal(15);
-    // should have autofill residential address length
-    expect(prefillData.veteranAddress).to.equal(undefined);
-    // should have autofill mailing if exist address length
-    expect(Object.keys(prefillData.veteranHomeAddress).length).to.equal(7);
-    // if addresses match check whether they do or not
-    expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(undefined);
+      describe('when the `outputMiddle` param is included', () => {
+        describe('when `outputMiddle` is set to `false`', () => {
+          it('should return first name, last name and suffix', () => {
+            expect(normalizeFullName(fullName, false)).to.equal(
+              'John Smith Jr.',
+            );
+          });
+        });
+
+        describe('when `outputMiddle` is set to `false`', () => {
+          it('should return first name, middle name, last name and suffix', () => {
+            expect(normalizeFullName(fullName, true)).to.equal(
+              'John William Smith Jr.',
+            );
+          });
+        });
+      });
+    });
   });
 });

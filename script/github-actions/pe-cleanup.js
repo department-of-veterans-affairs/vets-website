@@ -85,7 +85,8 @@ if (process.env.TRIGGERING_EVENT === 'schedule') {
           !fileContents.podAnnotations ||
           !fileContents.podAnnotations.last_updated ||
           (fileContents.podAnnotations.last_updated &&
-            daysSinceUpdate(fileContents.podAnnotations.last_updated) >= 7)
+            daysSinceUpdate(fileContents.podAnnotations.last_updated) >=
+              parseInt(fileContents.podAnnotations.expiration_days, 10))
         );
       }
       return false;

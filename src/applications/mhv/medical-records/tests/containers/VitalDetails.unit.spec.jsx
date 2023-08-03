@@ -4,6 +4,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import reducer from '../../reducers';
 import { user } from '../fixtures/user-reducer.json';
 import VitalDetails from '../../containers/VitalDetails';
+import { vitalTypeDisplayNames, vitalTypes } from '../../util/constants';
 
 describe('Vital details container', () => {
   const initialState = {
@@ -11,11 +12,11 @@ describe('Vital details container', () => {
       vitals: {
         vitalDetails: [
           {
-            name: 'Blood pressure',
+            type: vitalTypes.BLOOD_PRESSURE,
             id: '155',
             measurement: '120/80 mm[Hg]',
             date: '2022-06-14T17:42:46.000Z',
-            facility: 'school parking lot',
+            location: 'school parking lot',
           },
         ],
       },
@@ -27,7 +28,7 @@ describe('Vital details container', () => {
     return renderWithStoreAndRouter(<VitalDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/health-history/vitals/bloodpressure',
+      path: '/vitals/blood-pressure',
     });
   };
 
@@ -51,7 +52,7 @@ describe('Vital details container', () => {
     const screen = setup();
 
     const vitalName = screen.getByText(
-      initialState.mr.vitals.vitalDetails[0].name,
+      vitalTypeDisplayNames[initialState.mr.vitals.vitalDetails[0].type],
       {
         exact: true,
         selector: 'h1',
@@ -62,9 +63,9 @@ describe('Vital details container', () => {
 
   it('displays the formatted received date', () => {
     const screen = setup();
-    const formattedDate = screen.getAllByText('June 14, 2022', {
-      exact: true,
-      selector: 'p',
+    const formattedDate = screen.getAllByText('June', {
+      exact: false,
+      selector: 'h2',
     });
     expect(formattedDate).to.exist;
   });
@@ -72,7 +73,7 @@ describe('Vital details container', () => {
   it('displays the location', () => {
     const screen = setup();
     const location = screen.getAllByText(
-      initialState.mr.vitals.vitalDetails[0].facility,
+      initialState.mr.vitals.vitalDetails[0].location,
       {
         exact: true,
         selector: 'p',

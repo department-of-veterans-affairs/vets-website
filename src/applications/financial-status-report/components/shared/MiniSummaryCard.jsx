@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 
 /**
  * MiniSummaryCard
+ * @param {String} ariaLabel - Optional - Aria label used in parent div, and postfixed to edit and delete buttons
  * @param {Object} editDestination - Object for react-router Link component { pathname: '/path-desination', search: `?index=${index-value}` }
  * @param {String} heading - h4 styled as h3 heading for component
  * @param {Object} body - body content for component (can be a react component)
@@ -12,6 +13,7 @@ import { Link } from 'react-router';
  * @return {React Component}
  */
 export const MiniSummaryCard = ({
+  ariaLabel,
   editDestination,
   heading,
   body,
@@ -19,18 +21,24 @@ export const MiniSummaryCard = ({
   showDelete = false,
   index,
 }) => {
+  const ariaButtonLabels = ariaLabel ? `${ariaLabel}` : `${heading} ${index}`;
+
   return (
-    <div
-      className="vads-u-border--1px vads-u-margin-y--2 vads-u-padding--0"
+    <va-card
+      show-shadow
       data-testid="mini-summary-card"
+      aria-label={ariaLabel}
+      class="vads-u-margin-y--3"
     >
-      <div className="vads-u-padding-x--2 vads-u-padding-top--2 vads-u-display--flex vads-u-flex-direction--column">
-        <h3 className="vads-u-margin-y--0 vads-u-font-size--h4">{heading}</h3>
-        {body}
+      <div className="vads-u-display--flex vads-u-flex-direction--column">
+        <h4 className="vads-u-margin-y--0">{heading}</h4>
+        <div className="vads-u-margin-top--1 vads-u-margin-bottom--0p5">
+          {body}
+        </div>
       </div>
-      <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-padding-x--2 vads-u-padding-bottom--1">
+      <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-bottom--neg1">
         <Link
-          aria-label={`Edit ${heading} ${index}`}
+          aria-label={`Edit ${ariaButtonLabels}`}
           to={editDestination}
           className="vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--neg0p5"
         >
@@ -46,8 +54,8 @@ export const MiniSummaryCard = ({
         {showDelete && (
           <button
             type="button"
-            aria-label={`Delete ${heading} ${index}`}
-            className="usa-button summary-card-delete-button vads-u-margin--0 vads-u-padding--1"
+            aria-label={`Delete ${ariaButtonLabels}`}
+            className="usa-button summary-card-delete-button vads-u-margin--0 vads-u-padding--1 vads-u-margin-right--neg1"
             onClick={onDelete}
           >
             <i
@@ -58,7 +66,7 @@ export const MiniSummaryCard = ({
           </button>
         )}
       </div>
-    </div>
+    </va-card>
   );
 };
 MiniSummaryCard.propTypes = {
@@ -70,6 +78,7 @@ MiniSummaryCard.propTypes = {
     Proptypes.func,
   ]).isRequired,
   heading: Proptypes.string.isRequired,
+  ariaLabel: Proptypes.string,
   body: Proptypes.object,
   index: Proptypes.number,
   showDelete: Proptypes.bool,

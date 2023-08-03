@@ -20,7 +20,7 @@ import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
 export default function FormNav(props) {
   const {
-    formConfig,
+    formConfig = {},
     currentPath,
     formData,
     isLoggedIn,
@@ -45,16 +45,16 @@ export default function FormNav(props) {
   // This is a fallback to still find the chapter name if you open the page directly
   // (the chapter index will probably be wrong, but this isn’t a scenario that happens in normal use)
   if (!page) {
-    page = formPages.find(
-      p => `${formConfig.urlPrefix}${p.path}` === currentPath,
-    );
+    page =
+      formPages.find(p => `${formConfig.urlPrefix}${p.path}` === currentPath) ||
+      {};
   }
 
   let current;
   let chapterName;
   let inProgressMessage = null;
 
-  if (page) {
+  if (page.chapterKey) {
     const onReviewPage = page.chapterKey === 'review';
     current = uniqueChapters.indexOf(page.chapterKey) + 1;
 
@@ -82,7 +82,7 @@ export default function FormNav(props) {
   const showHeader = Math.abs(current - index) === 1;
   // Some chapters may have progress-bar & step-header hidden via hideFormNavProgress.
   const hideFormNavProgress =
-    formConfig?.chapters[page?.chapterKey]?.hideFormNavProgress;
+    formConfig?.chapters[page.chapterKey]?.hideFormNavProgress;
   // Ensure other chapters [that do show progress-bar & step-header] have
   // the correct number & total [with progress-hidden chapters discounted].
   // formConfig, current, & chapters.length should NOT be manipulated,
@@ -91,8 +91,12 @@ export default function FormNav(props) {
     uniqueChapters,
     formConfig,
   });
+  // Returns NaN if the current chapter isn't found
   const currentChapterDisplay = getCurrentChapterDisplay(formConfig, current);
-  const stepText = `Step ${currentChapterDisplay} of ${chaptersLengthDisplay}: ${chapterName}`;
+  const stepText = Number.isNaN(currentChapterDisplay)
+    ? ''
+    : `Step ${currentChapterDisplay} of ${chaptersLengthDisplay}: ${chapterName ||
+        ''}`;
 
   // The goal with this is to quickly "remove" the header from the DOM, and
   // immediately re-render the component with the header included.
@@ -119,7 +123,7 @@ export default function FormNav(props) {
             window.location.pathname.endsWith('review-and-submit')
           )
         ) {
-          customScrollAndFocus(page?.scrollAndFocusTarget, index);
+          customScrollAndFocus(page.scrollAndFocusTarget, index);
         } else {
           // h2 fallback for confirmation page
           focusByOrder([defaultFocusSelector, 'h2']);
@@ -131,10 +135,11 @@ export default function FormNav(props) {
       formConfig.useCustomScrollAndFocus,
       index,
       page.chapterKey,
-      page?.scrollAndFocusTarget,
+      page.scrollAndFocusTarget,
     ],
   );
 
+  const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
   // show progress-bar and stepText only if hideFormNavProgress is falsy.
   return (
     <div>
@@ -142,30 +147,32 @@ export default function FormNav(props) {
         <va-segmented-progress-bar
           total={chaptersLengthDisplay}
           current={currentChapterDisplay}
+          uswds={v3SegmentedProgressBar}
+          heading-text={chapterName ?? ''} // functionality only available for v3
         />
       )}
-      <div className="schemaform-chapter-progress">
-        <div className="nav-header nav-header-schemaform">
-          {showHeader &&
-            !hideFormNavProgress && (
-              <h2
-                id="nav-form-header"
-                data-testid="navFormHeader"
-                className="vads-u-font-size--h4"
-              >
-                {stepText}
-                {inProgressMessage}
-              </h2>
-            )}
-          {!showHeader &&
-            !hideFormNavProgress && (
-              <div data-testid="navFormDiv" className="vads-u-font-size--h4">
-                {stepText}
-                {inProgressMessage}
-              </div>
-            )}
-        </div>
-      </div>
+      {!v3SegmentedProgressBar &&
+        !hideFormNavProgress && (
+          <div className="schemaform-chapter-progress">
+            <div className="nav-header nav-header-schemaform">
+              {showHeader ? (
+                <h2
+                  id="nav-form-header"
+                  data-testid="navFormHeader"
+                  className="vads-u-font-size--h4"
+                >
+                  {stepText}
+                  {inProgressMessage}
+                </h2>
+              ) : (
+                <div data-testid="navFormDiv" className="vads-u-font-size--h4">
+                  {stepText}
+                  {inProgressMessage}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
     </div>
   );
 }

@@ -5,14 +5,14 @@ import {
 import {
   CLAIM_OWNERSHIPS,
   CLAIMANT_TYPES,
-  SERVED_WITH_CLAIMANT,
+  SERVED_WITH_VETERAN,
 } from '../../definitions/constants';
 import formConfig from '../../config/form';
 
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.witnessPersonalInfoChapter.pages.witnessPersonalInfoPage;
+} = formConfig.chapters.witnessPersonalInfoChapter.pages.witnessPersInfoPageA;
 const pageTitle = 'Witness’ personal information';
 const mockData = {
   claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
@@ -21,13 +21,13 @@ const mockData = {
     first: 'Jack',
     last: 'Witness',
   },
-  witnessRelationshipToClaimant: SERVED_WITH_CLAIMANT,
+  witnessRelationshipToClaimant: SERVED_WITH_VETERAN,
 };
 
 // Expect 4 fields instead of 7 fields.
 // witnessRelationshipToClaimant GroupCheckboxWidget's 3 fields are
 // in shadow-DOM and thus unselectable by test.
-const expectedNumberOfFields = 4;
+const expectedNumberOfFields = 3;
 testNumberOfFields(
   formConfig,
   schema,

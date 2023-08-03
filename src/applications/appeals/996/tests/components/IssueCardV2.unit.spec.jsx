@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 
-import { IssueCardContent, IssueCard } from '../../components/IssueCardV2';
+import { IssueCardContent, IssueCard } from '../../components/IssueCard';
 import { SELECTED } from '../../constants';
 
 const getContestableIssue = (id, selected) => ({
@@ -39,6 +39,7 @@ describe('<IssueCard>', () => {
     const wrapper = mount(<IssueCard {...props} item={issue} />);
     expect(wrapper.find('input[type="checkbox"]').length).to.equal(1);
     expect(wrapper.find('.widget-title').text()).to.eq('issue-10');
+    expect(wrapper.find('.widget-title.dd-privacy-hidden')).to.exist;
     expect(wrapper.find('.widget-content').text()).to.contain('blah');
     expect(wrapper.find('.widget-content').text()).to.contain(
       'Current rating: 10%',

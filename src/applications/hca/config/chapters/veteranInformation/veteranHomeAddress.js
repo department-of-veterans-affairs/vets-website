@@ -25,8 +25,8 @@ export default {
         hideIf: formData => !formData['view:isLoggedIn'],
       },
     },
-    veteranHomeAddress: merge({}, addressUI('Home address', true), {
-      'ui:description': HomeAddressDescription,
+    veteranHomeAddress: merge({}, addressUI(null, true), {
+      'ui:title': HomeAddressDescription,
       street: {
         'ui:title': 'Street address',
         'ui:errorMessages': {
@@ -39,9 +39,11 @@ export default {
           pattern: 'Please provide a valid city. Must be at least 1 character.',
         },
       },
-      'ui:options': {
-        // TODO: is this being used?
-        'ui:title': 'Street',
+      state: {
+        'ui:title': 'State/Province/Region',
+        'ui:errorMessages': {
+          required: 'Please enter a state/province/region',
+        },
       },
     }),
   },

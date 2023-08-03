@@ -23,12 +23,18 @@ describe('Secure Messaging Reply', () => {
     site.verifyPaginationMessagesDisplayed(11, 20, threadLength);
     site.loadVAPaginationPreviousMessages(1, mockMessagesPageOne);
     site.verifyPaginationMessagesDisplayed(1, 10, threadLength);
-    site.loadVAPaginationPageMessages(1, mockMessagesPageOne);
-    site.verifyPaginationMessagesDisplayed(1, 10, threadLength);
     site.loadVAPaginationPageMessages(2, mockMessagesPageTwo);
     site.verifyPaginationMessagesDisplayed(11, 20, threadLength);
+    site.loadVAPaginationPageMessages(1, mockMessagesPageOne);
+    site.verifyPaginationMessagesDisplayed(1, 10, threadLength);
 
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

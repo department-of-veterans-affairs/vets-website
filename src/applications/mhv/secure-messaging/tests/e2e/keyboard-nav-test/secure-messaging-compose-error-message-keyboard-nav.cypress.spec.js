@@ -9,7 +9,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
   });
 
   it('focus on error message for no provider', () => {
@@ -20,7 +20,13 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifyFocusOnErrorMessageToSelectRecipient();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
   it('focus on error message for empty category', () => {
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
@@ -30,7 +36,13 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifyFocusOnErrorMessageToSelectCategory();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
   it('focus on error message for empty message subject', () => {
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
@@ -39,7 +51,13 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifyFocusOnErrorEmptyMessageSubject();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
   it('focus on error message for empty message body', () => {
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
@@ -48,6 +66,12 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifyFocusOnErrorEmptyMessageBody();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

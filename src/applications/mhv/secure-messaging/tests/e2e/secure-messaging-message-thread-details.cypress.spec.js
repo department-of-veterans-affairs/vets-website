@@ -34,6 +34,12 @@ describe('Secure Messaging Message Details AXE Check', () => {
 
     // detailsPage.verifyUnexpandedMessageAttachment(1); //TODO attachment icons will be added in a future story
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

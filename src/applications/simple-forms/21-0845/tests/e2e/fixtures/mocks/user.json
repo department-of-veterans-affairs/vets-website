@@ -1,0 +1,171 @@
+{
+  "data": {
+    "id": "",
+    "type": "users_scaffolds",
+    "attributes": {
+      "services": [
+        "facilities",
+        "hca",
+        "edu-benefits",
+        "form-prefill",
+        "form-save-in-progress",
+        "evss-claims",
+        "lighthouse",
+        "add-person",
+        "user-profile",
+        "appeals-status",
+        "id-card",
+        "identity-proofed",
+        "vet360"
+      ],
+      "account": {
+        "accountUuid": "7fca941b-2f5f-47d5-bacb-f0f8d994a7e0"
+      },
+      "profile": {
+        "email": "jv@va.gov",
+        "firstName": "John",
+        "middleName": "",
+        "lastName": "Veteran",
+        "birthDate": "2000-01-01",
+        "gender": "M",
+        "zip": "54321",
+        "lastSignedIn": "2023-06-21T23:47:49.851Z",
+        "loa": {
+          "current": 3,
+          "highest": 3
+        },
+        "multifactor": true,
+        "verified": true,
+        "signIn": {
+          "serviceName": "idme",
+          "authBroker": "sis",
+          "clientId": "vaweb"
+        },
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
+        "inheritedProofVerified": false,
+        "claims": {}
+      },
+      "vaProfile": {
+        "status": "OK",
+        "birthDate": "20000101",
+        "familyName": "Veteran",
+        "gender": "M",
+        "givenNames": ["John", ""],
+        "isCernerPatient": false,
+        "facilities": [],
+        "vaPatient": true,
+        "mhvAccountState": "NONE"
+      },
+      "veteranStatus": {
+        "status": "OK",
+        "isVeteran": true,
+        "servedInMilitary": true
+      },
+      "inProgressForms": [],
+      "prefillsAvailable": ["21-0845"],
+      "vet360ContactInformation": {
+        "email": {
+          "createdAt": "2022-12-08T17:50:16.000+00:00",
+          "emailAddress": "jv@va.gov",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2022-12-08T17:50:15.000+00:00",
+          "id": 123456,
+          "sourceDate": "2022-12-08T17:50:15.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "847fc55e-072b-4f2e-8e5b-8351d0b959b5",
+          "updatedAt": "2022-12-08T17:50:16.000+00:00",
+          "vet360Id": "1234567"
+        },
+        "residentialAddress": null,
+        "mailingAddress": {
+          "addressLine1": "123 any st",
+          "addressLine2": null,
+          "addressLine3": null,
+          "addressPou": "CORRESPONDENCE",
+          "addressType": "DOMESTIC",
+          "city": "anytown",
+          "countryName": "United States",
+          "countryCodeIso2": "US",
+          "countryCodeIso3": "USA",
+          "countryCodeFips": null,
+          "countyCode": "08035",
+          "countyName": "anycounty",
+          "createdAt": "2022-11-30T18:17:07.000+00:00",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2023-06-05T18:37:47.000+00:00",
+          "geocodeDate": "2023-06-05T18:37:49.000+00:00",
+          "geocodePrecision": 31,
+          "id": 123456,
+          "internationalPostalCode": null,
+          "latitude": 39.5298,
+          "longitude": -104.9891,
+          "province": null,
+          "sourceDate": "2023-06-05T18:37:47.000+00:00",
+          "sourceSystemUser": null,
+          "stateCode": "AL",
+          "transactionId": "d7b2ce6f-019e-4e1e-9e6f-8371a8b28575",
+          "updatedAt": "2023-06-05T18:37:49.000+00:00",
+          "validationKey": null,
+          "vet360Id": "1234567",
+          "zipCode": "54321",
+          "zipCodeSuffix": "6676",
+          "badAddress": false
+        },
+        "mobilePhone": {
+          "areaCode": "123",
+          "countryCode": "1",
+          "createdAt": "2023-03-24T21:19:10.000+00:00",
+          "extension": null,
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2023-03-20T12:19:58.000+00:00",
+          "id": 353810,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "4567891",
+          "phoneType": "MOBILE",
+          "sourceDate": "2023-03-20T12:19:58.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "fdbce6c6-7882-4398-a9df-68cd8cde64f2",
+          "updatedAt": "2023-03-24T21:19:10.000+00:00",
+          "vet360Id": "1234567"
+        },
+        "homePhone": {
+          "areaCode": "123",
+          "countryCode": "1",
+          "createdAt": "2023-05-18T16:05:47.000+00:00",
+          "extension": null,
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2023-05-18T16:05:44.000+00:00",
+          "id": 361700,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "4567890",
+          "phoneType": "HOME",
+          "sourceDate": "2023-05-18T16:05:44.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "f888ee63-c6e5-4724-a321-a49ff0ed87b7",
+          "updatedAt": "2023-05-18T16:05:47.000+00:00",
+          "vet360Id": "1234567"
+        },
+        "workPhone": null,
+        "temporaryPhone": null,
+        "faxNumber": null,
+        "textPermission": null
+      },
+      "session": {
+        "authBroker": "sis",
+        "ssoe": false,
+        "transactionid": null
+      }
+    }
+  },
+  "meta": {
+    "errors": null
+  }
+}

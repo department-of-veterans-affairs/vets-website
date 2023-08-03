@@ -6,9 +6,6 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { setData } from 'platform/forms-system/src/js/actions';
-import environment from 'platform/utilities/environment';
-
-import user from '../tests/fixtures/mocks/user.json';
 
 import formConfig from '../config/form';
 import { SAVED_CLAIM_TYPE } from '../constants';
@@ -31,7 +28,6 @@ export const Form0996App = ({
   loggedIn,
   location,
   children,
-  profile,
   formData,
   setFormData,
   router,
@@ -40,13 +36,6 @@ export const Form0996App = ({
   contestableIssues = {},
   legacyCount,
 }) => {
-  // vapContactInfo is an empty object locally, so mock it
-  const contactInfo = environment.isLocalhost()
-    ? user.data.attributes.vet360ContactInformation
-    : profile?.vapContactInfo || {};
-
-  const { email = {}, mobilePhone = {}, mailingAddress = {} } = contactInfo;
-
   // Make sure we're only loading issues once - see
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
   const [isLoadingIssues, setIsLoadingIssues] = useState(false);
@@ -54,7 +43,6 @@ export const Form0996App = ({
   useEffect(
     () => {
       if (loggedIn && getHlrWizardStatus() === WIZARD_STATUS_COMPLETE) {
-        const { veteran = {} } = formData || {};
         const areaOfDisagreement = getSelected(formData);
         if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
           // load benefit type contestable issues
@@ -64,9 +52,6 @@ export const Form0996App = ({
           getContestableIssues({ benefitType });
         } else if (
           formData?.benefitType !== contestableIssues?.benefitType ||
-          email?.emailAddress !== veteran.email ||
-          mobilePhone?.updatedAt !== veteran.phone?.updatedAt ||
-          mailingAddress?.updatedAt !== veteran.address?.updatedAt ||
           issuesNeedUpdating(
             contestableIssues?.issues,
             formData?.contestedIssues,
@@ -91,12 +76,6 @@ export const Form0996App = ({
            */
           setFormData({
             ...data,
-            veteran: {
-              ...veteran,
-              address: mailingAddress,
-              phone: mobilePhone,
-              email: email?.emailAddress,
-            },
             // Add benefitType from wizard
             benefitType: contestableIssues?.benefitType || formData.benefitType,
             contestedIssues: processContestableIssues(
@@ -127,9 +106,6 @@ export const Form0996App = ({
     },
     [
       loggedIn,
-      email,
-      mobilePhone,
-      mailingAddress,
       formData,
       setFormData,
       contestableIssues,
@@ -159,10 +135,7 @@ export const Form0996App = ({
   ) {
     content = (
       <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-        <va-loading-indicator
-          set-focus
-          message="Loading your previous decisions..."
-        />
+        <va-loading-indicator set-focus message="Loading application..." />
       </h1>
     );
   }

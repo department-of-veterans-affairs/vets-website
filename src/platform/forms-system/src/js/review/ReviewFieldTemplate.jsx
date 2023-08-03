@@ -39,6 +39,30 @@ export default function ReviewFieldTemplate(props) {
   }
   const Tag = uiSchema?.['ui:options']?.useDlWrap ? 'dl' : 'div';
 
+  /**
+   * Web components field handling
+   *
+   * For the review page, widgets are chosen based on their schema type
+   * (boolean, string, etc) or if ui:widget is defined, then it will look
+   * up a review widget based on that same name. See ./widgets.jsx or
+   * ./StringField.jsx for examples.
+   *
+   * Easiest solution is to just leverage the widget logic and choose an
+   * appropriate widget for the review page, or we can also choose to
+   * set the ui:reviewField or define a ui:reviewWidget
+   */
+  if (
+    uiSchema?.['ui:webComponentField'] &&
+    !uiSchema?.['ui:widget'] &&
+    !uiSchema?.['ui:reviewField']
+  ) {
+    if (uiSchema?.['ui:webComponentField'].name === 'VaMemorableDateField') {
+      uiSchema['ui:widget'] = 'date';
+    } else if (uiSchema?.['ui:webComponentField'].name === 'VaRadioField') {
+      uiSchema['ui:widget'] = 'radio';
+    }
+  }
+
   return (
     <Tag className="review-row">
       <dt>

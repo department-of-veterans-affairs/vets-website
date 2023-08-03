@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { dateFormat } from '../../util/helpers';
+import _ from 'lodash';
+import moment from 'moment';
 import ItemList from '../shared/ItemList';
+import { vitalTypeDisplayNames } from '../../util/constants';
 
 const VitalListItem = props => {
   const { record } = props;
-  const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
 
   const content = () => {
     if (record) {
@@ -15,28 +16,26 @@ const VitalListItem = props => {
           className="record-list-item vads-u-padding-y--2 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
           data-testid="record-list-item"
         >
-          <h4>{record.name}</h4>
+          <h4>{vitalTypeDisplayNames[record.type]}</h4>
           <div className="vads-u-line-height--3">
-            Measurement: {record.measurement}
+            Result: {record.measurement}
           </div>
-          <div>Most recent date: {formattedDate}</div>
+          <div className="vads-u-line-height--3">
+            {moment(record.date).format('LLL')}
+          </div>
           <div className="location-collapsed vads-u-line-height--3">
-            Location: {record.facility}
+            Location: {record.location}
           </div>
           <div className="print-only">
-            Provider comments:{' '}
-            <ItemList
-              list={record.comments}
-              emptyMessage="No comments at this time"
-            />
+            Provider notes: <ItemList list={record.notes} />
           </div>
           <Link
-            to={`/health-history/vitals/${record.name
-              .toLowerCase()
-              .replace(/\s+/g, '')}`}
+            to={`/vitals/${_.kebabCase(record.type)}`}
             className="vads-u-margin-y--0p5 no-print"
           >
-            <strong>View {record.name} over time</strong>
+            <strong>
+              View {vitalTypeDisplayNames[record.type].toLowerCase()} over time
+            </strong>
             <i
               className="fas fa-angle-right details-link-icon"
               aria-hidden="true"

@@ -1,14 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
+import userEvent from '@testing-library/user-event';
+
+import { waitFor } from '@testing-library/dom';
+import { mockFetch } from 'platform/testing/unit/helpers';
+import ClosestCityStatePage from '../../../new-appointment/components/ClosestCityStatePage';
 import {
   renderWithStoreAndRouter,
   setCommunityCareFlow,
 } from '../../mocks/setup';
-import userEvent from '@testing-library/user-event';
-
-import ClosestCityStatePage from '../../../new-appointment/components/ClosestCityStatePage';
-import { waitFor } from '@testing-library/dom';
-import { mockFetch } from 'platform/testing/unit/helpers';
 
 describe('VAOS <ClosestCityStatePage>', () => {
   beforeEach(() => mockFetch());
@@ -16,7 +16,9 @@ describe('VAOS <ClosestCityStatePage>', () => {
   it('should show supported parent sites', async () => {
     // Given the user has two supported parent sites
     const store = await setCommunityCareFlow({
-      toggles: {},
+      toggles: {
+        vaOnlineSchedulingFacilitiesServiceV2: true,
+      },
       registeredSites: ['983'],
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },
@@ -48,7 +50,9 @@ describe('VAOS <ClosestCityStatePage>', () => {
   it('should not submit without choosing a site', async () => {
     // Given the user has two supported parent sites
     const store = await setCommunityCareFlow({
-      toggles: {},
+      toggles: {
+        vaOnlineSchedulingFacilitiesServiceV2: true,
+      },
       registeredSites: ['983'],
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },
@@ -80,7 +84,9 @@ describe('VAOS <ClosestCityStatePage>', () => {
   it('should continue to preferences page', async () => {
     // Given the user has two supported parent sites
     const store = await setCommunityCareFlow({
-      toggles: {},
+      toggles: {
+        vaOnlineSchedulingFacilitiesServiceV2: true,
+      },
       registeredSites: ['983'],
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },

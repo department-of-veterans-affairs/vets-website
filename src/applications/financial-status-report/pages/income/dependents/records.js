@@ -1,7 +1,7 @@
 import React from 'react';
-import ItemLoop from '../../../components/ItemLoop';
-import CardDetailsView from '../../../components/CardDetailsView';
-import DependentAges from '../../../components/DependentAges';
+import ItemLoop from '../../../components/shared/ItemLoop';
+import CardDetailsView from '../../../components/shared/CardDetailsView';
+import DependentAges from '../../../components/household/DependentAges';
 
 export const uiSchema = {
   'ui:title': () => (
@@ -62,7 +62,9 @@ export const schema = {
 export const uiSchemaEnhanced = {
   'ui:title': () => (
     <>
-      <legend className="schemaform-block-title">Your dependents</legend>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Your dependents</h3>
+      </legend>
       <p>Enter each dependent’s age separately.</p>
     </>
   ),

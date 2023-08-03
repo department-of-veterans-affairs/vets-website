@@ -412,7 +412,7 @@ describe('<ReviewCollapsibleChapter>', () => {
     );
 
     expect(wrapper.find('.schemaform-review-chapter-error').length).to.equal(1);
-    expect(wrapper.find('.schemaform-review-page-warning').length).to.equal(1);
+    expect(wrapper.find('.schemaform-review-page-error').length).to.equal(1);
     wrapper.unmount();
   });
   it('should handle submitting array page', () => {
@@ -1102,6 +1102,31 @@ describe('<ReviewCollapsibleChapter>', () => {
 
       expect(queryByTestId('custom-page')).to.exist;
       expect(queryByTestId('custom-page-review')).not.to.exist;
+    });
+
+    it('should include noop navigation functions when rendering CustomPage in edit mode', () => {
+      const { pages, chapterKey, chapter, form } = getProps();
+      let result;
+      const CustomPage = props => {
+        result = props;
+        return <div data-testid="custom-page" />;
+      };
+      form.pages.test.editMode = true;
+      form.pages.test.CustomPage = CustomPage;
+      pages[0].CustomPage = CustomPage;
+      render(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+        />,
+      );
+
+      expect(result.goBack.toString()).to.contain('noop()');
+      expect(result.goForward.toString()).to.contain('noop()');
     });
 
     it('should render a CustomPageReview for each item in an array when showPagePerItem is true', () => {

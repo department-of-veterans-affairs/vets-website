@@ -14,7 +14,6 @@ import {
 import {
   DependentSupportDescription,
   GrossIncomeDescription,
-  NetIncomeDescription,
   OtherIncomeDescription,
 } from '../components/FormDescriptions';
 
@@ -31,7 +30,6 @@ export const createDependentSchema = hcaSchema => {
       'socialSecurityNumber',
       'dateOfBirth',
       'becameDependent',
-      'dependentEducationExpenses',
       'disabledBefore18',
       'cohabitedLastYear',
     ],
@@ -103,9 +101,12 @@ export const uiSchema = {
       'If your dependent is between 18 and 23 years of age, did they attend school during the last calendar year?',
     'ui:widget': 'yesNo',
   },
-  dependentEducationExpenses: currencyUI(
-    'Expenses your dependent paid for college, vocational rehabilitation, or training (e.g., tuition, books, materials)',
-  ),
+  dependentEducationExpenses: {
+    ...currencyUI(
+      'Expenses your dependent paid for college, vocational rehabilitation, or training (e.g., tuition, books, materials)',
+    ),
+    'ui:required': () => true,
+  },
   cohabitedLastYear: {
     'ui:title': 'Did your dependent live with you last year?',
     'ui:widget': 'yesNo',
@@ -152,6 +153,9 @@ export const dependentIncomeUiSchema = {
  * NOTE: for household v2 only -- rename, if needed, when v2 is fully-adopted
  */
 
+const date = new Date();
+const lastYear = date.getFullYear() - 1;
+
 // define uiSchemas for each page in dependent flow
 export const dependentUISchema = {
   basic: {
@@ -194,13 +198,12 @@ export const dependentUISchema = {
   },
   education: {
     attendedSchoolLastYear: {
-      'ui:title':
-        'If your dependent is between 18 and 23 years of age, did they attend school during the last calendar year?',
+      'ui:title': `If your dependent is between 18 and 23 years old, were they enrolled as a full-time or part-time student in ${lastYear}?`,
       'ui:widget': 'yesNo',
     },
     dependentEducationExpenses: {
       ...currencyUI(
-        'Expenses your dependent paid for college, vocational rehabilitation, or training (e.g., tuition, books, materials)',
+        'Enter the total amount of money your dependent paid for college, vocational rehabilitation, or training (like tuition, book, or supplies)',
       ),
       'ui:validations': [validateCurrency],
     },
@@ -208,43 +211,58 @@ export const dependentUISchema = {
   additional: {
     disabledBefore18: {
       'ui:title':
-        'Was your dependent permanently and totally disabled before the age of 18?',
+        'Is your dependent living with a permanent disability that happened before they turned 18 years old?',
       'ui:widget': 'yesNo',
     },
     cohabitedLastYear: {
-      'ui:title': 'Did your dependent live with you last year?',
+      'ui:title': `Did your dependent live with you in ${lastYear}?`,
       'ui:widget': 'yesNo',
     },
     'view:dependentIncome': {
-      'ui:title': 'Did your dependent earn income last year?',
+      'ui:title': `Did your dependent earn income in ${lastYear}?`,
       'ui:widget': 'yesNo',
     },
   },
   support: {
     receivedSupportLastYear: {
-      'ui:title':
-        'If your dependent didn\u2019t live with you last year, did you provide support?',
+      'ui:title': `If your dependent didn\u2019t live with you in ${lastYear}, did you provide financial support?`,
       'ui:description': DependentSupportDescription,
       'ui:widget': 'yesNo',
     },
   },
   income: {
-    grossIncome: {
-      ...currencyUI('Dependent\u2019s gross annual income from employment'),
+    'view:grossIncome': {
+      'ui:title': 'Gross income from work',
       'ui:description': GrossIncomeDescription,
-      'ui:validations': [validateCurrency],
+      grossIncome: {
+        ...currencyUI(
+          `Enter your dependent\u2019s gross annual income from ${lastYear}`,
+        ),
+        'ui:validations': [validateCurrency],
+      },
     },
-    netIncome: {
-      ...currencyUI(
-        'Dependent\u2019s net income from your farm, ranch, property or business',
-      ),
-      'ui:description': NetIncomeDescription,
-      'ui:validations': [validateCurrency],
+    'view:netIncome': {
+      'ui:title': 'Net income from a farm, property, or business',
+      'ui:description':
+        'Net income is income after any taxes and other deductions are subtracted.',
+      netIncome: {
+        ...currencyUI(
+          `Enter your dependent\u2019s net annual income from a farm, ranch, property or business from ${lastYear}`,
+        ),
+        'ui:validations': [validateCurrency],
+        'ui:required': () => true,
+      },
     },
-    otherIncome: {
-      ...currencyUI('Dependent\u2019s other income'),
+    'view:otherIncome': {
+      'ui:title': 'Other income',
       'ui:description': OtherIncomeDescription,
-      'ui:validations': [validateCurrency],
+      otherIncome: {
+        ...currencyUI(
+          `Enter your dependent\u2019s other annual income from ${lastYear}`,
+        ),
+        'ui:validations': [validateCurrency],
+        'ui:required': () => true,
+      },
     },
   },
 };
@@ -267,7 +285,7 @@ export const dependentSchema = {
           first: {
             type: 'string',
             minLength: 1,
-            maxLength: 30,
+            maxLength: 25,
             pattern: '^.*\\S.*',
           },
           middle: {
@@ -277,7 +295,7 @@ export const dependentSchema = {
           last: {
             type: 'string',
             minLength: 2,
-            maxLength: 30,
+            maxLength: 35,
             pattern: '^.*\\S.*',
           },
           suffix: {
@@ -352,22 +370,39 @@ export const dependentSchema = {
   },
   income: {
     type: 'object',
-    required: ['grossIncome', 'netIncome', 'otherIncome'],
     properties: {
-      grossIncome: {
-        type: 'number',
-        minimum: 0,
-        maximum: 9999999.99,
+      'view:grossIncome': {
+        type: 'object',
+        required: ['grossIncome'],
+        properties: {
+          grossIncome: {
+            type: 'number',
+            minimum: 0,
+            maximum: 9999999.99,
+          },
+        },
       },
-      netIncome: {
-        type: 'number',
-        minimum: 0,
-        maximum: 9999999.99,
+      'view:netIncome': {
+        type: 'object',
+        required: ['netIncome'],
+        properties: {
+          netIncome: {
+            type: 'number',
+            minimum: 0,
+            maximum: 9999999.99,
+          },
+        },
       },
-      otherIncome: {
-        type: 'number',
-        minimum: 0,
-        maximum: 9999999.99,
+      'view:otherIncome': {
+        type: 'object',
+        required: ['otherIncome'],
+        properties: {
+          otherIncome: {
+            type: 'number',
+            minimum: 0,
+            maximum: 9999999.99,
+          },
+        },
       },
     },
   },

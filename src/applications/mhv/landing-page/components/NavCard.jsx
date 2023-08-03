@@ -45,7 +45,10 @@ NavCard.propTypes = {
     'prescription-bottle',
   ]),
   links: PropTypes.arrayOf(
-    PropTypes.shape({ text: PropTypes.string, href: PropTypes.string }),
+    PropTypes.shape({
+      text: PropTypes.oneOf([PropTypes.string, PropTypes.element]),
+      href: PropTypes.string,
+    }),
   ),
   title: PropTypes.string,
 };

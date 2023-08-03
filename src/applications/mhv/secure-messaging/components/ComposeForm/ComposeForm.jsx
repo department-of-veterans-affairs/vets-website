@@ -18,12 +18,12 @@ import { sortRecipients } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
-import HowToAttachFiles from '../HowToAttachFiles';
 import {
   draftAutoSaveTimeout,
   Categories,
   Prompts,
   ErrorMessages,
+  Paths,
 } from '../../util/constants';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -74,6 +74,33 @@ const ComposeForm = props => {
     EDUCATION,
   } = Categories;
 
+  const setUnsavedNavigationError = typeOfError => {
+    if (typeOfError === 'attachment') {
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+        confirmButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
+        cancelButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
+      });
+    } else {
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+        confirmButtonText: 'Continue editing',
+        cancelButtonText: 'Delete draft',
+      });
+    }
+  };
+
+  useEffect(
+    () => {
+      if (attachments.length > 0) {
+        setUnsavedNavigationError('attachment');
+      }
+    },
+    [attachments],
+  );
+
   useEffect(
     () => {
       if (recipients?.length) {
@@ -114,11 +141,11 @@ const ComposeForm = props => {
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
           dispatch(sendMessage(sendData, true))
-            .then(() => history.push('/inbox'))
+            .then(() => history.push(Paths.INBOX))
             .catch(setSendMessageFlag(false));
         } else {
           dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
-            history.push('/inbox'),
+            history.push(Paths.INBOX),
           );
         }
       }
@@ -226,7 +253,7 @@ const ComposeForm = props => {
   const saveDraftHandler = async (type, e) => {
     if (type === 'manual') {
       setUserSaved(true);
-      setLastFocusableElement(e.target.shadowRoot.querySelector('button'));
+      setLastFocusableElement(e.target);
       await setMessageInvalid(false);
       if (checkMessageValidity()) {
         setNavigationError(null);
@@ -286,14 +313,6 @@ const ComposeForm = props => {
     ],
   );
 
-  const setUnsavedNavigationError = () => {
-    setNavigationError({
-      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-      confirmButtonText: 'Continue editing',
-      cancelButtonText: 'Delete draft',
-    });
-  };
-
   const recipientHandler = e => {
     setSelectedRecipient(e.detail.value);
     if (e.detail.value !== '0') {
@@ -346,9 +365,16 @@ const ComposeForm = props => {
         p2={navigationError?.p2}
         confirmButtonText={navigationError?.confirmButtonText}
         cancelButtonText={navigationError?.cancelButtonText}
+        saveDraftHandler={saveDraftHandler}
       />
-      <div className="compose-form-header" data-testid="compose-form-header">
-        <h3>{setMessageTitle()}</h3>
+      <div
+        className="compose-form-header"
+        data-testid="compose-form-header"
+        data-dd-privacy="mask"
+      >
+        <h2 className="vads-u-margin--0 vads-u-font-size--lg">
+          {setMessageTitle()}
+        </h2>
       </div>
       <div className="compose-inputs-container">
         {recipientsList && (
@@ -363,6 +389,7 @@ const ComposeForm = props => {
               class="composeSelect"
               data-testid="compose-recipient-select"
               error={recipientError}
+              data-dd-privacy="mask"
             >
               {sortRecipients(recipientsList)?.map(item => (
                 <option key={item.id} value={item.id}>
@@ -393,13 +420,14 @@ const ComposeForm = props => {
               </a>
             </VaModal>
 
-            <button
-              type="button"
-              className="link-button edit-input-button"
+            <va-button
+              id="edit-list-button"
+              text="Edit list"
+              secondary=""
+              class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1 hydrated"
+              data-testid="Edit-List-Button"
               onClick={() => setEditListModal(true)}
-            >
-              Edit List
-            </button>
+            />
           </>
         )}
         <div className="compose-form-div">
@@ -423,6 +451,7 @@ const ComposeForm = props => {
             onInput={subjectHandler}
             value={subject}
             error={subjectError}
+            data-dd-privacy="mask"
           />
         </div>
         <div className="compose-form-div">
@@ -436,11 +465,10 @@ const ComposeForm = props => {
             onInput={messageBodyHandler}
             value={messageBody}
             error={bodyError}
+            data-dd-privacy="mask"
           />
         </div>
         <section className="attachments-section">
-          <div className="compose-attachments-heading">Attachments</div>
-          <HowToAttachFiles />
           <AttachmentsList
             compose
             attachments={attachments}
@@ -453,30 +481,37 @@ const ComposeForm = props => {
             setAttachments={setAttachments}
           />
         </section>
-        <DraftSavedInfo userSaved={userSaved} />
-        <div className="compose-form-actions vads-u-display--flex">
-          <va-button
-            text="Send"
-            class="vads-u-flex--1 send-button"
+        <DraftSavedInfo userSaved={userSaved} attachments={attachments} />
+        <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
+          <button
+            type="button"
+            id="send-button"
+            className="usa-button usa-button-primary vads-u-width--full medium-screen:vads-u-flex--1 vads-u-margin-top--0 medium-screen:vads-u-margin-right--1 vads-u-margin-right--0"
             data-testid="Send-Button"
             onClick={sendMessageHandler}
-          />
-          <va-button
+          >
+            Send
+          </button>
+
+          <button
+            type="button"
             id="save-draft-button"
-            text="Save draft"
-            secondary
-            class="vads-u-flex--1 save-draft-button"
+            // className={`usa-button usa-button-secondary save-draft-button vads-u-flex--1 vads-u-margin-top--0 ${
+            //   draft ? 'xsmall-screen:vads-u-margin-right--1 vads-u-margin-right--0' : ''
+            // }`}
+            className="usa-button usa-button-secondary save-draft-button vads-u-width--full xsmall-screen:vads-u-flex--1 vads-u-margin-top--0 xsmall-screen:vads-u-margin-right--1 vads-u-margin-right--0"
             data-testid="Save-Draft-Button"
             onClick={e => saveDraftHandler('manual', e)}
+          >
+            <i className="fas fa-save" aria-hidden="true" />
+            Save draft
+          </button>
+
+          <DeleteDraft
+            draftId={draft?.messageId}
+            setLastFocusableElement={setLastFocusableElement}
+            setNavigationError={setNavigationError}
           />
-          <div className="vads-u-flex--1">
-            {draft && (
-              <DeleteDraft
-                draft={draft}
-                setLastFocusableElement={setLastFocusableElement}
-              />
-            )}
-          </div>
         </div>
       </div>
     </form>

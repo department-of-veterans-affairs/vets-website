@@ -1,8 +1,9 @@
 // Selectors for elements in find-forms
 const SELECTORS = {
   APP: '[data-e2e-id="find-form-search-form"]',
-  FINDFORM_INPUT: '[data-e2e-id="find-form-input"]',
-  FINDFORM_SEARCH: '[data-e2e-id="find-form-search"]',
+  FINDFORM_INPUT_ROOT: 'va-search-input',
+  FINDFORM_INPUT: 'input',
+  FINDFORM_SEARCH: 'button',
   FINDFORM_ERROR_BODY: '[data-e2e-id="find-form-error-body"]',
   FINDFORM_REQUIRED: '[data-e2e-id="find-form-required"]',
   FINDFORM_ERROR_MSG: '[data-e2e-id="find-form-error-message"]',
@@ -14,31 +15,37 @@ class FindFormComponent {
     // Loads the forms page and checks existence
     if (query || query === ' ') cy.visit(`/find-forms/?q=${query}`);
     else cy.visit(`/find-forms/`);
-
+    cy.injectAxe();
     cy.get(SELECTORS.APP).should('exist');
   };
 
   inputText = str => {
     // Find input field, clear, and enter the string
     if (str) {
-      cy.get(SELECTORS.FINDFORM_INPUT)
-        .should('exist')
-        .should('not.be.disabled')
-        .focus()
+      cy.get(SELECTORS.FINDFORM_INPUT_ROOT)
+        .shadow()
+        .find(SELECTORS.FINDFORM_INPUT)
+        .scrollIntoView()
         .clear()
-        .type(str, { force: true });
+        .focus()
+        .type(str, { force: true })
+        .should('not.be.disabled');
     }
   };
 
   focusSearch = () => {
-    cy.get(SELECTORS.FINDFORM_SEARCH)
+    cy.get(SELECTORS.FINDFORM_INPUT_ROOT)
+      .shadow()
+      .find(SELECTORS.FINDFORM_SEARCH)
       .should('exist')
       .focus();
   };
 
   clickSearch = () => {
     // Click search button
-    cy.get(SELECTORS.FINDFORM_SEARCH)
+    cy.get(SELECTORS.FINDFORM_INPUT_ROOT)
+      .shadow()
+      .find(SELECTORS.FINDFORM_SEARCH)
       .should('exist')
       .click();
   };
@@ -53,10 +60,7 @@ class FindFormComponent {
 
   isErrorDisplayed = () => {
     // Find the error body on the page
-    cy.get(SELECTORS.FINDFORM_ERROR_BODY).should(
-      'have.class',
-      'usa-input-error',
-    );
+    cy.get(SELECTORS.APP).should('have.class', 'usa-input-error');
 
     // Find the error message on the page
     cy.get(SELECTORS.FINDFORM_ERROR_MSG)
@@ -70,11 +74,7 @@ class FindFormComponent {
   };
 
   isErrorNotDisplayed = () => {
-    cy.get(SELECTORS.FINDFORM_ERROR_BODY).should(
-      'not.have.class',
-      'usa-input-error',
-    );
-
+    cy.get(SELECTORS.FINDFORM_ERROR_BODY).should('not.exist');
     cy.get(SELECTORS.FINDFORM_ERROR_MSG).should('not.exist');
     cy.get(SELECTORS.FINDFORM_REQUIRED).should('not.exist');
   };
@@ -82,7 +82,7 @@ class FindFormComponent {
 
 // Tests for find-forms application
 describe('Find a VA form smoke test', () => {
-  beforeEach(function() {
+  beforeEach(() => {
     cy.server();
   });
 
@@ -92,7 +92,6 @@ describe('Find a VA form smoke test', () => {
     findFormComponent.loadFindFormComponent();
     findFormComponent.isErrorNotDisplayed();
 
-    cy.injectAxe();
     cy.axeCheck();
   });
 
@@ -101,7 +100,6 @@ describe('Find a VA form smoke test', () => {
     findFormComponent.inputTextAndSearch('');
     findFormComponent.isErrorDisplayed();
 
-    cy.injectAxe();
     cy.axeCheck();
   });
 
@@ -110,7 +108,6 @@ describe('Find a VA form smoke test', () => {
     findFormComponent.inputTextAndSearch('h');
     findFormComponent.isErrorDisplayed();
 
-    cy.injectAxe();
     cy.axeCheck();
   });
 
@@ -119,7 +116,6 @@ describe('Find a VA form smoke test', () => {
     findFormComponent.inputTextAndSearch('health');
     findFormComponent.isErrorNotDisplayed();
 
-    cy.injectAxe();
     cy.axeCheck();
   });
 
@@ -127,7 +123,6 @@ describe('Find a VA form smoke test', () => {
     findFormComponent.loadFindFormComponent(' ');
     findFormComponent.isErrorNotDisplayed();
 
-    cy.injectAxe();
     cy.axeCheck();
   });
 
@@ -135,7 +130,6 @@ describe('Find a VA form smoke test', () => {
     findFormComponent.loadFindFormComponent('h');
     findFormComponent.isErrorDisplayed();
 
-    cy.injectAxe();
     cy.axeCheck();
   });
 
@@ -143,7 +137,6 @@ describe('Find a VA form smoke test', () => {
     findFormComponent.loadFindFormComponent('health');
     findFormComponent.isErrorNotDisplayed();
 
-    cy.injectAxe();
     cy.axeCheck();
   });
 
@@ -155,7 +148,6 @@ describe('Find a VA form smoke test', () => {
     findFormComponent.inputTextAndSearch('health');
     findFormComponent.isErrorNotDisplayed();
 
-    cy.injectAxe();
     cy.axeCheck();
   });
 
@@ -166,7 +158,6 @@ describe('Find a VA form smoke test', () => {
     findFormComponent.inputText('h');
     findFormComponent.isErrorNotDisplayed();
 
-    cy.injectAxe();
     cy.axeCheck();
   });
 
@@ -176,7 +167,6 @@ describe('Find a VA form smoke test', () => {
     findFormComponent.focusSearch();
     findFormComponent.isErrorNotDisplayed();
 
-    cy.injectAxe();
     cy.axeCheck();
   });
 });

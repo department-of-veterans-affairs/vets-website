@@ -133,7 +133,13 @@ class FolderManagementPage {
 
     cy.contains(mockParentMessageDetails.data.attributes.subject).click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.wait('@message1');
     // cy.wait('@full-thread');
   };

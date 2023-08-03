@@ -65,4 +65,29 @@ describe('Supplemental Claims VA evidence request page', () => {
     expect($('.usa-input-error', container)).to.not.exist;
     expect(onSubmit.called).to.be.true;
   });
+
+  it('should capture google analytics', () => {
+    global.window.dataLayer = [];
+    const { container } = render(
+      <DefinitionTester
+        definitions={{}}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={() => {}}
+      />,
+    );
+
+    fireEvent.click($('input[value="Y"]', container));
+
+    const event = global.window.dataLayer.slice(-1)[0];
+    expect(event).to.deep.equal({
+      event: 'int-radio-button-option-click',
+      'radio-button-label':
+        'Would you like us to request your VA medical records for you?',
+      'radio-button-optionLabel': 'Yes',
+      'radio-button-required': true,
+    });
+  });
 });

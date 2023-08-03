@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import { AddIssue } from '../../components/AddIssue';
 import { issueErrorMessages } from '../../content/addIssue';
-import { MAX_LENGTH, LAST_HLR_ITEM } from '../../constants';
+import { MAX_LENGTH, LAST_ISSUE } from '../../constants';
 import { getDate } from '../../utils/dates';
 import { $, $$ } from '../../utils/ui';
 
@@ -28,9 +28,9 @@ describe('<AddIssue>', () => {
     onReviewPage = false,
   } = {}) => {
     if (index !== null) {
-      window.sessionStorage.setItem(LAST_HLR_ITEM, index);
+      window.sessionStorage.setItem(LAST_ISSUE, index);
     } else {
-      window.sessionStorage.removeItem(LAST_HLR_ITEM);
+      window.sessionStorage.removeItem(LAST_ISSUE);
     }
     return (
       <div>
@@ -47,7 +47,7 @@ describe('<AddIssue>', () => {
   };
 
   afterEach(() => {
-    window.sessionStorage.removeItem(LAST_HLR_ITEM);
+    window.sessionStorage.removeItem(LAST_ISSUE);
   });
 
   it('should render', () => {
@@ -62,7 +62,10 @@ describe('<AddIssue>', () => {
     const elems = $$('va-text-input, va-memorable-date', container);
 
     expect(elems[0].error).to.contain(issueErrorMessages.missingIssue);
-    expect(elems[1].error).to.contain(issueErrorMessages.invalidDate);
+    expect(elems[1].error).to.contain(issueErrorMessages.missingDecisionDate);
+    expect(elems[1].invalidMonth).to.be.true;
+    expect(elems[1].invalidDay).to.be.true;
+    expect(elems[1].invalidYear).to.be.true;
     expect(goToPathSpy.called).to.be.false;
   });
   it('should navigate on cancel', () => {
@@ -98,6 +101,9 @@ describe('<AddIssue>', () => {
 
     const date = $('va-memorable-date', container);
     expect(date.error).to.contain(issueErrorMessages.pastDate);
+    expect(date.invalidMonth).to.be.false;
+    expect(date.invalidDay).to.be.false;
+    expect(date.invalidYear).to.be.true;
   });
   it('should show an error when the issue date is > 1 year in the future', () => {
     const decisionDate = getDate({ offset: { months: +13 } });
@@ -111,6 +117,9 @@ describe('<AddIssue>', () => {
 
     const date = $('va-memorable-date', container);
     expect(date.error).to.contain(issueErrorMessages.pastDate);
+    expect(date.invalidMonth).to.be.false;
+    expect(date.invalidDay).to.be.false;
+    expect(date.invalidYear).to.be.true;
   });
   it('should show an error when the issue date is > 1 year in the past', () => {
     const decisionDate = getDate({ offset: { months: -13 } });
@@ -124,6 +133,9 @@ describe('<AddIssue>', () => {
 
     const date = $('va-memorable-date', container);
     expect(date.error).to.contain(issueErrorMessages.newerDate);
+    expect(date.invalidMonth).to.be.false;
+    expect(date.invalidDay).to.be.false;
+    expect(date.invalidYear).to.be.true;
   });
 
   it('should show an error when the issue is not unique', () => {

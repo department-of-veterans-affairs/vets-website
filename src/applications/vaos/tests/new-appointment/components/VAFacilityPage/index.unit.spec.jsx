@@ -8,32 +8,21 @@ import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '../../../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import {
-  getParentSiteMock,
-  getRequestEligibilityCriteriaMock,
-  getDirectBookingEligibilityCriteriaMock,
-} from '../../../mocks/v0';
-import {
   createTestStore,
   setTypeOfCare,
   renderWithStoreAndRouter,
   setTypeOfEyeCare,
 } from '../../../mocks/setup';
-import {
-  mockEligibilityFetches,
-  mockParentSites,
-  mockRequestEligibilityCriteria,
-  mockDirectBookingEligibilityCriteria,
-  mockGetCurrentPosition,
-} from '../../../mocks/helpers';
-import {
-  mockSchedulingConfigurations,
-  mockVAOSParentSites,
-} from '../../../mocks/helpers.v2';
+import { mockGetCurrentPosition } from '../../../mocks/helpers';
+import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
 import { getSchedulingConfigurationMock } from '../../../mocks/v2';
 import { NewAppointment } from '../../../../new-appointment';
 import { FETCH_STATUS } from '../../../../utils/constants';
 import { createMockFacilityByVersion } from '../../../mocks/data';
-import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
+import {
+  mockEligibilityFetchesByVersion,
+  mockFacilitiesFetchByVersion,
+} from '../../../mocks/fetch';
 
 describe('VAOS <VAFacilityPage>', () => {
   describe('when there are multiple facilities to choose from', () => {
@@ -51,56 +40,8 @@ describe('VAOS <VAFacilityPage>', () => {
       },
     };
 
-    const parentSite983 = {
-      id: '983',
-      attributes: {
-        ...getParentSiteMock().attributes,
-        institutionCode: '983',
-        authoritativeName: 'Some VA facility',
-        rootStationCode: '983',
-        parentStationCode: '983',
-      },
-    };
-
-    const parentSite984 = {
-      id: '984',
-      attributes: {
-        ...getParentSiteMock().attributes,
-        institutionCode: '984',
-        authoritativeName: 'Some VA facility 2',
-        rootStationCode: '984',
-        parentStationCode: '984',
-      },
-    };
-
-    const parentSiteIds = ['983', '984'];
-
-    const typeOfCareId = '323';
-
-    const requestFacilityAttributes = getRequestEligibilityCriteriaMock()
-      .attributes;
-
     const facilityIds = ['983', '983GC', '983GB', '983HK', '983QA', '984'];
-
-    const requestFacilities = facilityIds.map(id =>
-      getRequestEligibilityCriteriaMock({
-        id,
-        typeOfCareId,
-      }),
-    );
-
-    const directFacilities = facilityIds.map(id =>
-      getDirectBookingEligibilityCriteriaMock({
-        id,
-        typeOfCareId,
-      }),
-    );
-
-    const vhaIds = facilityIds.map(
-      id => `vha_${id.replace('983', '442').replace('984', '552')}`,
-    );
-
-    const facilities = vhaIds.map((id, index) =>
+    const facilities = facilityIds.map((id, index) =>
       createMockFacilityByVersion({
         id: id.replace('vha_', ''),
         name: `Fake facility name ${index + 1}`,
@@ -109,7 +50,6 @@ describe('VAOS <VAFacilityPage>', () => {
         address: {
           city: `Fake city ${index + 1}`,
         },
-        version: 0,
       }),
     );
 
@@ -124,14 +64,40 @@ describe('VAOS <VAFacilityPage>', () => {
     beforeEach(() => mockFetch());
 
     it('should display error messaging if user denied location permissions', async () => {
-      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-      mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
-      mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-      mockFacilitiesFetchByVersion({ facilities, version: 0 });
-      mockEligibilityFetches({
-        siteId: '983',
+      mockFacilitiesFetchByVersion({
+        children: true,
+        ids: ['983', '984'],
+        facilities: [
+          createMockFacilityByVersion({
+            id: '983',
+            name: 'Facility 983',
+          }),
+          createMockFacilityByVersion({
+            id: '983GC',
+            name: 'Facility 983GC',
+          }),
+        ],
+      });
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+          requestEnabled: false,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983GC',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+          requestEnabled: false,
+        }),
+      ]);
+
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
-        typeOfCareId: '323',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       mockGetCurrentPosition({ fail: true });
       const store = createTestStore({
@@ -174,23 +140,50 @@ describe('VAOS <VAFacilityPage>', () => {
     });
 
     it('should not display show more button if < 6 locations', async () => {
-      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-      mockDirectBookingEligibilityCriteria(
-        parentSiteIds,
-        directFacilities.slice(0, 5),
-      );
-      mockRequestEligibilityCriteria(
-        parentSiteIds,
-        requestFacilities.slice(0, 5),
-      );
       mockFacilitiesFetchByVersion({
+        children: true,
+        ids: ['983', '984'],
         facilities: facilities.slice(0, 5),
-        version: 0,
       });
-      mockEligibilityFetches({
-        siteId: '983',
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983GC',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983GB',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983HK',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983QA',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+        }),
+      ]);
+
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
         typeOfCareId: '323',
+        limit: true,
+        requestPastVisits: true,
+      });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
@@ -214,17 +207,43 @@ describe('VAOS <VAFacilityPage>', () => {
     });
 
     it('should display previous user choices when returning to page', async () => {
-      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-      mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
-      mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
       mockFacilitiesFetchByVersion({
-        facilities,
-        version: 0,
+        children: true,
+        ids: ['983', '984'],
+        facilities: [
+          createMockFacilityByVersion({
+            id: '983',
+            name: 'Fake facility name 1',
+          }),
+          createMockFacilityByVersion({
+            id: '984',
+          }),
+        ],
       });
-      mockEligibilityFetches({
-        siteId: '983',
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      ]);
+
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
         typeOfCareId: '323',
+        limit: true,
+        requestPastVisits: true,
+      });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
@@ -257,66 +276,37 @@ describe('VAOS <VAFacilityPage>', () => {
     });
 
     it('should show no facilities message with up to two unsupported facilities for users with address', async () => {
-      mockParentSites(['983', '984'], [parentSite983, parentSite984]);
-      const facilityConfig = getDirectBookingEligibilityCriteriaMock({
-        id: '123',
-        typeOfCareId: '323',
-        patientHistoryRequired: null,
-      });
-      const facilityDetails = createMockFacilityByVersion({
-        id: '123',
-        name: 'Bozeman VA medical center',
-        lat: 39.1362562,
-        long: -85.6804804,
-        version: 0,
-      });
-      facilityDetails.attributes.address = {
-        physical: {
-          zip: 'fake',
-          city: 'Bozeman',
-          state: 'MT',
-          address1: 'fake',
-          address2: null,
-          address3: null,
-        },
-      };
-      facilityDetails.attributes.phone = {
-        main: '4065555858',
-      };
-      mockDirectBookingEligibilityCriteria(parentSiteIds, [
-        facilityConfig,
-        getDirectBookingEligibilityCriteriaMock({
-          id: '124',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-        getDirectBookingEligibilityCriteriaMock({
-          id: '125',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-      ]);
-      mockRequestEligibilityCriteria(parentSiteIds, []);
       mockFacilitiesFetchByVersion({
+        children: true,
         facilities: [
-          facilityDetails,
           createMockFacilityByVersion({
-            id: '124',
-            name: 'Facility 124',
+            id: '983',
+            name: 'Facility 983',
             lat: 39.1362562,
             long: -85.6804804,
-            version: 0,
           }),
           createMockFacilityByVersion({
-            id: '125',
-            name: 'Facility 125',
+            id: '984',
+            name: 'Facility 984',
             lat: 39.1362562,
             long: -86.6804804,
-            version: 0,
           }),
         ],
-        version: 0,
       });
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          directEnabled: false,
+          requestEnabled: false,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'primaryCare',
+          directEnabled: false,
+          requestEnabled: false,
+        }),
+      ]);
 
       const state = {
         ...initialState,
@@ -349,24 +339,16 @@ describe('VAOS <VAFacilityPage>', () => {
       expect(screen.baseElement).to.contain.text(
         'None of the facilities where you receive care accepts online appointments for primary care.',
       );
-      expect(screen.getByText(/Bozeman VA medical center/i)).to.exist;
-      expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT');
+      expect(screen.getByText(/Facility 983/i)).to.exist;
+      expect(screen.baseElement).to.contain.text('Facility 983');
       expect(screen.getAllByTestId('facility-telephone')).to.exist;
-      expect(screen.getByText(/Facility 124/i)).to.exist;
-      expect(screen.queryByText(/Facility 125/i)).not.to.exist;
+      expect(screen.getByText(/Facility 984/i)).to.exist;
     });
 
     it('should show no facilities message with up to five unsupported facilities for users without address', async () => {
-      mockParentSites(['983', '984'], [parentSite983, parentSite984]);
-      const facilityConfig = getDirectBookingEligibilityCriteriaMock({
-        id: '123',
-        typeOfCareId: '323',
-        patientHistoryRequired: null,
-      });
       const facilityDetails = createMockFacilityByVersion({
         id: '123',
         name: 'Bozeman VA medical center',
-        version: 0,
       });
       facilityDetails.attributes.address = {
         physical: {
@@ -381,66 +363,42 @@ describe('VAOS <VAFacilityPage>', () => {
       facilityDetails.attributes.phone = {
         main: '4065555858',
       };
-      mockDirectBookingEligibilityCriteria(parentSiteIds, [
-        facilityConfig,
-        getDirectBookingEligibilityCriteriaMock({
-          id: '124',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-        getDirectBookingEligibilityCriteriaMock({
-          id: '125',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-        getDirectBookingEligibilityCriteriaMock({
-          id: '126',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-        getDirectBookingEligibilityCriteriaMock({
-          id: '127',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-        getDirectBookingEligibilityCriteriaMock({
-          id: '128',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-      ]);
-      mockRequestEligibilityCriteria(parentSiteIds, []);
       mockFacilitiesFetchByVersion({
+        children: true,
+        ids: ['983', '984'],
         facilities: [
           facilityDetails,
           createMockFacilityByVersion({
             id: '124',
             name: 'Facility 124',
-            version: 0,
           }),
           createMockFacilityByVersion({
             id: '125',
             name: 'Facility 125',
-            version: 0,
           }),
           createMockFacilityByVersion({
             id: '126',
             name: 'Facility 126',
-            version: 0,
           }),
           createMockFacilityByVersion({
             id: '127',
             name: 'Facility 127',
-            version: 0,
           }),
           createMockFacilityByVersion({
             id: '128',
             name: 'Facility 128',
-            version: 0,
           }),
         ],
-        version: 0,
       });
+
+      const configs = ['123', '124', '125', '126', '127', '128'].map(id =>
+        getSchedulingConfigurationMock({
+          id,
+          typeOfCareId: 'primaryCare',
+          requestEnabled: false,
+        }),
+      );
+      mockSchedulingConfigurations(configs);
 
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
@@ -455,7 +413,7 @@ describe('VAOS <VAFacilityPage>', () => {
         'None of the facilities where you receive care accepts online appointments for primary care.',
       );
       expect(screen.getByText(/Bozeman VA medical center/i)).to.exist;
-      expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT');
+      expect(screen.baseElement).to.contain.text('Bozeman VA medical center');
       expect(screen.getAllByTestId('facility-telephone')).to.exist;
       expect(screen.getByText(/Facility 124/i)).to.exist;
       expect(screen.getByText(/Facility 125/i)).to.exist;
@@ -465,7 +423,6 @@ describe('VAOS <VAFacilityPage>', () => {
     });
 
     it('should display an error message when facilities call fails', async () => {
-      mockParentSites(['983', '984'], [parentSite983, parentSite984]);
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
@@ -478,59 +435,18 @@ describe('VAOS <VAFacilityPage>', () => {
     });
 
     // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
-    it.skip('should show additional info link if there are unsupported facilities within 100 miles', async () => {
-      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-      mockDirectBookingEligibilityCriteria(parentSiteIds, [
-        getDirectBookingEligibilityCriteriaMock({
-          id: '983',
-          typeOfCareId: '323',
-        }),
-        getDirectBookingEligibilityCriteriaMock({
-          id: '983GC',
-          typeOfCareId: '323',
-        }),
-        getDirectBookingEligibilityCriteriaMock({
-          id: '984',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-        getDirectBookingEligibilityCriteriaMock({
-          id: '984GC',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-      ]);
-      mockRequestEligibilityCriteria(parentSiteIds, [
-        getRequestEligibilityCriteriaMock({
-          id: '983',
-          typeOfCareId: '323',
-        }),
-        getRequestEligibilityCriteriaMock({
-          id: '983GC',
-          typeOfCareId: '323',
-        }),
-        getRequestEligibilityCriteriaMock({
-          id: '984',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-        getRequestEligibilityCriteriaMock({
-          id: '984GC',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-      ]);
+    it('should show additional info link if there are unsupported facilities within 100 miles', async () => {
       mockFacilitiesFetchByVersion({
+        children: true,
+        ids: ['983', '984'],
         facilities: [
           createMockFacilityByVersion({
             id: '983',
             name: 'Facility that is enabled',
-            version: 0,
           }),
           createMockFacilityByVersion({
             id: '983GC',
             name: 'Facility that is also enabled',
-            version: 0,
           }),
           createMockFacilityByVersion({
             id: '984',
@@ -543,7 +459,6 @@ describe('VAOS <VAFacilityPage>', () => {
               state: 'MT',
             },
             phone: '5555555555x1234',
-            version: 0,
           }),
           createMockFacilityByVersion({
             id: '984GC',
@@ -551,11 +466,32 @@ describe('VAOS <VAFacilityPage>', () => {
             lat: 39.1362562,
             // tweaked longitude to be over 100 miles away
             long: -82.1804804,
-            version: 0,
           }),
         ],
-        version: 0,
       });
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983GC',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'optometry',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984GC',
+          typeOfCareId: 'optometry',
+          requestEnabled: true,
+        }),
+      ]);
+
       const store = createTestStore({
         ...initialState,
         user: {
@@ -593,77 +529,55 @@ describe('VAOS <VAFacilityPage>', () => {
     });
 
     // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
-    it.skip('should close additional info and re-sort unsupported facilities when sort method changes', async () => {
-      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-      mockDirectBookingEligibilityCriteria(parentSiteIds, [
-        getDirectBookingEligibilityCriteriaMock({
-          id: '983',
-          typeOfCareId: '323',
-        }),
-        getDirectBookingEligibilityCriteriaMock({
-          id: '983GC',
-          typeOfCareId: '323',
-        }),
-        getDirectBookingEligibilityCriteriaMock({
-          id: '984',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-        getDirectBookingEligibilityCriteriaMock({
-          id: '984GC',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-      ]);
-      mockRequestEligibilityCriteria(parentSiteIds, [
-        getRequestEligibilityCriteriaMock({
-          id: '983',
-          typeOfCareId: '323',
-        }),
-        getRequestEligibilityCriteriaMock({
-          id: '983GC',
-          typeOfCareId: '323',
-        }),
-        getRequestEligibilityCriteriaMock({
-          id: '984',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-        getRequestEligibilityCriteriaMock({
-          id: '984GC',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-      ]);
+    it('should close additional info and re-sort unsupported facilities when sort method changes', async () => {
       mockFacilitiesFetchByVersion({
+        children: true,
+        ids: ['983', '984'],
         facilities: [
           createMockFacilityByVersion({
             id: '983',
             name: 'Facility that is enabled',
-            version: 0,
           }),
           createMockFacilityByVersion({
             id: '983GC',
             name: 'Facility that is also enabled',
-            version: 0,
           }),
           createMockFacilityByVersion({
             id: '984',
             name: 'Disabled facility near residential address',
             lat: 39.1362562,
             long: -83.1804804,
-            version: 0,
           }),
           createMockFacilityByVersion({
             id: '984GC',
             name: 'Disabled facility near current location',
             lat: 53.2734,
             long: -7.77832031,
-            version: 0,
           }),
         ],
-        version: 0,
       });
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983GC',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'optometry',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984GC',
+          typeOfCareId: 'optometry',
+          requestEnabled: true,
+        }),
+      ]);
       mockGetCurrentPosition();
       const store = createTestStore({
         ...initialState,
@@ -711,64 +625,59 @@ describe('VAOS <VAFacilityPage>', () => {
     });
 
     // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
-    it.skip('should display correct facilities after changing type of care', async () => {
-      const facilityIdsForTwoTypesOfCare = ['983', '983GC', '983QA', '984'];
-      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-      mockDirectBookingEligibilityCriteria(
-        parentSiteIds,
-        facilityIdsForTwoTypesOfCare.map(id =>
-          getDirectBookingEligibilityCriteriaMock({ id, typeOfCareId: '323' }),
-        ),
-      );
-      mockRequestEligibilityCriteria(
-        parentSiteIds,
-        facilityIdsForTwoTypesOfCare.map(id => {
-          const requestSettings = [
-            {
-              ...requestFacilityAttributes.requestSettings[0],
-              id: '323',
-            },
-          ];
-
-          // turn on optometry for a couple facilities
-          if (['984', '983QA'].includes(id)) {
-            requestSettings.push({
-              ...requestFacilityAttributes.requestSettings[0],
-              id: '408',
-            });
-          }
-
-          return {
-            id,
-            attributes: {
-              ...requestFacilityAttributes,
-              id,
-              requestSettings,
-            },
-          };
+    it('should display correct facilities after changing type of care', async () => {
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
         }),
-      );
-      const vhaIdentifiers = facilityIdsForTwoTypesOfCare.map(
-        id => `vha_${id.replace('983', '442').replace('984', '552')}`,
-      );
+        getSchedulingConfigurationMock({
+          id: '983GB',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'optometry',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984GB',
+          typeOfCareId: 'optometry',
+          requestEnabled: true,
+        }),
+      ]);
       mockFacilitiesFetchByVersion({
-        facilities: facilities.filter(facility =>
-          vhaIdentifiers.includes(facility.id),
-        ),
-        version: 0,
+        children: true,
+        ids: ['983', '984'],
+        facilities: [
+          createMockFacilityByVersion({
+            id: '983',
+            name: 'First cerner facility',
+            lat: 39.1362562,
+            long: -83.1804804,
+            version: 2,
+          }),
+          createMockFacilityByVersion({ id: '983GB' }),
+          createMockFacilityByVersion({
+            id: '984',
+            name: 'Second Cerner facility',
+            lat: 39.1362562,
+            long: -83.1804804,
+            version: 2,
+          }),
+          createMockFacilityByVersion({ id: '984GB' }),
+        ],
       });
-      mockEligibilityFetches({
-        siteId: '983',
-        facilityId: '983',
-        typeOfCareId: '323',
-      });
+
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
       let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
-      expect(await screen.findAllByRole('radio')).to.have.length(4);
+      expect(await screen.findAllByRole('radio')).to.have.length(2);
 
       await cleanup();
 
@@ -782,133 +691,34 @@ describe('VAOS <VAFacilityPage>', () => {
       expect(await screen.findAllByRole('radio')).to.have.length(2);
     });
 
-    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
-    it.skip('should display Cerner sites in the facility list ', async () => {
-      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-      mockDirectBookingEligibilityCriteria(parentSiteIds, [
-        getDirectBookingEligibilityCriteriaMock({
-          id: '983',
-          typeOfCareId: '323',
-        }),
-        getDirectBookingEligibilityCriteriaMock({
-          id: '983GC',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-        getDirectBookingEligibilityCriteriaMock({
-          id: '984',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-      ]);
-      mockRequestEligibilityCriteria(parentSiteIds, [
-        getRequestEligibilityCriteriaMock({
-          id: '983',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-        getRequestEligibilityCriteriaMock({
-          id: '983GC',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-        getRequestEligibilityCriteriaMock({
-          id: '984',
-          typeOfCareId: '323',
-          patientHistoryRequired: null,
-        }),
-      ]);
-      mockFacilitiesFetchByVersion({
-        facilities: [
-          createMockFacilityByVersion({
-            id: '983',
-            name: 'First cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-            version: 0,
-          }),
-          createMockFacilityByVersion({
-            id: '983GC',
-            name: 'Second cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-            version: 0,
-          }),
-          createMockFacilityByVersion({
-            id: '984',
-            name: 'Vista facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-            version: 0,
-          }),
-        ],
-        version: 0,
-      });
-      const store = createTestStore({
-        ...initialState,
-        user: {
-          ...initialState.user,
-          profile: {
-            ...initialState.user.profile,
-            facilities: [
-              { facilityId: '983', isCerner: true },
-              { facilityId: '984', isCerner: false },
-            ],
-            vapContactInfo: {
-              residentialAddress: {
-                latitude: 39.1362562,
-                longitude: -84.6804804,
-              },
-            },
-          },
-        },
-      });
-      await setTypeOfCare(store, /primary care/i);
-
-      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
-        store,
-      });
-
-      // Make sure Cerner facilities show up
-      expect(await screen.findByText(/First Cerner facility/i)).to.be.ok;
-      expect(screen.getByText(/Second Cerner facility/i)).to.be.ok;
-
-      // Make sure Cerner link shows up
-      const cernerSiteLabel = document.querySelector(
-        `label[for="${screen.getByLabelText(/First Cerner facility/i).id}"]`,
-      );
-      expect(
-        within(cernerSiteLabel)
-          .getByRole('link', { name: /My VA Health/ })
-          .getAttribute('href'),
-      ).to.contain('pages%2Fscheduling%2Fupcoming');
-
-      expect(screen.getByTestId('facility-not-listed')).to.exist;
-      await waitFor(() => {
-        expect(screen.getByText(/Vista facility/i));
-      });
-
-      // Make sure Cerner facilities show up only once
-      expect(screen.getAllByText(/Second Cerner facility/i)).to.have.length(1);
-      userEvent.click(screen.getByLabelText(/First cerner facility/i));
-      userEvent.click(screen.getByText(/Continue/));
-      await waitFor(() =>
-        expect(screen.history.push.firstCall.args[0]).to.equal(
-          '/new-appointment/how-to-schedule',
-        ),
-      );
-    });
-
     it('should display a list of facilities with a show more button', async () => {
-      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-      mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
-      mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-      mockFacilitiesFetchByVersion({ facilities, version: 0 });
-      mockEligibilityFetches({
-        siteId: '983',
+      const configs = facilities.map(facility =>
+        getSchedulingConfigurationMock({
+          id: facility.id,
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      );
+
+      mockSchedulingConfigurations(configs);
+      mockFacilitiesFetchByVersion({
+        children: true,
+        ids: ['983', '984'],
+        facilities,
+      });
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
         typeOfCareId: '323',
+        limit: true,
+        requestPastVisits: true,
       });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
+      });
+
       const store = createTestStore({
         ...initialState,
       });
@@ -971,14 +781,31 @@ describe('VAOS <VAFacilityPage>', () => {
     });
 
     it('should sort by distance from home address if we have coordinates', async () => {
-      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-      mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
-      mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-      mockFacilitiesFetchByVersion({ facilities, version: 0 });
-      mockEligibilityFetches({
-        siteId: '983',
+      const configs = facilities.map(facility =>
+        getSchedulingConfigurationMock({
+          id: facility.id,
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      );
+
+      mockSchedulingConfigurations(configs);
+      mockFacilitiesFetchByVersion({
+        children: true,
+        ids: ['983', '984'],
+        facilities,
+      });
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
         typeOfCareId: '323',
+        limit: true,
+        requestPastVisits: true,
+      });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       const store = createTestStore({
         ...initialState,
@@ -1032,14 +859,25 @@ describe('VAOS <VAFacilityPage>', () => {
     });
 
     it('should sort by distance from current location when user selects dropdown option for current location', async () => {
-      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-      mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
-      mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-      mockFacilitiesFetchByVersion({ facilities, version: 0 });
-      mockEligibilityFetches({
-        siteId: '983',
+      const configs = facilities.map(facility =>
+        getSchedulingConfigurationMock({
+          id: facility.id,
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      );
+
+      mockSchedulingConfigurations(configs);
+      mockFacilitiesFetchByVersion({
+        children: true,
+        ids: ['983', '984'],
+        facilities,
+      });
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
-        typeOfCareId: '323',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       mockGetCurrentPosition();
       const store = createTestStore({
@@ -1104,14 +942,25 @@ describe('VAOS <VAFacilityPage>', () => {
     });
 
     it('should sort alphabetically when user selects dropdown option for alphabetical', async () => {
-      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-      mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
-      mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-      mockFacilitiesFetchByVersion({ facilities, version: 0 });
-      mockEligibilityFetches({
-        siteId: '983',
+      const configs = facilities.map(facility =>
+        getSchedulingConfigurationMock({
+          id: facility.id,
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      );
+
+      mockSchedulingConfigurations(configs);
+      mockFacilitiesFetchByVersion({
+        children: true,
+        ids: ['983', '984'],
+        facilities,
+      });
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
-        typeOfCareId: '323',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
       });
       mockGetCurrentPosition();
       const store = createTestStore({
@@ -1160,14 +1009,36 @@ describe('VAOS <VAFacilityPage>', () => {
     });
 
     it('should sort alphabetically when user does not have an address', async () => {
-      mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
-      mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
-      mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
-      mockFacilitiesFetchByVersion({ facilities, version: 0 });
-      mockEligibilityFetches({
-        siteId: '983',
-        facilityId: '983',
-        typeOfCareId: '323',
+      const configs = facilities.reduce((acc, facility) => {
+        if (facility.id === '983' || facility.id === '984') {
+          const config = getSchedulingConfigurationMock({
+            id: facility.id,
+            typeOfCareId: 'primaryCare',
+            directEnabled: true,
+            requestEnabled: false,
+          });
+          return [...acc, config];
+        }
+        return [...acc];
+      }, []);
+
+      mockSchedulingConfigurations(configs);
+      mockFacilitiesFetchByVersion({
+        children: true,
+        facilities: [
+          createMockFacilityByVersion({
+            id: '983',
+            name: 'Facility 983',
+            lat: 41.148179,
+            long: -104.786159,
+          }),
+          createMockFacilityByVersion({
+            id: '984',
+            name: 'Closest facility',
+            lat: '39.7424427',
+            long: '-84.2651895',
+          }),
+        ],
       });
       mockGetCurrentPosition();
       const store = createTestStore({
@@ -1186,7 +1057,7 @@ describe('VAOS <VAFacilityPage>', () => {
       await screen.findAllByRole('radio');
       // default sorted by home address
       const firstRadio = screen.container.querySelector('.form-radio-buttons');
-      expect(firstRadio).to.contain.text('ABC facility');
+      expect(firstRadio).to.contain.text('Closest facility');
     });
 
     it('should fire variant shown and default sort method events when variant shown', async () => {
@@ -1242,27 +1113,15 @@ describe('VAOS <VAFacilityPage>', () => {
 
     beforeEach(() => {
       mockFetch();
-      const siteIds = ['983'];
+    });
 
-      mockParentSites(siteIds, [
-        getParentSiteMock({ id: '983', name: 'Some facility name' }),
-      ]);
-      mockDirectBookingEligibilityCriteria(siteIds, [
-        getDirectBookingEligibilityCriteriaMock({
-          id: '983',
-          typeOfCareId: '323',
-        }),
-      ]);
-      mockRequestEligibilityCriteria(siteIds, [
-        getRequestEligibilityCriteriaMock({
-          id: '983',
-          typeOfCareId: '323',
-        }),
-      ]);
+    it('should show facility information without form', async () => {
       mockFacilitiesFetchByVersion({
+        children: true,
+        ids: ['983'],
         facilities: [
           createMockFacilityByVersion({
-            id: '442',
+            id: '983',
             name: 'San Diego VA Medical Center',
             address: {
               line: ['2360 East Pershing Boulevard'],
@@ -1271,20 +1130,22 @@ describe('VAOS <VAFacilityPage>', () => {
               postalCode: '92128',
             },
             phone: '858-779-0338',
-            version: 0,
           }),
         ],
-        version: 0,
       });
-    });
-    it('should show facility information without form', async () => {
-      mockEligibilityFetches({
-        siteId: '983',
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
-        typeOfCareId: '323',
+        typeOfCareId: 'primaryCare',
         limit: true,
-        requestPastVisits: true,
+        directPastVisits: true,
       });
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      ]);
 
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
@@ -1312,40 +1173,53 @@ describe('VAOS <VAFacilityPage>', () => {
     });
 
     it('should switch to multi facility view when type of care changes to one that has multiple supported facilities', async () => {
-      const siteIds = ['983'];
-      mockDirectBookingEligibilityCriteria(siteIds, []);
-      mockRequestEligibilityCriteria(siteIds, [
-        getRequestEligibilityCriteriaMock({ id: '983', typeOfCareId: '408' }),
-        getRequestEligibilityCriteriaMock({ id: '983GC', typeOfCareId: '407' }),
-        getRequestEligibilityCriteriaMock({ id: '983GD', typeOfCareId: '407' }),
-      ]);
       mockFacilitiesFetchByVersion({
+        children: true,
+        ids: ['983'],
         facilities: [
           createMockFacilityByVersion({
-            id: '442',
+            id: '983',
             name: 'Facility 1',
-            version: 0,
           }),
           createMockFacilityByVersion({
-            id: '442GC',
+            id: '983GC',
             name: 'Facility 2',
-            version: 0,
           }),
           createMockFacilityByVersion({
-            id: '442GD',
+            id: '983GD',
             name: 'Facility 3',
-            version: 0,
           }),
         ],
-        version: 0,
       });
-      mockEligibilityFetches({
-        siteId: '983',
+      mockEligibilityFetchesByVersion({
         facilityId: '983',
-        typeOfCareId: '408',
+        typeOfCareId: 'optometry',
         limit: true,
-        requestPastVisits: true,
+        directPastVisits: true,
       });
+      mockEligibilityFetchesByVersion({
+        facilityId: '983GC',
+        typeOfCareId: 'ophthalmology',
+        limit: true,
+        directPastVisits: true,
+      });
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'optometry',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983GC',
+          typeOfCareId: 'ophthalmology',
+          directEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983GD',
+          typeOfCareId: 'ophthalmology',
+          directEnabled: true,
+        }),
+      ]);
 
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /eye care/i);
@@ -1356,7 +1230,7 @@ describe('VAOS <VAFacilityPage>', () => {
       });
 
       await screen.findByText(
-        /We found one VA facility for your optometry appointment./i,
+        /We found one facility that accepts online scheduling for this care/i,
       );
 
       expect(screen.baseElement).to.contain.text('Facility 1');
@@ -1369,103 +1243,6 @@ describe('VAOS <VAFacilityPage>', () => {
 
       expect(await screen.findByRole('radio', { name: /Facility 2/i }));
       expect(screen.getByRole('radio', { name: /Facility 3/i }));
-    });
-  });
-
-  describe('when using V2 api', () => {
-    const initialState = {
-      featureToggles: {
-        vaOnlineSchedulingDirect: true,
-      },
-      user: {
-        profile: {
-          facilities: [
-            { facilityId: '983', isCerner: false },
-            { facilityId: '984', isCerner: false },
-          ],
-        },
-      },
-    };
-    beforeEach(() => mockFetch());
-    it('should display list of facilities with show more button', async () => {
-      mockVAOSParentSites(
-        ['983', '984'],
-        [
-          getParentSiteMock({ id: '983', name: 'Some VA facility' }),
-          getParentSiteMock({ id: '984', name: 'Some VA facility 2' }),
-        ],
-      );
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984GC',
-          typeOfCareId: 'primaryCare',
-        }),
-      ]);
-      mockFacilitiesFetchByVersion({
-        ids: ['983', '984'],
-        facilities: [
-          createMockFacilityByVersion({ id: '983', name: 'A facility name' }),
-          createMockFacilityByVersion({
-            id: '984',
-            name: 'Another facility name',
-          }),
-          createMockFacilityByVersion({
-            id: '984GC',
-            name: 'Disabled facility name',
-          }),
-        ],
-        children: true,
-      });
-      mockEligibilityFetches({
-        siteId: '983',
-        facilityId: '983',
-        typeOfCareId: '323',
-      });
-      const store = createTestStore({
-        ...initialState,
-        featureToggles: {
-          ...initialState.featureToggles,
-          vaOnlineSchedulingFacilitiesServiceV2: true,
-        },
-      });
-      await setTypeOfCare(store, /primary care/i);
-
-      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
-        store,
-      });
-      await screen.findAllByRole('radio');
-
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          'Choose a VA location | Veterans Affairs',
-        );
-      });
-
-      expect(screen.getByText(/Choose a VA location/i)).to.exist;
-
-      expect(screen.baseElement).to.contain.text(
-        'Select a VA facility where you’re registered that offers primary care appointments',
-      );
-
-      expect(screen.baseElement).to.contain.text('A facility name');
-      expect(screen.baseElement).to.contain.text('Another facility name');
-      expect(screen.baseElement).not.to.contain.text('Disabled facility name');
-
-      // Should validation message if no facility selected
-      fireEvent.click(screen.getByText(/Continue/));
-      expect(await screen.findByRole('alert')).to.contain.text(
-        'Please provide a response',
-      );
     });
   });
 

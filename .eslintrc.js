@@ -1,6 +1,16 @@
+const babbleConfig = require('./babel.config.json');
+
+const moduleResolverAlias =
+  babbleConfig.plugins.find(plug => plug[0] === 'module-resolver')[1].alias ||
+  {};
+const aliasMap = Object.keys(moduleResolverAlias).map(alias => [
+  alias,
+  moduleResolverAlias[alias],
+]);
+
 module.exports = {
   // All rules should be disabled or they should produce errors. No warnings.
-  parser: '@babel/eslint-parser',
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 11,
     sourceType: 'module',
@@ -16,6 +26,10 @@ module.exports = {
     'import/resolver': {
       node: {
         moduleDirectory: ['node_modules', 'src/'],
+      },
+      alias: {
+        map: aliasMap,
+        extensions: ['.js', '.ts', '.tsx', '.jsx', '.json'],
       },
       'babel-module': {},
     },
@@ -41,10 +55,6 @@ module.exports = {
       {
         name: '@department-of-veterans-affairs/component-library/AlertBox',
         use: '<va-alert>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/CheckboxGroup',
-        use: '<va-checkbox-group>',
       },
       {
         name:
@@ -76,10 +86,6 @@ module.exports = {
       {
         name: '@department-of-veterans-affairs/component-library/Pagination',
         use: '<va-pagination>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Table',
-        use: '<va-table>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/Telephone',

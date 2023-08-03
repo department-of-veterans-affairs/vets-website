@@ -40,12 +40,9 @@ import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
 
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
-import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import ClaimsAndAppealsV2 from './claims-and-appeals-v2/ClaimsAndAppealsV2';
-import HealthCare from './health-care/HealthCare';
 import HealthCareV2 from './health-care-v2/HealthCareV2';
 import CTALink from './CTALink';
-import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
 import BenefitPaymentsV2 from './benefit-payments-v2/BenefitPaymentsV2';
 import DebtsV2 from './debts-v2/DebtsV2';
 import { getAllPayments } from '../actions/payments';
@@ -102,9 +99,8 @@ const Dashboard = ({
   showMPIConnectionError,
   showNameTag,
   showNotInMPIError,
-  showBenefitPaymentsAndDebt,
-  showBenefitPaymentsAndDebtV2,
   showNotifications,
+  useLighthouseClaims,
   isVAPatient,
   ...props
 }) => {
@@ -225,18 +221,6 @@ const Dashboard = ({
                 </div>
               ) : null}
 
-              {props.showClaimsAndAppeals && !shouldShowV2Dashboard ? (
-                <DowntimeNotification
-                  dependencies={[
-                    externalServices.mhv,
-                    externalServices.appeals,
-                  ]}
-                  render={RenderClaimsWidgetDowntimeNotification}
-                >
-                  <ClaimsAndAppeals />
-                </DowntimeNotification>
-              ) : null}
-
               {props.showClaimsAndAppeals && shouldShowV2Dashboard ? (
                 <DowntimeNotification
                   dependencies={[
@@ -245,34 +229,26 @@ const Dashboard = ({
                   ]}
                   render={RenderClaimsWidgetDowntimeNotification}
                 >
-                  <ClaimsAndAppealsV2 />
+                  <ClaimsAndAppealsV2
+                    useLighthouseClaims={useLighthouseClaims}
+                  />
                 </DowntimeNotification>
               ) : null}
 
-              {props.showHealthCare && !shouldShowV2Dashboard ? (
-                <HealthCare />
-              ) : null}
               {isLOA3 && shouldShowV2Dashboard ? (
                 <HealthCareV2 isVAPatient={isVAPatient} />
               ) : null}
 
-              {canAccessPaymentHistory &&
-              showBenefitPaymentsAndDebt &&
-              !showBenefitPaymentsAndDebtV2 ? (
-                <BenefitPaymentsAndDebt
-                  payments={payments}
-                  showNotifications={showNotifications}
-                />
-              ) : null}
-              {showBenefitPaymentsAndDebtV2 ? (
-                <>
-                  <DebtsV2 />
-                  <BenefitPaymentsV2
-                    payments={payments}
-                    showNotifications={showNotifications}
-                  />
-                </>
-              ) : null}
+              {isLOA3 &&
+                shouldShowV2Dashboard && (
+                  <>
+                    <DebtsV2 />
+                    <BenefitPaymentsV2
+                      payments={payments}
+                      showNotifications={showNotifications}
+                    />
+                  </>
+                )}
               {isLOA3 && shouldShowV2Dashboard ? (
                 <EducationAndTraining />
               ) : null}
@@ -292,6 +268,11 @@ const Dashboard = ({
 const isClaimsAvailableSelector = createIsServiceAvailableSelector(
   backendServices.EVSS_CLAIMS,
 );
+
+const isLighthouseClaimsAvailableSelector = createIsServiceAvailableSelector(
+  backendServices.LIGHTHOUSE,
+);
+
 const isAppealsAvailableSelector = createIsServiceAvailableSelector(
   backendServices.APPEALS_STATUS,
 );
@@ -303,7 +284,9 @@ const mapStateToProps = state => {
   const isVAPatient = isVAPatientSelector(state);
   const hero = state.vaProfile?.hero;
   const hasClaimsOrAppealsService =
-    isAppealsAvailableSelector(state) || isClaimsAvailableSelector(state);
+    isAppealsAvailableSelector(state) ||
+    isClaimsAvailableSelector(state) ||
+    isLighthouseClaimsAvailableSelector(state);
 
   const hasMHVAccount = ['OK', 'MULTIPLE'].includes(
     state.user?.profile?.mhvAccountState,
@@ -317,6 +300,7 @@ const mapStateToProps = state => {
   const hasLoadedDisabilityRating = canAccessRatingInfo
     ? state.totalRating?.loading === false
     : true;
+
   const hasLoadedMilitaryInformation = canAccessMilitaryHistory
     ? state.vaProfile?.militaryInformation
     : true;
@@ -344,14 +328,13 @@ const mapStateToProps = state => {
     !showNotInMPIError &&
     isLOA3 &&
     isVAPatient;
-  const showBenefitPaymentsAndDebt =
-    !showMPIConnectionError && !showNotInMPIError && isLOA3;
-  const showBenefitPaymentsAndDebtV2 =
-    showBenefitPaymentsAndDebt &&
-    toggleValues(state)[FEATURE_FLAG_NAMES.showPaymentAndDebtSection];
 
   const shouldShowV2Dashboard = toggleValues(state)[
     FEATURE_FLAG_NAMES.showMyVADashboardV2
+  ];
+
+  const useLighthouseClaims = toggleValues(state)[
+    FEATURE_FLAG_NAMES.myVaUseLighthouseClaims
   ];
 
   const showNotifications =
@@ -371,12 +354,11 @@ const mapStateToProps = state => {
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
     totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
+    useLighthouseClaims,
     user: state.user,
     shouldShowV2Dashboard,
     showMPIConnectionError,
     showNotInMPIError,
-    showBenefitPaymentsAndDebt,
-    showBenefitPaymentsAndDebtV2,
     showNotifications,
     payments: state.allPayments.payments || [],
   };
@@ -405,8 +387,6 @@ Dashboard.propTypes = {
     }),
   ),
   shouldShowV2Dashboard: PropTypes.bool,
-  showBenefitPaymentsAndDebt: PropTypes.bool,
-  showBenefitPaymentsAndDebtV2: PropTypes.bool,
   showClaimsAndAppeals: PropTypes.bool,
   showHealthCare: PropTypes.bool,
   showLoader: PropTypes.bool,
@@ -417,6 +397,7 @@ Dashboard.propTypes = {
   showValidateIdentityAlert: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
   totalDisabilityRatingServerError: PropTypes.bool,
+  useLighthouseClaims: PropTypes.bool,
   user: PropTypes.object,
 };
 
