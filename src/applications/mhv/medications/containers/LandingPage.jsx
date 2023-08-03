@@ -1,124 +1,304 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getPrescriptionsList } from '../actions/prescriptions';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
-import MedicationsList from '../components/MedicationsList/MedicationsList';
-import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
-import PrintHeader from './PrintHeader';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import FeedbackEmail from '../components/shared/FeedbackEmail';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const LandingPage = () => {
-  const prescriptions = useSelector(
-    state => state.rx.prescriptions.prescriptionsList,
-  );
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (prescriptions) {
-      dispatch(
-        setBreadcrumbs([], {
-          url: '/my-health/medications/prescriptions/',
-          label: 'Medications',
-        }),
-      );
-    }
-  });
-
-  useEffect(
-    () => {
-      dispatch(getPrescriptionsList());
-    },
-    [dispatch],
-  );
-
+  const fullState = useSelector(state => state);
   const content = () => {
-    if (prescriptions) {
-      return (
-        <div className="landing-page">
-          <PrintHeader />
-          <h1 className="page-title">Medications</h1>
-          <div className="vads-u-margin-bottom--2 no-print">
-            Review your prescription medicaitons from VA, and providers outside
-            of our network.
-          </div>
-          <div className="landing-page-content">
-            <div className="no-print">
-              <button
-                type="button"
-                className="link-button vads-u-display--block vads-u-margin-bottom--2"
-                data-testid="print-records-button"
-                onClick={() => window.print()}
+    return (
+      <div className="landing-page">
+        <div className="main-content">
+          <section>
+            <h1>About Medications</h1>
+            <p className="vads-u-font-size--h3">
+              Learn how to manage your VA prescriptions and review all
+              medications in your VA medical records.
+            </p>
+          </section>
+          <section>
+            <a
+              className="vads-c-action-link--green"
+              href="/my-health/medications/prescriptions"
+              data-testid="prescriptions-nav-link"
+            >
+              Go to your medications
+            </a>
+          </section>
+          <section>
+            <h2>What to know as you try out this tool</h2>
+            <p>
+              We’re giving the trusted My HealtheVet pharmacy tool a new home
+              here on VA.gov. And we need your feedback to help us keep making
+              this tool better for you and all Veterans.
+            </p>
+            <p>
+              Email your feedback and questions to us at <FeedbackEmail />.
+            </p>
+            <p>
+              Note: You still have access to the pharmacy tool on the My
+              HealtheVet website. You can go back to that site at any time.{' '}
+              <a
+                href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'pharmacy')}
+                target="_blank"
+                rel="noreferrer"
               >
-                <i
-                  aria-hidden="true"
-                  className="fas fa-print vads-u-margin-right--0p5"
-                />
-                Print medication list
-              </button>
-              <button
-                type="button"
-                className="link-button vads-u-display--block vads-u-margin-bottom--2"
-              >
-                <i
-                  aria-hidden="true"
-                  className="fas fa-download vads-u-margin-right--0p5"
-                />
-                Download list as a PDF
-              </button>
-              <button
-                type="button"
-                className="link-button vads-u-display--block vads-u-margin-bottom--2"
-              >
-                <i
-                  aria-hidden="true"
-                  className="fas fa-download vads-u-margin-right--0p5"
-                />
-                Download list as a Text file
-              </button>
-              <va-additional-info trigger="What to know about downloading records">
+                Go back to pharmacy on the My HealtheVet website
+              </a>
+            </p>
+          </section>
+          <section>
+            <h2>Questions about this tool</h2>
+            <va-accordion bordered>
+              <va-accordion-item>
+                <h3 className="vads-u-font-size--h6" slot="headline">
+                  Does this tool list all my medications and supplies?
+                </h3>
+                <p>
+                  This tool lists medications and supplies prescribed by your VA
+                  providers. It also lists medications and supplies prescribed
+                  by non-VA providers, if you filled them through a VA pharmacy.
+                </p>
+                <p>
+                  If a VA provider entered them in your records, it will also
+                  list these types of medications and supplies:
+                </p>
                 <ul>
+                  <li>Prescriptions you filled through a non-VA pharmacy</li>
                   <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
+                    Over-the-counter medications, supplements, and herbal
+                    remedies
                   </li>
+                  <li>Sample medications a provider gave you</li>
                   <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
+                    Other drugs you’re taking that you don’t have a prescription
+                    for, including recreational drugs
                   </li>
                 </ul>
-              </va-additional-info>
-              <MedicationsListSort />
-              <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
-            </div>
-            <MedicationsList rxList={prescriptions} />
-          </div>
-          <div className="rx-landing-page-footer no-print">
-            <div className="footer-header vads-u-font-size--h2 vads-u-font-weight--bold vads-u-padding-y--1 vads-u-border-bottom--1px vads-u-border-color--gray-light">
-              Resources related to medications
-            </div>
-            <div className="footer-links">
-              <a href="nolink">Allergies and Adverse Reactions</a>
-              <p>
-                This is a description of why the user may need to navigate to
-                medical records to see their allergies.
-              </p>
-              <a href="nolink">Resources and Support</a>
-              <p>
-                This is a description of what the user might find in resources
-                and support.
-              </p>
-            </div>
-          </div>
+                <p>
+                  At this time, this tool doesn’t list these types of
+                  medications and supplies:
+                </p>
+                <ul>
+                  <li>
+                    <strong>Medications you entered yourself. </strong>
+                    To find your self-entered medications, go back to your
+                    medications list on the My HealtheVet website.{' '}
+                    <a
+                      href={mhvUrl(
+                        isAuthenticatedWithSSOe(fullState),
+                        'my-complete-medications-list',
+                      )}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Go to your medications list on the My HealtheVet website
+                    </a>
+                  </li>
+                  <li>
+                    <strong>
+                      Certain supplies you order through our Denver Logistics
+                      Center,{' '}
+                    </strong>{' '}
+                    instead of through a VA pharmacy. This includes prosthetic
+                    socks and hearing aid batteries.
+                  </li>
+                </ul>
+              </va-accordion-item>
+              <va-accordion-item>
+                <h3 className="vads-u-font-size--h6" slot="headline">
+                  What types of prescriptions can I refill and track in this
+                  tool?
+                </h3>
+                <p>
+                  You can refill and track your shipments of most VA
+                  prescriptions. This includes prescription medications and
+                  prescription supplies, like diabetic supplies.
+                </p>
+                <p>
+                  You can’t refill some medications. For example, certain pain
+                  medications don’t allow refills. You’ll need to ask your VA
+                  provider to renew your prescription each time you need more.
+                </p>
+                <p>
+                  And if you have prescriptions that are too old to refill or
+                  have no refills left, you’ll need to renew them to get more.
+                </p>
+                <a href="/my-health/medications/">
+                  Learn how to renew prescriptions
+                </a>
+              </va-accordion-item>
+              <va-accordion-item>
+                <h3 className="vads-u-font-size--h6" slot="headline">
+                  When will I get my prescriptions, and when should I request a
+                  refill?
+                </h3>
+                <p>
+                  Prescriptions usually arrive within 3 to 5 days after we ship
+                  them. You can find tracking information in your prescription
+                  details.
+                </p>
+                <p>
+                  Request your next refill as soon as your prescription arrives.
+                  Make sure to request refills <strong>at least 15 days</strong>{' '}
+                  before you need more medication.
+                </p>
+                <p>
+                  If your prescription is too old to refill or you have no
+                  refills left, ask your care team to renew your prescription{' '}
+                  <strong>at least 15 days</strong> before you need more.
+                </p>
+              </va-accordion-item>
+              <va-accordion-item>
+                <h3 className="vads-u-font-size--h6" slot="headline">
+                  Will VA protect my personal health information?
+                </h3>
+                <p>
+                  Yes. This is a secure website. We follow strict security
+                  policies and practices to protect your personal health
+                  information.
+                </p>
+                <p>
+                  If you print or download anything from the website (like
+                  prescription details), you’ll need to take responsibility for
+                  protecting that information.
+                </p>
+                <p>
+                  If you’re on a public or shared computer, remember that
+                  downloading will save a copy of your records to that computer.
+                  Make sure to delete any records you download to a public
+                  computer.
+                </p>
+              </va-accordion-item>
+              <va-accordion-item>
+                <h3 className="vads-u-font-size--h6" slot="headline">
+                  What if I have more questions?
+                </h3>
+                <p>
+                  For questions about your medications and supplies, send a
+                  secure message to your care team.
+                </p>
+                <p>
+                  <a
+                    href={mhvUrl(
+                      isAuthenticatedWithSSOe(fullState),
+                      'secure-messaging',
+                    )}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Compose a message
+                  </a>
+                </p>
+                <p>
+                  For questions about how to use this tool, call the My
+                  HealtheVet help desk at <va-telephone contact="8773270022" />{' '}
+                  (<va-telephone contact="8008778339" tty />
+                  ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
+                  ET.
+                </p>
+              </va-accordion-item>
+            </va-accordion>
+          </section>
+          <section>
+            <h2>More ways to manage your medications</h2>
+            <p>
+              {' '}
+              Learn how to request renewal of your prescriptions that are no
+              longer refillable, update your mailing address, and review
+              allergies and reactions in your VA medical records.
+            </p>
+            <va-accordion bordered>
+              <va-accordion-item>
+                <h3 className="vads-u-font-size--h6" slot="headline">
+                  How to renew prescriptions
+                </h3>
+                <p>
+                  If your prescription is too old to refill or has no refills
+                  left, you’ll need to request a renewal. The fastest way to
+                  renew is by calling the phone number on your prescription
+                  label. You can also send a secure message to your care team.
+                </p>
+                <h3>By phone</h3>
+                <p>
+                  Call your VA pharmacy’s automated refill line. Find the
+                  pharmacy phone number on your prescription label or in your
+                  prescription details in this tool. Follow the prompts to
+                  select the automated refill line.
+                </p>
+                <p>
+                  You’ll need the prescription number and your Social Security
+                  number.
+                </p>
+                <p>
+                  If our automated system can’t renew your prescription, the
+                  system will direct your call to a pharmacy representative for
+                  help.
+                </p>
+                <h3>By secure messsage</h3>
+                <p>
+                  Send a secure message to your VA care team. Include the
+                  medication name, provide who prescribed it, and number of
+                  refills left in your message.
+                </p>
+                <a
+                  href={mhvUrl(
+                    isAuthenticatedWithSSOe(fullState),
+                    'secure-messaging',
+                  )}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Compose a message
+                </a>
+              </va-accordion-item>
+              <va-accordion-item>
+                <h3 className="vads-u-font-size--h6" slot="headline">
+                  How to confirm or update your mailing address
+                </h3>
+                <p>
+                  We’ll send your prescriptions to the address we have on file
+                  for you. We ship to all addresses in the U.S. and its
+                  territories. We don’t ship prescriptions to foreign countries.
+                </p>
+                <p>
+                  To confirm or update your mailing address for prescription
+                  shipments, contact your VA health facility.
+                </p>
+                <a href="/find-locations/?page=1&facilityType=health">
+                  Find your VA health facility
+                </a>
+              </va-accordion-item>
+              <va-accordion-item>
+                <h3 className="vads-u-font-size--h6" slot="headline">
+                  How to review your allergies and reactions
+                </h3>
+                <p>
+                  Make sure your providers know about all your allergies and
+                  reactions to medications.
+                </p>
+                <p>
+                  If allergies or reactions are missing from your list, tell
+                  your care team right away.
+                </p>
+                <a
+                  href={mhvUrl(
+                    isAuthenticatedWithSSOe(fullState),
+                    'health-history',
+                  )}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Go to your allergy and reaction records on the My HealtheVet
+                  website
+                </a>
+              </va-accordion-item>
+            </va-accordion>
+            <br />
+          </section>
         </div>
-      );
-    }
-    return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-      />
+      </div>
     );
   };
 

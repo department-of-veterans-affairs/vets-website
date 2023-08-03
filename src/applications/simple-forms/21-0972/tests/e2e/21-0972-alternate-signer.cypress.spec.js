@@ -1,4 +1,5 @@
 import path from 'path';
+import cloneDeep from 'lodash/cloneDeep';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
@@ -22,6 +23,13 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
 import pagePaths from './pagePaths';
+
+// Disable formConfig props that were meant for local-dev only.
+const testFormConfig = cloneDeep(formConfig);
+testFormConfig.dev = {};
+testFormConfig.chapters.preparerPersonalInformationChapter.pages.preparerPersonalInformation.initialData = {
+  data: {},
+};
 
 const testConfig = createTestConfig(
   {
@@ -237,12 +245,11 @@ const testConfig = createTestConfig(
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-      cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+      cy.intercept('POST', testFormConfig.submitUrl, mockSubmit);
     },
-    skip: false,
   },
   manifest,
-  formConfig,
+  testFormConfig,
 );
 
 testForm(testConfig);

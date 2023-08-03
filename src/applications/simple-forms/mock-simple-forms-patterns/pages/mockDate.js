@@ -2,30 +2,28 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import {
   currentOrPastDateUI as currentOrPastDateUIWC,
   currentOrPastDateSchema,
-} from 'platform/forms-system/src/js/web-component-patterns/datePatterns';
-import {
   inlineTitleSchema,
   inlineTitleUI,
   titleSchema,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsfTitle: titleUI('RJSF'),
+    'view:title': titleUI('RJSF'),
     dateDefault: currentOrPastDateUI('RJSF - Date of birth'),
-    wcv3Title: inlineTitleUI('V3 web components'),
+    'view:inlineTitle': inlineTitleUI('V3 web components'),
     dateWCV3: currentOrPastDateUIWC('WC V3 - Date of birth'),
   },
   schema: {
     type: 'object',
     properties: {
-      rjsfTitle: titleSchema,
+      'view:title': titleSchema,
       dateDefault: {
         $ref: '#/definitions/date',
       },
-      wcv3Title: inlineTitleSchema,
+      'view:inlineTitle': inlineTitleSchema,
       dateWCV3: currentOrPastDateSchema,
     },
     required: ['dateDefault', 'dateWCV3'],

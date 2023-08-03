@@ -8,14 +8,22 @@ export const idFormSchema = {
     firstName: {
       type: 'string',
       minLength: 1,
-      maxLength: 30,
+      maxLength: 25,
       pattern: '^.*\\S.*',
+    },
+    middleName: {
+      type: 'string',
+      maxLength: 30,
     },
     lastName: {
       type: 'string',
       minLength: 2,
-      maxLength: 30,
+      maxLength: 35,
       pattern: '^.*\\S.*',
+    },
+    suffix: {
+      type: 'string',
+      enum: ['Jr.', 'Sr.', 'II', 'III', 'IV'],
     },
     dob: {
       type: 'string',
@@ -35,12 +43,23 @@ export const idFormUiSchema = {
     'ui:title': 'First name',
     'ui:errorMessages': {
       required: 'Please enter a first name.',
+      pattern: 'Please enter a first name.',
     },
+  },
+  middleName: {
+    'ui:title': 'Middle name',
   },
   lastName: {
     'ui:title': 'Last name',
     'ui:errorMessages': {
       required: 'Please enter a last name.',
+      pattern: 'Please enter a last name.',
+    },
+  },
+  suffix: {
+    'ui:title': 'Suffix',
+    'ui:options': {
+      widgetClassNames: 'form-select-medium',
     },
   },
   dob: {

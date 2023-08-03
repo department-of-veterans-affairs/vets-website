@@ -7,8 +7,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintDownload from '../components/shared/PrintDownload';
 import PrintHeader from '../components/shared/PrintHeader';
-import { downloadFile } from '../util/helpers';
-import { getVaccinePdf } from '../api/MrApi';
+import GenerateRadiologyPdf from '../components/LabsAndTests/GenerateRadiologyPdf';
 
 const RadiologyImagesList = () => {
   const dispatch = useDispatch();
@@ -50,7 +49,7 @@ const RadiologyImagesList = () => {
   const formattedDate = formatDateLong(labAndTestDetails?.date);
 
   const download = () => {
-    getVaccinePdf(1).then(res => downloadFile('radiology.pdf', res.pdf));
+    GenerateRadiologyPdf(labAndTestDetails);
   };
 
   useEffect(
@@ -59,11 +58,6 @@ const RadiologyImagesList = () => {
         dispatch(
           setBreadcrumbs(
             [
-              { url: '/my-health/medical-records/', label: 'Dashboard' },
-              {
-                url: '/my-health/medical-records/labs-and-tests',
-                label: 'Lab and test results',
-              },
               {
                 url: `/my-health/medical-records/labs-and-tests/${labId}`,
                 label: labAndTestDetails?.name,

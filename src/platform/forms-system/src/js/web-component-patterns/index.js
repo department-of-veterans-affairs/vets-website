@@ -3,6 +3,8 @@ export * from './datePatterns';
 export * from './emailPattern';
 export * from './fullNamePattern';
 export * from './phonePattern';
+export * from './relationshipToVeteranPattern';
+export * from './radioPattern';
 export * from './ssnPattern';
 export * from './titlePattern';
 export * from './yesNoPattern';

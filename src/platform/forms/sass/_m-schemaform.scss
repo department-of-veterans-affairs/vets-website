@@ -24,7 +24,7 @@
 }
 
 legend {
-  color: $color-primary-darkest;
+  color: $color-gray-dark;
   font-size: 1.35em;
   font-weight: 700;
   line-height: 1.5;
@@ -341,7 +341,7 @@ fieldset.schemaform-field-template {
   list-style: none;
   padding-left: 0;
   overflow-wrap: break-word;
-  word-break: break-all;
+  word-break: break-word;
   > li {
     list-style: none;
   }
@@ -701,4 +701,27 @@ textarea:focus {
 
 select:disabled {
   background-color: $color-gray-lighter;
+}
+
+// To be removed after SoT is added to DS
+i.fa-arrow-up-right-from-square {
+  display: inline-block;
+  color: var(--color-link-default);
+  font-size: 1.2rem;
+  margin: 0.5rem;
+}
+
+i.fa-arrow-up-right-from-square::before {
+  content: "\f35d";
+}
+
+// To be removed after button pair is added
+i.fa-angles-left::before {
+  content: "\F100";
+  margin-right: 8px;
+}
+
+i.fa-angles-right::before {
+  content: "\F101";
+  margin-left: 8px;
 }

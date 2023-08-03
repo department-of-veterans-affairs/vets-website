@@ -10,7 +10,7 @@ import EmergencyNote from '../components/EmergencyNote';
 import InterstitialPage from './InterstitialPage';
 import { closeAlert } from '../actions/alerts';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
-import { Paths } from '../util/constants';
+import { PageTitles, Paths } from '../util/constants';
 
 const Compose = () => {
   const dispatch = useDispatch();
@@ -67,6 +67,7 @@ const Compose = () => {
   useEffect(
     () => {
       if (acknowledged && header) focusElement(document.querySelector('h1'));
+      document.title = `${pageTitle} ${PageTitles.PAGE_TITLE_TAG}`;
     },
     [header, acknowledged],
   );
@@ -75,7 +76,7 @@ const Compose = () => {
     if (!isDraftPage && triageTeams) {
       return (
         <>
-          <h1 className="page-title" ref={header}>
+          <h1 className="page-title vads-u-margin-top--0" ref={header}>
             {pageTitle}
           </h1>
           <EmergencyNote dropDownFlag />

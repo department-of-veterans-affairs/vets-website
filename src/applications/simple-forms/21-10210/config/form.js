@@ -80,9 +80,9 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'lay-witness-10210-',
-  // dev: {
-  //   showNavLinks: true,
-  // },
+  dev: {
+    showNavLinks: true,
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: {
@@ -158,7 +158,9 @@ const formConfig = {
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
-            !!mockData && environment.isLocalhost() ? mockData : undefined,
+            !!mockData && environment.isLocalhost() && !window.Cypress
+              ? mockData
+              : undefined,
           uiSchema: claimOwnershipPg.uiSchema,
           schema: claimOwnershipPg.schema,
         },

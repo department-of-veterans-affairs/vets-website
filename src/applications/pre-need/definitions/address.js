@@ -28,6 +28,22 @@ function validatePostalCodes(errors, address) {
   }
 }
 
+function validateNotAllWhiteSpaces(
+  errorsLocation,
+  addressField,
+  requiredArray,
+  requiredField,
+) {
+  // Add error message for street if it is all blank spaces.
+  if (
+    requiredArray.includes(requiredField) &&
+    addressField &&
+    addressField.trim() === ''
+  ) {
+    errorsLocation.addError('Please provide a response');
+  }
+}
+
 export const countriesWithStateCodes = new Set(['USA', 'CAN']);
 
 function validateAddress(errors, address, formData, currentSchema) {
@@ -55,6 +71,16 @@ function validateAddress(errors, address, formData, currentSchema) {
   }
 
   validatePostalCodes(errors, address);
+  if (currentSchema.required.length) {
+    const requiredArray = currentSchema.required;
+    validateNotAllWhiteSpaces(
+      errors.street,
+      address.street,
+      requiredArray,
+      'street',
+    );
+    validateNotAllWhiteSpaces(errors.city, address.city, requiredArray, 'city');
+  }
 }
 
 const countryValues = countries.map(object => object.value);

@@ -14,11 +14,11 @@ import DeleteDraft from '../Draft/DeleteDraft';
 import { sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import EmergencyNote from '../EmergencyNote';
-import HowToAttachFiles from '../HowToAttachFiles';
 import { dateFormat, navigateToFolderByFolderId } from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
+import CannotReplyAlert from '../shared/CannotReplyAlert';
 
 const ReplyForm = props => {
   const { draftToEdit, replyMessage, cannotReply, header } = props;
@@ -304,11 +304,13 @@ const ReplyForm = props => {
   if (replyMessage) {
     return (
       <>
-        <h1 ref={header} className="page-title">
+        <h1 ref={header} className="page-title vads-u-margin-top--0">
           {setMessageTitle()}
         </h1>
+        <CannotReplyAlert visible={cannotReply} />
 
-        <section aria-label="Reply draft edit mode">
+        <section>
+          <h2 className="sr-only">Reply draft edit mode.</h2>
           <form
             className="reply-form"
             data-testid="reply-form"
@@ -343,22 +345,23 @@ const ReplyForm = props => {
             />
             <EmergencyNote dropDownFlag />
             <div>
-              <h4
-                className="vads-u-display--flex vads-u-color--gray-dark vads-u-font-weight--bold"
-                style={{ whiteSpace: 'break-spaces' }}
+              <span
+                className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
+                style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
+                data-dd-privacy="mask"
               >
                 <i
-                  className="fas fa-reply vads-u-margin-right--0p5"
+                  className="fas fa-reply vads-u-margin-right--0p5 vads-u-margin-top--0p25"
                   aria-hidden="true"
                 />
-                <span className="vads-u-color--secondary-darkest">(Draft)</span>
-                {` To: ${draftToEdit?.replyToName ||
+                {`(Draft) To: ${draftToEdit?.replyToName ||
                   replyMessage?.senderName}\n(Team: ${
                   replyMessage.triageGroupName
                 })`}
                 <br />
-              </h4>
+              </span>
               <va-textarea
+                data-dd-privacy="mask"
                 label="Message"
                 required
                 id="reply-message-body"
@@ -370,8 +373,6 @@ const ReplyForm = props => {
                 error={bodyError}
               />
               <section className="attachments-section vads-u-margin-top--2">
-                <strong>Attachments</strong>
-                <HowToAttachFiles />
                 <AttachmentsList
                   attachments={attachments}
                   setAttachments={setAttachments}
@@ -384,24 +385,29 @@ const ReplyForm = props => {
                 />
               </section>
               <DraftSavedInfo userSaved={userSaved} />
-              <div className="compose-form-actions vads-u-display--flex">
+              <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
                 {!cannotReply && (
-                  <va-button
-                    text="Send"
-                    class="vads-u-flex--1 send-button vads-u-margin-bottom--1"
+                  <button
+                    type="button"
+                    id="send-button"
+                    className="usa-button usa-button-primary vads-u-width--full medium-screen:vads-u-flex--1 vads-u-margin-top--0 medium-screen:vads-u-margin-right--1 vads-u-margin-right--0"
                     data-testid="Send-Button"
                     onClick={sendMessageHandler}
-                  />
+                  >
+                    Send
+                  </button>
                 )}
 
-                <va-button
+                <button
+                  type="button"
                   id="save-draft-button"
-                  text="Save draft"
-                  secondary
-                  class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1"
+                  className="usa-button usa-button-secondary save-draft-button vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--1"
                   data-testid="Save-Draft-Button"
                   onClick={e => saveDraftHandler('manual', e)}
-                />
+                >
+                  <i className="fas fa-save" aria-hidden="true" />
+                  Save draft
+                </button>
                 {/* UCD requested to keep button even when not saved as draft */}
                 <DeleteDraft
                   draftId={newDraftId}
@@ -417,35 +423,38 @@ const ReplyForm = props => {
           className="vads-u-margin--0 message-replied-to"
           data-testid="message-replied-to"
         >
-          <div aria-label="message details.">
+          <h2 className="sr-only">Message you are replying to.</h2>
+          <div>
+            <h3 className="sr-only">Message details</h3>
             <p className="vads-u-margin--0">
               <strong>From: </strong>
-              {replyMessage.senderName}
+              <span data-dd-privacy="mask">{replyMessage.senderName}</span>
             </p>
             <p className="vads-u-margin--0" data-testid="message-to">
               <strong>To: </strong>
-              {replyMessage.recipientName}
+              <span data-dd-privacy="mask">{replyMessage.recipientName}</span>
             </p>
             <p className="vads-u-margin--0" data-testid="message-date">
               <strong>Date: </strong>
-              {dateFormat(replyMessage.sentDate)}
+              <span data-dd-privacy="mask">
+                {dateFormat(replyMessage.sentDate)}
+              </span>
             </p>
             <p className="vads-u-margin--0" data-testid="message-id">
               <strong>Message ID: </strong>
-              {replyMessage.messageId}
+              <span data-dd-privacy="mask">{replyMessage.messageId}</span>
             </p>
           </div>
 
           <section aria-label="Message body." className="vads-u-margin-top--1">
+            <h3 className="sr-only">Message body.</h3>
             <MessageThreadBody text={replyMessage.body} />
           </section>
 
           {!!replyMessage.attachments &&
             replyMessage.attachments.length > 0 && (
               <>
-                <div className="message-body-attachments-label">
-                  <strong>Attachments</strong>
-                </div>
+                <h3 className="sr-only">Message attachments.</h3>
                 <AttachmentsList
                   attachments={replyMessage.attachments}
                   className="attachments-section"

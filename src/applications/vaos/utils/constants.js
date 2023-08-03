@@ -465,6 +465,6 @@ export const ERROR_CODES = [
 export const SERVICE_CATEGORY = [
   {
     id: COMP_AND_PEN,
-    displayName: 'Compensation and pension exam',
+    displayName: 'Claim exam',
   },
 ];

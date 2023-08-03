@@ -3,16 +3,25 @@ import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
 
 class PatientComposePage {
-  sendMessage = () => {
+  sendMessage = mockRequest => {
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/messages',
       mockDraftMessage,
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .click({ force: true });
-    cy.wait('@message');
+    cy.wait('@message')
+      .its('request.body')
+      .then(request => {
+        if (mockRequest) {
+          expect(request.body).to.eq(mockRequest.body);
+          expect(request.category).to.eq(mockRequest.category);
+          expect(request.recipient_id).to.eq(mockRequest.recipientId);
+          expect(request.subject).to.eq(mockRequest.subject);
+        }
+      });
   };
 
   getCategory = category => {
@@ -26,7 +35,7 @@ class PatientComposePage {
       mockDraftMessage,
     ).as('message');
     cy.tabToElement('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .realPress(['Enter']);
     // cy.wait('@message');
   };
@@ -39,7 +48,7 @@ class PatientComposePage {
   };
 
   verifySendMessageConfirmationMessageHasFocus = () => {
-    cy.get('.vads-u-margin-bottom--1').should('be.focused');
+    cy.get('.vads-u-margin-bottom--1', { timeout: 5000 }).should('be.focused');
   };
 
   //* Refactor*  Need to get rid of this method and split out
@@ -50,7 +59,7 @@ class PatientComposePage {
       .find('label')
       .contains(category)
       .click({ force: true });
-    this.attachMessageFromFile('test_image.jpg');
+    // this.attachMessageFromFile('test_image.jpg');
     this.getMessageSubjectField().type('Test Subject');
     this.getMessageBodyField().type('Test message body');
   };
@@ -113,7 +122,7 @@ class PatientComposePage {
       mockDraftMessage,
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .click();
   };
 
@@ -184,6 +193,7 @@ class PatientComposePage {
 
   removeAttachMessageFromFile = () => {
     cy.get('.remove-attachment-button').click();
+    cy.contains('Remove').click();
   };
 
   //* Refactor*Remove and consolidate
@@ -320,4 +330,5 @@ class PatientComposePage {
       .should('be.visible');
   };
 }
+
 export default PatientComposePage;

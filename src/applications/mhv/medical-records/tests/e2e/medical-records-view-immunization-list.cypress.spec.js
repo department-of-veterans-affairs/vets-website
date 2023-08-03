@@ -6,15 +6,9 @@ describe('Medical Records View Immunizations', () => {
     const site = new MedicalRecordsSite();
     cy.visit('my-health/medical-records');
     site.login();
-    // Click on the health history link
-    // data-testid preferred, but git won't allow it for some reason
-    // cy.get('[data-testid="health-history-link"]').click();
-    cy.get('[href="/my-health/medical-records/health-history"]')
-      .first()
-      .click();
 
     // click on the vaccines link
-    cy.get('[href="/my-health/medical-records/health-history/vaccines"]')
+    cy.get('[href="/my-health/medical-records/vaccines"]')
       .first()
       .click();
     // cy.get('[data-testid="vaccines-link"]').click();

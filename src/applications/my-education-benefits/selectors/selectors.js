@@ -7,6 +7,13 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 export const getAppData = state => ({
   eligibility: state.data?.eligibility,
+  duplicateEmail: state.data?.duplicateEmail,
+  duplicatePhone: state.data?.duplicatePhone,
+  email: state?.form?.data?.email?.email,
+  mobilePhone:
+    state?.data?.formData?.data?.attributes?.claimant?.contactInfo
+      ?.mobilePhoneNumber,
+  openModal: state?.data?.openModal,
   featureTogglesLoaded: state.featureToggles?.loading === false,
   formId: state?.form?.formId,
   isClaimantCallComplete: state.data?.personalInfoFetchComplete,

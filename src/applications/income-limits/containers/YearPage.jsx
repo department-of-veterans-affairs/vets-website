@@ -88,24 +88,21 @@ const YearPage = ({
 
   return (
     <>
-      <h1>Ipsum quia dolor sit amet consectetur adipisci velit</h1>
+      <h1>Income limits from past years going back to 2001</h1>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non
-        tortor massa. Fusce eros mi, porttitor eu neque nec, mattis vehicula
-        urna. Integer consectetur urna ex, ac tempor urna feugiat ut.
-      </p>{' '}
+        Select the year you&#8217;d like to check income limits for. Then answer
+        2 questions to find out how your income may have affected your VA health
+        care eligibility and costs for that year.
+      </p>
       <p>
-        Curabitur euismod fermentum ante, non maximus ex feugiat quis. Fusce
-        dignissim commodo mauris. Duis posuere congue elit. Aenean ut fermentum
-        quam. Morbi faucibus lacus eu tristique tempor. Fusce at leo ipsum.
-        Maecenas at augue arcu. Duis eu lacinia ligula, quis sodales felis.
-        Praesent aliquet dictum nisl, vel rhoncus eros luctus vulputate. Nullam
-        a massa ut tellus consectetur porttitor.
+        You&#8217;ll need information about your previous year&#8217;s household
+        income and deductions to check income limits. Limits vary by where you
+        live and change each year.
       </p>
       <VaSelect
         autocomplete="false"
         data-testid="il-year"
-        error={(submitted && error && 'Please select a year') || null}
+        error={(submitted && error && 'Please select a year.') || null}
         id="year"
         label="Year"
         name="year"

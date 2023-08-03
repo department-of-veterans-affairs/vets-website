@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import RemoveAttachmentModal from './Modals/RemoveAttachmentModal';
+import HowToAttachFiles from './HowToAttachFiles';
 
 const AttachmentsList = props => {
   const { attachments, setAttachments, editingEnabled } = props;
@@ -59,6 +60,10 @@ const AttachmentsList = props => {
   };
   return (
     <div>
+      <div className="message-body-attachments-label vads-u-margin-bottom--1">
+        Attachments
+      </div>
+      {editingEnabled && <HowToAttachFiles />}
       <ul className="attachments-list">
         {!!attachments.length &&
           attachments.map(file => (
@@ -66,6 +71,7 @@ const AttachmentsList = props => {
               {editingEnabled && (
                 <div className="editable-attachment vads-u-display--flex vads-u-flex-direction--row">
                   <span
+                    data-dd-privacy="mask"
                     ref={attachmentReference}
                     className="vads-u-flex--1"
                     role="alert"
@@ -123,7 +129,11 @@ const AttachmentsList = props => {
                       aria-hidden="true"
                       alt="Attachment icon"
                     />
-                    <span id="has-attachment" ref={attachmentReference}>
+                    <span
+                      id="has-attachment"
+                      ref={attachmentReference}
+                      data-dd-privacy="mask"
+                    >
                       {file.name}
                     </span>
                     ({getSize(file.size || file.attachmentSize)})
@@ -153,6 +163,7 @@ const AttachmentsList = props => {
             aria-live="polite"
             className="sr-only"
             id="attachment-removed-successfully"
+            data-dd-privacy="mask"
           >
             {`File ${removedAttachmentName} successfully removed. Attach file, button.`}
           </div>

@@ -26,11 +26,10 @@ export default function AppointmentListNavigation({ count, callback }) {
     return (
       <div
         className={classNames(
-          `vaos-hide-for-print vads-l-row xsmall-screen:${
-            !isPending ? 'vads-u-border-bottom--0' : 'vads-u-border-bottom--1px'
-          } vads-u-margin-bottom--3 small-screen:${
-            isPast ? 'vads-u-margin-bottom--3' : 'vads-u-margin-bottom--4'
-          } small-screen:vads-u-border-bottom--1px vads-u-color--gray-medium`,
+          `vaos-hide-for-print vads-l-row xsmall-screen:vads-u-border-bottom--0 
+           vads-u-margin-bottom--3 small-screen:${
+             isPast ? 'vads-u-margin-bottom--3' : 'vads-u-margin-bottom--4'
+           } small-screen:vads-u-border-bottom--1px vads-u-color--gray-medium`,
         )}
       >
         <nav
@@ -44,7 +43,7 @@ export default function AppointmentListNavigation({ count, callback }) {
                 to="/"
                 onClick={() => callback(true)}
                 aria-current={
-                  isUpcoming // eslint-disable-next-line jsx-a11y/aria-proptypes
+                  Boolean(isUpcoming).toString() // eslint-disable-next-line jsx-a11y/aria-proptypes
                 }
               >
                 Upcoming
@@ -61,7 +60,7 @@ export default function AppointmentListNavigation({ count, callback }) {
                   });
                 }}
                 aria-current={
-                  isPending // eslint-disable-next-line jsx-a11y/aria-proptypes
+                  Boolean(isPending).toString() // eslint-disable-next-line jsx-a11y/aria-proptypes
                 }
               >
                 {`Pending (${count})`}
@@ -78,7 +77,7 @@ export default function AppointmentListNavigation({ count, callback }) {
                   });
                 }}
                 aria-current={
-                  isPast // eslint-disable-next-line jsx-a11y/aria-proptypes
+                  Boolean(isPast).toString() // eslint-disable-next-line jsx-a11y/aria-proptypes
                 }
               >
                 Past
@@ -105,7 +104,7 @@ export default function AppointmentListNavigation({ count, callback }) {
                 id="upcoming"
                 to="/"
                 onClick={() => callback(true)} // eslint-disable-next-line jsx-a11y/aria-proptypes
-                aria-current={isUpcoming}
+                aria-current={Boolean(isUpcoming).toString()}
               >
                 Upcoming
               </NavLink>
@@ -120,7 +119,7 @@ export default function AppointmentListNavigation({ count, callback }) {
                     event: `${GA_PREFIX}-status-pending-link-clicked`,
                   });
                 }} // eslint-disable-next-line jsx-a11y/aria-proptypes
-                aria-current={isPending}
+                aria-current={Boolean(isPending).toString()}
               >
                 {`Pending (${count})`}
               </NavLink>
@@ -135,7 +134,7 @@ export default function AppointmentListNavigation({ count, callback }) {
                     event: `${GA_PREFIX}-status-past-link-clicked`,
                   });
                 }} // eslint-disable-next-line jsx-a11y/aria-proptypes
-                aria-current={isPast}
+                aria-current={Boolean(isPast).toString()}
               >
                 Past
               </NavLink>

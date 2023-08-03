@@ -5,7 +5,7 @@ import { links } from '../definitions/content';
 const GetHelp = () => {
   return (
     <>
-      <p>
+      <p className="help-talk">
         <strong>If you have trouble using this online application</strong>, call
         our MyVA411 main information line at{' '}
         <va-telephone contact={CONTACTS.HELP_DESK} /> (
@@ -13,7 +13,7 @@ const GetHelp = () => {
         ). We’re here 24/7.
       </p>
 
-      <p>
+      <p className="help-talk">
         <strong>You can call the VA Caregiver Support Line</strong> at{' '}
         <va-telephone contact={CONTACTS.CAREGIVER} /> (
         <va-telephone contact={CONTACTS['711']} tty />
@@ -28,7 +28,7 @@ const GetHelp = () => {
         .
       </p>
 
-      <p>
+      <p className="help-talk">
         <strong>
           You can call the Enrollment and Eligibility Division of the Health
           Eligibility Center
@@ -42,7 +42,7 @@ const GetHelp = () => {
         .
       </p>
 
-      <p>
+      <p className="help-talk">
         <strong>You can also contact a Caregiver Support Coordinator</strong>{' '}
         using our{' '}
         <a

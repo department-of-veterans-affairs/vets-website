@@ -5,16 +5,18 @@ import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import environment from 'platform/utilities/environment';
 
-import NeedsToVerify from '../components/NeedsToVerify';
+import NeedsToVerify from '../../shared/components/NeedsToVerify';
 import MissingInfo from '../components/MissingInfo';
 import { clearReturnState } from '../utils/contactInfo';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('h1');
+    scrollToTop();
   }
 
   render() {
@@ -59,9 +61,8 @@ class IntroductionPage extends React.Component {
           If you disagree with our decision on your claim, a Supplemental Claim
           may be an option for you.
         </p>
-        {loggedIn && showVerifyLink && <NeedsToVerify pathname={pathname} />}
-        {loggedIn &&
-          showMissingInfo &&
+        {showVerifyLink && <NeedsToVerify pathname={pathname} />}
+        {showMissingInfo &&
           !showVerifyLink && <MissingInfo hasSsn={canApply} hasDob={hasDob} />}
         {loggedIn &&
           !showVerifyLink &&

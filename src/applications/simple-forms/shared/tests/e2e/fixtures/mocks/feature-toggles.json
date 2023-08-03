@@ -1,11 +1,6 @@
 {
   "data": {
     "type": "feature_toggles",
-    "features": [
-      {
-        "name": "form264555",
-        "value": true
-      }
-    ]
+    "features": []
   }
 }
