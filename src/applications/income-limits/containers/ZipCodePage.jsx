@@ -5,10 +5,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { waitForRenderThenFocus } from 'platform/utilities/ui';
-import { focusElement } from 'platform/utilities/ui';
-
-// import { scrollToTop } from '../utilities/scroll-to-top';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getPreviousYear } from '../utilities/utils';
 import { ROUTES } from '../constants';
 import {
@@ -38,10 +35,6 @@ const ZipCodePage = ({
     return zipCode && zip.match(/^[0-9]+$/) && zip.length === 5;
   };
 
-  useEffect(() => {
-    focusElement(breadcrumbsRef.current);
-  }, []);
-
   useEffect(
     () => {
       // If pastMode is null, the home screen hasn't been used yet
@@ -54,9 +47,7 @@ const ZipCodePage = ({
       if (shouldRedirectToHome) {
         router.push(ROUTES.HOME);
       }
-
-      // waitForRenderThenFocus('h1');
-      // scrollToTop();
+      focusElement(breadcrumbsRef.current);
     },
     [pastMode, router, year],
   );

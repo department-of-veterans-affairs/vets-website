@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   VaButtonPair,
   VaNumberInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import { scrollToTop } from '../utilities/scroll-to-top';
 import { getPreviousYear } from '../utilities/utils';
 import { ROUTES } from '../constants';
 import { updateDependents, updateEditMode } from '../actions';
@@ -22,6 +21,7 @@ const DependentsPage = ({
   year,
   zipCode,
 }) => {
+  const breadcrumbsRef = useRef('.income-limits-breadcrumbs');
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -44,8 +44,7 @@ const DependentsPage = ({
         return;
       }
 
-      waitForRenderThenFocus('h1');
-      scrollToTop();
+      focusElement(breadcrumbsRef.current);
     },
     [pastMode, router, year, zipCode],
   );

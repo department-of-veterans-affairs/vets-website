@@ -33,4 +33,9 @@
       margin-bottom: 16px;
     }
   }
+  .income-limits-breadcrumbs {
+    &:focus {
+      outline: none;
+    }
+  }
 }
