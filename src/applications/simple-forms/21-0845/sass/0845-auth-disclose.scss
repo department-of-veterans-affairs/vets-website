@@ -6,6 +6,17 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
+h3.custom-page-header {
+  display: inline-block;
+}
+.review-row h3.custom-page-header {
+  display: none;
+}
+
+#root_authorizerType-label > .schemaform-required-span {
+  display: none !important;
+}
+
 .schemaform-subtitle {
   margin-top: 1.5rem;
 }

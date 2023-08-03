@@ -115,7 +115,9 @@ const formConfig = {
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           // initialData:
-          //   !!mockData && environment.isLocalhost() ? mockData : undefined,
+          //   !!mockData && environment.isLocalhost() && !window.Cypress
+          //     ? mockData
+          //     : undefined,
           uiSchema: authorizerTypePg.uiSchema,
           schema: authorizerTypePg.schema,
           // needs form-level useCustomScrollAndFocus: true to work.

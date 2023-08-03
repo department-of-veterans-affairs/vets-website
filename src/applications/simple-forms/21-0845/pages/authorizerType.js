@@ -8,15 +8,17 @@ export default {
   uiSchema: {
     authorizerType: {
       'ui:title': (
-        <span
-          className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold"
-          role="heading"
-          aria-level={2}
-        >
-          Who is submitting this authorization?
-        </span>
+        <>
+          <h3 className="custom-page-header">
+            Who is submitting this authorization?{' '}
+            <span className="custom-required-span vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-color--secondary-dark">
+              (*Required)
+            </span>
+          </h3>
+          <p>Select the description that fits you.</p>
+        </>
       ),
-      'ui:description': 'Select the description that fits you.',
+      // 'ui:description': 'Select the description that fits you.',
       'ui:widget': 'radio',
       'ui:options': {
         labels: getLabelsFromConstants(AUTHORIZER_TYPE_ITEMS),
