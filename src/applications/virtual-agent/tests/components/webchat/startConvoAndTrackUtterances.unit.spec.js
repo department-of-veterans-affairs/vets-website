@@ -254,8 +254,7 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
       const activity = {
         type: 'message',
-        text:
-          'You can request refills, list active prescriptions, or track shipments.',
+        text: 'You are now in the Prescriptions Bot.',
         from: { role: 'bot' },
       };
       const rxActivity = {
