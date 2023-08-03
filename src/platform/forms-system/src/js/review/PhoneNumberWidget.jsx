@@ -9,5 +9,5 @@ export default function PhoneNumberWidget({ value }) {
     )}`;
   }
 
-  return <span>{formatted}</span>;
+  return <span className="dd-privacy-hidden">{formatted}</span>;
 }

@@ -20,7 +20,7 @@ export const PaymentsV2 = ({ lastPayment }) => {
           +{lastPayment.payCheckAmount}
         </h3>
         <p
-          className="vads-u-margin-top--0 vads-u-font-size--h4 vads-u-font-family--serif"
+          className="vads-u-margin-top--0 vads-u-font-size--h4 vads-u-font-family--serif vads-u-font-weight--bold"
           id="paycheck-type"
         >
           {lastPayment.payCheckType}
