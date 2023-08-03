@@ -6,7 +6,7 @@ export const evidenceUploadIntroTitle = (
 
 export const evidenceUploadIntroDescription = (
   <>
-    <p>
+    <p id="additional-evidence-description">
       You can choose to submit more evidence now or within 90 days after we
       receive this request.
     </p>
