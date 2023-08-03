@@ -16,11 +16,11 @@
       },
       {
         "name": "hcaHouseholdV2Enabled",
-        "value": true
+        "value": false
       },
       {
         "name": "hcaRemoveIdFieldsEnabled",
-        "value": false
+        "value": true
       }
     ]
   }
