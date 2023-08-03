@@ -13,7 +13,7 @@ const ConfirmationPage = ({ form, profile, isLoggedIn }) => {
   // if authenticated, get veteran's name from profile, else, from form data
   const nameToDisplay = isLoggedIn
     ? profile.userFullName
-    : data.veteranFullName;
+    : data['view:veteranInformation'].veteranFullName;
   const veteranName = normalizeFullName(nameToDisplay, true);
 
   return (
