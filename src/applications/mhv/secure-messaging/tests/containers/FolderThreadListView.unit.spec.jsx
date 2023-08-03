@@ -61,9 +61,8 @@ describe('Folder Thread List View container', () => {
       expect(global.document.title).to.equal(
         `Sent messages ${PageTitles.PAGE_TITLE_TAG}`,
       );
-      const folderName = screen.getByRole('heading', { level: 1 });
-      expect(folderName).to.exist;
-      expect(folderName).to.have.text(DefaultFolders.SENT.header);
+      expect(screen.getByText(DefaultFolders.SENT.header, { selector: 'h1' }))
+        .to.exist;
     });
     expect(screen.queryByText('Start a new message')).to.not.exist;
   });
@@ -82,10 +81,8 @@ describe('Folder Thread List View container', () => {
       expect(global.document.title).to.equal(
         `Drafts ${PageTitles.PAGE_TITLE_TAG}`,
       );
-      const folderName = screen.getByRole('heading', { level: 1 });
-      expect(folderName).to.exist;
-      expect(folderName).to.have.text(DefaultFolders.DRAFTS.header);
-
+      expect(screen.getByText(DefaultFolders.DRAFTS.header, { selector: 'h1' }))
+        .to.exist;
       expect(screen.queryByText('Start a new message')).to.not.exist;
     });
   });
@@ -113,13 +110,11 @@ describe('Folder Thread List View container', () => {
         `Trash ${PageTitles.PAGE_TITLE_TAG}`,
       );
     });
-    const folderName = screen.getByRole('heading', { level: 1 });
-    expect(folderName).to.exist;
-    expect(folderName).to.have.text(DefaultFolders.DELETED.header);
 
-    const folderDescription = screen.getByTestId('folder-description');
-    expect(folderDescription).to.exist;
-    expect(folderDescription).to.have.text(DefaultFolders.DELETED.desc);
+    expect(screen.getByText(DefaultFolders.DELETED.header, { selector: 'h1' }))
+      .to.exist;
+    expect(screen.getByText(DefaultFolders.DELETED.desc, { selector: 'p' })).to
+      .exist;
     expect(screen.queryByText('Start a new message')).to.not.exist;
   });
 
@@ -141,9 +136,9 @@ describe('Folder Thread List View container', () => {
         `${customFolder.name} ${PageTitles.PAGE_TITLE_TAG}`,
       );
       expect(screen.getByText(customFolder.name, { selector: 'h1' })).to.exist;
-      const folderDescription = screen.getByTestId('folder-description');
-      expect(folderDescription).to.exist;
-      expect(folderDescription).to.have.text(DefaultFolders.CUSTOM_FOLDER.desc);
+      expect(
+        screen.getByText(DefaultFolders.CUSTOM_FOLDER.desc, { selector: 'p' }),
+      ).to.exist;
       expect(screen.queryByText('Start a new message')).to.not.exist;
     });
   });
