@@ -28,7 +28,7 @@ const HomePage = ({
         updateZipCodeField('');
       };
 
-      focusElement(breadcrumbsRef);
+      focusElement(breadcrumbsRef.current);
       clearForm();
     },
     [router, updateDependentsField, updateYearField, updateZipCodeField],

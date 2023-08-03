@@ -32,7 +32,7 @@ const YearPage = ({
         return;
       }
 
-      focusElement(breadcrumbsRef);
+      focusElement(breadcrumbsRef.current);
     },
     [pastMode, router],
   );

@@ -45,7 +45,7 @@ const ReviewPage = ({
         zipCodeInput,
       );
 
-      focusElement(breadcrumbsRef);
+      focusElement(breadcrumbsRef.current);
     },
     [dependentsInput, pastMode, router, yearInput, zipCodeInput],
   );

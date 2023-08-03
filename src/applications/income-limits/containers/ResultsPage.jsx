@@ -28,7 +28,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
     () => {
       redirectIfFormIncomplete(dependents, pastMode, router, year, zipCode);
 
-      focusElement(breadcrumbsRef);
+      focusElement(breadcrumbsRef.current);
     },
     [dependents, pastMode, router, year, zipCode],
   );
