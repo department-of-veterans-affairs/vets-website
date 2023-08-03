@@ -23,7 +23,7 @@ const ENVIRONMENTS = require('../src/site/constants/environments');
 const scaffoldRegistry = require('../src/applications/registry.scaffold.json');
 const facilitySidebar = require('../src/platform/landing-pages/facility-sidebar.json');
 
-const { VAGOVSTAGING, VAGOVPROD, LOCALHOST } = ENVIRONMENTS;
+const { VAGOVSTAGING, VAGOVPROD, LOCALHOST, VAGOVDEV } = ENVIRONMENTS;
 
 const {
   getAppManifests,
@@ -260,15 +260,16 @@ module.exports = async (env = {}) => {
     destination: buildtype,
     ...env,
   };
-
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = { ...apps, ...globalEntryFiles };
   const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
+  const isNotLocalHost = [VAGOVDEV, VAGOVPROD, VAGOVSTAGING].includes(
+    buildtype,
+  );
   const scaffoldAssets = await getScaffoldAssets();
   const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
   const envBucketUrl = BUCKETS[buildtype];
   const sourceMapSlug = envBucketUrl || '';
-
   const buildPath = path.resolve(
     __dirname,
     '../',
@@ -436,6 +437,7 @@ module.exports = async (env = {}) => {
           },
         },
       },
+      runtimeChunk: false,
     },
     plugins: [
       new webpack.DefinePlugin({
@@ -520,6 +522,11 @@ module.exports = async (env = {}) => {
       }),
     );
   }
-
+  console.log(`\n\nThe isNotLocalHost is:\t${isNotLocalHost}`);
+  console.log(
+    `\n\nThe baseConfig.optimization.runtimeChunk is:\t${
+      baseConfig.optimization.runtimeChunk
+    }`,
+  );
   return baseConfig;
 };
