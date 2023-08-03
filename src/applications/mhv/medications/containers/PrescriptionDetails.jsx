@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getPrescriptionDetails } from '../actions/prescriptions';
+import {
+  fillPrescription,
+  getPrescriptionDetails,
+} from '../actions/prescriptions';
 import PrintHeader from './PrintHeader';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
@@ -171,7 +174,35 @@ const PrescriptionDetails = () => {
               About your prescription
             </h2>
             <div className="no-print">
-              <va-button text="Refill prescription" />
+              {prescription.error && (
+                <div>
+                  <va-alert status="error" visible>
+                    <p className="vads-u-margin-y--0">
+                      We didn’t get your refill request. Try again.
+                    </p>
+                    <p className="vads-u-margin-y--0">
+                      If it still doesn’t work, call your VA pharmacy
+                      {prescription?.phoneNumber ? (
+                        <>
+                          <span> at </span>
+                          <va-telephone contact={prescription.phoneNumber} />
+                          <span>
+                            (<va-telephone tty contact="711" />)
+                          </span>
+                        </>
+                      ) : (
+                        <>.</>
+                      )}
+                    </p>
+                  </va-alert>
+                </div>
+              )}
+              <va-button
+                text="Refill prescription"
+                onClick={() =>
+                  dispatch(fillPrescription(prescription.prescriptionId))
+                }
+              />
             </div>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescription number
@@ -216,7 +247,13 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed by
             </h3>
-            <p>{prescription?.presciberName || 'None noted'}</p>
+            <p>
+              {prescription.providerFirstName
+                ? `${prescription.providerLastName}, ${
+                    prescription.providerFirstName
+                  }`
+                : 'None noted'}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
             </h3>
@@ -263,8 +300,8 @@ const PrescriptionDetails = () => {
 
           <div className="medication-details-div vads-u-margin-bottom--8">
             <h2 className="vads-u-margin-top--3">Refill history</h2>
-            {prescription.history && prescription.history.length > 0 ? (
-              prescription.history.map(entry => (
+            {prescription.rxRfRecords && prescription.rxRfRecords.length > 0 ? (
+              prescription.rxRfRecords.map(entry => (
                 <div key={entry.requestDate}>
                   <h3 className="vads-u-font-size--lg vads-u-font-family--sans">
                     {dateFormat(entry.requestDate, 'MMMM YYYY')}

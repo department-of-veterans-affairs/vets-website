@@ -1,4 +1,3 @@
-import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
@@ -58,7 +57,7 @@ import hearingType from '../pages/hearingType';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/notice_of_disagreements`,
+  submitUrl: '/notice_of_disagreements',
   trackingPrefix: '10182-board-appeal-',
 
   downtime: {
