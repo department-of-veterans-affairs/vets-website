@@ -23,7 +23,6 @@ const scrollToTop = () => {
 
 const RequestDetailsCard = ({ data, response }) => {
   const name = data.personalData?.veteranFullName;
-  const enhancedFSR = data['view:enhancedFinancialStatusReport'];
   const windowPrint = useCallback(() => {
     window.print();
   }, []);
@@ -45,17 +44,9 @@ const RequestDetailsCard = ({ data, response }) => {
     );
   };
 
-  const reliefList = enhancedFSR
-    ? data.selectedDebtsAndCopays?.map((debt, index) =>
-        debtListItem(debt, index),
-      )
-    : data.selectedDebts?.map((debt, index) => (
-        <li key={index}>
-          {debt.resolution?.resolutionType}
-          <span className="vads-u-margin--0p5">for</span>
-          {deductionCodes[debt.deductionCode]}
-        </li>
-      ));
+  const reliefList = data.selectedDebtsAndCopays?.map((debt, index) =>
+    debtListItem(debt, index),
+  );
 
   return (
     <div className="inset">

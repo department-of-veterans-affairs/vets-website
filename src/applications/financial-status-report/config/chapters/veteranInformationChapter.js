@@ -41,7 +41,6 @@ export default {
       },
       availableDebts: {
         initialData: {
-          selectedDebts: [],
           selectedDebtsAndCopays: [],
         },
         path: 'all-available-debts',
