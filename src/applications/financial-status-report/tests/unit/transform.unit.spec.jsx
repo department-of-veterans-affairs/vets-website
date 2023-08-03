@@ -122,8 +122,8 @@ describe('fsr transform helper functions', () => {
     });
   });
 
-  // Depends on sumValues, filterReduceByName, otherDeductionsAmt - calculateIncome
-  describe('calculateIncome helper', () => {
+  // Depends on sumValues, filterReduceByName, otherDeductionsAmt - getMonthlyIncome
+  describe('getMonthlyIncome helper', () => {
     it('should return monthly income based on veterans net and other income, and spouses net and other income', () => {
       const result = getMonthlyIncome(inputObject.data);
       // Veteran's income

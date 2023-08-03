@@ -124,7 +124,7 @@ describe('efsr-fsr transform helper functions', () => {
   });
 
   // Depends on sumValues, filterReduceByName, otherDeductionsAmt - getMonthlyIncome
-  describe('efsr calculateIncome helper', () => {
+  describe('efsr getMonthlyIncome helper', () => {
     it('should return monthy income based on veterans net and other income, and spouses net and other income', () => {
       const result = getMonthlyIncome(inputObject.data);
 
