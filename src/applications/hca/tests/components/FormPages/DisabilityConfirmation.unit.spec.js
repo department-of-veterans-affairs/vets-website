@@ -20,7 +20,7 @@ describe('hca DisabilityConfirmation', () => {
     it('should render navigation buttons', () => {
       const { container } = render(<DisabilityConfirmation {...props} />);
       expect(
-        container.querySelectorAll('.hca-progress-button'),
+        container.querySelectorAll('.hca-button-progress'),
       ).to.have.lengthOf(2);
     });
   });

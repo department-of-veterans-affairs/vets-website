@@ -157,9 +157,12 @@ export const uiSchema = {
       },
       vaLoanNumber: {
         'ui:title': text.loanNumber.title,
-        'ui:description': <div>{text.loanNumber.description}</div>,
+        'ui:description': (
+          <div id="va-loan-number">{text.loanNumber.description}</div>
+        ),
         'ui:options': {
           widgetClassNames: 'coe-loan-input',
+          ariaDescribedby: 'va-loan-number',
         },
         'ui:errorMessages': {
           pattern: text.loanNumber.pattern,

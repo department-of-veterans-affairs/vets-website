@@ -27,7 +27,7 @@ const PrintDownload = props => {
         data-testid="print-records-button"
         aria-expanded={menuOpen}
       >
-        <span>Print or download this {list ? 'list' : 'record'}</span>
+        <span>Print or download this {list ? 'list' : 'page'}</span>
         <i className={menuIconClasses} aria-hidden="true" />
       </button>
       <ul className={menuOptionsClasses}>

@@ -1,16 +1,16 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render, fireEvent } from '@testing-library/react';
 
-import {
-  DefinitionTester,
-  getFormDOM,
-} from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 
 import { $ } from '../../utils/ui';
 
 import formConfig from '../../config/form';
+import maximalData from '../fixtures/data/maximal-test.json';
+import { errorMessages } from '../../constants';
 
 const mockStore = data => ({
   getState: () => ({
@@ -40,7 +40,7 @@ describe('add issue page', () => {
   } = formConfig.chapters.issues.pages.contestableIssues;
 
   it('should render', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+    const { container } = render(
       <div>
         <Provider store={mockStore()}>
           <DefinitionTester
@@ -53,7 +53,45 @@ describe('add issue page', () => {
       </div>,
     );
 
-    const formDOM = getFormDOM(form);
-    expect($('a.add-new-issue', formDOM)).to.exist;
+    expect($('a.add-new-issue', container)).to.exist;
+  });
+  it('should continue with valid data', () => {
+    const { container } = render(
+      <div>
+        <Provider store={mockStore(maximalData.data)}>
+          <DefinitionTester
+            definitions={{}}
+            schema={schema}
+            uiSchema={uiSchema}
+            data={maximalData.data}
+          />
+        </Provider>
+      </div>,
+    );
+
+    fireEvent.submit($('form', container));
+    expect($('.usa-input-error-message', container)).to.not.exist;
+  });
+  it('should show error with invalid date', () => {
+    const data = cloneDeep(maximalData.data);
+    data.additionalIssues[0].decisionDate = '2022-?-?';
+
+    const { container } = render(
+      <div>
+        <Provider store={mockStore(data)}>
+          <DefinitionTester
+            definitions={{}}
+            schema={schema}
+            uiSchema={uiSchema}
+            data={data}
+          />
+        </Provider>
+      </div>,
+    );
+    fireEvent.submit($('form', container));
+
+    expect($('.usa-input-error-message', container).textContent).to.contain(
+      errorMessages.cardInvalidDate,
+    );
   });
 });

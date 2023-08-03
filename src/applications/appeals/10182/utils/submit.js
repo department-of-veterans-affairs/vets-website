@@ -1,6 +1,11 @@
 import moment from 'moment';
 
-import { SELECTED, MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../constants';
+import {
+  SELECTED,
+  MAX_LENGTH,
+  SUBMITTED_DISAGREEMENTS,
+  SHOW_PART3,
+} from '../constants';
 import { replaceSubmittedData, fixDateFormat } from './replace';
 
 /**
@@ -17,6 +22,12 @@ import { replaceSubmittedData, fixDateFormat } from './replace';
  *   enum to "virtual_hearing", "video_conference" or "central_office"
  * @property {Boolean} socOptIn - check box indicating the Veteran has opted in
  *   to the new appeal process (always false)
+ * @property {Boolean} requestingExtension - yes/no indicating the Veteran is
+ *   requesting an extension
+ * @property {String} extensionReason - Text of why the Veteran is requesting an
+ *   extension
+ * @property {Boolean} appealingVhaDenial - yes/no indicating the Veteran is
+ *   appealing a VHA denial
  * @property {Boolean} view:additionalEvidence - Veteran choice to upload more
  *   evidence
  */
@@ -59,7 +70,7 @@ import { replaceSubmittedData, fixDateFormat } from './replace';
  * @prop {ContestableIssues} - Array of both eligible & ineligible contestable
  *  issues
  */
-export const getEligibleContestableIssues = issues => {
+export const getEligibleContestableIssues = (issues, { showPart3 } = {}) => {
   const today = moment().startOf('day');
   return (issues || []).filter(issue => {
     const {
@@ -75,7 +86,7 @@ export const getEligibleContestableIssues = issues => {
     if (isDeferred || !date.isValid() || !ratingIssueSubjectText) {
       return false;
     }
-    return date.add(1, 'years').isAfter(today);
+    return showPart3 || date.add(1, 'years').isAfter(today);
   });
 };
 
@@ -284,7 +295,8 @@ export const removeEmptyEntries = object =>
  * Veteran~submittable
  * @property {Address~submittable} address
  * @property {Phone~submittable} phone
- * @property {String} emailAddressText
+ * @property {String} emailAddressText (v0)
+ * @property {String} email (v1)
  * @property {Boolean} homeless
  */
 /**
@@ -297,6 +309,7 @@ export const removeEmptyEntries = object =>
  * @property {String} stateCode
  * @property {String} zipCode5
  * @property {String} countryName
+ * @property {String} countryCodeIso2
  * @property {String} internationalPostalCode
  */
 /**
@@ -312,7 +325,8 @@ export const removeEmptyEntries = object =>
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
  */
-export const getAddress = ({ veteran = {} } = {}) => {
+export const getAddress = (formData = {}) => {
+  const { veteran = {} } = formData;
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
   const internationalPostalCode = truncate(
@@ -328,8 +342,12 @@ export const getAddress = ({ veteran = {} } = {}) => {
     zipCode5: internationalPostalCode
       ? '00000'
       : truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
-    countryName: veteran.address?.countryName || '',
-    // countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY), // v2
+    // Include countryName (v1) or countryCodeISO2 (v2)
+    countryName: formData[SHOW_PART3] ? '' : veteran.address?.countryName || '',
+    // note "ISO2" is submitted, "Iso2" is from profile address
+    countryCodeISO2: formData[SHOW_PART3]
+      ? truncate('countryCodeIso2', MAX_LENGTH.COUNTRY)
+      : '',
     internationalPostalCode,
   });
 };
@@ -351,6 +369,18 @@ export const getPhone = ({ veteran = {} } = {}) => {
 };
 
 /**
+ * Return v0 or v1 key with email data
+ * @param {Veteran} veteran - Veteran formData object
+ * @returns {Object} submittable email
+ */
+export const getEmail = (formData = {}) => {
+  // v0 uses emailAddressText
+  // v1 uses email
+  const key = formData[SHOW_PART3] ? 'email' : 'emailAddressText';
+  return { [key]: formData.veteran?.email || '' };
+};
+
+/**
  * Get user's current time zone
  * @returns {String}
  * @example 'America/Los_Angeles'
@@ -359,3 +389,29 @@ export const getTimeZone = () =>
   // supports IE11
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
   Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+/**
+ *
+ * @param {Boolean} requestingExtension - yes/no indicating the Veteran is
+ *   requesting an extension
+ * @param {String} extensionReason - Text of why the Veteran is requesting an
+ *   extension
+ * @param {Boolean} appealingVhaDenial - yes/no indicating the Veteran is
+ *   appealing a VHA denial
+ * @returns {Object} data from part III, box 11 of form expiring on 3/31/2025
+ */
+export const getPart3Data = formData => {
+  if (!formData[SHOW_PART3]) {
+    return {};
+  }
+  const {
+    requestingExtension = false,
+    extensionReason = '',
+    appealingVhaDenial = false,
+  } = formData;
+  const result = { requestingExtension, appealingVhaDenial };
+  if (requestingExtension) {
+    result.extensionReason = extensionReason;
+  }
+  return result;
+};

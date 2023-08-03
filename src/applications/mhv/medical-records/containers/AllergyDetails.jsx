@@ -38,18 +38,13 @@ const AllergyDetails = () => {
         dispatch(
           setBreadcrumbs(
             [
-              { url: '/my-health/medical-records/', label: 'Dashboard' },
               {
-                url: '/my-health/medical-records/health-history',
-                label: 'Health history',
-              },
-              {
-                url: '/my-health/medical-records/health-history/allergies',
-                label: 'VA allergies',
+                url: '/my-health/medical-records/allergies',
+                label: 'Allergies',
               },
             ],
             {
-              url: `/my-health/medical-records/health-history/allergies/${allergyId}`,
+              url: `/my-health/medical-records/allergies/${allergyId}`,
               label: allergy.name,
             },
           ),

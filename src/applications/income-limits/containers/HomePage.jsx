@@ -61,7 +61,7 @@ const HomePage = ({
           history, or other factors. If you think you may be eligible, we
           encourage you to apply anytime.{' '}
           <va-link
-            href="https://www.va.gov/health-care/eligibility/"
+            href="/health-care/eligibility/"
             text="Review health care eligibility factors"
           />
         </li>
