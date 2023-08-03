@@ -158,16 +158,16 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     if (window.WebChat) {
       // find the send box element
       const sendBox = document.querySelector(
-        'input[placeholder="Type your message"]',
+        'input[class="webchat__send-box-text-box__input"]',
       );
       // change the placeholder text of send box
       sendBox.setAttribute(
         'aria-label',
-        'Type or enable the microphone to speak a message',
+        'Type or enable the microphone to speak',
       );
       sendBox.setAttribute(
         'placeholder',
-        'Type or enable the microphone to speak a message ',
+        'Type or enable the microphone to speak',
       );
     }
     return (
