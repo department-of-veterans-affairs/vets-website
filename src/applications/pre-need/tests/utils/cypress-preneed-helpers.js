@@ -69,10 +69,109 @@ function fillApplicantInfo(name, ssn, dob, relationship) {
   );
 }
 
+// Fills in any existing military history data
+function fillMilitaryHistory(serviceRecord) {
+  serviceRecord.forEach((tour, index) => {
+    cy.fillDate(
+      `root_application_veteran_serviceRecords_${index}_dateRange_from`,
+      tour.dateRange.from,
+    );
+    cy.fillDate(
+      `root_application_veteran_serviceRecords_${index}_dateRange_to`,
+      tour.dateRange.to,
+    );
+    cy.get(
+      `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+    ).click();
+    cy.fill(
+      `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+      'ALLIED FORCES',
+    );
+    cy.get(
+      `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+    ).trigger('keydown', { keyCode: 40 });
+    cy.get(
+      `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+    ).trigger('keyup', { keyCode: 40 });
+    cy.get(
+      `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+    ).trigger('keydown', { keyCode: 13 });
+    cy.get(
+      `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+    ).trigger('keyup', { keyCode: 13 });
+
+    cy.fill(
+      `input[name="root_application_veteran_serviceRecords_${index}_highestRank"]`,
+      tour.highestRank,
+    );
+    cy.get(
+      `#root_application_veteran_serviceRecords_${index}_dischargeType`,
+    ).select(tour.dischargeType);
+
+    // Keep adding them until we're finished.
+    if (index < serviceRecord.length - 1) {
+      cy.get('.usa-button-secondary.va-growable-add-btn').click();
+    }
+  });
+  cy.axeCheck();
+  clickContinue();
+}
+
+// Fills in previous name information
+function fillPreviousName(serviceName) {
+  cy.get('label[for$="hasServiceNameYes"]').should('be.visible');
+  cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
+  cy.fillName('root_application_veteran_serviceName', serviceName);
+  cy.axeCheck();
+  clickContinue();
+}
+
+// Fills both benefit selection pages, performs axe checks on each, continues to next page
+function fillBenefitSelection(
+  desiredCemetery,
+  hasCurrentlyBuried,
+  currentlyBuriedPersons,
+) {
+  // Page 1
+  cy.fill(
+    'input[name="root_application_claimant_desiredCemetery"]',
+    desiredCemetery,
+  );
+  cy.get('.autosuggest-item', { timeout: Timeouts.slow }).should('exist');
+  cy.get('body').click();
+  cy.selectRadio('root_application_hasCurrentlyBuried', hasCurrentlyBuried);
+  cy.selectRadio('root_application_hasCurrentlyBuried', hasCurrentlyBuried);
+  cy.axeCheck();
+  clickContinue();
+
+  // Page 2
+  if (currentlyBuriedPersons.length) {
+    currentlyBuriedPersons.forEach((person, index) => {
+      cy.fill(
+        `input[name="root_application_currentlyBuriedPersons_${index}_cemeteryNumber"]`,
+        person.cemeteryNumber.label,
+      );
+      cy.fillName(
+        `root_application_currentlyBuriedPersons_${index}_name`,
+        person.name,
+      );
+      if (index < currentlyBuriedPersons.length - 1) {
+        cy.get('.usa-button-secondary.va-growable-add-btn').click();
+      }
+    });
+  }
+  cy.axeCheck();
+  clickContinue();
+  cy.url().should('not.contain', '/burial-benefits');
+}
+
 module.exports = {
   clickContinue,
   interceptSetup,
   visitIntro,
   validateProgressBar,
   fillApplicantInfo,
+  fillMilitaryHistory,
+  fillPreviousName,
+  fillBenefitSelection,
 };

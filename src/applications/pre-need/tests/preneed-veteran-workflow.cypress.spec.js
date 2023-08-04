@@ -55,63 +55,15 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       { timeout: Timeouts.verySlow },
     );
     preneedHelpers.validateProgressBar('2');
-    testData.data.application.veteran.serviceRecords.forEach((tour, index) => {
-      cy.fillDate(
-        `root_application_veteran_serviceRecords_${index}_dateRange_from`,
-        tour.dateRange.from,
-      );
-      cy.fillDate(
-        `root_application_veteran_serviceRecords_${index}_dateRange_to`,
-        tour.dateRange.to,
-      );
-      cy.get(
-        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-      ).click();
-      cy.fill(
-        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-        'ALLIED FORCES',
-      );
-      cy.get(
-        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-      ).trigger('keydown', { keyCode: 40 });
-      cy.get(
-        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-      ).trigger('keyup', { keyCode: 40 });
-      cy.get(
-        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-      ).trigger('keydown', { keyCode: 13 });
-      cy.get(
-        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-      ).trigger('keyup', { keyCode: 13 });
-
-      cy.fill(
-        `input[name="root_application_veteran_serviceRecords_${index}_highestRank"]`,
-        tour.highestRank,
-      );
-      cy.get(
-        `#root_application_veteran_serviceRecords_${index}_dischargeType`,
-      ).select(tour.dischargeType);
-
-      // Keep adding them until we're finished.
-      if (index < testData.data.application.veteran.serviceRecords.length - 1) {
-        cy.get('.usa-button-secondary.va-growable-add-btn').click();
-      }
-    });
-
-    cy.axeCheck();
-    preneedHelpers.clickContinue();
+    preneedHelpers.fillMilitaryHistory(
+      testData.data.application.veteran.serviceRecords,
+    );
     cy.url().should('not.contain', '/applicant-military-history');
 
     // Previous Names page
-    cy.get('label[for$="hasServiceNameYes"]').should('be.visible');
-    preneedHelpers.validateProgressBar('2');
-    cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
-    cy.fillName(
-      'root_application_veteran_serviceName',
+    preneedHelpers.fillPreviousName(
       testData.data.application.veteran.serviceName,
     );
-    cy.axeCheck();
-    preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/applicant-military-name');
 
     // Benefit Selection page
@@ -119,45 +71,11 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       'be.visible',
     );
     preneedHelpers.validateProgressBar('3');
-    cy.fill(
-      'input[name="root_application_claimant_desiredCemetery"]',
+    preneedHelpers.fillBenefitSelection(
       testData.data.application.veteran.desiredCemetery.label,
-    );
-    cy.get('.autosuggest-item', { timeout: Timeouts.slow }).should('exist');
-    cy.get('body').click();
-    cy.selectRadio(
-      'root_application_hasCurrentlyBuried',
       testData.data.application.hasCurrentlyBuried,
+      testData.data.application.currentlyBuriedPersons,
     );
-    cy.selectRadio(
-      'root_application_hasCurrentlyBuried',
-      testData.data.application.hasCurrentlyBuried,
-    );
-    cy.axeCheck();
-    preneedHelpers.clickContinue();
-    if (testData.data.application.currentlyBuriedPersons.length) {
-      testData.data.application.currentlyBuriedPersons.forEach(
-        (person, index) => {
-          cy.fill(
-            `input[name="root_application_currentlyBuriedPersons_${index}_cemeteryNumber"]`,
-            person.cemeteryNumber.label,
-          );
-          cy.fillName(
-            `root_application_currentlyBuriedPersons_${index}_name`,
-            person.name,
-          );
-          if (
-            index <
-            testData.data.application.currentlyBuriedPersons.length - 1
-          ) {
-            cy.get('.usa-button-secondary.va-growable-add-btn').click();
-          }
-        },
-      );
-    }
-    cy.axeCheck();
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/burial-benefits');
 
     // Supporting Documents page
     cy.get('label[for="root_application_preneedAttachments"]');
