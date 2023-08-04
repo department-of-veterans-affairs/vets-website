@@ -23,12 +23,10 @@ import widgetTypes from '../../../widgetTypes';
 function ListItem({ facilities, ehrDataByVhaId }) {
   return facilities.map(facility => {
     // Derive facility properties.
-    const id = facility?.id;
-    const strippedID = replace(id, 'vha_', '');
-    const facilityName = facility?.attributes?.name;
-    const systemName = getVamcSystemNameFromVhaId(ehrDataByVhaId, strippedID);
+    const id = facility?.facilityId;
+    const systemName = getVamcSystemNameFromVhaId(ehrDataByVhaId, id);
 
-    return <li key={id}>{systemName || facilityName}</li>;
+    return <li key={id}>{systemName}</li>;
   });
 }
 
@@ -209,7 +207,7 @@ export class CernerCallToAction extends Component {
               <div className="vads-u-margin-y--1">
                 <ul className="vads-u-margin-left--1p5 vads-u-margin-bottom--1">
                   <ListItem
-                    facilities={facilities}
+                    facilities={cernerFacilities}
                     ehrDataByVhaId={ehrDataByVhaId}
                   />
                 </ul>
