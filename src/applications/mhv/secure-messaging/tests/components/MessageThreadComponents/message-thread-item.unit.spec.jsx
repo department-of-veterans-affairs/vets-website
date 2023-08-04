@@ -140,4 +140,25 @@ describe('Message thread item', () => {
     expect(icon).to.exist;
     expect(icon.getAttribute('slot')).to.equal('icon');
   });
+
+  it('should not render "unread" circle icon if message is sent by user', () => {
+    const messageInSentFolder = {
+      ...messageResponse,
+      readReceipt: null,
+      folderId: -1,
+    };
+    const screen = setup(messageInSentFolder);
+
+    expect(screen.queryByTestId('unread-icon')).to.not.exist;
+  });
+
+  it('should not render "unread" circle icon if message is "read"', () => {
+    const messageReadByUser = {
+      ...messageResponse,
+      readReceipt: 'READ',
+    };
+    const screen = setup(messageReadByUser);
+
+    expect(screen.queryByTestId('unread-icon')).to.not.exist;
+  });
 });
