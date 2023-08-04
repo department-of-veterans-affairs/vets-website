@@ -273,7 +273,7 @@ function main() {
     spec => spec.allowed === false,
   ).map(spec => spec.spec_path);
   const allDisallowedTestsWithWarnings = ALLOW_LIST.filter(
-    spec => spec.allowed === false && getDaysSinceDate(spec.disallowed_at) > 60,
+    spec => spec.allowed === false && getDaysSinceDate(spec.warned_at) > 60,
   ).map(spec => spec.spec_path);
   console.log(allDisallowedTestsWithWarnings);
   // groups of tests based on test selection and filtering the groups from the allow list
