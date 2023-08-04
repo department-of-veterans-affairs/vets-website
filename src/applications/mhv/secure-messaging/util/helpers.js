@@ -178,3 +178,12 @@ export const convertPathNameToTitleCase = str => {
 
   return capitalizedWords.join(' '); // Join the words with spaces
 };
+
+export const messageSignatureFormatter = singatureObj => {
+  if (singatureObj?.includeSignature) {
+    return `\n\n\n${singatureObj.signatureName}\n${
+      singatureObj.signatureTitle
+    }`;
+  }
+  return null;
+};
