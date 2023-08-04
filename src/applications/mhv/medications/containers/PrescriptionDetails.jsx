@@ -21,6 +21,10 @@ const PrescriptionDetails = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (prescription) {
       dispatch(
         setBreadcrumbs(
@@ -150,6 +154,9 @@ const PrescriptionDetails = () => {
         <>
           <PrintHeader />
           <h1 className="page-title">{prescription.prescriptionName}</h1>
+          <p>
+            Last filled on {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
+          </p>
 
           <div className="no-print">
             <PrintDownload download={handleDownloadPDF} />
