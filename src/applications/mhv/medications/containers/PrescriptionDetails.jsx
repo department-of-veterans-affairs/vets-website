@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   fillPrescription,
   getPrescriptionDetails,
@@ -19,10 +20,6 @@ const PrescriptionDetails = () => {
   const dob = useSelector(state => state.user.profile.dob);
   const { prescriptionId } = useParams();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   useEffect(() => {
     if (prescription) {
@@ -44,6 +41,15 @@ const PrescriptionDetails = () => {
       );
     }
   });
+
+  useEffect(
+    () => {
+      if (prescription) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [prescription],
+  );
 
   const pdfData = {
     headerBanner: [
