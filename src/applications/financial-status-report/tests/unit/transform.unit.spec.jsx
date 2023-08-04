@@ -11,6 +11,7 @@ import {
   otherDeductionsAmt,
   getMonthlyExpenses,
   getEmploymentHistory,
+  getTotalAssets,
   otherDeductionsName,
   nameStr,
 } from '../../utils/helpers';
@@ -832,239 +833,278 @@ describe('fsr transform information', () => {
       });
     });
   });
-  describe('installmentContractsAndOtherDebts', () => {
-    it('has valid structure', () => {
-      const submissionObj = JSON.parse(transform(null, inputObject));
-      expect(submissionObj).haveOwnProperty(
-        'installmentContractsAndOtherDebts',
-      );
-      expect(submissionObj.installmentContractsAndOtherDebts).is.an('array');
+  describe('getTotalAssets helper', () => {
+    it('should return total value of assets excluding vehicles', () => {
+      const totalAssets = {
+        questions: {
+          hasVehicle: false,
+        },
+        assets: {
+          realEstateValue: '2000',
+          otherAssets: [
+            {
+              amount: '10',
+            },
+            {
+              amount: '10',
+            },
+          ],
+          recVehicleAmount: '100',
+          automobiles: [
+            {
+              resaleValue: '100',
+            },
+            {
+              resaleValue: '100',
+            },
+          ],
+        },
+      };
+      expect(getTotalAssets(totalAssets)).to.equal(2120);
     });
-    describe('installmentContractsAndOtherDebts list item', () => {
+
+    describe('installmentContractsAndOtherDebts', () => {
       it('has valid structure', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
-        expect(submissionObj.installmentContractsAndOtherDebts[0]).is.an(
-          'object',
+        expect(submissionObj).haveOwnProperty(
+          'installmentContractsAndOtherDebts',
         );
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0],
-        ).haveOwnProperty('purpose');
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0],
-        ).haveOwnProperty('creditorName');
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0],
-        ).haveOwnProperty('originalAmount');
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0],
-        ).haveOwnProperty('unpaidBalance');
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0],
-        ).haveOwnProperty('amountDueMonthly');
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0],
-        ).haveOwnProperty('dateStarted');
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0],
-        ).haveOwnProperty('amountPastDue');
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0],
-        ).haveOwnProperty('creditorAddress');
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0].creditorAddress,
-        ).is.an('object');
+        expect(submissionObj.installmentContractsAndOtherDebts).is.an('array');
       });
-      it('has valid data', () => {
-        const submissionObj = JSON.parse(transform(null, inputObject));
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0].purpose,
-        ).to.equal('Credit card payments');
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0].creditorName,
-        ).to.equal('Creditor One');
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0].originalAmount,
-        ).to.equal('50000.54');
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0].unpaidBalance,
-        ).to.equal('15000.56');
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0].amountDueMonthly,
-        ).to.equal('800.10');
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0].dateStarted,
-        ).to.equal('03/2017');
-        expect(
-          submissionObj.installmentContractsAndOtherDebts[0].amountPastDue,
-        ).to.equal('125.43');
-      });
-      describe('creditorAddress', () => {
+      describe('installmentContractsAndOtherDebts list item', () => {
         it('has valid structure', () => {
           const submissionObj = JSON.parse(transform(null, inputObject));
+          expect(submissionObj.installmentContractsAndOtherDebts[0]).is.an(
+            'object',
+          );
+          expect(
+            submissionObj.installmentContractsAndOtherDebts[0],
+          ).haveOwnProperty('purpose');
+          expect(
+            submissionObj.installmentContractsAndOtherDebts[0],
+          ).haveOwnProperty('creditorName');
+          expect(
+            submissionObj.installmentContractsAndOtherDebts[0],
+          ).haveOwnProperty('originalAmount');
+          expect(
+            submissionObj.installmentContractsAndOtherDebts[0],
+          ).haveOwnProperty('unpaidBalance');
+          expect(
+            submissionObj.installmentContractsAndOtherDebts[0],
+          ).haveOwnProperty('amountDueMonthly');
+          expect(
+            submissionObj.installmentContractsAndOtherDebts[0],
+          ).haveOwnProperty('dateStarted');
+          expect(
+            submissionObj.installmentContractsAndOtherDebts[0],
+          ).haveOwnProperty('amountPastDue');
+          expect(
+            submissionObj.installmentContractsAndOtherDebts[0],
+          ).haveOwnProperty('creditorAddress');
           expect(
             submissionObj.installmentContractsAndOtherDebts[0].creditorAddress,
-          ).haveOwnProperty('addresslineOne');
-          expect(
-            submissionObj.installmentContractsAndOtherDebts[0].creditorAddress,
-          ).haveOwnProperty('addresslineTwo');
-          expect(
-            submissionObj.installmentContractsAndOtherDebts[0].creditorAddress,
-          ).haveOwnProperty('addresslineThree');
-          expect(
-            submissionObj.installmentContractsAndOtherDebts[0].creditorAddress,
-          ).haveOwnProperty('city');
-          expect(
-            submissionObj.installmentContractsAndOtherDebts[0].creditorAddress,
-          ).haveOwnProperty('stateOrProvince');
-          expect(
-            submissionObj.installmentContractsAndOtherDebts[0].creditorAddress,
-          ).haveOwnProperty('zipOrPostalCode');
-          expect(
-            submissionObj.installmentContractsAndOtherDebts[0].creditorAddress,
-          ).haveOwnProperty('countryName');
+          ).is.an('object');
         });
         it('has valid data', () => {
           const submissionObj = JSON.parse(transform(null, inputObject));
           expect(
-            submissionObj.installmentContractsAndOtherDebts[0].creditorAddress
-              .addresslineOne,
-          ).to.equal('');
+            submissionObj.installmentContractsAndOtherDebts[0].purpose,
+          ).to.equal('Credit card payments');
           expect(
-            submissionObj.installmentContractsAndOtherDebts[0].creditorAddress
-              .addresslineTwo,
-          ).to.equal('');
+            submissionObj.installmentContractsAndOtherDebts[0].creditorName,
+          ).to.equal('Creditor One');
           expect(
-            submissionObj.installmentContractsAndOtherDebts[0].creditorAddress
-              .addresslineThree,
-          ).to.equal('');
+            submissionObj.installmentContractsAndOtherDebts[0].originalAmount,
+          ).to.equal('50000.54');
           expect(
-            submissionObj.installmentContractsAndOtherDebts[0].creditorAddress
-              .city,
-          ).to.equal('');
+            submissionObj.installmentContractsAndOtherDebts[0].unpaidBalance,
+          ).to.equal('15000.56');
           expect(
-            submissionObj.installmentContractsAndOtherDebts[0].creditorAddress
-              .stateOrProvince,
-          ).to.equal('');
+            submissionObj.installmentContractsAndOtherDebts[0].amountDueMonthly,
+          ).to.equal('800.10');
           expect(
-            submissionObj.installmentContractsAndOtherDebts[0].creditorAddress
-              .zipOrPostalCode,
-          ).to.equal('');
+            submissionObj.installmentContractsAndOtherDebts[0].dateStarted,
+          ).to.equal('03/2017');
           expect(
-            submissionObj.installmentContractsAndOtherDebts[0].creditorAddress
-              .countryName,
-          ).to.equal('');
+            submissionObj.installmentContractsAndOtherDebts[0].amountPastDue,
+          ).to.equal('125.43');
+        });
+        describe('creditorAddress', () => {
+          it('has valid structure', () => {
+            const submissionObj = JSON.parse(transform(null, inputObject));
+            expect(
+              submissionObj.installmentContractsAndOtherDebts[0]
+                .creditorAddress,
+            ).haveOwnProperty('addresslineOne');
+            expect(
+              submissionObj.installmentContractsAndOtherDebts[0]
+                .creditorAddress,
+            ).haveOwnProperty('addresslineTwo');
+            expect(
+              submissionObj.installmentContractsAndOtherDebts[0]
+                .creditorAddress,
+            ).haveOwnProperty('addresslineThree');
+            expect(
+              submissionObj.installmentContractsAndOtherDebts[0]
+                .creditorAddress,
+            ).haveOwnProperty('city');
+            expect(
+              submissionObj.installmentContractsAndOtherDebts[0]
+                .creditorAddress,
+            ).haveOwnProperty('stateOrProvince');
+            expect(
+              submissionObj.installmentContractsAndOtherDebts[0]
+                .creditorAddress,
+            ).haveOwnProperty('zipOrPostalCode');
+            expect(
+              submissionObj.installmentContractsAndOtherDebts[0]
+                .creditorAddress,
+            ).haveOwnProperty('countryName');
+          });
+          it('has valid data', () => {
+            const submissionObj = JSON.parse(transform(null, inputObject));
+            expect(
+              submissionObj.installmentContractsAndOtherDebts[0].creditorAddress
+                .addresslineOne,
+            ).to.equal('');
+            expect(
+              submissionObj.installmentContractsAndOtherDebts[0].creditorAddress
+                .addresslineTwo,
+            ).to.equal('');
+            expect(
+              submissionObj.installmentContractsAndOtherDebts[0].creditorAddress
+                .addresslineThree,
+            ).to.equal('');
+            expect(
+              submissionObj.installmentContractsAndOtherDebts[0].creditorAddress
+                .city,
+            ).to.equal('');
+            expect(
+              submissionObj.installmentContractsAndOtherDebts[0].creditorAddress
+                .stateOrProvince,
+            ).to.equal('');
+            expect(
+              submissionObj.installmentContractsAndOtherDebts[0].creditorAddress
+                .zipOrPostalCode,
+            ).to.equal('');
+            expect(
+              submissionObj.installmentContractsAndOtherDebts[0].creditorAddress
+                .countryName,
+            ).to.equal('');
+          });
         });
       });
     });
-  });
-  describe('totalOfInstallmentContractsAndOtherDebts', () => {
-    it('has valid structure', () => {
-      const submissionObj = JSON.parse(transform(null, inputObject));
-      expect(submissionObj).haveOwnProperty(
-        'totalOfInstallmentContractsAndOtherDebts',
-      );
-      expect(submissionObj.totalOfInstallmentContractsAndOtherDebts).to.be.an(
-        'object',
-      );
-      expect(
-        submissionObj.totalOfInstallmentContractsAndOtherDebts,
-      ).haveOwnProperty('originalAmount');
-      expect(
-        submissionObj.totalOfInstallmentContractsAndOtherDebts,
-      ).haveOwnProperty('unpaidBalance');
-      expect(
-        submissionObj.totalOfInstallmentContractsAndOtherDebts,
-      ).haveOwnProperty('amountDueMonthly');
-      expect(
-        submissionObj.totalOfInstallmentContractsAndOtherDebts,
-      ).haveOwnProperty('amountPastDue');
-    });
-    it('has valid data', () => {
-      const submissionObj = JSON.parse(transform(null, inputObject));
-      expect(
-        submissionObj.totalOfInstallmentContractsAndOtherDebts.originalAmount,
-      ).to.equal('150000.97');
-      expect(
-        submissionObj.totalOfInstallmentContractsAndOtherDebts.unpaidBalance,
-      ).to.equal('65000.82');
-      expect(
-        submissionObj.totalOfInstallmentContractsAndOtherDebts.amountDueMonthly,
-      ).to.equal('2000.64');
-      expect(
-        submissionObj.totalOfInstallmentContractsAndOtherDebts.amountPastDue,
-      ).to.equal('125.43');
-    });
-  });
-  describe('additionalData', () => {
-    it('has valid structure', () => {
-      const submissionObj = JSON.parse(transform(null, inputObject));
-      expect(submissionObj).haveOwnProperty('additionalData');
-      expect(submissionObj.additionalData).to.be.an('object');
-      expect(submissionObj.additionalData).haveOwnProperty(
-        'additionalComments',
-      );
-      expect(submissionObj.additionalData).haveOwnProperty('bankruptcy');
-      expect(submissionObj.additionalData.bankruptcy).to.be.an('object');
-    });
-    it('has valid data', () => {
-      const submissionObj = JSON.parse(transform(null, inputObject));
-      expect(submissionObj.additionalData.additionalComments).to.equal(
-        'Supporting personal statement...\nIndividual expense amount: Pool service ($200.00), Lawn service ($100.54)',
-      );
-    });
-    describe('bankruptcy', () => {
+    describe('totalOfInstallmentContractsAndOtherDebts', () => {
       it('has valid structure', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
-        expect(submissionObj.additionalData.bankruptcy).haveOwnProperty(
-          'hasBeenAdjudicatedBankrupt',
+        expect(submissionObj).haveOwnProperty(
+          'totalOfInstallmentContractsAndOtherDebts',
         );
-        expect(submissionObj.additionalData.bankruptcy).haveOwnProperty(
-          'dateDischarged',
+        expect(submissionObj.totalOfInstallmentContractsAndOtherDebts).to.be.an(
+          'object',
         );
-        expect(submissionObj.additionalData.bankruptcy).haveOwnProperty(
-          'courtLocation',
-        );
-        expect(submissionObj.additionalData.bankruptcy).haveOwnProperty(
-          'docketNumber',
-        );
+        expect(
+          submissionObj.totalOfInstallmentContractsAndOtherDebts,
+        ).haveOwnProperty('originalAmount');
+        expect(
+          submissionObj.totalOfInstallmentContractsAndOtherDebts,
+        ).haveOwnProperty('unpaidBalance');
+        expect(
+          submissionObj.totalOfInstallmentContractsAndOtherDebts,
+        ).haveOwnProperty('amountDueMonthly');
+        expect(
+          submissionObj.totalOfInstallmentContractsAndOtherDebts,
+        ).haveOwnProperty('amountPastDue');
       });
       it('has valid data', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(
-          submissionObj.additionalData.bankruptcy.hasBeenAdjudicatedBankrupt,
-        ).to.equal(true);
-        expect(submissionObj.additionalData.bankruptcy.dateDischarged).to.equal(
-          '10/2004',
-        );
-        expect(submissionObj.additionalData.bankruptcy.courtLocation).to.equal(
-          'Tampa, FL',
-        );
-        expect(submissionObj.additionalData.bankruptcy.docketNumber).to.equal(
-          '123456',
-        );
+          submissionObj.totalOfInstallmentContractsAndOtherDebts.originalAmount,
+        ).to.equal('150000.97');
+        expect(
+          submissionObj.totalOfInstallmentContractsAndOtherDebts.unpaidBalance,
+        ).to.equal('65000.82');
+        expect(
+          submissionObj.totalOfInstallmentContractsAndOtherDebts
+            .amountDueMonthly,
+        ).to.equal('2000.64');
+        expect(
+          submissionObj.totalOfInstallmentContractsAndOtherDebts.amountPastDue,
+        ).to.equal('125.43');
       });
     });
-  });
-  describe('applicantCertifications', () => {
-    it('has valid structure', () => {
-      const submissionObj = JSON.parse(transform(null, inputObject));
-      expect(submissionObj).haveOwnProperty('applicantCertifications');
-      expect(submissionObj.applicantCertifications).to.be.an('object');
-      expect(submissionObj.applicantCertifications).haveOwnProperty(
-        'veteranSignature',
-      );
-      expect(submissionObj.applicantCertifications).haveOwnProperty(
-        'veteranDateSigned',
-      );
+    describe('additionalData', () => {
+      it('has valid structure', () => {
+        const submissionObj = JSON.parse(transform(null, inputObject));
+        expect(submissionObj).haveOwnProperty('additionalData');
+        expect(submissionObj.additionalData).to.be.an('object');
+        expect(submissionObj.additionalData).haveOwnProperty(
+          'additionalComments',
+        );
+        expect(submissionObj.additionalData).haveOwnProperty('bankruptcy');
+        expect(submissionObj.additionalData.bankruptcy).to.be.an('object');
+      });
+      it('has valid data', () => {
+        const submissionObj = JSON.parse(transform(null, inputObject));
+        expect(submissionObj.additionalData.additionalComments).to.equal(
+          'Supporting personal statement...\nIndividual expense amount: Pool service ($200.00), Lawn service ($100.54)',
+        );
+      });
+      describe('bankruptcy', () => {
+        it('has valid structure', () => {
+          const submissionObj = JSON.parse(transform(null, inputObject));
+          expect(submissionObj.additionalData.bankruptcy).haveOwnProperty(
+            'hasBeenAdjudicatedBankrupt',
+          );
+          expect(submissionObj.additionalData.bankruptcy).haveOwnProperty(
+            'dateDischarged',
+          );
+          expect(submissionObj.additionalData.bankruptcy).haveOwnProperty(
+            'courtLocation',
+          );
+          expect(submissionObj.additionalData.bankruptcy).haveOwnProperty(
+            'docketNumber',
+          );
+        });
+        it('has valid data', () => {
+          const submissionObj = JSON.parse(transform(null, inputObject));
+          expect(
+            submissionObj.additionalData.bankruptcy.hasBeenAdjudicatedBankrupt,
+          ).to.equal(true);
+          expect(
+            submissionObj.additionalData.bankruptcy.dateDischarged,
+          ).to.equal('10/2004');
+          expect(
+            submissionObj.additionalData.bankruptcy.courtLocation,
+          ).to.equal('Tampa, FL');
+          expect(submissionObj.additionalData.bankruptcy.docketNumber).to.equal(
+            '123456',
+          );
+        });
+      });
     });
-    it('has valid data', () => {
-      const submissionObj = JSON.parse(transform(null, inputObject));
-      expect(submissionObj.applicantCertifications.veteranSignature).to.equal(
-        'Greg A Anderson',
-      );
-      expect(submissionObj.applicantCertifications.veteranDateSigned).to.equal(
-        moment().format('MM/DD/YYYY'),
-      );
+    describe('applicantCertifications', () => {
+      it('has valid structure', () => {
+        const submissionObj = JSON.parse(transform(null, inputObject));
+        expect(submissionObj).haveOwnProperty('applicantCertifications');
+        expect(submissionObj.applicantCertifications).to.be.an('object');
+        expect(submissionObj.applicantCertifications).haveOwnProperty(
+          'veteranSignature',
+        );
+        expect(submissionObj.applicantCertifications).haveOwnProperty(
+          'veteranDateSigned',
+        );
+      });
+      it('has valid data', () => {
+        const submissionObj = JSON.parse(transform(null, inputObject));
+        expect(submissionObj.applicantCertifications.veteranSignature).to.equal(
+          'Greg A Anderson',
+        );
+        expect(
+          submissionObj.applicantCertifications.veteranDateSigned,
+        ).to.equal(moment().format('MM/DD/YYYY'));
+      });
     });
   });
 });
