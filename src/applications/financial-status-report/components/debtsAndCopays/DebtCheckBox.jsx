@@ -30,10 +30,6 @@ const DebtCheckBox = ({ debt }) => {
     );
 
     if (alreadyIncluded) {
-      const checked = selectedDebtsAndCopays?.filter(
-        debtEntry => debtEntry.id !== selectedDebt.id,
-      );
-
       const combinedChecked = selectedDebtsAndCopays?.filter(
         selection => selection.id !== selectedDebt.id,
       );
@@ -41,7 +37,6 @@ const DebtCheckBox = ({ debt }) => {
       return dispatch(
         setData({
           ...formData,
-          selectedDebts: checked,
           selectedDebtsAndCopays: combinedChecked,
         }),
       );

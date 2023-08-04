@@ -39,7 +39,6 @@ const App = ({
   router,
   setFormData,
   showFSR,
-  showCombinedFSR,
   showEnhancedFSR,
   showWizard,
 }) => {
@@ -134,7 +133,7 @@ const App = ({
     },
     // Do not add formData to the dependency array, as it will cause an infinite loop. Linter warning will go away when feature flag is deprecated.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [showCombinedFSR, showEnhancedFSR, setFormData, isStartingOver],
+    [showEnhancedFSR, setFormData, isStartingOver],
   );
 
   if (pending) {
@@ -187,7 +186,6 @@ App.propTypes = {
   }),
   router: PropTypes.object,
   setFormData: PropTypes.func,
-  showCombinedFSR: PropTypes.bool,
   showEnhancedFSR: PropTypes.bool,
   showFSR: PropTypes.bool,
   showWizard: PropTypes.bool,
