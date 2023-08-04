@@ -23,7 +23,6 @@ const scrollToTop = () => {
 
 const RequestDetailsCard = ({ data, response }) => {
   const name = data.personalData?.veteranFullName;
-  const combinedFSR = data['view:combinedFinancialStatusReport'];
   const windowPrint = useCallback(() => {
     window.print();
   }, []);
@@ -45,17 +44,9 @@ const RequestDetailsCard = ({ data, response }) => {
     );
   };
 
-  const reliefList = combinedFSR
-    ? data.selectedDebtsAndCopays?.map((debt, index) =>
-        debtListItem(debt, index),
-      )
-    : data.selectedDebts?.map((debt, index) => (
-        <li key={index}>
-          {debt.resolution?.resolutionType}
-          <span className="vads-u-margin--0p5">for</span>
-          {deductionCodes[debt.deductionCode]}
-        </li>
-      ));
+  const reliefList = data.selectedDebtsAndCopays?.map((debt, index) =>
+    debtListItem(debt, index),
+  );
 
   return (
     <div className="inset">
@@ -80,10 +71,7 @@ const RequestDetailsCard = ({ data, response }) => {
           {moment(response.timestamp).format('MMMM D, YYYY')}
         </p>
         <p className="vads-u-margin-bottom--0p5">
-          <DownloadFormPDF
-            pdfContent={response.content}
-            useContent={combinedFSR}
-          />
+          <DownloadFormPDF pdfContent={response.content} />
           <button
             className="usa-button-secondary button vads-u-background-color--white"
             onClick={windowPrint}
