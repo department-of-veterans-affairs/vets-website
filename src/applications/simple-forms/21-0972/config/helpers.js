@@ -61,8 +61,11 @@ export const claimantExpectedInformationDescription = ({ formData } = {}) => {
 export const veteranDescriptionText = ({ formData } = {}) => {
   let descriptionText = '';
   if (claimantIsNotVeteran({ formData })) {
-    const claimantIdentificationText = getClaimantIdentificationText(formData);
-    descriptionText = `Next we’ll ask you about the Veteran connected to the ${claimantIdentificationText} you are certifying for.`;
+    descriptionText =
+      'Next we’ll ask you about the Veteran connected to the person you’re signing for.';
+  } else {
+    descriptionText =
+      'Next we’ll ask you about the Veteran you’re signing for.';
   }
   return descriptionText;
 };

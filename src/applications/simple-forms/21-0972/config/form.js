@@ -46,34 +46,36 @@ const statementOfTruthBody = (
     <p>
       I also understand that VA may request further documentation or evidence to
       verify or confirm my authorization to sign or complete an application on
-      behalf of the veteran/claimant if necessary. Examples of evidence which VA
-      may request include:
+      behalf of the person with the claim if necessary. VA may request any of
+      these examples:
     </p>
 
     <ul>
       <li>
-        Social Security Number (SSN) or Taxpayer Identification Number (TIN);
+        Social Security Number (SSN) or Taxpayer Identification Number (TIN).
       </li>
       <li>
-        A certificate or order from a court with competent jurisdiction showing
-        my authority to act for the veteran/claimant with a judge’s signature
-        and date/time stamp;
-      </li>
-      <li>Copy of documentation showing appointment of fiduciary;</li>
-      <li>
-        Durable power of attorney showing the name and signature of the
-        veteran/claimant and my authority as attorney in fact or agent;
+        A certificate or order from a court showing my authority to act for the
+        person with the claim. The court must have competent jurisdiction, and
+        the certificate or order must be signed and dated or time-stamped.
       </li>
       <li>
-        Health care power of attorney, affidavit or notarized statement from an
-        institution or person responsible for the care of the veteran/claimant
-        indicating the capacity or responsibility of care provided;
+        A copy of documentation showing that I’m appointed as a fiduciary.
       </li>
-      <li>Or any other documentation showing such authorization.</li>
+      <li>
+        Durable power of attorney showing the name and signature of the person
+        with the claim, and my authority as attorney-in-fact or agent.
+      </li>
+      <li>
+        Health care power of attorney, affidavit, or notarized statement from an
+        institution or person responsible for the care of the claimant. The
+        statement must explain the extent of the provided care.
+      </li>
+      <li>Any other documentation showing relevant authorization.</li>
     </ul>
     <p>
-      I certify that the identifying information in this form has been correctly
-      represented.
+      I confirm that the identifying information in this form is accurate and
+      has been represented correctly.
     </p>
   </>
 );
@@ -81,7 +83,9 @@ const statementOfTruthBody = (
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  submit: () =>
+    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   transformForSubmit,
   trackingPrefix: '21-0972-alternate-signer-',
   dev: {

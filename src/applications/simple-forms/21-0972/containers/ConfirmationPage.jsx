@@ -5,9 +5,9 @@ import { connect, useSelector } from 'react-redux';
 import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
 
 const content = {
-  headlineText: 'Thank you for submitting your alternate signer certification',
+  headlineText: 'You’ve submitted your alternate signer certification',
   nextStepsText:
-    'You are now able to submit for benefits on behalf of the Veteran or a non-veteran claimant you identified in your alternate signer certification.',
+    'You may now sign other forms on behalf of the Veteran or non-Veteran claimant you identified in this form.',
 };
 
 const childContent = (
