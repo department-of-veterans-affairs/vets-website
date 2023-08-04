@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {
   updateDependents,
@@ -18,8 +18,6 @@ const HomePage = ({
   updateYearField,
   updateZipCodeField,
 }) => {
-  const breadcrumbsRef = useRef('.income-limits-breadcrumbs');
-
   useEffect(
     () => {
       const clearForm = () => {
@@ -27,8 +25,7 @@ const HomePage = ({
         updateYearField('');
         updateZipCodeField('');
       };
-
-      focusElement(breadcrumbsRef.current);
+      waitForRenderThenFocus('h1');
       clearForm();
     },
     [router, updateDependentsField, updateYearField, updateZipCodeField],

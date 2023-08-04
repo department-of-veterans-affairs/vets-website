@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { redirectIfFormIncomplete } from '../utilities/utils';
 import { getLimits } from '../api';
@@ -26,7 +26,6 @@ const ReviewPage = ({
   yearInput,
   zipCodeInput,
 }) => {
-  const breadcrumbsRef = useRef('.income-limits-breadcrumbs');
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -45,7 +44,7 @@ const ReviewPage = ({
         zipCodeInput,
       );
 
-      focusElement(breadcrumbsRef.current);
+      waitForRenderThenFocus('h1');
     },
     [dependentsInput, pastMode, router, yearInput, zipCodeInput],
   );

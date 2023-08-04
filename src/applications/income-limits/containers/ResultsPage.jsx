@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { ROUTES } from '../constants';
@@ -22,13 +22,12 @@ import { getPreviousYear, redirectIfFormIncomplete } from '../utilities/utils';
  */
 const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
   const APPLY_URL = '/health-care/apply/application/introduction';
-  const breadcrumbsRef = useRef('.income-limits-breadcrumbs');
 
   useEffect(
     () => {
       redirectIfFormIncomplete(dependents, pastMode, router, year, zipCode);
 
-      focusElement(breadcrumbsRef.current);
+      waitForRenderThenFocus('h1');
     },
     [dependents, pastMode, router, year, zipCode],
   );

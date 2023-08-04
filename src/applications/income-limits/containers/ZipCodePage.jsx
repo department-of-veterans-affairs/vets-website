@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   VaButtonPair,
   VaNumberInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getPreviousYear } from '../utilities/utils';
 import { ROUTES } from '../constants';
 import {
@@ -26,7 +26,6 @@ const ZipCodePage = ({
   zipCode,
   zipValidationServiceError,
 }) => {
-  const breadcrumbsRef = useRef('.income-limits-breadcrumbs');
   const [formError, setFormError] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -48,7 +47,7 @@ const ZipCodePage = ({
         router.push(ROUTES.HOME);
         return;
       }
-      focusElement(breadcrumbsRef.current);
+      waitForRenderThenFocus('h1');
     },
     [pastMode, router, year],
   );
