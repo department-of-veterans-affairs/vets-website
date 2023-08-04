@@ -385,13 +385,6 @@ export function FilterBeforeResults({
       },
     ];
 
-    const handleKeyDown = event => {
-      // Handle keyboard event
-      if (event.key === 'Enter') {
-        jumpLinkClick();
-      }
-    };
-
     return (
       <CheckboxGroup
         class="vads-u-margin-y--4"
