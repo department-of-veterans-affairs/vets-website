@@ -7,54 +7,17 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
 
-    // Application Information
-    cy.get('input[name="root_application_claimant_name_first"]');
-
-    preneedHelpers.validateProgressBar('1');
-
-    cy.fillName(
-      'root_application_claimant_name',
+    // Applicant Information
+    preneedHelpers.fillApplicantInfo(
       testData.data.application.veteran.currentName,
-    );
-    cy.fill(
-      'input[name="root_application_claimant_ssn"]',
       testData.data.application.veteran.ssn,
-    );
-    cy.fillDate(
-      'root_application_claimant_dateOfBirth',
       testData.data.application.veteran.dateOfBirth,
-    );
-    cy.selectRadio(
-      'root_application_claimant_relationshipToVet',
       testData.data.application.veteran.relationshipToVet,
-    );
-
-    if (testData.data.application.veteran.relationshipToVet.type === 'other') {
-      cy.get('input[name="root_application_claimant_relationship_other"]');
-      cy.fill(
-        'input[name="root_application_claimant_relationship_other"]',
-        testData.data.application.veteran.relationship.other,
-      );
-      cy.clickIf(
-        '#root_application_claimant_relationship_view:isEntity',
-        testData.data.application.veteran.relationship.isEntity,
-      );
-    }
-
-    cy.injectAxeThenAxeCheck();
-    preneedHelpers.clickContinue();
-    cy.url().should(
-      'not.contain',
-      '/form-10007-apply-for-eligibility/applicant-information',
     );
 
     // Veteran Information
     cy.get('input[name="root_application_veteran_militaryServiceNumber"]');
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(1)')
-      .should('have.class', 'progress-segment-complete');
-
+    preneedHelpers.validateProgressBar('1');
     cy.fill(
       'input[name="root_application_veteran_militaryServiceNumber"]',
       testData.data.application.veteran.militaryServiceNumber,
@@ -91,6 +54,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       'input[name="root_application_veteran_serviceRecords_0_serviceBranch"]',
       { timeout: Timeouts.verySlow },
     );
+    preneedHelpers.validateProgressBar('2');
     testData.data.application.veteran.serviceRecords.forEach((tour, index) => {
       cy.fillDate(
         `root_application_veteran_serviceRecords_${index}_dateRange_from`,
@@ -134,23 +98,18 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       }
     });
 
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(2)')
-      .should('have.class', 'progress-segment-complete');
-
     cy.axeCheck();
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/applicant-military-history');
 
     // Previous Names page
     cy.get('label[for$="hasServiceNameYes"]').should('be.visible');
+    preneedHelpers.validateProgressBar('2');
     cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
     cy.fillName(
       'root_application_veteran_serviceName',
       testData.data.application.veteran.serviceName,
     );
-
     cy.axeCheck();
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/applicant-military-name');
@@ -159,10 +118,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     cy.get('label[for="root_application_claimant_desiredCemetery"]').should(
       'be.visible',
     );
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(3)')
-      .should('have.class', 'progress-segment-complete');
+    preneedHelpers.validateProgressBar('3');
     cy.fill(
       'input[name="root_application_claimant_desiredCemetery"]',
       testData.data.application.veteran.desiredCemetery.label,
@@ -206,19 +162,13 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     // Supporting Documents page
     cy.get('label[for="root_application_preneedAttachments"]');
 
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(4)')
-      .should('have.class', 'progress-segment-complete');
+    preneedHelpers.validateProgressBar('4');
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/supporting-documents');
 
     // Applicant/Veteran Contact Information page
     cy.get('select[name="root_application_claimant_address_country"]');
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(5)')
-      .should('have.class', 'progress-segment-complete');
+    preneedHelpers.validateProgressBar('5');
     cy.fillAddress(
       'root_application_claimant_address',
       testData.data.application.veteran.address,
@@ -236,10 +186,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     cy.get(
       'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
     );
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(5)')
-      .should('have.class', 'progress-segment-complete');
+    preneedHelpers.validateProgressBar('5');
     cy.selectRadio(
       'root_application_applicant_applicantRelationshipToClaimant',
       testData.data.application.applicantForeign
@@ -276,7 +223,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       cy.get('[name="privacyAgreementAccepted"]')
         .find('label[for="checkbox-element"]')
         .should('be.visible');
-
+      preneedHelpers.validateProgressBar('6');
       cy.get('[name="privacyAgreementAccepted"]')
         .find('[type="checkbox"]')
         .check({

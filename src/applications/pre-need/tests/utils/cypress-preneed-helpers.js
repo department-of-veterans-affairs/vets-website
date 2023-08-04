@@ -24,6 +24,19 @@ function interceptSetup() {
   cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
 }
 
+// The string passed to this function should reflect the number of sections of the progress bar that are expected to be complete
+function validateProgressBar(index) {
+  cy.get('va-segmented-progress-bar')
+    .shadow()
+    .find(`.progress-bar-segmented div.progress-segment:nth-child(${index})`)
+    .should('have.class', 'progress-segment-complete');
+}
+
+function clickContinue() {
+  cy.get('.form-panel .usa-button-primary').click();
+}
+
+// Visits the pre-need intro page, validates the title, clicks start application
 function visitIntro() {
   cy.visit('/burials-and-memorials/pre-need/form-10007-apply-for-eligibility');
   cy.get('body').should('be.visible');
@@ -39,15 +52,21 @@ function visitIntro() {
   cy.url().should('not.contain', '/introduction');
 }
 
-function validateProgressBar(index) {
-  cy.get('va-segmented-progress-bar')
-    .shadow()
-    .find(`.progress-bar-segmented div.progress-segment:nth-child(${index})`)
-    .should('have.class', 'progress-segment-complete');
-}
+// Fills all fields on the Applicant Information page
+function fillApplicantInfo(name, ssn, dob, relationship) {
+  cy.get('input[name="root_application_claimant_name_first"]');
+  validateProgressBar('1');
+  cy.fillName('root_application_claimant_name', name);
+  cy.fill('input[name="root_application_claimant_ssn"]', ssn);
+  cy.fillDate('root_application_claimant_dateOfBirth', dob);
+  cy.selectRadio('root_application_claimant_relationshipToVet', relationship);
 
-function clickContinue() {
-  cy.get('.form-panel .usa-button-primary').click();
+  cy.injectAxeThenAxeCheck();
+  clickContinue();
+  cy.url().should(
+    'not.contain',
+    '/form-10007-apply-for-eligibility/applicant-information',
+  );
 }
 
 module.exports = {
@@ -55,4 +74,5 @@ module.exports = {
   interceptSetup,
   visitIntro,
   validateProgressBar,
+  fillApplicantInfo,
 };

@@ -7,50 +7,17 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
 
-    // Application Information
-    cy.get('input[name="root_application_claimant_name_first"]');
-
-    preneedHelpers.validateProgressBar('1');
-
-    cy.fillName(
-      'root_application_claimant_name',
+    // Applicant Information
+    preneedHelpers.fillApplicantInfo(
       testData.data.application.claimant.name,
-    );
-    cy.fill(
-      'input[name="root_application_claimant_ssn"]',
       testData.data.application.claimant.ssn,
-    );
-    cy.fillDate(
-      'root_application_claimant_dateOfBirth',
       testData.data.application.claimant.dateOfBirth,
-    );
-    cy.selectRadio(
-      'root_application_claimant_relationshipToVet',
       testData.data.application.claimant.relationshipToVet,
     );
 
-    if (testData.data.application.claimant.relationshipToVet.type === 'other') {
-      cy.get('input[name="root_application_claimant_relationship_other"]');
-      cy.fill(
-        'input[name="root_application_claimant_relationship_other"]',
-        testData.data.application.claimant.relationship.other,
-      );
-      cy.clickIf(
-        '#root_application_claimant_relationship_view:isEntity',
-        testData.data.application.claimant.relationship.isEntity,
-      );
-    }
-
-    cy.injectAxeThenAxeCheck();
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/applicant-information');
-
     // Veteran Information
     cy.get('input[name="root_application_veteran_currentName_first"]');
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(2)')
-      .should('have.class', 'progress-segment-complete');
+    preneedHelpers.validateProgressBar('2');
 
     cy.fillName(
       'root_application_veteran_currentName',
@@ -104,6 +71,7 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
       'input[name="root_application_veteran_serviceRecords_0_serviceBranch"]',
       { timeout: Timeouts.verySlow },
     );
+    preneedHelpers.validateProgressBar('3');
     testData.data.application.veteran.serviceRecords.forEach((tour, index) => {
       cy.fillDate(
         `root_application_veteran_serviceRecords_${index}_dateRange_from`,
@@ -147,11 +115,6 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
       }
     });
 
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(3)')
-      .should('have.class', 'progress-segment-complete');
-
     cy.axeCheck();
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-military-history');
@@ -172,10 +135,8 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     cy.get('label[for="root_application_claimant_desiredCemetery"]').should(
       'be.visible',
     );
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(4)')
-      .should('have.class', 'progress-segment-complete');
+    preneedHelpers.validateProgressBar('4');
+
     cy.fill(
       'input[name="root_application_claimant_desiredCemetery"]',
       testData.data.application.claimant.desiredCemetery.label,
@@ -192,6 +153,8 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     );
     cy.axeCheck();
     preneedHelpers.clickContinue();
+
+    // Benefit Selection Page 2
     if (testData.data.application.currentlyBuriedPersons.length) {
       testData.data.application.currentlyBuriedPersons.forEach(
         (person, index) => {
@@ -218,20 +181,13 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
 
     // Supporting Documents page
     cy.get('label[for="root_application_preneedAttachments"]');
-
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(5)')
-      .should('have.class', 'progress-segment-complete');
+    preneedHelpers.validateProgressBar('5');
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/supporting-documents');
 
     // Applicant/Claimant Contact Information page
     cy.get('select[name="root_application_claimant_address_country"]');
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(6)')
-      .should('have.class', 'progress-segment-complete');
+    preneedHelpers.validateProgressBar('6');
     cy.fillAddress(
       'root_application_claimant_address',
       testData.data.application.claimant.address,
@@ -247,10 +203,7 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
 
     // Veteran Contact Information page
     cy.get('select[name="root_application_veteran_address_country"]');
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(6)')
-      .should('have.class', 'progress-segment-complete');
+    preneedHelpers.validateProgressBar('6');
     cy.fillAddress(
       'root_application_veteran_address',
       testData.data.application.veteran.address,
@@ -259,13 +212,11 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-mailing-address');
 
+    // Preparer page
     cy.get(
       'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
     );
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(6)')
-      .should('have.class', 'progress-segment-complete');
+    preneedHelpers.validateProgressBar('6');
     cy.selectRadio(
       'root_application_applicant_applicantRelationshipToClaimant',
       testData.data.application.applicant.applicantRelationshipToClaimant,
@@ -294,9 +245,11 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
       preneedHelpers.clickContinue();
       cy.url().should('not.contain', '/preparer');
 
+      // Review/Submit Page
       cy.get('[name="privacyAgreementAccepted"]')
         .find('label[for="checkbox-element"]')
         .should('be.visible');
+      preneedHelpers.validateProgressBar('7');
 
       cy.get('[name="privacyAgreementAccepted"]')
         .find('[type="checkbox"]')
