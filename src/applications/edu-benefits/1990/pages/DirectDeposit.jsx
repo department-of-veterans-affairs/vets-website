@@ -20,7 +20,7 @@ const bankInfoHelpText = (
         <a href="https://veteransbenefitsbanking.org/">
           Veterans Benefits Banking Program (VBBP)
         </a>{' '}
-        provides a list of Veteran-friendly banks and credit unions. They’ll
+        provides a lllist of Veteran-friendly banks and credit unions. They’ll
         work with you to set up an account, or help you qualify for an account,
         so you can use direct deposit. To get started, call one of the
         participating banks or credit unions listed on the VBBP website. Be sure
