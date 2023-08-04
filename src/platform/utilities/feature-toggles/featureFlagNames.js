@@ -2,7 +2,6 @@
 
 export default Object.freeze({
   bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
-  caregiverSigiEnabled: 'caregiver_sigi_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
@@ -67,6 +66,7 @@ export default Object.freeze({
     'facility_locator_show_operational_hours_special_instructions',
   findFormsShowPdfModal: 'find_forms_show_pdf_modal',
   fileUploadShortWorkflowEnabled: 'file_upload_short_workflow_enabled',
+  financialStatusReportDebtsApiModule: 'financial_status_report_debts_api_module',
   financialStatusReportStreamlinedWaiver: 'financial_status_report_streamlined_waiver',
   form10182Nod: 'form10182_nod',
   form2110210: 'form2110210',
@@ -79,6 +79,8 @@ export default Object.freeze({
   hcaBrowserMonitoringEnabled: 'hca_browser_monitoring_enabled',
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
   hcaHouseholdV2Enabled: 'hca_household_v2_enabled',
+  hcaRemoveIdFieldsEnabled: 'hca_remove_id_fields_enabled',
+  hcaSigiEnabled: 'hca_sigi_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',

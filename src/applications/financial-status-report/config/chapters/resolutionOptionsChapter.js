@@ -1,6 +1,5 @@
 import {
   resolutionExplainer,
-  resolutionOptions,
   resolutionOption,
   resolutionComment,
   resolutionWaiverAgreement,
@@ -17,21 +16,10 @@ export default {
         uiSchema: resolutionExplainer.uiSchema,
         schema: resolutionExplainer.schema,
       },
-      resolutionOptions: {
-        path: 'resolution-options',
-        title: 'Resolution options',
-        depends: formData => !formData['view:combinedFinancialStatusReport'],
-        uiSchema: resolutionOptions.uiSchema,
-        schema: resolutionOptions.schema,
-      },
-      // New resolution radio options
       resolutionOption: {
         title: 'Resolution Option',
         depends: formData => {
-          return (
-            formData.selectedDebtsAndCopays?.length > 0 &&
-            formData['view:combinedFinancialStatusReport']
-          );
+          return formData.selectedDebtsAndCopays?.length > 0;
         },
         path: 'resolution-option/:index',
         showPagePerItem: true,
@@ -41,9 +29,7 @@ export default {
       },
       resolutionComment: {
         title: 'Resolution Amount',
-        depends: formData =>
-          formData.selectedDebtsAndCopays?.length > 0 &&
-          formData['view:combinedFinancialStatusReport'],
+        depends: formData => formData.selectedDebtsAndCopays?.length > 0,
         itemFilter: item => item.resolutionOption !== 'waiver',
         path: 'resolution-comment/:index',
         showPagePerItem: true,
@@ -53,9 +39,7 @@ export default {
       },
       resolutionWaiverCheck: {
         title: 'Resolution Waiver Agreement',
-        depends: formData =>
-          formData.selectedDebtsAndCopays?.length > 0 &&
-          formData['view:combinedFinancialStatusReport'],
+        depends: formData => formData.selectedDebtsAndCopays?.length > 0,
         itemFilter: item => item.resolutionOption === 'waiver',
         path: 'resolution-waiver-agreement/:index',
         showPagePerItem: true,

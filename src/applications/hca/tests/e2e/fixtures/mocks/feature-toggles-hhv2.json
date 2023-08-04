@@ -3,7 +3,7 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "caregiverSigiEnabled",
+        "name": "hcaSigiEnabled",
         "value": false
       },
       {
@@ -17,6 +17,10 @@
       {
         "name": "hcaHouseholdV2Enabled",
         "value": true
+      },
+      {
+        "name": "hcaRemoveIdFieldsEnabled",
+        "value": false
       }
     ]
   }

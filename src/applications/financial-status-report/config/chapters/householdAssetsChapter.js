@@ -135,25 +135,12 @@ export default {
         schema: recreationalVehicles.schema,
       },
       recreationalVehicleRecords: {
-        path: 'cfsr-recreational-vehicle-records',
-        title: 'Recreational vehicles',
-        uiSchema:
-          recreationalVehicleRecords.combinedFSRRecreationalUIVehicleSchema,
-        schema: recreationalVehicleRecords.combinedFSRRecreationalVehicleSchema,
-        depends: formData =>
-          formData.questions.hasRecreationalVehicle &&
-          formData['view:combinedFinancialStatusReport'],
-        editModeOnReviewPage: false,
-      },
-      recreationalVehicleRecordsListLoop: {
         path: 'recreational-vehicle-records',
         title: 'Recreational vehicles',
-        uiSchema: recreationalVehicleRecords.fSRRecreationalVehicleUISchema,
-        schema: recreationalVehicleRecords.fSRRecreationalVehicleSchema,
-        depends: formData =>
-          formData.questions.hasRecreationalVehicle &&
-          !formData['view:combinedFinancialStatusReport'],
-        editModeOnReviewPage: true,
+        uiSchema: recreationalVehicleRecords.recreationalVehicleUISchema,
+        schema: recreationalVehicleRecords.recreationalVehicleSchema,
+        depends: formData => formData.questions.hasRecreationalVehicle,
+        editModeOnReviewPage: false,
       },
       otherAssets: {
         path: 'other-assets',

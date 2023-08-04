@@ -61,8 +61,10 @@ const TopicList = props => {
     return (submitted || dirty) && !value ? errorMessages.required : false;
   };
 
-  const STATIC_DATA = `${environment.API_URL}/v0/ask_va/static_data`;
-  const STATIC_DATA_AUTH = `${environment.API_URL}/v0/ask_va/static_data_auth`;
+  const STATIC_DATA = `${environment.API_URL}/ask_va_api/v0/static_data`;
+  const STATIC_DATA_AUTH = `${
+    environment.API_URL
+  }/ask_va_api/v0/static_data_auth`;
 
   // fetch, map and set our list of facilities based on the state selection
   const getUsers = async url => {

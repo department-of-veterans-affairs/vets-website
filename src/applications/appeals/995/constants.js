@@ -89,6 +89,7 @@ export const errorMessages = {
   // startDateInPast: 'The start date must be in the future',
   // endDateInPast: 'The end date must be in the future',
   endDateBeforeStart: 'The end date must be after the start date',
+  cardInvalidDate: 'Invalid decision date',
 
   decisions: {
     missingDate: 'You must enter a decision date',

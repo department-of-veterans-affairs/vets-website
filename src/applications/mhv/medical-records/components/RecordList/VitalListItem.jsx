@@ -30,7 +30,7 @@ const VitalListItem = props => {
             Provider notes: <ItemList list={record.notes} />
           </div>
           <Link
-            to={`/health-history/vitals/${_.kebabCase(record.type)}`}
+            to={`/vitals/${_.kebabCase(record.type)}`}
             className="vads-u-margin-y--0p5 no-print"
           >
             <strong>
