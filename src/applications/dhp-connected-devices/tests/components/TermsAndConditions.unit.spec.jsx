@@ -19,9 +19,11 @@ describe('Terms and Conditions', () => {
     expect(screen.getByTestId('fitbit-terms-and-conditions')).to.exist;
     expect(screen.getByTestId('fitbit-terms-and-conditions-content')).to.exist;
     expect(
-      screen.findByText('Sign into Fitbit and share your Fitbit data with VA'),
-    ).to.exist;
-    expect(screen.findByText('View Terms')).to.exist;
+      screen.getByTestId('fitbit-terms-and-conditions').textContent,
+    ).to.have.string('Sign into Fitbit and share your Fit');
+    expect(
+      screen.getByTestId('fitbit-terms-and-conditions').innerHTML,
+    ).to.have.string('View Terms');
   });
   it('Only renders Ts and Cs for device in TermsAndConditionsContentMap', () => {
     const screen = render(<TermsAndConditions device={deviceNoTsAndCs} />);
