@@ -11,10 +11,12 @@ describe('hca ConfirmationPage', () => {
     form: {
       submission: false,
       data: {
-        veteranFullName: {
-          first: 'Jack',
-          middle: 'William',
-          last: 'Smith',
+        'view:veteranInformation': {
+          veteranFullName: {
+            first: 'Jack',
+            middle: 'William',
+            last: 'Smith',
+          },
         },
       },
     },

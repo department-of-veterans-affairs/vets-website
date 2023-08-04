@@ -138,11 +138,10 @@ export function transform(formConfig, form) {
   ];
   veteranFields.forEach(field => {
     if (!withoutViewFields[field]) {
-      withoutViewFields = set(
-        field,
-        form.loadedData.formData[field],
-        withoutViewFields,
-      );
+      const fieldData =
+        form.loadedData.formData[field] ||
+        form['view:veteranInformation'][field];
+      withoutViewFields = set(field, fieldData, withoutViewFields);
     }
   });
 
