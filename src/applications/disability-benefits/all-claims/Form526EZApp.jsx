@@ -256,23 +256,22 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-datadogRum.init({
-  applicationId: 'c7eb541a-30d2-4a00-aba0-04965e8a2668',
-  clientToken: 'pub300747eeaef98ae4eb9c8d66f3c747c1',
-  site: 'ddog-gov.com',
-  service: 'benefits-526ez',
-  env: environment.vspEnvironment(),
-  // Specify a version number to identify the deployed version of your application in Datadog
-  // version: '1.0.0',
-  sessionSampleRate: 10, // Set to 100 to test locally
-  sessionReplaySampleRate: 20, // Set to !00 to test locally
-  trackUserInteractions: true,
-  trackResources: true,
-  trackLongTasks: true,
-  defaultPrivacyLevel: 'mask-user-input',
-});
-
 if (isLoggedIn) {
+  datadogRum.init({
+    applicationId: 'c7eb541a-30d2-4a00-aba0-04965e8a2668',
+    clientToken: 'pub300747eeaef98ae4eb9c8d66f3c747c1',
+    site: 'ddog-gov.com',
+    service: 'benefits-526ez',
+    env: environment.vspEnvironment(),
+    // Specify a version number to identify the deployed version of your application in Datadog
+    // version: '1.0.0',
+    sessionSampleRate: 10, // Set to 100 to test locally
+    sessionReplaySampleRate: 20, // Set to 100 to test locally
+    trackUserInteractions: true,
+    trackResources: true,
+    trackLongTasks: true,
+    defaultPrivacyLevel: 'mask-user-input',
+  });
   datadogRum.startSessionReplayRecording();
 }
 export default connect(mapStateToProps)(Form526Entry);
