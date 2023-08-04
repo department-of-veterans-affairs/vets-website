@@ -153,7 +153,7 @@ describe('Compose form component', () => {
       {
         initialState: state,
         reducers: reducer,
-        path: `/draft/7171715`,
+        path: `/draft/${draftMessage.id}`,
       },
     );
 
@@ -234,7 +234,7 @@ describe('Compose form component', () => {
       {
         initialState: customState,
         reducers: reducer,
-        path: `/draft/7171715`,
+        path: `/draft/${draftMessage.id}`,
       },
     );
 
