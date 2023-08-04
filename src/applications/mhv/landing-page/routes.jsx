@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router';
-import Authorization from './containers/Authorization';
+import Authentication from './containers/Authentication';
 
-const routes = <Route path="/" component={Authorization} />;
+const routes = <Route path="/" component={Authentication} />;
 
 export default routes;

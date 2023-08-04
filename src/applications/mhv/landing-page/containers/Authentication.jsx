@@ -9,7 +9,7 @@ const requiredServices = [
   // backendServices.VA_PROFILE,
 ];
 
-const Authorization = () => {
+const Authentication = () => {
   const { user } = useSelector(fullState => fullState);
   return (
     <RequiredLoginView useSiS user={user} serviceRequired={requiredServices}>
@@ -18,4 +18,4 @@ const Authorization = () => {
   );
 };
 
-export default Authorization;
+export default Authentication;
