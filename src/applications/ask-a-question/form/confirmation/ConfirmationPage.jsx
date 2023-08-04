@@ -32,7 +32,7 @@ export class ConfirmationPage extends React.Component {
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset">
-          <h3 className="confirmation-page-inset-title">Your message</h3>
+          <h3 className="confirmation-page-insettt-title">Your message</h3>
           <span>
             for {name.first} {name.middle} {name.last} {name.suffix}
           </span>
