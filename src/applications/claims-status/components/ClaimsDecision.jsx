@@ -48,10 +48,10 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
         <div>
           <p className="vads-u-margin-y--0 vads-u-margin-bottom--2">
             <strong>
-              Decision letters aren’t available to download right now.
+              Decision letters aren’t available to download right now.{' '}
             </strong>
             We’re fixing some problems with this tool. Check back later. If you
-            need information about your decision letters now, call us at
+            need information about your decision letters now, call us attributes{' '}
             <va-telephone contact="8008271000" /> (TTY: 711). We’re here Monday
             through Friday, 8:00 a.m. to 9:00 p.m. ET.
           </p>
