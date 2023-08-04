@@ -1,4 +1,4 @@
-import AdditionalIncomeInputList from '../../../components/AdditionalIncomeInputList';
+import AdditionalIncomeInputList from '../../../components/householdIncome/AdditionalIncomeInputList';
 import { validateAddlIncomeValues } from '../../../utils/validations';
 
 export const uiSchema = {

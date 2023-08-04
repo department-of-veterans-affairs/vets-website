@@ -57,10 +57,6 @@ module.exports = {
         use: '<va-alert>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/CheckboxGroup',
-        use: '<va-checkbox-group>',
-      },
-      {
         name:
           '@department-of-veterans-affairs/component-library/ExpandingGroup',
         use: 'a custom solution',

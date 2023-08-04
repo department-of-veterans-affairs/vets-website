@@ -22,7 +22,7 @@ import { formatFacilityAddress, getFacilityPhone } from '../location';
 import {
   transformVAOSAppointment,
   transformVAOSAppointments,
-} from './transformers.v2';
+} from './transformers';
 import { captureError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
 import {

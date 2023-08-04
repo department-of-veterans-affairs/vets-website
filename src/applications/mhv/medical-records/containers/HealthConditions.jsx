@@ -21,13 +21,7 @@ const HealthConditions = () => {
     () => {
       dispatch(
         setBreadcrumbs(
-          [
-            { url: '/my-health/medical-records/', label: 'Dashboard' },
-            {
-              url: '/my-health/medical-records/health-history',
-              label: 'Health history',
-            },
-          ],
+          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
           {
             url: '/my-health/medical-records/health-conditions',
             label: 'VA health conditions',

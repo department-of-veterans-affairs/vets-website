@@ -43,6 +43,8 @@ describe('ShowIssuesList', () => {
     expect(list.first().text()).to.contain('Decision date: January 1, 2021');
     expect(list.last().text()).to.contain('Issue 4');
     expect(list.last().text()).to.contain('Decision date: February 2, 2021');
+    expect(wrapper.find('strong.dd-privacy-hidden').length).to.eq(4);
+    expect(wrapper.find('span.dd-privacy-hidden').length).to.eq(4);
     wrapper.unmount();
   });
 });

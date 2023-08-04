@@ -70,7 +70,7 @@ import { replaceSubmittedData, fixDateFormat } from './replace';
  * @prop {ContestableIssues} - Array of both eligible & ineligible contestable
  *  issues
  */
-export const getEligibleContestableIssues = issues => {
+export const getEligibleContestableIssues = (issues, { showPart3 } = {}) => {
   const today = moment().startOf('day');
   return (issues || []).filter(issue => {
     const {
@@ -86,7 +86,7 @@ export const getEligibleContestableIssues = issues => {
     if (isDeferred || !date.isValid() || !ratingIssueSubjectText) {
       return false;
     }
-    return date.add(1, 'years').isAfter(today);
+    return showPart3 || date.add(1, 'years').isAfter(today);
   });
 };
 
@@ -295,7 +295,8 @@ export const removeEmptyEntries = object =>
  * Veteran~submittable
  * @property {Address~submittable} address
  * @property {Phone~submittable} phone
- * @property {String} emailAddressText
+ * @property {String} emailAddressText (v0)
+ * @property {String} email (v1)
  * @property {Boolean} homeless
  */
 /**
@@ -365,6 +366,18 @@ export const getPhone = ({ veteran = {} } = {}) => {
     phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
     phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
   });
+};
+
+/**
+ * Return v0 or v1 key with email data
+ * @param {Veteran} veteran - Veteran formData object
+ * @returns {Object} submittable email
+ */
+export const getEmail = (formData = {}) => {
+  // v0 uses emailAddressText
+  // v1 uses email
+  const key = formData[SHOW_PART3] ? 'email' : 'emailAddressText';
+  return { [key]: formData.veteran?.email || '' };
 };
 
 /**
