@@ -25,8 +25,9 @@ describe('Terms and Conditions', () => {
   });
   it('Only renders Ts and Cs for device in TermsAndConditionsContentMap', () => {
     const screen = render(<TermsAndConditions device={deviceNoTsAndCs} />);
-    expect(screen.queryByTestId('test-vendor-terms-and-conditions')).to.exist;
-    expect(screen.queryByTestId('test-vendor-terms-and-conditions-content')).to
+    expect(screen.queryByTestId('test-vendor-terms-and-conditions')).to.not
       .exist;
+    expect(screen.queryByTestId('test-vendor-terms-and-conditions-content')).to
+      .not.exist;
   });
 });
