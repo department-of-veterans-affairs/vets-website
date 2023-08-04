@@ -41,7 +41,7 @@ export function FilterBeforeResults({
     yellowRibbonScholarship,
     employers,
     vettec,
-    preferredProvider,
+    preferredProvider, // data never read however, it is being modified
     country,
     state,
     specialMissionHbcu,
@@ -62,9 +62,6 @@ export function FilterBeforeResults({
   const [smfAccordionExpanded, setSmfAccordionExpanded] = useState(false);
   const [jumpLinkToggle, setJumpLinkToggle] = useState(0);
 
-  /** *******************************************
-        SPECIAL MISSION FILTER
-******************************************** */
   const smfDefinitions = specializedMissionDefinitions.map(smf => {
     return (
       <div key={smf.key}>
@@ -514,6 +511,21 @@ export function FilterBeforeResults({
       </>
     );
   };
+
+  /*
+    when loading page, check to see if school filter is false
+    if false check to see if excludedSchoolTypes does not equal empty array
+    if true set school filter to true
+    On rare occasions school filter loads as false which can 
+    result in no search results based off the false school filter
+  */
+  useEffect(() => {
+    return () => {
+      if (!schools && excludedSchoolTypes.length > 0) {
+        dispatchFilterChange({ ...filters, schools: true });
+      }
+    };
+  }, []);
 
   const controls = <div>{typeOfInstitution()}</div>;
 

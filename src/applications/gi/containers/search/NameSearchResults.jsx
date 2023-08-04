@@ -5,9 +5,8 @@ import {
   VaLoadingIndicator,
   VaPagination,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement, getScrollOptions } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 import environment from 'platform/utilities/environment';
 import { fetchSearchByNameResults } from '../../actions/index';
 import ResultCard from './ResultCard';
@@ -112,7 +111,6 @@ export function NameSearchResults({
     () => {
       const targetId = 'name-search-results-count';
       focusElement(`#${targetId}`);
-      scrollTo(targetId, getScrollOptions());
     },
     [results],
   );
