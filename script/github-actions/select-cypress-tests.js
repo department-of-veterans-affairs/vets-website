@@ -296,14 +296,10 @@ function main() {
       .slice(specPath.indexOf('src'), 3)
       .join('/'),
   );
-  console.log('Base paths with changed code: ', appsAdjusted);
   const blockedPathsWithCodeChanges = allDisallowedTestsWithWarnings.filter(
     entry => appsAdjusted.some(appPath => entry.includes(appPath)),
   );
-  console.log(
-    'Paths of disallowed tests that share paths with changed code base paths: ',
-    blockedPathsWithCodeChanges,
-  );
+
   core.exportVariable(
     'E2E_BLOCKED_PATHS',
     JSON.stringify(blockedPathsWithCodeChanges),
