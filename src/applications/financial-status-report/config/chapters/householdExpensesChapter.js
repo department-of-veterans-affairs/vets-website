@@ -21,6 +21,7 @@ import AddUtilityBill from '../../components/utilityBills/AddUtilityBill';
 import UtilityBillSummary from '../../components/utilityBills/UtilityBillSummary';
 import UtilityBillSummaryReview from '../../components/utilityBills/UtilityBillSummaryReview';
 import AddOtherExpense from '../../components/otherExpenses/AddOtherExpense';
+import OtherExpensesChecklist from '../../components/otherExpenses/OtherExpensesChecklist';
 import OtherExpensesSummary from '../../components/otherExpenses/OtherExpensesSummary';
 import OtherExpensesSummaryReview from '../../components/otherExpenses/OtherExpensesSummaryReview';
 import InstallmentContract from '../../components/householdExpenses/InstallmentContract';
@@ -28,7 +29,7 @@ import InstallmentContractSummary from '../../components/householdExpenses/Insta
 import HouseholdExpensesSummaryReview from '../../components/householdExpenses/HouseholdExpensesSummaryReview';
 import CreditCardBillsSummaryReview from '../../components/householdExpenses/CreditCardBillsSummaryReview';
 import InstallmentContractsSummaryReview from '../../components/householdExpenses/InstallmentContractsSummaryReview';
-import TransitionTest from '../../components/TransitionTest';
+import StreamlinedExplainer from '../../components/shared/StreamlinedExplainer';
 
 import {
   isStreamlinedLongForm,
@@ -255,8 +256,10 @@ export default {
       otherExpensesChecklist: {
         path: 'other-expenses-checklist',
         title: 'Other expense options',
-        uiSchema: otherExpensesPages.otherExpensesChecklist.uiSchema,
-        schema: otherExpensesPages.otherExpensesChecklist.schema,
+        CustomPage: OtherExpensesChecklist,
+        CustomPageReview: null,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
         depends: formData =>
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
@@ -299,7 +302,7 @@ export default {
         // Transition page - streamlined long form only
         path: 'transition-page',
         title: ' ',
-        CustomPage: TransitionTest,
+        CustomPage: StreamlinedExplainer,
         CustomPageReview: null,
         uiSchema: {},
         schema: { type: 'object', properties: {} },

@@ -12,6 +12,7 @@ import { calculateTotalAssets } from '../../utils/streamlinedDepends';
 const OtherAssetsSummary = ({
   data,
   goToPath,
+  goForward,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
@@ -32,7 +33,9 @@ const OtherAssetsSummary = ({
         },
       });
     },
-    [otherAssets],
+    // avoiding use of data since it changes so often
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [otherAssets, gmtData?.isElidgibleForStreamlined, gmtData?.assetThreshold],
   );
 
   const onDelete = deleteIndex => {
@@ -45,10 +48,6 @@ const OtherAssetsSummary = ({
         ),
       },
     });
-  };
-
-  const goForward = () => {
-    return goToPath('/expenses-explainer');
   };
 
   const goBack = () => {
@@ -145,13 +144,15 @@ OtherAssetsSummary.propTypes = {
     assets: PropTypes.shape({
       otherAssets: PropTypes.array,
     }),
+    gmtData: PropTypes.shape({
+      assetThreshold: PropTypes.number,
+      assetsBelowGMT: PropTypes.bool,
+      isElidgibleForStreamlined: PropTypes.bool,
+    }),
   }),
-  goBack: PropTypes.func,
+  goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
-  testingIndex: PropTypes.number,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
 };
 
 export default OtherAssetsSummary;

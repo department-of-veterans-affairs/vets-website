@@ -7,7 +7,6 @@ import {
   socialSecurityRecords,
   additionalIncome,
   additionalIncomeRecords,
-  additionalIncomeChecklist,
   additionalIncomeValues,
   spouseName,
   spouseEmployment,
@@ -20,7 +19,6 @@ import {
   spouseSocialSecurityRecords,
   spouseAdditionalIncome,
   spouseAdditionalIncomeRecords,
-  spouseAdditionalIncomeCheckList,
   spouseAdditionalIncomeValues,
   dependents,
   dependentRecords,
@@ -39,8 +37,10 @@ import EnhancedBenefitsEdit from '../../components/debtsAndCopays/EnhancedBenefi
 import SpouseEmploymentHistoryWidget from '../../components/employment/SpouseEmploymentHistoryWidget';
 import SpouseEmploymentQuestion from '../../components/employment/SpouseEmploymentQuestion';
 import EmploymentQuestion from '../../components/employment/EmploymentQuestion';
+import AdditionalIncomeCheckList from '../../components/householdIncome/AdditionalIncomeCheckList';
 import OtherIncomeSummary from '../../components/householdIncome/OtherIncomeSummary';
 import AddIncome from '../../components/householdIncome/AddIncome';
+import SpouseAdditionalIncomeCheckList from '../../components/householdIncome/SpouseAdditionalIncomeCheckList';
 import SpouseOtherIncomeSummary from '../../components/householdIncome/SpouseOtherIncomeSummary';
 import SpouseAddIncome from '../../components/householdIncome/SpouseAddIncome';
 import DependentAges from '../../components/household/DependentAges';
@@ -232,8 +232,10 @@ export default {
       additionalIncomeChecklist: {
         path: 'additional-income-checklist',
         title: 'Additional income options',
-        uiSchema: additionalIncomeChecklist.uiSchema,
-        schema: additionalIncomeChecklist.schema,
+        CustomPage: AdditionalIncomeCheckList,
+        CustomPageReview: null,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
         depends: formData => formData['view:enhancedFinancialStatusReport'],
       },
       additionalIncomeValues: {
@@ -470,8 +472,10 @@ export default {
       spouseAdditionalIncomeCheckList: {
         path: 'spouse-additional-income-checklist',
         title: 'Additional income options',
-        uiSchema: spouseAdditionalIncomeCheckList.uiSchema,
-        schema: spouseAdditionalIncomeCheckList.schema,
+        CustomPage: SpouseAdditionalIncomeCheckList,
+        CustomPageReview: null,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
         depends: formData =>
           formData.questions.isMarried &&
           formData['view:enhancedFinancialStatusReport'],

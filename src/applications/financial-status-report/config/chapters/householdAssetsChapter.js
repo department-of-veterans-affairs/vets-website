@@ -16,15 +16,15 @@ import {
 } from '../../pages';
 
 import AddAsset from '../../components/otherAssets/AddAsset';
+import OtherAssetsChecklist from '../../components/otherAssets/OtherAssetsChecklist';
 import OtherAssetsSummary from '../../components/otherAssets/OtherAssetsSummary';
 import OtherAssetsSummaryReview from '../../components/otherAssets/OtherAssetsSummaryReview';
 import EnhancedVehicleRecord from '../../components/household/EnhancedVehicleRecord';
 import VehicleSummaryWidget from '../../components/otherAssets/VehicleSummaryWidget';
 import MonetaryAssetsSummaryReview from '../../components/monetary/MonetaryAssetsSummaryReview';
 import VehicleSummaryReview from '../../components/otherAssets/VehicleSummaryReview';
-import CashOnHand from '../../components/CashOnHandTest';
-import TransitionTest from '../../components/TransitionTest';
-
+import CashOnHand from '../../components/monetary/CashOnHand';
+import StreamlinedExplainer from '../../components/shared/StreamlinedExplainer';
 import { isStreamlinedShortForm } from '../../utils/streamlinedDepends';
 
 export default {
@@ -46,7 +46,7 @@ export default {
         // Transition page - streamlined short form only
         path: 'transition-page',
         title: ' ',
-        CustomPage: TransitionTest,
+        CustomPage: StreamlinedExplainer,
         CustomPageReview: null,
         uiSchema: {},
         schema: { type: 'object', properties: {} },
@@ -211,8 +211,10 @@ export default {
       otherAssetsChecklist: {
         path: 'other-assets-checklist',
         title: 'Other assets options',
-        uiSchema: otherAssetPages.otherAssetsChecklist.uiSchema,
-        schema: otherAssetPages.otherAssetsChecklist.schema,
+        CustomPage: OtherAssetsChecklist,
+        CustomPageReview: null,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
         depends: formData =>
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),

@@ -4,15 +4,12 @@ import environment from 'platform/utilities/environment';
 
 export const getGMT = (dependents, year, zipCode) => {
   const CONTEXT_ROOT = '/income_limits/v1/limitsByZipCode';
-  const REMOTE_REQUEST_URL = `${
+  const REQUEST_URL = `${
     environment.API_URL
   }${CONTEXT_ROOT}/${zipCode}/${year}/${dependents}`;
-  // For testing locally -- borrowed from income_limits app
-  const LOCAL_REQUEST_URL = `https://staging-api.va.gov/income_limits/v1/limitsByZipCode/${zipCode}/${year}/${dependents}`;
 
-  const REQUEST_URL = environment.isLocalhost()
-    ? LOCAL_REQUEST_URL
-    : REMOTE_REQUEST_URL;
+  // For testing locally if api db isn't populated
+  // const REQUEST_URL = `https://staging-api.va.gov/income_limits/v1/limitsByZipCode/${zipCode}/${year}/${dependents}`;
 
   return apiRequest(REQUEST_URL)
     .then(({ data }) => {

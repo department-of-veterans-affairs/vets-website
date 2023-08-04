@@ -86,20 +86,6 @@ export const calculateTotalIncome = ({
 
 /**
  * @param {object} formData - all formData
- * @returns Discresionary income total baseed on total income less expenses
- */
-export const calculateDiscressionaryIncome = ({ otherExpenses = [] }) => {
-  if (otherExpenses.length === 0) return 0;
-
-  // placeholder data, using editable numbers for now:
-  return otherExpenses.reduce(
-    (acc, expense) => acc + parseInt(expense.amount, 10),
-    0,
-  );
-};
-
-/**
- * @param {object} formData - all formData
  * @returns Sum of total assets
  *  Long form only; short form uses cash on hand
  */
@@ -109,6 +95,20 @@ export const calculateTotalAssets = ({ assets: { otherAssets = [] } }) => {
   // placeholder data, using editable numbers for now:
   return otherAssets.reduce(
     (acc, asset) => acc + parseInt(asset.amount, 10),
+    0,
+  );
+};
+
+/**
+ * @param {object} formData - all formData
+ * @returns Discresionary income total baseed on total income less expenses
+ */
+export const calculateDiscressionaryIncome = ({ otherExpenses = [] }) => {
+  if (otherExpenses.length === 0) return 0;
+
+  // placeholder data, using editable numbers for now:
+  return otherExpenses.reduce(
+    (acc, expense) => acc + parseInt(expense.amount, 10),
     0,
   );
 };

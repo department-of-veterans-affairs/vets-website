@@ -18,13 +18,13 @@ const OtherIncomeSummary = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { gmtData, additionalIncome } = data;
+  const { additionalIncome, gmtData, questions } = data;
   const { addlIncRecords = [] } = additionalIncome;
 
-  // useEffect to set incomeBelowGMT if income records changes
+  // Calculate income properties as necessary
   useEffect(
     () => {
-      if (!gmtData?.isElidgibleForStreamlined) return;
+      if (questions?.isMarried || !gmtData?.isElidgibleForStreamlined) return;
 
       const calculatedIncome = calculateTotalIncome(data);
       setFormData({
@@ -37,7 +37,9 @@ const OtherIncomeSummary = ({
         },
       });
     },
-    [addlIncRecords],
+    // avoiding use of data since it changes so often
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [addlIncRecords, questions?.isMarried, gmtData?.isElidgibleForStreamlined],
   );
 
   const onDelete = deleteIndex => {
@@ -126,13 +128,21 @@ OtherIncomeSummary.propTypes = {
     additionalIncome: PropTypes.shape({
       addlIncRecords: PropTypes.array,
     }),
+    gmtData: PropTypes.shape({
+      gmtThreshold: PropTypes.number,
+      incomeBelowGMT: PropTypes.bool,
+      incomeBelowOneFiftyGMT: PropTypes.bool,
+      isElidgibleForStreamlined: PropTypes.bool,
+      incomeUpperThreshold: PropTypes.number,
+    }),
+    questions: PropTypes.shape({
+      isMarried: PropTypes.bool,
+    }),
   }),
   goBack: PropTypes.func,
+  goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
-  testingIndex: PropTypes.number,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
 };
 
 export default OtherIncomeSummary;

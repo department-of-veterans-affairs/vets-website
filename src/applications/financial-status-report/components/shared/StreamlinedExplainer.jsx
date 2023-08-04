@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const TransitionTest = ({
+const StreamlinedExplainer = ({
   contentBeforeButtons,
   contentAfterButtons,
   goBack,
@@ -51,9 +51,11 @@ const TransitionTest = ({
   );
 };
 
-TransitionTest.propTypes = {
+StreamlinedExplainer.propTypes = {
+  contentAfterButtons: PropTypes.object,
+  contentBeforeButtons: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
 };
 
-export default TransitionTest;
+export default StreamlinedExplainer;

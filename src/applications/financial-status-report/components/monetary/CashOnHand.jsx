@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-
 import PropTypes from 'prop-types';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const CashOnHand = ({
   contentBeforeButtons,
@@ -11,7 +12,7 @@ const CashOnHand = ({
   setFormData,
 }) => {
   const { assets } = data;
-  const { cashOnHand = 0 } = assets;
+  const { cashOnHand } = assets;
   const [cash, setCash] = useState(cashOnHand);
 
   const updateFormData = () => {
@@ -37,7 +38,7 @@ const CashOnHand = ({
           <h3 className="vads-u-margin--0">Cash on hand</h3>
         </legend>
         <div className="input-size-3">
-          <va-number-input
+          <VaNumberInput
             currency
             hint={null}
             inputmode="numeric"
@@ -46,27 +47,15 @@ const CashOnHand = ({
             id="cash"
             onInput={event => setCash(event.target.value)}
             value={cash}
+            width="md"
           />
         </div>
         {contentBeforeButtons}
-        <p>
-          <button
-            type="button"
-            id="cancel"
-            className="usa-button-secondary vads-u-width--auto"
-            onClick={goBack}
-          >
-            Back
-          </button>
-          <button
-            type="submit"
-            id="submit"
-            className="vads-u-width--auto"
-            onClick={updateFormData}
-          >
-            Continue
-          </button>
-        </p>
+        <FormNavButtons
+          goBack={goBack}
+          goForward={updateFormData}
+          submitToContinue
+        />
         {contentAfterButtons}
       </fieldset>
     </form>
@@ -74,6 +63,8 @@ const CashOnHand = ({
 };
 
 CashOnHand.propTypes = {
+  contentAfterButtons: PropTypes.object,
+  contentBeforeButtons: PropTypes.object,
   data: PropTypes.shape({
     assets: PropTypes.shape({
       cashOnHand: PropTypes.string,

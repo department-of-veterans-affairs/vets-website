@@ -36,7 +36,13 @@ const OtherExpensesSummary = ({
         },
       });
     },
-    [otherExpenses],
+    // avoiding use of data since it changes so often
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      otherExpenses,
+      gmtData?.isElidgibleForStreamlined,
+      gmtData?.discressionaryIncomeThreshold,
+    ],
   );
 
   const onDelete = deleteIndex => {
@@ -119,13 +125,15 @@ OtherExpensesSummary.propTypes = {
   contentBeforeButtons: PropTypes.object,
   data: PropTypes.shape({
     otherExpenses: PropTypes.array,
+    gmtData: PropTypes.shape({
+      isElidgibleForStreamlined: PropTypes.bool,
+      discressionaryIncomeThreshold: PropTypes.number,
+    }),
   }),
   goBack: PropTypes.func,
+  goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
-  testingIndex: PropTypes.number,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
 };
 
 export default OtherExpensesSummary;
