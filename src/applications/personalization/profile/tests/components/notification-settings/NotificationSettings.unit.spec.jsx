@@ -133,11 +133,9 @@ describe('<NotificationSettings />', () => {
       path: '/profile/notifications',
     });
 
-    expect(await view.findByText('Add a mobile phone number to your profile'))
-      .to.exist;
+    expect(await view.findByTestId('add-mobile-phone-link')).to.exist;
 
-    expect(view.queryByText('Add an email address to your profile')).to.not
-      .exist;
+    expect(view.queryByTestId('add-email-address-link')).to.not.exist;
   });
 
   it('when profileShowEmailNotificationSettings toggle is true, show alert to add email and mobile phone info', async () => {
@@ -151,9 +149,8 @@ describe('<NotificationSettings />', () => {
       path: '/profile/notifications',
     });
 
-    expect(await view.findByText('Add an email address to your profile')).to
-      .exist;
-    expect(await view.findByText('Add a mobile phone number to your profile'))
-      .to.exist;
+    expect(await view.findByTestId('add-mobile-phone-link')).to.exist;
+
+    expect(await view.findByTestId('add-email-address-link')).to.exist;
   });
 });

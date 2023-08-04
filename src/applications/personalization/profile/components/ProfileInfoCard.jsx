@@ -206,9 +206,9 @@ export const ProfileInfoCard = ({
 ProfileInfoCard.propTypes = {
   data: PropTypes.oneOfType([PropTypes.array, PropTypes.object, PropTypes.node])
     .isRequired,
-  title: PropTypes.string.isRequired,
   asList: PropTypes.bool,
   className: PropTypes.string,
   level: optionalNumberBetween(1, 5),
   namedAnchor: PropTypes.string,
+  title: PropTypes.string,
 };
