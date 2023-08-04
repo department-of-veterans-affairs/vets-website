@@ -399,7 +399,7 @@ export const serviceRecordsUI = {
     'Please provide all your service periods. If you need to add another service period, please click the Add Another Service Period button.',
   'ui:options': {
     viewField: ServicePeriodView,
-    itemName: 'service period',
+    itemName: 'Service period',
     keepInPageOnReview: true,
   },
   items: {
