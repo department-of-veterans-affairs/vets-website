@@ -8,13 +8,16 @@ import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
 import saveInProgress from './fixtures/mocks/saveInProgress.json';
 import debts from './fixtures/mocks/debts.json';
+import copays from './fixtures/mocks/copays.json';
+import VeteranEmploymentHistory from './pages/employment/VeteranEmploymentHistory';
+import SpouseEmploymentHistory from './pages/employment/SpouseEmploymentHistory';
 
 Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['minimal', 'maximal'],
+    dataSets: ['maximal', 'minimal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
@@ -25,7 +28,6 @@ const testConfig = createTestConfig(
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
-            { name: 'combined_financial_status_report', value: false },
             {
               name: 'combined_financial_status_report_enhancements',
               value: false,
@@ -34,6 +36,7 @@ const testConfig = createTestConfig(
         },
       });
       cy.intercept('GET', '/v0/debts', debts);
+      cy.intercept('GET', '/v0/medical_copays', copays);
       cy.get('@testData').then(testData => {
         cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
         cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgress);
@@ -48,13 +51,16 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.get('a.vads-c-action-link--green')
+        cy.get('.vads-c-action-link--green')
           .first()
           .click();
       },
-      'available-debts': ({ afterHook }) => {
+      'all-available-debts': ({ afterHook }) => {
         afterHook(() => {
           cy.get(`input[name="request-help-with-debt"]`)
+            .first()
+            .check();
+          cy.get(`input[name="request-help-with-copay"]`)
             .first()
             .check();
           cy.get('.usa-button-primary').click();
@@ -62,61 +68,14 @@ const testConfig = createTestConfig(
       },
       'employment-records': ({ afterHook }) => {
         afterHook(() => {
-          // Employer One - Current Employment
-          cy.get('[data-test-id="employment-type"]')
-            .shadow()
-            .find('select')
-            .select('Full time');
-          cy.fillDate('from', '2017-1');
-          cy.get(`input[name="current-employment"]`).check();
-          cy.get(`input[name="employerName"]`).type('Employer One');
-          cy.findAllByText(/Save/i, { selector: 'button' })
-            .first()
-            .click();
-          // Add job link
-          cy.get('.add-item-button').click();
-          // Employer Two - Previous Employment
-          cy.get('[data-test-id="employment-type"]')
-            .shadow()
-            .find('select')
-            .select('Full time');
-          cy.fillDate('from', '2015-1');
-          cy.fillDate('to', '2017-1');
-          cy.get(`input[name="employerName"]`).type('Employer Two');
-          cy.findAllByText(/Save/i, { selector: 'button' })
-            .first()
-            .click();
-          cy.get('.usa-button-primary').click();
+          VeteranEmploymentHistory.fillEmployerInfo();
+          VeteranEmploymentHistory.attemptNextPage();
         });
       },
-
       'spouse-employment-records': ({ afterHook }) => {
         afterHook(() => {
-          // Employer One - Current Employment
-          cy.get('[data-test-id="employment-type"]')
-            .shadow()
-            .find('select')
-            .select('Full time');
-          cy.fillDate('from', '2015-5');
-          cy.get(`input[name="current-employment"]`).check();
-          cy.get(`input[name="employerName"]`).type('Employer One');
-          cy.findAllByText(/Save/i, { selector: 'button' })
-            .first()
-            .click();
-          // Add job link
-          cy.get('.add-item-button').click();
-          // Employer Two - Previous Employment
-          cy.get('[data-test-id="employment-type"]')
-            .shadow()
-            .find('select')
-            .select('Full time');
-          cy.fillDate('from', '2013-2');
-          cy.fillDate('to', '2018-3');
-          cy.get(`input[name="employerName"]`).type('Employer Two');
-          cy.findAllByText(/Save/i, { selector: 'button' })
-            .first()
-            .click();
-          cy.get('.usa-button-primary').click();
+          SpouseEmploymentHistory.fillEmployerInfo();
+          SpouseEmploymentHistory.attemptNextPage();
         });
       },
       'spouse/income/0': ({ afterHook }) => {
@@ -127,10 +86,9 @@ const testConfig = createTestConfig(
       },
       'recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
-          cy.findByLabelText(/Type of vehicle/)
-            .type('Boat')
-            .type('{downarrow}{enter}');
-          cy.findByLabelText(/Estimated value/)
+          cy.findByLabelText(
+            /What is the estimated value of all of your trailers, campers, and boats?/,
+          )
             .type('2500')
             .type('{downarrow}{enter}');
           cy.get('.usa-button-primary').click();
@@ -167,9 +125,31 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'resolution-options': ({ afterHook }) => {
+      'resolution-option/0': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-radio-option[value="Waiver"]').click();
+          cy.get('[type="radio"][value="monthly"]').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'resolution-comment/0': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[data-testid="resolution-amount"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('10.00');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'resolution-option/1': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type="radio"][value="waiver"]').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'resolution-waiver-agreement/1': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type=checkbox]').check();
           cy.get('.usa-button-primary').click();
         });
       },

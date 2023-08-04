@@ -30,11 +30,14 @@ describe('efsr-fsr transform helper functions', () => {
   describe('efsr-getFsrReason helper', () => {
     it('should return string of unique fsr reasons comma separated', () => {
       const debts = [
-        { resolution: { resolutionType: 'Resolution 1' } },
-        { resolution: { resolutionType: 'Resolution 1' } },
-        { resolution: { resolutionType: 'Resolution 3' } },
+        { resolutionOption: 'monthly' },
+        { resolutionOption: 'monthly' },
+        { resolutionOption: 'waiver' },
+        { resolutionOption: 'compromise' },
       ];
-      expect(getFsrReason(debts)).to.equal('Resolution 1, Resolution 3');
+      expect(getFsrReason(debts)).to.equal(
+        'Extended monthly payments, Waiver, Compromise',
+      );
     });
   });
 
