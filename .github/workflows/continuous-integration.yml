@@ -746,6 +746,11 @@ jobs:
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
           GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
 
+      - name: Fetch allow list
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+      # exports app list and assigns to environmental variable at this step
+
   allow-list-merge-status:
     name: E2E Allow List Merge Status Check
     runs-on: ubuntu-latest
