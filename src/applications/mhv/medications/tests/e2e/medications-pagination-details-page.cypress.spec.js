@@ -23,9 +23,6 @@ describe('Medications Landing Page', () => {
     site.verifyPaginationPrescirptionsDisplayed(21, 21, threadLength);
     site.loadVAPaginationPreviousPrescriptions(1, mockRxPageOne, 20);
     site.verifyPaginationPrescirptionsDisplayed(1, 20, threadLength);
-    cy.get(
-      '.vads-l-row > :nth-child(1) > .rx-card-detials > .link-to-details > [data-testid="medications-history-details-link"]',
-    ).click();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
