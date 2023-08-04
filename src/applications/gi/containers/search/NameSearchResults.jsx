@@ -5,11 +5,14 @@ import {
   VaLoadingIndicator,
   VaPagination,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import environment from 'platform/utilities/environment';
 import { fetchSearchByNameResults } from '../../actions/index';
 import ResultCard from './ResultCard';
 import FilterYourResults from '../FilterYourResults';
+import FilterByLocation from './FilterByLocation';
 import TuitionAndHousingEstimates from '../TuitionAndHousingEstimates';
 import { updateUrlParams } from '../../selectors/search';
 import { getFiltersChanged } from '../../selectors/filters';
@@ -107,7 +110,9 @@ export function NameSearchResults({
 
   useEffect(
     () => {
-      focusElement('#name-search-results-count');
+      const targetId = 'name-search-results-count';
+      focusElement(`#${targetId}`);
+      scrollTo(targetId, getScrollOptions());
     },
     [results],
   );
@@ -125,12 +130,20 @@ export function NameSearchResults({
               Showing {count} search results for "<strong>{name}</strong>"
             </p>
 
-            {!smallScreen && (
-              <div className="column small-4 vads-u-padding--0">
-                <TuitionAndHousingEstimates smallScreen={smallScreen} />
-                <FilterYourResults smallScreen={smallScreen} />
-              </div>
-            )}
+            {!smallScreen &&
+              environment.isProduction() && (
+                <div className="column small-4 vads-u-padding--0">
+                  <TuitionAndHousingEstimates smallScreen={smallScreen} />
+                  <FilterYourResults smallScreen={smallScreen} />
+                </div>
+              )}
+            {!smallScreen &&
+              !environment.isProduction() && (
+                <div className="column small-4 vads-u-padding--0">
+                  <TuitionAndHousingEstimates smallScreen={smallScreen} />
+                  <FilterByLocation smallScreen={smallScreen} />
+                </div>
+              )}
             <div className="column small-12 medium-8 name-search-cards-padding">
               {inProgress && (
                 <VaLoadingIndicator
