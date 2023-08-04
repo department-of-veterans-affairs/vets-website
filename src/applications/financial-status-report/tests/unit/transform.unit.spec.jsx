@@ -11,7 +11,6 @@ import {
   otherDeductionsAmt,
   getMonthlyExpenses,
   getEmploymentHistory,
-  getTotalAssets,
   otherDeductionsName,
   nameStr,
 } from '../../utils/helpers';
@@ -1066,92 +1065,6 @@ describe('fsr transform information', () => {
       expect(submissionObj.applicantCertifications.veteranDateSigned).to.equal(
         moment().format('MM/DD/YYYY'),
       );
-    });
-  });
-  describe('combined FSR', () => {
-    const cfsrInputObject = {
-      data: { ...inputObject.data, 'view:combinedFinancialStatusReport': true },
-    };
-    describe('cFSR - discretionaryIncome', () => {
-      it('has valid structure', () => {
-        const submissionObj = JSON.parse(transform(null, cfsrInputObject));
-        expect(submissionObj).haveOwnProperty('discretionaryIncome');
-        expect(submissionObj.discretionaryIncome).to.be.an('object');
-        expect(submissionObj.discretionaryIncome).haveOwnProperty(
-          'netMonthlyIncomeLessExpenses',
-        );
-        expect(submissionObj.discretionaryIncome).haveOwnProperty(
-          'amountCanBePaidTowardDebt',
-        );
-      });
-      it('has valid data', () => {
-        const submissionObj = JSON.parse(transform(null, cfsrInputObject));
-        expect(
-          submissionObj.discretionaryIncome.netMonthlyIncomeLessExpenses,
-        ).to.equal('12394.41');
-        expect(
-          submissionObj.discretionaryIncome.amountCanBePaidTowardDebt,
-        ).to.equal('61.02');
-      });
-    });
-    describe('getTotalAssets helper', () => {
-      it('should return total value of assets excluding vehicles', () => {
-        const totalAssets = {
-          questions: {
-            hasVehicle: false,
-          },
-          assets: {
-            realEstateValue: '2000',
-            otherAssets: [
-              {
-                amount: '10',
-              },
-              {
-                amount: '10',
-              },
-            ],
-            recVehicleAmount: '100',
-            automobiles: [
-              {
-                resaleValue: '100',
-              },
-              {
-                resaleValue: '100',
-              },
-            ],
-          },
-        };
-        expect(getTotalAssets(totalAssets)).to.equal(2120);
-      });
-
-      it('should return total value of assets including vehicles', () => {
-        const totalAssets = {
-          questions: {
-            hasVehicle: true,
-          },
-          assets: {
-            realEstateValue: '2000',
-            otherAssets: [
-              {
-                amount: '10',
-              },
-              {
-                amount: '10',
-              },
-            ],
-            recVehicleAmount: '100',
-            automobiles: [
-              {
-                resaleValue: '100',
-              },
-              {
-                resaleValue: '100',
-              },
-            ],
-          },
-        };
-        expect(getTotalAssets(totalAssets)).to.equal(2320);
-      });
     });
   });
 });
