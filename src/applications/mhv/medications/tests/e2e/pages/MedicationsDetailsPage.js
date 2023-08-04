@@ -11,11 +11,25 @@ class MedicationsDetailsPage {
     });
   };
 
-  verifyButtonText = () => {
+  verifyRefillPrescriptionsText = () => {
     cy.contains('Refill prescription');
   };
 
-  verifyStatusText = () => {
+  verifyPrescriptionsNumber = () => {
+    cy.get('.vads-u-margin-top--2 > :nth-child(4)').should(
+      'have.text',
+      '3636930',
+    );
+  };
+
+  verifyPrescriptionsStatus = () => {
+    cy.get('.vads-u-margin-top--2 > :nth-child(6)').should(
+      'have.text',
+      'active',
+    );
+  };
+
+  verifyWhatDoesThisStatusMeanText = () => {
     cy.contains('What does this status mean?');
   };
 
