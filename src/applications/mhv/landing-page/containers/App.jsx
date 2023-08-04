@@ -19,6 +19,7 @@ const App = () => {
   const fullState = useSelector(state => state);
   const { featureToggles, user } = fullState;
   const [unreadMessageCount, setUnreadMessageCount] = useState();
+  const loading = featureToggles.loading || user.profile.loading;
 
   const data = useMemo(
     () => {
@@ -42,17 +43,17 @@ const App = () => {
   useEffect(
     () => {
       async function loadMessages() {
-        const folders = await getFolderList().catch(() => []);
+        const folders = await getFolderList();
         const unreadMessages = countUnreadMessages(folders);
 
         setUnreadMessageCount(unreadMessages);
       }
 
-      if (appEnabled) {
+      if (!loading && appEnabled) {
         loadMessages();
       }
     },
-    [appEnabled],
+    [appEnabled, loading],
   );
 
   useDatadogRum();
@@ -62,7 +63,7 @@ const App = () => {
     window.location.replace(url);
     return <></>;
   }
-  if (featureToggles.loading || user.profile.loading) {
+  if (loading) {
     return <va-loading-indicator />;
   }
   return <LandingPage data={data} />;
