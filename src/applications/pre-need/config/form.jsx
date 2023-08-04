@@ -381,6 +381,7 @@ const formConfig = {
         // whether the applicant is the veteran or not.
         // If not, "Sponsor’s" precedes all the field labels.
         applicantMilitaryHistory: {
+          title: 'Service period(s)',
           path: 'applicant-military-history',
           depends: isVeteran,
           uiSchema: {
@@ -451,12 +452,13 @@ const formConfig = {
         },
         sponsorMilitaryHistory: {
           path: 'sponsor-military-history',
+          title: 'Sponsor’s service periods',
           depends: formData => !isVeteran(formData),
           uiSchema: {
             application: {
               veteran: {
                 serviceRecords: merge({}, serviceRecordsUI, {
-                  'ui:title': 'Sponsor’s service periods',
+                  'ui:title': 'Sponsor’s service period(s)',
                   'ui:description':
                     'Please provide all your sponsor’s service periods. If you need to add another service period, please click the Add Another Service Period button.',
                   items: {
@@ -571,6 +573,7 @@ const formConfig = {
           schema: burialBenefits.schema,
         },
         currentlyBuriedPersons: {
+          title: 'Name of deceased person(s)',
           path: 'current-burial-benefits',
           depends: formData => buriedWSponsorsEligibility(formData),
           uiSchema: currentlyBuriedPersons.uiSchema,

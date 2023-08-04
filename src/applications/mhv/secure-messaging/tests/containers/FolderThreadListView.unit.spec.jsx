@@ -59,7 +59,7 @@ describe('Folder Thread List View container', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Sent messages ${PageTitles.PAGE_TITLE_TAG}`,
+        `Sent ${PageTitles.PAGE_TITLE_TAG}`,
       );
       expect(screen.getByText(DefaultFolders.SENT.header, { selector: 'h1' }))
         .to.exist;
