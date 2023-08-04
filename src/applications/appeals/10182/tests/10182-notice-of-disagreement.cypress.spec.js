@@ -84,6 +84,23 @@ const testConfig = createTestConfig(
           });
         });
       },
+
+      'extension-reason': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            const { extensionReason } = testData;
+            if (extensionReason) {
+              cy.get('va-textarea')
+                .shadow()
+                .find('textarea')
+                .type(extensionReason);
+            }
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+
       'evidence-submission/upload': () => {
         cy.get('input[type="file"]')
           .upload(
@@ -103,7 +120,8 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/profile/status', mockStatus);
       cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('POST', 'v0/decision_review_evidence', mockUpload);
-      cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+      cy.intercept('POST', `v0/${formConfig.submitUrl}`, mockSubmit);
+      cy.intercept('POST', `v1/${formConfig.submitUrl}`, mockSubmit);
 
       cy.get('@testData').then(data => {
         cy.intercept('GET', '/v0/in_progress_forms/10182', mockPrefill);

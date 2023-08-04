@@ -86,11 +86,15 @@ class AddressPage {
     });
     fields.military &&
       cy.findByTestId('mailingAddress').should('contain', 'FPO');
-    saved &&
-      cy
-        .focused()
-        .invoke('text')
-        .should('match', /edit/i);
+    if (saved) {
+      cy.findByTestId('update-success-alert').should('exist');
+      cy.get('#edit-mailing-address').should('exist');
+      cy.focused().then($focused => {
+        expect($focused).to.have.attr('aria-label', 'Edit Mailing address');
+        expect($focused).to.have.text('Edit');
+      });
+    }
+
     altText && cy.findByText(altText).should('exist');
   };
 

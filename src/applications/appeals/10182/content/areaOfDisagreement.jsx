@@ -7,21 +7,39 @@ import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
 export const missingAreaOfDisagreementErrorMessage =
   'Choose or enter a reason for disagreement';
 
+const titlePrefix = 'Disagreement with';
+const titleConnector = ' decision on ';
+
+/**
+ * Title for review & submit page, text string returned
+ * @param {*} data - item data (contestable issue or added issue)
+ * @returns {String} - ObjectField error if not a string
+ */
+export const getIssueTitle = data => {
+  const date = moment(getIssueDate(data), FORMAT_YMD).format(FORMAT_READABLE);
+  return (
+    <>
+      {titlePrefix}{' '}
+      <span className="dd-privacy-hidden">{getIssueName(data)}</span>
+      {titleConnector}
+      <span className="dd-privacy-hidden">{date}</span>
+    </>
+  );
+};
+
 // formContext.pagePerItemIndex is undefined here? Use index added to data :(
 export const issueName = ({ formData, formContext } = {}) => {
   const index = formContext.pagePerItemIndex || formData.index;
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/27096
   const Header = formContext.onReviewPage ? 'h4' : 'h3';
-  const date = moment(getIssueDate(formData), FORMAT_YMD).format(
-    FORMAT_READABLE,
-  );
-  const title = `${getIssueName(formData)}${date ? ` (${date})` : ''}`;
   return (
     <legend
       className="schemaform-block-title schemaform-title-underline"
       aria-describedby={`area-of-disagreement-label-${index}`}
     >
-      <Header className="vads-u-margin-top--0">{title}</Header>
+      <Header id="disagreement-title" className="vads-u-margin-top--0">
+        {getIssueTitle(formData)}
+      </Header>
     </legend>
   );
 };
@@ -56,16 +74,13 @@ export const issusDescription = ({ formContext }) => {
   );
 };
 
-const titles = {
+export const titles = {
   serviceConnection: 'The service connection',
   effectiveDate: 'The effective date of award',
   evaluation: 'Your evaluation of my condition',
+  otherEntry: 'Something else:',
 };
 
-export const { serviceConnection } = titles;
-export const { effectiveDate } = titles;
-export const { evaluation } = titles;
-export const otherLabel = 'Something else:';
 // Includes _{index} which is appended by the TextWidget
 export const otherDescription = ({ index }) => (
   <div
@@ -77,10 +92,14 @@ export const otherDescription = ({ index }) => (
 );
 
 // Only show set values (ignore false & undefined)
-export const AreaOfDisagreementReviewField = ({ children }) =>
-  children?.props.formData ? (
+export const AreaOfDisagreementReviewField = ({ children }) => {
+  const { formData, name } = children?.props || {};
+  return formData ? (
     <div className="review-row">
-      <dt>{titles[children.props.name]}</dt>
-      <dd>{children}</dd>
+      <dt>{titles[name]}</dt>
+      <dd className={name === 'otherEntry' ? 'dd-privacy-hidden' : ''}>
+        {children}
+      </dd>
     </div>
   ) : null;
+};

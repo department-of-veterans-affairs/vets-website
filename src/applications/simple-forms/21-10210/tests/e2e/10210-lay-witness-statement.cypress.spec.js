@@ -77,7 +77,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const signerName = getSignerFullName(data);
-            reviewAndSubmitPageFlow(signerName);
+            reviewAndSubmitPageFlow(signerName, 'Submit statement');
           });
         });
       },
@@ -87,8 +87,6 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     },
-
-    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

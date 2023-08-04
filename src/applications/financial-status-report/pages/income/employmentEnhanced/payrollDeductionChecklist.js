@@ -1,4 +1,4 @@
-import PayrollDeductionCheckList from '../../../components/PayrollDeductionChecklist';
+import PayrollDeductionCheckList from '../../../components/householdIncome/PayrollDeductionChecklist';
 
 export const uiSchema = {
   payrollDeductionCheckList: {

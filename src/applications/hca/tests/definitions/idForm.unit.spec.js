@@ -28,7 +28,7 @@ describe('hca IDForm config', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(6);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(8);
   });
 
   it('should not submit empty form', () => {

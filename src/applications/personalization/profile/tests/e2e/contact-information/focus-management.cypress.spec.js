@@ -64,11 +64,6 @@ describe('Contact info fields', () => {
     cy.findByLabelText(/work.*number/i).should('be.focused');
     cy.axeCheck();
     cy.findByRole('button', { name: /cancel/i }).click();
-    // We have to click the cancel button twice because the work number input is
-    // empty. Since that field is given focus and it is a required field, once
-    // you blur the input, form validation is triggered and results in a
-    // validation error.
-    cy.findByRole('button', { name: /cancel/i }).click();
     cy.findByRole('button', { name: /edit work.*number/i }).should(
       'be.focused',
     );

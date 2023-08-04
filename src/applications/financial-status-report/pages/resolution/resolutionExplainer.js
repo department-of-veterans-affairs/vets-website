@@ -1,4 +1,4 @@
-import ResolutionExplainerWidget from '../../components/ResolutionExplainerWidget';
+import ResolutionExplainerWidget from '../../components/resolution/ResolutionExplainerWidget';
 
 export const uiSchema = {
   'ui:title': ' ',

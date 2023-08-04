@@ -1,5 +1,5 @@
 import React from 'react';
-import AvailableDebtsAndCopays from '../../components/AvailableDebtsAndCopays';
+import AvailableDebtsAndCopays from '../../components/debtsAndCopays/AvailableDebtsAndCopays';
 
 export const uiSchema = {
   'ui:title': () => (

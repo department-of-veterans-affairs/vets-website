@@ -25,9 +25,9 @@ export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
   } else {
     wrapClassNames.push('vads-u-margin-top--0');
   }
-  return (
+  return onReviewPage && inReviewMode ? null : (
     <>
-      <legend className="vads-u-width--full">
+      <legend className="vads-u-width--full vads-u-padding-top--0 vads-u-border-top--0">
         <Wrap className={wrapClassNames.join(' ')}>
           Select the issues you’d like us to review
         </Wrap>
