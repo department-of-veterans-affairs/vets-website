@@ -1,7 +1,6 @@
 import * as veteranInfo from './veteran/veteranInfo';
 import * as contactInfo from './veteran/contact';
 import contactInformation from './veteran/contactInformation';
-import * as availableDebts from './veteran/debts';
 import * as combinedDebts from './veteran/combinedDebts';
 import * as employment from './income/employment';
 import * as employmentRecords from './income/employment/records';
@@ -56,7 +55,6 @@ import * as repaymentRecords from './expenses/repayments/records';
 import * as otherExpenses from './expenses/other';
 import * as otherExpensesPages from './expenses/other/otherExpensesPages';
 import * as otherExpenseRecords from './expenses/other/records';
-import * as resolutionOptions from './resolution/options';
 import * as resolutionOption from './resolution/resolutionOption';
 import * as resolutionComments from './resolution/comments';
 import * as resolutionComment from './resolution/resolutionComment';
@@ -79,7 +77,6 @@ import * as installmentContracts from './expenses/repayments/installmentContract
 
 export {
   veteranInfo,
-  availableDebts,
   combinedDebts,
   employment,
   employmentRecords,
@@ -134,7 +131,6 @@ export {
   otherExpenses,
   otherExpenseRecords,
   otherExpensesPages,
-  resolutionOptions,
   resolutionOption,
   resolutionComments,
   resolutionComment,
