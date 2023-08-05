@@ -1,8 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 
 export default function BackLink({ appointment }) {
   const {
@@ -10,14 +8,10 @@ export default function BackLink({ appointment }) {
     isPendingAppointment,
     isUpcomingAppointment,
   } = appointment.vaos;
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+
   const handleBackLinkText = () => {
     let linkText;
-    if (isPendingAppointment && featureBreadcrumbUrlUpdate) {
-      linkText = 'Back to requests';
-    } else if (isPendingAppointment) {
+    if (isPendingAppointment) {
       linkText = 'Back to pending appointments';
     } else if (isUpcomingAppointment) {
       linkText = 'Back to appointments';

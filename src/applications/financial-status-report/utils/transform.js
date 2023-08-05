@@ -60,7 +60,6 @@ export const transform = (formConfig, form) => {
     assets,
     installmentContracts = [],
     additionalData,
-    selectedDebts,
     selectedDebtsAndCopays = [],
     realEstateRecords,
     currEmployment,
@@ -203,14 +202,9 @@ export const transform = (formConfig, form) => {
   );
 
   // combined fsr options
-  const combinedFSRActive = form.data['view:combinedFinancialStatusReport'];
-  const fsrReason = getFsrReason(
-    combinedFSRActive ? selectedDebtsAndCopays : selectedDebts,
-    combinedFSRActive,
-  );
+  const fsrReason = getFsrReason(selectedDebtsAndCopays);
   const amountCanBePaidTowardDebt = getAmountCanBePaidTowardDebt(
-    combinedFSRActive ? selectedDebtsAndCopays : selectedDebts,
-    combinedFSRActive,
+    selectedDebtsAndCopays,
   );
   // handle dependents
   const enhancedDependent =
@@ -341,9 +335,7 @@ export const transform = (formConfig, form) => {
       cashInBank: enhancedFSRActive ? calculatedCashInBank : assets.cashInBank,
       cashOnHand: enhancedFSRActive ? calculatedCashOnHand : assets.cashOnHand,
       automobiles: assets.automobiles,
-      trailersBoatsCampers: combinedFSRActive
-        ? assets.recVehicleAmount
-        : sumValues(assets.recVehicles, 'recVehicleAmount'),
+      trailersBoatsCampers: assets.recVehicleAmount,
       usSavingsBonds: enhancedFSRActive
         ? calculatedUsSavingsBonds
         : assets.usSavingsBonds,

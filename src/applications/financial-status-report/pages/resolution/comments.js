@@ -33,13 +33,9 @@ export const uiSchema = {
       ),
       'ui:widget': 'textarea',
       'ui:required': formData => {
-        return formData['view:combinedFinancialStatusReport']
-          ? formData.selectedDebtsAndCopays?.some(
-              debt => debt.resolutionOption === 'waiver',
-            )
-          : formData.selectedDebts?.some(
-              debt => debt.resolution?.resolutionType === 'Waiver',
-            );
+        return formData.selectedDebtsAndCopays?.some(
+          debt => debt.resolutionOption === 'waiver',
+        );
       },
       'ui:options': {
         rows: 5,

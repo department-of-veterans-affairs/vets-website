@@ -6,7 +6,6 @@ import Scroll from 'react-scroll';
 import uniqueId from 'lodash/uniqueId';
 import classNames from 'classnames';
 import { getScrollOptions } from 'platform/utilities/ui';
-import environment from 'platform/utilities/environment';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
@@ -438,11 +437,7 @@ class ReviewCollapsibleChapter extends React.Component {
                 aria-describedby={`collapsibleButton${this.id}`}
               >
                 <span className="sr-only">Error</span>
-                {environment.isProduction() ? (
-                  <span>{chapterTitle} needs to be updated</span>
-                ) : (
-                  <span>Some information has changed. Please review.</span>
-                )}
+                <span>Some information has changed. Please review.</span>
               </va-alert>
             )}
             <div id={`collapsible-${this.id}`}>{pageContent}</div>

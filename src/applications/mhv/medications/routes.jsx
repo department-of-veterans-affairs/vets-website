@@ -8,7 +8,7 @@ import LandingPage from './containers/LandingPage';
 const routes = (
   <div className="vads-l-grid-container main-content">
     <RxBreadcrumbs />
-    <div className="main-content">
+    <div>
       <Switch>
         <Route exact path="/" key="LandingPage">
           <LandingPage />
