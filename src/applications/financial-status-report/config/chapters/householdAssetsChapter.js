@@ -184,7 +184,9 @@ export default {
         title: 'Recreational vehicles',
         uiSchema: recreationalVehicleRecords.recreationalVehicleUISchema,
         schema: recreationalVehicleRecords.recreationalVehicleSchema,
-        depends: formData => formData.questions.hasRecreationalVehicle,
+        depends: formData =>
+          formData.questions.hasRecreationalVehicle &&
+          isStreamlinedShortForm(formData),
         editModeOnReviewPage: false,
       },
       otherAssets: {
