@@ -15,7 +15,7 @@ export default {
   uiSchema: {
     securityQuestion: {
       'ui:description': (
-        <>
+        <div className="custom-description">
           <p>
             Select a security question. We’ll ask you to enter the answer on the
             next screen. You’ll then need to give the answer to your designated
@@ -25,7 +25,7 @@ export default {
             We’ll ask this question each time your designated third-party source
             contacts us.
           </p>
-        </>
+        </div>
       ),
       'ui:widget': 'radio',
       'ui:errorMessages': {
@@ -51,10 +51,11 @@ export default {
 
           return {
             title: (
-              <span className="vads-u-font-family--serif vads-u-font-size--h4 vads-u-font-weight--bold">
+              <h3 className="custom-header">
                 What security question should we ask {thirdPartyName} to verify
                 their identity?
-              </span>
+                <span className="custom-required-span"> (*Required)</span>
+              </h3>
             ),
           };
         },

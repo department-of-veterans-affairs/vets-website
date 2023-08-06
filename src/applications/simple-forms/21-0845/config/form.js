@@ -42,7 +42,7 @@ const pageFocus = () => {
     let focusSelector = '';
 
     if (pathname.includes('authorizer-type')) {
-      // focus on the legend for authorizer-type page
+      // focus on custom-h3 for authorizer-type page
       focusSelector = '#main #root_authorizerType-label';
     } else {
       // since useCustomScrollAndFocus is enabled at form-level,
@@ -122,6 +122,7 @@ const formConfig = {
           schema: authorizerTypePg.schema,
           // needs form-level useCustomScrollAndFocus: true to work.
           scrollAndFocusTarget: pageFocus(),
+          pageClass: 'authorizer-type',
         },
       },
     },
@@ -137,6 +138,7 @@ const formConfig = {
           },
           uiSchema: authorizerPersonalInfoPg.uiSchema,
           schema: authorizerPersonalInfoPg.schema,
+          pageClass: 'authorizer-personal-information',
         },
       },
     },
@@ -151,6 +153,7 @@ const formConfig = {
           },
           uiSchema: authorizerAddressPg.uiSchema,
           schema: authorizerAddressPg.schema,
+          pageClass: 'authorizer-address',
         },
       },
     },
@@ -165,6 +168,7 @@ const formConfig = {
           },
           uiSchema: authorizerContactInfoPg.uiSchema,
           schema: authorizerContactInfoPg.schema,
+          pageClass: 'authorizer-contact-information',
         },
       },
     },
@@ -179,6 +183,7 @@ const formConfig = {
           title: 'Your personal information',
           uiSchema: veteranPersonalInfoPg.uiSchema,
           schema: veteranPersonalInfoPg.schema,
+          pageClass: 'veteran-personal-information',
         },
       },
     },
@@ -193,6 +198,7 @@ const formConfig = {
           title: 'Your identification information',
           uiSchema: veteranIdInfoPg.uiSchema,
           schema: veteranIdInfoPg.schema,
+          pageClass: 'veteran-identification-information',
         },
       },
     },
@@ -204,6 +210,7 @@ const formConfig = {
           title: 'Third-party type',
           uiSchema: thirdPartyTypePg.uiSchema,
           schema: thirdPartyTypePg.schema,
+          pageClass: 'disclosure-information-third-party-type',
         },
         personNamePage: {
           // person third-party
@@ -214,6 +221,7 @@ const formConfig = {
           },
           uiSchema: personNamePg.uiSchema,
           schema: personNamePg.schema,
+          pageClass: 'disclosure-information-person-name',
         },
         personAddressPage: {
           // person third-party
@@ -224,6 +232,7 @@ const formConfig = {
           },
           uiSchema: personAddressPg.uiSchema,
           schema: personAddressPg.schema,
+          pageClass: 'disclosure-information-person-address',
         },
         organizationNamePage: {
           // organization third-party
@@ -234,6 +243,7 @@ const formConfig = {
           },
           uiSchema: organizationNamePg.uiSchema,
           schema: organizationNamePg.schema,
+          pageClass: 'disclosure-information-organization-name',
         },
         organizationRepresentativesPage: {
           // organization third-party
@@ -244,6 +254,7 @@ const formConfig = {
           },
           uiSchema: organizationRepsPg.uiSchema,
           schema: organizationRepsPg.schema,
+          pageClass: 'disclosure-information-organization-representatives',
         },
         organizationAddressPage: {
           // organization third-party
@@ -254,6 +265,7 @@ const formConfig = {
           },
           uiSchema: organizationAddressPg.uiSchema,
           schema: organizationAddressPg.schema,
+          pageClass: 'disclosure-information-organization-address',
         },
       },
     },
@@ -265,6 +277,7 @@ const formConfig = {
           title: 'Information scope',
           uiSchema: infoScopePg.uiSchema,
           schema: infoScopePg.schema,
+          pageClass: 'disclosure-information-scope',
         },
         limitedInformationPage: {
           // limited info-scope
@@ -275,12 +288,14 @@ const formConfig = {
           },
           uiSchema: limitedInfoPg.uiSchema,
           schema: limitedInfoPg.schema,
+          pageClass: 'disclosure-information-limited-information',
         },
         releaseDurationPage: {
           path: 'disclosure-information-release-duration',
           title: 'Release duration',
           uiSchema: releaseDurationPg.uiSchema,
           schema: releaseDurationPg.schema,
+          pageClass: 'disclosure-information-release-duration',
         },
         releaseEndDatePage: {
           // untilDate release-duration
@@ -291,6 +306,7 @@ const formConfig = {
           },
           uiSchema: releaseEndDatePg.uiSchema,
           schema: releaseEndDatePg.schema,
+          pageClass: 'disclosure-information-release-end-date',
         },
       },
     },
@@ -305,12 +321,14 @@ const formConfig = {
           title: 'Security question',
           uiSchema: securityQuestionPg.uiSchema,
           schema: securityQuestionPg.schema,
+          pageClass: 'security-information-question',
         },
         secAnswerPage: {
           path: 'security-information-answer',
           title: 'Security answer',
           uiSchema: securityAnswerPg.uiSchema,
           schema: securityAnswerPg.schema,
+          pageClass: 'security-information-answer',
         },
       },
     },

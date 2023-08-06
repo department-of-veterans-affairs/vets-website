@@ -1,10 +1,12 @@
+import React from 'react';
+
 import definitions from 'vets-json-schema/dist/definitions.json';
 import { uiSchema, schema } from '../../shared/definitions/pdfAddress';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Organization’s address',
+    'ui:title': <h3 className="custom-header">Organization’s address</h3>,
     organizationAddress: uiSchema({
       root: '',
       country: 'Organization’s country',

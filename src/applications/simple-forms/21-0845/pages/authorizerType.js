@@ -9,16 +9,15 @@ export default {
     authorizerType: {
       'ui:title': (
         <>
-          <h3 className="custom-page-header">
+          <h3 className="custom-header authorizer-type">
             Who is submitting this authorization?{' '}
-            <span className="custom-required-span vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-color--secondary-dark">
-              (*Required)
-            </span>
+            <span className="custom-required-span">(*Required)</span>
           </h3>
-          <p>Select the description that fits you.</p>
+          <p className="custom-description">
+            Select the description that fits you.
+          </p>
         </>
       ),
-      // 'ui:description': 'Select the description that fits you.',
       'ui:widget': 'radio',
       'ui:options': {
         labels: getLabelsFromConstants(AUTHORIZER_TYPE_ITEMS),

@@ -7,15 +7,13 @@ export default {
   uiSchema: {
     'ui:title': ({ formData }) => {
       return (
-        <legend id="root_securityAnswer-label" className="schemaform-label">
-          <span className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
-            {
-              SECURITY_QUESTIONS[
-                camelCaseToSnakeAllCaps(formData.securityQuestion)
-              ]
-            }
-          </span>
-        </legend>
+        <h3 className="custom-header">
+          {
+            SECURITY_QUESTIONS[
+              camelCaseToSnakeAllCaps(formData.securityQuestion)
+            ]
+          }
+        </h3>
       );
     },
     'ui:description':
