@@ -30,7 +30,11 @@ export default function CernerAlert({ className, pageTitle, level = 2 }) {
           <div className={className}>
             <va-alert status="warning" background-only visible>
               <H className="vads-u-font-size--h4 vads-u-margin-top--0">
-                To manage appointments at these facilities, go to My VA Health
+                {`To manage appointments at ${
+                  cernerFacilities.length === 1
+                    ? 'this facility'
+                    : 'these facilities'
+                }, go to My VA Health`}
               </H>
               <ul>
                 {/* <ListItem facilities={cernerFacilities} /> */}
