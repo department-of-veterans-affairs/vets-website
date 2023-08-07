@@ -83,9 +83,7 @@ const statementOfTruthBody = (
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   transformForSubmit,
   trackingPrefix: '21-0972-alternate-signer-',
   dev: {
