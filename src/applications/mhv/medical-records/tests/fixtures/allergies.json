@@ -1,518 +1,374 @@
 {
-  "id": "868a0f70-f920-4483-9be4-fa64f65d2e85",
+  "id": "02c87d02-de44-4bdf-aa1d-93dd4d68b89d",
   "meta": {
-    "lastUpdated": "2023-07-21T12:22:25.721-04:00"
+      "lastUpdated": "2023-08-07T13:58:30.150-04:00"
   },
   "type": "searchset",
-  "total": 7,
+  "total": 5,
   "link": [
-    {
-      "relation": "self",
-      "url": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance?_count=100&patient=952"
-    }
+      {
+          "relation": "self",
+          "url": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance?_count=100&patient=7005"
+      }
   ],
   "entry": [
-    {
-      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/957",
-      "resource": {
-        "resourceType": "AllergyIntolerance",
-        "id": "ex-MHV-allergy-1",
-        "meta": {
-          "profile": [
-            "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.allergyIntolerance"
-          ]
-        },
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: AllergyIntolerance</b><a name=\"ex-MHV-allergy-1\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource AllergyIntolerance &quot;ex-MHV-allergy-1&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.allergyIntolerance.html\">VA MHV PHR Allergy and Intolerance</a></p></div><p><b>identifier</b>: id:\u00a053495\u00a0(use:\u00a0USUAL)</p><p><b>clinicalStatus</b>: Active <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-allergyintolerance-clinical.html\">AllergyIntolerance Clinical Status Codes</a>#active)</span></p><p><b>category</b>: medication</p><p><b>code</b>: CONTRAST MEDIA, OTHER <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ([not stated])</span></p><p><b>patient</b>: <a href=\"Patient-ex-MHV-patient-89486.html\">Patient/ex-MHV-patient-89486</a> &quot; MHVASPXXI&quot;</p><p><b>onset</b>: 2002-06-03 09:44:00+0000</p><p><b>note</b>: Updated using clean up process.  Changed reactant from IVP DYE (free text) to CONTRAST MEDIA, OTHER(file - PS(50.605,) ( @Jul 24, 2004, 1:29:07 PM)</p><h3>Reactions</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Manifestation</b></td></tr><tr><td style=\"display: none\">*</td><td>RESPIRATORY DISTRESS <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (unknown#4637183)</span></td></tr></table></div>"
-        },
-        "identifier": [
-          {
-            "use": "usual",
-            "system": "http://va.gov/systems/979_120.8",
-            "value": "53495"
-          }
-        ],
-        "clinicalStatus": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
-              "code": "active"
-            }
-          ]
-        },
-        "category": ["medication"],
-        "code": {
-          "coding": [
-            {
-              "display": "CONTRAST MEDIA, OTHER"
-            }
-          ],
-          "text": "CONTRAST MEDIA, OTHER"
-        },
-        "patient": {
-          "reference": "Patient/ex-MHV-patient-89486"
-        },
-        "onsetDateTime": "2002-06-03T09:44:00Z",
-        "note": [
-          {
-            "time": "2004-07-24T18:29:07Z",
-            "text": "Updated using clean up process.  Changed reactant from IVP DYE (free text) to CONTRAST MEDIA, OTHER(file - PS(50.605,)"
-          }
-        ],
-        "reaction": [
-          {
-            "manifestation": [
-              {
-                "coding": [
+      {
+          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/7006",
+          "resource": {
+              "id": "7006",
+              "meta": {
+                  "versionId": "1",
+                  "lastUpdated": "2023-08-07T13:51:36.018-04:00",
+                  "source": "#AsINRCGkVRY6tpNO"
+              },
+              "identifier": [
                   {
-                    "system": "urn:oid:2.16.840.1.113883.6.233",
-                    "code": "4637183"
+                      "system": "urn:oid:2.16.840.1.113883.4.349",
+                      "value": "991.69143"
                   }
-                ],
-                "text": "RESPIRATORY DISTRESS"
-              }
-            ]
-          }
-        ]
-      },
-      "search": {
-        "mode": "match"
-      }
-    },
-    {
-      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/956",
-      "resource": {
-        "resourceType": "AllergyIntolerance",
-        "id": "ex-MHV-allergy-10",
-        "meta": {
-          "profile": [
-            "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.allergyIntolerance"
-          ]
-        },
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: AllergyIntolerance</b><a name=\"ex-MHV-allergy-10\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource AllergyIntolerance &quot;ex-MHV-allergy-10&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.allergyIntolerance.html\">VA MHV PHR Allergy and Intolerance</a></p></div><p><b>identifier</b>: id:\u00a069075\u00a0(use:\u00a0USUAL)</p><p><b>clinicalStatus</b>: Active <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-allergyintolerance-clinical.html\">AllergyIntolerance Clinical Status Codes</a>#active)</span></p><p><b>category</b>: medication</p><p><b>code</b>: NAMENDA <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ([not stated] &quot;CNS MEDICATIONS,OTHER&quot;)</span></p><p><b>patient</b>: <a href=\"Patient-ex-MHV-patient-89486.html\">Patient/ex-MHV-patient-89486</a> &quot; MHVASPXXI&quot;</p><p><b>onset</b>: 2011-02-21 08:57:00+0000</p><p><b>note</b>: test ( @Feb 21, 2011, 2:57:54 AM)</p><h3>Reactions</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Manifestation</b></td></tr><tr><td style=\"display: none\">*</td><td>SWELLING <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (unknown#4637164)</span></td></tr></table></div>"
-        },
-        "identifier": [
-          {
-            "use": "usual",
-            "system": "http://va.gov/systems/979_120.8",
-            "value": "69075"
-          }
-        ],
-        "clinicalStatus": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
-              "code": "active"
-            }
-          ]
-        },
-        "category": ["medication"],
-        "code": {
-          "coding": [
-            {
-              "display": "CNS MEDICATIONS,OTHER"
-            }
-          ],
-          "text": "NAMENDA"
-        },
-        "patient": {
-          "reference": "Patient/ex-MHV-patient-89486"
-        },
-        "onsetDateTime": "2011-02-21T08:57:00Z",
-        "note": [
-          {
-            "time": "2011-02-21T08:57:54Z",
-            "text": "test"
-          }
-        ],
-        "reaction": [
-          {
-            "manifestation": [
-              {
-                "coding": [
+              ],
+              "clinicalStatus": {
+                  "coding": [
+                      {
+                          "code": "F",
+                          "display": "FOOD"
+                      }
+                  ],
+                  "text": "active"
+              },
+              "category": [
+                  "food"
+              ],
+              "code": {
+                  "text": "FISH"
+              },
+              "patient": {
+                  "reference": "Patient/7005"
+              },
+              "onsetDateTime": "2023-07-27T17:06:00-04:00",
+              "note": [
                   {
-                    "system": "urn:oid:2.16.840.1.113883.6.233",
-                    "code": "4637164"
+                      "time": "2023-07-27T17:07:21-04:00",
+                      "text": "maruf's test comment "
                   }
-                ],
-                "text": "SWELLING"
-              }
-            ]
-          }
-        ]
-      },
-      "search": {
-        "mode": "match"
-      }
-    },
-    {
-      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/956",
-      "resource": {
-        "resourceType": "AllergyIntolerance",
-        "id": "ex-MHV-allergy-11",
-        "meta": {
-          "profile": [
-            "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.allergyIntolerance"
-          ]
-        },
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: AllergyIntolerance</b><a name=\"ex-MHV-allergy-11\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource AllergyIntolerance &quot;ex-MHV-allergy-11&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.allergyIntolerance.html\">VA MHV PHR Allergy and Intolerance</a></p></div><p><b>identifier</b>: id:\u00a069092\u00a0(use:\u00a0USUAL)</p><p><b>clinicalStatus</b>: Active <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-allergyintolerance-clinical.html\">AllergyIntolerance Clinical Status Codes</a>#active)</span></p><p><b>category</b>: food, medication</p><p><b>code</b>: MALTOSE <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ([not stated] &quot;CNS MEDICATIONS,OTHER&quot;)</span></p><p><b>patient</b>: <a href=\"Patient-ex-MHV-patient-89486.html\">Patient/ex-MHV-patient-89486</a> &quot; MHVASPXXI&quot;</p><p><b>onset</b>: 2011-02-28 18:11:00+0000</p><p><b>note</b>: test 123456  ( @Feb 28, 2011, 12:11:47 PM)</p><blockquote><p><b>reaction</b></p><p><b>manifestation</b>: SEDATED <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (unknown#4637177)</span></p></blockquote><blockquote><p><b>reaction</b></p><p><b>manifestation</b>: SWELLING <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (unknown#4637164)</span></p></blockquote></div>"
-        },
-        "identifier": [
-          {
-            "use": "usual",
-            "system": "http://va.gov/systems/979_120.8",
-            "value": "69092"
-          }
-        ],
-        "clinicalStatus": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
-              "code": "active"
-            }
-          ]
-        },
-        "category": ["food", "medication"],
-        "code": {
-          "coding": [
-            {
-              "display": "CNS MEDICATIONS,OTHER"
-            }
-          ],
-          "text": "MALTOSE"
-        },
-        "patient": {
-          "reference": "Patient/ex-MHV-patient-89486"
-        },
-        "onsetDateTime": "2011-02-28T18:11:00Z",
-        "note": [
-          {
-            "time": "2011-02-28T18:11:47Z",
-            "text": "test 123456 "
-          }
-        ],
-        "reaction": [
-          {
-            "manifestation": [
-              {
-                "coding": [
+              ],
+              "reaction": [
                   {
-                    "system": "urn:oid:2.16.840.1.113883.6.233",
-                    "code": "4637177"
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4538635",
+                                      "display": "RASH"
+                                  }
+                              ],
+                              "text": "RASH"
+                          }
+                      ]
                   }
-                ],
-                "text": "SEDATED"
-              }
-            ]
+              ],
+              "resourceType": "AllergyIntolerance"
           },
-          {
-            "manifestation": [
-              {
-                "coding": [
-                  {
-                    "system": "urn:oid:2.16.840.1.113883.6.233",
-                    "code": "4637164"
-                  }
-                ],
-                "text": "SWELLING"
-              }
-            ]
+          "search": {
+              "mode": "match"
           }
-        ]
       },
-      "search": {
-        "mode": "match"
-      }
-    },
-    {
-      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/956",
-      "resource": {
-        "resourceType": "AllergyIntolerance",
-        "id": "ex-MHV-allergy-12",
-        "meta": {
-          "profile": [
-            "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.allergyIntolerance"
-          ]
-        },
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: AllergyIntolerance</b><a name=\"ex-MHV-allergy-12\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource AllergyIntolerance &quot;ex-MHV-allergy-12&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.allergyIntolerance.html\">VA MHV PHR Allergy and Intolerance</a></p></div><p><b>identifier</b>: id:\u00a069093\u00a0(use:\u00a0USUAL)</p><p><b>clinicalStatus</b>: Active <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-allergyintolerance-clinical.html\">AllergyIntolerance Clinical Status Codes</a>#active)</span></p><p><b>category</b>: environment</p><p><b>code</b>: QUINOLINE <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ()</span></p><p><b>patient</b>: <a href=\"Patient-ex-MHV-patient-89486.html\">Patient/ex-MHV-patient-89486</a> &quot; MHVASPXXI&quot;</p><p><b>onset</b>: 2011-02-28 18:12:00+0000</p><p><b>note</b>: new entry  ( @Feb 28, 2011, 12:12:40 PM)</p><blockquote><p><b>reaction</b></p><p><b>manifestation</b>: RASH <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (unknown#4538635)</span></p></blockquote><blockquote><p><b>reaction</b></p><p><b>manifestation</b>: PRURITUS <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (unknown#4637191)</span></p></blockquote><blockquote><p><b>reaction</b></p><p><b>manifestation</b>: RENAL IMPAIRMENT <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (unknown#4637184)</span></p></blockquote></div>"
-        },
-        "identifier": [
-          {
-            "use": "usual",
-            "system": "http://va.gov/systems/979_120.8",
-            "value": "69093"
-          }
-        ],
-        "clinicalStatus": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
-              "code": "active"
-            }
-          ]
-        },
-        "category": ["environment"],
-        "code": {
-          "text": "QUINOLINE"
-        },
-        "patient": {
-          "reference": "Patient/ex-MHV-patient-89486"
-        },
-        "onsetDateTime": "2011-02-28T18:12:00Z",
-        "note": [
-          {
-            "time": "2011-02-28T18:12:40Z",
-            "text": "new entry "
-          }
-        ],
-        "reaction": [
-          {
-            "manifestation": [
-              {
-                "coding": [
+      {
+          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/7009",
+          "resource": {
+              "id": "7009",
+              "meta": {
+                  "versionId": "1",
+                  "lastUpdated": "2023-08-07T13:51:36.018-04:00",
+                  "source": "#AsINRCGkVRY6tpNO"
+              },
+              "identifier": [
                   {
-                    "system": "urn:oid:2.16.840.1.113883.6.233",
-                    "code": "4538635"
+                      "system": "urn:oid:2.16.840.1.113883.4.349",
+                      "value": "991.69146"
                   }
-                ],
-                "text": "RASH"
-              }
-            ]
+              ],
+              "clinicalStatus": {
+                  "coding": [
+                      {
+                          "code": "M",
+                          "display": "MEDICATION"
+                      }
+                  ],
+                  "text": "active"
+              },
+              "category": [
+                  "medication"
+              ],
+              "code": {
+                  "text": "HUMAPEN"
+              },
+              "patient": {
+                  "reference": "Patient/7005"
+              },
+              "onsetDateTime": "2023-07-27T17:10:00-04:00",
+              "note": [
+                  {
+                      "time": "2023-07-27T17:11:37-04:00",
+                      "text": "maruf's test comment "
+                  }
+              ],
+              "reaction": [
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4637184",
+                                      "display": "RENAL IMPAIRMENT"
+                                  }
+                              ],
+                              "text": "RENAL IMPAIRMENT"
+                          }
+                      ]
+                  },
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4637164",
+                                      "display": "SWELLING"
+                                  }
+                              ],
+                              "text": "SWELLING"
+                          }
+                      ]
+                  }
+              ],
+              "resourceType": "AllergyIntolerance"
           },
-          {
-            "manifestation": [
-              {
-                "coding": [
+          "search": {
+              "mode": "match"
+          }
+      },
+      {
+          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/7010",
+          "resource": {
+              "id": "7010",
+              "meta": {
+                  "versionId": "1",
+                  "lastUpdated": "2023-08-07T13:51:36.018-04:00",
+                  "source": "#AsINRCGkVRY6tpNO"
+              },
+              "identifier": [
                   {
-                    "system": "urn:oid:2.16.840.1.113883.6.233",
-                    "code": "4637191"
+                      "system": "urn:oid:2.16.840.1.113883.4.349",
+                      "value": "991.69149"
                   }
-                ],
-                "text": "PRURITUS"
-              }
-            ]
+              ],
+              "clinicalStatus": {
+                  "coding": [
+                      {
+                          "code": "M",
+                          "display": "MEDICATION"
+                      }
+                  ],
+                  "text": "active"
+              },
+              "category": [
+                  "medication"
+              ],
+              "code": {
+                  "text": "PENNYROYAL"
+              },
+              "patient": {
+                  "reference": "Patient/7005"
+              },
+              "onsetDateTime": "2023-08-04T11:14:00-04:00",
+              "note": [
+                  {
+                      "time": "2023-08-04T11:16:26-04:00",
+                      "text": "testing with Dan , -Maruf "
+                  }
+              ],
+              "reaction": [
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4637164",
+                                      "display": "SWELLING"
+                                  }
+                              ],
+                              "text": "SWELLING"
+                          }
+                      ]
+                  }
+              ],
+              "resourceType": "AllergyIntolerance"
           },
-          {
-            "manifestation": [
-              {
-                "coding": [
-                  {
-                    "system": "urn:oid:2.16.840.1.113883.6.233",
-                    "code": "4637184"
-                  }
-                ],
-                "text": "RENAL IMPAIRMENT"
-              }
-            ]
+          "search": {
+              "mode": "match"
           }
-        ]
       },
-      "search": {
-        "mode": "match"
-      }
-    },
-    {
-      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/956",
-      "resource": {
-        "resourceType": "AllergyIntolerance",
-        "id": "ex-MHV-allergy-2",
-        "meta": {
-          "profile": [
-            "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.allergyIntolerance"
-          ]
-        },
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: AllergyIntolerance</b><a name=\"ex-MHV-allergy-2\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource AllergyIntolerance &quot;ex-MHV-allergy-2&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.allergyIntolerance.html\">VA MHV PHR Allergy and Intolerance</a></p></div><p><b>identifier</b>: id:\u00a067933\u00a0(use:\u00a0USUAL)</p><p><b>clinicalStatus</b>: Active <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-allergyintolerance-clinical.html\">AllergyIntolerance Clinical Status Codes</a>#active)</span></p><p><b>category</b>: medication</p><p><b>code</b>: TYLENOL <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ([not stated] &quot;NON-OPIOID ANALGESICS&quot;; [not stated] &quot;PHARMACEUTICAL AIDS/REAGENTS&quot;)</span></p><p><b>patient</b>: <a href=\"Patient-ex-MHV-patient-89486.html\">Patient/ex-MHV-patient-89486</a> &quot; MHVASPXXI&quot;</p><p><b>onset</b>: 2006-02-01 13:57:00+0000</p><h3>Reactions</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Manifestation</b></td></tr><tr><td style=\"display: none\">*</td><td>NAUSEA AND VOMITING <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (unknown#4691091)</span></td></tr></table></div>"
-        },
-        "identifier": [
-          {
-            "use": "usual",
-            "system": "http://va.gov/systems/979_120.8",
-            "value": "67933"
-          }
-        ],
-        "clinicalStatus": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
-              "code": "active"
-            }
-          ]
-        },
-        "category": ["medication"],
-        "code": {
-          "coding": [
-            {
-              "display": "NON-OPIOID ANALGESICS"
-            },
-            {
-              "display": "PHARMACEUTICAL AIDS/REAGENTS"
-            }
-          ],
-          "text": "TYLENOL"
-        },
-        "patient": {
-          "reference": "Patient/ex-MHV-patient-89486"
-        },
-        "onsetDateTime": "2006-02-01T13:57:00Z",
-        "reaction": [
-          {
-            "manifestation": [
-              {
-                "coding": [
+      {
+          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/7007",
+          "resource": {
+              "id": "7007",
+              "meta": {
+                  "versionId": "1",
+                  "lastUpdated": "2023-08-07T13:51:36.018-04:00",
+                  "source": "#AsINRCGkVRY6tpNO"
+              },
+              "identifier": [
                   {
-                    "system": "urn:oid:2.16.840.1.113883.6.233",
-                    "code": "4691091"
+                      "system": "urn:oid:2.16.840.1.113883.4.349",
+                      "value": "991.69144"
                   }
-                ],
-                "text": "NAUSEA AND VOMITING"
-              }
-            ]
-          }
-        ]
-      },
-      "search": {
-        "mode": "match"
-      }
-    },
-    {
-      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/956",
-      "resource": {
-        "resourceType": "AllergyIntolerance",
-        "id": "ex-MHV-allergy-3",
-        "meta": {
-          "profile": [
-            "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.allergyIntolerance"
-          ]
-        },
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: AllergyIntolerance</b><a name=\"ex-MHV-allergy-3\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource AllergyIntolerance &quot;ex-MHV-allergy-3&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.allergyIntolerance.html\">VA MHV PHR Allergy and Intolerance</a></p></div><p><b>identifier</b>: id:\u00a067934\u00a0(use:\u00a0USUAL)</p><p><b>clinicalStatus</b>: Active <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-allergyintolerance-clinical.html\">AllergyIntolerance Clinical Status Codes</a>#active)</span></p><p><b>category</b>: medication</p><p><b>code</b>: LORTAB <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ([not stated] &quot;OPIOID ANALGESICS&quot;)</span></p><p><b>patient</b>: <a href=\"Patient-ex-MHV-patient-89486.html\">Patient/ex-MHV-patient-89486</a> &quot; MHVASPXXI&quot;</p><p><b>onset</b>: 2006-02-01 13:58:00+0000</p><h3>Reactions</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Manifestation</b></td></tr><tr><td style=\"display: none\">*</td><td>NAUSEA AND VOMITING <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (unknown#4691091)</span></td></tr></table></div>"
-        },
-        "identifier": [
-          {
-            "use": "usual",
-            "system": "http://va.gov/systems/979_120.8",
-            "value": "67934"
-          }
-        ],
-        "clinicalStatus": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
-              "code": "active"
-            }
-          ]
-        },
-        "category": ["medication"],
-        "code": {
-          "coding": [
-            {
-              "display": "OPIOID ANALGESICS"
-            }
-          ],
-          "text": "LORTAB"
-        },
-        "patient": {
-          "reference": "Patient/ex-MHV-patient-89486"
-        },
-        "onsetDateTime": "2006-02-01T13:58:00Z",
-        "reaction": [
-          {
-            "manifestation": [
-              {
-                "coding": [
+              ],
+              "clinicalStatus": {
+                  "coding": [
+                      {
+                          "code": "F",
+                          "display": "FOOD"
+                      }
+                  ],
+                  "text": "active"
+              },
+              "category": [
+                  "food"
+              ],
+              "code": {
+                  "text": "RED MEAT"
+              },
+              "patient": {
+                  "reference": "Patient/7005"
+              },
+              "onsetDateTime": "2023-07-27T17:08:00-04:00",
+              "note": [
                   {
-                    "system": "urn:oid:2.16.840.1.113883.6.233",
-                    "code": "4691091"
+                      "time": "2023-07-27T17:08:49-04:00",
+                      "text": "maruf's test data "
                   }
-                ],
-                "text": "NAUSEA AND VOMITING"
-              }
-            ]
-          }
-        ]
-      },
-      "search": {
-        "mode": "match"
-      }
-    },
-    {
-      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/956",
-      "resource": {
-        "resourceType": "AllergyIntolerance",
-        "id": "ex-MHV-allergy-4",
-        "meta": {
-          "profile": [
-            "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.allergyIntolerance"
-          ]
-        },
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: AllergyIntolerance</b><a name=\"ex-MHV-allergy-4\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource AllergyIntolerance &quot;ex-MHV-allergy-4&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.allergyIntolerance.html\">VA MHV PHR Allergy and Intolerance</a></p></div><p><b>identifier</b>: id:\u00a069066\u00a0(use:\u00a0USUAL)</p><p><b>clinicalStatus</b>: Active <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-allergyintolerance-clinical.html\">AllergyIntolerance Clinical Status Codes</a>#active)</span></p><p><b>category</b>: medication, food</p><p><b>code</b>: ASPIRIN <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ([not stated] &quot;SALICYLATES,ANTIRHEUMATIC&quot;)</span></p><p><b>patient</b>: <a href=\"Patient-ex-MHV-patient-89486.html\">Patient/ex-MHV-patient-89486</a> &quot; MHVASPXXI&quot;</p><p><b>onset</b>: 2011-02-16 14:32:00+0000</p><p><b>note</b>: test comments for 11.2 release testing  ( @Feb 16, 2011, 8:33:26 AM)</p><h3>Reactions</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Manifestation</b></td></tr><tr><td style=\"display: none\">*</td><td>RASH <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (unknown#4538635)</span></td></tr></table></div>"
-        },
-        "identifier": [
-          {
-            "use": "usual",
-            "system": "http://va.gov/systems/979_120.8",
-            "value": "69066"
-          }
-        ],
-        "clinicalStatus": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
-              "code": "active"
-            }
-          ]
-        },
-        "category": ["medication", "food"],
-        "code": {
-          "coding": [
-            {
-              "display": "SALICYLATES,ANTIRHEUMATIC"
-            }
-          ],
-          "text": "ASPIRIN"
-        },
-        "patient": {
-          "reference": "Patient/ex-MHV-patient-89486"
-        },
-        "onsetDateTime": "2011-02-16T14:32:00Z",
-        "note": [
-          {
-            "time": "2011-02-16T14:33:26Z",
-            "text": "test comments for 11.2 release testing "
-          }
-        ],
-        "reaction": [
-          {
-            "manifestation": [
-              {
-                "coding": [
+              ],
+              "reaction": [
                   {
-                    "system": "urn:oid:2.16.840.1.113883.6.233",
-                    "code": "4538635"
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4538635",
+                                      "display": "RASH"
+                                  }
+                              ],
+                              "text": "RASH"
+                          }
+                      ]
+                  },
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4637164",
+                                      "display": "SWELLING"
+                                  }
+                              ],
+                              "text": "SWELLING"
+                          }
+                      ]
+                  },
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4637156",
+                                      "display": "URTICARIA"
+                                  }
+                              ],
+                              "text": "URTICARIA"
+                          }
+                      ]
                   }
-                ],
-                "text": "RASH"
-              }
-            ]
+              ],
+              "resourceType": "AllergyIntolerance"
+          },
+          "search": {
+              "mode": "match"
           }
-        ]
       },
-      "search": {
-        "mode": "match"
+      {
+          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/7008",
+          "resource": {
+              "id": "7008",
+              "meta": {
+                  "versionId": "1",
+                  "lastUpdated": "2023-08-07T13:51:36.018-04:00",
+                  "source": "#AsINRCGkVRY6tpNO"
+              },
+              "identifier": [
+                  {
+                      "system": "urn:oid:2.16.840.1.113883.4.349",
+                      "value": "991.69145"
+                  }
+              ],
+              "clinicalStatus": {
+                  "text": "active"
+              },
+              "code": {
+                  "text": "POLLEN"
+              },
+              "patient": {
+                  "reference": "Patient/7005"
+              },
+              "onsetDateTime": "2023-07-27T17:09:00-04:00",
+              "note": [
+                  {
+                      "time": "2023-07-27T17:10:21-04:00",
+                      "text": "maruf's test comment intb "
+                  }
+              ],
+              "reaction": [
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4637183",
+                                      "display": "RESPIRATORY DISTRESS"
+                                  }
+                              ],
+                              "text": "RESPIRATORY DISTRESS"
+                          }
+                      ]
+                  },
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4637164",
+                                      "display": "SWELLING"
+                                  }
+                              ],
+                              "text": "SWELLING"
+                          }
+                      ]
+                  }
+              ],
+              "resourceType": "AllergyIntolerance"
+          },
+          "search": {
+              "mode": "match"
+          }
       }
-    }
   ],
   "resourceType": "Bundle"
 }
