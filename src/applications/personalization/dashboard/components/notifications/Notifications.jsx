@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '~/platform/utilities/environment';
 import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 import { fetchNotifications } from '../../../common/actions/notifications';
@@ -42,10 +41,38 @@ export const Notifications = ({
             data-testid="dashboard-notifications-error"
             className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
           >
-            <VaAlert status="error" show-icon className="vads-u-margin-top--0">
-              We’re sorry. Something went wrong on our end, and we can’t dismiss
-              this notification. Please try again later.
-            </VaAlert>
+            <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUpdateErrorsWarnings}>
+              <Toggler.Enabled>
+                <va-alert
+                  status="warning"
+                  show-icon
+                  className="vads-u-margin-top--0"
+                >
+                  <h2 slot="headline">Can’t dismiss notification</h2>
+                  <div>
+                    <p className="vads-u-margin-bottom--0">
+                      We’re sorry. Something went wrong on our end, and we can’t
+                      dismiss this notification. Please try again later.
+                    </p>
+                  </div>
+                </va-alert>
+              </Toggler.Enabled>
+              <Toggler.Disabled>
+                <va-alert
+                  status="error"
+                  show-icon
+                  className="vads-u-margin-top--0"
+                >
+                  <h2 slot="headline">Can’t dismiss notification</h2>
+                  <div>
+                    <p className="vads-u-margin-bottom--0">
+                      We’re sorry. Something went wrong on our end, and we can’t
+                      dismiss this notification. Please try again later.
+                    </p>
+                  </div>
+                </va-alert>
+              </Toggler.Disabled>
+            </Toggler>
           </div>
         </DashboardWidgetWrapper>
       )}
