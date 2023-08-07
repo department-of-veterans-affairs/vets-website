@@ -7,6 +7,7 @@ import reducer from '../../../reducers';
 import messageResponse from '../../fixtures/message-response.json';
 import MessageThreadItem from '../../../components/MessageThread/MessageThreadItem';
 import { dateFormat } from '../../../util/helpers';
+import { DefaultFolders, MessageReadStatus } from '../../../util/constants';
 
 describe('Message thread item', () => {
   const setup = (message = messageResponse) => {
@@ -122,7 +123,7 @@ describe('Message thread item', () => {
   it('unread message render "unread" circle icon', () => {
     const messageNoAttachment = {
       ...messageResponse,
-      readReceipt: null,
+      readReceipt: MessageReadStatus.UNREAD,
     };
     const screen = setup(messageNoAttachment);
     expect(screen.getByTestId('unread-icon')).to.exist;
@@ -144,8 +145,8 @@ describe('Message thread item', () => {
   it('should not render "unread" circle icon if message is sent by user', () => {
     const messageInSentFolder = {
       ...messageResponse,
-      readReceipt: null,
-      folderId: -1,
+      readReceipt: MessageReadStatus.UNREAD,
+      folderId: DefaultFolders.SENT.id,
     };
     const screen = setup(messageInSentFolder);
 
@@ -155,7 +156,7 @@ describe('Message thread item', () => {
   it('should not render "unread" circle icon if message is "read"', () => {
     const messageReadByUser = {
       ...messageResponse,
-      readReceipt: 'READ',
+      readReceipt: MessageReadStatus.READ,
     };
     const screen = setup(messageReadByUser);
 

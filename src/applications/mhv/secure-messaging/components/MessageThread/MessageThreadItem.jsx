@@ -8,6 +8,7 @@ import MessageThreadBody from './MessageThreadBody';
 import MessageThreadAttachments from './MessageThreadAttachments';
 import { markMessageAsReadInThread } from '../../actions/messages';
 import { dateFormat } from '../../util/helpers';
+import { DefaultFolders, MessageReadStatus } from '../../util/constants';
 
 const MessageThreadItem = props => {
   const dispatch = useDispatch();
@@ -28,7 +29,9 @@ const MessageThreadItem = props => {
     triageGroupName,
   } = message;
 
-  const isSentOrRead = folderId === -1 || readReceipt === 'READ';
+  const isSentOrRead =
+    folderId === DefaultFolders.SENT.id ||
+    readReceipt === MessageReadStatus.READ;
   const fromMe = recipientName === triageGroupName;
   const from = fromMe ? 'Me' : `${senderName}`;
 
