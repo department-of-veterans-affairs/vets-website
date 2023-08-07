@@ -33,7 +33,7 @@ describe('Folder Thread List View container', () => {
     });
   });
 
-  it(`verifies page title tag for 'Sent messages' FolderThreadListView page`, async () => {
+  it(`verifies page title tag for 'Sent' FolderThreadListView page`, async () => {
     const initialState = {
       sm: {
         messageDetails: { message: messageResponse },
@@ -52,7 +52,7 @@ describe('Folder Thread List View container', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Sent messages ${PageTitles.PAGE_TITLE_TAG}`,
+        `Sent ${PageTitles.PAGE_TITLE_TAG}`,
       );
     });
   });

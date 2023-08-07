@@ -31,16 +31,20 @@ class FolderLoadPage {
 
   loadFolderMessages = (folderName, folderNumber, folderResponseIndex) => {
     this.foldersSetup();
-    cy.intercept('GET', `/my_health/v1/messaging/folders/${folderNumber}*`, {
+    cy.intercept('GET', `/my_health/v1/messaging/folders/${folderNumber}`, {
       data: mockFolders.data[folderResponseIndex],
-    }).as('inboxFolderMetaData');
+    }).as('folderMetaData');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/folders/${folderNumber}/threads*`,
+      mockMessages,
+    ).as('folderThreadResponse');
 
     cy.get(`[data-testid="${folderName}-sidebar"]`).click();
 
     cy.wait('@folders');
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
-    cy.wait('@inboxMessages');
   };
 
   loadInboxMessages = () => {

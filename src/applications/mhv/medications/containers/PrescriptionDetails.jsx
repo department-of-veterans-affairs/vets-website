@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   fillPrescription,
   getPrescriptionDetails,
@@ -40,6 +41,15 @@ const PrescriptionDetails = () => {
       );
     }
   });
+
+  useEffect(
+    () => {
+      if (prescription) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [prescription],
+  );
 
   const pdfData = {
     headerBanner: [
@@ -150,6 +160,9 @@ const PrescriptionDetails = () => {
         <>
           <PrintHeader />
           <h1 className="page-title">{prescription.prescriptionName}</h1>
+          <p>
+            Last filled on {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
+          </p>
 
           <div className="no-print">
             <PrintDownload download={handleDownloadPDF} />
@@ -247,7 +260,13 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed by
             </h3>
-            <p>{prescription?.presciberName || 'None noted'}</p>
+            <p>
+              {prescription.providerFirstName
+                ? `${prescription.providerLastName}, ${
+                    prescription.providerFirstName
+                  }`
+                : 'None noted'}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
             </h3>
@@ -294,8 +313,8 @@ const PrescriptionDetails = () => {
 
           <div className="medication-details-div vads-u-margin-bottom--8">
             <h2 className="vads-u-margin-top--3">Refill history</h2>
-            {prescription.history && prescription.history.length > 0 ? (
-              prescription.history.map(entry => (
+            {prescription.rxRfRecords && prescription.rxRfRecords.length > 0 ? (
+              prescription.rxRfRecords.map(entry => (
                 <div key={entry.requestDate}>
                   <h3 className="vads-u-font-size--lg vads-u-font-family--sans">
                     {dateFormat(entry.requestDate, 'MMMM YYYY')}
