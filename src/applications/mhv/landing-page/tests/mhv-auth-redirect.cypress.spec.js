@@ -18,16 +18,18 @@ describe(`${manifest.appName} Auth Redirect`, () => {
     });
   });
 
-  describe('authorized user', () => {
-    it('renders the landing page for the defaultUser', () => {
+  describe('default user', () => {
+    it('renders the landing page', () => {
       cy.intercept('GET', '/v0/user*', defaultUser);
       cy.login(defaultUser);
       cy.visit('/my-health');
       cy.get('h1').should('include.text', 'My HealtheVet');
       cy.axeCheck();
     });
+  });
 
-    it('renders the landing page for the cernerUser', () => {
+  describe('cerner patient', () => {
+    it('renders the landing page', () => {
       cy.intercept('GET', '/v0/user*', cernerUser);
       cy.login(cernerUser);
       cy.visit('/my-health');
