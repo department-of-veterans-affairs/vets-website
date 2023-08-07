@@ -2,6 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
+import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 import { UnconnectedHealthCareContentV2 } from '../../../components/health-care-v2/HealthCareContentV2';
 import { createVaosAppointment } from '../../../mocks/appointments/vaos-v2';
 
@@ -44,8 +46,15 @@ describe('<UnconnectedHealthCareContentV2 />', () => {
   });
 
   it('should render the HealthcareError', () => {
-    const tree = render(
+    // delete instances of Toggler when errors are launched
+    const initialState = {
+      featureToggles: {
+        [Toggler.TOGGLE_NAMES.myVaUpdateErrorsWarnings]: true,
+      },
+    };
+    const tree = renderWithStoreAndRouter(
       <UnconnectedHealthCareContentV2 hasAppointmentsError />,
+      { initialState },
     );
     tree.getByTestId('healthcare-error-v2');
   });
