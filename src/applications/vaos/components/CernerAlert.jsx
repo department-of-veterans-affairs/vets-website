@@ -6,6 +6,13 @@ import {
   selectFeatureStaticLandingPage,
   selectRegisteredCernerFacilities,
 } from '../redux/selectors';
+import { GA_PREFIX } from '../utils/constants';
+
+function handleClick() {
+  window.recordEvent({
+    event: `${GA_PREFIX}-cerner-redirect-appointments-landing-page`,
+  });
+}
 
 export default function CernerAlert({ className, pageTitle, level = 2 }) {
   const H = `h${level}`;
@@ -33,6 +40,7 @@ export default function CernerAlert({ className, pageTitle, level = 2 }) {
               </ul>
               <a
                 className="vads-c-action-link--blue vads-u-margin-bottom--1"
+                onClick={handleClick}
                 href={getCernerURL('/pages/scheduling/upcoming', true)}
               >
                 Go to My VA Health
