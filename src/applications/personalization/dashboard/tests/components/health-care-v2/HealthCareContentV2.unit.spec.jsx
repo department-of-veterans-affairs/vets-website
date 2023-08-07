@@ -47,11 +47,10 @@ describe('<UnconnectedHealthCareContentV2 />', () => {
     const tree = render(
       <UnconnectedHealthCareContentV2 hasAppointmentsError />,
     );
-
-    tree.getByTestId('outstanding-debts-error-v2');
+    tree.getByTestId('healthcare-error-v2');
   });
 
-  it('should render the HealthcareError', () => {
+  it('should render the Next appointments card', () => {
     const appointments = [createVaosAppointment()];
     const tree = render(
       <UnconnectedHealthCareContentV2 appointments={appointments} />,
@@ -69,17 +68,12 @@ describe('<UnconnectedHealthCareContentV2 />', () => {
   });
 
   context('should render the HealthCareCTA', () => {
-    it('when a non-patient has an appointment error and unread messages', () => {
+    it('but show only Apply for VA health care link for a non-patient', () => {
       const tree = render(
-        <UnconnectedHealthCareContentV2
-          dataLoadingDisabled
-          hasAppointmentsError
-          shouldFetchUnreadMessages
-          unreadMessagesCount={2}
-        />,
+        <UnconnectedHealthCareContentV2 isVAPatient={false} />,
       );
 
-      tree.getByText('Popular actions for Health Care');
+      tree.getAllByTestId('apply-va-healthcare-link-from-cta');
     });
 
     it("when a patient has appointments and doesn't have an appointment error", () => {

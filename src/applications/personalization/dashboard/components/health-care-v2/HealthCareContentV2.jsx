@@ -101,7 +101,7 @@ const HealthCareContentV2 = ({
             <va-alert
               status="warning"
               show-icon
-              data-testid="outstanding-debts-error-v2"
+              data-testid="healthcare-error-v2"
             >
               <h2 slot="headline">
                 We can’t access your appointment information
@@ -132,7 +132,7 @@ const HealthCareContentV2 = ({
             <va-alert
               status="error"
               show-icon
-              data-testid="outstanding-debts-error-v2"
+              data-testid="healthcare-error-v2"
             >
               <h2 slot="headline">
                 We can’t access your appointment information
@@ -217,8 +217,7 @@ const HealthCareContentV2 = ({
         {isVAPatient &&
           !hasUpcomingAppointment &&
           !hasAppointmentsError && <NoUpcomingAppointmentsText />}
-        {shouldShowOnOneColumn ||
-        (hasAppointmentsError && shouldShowUnreadMessageAlert) ? (
+        {shouldShowOnOneColumn ? (
           <HealthCareCTA
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
@@ -229,7 +228,7 @@ const HealthCareContentV2 = ({
           />
         ) : null}
       </DashboardWidgetWrapper>
-      {!shouldShowOnOneColumn && !hasAppointmentsError ? (
+      {!shouldShowOnOneColumn ? (
         <DashboardWidgetWrapper>
           <HealthCareCTA
             hasInboxError={hasInboxError}
