@@ -8,7 +8,6 @@ import { retrieveMessageThread } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
-import EmergencyNote from '../components/EmergencyNote';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { getTriageTeams } from '../actions/triageTeams';
 import { clearDraft } from '../actions/draftDetails';
@@ -130,8 +129,6 @@ const ThreadDetails = props => {
           <h1 className="page-title vads-u-margin-top--0" ref={header}>
             Edit draft
           </h1>
-          <EmergencyNote dropDownFlag />
-
           <ComposeForm draft={draftMessage} recipients={triageTeams} />
         </div>
       );
