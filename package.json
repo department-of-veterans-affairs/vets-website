@@ -207,7 +207,7 @@
     "mockdate": "^3.0.5",
     "mocker-api": "^2.9.0",
     "msw": "^0.35.0",
-    "node-fetch": "^2.6.7",
+    "node-fetch": "^2.6.12",
     "node-sass": "^4.14.1",
     "null-loader": "^4.0.1",
     "nyc": "^15.1.0",
