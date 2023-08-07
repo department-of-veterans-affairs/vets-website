@@ -35,7 +35,7 @@ class LandingPage {
   };
 
   visitPageAsCernerPatient = () => {
-    cy.login(MockUser.cernerPatient);
+    cy.login(MockUser.cernerUser);
     cy.visit(this.pageUrl);
   };
 }
