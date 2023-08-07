@@ -165,6 +165,69 @@ function fillBenefitSelection(
   cy.url().should('not.contain', '/burial-benefits');
 }
 
+// Fills Applicant Contact Information page, performs axe check, continues to next page
+function fillApplicantContactInfo(contact) {
+  cy.fillAddress('root_application_claimant_address', contact.address);
+  cy.fill('input[name$="email"]', contact.email);
+  cy.fill('input[name$="phoneNumber"]', contact.phoneNumber);
+  cy.axeCheck();
+  clickContinue();
+  cy.url().should('not.contain', '/applicant-contact-information');
+}
+
+// Fills Preparer Contact Information page
+function fillPreparerInfo(preparer) {
+  cy.selectRadio(
+    'root_application_applicant_applicantRelationshipToClaimant',
+    preparer.applicantRelationshipToClaimant,
+  );
+  if (preparer.applicantRelationshipToClaimant === 'Authorized Agent/Rep') {
+    cy.fillName(
+      'root_application_applicant_view:applicantInfo_name',
+      preparer['view:applicantInfo'].name,
+    );
+    cy.fillAddress(
+      'root_application_applicant_view\\:applicantInfo_mailingAddress',
+      preparer['view:applicantInfo'].mailingAddress,
+    );
+    cy.fill(
+      'input[name="root_application_applicant_view:applicantInfo_mailingAddress_state"]',
+      preparer.state,
+    );
+    cy.fill(
+      'input[name$="applicantPhoneNumber"]',
+      preparer['view:applicantInfo']['view:contactInfo'].applicantPhoneNumber,
+    );
+    cy.axeCheck();
+    clickContinue();
+    cy.url().should('not.contain', '/preparer');
+  }
+}
+
+// Submit Form
+function submitForm() {
+  cy.get('[name="privacyAgreementAccepted"]')
+    .find('label[for="checkbox-element"]')
+    .should('be.visible');
+
+  cy.get('[name="privacyAgreementAccepted"]')
+    .find('[type="checkbox"]')
+    .check({
+      force: true,
+    });
+
+  cy.axeCheck();
+  cy.get('.form-progress-buttons .usa-button-primary').click();
+  cy.url().should('not.contain', '/review-and-submit');
+
+  cy.get('.js-test-location', { timeout: Timeouts.slow })
+    .invoke('attr', 'data-location')
+    .should('not.contain', '/review-and-submit');
+
+  cy.get('.confirmation-page-title');
+  cy.axeCheck();
+}
+
 module.exports = {
   clickContinue,
   interceptSetup,
@@ -174,4 +237,7 @@ module.exports = {
   fillMilitaryHistory,
   fillPreviousName,
   fillBenefitSelection,
+  fillApplicantContactInfo,
+  fillPreparerInfo,
+  submitForm,
 };

@@ -3,7 +3,7 @@ import testData from './schema/maximal-test.json';
 import preneedHelpers from './utils/cypress-preneed-helpers';
 
 describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
-  it('fills the form and navigates accordingly', () => {
+  it('fills the form and navigates accordingly as a veteran', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
 
@@ -18,6 +18,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     // Veteran Information
     cy.get('input[name="root_application_veteran_militaryServiceNumber"]');
     preneedHelpers.validateProgressBar('1');
+
     cy.fill(
       'input[name="root_application_veteran_militaryServiceNumber"]',
       testData.data.application.veteran.militaryServiceNumber,
@@ -79,7 +80,6 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
 
     // Supporting Documents page
     cy.get('label[for="root_application_preneedAttachments"]');
-
     preneedHelpers.validateProgressBar('4');
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/supporting-documents');
@@ -87,77 +87,17 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     // Applicant/Veteran Contact Information page
     cy.get('select[name="root_application_claimant_address_country"]');
     preneedHelpers.validateProgressBar('5');
-    cy.fillAddress(
-      'root_application_claimant_address',
-      testData.data.application.veteran.address,
-    );
-    cy.fill('input[name$="email"]', testData.data.application.veteran.email);
-    cy.fill(
-      'input[name$="phoneNumber"]',
-      testData.data.application.veteran.phoneNumber,
-    );
-    cy.axeCheck();
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/applicant-contact-information');
+    preneedHelpers.fillApplicantContactInfo(testData.data.application.veteran);
 
     // Preparer Contact Information page
     cy.get(
       'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
     );
     preneedHelpers.validateProgressBar('5');
-    cy.selectRadio(
-      'root_application_applicant_applicantRelationshipToClaimant',
-      testData.data.application.applicantForeign
-        .applicantRelationshipToClaimant,
-    );
-    if (
-      testData.data.application.applicantForeign
-        .applicantRelationshipToClaimant === 'Authorized Agent/Rep'
-    ) {
-      cy.fillName(
-        'root_application_applicant_view:applicantInfo_name',
-        testData.data.application.applicantForeign['view:applicantInfo'].name,
-      );
-      cy.fillAddress(
-        'root_application_applicant_view\\:applicantInfo_mailingAddress',
-        testData.data.application.applicantForeign['view:applicantInfo']
-          .mailingAddress,
-      );
-      cy.fill(
-        'input[name="root_application_applicant_view:applicantInfo_mailingAddress_state"]',
-        testData.data.application.applicantForeign.state,
-      );
-      cy.fill(
-        'input[name$="applicantPhoneNumber"]',
-        testData.data.application.applicantForeign['view:applicantInfo'][
-          'view:contactInfo'
-        ].applicantPhoneNumber,
-      );
+    preneedHelpers.fillPreparerInfo(testData.data.application.applicantForeign);
 
-      cy.axeCheck();
-      preneedHelpers.clickContinue();
-      cy.url().should('not.contain', '/preparer');
-
-      cy.get('[name="privacyAgreementAccepted"]')
-        .find('label[for="checkbox-element"]')
-        .should('be.visible');
-      preneedHelpers.validateProgressBar('6');
-      cy.get('[name="privacyAgreementAccepted"]')
-        .find('[type="checkbox"]')
-        .check({
-          force: true,
-        });
-
-      cy.axeCheck();
-      cy.get('.form-progress-buttons .usa-button-primary').click();
-      cy.url().should('not.contain', '/review-and-submit');
-
-      cy.get('.js-test-location', { timeout: Timeouts.slow })
-        .invoke('attr', 'data-location')
-        .should('not.contain', '/review-and-submit');
-
-      cy.get('.confirmation-page-title');
-      cy.axeCheck();
-    }
+    // Review/Submit Page
+    preneedHelpers.validateProgressBar('6');
+    preneedHelpers.submitForm();
   });
 });

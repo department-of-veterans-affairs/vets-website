@@ -103,18 +103,7 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     // Applicant/Claimant Contact Information page
     cy.get('select[name="root_application_claimant_address_country"]');
     preneedHelpers.validateProgressBar('6');
-    cy.fillAddress(
-      'root_application_claimant_address',
-      testData.data.application.claimant.address,
-    );
-    cy.fill('input[name$="email"]', testData.data.application.claimant.email);
-    cy.fill(
-      'input[name$="phoneNumber"]',
-      testData.data.application.claimant.phoneNumber,
-    );
-    cy.axeCheck();
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/applicant-contact-information');
+    preneedHelpers.fillApplicantContactInfo(testData.data.application.claimant);
 
     // Veteran Contact Information page
     cy.get('select[name="root_application_veteran_address_country"]');
@@ -127,61 +116,15 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-mailing-address');
 
-    // Preparer page
+    // Preparer Contact Information page
     cy.get(
       'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
     );
     preneedHelpers.validateProgressBar('6');
-    cy.selectRadio(
-      'root_application_applicant_applicantRelationshipToClaimant',
-      testData.data.application.applicant.applicantRelationshipToClaimant,
-    );
-    if (
-      testData.data.application.applicant.applicantRelationshipToClaimant ===
-      'Authorized Agent/Rep'
-    ) {
-      cy.fillName(
-        'root_application_applicant_view:applicantInfo_name',
-        testData.data.application.applicant['view:applicantInfo'].name,
-      );
-      cy.fillAddress(
-        'root_application_applicant_view\\:applicantInfo_mailingAddress',
-        testData.data.application.applicant['view:applicantInfo']
-          .mailingAddress,
-      );
-      cy.fill(
-        'input[name$="applicantPhoneNumber"]',
-        testData.data.application.applicant['view:applicantInfo'][
-          'view:contactInfo'
-        ].applicantPhoneNumber,
-      );
+    preneedHelpers.fillPreparerInfo(testData.data.application.applicant);
 
-      cy.axeCheck();
-      preneedHelpers.clickContinue();
-      cy.url().should('not.contain', '/preparer');
-
-      // Review/Submit Page
-      cy.get('[name="privacyAgreementAccepted"]')
-        .find('label[for="checkbox-element"]')
-        .should('be.visible');
-      preneedHelpers.validateProgressBar('7');
-
-      cy.get('[name="privacyAgreementAccepted"]')
-        .find('[type="checkbox"]')
-        .check({
-          force: true,
-        });
-
-      cy.axeCheck();
-      cy.get('.form-progress-buttons .usa-button-primary').click();
-      cy.url().should('not.contain', '/review-and-submit');
-
-      cy.get('.js-test-location', { timeout: Timeouts.slow })
-        .invoke('attr', 'data-location')
-        .should('not.contain', '/review-and-submit');
-
-      cy.get('.confirmation-page-title');
-      cy.axeCheck();
-    }
+    // Review/Submit Page
+    preneedHelpers.validateProgressBar('7');
+    preneedHelpers.submitForm();
   });
 });
