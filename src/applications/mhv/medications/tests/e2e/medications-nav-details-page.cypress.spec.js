@@ -16,8 +16,12 @@ describe('verify navigation to medication details Page', () => {
     detailsPage.verifyTextInsideDropDownOnDetailsPage();
     detailsPage.verifyRefillPrescriptionsText();
     detailsPage.verifyWhatDoesThisStatusMeanText();
-    detailsPage.verifyPrescriptionsNumber();
-    detailsPage.verifyPrescriptionsStatus();
+    detailsPage.verifyPrescriptionsNumber(
+      mockPrescriptionDetails.data.attributes.prescriptionNumber,
+    );
+    detailsPage.verifyPrescriptionsStatus(
+      mockPrescriptionDetails.data.attributes.refillStatus,
+    );
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

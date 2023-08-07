@@ -15,17 +15,17 @@ class MedicationsDetailsPage {
     cy.contains('Refill prescription');
   };
 
-  verifyPrescriptionsNumber = () => {
+  verifyPrescriptionsNumber = PrescriptionsNumber => {
     cy.get('.vads-u-margin-top--2 > :nth-child(4)').should(
       'have.text',
-      '3636930',
+      PrescriptionsNumber,
     );
   };
 
-  verifyPrescriptionsStatus = () => {
+  verifyPrescriptionsStatus = PrescriptionsStatus => {
     cy.get('.vads-u-margin-top--2 > :nth-child(6)').should(
       'have.text',
-      'active',
+      PrescriptionsStatus,
     );
   };
 
