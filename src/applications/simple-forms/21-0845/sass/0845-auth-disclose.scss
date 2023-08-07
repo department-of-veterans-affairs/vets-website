@@ -32,7 +32,8 @@ $font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", "Helvetica",
 
 .authorizer-type .schemaform-required-span,
 .security-information-question .schemaform-required-span,
-.disclosure-information-release-end-date .schemaform-required-span {
+.disclosure-information-release-end-date .schemaform-required-span,
+.security-information-answer .schemaform-required-span {
   display: none !important;
 }
 

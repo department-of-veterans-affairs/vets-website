@@ -7,13 +7,16 @@ export default {
   uiSchema: {
     'ui:title': ({ formData }) => {
       return (
-        <h3 className="custom-header">
-          {
-            SECURITY_QUESTIONS[
-              camelCaseToSnakeAllCaps(formData.securityQuestion)
-            ]
-          }
-        </h3>
+        <>
+          <h3 className="custom-header">
+            {
+              SECURITY_QUESTIONS[
+                camelCaseToSnakeAllCaps(formData.securityQuestion)
+              ]
+            }{' '}
+            <span className="custom-required-span">(*Required)</span>
+          </h3>
+        </>
       );
     },
     'ui:description':
