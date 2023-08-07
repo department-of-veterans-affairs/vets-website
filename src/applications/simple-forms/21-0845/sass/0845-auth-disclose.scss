@@ -30,6 +30,10 @@ $font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", "Helvetica",
   margin-top: 0;
 }
 
+.hint-text {
+  color: $color-gray-medium;
+}
+
 .authorizer-type .schemaform-required-span,
 .security-information-question .schemaform-required-span,
 .disclosure-information-release-end-date .schemaform-required-span,
@@ -39,11 +43,6 @@ $font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", "Helvetica",
 
 div:has(.schemaform-sip-alert) {
   margin-top: 4rem;
-}
-
-.dob-description {
-  color: $color-gray-medium;
-  margin-top: 0;
 }
 
 .row div[id^="root_organizationRepresentatives_"] > .row.small-collapse,

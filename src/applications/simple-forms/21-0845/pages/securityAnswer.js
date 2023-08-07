@@ -19,8 +19,12 @@ export default {
         </>
       );
     },
-    'ui:description':
-      'Enter the information your third-party source will need to provide to verify their identity.',
+    'ui:description': (
+      <p className="hint-text">
+        Enter the information your third-party source will need to provide to
+        verify their identity.
+      </p>
+    ),
     securityAnswer: {
       'ui:title': 'Your answer',
       'ui:errorMessages': {

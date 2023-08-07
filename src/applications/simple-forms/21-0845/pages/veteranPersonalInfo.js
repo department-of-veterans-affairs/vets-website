@@ -12,7 +12,9 @@ export default {
     veteranDateOfBirth: {
       'ui:title': 'Date of birth',
       'ui:description': (
-        <p className="dob-description">For example: January 19 2000</p>
+        <p className="custom-description hint-text">
+          For example: January 19 2000
+        </p>
       ),
       'ui:widget': 'date',
       'ui:validations': [validateDateOfBirth],
