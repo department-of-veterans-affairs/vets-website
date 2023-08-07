@@ -7,13 +7,11 @@ import { profileShowPronounsAndSexualOrientation } from '@@profile/selectors';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import { renderDOB } from '@@profile/util/personal-information/personalInformationUtils';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
-import ProfileInfoTable from '../ProfileInfoTable';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 import GenderIdentityAdditionalInfo from './GenderIdentityAdditionalInfo';
 import LegalName from './LegalName';
 import DisabilityRating from './DisabilityRating';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 const PersonalInformationSection = ({
   dob,
@@ -121,15 +119,7 @@ const PersonalInformationSection = ({
           </p>
         </va-additional-info>
       </div>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
-        <Toggler.Enabled>
-          <ProfileInfoCard data={tableFields} level={1} />
-        </Toggler.Enabled>
-
-        <Toggler.Disabled>
-          <ProfileInfoTable data={tableFields} level={2} />
-        </Toggler.Disabled>
-      </Toggler>
+      <ProfileInfoCard data={tableFields} level={1} />
     </div>
   );
 };
