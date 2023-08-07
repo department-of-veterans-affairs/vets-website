@@ -10,17 +10,35 @@ import { renderDOB } from '@@profile/util/personal-information/personalInformati
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import ProfileInfoTable from '../ProfileInfoTable';
 import { ProfileInfoCard } from '../ProfileInfoCard';
-import GenderIdentityAdditionalInfo from './GenderIdentityAdditionalInfo';
+import GenderIdentityDescription from './GenderIdentityDescription';
 import LegalName from './LegalName';
 import DisabilityRating from './DisabilityRating';
 import { Toggler } from '~/platform/utilities/feature-toggles';
+
+const LegalNameDescription = () => (
+  <va-additional-info trigger="How to update your legal name">
+    <p className="vads-u-margin-top--0">
+      If you’ve changed your legal name, you’ll need to tell us so we can change
+      your name in our records.
+    </p>
+    <p className="vads-u-margin-bottom--0">
+      <a href="/resources/how-to-change-your-legal-name-on-file-with-va">
+        Learn how to change your legal name on file with VA
+      </a>
+    </p>
+  </va-additional-info>
+);
 
 const PersonalInformationSection = ({
   dob,
   shouldShowPronounsAndSexualOrientation,
 }) => {
   const tableFields = [
-    { title: 'Legal name', value: <LegalName /> },
+    {
+      title: 'Legal name',
+      description: <LegalNameDescription />,
+      value: <LegalName />,
+    },
     { title: 'Date of birth', value: renderDOB(dob) },
     {
       title: 'Preferred name',
@@ -50,7 +68,7 @@ const PersonalInformationSection = ({
       : []),
     {
       title: 'Gender identity',
-      description: <GenderIdentityAdditionalInfo />,
+      description: <GenderIdentityDescription />,
       id: FIELD_IDS[FIELD_NAMES.GENDER_IDENTITY],
       value: (
         <ProfileInformationFieldController
@@ -81,19 +99,6 @@ const PersonalInformationSection = ({
 
   return (
     <div className="vads-u-margin-bottom--6">
-      <div className="vads-u-margin-bottom--3">
-        <va-additional-info trigger="How to update your legal name">
-          <p className="vads-u-margin-top--0">
-            If you’ve changed your legal name, you’ll need to tell us so we can
-            change your name in our records.
-          </p>
-          <p className="vads-u-margin-bottom--0">
-            <a href="/resources/how-to-change-your-legal-name-on-file-with-va">
-              Learn how to change your legal name on file with VA
-            </a>
-          </p>
-        </va-additional-info>
-      </div>
       <div className="vads-u-margin-bottom--3">
         <va-additional-info trigger="How to fix an error in your name or date of birth">
           <p className="vads-u-margin-top--0">
