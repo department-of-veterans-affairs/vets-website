@@ -19,7 +19,7 @@ describe('<Edit>', () => {
         '/profile/edit?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications',
     });
 
-    expect('Add or update your mobile phone number').to.exist;
+    expect(view.getByText('Add or update your mobile phone number')).to.exist;
 
     expect(view.getByText('Mobile phone number (U.S. numbers only)')).to.exist;
   });
@@ -55,5 +55,23 @@ describe('<Edit>', () => {
 
     expect(view.queryByText(/Edit your profile information/i)).to.exist;
     expect(view.getByText(/Choose a section to get started/i)).to.exist;
+  });
+
+  it('renders fallback with toggle `profileUseFieldEditingPage` turned ON and invalid returnPath in query params', () => {
+    const view = renderWithStoreAndRouter(<Edit />, {
+      initialState: {
+        featureToggles: {
+          [Toggler.TOGGLE_NAMES.profileUseFieldEditingPage]: true,
+        },
+      },
+      reducers: { vapService },
+      path: '/profile/edit?fieldName=mobilePhone&returnPath=fakeReturnPath',
+    });
+
+    // breadcrumb should fall back to profile root
+    expect(view.queryByText(/Back to profile/i)).to.exist;
+
+    // since the fieldName is valid, we should still render the correct form
+    expect(view.getByText('Add or update your mobile phone number')).to.exist;
   });
 });
