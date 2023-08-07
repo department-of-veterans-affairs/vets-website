@@ -3,18 +3,25 @@ import requiredHelpers from './utils/cypress-required-field-helpers';
 import testData from './schema/required-fields-test.json';
 import preneedHelpers from './utils/cypress-preneed-helpers';
 
+function errorCheck(errorList) {
+  cy.get('.form-panel .usa-button-primary').click({ waitForAnimations: true });
+  errorList.map(id =>
+    cy.get(`#root_application_${id}-error-message`).should('be.visible'),
+  );
+  cy.axeCheck();
+}
+
 describe('Pre-need form VA 40-10007 Required Fields', () => {
-  it('triggers validation on all required fields then completes the form with only those fields', () => {
+  it('triggers validation on all required fields then completes the form with minimal data', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
+    cy.injectAxe();
 
     // Applicant Information
+    preneedHelpers.validateProgressBar('1');
     cy.get('input[name="root_application_claimant_name_first"]');
 
-    preneedHelpers.validateProgressBar('1');
-
-    requiredHelpers.errorCheck(requiredHelpers.applicantInfoErrors);
-    cy.injectAxeThenAxeCheck();
+    errorCheck(requiredHelpers.applicantInfoErrors);
 
     cy.fill(
       'input[name=root_application_claimant_name_first]',
@@ -41,14 +48,10 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     cy.url().should('not.contain', '/applicant-information');
 
     // Veteran Information
+    preneedHelpers.validateProgressBar('2');
     cy.get('input[name="root_application_veteran_currentName_first"]');
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(2)')
-      .should('have.class', 'progress-segment-complete');
 
-    requiredHelpers.errorCheck(requiredHelpers.veteranInfoErrors);
-    cy.axeCheck();
+    errorCheck(requiredHelpers.veteranInfoErrors);
 
     cy.fill(
       'input[name=root_application_veteran_currentName_first]',
@@ -85,8 +88,8 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     cy.url().should('not.contain', '/veteran-information');
 
     // Military History
-    requiredHelpers.errorCheck(requiredHelpers.militaryHistoryErrors);
-    cy.axeCheck();
+    preneedHelpers.validateProgressBar('3');
+    errorCheck(requiredHelpers.militaryHistoryErrors);
 
     cy.get(
       'input[name="root_application_veteran_serviceRecords_0_serviceBranch"]',
@@ -116,24 +119,17 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       },
     );
 
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(3)')
-      .should('have.class', 'progress-segment-complete');
-
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-military-history');
 
     // Previous Names page
-    requiredHelpers.errorCheck(requiredHelpers.previousNameErrors1);
-    cy.axeCheck();
+    errorCheck(requiredHelpers.previousNameErrors1);
 
     cy.get('label[for$="hasServiceNameYes"]').should('be.visible');
     cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
     preneedHelpers.clickContinue();
 
-    requiredHelpers.errorCheck(requiredHelpers.previousNameErrors2);
-    cy.axeCheck();
+    errorCheck(requiredHelpers.previousNameErrors2);
 
     cy.fill(
       'input[name=root_application_veteran_serviceName_first]',
@@ -148,8 +144,8 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     cy.url().should('not.contain', '/sponsor-military-name');
 
     // Benefit Selection page 1
-    requiredHelpers.errorCheck(requiredHelpers.burialBenefitsErrors1);
-    cy.axeCheck();
+    preneedHelpers.validateProgressBar('4');
+    errorCheck(requiredHelpers.burialBenefitsErrors1);
 
     cy.selectRadio(
       'root_application_hasCurrentlyBuried',
@@ -158,8 +154,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.clickContinue();
 
     // Benefit Selection page 2
-    requiredHelpers.errorCheck(requiredHelpers.burialBenefitsErrors2);
-    cy.axeCheck();
+    errorCheck(requiredHelpers.burialBenefitsErrors2);
 
     if (testData.data.application.currentlyBuriedPersons.length) {
       testData.data.application.currentlyBuriedPersons.forEach(
@@ -175,22 +170,20 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
         },
       );
     }
+
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/burial-benefits');
 
     // Supporting Documents page
+    preneedHelpers.validateProgressBar('5');
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/supporting-documents');
 
     // Applicant/Claimant Contact Information page
+    preneedHelpers.validateProgressBar('6');
     cy.get('select[name="root_application_claimant_address_country"]');
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(6)')
-      .should('have.class', 'progress-segment-complete');
 
-    requiredHelpers.errorCheck(requiredHelpers.applicantContactInfoErrors);
-    cy.axeCheck();
+    errorCheck(requiredHelpers.applicantContactInfoErrors);
 
     cy.fillAddress(
       'root_application_claimant_address',
@@ -201,25 +194,21 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       'input[name$="phoneNumber"]',
       testData.data.application.claimant.phoneNumber,
     );
+
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/applicant-contact-information');
 
     // Veteran Contact Information page
     preneedHelpers.clickContinue();
-
-    // Preparer information
     cy.url().should('not.contain', '/sponsor-mailing-address');
 
+    // Preparer information
+    preneedHelpers.validateProgressBar('6');
     cy.get(
       'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
     );
-    cy.get('va-segmented-progress-bar')
-      .shadow()
-      .find('.progress-bar-segmented div.progress-segment:nth-child(6)')
-      .should('have.class', 'progress-segment-complete');
 
-    requiredHelpers.errorCheck(requiredHelpers.preparerInfoErrors1);
-    cy.axeCheck();
+    errorCheck(requiredHelpers.preparerInfoErrors1);
 
     cy.selectRadio(
       'root_application_applicant_applicantRelationshipToClaimant',
@@ -229,8 +218,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       testData.data.application.applicant.applicantRelationshipToClaimant ===
       'Authorized Agent/Rep'
     ) {
-      requiredHelpers.errorCheck(requiredHelpers.preparerInfoErrors2);
-      cy.axeCheck();
+      errorCheck(requiredHelpers.preparerInfoErrors2);
 
       cy.fill(
         'input[name$="root_application_applicant_view:applicantInfo_name_first"]',
@@ -249,32 +237,14 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
         'input[name$="root_application_applicant_view:applicantInfo_view:contactInfo_applicantPhoneNumber"]',
         testData.data.application.applicant.phoneNumber,
       );
-
-      preneedHelpers.clickContinue();
-      cy.url().should('not.contain', '/preparer');
-
-      // Review/Submit page
-      cy.get('.form-progress-buttons .usa-button-primary').click();
-      cy.get('#error-message').should('be.visible');
-
-      cy.get('[name="privacyAgreementAccepted"]')
-        .find('label[for="checkbox-element"]')
-        .should('be.visible');
-
-      cy.get('[name="privacyAgreementAccepted"]')
-        .find('[type="checkbox"]')
-        .check({
-          force: true,
-        });
-
-      cy.get('.form-progress-buttons .usa-button-primary').click();
-      cy.url().should('not.contain', '/review-and-submit');
-
-      cy.get('.js-test-location', { timeout: Timeouts.slow })
-        .invoke('attr', 'data-location')
-        .should('not.contain', '/review-and-submit');
-
-      cy.get('.confirmation-page-title');
     }
+
+    preneedHelpers.clickContinue();
+    cy.url().should('not.contain', '/preparer');
+
+    // Review/Submit page
+    cy.get('.form-progress-buttons .usa-button-primary').click();
+    cy.get('#error-message').should('be.visible');
+    preneedHelpers.submitForm();
   });
 });

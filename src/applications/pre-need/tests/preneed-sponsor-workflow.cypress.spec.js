@@ -112,6 +112,7 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
       'root_application_veteran_address',
       testData.data.application.veteran.address,
     );
+
     cy.axeCheck();
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-mailing-address');
