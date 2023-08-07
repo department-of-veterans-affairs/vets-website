@@ -124,17 +124,16 @@ const cernerUser = {
   meta: { errors: null },
 };
 
-const generateUserWithFacilities = ({ facilities = [], name = 'Harry' }) => {
+const generateUserWithFacilities = ({ facilities = [] }) => {
   return {
     ...defaultUser,
     data: {
       ...defaultUser.data,
       attributes: {
         ...defaultUser.data.attributes,
-        profile: {
-          ...defaultUser.data.attributes.profile,
+        va_profile: {
+          ...defaultUser.data.attributes.profile.va_profile,
           facilities,
-          first_name: name,
         },
       },
     },
@@ -151,6 +150,7 @@ const generateUserWithServiceProvider = ({ serviceProvider = 'idme' }) => {
         profile: {
           ...defaultUser.data.attributes.profile,
           sign_in: {
+            ...defaultUser.data.attributes.profile.sign_in,
             service_name: serviceProvider,
           },
         },
