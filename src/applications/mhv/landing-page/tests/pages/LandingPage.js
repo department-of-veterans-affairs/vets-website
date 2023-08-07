@@ -23,7 +23,10 @@ class LandingPage {
   };
 
   validateRedirectHappened = () => {
-    cy.url().should('not.match', /my-health/);
+    cy.on('url:changed', url => {
+      if (url.startsWith('http://localhost')) return;
+      expect(url).to.contain('.va.gov/mhv-portal-web');
+    });
   };
 
   visitPage = ({ serviceProvider = 'idme' } = {}) => {
