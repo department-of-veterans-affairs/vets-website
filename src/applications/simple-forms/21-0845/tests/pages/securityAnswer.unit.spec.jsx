@@ -61,9 +61,7 @@ describe(`${pageTitle} - dynamic-field-label`, () => {
         />,
       );
 
-      expect(
-        screen.container.querySelector('#root_securityAnswer-label > span'),
-      ).to.include.text(
+      expect(screen.container.querySelector('.custom-header')).to.include.text(
         SECURITY_QUESTIONS[camelCaseToSnakeAllCaps(questionValue)],
       );
     });

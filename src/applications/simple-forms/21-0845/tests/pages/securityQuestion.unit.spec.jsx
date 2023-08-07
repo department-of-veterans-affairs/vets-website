@@ -57,9 +57,9 @@ describe(`${pageTitle} - custom-field-label`, () => {
       />,
     );
 
-    expect(
-      screen.container.querySelector('#root_securityQuestion-label > span'),
-    ).to.include.text(getFullNameString(mockDataPerson3rdParty.personFullName));
+    expect(screen.container.querySelector('.custom-header')).to.include.text(
+      getFullNameString(mockDataPerson3rdParty.personFullName),
+    );
   });
   it('renders custom-field-label - organization 3rd-party', () => {
     mockDataOrganization3rdParty.thirdPartyType =
@@ -75,8 +75,8 @@ describe(`${pageTitle} - custom-field-label`, () => {
       />,
     );
 
-    expect(
-      screen.container.querySelector('#root_securityQuestion-label > span'),
-    ).to.include.text(mockDataOrganization3rdParty.organizationName);
+    expect(screen.container.querySelector('.custom-header')).to.include.text(
+      mockDataOrganization3rdParty.organizationName,
+    );
   });
 });
