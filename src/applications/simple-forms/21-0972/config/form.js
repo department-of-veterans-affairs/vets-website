@@ -89,7 +89,7 @@ const formConfig = {
   transformForSubmit,
   trackingPrefix: '21-0972-alternate-signer-',
   dev: {
-    showNavLinks: true,
+    showNavLinks: false,
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
