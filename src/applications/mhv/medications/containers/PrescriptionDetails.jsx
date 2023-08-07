@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   fillPrescription,
   getPrescriptionDetails,
@@ -40,6 +41,15 @@ const PrescriptionDetails = () => {
       );
     }
   });
+
+  useEffect(
+    () => {
+      if (prescription) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [prescription],
+  );
 
   const pdfData = {
     headerBanner: [
@@ -150,6 +160,9 @@ const PrescriptionDetails = () => {
         <>
           <PrintHeader />
           <h1 className="page-title">{prescription.prescriptionName}</h1>
+          <p>
+            Last filled on {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
+          </p>
 
           <div className="no-print">
             <PrintDownload download={handleDownloadPDF} />
