@@ -47,8 +47,9 @@ describe('Folder Thread List View container', () => {
     expect(startANewMessageLink).to.have.attr('href', Paths.COMPOSE);
   });
 
-  it(`verifies page title tag, folder name, folder description and "Start a new message" link should NOT exist for SENT`, async () => {
-    const initialStateSent = {
+
+  it(`verifies page title tag for 'Sent' FolderThreadListView page`, async () => {
+    const initialState = {
       sm: {
         messageDetails: { message: messageResponse },
         folders: { folder: sent, folderList },
@@ -59,7 +60,7 @@ describe('Folder Thread List View container', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Sent messages ${PageTitles.PAGE_TITLE_TAG}`,
+        `Sent ${PageTitles.PAGE_TITLE_TAG}`,
       );
       const folderName = screen.getByRole('heading', { level: 1 });
       expect(folderName).to.exist;
@@ -68,7 +69,7 @@ describe('Folder Thread List View container', () => {
     expect(screen.queryByText('Start a new message')).to.not.exist;
   });
 
-  it(`verifies page title tag, folder name, folder description and "Start a new message" link should NOT exist for DRAFTS`, async () => {
+  it(`verifies page title tag for 'Drafts' FolderThreadListView page`, async () => {
     const initialStateDrafts = {
       sm: {
         messageDetails: { message: messageResponse },
@@ -90,7 +91,7 @@ describe('Folder Thread List View container', () => {
     });
   });
 
-  it(`verifies page title tag, folder name, folder description and "Start a new message" link should NOT exist for TRASH`, async () => {
+  it(`verifies page title tag for 'Trash' FolderThreadListView page`, async () => {
     const initialStateTrash = {
       sm: {
         messageDetails: { message: messageResponse },
@@ -123,7 +124,7 @@ describe('Folder Thread List View container', () => {
     expect(screen.queryByText('Start a new message')).to.not.exist;
   });
 
-  it(`verifies page title tag, folder name, folder description and "Start a new message" link should NOT exist for CUSTOM FOLDER`, async () => {
+  it(`verifies page title tag for 'Custom Folder' FolderThreadListView page`, async () => {
     const initialStateDrafts = {
       sm: {
         messageDetails: { message: messageResponse },

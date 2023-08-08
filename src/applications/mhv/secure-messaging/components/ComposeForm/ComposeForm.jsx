@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -14,7 +14,8 @@ import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 import DeleteDraft from '../Draft/DeleteDraft';
-import { navigateToFolderByFolderId, sortRecipients } from '../../util/helpers';
+
+import { navigateToFolderByFolderId, messageSignatureFormatter, sortRecipients } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
@@ -26,6 +27,8 @@ import {
 } from '../../util/constants';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { getCategories } from '../../actions/categories';
+import EmergencyNote from '../EmergencyNote';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -58,6 +61,7 @@ const ComposeForm = props => {
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const fullState = useSelector(state => state);
   const currentFolder = useSelector(state => state.sm.folders.folder);
+  const signature = useSelector(state => state.sm.preferences.signature);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const attachmentNames = attachments.reduce((currentString, item) => {
@@ -72,6 +76,13 @@ const ComposeForm = props => {
     TEST_RESULTS,
     EDUCATION,
   } = Categories;
+
+  const formattededSignature = useMemo(
+    () => {
+      return messageSignatureFormatter(signature);
+    },
+    [signature],
+  );
 
   const setUnsavedNavigationError = typeOfError => {
     if (typeOfError === 'attachment') {
@@ -90,6 +101,13 @@ const ComposeForm = props => {
       });
     }
   };
+
+  useEffect(
+    () => {
+      dispatch(getCategories());
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -335,187 +353,191 @@ const ComposeForm = props => {
   };
 
   return (
-    <form className="compose-form">
-      {saveError && (
-        <VaModal
-          modalTitle={saveError.title}
-          onPrimaryButtonClick={() => setSaveError(null)}
-          onCloseEvent={() => {
-            setSaveError(null);
-            focusElement(lastFocusableElement);
-          }}
-          primaryButtonText="Continue editing"
-          status="warning"
-          data-testid="quit-compose-double-dare"
-          visible
-        >
-          <p>{saveError.p1}</p>
-          {saveError.p2 && <p>{saveError.p2}</p>}
-        </VaModal>
-      )}
-      <RouteLeavingGuard
-        when={!!navigationError}
-        navigate={path => {
-          history.push(path);
-        }}
-        shouldBlockNavigation={() => {
-          return !!navigationError;
-        }}
-        title={navigationError?.title}
-        p1={navigationError?.p1}
-        p2={navigationError?.p2}
-        confirmButtonText={navigationError?.confirmButtonText}
-        cancelButtonText={navigationError?.cancelButtonText}
-        saveDraftHandler={saveDraftHandler}
-      />
-      <div
-        className="compose-form-header"
-        data-testid="compose-form-header"
-        data-dd-privacy="mask"
-      >
-        <h2 className="vads-u-margin--0 vads-u-font-size--lg">
-          {setMessageTitle()}
-        </h2>
-      </div>
-      <div className="compose-inputs-container">
-        {recipientsList && (
-          <>
-            <VaSelect
-              enable-analytics
-              id="recipient-dropdown"
-              label="To"
-              name="to"
-              value={selectedRecipient}
-              onVaSelect={recipientHandler}
-              class="composeSelect"
-              data-testid="compose-recipient-select"
-              error={recipientError}
-              data-dd-privacy="mask"
-            >
-              {sortRecipients(recipientsList)?.map(item => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              ))}
-            </VaSelect>
+    <>
+      <EmergencyNote dropDownFlag />
 
-            <VaModal
-              id="edit-list"
-              modalTitle={Prompts.Compose.EDIT_LIST_TITLE}
-              name="edit-list"
-              visible={editListModal}
-              onCloseEvent={() => setEditListModal(false)}
-              status="warning"
-            >
-              <p>{Prompts.Compose.EDIT_LIST_CONTENT}</p>
-              <a
-                className="vads-c-action-link--green"
-                href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'preferences')}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => {
-                  setEditListModal(false);
-                }}
-              >
-                Edit your contact list on the My HealtheVet website
-              </a>
-            </VaModal>
-
-            <va-button
-              id="edit-list-button"
-              text="Edit list"
-              secondary=""
-              class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1 hydrated"
-              data-testid="Edit-List-Button"
-              onClick={() => setEditListModal(true)}
-            />
-          </>
+      <form className="compose-form">
+        {saveError && (
+          <VaModal
+            modalTitle={saveError.title}
+            onPrimaryButtonClick={() => setSaveError(null)}
+            onCloseEvent={() => {
+              setSaveError(null);
+              focusElement(lastFocusableElement);
+            }}
+            primaryButtonText="Continue editing"
+            status="warning"
+            data-testid="quit-compose-double-dare"
+            visible
+          >
+            <p>{saveError.p1}</p>
+            {saveError.p2 && <p>{saveError.p2}</p>}
+          </VaModal>
         )}
-        <div className="compose-form-div">
-          <CategoryInput
-            category={category}
-            categoryError={categoryError}
-            setCategory={setCategory}
-            setCategoryError={setCategoryError}
-            setUnsavedNavigationError={setUnsavedNavigationError}
-          />
+        <RouteLeavingGuard
+          when={!!navigationError}
+          navigate={path => {
+            history.push(path);
+          }}
+          shouldBlockNavigation={() => {
+            return !!navigationError;
+          }}
+          title={navigationError?.title}
+          p1={navigationError?.p1}
+          p2={navigationError?.p2}
+          confirmButtonText={navigationError?.confirmButtonText}
+          cancelButtonText={navigationError?.cancelButtonText}
+          saveDraftHandler={saveDraftHandler}
+        />
+        <div
+          className="compose-form-header"
+          data-testid="compose-form-header"
+          data-dd-privacy="mask"
+        >
+          <h2 className="vads-u-margin--0 vads-u-font-size--lg">
+            {setMessageTitle()}
+          </h2>
         </div>
-        <div className="compose-form-div">
-          <va-text-input
-            label="Subject"
-            required
-            type="text"
-            id="message-subject"
-            name="message-subject"
-            className="message-subject"
-            data-testid="message-subject-field"
-            onInput={subjectHandler}
-            value={subject}
-            error={subjectError}
-            data-dd-privacy="mask"
-          />
-        </div>
-        <div className="compose-form-div">
-          <va-textarea
-            label="Message"
-            required
-            id="compose-message-body"
-            name="compose-message-body"
-            className="message-body"
-            data-testid="message-body-field"
-            onInput={messageBodyHandler}
-            value={messageBody}
-            error={bodyError}
-            data-dd-privacy="mask"
-          />
-        </div>
-        <section className="attachments-section">
-          <AttachmentsList
-            compose
-            attachments={attachments}
-            setAttachments={setAttachments}
-            editingEnabled
-          />
+        <div className="compose-inputs-container">
+          {recipientsList && (
+            <>
+              <VaSelect
+                enable-analytics
+                id="recipient-dropdown"
+                label="To"
+                name="to"
+                value={selectedRecipient}
+                onVaSelect={recipientHandler}
+                class="composeSelect"
+                data-testid="compose-recipient-select"
+                error={recipientError}
+                data-dd-privacy="mask"
+              >
+                {sortRecipients(recipientsList)?.map(item => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </VaSelect>
 
-          <FileInput
-            attachments={attachments}
-            setAttachments={setAttachments}
-          />
-        </section>
-        <DraftSavedInfo userSaved={userSaved} attachments={attachments} />
-        <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
-          <button
-            type="button"
-            id="send-button"
-            className="usa-button usa-button-primary vads-u-width--full medium-screen:vads-u-flex--1 vads-u-margin-top--0 medium-screen:vads-u-margin-right--1 vads-u-margin-right--0"
-            data-testid="Send-Button"
-            onClick={sendMessageHandler}
-          >
-            Send
-          </button>
+              <VaModal
+                id="edit-list"
+                modalTitle={Prompts.Compose.EDIT_LIST_TITLE}
+                name="edit-list"
+                visible={editListModal}
+                onCloseEvent={() => setEditListModal(false)}
+                status="warning"
+              >
+                <p>{Prompts.Compose.EDIT_LIST_CONTENT}</p>
+                <a
+                  className="vads-c-action-link--green"
+                  href={mhvUrl(
+                    isAuthenticatedWithSSOe(fullState),
+                    'preferences',
+                  )}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => {
+                    setEditListModal(false);
+                  }}
+                >
+                  Edit your contact list on the My HealtheVet website
+                </a>
+              </VaModal>
 
-          <button
-            type="button"
-            id="save-draft-button"
-            // className={`usa-button usa-button-secondary save-draft-button vads-u-flex--1 vads-u-margin-top--0 ${
-            //   draft ? 'xsmall-screen:vads-u-margin-right--1 vads-u-margin-right--0' : ''
-            // }`}
-            className="usa-button usa-button-secondary save-draft-button vads-u-width--full xsmall-screen:vads-u-flex--1 vads-u-margin-top--0 xsmall-screen:vads-u-margin-right--1 vads-u-margin-right--0"
-            data-testid="Save-Draft-Button"
-            onClick={e => saveDraftHandler('manual', e)}
-          >
-            <i className="fas fa-save" aria-hidden="true" />
-            Save draft
-          </button>
+              <va-button
+                id="edit-list-button"
+                text="Edit list"
+                secondary=""
+                class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1 hydrated"
+                data-testid="Edit-List-Button"
+                onClick={() => setEditListModal(true)}
+              />
+            </>
+          )}
+          <div className="compose-form-div">
+            <CategoryInput
+              category={category}
+              categoryError={categoryError}
+              setCategory={setCategory}
+              setCategoryError={setCategoryError}
+              setUnsavedNavigationError={setUnsavedNavigationError}
+            />
+          </div>
+          <div className="compose-form-div">
+            <va-text-input
+              label="Subject"
+              required
+              type="text"
+              id="message-subject"
+              name="message-subject"
+              className="message-subject"
+              data-testid="message-subject-field"
+              onInput={subjectHandler}
+              value={subject}
+              error={subjectError}
+              data-dd-privacy="mask"
+            />
+          </div>
+          <div className="compose-form-div">
+            <va-textarea
+              label="Message"
+              required
+              id="compose-message-body"
+              name="compose-message-body"
+              className="message-body"
+              data-testid="message-body-field"
+              onInput={messageBodyHandler}
+              value={messageBody || formattededSignature} // populate with the signature, unless theee is a saved draft
+              error={bodyError}
+              data-dd-privacy="mask"
+            />
+          </div>
+          <section className="attachments-section">
+            <AttachmentsList
+              compose
+              attachments={attachments}
+              setAttachments={setAttachments}
+              editingEnabled
+            />
 
-          <DeleteDraft
-            draftId={draft?.messageId}
-            setLastFocusableElement={setLastFocusableElement}
-            setNavigationError={setNavigationError}
-          />
+            <FileInput
+              attachments={attachments}
+              setAttachments={setAttachments}
+            />
+          </section>
+          <DraftSavedInfo userSaved={userSaved} attachments={attachments} />
+          <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
+            <button
+              type="button"
+              id="send-button"
+              className="usa-button usa-button-primary vads-u-width--full medium-screen:vads-u-flex--1 vads-u-margin-top--0 medium-screen:vads-u-margin-right--1 vads-u-margin-right--0"
+              data-testid="Send-Button"
+              onClick={sendMessageHandler}
+            >
+              Send
+            </button>
+
+            <button
+              type="button"
+              id="save-draft-button"
+              className="usa-button usa-button-secondary save-draft-button vads-u-width--full xsmall-screen:vads-u-flex--1 vads-u-margin-top--0 xsmall-screen:vads-u-margin-right--1 vads-u-margin-right--0"
+              data-testid="Save-Draft-Button"
+              onClick={e => saveDraftHandler('manual', e)}
+            >
+              <i className="fas fa-save" aria-hidden="true" />
+              Save draft
+            </button>
+
+            <DeleteDraft
+              draftId={draft?.messageId}
+              setLastFocusableElement={setLastFocusableElement}
+              setNavigationError={setNavigationError}
+            />
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 };
 

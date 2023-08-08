@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { DefaultFolders as Folders, PageTitles } from '../../util/constants';
@@ -10,31 +10,37 @@ import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
   const location = useLocation();
+  const [folderDescription, setFolderDescription] = useState(null);
+
+  useEffect(
+    () => {
+      switch (folder.folderId) {
+        case Folders.INBOX.id:
+        case Folders.SENT.id: // Inbox
+          setFolderDescription(Folders.INBOX.desc);
+          break;
+        case Folders.DRAFTS.id: // Drafts
+          setFolderDescription(Folders.DRAFTS.desc);
+          break;
+        case Folders.DELETED.id: // Trash
+          setFolderDescription(Folders.DELETED.desc);
+          break;
+        default:
+          setFolderDescription(Folders.CUSTOM_FOLDER.desc); // Custom Folder Sub-header;
+          break;
+      }
+    },
+    [folder],
+  );
 
   const handleFolderDescription = () => {
-    let text = '';
-    switch (folder.folderId) {
-      case Folders.INBOX.id:
-      case Folders.SENT.id: // Inbox
-        text = Folders.INBOX.desc;
-        break;
-      case Folders.DRAFTS.id: // Drafts
-        text = Folders.DRAFTS.desc;
-        break;
-      case Folders.DELETED.id: // Trash
-        text = Folders.DELETED.desc;
-        break;
-      default:
-        text = Folders.CUSTOM_FOLDER.desc; // Custom Folder Sub-headerr;
-        break;
-    }
     return (
-      text && (
+      folderDescription && (
         <p
           data-testid="folder-description"
           className="va-introtext folder-description vads-u-margin-top--0"
         >
-          {text}
+          {folderDescription}
         </p>
       )
     );

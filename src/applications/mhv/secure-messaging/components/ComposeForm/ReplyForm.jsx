@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,7 +14,11 @@ import DeleteDraft from '../Draft/DeleteDraft';
 import { sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import EmergencyNote from '../EmergencyNote';
-import { dateFormat, navigateToFolderByFolderId } from '../../util/helpers';
+import {
+  dateFormat,
+  messageSignatureFormatter,
+  navigateToFolderByFolderId,
+} from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
@@ -50,6 +54,7 @@ const ReplyForm = props => {
   const draftDetails = useSelector(state => state.sm.draftDetails);
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
   const { isSaving } = draftDetails;
+  const signature = useSelector(state => state.sm.preferences.signature);
 
   // sendReply call requires an id for the message being replied to
   // if a thread contains a saved draft, sendReply call will use the draft's id in params and in body
@@ -65,6 +70,13 @@ const ReplyForm = props => {
   const attachmentNames = attachments.reduce((currentString, item) => {
     return currentString + item.name;
   }, '');
+
+  const formattededSignature = useMemo(
+    () => {
+      return messageSignatureFormatter(signature);
+    },
+    [signature],
+  );
 
   useEffect(
     () => {
@@ -195,20 +207,20 @@ const ReplyForm = props => {
     [draft],
   );
 
-  const setMessageTitle = () => {
-    const casedCategory =
-      category === 'COVID' ? category : capitalize(category);
-    if (category && subject) {
+  const messageTitle = useMemo(
+    () => {
+      const casedCategory =
+        category === 'COVID' ? category : capitalize(category);
+      if (category && !subject) {
+        return `${casedCategory}:`;
+      }
+      if (!category && subject) {
+        return subject;
+      }
       return `${casedCategory}: ${subject}`;
-    }
-    if (category && !subject) {
-      return `${casedCategory}:`;
-    }
-    if (!category && subject) {
-      return subject;
-    }
-    return 'New message';
-  };
+    },
+    [category, subject],
+  );
 
   const checkMessageValidity = () => {
     let messageValid = true;
@@ -305,8 +317,8 @@ const ReplyForm = props => {
   if (replyMessage) {
     return (
       <>
-        <h1 ref={header} className="page-title vads-u-margin-top--0">
-          {setMessageTitle()}
+        <h1 ref={header} className="page-title">
+          {messageTitle}
         </h1>
         <CannotReplyAlert visible={cannotReply} />
 
@@ -370,7 +382,7 @@ const ReplyForm = props => {
                 className="message-body"
                 data-testid="message-body-field"
                 onInput={messageBodyHandler}
-                value={messageBody}
+                value={messageBody || formattededSignature} // populate with the signature, unless there is a saved draft
                 error={bodyError}
               />
               <section className="attachments-section vads-u-margin-top--2">

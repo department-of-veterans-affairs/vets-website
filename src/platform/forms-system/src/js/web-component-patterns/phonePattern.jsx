@@ -1,6 +1,5 @@
-import phoneUIDefinition from 'platform/forms-system/src/js/definitions/phone';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
+import PhoneNumberReviewWidget from '../review/PhoneNumberWidget';
 
 /**
  * Web component uiSchema for phone number
@@ -17,21 +16,21 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
  */
 export const phoneUI = title => {
   return {
-    ...phoneUIDefinition,
     'ui:title': title ?? 'Phone number',
     'ui:webComponentField': VaTextInputField,
+    'ui:reviewWidget': PhoneNumberReviewWidget,
+    'ui:autocomplete': 'tel',
     'ui:options': {
       inputType: 'tel',
     },
     'ui:errorMessages': {
       required: 'Please enter a 10-digit phone number (with or without dashes)',
-      minLength:
-        'Please enter a 10-digit phone number (with or without dashes)',
+      pattern: 'Please enter a 10-digit phone number (with or without dashes)',
     },
   };
 };
 
-/**
- * @returns `commonDefinitions.phone`
- */
-export const phoneSchema = commonDefinitions.phone;
+export const phoneSchema = {
+  type: 'string',
+  pattern: '^\\d{3}-?\\d{3}-?\\d{4}$',
+};
