@@ -44,10 +44,7 @@ describe(`${manifest.appName} Auth Redirect`, () => {
       cy.intercept('GET', '/v0/user*', noFacilityUser);
       cy.login(noFacilityUser);
       cy.visit('/my-health');
-      cy.on('url:changed', url => {
-        if (url.startsWith('http://localhost')) return;
-        expect(url).to.contain('.va.gov/mhv-portal-web');
-      });
+      cy.url().should('not.include', '/my-health');
     });
   });
 });
