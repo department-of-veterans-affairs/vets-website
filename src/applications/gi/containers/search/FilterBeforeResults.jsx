@@ -461,8 +461,6 @@ export function FilterBeforeResults({
   };
 
   const typeOfInstitution = () => {
-    const name = 'Type of institution';
-    const legendId = `${createId(name)}-legend`;
     const title = 'Filter your results';
     return (
       <>
