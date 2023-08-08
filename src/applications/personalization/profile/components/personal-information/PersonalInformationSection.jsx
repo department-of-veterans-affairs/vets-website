@@ -7,7 +7,7 @@ import { profileShowPronounsAndSexualOrientation } from '@@profile/selectors';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import { renderDOB } from '@@profile/util/personal-information/personalInformationUtils';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import ProfileInfoTable from '../ProfileInfoTable';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 import GenderIdentityDescription from './GenderIdentityDescription';
@@ -33,7 +33,7 @@ const PersonalInformationSection = ({
   dob,
   shouldShowPronounsAndSexualOrientation,
 }) => {
-  const tableFields = [
+  const cardFields = [
     {
       title: 'Legal name',
       description: <LegalNameDescription />,
@@ -128,11 +128,11 @@ const PersonalInformationSection = ({
       </div>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
         <Toggler.Enabled>
-          <ProfileInfoCard data={tableFields} level={1} />
+          <ProfileInfoCard data={cardFields} level={1} />
         </Toggler.Enabled>
 
         <Toggler.Disabled>
-          <ProfileInfoTable data={tableFields} level={2} />
+          <ProfileInfoTable data={cardFields} level={2} />
         </Toggler.Disabled>
       </Toggler>
     </div>
