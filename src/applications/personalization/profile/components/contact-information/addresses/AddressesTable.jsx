@@ -13,10 +13,8 @@ import { formatAddressTitle } from '@@profile/util/contact-information/addressUt
 
 import CopyAddressModalController from './CopyAddressModalController';
 
-import ProfileInfoTable from '../../ProfileInfoTable';
 import { ProfileInfoCard } from '../../ProfileInfoCard';
 import BadAddressAlert from '../../alerts/bad-address/FormAlert';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 const generateRows = showBadAddress => [
   {
@@ -47,27 +45,13 @@ const AddressesTable = ({ className, showBadAddress }) => (
   <>
     <CopyAddressModalController />
 
-    <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
-      <Toggler.Enabled>
-        <ProfileInfoCard
-          title="Addresses"
-          level={2}
-          namedAnchor="addresses"
-          data={generateRows(showBadAddress)}
-          className={className}
-        />
-      </Toggler.Enabled>
-      <Toggler.Disabled>
-        <ProfileInfoTable
-          title="Addresses"
-          level={2}
-          namedAnchor="addresses"
-          data={generateRows(showBadAddress)}
-          className={className}
-          list
-        />
-      </Toggler.Disabled>
-    </Toggler>
+    <ProfileInfoCard
+      title="Addresses"
+      level={2}
+      namedAnchor="addresses"
+      data={generateRows(showBadAddress)}
+      className={className}
+    />
   </>
 );
 

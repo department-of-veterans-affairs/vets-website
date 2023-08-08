@@ -1,5 +1,7 @@
 import moment from 'moment/moment';
 import Timeouts from 'platform/testing/e2e/timeouts';
+import environment from 'platform/utilities/environment';
+
 import {
   vaosSetup,
   mockFeatureToggles,
@@ -18,6 +20,9 @@ import {
 } from '../vaos-cypress-helpers';
 import * as newApptTests from '../vaos-cypress-schedule-appointment-helpers';
 
+const rootUrl = environment.isProduction()
+  ? 'health-care/schedule-view-va-appointments/appointments/'
+  : 'my-health/appointments/';
 describe('VAOS VA request flow using VAOS service', () => {
   beforeEach(() => {
     vaosSetup();
@@ -101,7 +106,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     mockFacilitiesApi({ data, apiVersion: 2 });
     mockClinicApi({ locations: ['983'], apiVersion: 2 });
 
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit(rootUrl);
     cy.injectAxe();
 
     // Start flow
@@ -188,7 +193,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     });
     mockVamcEhr();
 
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit(rootUrl);
     cy.injectAxe();
 
     // Start flow
@@ -307,7 +312,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     });
     mockVamcEhr();
 
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit(rootUrl);
     cy.injectAxe();
 
     // Start flow

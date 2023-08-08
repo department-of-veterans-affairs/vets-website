@@ -103,7 +103,7 @@ const AllergyDetails = () => {
               },
               {
                 title: 'Provider notes',
-                value: processList(allergy.notes),
+                value: allergy.notes,
                 inline: !allergy.notes,
               },
             ],
@@ -180,7 +180,7 @@ const AllergyDetails = () => {
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Provider notes
               </h2>
-              <ItemList list={allergy.notes} />
+              {allergy.notes}
             </div>
           </section>
         </>
