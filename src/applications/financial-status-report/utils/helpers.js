@@ -162,94 +162,6 @@ export const mergeAdditionalComments = (additionalComments, expenses) => {
     : additionalComments;
 };
 
-export const getMonthlyIncome = ({
-  additionalIncome: {
-    addlIncRecords,
-    spouse: { spAddlIncome },
-  },
-  personalData: {
-    employmentHistory: {
-      veteran: { employmentRecords = [] },
-      spouse: { spEmploymentRecords = [] },
-    },
-  },
-  socialSecurity,
-  benefits,
-  currEmployment,
-  spCurrEmployment,
-  income,
-  'view:enhancedFinancialStatusReport': enhancedFSRActive,
-}) => {
-  // deduction filters
-  const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
-  const retirementFilters = ['401K', 'IRA', 'Pension'];
-  const socialSecFilters = ['FICA (Social Security and Medicare)'];
-  const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
-
-  // veteran
-  const vetGrossSalary = enhancedFSRActive
-    ? sumValues(employmentRecords, 'grossMonthlyIncome')
-    : sumValues(currEmployment, 'veteranGrossSalary');
-  const vetAddlInc = sumValues(addlIncRecords, 'amount');
-  const vetSocSecAmt = !enhancedFSRActive
-    ? Number(socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0)
-    : 0;
-  const vetComp = sumValues(income, 'compensationAndPension');
-  const vetEdu = sumValues(income, 'education');
-  const vetBenefits = vetComp + vetEdu;
-  const vetDeductions = enhancedFSRActive
-    ? employmentRecords
-        ?.filter(emp => emp.isCurrent)
-        .map(emp => emp.deductions)
-        .flat() ?? 0
-    : currEmployment?.map(emp => emp.deductions).flat() ?? 0;
-  const vetTaxes = filterReduceByName(vetDeductions, taxFilters);
-  const vetRetirement = filterReduceByName(vetDeductions, retirementFilters);
-  const vetSocialSec = filterReduceByName(vetDeductions, socialSecFilters);
-  const vetOther = otherDeductionsAmt(vetDeductions, allFilters);
-  const vetTotDeductions = vetTaxes + vetRetirement + vetSocialSec + vetOther;
-  const vetOtherIncome = vetAddlInc + vetBenefits + vetSocSecAmt;
-  const vetNetIncome = vetGrossSalary - vetTotDeductions;
-
-  // spouse
-  const spGrossSalary = enhancedFSRActive
-    ? sumValues(spEmploymentRecords, 'grossMonthlyIncome')
-    : sumValues(spCurrEmployment, 'spouseGrossSalary');
-
-  const spAddlInc = sumValues(spAddlIncome, 'amount');
-  const spSocialSecAmt = !enhancedFSRActive
-    ? Number(
-        socialSecurity.spouse?.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-      )
-    : 0;
-  const spComp = Number(
-    benefits.spouseBenefits.compensationAndPension?.replaceAll(
-      /[^0-9.-]/g,
-      '',
-    ) ?? 0,
-  );
-  const spEdu = Number(
-    benefits.spouseBenefits.education?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-  );
-  const spBenefits = spComp + spEdu;
-  const spDeductions = enhancedFSRActive
-    ? spEmploymentRecords
-        ?.filter(emp => emp.isCurrent)
-        .map(emp => emp.deductions)
-        .flat() ?? 0
-    : spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
-
-  const spTaxes = filterReduceByName(spDeductions, taxFilters);
-  const spRetirement = filterReduceByName(spDeductions, retirementFilters);
-  const spSocialSec = filterReduceByName(spDeductions, socialSecFilters);
-  const spOtherAmt = otherDeductionsAmt(spDeductions, allFilters);
-  const spTotDeductions = spTaxes + spRetirement + spSocialSec + spOtherAmt;
-  const spOtherIncome = spAddlInc + spBenefits + spSocialSecAmt;
-  const spNetIncome = spGrossSalary - spTotDeductions;
-
-  return vetNetIncome + vetOtherIncome + spNetIncome + spOtherIncome;
-};
-
 export const getMonthlyExpenses = ({
   expenses,
   otherExpenses,
@@ -263,10 +175,9 @@ export const getMonthlyExpenses = ({
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
   const creditCardBills = sumValues(
-    expenses.creditCardBills,
+    expenses?.creditCardBills,
     'amountDueMonthly',
   );
-
   // efsr note: food is included in otherExpenses
   const food = Number(get(expenses, 'food', 0));
   // efsr note: Rent & Mortgage is included in expenseRecords
