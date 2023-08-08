@@ -53,21 +53,22 @@ const ContactInfoOnFile = ({
               notClickable
             />
           )}
-          <Link
-            to={generateContactInfoLink({
+          <va-link
+            href={generateContactInfoLink({
               fieldName: FIELD_NAMES.MOBILE_PHONE,
               focusOnEditButton: true,
               returnPath: encodeURIComponent(
                 PROFILE_PATHS.NOTIFICATION_SETTINGS,
               ),
             })}
-            className="vads-u-display--block medium-screen:vads-u-display--inline medium-screen:vads-u-margin-left--1"
+            class="vads-u-display--block medium-screen:vads-u-display--inline medium-screen:vads-u-margin-left--1"
             aria-label="mobile number"
-          >
-            {mobilePhoneNumber
-              ? 'Update your mobile phone number'
-              : 'Add your mobile phone number to your profile'}
-          </Link>
+            text={
+              mobilePhoneNumber
+                ? 'Update your mobile phone number'
+                : 'Add your mobile phone number to your profile'
+            }
+          />
         </li>
       </ul>
     </>

@@ -20,16 +20,13 @@ const CareSummariesDetails = () => {
         dispatch(
           setBreadcrumbs(
             [
-              { url: '/my-health/medical-records/', label: 'Dashboard' },
-              { url: '/my-health/health-history', label: 'Health history' },
               {
-                url:
-                  '/my-health/medical-records/health-history/care-summaries-and-notes',
-                label: 'VA care summaries and notes',
+                url: '/my-health/medical-records/care-summaries-and-notes',
+                label: 'Care summaries and notes',
               },
             ],
             {
-              url: `/my-health/medical-records/health-history/care-summaries-and-notes/${summaryId}`,
+              url: `/my-health/medical-records/care-summaries-and-notes/${summaryId}`,
               label: careSummary?.name,
             },
           ),

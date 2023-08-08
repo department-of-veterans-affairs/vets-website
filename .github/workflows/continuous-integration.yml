@@ -372,7 +372,7 @@ jobs:
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       test_selection_disallowed_tests: ${{ steps.test_selection_disallowed_tests.outputs.test_selection_disallowed_tests }}
-
+      e2e_blocked_paths: ${{ steps.e2e-blocked-paths.outputs.e2e_blocked_paths }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -424,6 +424,10 @@ jobs:
       - name: Set output of CI_NODE_INDEX
         id: matrix
         run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
+
+      - name: Set output of E2E_BLOCKED_PATHS
+        id: e2e-blocked-paths
+        run: echo e2e_blocked_paths=$E2E_BLOCKED_PATHS >> $GITHUB_OUTPUT
 
   cypress-tests:
     name: Cypress E2E Tests
@@ -741,6 +745,38 @@ jobs:
         env:
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
           GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+
+      - name: Fetch allow list
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+      # exports app list and assigns to environmental variable at this step
+
+  allow-list-merge-status:
+    name: E2E Allow List Merge Status Check
+    runs-on: ubuntu-latest
+    needs: [cypress-tests-prep, update-e2e-allow-list, fetch-e2e-allow-list]
+    if: ${{ always() }}
+    continue-on-error: true
+    env:
+      E2E_BLOCKED_PATHS: ${{ needs.cypress-tests-prep.outputs.e2e_blocked_paths }}
+      ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 20
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            /github/home/.cache/Cypress
+            node_modules
+
+      - name: Check if code can be merged
+        run: node script/github-actions/check-e2e-status.js
 
   testing-reports-unit-tests:
     name: Testing Reports - Unit Tests

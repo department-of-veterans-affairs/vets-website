@@ -8,7 +8,7 @@ describe('Medical Records View Immunizations', () => {
     site.login();
 
     // click on the vaccines link
-    cy.get('[href="/my-health/medical-records/health-history/vaccines"]')
+    cy.get('[href="/my-health/medical-records/vaccines"]')
       .first()
       .click();
     // cy.get('[data-testid="vaccines-link"]').click();
