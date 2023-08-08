@@ -9,7 +9,7 @@ const VHA_LIMIT = 5000;
  * - Only copays have been selected
  * - Selected copay balances are below $5,000
  */
-export const isElidgibleForStreamlined = formData => {
+export const isEligibleForStreamlined = formData => {
   if (formData?.selectedDebtsAndCopays?.length === 0) return false;
 
   return (
@@ -53,7 +53,7 @@ export const isStreamlinedLongForm = formData => {
   const { gmtData } = formData;
 
   return (
-    gmtData?.isElidgibleForStreamlined &&
+    gmtData?.isEligibleForStreamlined &&
     !gmtData?.incomeBelowGmt &&
     gmtData?.incomeBelowOneFiftyGmt &&
     gmtData?.assetsBelowGMT &&

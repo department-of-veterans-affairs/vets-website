@@ -21,7 +21,7 @@ const OtherExpensesSummary = ({
 
   useEffect(
     () => {
-      if (!gmtData?.isElidgibleForStreamlined) return;
+      if (!gmtData?.isEligibleForStreamlined) return;
 
       const calculatedDiscressionaryIncome = calculateDiscressionaryIncome(
         data,
@@ -40,7 +40,7 @@ const OtherExpensesSummary = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       otherExpenses,
-      gmtData?.isElidgibleForStreamlined,
+      gmtData?.isEligibleForStreamlined,
       gmtData?.discressionaryIncomeThreshold,
     ],
   );
@@ -126,7 +126,7 @@ OtherExpensesSummary.propTypes = {
   data: PropTypes.shape({
     otherExpenses: PropTypes.array,
     gmtData: PropTypes.shape({
-      isElidgibleForStreamlined: PropTypes.bool,
+      isEligibleForStreamlined: PropTypes.bool,
       discressionaryIncomeThreshold: PropTypes.number,
     }),
   }),

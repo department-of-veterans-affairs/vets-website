@@ -32,7 +32,7 @@ const OtherExpensesChecklist = ({
 
   // Calculate discressionary income as necessary
   const updateStreamlinedValues = () => {
-    if (otherExpenses?.length || !gmtData?.isElidgibleForStreamlined) return;
+    if (otherExpenses?.length || !gmtData?.isEligibleForStreamlined) return;
 
     const calculatedDiscressionaryIncome = calculateDiscressionaryIncome(data);
     setFormData({
@@ -86,7 +86,7 @@ OtherExpensesChecklist.propTypes = {
   data: PropTypes.shape({
     otherExpenses: PropTypes.array,
     gmtData: PropTypes.shape({
-      isElidgibleForStreamlined: PropTypes.bool,
+      isEligibleForStreamlined: PropTypes.bool,
       discressionaryIncomeThreshold: PropTypes.number,
     }),
   }).isRequired,

@@ -51,7 +51,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData?.gmtData?.isElidgibleForStreamlined &&
+          formData?.gmtData?.isEligibleForStreamlined &&
           isStreamlinedShortForm(formData),
       },
       monetary: {

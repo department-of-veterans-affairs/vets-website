@@ -14,7 +14,7 @@ import { setFocus } from '../../utils/fileValidation';
 import ComboAlerts from '../alerts/ComboAlerts';
 import AlertCard from '../alerts/AlertCard';
 import { ALERT_TYPES, DEBT_TYPES } from '../../constants';
-import { isElidgibleForStreamlined } from '../../utils/streamlinedDepends';
+import { isEligibleForStreamlined } from '../../utils/streamlinedDepends';
 
 const { scroller } = Scroll;
 const scrollToTop = () => {
@@ -51,14 +51,14 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
         formContext.submitted && !data.selectedDebtsAndCopays?.length,
       );
 
-      const elidgeible = isElidgibleForStreamlined(data);
-      if (elidgeible !== data?.gmtData?.isElidgibleForStreamlined) {
+      const elidgeible = isEligibleForStreamlined(data);
+      if (elidgeible !== data?.gmtData?.isEligibleForStreamlined) {
         dispatch(
           setData({
             ...data,
             gmtData: {
               ...data.gmtData,
-              isElidgibleForStreamlined: elidgeible,
+              isEligibleForStreamlined: elidgeible,
             },
           }),
         );

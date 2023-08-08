@@ -22,7 +22,7 @@ const AdditionalIncomeCheckList = ({
     if (
       questions?.isMarried ||
       addlIncRecords?.length ||
-      !gmtData?.isElidgibleForStreamlined
+      !gmtData?.isEligibleForStreamlined
     )
       return;
 
@@ -106,7 +106,7 @@ AdditionalIncomeCheckList.propTypes = {
       gmtThreshold: PropTypes.number,
       incomeBelowGmt: PropTypes.bool,
       incomeBelowOneFiftyGmt: PropTypes.bool,
-      isElidgibleForStreamlined: PropTypes.bool,
+      isEligibleForStreamlined: PropTypes.bool,
       incomeUpperThreshold: PropTypes.number,
     }),
     questions: PropTypes.shape({

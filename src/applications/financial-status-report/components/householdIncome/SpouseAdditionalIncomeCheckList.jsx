@@ -19,7 +19,7 @@ const SpouseAdditionalIncomeCheckList = ({
 
   // Calculate income properties as necessary
   const updateStreamlinedValues = () => {
-    if (spAddlIncome.length || !gmtData?.isElidgibleForStreamlined) return;
+    if (spAddlIncome.length || !gmtData?.isEligibleForStreamlined) return;
 
     const calculatedIncome = calculateTotalIncome(data);
 
@@ -107,7 +107,7 @@ SpouseAdditionalIncomeCheckList.propTypes = {
       gmtThreshold: PropTypes.number,
       incomeBelowGmt: PropTypes.bool,
       incomeBelowOneFiftyGmt: PropTypes.bool,
-      isElidgibleForStreamlined: PropTypes.bool,
+      isEligibleForStreamlined: PropTypes.bool,
       incomeUpperThreshold: PropTypes.number,
     }),
     questions: PropTypes.shape({

@@ -22,7 +22,7 @@ const OtherAssetsSummary = ({
 
   useEffect(
     () => {
-      if (!gmtData?.isElidgibleForStreamlined) return;
+      if (!gmtData?.isEligibleForStreamlined) return;
 
       const calculatedAssets = calculateTotalAssets(data);
       setFormData({
@@ -35,7 +35,7 @@ const OtherAssetsSummary = ({
     },
     // avoiding use of data since it changes so often
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [otherAssets, gmtData?.isElidgibleForStreamlined, gmtData?.assetThreshold],
+    [otherAssets, gmtData?.isEligibleForStreamlined, gmtData?.assetThreshold],
   );
 
   const onDelete = deleteIndex => {
@@ -147,7 +147,7 @@ OtherAssetsSummary.propTypes = {
     gmtData: PropTypes.shape({
       assetThreshold: PropTypes.number,
       assetsBelowGMT: PropTypes.bool,
-      isElidgibleForStreamlined: PropTypes.bool,
+      isEligibleForStreamlined: PropTypes.bool,
     }),
   }),
   goForward: PropTypes.func,

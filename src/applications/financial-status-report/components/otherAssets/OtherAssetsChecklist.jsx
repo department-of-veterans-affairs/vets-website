@@ -22,7 +22,7 @@ const OtherAssetsChecklist = ({
   const updateStreamlinedValues = () => {
     if (
       otherAssets?.length ||
-      !gmtData?.isElidgibleForStreamlined ||
+      !gmtData?.isEligibleForStreamlined ||
       gmtData?.incomeBelowGmt
     )
       return;
@@ -107,7 +107,7 @@ OtherAssetsChecklist.propTypes = {
     gmtData: PropTypes.shape({
       assetThreshold: PropTypes.number,
       incomeBelowGmt: PropTypes.bool,
-      isElidgibleForStreamlined: PropTypes.bool,
+      isEligibleForStreamlined: PropTypes.bool,
     }),
     questions: PropTypes.shape({
       isMarried: PropTypes.bool,

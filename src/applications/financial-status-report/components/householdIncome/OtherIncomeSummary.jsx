@@ -24,7 +24,7 @@ const OtherIncomeSummary = ({
   // Calculate income properties as necessary
   useEffect(
     () => {
-      if (questions?.isMarried || !gmtData?.isElidgibleForStreamlined) return;
+      if (questions?.isMarried || !gmtData?.isEligibleForStreamlined) return;
 
       const calculatedIncome = calculateTotalIncome(data);
       setFormData({
@@ -39,7 +39,7 @@ const OtherIncomeSummary = ({
     },
     // avoiding use of data since it changes so often
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [addlIncRecords, questions?.isMarried, gmtData?.isElidgibleForStreamlined],
+    [addlIncRecords, questions?.isMarried, gmtData?.isEligibleForStreamlined],
   );
 
   const onDelete = deleteIndex => {
@@ -132,7 +132,7 @@ OtherIncomeSummary.propTypes = {
       gmtThreshold: PropTypes.number,
       incomeBelowGmt: PropTypes.bool,
       incomeBelowOneFiftyGmt: PropTypes.bool,
-      isElidgibleForStreamlined: PropTypes.bool,
+      isEligibleForStreamlined: PropTypes.bool,
       incomeUpperThreshold: PropTypes.number,
     }),
     questions: PropTypes.shape({

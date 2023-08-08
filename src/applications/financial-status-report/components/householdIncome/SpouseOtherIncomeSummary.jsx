@@ -25,7 +25,7 @@ const SpouseOtherIncomeSummary = ({
   // useEffect to set incomeBelowGmt if income records changes
   useEffect(
     () => {
-      if (!gmtData?.isElidgibleForStreamlined) return;
+      if (!gmtData?.isEligibleForStreamlined) return;
 
       const calculatedIncome = calculateTotalIncome(data);
       setFormData({
@@ -42,7 +42,7 @@ const SpouseOtherIncomeSummary = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       spAddlIncome,
-      gmtData?.isElidgibleForStreamlined,
+      gmtData?.isEligibleForStreamlined,
       gmtData?.gmtThreshold,
       gmtData?.incomeUpperThreshold,
     ],
@@ -142,7 +142,7 @@ SpouseOtherIncomeSummary.propTypes = {
       gmtThreshold: PropTypes.number,
       incomeBelowGmt: PropTypes.bool,
       incomeBelowOneFiftyGmt: PropTypes.bool,
-      isElidgibleForStreamlined: PropTypes.bool,
+      isEligibleForStreamlined: PropTypes.bool,
       incomeUpperThreshold: PropTypes.number,
     }),
   }),
