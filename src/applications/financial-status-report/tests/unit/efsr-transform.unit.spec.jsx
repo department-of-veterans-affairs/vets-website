@@ -8,7 +8,6 @@ import {
   dateFormatter,
   getFsrReason,
   filterReduceByName,
-  getMonthlyIncome,
   otherDeductionsAmt,
   getMonthlyExpenses,
   getEmploymentHistory,
@@ -16,6 +15,7 @@ import {
   otherDeductionsName,
   nameStr,
 } from '../../utils/helpers';
+import { getMonthlyIncome } from '../../utils/calculateIncome';
 
 describe('efsr-fsr transform helper functions', () => {
   describe('efsr-dateFormatter helper', () => {
@@ -123,10 +123,43 @@ describe('efsr-fsr transform helper functions', () => {
     });
   });
 
-  // Depends on sumValues, filterReduceByName, otherDeductionsAmt
-  describe('efsr-getMonthlyIncome helper', () => {
+  // Depends on sumValues, filterReduceByName, otherDeductionsAmt - getMonthlyIncome
+  describe('efsr getMonthlyIncome helper', () => {
     it('should return monthy income based on veterans net and other income, and spouses net and other income', () => {
-      expect(getMonthlyIncome(inputObject.data)).to.equal(21388.36);
+      const result = getMonthlyIncome(inputObject.data);
+
+      // Veteran's income
+      const { vetIncome } = result;
+      expect(vetIncome.grossSalary).to.equal(7001.1);
+      expect(vetIncome.deductions.taxes).to.equal(781.03);
+      expect(vetIncome.deductions.retirement).to.equal(100);
+      expect(vetIncome.deductions.socialSecurity).to.equal(122.4);
+      expect(vetIncome.deductions.otherDeductions.amount).to.deep.equal(389.01);
+      expect(vetIncome.totalDeductions).to.equal(1392.44);
+      expect(vetIncome.netTakeHomePay).to.equal(5608.66);
+      expect(vetIncome.otherIncome.name).to.equal(
+        'Disability Compensation, Education, Social Security, Employment bonus, Alimony',
+      );
+      expect(vetIncome.otherIncome.amount).to.equal(7012.85);
+      expect(vetIncome.totalMonthlyNetIncome).to.equal(12621.51);
+
+      // Spouse's income
+      const { spIncome } = result;
+      expect(spIncome.grossSalary).to.equal(5000.54);
+      expect(spIncome.deductions.taxes).to.equal(581.01);
+      expect(spIncome.deductions.retirement).to.equal(100);
+      expect(spIncome.deductions.socialSecurity).to.equal(0);
+      expect(spIncome.deductions.otherDeductions.amount).to.deep.equal(254.45);
+      expect(spIncome.totalDeductions).to.equal(935.46);
+      expect(spIncome.netTakeHomePay).to.equal(4065.08);
+      expect(spIncome.otherIncome.name).to.equal(
+        'Disability Compensation, Education, Child support, Alimony, Social Security',
+      );
+      expect(spIncome.otherIncome.amount).to.equal(4701.77);
+      expect(spIncome.totalMonthlyNetIncome).to.equal(8766.85);
+
+      // Total income
+      expect(result.totalMonthlyNetIncome).to.equal(21388.36);
     });
   });
 
