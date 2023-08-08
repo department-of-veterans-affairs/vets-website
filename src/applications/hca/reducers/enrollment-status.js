@@ -1,14 +1,7 @@
 import {
-  FETCH_ENROLLMENT_STATUS_STARTED,
-  FETCH_ENROLLMENT_STATUS_SUCCEEDED,
-  FETCH_ENROLLMENT_STATUS_FAILED,
-  FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
-  FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
-  FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
-  SET_DISMISSED_HCA_NOTIFICATION,
-  SHOW_HCA_REAPPLY_CONTENT,
-} from '../utils/actions';
-import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
+  ENROLLMENT_STATUS_ACTIONS,
+  HCA_ENROLLMENT_STATUSES,
+} from '../utils/constants';
 
 const initialState = {
   applicationDate: null,
@@ -27,19 +20,32 @@ const initialState = {
 };
 
 function hcaEnrollmentStatus(state = initialState, action) {
-  switch (action.type) {
-    case FETCH_ENROLLMENT_STATUS_STARTED:
-      return { ...state, isLoadingApplicationStatus: true };
+  const { data = {}, response = {}, type } = action;
+  const {
+    FETCH_ENROLLMENT_STATUS_STARTED,
+    FETCH_ENROLLMENT_STATUS_SUCCEEDED,
+    FETCH_ENROLLMENT_STATUS_FAILED,
+    RESET_ENROLLMENT_STATUS,
+    FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
+    FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
+    FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
+    SET_DISMISSED_HCA_NOTIFICATION,
+    SHOW_HCA_REAPPLY_CONTENT,
+  } = ENROLLMENT_STATUS_ACTIONS;
 
-    case FETCH_ENROLLMENT_STATUS_SUCCEEDED: {
+  const actionMap = {
+    [FETCH_ENROLLMENT_STATUS_STARTED]: () => ({
+      ...state,
+      isLoadingApplicationStatus: true,
+    }),
+    [FETCH_ENROLLMENT_STATUS_SUCCEEDED]: () => {
       const {
         parsedStatus,
         applicationDate,
         effectiveDate: enrollmentStatusEffectiveDate,
         enrollmentDate,
         preferredFacility,
-      } = action.data;
-
+      } = data;
       const enrollmentStatus = parsedStatus;
       const isInESR =
         enrollmentStatus !== HCA_ENROLLMENT_STATUSES.noneOfTheAbove;
@@ -56,9 +62,8 @@ function hcaEnrollmentStatus(state = initialState, action) {
         isLoadingApplicationStatus: false,
         isUserInMVI: true,
       };
-    }
-
-    case FETCH_ENROLLMENT_STATUS_FAILED: {
+    },
+    [FETCH_ENROLLMENT_STATUS_FAILED]: () => {
       const { errors } = action;
       const noESRRecordFound =
         errors && errors.some(error => error.code === '404');
@@ -73,42 +78,34 @@ function hcaEnrollmentStatus(state = initialState, action) {
         loginRequired: hasRateLimitError,
         noESRRecordFound,
       };
-    }
-
-    case SHOW_HCA_REAPPLY_CONTENT:
-      return { ...state, showReapplyContent: true };
-
-    case FETCH_DISMISSED_HCA_NOTIFICATION_STARTED:
-      return { ...state, isLoadingDismissedNotification: true };
-
-    case FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED: {
+    },
+    [RESET_ENROLLMENT_STATUS]: () => ({ ...initialState }),
+    [FETCH_DISMISSED_HCA_NOTIFICATION_STARTED]: () => ({
+      ...state,
+      isLoadingDismissedNotification: true,
+    }),
+    [FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED]: () => {
       const {
         statusEffectiveAt: dismissedNotificationDate,
-      } = action.response.data.attributes;
+      } = response.data.attributes;
       return {
         ...state,
         dismissedNotificationDate,
         isLoadingDismissedNotification: false,
       };
-    }
+    },
+    [FETCH_DISMISSED_HCA_NOTIFICATION_FAILED]: () => ({
+      ...state,
+      isLoadingDismissedNotification: false,
+    }),
+    [SET_DISMISSED_HCA_NOTIFICATION]: () => ({
+      ...state,
+      dismissedNotificationDate: data,
+    }),
+    [SHOW_HCA_REAPPLY_CONTENT]: () => ({ ...state, showReapplyContent: true }),
+  };
 
-    case FETCH_DISMISSED_HCA_NOTIFICATION_FAILED: {
-      return {
-        ...state,
-        isLoadingDismissedNotification: false,
-      };
-    }
-
-    case SET_DISMISSED_HCA_NOTIFICATION: {
-      return {
-        ...state,
-        dismissedNotificationDate: action.data,
-      };
-    }
-
-    default:
-      return state;
-  }
+  return actionMap[type] ? actionMap[type]() : state;
 }
 
 export default hcaEnrollmentStatus;
