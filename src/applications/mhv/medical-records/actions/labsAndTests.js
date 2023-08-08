@@ -6,6 +6,7 @@ export const getLabsAndTestsList = () => async dispatch => {
     const response = await getLabsAndTests();
     dispatch({ type: Actions.LabsAndTests.GET_LIST, response });
   } catch (error) {
+    // TODO: add error handling
     // console.error(error);
     // const err = error.errors[0];
     // dispatch({
