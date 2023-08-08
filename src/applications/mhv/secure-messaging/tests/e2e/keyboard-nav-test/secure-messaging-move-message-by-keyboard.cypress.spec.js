@@ -19,7 +19,12 @@ describe('Navigate to Message Details ', () => {
       {},
     );
 
-    cy.get('[data-testid="move-button-text"]').click({ timeout: 5000 });
+    cy.get('[data-testid="move-button-text"]').then(button => {
+      // cy.tabToElement(button).realPress(['Enter']);
+      cy.wrap(button).realPress(['Enter']);
+    });
+
+    // cy.get('[data-testid="move-button-text"]').type('{enter}');
 
     cy.get('va-radio[class="form-radio-buttons hydrated"]')
       .find('[for="radiobutton-Deleted"]')
