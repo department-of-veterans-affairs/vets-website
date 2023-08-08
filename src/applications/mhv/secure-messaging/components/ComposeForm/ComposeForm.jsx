@@ -15,8 +15,7 @@ import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 import DeleteDraft from '../Draft/DeleteDraft';
 
-import { navigateToFolderByFolderId, sortRecipients } from '../../util/helpers';
-import { messageSignatureFormatter, sortRecipients } from '../../util/helpers';
+import { navigateToFolderByFolderId, messageSignatureFormatter, sortRecipients } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
