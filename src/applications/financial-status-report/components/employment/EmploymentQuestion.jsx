@@ -47,10 +47,8 @@ const EmploymentQuestion = props => {
   useEffect(() => {
     const fetchData = async () => {
       const year = 2023;
-      const { hasDependents = 0, isMarried = false } = data?.questions;
-      const dependents = isMarried
-        ? parseInt(hasDependents, 10) + 1
-        : parseInt(hasDependents, 10);
+      const { hasDependents = 0 } = data?.questions;
+      const dependents = parseInt(hasDependents, 10);
 
       const {
         zipCode,
