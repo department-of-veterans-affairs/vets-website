@@ -107,6 +107,14 @@ const RowDescription = ({ description }) => (
   <span className={classes.rowTitleDescription}>{description} </span>
 );
 
+RowDescription.propTypes = {
+  description: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.element,
+  ]),
+};
+
 export const List = ({ data }) => {
   return (
     <>
