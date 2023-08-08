@@ -204,6 +204,7 @@ const SearchForm = props => {
   return (
     <>
       <form
+        data-testId="search-form"
         className="search-form"
         onSubmit={() => {
           handleSearch();
