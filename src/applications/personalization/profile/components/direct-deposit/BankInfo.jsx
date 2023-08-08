@@ -28,7 +28,6 @@ import {
 } from '@@profile/selectors';
 import UpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 import { kebabCase } from 'lodash';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
@@ -40,7 +39,6 @@ import DirectDepositConnectionError from '../alerts/DirectDepositConnectionError
 import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
-import ProfileInfoTable from '../ProfileInfoTable';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { benefitTypes } from '~/applications/personalization/common/constants';
@@ -384,7 +382,8 @@ export const BankInfo = ({
       >
         <p>
           {' '}
-          {`You haven't finished editing and saving the changes to your direct deposit information. If you cancel now, we won't save your changes.`}
+          You haven’t finished editing and saving the changes to your direct
+          deposit information. If you cancel now, we won’t save your changes.
         </p>
         <button
           className="usa-button-primary"
@@ -406,26 +405,14 @@ export const BankInfo = ({
           Cancel
         </button>
       </VaModal>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
-        <Toggler.Enabled>
-          <ProfileInfoCard
-            className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-            title={sectionTitle}
-            data={directDepositData()}
-            namedAnchor={sectionTitleId}
-            level={2}
-          />
-        </Toggler.Enabled>
-        <Toggler.Disabled>
-          <ProfileInfoTable
-            className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-            title={sectionTitle}
-            data={directDepositData()}
-            namedAnchor={sectionTitleId}
-            level={2}
-          />
-        </Toggler.Disabled>
-      </Toggler>
+
+      <ProfileInfoCard
+        className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+        title={sectionTitle}
+        data={directDepositData()}
+        namedAnchor={sectionTitleId}
+        level={2}
+      />
     </>
   );
 };

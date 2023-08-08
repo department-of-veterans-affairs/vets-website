@@ -211,6 +211,124 @@
       }
     },
     {
+      "id": "180402",
+      "type": "apfrepointments",
+      "attributes": {
+        "id": "180402",
+        "identifier": [
+          {
+            "system": "urn:va.gov:masv2:cerner:appointment",
+            "value": "Appointment/52499028"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.cerner.com/d45741b3-8335-463d-ab16-8c5f0bcf78ed/codeSet/14249",
+                "code": "381456583"
+              }
+            ]
+          }
+        ],
+        "description": "PC Established Patient",
+        "patientIcn": "1012845331V153043",
+        "locationId": "757",
+        "practitioners": [
+          {
+            "name": {
+              "family": "Everett",
+              "given": [
+                "Matthew",
+                "DO"
+              ]
+            }
+          }
+        ],
+        "start": "2024-07-19T12:00:00Z",
+        "end": "2024-07-19T12:30:00Z",
+        "minutesDuration": 30,
+        "requestedPeriods": null,
+        "cancellable": false,
+        "patientInstruction": "Preparations:\n- If you have any new non-VA medical records since your last visit, please bring them.\r\nIf you need to cancel or reschedule your appointment, please call our Contact Center at 614-257-5200 or visit the patient portal.",
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          }
+        },
+        "localStartTime": "2024-07-19T08:00:00.000-04:00",
+        "location": {
+          "id": "757",
+          "type": "appointments",
+          "attributes": {
+            "id": "757",
+            "facilitiesApiId": "vha_757",
+            "vistaSite": "757",
+            "vastParent": "757",
+            "type": "va_health_facility",
+            "name": "Chalmers P. Wylie Veterans Outpatient Clinic",
+            "classification": "Health Care Center (HCC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.98048,
+            "long": -82.9123,
+            "website": "https://www.va.gov/central-ohio-health-care/locations/chalmers-p-wylie-veterans-outpatient-clinic/",
+            "phone": {
+              "main": "614-257-5200",
+              "fax": "614-257-5460",
+              "pharmacy": "614-257-5230",
+              "afterHours": "614-257-5512",
+              "patientAdvocate": "614-257-5290",
+              "mentalHealthClinic": "614-257-5631",
+              "enrollmentCoordinator": "614-257-5628"
+            },
+            "mailingAddress": {
+              "type": "postal",
+              "line": [
+                null,
+                null,
+                null
+              ]
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "420 North James Road",
+                null,
+                null
+              ],
+              "city": "Columbus",
+              "state": "OH",
+              "postalCode": "43219-1834"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "CaregiverSupport",
+              "Covid19Vaccine",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "Nutrition",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "UrgentCare",
+              "Urology"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            },
+            "visn": "10"
+          }
+        }
+      }
+    },
+    {
       "id": "124063",
       "type": "appointments",
       "attributes": {
