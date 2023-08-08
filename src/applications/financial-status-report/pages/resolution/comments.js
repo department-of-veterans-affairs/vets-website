@@ -13,7 +13,8 @@ export const uiSchema = {
       customTitle: ' ',
     },
     additionalComments: {
-      'ui:title': 'Please tell us more about why you need help with this debt',
+      'ui:title':
+        'Please tell us more about why you need help with this debt(s)',
       'ui:description': (
         <va-additional-info trigger="Why do I need to share this information?">
           We want to fully understand your situation so we can make the best
