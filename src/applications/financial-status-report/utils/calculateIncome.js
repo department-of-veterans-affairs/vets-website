@@ -160,12 +160,12 @@ export const getMonthlyIncome = formData => {
   const vetIncome =
     calculateIncome(
       enhancedFSRActive,
-      employmentRecords || [],
-      currEmployment || [],
-      addlIncRecords || [],
-      socialSecurity || {},
-      income || [],
-      benefits || {},
+      employmentRecords,
+      currEmployment,
+      addlIncRecords,
+      socialSecurity,
+      income,
+      benefits,
       'veteran',
     ) || defaultIncome;
 
@@ -175,12 +175,12 @@ export const getMonthlyIncome = formData => {
     spAddlIncome?.length
       ? calculateIncome(
           enhancedFSRActive,
-          spEmploymentRecords || [],
-          spCurrEmployment || [],
-          spAddlIncome || [],
-          socialSecurity || {},
-          income || [],
-          benefits || {},
+          spEmploymentRecords,
+          spCurrEmployment,
+          spAddlIncome,
+          socialSecurity,
+          income,
+          benefits,
           'spouse',
         )
       : defaultIncome;
