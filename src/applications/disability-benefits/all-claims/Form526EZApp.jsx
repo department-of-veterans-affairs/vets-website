@@ -263,8 +263,6 @@ if (isLoggedIn) {
     site: 'ddog-gov.com',
     service: 'benefits-526ez',
     env: environment.vspEnvironment(),
-    // Specify a version number to identify the deployed version of your application in Datadog
-    // version: '1.0.0',
     sessionSampleRate: 10, // Set to 100 to test locally
     sessionReplaySampleRate: 20, // Set to 100 to test locally
     trackUserInteractions: true,
