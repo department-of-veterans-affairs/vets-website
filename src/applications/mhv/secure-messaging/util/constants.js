@@ -38,6 +38,11 @@ export const DefaultFolders = {
   },
 };
 
+export const MessageReadStatus = {
+  READ: 'READ',
+  UNREAD: null,
+};
+
 export const ErrorMessages = {
   ComposeForm: {
     RECIPIENT_REQUIRED: 'Please select a recipient.',

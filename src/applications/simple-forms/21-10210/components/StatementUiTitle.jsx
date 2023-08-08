@@ -13,7 +13,7 @@ const StatementUiTitle = props => {
     titleStr =
       claimOwnership === CLAIM_OWNERSHIPS.SELF
         ? // Flow 1: self claim, vet claimant
-          'Provide your supporting statement'
+          'Provide your statement'
         : // Flow 2: 3rd-party claim, vet claimant
           'Tell us about the claimed issue that you’re addressing on behalf of the Veteran';
   } else {
