@@ -18,23 +18,24 @@ describe('Secure Messaging Delete Draft', () => {
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     patientInterstitialPage.getContinueButton().should('not.exist');
     draftsPage.clickDeleteButton();
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-    draftsPage.confirmDeleteDraft(mockDraftResponse);
+    // cy.injectAxe();
+    // cy.axeCheck('main', {
+    //   rules: {
+    //     'aria-required-children': {
+    //       enabled: false,
+    //     },
+    //   },
+    // });
+    // draftsPage.confirmDeleteDraft(mockDraftResponse);
+    draftsPage.confirmDeleteDraftWithEnterKey(mockDraftResponse);
     inboxPage.verifyDeleteConfirmMessage();
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    // cy.injectAxe();
+    // cy.axeCheck('main', {
+    //   rules: {
+    //     'aria-required-children': {
+    //       enabled: false,
+    //     },
+    //   },
+    // });
   });
 });

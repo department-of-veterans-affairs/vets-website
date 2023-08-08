@@ -186,7 +186,9 @@ class PatientMessageDraftsPage {
     ).as('deletedDraftResponse');
     cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
     cy.tabToElement('[data-testid="delete-draft-modal"]').realPress(['Enter']);
-    cy.wait('@deletedDraftResponse');
+    cy.wait('@deletedDraftResponse')
+      .its('request.url')
+      .should('include', `${draftMessage.data.attributes.messageId}`);
   };
 
   confirmDeleteReplyDraftWithEnterKey = draftMessage => {
