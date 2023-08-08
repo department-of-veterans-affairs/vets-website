@@ -16,7 +16,10 @@ import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';
 import { ServerErrorAlert } from '../components/FormAlerts';
 import LoginRequiredAlert from '../components/FormAlerts/LoginRequiredAlert';
 
-import { getEnrollmentStatus } from '../utils/actions';
+import {
+  getEnrollmentStatus,
+  resetEnrollmentStatus as resetEnrollmentStatusAction,
+} from '../utils/actions';
 import { didEnrollmentStatusChange } from '../utils/helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
 import {
@@ -30,6 +33,7 @@ const IDPage = props => {
     isSubmittingIDForm,
     loginRequired,
     noESRRecordFound,
+    resetEnrollmentStatus,
     router,
     shouldRedirect,
     showLoadingIndicator,
@@ -89,6 +93,7 @@ const IDPage = props => {
 
   useEffect(() => {
     if (shouldRedirect) router.push('/');
+    resetEnrollmentStatus();
     focusElement('.va-nav-breadcrumbs-list');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -184,6 +189,7 @@ IDPage.propTypes = {
   location: PropTypes.object,
   loginRequired: PropTypes.bool,
   noESRRecordFound: PropTypes.bool,
+  resetEnrollmentStatus: PropTypes.func,
   route: PropTypes.object,
   router: PropTypes.object,
   setFormData: PropTypes.func,
@@ -195,6 +201,7 @@ IDPage.propTypes = {
 };
 
 const mapDispatchToProps = {
+  resetEnrollmentStatus: resetEnrollmentStatusAction,
   setFormData: setData,
   submitIDForm: getEnrollmentStatus,
   toggleLoginModal: toggleLoginModalAction,

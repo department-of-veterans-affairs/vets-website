@@ -110,11 +110,7 @@ const FolderThreadListView = props => {
           );
           // updates page title
           if (folder.name === convertPathNameToTitleCase(location.pathname)) {
-            updatePageTitle(
-              folder.name === 'Sent'
-                ? `Sent messages ${PageTitles.PAGE_TITLE_TAG}`
-                : `${folder.name} ${PageTitles.PAGE_TITLE_TAG}`,
-            );
+            updatePageTitle(`${folder.name} ${PageTitles.PAGE_TITLE_TAG}`);
           }
         } else {
           dispatch(

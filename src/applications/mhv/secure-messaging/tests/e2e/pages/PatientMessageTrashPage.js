@@ -133,6 +133,12 @@ class PatientMessageTrashPage {
       .find('#inputField')
       .should('be.empty');
   };
+
+  navigateToLastPage = () => {
+    cy.get('.pagination-inner li')
+      .last()
+      .click();
+  };
 }
 
 export default new PatientMessageTrashPage();

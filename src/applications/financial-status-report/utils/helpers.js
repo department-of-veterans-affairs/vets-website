@@ -15,10 +15,6 @@ export const fsrFeatureToggle = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.showFinancialStatusReport];
 };
 
-export const combinedFSRFeatureToggle = state => {
-  return toggleValues(state)[FEATURE_FLAG_NAMES.combinedFinancialStatusReport];
-};
-
 export const enhancedFSRFeatureToggle = state => {
   return toggleValues(state)[
     FEATURE_FLAG_NAMES.combinedFinancialStatusReportEnhancements
@@ -133,35 +129,23 @@ export const fsrReasonDisplay = resolutionOption => {
   }
 };
 
-export const getFsrReason = (debts, combinedFSR) => {
-  const reasons = combinedFSR
-    ? debts.map(({ resolutionOption }) => fsrReasonDisplay(resolutionOption))
-    : debts.map(({ resolution }) => resolution.resolutionType);
+export const getFsrReason = debts => {
+  const reasons = debts.map(({ resolutionOption }) =>
+    fsrReasonDisplay(resolutionOption),
+  );
   const uniqReasons = [...new Set(reasons)];
 
   return uniqReasons.join(', ');
 };
 
-export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
-  return combinedFSR
-    ? debts
-        .filter(item => item.resolutionComment !== undefined)
-        .reduce(
-          (acc, debt) =>
-            acc +
-            Number(debt.resolutionComment?.replaceAll(/[^0-9.-]/g, '') ?? 0),
-          0,
-        )
-    : debts
-        .filter(item => item.resolution.offerToPay !== undefined)
-        .reduce(
-          (acc, debt) =>
-            acc +
-            Number(
-              debt.resolution?.offerToPay?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-            ),
-          0,
-        );
+export const getAmountCanBePaidTowardDebt = debts => {
+  return debts
+    .filter(item => item.resolutionComment !== undefined)
+    .reduce(
+      (acc, debt) =>
+        acc + Number(debt.resolutionComment?.replaceAll(/[^0-9.-]/g, '') ?? 0),
+      0,
+    );
 };
 
 export const mergeAdditionalComments = (additionalComments, expenses) => {
@@ -172,7 +156,9 @@ export const mergeAdditionalComments = (additionalComments, expenses) => {
   const individualExpensesStr = `Individual expense amount: ${individualExpenses}`;
 
   return individualExpenses
-    ? `${additionalComments}\n${individualExpensesStr}`
+    ? `${
+        additionalComments !== undefined ? additionalComments : ''
+      }\n${individualExpensesStr}`
     : additionalComments;
 };
 
@@ -308,16 +294,15 @@ export const getTotalAssets = ({
   assets,
   realEstateRecords,
   questions,
-  'view:combinedFinancialStatusReport': combinedFSRActive,
   'view:enhancedFinancialStatusReport': enhancedFSRActive,
 }) => {
   const formattedREValue = Number(
     assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
-  const totRecVehicles = !combinedFSRActive
-    ? sumValues(assets.recVehicles, 'recVehicleAmount')
-    : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
+  const totRecVehicles = enhancedFSRActive
+    ? Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0)
+    : 0;
   const totVehicles = questions?.hasVehicle
     ? sumValues(assets.automobiles, 'resaleValue')
     : 0;
