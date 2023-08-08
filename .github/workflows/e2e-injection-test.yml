@@ -11,7 +11,7 @@ jobs:
     name: Cypress E2E Proxy Rewrite Header/Footer Injection Test
     runs-on: self-hosted
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node16.14.2-slim-chrome103-ff102
+      image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
       options: -u 1001:1001 -v /usr/local/share:/share
 
     env:
@@ -31,7 +31,7 @@ jobs:
             .cache/yarn
             /github/home/.cache/Cypress
             node_modules
-
+      
       - name: Start server
         run: node src/platform/testing/e2e/test-server.js --buildtype=${{ env.BUILDTYPE }} --port=3001 &
 
