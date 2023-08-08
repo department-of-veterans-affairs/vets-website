@@ -39,6 +39,7 @@ import {
 export default {
   householdExpensesChapter: {
     title: 'Household expenses',
+    depends: formData => !isStreamlinedShortForm(formData),
     pages: {
       expensesExplainer: {
         path: 'expenses-explainer',
@@ -307,7 +308,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData?.gmtData?.isElidgibleForStreamlined &&
+          formData?.gmtData?.isEligibleForStreamlined &&
           isStreamlinedLongForm(formData),
       },
     },
