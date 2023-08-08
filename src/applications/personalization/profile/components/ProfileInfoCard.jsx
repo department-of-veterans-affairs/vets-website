@@ -50,7 +50,6 @@ const rowTitle = classNames([
   'vads-u-font-weight--bold',
   'vads-u-line-height--4',
   'vads-u-margin--0',
-  'vads-u-margin-bottom--1',
   'vads-u-width--auto',
 ]);
 
@@ -60,6 +59,7 @@ const rowTitleDescription = classNames([
   'vads-u-font-weight--normal',
   'vads-u-margin--0',
   'vads-u-width--full',
+  'vads-u-margin-bottom--1',
 ]);
 
 const rowValue = classNames(['vads-u-margin--0', 'vads-u-width--full']);
@@ -74,10 +74,22 @@ export const classes = {
   rowValue,
 };
 
-export const HeadingLevel = ({ namedAnchor, children, level, className }) => {
+export const HeadingLevel = ({
+  namedAnchor,
+  children,
+  level,
+  className,
+  hasRowDescription = false,
+}) => {
   const Header = `h${level}`;
+  const computedClassNames = classNames(
+    {
+      'vads-u-margin-bottom--1': !hasRowDescription,
+    },
+    className,
+  );
   return children ? (
-    <Header className={className} id={namedAnchor}>
+    <Header className={computedClassNames} id={namedAnchor}>
       {children}
     </Header>
   ) : null;
@@ -86,8 +98,21 @@ export const HeadingLevel = ({ namedAnchor, children, level, className }) => {
 HeadingLevel.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  hasRowDescription: PropTypes.bool,
   level: numberBetween(1, 6),
   namedAnchor: PropTypes.string,
+};
+
+const RowDescription = ({ description }) => (
+  <span className={classes.rowTitleDescription}>{description} </span>
+);
+
+RowDescription.propTypes = {
+  description: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.element,
+  ]),
 };
 
 export const List = ({ data }) => {
@@ -107,9 +132,7 @@ export const List = ({ data }) => {
               <dfn className={classes.rowTitle}>
                 {rowData.title}
                 {rowData.description && (
-                  <span className={classes.rowTitleDescription}>
-                    {rowData.description}
-                  </span>
+                  <RowDescription description={rowData.description} />
                 )}
                 {rowData.alertMessage && <>{rowData.alertMessage}</>}
               </dfn>
@@ -137,15 +160,19 @@ const Sections = ({ data, level }) => {
           id={rowData.id}
         >
           {rowData.title && (
-            <HeadingLevel className={classes.rowTitle} level={level}>
-              {rowData.title}
+            <>
+              <HeadingLevel
+                className={classes.rowTitle}
+                level={level}
+                hasRowDescription={!!rowData?.description}
+              >
+                {rowData.title}
+                {rowData.alertMessage && <>{rowData.alertMessage}</>}
+              </HeadingLevel>
               {rowData.description && (
-                <span className={classes.rowTitleDescription}>
-                  {rowData.description}
-                </span>
+                <RowDescription description={rowData.description} />
               )}
-              {rowData.alertMessage && <>{rowData.alertMessage}</>}
-            </HeadingLevel>
+            </>
           )}
 
           {rowData?.value && (
