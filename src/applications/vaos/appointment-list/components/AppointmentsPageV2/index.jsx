@@ -10,6 +10,7 @@ import {
   selectFeatureStatusImprovement,
   selectFeatureAppointmentList,
   selectFeaturePrintList,
+  selectFeatureBreadcrumbUrlUpdate,
 } from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
@@ -130,6 +131,9 @@ export default function AppointmentsPageV2() {
     selectPendingAppointments(state),
   );
   const isPrintList = useSelector(state => selectFeaturePrintList(state));
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
   const {
     dropdownValue,
     subPageTitle,
@@ -153,8 +157,11 @@ export default function AppointmentsPageV2() {
   }
   useEffect(
     () => {
-      if (featureStatusImprovement) {
+      if (featureStatusImprovement && !featureBreadcrumbUrlUpdate) {
         document.title = `${pageTitle} | VA online scheduling | Veterans Affairs`;
+        scrollAndFocus('h1');
+      } else if (featureStatusImprovement && featureBreadcrumbUrlUpdate) {
+        document.title = `${pageTitle} | Veterans Affairs`;
         scrollAndFocus('h1');
       } else {
         document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
@@ -167,6 +174,7 @@ export default function AppointmentsPageV2() {
       location.pathname,
       prefix,
       pageTitle,
+      featureBreadcrumbUrlUpdate,
     ],
   );
 
