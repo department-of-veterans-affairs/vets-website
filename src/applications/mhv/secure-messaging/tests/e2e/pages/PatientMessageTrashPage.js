@@ -46,7 +46,7 @@ class PatientMessageTrashPage {
     cy.get('#filter-input')
       .shadow()
       .find('#inputField')
-      .type(`${text}`);
+      .type(`${text}`, { force: true });
   };
 
   filterMessages = () => {
@@ -55,20 +55,20 @@ class PatientMessageTrashPage {
       '/my_health/v1/messaging/folders/-3/search',
       trashSearchResponse,
     );
-    cy.get('[data-testid="filter-messages-button"]').click();
+    cy.get('[data-testid="filter-messages-button"]').click({ force: true });
   };
 
   clearFilter = () => {
     this.inputFilterData('any');
     this.filterMessages();
-    cy.get('[text="Clear Filters"]').click();
+    cy.get('[text="Clear Filters"]').click({ force: true });
   };
 
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
     cy.get('#sort-order-dropdown')
       .shadow()
       .find('#select')
-      .select(`${text}`);
+      .select(`${text}`, { force: true });
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-3/threads**',
@@ -132,6 +132,12 @@ class PatientMessageTrashPage {
       .shadow()
       .find('#inputField')
       .should('be.empty');
+  };
+
+  navigateToLastPage = () => {
+    cy.get('.pagination-inner li')
+      .last()
+      .click();
   };
 }
 

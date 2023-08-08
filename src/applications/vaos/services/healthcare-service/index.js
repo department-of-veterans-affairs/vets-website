@@ -3,7 +3,7 @@
  */
 import { mapToFHIRErrors } from '../utils';
 import { getClinics } from '../vaos';
-import { transformClinicsV2 } from './transformers.v2';
+import { transformClinicsV2 } from './transformers';
 
 /**
  * Method to get available HealthcareService objects.

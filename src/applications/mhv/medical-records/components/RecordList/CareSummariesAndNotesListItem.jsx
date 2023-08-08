@@ -37,7 +37,7 @@ const CareSummariesAndNotesListItem = props => {
         )}
       </div>
       <Link
-        to={`/health-history/care-summaries-and-notes/${record.id}`}
+        to={`/care-summaries-and-notes/${record.id}`}
         className="vads-u-margin-y--0p5 no-print"
       >
         <strong>Details</strong>

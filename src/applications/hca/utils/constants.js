@@ -13,6 +13,16 @@ export const DEPENDENT_VIEW_FIELDS = {
   skip: 'view:skipDependentInfo',
 };
 
+// declare prefix for use in GA events related to disability rating
+export const DISABILITY_PREFIX = 'disability-ratings';
+
+// declare action statuses for fetching disability rating
+export const DISABILITY_RATING_ACTIONS = {
+  FETCH_TOTAL_RATING_STARTED: 'FETCH_TOTAL_RATING_STARTED',
+  FETCH_TOTAL_RATING_SUCCEEDED: 'FETCH_TOTAL_RATING_SUCCEEDED',
+  FETCH_TOTAL_RATING_FAILED: 'FETCH_TOTAL_RATING_FAILED',
+};
+
 // declare labels for discharge type select box
 export const DISCHARGE_TYPE_LABELS = {
   honorable: 'Honorable',
@@ -21,6 +31,22 @@ export const DISCHARGE_TYPE_LABELS = {
   'bad-conduct': 'Bad Conduct',
   dishonorable: 'Dishonorable',
   undesirable: 'Undesirable',
+};
+
+// declare action statuses for fetching enrollment status
+export const ENROLLMENT_STATUS_ACTIONS = {
+  FETCH_DISMISSED_HCA_NOTIFICATION_STARTED:
+    'FETCH_DISMISSED_HCA_NOTIFICATION_STARTED',
+  FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED:
+    'FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED',
+  FETCH_DISMISSED_HCA_NOTIFICATION_FAILED:
+    'FETCH_DISMISSED_HCA_NOTIFICATION_FAILED',
+  FETCH_ENROLLMENT_STATUS_STARTED: 'FETCH_ENROLLMENT_STATUS_STARTED',
+  FETCH_ENROLLMENT_STATUS_SUCCEEDED: 'FETCH_ENROLLMENT_STATUS_SUCCEEDED',
+  FETCH_ENROLLMENT_STATUS_FAILED: 'FETCH_ENROLLMENT_STATUS_FAILED',
+  RESET_ENROLLMENT_STATUS: 'RESET_ENROLLMENT_STATUS',
+  SET_DISMISSED_HCA_NOTIFICATION: 'SET_DISMISSED_HCA_NOTIFICATION',
+  SHOW_HCA_REAPPLY_CONTENT: 'SHOW_HCA_REAPPLY_CONTENT',
 };
 
 // declare enrollment status strings

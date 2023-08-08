@@ -1,4 +1,5 @@
 import React from 'react';
+import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isValidEmail } from 'platform/forms/validations';
@@ -9,12 +10,29 @@ import { fetchDuplicateContactInfo, updateGlobalEmail } from '../actions';
 function CustomEmailField(props) {
   function handleChange(event) {
     if (props?.showMebEnhancements08) {
-      props.updateGlobalEmail(event);
+      if (props.email !== event) {
+        props.setFormData({
+          ...props?.formData,
+          email: {
+            ...props?.formData?.email,
+            email: event,
+          },
+        });
+      }
+
       if (event && isValidEmail(event)) {
         props.fetchDuplicateContactInfo(
           [{ value: event, dupe: '' }],
           props.duplicatePhone,
         );
+      } else {
+        props.setFormData({
+          ...props?.formData,
+          email: {
+            ...props?.formData?.email,
+            email: event,
+          },
+        });
       }
     }
   }
@@ -31,15 +49,18 @@ CustomEmailField.propTypes = {
   updateGlobalEmail: PropTypes.func,
   email: PropTypes.string,
 };
+
 const mapStateToProps = state => ({
   email: state?.form?.data?.email?.email,
   duplicateEmail: state?.data?.duplicateEmail,
   phoneNumber: state?.form?.data?.mobilePhone,
   duplicatePhone: state?.data?.duplicatePhone,
   showMebEnhancements08: state?.featureToggles?.showMebEnhancements08,
+  formData: state?.form?.data,
 });
 
 const mapDispatchToProps = {
+  setFormData: setData,
   fetchDuplicateContactInfo,
   updateGlobalEmail,
 };

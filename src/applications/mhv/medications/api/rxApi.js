@@ -20,3 +20,12 @@ export const getPrescription = id => {
     },
   });
 };
+
+export const fillRx = id => {
+  return apiRequest(`${apiBasePath}/prescriptions/${id}/refill`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};

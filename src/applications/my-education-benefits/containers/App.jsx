@@ -15,6 +15,7 @@ import {
 import { formFields } from '../constants';
 import { prefillTransformer } from '../helpers';
 import { getAppData } from '../selectors/selectors';
+import { duplicateArrays } from '../utils/validation';
 
 export const App = ({
   children,
@@ -97,6 +98,29 @@ export const App = ({
           eligibility,
         });
       }
+
+      const { toursOfDuty } = formData;
+      const updatedToursOfDuty = toursOfDuty?.map(tour => {
+        const tourToCheck = tour;
+        if (
+          (tourToCheck?.dateRange?.to && new Date(tourToCheck?.dateRange?.to)) >
+            new Date() ||
+          tourToCheck?.dateRange?.to === '' ||
+          tourToCheck?.dateRange?.to === null ||
+          tourToCheck.dateRange.to === 'Invalid date'
+        ) {
+          tourToCheck.serviceCharacter = 'Not Applicable';
+          tourToCheck.separationReason = 'Not Applicable';
+        }
+        return tourToCheck;
+      });
+
+      if (!duplicateArrays(updatedToursOfDuty, toursOfDuty)) {
+        setFormData({
+          ...formData,
+          toursOfDuty: updatedToursOfDuty,
+        });
+      }
     },
     [
       eligibility,
@@ -132,35 +156,6 @@ export const App = ({
           showMebCh33SelfForm,
         });
       }
-
-      if (email && email !== formData?.email?.email) {
-        setFormData({
-          ...formData,
-          email: {
-            ...formData?.email,
-            email,
-          },
-        });
-      }
-
-      // setFormData({
-      //   ...formData,
-      //   data: {
-      //     ...formData?.data,
-      //     attributes: {
-      //       ...formData?.data?.attributes,
-      //       claimant: {
-      //         ...formData?.data?.attributes?.claimant,
-      //         contactinfo: {
-      //           ...formData?.data?.attributes?.claimant?.contactInfo,
-      //           mobilePhoneNumber: mobilePhone,
-      //         },
-      //       },
-      //     },
-      //   },
-      // });
-
-      // formData?.data?.attributes?.claimant?.contactInfo?.mobilePhoneNumber
 
       if (
         formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
@@ -237,7 +232,6 @@ export const App = ({
       showMebEnhancements,
       showMebEnhancements06,
       showMebEnhancements08,
-      email,
       mobilePhone,
       getDuplicateContactInfo,
     ],
@@ -260,6 +254,22 @@ export const App = ({
     },
     [mobilePhone],
   );
+
+  useEffect(
+    () => {
+      if (email && email !== formData?.email?.email) {
+        setFormData({
+          ...formData,
+          email: {
+            ...formData?.email,
+            email,
+          },
+        });
+      }
+    },
+    [email],
+  );
+
   // Commenting out until Direct Deposit component is updated
   // useEffect(
   //   () => {
@@ -317,7 +327,7 @@ const mapStateToProps = state => {
   const firstName = state.data?.formData?.data?.attributes?.claimant?.firstName;
   const transformedClaimantInfo = prefillTransformer(null, null, null, state);
   const claimantInfo = transformedClaimantInfo.formData;
-  const email = state?.data?.email;
+  const email = state?.form?.data?.email?.email;
   const mobilePhone =
     state?.data?.mobilePhone ||
     state?.data?.formData?.data?.attributes?.claimant?.contactInfo
