@@ -5,7 +5,6 @@ import userEvent from '@testing-library/user-event';
 
 import PaymentHistory from '../../../components/direct-deposit/PaymentHistory';
 
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import { renderWithProfileReducers } from '../../unit-test-helpers';
 
 describe('PaymentHistory', () => {
@@ -13,7 +12,7 @@ describe('PaymentHistory', () => {
     const tree = renderWithProfileReducers(<PaymentHistory />, {
       initialState: {
         featureToggles: {
-          [Toggler.TOGGLE_NAMES.profileUseInfoCard]: true,
+          loading: false,
         },
       },
     });
@@ -32,7 +31,7 @@ describe('PaymentHistory', () => {
       {
         initialState: {
           featureToggles: {
-            [Toggler.TOGGLE_NAMES.profileUseInfoCard]: true,
+            loading: false,
           },
         },
       },

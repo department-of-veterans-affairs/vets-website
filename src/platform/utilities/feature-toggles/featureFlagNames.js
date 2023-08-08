@@ -106,7 +106,6 @@ export default Object.freeze({
   profileShowPaymentsNotificationSetting: 'profile_show_payments_notification_setting',
   profileShowQuickSubmitNotificationSetting: 'profile_show_quick_submit_notification_setting',
   profileUseExperimental: 'profile_use_experimental',
-  profileUseInfoCard: 'profile_use_info_card',
   profileUseFieldEditingPage: 'profile_use_field_editing_page',
   profileUseNotificationSettingsCheckboxes: 'profile_use_notification_settings_checkboxes',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
