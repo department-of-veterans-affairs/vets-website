@@ -22,7 +22,7 @@ const SpouseOtherIncomeSummary = ({
   const { spouse } = additionalIncome;
   const { spAddlIncome = [] } = spouse;
 
-  // useEffect to set incomeBelowGMT if income records changes
+  // useEffect to set incomeBelowGmt if income records changes
   useEffect(
     () => {
       if (!gmtData?.isElidgibleForStreamlined) return;
@@ -32,7 +32,7 @@ const SpouseOtherIncomeSummary = ({
         ...data,
         gmtData: {
           ...gmtData,
-          incomeBelowGMT: calculatedIncome < gmtData?.gmtThreshold,
+          incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
           incomeBelowOneFiftyGMT:
             calculatedIncome < gmtData?.incomeUpperThreshold,
         },
@@ -140,7 +140,7 @@ SpouseOtherIncomeSummary.propTypes = {
     }),
     gmtData: PropTypes.shape({
       gmtThreshold: PropTypes.number,
-      incomeBelowGMT: PropTypes.bool,
+      incomeBelowGmt: PropTypes.bool,
       incomeBelowOneFiftyGMT: PropTypes.bool,
       isElidgibleForStreamlined: PropTypes.bool,
       incomeUpperThreshold: PropTypes.number,

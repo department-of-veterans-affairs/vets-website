@@ -23,7 +23,7 @@ const OtherAssetsChecklist = ({
     if (
       otherAssets?.length ||
       !gmtData?.isElidgibleForStreamlined ||
-      gmtData?.incomeBelowGMT
+      gmtData?.incomeBelowGmt
     )
       return;
 
@@ -106,7 +106,7 @@ OtherAssetsChecklist.propTypes = {
     }),
     gmtData: PropTypes.shape({
       assetThreshold: PropTypes.number,
-      incomeBelowGMT: PropTypes.bool,
+      incomeBelowGmt: PropTypes.bool,
       isElidgibleForStreamlined: PropTypes.bool,
     }),
     questions: PropTypes.shape({

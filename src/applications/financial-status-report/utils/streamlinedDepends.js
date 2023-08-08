@@ -36,7 +36,7 @@ export const isStreamlinedShortForm = formData => {
   const assetBelow = parseInt(assets?.cashOnHand, 10) < gmtData?.assetThreshold;
 
   return (
-    gmtData?.isElidgibleForStreamlined && gmtData?.incomeBelowGMT && assetBelow
+    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt && assetBelow
   );
 };
 
@@ -54,7 +54,7 @@ export const isStreamlinedLongForm = formData => {
 
   return (
     gmtData?.isElidgibleForStreamlined &&
-    !gmtData?.incomeBelowGMT &&
+    !gmtData?.incomeBelowGmt &&
     gmtData?.incomeBelowOneFiftyGMT &&
     gmtData?.assetsBelowGMT &&
     gmtData?.discressionaryBelow

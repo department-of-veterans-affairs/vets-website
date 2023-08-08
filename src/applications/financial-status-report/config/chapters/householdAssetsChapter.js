@@ -40,7 +40,7 @@ export default {
         CustomPage: CashOnHand,
         CustomPageReview: null,
         depends: ({ gmtData }) =>
-          gmtData?.isElidgibleForStreamlined && gmtData?.incomeBelowGMT,
+          gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt,
       },
       streamlinedShortTransitionPage: {
         // Transition page - streamlined short form only

@@ -31,7 +31,7 @@ const OtherIncomeSummary = ({
         ...data,
         gmtData: {
           ...gmtData,
-          incomeBelowGMT: calculatedIncome < gmtData?.gmtThreshold,
+          incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
           incomeBelowOneFiftyGMT:
             calculatedIncome < gmtData?.incomeUpperThreshold,
         },
@@ -130,7 +130,7 @@ OtherIncomeSummary.propTypes = {
     }),
     gmtData: PropTypes.shape({
       gmtThreshold: PropTypes.number,
-      incomeBelowGMT: PropTypes.bool,
+      incomeBelowGmt: PropTypes.bool,
       incomeBelowOneFiftyGMT: PropTypes.bool,
       isElidgibleForStreamlined: PropTypes.bool,
       incomeUpperThreshold: PropTypes.number,
