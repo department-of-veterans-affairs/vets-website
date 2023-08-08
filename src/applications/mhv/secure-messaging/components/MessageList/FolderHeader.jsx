@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { DefaultFolders as Folders, PageTitles } from '../../util/constants';
@@ -10,41 +10,39 @@ import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
   const location = useLocation();
-  const [folderDescription, setFolderDescription] = useState(null);
 
-  useEffect(
+  const folderDescription = useMemo(
     () => {
       switch (folder.folderId) {
         case Folders.INBOX.id:
         case Folders.SENT.id: // Inbox
-          setFolderDescription(Folders.INBOX.desc);
-          break;
+          return Folders.INBOX.desc;
         case Folders.DRAFTS.id: // Drafts
-          setFolderDescription(Folders.DRAFTS.desc);
-          break;
+          return Folders.DRAFTS.desc;
         case Folders.DELETED.id: // Trash
-          setFolderDescription(Folders.DELETED.desc);
-          break;
+          return Folders.DELETED.desc;
         default:
-          setFolderDescription(Folders.CUSTOM_FOLDER.desc); // Custom Folder Sub-header;
-          break;
+          return Folders.CUSTOM_FOLDER.desc; // Custom Folder Sub-header;
       }
     },
     [folder],
   );
 
-  const handleFolderDescription = () => {
-    return (
-      folderDescription && (
-        <p
-          data-testid="folder-description"
-          className="va-introtext folder-description vads-u-margin-top--0"
-        >
-          {folderDescription}
-        </p>
-      )
-    );
-  };
+  const handleFolderDescription = useCallback(
+    () => {
+      return (
+        folderDescription && (
+          <p
+            data-testid="folder-description"
+            className="va-introtext folder-description vads-u-margin-top--0"
+          >
+            {folderDescription}
+          </p>
+        )
+      );
+    },
+    [folderDescription],
+  );
 
   useEffect(
     () => {
