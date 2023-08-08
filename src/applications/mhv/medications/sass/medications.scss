@@ -20,11 +20,18 @@
 }
 
 .main-content {
-  max-width: 650px;
+  padding: 10px;
 
   @media (max-width: $small-screen) {
     max-width: 480px;
   }
+}
+.breadcrumbs-container {
+  @media (max-width: $large-screen) {
+    margin-left: -16px;
+
+  }
+  padding: 0px;
 }
 .link-to-details {
   i {
@@ -37,9 +44,6 @@
 
 }
 .landing-page {
-  @media (min-width: $medium-screen) {
-    margin-left: -180px;
-  }
   h1 {
     color: $color-gray-dark;
     margin: 0;
@@ -56,9 +60,6 @@
   .pagination {
     max-width: 500px;
     border-top: 0px;
-  }
-  .landing-page-content {
-    max-width: 500px;
   }
   section {
     .feedback {
