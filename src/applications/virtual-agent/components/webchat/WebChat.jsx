@@ -1,9 +1,9 @@
 import React, { useMemo, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import _ from 'lodash';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import { useSelector } from 'react-redux';
 // import PropTypes from 'prop-types';
-import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import StartConvoAndTrackUtterances from './startConvoAndTrackUtterances';
 import MarkdownRenderer from './markdownRenderer';
@@ -154,6 +154,22 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   );
 
   if (isRXSkill === 'true') {
+    // check if window.WebChat exists
+    if (window.WebChat) {
+      // find the send box element
+      const sendBox = document.querySelector(
+        'input[class="webchat__send-box-text-box__input"]',
+      );
+      // change the placeholder text of send box
+      sendBox.setAttribute(
+        'aria-label',
+        'Type or enable the microphone to speak',
+      );
+      sendBox.setAttribute(
+        'placeholder',
+        'Type or enable the microphone to speak',
+      );
+    }
     return (
       <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
         <ReactWebChat
@@ -166,6 +182,21 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
         />
       </div>
     );
+  }
+  if (window.WebChat && isRXSkill !== 'true') {
+    // find the send box element
+    const sendBox = document.querySelector(
+      'input[class="webchat__send-box-text-box__input"]',
+    );
+    // change the placeholder text of send box back to the default if it isn't already
+    if (
+      document.querySelector(
+        'input[placeholder="Type or enable the microphone to speak"]',
+      )
+    ) {
+      sendBox.setAttribute('aria-label', 'Type your message');
+      sendBox.setAttribute('placeholder', 'Type your message');
+    }
   }
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>

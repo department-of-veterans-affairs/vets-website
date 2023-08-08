@@ -10,7 +10,7 @@ const aliasMap = Object.keys(moduleResolverAlias).map(alias => [
 
 module.exports = {
   // All rules should be disabled or they should produce errors. No warnings.
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaVersion: 11,
     sourceType: 'module',
@@ -55,10 +55,6 @@ module.exports = {
       {
         name: '@department-of-veterans-affairs/component-library/AlertBox',
         use: '<va-alert>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/CheckboxGroup',
-        use: '<va-checkbox-group>',
       },
       {
         name:
