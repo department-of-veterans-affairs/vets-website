@@ -1,3 +1,4 @@
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
@@ -56,12 +57,12 @@ const convertChemHemRecord = record => {
     category: concatCategoryCodeText(record),
     orderedBy: record.physician || emptyField,
     requestedBy: record.physician || emptyField,
-    date: record.effectiveDateTime,
+    date: formatDateLong(record.effectiveDateTime),
     orderingLocation: record.location || emptyField,
     collectingLocation: record.location || emptyField,
     comments: [record.conclusion],
     results: convertChemHemObservation(results),
-    sampleTested: record.sampleTested || emptyField,
+    sampleTested: record.specimen?.text || emptyField,
   };
 };
 
@@ -214,9 +215,9 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       const recordList = action.response;
       return {
         ...state,
-        labsAndTestsList: recordList.entry.map(record =>
-          convertLabsAndTestsRecord(record),
-        ),
+        labsAndTestsList:
+          recordList.entry?.map(record => convertLabsAndTestsRecord(record)) ||
+          [],
       };
     }
     default:

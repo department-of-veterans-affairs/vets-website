@@ -25,15 +25,14 @@ const AllergyListItem = props => {
             </div>
             <div className="print-only">
               <span className="field-label">Type of allergy:</span>{' '}
-              {record.type || 'None noted'}
+              {record.type}
             </div>
             <div className="print-only">
               <span className="field-label">VA drug class:</span>{' '}
-              {record.drugClass || 'None noted'}
+              {record.drugClass}
             </div>
             <div className="print-only">
-              <span className="field-label">Location:</span>{' '}
-              {record.location || 'None noted'}
+              <span className="field-label">Location:</span> {record.location}
             </div>
             <div className="print-only">
               <span className="field-label">Observed or reported:</span>{' '}
@@ -43,7 +42,7 @@ const AllergyListItem = props => {
             </div>
             <div className="print-only">
               <span className="field-label">Provider notes:</span>{' '}
-              <ItemList list={record.notes} />
+              {record.notes}
             </div>
           </div>
 
