@@ -49,9 +49,7 @@ export const getReactions = record => {
   const reactions = [];
   if (!record || !record.reaction) return reactions;
   record.reaction.forEach(rea => {
-    rea.manifestation.forEach(man => {
-      man.coding.forEach(cod => reactions.push(cod.display));
-    });
+    rea.manifestation.forEach(man => reactions.push(man.text));
   });
   return reactions;
 };
