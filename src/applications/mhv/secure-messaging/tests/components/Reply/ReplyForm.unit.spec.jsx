@@ -5,6 +5,7 @@ import { waitFor } from '@testing-library/react';
 import ReplyForm from '../../../components/ComposeForm/ReplyForm';
 import reducer from '../../../reducers';
 import { draftDetails } from '../../fixtures/threads/reply-draft-thread-reducer.json';
+import folders from '../../fixtures/folder-inbox-response.json';
 import signatureReducers from '../../fixtures/signature-reducers.json';
 
 describe('Reply form component', () => {
@@ -12,6 +13,9 @@ describe('Reply form component', () => {
   const initialState = {
     sm: {
       preferences: { signature },
+      folders: {
+        folder: folders.inbox,
+      },
     },
   };
   const replyMessage = draftDetails.draftMessageHistory[0];
@@ -88,6 +92,7 @@ describe('Reply form component', () => {
     const signatureExcluded = signatureReducers.signatureDisabled.signature;
     const customState = {
       sm: {
+        ...initialState.sm,
         preferences: { signature: signatureExcluded },
       },
     };
