@@ -55,7 +55,7 @@ export const isStreamlinedLongForm = formData => {
   return (
     gmtData?.isElidgibleForStreamlined &&
     !gmtData?.incomeBelowGmt &&
-    gmtData?.incomeBelowOneFiftyGMT &&
+    gmtData?.incomeBelowOneFiftyGmt &&
     gmtData?.assetsBelowGMT &&
     gmtData?.discressionaryBelow
   );

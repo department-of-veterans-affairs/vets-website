@@ -32,7 +32,7 @@ const AdditionalIncomeCheckList = ({
       gmtData: {
         ...gmtData,
         incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
-        incomeBelowOneFiftyGMT:
+        incomeBelowOneFiftyGmt:
           calculatedIncome < gmtData?.incomeUpperThreshold,
       },
     });
@@ -105,7 +105,7 @@ AdditionalIncomeCheckList.propTypes = {
     gmtData: PropTypes.shape({
       gmtThreshold: PropTypes.number,
       incomeBelowGmt: PropTypes.bool,
-      incomeBelowOneFiftyGMT: PropTypes.bool,
+      incomeBelowOneFiftyGmt: PropTypes.bool,
       isElidgibleForStreamlined: PropTypes.bool,
       incomeUpperThreshold: PropTypes.number,
     }),
