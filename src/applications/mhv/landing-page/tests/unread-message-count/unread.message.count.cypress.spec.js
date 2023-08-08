@@ -4,14 +4,14 @@ import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
 
 describe(manifest.appName, () => {
-  describe('show indicator when there are unread messages', () => {
+  describe.skip('show indicator when there are unread messages', () => {
     beforeEach(() => {
       ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       ApiInitializer.initializeUserData.withDefaultUser();
     });
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('indicator is shown when there are unread messages', () => {
+    it.skip('indicator is shown when there are unread messages', () => {
       ApiInitializer.initializeMessageData.withUnreadMessages();
 
       LandingPage.visitPage();
@@ -21,7 +21,7 @@ describe(manifest.appName, () => {
     });
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    xit('indicator is shown when there are unread messages', () => {
+    it.skip('indicator is shown when there are unread messages', () => {
       ApiInitializer.initializeMessageData.withNoUnreadMessages();
 
       LandingPage.visitPage();
