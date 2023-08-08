@@ -18,13 +18,6 @@ function CustomPhoneNumberField(props) {
         props.setFormData({
           ...props?.formData,
           duplicatePhone: [{ value: '', dupe: '' }],
-          'view:phoneNumbers': {
-            ...props.formData['view:phoneNumbers'],
-            mobilePhoneNumber: {
-              ...props.formData['view:phoneNumbers'].mobilePhoneNumber,
-              phone: event,
-            },
-          },
         });
       }
     }

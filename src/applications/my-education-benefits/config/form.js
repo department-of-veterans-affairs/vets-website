@@ -1126,6 +1126,10 @@ const formConfig = {
                   <>
                     You can’t choose to get email notifications because your
                     email is on file for another person with education benefits.
+                    You will not be able to take full advantage of VA’s
+                    electronic notifications and enrollment verifications
+                    available. If you cannot, certain electronic services will
+                    be limited or unavailable.
                     <br />
                     <br />
                     <a
@@ -1189,7 +1193,12 @@ const formConfig = {
                     entry => entry?.dupe === false,
                   );
 
-                  if (isYes && noDuplicates === false) {
+                  const mobilePhone =
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
+                    ]?.phone;
+
+                  if (isYes && noDuplicates === false && mobilePhone) {
                     return false;
                   }
                   return true;
