@@ -1,5 +1,5 @@
 // this form does NOT use JSON schema for its data model
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import {
   getScrollOptions,
@@ -33,9 +33,9 @@ import authorizerAddressPg from '../pages/authorizerAddress';
 import authorizerContactInfoPg from '../pages/authorizerContactInfo';
 
 // mock-data import for local development
-import testData from '../tests/e2e/fixtures/data/authTypeNonVet.json';
+// import testData from '../tests/e2e/fixtures/data/noAuthType.json';
 
-const mockData = testData.data;
+// const mockData = testData.data;
 
 const pageFocus = () => {
   return () => {
@@ -81,9 +81,9 @@ const formConfig = {
     },
   },
   formId: '21-0845',
-  // dev: {
-  //   showNavLinks: true,
-  // },
+  dev: {
+    // showNavLinks: true,
+  },
   saveInProgress: {
     messages: {
       inProgress: 'Your release authorization (21-0845) is in progress.',
@@ -118,10 +118,10 @@ const formConfig = {
           title: 'Who’s submitting this authorization?',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          initialData:
-            !!mockData && environment.isLocalhost() && !window.Cypress
-              ? mockData
-              : undefined,
+          // initialData:
+          //   !!mockData && environment.isLocalhost() && !window.Cypress
+          //     ? mockData
+          //     : undefined,
           uiSchema: authorizerTypePg.uiSchema,
           schema: authorizerTypePg.schema,
           // needs form-level useCustomScrollAndFocus: true to work.
@@ -357,6 +357,8 @@ const formConfig = {
   footerContent,
   getHelp,
   customText: {
+    appAction: 'filling out',
+    appType: 'form',
     reviewPageTitle: 'Review Information',
     appSavedSuccessfullyMessage: 'Your authorization has been saved.',
     startNewAppButtonText: 'Start a new authorization',
