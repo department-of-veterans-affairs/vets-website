@@ -111,11 +111,11 @@ const testConfig = createTestConfig(
       },
       'additional-income-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="Social Security"]`)
+          cy.get('va-number-input[name="Social Security"]')
             .first()
             .shadow()
             .find('input')
-            .type('1000');
+            .type('7951');
           cy.get('.usa-button-primary').click();
         });
       },
