@@ -9,14 +9,20 @@ import submitForm, { buildEventData } from '../../config/submitForm';
 const debtOnly = {
   'view:enhancedFinancialStatusReport': false,
   selectedDebtsAndCopays: [{ debtType: 'DEBT' }],
+  isStreamlinedShort: false,
+  isStreamlinedLong: false,
 };
 const copayOnly = {
   'view:enhancedFinancialStatusReport': false,
   selectedDebtsAndCopays: [{ debtType: 'COPAY' }],
+  isStreamlinedShort: false,
+  isStreamlinedLong: false,
 };
 const combined = {
   'view:enhancedFinancialStatusReport': false,
   selectedDebtsAndCopays: [{ debtType: 'COPAY' }, { debtType: 'DEBT' }],
+  isStreamlinedShort: false,
+  isStreamlinedLong: false,
 };
 
 describe('Submit event data', () => {
@@ -24,14 +30,17 @@ describe('Submit event data', () => {
     expect(buildEventData(debtOnly)).to.deep.equal({
       'enhanced-submission': false,
       'submission-type': 'debt-submission',
+      streamlined: 'streamlined-false',
     });
     expect(buildEventData(copayOnly)).to.deep.equal({
       'enhanced-submission': false,
       'submission-type': 'copay-submission',
+      streamlined: 'streamlined-false',
     });
     expect(buildEventData(combined)).to.deep.equal({
       'enhanced-submission': false,
       'submission-type': 'combo-submission',
+      streamlined: 'streamlined-false',
     });
   });
 });
