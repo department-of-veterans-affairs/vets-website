@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import {
   createIsServiceAvailableSelector,
   selectProfile,
@@ -37,40 +37,27 @@ const NoClaimsOrAppealsText = () => {
 };
 
 const ClaimsAndAppealsError = () => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  // status will be 'warning' if toggle is on
+  const status = useToggleValue(TOGGLE_NAMES.myVaUpdateErrorsWarnings)
+    ? 'warning'
+    : 'error';
+
   return (
     <div className="vads-u-margin-bottom--2p5">
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUpdateErrorsWarnings}>
-        <Toggler.Enabled>
-          <va-alert status="warning">
-            <h2 slot="headline">
-              We can’t access your claims or appeals information
-            </h2>
-            <div>
-              <p>
-                We’re sorry. Something went wrong on our end. If you have any
-                claims and appeals, you won’t be able to access your claims and
-                appeals information right now. Please refresh or try again
-                later.
-              </p>
-            </div>
-          </va-alert>
-        </Toggler.Enabled>
-        <Toggler.Disabled>
-          <va-alert status="error">
-            <h2 slot="headline">
-              We can’t access your claims or appeals information
-            </h2>
-            <div>
-              <p>
-                We’re sorry. Something went wrong on our end. If you have any
-                claims and appeals, you won’t be able to access your claims and
-                appeals information right now. Please refresh or try again
-                later.
-              </p>
-            </div>
-          </va-alert>
-        </Toggler.Disabled>
-      </Toggler>
+      <va-alert status={status}>
+        <h2 slot="headline">
+          We can’t access your claims or appeals information
+        </h2>
+        <div>
+          <p>
+            We’re sorry. Something went wrong on our end. If you have any claims
+            and appeals, you won’t be able to access your claims and appeals
+            information right now. Please refresh or try again later.
+          </p>
+        </div>
+      </va-alert>
     </div>
   );
 };

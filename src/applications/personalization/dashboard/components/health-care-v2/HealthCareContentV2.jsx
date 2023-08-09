@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import recordEvent from '~/platform/monitoring/record-event';
-import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
@@ -94,72 +94,37 @@ const HealthCareContentV2 = ({
   };
 
   const HealthcareError = () => {
+    const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+    // status will be 'warning' if toggle is on
+    const status = useToggleValue(TOGGLE_NAMES.myVaUpdateErrorsWarnings)
+      ? 'warning'
+      : 'error';
+
     return (
       <div className="vads-u-margin-bottom--2p5">
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUpdateErrorsWarnings}>
-          <Toggler.Enabled>
-            <va-alert
-              status="warning"
-              show-icon
-              data-testid="healthcare-error-v2"
-            >
-              <h2 slot="headline">
-                We can’t access your appointment information
-              </h2>
-              <div>
-                We’re sorry. Something went wrong on our end and we can’t access
-                your appointment information. Please try again later or go to
-                the appointments tool:
-              </div>
-              <CTALink
-                text="Schedule and manage your appointments"
-                href="/health-care/schedule-view-va-appointments/appointments"
-                showArrow
-                className="vads-u-font-weight--bold"
-                onClick={() =>
-                  recordEvent({
-                    event: 'nav-linkslist',
-                    'links-list-header':
-                      'Schedule and manage your appointments',
-                    'links-list-section-header': 'Health care',
-                  })
-                }
-                testId="view-manage-appointments-link-from-error"
-              />
-            </va-alert>
-          </Toggler.Enabled>
-          <Toggler.Disabled>
-            <va-alert
-              status="error"
-              show-icon
-              data-testid="healthcare-error-v2"
-            >
-              <h2 slot="headline">
-                We can’t access your appointment information
-              </h2>
-              <div>
-                We’re sorry. Something went wrong on our end and we can’t access
-                your appointment information. Please try again later or go to
-                the appointments tool:
-              </div>
-              <CTALink
-                text="Schedule and manage your appointments"
-                href="/health-care/schedule-view-va-appointments/appointments"
-                showArrow
-                className="vads-u-font-weight--bold"
-                onClick={() =>
-                  recordEvent({
-                    event: 'nav-linkslist',
-                    'links-list-header':
-                      'Schedule and manage your appointments',
-                    'links-list-section-header': 'Health care',
-                  })
-                }
-                testId="view-manage-appointments-link-from-error"
-              />
-            </va-alert>
-          </Toggler.Disabled>
-        </Toggler>
+        <va-alert status={status} show-icon data-testid="healthcare-error-v2">
+          <h2 slot="headline">We can’t access your appointment information</h2>
+          <div>
+            We’re sorry. Something went wrong on our end and we can’t access
+            your appointment information. Please try again later or go to the
+            appointments tool:
+          </div>
+          <CTALink
+            text="Schedule and manage your appointments"
+            href="/health-care/schedule-view-va-appointments/appointments"
+            showArrow
+            className="vads-u-font-weight--bold"
+            onClick={() =>
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'Schedule and manage your appointments',
+                'links-list-section-header': 'Health care',
+              })
+            }
+            testId="view-manage-appointments-link-from-error"
+          />
+        </va-alert>
       </div>
     );
   };
