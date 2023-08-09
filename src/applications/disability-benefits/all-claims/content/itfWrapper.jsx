@@ -60,7 +60,7 @@ export const itfError = (
   <div>
     <div>
       <p className="vads-u-font-size--base">
-        Due to the high volume of submissions we are receiving, you can’t continue with this claim form at this time – but we have received your intent to file and saved your effective date for benefits.  <br>
+        Due to the high volume of submissions we are receiving, you can’t continue with this claim form at this time – but we have received your intent to file and saved your effective date for benefits.  <br />
         Here’s what this means for you:
         <ul>
         <li>You have 1 year from today to complete your claim.</li>
