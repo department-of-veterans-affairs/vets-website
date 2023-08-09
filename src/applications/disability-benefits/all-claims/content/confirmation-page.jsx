@@ -77,7 +77,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
         <h2 className="vads-u-font-size--h4">
           {pageTitle} <span className="additional">(Form 21-526EZ)</span>
         </h2>
-        <span>
+        <span className="dd-privacy-mask">
           For {first} {middle} {last} {suffix}
         </span>
         <ul className="claim-list">
@@ -89,7 +89,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
           <li>
             <strong>Conditions claimed</strong>
             <br />
-            <ul className="disability-list vads-u-margin-top--0">
+            <ul className="disability-list vads-u-margin-top--0 ">
               {disabilities.map((disability, i) => (
                 <li key={i} className="vads-u-margin-bottom--0">
                   {typeof disability === 'string'

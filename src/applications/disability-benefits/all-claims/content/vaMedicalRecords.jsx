@@ -16,7 +16,7 @@ export const treatmentView = ({ formData }) => {
   }
 
   return (
-    <div>
+    <div className="dd-privacy-mask">
       <strong>{name}</strong>
       <br />
       {treatmentPeriod}

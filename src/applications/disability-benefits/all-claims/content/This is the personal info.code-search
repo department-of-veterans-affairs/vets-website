@@ -1,0 +1,10 @@
+# Query: This is the personal info
+# Including: ./src/applications/disability-benefits/all-claims
+# ContextLines: 1
+
+1 result - 1 file
+
+src/applications/disability-benefits/all-claims/content/veteranDetails.jsx:
+  16        <p className="vads-u-margin-top--0">
+  17:         This is the personal information we have on file for you.
+  18        </p>

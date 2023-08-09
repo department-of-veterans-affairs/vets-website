@@ -263,8 +263,8 @@ if (isLoggedIn) {
     site: 'ddog-gov.com',
     service: 'benefits-526ez',
     env: environment.vspEnvironment(),
-    sessionSampleRate: 10, // Set to 100 to test locally
-    sessionReplaySampleRate: 20, // Set to 100 to test locally
+    sessionSampleRate: 100, // Set to 100 to test locally, 10 otherwise
+    sessionReplaySampleRate: 100, // Set to 100 to test locally, 20 otherwise
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,

@@ -11,7 +11,7 @@ export default function IndividualsInvolvedCard({ formData }) {
       : 'Civilian';
   }
   return (
-    <h3 className="vads-u-font-size--h5 vads-u-margin-top--1">
+    <h3 className="vads-u-font-size--h5 vads-u-margin-top--1 topOfTable_root_alternateNames dd-privacy-mask">
       {displayTitle}
     </h3>
   );

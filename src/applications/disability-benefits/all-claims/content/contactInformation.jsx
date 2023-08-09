@@ -11,14 +11,14 @@ const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
 
   const phoneString = `${firstPhoneString}-${middlePhoneString}-${lastPhoneString}`;
   return (
-    <p>
+    <p className="dd-privacy-mask">
       <strong>{name}</strong>: {phoneString}
     </p>
   );
 };
 
 const EmailViewField = ({ formData, name }) => (
-  <p>
+  <p className="dd-privacy-mask">
     <strong>{name}</strong>: {formData || ''}
   </p>
 );
@@ -40,7 +40,7 @@ const EffectiveDateViewField = ({ formData }) => {
 export const ForwardingAddressViewField = ({ formData }) => {
   const { effectiveDate } = formData;
   return (
-    <div>
+    <div className="dd-privacy-mask">
       <EffectiveDateViewField formData={effectiveDate} />
       <AddressViewField formData={formData} />
     </div>
@@ -50,7 +50,7 @@ export const ForwardingAddressViewField = ({ formData }) => {
 export const phoneEmailViewField = ({ formData }) => {
   const { primaryPhone, emailAddress } = formData;
   return (
-    <div>
+    <div className="dd-privacy-mask">
       <PhoneViewField formData={primaryPhone} name="Primary phone" />
       <EmailViewField formData={emailAddress} name="Email address" />
     </div>

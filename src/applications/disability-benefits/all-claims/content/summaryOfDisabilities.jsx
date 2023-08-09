@@ -89,7 +89,7 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
         Below is the list of disabilities you’re claiming in this application.
         If a disability is missing from the list, please {showLink}.
       </p>
-      <ul>{selectedDisabilitiesList}</ul>
+      <ul className="dd-privacy-mask">{selectedDisabilitiesList}</ul>
     </>
   );
 };

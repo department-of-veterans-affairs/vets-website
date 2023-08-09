@@ -3,7 +3,7 @@ import React from 'react';
 export const successMessage = claimId => (
   <div className="vads-u-font-size--base">
     <strong>Claim ID number</strong>
-    <div>{claimId}</div>
+    <div className="dd-privacy-mask">{claimId}</div>
   </div>
 );
 

@@ -14,15 +14,15 @@ const unconnectedVetInfoView = profile => {
   return (
     <div>
       <p className="vads-u-margin-top--0">
-        This is the personal information we have on file for you.
+        This is the personal information we have on file for you sdfsdf.
       </p>
-      <div className="blue-bar-block">
+      <div className="blue-bar-block dd-privacy-mask">
         <strong>
           {`${first || ''} ${middle || ''} ${last || ''}`}
           {suffix && `, ${suffix}`}
         </strong>
         {ssn && (
-          <p>
+          <p className="">
             Social Security number: {mask}
             {ssn.slice(5)}
           </p>
