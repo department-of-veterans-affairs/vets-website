@@ -358,6 +358,17 @@ function mapStateToProps(state) {
     ...stemClaims,
   ].sort(sortByLastUpdated);
 
+  function groupByDocsNeeded(list) {
+    const claimsWithOpenRequests = list.filter(
+      claim => claim.attributes.documentsNeeded,
+    );
+    const claimsWithoutOpenRequests = list.filter(
+      claim => !claim.attributes.documentsNeeded,
+    );
+
+    return claimsWithOpenRequests.concat(claimsWithoutOpenRequests);
+  }
+
   return {
     appealsAvailable: claimsV2Root.v2Availability,
     appealsLoading: claimsV2Root.appealsLoading,
@@ -369,7 +380,7 @@ function mapStateToProps(state) {
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
     fullName: state.user.profile.userFullName,
-    list: sortedList,
+    list: groupByDocsNeeded(sortedList),
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
     synced: claimsState.claimSync.synced,
     // START lighthouse_migration
