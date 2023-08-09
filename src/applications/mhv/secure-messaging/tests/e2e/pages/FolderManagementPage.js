@@ -30,7 +30,7 @@ class FolderManagementPage {
       .find('[type="button"]');
   };
 
-  clickAndLoadCustumFolder = (
+  clickAndLoadCustomFolder = (
     folderName,
     folderId,
     folderData,
@@ -210,8 +210,29 @@ class FolderManagementPage {
     // cy.wait('@mockCustomResponse');
   };
 
+  foldersSelectors = ['Deleted', 'TEST2', 'TESTAGAIN', 'newFolder'];
+
+  moveInboxFolderMessageToDifferentFolder = (
+    folderId = -3,
+    folderName = this.foldersSelectors[0],
+  ) => {
+    cy.intercept(
+      'PATCH',
+      `my_health/v1/messaging/threads/7176615/move?folder_id=${folderId}`,
+      {},
+    );
+    cy.get('[data-testid="move-button-text"]').click();
+    cy.get(`[data-testid="radiobutton-${folderName}"]`)
+      .should('exist')
+      .click();
+    cy.get('#modal-primary-button').click();
+  };
+
   verifyMoveMessageSuccessConfirmationFocus = () => {
-    cy.contains('Message conversation was successfully moved.').should('exist');
+    cy.get('[close-btn-aria-label="Close notification"]')
+      .should('exist')
+      .and('have.text', 'Message conversation was successfully moved.');
   };
 }
+
 export default FolderManagementPage;
