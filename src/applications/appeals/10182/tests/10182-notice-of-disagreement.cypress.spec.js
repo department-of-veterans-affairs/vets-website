@@ -52,7 +52,7 @@ const testConfig = createTestConfig(
             );
             cy.get('va-alert[status="error"] h3').should(
               'contain',
-              testData.contestableIssues?.length
+              testData.contestedIssues?.length
                 ? 'You’ll need to select an issue'
                 : 'Sorry, we couldn’t find any eligible issues',
             );
@@ -70,7 +70,7 @@ const testConfig = createTestConfig(
                 cy.get('#submit').click();
               }
             });
-            testData.contestableIssues?.forEach(issue => {
+            testData.contestedIssues?.forEach(issue => {
               if (issue[SELECTED]) {
                 cy.get(
                   `h4:contains("${issue.attributes.ratingIssueSubjectText}")`,
@@ -127,7 +127,7 @@ const testConfig = createTestConfig(
         cy.intercept('GET', '/v0/in_progress_forms/10182', mockPrefill);
         cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
         cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {
-          data: fixDecisionDates(data.contestableIssues, { unselected: true }),
+          data: fixDecisionDates(data.contestedIssues, { unselected: true }),
         });
       });
     },

@@ -30,7 +30,7 @@
     "extensionReason": "Lorem ipsum",
     "appealingVhaDenial": false,
 
-    "contestableIssues": [
+    "contestedIssues": [
       {
         "type": "contestableIssue",
         "attributes": {

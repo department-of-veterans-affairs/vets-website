@@ -24,7 +24,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
     cy.get('@testData').then(({ data }) => {
       const { chapters } = formConfig;
       cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {
-        data: fixDecisionDates(data.contestableIssues),
+        data: fixDecisionDates(data.contestedIssues),
       });
       cy.visit(
         '/decision-reviews/board-appeal/request-board-appeal-form-10182',

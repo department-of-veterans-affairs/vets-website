@@ -1,5 +1,5 @@
-import { getDate } from '../utils/dates';
-import { SELECTED } from '../constants';
+import { getDate } from '../../shared/utils/dates';
+import { SELECTED } from '../../shared/constants';
 
 export const getRandomDate = () =>
   getDate({
@@ -33,8 +33,8 @@ export const fixDecisionDates = (data, { unselected }) => {
 
 const date = getDate({ offset: { months: -2 } });
 
-export const mockContestableIssues = ({ contestableIssues }) =>
-  contestableIssues.map(issue => ({
+export const mockContestableIssues = ({ contestedIssues }) =>
+  contestedIssues.map(issue => ({
     id: null,
     type: 'contestableIssue',
     attributes: {
