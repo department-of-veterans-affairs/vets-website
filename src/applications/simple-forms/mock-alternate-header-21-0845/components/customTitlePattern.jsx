@@ -1,8 +1,7 @@
 import React from 'react';
 
 /**
- * This is a duplicate of titlePattern but with favoring h1 for titles
- * (used with custom header)
+ * To be used with custom header which expects a h1 title defined by the page
  *
  * @param {string | JSX.Element} [title] 'ui:title'
  * @param {string | JSX.Element} [description] 'ui:description'

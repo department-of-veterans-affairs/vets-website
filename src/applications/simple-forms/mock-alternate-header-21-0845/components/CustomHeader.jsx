@@ -39,7 +39,6 @@ const CustomHeader = ({ formData, formConfig, router, currentLocation }) => {
   return !isIntroductionPage && !isNonFormPage && !isReviewPage ? (
     <div className="vads-u-background-color--primary-alt-lightest vads-u-padding-y--2 vads-u-margin-bottom--2">
       <div className="row">
-        {/* <div className="usa-width-two-thirds medium-8 columns"> */}
         <div className="vads-u-margin-x--2p5">
           <div className="vads-u-font-size--h4 vads-u-font-family--serif vads-u-margin-bottom--2 vads-u-font-weight--bold">
             {formConfig.title} ({formConfig.formId})
@@ -57,7 +56,6 @@ const CustomHeader = ({ formData, formConfig, router, currentLocation }) => {
             </span>
             <Link to="/">Exit form</Link>
           </div>
-          {/* </div> */}
         </div>
       </div>
     </div>
