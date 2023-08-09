@@ -47,6 +47,7 @@ const ZipCodePage = ({
         router.push(ROUTES.HOME);
         return;
       }
+
       waitForRenderThenFocus('h1');
     },
     [pastMode, router, year],
