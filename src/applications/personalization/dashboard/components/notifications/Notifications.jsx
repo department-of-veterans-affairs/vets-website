@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import environment from '~/platform/utilities/environment';
-import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  useFeatureToggle,
+  Toggler,
+} from '~/platform/utilities/feature-toggles';
 import { fetchNotifications } from '../../../common/actions/notifications';
 import DebtNotificationAlert from './DebtNotificationAlert';
 import TestNotification from './TestNotification';
