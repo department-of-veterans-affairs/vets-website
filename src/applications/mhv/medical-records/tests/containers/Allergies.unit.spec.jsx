@@ -6,7 +6,7 @@ import reducer from '../../reducers';
 import allergies from '../fixtures/allergies.json';
 import { convertAllergy } from '../../reducers/allergies';
 
-describe('Vaccines list container', () => {
+describe('Allergies list container', () => {
   const initialState = {
     mr: {
       allergies: {
