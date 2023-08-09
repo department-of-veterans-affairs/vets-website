@@ -54,25 +54,23 @@ const ClaimsAndAppealsError = () => {
   );
 };
 
-const PopularActionsForClaimsAndAppeals = ({ showLearnLink = false }) => {
+const PopularActionsForClaimsAndAppeals = () => {
   return (
     <>
       <h3 className="sr-only">Popular actions for Claims and Appeals</h3>
-      {showLearnLink && (
-        <IconCTALink
-          text="Learn how to file a claim"
-          href="/disability/how-to-file-claim/"
-          icon="file"
-          onClick={() => {
-            recordEvent({
-              event: 'nav-linkslist',
-              'links-list-header': 'Learn how to file a claim',
-              'links-list-section-header': 'Claims and appeals',
-            });
-          }}
-          testId="file-claims-and-appeals-link-v2"
-        />
-      )}
+      <IconCTALink
+        text="Learn how to file a claim"
+        href="/disability/how-to-file-claim/"
+        icon="file"
+        onClick={() => {
+          recordEvent({
+            event: 'nav-linkslist',
+            'links-list-header': 'Learn how to file a claim',
+            'links-list-section-header': 'Claims and appeals',
+          });
+        }}
+        testId="file-claims-and-appeals-link-v2"
+      />
       <IconCTALink
         text="Manage all claims and appeals"
         href="/claim-or-appeal-status/"
@@ -88,10 +86,6 @@ const PopularActionsForClaimsAndAppeals = ({ showLearnLink = false }) => {
       />
     </>
   );
-};
-
-PopularActionsForClaimsAndAppeals.propTypes = {
-  showLearnLink: PropTypes.bool,
 };
 
 const ClaimsAndAppealsV2 = ({
@@ -177,7 +171,7 @@ const ClaimsAndAppealsV2 = ({
               ) : (
                 <>
                   <NoClaimsOrAppealsText />
-                  <PopularActionsForClaimsAndAppeals showLearnLink />
+                  <PopularActionsForClaimsAndAppeals />
                 </>
               )}
             </>
