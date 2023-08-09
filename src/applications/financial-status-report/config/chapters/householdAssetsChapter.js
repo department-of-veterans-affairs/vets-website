@@ -23,7 +23,10 @@ import EnhancedVehicleRecord from '../../components/household/EnhancedVehicleRec
 import VehicleSummaryWidget from '../../components/otherAssets/VehicleSummaryWidget';
 import MonetaryAssetsSummaryReview from '../../components/monetary/MonetaryAssetsSummaryReview';
 import VehicleSummaryReview from '../../components/otherAssets/VehicleSummaryReview';
-import CashOnHand from '../../components/monetary/CashOnHand';
+import {
+  CashOnHand,
+  CashOnHandReview,
+} from '../../components/monetary/CashOnHand';
 import StreamlinedExplainer from '../../components/shared/StreamlinedExplainer';
 import { isStreamlinedShortForm } from '../../utils/streamlinedDepends';
 
@@ -38,7 +41,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         CustomPage: CashOnHand,
-        CustomPageReview: null,
+        CustomPageReview: CashOnHandReview,
         depends: ({ gmtData }) =>
           gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt,
       },
