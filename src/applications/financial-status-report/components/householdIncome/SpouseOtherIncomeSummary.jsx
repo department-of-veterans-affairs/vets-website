@@ -8,7 +8,7 @@ import {
 } from '../shared/MiniSummaryCard';
 import { currency as currencyFormatter } from '../../utils/helpers';
 
-import { calculateTotalIncome } from '../../utils/streamlinedDepends';
+import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
 
 const SpouseOtherIncomeSummary = ({
   data,
@@ -27,7 +27,7 @@ const SpouseOtherIncomeSummary = ({
     () => {
       if (!gmtData?.isEligibleForStreamlined) return;
 
-      const calculatedIncome = calculateTotalIncome(data);
+      const calculatedIncome = calculateTotalAnnualIncome(data);
       setFormData({
         ...data,
         gmtData: {
