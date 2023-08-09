@@ -40,6 +40,7 @@ const SpouseAdditionalIncomeCheckList = ({
       ? setFormData({
           ...data,
           additionalIncome: {
+            ...additionalIncome,
             spouse: {
               spAddlIncome: spAddlIncome.filter(
                 source => source.name !== value,
