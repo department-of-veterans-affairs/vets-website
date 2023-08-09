@@ -24,7 +24,12 @@ import claimantPersonalInformation from '../pages/claimantPersonalInformation';
 import claimantSsn from '../pages/claimantSsn';
 import claimantAddress from '../pages/claimantAddress';
 import claimantContactInformation from '../pages/claimantContactInformation';
-import preparerQualifications1 from '../pages/preparerQualifications1';
+import {
+  schemaA,
+  schemaB,
+  schemaC,
+  schemaD,
+} from '../pages/preparerQualifications1';
 import preparerQualifications2 from '../pages/preparerQualifications2';
 import veteranPersonalInformation from '../pages/veteranPersonalInformation';
 import veteranIdentificationInformation1 from '../pages/veteranIdentificationInformation1';
@@ -236,8 +241,7 @@ const formConfig = {
             claimantIdentification:
               claimantIdentificationDisplayOptions.VETERAN,
           },
-          uiSchema: preparerQualifications1.uiSchemaA,
-          schema: preparerQualifications1.schema,
+          ...schemaA,
         },
         preparerQualifications1B: {
           // for spouse claimant
@@ -246,8 +250,7 @@ const formConfig = {
           depends: {
             claimantIdentification: claimantIdentificationDisplayOptions.SPOUSE,
           },
-          uiSchema: preparerQualifications1.uiSchemaB,
-          schema: preparerQualifications1.schema,
+          ...schemaB,
         },
         preparerQualifications1C: {
           // for parent claimant
@@ -256,8 +259,7 @@ const formConfig = {
           depends: {
             claimantIdentification: claimantIdentificationDisplayOptions.PARENT,
           },
-          uiSchema: preparerQualifications1.uiSchemaC,
-          schema: preparerQualifications1.schema,
+          ...schemaC,
         },
         preparerQualifications1D: {
           // for child claimant
@@ -266,8 +268,7 @@ const formConfig = {
           depends: {
             claimantIdentification: claimantIdentificationDisplayOptions.CHILD,
           },
-          uiSchema: preparerQualifications1.uiSchemaD,
-          schema: preparerQualifications1.schema,
+          ...schemaD,
         },
         preparerQualifications2: {
           path: 'preparer-qualifications-2',

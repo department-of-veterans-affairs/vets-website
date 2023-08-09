@@ -21,8 +21,10 @@ const commonUiSchema = {
     },
   },
 };
-export default {
-  uiSchemaA: {
+
+/** @type {PageSchema} */
+export const schemaA = {
+  uiSchema: {
     // for veteran claimant
     ...commonUiSchema,
     preparerQualifications: {
@@ -38,7 +40,20 @@ export default {
       },
     },
   },
-  uiSchemaB: {
+  schema: {
+    type: 'object',
+    properties: {
+      preparerQualifications: {
+        type: 'string',
+      },
+    },
+    required: ['preparerQualifications'],
+  },
+};
+
+/** @type {PageSchema} */
+export const schemaB = {
+  uiSchema: {
     // for spouse claimant
     ...commonUiSchema,
     preparerQualifications: {
@@ -54,7 +69,20 @@ export default {
       },
     },
   },
-  uiSchemaC: {
+  schema: {
+    type: 'object',
+    properties: {
+      preparerQualifications: {
+        type: 'string',
+      },
+    },
+    required: ['preparerQualifications'],
+  },
+};
+
+/** @type {PageSchema} */
+export const schemaC = {
+  uiSchema: {
     // for parent claimant
     ...commonUiSchema,
     preparerQualifications: {
@@ -70,7 +98,20 @@ export default {
       },
     },
   },
-  uiSchemaD: {
+  schema: {
+    type: 'object',
+    properties: {
+      preparerQualifications: {
+        type: 'string',
+      },
+    },
+    required: ['preparerQualifications'],
+  },
+};
+
+/** @type {PageSchema} */
+export const schemaD = {
+  uiSchema: {
     // for child claimant
     ...commonUiSchema,
     preparerQualifications: {
