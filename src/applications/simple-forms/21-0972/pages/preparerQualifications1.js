@@ -32,7 +32,7 @@ const schema = {
 };
 
 /** @type {PageSchema} */
-export const schemaA = {
+export const preparerQualificationsSchema1A = {
   uiSchema: {
     // for veteran claimant
     ...commonUiSchema,
@@ -53,7 +53,7 @@ export const schemaA = {
 };
 
 /** @type {PageSchema} */
-export const schemaB = {
+export const preparerQualificationsSchema1B = {
   uiSchema: {
     // for spouse claimant
     ...commonUiSchema,
@@ -74,7 +74,7 @@ export const schemaB = {
 };
 
 /** @type {PageSchema} */
-export const schemaC = {
+export const preparerQualificationsSchema1C = {
   uiSchema: {
     // for parent claimant
     ...commonUiSchema,
@@ -95,7 +95,7 @@ export const schemaC = {
 };
 
 /** @type {PageSchema} */
-export const schemaD = {
+export const preparerQualificationsSchema1D = {
   uiSchema: {
     // for child claimant
     ...commonUiSchema,
