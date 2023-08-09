@@ -10,7 +10,7 @@ import {
   mergeAdditionalComments,
   filterReduceByName,
 } from './helpers';
-import { getMonthlyIncome } from './calculateIncome';
+import { getMonthlyIncome, safeNumber } from './calculateIncome';
 import { getFormattedPhone } from './contactInformation';
 
 export const transform = (formConfig, form) => {
@@ -116,7 +116,8 @@ export const transform = (formConfig, form) => {
   // Same conditions for the cash on hand page depends
   const calculatedCashOnHand =
     gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt
-      ? filterReduceByName(monetaryAssets, cashFilters) + assets.cashOnHand
+      ? filterReduceByName(monetaryAssets, cashFilters) +
+        safeNumber(assets.cashOnHand)
       : filterReduceByName(monetaryAssets, cashFilters);
   const calculatedCashInBank = filterReduceByName(monetaryAssets, bankFilters);
   const calculatedUsSavingsBonds = filterReduceByName(
