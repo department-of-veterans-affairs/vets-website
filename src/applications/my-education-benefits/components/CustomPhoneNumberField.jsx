@@ -15,6 +15,7 @@ function CustomPhoneNumberField(props) {
           { value: event, dupe: '' },
         ]);
       }
+
       props?.setFormData({
         ...props?.formData,
         duplicatePhone: [{ value: '', dupe: '' }],
