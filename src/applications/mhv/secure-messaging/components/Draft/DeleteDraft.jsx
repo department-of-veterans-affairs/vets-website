@@ -34,9 +34,7 @@ const DeleteDraft = props => {
 
   const handleDeleteModalClose = () => {
     setIsModalVisible(false);
-    focusElement(
-      deleteDraftButtonRef.current.shadowRoot.querySelector('button'),
-    );
+    focusElement(deleteDraftButtonRef.current);
   };
 
   return (
@@ -48,10 +46,9 @@ const DeleteDraft = props => {
         ref={deleteDraftButtonRef}
         className="usa-button usa-button-secondary delete-draft-button vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--0"
         data-testid="delete-draft-button"
-        onClick={e => {
+        onClick={() => {
           if (props.draftId) {
             setIsModalVisible(true);
-            props.setLastFocusableElement(e.target);
           }
         }}
       >
@@ -68,9 +65,8 @@ const DeleteDraft = props => {
 };
 
 DeleteDraft.propTypes = {
-  draftId: PropType.number.isRequired,
+  draftId: PropType.number,
   draft: PropType.object,
-  setLastFocusableElement: PropType.func,
   setNavigationError: PropType.func,
 };
 
