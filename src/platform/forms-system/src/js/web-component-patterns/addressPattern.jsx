@@ -477,3 +477,15 @@ export const addressSchema = options => {
 
   return schema;
 };
+
+export const addressNoMilitaryUI = options =>
+  addressUI({
+    omit: ['isMilitary'],
+    ...options,
+  });
+
+export const addressNoMilitarySchema = options =>
+  addressSchema({
+    omit: ['isMilitary'],
+    ...options,
+  });

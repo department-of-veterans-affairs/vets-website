@@ -40,8 +40,13 @@ const CustomHeader = ({ formData, formConfig, router, currentLocation }) => {
     <div className="vads-u-background-color--primary-alt-lightest vads-u-padding-y--2 vads-u-margin-bottom--2">
       <div className="row">
         <div className="vads-u-margin-x--2p5">
-          <div className="vads-u-font-size--h4 vads-u-font-family--serif vads-u-margin-bottom--2 vads-u-font-weight--bold">
-            {formConfig.title} ({formConfig.formId})
+          <div className="vads-u-font-size--h4 vads-u-font-family--serif vads-u-font-weight--bold">
+            {formConfig.title}
+          </div>
+          <div className="vads-u-margin-bottom--2">
+            {/* (VA Form {formConfig.formId}) */}
+            {/* Hard coded so we don't show MOCK-FORM-NUMBER */}
+            (VA Form 21-0845)
           </div>
           <div className="rjsf-form-custom-header vads-u-display--flex vads-u-justify-content--space-between small-screen:vads-u-justify-content--flex-start">
             <span>
