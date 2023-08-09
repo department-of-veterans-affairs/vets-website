@@ -5,7 +5,6 @@ import {
 import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
 import { claimantIdentificationDisplayOptions } from '../definitions/constants';
 
-/** @type {PageSchema} */
 const commonUiSchema = {
   preparerQualifications: {
     'ui:widget': GroupCheckboxWidget,
@@ -20,6 +19,16 @@ const commonUiSchema = {
       showFieldLabel: true,
     },
   },
+};
+
+const schema = {
+  type: 'object',
+  properties: {
+    preparerQualifications: {
+      type: 'string',
+    },
+  },
+  required: ['preparerQualifications'],
 };
 
 /** @type {PageSchema} */
@@ -40,15 +49,7 @@ export const schemaA = {
       },
     },
   },
-  schema: {
-    type: 'object',
-    properties: {
-      preparerQualifications: {
-        type: 'string',
-      },
-    },
-    required: ['preparerQualifications'],
-  },
+  schema,
 };
 
 /** @type {PageSchema} */
@@ -69,15 +70,7 @@ export const schemaB = {
       },
     },
   },
-  schema: {
-    type: 'object',
-    properties: {
-      preparerQualifications: {
-        type: 'string',
-      },
-    },
-    required: ['preparerQualifications'],
-  },
+  schema,
 };
 
 /** @type {PageSchema} */
@@ -98,15 +91,7 @@ export const schemaC = {
       },
     },
   },
-  schema: {
-    type: 'object',
-    properties: {
-      preparerQualifications: {
-        type: 'string',
-      },
-    },
-    required: ['preparerQualifications'],
-  },
+  schema,
 };
 
 /** @type {PageSchema} */
@@ -127,13 +112,5 @@ export const schemaD = {
       },
     },
   },
-  schema: {
-    type: 'object',
-    properties: {
-      preparerQualifications: {
-        type: 'string',
-      },
-    },
-    required: ['preparerQualifications'],
-  },
+  schema,
 };

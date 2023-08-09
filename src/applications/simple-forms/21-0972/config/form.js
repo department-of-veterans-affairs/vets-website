@@ -25,10 +25,10 @@ import claimantSsn from '../pages/claimantSsn';
 import claimantAddress from '../pages/claimantAddress';
 import claimantContactInformation from '../pages/claimantContactInformation';
 import {
-  schemaA,
-  schemaB,
-  schemaC,
-  schemaD,
+  preparerQualificationsSchema1A,
+  preparerQualificationsSchema1B,
+  preparerQualificationsSchema1C,
+  preparerQualificationsSchema1D,
 } from '../pages/preparerQualifications1';
 import preparerQualifications2 from '../pages/preparerQualifications2';
 import veteranPersonalInformation from '../pages/veteranPersonalInformation';
@@ -241,7 +241,7 @@ const formConfig = {
             claimantIdentification:
               claimantIdentificationDisplayOptions.VETERAN,
           },
-          ...schemaA,
+          ...preparerQualificationsSchema1A,
         },
         preparerQualifications1B: {
           // for spouse claimant
@@ -250,7 +250,7 @@ const formConfig = {
           depends: {
             claimantIdentification: claimantIdentificationDisplayOptions.SPOUSE,
           },
-          ...schemaB,
+          ...preparerQualificationsSchema1B,
         },
         preparerQualifications1C: {
           // for parent claimant
@@ -259,7 +259,7 @@ const formConfig = {
           depends: {
             claimantIdentification: claimantIdentificationDisplayOptions.PARENT,
           },
-          ...schemaC,
+          ...preparerQualificationsSchema1C,
         },
         preparerQualifications1D: {
           // for child claimant
@@ -268,7 +268,7 @@ const formConfig = {
           depends: {
             claimantIdentification: claimantIdentificationDisplayOptions.CHILD,
           },
-          ...schemaD,
+          ...preparerQualificationsSchema1D,
         },
         preparerQualifications2: {
           path: 'preparer-qualifications-2',
