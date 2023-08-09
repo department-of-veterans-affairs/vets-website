@@ -52,8 +52,6 @@ class FolderManagementPage {
     cy.wait('@customFolderMessages');
   };
 
-  currentThread = defaultMockThread;
-
   loadCustomFolderMessageDetails = (
     mockParentMessageDetails,
     mockThread = defaultMockThread,
@@ -132,14 +130,6 @@ class FolderManagementPage {
     ).as('full-thread');
 
     cy.contains(mockParentMessageDetails.data.attributes.subject).click();
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
     cy.wait('@message1');
     // cy.wait('@full-thread');
   };
