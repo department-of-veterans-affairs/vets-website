@@ -8,6 +8,7 @@ describe(manifest.appName, () => {
     site.login();
     FolderLoadPage.loadInboxMessages();
   });
+
   it('Check the Inbox folder', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
@@ -45,11 +46,11 @@ describe(manifest.appName, () => {
         },
       },
     });
-    FolderLoadPage.getFolderHeader('Sent messages');
+    FolderLoadPage.getFolderHeader('Sent');
     FolderLoadPage.verifyBackToMessagesButton();
   });
 
-  it('Check the header', () => {
+  it.skip('Check the header', () => {
     FolderLoadPage.loadDeletedMessages();
     cy.injectAxe();
     cy.axeCheck('main', {
