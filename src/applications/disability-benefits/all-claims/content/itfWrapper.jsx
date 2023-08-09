@@ -1,9 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
 import { recordEventOnce } from 'platform/monitoring/record-event';
 
 // EVSS returns dates like '2014-07-28T19:53:45.810+0000'
@@ -60,14 +57,24 @@ export const itfError = (
   <div>
     <div>
       <p className="vads-u-font-size--base">
-        Due to the high volume of submissions we are receiving, you can’t continue with this claim form at this time – but we have received your intent to file and saved your effective date for benefits.  <br />
+        Due to the high volume of submissions we are receiving, you can’t
+        continue with this claim form at this time - but we have received your
+        intent to file and saved your effective date for benefits. <br />
         Here’s what this means for you:
         <ul>
-        <li>You have 1 year from today to complete your claim.</li>
-        <li>If we determine that you’re eligible for disability compensation, we’ll backdate your benefits to today as your claim effective date.</li>
-        <li>If you’re filing a claim based on the PACT Act, you may still be eligible to receive benefits backdated to August 10, 2022.</li>
+          <li>You have 1 year from today to complete your claim.</li>
+          <li>
+            If we determine that you’re eligible for disability compensation,
+            we’ll backdate your benefits to today as your claim effective date.
+          </li>
+          <li>
+            If you’re filing a claim based on the PACT Act, you may still be
+            eligible to receive benefits backdated to August 10, 2022.
+          </li>
         </ul>
-        <strong>Note:</strong> If you come back to this form in the next few days and continue to get this message, don’t worry. Your intent to file date is set for today.
+        <strong>Note:</strong> If you come back to this form in the next few
+        days and continue to get this message, don’t worry. Your intent to file
+        date is set for today.
       </p>
     </div>
     {expander}
