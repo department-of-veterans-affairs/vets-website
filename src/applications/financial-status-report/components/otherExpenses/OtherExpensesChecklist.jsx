@@ -4,7 +4,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 
 import { otherLivingExpensesOptions } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
-import { calculateDiscressionaryIncome } from '../../utils/streamlinedDepends';
+import { calculateDiscretionaryIncome } from '../../utils/streamlinedDepends';
 
 const OtherExpensesChecklist = ({
   data,
@@ -30,18 +30,17 @@ const OtherExpensesChecklist = ({
         });
   };
 
-  // Calculate discressionary income as necessary
+  // Calculate Discretionary income as necessary
   const updateStreamlinedValues = () => {
     if (otherExpenses?.length || !gmtData?.isEligibleForStreamlined) return;
 
-    const calculatedDiscressionaryIncome = calculateDiscressionaryIncome(data);
+    const calculatedDiscretionaryIncome = calculateDiscretionaryIncome(data);
     setFormData({
       ...data,
       gmtData: {
         ...gmtData,
-        discressionaryBelow:
-          calculatedDiscressionaryIncome <
-          gmtData?.discretionaryIncomeThreshold,
+        discretionaryBelow:
+          calculatedDiscretionaryIncome < gmtData?.discretionaryIncomeThreshold,
       },
     });
   };
