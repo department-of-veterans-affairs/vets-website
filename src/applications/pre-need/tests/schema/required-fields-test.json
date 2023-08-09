@@ -1,0 +1,89 @@
+{
+  "data": {
+    "application": {
+      "applicant": {
+        "applicantRelationshipToClaimant": "Authorized Agent/Rep",
+        "name": {
+          "first": "Jeff",
+          "last": "Graham"
+        },
+        "view:applicantInfo": {
+          "mailingAddress": {
+            "street": "11 small sea st",
+            "street2": "Apt B",
+            "city": "Charleston",
+            "country": "USA",
+            "state": "WV",
+            "postalCode": "25301"
+          }
+        },
+        "phoneNumber": "5554445555"
+      },
+      "claimant": {
+        "address": {
+          "street": "101 big sky st",
+          "city": "Northampton",
+          "country": "USA",
+          "state": "MA",
+          "postalCode": "01040"
+        },
+        "view:contactInfoDescription": {},
+        "desiredCemetery": {},
+        "view:desiredCemeteryNote": {},
+        "name": {
+          "first": "Joe",
+          "last": "Test"
+        },
+        "ssn": "234-24-4444",
+        "dateOfBirth": "1990-03-02",
+        "relationshipToVet": "2",
+        "email": "test@test.com",
+        "phoneNumber": "5555555555"
+      },
+      "hasCurrentlyBuried": "1",
+      "currentlyBuriedPersons": [
+        {
+          "name": {
+            "first": "Terry",
+            "last": "Greene"
+          }
+        }
+      ],
+      "veteran": {
+        "view:hasServiceName": true,
+        "serviceName": {
+          "first": "Andrew",
+          "last": "Smith"
+        },
+        "serviceRecords": [
+          {
+            "dateRange": {},
+            "serviceBranch": "AL"
+          }
+        ],
+        "gender": "Male",
+        "maritalStatus": "Single",
+        "race": {
+          "isSpanishHispanicLatino": true,
+          "notSpanishHispanicLatino": false,
+          "isAmericanIndianOrAlaskanNative": false,
+          "isBlackOrAfricanAmerican": true,
+          "isNativeHawaiianOrOtherPacificIslander": false,
+          "isAsian": false,
+          "isWhite": false
+        },
+        "militaryStatus": "A",
+        "currentName": {
+          "first": "Jane",
+          "last": "Johnson"
+        },
+        "ssn": "234-55-4443",
+        "address": {
+          "country": "USA"
+        },
+        "isDeceased": "no"
+      }
+    },
+    "privacyAgreementAccepted": false
+  }
+}

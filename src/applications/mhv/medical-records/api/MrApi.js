@@ -130,8 +130,10 @@ export const getAllergy = id => {
   }
   return new Promise(resolve => {
     setTimeout(() => {
-      const allergy = allergies.find(alg => +alg.id === +id);
-      resolve(allergy);
+      const allergy = allergies.entry.find(
+        alg => String(alg.resource.id) === String(id),
+      );
+      resolve(allergy.resource);
     }, 1000);
   });
 };
@@ -142,13 +144,9 @@ export const getAllergy = id => {
  */
 export const getVaccineList = () => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
-    return apiRequest(
-      // Temporarily hard-coding a patient ID for development.
-      `${apiBasePath}/medical_records/vaccines`,
-      {
-        headers,
-      },
-    );
+    return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
+      headers,
+    });
   }
   return new Promise(resolve => {
     setTimeout(() => {

@@ -122,6 +122,7 @@ describe('Notification Settings Feature Toggles', () => {
         generateFeatureToggles({
           profileShowMhvNotificationSettings: true,
           profileShowPaymentsNotificationSetting: true,
+          profileShowEmailNotificationSettings: true,
         }),
       );
 

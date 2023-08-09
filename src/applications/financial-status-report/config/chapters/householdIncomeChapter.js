@@ -7,7 +7,6 @@ import {
   socialSecurityRecords,
   additionalIncome,
   additionalIncomeRecords,
-  additionalIncomeChecklist,
   additionalIncomeValues,
   spouseName,
   spouseEmployment,
@@ -20,7 +19,6 @@ import {
   spouseSocialSecurityRecords,
   spouseAdditionalIncome,
   spouseAdditionalIncomeRecords,
-  spouseAdditionalIncomeCheckList,
   spouseAdditionalIncomeValues,
   dependents,
   dependentRecords,
@@ -39,8 +37,10 @@ import EnhancedBenefitsEdit from '../../components/debtsAndCopays/EnhancedBenefi
 import SpouseEmploymentHistoryWidget from '../../components/employment/SpouseEmploymentHistoryWidget';
 import SpouseEmploymentQuestion from '../../components/employment/SpouseEmploymentQuestion';
 import EmploymentQuestion from '../../components/employment/EmploymentQuestion';
+import AdditionalIncomeCheckList from '../../components/householdIncome/AdditionalIncomeCheckList';
 import OtherIncomeSummary from '../../components/householdIncome/OtherIncomeSummary';
 import AddIncome from '../../components/householdIncome/AddIncome';
+import SpouseAdditionalIncomeCheckList from '../../components/householdIncome/SpouseAdditionalIncomeCheckList';
 import SpouseOtherIncomeSummary from '../../components/householdIncome/SpouseOtherIncomeSummary';
 import SpouseAddIncome from '../../components/householdIncome/SpouseAddIncome';
 import DependentAges from '../../components/household/DependentAges';
@@ -225,11 +225,17 @@ export default {
           !formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
       },
+      // =================================================
+      // additionalIncomeChecklist exit point for chapter
+      // need to set flag for isStreamlinedShortForm
+      // =================================================
       additionalIncomeChecklist: {
         path: 'additional-income-checklist',
         title: 'Additional income options',
-        uiSchema: additionalIncomeChecklist.uiSchema,
-        schema: additionalIncomeChecklist.schema,
+        CustomPage: AdditionalIncomeCheckList,
+        CustomPageReview: null,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
         depends: formData => formData['view:enhancedFinancialStatusReport'],
       },
       additionalIncomeValues: {
@@ -241,6 +247,10 @@ export default {
           formData.additionalIncome?.addlIncRecords?.length &&
           formData['view:enhancedFinancialStatusReport'],
       },
+      // =================================================
+      // otherIncomeSummary exit point for chapter
+      // need to set flag for isStreamlinedShortForm
+      // =================================================
       otherIncomeSummary: {
         path: 'other-income-summary',
         title: 'Other income summary',
@@ -267,6 +277,7 @@ export default {
         title: 'Spouse information',
         uiSchema: spouseInformation.uiSchema,
         schema: spouseInformation.schema,
+        depends: formData => !formData['view:streamlinedWaiver'],
       },
       spouseName: {
         path: 'spouse-name',
@@ -275,7 +286,8 @@ export default {
         schema: spouseName.schema,
         depends: formData =>
           formData.questions.isMarried &&
-          formData['view:enhancedFinancialStatusReport'],
+          formData['view:enhancedFinancialStatusReport'] &&
+          !formData['view:streamlinedWaiver'],
       },
       spouseEmploymentQuestion: {
         path: 'enhanced-spouse-employment-question',
@@ -453,11 +465,17 @@ export default {
           !formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
       },
+      // =================================================
+      // spouseAdditionalIncomeCheckList exit point for chapter
+      // need to set flag for isStreamlinedShortForm
+      // =================================================
       spouseAdditionalIncomeCheckList: {
         path: 'spouse-additional-income-checklist',
         title: 'Additional income options',
-        uiSchema: spouseAdditionalIncomeCheckList.uiSchema,
-        schema: spouseAdditionalIncomeCheckList.schema,
+        CustomPage: SpouseAdditionalIncomeCheckList,
+        CustomPageReview: null,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
         depends: formData =>
           formData.questions.isMarried &&
           formData['view:enhancedFinancialStatusReport'],
@@ -472,6 +490,10 @@ export default {
           formData.additionalIncome?.spouse?.spAddlIncome?.length > 0 &&
           formData['view:enhancedFinancialStatusReport'],
       },
+      // =================================================
+      // spouseOtherIncomeSummary exit point for chapter
+      // need to set flag for isStreamlinedShortForm
+      // =================================================
       spouseOtherIncomeSummary: {
         path: 'spouse-other-income-summary',
         title: 'Spouse other income summary',
@@ -499,14 +521,18 @@ export default {
         title: 'Dependents',
         uiSchema: dependents.uiSchema,
         schema: dependents.schema,
-        depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        depends: formData =>
+          !formData['view:enhancedFinancialStatusReport'] &&
+          !formData['view:streamlinedWaiver'],
       },
       dependentCount: {
         path: 'dependents-count',
         title: 'Dependents',
         uiSchema: dependents.uiSchemaEnhanced,
         schema: dependents.schemaEnhanced,
-        depends: formData => formData['view:enhancedFinancialStatusReport'],
+        depends: formData =>
+          formData['view:enhancedFinancialStatusReport'] &&
+          !formData['view:streamlinedWaiver'],
       },
       dependentRecords: {
         path: 'dependent-records',
@@ -515,7 +541,8 @@ export default {
         schema: dependentRecords.schema,
         depends: formData =>
           !formData['view:enhancedFinancialStatusReport'] &&
-          formData.questions?.hasDependents,
+          formData.questions?.hasDependents &&
+          !formData['view:streamlinedWaiver'],
         editModeOnReviewPage: true,
       },
       dependentAges: {
@@ -526,7 +553,8 @@ export default {
         depends: formData =>
           formData['view:enhancedFinancialStatusReport'] &&
           formData.questions?.hasDependents &&
-          formData.questions.hasDependents !== '0',
+          formData.questions.hasDependents !== '0' &&
+          !formData['view:streamlinedWaiver'],
         CustomPage: DependentAges,
         CustomPageReview: DependentAgesReview,
         editModeOnReviewPage: false,
