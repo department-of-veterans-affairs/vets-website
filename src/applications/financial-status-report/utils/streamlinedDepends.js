@@ -57,7 +57,7 @@ export const isStreamlinedLongForm = formData => {
     gmtData?.isEligibleForStreamlined &&
     !gmtData?.incomeBelowGmt &&
     gmtData?.incomeBelowOneFiftyGmt &&
-    gmtData?.assetsBelowGMT &&
+    gmtData?.assetsBelowGmt &&
     gmtData?.discressionaryBelow
   );
 };
