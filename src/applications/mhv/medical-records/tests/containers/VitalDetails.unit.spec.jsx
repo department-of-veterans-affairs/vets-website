@@ -37,17 +37,6 @@ describe('Vital details container', () => {
     expect(screen);
   });
 
-  it('displays Date of birth for the print view', () => {
-    const screen = setup();
-    expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
-  });
-
-  it('displays a print button', () => {
-    const screen = setup();
-    const printButton = screen.getByTestId('print-records-button');
-    expect(printButton).to.exist;
-  });
-
   it('displays the vital name inside an h1 as a span', () => {
     const screen = setup();
 
@@ -59,6 +48,17 @@ describe('Vital details container', () => {
       },
     );
     expect(vitalName).to.exist;
+  });
+
+  it('displays Date of birth for the print view', () => {
+    const screen = setup();
+    expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
+  });
+
+  it('displays a print button', () => {
+    const screen = setup();
+    const printButton = screen.getByTestId('print-records-button');
+    expect(printButton).to.exist;
   });
 
   it('displays the formatted received date', () => {
