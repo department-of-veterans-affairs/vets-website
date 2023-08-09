@@ -283,7 +283,7 @@
     "addlIncRecords": [
       {
         "name": "Social Security",
-        "amount": "7951"
+        "amount": "4639.90"
       }
     ],
     "spouse": {}
@@ -293,6 +293,12 @@
   },
   "assets": {},
   "expenses": {},
+  "otherExpenses": [
+    {
+      "name": "Clothing",
+      "amount": "6759"
+    }
+  ],
   "additionalData": {
     "bankruptcy": {}
   },
@@ -300,21 +306,9 @@
   "view:streamlinedWaiver": true,
   "income": [
     {
-      "veteranOrSpouse": "VETERAN"
+      "veteranOrSpouse": "VETERAN",
+      "compensationAndPension": "3261.1",
+      "education": "50"
     }
-  ],
-  "gmtData": {
-    "isEligibleForStreamlined": true,
-    "pensionThreshold": 23744,
-    "nationalThreshold": 50561,
-    "gmtThreshold": 95400,
-    "error": null,
-    "incomeUpperThreshold": 143100,
-    "assetThreshold": 6201,
-    "discretionaryIncomeThreshold": 1192.5,
-    "incomeBelowGmt": false,
-    "incomeBelowOneFiftyGmt": true,
-    "assetsBelowGMT": true,
-    "discressionaryBelow": true
-  }
+  ]
 }
