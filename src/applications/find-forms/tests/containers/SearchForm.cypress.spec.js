@@ -82,10 +82,6 @@ class FindFormComponent {
 
 // Tests for find-forms application
 describe('Find a VA form smoke test', () => {
-  // beforeEach(() => {
-  //   cy.server();
-  // });
-
   const findFormComponent = new FindFormComponent();
 
   it('does not display an error on initial page load with no URL query', () => {
