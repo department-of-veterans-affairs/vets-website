@@ -21,6 +21,12 @@ export const enhancedFSRFeatureToggle = state => {
   ];
 };
 
+export const streamlinedWaiverFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.financialStatusReportStreamlinedWaiver
+  ];
+};
+
 export const fsrConfirmationEmailToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.fsrConfirmationEmail];
 
