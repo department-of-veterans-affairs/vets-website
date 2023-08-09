@@ -25,7 +25,7 @@ const defaultIncome = {
     name: '',
     amount: '0.00',
   },
-  totalMonthlyNetIncome: '0.00',
+  totalMonthlyNetIncome: 0,
 };
 
 // filters for deductions
@@ -37,6 +37,7 @@ const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
 // safeNumber will return 0 if input is null, undefined, or NaN
 const safeNumber = input => {
   if (!input) return 0;
+  if (typeof input === 'number') return input;
   const num = Number(input.replaceAll(/[^0-9.-]/g, ''));
   return Number.isNaN(num) ? 0 : num;
 };
@@ -58,7 +59,7 @@ const safeNumber = input => {
  * @returns {Object} An object with the monthly income details
  */
 
-export const calculateIncome = (
+const calculateIncome = (
   enhancedFSRActive,
   employmentRecords = [],
   currEmployment = [],
@@ -137,7 +138,7 @@ export const calculateIncome = (
  * @returns An object with veteran, spouse, and total income
  */
 
-export const getMonthlyIncome = formData => {
+const getMonthlyIncome = formData => {
   const {
     additionalIncome: {
       addlIncRecords = [],
@@ -195,3 +196,5 @@ export const getMonthlyIncome = formData => {
     totalMonthlyNetIncome,
   };
 };
+
+export { calculateIncome, getMonthlyIncome, safeNumber };
