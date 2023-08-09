@@ -9,8 +9,8 @@ import PatientMessageDetailsPage from '../pages/PatientMessageDetailsPage';
 import mockMessages from '../fixtures/messages-response.json';
 import mockMessagewithAttachment from '../fixtures/message-response-withattachments.json';
 
-describe('Secure Messaging Keyboard Nav Move Message from CustomFolder', () => {
-  it('move message', () => {
+describe('Secure Messaging Move Message tests', () => {
+  it('move message from custom folder', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     const folderPage = new FolderManagementPage();
@@ -39,10 +39,8 @@ describe('Secure Messaging Keyboard Nav Move Message from CustomFolder', () => {
       },
     });
   });
-});
 
-describe('Move message to another folder ', () => {
-  it('Keyboard Navigation to Print Button', () => {
+  it('move message from inbox', () => {
     const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();
@@ -58,15 +56,11 @@ describe('Move message to another folder ', () => {
 
     cy.get('[data-testid="move-button-text"]').click();
 
-    cy.get('va-radio[class="form-radio-buttons hydrated"]')
-      .find('[for="radiobutton-Deleted"]')
+    cy.get('[data-testid="radiobutton-Deleted"]')
       .should('exist')
       .click();
 
-    cy.get('[type="button"]')
-      .contains('Confirm')
-      .should('exist')
-      .click();
+    cy.get('#modal-primary-button').click();
 
     cy.injectAxe();
     cy.axeCheck('main', {
