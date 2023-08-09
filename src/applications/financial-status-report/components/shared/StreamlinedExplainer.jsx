@@ -25,7 +25,8 @@ const StreamlinedExplainer = ({
           <ol>
             <li>
               Review your information and make sure it’s correct. You should
-              know that any changes to your answers may affect your request.
+              know that any changes to your answers may affect your eligibility
+              for debt relief.
             </li>
             <li>Sign the statement of truth.</li>
             <li>Read and accept our privacy policy.</li>
