@@ -82,7 +82,7 @@ export const transform = (formConfig, form) => {
   } else {
     streamlinedData = {
       value: false,
-      type: 'none', // not sure what we should call this
+      type: 'none', // not streamlined
     };
   }
 
