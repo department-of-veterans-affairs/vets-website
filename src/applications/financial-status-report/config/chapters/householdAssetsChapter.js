@@ -175,9 +175,7 @@ export default {
         title: 'Recreational vehicles',
         uiSchema: recreationalVehicles.uiSchema,
         schema: recreationalVehicles.schema,
-        depends: formData =>
-          formData['view:combinedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
+        depends: formData => !isStreamlinedShortForm(formData),
       },
       recreationalVehicleRecords: {
         path: 'recreational-vehicle-records',
@@ -186,7 +184,7 @@ export default {
         schema: recreationalVehicleRecords.recreationalVehicleSchema,
         depends: formData =>
           formData.questions.hasRecreationalVehicle &&
-          isStreamlinedShortForm(formData),
+          !isStreamlinedShortForm(formData),
         editModeOnReviewPage: false,
       },
       otherAssets: {
