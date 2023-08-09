@@ -171,7 +171,7 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
       ? 'form-review-panel-page-header vads-u-font-size--h5'
       : 'schemablock-title vads-u-margin-top--5';
   const text =
-    isReviewMode && !isEditing ? 'Review Dependants ages' : 'Dependents ages';
+    isReviewMode && !isEditing ? 'Dependants ages' : 'Dependents ages';
 
   let dependentAgeInputs = stateDependents.map(
     (dependent, i) =>
@@ -203,11 +203,29 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
           )}
       </div>
       {!isReviewMode ? (
-        <p className="vads-u-padding-top--2">
-          Enter each dependent’s age separately.
-        </p>
+        <>
+          <p className="vads-u-padding-top--2">
+            Enter each dependent’s age separately.
+          </p>
+        </>
       ) : null}
       {dependentAgeInputs}
+      {!isReviewMode ? (
+        <>
+          <va-additional-info
+            trigger="Who qualifies as a dependent?"
+            class="vads-u-margin-top--4"
+          >
+            <p>Here’s who we consider dependents:</p>
+            <ul>
+              <li>Your spouse</li>
+              <li>Unmarried children who are under 18 years old</li>
+              <li>Adult children who were disabled before age 18</li>
+              <li>Children ages 18 to 23 who attend school full time</li>
+            </ul>
+          </va-additional-info>
+        </>
+      ) : null}
       {isReviewMode && isEditing ? (
         <div className="vads-u-margin-top--2">
           <ReviewControl
