@@ -6,6 +6,7 @@ import LandingPage from '../pages/LandingPage';
 describe(manifest.appName, () => {
   describe('when user is a cerner patient', () => {
     beforeEach(() => {
+      ApiInitializer.initializeVamcEhrData.withSelectFacilities();
       ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       ApiInitializer.initializeUserData.withCernerPatient();
     });
@@ -17,6 +18,7 @@ describe(manifest.appName, () => {
   });
   describe('when user is not cerner patient', () => {
     beforeEach(() => {
+      ApiInitializer.initializeVamcEhrData.withSelectFacilities();
       ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       ApiInitializer.initializeUserData.withDefaultUser();
     });

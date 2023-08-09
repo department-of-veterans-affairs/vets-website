@@ -5,6 +5,7 @@ import LandingPage from '../pages/LandingPage';
 
 describe(manifest.appName, () => {
   beforeEach(() => {
+    ApiInitializer.initializeVamcEhrData.withSelectFacilities();
     ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
     ApiInitializer.initializeUserData.withDefaultUser();
   });

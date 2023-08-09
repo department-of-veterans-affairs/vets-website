@@ -1,8 +1,15 @@
 import featureToggles from '../../api/mocks/feature-toggles';
 import userData from '../../api/mocks/user';
 import messageData from '../../api/mocks/folders';
+import { vamcEhrData } from '../../api/mocks/vamc-ehr';
 
 class ApiInitializer {
+  initializeVamcEhrData = {
+    withSelectFacilities: () => {
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhrData);
+    },
+  };
+
   initializeFeatureToggle = {
     withAppDisabled: () => {
       cy.intercept(

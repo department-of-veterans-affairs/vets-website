@@ -17,7 +17,7 @@ const isLandingPageEnabledForUser = (state = {}) => {
     return false;
   }
   const { serviceName } = user?.profile?.signIn;
-  const isCernerPatient = selectIsCernerPatient(state);
+  const isCernerPatient = selectIsCernerPatient(state); // dependent on state.drupalStatcData.vamcEhrData
   const hasFacilities = user.profile.facilities?.length > 0;
   return (
     ENABLED_LOGIN_PROVIDERS.includes(serviceName) &&

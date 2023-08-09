@@ -17,9 +17,12 @@ import { useDatadogRum } from '../hooks/useDatadogRum';
 
 const App = () => {
   const fullState = useSelector(state => state);
-  const { featureToggles, user } = fullState;
+  const { drupalStaticData, featureToggles, user } = fullState;
   const [unreadMessageCount, setUnreadMessageCount] = useState();
-  const loading = featureToggles.loading || user.profile.loading;
+  const loading =
+    featureToggles?.loading ||
+    user?.profile?.loading ||
+    drupalStaticData?.vamcEhrData?.loading;
 
   const data = useMemo(
     () => {
@@ -33,12 +36,9 @@ const App = () => {
     [featureToggles, fullState, unreadMessageCount],
   );
 
-  const appEnabled = useMemo(
-    () => {
-      return isLandingPageEnabledForUser(fullState);
-    },
-    [fullState],
-  );
+  const appEnabled = useMemo(() => isLandingPageEnabledForUser(fullState), [
+    fullState,
+  ]);
 
   useEffect(
     () => {

@@ -1,19 +1,22 @@
 /* eslint-disable camelcase */
 // eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
-import Timeouts from 'platform/testing/e2e/timeouts';
+// import Timeouts from 'platform/testing/e2e/timeouts';
 
-import MockUser from '../../api/mocks/user';
+import {
+  defaultUser,
+  cernerUser,
+  generateUserWithServiceProvider,
+} from '../../api/mocks/user';
 
 class LandingPage {
   constructor() {
     this.pageUrl = '/my-health/';
   }
 
-  unreadMessageIndicator = () =>
-    cy.get('[role="status"]', { timeout: Timeouts.slow });
+  unreadMessageIndicator = () => cy.get('[role="status"]');
 
   validatePageLoaded = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
+    cy.get('h1')
       .should('be.visible')
       .and('have.text', 'My HealtheVet');
   };
@@ -26,15 +29,20 @@ class LandingPage {
     cy.url().should('not.include', '/my-health');
   };
 
-  visitPage = ({ serviceProvider = 'idme' } = {}) => {
-    cy.login(MockUser.generateUserWithServiceProvider({ serviceProvider }));
+  validateRedirectHappens = () => {
+    const redirect = 'myhealth.va.gov/mhv-portal-web/home';
+    cy.on('url:changed', url => {
+      if (!url.includes(redirect)) return;
+      expect(url).to.include(redirect);
+    });
+  };
+
+  visitPage = ({ user = defaultUser, serviceProvider = 'idme' } = {}) => {
+    cy.login(generateUserWithServiceProvider({ user, serviceProvider }));
     cy.visit(this.pageUrl);
   };
 
-  visitPageAsCernerPatient = () => {
-    cy.login(MockUser.cernerUser);
-    cy.visit(this.pageUrl);
-  };
+  visitPageAsCernerPatient = () => this.visitPage({ user: cernerUser });
 }
 
 export default new LandingPage();

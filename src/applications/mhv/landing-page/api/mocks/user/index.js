@@ -8,10 +8,10 @@ const defaultUser = {
           auth_broker: 'iam',
           ssoe: true,
         },
-        email: 'fake@fake.com',
+        email: 'gina.doe@example.com',
         loa: { current: 3 },
         first_name: 'Gina',
-        middle_name: '',
+        middle_name: 'A',
         last_name: 'Doe',
         gender: 'F',
         birth_date: '1985-01-01',
@@ -42,10 +42,10 @@ const defaultUser = {
       ],
       va_profile: {
         status: 'OK',
-        birth_date: '19511118',
-        family_name: 'Hunter',
-        gender: 'M',
-        given_names: ['Julio', 'E'],
+        birth_date: '19850101',
+        family_name: 'Doe',
+        gender: 'F',
+        given_names: ['Gina', 'A'],
         active_status: 'active',
         facilities: [
           {
@@ -70,10 +70,10 @@ const cernerUser = {
         sign_in: {
           service_name: 'idme',
         },
-        email: 'fake@fake.com',
+        email: 'cerseismith@example.com',
         loa: { current: 3 },
         first_name: 'Cersei',
-        middle_name: '',
+        middle_name: 'E',
         last_name: 'Smith',
         gender: 'F',
         birth_date: '1985-01-01',
@@ -99,10 +99,10 @@ const cernerUser = {
       ],
       va_profile: {
         status: 'OK',
-        birth_date: '19511118',
-        family_name: 'Hunter',
+        birth_date: '19850101',
+        family_name: 'Smith',
         gender: 'M',
-        given_names: ['Julio', 'E'],
+        given_names: ['Cersei', 'E'],
         active_status: 'active',
         facilities: [
           {
@@ -114,7 +114,7 @@ const cernerUser = {
             is_cerner: false,
           },
           {
-            facility_id: '757',
+            facility_id: '668',
             is_cerner: true,
           },
         ],
@@ -124,15 +124,18 @@ const cernerUser = {
   meta: { errors: null },
 };
 
-const generateUserWithFacilities = ({ facilities = [] }) => {
+const generateUserWithFacilities = ({
+  user = defaultUser,
+  facilities = [],
+}) => {
   return {
-    ...defaultUser,
+    ...user,
     data: {
-      ...defaultUser.data,
+      ...user.data,
       attributes: {
-        ...defaultUser.data.attributes,
+        ...user.data.attributes,
         va_profile: {
-          ...defaultUser.data.attributes.profile.va_profile,
+          ...user.data.attributes.profile.va_profile,
           facilities,
         },
       },
@@ -140,17 +143,20 @@ const generateUserWithFacilities = ({ facilities = [] }) => {
   };
 };
 
-const generateUserWithServiceProvider = ({ serviceProvider = 'idme' }) => {
+const generateUserWithServiceProvider = ({
+  user = defaultUser,
+  serviceProvider = 'idme',
+}) => {
   return {
-    ...defaultUser,
+    ...user,
     data: {
-      ...defaultUser.data,
+      ...user.data,
       attributes: {
-        ...defaultUser.data.attributes,
+        ...user.data.attributes,
         profile: {
-          ...defaultUser.data.attributes.profile,
+          ...user.data.attributes.profile,
           sign_in: {
-            ...defaultUser.data.attributes.profile.sign_in,
+            ...user.data.attributes.profile.sign_in,
             service_name: serviceProvider,
           },
         },
