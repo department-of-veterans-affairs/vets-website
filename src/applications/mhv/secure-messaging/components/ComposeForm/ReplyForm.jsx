@@ -10,7 +10,7 @@ import AttachmentsList from '../AttachmentsList';
 import { clearDraft, saveReplyDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
-import DeleteDraft from '../Draft/DeleteDraft';
+import ComposeFormActionButtons from './ComposeFormActionButtons';
 import { sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import EmergencyNote from '../EmergencyNote';
@@ -397,36 +397,13 @@ const ReplyForm = props => {
                 />
               </section>
               <DraftSavedInfo userSaved={userSaved} />
-              <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
-                {!cannotReply && (
-                  <button
-                    type="button"
-                    id="send-button"
-                    className="usa-button usa-button-primary vads-u-width--full medium-screen:vads-u-flex--1 vads-u-margin-top--0 medium-screen:vads-u-margin-right--1 vads-u-margin-right--0"
-                    data-testid="Send-Button"
-                    onClick={sendMessageHandler}
-                  >
-                    Send
-                  </button>
-                )}
-
-                <button
-                  type="button"
-                  id="save-draft-button"
-                  className="usa-button usa-button-secondary save-draft-button vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--1"
-                  data-testid="Save-Draft-Button"
-                  onClick={e => saveDraftHandler('manual', e)}
-                >
-                  <i className="fas fa-save" aria-hidden="true" />
-                  Save draft
-                </button>
-                {/* UCD requested to keep button even when not saved as draft */}
-                <DeleteDraft
-                  draftId={newDraftId}
-                  setLastFocusableElement={setLastFocusableElement}
-                  setNavigationError={setNavigationError}
-                />
-              </div>
+              <ComposeFormActionButtons
+                onSend={sendMessageHandler}
+                onSaveDraft={(type, e) => saveDraftHandler(type, e)}
+                draftId={newDraftId}
+                setNavigationError={setNavigationError}
+                cannotReply={cannotReply}
+              />
             </div>
           </form>
         </section>

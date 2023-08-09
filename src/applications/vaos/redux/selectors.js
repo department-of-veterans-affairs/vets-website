@@ -111,3 +111,6 @@ export const selectFeatureDescriptiveBackLink = state =>
 
 export const selectFeatureStaticLandingPage = state =>
   toggleValues(state).vaOnlineSchedulingStaticLandingPage;
+
+export const selectFeatureAfterVisitSummary = state =>
+  toggleValues(state).vaOnlineSchedulingAfterVisitSummary;

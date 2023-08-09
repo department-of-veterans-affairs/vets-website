@@ -1,27 +1,5 @@
-import OtherExpensesChecklist from '../../../components/otherExpenses/OtherExpensesChecklist';
 import OtherExpensesInputList from '../../../components/otherExpenses/OtherExpensesInputList';
 import { validateCurrencyArray } from '../../../utils/validations';
-
-export const otherExpensesChecklist = {
-  uiSchema: {
-    'ui:title': '',
-    'ui:field': OtherExpensesChecklist,
-    otherLivingExpenses: {
-      'ui:title': 'otherExpensesChecklist',
-      'ui:options': {
-        hideOnReview: true,
-      },
-    },
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      otherLivingExpenses: {
-        type: 'boolean',
-      },
-    },
-  },
-};
 
 export const otherExpensesValues = {
   uiSchema: {
