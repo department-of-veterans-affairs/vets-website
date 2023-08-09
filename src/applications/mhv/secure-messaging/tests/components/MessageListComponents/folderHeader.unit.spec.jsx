@@ -248,7 +248,7 @@ describe('Folder Header component', () => {
       );
     });
 
-    it('does not render FilterBox w/o `threadCount` on INBOX FOLDER page', () => {
+    it('does not render FilterBox w/o `threadCount` on SENT FOLDER page', () => {
       const screen = setup(initialSentState, Paths.SENT, null, sent);
       expect(screen.queryByTestId('search-form')).to.not.exist;
     });
