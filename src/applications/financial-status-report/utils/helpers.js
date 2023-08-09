@@ -134,6 +134,13 @@ export const nameStr = (socialSecurity, compensation, education, addlInc) => {
   return otherIncNames?.map(item => item).join(', ') ?? '';
 };
 
+// safeNumber will return 0 if input is null, undefined, or NaN
+export const safeNumber = input => {
+  if (!input) return 0;
+  const num = Number(input.replaceAll(/[^0-9.-]/g, ''));
+  return Number.isNaN(num) ? 0 : num;
+};
+
 export const fsrReasonDisplay = resolutionOption => {
   switch (resolutionOption) {
     case 'monthly':
