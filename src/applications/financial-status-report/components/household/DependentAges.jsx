@@ -243,6 +243,7 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
 };
 
 DependentAges.propTypes = {
+  goForward: PropTypes.func,
   goToPath: PropTypes.func,
   isReviewMode: PropTypes.bool,
 };

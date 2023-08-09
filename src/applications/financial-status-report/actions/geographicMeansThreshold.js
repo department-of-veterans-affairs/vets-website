@@ -2,6 +2,10 @@ import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
+const INCOME_UPPER_PERCENTAGE = 1.5;
+const ASSET_PERCENTAGE = 0.065;
+const DISCRETIONARY_INCOME_PERCENTAGE = 0.0125;
+
 export const getGMT = (dependents, year, zipCode) => {
   const CONTEXT_ROOT = '/income_limits/v1/limitsByZipCode';
   const REQUEST_URL = `${
@@ -14,18 +18,19 @@ export const getGMT = (dependents, year, zipCode) => {
   return apiRequest(REQUEST_URL)
     .then(({ data }) => {
       // incomeUpperThreshold is 150% of the GMT
-      const incomeUpperThreshold = data.gmtThreshold * 1.5;
+      const incomeUpperThreshold = data.gmtThreshold * INCOME_UPPER_PERCENTAGE;
       // assetThreshold is 6.5% of the GMT
-      const assetThreshold = data.gmtThreshold * 0.065;
+      const assetThreshold = data.gmtThreshold * ASSET_PERCENTAGE;
       // discressionaryStatus is 1.25% of the GMT
-      const discressionaryIncomeThreshold = data.gmtThreshold * 0.0125;
+      const discretionaryIncomeThreshold =
+        data.gmtThreshold * DISCRETIONARY_INCOME_PERCENTAGE;
 
       return {
         ...data,
         error: null,
         incomeUpperThreshold,
         assetThreshold,
-        discressionaryIncomeThreshold,
+        discretionaryIncomeThreshold,
       };
     })
     .catch(({ error }) => {

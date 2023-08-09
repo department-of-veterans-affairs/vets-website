@@ -32,7 +32,7 @@ const OtherExpensesSummary = ({
           ...gmtData,
           discressionaryBelow:
             calculatedDiscressionaryIncome <
-            gmtData?.discressionaryIncomeThreshold,
+            gmtData?.discretionaryIncomeThreshold,
         },
       });
     },
@@ -41,7 +41,7 @@ const OtherExpensesSummary = ({
     [
       otherExpenses,
       gmtData?.isEligibleForStreamlined,
-      gmtData?.discressionaryIncomeThreshold,
+      gmtData?.discretionaryIncomeThreshold,
     ],
   );
 
@@ -127,7 +127,7 @@ OtherExpensesSummary.propTypes = {
     otherExpenses: PropTypes.array,
     gmtData: PropTypes.shape({
       isEligibleForStreamlined: PropTypes.bool,
-      discressionaryIncomeThreshold: PropTypes.number,
+      discretionaryIncomeThreshold: PropTypes.number,
     }),
   }),
   goBack: PropTypes.func,

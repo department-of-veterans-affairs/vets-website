@@ -41,7 +41,7 @@ const OtherExpensesChecklist = ({
         ...gmtData,
         discressionaryBelow:
           calculatedDiscressionaryIncome <
-          gmtData?.discressionaryIncomeThreshold,
+          gmtData?.discretionaryIncomeThreshold,
       },
     });
   };
@@ -87,7 +87,7 @@ OtherExpensesChecklist.propTypes = {
     otherExpenses: PropTypes.array,
     gmtData: PropTypes.shape({
       isEligibleForStreamlined: PropTypes.bool,
-      discressionaryIncomeThreshold: PropTypes.number,
+      discretionaryIncomeThreshold: PropTypes.number,
     }),
   }).isRequired,
   goBack: PropTypes.func.isRequired,

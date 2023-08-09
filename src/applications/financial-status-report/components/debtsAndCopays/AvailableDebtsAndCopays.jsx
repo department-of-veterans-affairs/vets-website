@@ -51,14 +51,14 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
         formContext.submitted && !data.selectedDebtsAndCopays?.length,
       );
 
-      const elidgeible = isEligibleForStreamlined(data);
-      if (elidgeible !== data?.gmtData?.isEligibleForStreamlined) {
+      const eligible = isEligibleForStreamlined(data);
+      if (eligible !== data?.gmtData?.isEligibleForStreamlined) {
         dispatch(
           setData({
             ...data,
             gmtData: {
               ...data.gmtData,
-              isEligibleForStreamlined: elidgeible,
+              isEligibleForStreamlined: eligible,
             },
           }),
         );

@@ -58,7 +58,7 @@ const safeNumber = input => {
  * @returns {Object} An object with the monthly income details
  */
 
-export const calculateIncome = (
+const calculateIncome = (
   enhancedFSRActive,
   employmentRecords = [],
   currEmployment = [],
@@ -137,7 +137,7 @@ export const calculateIncome = (
  * @returns An object with veteran, spouse, and total income
  */
 
-export const getMonthlyIncome = formData => {
+const getMonthlyIncome = formData => {
   const {
     additionalIncome: {
       addlIncRecords = [],
@@ -195,3 +195,5 @@ export const getMonthlyIncome = formData => {
     totalMonthlyNetIncome,
   };
 };
+
+export { calculateIncome, getMonthlyIncome, safeNumber };

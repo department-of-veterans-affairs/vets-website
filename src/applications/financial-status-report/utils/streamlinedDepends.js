@@ -1,4 +1,5 @@
 import { DEBT_TYPES } from '../constants';
+import { safeNumber } from './calculateIncome';
 
 const VHA_LIMIT = 5000;
 
@@ -27,13 +28,13 @@ export const isEligibleForStreamlined = formData => {
 /**
  * @param {object} formData - all formData
  * @returns true if the following conditions are met:
- * - isElidgeibleForStreamlined is true
+ * - isEligeibleForStreamlined is true
  * - Total income below GMT
  * - Assets (cash on hand  specific page) below 6.5% of GMT
  */
 export const isStreamlinedShortForm = formData => {
   const { assets, gmtData } = formData;
-  const assetBelow = parseInt(assets?.cashOnHand, 10) < gmtData?.assetThreshold;
+  const assetBelow = safeNumber(assets?.cashOnHand) < gmtData?.assetThreshold;
 
   return (
     gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt && assetBelow
@@ -43,7 +44,7 @@ export const isStreamlinedShortForm = formData => {
 /**
  * @param {object} formData - all formData
  * @returns true if the following conditions are met:
- * - isElidgeibleForStreamlined is true
+ * - isEligeibleForStreamlined is true
  * - Income is above GMT
  * - Income is below 150% of GMT
  * - Total assets below 6.5% of GMT

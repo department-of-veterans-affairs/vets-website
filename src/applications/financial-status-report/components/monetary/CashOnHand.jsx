@@ -72,7 +72,6 @@ CashOnHand.propTypes = {
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };
 
