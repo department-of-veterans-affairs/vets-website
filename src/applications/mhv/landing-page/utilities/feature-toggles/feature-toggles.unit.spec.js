@@ -46,7 +46,7 @@ describe(manifest.appName, () => {
             },
             facilities: [
               {
-                facilityId: '668',
+                facilityId: '663',
                 isCerner: false,
               },
             ],

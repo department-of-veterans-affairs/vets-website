@@ -1,6 +1,6 @@
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
-import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
-import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+// import { selectIsCernerPatient } from '@department-of-veterans-affairs/platform-user';
 
 const ENABLED_LOGIN_PROVIDERS = Object.freeze([
   CSP_IDS.ID_ME,
@@ -17,8 +17,11 @@ const isLandingPageEnabledForUser = (state = {}) => {
     return false;
   }
   const { serviceName } = user?.profile?.signIn;
-  const isCernerPatient = selectIsCernerPatient(state); // dependent on state.drupalStatcData.vamcEhrData
+  // const isCernerPatient = selectIsCernerPatient(state); // dependent on state.drupalStaticData.vamcEhrData
   const hasFacilities = user.profile.facilities?.length > 0;
+  const isCernerPatient =
+    hasFacilities && user?.profile?.facilities.some(f => f.isCerner);
+  // console.log({ currentlyLoggedIn, serviceName, isCernerPatient, hasFacilities, result });
   return (
     ENABLED_LOGIN_PROVIDERS.includes(serviceName) &&
     !isCernerPatient &&

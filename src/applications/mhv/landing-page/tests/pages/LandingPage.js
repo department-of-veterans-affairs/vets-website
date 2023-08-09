@@ -1,12 +1,5 @@
-/* eslint-disable camelcase */
-// eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
-// import Timeouts from 'platform/testing/e2e/timeouts';
-
-import {
-  defaultUser,
-  cernerUser,
-  generateUserWithServiceProvider,
-} from '../../api/mocks/user';
+import { defaultUser, cernerUser } from '../../api/mocks/user';
+// import Timeouts from 'platform/testing/e2e/timeouts'; // { timeout: Timeouts.slow }
 
 class LandingPage {
   constructor() {
@@ -30,15 +23,17 @@ class LandingPage {
   };
 
   validateRedirectHappens = () => {
-    const redirect = 'myhealth.va.gov/mhv-portal-web/home';
+    // const redirectUrl = 'https://pint.eauth.va.gov/mhv-portal-web/eauth';
+    const redirectUrl = 'https://mhv-syst.myhealth.va.gov/mhv-portal-web/*';
+    cy.intercept('GET', redirectUrl, req => req.reply(200)).as('redirect');
     cy.on('url:changed', url => {
-      if (!url.includes(redirect)) return;
-      expect(url).to.include(redirect);
+      if (!url.includes(redirectUrl)) return;
+      expect(url).to.include(redirectUrl);
     });
   };
 
-  visitPage = ({ user = defaultUser, serviceProvider = 'idme' } = {}) => {
-    cy.login(generateUserWithServiceProvider({ user, serviceProvider }));
+  visitPage = ({ user = defaultUser } = {}) => {
+    cy.login(user);
     cy.visit(this.pageUrl);
   };
 

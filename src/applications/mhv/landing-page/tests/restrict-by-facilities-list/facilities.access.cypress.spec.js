@@ -1,6 +1,6 @@
 import manifest from '../../manifest.json';
 
-import { defaultUser, cernerUser } from '../../api/mocks/user';
+import { cernerUser, noFacilityUser } from '../../api/mocks/user';
 
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
@@ -15,18 +15,18 @@ describe(manifest.appName, () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('landing page is disabled for patients with no facilities', () => {
       ApiInitializer.initializeUserData.withFacilities({
-        user: defaultUser,
+        user: noFacilityUser,
         facilities: [],
       });
-      LandingPage.visitPage({ user: defaultUser });
-      LandingPage.validateRedirectHapped();
+      LandingPage.validateRedirectHappens();
+      LandingPage.visitPage({ user: noFacilityUser });
     });
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('landing page is disabled for patients with Cerner facilities', () => {
       ApiInitializer.initializeUserData.withCernerPatient();
+      LandingPage.validateRedirectHappens();
       LandingPage.visitPage({ user: cernerUser });
-      LandingPage.validateRedirectHappened();
     });
 
     it('landing page is enabled for patients with facilities', () => {

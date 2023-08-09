@@ -9,8 +9,7 @@ const initializeDatadogRum = () => {
     !environment.isLocalhost() &&
     // Prevent re-initializing the SDK.
     !window.DD_RUM?.getInitConfiguration() &&
-    !window.Mocha &&
-    !window.Cypress
+    !window.Mocha
   ) {
     datadogRum.init({
       applicationId: '1f81f762-c3fc-48c1-89d5-09d9236e340d',

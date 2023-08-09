@@ -2,10 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 // import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
+// import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { isAuthenticatedWithSSOe } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
 
 import LandingPage from '../components/LandingPage';
-
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getFolderList } from '../api/SmApi';
 import { isLandingPageEnabledForUser } from '../utilities/feature-toggles';
 import {
@@ -59,7 +59,9 @@ const App = () => {
   useDatadogRum();
 
   if (!appEnabled) {
-    const url = mhvUrl(true, 'home');
+    const ssoe = isAuthenticatedWithSSOe(fullState);
+    const url = mhvUrl(ssoe, 'home');
+    // console.log(`Redirecting to ${url}`);
     window.location.replace(url);
     return <></>;
   }
