@@ -219,7 +219,7 @@ class IntroductionPage extends React.Component {
                     files.
                   </p>
                   <h4>
-                    Other information for certain applicants you can provide:
+                    Other information for certain applicants you can provide:
                   </h4>
                   <ul>
                     <li>

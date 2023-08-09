@@ -2,33 +2,35 @@ import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
+const INCOME_UPPER_PERCENTAGE = 1.5;
+const ASSET_PERCENTAGE = 0.065;
+const DISCRETIONARY_INCOME_PERCENTAGE = 0.0125;
+
 export const getGMT = (dependents, year, zipCode) => {
   const CONTEXT_ROOT = '/income_limits/v1/limitsByZipCode';
-  const REMOTE_REQUEST_URL = `${
+  const REQUEST_URL = `${
     environment.API_URL
   }${CONTEXT_ROOT}/${zipCode}/${year}/${dependents}`;
-  // For testing locally -- borrowed from income_limits app
-  const LOCAL_REQUEST_URL = `https://api.va.gov/income_limits/v1/limitsByZipCode/${zipCode}/${year}/${dependents}`;
 
-  const REQUEST_URL = environment.isLocalhost()
-    ? LOCAL_REQUEST_URL
-    : REMOTE_REQUEST_URL;
+  // For testing locally if api db isn't populated
+  // const REQUEST_URL = `https://staging-api.va.gov/income_limits/v1/limitsByZipCode/${zipCode}/${year}/${dependents}`;
 
   return apiRequest(REQUEST_URL)
     .then(({ data }) => {
-      // incomeStatus is 150% of the GMT
-      const incomeStatus = data.gmtThreshold * 1.5;
-      // assetStatus is 6.5% of the GMT
-      const assetStatus = data.gmtThreshold * 0.065;
+      // incomeUpperThreshold is 150% of the GMT
+      const incomeUpperThreshold = data.gmtThreshold * INCOME_UPPER_PERCENTAGE;
+      // assetThreshold is 6.5% of the GMT
+      const assetThreshold = data.gmtThreshold * ASSET_PERCENTAGE;
       // discressionaryStatus is 1.25% of the GMT
-      const discressionaryStatus = data.gmtThreshold * 0.0125;
+      const discretionaryIncomeThreshold =
+        data.gmtThreshold * DISCRETIONARY_INCOME_PERCENTAGE;
 
       return {
         ...data,
         error: null,
-        incomeStatus,
-        assetStatus,
-        discressionaryStatus,
+        incomeUpperThreshold,
+        assetThreshold,
+        discretionaryIncomeThreshold,
       };
     })
     .catch(({ error }) => {
