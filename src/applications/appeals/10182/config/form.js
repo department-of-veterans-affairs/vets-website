@@ -19,11 +19,9 @@ import {
   canUploadEvidence,
   wantsToUploadEvidence,
   needsHearingType,
-  appStateSelector,
   showPart3,
   showExtensionReason,
 } from '../utils/helpers';
-import { getIssueTitle } from '../content/areaOfDisagreement';
 
 import { CONTESTABLE_ISSUES_PATH } from '../constants';
 
@@ -33,13 +31,15 @@ import homeless from '../pages/homeless';
 import contactInfo from '../pages/contactInfo';
 import contestableIssues from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
-import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
+import areaOfDisagreementFollowUp from '../../shared/pages/areaOfDisagreement';
+import AreaOfDisagreement from '../../shared/components/AreaOfDisagreement';
 import extensionRequest from '../pages/extensionRequest';
 import extensionReason from '../pages/extensionReason';
 import appealingVhaDenial from '../pages/appealingVhaDenial';
 import filingDeadlines from '../pages/filingDeadlines';
 import issueSummary from '../pages/issueSummary';
 import boardReview from '../pages/boardReview';
+import hearingType from '../pages/hearingType';
 import evidenceIntro from '../pages/evidenceIntro';
 import evidenceUpload from '../pages/evidenceUpload';
 
@@ -49,10 +49,12 @@ import {
   savedFormMessages,
 } from '../content/saveInProgress';
 
+import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
+import { appStateSelector } from '../../shared/utils/issues';
+
 // import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
-import hearingType from '../pages/hearingType';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -170,6 +172,8 @@ const formConfig = {
         areaOfDisagreementFollowUp: {
           title: getIssueTitle,
           path: 'area-of-disagreement/:index',
+          CustomPage: AreaOfDisagreement,
+          CustomPageReview: null,
           showPagePerItem: true,
           arrayPath: 'areaOfDisagreement',
           uiSchema: areaOfDisagreementFollowUp.uiSchema,
