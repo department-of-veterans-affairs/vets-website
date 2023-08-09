@@ -45,14 +45,16 @@ const CustomHeader = ({ formData, formConfig, router, currentLocation }) => {
             {formConfig.title} ({formConfig.formId})
           </div>
           <div className="rjsf-form-custom-header vads-u-display--flex vads-u-justify-content--space-between small-screen:vads-u-justify-content--flex-start">
-            <i
-              aria-hidden="true"
-              className="fas fa-arrow-left va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--0p5 vads-u-color--gray-medium"
-            />
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <Link onClick={goBack} className="vads-u-margin-right--4">
-              Back
-            </Link>
+            <span>
+              <i
+                aria-hidden="true"
+                className="fas fa-arrow-left va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--0p5 vads-u-color--gray-medium"
+              />
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <Link onClick={goBack} className="vads-u-margin-right--4">
+                Back
+              </Link>
+            </span>
             <Link to="/">Exit form</Link>
           </div>
           {/* </div> */}
