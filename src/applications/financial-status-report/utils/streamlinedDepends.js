@@ -1,5 +1,6 @@
 import { DEBT_TYPES } from '../constants';
-import { safeNumber } from './calculateIncome';
+import { getMonthlyIncome, safeNumber } from './calculateIncome';
+import { getTotalAssets, getMonthlyExpenses } from './helpers';
 
 const VHA_LIMIT = 5000;
 
@@ -48,7 +49,7 @@ export const isStreamlinedShortForm = formData => {
  * - Income is above GMT
  * - Income is below 150% of GMT
  * - Total assets below 6.5% of GMT
- * - Discressionary income below 1.25% of GMT
+ * - Discretionary income below 1.25% of GMT
  */
 export const isStreamlinedLongForm = formData => {
   const { gmtData } = formData;
@@ -57,8 +58,8 @@ export const isStreamlinedLongForm = formData => {
     gmtData?.isEligibleForStreamlined &&
     !gmtData?.incomeBelowGmt &&
     gmtData?.incomeBelowOneFiftyGmt &&
-    gmtData?.assetsBelowGMT &&
-    gmtData?.discressionaryBelow
+    gmtData?.assetsBelowGmt &&
+    gmtData?.discretionaryBelow
   );
 };
 
@@ -69,47 +70,36 @@ export const isStreamlinedLongForm = formData => {
 // =============================================================================
 
 /**
- * @param {object} formData - all formData
- * @returns Total income from veteran and spouse based on:
+ * Calculate total annual income based on the following monthly income sources:
  * - employment income
  * - "other" income
  * - benefits
+ *
+ * @param {object} formData - all formData
+ * @returns {number} Total yearly income
  */
-export const calculateTotalIncome = ({
-  additionalIncome: { addlIncRecords = [] },
-}) => {
-  // placeholder data, using editable numbers for now:
-  return addlIncRecords.reduce(
-    (acc, income) => acc + parseInt(income.amount, 10),
-    0,
-  );
+export const calculateTotalAnnualIncome = formData => {
+  const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
+  return totalMonthlyNetIncome * 12;
 };
 
 /**
- * @param {object} formData - all formData
- * @returns Sum of total assets
  *  Long form only; short form uses cash on hand
+ * @param {object} formData - all formData
+ * @returns {number} Sum of total assets
  */
-export const calculateTotalAssets = ({ assets: { otherAssets = [] } }) => {
-  if (otherAssets.length === 0) return 0;
-
-  // placeholder data, using editable numbers for now:
-  return otherAssets.reduce(
-    (acc, asset) => acc + parseInt(asset.amount, 10),
-    0,
-  );
+export const calculateTotalAssets = formData => {
+  return getTotalAssets(formData);
 };
 
 /**
+ * Discresionary income total baseed on total income less expenses
+ *  Long form only
  * @param {object} formData - all formData
- * @returns Discresionary income total baseed on total income less expenses
+ * @returns {number} Discretionary income
  */
-export const calculateDiscressionaryIncome = ({ otherExpenses = [] }) => {
-  if (otherExpenses.length === 0) return 0;
-
-  // placeholder data, using editable numbers for now:
-  return otherExpenses.reduce(
-    (acc, expense) => acc + parseInt(expense.amount, 10),
-    0,
-  );
+export const calculateDiscretionaryIncome = formData => {
+  const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
+  const expenses = getMonthlyExpenses(formData);
+  return totalMonthlyNetIncome - expenses;
 };
