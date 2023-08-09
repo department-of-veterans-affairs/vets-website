@@ -21,7 +21,7 @@ export const getGMT = (dependents, year, zipCode) => {
       const incomeUpperThreshold = data.gmtThreshold * INCOME_UPPER_PERCENTAGE;
       // assetThreshold is 6.5% of the GMT
       const assetThreshold = data.gmtThreshold * ASSET_PERCENTAGE;
-      // discressionaryStatus is 1.25% of the GMT
+      // discretionaryStatus is 1.25% of the GMT
       const discretionaryIncomeThreshold =
         data.gmtThreshold * DISCRETIONARY_INCOME_PERCENTAGE;
 
