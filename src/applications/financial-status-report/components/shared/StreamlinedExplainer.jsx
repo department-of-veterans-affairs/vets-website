@@ -12,19 +12,16 @@ const StreamlinedExplainer = ({
   return (
     <form>
       <fieldset className="vads-u-margin-y--2">
-        <VaAlert
-          background-only
-          class="row vads-u-margin-top--3 vads-u-margin-left--1"
-          status="info"
-          disable-analytics="true"
-        >
-          <h4 slot="headline">You can skip questions on this form</h4>
-          <p className="vads-u-font-size--base vads-u-font-family--sans">
-            Based on your responses so far, we’ll ask you fewer questions on
-            this form. And after you submit your application, we’ll approve your
-            reuqest automatically.
+        <VaAlert status="info" disable-analytics="true">
+          <h3 slot="headline">You can skip questions on this form</h3>
+          <p>
+            Based on your responses so far, you’re tentatively eligible for debt
+            relief. We don’t need to ask you any more questions. Follow the
+            steps on this page to submit your request.
           </p>
-          <h5>Here’s what you’ll need to do on the next page:</h5>
+          <p>
+            <strong>Here’s what you’ll need to do on the next page:</strong>
+          </p>
           <ol>
             <li>
               Review your information and make sure it’s correct. You should
@@ -35,8 +32,8 @@ const StreamlinedExplainer = ({
             <li>Submit your application.</li>
           </ol>
           <p>
-            After you submit your application, we’ll approve your request and
-            send you a letter with more details.
+            After you submit your request, we’ll mail you a letter with more
+            details.
           </p>
         </VaAlert>
         {contentBeforeButtons}
