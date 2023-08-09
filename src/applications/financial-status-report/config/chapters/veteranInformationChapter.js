@@ -3,6 +3,10 @@ import {
   combinedDebts,
   contactInfo,
   contactInformation,
+  spouseInformation,
+  spouseName,
+  dependents,
+  dependentRecords,
 } from '../../pages';
 import ContactInfo, {
   customContactFocus,
@@ -13,6 +17,8 @@ import {
   EditEmail,
   EditAddress,
 } from '../../components/contactInfo/EditContactInfo';
+import DependentAges from '../../components/household/DependentAges';
+import DependentAgesReview from '../../components/household/DependentAgesReview';
 
 export default {
   veteranInformationChapter: {
@@ -105,6 +111,41 @@ export default {
         depends: () => false, // accessed from contact info page
         uiSchema: {},
         schema: { type: 'object', properties: {} },
+      },
+      spouseInformation: {
+        path: 'spouse-information',
+        title: 'Spouse information',
+        uiSchema: spouseInformation.uiSchema,
+        schema: spouseInformation.schema,
+        depends: formData => formData['view:streamlinedWaiver'],
+      },
+      spouseName: {
+        path: 'spouse-name',
+        title: 'Spouse name',
+        uiSchema: spouseName.uiSchema,
+        schema: spouseName.schema,
+        depends: formData =>
+          formData.questions.isMarried && formData['view:streamlinedWaiver'],
+      },
+      dependentCount: {
+        path: 'dependents-count',
+        title: 'Dependents',
+        uiSchema: dependents.uiSchemaEnhanced,
+        schema: dependents.schemaEnhanced,
+        depends: formData => formData['view:streamlinedWaiver'],
+      },
+      dependentAges: {
+        path: 'dependent-ages',
+        title: 'Dependents',
+        uiSchema: {},
+        schema: dependentRecords.schemaEnhanced,
+        depends: formData =>
+          formData.questions?.hasDependents &&
+          formData.questions.hasDependents !== '0' &&
+          formData['view:streamlinedWaiver'],
+        CustomPage: DependentAges,
+        CustomPageReview: DependentAgesReview,
+        editModeOnReviewPage: false,
       },
     },
   },
