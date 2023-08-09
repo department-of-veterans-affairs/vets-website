@@ -27,6 +27,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
     () => {
       redirectIfFormIncomplete(dependents, pastMode, router, year, zipCode);
 
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       waitForRenderThenFocus('h1');
     },
     [dependents, pastMode, router, year, zipCode],

@@ -25,6 +25,8 @@ const HomePage = ({
         updateYearField('');
         updateZipCodeField('');
       };
+
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       waitForRenderThenFocus('h1');
       clearForm();
     },

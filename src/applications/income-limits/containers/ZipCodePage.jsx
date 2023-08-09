@@ -48,6 +48,7 @@ const ZipCodePage = ({
         return;
       }
 
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       waitForRenderThenFocus('h1');
     },
     [pastMode, router, year],
