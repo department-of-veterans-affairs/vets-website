@@ -446,6 +446,7 @@ const ComposeForm = props => {
               <va-button
                 id="edit-list-button"
                 text="Edit list"
+                label="Edit list"
                 secondary=""
                 class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1 hydrated"
                 data-testid="Edit-List-Button"
@@ -506,20 +507,22 @@ const ComposeForm = props => {
           </section>
           <DraftSavedInfo userSaved={userSaved} attachments={attachments} />
           <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
-            <button
-              type="button"
+            <va-button
               id="send-button"
-              className="usa-button usa-button-primary vads-u-width--full medium-screen:vads-u-flex--1 vads-u-margin-top--0 medium-screen:vads-u-margin-right--1 vads-u-margin-right--0"
+              text="Send"
+              label="Send"
+              class={`vads-u-padding-x--0p5 vads-u-width--full vads-u-margin-bottom--2 
+                      small-screen:vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--0`}
               data-testid="Send-Button"
               onClick={sendMessageHandler}
-            >
-              Send
-            </button>
+            />
 
             <button
               type="button"
               id="save-draft-button"
-              className="usa-button usa-button-secondary save-draft-button vads-u-width--full xsmall-screen:vads-u-flex--1 vads-u-margin-top--0 xsmall-screen:vads-u-margin-right--1 vads-u-margin-right--0"
+              className={`usa-button usa-button-secondary save-draft-button vads-u-width--full vads-u-margin-left--0p5
+                          xsmall-screen:vads-u-flex--1 vads-u-margin-top--0 xsmall-screen:vads-u-margin-right--1 
+                          vads-u-margin-right--0`}
               data-testid="Save-Draft-Button"
               onClick={e => saveDraftHandler('manual', e)}
             >

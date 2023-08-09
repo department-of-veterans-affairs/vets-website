@@ -399,21 +399,23 @@ const ReplyForm = props => {
               <DraftSavedInfo userSaved={userSaved} />
               <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
                 {!cannotReply && (
-                  <button
-                    type="button"
+                  <va-button
+                    text="Send"
+                    label="Send"
                     id="send-button"
-                    className="usa-button usa-button-primary vads-u-width--full medium-screen:vads-u-flex--1 vads-u-margin-top--0 medium-screen:vads-u-margin-right--1 vads-u-margin-right--0"
+                    class={`vads-u-padding-x--0p5 vads-u-width--full vads-u-margin-bottom--2 
+                      small-screen:vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--0`}
                     data-testid="Send-Button"
                     onClick={sendMessageHandler}
-                  >
-                    Send
-                  </button>
+                  />
                 )}
 
                 <button
                   type="button"
                   id="save-draft-button"
-                  className="usa-button usa-button-secondary save-draft-button vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--1"
+                  className={`usa-button usa-button-secondary save-draft-button vads-u-width--full vads-u-margin-left--0p5
+                          xsmall-screen:vads-u-flex--1 vads-u-margin-top--0 xsmall-screen:vads-u-margin-right--1 
+                          vads-u-margin-right--0`}
                   data-testid="Save-Draft-Button"
                   onClick={e => saveDraftHandler('manual', e)}
                 >
