@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 
 const content = {
-  formTitle: 'Submit a lay witness statement to support a VA claim',
+  formTitle: 'Submit a lay or witness statement to support a VA claim',
   formSubTitle: 'Lay/Witness Statement (VA Form 21-10210)',
   authStartFormText: 'Start your statement',
   unauthStartText: 'Sign in to start your statement',

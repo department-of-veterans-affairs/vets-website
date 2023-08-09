@@ -4,10 +4,7 @@ import PropTypes from 'prop-types';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 
-import ProfileInfoTable from '../../ProfileInfoTable';
 import { ProfileInfoCard } from '../../ProfileInfoCard';
-
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 const rows = [
   {
@@ -35,26 +32,13 @@ const rows = [
 
 const PhoneNumbersTable = ({ className }) => {
   return (
-    <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
-      <Toggler.Enabled>
-        <ProfileInfoCard
-          title="Phone numbers"
-          level={2}
-          namedAnchor="phone-numbers"
-          data={rows}
-          className={className}
-        />
-      </Toggler.Enabled>
-      <Toggler.Disabled>
-        <ProfileInfoTable
-          title="Phone numbers"
-          level={2}
-          namedAnchor="phone-numbers"
-          data={rows}
-          className={className}
-        />
-      </Toggler.Disabled>
-    </Toggler>
+    <ProfileInfoCard
+      title="Phone numbers"
+      level={2}
+      namedAnchor="phone-numbers"
+      data={rows}
+      className={className}
+    />
   );
 };
 
