@@ -231,29 +231,9 @@ export const App = ({
       showMebEnhancements,
       showMebEnhancements06,
       showMebEnhancements08,
-      // mobilePhone,
       getDuplicateContactInfo,
     ],
   );
-
-  // useEffect(
-  //   () => {
-  //     if (mobilePhone !== formData?.mobilePhone) {
-  //       console.log("SETTING MOBILE PHONE")
-  //       setFormData({
-  //         ...formData,
-  //         'view:phoneNumbers': {
-  //           ...formData['view:phoneNumbers'],
-  //           mobilePhoneNumber: {
-  //             ...formData['view:phoneNumbers'].mobilePhoneNumber,
-  //             phone: mobilePhone,
-  //           },
-  //         },
-  //       });
-  //     }
-  //   },
-  //   [mobilePhone],
-  // );
 
   useEffect(
     () => {
@@ -328,10 +308,6 @@ const mapStateToProps = state => {
   const transformedClaimantInfo = prefillTransformer(null, null, null, state);
   const claimantInfo = transformedClaimantInfo.formData;
   const email = state?.form?.data?.email?.email;
-  // const mobilePhone =
-  //   state?.data?.mobilePhone ||
-  //   state?.data?.formData?.data?.attributes?.claimant?.contactInfo
-  //     ?.mobilePhoneNumber;
 
   return {
     ...getAppData(state),
@@ -339,7 +315,6 @@ const mapStateToProps = state => {
     firstName,
     claimantInfo,
     email,
-    // mobilePhone
   };
 };
 
