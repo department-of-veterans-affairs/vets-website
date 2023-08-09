@@ -1,5 +1,5 @@
 import React from 'react';
-import { DependentExplainer } from '../../../components/household/DependentExplainer';
+import DependentExplainer from '../../../components/household/DependentExplainer';
 
 export const uiSchema = {
   'ui:title': 'Your dependents',

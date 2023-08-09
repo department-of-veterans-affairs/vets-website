@@ -5,7 +5,7 @@ import { VaNumberInput } from '@department-of-veterans-affairs/component-library
 import { setData } from 'platform/forms-system/src/js/actions';
 import { DEPENDENT_AGE_LABELS } from '../../constants/dependentLabels';
 import { validateIsNumber } from '../../utils/validations';
-import { DependentExplainer } from './DependentExplainer';
+import DependentExplainer from './DependentExplainer';
 import ButtonGroup from '../shared/ButtonGroup';
 import ReviewControl from '../shared/ReviewControl';
 
@@ -209,11 +209,7 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
         </>
       ) : null}
       {dependentAgeInputs}
-      {!isReviewMode ? (
-        <>
-          <DependentExplainer />
-        </>
-      ) : null}
+      {!isReviewMode ? <DependentExplainer /> : null}
       {isReviewMode && isEditing ? (
         <div className="vads-u-margin-top--2">
           <ReviewControl
