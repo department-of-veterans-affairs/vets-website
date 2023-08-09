@@ -263,7 +263,6 @@ HealthCareContentV2.propTypes = {
     }),
   ),
   authenticatedWithSSOe: PropTypes.bool,
-  canAccessRx: PropTypes.bool,
   dataLoadingDisabled: PropTypes.bool,
   facilityNames: PropTypes.arrayOf(PropTypes.string),
   fetchConfirmedFutureAppointmentsV2: PropTypes.func,

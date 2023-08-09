@@ -202,7 +202,7 @@ const ClaimsAndAppealsV2 = ({
 };
 
 ClaimsAndAppealsV2.propTypes = {
-  dataLoadingDisabled: PropTypes.bool.isRequired,
+  dataLoadingDisabled: PropTypes.bool,
   hasAPIError: PropTypes.bool.isRequired,
   loadAppeals: PropTypes.func.isRequired,
   loadClaims: PropTypes.func.isRequired,
@@ -211,7 +211,7 @@ ClaimsAndAppealsV2.propTypes = {
   shouldLoadClaims: PropTypes.bool.isRequired,
   shouldShowLoadingIndicator: PropTypes.bool.isRequired,
   useLighthouseClaims: PropTypes.bool.isRequired,
-  userFullName: PropTypes.string.isRequired,
+  userFullName: PropTypes.object.isRequired,
   appealsData: PropTypes.arrayOf(PropTypes.object),
   claimsData: PropTypes.arrayOf(PropTypes.object),
 };
