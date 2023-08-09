@@ -65,8 +65,8 @@ const DeleteDraft = props => {
 };
 
 DeleteDraft.propTypes = {
-  draftId: PropType.number,
   draft: PropType.object,
+  draftId: PropType.number,
   setNavigationError: PropType.func,
 };
 

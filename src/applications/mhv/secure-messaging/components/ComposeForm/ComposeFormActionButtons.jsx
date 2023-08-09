@@ -44,9 +44,9 @@ const ComposeFormActionButtons = ({
 ComposeFormActionButtons.propTypes = {
   cannotReply: PropTypes.bool,
   draftId: PropTypes.number,
+  setNavigationError: PropTypes.func,
   onSaveDraft: PropTypes.func,
   onSend: PropTypes.func,
-  setNavigationError: PropTypes.func,
 };
 
 export default ComposeFormActionButtons;
