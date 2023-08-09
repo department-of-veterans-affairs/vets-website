@@ -41,7 +41,7 @@ describe('area of disagreement page', () => {
 
     // This is rendering the uiSchema, so no CustomPage components
     const header = $('h3', container);
-    expect(header.id).to.contain('disagreement-title-');
+    expect(header.id).to.contain('disagreement-title');
     // issueTitle isn't called with form data, so we check the static text
     expect(header.textContent).to.contain('Disagreement with');
     expect(header.textContent).to.contain('decision on');
