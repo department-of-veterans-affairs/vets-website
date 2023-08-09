@@ -13,6 +13,7 @@ const MonetaryInputList = props => {
   const data = useSelector(state => state.form.data);
   const {
     assets: { monetaryAssets = [] },
+    gmtData,
   } = data;
 
   const onChange = ({ target }) => {
@@ -39,10 +40,21 @@ const MonetaryInputList = props => {
   const prompt =
     'How much are each of your financial assets worth? Include the total amounts for you and your spouse.';
 
+  // removing cash as an option if the user is eligible for streamlined
+  // but the amount of cash they have is above the threshold
+  const adjustForStreamlined =
+    gmtData?.isEligibleForStreamlined &&
+    gmtData?.incomeBelowGmt &&
+    !gmtData.cashOnHandBelowThreshold;
+
+  const adjustedAssetList = adjustForStreamlined
+    ? monetaryAssets.filter(asset => asset?.name?.toLowerCase() !== 'cash')
+    : monetaryAssets;
+
   return (
     <InputList
       errorList={errorList}
-      inputs={monetaryAssets}
+      inputs={adjustedAssetList}
       title={title}
       prompt={prompt}
       submitted={submitted}
@@ -55,6 +67,10 @@ MonetaryInputList.propTypes = {
   errorSchema: PropTypes.shape({
     monetaryAssets: PropTypes.shape({
       __errors: PropTypes.array,
+    }),
+    gmtData: PropTypes.shape({
+      isEligibleForStreamlined: PropTypes.bool,
+      incomeBelowGmt: PropTypes.bool,
     }),
   }),
   formContext: PropTypes.shape({
