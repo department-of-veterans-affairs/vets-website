@@ -49,7 +49,7 @@ export const isStreamlinedShortForm = formData => {
  * - Income is above GMT
  * - Income is below 150% of GMT
  * - Total assets below 6.5% of GMT
- * - Discressionary income below 1.25% of GMT
+ * - Discretionary income below 1.25% of GMT
  */
 export const isStreamlinedLongForm = formData => {
   const { gmtData } = formData;
@@ -59,7 +59,7 @@ export const isStreamlinedLongForm = formData => {
     !gmtData?.incomeBelowGmt &&
     gmtData?.incomeBelowOneFiftyGmt &&
     gmtData?.assetsBelowGmt &&
-    gmtData?.discressionaryBelow
+    gmtData?.discretionaryBelow
   );
 };
 
@@ -96,9 +96,9 @@ export const calculateTotalAssets = formData => {
  * Discresionary income total baseed on total income less expenses
  *  Long form only
  * @param {object} formData - all formData
- * @returns {number} Discressionary income
+ * @returns {number} Discretionary income
  */
-export const calculateDiscressionaryIncome = formData => {
+export const calculateDiscretionaryIncome = formData => {
   const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
   const expenses = getMonthlyExpenses(formData);
   return totalMonthlyNetIncome - expenses;
