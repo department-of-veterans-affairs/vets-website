@@ -29,18 +29,18 @@ describe('Submit event data', () => {
   it('should build submit event data', () => {
     expect(buildEventData(debtOnly)).to.deep.equal({
       'enhanced-submission': false,
-      'submission-type': 'debt-submission',
       streamlined: 'streamlined-false',
+      'submission-type': 'debt-submission',
     });
     expect(buildEventData(copayOnly)).to.deep.equal({
       'enhanced-submission': false,
-      'submission-type': 'copay-submission',
       streamlined: 'streamlined-false',
+      'submission-type': 'copay-submission',
     });
     expect(buildEventData(combined)).to.deep.equal({
       'enhanced-submission': false,
-      'submission-type': 'combo-submission',
       streamlined: 'streamlined-false',
+      'submission-type': 'combo-submission',
     });
   });
 });
