@@ -55,6 +55,12 @@ div:has(.schemaform-sip-alert) {
   max-width: 10rem;
 }
 
+#root_authorizerFullName_middle,
+#root_personFullName_middle,
+#root_veteranFullName_middle {
+  max-width: 5rem;
+}
+
 #root_releaseDuration-label > .schemaform-required-span {
   display: none !important;
 }
