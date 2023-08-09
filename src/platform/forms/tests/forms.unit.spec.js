@@ -331,6 +331,7 @@ describe('form:', () => {
           validAdditionalRoutes(formConfig);
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);
+          validComponentProperty(formConfig, 'CustomHeader', false);
           validSaveInProgressConfig(formConfig);
           // This return true is needed for the to.eventually.be.ok a few lines down
           // If any of the expects in the above functions fail,
