@@ -357,8 +357,7 @@ const formConfig = {
   footerContent,
   getHelp,
   customText: {
-    appAction: 'filling out',
-    appType: 'form',
+    appType: 'authorization',
     reviewPageTitle: 'Review Information',
     appSavedSuccessfullyMessage: 'Your authorization has been saved.',
     startNewAppButtonText: 'Start a new authorization',

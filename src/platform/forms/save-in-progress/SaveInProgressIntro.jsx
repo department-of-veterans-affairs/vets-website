@@ -247,7 +247,10 @@ class SaveInProgressIntro extends React.Component {
                   </ul>
                 </>
               )}
-              {/* TODO: Verify "...filling out..." below can be a sitewide change. */}
+              {/* TODO:
+              - Verify "...filling out..." below can be a sitewide change.
+              - Check with Designer re. {appType} -- need to choose between "form" and "authorization".
+              */}
               <p>
                 {!this.props.hideUnauthedStartLink && (
                   <>

@@ -78,7 +78,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          unauthStartText="Sign in to start filling out your form"
+          unauthStartText="Sign in to start your authorization"
           verifiedPrefillAlert={
             <div>
               <div className="usa-alert usa-alert-info schemaform-sip-alert">
