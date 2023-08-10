@@ -20,6 +20,7 @@ import {
 const rootUrl = environment.isProduction()
   ? 'health-care/schedule-view-va-appointments/appointments/'
   : 'my-health/appointments/';
+
 describe('VAOS appointment list', () => {
   describe('appointments details', () => {
     beforeEach(() => {
