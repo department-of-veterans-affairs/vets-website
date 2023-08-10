@@ -68,6 +68,7 @@ const formConfigKeys = [
   'formSavedPage',
   'additionalRoutes',
   'submitErrorText',
+  'CustomHeader',
   'customText',
   'submissionError',
   'saveInProgress',
