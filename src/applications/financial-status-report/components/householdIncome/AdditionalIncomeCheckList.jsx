@@ -4,7 +4,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 
 import { otherIncome } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
-import { calculateTotalIncome } from '../../utils/streamlinedDepends';
+import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
 
 const AdditionalIncomeCheckList = ({
   data,
@@ -26,7 +26,7 @@ const AdditionalIncomeCheckList = ({
     )
       return;
 
-    const calculatedIncome = calculateTotalIncome(data);
+    const calculatedIncome = calculateTotalAnnualIncome(data);
     setFormData({
       ...data,
       gmtData: {

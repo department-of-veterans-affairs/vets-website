@@ -6,7 +6,7 @@ import labsAndTests from '../fixtures/labsAndTests.json';
 import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
 import LabAndTestDetails from '../../containers/LabAndTestDetails';
 
-describe('LabsAndTests list container', () => {
+describe('LabsAndTests details container', () => {
   const initialState = {
     mr: {
       labsAndTests: {
