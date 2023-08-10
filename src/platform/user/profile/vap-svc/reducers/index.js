@@ -281,8 +281,8 @@ export default function vapService(state = initialState, action) {
         ? formFields
         : state.initialFormFields;
 
-      const modalName = state?.modal;
-      let formFieldValues = formFields[modalName]?.value;
+      const fieldName = state?.modal || action.field;
+      let formFieldValues = formFields[fieldName]?.value;
 
       // Initial form fields does not have 'view' properties, those get added to formFields
       // After editing a field. So we need to strip of those 'view' fields to be able to compare
@@ -293,7 +293,7 @@ export default function vapService(state = initialState, action) {
       );
 
       const initialFormFieldValues = pickBy(
-        state.initialFormFields[modalName]?.value,
+        state.initialFormFields[fieldName]?.value,
         (value, key) => !key.startsWith('view:'),
       );
 

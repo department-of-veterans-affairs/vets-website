@@ -3,7 +3,6 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
-import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import { openModal } from '@@vap-svc/actions';
 
 import InitializeVAPServiceIDContainer from '~/platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
@@ -78,19 +77,9 @@ export const Edit = () => {
     hasVAPServiceConnectionError(state),
   );
 
-  const fieldData = useSelector(state =>
-    selectVAPContactInfoField(state, fieldInfo?.fieldName),
-  );
-
   const hasUnsavedEdits = useSelector(
     state => state.vapService.hasUnsavedEdits,
   );
-
-  useEffect(() => {
-    if (fieldInfo?.fieldName && !hasVAPServiceError) {
-      dispatch(openModal(fieldInfo.fieldName, fieldData));
-    }
-  }, []);
 
   useEffect(
     () => {
