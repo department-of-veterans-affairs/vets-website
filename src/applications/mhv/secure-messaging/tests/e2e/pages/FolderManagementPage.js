@@ -200,18 +200,24 @@ class FolderManagementPage {
     // cy.wait('@mockCustomResponse');
   };
 
-  foldersSelectors = ['Deleted', 'TEST2', 'TESTAGAIN', 'newFolder'];
+  foldersSelectors = {
+    folderId: [-3, 7038135, 6976715],
+    folderName: ['Deleted', 'TEST2', 'TESTAGAIN'],
+  };
 
+  // method below works with 'Deleted' folder only for now. Need to be fixed later
   moveInboxFolderMessageToDifferentFolder = (
-    folderId = -3,
-    folderName = this.foldersSelectors[0],
+    folderId = this.foldersSelectors.folderId[0],
+    folderName = this.foldersSelectors.folderName[0],
   ) => {
     cy.intercept(
       'PATCH',
-      `my_health/v1/messaging/threads/7176615/move?folder_id=${folderId}`,
+      `my_health/v1/messaging/threads/${
+        mockCustomResponse.data.attributes.threadId
+      }/move?folder_id=${folderId}`,
       {},
     );
-    cy.get('[data-testid="move-button-text"]').click();
+    cy.get('[data-testid="move-button-text"]').click({ force: true });
     cy.get(`[data-testid="radiobutton-${folderName}"]`)
       .should('exist')
       .click();

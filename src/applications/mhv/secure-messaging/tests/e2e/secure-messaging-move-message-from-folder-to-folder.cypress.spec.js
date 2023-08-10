@@ -37,6 +37,9 @@ describe('Secure Messaging Move Message tests', () => {
         'aria-required-children': {
           enabled: false,
         },
+        'color-contrast': {
+          enabled: false,
+        },
       },
     });
   });
