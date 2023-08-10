@@ -13,7 +13,7 @@ const StreamlinedExplainer = ({
     <form>
       <fieldset className="vads-u-margin-y--2">
         <VaAlert status="info" disable-analytics="true">
-          <h3 slot="headline">You can skip questions on this form</h3>
+          <h4 slot="headline">You can skip questions on this form</h4>
           <p>
             Based on your responses so far, you’re tentatively eligible for debt
             relief. We don’t need to ask you any more questions. Follow the
