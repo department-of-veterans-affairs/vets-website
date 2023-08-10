@@ -1,9 +1,12 @@
 import React from 'react';
 import { routesForNav } from '../../routesForNav';
+import { EditBreadcrumb } from './EditBreadcrumb';
 
 export const EditFallbackContent = () => {
   return (
     <>
+      <EditBreadcrumb href="/profile">Back to profile</EditBreadcrumb>
+
       <h1 className="vads-u-font-size--h2 medium-screen:vads-u-margin-top--1p5 vads-u-margin-top--4">
         Edit your profile information
       </h1>

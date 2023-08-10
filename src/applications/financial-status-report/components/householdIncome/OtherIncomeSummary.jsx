@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -8,15 +8,39 @@ import {
 } from '../shared/MiniSummaryCard';
 import { currency as currencyFormatter } from '../../utils/helpers';
 
+import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
+
 const OtherIncomeSummary = ({
   data,
   goToPath,
+  goForward,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { additionalIncome } = data;
+  const { additionalIncome, gmtData, questions } = data;
   const { addlIncRecords = [] } = additionalIncome;
+
+  // Calculate income properties as necessary
+  useEffect(
+    () => {
+      if (questions?.isMarried || !gmtData?.isEligibleForStreamlined) return;
+
+      const calculatedIncome = calculateTotalAnnualIncome(data);
+      setFormData({
+        ...data,
+        gmtData: {
+          ...gmtData,
+          incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
+          incomeBelowOneFiftyGmt:
+            calculatedIncome < gmtData?.incomeUpperThreshold,
+        },
+      });
+    },
+    // avoiding use of data since it changes so often
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [addlIncRecords, questions?.isMarried, gmtData?.isEligibleForStreamlined],
+  );
 
   const onDelete = deleteIndex => {
     setFormData({
@@ -28,10 +52,6 @@ const OtherIncomeSummary = ({
         ),
       },
     });
-  };
-
-  const goForward = () => {
-    return goToPath('/spouse-information');
   };
 
   const goBack = () => {
@@ -108,13 +128,21 @@ OtherIncomeSummary.propTypes = {
     additionalIncome: PropTypes.shape({
       addlIncRecords: PropTypes.array,
     }),
+    gmtData: PropTypes.shape({
+      gmtThreshold: PropTypes.number,
+      incomeBelowGmt: PropTypes.bool,
+      incomeBelowOneFiftyGmt: PropTypes.bool,
+      isEligibleForStreamlined: PropTypes.bool,
+      incomeUpperThreshold: PropTypes.number,
+    }),
+    questions: PropTypes.shape({
+      isMarried: PropTypes.bool,
+    }),
   }),
   goBack: PropTypes.func,
+  goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
-  testingIndex: PropTypes.number,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
 };
 
 export default OtherIncomeSummary;
