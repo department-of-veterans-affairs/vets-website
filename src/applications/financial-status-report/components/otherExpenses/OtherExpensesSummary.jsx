@@ -7,7 +7,7 @@ import {
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
 import { currency as currencyFormatter } from '../../utils/helpers';
-import { calculateDiscressionaryIncome } from '../../utils/streamlinedDepends';
+import { calculateDiscretionaryIncome } from '../../utils/streamlinedDepends';
 
 const OtherExpensesSummary = ({
   data,
@@ -23,15 +23,13 @@ const OtherExpensesSummary = ({
     () => {
       if (!gmtData?.isEligibleForStreamlined) return;
 
-      const calculatedDiscressionaryIncome = calculateDiscressionaryIncome(
-        data,
-      );
+      const calculatedDiscretionaryIncome = calculateDiscretionaryIncome(data);
       setFormData({
         ...data,
         gmtData: {
           ...gmtData,
-          discressionaryBelow:
-            calculatedDiscressionaryIncome <
+          discretionaryBelow:
+            calculatedDiscretionaryIncome <
             gmtData?.discretionaryIncomeThreshold,
         },
       });
