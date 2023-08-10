@@ -3,6 +3,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
+import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import { openModal } from '@@vap-svc/actions';
 
 import InitializeVAPServiceIDContainer from '~/platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
@@ -81,6 +82,20 @@ export const Edit = () => {
     state => state.vapService.hasUnsavedEdits,
   );
 
+  // used to make sure the modal 'editing' state for the field is present
+  // it should match the fieldName that is in the URL query param
+  const modal = useSelector(state => state?.vapService.modal);
+
+  const fieldData = useSelector(state =>
+    selectVAPContactInfoField(state, fieldInfo?.fieldName),
+  );
+
+  useEffect(() => {
+    if (fieldInfo?.fieldName && !hasVAPServiceError) {
+      dispatch(openModal(fieldInfo.fieldName, fieldData));
+    }
+  }, []);
+
   useEffect(
     () => {
       if (hasUnsavedEdits && !hasBeforeUnloadListener) {
@@ -129,7 +144,7 @@ export const Edit = () => {
     <EditContext.Provider value={{ onCancel: handlers.cancel }}>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseFieldEditingPage}>
         <Toggler.Enabled>
-          {fieldInfo && !hasVAPServiceError ? (
+          {fieldInfo && !hasVAPServiceError && modal ? (
             <>
               {/* this modal is triggered by breadcrumb being clicked with unsaved edits */}
               <EditConfirmCancelModal

@@ -281,7 +281,7 @@ export default function vapService(state = initialState, action) {
         ? formFields
         : state.initialFormFields;
 
-      const fieldName = state?.modal || action.field;
+      const fieldName = state?.modal;
       let formFieldValues = formFields[fieldName]?.value;
 
       // Initial form fields does not have 'view' properties, those get added to formFields
