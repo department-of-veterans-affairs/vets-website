@@ -2,7 +2,9 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import moment from 'moment';
-
+import { render } from '@testing-library/react';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { Provider } from 'react-redux';
 import { IntroductionPage } from '../../components/IntroductionPage';
 import formConfig from '../../config/form';
 import {
@@ -115,7 +117,7 @@ describe('<IntroductionPage/>', () => {
     wrapper.unmount();
   });
 
-  it('should display default prepare overview when BDD SHA not enabled', () => {
+  it('should display default prepare overview when not BDD flow', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} showWizard />);
 
     expect(
@@ -125,7 +127,7 @@ describe('<IntroductionPage/>', () => {
     wrapper.unmount();
   });
 
-  it('should display BDD prepare overview when BDD SHA enabled', () => {
+  it('should display BDD prepare overview when using BDD flow', () => {
     const wrapper = shallow(
       <IntroductionPage {...defaultProps} showWizard isBDDForm />,
     );
@@ -135,5 +137,82 @@ describe('<IntroductionPage/>', () => {
     ).contains('When you file a BDD claim online');
 
     wrapper.unmount();
+  });
+
+  it('should render OMB component - enzyme test', () => {
+    const wrapper = shallow(<IntroductionPage {...defaultProps} />);
+
+    expect(wrapper.find('va-omb-info').length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  const getData = ({
+    loggedIn = true,
+    isVerified = true,
+    data = {},
+    contestableIssues = {},
+  } = {}) => ({
+    props: {
+      formId: formConfig.formId,
+      loggedIn,
+      location: {
+        basename: '/base-url',
+      },
+      route: {
+        formConfig,
+        pageList: [
+          { path: '/introduction' },
+          { path: '/first-page', formConfig },
+        ],
+      },
+    },
+    mockStore: {
+      getState: () => ({
+        user: {
+          login: {
+            currentlyLoggedIn: loggedIn,
+          },
+          profile: {
+            savedForms: [],
+            prefillsAvailable: [],
+            verified: isVerified,
+            userFullName: {
+              first: 'Peter',
+              middle: 'B',
+              last: 'Parker',
+            },
+          },
+        },
+        form: {
+          formId: formConfig.formId,
+          loadedStatus: 'success',
+          savedStatus: '',
+          loadedData: {
+            metadata: {},
+          },
+          data,
+          contestableIssues,
+        },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    },
+  });
+
+  it('should render OMB component - rtl test', () => {
+    const { props, mockStore } = getData({ loggedIn: true });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    expect($('va-omb-info', container)).to.exist;
   });
 });
