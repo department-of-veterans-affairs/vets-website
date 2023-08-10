@@ -124,8 +124,7 @@ function checkAllPages(mobile = false) {
 describe('Profile', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    cy.server();
-    cy.route('GET', '/v0/ppiu/payment_information', mockPaymentInfo);
+    cy.intercept('GET', '/v0/ppiu/payment_information', mockPaymentInfo);
   });
   it('should pass an aXe scan and manage focus on all pages at desktop size', () => {
     checkAllPages(false);
