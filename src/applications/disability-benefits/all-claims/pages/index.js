@@ -15,7 +15,6 @@ import * as evidenceTypes from './evidenceTypes';
 import * as evidenceTypesBDD from './evidenceTypesBDD';
 import * as federalOrders from './federalOrders';
 import * as finalIncident from './finalIncident';
-import * as fullyDevelopedClaim from './fullyDevelopedClaim';
 import * as homelessOrAtRisk from './homelessOrAtRisk';
 import * as hospitalizationHistory from './hospitalizationHistory';
 import * as incidentDate from './incidentDate';
@@ -80,7 +79,7 @@ import * as socialBehaviorChanges from './socialBehaviorChanges';
 import * as summaryOfDisabilities from './summaryOfDisabilities';
 import * as summaryOfEvidence from './summaryOfEvidence';
 import * as supplementalBenefits from './supplementalBenefits';
-import * as terminallyIll from './terminallyIll.js';
+import * as terminallyIll from './terminallyIll';
 import * as trainingPay from './trainingPay';
 import * as trainingPayWaiver from './trainingPayWaiver';
 import * as unemployabilityAdditionalInformation from './unemployabilityAdditionalInformation';
@@ -117,7 +116,6 @@ export {
   evidenceTypesBDD,
   federalOrders,
   finalIncident,
-  fullyDevelopedClaim,
   homelessOrAtRisk,
   hospitalizationHistory,
   incidentDate,

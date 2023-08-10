@@ -2,6 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
+import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 import { UnconnectedHealthCareContentV2 } from '../../../components/health-care-v2/HealthCareContentV2';
 import { createVaosAppointment } from '../../../mocks/appointments/vaos-v2';
 
@@ -44,14 +46,20 @@ describe('<UnconnectedHealthCareContentV2 />', () => {
   });
 
   it('should render the HealthcareError', () => {
-    const tree = render(
+    // delete instances of Toggler when errors are launched
+    const initialState = {
+      featureToggles: {
+        [Toggler.TOGGLE_NAMES.myVaUpdateErrorsWarnings]: true,
+      },
+    };
+    const tree = renderWithStoreAndRouter(
       <UnconnectedHealthCareContentV2 hasAppointmentsError />,
+      { initialState },
     );
-
-    tree.getByTestId('outstanding-debts-error-v2');
+    tree.getByTestId('healthcare-error-v2');
   });
 
-  it('should render the HealthcareError', () => {
+  it('should render the Next appointments card', () => {
     const appointments = [createVaosAppointment()];
     const tree = render(
       <UnconnectedHealthCareContentV2 appointments={appointments} />,
@@ -69,17 +77,12 @@ describe('<UnconnectedHealthCareContentV2 />', () => {
   });
 
   context('should render the HealthCareCTA', () => {
-    it('when a non-patient has an appointment error and unread messages', () => {
+    it('but show only Apply for VA health care link for a non-patient', () => {
       const tree = render(
-        <UnconnectedHealthCareContentV2
-          dataLoadingDisabled
-          hasAppointmentsError
-          shouldFetchUnreadMessages
-          unreadMessagesCount={2}
-        />,
+        <UnconnectedHealthCareContentV2 isVAPatient={false} />,
       );
 
-      tree.getByText('Popular actions for Health Care');
+      tree.getAllByTestId('apply-va-healthcare-link-from-cta');
     });
 
     it("when a patient has appointments and doesn't have an appointment error", () => {

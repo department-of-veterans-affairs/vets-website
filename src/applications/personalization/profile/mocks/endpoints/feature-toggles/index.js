@@ -6,7 +6,6 @@ const profileToggles = {
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDepositCompAndPen: false,
   profileShowPaymentsNotificationSetting: false,
-  profileUseInfoCard: false,
   profileUseFieldEditingPage: false,
   profileShowMhvNotificationSettings: false,
   profileLighthouseDirectDeposit: false,
