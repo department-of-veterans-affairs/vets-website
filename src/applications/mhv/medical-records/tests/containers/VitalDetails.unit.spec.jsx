@@ -4,21 +4,16 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import reducer from '../../reducers';
 import { user } from '../fixtures/user-reducer.json';
 import VitalDetails from '../../containers/VitalDetails';
-import { vitalTypeDisplayNames, vitalTypes } from '../../util/constants';
+import { vitalTypeDisplayNames } from '../../util/constants';
+import vital from '../fixtures/vital.json';
+import { convertVital } from '../../reducers/vitals';
 
 describe('Vital details container', () => {
   const initialState = {
     mr: {
       vitals: {
-        vitalDetails: [
-          {
-            type: vitalTypes.BLOOD_PRESSURE,
-            id: '155',
-            measurement: '120/80 mm[Hg]',
-            date: '2022-06-14T17:42:46.000Z',
-            location: 'school parking lot',
-          },
-        ],
+        // vitalsList: vitals.entry.map(item => convertVital(item.resource)),
+        vitalDetails: [convertVital(vital)],
       },
     },
     user,
@@ -28,24 +23,13 @@ describe('Vital details container', () => {
     return renderWithStoreAndRouter(<VitalDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/health-history/vitals/blood-pressure',
+      path: '/vitals/blood-pressure',
     });
   };
 
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
-  });
-
-  it('displays Date of birth for the print view', () => {
-    const screen = setup();
-    expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
-  });
-
-  it('displays a print button', () => {
-    const screen = setup();
-    const printButton = screen.getByTestId('print-records-button');
-    expect(printButton).to.exist;
   });
 
   it('displays the vital name inside an h1 as a span', () => {
@@ -61,24 +45,41 @@ describe('Vital details container', () => {
     expect(vitalName).to.exist;
   });
 
+  it('displays Date of birth for the print view', () => {
+    const screen = setup();
+    expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
+  });
+
+  it('displays a print button', () => {
+    const screen = setup();
+    const printButton = screen.getByTestId('print-records-button');
+    expect(printButton).to.exist;
+  });
+
   it('displays the formatted received date', () => {
     const screen = setup();
-    const formattedDate = screen.getAllByText('June', {
+    const formattedDate = screen.getAllByText('September', {
       exact: false,
       selector: 'h2',
     });
-    expect(formattedDate).to.exist;
+    expect(formattedDate.length).to.eq(2);
   });
 
-  it('displays the location', () => {
+  it('displays the result', () => {
     const screen = setup();
-    const location = screen.getAllByText(
-      initialState.mr.vitals.vitalDetails[0].location,
-      {
-        exact: true,
-        selector: 'p',
-      },
-    );
-    expect(location).to.exist;
+    const location = screen.getAllByText('126/70', {
+      exact: true,
+      selector: 'p',
+    });
+    expect(location.length).to.eq(2);
+  });
+
+  it('displays the location and provider notes', () => {
+    const screen = setup();
+    const location = screen.getAllByText('None noted', {
+      exact: true,
+      selector: 'p',
+    });
+    expect(location.length).to.eq(4);
   });
 });

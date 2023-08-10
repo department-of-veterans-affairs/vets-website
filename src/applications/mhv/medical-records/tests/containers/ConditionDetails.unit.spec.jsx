@@ -27,7 +27,7 @@ describe('Condition details container', () => {
     return renderWithStoreAndRouter(<ConditionDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/health-history/health-conditions/SCT161891005',
+      path: '/health-conditions/SCT161891005',
     });
   };
 

@@ -49,7 +49,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['claimantPhone', 'claimantEmail'],
+    required: ['claimantPhone'],
     properties: {
       claimantPhone: definitions.phone,
       claimantEmail: formDefinitions.pdfEmail,

@@ -39,18 +39,13 @@ const VaccineDetails = () => {
       dispatch(
         setBreadcrumbs(
           [
-            { url: '/my-health/medical-records/', label: 'Dashboard' },
             {
-              url: '/my-health/medical-records/health-history',
-              label: 'Health history',
-            },
-            {
-              url: '/my-health/medical-records/health-history/vaccines',
-              label: 'VA vaccines',
+              url: '/my-health/medical-records/vaccines',
+              label: 'Vaccines',
             },
           ],
           {
-            url: `/my-health/medical-records/health-history/vaccines/${vaccineId}`,
+            url: `/my-health/medical-records/vaccines/${vaccineId}`,
             label: vaccineDetails?.name,
           },
         ),
@@ -109,14 +104,16 @@ const VaccineDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vaccine-header">{vaccineDetails.name}</h1>
+          <h1 className="vads-u-margin-bottom--0p5">{vaccineDetails.name}</h1>
+          <div className="time-header">
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Date:{' '}
+            </h2>
+            <p>{formattedDate}</p>
+          </div>
           <section className="set-width-480">
             <PrintDownload list download={generateVaccinePdf} />
             <div className="detail-block max-80">
-              <h2 className="vads-u-margin-top--0">Date received</h2>
-              <p>{formattedDate}</p>
-              <h2>Manufacturer</h2>
-              <p>{vaccineDetails.manufacturer}</p>
               <h2>Location</h2>
               <p>{vaccineDetails.location}</p>
               <h2 className="vads-u-margin-bottom--0">

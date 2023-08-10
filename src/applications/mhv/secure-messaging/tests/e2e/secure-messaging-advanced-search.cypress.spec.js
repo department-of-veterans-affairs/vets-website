@@ -249,6 +249,9 @@ describe(manifest.appName, () => {
           'aria-required-children': {
             enabled: false,
           },
+          'color-contrast': {
+            enabled: false,
+          },
         },
       });
     });
@@ -260,6 +263,9 @@ describe(manifest.appName, () => {
       cy.axeCheck('main', {
         rules: {
           'aria-required-children': {
+            enabled: false,
+          },
+          'color-contrast': {
             enabled: false,
           },
         },

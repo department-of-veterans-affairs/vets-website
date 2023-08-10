@@ -15,6 +15,7 @@ import {
 import { formFields } from '../constants';
 import { prefillTransformer } from '../helpers';
 import { getAppData } from '../selectors/selectors';
+import { duplicateArrays } from '../utils/validation';
 
 export const App = ({
   children,
@@ -39,7 +40,6 @@ export const App = ({
   showMebEnhancements06,
   showMebEnhancements08,
   email,
-  mobilePhone,
   duplicateEmail,
   duplicatePhone,
 }) => {
@@ -95,6 +95,29 @@ export const App = ({
         setFormData({
           ...formData,
           eligibility,
+        });
+      }
+
+      const { toursOfDuty } = formData;
+      const updatedToursOfDuty = toursOfDuty?.map(tour => {
+        const tourToCheck = tour;
+        if (
+          (tourToCheck?.dateRange?.to && new Date(tourToCheck?.dateRange?.to)) >
+            new Date() ||
+          tourToCheck?.dateRange?.to === '' ||
+          tourToCheck?.dateRange?.to === null ||
+          tourToCheck.dateRange.to === 'Invalid date'
+        ) {
+          tourToCheck.serviceCharacter = 'Not Applicable';
+          tourToCheck.separationReason = 'Not Applicable';
+        }
+        return tourToCheck;
+      });
+
+      if (!duplicateArrays(updatedToursOfDuty, toursOfDuty)) {
+        setFormData({
+          ...formData,
+          toursOfDuty: updatedToursOfDuty,
         });
       }
     },
@@ -208,27 +231,8 @@ export const App = ({
       showMebEnhancements,
       showMebEnhancements06,
       showMebEnhancements08,
-      mobilePhone,
       getDuplicateContactInfo,
     ],
-  );
-
-  useEffect(
-    () => {
-      if (mobilePhone !== formData?.mobilePhone) {
-        setFormData({
-          ...formData,
-          'view:phoneNumbers': {
-            ...formData['view:phoneNumbers'],
-            mobilePhoneNumber: {
-              ...formData['view:phoneNumbers'].mobilePhoneNumber,
-              phone: mobilePhone,
-            },
-          },
-        });
-      }
-    },
-    [mobilePhone],
   );
 
   useEffect(
@@ -304,10 +308,6 @@ const mapStateToProps = state => {
   const transformedClaimantInfo = prefillTransformer(null, null, null, state);
   const claimantInfo = transformedClaimantInfo.formData;
   const email = state?.form?.data?.email?.email;
-  const mobilePhone =
-    state?.data?.mobilePhone ||
-    state?.data?.formData?.data?.attributes?.claimant?.contactInfo
-      ?.mobilePhoneNumber;
 
   return {
     ...getAppData(state),
@@ -315,7 +315,6 @@ const mapStateToProps = state => {
     firstName,
     claimantInfo,
     email,
-    mobilePhone,
   };
 };
 

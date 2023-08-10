@@ -50,7 +50,7 @@ export default function CalendarOptionsSlots({
   showWeekends,
 }) {
   const currentSlots = availableSlots.filter(slot =>
-    slot?.start.startsWith(currentlySelectedDate),
+    slot?.start?.startsWith(currentlySelectedDate),
   );
 
   // [0, 1, 2, 3, 4, 5, 6]
