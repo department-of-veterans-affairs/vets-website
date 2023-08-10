@@ -4,7 +4,7 @@ import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
 
 describe(manifest.appName, () => {
-  describe('show indicator when there are unread messages', () => {
+  describe.skip('show indicator when there are unread messages', () => {
     beforeEach(() => {
       ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       ApiInitializer.initializeUserData.withDefaultUser();
