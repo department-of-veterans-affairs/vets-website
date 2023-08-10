@@ -32,7 +32,7 @@ const OtherAssetsChecklist = ({
       ...data,
       gmtData: {
         ...gmtData,
-        assetsBelowGMT: calculatedAssets < gmtData?.assetThreshold,
+        assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
       },
     });
   };
