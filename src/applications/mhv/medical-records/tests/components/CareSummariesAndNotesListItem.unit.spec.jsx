@@ -45,15 +45,9 @@ describe('CareSummariesAndNotesListItem', () => {
     expect(recordName).to.exist;
   });
 
-  it('should contain the start date of the record', () => {
+  it('should contain the date of the record', () => {
     const screen = setup();
     const recordDate = screen.getByText('August', { exact: false });
-    expect(recordDate).to.exist;
-  });
-
-  it('should contain the end date of the record', () => {
-    const screen = setup();
-    const recordDate = screen.getByText('June', { exact: false });
     expect(recordDate).to.exist;
   });
 
