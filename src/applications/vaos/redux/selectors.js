@@ -26,12 +26,14 @@ export const selectRegisteredCernerFacilities = state => {
   const patientFacilities = selectPatientFacilities(state);
   const allFacilities = selectEhrDataByVhaId(state);
 
-  return patientFacilities?.reduce((accumulator, current) => {
-    const facility = allFacilities[current.facilityId];
-    if (facility?.ehr === 'cerner' || current.isCerner)
-      return [...accumulator, facility];
-    return accumulator;
-  }, []);
+  return (
+    patientFacilities?.reduce((accumulator, current) => {
+      const facility = allFacilities[current.facilityId];
+      if (facility?.ehr === 'cerner' || current.isCerner)
+        return [...accumulator, facility];
+      return accumulator;
+    }, []) || []
+  );
 };
 
 export const selectFeatureApplication = state =>
