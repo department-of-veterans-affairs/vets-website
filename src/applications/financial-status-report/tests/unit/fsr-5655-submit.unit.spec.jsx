@@ -16,12 +16,12 @@ const copayOnly = {
   'view:enhancedFinancialStatusReport': false,
   selectedDebtsAndCopays: [{ debtType: 'COPAY' }],
   isStreamlinedShort: false,
-  isStreamlinedLong: false,
+  isStreamlinedLong: true,
 };
 const combined = {
   'view:enhancedFinancialStatusReport': false,
   selectedDebtsAndCopays: [{ debtType: 'COPAY' }, { debtType: 'DEBT' }],
-  isStreamlinedShort: false,
+  isStreamlinedShort: true,
   isStreamlinedLong: false,
 };
 
@@ -34,12 +34,12 @@ describe('Submit event data', () => {
     });
     expect(buildEventData(copayOnly)).to.deep.equal({
       'enhanced-submission': false,
-      streamlined: 'streamlined-false',
+      streamlined: 'streamlined-long',
       'submission-type': 'copay-submission',
     });
     expect(buildEventData(combined)).to.deep.equal({
       'enhanced-submission': false,
-      streamlined: 'streamlined-false',
+      streamlined: 'streamlined-short',
       'submission-type': 'combo-submission',
     });
   });

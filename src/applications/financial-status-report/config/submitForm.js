@@ -5,50 +5,18 @@ import {
   isStreamlinedShortForm,
   isStreamlinedLongForm,
 } from '../utils/streamlinedDepends';
-// Analytics event
-export const buildEventData = ({
-  selectedDebtsAndCopays,
-  'view:enhancedFinancialStatusReport': enhancedFlag,
-  isStreamlinedShort,
-  isStreamlinedLong,
-}) => {
-  const eventData = {
-    'enhanced-submission': enhancedFlag,
-  };
 
-  // If the form is a streamlined short form, set the streamlined property accordingly
-  if (isStreamlinedShort) {
-    return {
-      ...eventData,
-      streamlined: 'streamlined-short',
-    };
-  }
+// Helper function to determine the streamlined value based on the provided flags
+const getStreamlinedValue = (isStreamlinedShort, isStreamlinedLong) => {
+  if (isStreamlinedShort) return 'streamlined-short';
+  if (isStreamlinedLong) return 'streamlined-long';
+  return 'streamlined-false';
+};
 
-  // If the form is a streamlined long form, set the streamlined property accordingly
-  if (isStreamlinedLong) {
-    return {
-      ...eventData,
-      streamlined: 'streamlined-long',
-    };
-  }
+// Helper function to determine the submission type based on selected debts and copays
+const getSubmissionType = selectedDebtsAndCopays => {
+  if (!selectedDebtsAndCopays.length) return 'debt-submission';
 
-  // If the form is neither streamlined short nor long, set the streamlined property to false
-  if (!isStreamlinedLong && !isStreamlinedShort) {
-    return {
-      ...eventData,
-      streamlined: 'streamlined-false',
-    };
-  }
-
-  // temp - Handling empty selectedDebtsAndCopays
-  if (!selectedDebtsAndCopays.length) {
-    return {
-      ...eventData,
-      'submission-type': 'debt-submission',
-    };
-  }
-
-  // Check types of debts and copays selected
   const hasDebts = selectedDebtsAndCopays.some(
     selected => selected.debtType === DEBT_TYPES.DEBT,
   );
@@ -56,50 +24,41 @@ export const buildEventData = ({
     selected => selected.debtType === DEBT_TYPES.COPAY,
   );
 
-  if (hasDebts && hasCopays) {
-    return {
-      ...eventData,
-      'submission-type': 'combo-submission',
-    };
-  }
+  if (hasDebts && hasCopays) return 'combo-submission';
+  if (hasDebts && !hasCopays) return 'debt-submission';
+  if (!hasDebts && hasCopays) return 'copay-submission';
 
-  if (hasDebts && !hasCopays) {
-    return {
-      ...eventData,
-      'submission-type': 'debt-submission',
-    };
-  }
+  return 'err-submission'; // Default error type if no matching conditions
+};
 
-  if (!hasDebts && hasCopays) {
-    return {
-      ...eventData,
-      'submission-type': 'copay-submission',
-    };
-  }
-
-  // This should never happen
+// Main function to build the event data object
+export const buildEventData = ({
+  selectedDebtsAndCopays,
+  'view:enhancedFinancialStatusReport': enhancedFlag,
+  isStreamlinedShort,
+  isStreamlinedLong,
+}) => {
   return {
-    ...eventData,
-    'submission-type': 'err-submission',
+    'enhanced-submission': enhancedFlag,
+    streamlined: getStreamlinedValue(isStreamlinedShort, isStreamlinedLong), // Get the streamlined value
+    'submission-type': getSubmissionType(selectedDebtsAndCopays), // Get the submission type
   };
 };
 
+// Function to handle form submission
 const submitForm = (form, formConfig) => {
-  // Determine if the form is a streamlined short or long form
-  const isStreamlinedShort = isStreamlinedShortForm(form.data);
-  const isStreamlinedLong = isStreamlinedLongForm(form.data);
-
   // Destructure the formConfig object to get the URL and tracking prefix
   const { submitUrl, trackingPrefix } = formConfig;
 
   // Transform the form data for submission
-  // If a custom transform function is provided in formConfig, use that; otherwise, use the default
   const body = formConfig.transformForSubmit
     ? formConfig.transformForSubmit(formConfig, form)
     : transformForSubmit(formConfig, form);
 
+  const isStreamlinedShort = isStreamlinedShortForm(form.data);
+  const isStreamlinedLong = isStreamlinedLongForm(form.data);
+
   // Build the eventData object, including the streamlined property
-  // This object is used for analytics tracking
   const eventData = buildEventData({
     ...form.data,
     isStreamlinedShort,
