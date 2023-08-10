@@ -20,10 +20,11 @@ function CustomEmailField(props) {
         });
       }
 
+      const mobilePhone = props?.mobilePhone ? props?.mobilePhone : '';
       if (event && isValidEmail(event)) {
         props.fetchDuplicateContactInfo(
           [{ value: event, dupe: '' }],
-          props.duplicatePhone,
+          [{ value: mobilePhone, dupe: '' }],
         );
       } else {
         props.setFormData({
@@ -53,8 +54,7 @@ CustomEmailField.propTypes = {
 const mapStateToProps = state => ({
   email: state?.form?.data?.email?.email,
   duplicateEmail: state?.data?.duplicateEmail,
-  phoneNumber: state?.form?.data?.mobilePhone,
-  duplicatePhone: state?.data?.duplicatePhone,
+  mobilePhone: state?.form?.data['view:phoneNumbers']?.mobilePhoneNumber?.phone,
   showMebEnhancements08: state?.featureToggles?.showMebEnhancements08,
   formData: state?.form?.data,
 });
