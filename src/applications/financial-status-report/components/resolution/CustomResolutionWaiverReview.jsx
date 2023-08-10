@@ -17,7 +17,7 @@ const CustomResolutionWaiverReview = ({ children }) => {
         <strong>{getDebtName(currentDebt)}</strong>?
       </dt>
       <dd>
-        <p className="vads-u-margin-y--0 vads-u-margin-x--1">
+        <p className="vads-u-marginnn-y--0 vads-u-margin-x--1">
           {currentDebt.resolutionWaiverCheck ? 'Yes' : 'No'}
         </p>
       </dd>
