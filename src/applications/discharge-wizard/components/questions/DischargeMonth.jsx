@@ -47,7 +47,7 @@ const DischargeMonthQuestion = ({
         <Element name={key} />
         <VaSelect
           autocomplete="false"
-          label=""
+          label="What month were you discharged?"
           name={key}
           vaKeyDown={handleKeyDown}
           value={{ value: formValues[key] }}

@@ -60,7 +60,7 @@ const DischargeYearQuestion = ({
         <Element name={key} />
         <VaSelect
           autocomplete="false"
-          label=""
+          label="What year were you discharged from the military?"
           name={key}
           vaKeyDown={handleKeyDown}
           value={{ value: dischargeYear }}
