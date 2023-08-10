@@ -8,10 +8,10 @@ describe('Medications Landing Page', () => {
     cy.visit('my-health/medications/');
     site.login();
     landingPage.clickExpandAllAccordionButton();
-    landingPage.verifyFirstAccordionDropDown();
+    landingPage.verifyListMedicationsAndSuppliesAccordionDropDown();
     landingPage.verifyWhatTypeOfPrescriptionsAccordionDropDown();
-    landingPage.verifyPrescriptionRefillRequestInformationDropDown();
-    landingPage.verifyMoreQuestionsDropDown();
+    landingPage.verifyPrescriptionRefillRequestInformationAccordionDropDown();
+    landingPage.verifyMoreQuestionsAccordionDropDown();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

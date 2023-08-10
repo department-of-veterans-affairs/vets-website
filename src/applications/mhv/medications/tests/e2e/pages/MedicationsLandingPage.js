@@ -3,7 +3,7 @@ class MedicationsLandingPage {
     cy.contains('Expand all').click({ force: true });
   };
 
-  verifyFirstAccordionDropDown = () => {
+  verifyListMedicationsAndSuppliesAccordionDropDown = () => {
     cy.get('[data-testid="tool-information"]')
       .contains(
         'This tool lists medications and supplies prescribed by your VA providers. It also lists medications and supplies prescribed by non-VA providers, if you filled them through a VA pharmacy.',
@@ -19,7 +19,7 @@ class MedicationsLandingPage {
       .should('be.visible');
   };
 
-  verifyPrescriptionRefillRequestInformationDropDown = () => {
+  verifyPrescriptionRefillRequestInformationAccordionDropDown = () => {
     cy.get('[data-testid="prescription-refill-info"]')
       .contains(
         'Prescriptions usually arrive within 3 to 5 days after we ship them. You can find tracking information in your prescription details.',
@@ -27,7 +27,7 @@ class MedicationsLandingPage {
       .should('be.visible');
   };
 
-  verifyMoreQuestionsDropDown = () => {
+  verifyMoreQuestionsAccordionDropDown = () => {
     cy.get('[data-testid="more-questions"]')
       .contains(
         'For questions about your medications and supplies, send a secure message to your care team.',
