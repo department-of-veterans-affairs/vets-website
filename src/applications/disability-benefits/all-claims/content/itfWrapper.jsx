@@ -1,9 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
 import { recordEventOnce } from 'platform/monitoring/record-event';
 
 // EVSS returns dates like '2014-07-28T19:53:45.810+0000'
@@ -58,16 +55,27 @@ export const claimsIntakeAddress = (
 
 export const itfError = (
   <div>
-    <div>
+    <div className="vads-u-margin-bottom--2">
       <p className="vads-u-font-size--base">
-        We’re sorry. Your Intent to File request didn’t go through because
-        something went wrong on our end. For help creating an Intent to File a
-        Claim for Compensation, please call Veterans Benefits Assistance at{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-        8:00 a.m. to 9:00 p.m. ET. Or, you can fill out VA Form 21-0966 and
-        submit it to:
+        Due to the high volume of submissions we are receiving, you can’t
+        continue with this claim form at this time - but we have received your
+        intent to file and saved your effective date for benefits.
       </p>
-      {claimsIntakeAddress}
+      Here’s what this means for you:
+      <ul>
+        <li>You have 1 year from today to complete your claim.</li>
+        <li>
+          If we determine that you’re eligible for disability compensation,
+          we’ll use today to determine the effective date of your benefits.
+        </li>
+        <li>
+          If you’re filing a claim based on the PACT Act, you may still be
+          eligible to receive benefits backdated to August 10, 2022.
+        </li>
+      </ul>
+      <strong>Note:</strong> If you come back to this form in the next few days
+      and continue to get this message, don’t worry. Your intent to file date is
+      set for today.
     </div>
     {expander}
   </div>

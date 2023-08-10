@@ -103,7 +103,6 @@ const mapDispatchToProps = {
 
 HealthCareV2.propTypes = {
   authenticatedWithSSOe: PropTypes.bool.isRequired,
-  canAccessRx: PropTypes.bool.isRequired,
   appointments: PropTypes.arrayOf(
     PropTypes.shape({
       additionalInfo: PropTypes.string,
@@ -119,7 +118,7 @@ HealthCareV2.propTypes = {
   dataLoadingDisabled: PropTypes.bool,
   facilityLocations: PropTypes.arrayOf(PropTypes.string),
   fetchConfirmedFutureAppointmentsV2: PropTypes.func,
-  fetchUnreadMessages: PropTypes.bool,
+  fetchUnreadMessages: PropTypes.func,
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
   isVAPatient: PropTypes.bool,

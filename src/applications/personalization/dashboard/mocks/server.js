@@ -23,6 +23,7 @@ const responses = {
     myVaUseExperimental: true,
     showMyVADashboardV2: true,
     myVaUseLighthouseClaims: true,
+    myVaUpdateErrorsWarnings: true,
   }),
   'GET /v0/user': user.cernerUser,
   'OPTIONS /v0/maintenance_windows': 'OK',

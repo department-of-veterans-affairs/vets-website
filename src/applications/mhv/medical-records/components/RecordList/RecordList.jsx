@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RecordListItem from './RecordListItem';
+import { RecordType } from '../../util/constants';
 
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
@@ -58,12 +59,16 @@ const RecordList = props => {
             <RecordListItem key={idx} record={record} type={type} />
           ))}
       </div>
-      <div className="print-only">
-        {records?.length > 0 &&
-          records.map((record, idx) => (
-            <RecordListItem key={idx} record={record} type={type} />
-          ))}
-      </div>
+      {type !== RecordType.VITALS &&
+        type !== RecordType.CARE_SUMMARIES_AND_NOTES &&
+        type !== RecordType.LABS_AND_TESTS && (
+          <div className="print-only">
+            {records?.length > 0 &&
+              records.map((record, idx) => (
+                <RecordListItem key={idx} record={record} type={type} />
+              ))}
+          </div>
+        )}
       {currentRecords &&
         (paginatedRecords.current.length > 1 ? (
           <div className="pagination vads-u-margin-bottom--2 no-print">
