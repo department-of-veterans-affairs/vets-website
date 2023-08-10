@@ -40,9 +40,6 @@ const DischargeMonthQuestion = ({
   }
   return (
     <div className="vads-u-margin-top--6">
-      <legend>
-        <h2 className="converted-h4">What month were you discharged?</h2>
-      </legend>
       <fieldset className="fieldset-input dischargeMonth" key={key}>
         <Element name={key} />
         <VaSelect

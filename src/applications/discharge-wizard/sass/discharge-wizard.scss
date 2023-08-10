@@ -105,7 +105,8 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 
   // Override styles for h2 semantic/ visual h4 headers(matches h4 visual styles)
   va-select::part(label) {
-    display: none;
+    font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
+    serif;
     font-size: 1.7rem;
     font-weight: bold;
   }

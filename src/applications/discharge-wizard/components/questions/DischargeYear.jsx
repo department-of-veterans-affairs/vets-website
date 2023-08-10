@@ -51,11 +51,6 @@ const DischargeYearQuestion = ({
 
   return (
     <div className="vads-u-margin-top--6">
-      <legend>
-        <h2 className="converted-h4">
-          What year were you discharged from the military?
-        </h2>
-      </legend>
       <fieldset className="fieldset-input dischargeYear" key={key}>
         <Element name={key} />
         <VaSelect
