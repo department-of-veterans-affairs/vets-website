@@ -294,17 +294,5 @@
     {
       "veteranOrSpouse": "VETERAN"
     }
-  ],
-  "gmtData": {
-    "isEligibleForStreamlined": true,
-    "pensionThreshold": 23744,
-    "nationalThreshold": 50561,
-    "gmtThreshold": 95400,
-    "error": null,
-    "incomeUpperThreshold": 143100,
-    "assetThreshold": 6201,
-    "discretionaryIncomeThreshold": 1192.5,
-    "incomeBelowGmt": true,
-    "incomeBelowOneFiftyGmt": true
-  }
+  ]
 }

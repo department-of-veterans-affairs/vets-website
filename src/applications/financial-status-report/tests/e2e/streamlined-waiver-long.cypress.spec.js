@@ -115,7 +115,25 @@ const testConfig = createTestConfig(
             .first()
             .shadow()
             .find('input')
-            .type('7951');
+            .type('4639.90');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'other-expenses-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get(`input[name="Clothing"]`)
+            .first()
+            .check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'other-expenses-values': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-number-input[name="Clothing"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('6759');
           cy.get('.usa-button-primary').click();
         });
       },
