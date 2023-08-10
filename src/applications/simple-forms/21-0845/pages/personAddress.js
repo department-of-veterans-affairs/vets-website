@@ -5,7 +5,10 @@ import { uiSchema, schema } from '../../shared/definitions/pdfAddress';
 export default {
   uiSchema: {
     'ui:title': 'Person’s address',
-    personAddress: uiSchema({ root: '', street2: 'Apt./Unit number' }),
+    personAddress: uiSchema({
+      root: '',
+      street2: 'Apartment or unit number',
+    }),
   },
   schema: {
     type: 'object',

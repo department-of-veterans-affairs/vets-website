@@ -11,7 +11,7 @@ export default {
       root: '',
       country: 'Organization’s country',
       street: 'Organization’s street address',
-      street2: 'Apt./Unit number',
+      street2: 'Apartment or unit number',
     }),
   },
   schema: {

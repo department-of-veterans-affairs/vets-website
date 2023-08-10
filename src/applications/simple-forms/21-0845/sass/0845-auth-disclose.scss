@@ -11,6 +11,10 @@ $font-family-serif: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
 $font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", "Helvetica",
   "Roboto", Arial, sans-serif;
 
+div:has(.schemaform-sip-alert) {
+  margin-top: 4rem;
+}
+
 .schemaform-subtitle {
   margin-top: 1.5rem;
 }
@@ -35,21 +39,14 @@ $font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", "Helvetica",
 }
 
 .authorizer-type .schemaform-required-span,
+.disclosure-information-release-duration .schemaform-required-span,
 .security-information-question .schemaform-required-span,
 .disclosure-information-release-end-date .schemaform-required-span,
 .security-information-answer .schemaform-required-span {
   display: none !important;
 }
 
-div:has(.schemaform-sip-alert) {
-  margin-top: 4rem;
-}
-
-.row div[id^="root_organizationRepresentatives_"] > .row.small-collapse,
-.row div[id^="organizationRepresentatives_"] > .row.small-collapse {
-  margin: 0 0 !important;
-}
-
+#root_authorizerAddress_street2,
 #root_personAddress_street2,
 #root_organizationAddress_street2 {
   max-width: 10rem;
@@ -61,8 +58,9 @@ div:has(.schemaform-sip-alert) {
   max-width: 5rem;
 }
 
-#root_releaseDuration-label > .schemaform-required-span {
-  display: none !important;
+.row div[id^="root_organizationRepresentatives_"] > .row.small-collapse,
+.row div[id^="organizationRepresentatives_"] > .row.small-collapse {
+  margin: 0 0 !important;
 }
 
 .review-row {

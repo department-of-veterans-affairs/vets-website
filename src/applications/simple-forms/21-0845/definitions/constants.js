@@ -32,11 +32,12 @@ export const RELEASE_DURATIONS = {
   ONCE_ONLY: 'Only release my information this 1 time',
   UNTIL_DATE: 'Release my information until a specific date that I’ll choose',
   UNTIL_NOTICE:
-    'Continue to release my information until I send written notice to stop',
+    'Continue to release my information until I send written notice to stop (or until I confirm with a VA representative by phone)',
 };
 
 export const SECURITY_QUESTIONS = {
-  MOTHER_BIRTHPLACE: 'What’s the city and state your mother was born in?',
+  MOTHER_BIRTHPLACE:
+    'What’s the city and state or city and country your mother was born in?',
   HIGH_SCHOOL_NAME: 'What’s the name of the last high school you attended?',
   FIRST_PET_NAME: 'What’s the name of your first pet?',
   FAVORITE_TEACHER_NAME: 'What’s the name of your favorite teacher?',

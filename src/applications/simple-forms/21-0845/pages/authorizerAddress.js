@@ -4,7 +4,10 @@ import { uiSchema, schema } from '../../shared/definitions/pdfAddress';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    authorizerAddress: uiSchema({ root: '', street2: 'Apt./Unit number' }),
+    authorizerAddress: uiSchema({
+      root: '',
+      street2: 'Apartment or unit number',
+    }),
   },
   schema: {
     type: 'object',
