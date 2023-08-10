@@ -11,12 +11,16 @@ $font-family-serif: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
 $font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", "Helvetica",
   "Roboto", Arial, sans-serif;
 
+.schemaform-subtitle {
+  margin-top: 1.5rem;
+}
+
 div:has(.schemaform-sip-alert) {
   margin-top: 4rem;
 }
 
-.schemaform-subtitle {
-  margin-top: 1.5rem;
+[href="#start"].vads-c-action-link--green {
+  margin-bottom: 2rem;
 }
 
 .custom-header {

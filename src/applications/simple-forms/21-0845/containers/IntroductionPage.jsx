@@ -56,7 +56,9 @@ class IntroductionPage extends React.Component {
           you can tell us online through Ask VA.
         </p>
         <p>
-          Contact us online through <a href="https://ask.va.gov/">Ask VA</a>
+          <a href="https://ask.va.gov/" className="vads-u-font-weight--bold">
+            Contact us online through Ask VA
+          </a>
         </p>
         {/* TODO: Use <va-telephone> once DST's fixed the 1-800 display bug: https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/1932 */}
         {/* <va-telephone contact="18008271000" /> */}
@@ -78,6 +80,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
+          startText="Start your authorization"
           unauthStartText="Sign in to start your authorization"
           verifiedPrefillAlert={
             <div>
