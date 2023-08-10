@@ -82,7 +82,7 @@ export default function VAOSBreadcrumbs({ children }) {
       {isPast && (
         <li className="va-breadcrumbs-li">
           <NavLink to="/past" id="past">
-            Past
+            {featureBreadcrumbUrlUpdate ? 'Past appointments' : 'Past'}
           </NavLink>
         </li>
       )}

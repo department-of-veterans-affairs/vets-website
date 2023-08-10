@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import environment from 'platform/utilities/environment';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  isStreamlinedLongForm,
+  isStreamlinedShortForm,
+} from '../../utils/streamlinedDepends';
 
 const statementOfTruthItems = [
   'My marital status and number of dependents',
@@ -12,7 +16,27 @@ const statementOfTruthItems = [
   'My bankruptcy history',
 ];
 
+const statementOfTruthItemsShortPath = [
+  'My marital status and number of dependents',
+  'My income (and my spouse’s income if included)',
+  'My household assets',
+];
+
+const statementOfTruthItemsLongPath = [
+  'My marital status and number of dependents',
+  'My income (and my spouse’s income if included)',
+  'My household assets and expenses',
+];
+
 const veteranStatement = `Veteran’s statement of truth: I’ve reviewed the information I provided in this request, including: ${statementOfTruthItems.join(
+  ', ',
+)}`;
+
+const veteranStatementShort = `Veteran’s statement of truth: I’ve reviewed the information I provided in this request, including: ${statementOfTruthItemsShortPath.join(
+  ', ',
+)}`;
+
+const veteranStatementLong = `Veteran’s statement of truth: I’ve reviewed the information I provided in this request, including: ${statementOfTruthItemsLongPath.join(
   ', ',
 )}`;
 
@@ -40,7 +64,7 @@ const PreSubmitSignature = ({
   };
 
   const privacyLabel = (
-    <span>
+    <span className="description">
       I have read and accept the
       <a
         target="_blank"
@@ -49,6 +73,12 @@ const PreSubmitSignature = ({
         href={`${environment.BASE_URL}/privacy-policy`}
       >
         privacy policy
+        <i
+          className="fas fa-arrow-up-right-from-square"
+          aria-hidden="true"
+          role="img"
+        />
+        <span className="sr-only">opens in a new window</span>
       </a>
     </span>
   );
@@ -119,6 +149,32 @@ const PreSubmitSignature = ({
     ],
   );
 
+  const getAriaMessage = () => {
+    if (isStreamlinedLongForm(formData)) {
+      return veteranStatementLong;
+    }
+    if (isStreamlinedShortForm(formData)) {
+      return veteranStatementShort;
+    }
+    return veteranStatement;
+  };
+
+  const renderStatementOfTruthItems = () => {
+    if (isStreamlinedLongForm(formData)) {
+      return statementOfTruthItemsLongPath.map((item, index) => {
+        return <li key={index}>{item}</li>;
+      });
+    }
+    if (isStreamlinedShortForm(formData)) {
+      return statementOfTruthItemsShortPath.map((item, index) => {
+        return <li key={index}>{item}</li>;
+      });
+    }
+    return statementOfTruthItems.map((item, index) => {
+      return <li key={index}>{item}</li>;
+    });
+  };
+
   if (isSubmitPending) {
     return (
       <div className="vads-u-margin-bottom--3">
@@ -144,11 +200,7 @@ const PreSubmitSignature = ({
         <p>
           I’ve reviewed the information I provided in this request, including:
         </p>
-        <ul>
-          {statementOfTruthItems.map((item, index) => {
-            return <li key={index}>{item}</li>;
-          })}
-        </ul>
+        <ul>{renderStatementOfTruthItems()}</ul>
 
         <VaTextInput
           label="Veteran's full name"
@@ -157,7 +209,7 @@ const PreSubmitSignature = ({
           name="veteran-signature"
           onInput={setNewSignature}
           type="text"
-          messageAriaDescribedby={veteranStatement}
+          messageAriaDescribedby={getAriaMessage()}
           required
           error={
             signatureError
@@ -184,7 +236,6 @@ const PreSubmitSignature = ({
         could affect our decision on this request. Penalties may include a fine,
         imprisonment, or both.
       </p>
-
       <Checkbox
         name="privacy-policy"
         className="vads-u-margin-bottom--3"

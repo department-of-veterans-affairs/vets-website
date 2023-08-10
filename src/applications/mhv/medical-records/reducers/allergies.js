@@ -1,10 +1,7 @@
-import {
-  environment,
-  formatDateLong,
-} from '@department-of-veterans-affairs/platform-utilities/exports';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { getNames, getReactions } from '../util/helpers';
-import { testing } from '../util/constants';
+import { emptyField } from '../util/constants';
+import { getReactions, isArrayAndHasItems } from '../util/helpers';
 
 const initialState = {
   /**
@@ -18,17 +15,23 @@ const initialState = {
   allergyDetails: undefined,
 };
 
-const convertAllergy = allergy => {
+export const convertAllergy = allergy => {
   return {
     id: allergy.id,
-    type: allergy.type,
-    name: getNames(allergy),
+    type:
+      (isArrayAndHasItems(allergy.category) && allergy.category[0]) ||
+      emptyField,
+    name: allergy?.code?.text || emptyField,
+    date: formatDateLong(allergy.onsetDateTime),
     reaction: getReactions(allergy),
-    date: formatDateLong(allergy.meta?.lastUpdated),
-    // drugClass: allergy.drugClass,
-    // location: allergy.location,
-    // observed: allergy.observed,
-    // notes: allergy.notes,
+    drugClass: allergy.drugClass || emptyField,
+    location:
+      (isArrayAndHasItems(allergy.context?.related) &&
+        allergy.context.related[0].text) ||
+      emptyField,
+    observed: allergy.observed || emptyField,
+    notes:
+      (isArrayAndHasItems(allergy.note) && allergy.note[0].text) || emptyField,
   };
 };
 
@@ -37,23 +40,16 @@ export const allergyReducer = (state = initialState, action) => {
     case Actions.Allergies.GET: {
       return {
         ...state,
-        allergyDetails:
-          environment.BUILDTYPE === 'localhost' && testing
-            ? convertAllergy(action.response)
-            : action.response,
+        allergyDetails: convertAllergy(action.response),
       };
     }
     case Actions.Allergies.GET_LIST: {
       return {
         ...state,
         allergiesList:
-          environment.BUILDTYPE === 'localhost' && testing
-            ? action.response.entry.map(allergy => {
-                return convertAllergy(allergy.resource);
-              })
-            : action.response.map(allergy => {
-                return { ...allergy };
-              }),
+          action.response.entry?.map(allergy => {
+            return convertAllergy(allergy.resource);
+          }) || [],
       };
     }
     default:

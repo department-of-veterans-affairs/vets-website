@@ -21,7 +21,6 @@ const HouseholdExpensesExplainerWidget = () => {
         </li>
       </ul>
       <va-alert
-        background-only
         class="vads-u-margin-bottom--1"
         close-btn-aria-label="Close notification"
         disable-analytics="false"
