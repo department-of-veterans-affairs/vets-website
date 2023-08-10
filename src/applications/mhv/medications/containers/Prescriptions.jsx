@@ -27,13 +27,15 @@ const Prescriptions = () => {
 
   const sortRxList = useCallback(
     () => {
-      const newList = [...prescriptions];
-      newList.sort(a => {
-        return a.refillStatus.toLowerCase() === sortOption.toLowerCase()
-          ? -1
-          : 0;
-      });
-      dispatch(setSortedRxList(newList));
+      if (sortOption) {
+        const newList = [...prescriptions];
+        newList.sort(a => {
+          return a.refillStatus?.toLowerCase() === sortOption.toLowerCase()
+            ? -1
+            : 0;
+        });
+        dispatch(setSortedRxList(newList));
+      }
     },
     [dispatch, prescriptions, sortOption],
   );
@@ -112,15 +114,21 @@ const Prescriptions = () => {
   );
 
   useEffect(() => {
-    if (prescriptions) {
-      dispatch(
-        setBreadcrumbs([], {
+    dispatch(
+      setBreadcrumbs(
+        [
+          {
+            url: '/my-health/medications/',
+            label: 'About Medications',
+          },
+        ],
+        {
           url: '/my-health/medications/prescriptions/',
           label: 'Medications',
-        }),
-      );
-    }
-  });
+        },
+      ),
+    );
+  }, []);
 
   useEffect(
     () => {
@@ -136,15 +144,6 @@ const Prescriptions = () => {
       }
     },
     [buildPrescriptionPDFList, prescriptions],
-  );
-
-  useEffect(
-    () => {
-      if (sortOption) {
-        sortRxList();
-      }
-    },
-    [sortOption, sortRxList],
   );
 
   const pdfData = {
@@ -175,7 +174,7 @@ const Prescriptions = () => {
           <PrintHeader />
           <h1 className="page-title">Medications</h1>
           <div className="vads-u-margin-bottom--2 no-print">
-            Review your prescription medicaitons from VA, and providers outside
+            Review your prescription medications from VA, and providers outside
             of our network.
           </div>
           <div className="landing-page-content">
@@ -199,6 +198,7 @@ const Prescriptions = () => {
                 setSortOption={setSortOption}
                 sortOption={sortOption}
                 defaultSortOption={defaultSortOption}
+                sortRxList={sortRxList}
               />
               <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
             </div>
@@ -211,23 +211,6 @@ const Prescriptions = () => {
                 data-testid="loading-indicator"
               />
             )}
-          </div>
-          <div className="rx-landing-page-footer no-print">
-            <div className="footer-header vads-u-font-size--h2 vads-u-font-weight--bold vads-u-padding-y--1 vads-u-border-bottom--1px vads-u-border-color--gray-light">
-              Resources related to medications
-            </div>
-            <div className="footer-links">
-              <a href="nolink">Allergies and Adverse Reactions</a>
-              <p>
-                This is a description of why the user may need to navigate to
-                medical records to see their allergies.
-              </p>
-              <a href="nolink">Resources and Support</a>
-              <p>
-                This is a description of what the user might find in resources
-                and support.
-              </p>
-            </div>
           </div>
         </div>
       );
