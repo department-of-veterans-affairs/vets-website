@@ -57,22 +57,20 @@ const CashOnHand = ({
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0">Cash on hand</h3>
         </legend>
-        <div className="input-size-3">
-          <VaNumberInput
-            currency
-            error={error}
-            hint={null}
-            id="cash"
-            inputmode="decimal"
-            label="What is the dollar amount of available cash (not in a bank) you currently have?"
-            name="cash"
-            onBlur={onBlur}
-            onInput={({ target }) => setCash(target.value)}
-            required
-            value={cash}
-            width="md"
-          />
-        </div>
+        <VaNumberInput
+          currency
+          error={error}
+          hint={null}
+          id="cash"
+          inputmode="decimal"
+          label="What is the dollar amount of available cash (not in a bank) you currently have?"
+          name="cash"
+          onBlur={onBlur}
+          onInput={({ target }) => setCash(target.value)}
+          required
+          value={cash}
+          width="md"
+        />
         {contentBeforeButtons}
         <FormNavButtons
           goBack={goBack}
