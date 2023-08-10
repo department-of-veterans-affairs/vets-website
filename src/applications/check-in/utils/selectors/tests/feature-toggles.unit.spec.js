@@ -34,7 +34,7 @@ describe('check-in', () => {
           isTravelReimbursementEnabled: false,
           isBrowserMonitoringEnabled: false,
           isPreCheckInActionLinkTopPlacementEnabled: true,
-          isUnifiedLandingPageEnabled: true,
+          isUnifiedLandingPageEnabled: false,
         });
       });
     });
