@@ -79,7 +79,7 @@ const ApplicationsInProgress = ({ savedForms, hideH3, isLOA3 }) => {
 ApplicationsInProgress.propTypes = {
   hideH3: PropTypes.bool,
   isLOA3: PropTypes.bool,
-  savedForms: PropTypes.object,
+  savedForms: PropTypes.array,
 };
 
 const mapStateToProps = state => {

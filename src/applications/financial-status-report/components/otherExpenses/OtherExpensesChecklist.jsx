@@ -1,32 +1,48 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import PropTypes from 'prop-types';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+
 import { otherLivingExpensesOptions } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
+import { calculateDiscretionaryIncome } from '../../utils/streamlinedDepends';
 
-const OtherExpensesChecklist = () => {
-  const dispatch = useDispatch();
-  const formData = useSelector(state => state.form.data);
-
-  const { otherExpenses = [] } = formData;
+const OtherExpensesChecklist = ({
+  data,
+  goBack,
+  goForward,
+  setFormData,
+  contentBeforeButtons,
+  contentAfterButtons,
+}) => {
+  const { gmtData, otherExpenses = [] } = data;
 
   const onChange = ({ target }) => {
     const { value } = target;
+
     return otherExpenses.some(source => source.name === value)
-      ? dispatch(
-          setData({
-            ...formData,
-            otherExpenses: otherExpenses.filter(
-              source => source.name !== value,
-            ),
-          }),
-        )
-      : dispatch(
-          setData({
-            ...formData,
-            otherExpenses: [...otherExpenses, { name: value, amount: '' }],
-          }),
-        );
+      ? setFormData({
+          ...data,
+          otherExpenses: otherExpenses.filter(source => source.name !== value),
+        })
+      : setFormData({
+          ...data,
+          otherExpenses: [...otherExpenses, { name: value, amount: '' }],
+        });
+  };
+
+  // Calculate Discretionary income as necessary
+  const updateStreamlinedValues = () => {
+    if (otherExpenses?.length || !gmtData?.isEligibleForStreamlined) return;
+
+    const calculatedDiscretionaryIncome = calculateDiscretionaryIncome(data);
+    setFormData({
+      ...data,
+      gmtData: {
+        ...gmtData,
+        discretionaryBelow:
+          calculatedDiscretionaryIncome < gmtData?.discretionaryIncomeThreshold,
+      },
+    });
   };
 
   const isBoxChecked = option => {
@@ -37,14 +53,47 @@ const OtherExpensesChecklist = () => {
   const prompt = 'What other living expenses do you have?';
 
   return (
-    <Checklist
-      options={otherLivingExpensesOptions}
-      onChange={onChange}
-      title={title}
-      prompt={prompt}
-      isBoxChecked={isBoxChecked}
-    />
+    <form
+      onSubmit={event => {
+        event.preventDefault();
+        goForward(data);
+      }}
+    >
+      <fieldset>
+        <div className="vads-l-grid-container--full">
+          <Checklist
+            options={otherLivingExpensesOptions}
+            onChange={onChange}
+            title={title}
+            prompt={prompt}
+            isBoxChecked={isBoxChecked}
+          />
+          {contentBeforeButtons}
+          <FormNavButtons
+            goBack={goBack}
+            goForward={updateStreamlinedValues}
+            submitToContinue
+          />
+          {contentAfterButtons}
+        </div>
+      </fieldset>
+    </form>
   );
+};
+
+OtherExpensesChecklist.propTypes = {
+  data: PropTypes.shape({
+    otherExpenses: PropTypes.array,
+    gmtData: PropTypes.shape({
+      isEligibleForStreamlined: PropTypes.bool,
+      discretionaryIncomeThreshold: PropTypes.number,
+    }),
+  }).isRequired,
+  goBack: PropTypes.func.isRequired,
+  goForward: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  contentAfterButtons: PropTypes.node,
+  contentBeforeButtons: PropTypes.node,
 };
 
 export default OtherExpensesChecklist;
