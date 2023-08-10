@@ -29,6 +29,7 @@ describe('Secure Messaging Move Message tests', () => {
     folderPage.loadCustomFolderMessageDetails(mockCustomDetails);
     folderPage.selectFolderfromModal();
     folderPage.moveCustomFolderMessageToDifferentFolder();
+
     folderPage.verifyMoveMessageSuccessConfirmationFocus();
     cy.injectAxe();
     cy.axeCheck('main', {
@@ -48,9 +49,9 @@ describe('Secure Messaging Move Message tests', () => {
     site.login();
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
     messageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
-
     folderPage.moveInboxFolderMessageToDifferentFolder();
 
+    folderPage.verifyMoveMessageSuccessConfirmationFocus();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -62,7 +63,5 @@ describe('Secure Messaging Move Message tests', () => {
         },
       },
     });
-
-    folderPage.verifyMoveMessageSuccessConfirmationFocus();
   });
 });
