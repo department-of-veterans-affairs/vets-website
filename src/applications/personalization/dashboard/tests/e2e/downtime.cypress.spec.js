@@ -19,7 +19,6 @@ import manifest from 'applications/personalization/dashboard/manifest.json';
 describe('The My VA Dashboard', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    cy.server();
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept(
@@ -44,7 +43,7 @@ describe('The My VA Dashboard', () => {
     const startTime = new Date(Date.now() + 60 * 1000);
     // end time is one hour from now
     const endTime = new Date(Date.now() + 60 * 60 * 1000);
-    cy.route('GET', '/v0/maintenance_windows', {
+    cy.intercept('GET', '/v0/maintenance_windows', {
       data: [
         {
           id: '1',
@@ -75,7 +74,7 @@ describe('The My VA Dashboard', () => {
     const startTime = new Date(Date.now() + oneDayInMS);
     // end time is two days from now
     const endTime = new Date(Date.now() + oneDayInMS * 2);
-    cy.route('GET', '/v0/maintenance_windows', {
+    cy.intercept('GET', '/v0/maintenance_windows', {
       data: [
         {
           id: '1',
@@ -101,7 +100,7 @@ describe('The My VA Dashboard', () => {
     const startTime = new Date(Date.now() - 60 * 1000);
     // end time is one hour from now
     const endTime = new Date(Date.now() + 60 * 60 * 1000);
-    cy.route('GET', '/v0/maintenance_windows', {
+    cy.intercept('GET', '/v0/maintenance_windows', {
       data: [
         {
           id: '1',
@@ -132,7 +131,7 @@ describe('The My VA Dashboard', () => {
     const startTime = new Date(Date.now() - 60 * 1000);
     // end time is one hour from now
     const endTime = new Date(Date.now() + 60 * 60 * 1000);
-    cy.route('GET', '/v0/maintenance_windows', {
+    cy.intercept('GET', '/v0/maintenance_windows', {
       data: [
         {
           id: '1',
@@ -165,7 +164,7 @@ describe('The My VA Dashboard', () => {
     const startTime = new Date(Date.now() + 60 * 60 * 25 * 1000);
     // end time is 30 days in the future
     const endTime = new Date(Date.now() + 60 * 60 * 30 * 1000);
-    cy.route('GET', '/v0/maintenance_windows', {
+    cy.intercept('GET', '/v0/maintenance_windows', {
       data: [
         {
           id: '1',
