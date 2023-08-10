@@ -67,7 +67,12 @@ export default class ITFBanner extends React.Component {
         <div className="usa-content">
           <h1>{this.props.title}</h1>
           {message}
-          <Link to={DISABILITY_526_V2_ROOT_URL}>Back</Link>
+          <Link
+            className="vads-u-margin-right--2"
+            to={DISABILITY_526_V2_ROOT_URL}
+          >
+            Back
+          </Link>
           {this.props.status !== 'error' && (
             <button
               type="button"
