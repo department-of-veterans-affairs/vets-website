@@ -3,7 +3,6 @@ import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide
 import {
   selectVAPResidentialAddress,
   selectPatientFacilities,
-  selectIsCernerPatient,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import {
   selectCernerFacilityIds,
@@ -35,9 +34,6 @@ export const selectRegisteredCernerFacilities = state => {
   }, []);
 };
 
-export const selectIsRegisteredToSacramentoVA = state =>
-  selectPatientFacilities(state)?.some(f => f.facilityId === '612');
-
 export const selectFeatureApplication = state =>
   toggleValues(state).vaOnlineScheduling;
 export const selectFeatureCancel = state =>
@@ -49,8 +45,6 @@ export const selectFeatureCommunityCare = state =>
 export const selectFeatureDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
-// Use flat facility page for non Cerner patients
-export const selectUseFlatFacilityPage = state => !selectIsCernerPatient(state);
 
 export const selectHasVAPResidentialAddress = state =>
   !!selectVAPResidentialAddress(state)?.addressLine1;
