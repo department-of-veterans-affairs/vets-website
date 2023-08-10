@@ -29,11 +29,11 @@ const MedicationsListSort = props => {
           );
         })}
       </VaSelect>
-      <span>
+      <div className="sort-button">
         <button type="button" onClick={sortRxList}>
           Sort
         </button>
-      </span>
+      </div>
     </div>
   );
 };

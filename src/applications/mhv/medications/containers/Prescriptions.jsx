@@ -200,7 +200,7 @@ const Prescriptions = () => {
                 defaultSortOption={defaultSortOption}
                 sortRxList={sortRxList}
               />
-              <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
+              <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
             </div>
             {prescriptions ? (
               <MedicationsList rxList={prescriptions} />

@@ -50,8 +50,13 @@
     margin: 0;
   }
   .medications-list-sort {
-    margin-top: -25px;
-    width: 272;
+    display: flex;
+    flex-direction: row;
+    margin-top: -35px;
+    .sort-button {
+      margin-left: 8px;
+      margin-top: 60px;
+    }
   }
   .rx-page-total-info {
     margin-top: 15px;
