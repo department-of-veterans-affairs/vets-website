@@ -369,7 +369,6 @@ CernerCallToAction.propTypes = {
   otherFacilities: otherFacilitiesPropType,
 };
 
-// export default CernerCallToAction;
 const mapStateToProps = state => {
   const featureStaticLandingPage = toggleValues(state)
     .vaOnlineSchedulingStaticLandingPage;
