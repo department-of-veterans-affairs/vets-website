@@ -34,7 +34,7 @@ const LandingPage = () => {
               Email your feedback and questions to us at <FeedbackEmail />.
             </p>
             <p>
-              <b>Note:</b> You still have access to the pharmacy tool on the My
+              <strong>Note:</strong> You still have access to the pharmacy tool on the My
               HealtheVet website. You can go back to that site at any time.{' '}
               <a
                 href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'pharmacy')}
