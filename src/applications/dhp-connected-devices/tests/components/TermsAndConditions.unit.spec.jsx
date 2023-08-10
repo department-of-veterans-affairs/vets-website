@@ -20,7 +20,7 @@ describe('Terms and Conditions', () => {
     expect(screen.getByTestId('fitbit-terms-and-conditions-content')).to.exist;
     expect(
       screen.getByTestId('fitbit-terms-and-conditions').textContent,
-    ).to.have.string('Sign into Fitbit and share your Fit');
+    ).to.have.string('Sign into Fitbit and share your Fitbit data with VA');
     expect(
       screen.getByTestId('fitbit-terms-and-conditions').innerHTML,
     ).to.have.string('View Terms');
