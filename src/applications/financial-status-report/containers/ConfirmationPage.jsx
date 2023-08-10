@@ -11,6 +11,10 @@ import { deductionCodes } from '../constants/deduction-codes';
 import DownloadFormPDF from '../components/shared/DownloadFormPDF';
 import { fsrConfirmationEmailToggle, fsrReasonDisplay } from '../utils/helpers';
 import { DEBT_TYPES } from '../constants';
+import {
+  isStreamlinedLongForm,
+  isStreamlinedShortForm,
+} from '../utils/streamlinedDepends';
 
 const { scroller } = Scroll;
 const scrollToTop = () => {
@@ -97,6 +101,20 @@ const ConfirmationPage = ({ form, download }) => {
   const { response } = form.submission;
   const { data } = form;
 
+  const renderLoseJobBlurb = () => {
+    if (!isStreamlinedLongForm(data) && !isStreamlinedShortForm(data)) {
+      return (
+        <>
+          <h3 className="vads-u-margin-bottom--2">
+            What if I lose my job or have other changes that may affect my
+            finances?
+          </h3>
+        </>
+      );
+    }
+    return null;
+  };
+
   useEffect(() => {
     focusElement('.schemaform-title > h1');
 
@@ -168,10 +186,7 @@ const ConfirmationPage = ({ form, download }) => {
             </p>
           </li>
         </ol>
-        <h3 className="vads-u-margin-bottom--2">
-          What if I lose my job or have other changes that may affect my
-          finances?
-        </h3>
+        {renderLoseJobBlurb()}
         <p>
           You’ll need to submit a new request to report the changes to us. We’ll
           consider the changes when we make our decision on your request.
