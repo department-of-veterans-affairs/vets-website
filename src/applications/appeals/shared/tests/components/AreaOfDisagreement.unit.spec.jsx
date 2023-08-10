@@ -138,6 +138,9 @@ describe('<AreaOfDisagreement>', () => {
 
     fireEvent.click($('button.usa-button-primary', container));
     expect(goSpy.called).to.be.false;
+    expect(
+      $('va-checkbox-group[error]', container)?.getAttribute('error'),
+    ).to.contain('Choose or enter a reason for disagreement');
   });
 
   it('should not submit page when text input is too long', () => {
@@ -160,5 +163,8 @@ describe('<AreaOfDisagreement>', () => {
 
     fireEvent.click($('button.usa-button-primary', container));
     expect(goSpy.called).to.be.false;
+    expect(
+      $('va-text-input[error]', container)?.getAttribute('error'),
+    ).to.contain('This field should be less than 34 characters');
   });
 });
