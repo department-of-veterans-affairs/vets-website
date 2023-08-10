@@ -136,6 +136,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
         <h2>Select your {previousYear} household income range</h2>
         <va-accordion bordered data-testid="il-results" open-single>
           <va-accordion-item
+            level="3"
             data-testid="il-results-1"
             header={getFirstAccordionHeader(pension)}
           >
@@ -155,6 +156,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             {!pastMode && applyUrl}
           </va-accordion-item>
           <va-accordion-item
+            level="3"
             data-testid="il-results-2"
             header={getSecondAccordionHeader(pension, national)}
           >
@@ -170,6 +172,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
           </va-accordion-item>
           {isStandard && (
             <va-accordion-item
+              level="3"
               data-testid="il-results-3"
               header={getThirdAccordionHeader(national, gmt)}
             >
@@ -186,6 +189,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             </va-accordion-item>
           )}
           <va-accordion-item
+            level="3"
             data-testid="il-results-4"
             header={getFourthAccordionHeader(national, gmt, isStandard)}
           >
@@ -200,6 +204,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             {!pastMode && applyUrl}
           </va-accordion-item>
           <va-accordion-item
+            level="3"
             data-testid="il-results-5"
             header={getFifthAccordionHeader(national, gmt, isStandard)}
           >
