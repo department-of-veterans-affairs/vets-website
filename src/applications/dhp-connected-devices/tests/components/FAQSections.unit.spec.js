@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import {
   FirstFAQSection,
   SecondFAQSection,

@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { fireEvent, render } from '@testing-library/react';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { DeviceDisconnectionCard } from '../../components/DeviceDisconnectionCard';
 
 describe('Device disconnection card', () => {
@@ -41,9 +42,11 @@ describe('Device disconnection card', () => {
       expect(getDisconnectModal(screen)).to.not.exist;
     });
     it('Renders vendor terms and conditions', () => {
-      expect(screen.getByTestId('test-vendor-terms-and-conditions')).to.exist;
-      expect(screen.getByTestId('test-vendor-terms-and-conditions-content')).to
-        .exist;
+      const card = renderInReduxProvider(
+        <DeviceDisconnectionCard device={{ name: 'Fitbit', key: 'fitbit' }} />,
+      );
+      expect(card.getByTestId('fitbit-terms-and-conditions')).to.exist;
+      expect(card.getByTestId('fitbit-terms-and-conditions-content')).to.exist;
     });
   });
 

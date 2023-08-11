@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { scrollToTop } from '../utilities/scroll-to-top';
 import { ROUTES } from '../constants';
 import {
   getFirstAccordionHeader,
@@ -28,8 +27,8 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
     () => {
       redirectIfFormIncomplete(dependents, pastMode, router, year, zipCode);
 
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       waitForRenderThenFocus('h1');
-      scrollToTop();
     },
     [dependents, pastMode, router, year, zipCode],
   );

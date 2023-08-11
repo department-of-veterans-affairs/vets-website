@@ -64,7 +64,7 @@ const PreSubmitSignature = ({
   };
 
   const privacyLabel = (
-    <span>
+    <span className="description">
       I have read and accept the
       <a
         target="_blank"
@@ -73,6 +73,12 @@ const PreSubmitSignature = ({
         href={`${environment.BASE_URL}/privacy-policy`}
       >
         privacy policy
+        <i
+          className="fas fa-arrow-up-right-from-square"
+          aria-hidden="true"
+          role="img"
+        />
+        <span className="sr-only">opens in a new window</span>
       </a>
     </span>
   );
@@ -230,7 +236,6 @@ const PreSubmitSignature = ({
         could affect our decision on this request. Penalties may include a fine,
         imprisonment, or both.
       </p>
-
       <Checkbox
         name="privacy-policy"
         className="vads-u-margin-bottom--3"
