@@ -22,7 +22,7 @@ export const SearchResultsPage = ({
       Yellow Ribbon school search results
       {/* Screen reader total results */}
       {hasFetchedOnce && (
-        <span className="vads-u-visibilityy--screen-reader">
+        <span className="vads-u-visibility--screen-reader">
           search returned {totalResults} schools
         </span>
       )}
