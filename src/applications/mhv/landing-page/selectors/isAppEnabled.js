@@ -7,7 +7,7 @@ const ENABLED_LOGIN_PROVIDERS = Object.freeze([
   CSP_IDS.LOGIN_GOV,
 ]);
 
-const isLandingPageEnabledForUser = (state = {}) => {
+export const isAppEnabled = (state = {}) => {
   const { featureToggles, user } = state;
   if (!featureToggles[FEATURE_FLAG_NAMES.mhvLandingPageEnabled]) {
     return false;
@@ -18,14 +18,13 @@ const isLandingPageEnabledForUser = (state = {}) => {
   }
   const { serviceName } = user?.profile?.signIn;
   // const isCernerPatient = selectIsCernerPatient(state); // dependent on state.drupalStaticData.vamcEhrData
-  const hasFacilities = user.profile.facilities?.length > 0;
+  const hasFacilities = user?.profile?.facilities?.length > 0;
   const isCernerPatient =
     hasFacilities && user?.profile?.facilities.some(f => f.isCerner);
-  // console.log({ currentlyLoggedIn, serviceName, isCernerPatient, hasFacilities });
+
   return (
     ENABLED_LOGIN_PROVIDERS.includes(serviceName) &&
     !isCernerPatient &&
     hasFacilities
   );
 };
-export { isLandingPageEnabledForUser };

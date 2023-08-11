@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Relative imports.
-import { isLandingPageEnabledForUser } from 'applications/mhv/landing-page/utilities/feature-toggles';
+import { isAppEnabled as isLandingPageEnabledForUser } from 'applications/mhv/landing-page/selectors';
 import MY_VA_LINK from '../constants/MY_VA_LINK';
 import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
 import MegaMenu from '../components/MegaMenu';

@@ -4,48 +4,46 @@ import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utili
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
+import { resolveLandingPageLinks } from '../utilities/data';
+import {
+  selectProfile,
+  selectVamcEhrData,
+  isAppEnabled,
+  isAuthenticatedWithSSOe,
+} from '../selectors';
+import { useDatadogRum } from '../hooks/useDatadogRum';
 import LandingPage from '../components/LandingPage';
 
-import { isLandingPageEnabledForUser } from '../utilities/feature-toggles';
-import { resolveLandingPageLinks } from '../utilities/data';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-
-import { useDatadogRum } from '../hooks/useDatadogRum';
+const requiredServices = [
+  backendServices.USER_PROFILE,
+  // backendServices.VA_PROFILE,
+];
 
 const App = () => {
-  const fullState = useSelector(state => state);
-  const { featureToggles, user } = fullState;
+  const enabled = useSelector(state => isAppEnabled(state));
+  const profile = useSelector(state => selectProfile(state));
+  const ssoe = useSelector(state => isAuthenticatedWithSSOe(state));
+  const vamcEhrData = useSelector(state => selectVamcEhrData(state));
+  const { featureToggles, user } = useSelector(state => state);
 
-  const data = useMemo(
-    () => {
-      const authdWithSSOe = isAuthenticatedWithSSOe(fullState) || false;
-      return resolveLandingPageLinks(authdWithSSOe, featureToggles);
-    },
-    [featureToggles, user?.profile?.session?.ssoe],
-  );
-
-  const appEnabled = useMemo(
-    () => {
-      return isLandingPageEnabledForUser(fullState);
-    },
-    [fullState],
-  );
+  const data = useMemo(() => resolveLandingPageLinks(ssoe, featureToggles), [
+    featureToggles,
+    ssoe,
+  ]);
 
   useDatadogRum();
 
-  if (featureToggles.loading || user.profile.loading)
-    return <va-loading-indicator />;
-  if (!appEnabled) {
-    const url = mhvUrl(true, 'home');
-    window.location.replace(url);
+  const loading =
+    featureToggles.loading || profile.loading || vamcEhrData.loading;
+  if (loading) return <va-loading-indicator />;
+  if (!loading && !enabled) {
+    const redirectUrl = mhvUrl(ssoe, 'home');
+    window.location.replace(redirectUrl);
     return <></>;
   }
   return (
-    <RequiredLoginView
-      user={user}
-      serviceRequired={[backendServices.USER_PROFILE]}
-    >
-      <LandingPage data={data} />
+    <RequiredLoginView useSiS user={user} serviceRequired={requiredServices}>
+      <LandingPage data={data} />;
     </RequiredLoginView>
   );
 };

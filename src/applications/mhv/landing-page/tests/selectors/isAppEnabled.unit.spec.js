@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { expect } from 'chai';
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
-import { isLandingPageEnabledForUser } from './index';
+import { isAppEnabled } from '../../selectors/isAppEnabled';
 import manifest from '../../manifest.json';
 
 // x const { featureToggles, user } = state;
@@ -17,7 +17,7 @@ describe(manifest.appName, () => {
           mhv_landing_page_enabled: false,
         },
       };
-      const result = isLandingPageEnabledForUser(state);
+      const result = isAppEnabled(state);
       expect(result).to.be.false;
     });
     it('app is disabled if the feature is enabled but the user is not logged in', () => {
@@ -31,7 +31,7 @@ describe(manifest.appName, () => {
           },
         },
       };
-      const result = isLandingPageEnabledForUser(state);
+      const result = isAppEnabled(state);
       expect(result).to.be.false;
     });
     it('app is enabled if the feature is enabled; the user is logged in as idme', () => {
@@ -56,7 +56,7 @@ describe(manifest.appName, () => {
           },
         },
       };
-      const result = isLandingPageEnabledForUser(state);
+      const result = isAppEnabled(state);
       expect(result).to.be.true;
     });
     it('app is enabled if the feature is enabled; the user is logged in as login.gov', () => {
@@ -71,7 +71,7 @@ describe(manifest.appName, () => {
             },
             facilities: [
               {
-                facilityId: '668',
+                facilityId: '663',
                 isCerner: false,
               },
             ],
@@ -81,7 +81,7 @@ describe(manifest.appName, () => {
           },
         },
       };
-      const result = isLandingPageEnabledForUser(state);
+      const result = isAppEnabled(state);
       expect(result).to.be.true;
     });
     it('app is disabled if the feature is enabled; the user is logged in as dslogon', () => {
@@ -100,7 +100,7 @@ describe(manifest.appName, () => {
           },
         },
       };
-      const result = isLandingPageEnabledForUser(state);
+      const result = isAppEnabled(state);
       expect(result).to.be.false;
     });
     it('app is disabled if the feature is enabled AND the user is logged in as a valid ID provider AND the user is a cerner patient', () => {
@@ -137,7 +137,7 @@ describe(manifest.appName, () => {
           },
         },
       };
-      const result = isLandingPageEnabledForUser(state);
+      const result = isAppEnabled(state);
       expect(result).to.be.false;
     });
     it('app is enabled if the feature is enabled AND the user is logged in as a valid ID provider AND the user is not a cerner patient', () => {
@@ -174,7 +174,7 @@ describe(manifest.appName, () => {
           },
         },
       };
-      const result = isLandingPageEnabledForUser(state);
+      const result = isAppEnabled(state);
       expect(result).to.be.true;
     });
     it('app is disabled if the feature is enabled AND the user is logged AND has no facilities', () => {
@@ -194,7 +194,7 @@ describe(manifest.appName, () => {
           },
         },
       };
-      const result = isLandingPageEnabledForUser(state);
+      const result = isAppEnabled(state);
       expect(result).to.be.false;
     });
   });
