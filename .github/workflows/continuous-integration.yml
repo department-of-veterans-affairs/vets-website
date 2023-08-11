@@ -798,7 +798,7 @@ jobs:
       # ----------------
 
       - name: Notify Slack about Unit test failures
-        if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.result == 'failure' }}
+        if: ${{ github.ref != 'refs/heads/main' }}
         uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         env:
