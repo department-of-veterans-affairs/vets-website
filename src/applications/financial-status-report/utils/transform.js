@@ -1,5 +1,9 @@
 import moment from 'moment';
 import {
+  isStreamlinedShortForm,
+  isStreamlinedLongForm,
+} from './streamlinedDepends';
+import {
   sumValues,
   dateFormatter,
   getFsrReason,
@@ -10,7 +14,7 @@ import {
   mergeAdditionalComments,
   filterReduceByName,
 } from './helpers';
-import { getMonthlyIncome } from './calculateIncome';
+import { getMonthlyIncome, safeNumber } from './calculateIncome';
 import { getFormattedPhone } from './contactInformation';
 
 export const transform = (formConfig, form) => {
@@ -55,10 +59,32 @@ export const transform = (formConfig, form) => {
     additionalData,
     selectedDebtsAndCopays = [],
     realEstateRecords,
+    gmtData,
   } = form.data;
 
   // enhanced fsr flag
   const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
+  const isShortStreamlined = isStreamlinedShortForm(form.data);
+  const isLongStreamlined = isStreamlinedLongForm(form.data);
+
+  // === Set Streamlined FSR flag ===
+  let streamlinedData;
+  if (isShortStreamlined) {
+    streamlinedData = {
+      value: true,
+      type: 'short',
+    };
+  } else if (isLongStreamlined) {
+    streamlinedData = {
+      value: true,
+      type: 'long',
+    };
+  } else {
+    streamlinedData = {
+      value: false,
+      type: 'none', // not streamlined
+    };
+  }
 
   // === Income ===
   // Extract the values from getMonthlyIncome
@@ -111,7 +137,13 @@ export const transform = (formConfig, form) => {
 
   // monetary assets
   const { monetaryAssets } = assets;
-  const calculatedCashOnHand = filterReduceByName(monetaryAssets, cashFilters);
+  // Cash on hand is stored separately for potential short forms
+  // Same conditions for the cash on hand page depends
+  const calculatedCashOnHand =
+    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt
+      ? filterReduceByName(monetaryAssets, cashFilters) +
+        safeNumber(assets.cashOnHand)
+      : filterReduceByName(monetaryAssets, cashFilters);
   const calculatedCashInBank = filterReduceByName(monetaryAssets, bankFilters);
   const calculatedUsSavingsBonds = filterReduceByName(
     monetaryAssets,
@@ -299,6 +331,7 @@ export const transform = (formConfig, form) => {
       veteranDateSigned: moment().format('MM/DD/YYYY'),
     },
     selectedDebtsAndCopays: [...selectedDebtsAndCopays],
+    streamlined: streamlinedData,
   };
 
   // calculated values should formatted then converted to string

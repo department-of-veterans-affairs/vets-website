@@ -93,7 +93,6 @@ const responses = {
       () =>
         res.json(
           generateFeatureToggles({
-            profileUseInfoCard: true,
             profileUseFieldEditingPage: true,
             profileLighthouseDirectDeposit: true,
             profileUseNotificationSettingsCheckboxes: true,

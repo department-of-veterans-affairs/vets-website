@@ -21,7 +21,7 @@ const isLandingPageEnabledForUser = (state = {}) => {
   const hasFacilities = user.profile.facilities?.length > 0;
   const isCernerPatient =
     hasFacilities && user?.profile?.facilities.some(f => f.isCerner);
-  // console.log({ currentlyLoggedIn, serviceName, isCernerPatient, hasFacilities, result });
+  // console.log({ currentlyLoggedIn, serviceName, isCernerPatient, hasFacilities });
   return (
     ENABLED_LOGIN_PROVIDERS.includes(serviceName) &&
     !isCernerPatient &&
