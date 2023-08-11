@@ -161,7 +161,10 @@ const PrescriptionDetails = () => {
           <PrintHeader />
           <h1 className="page-title">
             <div>{prescription.prescriptionName}</div>
-            <p className="title-last-filled-on vads-u-font-family--sans">
+            <p
+              className="title-last-filled-on vads-u-font-family--sans"
+              data-testid="rx-last-filled-date"
+            >
               Last filled on{' '}
               {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
             </p>
