@@ -243,7 +243,7 @@ Cypress.Commands.add('execHook', pathname => {
               .replace(REGEXP_REMOVE_END_SLASH, '') // remove trailing `/`
           : pathname;
 
-        const hook = pageHooks?.[pathnameKey];
+        const hook = pageHooks?.[pathname] || pageHooks?.[pathnameKey];
         let hookExecuted = false;
         let postHook = defaultPostHook(pathname);
 
