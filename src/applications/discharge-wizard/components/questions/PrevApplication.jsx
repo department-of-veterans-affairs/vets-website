@@ -34,7 +34,7 @@ const PrevApplication = ({
     name: key,
     label:
       'Have you previously applied for and been denied a discharge upgrade for this period of service?',
-    'label-header-level': 2,
+    'label-header-level': '2',
     hint:
       'Note: You can still apply. Your answer to this question simply changes where you send your application.',
     key,

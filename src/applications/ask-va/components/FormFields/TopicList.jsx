@@ -13,8 +13,7 @@ import {
 
 import { apiRequest } from 'platform/utilities/api';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
-import { ServerErrorAlert } from '../../config/helpers'; // '  ../config/helpers';
-// import { set } from 'date-fns';
+import { ServerErrorAlert } from '../../config/helpers';
 
 const TopicList = props => {
   const {
@@ -78,21 +77,23 @@ const TopicList = props => {
 
     // format for the widget
     const data = [];
-    for (const key of Object.keys(response)) {
-      data.push({ id: response[key].dataInfo, name: key });
+    if (response) {
+      for (const key of Object.keys(response)) {
+        data.push({ id: response[key].dataInfo, name: key });
+      }
     }
 
     // set the dev list in the formConfig
     setDevs(data);
   };
 
-  const hasPermission = () => {
+  const hasPermission = async () => {
     if (loggedIn) {
       const email = profile.email.split('@')[1];
       if (email === 'email.com') setShowAlert(true);
-      getUsers(STATIC_DATA_AUTH);
+      await getUsers(STATIC_DATA_AUTH);
     } else {
-      getUsers(STATIC_DATA);
+      await getUsers(STATIC_DATA);
     }
   };
 
@@ -178,9 +179,7 @@ const TopicList = props => {
       </VaModal>
     </>
   ) : (
-    <div className="server-error-message vads-u-margin-top--4">
-      <ServerErrorAlert />
-    </div>
+    <ServerErrorAlert />
   );
 };
 
