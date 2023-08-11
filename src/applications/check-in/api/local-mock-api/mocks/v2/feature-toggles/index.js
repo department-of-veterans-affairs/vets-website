@@ -5,6 +5,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceTranslationDisclaimerSpanishEnabled = true,
     checkInExperienceTranslationDislaimerTagalogEnabled = true,
     checkInExperienceTravelReimbursement = true,
+    checkInExperienceTravelLogic = false,
     checkInExperienceBrowserMonitoring = false,
     checkInExperiencePreCheckInActionLinkTopPlacement = true,
   } = toggles;
@@ -32,6 +33,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_travel_reimbursement',
           value: checkInExperienceTravelReimbursement,
+        },
+        {
+          name: 'check_in_experience_travel_logic',
+          value: checkInExperienceTravelLogic,
         },
         {
           name: 'check_in_experience_browser_monitoring',
