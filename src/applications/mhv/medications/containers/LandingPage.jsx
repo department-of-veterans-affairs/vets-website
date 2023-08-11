@@ -35,8 +35,7 @@ const LandingPage = () => {
             </p>
             <p>
               <strong>Note:</strong>You still have access to the pharmacy tool 
-              on the My HealtheVet website. 
-              You can go back to that site at any time.{' '}
+              on the My HealtheVet website. You can go back to that site at any time.{' '}
               <a
                 href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'pharmacy')}
                 target="_blank"
