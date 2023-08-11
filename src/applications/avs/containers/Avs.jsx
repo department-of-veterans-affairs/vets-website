@@ -30,6 +30,7 @@ const generateFooter = avs => {
 };
 
 const Avs = () => {
+  // TODO: handle un-authed users.
   const { id } = useParams();
 
   const [avs, setAvs] = useState({});
@@ -39,7 +40,7 @@ const Avs = () => {
     () => {
       const fetchAvs = async () => {
         const response = await getAvs(id);
-        setAvs(response);
+        setAvs(response.data.attributes);
         setLoading(false);
       };
       fetchAvs();

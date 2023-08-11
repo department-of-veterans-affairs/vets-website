@@ -8,8 +8,8 @@ const getOrderItems = (type, orders) => {
 };
 
 const consultations = avs => {
-  if (avs.data.orders?.length > 0) {
-    const items = getOrderItems(ORDER_TYPES.CONSULT, avs.data.orders);
+  if (avs.orders?.length > 0) {
+    const items = getOrderItems(ORDER_TYPES.CONSULT, avs.orders);
     const orderListItems = items.map((item, idx) => (
       <li key={idx}>{item.text}</li>
     ));
@@ -29,8 +29,8 @@ const consultations = avs => {
 };
 
 const imaging = avs => {
-  if (avs.data.orders?.length > 0) {
-    const items = getOrderItems(ORDER_TYPES.IMAGING, avs.data.orders);
+  if (avs.orders?.length > 0) {
+    const items = getOrderItems(ORDER_TYPES.IMAGING, avs.orders);
     const orderListItems = items.map((item, idx) => (
       <li key={idx}>{item.text}</li>
     ));
@@ -53,8 +53,8 @@ const imaging = avs => {
 };
 
 const labTests = avs => {
-  if (avs.data.orders?.length > 0) {
-    const items = getOrderItems(ORDER_TYPES.LAB, avs.data.orders);
+  if (avs.orders?.length > 0) {
+    const items = getOrderItems(ORDER_TYPES.LAB, avs.orders);
     const orderListItems = items.map((item, idx) => (
       <li key={idx}>
         {item.text} ({item.date})
@@ -81,8 +81,8 @@ const labTests = avs => {
 };
 
 const medsAndSupplies = avs => {
-  if (avs.data.orders?.length > 0) {
-    const items = getOrderItems(ORDER_TYPES.MED, avs.data.orders);
+  if (avs.orders?.length > 0) {
+    const items = getOrderItems(ORDER_TYPES.MED, avs.orders);
     const orderListItems = items.map((item, idx) => (
       <li key={idx}>{item.text}</li>
     ));
@@ -105,8 +105,8 @@ const medsAndSupplies = avs => {
 };
 
 const otherOrders = avs => {
-  if (avs.data.orders?.length > 0) {
-    const items = getOrderItems(ORDER_TYPES.OTHER, avs.data.orders);
+  if (avs.orders?.length > 0) {
+    const items = getOrderItems(ORDER_TYPES.OTHER, avs.orders);
     const orderListItems = items.map((item, idx) => (
       <li key={idx}>{item.text}</li>
     ));
@@ -123,13 +123,13 @@ const otherOrders = avs => {
 };
 
 const patientInstructions = avs => {
-  if (avs.data.patientInstructions) {
+  if (avs.patientInstructions) {
     return (
       <div>
         <h4>Other instructions</h4>
         {/* TODO: better way to do this */}
         {/* eslint-disable-next-line react/no-danger */}
-        <p dangerouslySetInnerHTML={{ __html: avs.data.patientInstructions }} />
+        <p dangerouslySetInnerHTML={{ __html: avs.patientInstructions }} />
       </div>
     );
   }

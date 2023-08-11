@@ -32,14 +32,14 @@ const getAppointmentContent = (type, appointments) => {
 };
 
 const primaryCareProvider = avs => {
-  if (avs.data.primaryCareProviders) {
+  if (avs.primaryCareProviders) {
     return (
       <div>
         <h3>Primary care provider</h3>
         <ul>
           {/* TODO: Confirm that this is correct */}
-          <li>{avs.data.primaryCareProviders[0]}</li>
-          {avs.data.primaryCareTeam && <li>{avs.data.primaryCareTeam}</li>}
+          <li>{avs.primaryCareProviders[0]}</li>
+          {avs.primaryCareTeam && <li>{avs.primaryCareTeam}</li>}
         </ul>
       </div>
     );
@@ -49,8 +49,8 @@ const primaryCareProvider = avs => {
 };
 
 const primaryCareTeam = avs => {
-  if (avs.data.primaryCareTeamMembers.length > 0) {
-    const teamMembers = avs.data.primaryCareTeamMembers.map((member, idx) => (
+  if (avs.primaryCareTeamMembers.length > 0) {
+    const teamMembers = avs.primaryCareTeamMembers.map((member, idx) => (
       <li key={idx}>
         {member.name} - {member.title}
       </li>
@@ -68,14 +68,14 @@ const primaryCareTeam = avs => {
 };
 
 const appointments = avs => {
-  if (avs.data.appointments?.length > 0) {
+  if (avs.appointments?.length > 0) {
     const scheduledAppointments = getAppointmentContent(
       APPOINTMENT_TYPES.SCHEDULED,
-      avs.data.appointments,
+      avs.appointments,
     );
     const recallAppointments = getAppointmentContent(
       APPOINTMENT_TYPES.RECALL,
-      avs.data.appointments,
+      avs.appointments,
     );
     return (
       <div>
@@ -108,11 +108,11 @@ const appointments = avs => {
 };
 
 const smokingStatus = avs => {
-  if (avs.data.patientInfo?.smokingStatus) {
+  if (avs.patientInfo?.smokingStatus) {
     return (
       <div>
         <h3>Smoking status</h3>
-        <p>{avs.data.patientInfo.smokingStatus}</p>
+        <p>{avs.patientInfo.smokingStatus}</p>
       </div>
     );
   }
@@ -121,21 +121,19 @@ const smokingStatus = avs => {
 };
 
 const immunizations = avs => {
-  if (avs.data.immunizations?.length > 0) {
-    const immunizationItems = avs.data.immunizations.map(
-      (immunization, idx) => (
-        <div key={idx}>
-          <p>
-            {immunization.name}
-            <br />
-            Date: {immunization.date}
-            <br />
-            Facility: {immunization.facility}
-          </p>
-          <hr />
-        </div>
-      ),
-    );
+  if (avs.immunizations?.length > 0) {
+    const immunizationItems = avs.immunizations.map((immunization, idx) => (
+      <div key={idx}>
+        <p>
+          {immunization.name}
+          <br />
+          Date: {immunization.date}
+          <br />
+          Facility: {immunization.facility}
+        </p>
+        <hr />
+      </div>
+    ));
 
     return (
       <div>
@@ -149,27 +147,25 @@ const immunizations = avs => {
 };
 
 const allergiesAndReactions = avs => {
-  if (avs.data.allergiesReactions?.allergies.length > 0) {
-    const allergyItems = avs.data.allergiesReactions.allergies.map(
-      (item, idx) => (
-        <div key={idx}>
-          <p>
-            {item.allergen}
-            <br />
-            Verified date: {formatDateLong(parseVistaDate(item.verifiedDate))}
-            <br />
-            Severity: {item.severity}
-            <br />
-            Reaction: {item.reactions.join(', ')}
-            <br />
-            Allergy type: {item.type}
-            <br />
-            Site: {item.site}
-          </p>
-          <hr />
-        </div>
-      ),
-    );
+  if (avs.allergiesReactions?.allergies?.length > 0) {
+    const allergyItems = avs.allergiesReactions.allergies.map((item, idx) => (
+      <div key={idx}>
+        <p>
+          {item.allergen}
+          <br />
+          Verified date: {formatDateLong(parseVistaDate(item.verifiedDate))}
+          <br />
+          Severity: {item.severity}
+          <br />
+          Reaction: {item.reactions.join(', ')}
+          <br />
+          Allergy type: {item.type}
+          <br />
+          Site: {item.site}
+        </p>
+        <hr />
+      </div>
+    ));
 
     return (
       <div>

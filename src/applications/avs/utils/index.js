@@ -11,12 +11,12 @@ const parseVistaDate = date => {
 };
 
 const getFormattedAppointmentDate = avs => {
-  return formatDateLong(parseVistaDateTime(avs.data.appointments[0]?.datetime));
+  return formatDateLong(parseVistaDateTime(avs.appointments[0]?.datetime));
 };
 
 const getFormattedGenerationDate = avs => {
-  const { timeZone } = avs.data.header;
-  const zonedDate = utcToZonedTime(avs.generatedDate, timeZone);
+  const { generatedDate, timeZone } = avs.meta;
+  const zonedDate = utcToZonedTime(generatedDate, timeZone);
 
   const options = {
     timeZone,

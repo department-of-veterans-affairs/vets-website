@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const clinicsVisited = avs => {
-  const clinics = avs.data.clinicsVisited.map(clinic => {
+  const clinics = avs.clinicsVisited.map(clinic => {
     // TODO: format time and add time zone.
     return (
       <div key={clinic.clinicIen}>
@@ -21,7 +21,7 @@ const clinicsVisited = avs => {
 };
 
 const providers = avs => {
-  const providerListItems = avs.data.providers.map((provider, idx) => (
+  const providerListItems = avs.providers.map((provider, idx) => (
     <li key={`provider-${idx}`}>{provider}</li>
   ));
   return (
@@ -33,8 +33,8 @@ const providers = avs => {
 };
 
 const reasonForAppointment = avs => {
-  if (avs.data.reasonForVisit.length > 0) {
-    const reasonForVisitListItems = avs.data.reasonForVisit.map(reason => (
+  if (avs.reasonForVisit.length > 0) {
+    const reasonForVisitListItems = avs.reasonForVisit.map(reason => (
       <li key={reason.code}>{reason.diagnosis}</li>
     ));
 
@@ -50,8 +50,8 @@ const reasonForAppointment = avs => {
 };
 
 const youWereDiagnosedWith = avs => {
-  if (avs.data.diagnoses.length > 0) {
-    const diagnosisListItems = avs.data.diagnoses.map(diagnosis => (
+  if (avs.diagnoses.length > 0) {
+    const diagnosisListItems = avs.diagnoses.map(diagnosis => (
       <li key={diagnosis.code}>{diagnosis.diagnosis}</li>
     ));
 
@@ -67,8 +67,8 @@ const youWereDiagnosedWith = avs => {
 };
 
 const vitalSigns = avs => {
-  if (avs.data.vitals.length > 0) {
-    const vitalSignItems = avs.data.vitals.map((vitalSign, idx) => (
+  if (avs.vitals.length > 0) {
+    const vitalSignItems = avs.vitals.map((vitalSign, idx) => (
       <div key={`vital-${idx}`}>
         <p>
           {vitalSign.type}
@@ -92,7 +92,7 @@ const vitalSigns = avs => {
 };
 
 const procedures = avs => {
-  if (avs.data.procedures?.length > 0) {
+  if (avs.procedures?.length > 0) {
     // TODO: get procedures.
 
     return (
@@ -106,7 +106,7 @@ const procedures = avs => {
 };
 
 const clinicMedications = avs => {
-  if (avs.data.vaMedications?.length > 0) {
+  if (avs.vaMedications?.length > 0) {
     // TODO: get clinic meds.
 
     return (
