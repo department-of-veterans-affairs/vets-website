@@ -17,8 +17,10 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import * as applicantMilitaryHistory from './pages/applicantMilitaryHistory';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
+import * as applicantMilitaryNameInformation from './pages/applicantMilitaryNameInformation';
 import * as sponsorMilitaryHistory from './pages/sponsorMilitaryHistory';
 import * as sponsorMilitaryName from './pages/sponsorMilitaryName';
+import * as sponsorMilitaryNameInformation from './pages/sponsorMilitaryNameInformation';
 import * as burialBenefits from './pages/burialBenefits';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 
@@ -52,6 +54,8 @@ import {
   otherRelationshipDescription,
   sponsorMilitaryStatusDescription,
   nonRequiredFullNameUI,
+  isVeteranAndHasServiceName,
+  isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
 } from '../utils/helpers';
 
@@ -394,6 +398,12 @@ const formConfig = {
           uiSchema: applicantMilitaryName.uiSchema,
           schema: applicantMilitaryName.schema,
         },
+        applicantMilitaryNameInformation: {
+          path: 'applicant-military-name-information',
+          depends: formData => isVeteranAndHasServiceName(formData),
+          uiSchema: applicantMilitaryNameInformation.uiSchema,
+          schema: applicantMilitaryNameInformation.schema,
+        },
         sponsorMilitaryHistory: {
           path: 'sponsor-military-history',
           title: 'Sponsor’s service periods',
@@ -406,6 +416,12 @@ const formConfig = {
           depends: formData => !isVeteran(formData),
           uiSchema: sponsorMilitaryName.uiSchema,
           schema: sponsorMilitaryName.schema,
+        },
+        sponsorMilitaryNameInformation: {
+          path: 'sponsor-military-name-information',
+          depends: formData => isNotVeteranAndHasServiceName(formData),
+          uiSchema: sponsorMilitaryNameInformation.uiSchema,
+          schema: sponsorMilitaryNameInformation.schema,
         },
       },
     },
