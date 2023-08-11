@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { waitFor } from '@testing-library/react';
 import Vitals from '../../containers/Vitals';
 import reducer from '../../reducers';
 import vitals from '../fixtures/vitals.json';
@@ -37,8 +38,10 @@ describe('Vaccines list container', () => {
     ).to.exist;
   });
 
-  it('displays two types of records', () => {
-    const screen = setup();
-    expect(screen.getAllByTestId('record-list-item').length).to.eq(2);
+  it('displays two types of records', async () => {
+    await waitFor(() => {
+      const screen = setup();
+      expect(screen.getAllByTestId('record-list-item').length).to.eq(2);
+    });
   });
 });
