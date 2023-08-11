@@ -20,6 +20,7 @@ import {
   PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
   DBQ_URL,
+  OMB_CONTROL,
 } from '../constants';
 
 class IntroductionPage extends React.Component {
@@ -276,7 +277,7 @@ class IntroductionPage extends React.Component {
         {itfNotice}
         <va-omb-info
           res-burden={25}
-          omb-number="2900-0747"
+          omb-number={OMB_CONTROL}
           exp-date="03/31/2021"
         />
       </div>
