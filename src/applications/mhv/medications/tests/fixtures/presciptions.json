@@ -33,11 +33,11 @@
                 [
                     {
                         "refillSubmitDate": "Wed, 11 Jan 2023 00:00:00 EDT",
-                        "dispensedDate": "Mon, 16 Jan 2023 00:00:00 EDT",
+                        "dispensedDate": "Mon, 16 Jan 2023 00:00:00 EDT"
                     },
                     {
                         "refillSubmitDate": "Fri, 17 Mar 2023 00:00:00 EDT",
-                        "dispensedDate": "Tue, 21 Mar 2023 00:00:00 EDT",
+                        "dispensedDate": "Tue, 21 Mar 2023 00:00:00 EDT"
                     }
                 ]
             ]

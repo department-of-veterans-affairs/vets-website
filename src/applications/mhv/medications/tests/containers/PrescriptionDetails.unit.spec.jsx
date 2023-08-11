@@ -77,7 +77,11 @@ describe('Prescription details container', () => {
   it('displays Shipped on in Refill History', () => {
     const screen = setup();
     const shippedOn = screen.getAllByText(
-      initialState.rx.prescriptions.prescriptionDetails.trackingList[0][1],
+      dateFormat(
+        initialState.rx.prescriptions.prescriptionDetails.trackingList[0][1][1]
+          .completeDateTime,
+        'MMMM D, YYYY [at] h:mm z',
+      ),
       {
         exact: true,
         selector: 'p',
