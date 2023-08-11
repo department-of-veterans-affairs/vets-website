@@ -13,7 +13,6 @@ import AttachmentsList from '../AttachmentsList';
 import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
-import DeleteDraft from '../Draft/DeleteDraft';
 import {
   navigateToFolderByFolderId,
   messageSignatureFormatter,
@@ -32,6 +31,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
+import ComposeFormActionButtons from './ComposeFormActionButtons';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -451,6 +451,7 @@ const ComposeForm = props => {
               <va-button
                 id="edit-list-button"
                 text="Edit list"
+                label="Edit list"
                 secondary=""
                 class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1 hydrated"
                 data-testid="Edit-List-Button"
@@ -510,34 +511,12 @@ const ComposeForm = props => {
             />
           </section>
           <DraftSavedInfo userSaved={userSaved} attachments={attachments} />
-          <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
-            <button
-              type="button"
-              id="send-button"
-              className="usa-button usa-button-primary vads-u-width--full medium-screen:vads-u-flex--1 vads-u-margin-top--0 medium-screen:vads-u-margin-right--1 vads-u-margin-right--0"
-              data-testid="Send-Button"
-              onClick={sendMessageHandler}
-            >
-              Send
-            </button>
-
-            <button
-              type="button"
-              id="save-draft-button"
-              className="usa-button usa-button-secondary save-draft-button vads-u-width--full xsmall-screen:vads-u-flex--1 vads-u-margin-top--0 xsmall-screen:vads-u-margin-right--1 vads-u-margin-right--0"
-              data-testid="Save-Draft-Button"
-              onClick={e => saveDraftHandler('manual', e)}
-            >
-              <i className="fas fa-save" aria-hidden="true" />
-              Save draft
-            </button>
-
-            <DeleteDraft
-              draftId={draft?.messageId}
-              setLastFocusableElement={setLastFocusableElement}
-              setNavigationError={setNavigationError}
-            />
-          </div>
+          <ComposeFormActionButtons
+            onSend={sendMessageHandler}
+            onSaveDraft={(type, e) => saveDraftHandler(type, e)}
+            draftId={draft?.messageId}
+            setNavigationError={setNavigationError}
+          />
         </div>
       </form>
     </>

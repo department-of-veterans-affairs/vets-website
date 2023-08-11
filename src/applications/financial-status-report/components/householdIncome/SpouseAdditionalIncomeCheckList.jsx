@@ -4,7 +4,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 
 import { otherIncome } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
-import { calculateTotalIncome } from '../../utils/streamlinedDepends';
+import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
 
 const SpouseAdditionalIncomeCheckList = ({
   data,
@@ -21,7 +21,7 @@ const SpouseAdditionalIncomeCheckList = ({
   const updateStreamlinedValues = () => {
     if (spAddlIncome.length || !gmtData?.isEligibleForStreamlined) return;
 
-    const calculatedIncome = calculateTotalIncome(data);
+    const calculatedIncome = calculateTotalAnnualIncome(data);
 
     setFormData({
       ...data,
@@ -40,6 +40,7 @@ const SpouseAdditionalIncomeCheckList = ({
       ? setFormData({
           ...data,
           additionalIncome: {
+            ...additionalIncome,
             spouse: {
               spAddlIncome: spAddlIncome.filter(
                 source => source.name !== value,
