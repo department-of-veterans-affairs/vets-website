@@ -4,12 +4,9 @@
 const core = require('@actions/core');
 
 const ALLOW_LIST = JSON.parse(process.env.ALLOW_LIST);
-// const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
-//   ? process.env.CHANGED_FILE_PATHS.split(' ')
-//   : [];
-const CHANGED_FILE_PATHS = 'src/applications/financial-status-report/utils/transform.js'.split(
-  ' ',
-);
+const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
+  ? process.env.CHANGED_FILE_PATHS.split(' ')
+  : [];
 console.log('CHANGED_FILE_PATHS', CHANGED_FILE_PATHS);
 
 function getDaysSinceDate(diff) {
