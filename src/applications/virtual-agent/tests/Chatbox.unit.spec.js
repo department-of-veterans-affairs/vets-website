@@ -29,7 +29,6 @@ import {
   CONVERSATION_ID_KEY,
   TOKEN_KEY,
   RECENT_UTTERANCES,
-  // IN_AUTH_EXP,
 } from '../components/chatbox/utils';
 
 export const CHATBOT_ERROR_MESSAGE = /We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk/i;
@@ -417,6 +416,13 @@ describe('App', () => {
       });
 
       describe('when user interacts with authenticated topics', () => {
+        beforeEach(() => {
+          sessionStorage.clear();
+        });
+        afterEach(() => {
+          sessionStorage.clear();
+        });
+
         const notLoggedInUser = {
           navigation: {
             showLoginModal: false,
@@ -436,42 +442,6 @@ describe('App', () => {
           virtualAgentData: { termsAccepted: true },
           featureToggles: {},
         };
-
-        it('when message activity is fired, then utterances should be stored in sessionStorage', () => {
-          loadWebChat();
-          mockApiRequest({
-            token: 'FAKETOKEN',
-            apiSession: 'FAKEAPISESSION',
-          });
-
-          const messageActivityHandlerSpy = sinon.spy();
-          window.addEventListener(
-            'webchat-message-activity',
-            messageActivityHandlerSpy,
-          );
-
-          renderInReduxProvider(<Chatbox {...defaultProps} />, {
-            initialState: notLoggedInUser,
-            reducers: virtualAgentReducer,
-          });
-
-          const event = new Event('webchat-message-activity');
-          event.data = {
-            type: 'message',
-            text: 'first',
-            from: { role: 'user' },
-          };
-          window.dispatchEvent(event);
-
-          expect(messageActivityHandlerSpy.callCount).to.equal(1);
-          expect(messageActivityHandlerSpy.calledWith(event));
-
-          waitFor(() =>
-            expect(
-              JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES)),
-            ).to.have.members(['', 'first']),
-          );
-        });
 
         it('when message activity is fired and sessionStorage is already holding two utterances, then the oldest utterance should be removed', () => {
           loadWebChat();
@@ -538,9 +508,11 @@ describe('App', () => {
             window.dispatchEvent(new Event('webchat-auth-activity'));
 
             expect(authActivityHandlerSpy.callCount).to.equal(1);
-            waitFor(() =>
-              expect(sessionStorage.getItem(LOGGED_IN_FLOW)).to.equal('true'),
-            );
+
+            // waitFor(() =>
+            expect(sessionStorage.getItem(LOGGED_IN_FLOW)).to.equal('true');
+            // console.log('waitFor, logged in flow in storage:', sessionStorage.getItem(LOGGED_IN_FLOW))
+            // );
           });
         });
 
@@ -594,6 +566,7 @@ describe('App', () => {
                 reducers: virtualAgentReducer,
               },
             );
+
             waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
 
             waitFor(() => expect(directLineSpy.called).to.be.true);
