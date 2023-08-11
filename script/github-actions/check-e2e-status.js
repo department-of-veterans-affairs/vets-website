@@ -19,7 +19,7 @@ function getDaysSinceDate(diff) {
 
 const allDisallowedTestsWithWarnings = ALLOW_LIST.filter(
   spec => spec.allowed === false && getDaysSinceDate(spec.warned_at) > 60,
-).map(spec => spec.spec_path);
+);
 console.log('allDisallowedTestsWithWarnings', allDisallowedTestsWithWarnings);
 
 const appsAdjusted = CHANGED_FILE_PATHS.map(specPath =>
@@ -30,9 +30,9 @@ const appsAdjusted = CHANGED_FILE_PATHS.map(specPath =>
 );
 console.log('appsAdjusted', appsAdjusted);
 
-const blockedPathsWithCodeChanges = allDisallowedTestsWithWarnings.filter(
-  entry => appsAdjusted.some(appPath => entry.includes(appPath)),
-);
+const blockedPathsWithCodeChanges = allDisallowedTestsWithWarnings
+  .map(spec => spec.spec_path)
+  .filter(entry => appsAdjusted.some(appPath => entry.includes(appPath)));
 console.log('blockedPathsWithCodeCHanges', blockedPathsWithCodeChanges);
 
 const warningsExistPastLimit = ALLOW_LIST.some(
