@@ -83,7 +83,7 @@
 }
 
 .claim-list-item-container {
-  background-color: $color-gray-lightest;
+  // background-color: $color-gray-lightest;
   padding: 2em 1em 1em;
   margin-bottom: 1em;
   position: relative;
@@ -105,6 +105,19 @@
 .communications,
 .status {
   margin: 0 0 0.5em;
+}
+
+.submitted-on,
+h3 .usa-label {
+  display: block;
+  width: fit-content;
+  font-size: 1.6rem;
+  font-family: var(--font-source-sans);
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.5;
+  margin-bottom: 1em;
+  margin-top: 1em;
 }
 
 // Index page V2
