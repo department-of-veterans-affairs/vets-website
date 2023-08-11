@@ -31,6 +31,7 @@ const generateFooter = avs => {
 
 const Avs = () => {
   // TODO: handle un-authed users.
+  // TODO: boot folks out if the feature toggle is not enabled.
   const { id } = useParams();
 
   const [avs, setAvs] = useState({});
