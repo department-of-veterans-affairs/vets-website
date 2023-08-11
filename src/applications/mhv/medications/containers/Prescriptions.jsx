@@ -113,22 +113,25 @@ const Prescriptions = () => {
     [prescriptions],
   );
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs(
-        [
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs(
+          [
+            {
+              url: '/my-health/medications/',
+              label: 'About Medications',
+            },
+          ],
           {
-            url: '/my-health/medications/',
-            label: 'About Medications',
+            url: '/my-health/medications/prescriptions/',
+            label: 'Medications',
           },
-        ],
-        {
-          url: '/my-health/medications/prescriptions/',
-          label: 'Medications',
-        },
-      ),
-    );
-  }, []);
+        ),
+      );
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {

@@ -126,7 +126,7 @@ const MedicationsListCard = props => {
             Last filled on {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}
           </div>
         ) : (
-          <div>You haven’t filled this prescripton yet.</div>
+          <div>You haven’t filled this prescription yet.</div>
         )}
         <div>Refills left: {rx.refillRemaining}</div>
         <div className="link-to-details vads-u-font-weight--bold no-print" />
