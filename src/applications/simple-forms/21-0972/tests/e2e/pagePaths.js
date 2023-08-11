@@ -22,8 +22,8 @@ export default {
   claimantContactInformation:
     formChapters.claimantContactInformationChapter.pages
       .claimantContactInformation.path,
-  preparerQualifications1:
-    formChapters.preparerQualificationsChapter.pages.preparerQualifications1
+  preparerQualifications1A:
+    formChapters.preparerQualificationsChapter.pages.preparerQualifications1A
       .path,
   preparerQualifications2:
     formChapters.preparerQualificationsChapter.pages.preparerQualifications2
