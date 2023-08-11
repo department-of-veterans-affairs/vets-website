@@ -92,7 +92,7 @@ describe('functionality of Yellow Ribbons', () => {
     cy.intercept(
       'GET',
       '/v0/gi/yellow_ribbon_programs?city=Austin&name=university&page=1&per_page=10&state=TX',
-      [],
+      { statusCode: 500, body: [] },
     ).as('getSchoolsInYR');
 
     // navigate to yellow-ribbon and make axe check on browser

@@ -12,7 +12,7 @@ describe('Facility Search - CCP (community care providers) enabled', () => {
   });
 
   it('Does render community care option in the dropdown by default, flag does not exist', () => {
-    cy.route('GET', '/v0/feature_toggles*', []);
+    cy.intercept('GET', '/v0/feature_toggles*', []);
     cy.visit('/find-locations/');
 
     cy.injectAxe();
@@ -27,7 +27,7 @@ describe('Facility Search - CCP (community care providers) enabled', () => {
   });
 
   it('Does render community care option in the dropdown when flat set to false', () => {
-    cy.route('GET', '/v0/feature_toggles*', [mockFeatureTogglesEnabled]);
+    cy.intercept('GET', '/v0/feature_toggles*', [mockFeatureTogglesEnabled]);
     cy.visit('/find-locations/');
 
     cy.injectAxe();
