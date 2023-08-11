@@ -7,7 +7,7 @@ const ALLOW_LIST = JSON.parse(process.env.ALLOW_LIST);
 const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ')
   : [];
-console.log('CHANGED_FILE_PATHS', CHANGED_FILE_PATHS);
+// console.log('CHANGED_FILE_PATHS', CHANGED_FILE_PATHS);
 
 function getDaysSinceDate(diff) {
   if (!diff) {
@@ -26,7 +26,6 @@ const allDisallowedTestsWithWarnings = ALLOW_LIST.filter(
     spec.warned_at &&
     getDaysSinceDate(spec.warned_at) > 60,
 ).map(spec => spec.spec_path);
-console.log('allDisallowedTestsWithWarnings', allDisallowedTestsWithWarnings);
 
 const appsAdjusted = CHANGED_FILE_PATHS.map(specPath =>
   specPath
@@ -34,19 +33,16 @@ const appsAdjusted = CHANGED_FILE_PATHS.map(specPath =>
     .slice(specPath.indexOf('src'), 3)
     .join('/'),
 );
-console.log('appsAdjusted', appsAdjusted);
 
 const blockedPathsWithCodeChanges = allDisallowedTestsWithWarnings.filter(
   entry => appsAdjusted.some(appPath => entry.includes(appPath)),
 );
-console.log('blockedPathsWithCodeChanges', blockedPathsWithCodeChanges);
 
 const warningsExistPastLimit = ALLOW_LIST.some(
   entry =>
     blockedPathsWithCodeChanges.indexOf(entry.spec_path) > -1 &&
     entry.allowed === false,
 );
-console.log('warningsExistPastLimit', warningsExistPastLimit);
 
 if (warningsExistPastLimit) {
   core.setFailed(
