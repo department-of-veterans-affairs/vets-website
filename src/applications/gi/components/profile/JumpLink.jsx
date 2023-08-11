@@ -5,7 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import environment from 'platform/utilities/environment';
 
-export default function JumpLink({ label, jumpToId }) {
+export default function JumpLink({ label, jumpToId, iconToggle = true }) {
   const jumpLinkClicked = e => {
     e.preventDefault();
     scrollTo(jumpToId, getScrollOptions());
@@ -27,7 +27,7 @@ export default function JumpLink({ label, jumpToId }) {
         onClick={handleClick}
       >
         <p>
-          <i className="fa fa-arrow-down" aria-hidden="true" />
+          {iconToggle && <i className="fa fa-arrow-down" aria-hidden="true" />}
           <span>{label}</span>
         </p>
       </a>
@@ -42,7 +42,7 @@ export default function JumpLink({ label, jumpToId }) {
       tabIndex={0}
     >
       <p>
-        <i className="fa fa-arrow-down" aria-hidden="true" />
+        {iconToggle && <i className="fa fa-arrow-down" aria-hidden="true" />}
         <span>{label}</span>
       </p>
     </a>
