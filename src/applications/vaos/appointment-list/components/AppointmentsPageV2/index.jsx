@@ -241,9 +241,6 @@ export default function AppointmentsPageV2() {
         </>
       )}
       <Switch>
-        <Route exact path="/">
-          <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
-        </Route>
         <Route path={featureStatusImprovement ? '/pending' : '/requested'}>
           {featureStatusImprovement && (
             <RequestedAppointmentsListGroup hasTypeChanged={hasTypeChanged} />
@@ -257,6 +254,9 @@ export default function AppointmentsPageV2() {
         </Route>
         <Route path="/canceled">
           <CanceledAppointmentsList hasTypeChanged={hasTypeChanged} />
+        </Route>
+        <Route path="/">
+          <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
       </Switch>
     </PageLayout>
