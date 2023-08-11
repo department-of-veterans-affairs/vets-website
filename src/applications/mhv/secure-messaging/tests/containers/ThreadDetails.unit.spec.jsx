@@ -6,6 +6,7 @@ import moment from 'moment';
 import ThreadDetails from '../../containers/ThreadDetails';
 import { PageTitles } from '../../util/constants';
 import reducer from '../../reducers';
+import { inbox } from '../fixtures/folder-inbox-response.json';
 import singleDraftThread from '../fixtures/threads/single-draft-thread-reducer.json';
 import replyDraftThread from '../fixtures/threads/reply-draft-thread-reducer.json';
 import recipients from '../fixtures/recipients.json';
@@ -185,6 +186,9 @@ describe('Thread Details container', () => {
 
     const state = {
       sm: {
+        folders: {
+          folder: inbox,
+        },
         triageTeams: {
           triageTeams: recipients,
         },
@@ -268,6 +272,9 @@ describe('Thread Details container', () => {
 
     const state = {
       sm: {
+        folders: {
+          folder: inbox,
+        },
         triageTeams: {
           triageTeams: recipients,
         },

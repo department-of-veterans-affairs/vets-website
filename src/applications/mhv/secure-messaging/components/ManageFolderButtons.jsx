@@ -23,9 +23,9 @@ const ManageFolderButtons = () => {
   const location = useLocation();
   const [folderId, setFolderId] = useState(null);
   const folders = useSelector(state => state.sm.folders.folderList);
-  const messages = useSelector(state => state.sm.messages.messageList);
   const folder = useSelector(state => state.sm.folders.folder);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
+  const threads = useSelector(state => state.sm.threads);
   const [isEmptyWarning, setIsEmptyWarning] = useState(false);
   const [nameWarning, setNameWarning] = useState('');
   const [deleteModal, setDeleteModal] = useState(false);
@@ -65,7 +65,7 @@ const ManageFolderButtons = () => {
 
   const openDelModal = () => {
     dispatch(closeAlert());
-    if (messages?.length > 0) {
+    if (threads.threadList.length > 0) {
       setIsEmptyWarning(true);
     } else {
       setIsEmptyWarning(false);
@@ -177,10 +177,14 @@ const ManageFolderButtons = () => {
           <p>{Alerts.Folder.DELETE_FOLDER_CONFIRM_BODY}</p>
           <va-button
             ref={removeButton}
-            text="Remove"
+            text="Yes, remove this folder"
             onClick={confirmDelFolder}
           />
-          <va-button secondary="true" text="Cancel" onClick={closeDelModal} />
+          <va-button
+            secondary="true"
+            text="No, keep this folder"
+            onClick={closeDelModal}
+          />
         </VaModal>
       )}
       <VaModal
