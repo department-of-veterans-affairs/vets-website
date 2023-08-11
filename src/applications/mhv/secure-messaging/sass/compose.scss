@@ -166,7 +166,7 @@
     margin: 16px 0px 24px 0;
     width: 100%;
 
-    @media (min-width: $medium-screen) {
+    @media (min-width: $small-screen) {
       width: 32.5%;
     }
   }
@@ -175,6 +175,10 @@
     color: $color-gray-dark;
     height: 36px;
     width: 100%;
+
+    @media (min-width: $medium-screen) {
+      width: auto;
+    }
   }
 
   .how-to-attach-files {
@@ -189,28 +193,27 @@
 .compose-form-actions {
   margin-top: 15px;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   va-button {
     display: block;
     height: 36px;
     padding: 0;
-    width: 100%;
   }
 
   button {
-    margin-right: 0;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-bottom: 16px;
   }
 
   @media (min-width: $medium-screen) {
+    margin-right: 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-    va-button {
-      width: 33.33%;
-    }
+
     button {
-      margin-right: 6px;
+      margin-bottom: auto;
     }
   }
 
@@ -218,18 +221,10 @@
     height: 36px;
     width: 100%;
     margin: 0;
+    white-space: nowrap;
   }
 
-  .send-button {
-    @media (min-width: $medium-screen) {
-      margin-right: 8px;
-    }
-  }
-
-  .save-draft-button {
-    margin-top: 16px;
-    @media (min-width: $medium-screen) {
-      margin: 0 8px 0 0;
-    }
+  i {
+    margin-right: 4px;
   }
 }

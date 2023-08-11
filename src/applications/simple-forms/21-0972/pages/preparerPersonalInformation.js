@@ -1,23 +1,18 @@
 import {
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
-  titleSchema,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI(
-      '',
-      'By filling out this form, the VA will be able to accept benefit applications signed by you on behalf of veterans and claimants. The information collected is used to contact you, the alternate signer, for verification purposes.',
-    ),
+    'ui:description':
+      'We use this information to contact you and verify other details.',
     preparerFullName: fullNameNoSuffixUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
       preparerFullName: fullNameNoSuffixSchema,
     },
   },

@@ -216,12 +216,15 @@ const responses = {
     const {
       practitioners = [{ identifier: [{ system: null, value: null }] }],
     } = req.body;
-    const providerNpi = practitioners[0].identifier[0].value;
+    const providerNpi = practitioners[0]?.identifier[0].value;
+    const selectedTime = appointmentSlotsV2.data
+      .filter(slot => slot.id === req.body.slot?.id)
+      .map(slot => slot.attributes.start);
     const submittedAppt = {
       id: `mock${currentMockId}`,
       attributes: {
         ...req.body,
-        start: req.body.slot ? req.body.slot.start : null,
+        start: req.body.slot?.id ? selectedTime[0] : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
       },
     };
@@ -640,9 +643,11 @@ const responses = {
         { name: 'vaOnlineSchedulingUseDsot', value: true },
         { name: 'vaOnlineSchedulingRequestFlowUpdate', value: true },
         { name: 'vaOnlineSchedulingConvertUtcToLocal', value: false },
-        { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: false },
-        { name: 'vaOnlineSchedulingPrintList', value: false },
+        { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: true },
+        { name: 'vaOnlineSchedulingPrintList', value: true },
         { name: 'va_online_scheduling_descriptive_back_link', value: true },
+        { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
+        { name: 'vaOnlineSchedulingAfterVisitSummary', value: false },
         { name: 'selectFeaturePocTypeOfCare', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },

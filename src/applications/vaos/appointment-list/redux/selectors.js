@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
-import { selectCernerAppointmentsFacilities } from 'platform/user/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
 import moment from 'moment';
+import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
@@ -55,8 +55,10 @@ export function getCancelInfo(state) {
   }
   let isCerner = null;
   if (appointmentToCancel) {
-    isCerner = selectCernerAppointmentsFacilities(state)?.some(cernerSite =>
-      appointmentToCancel.location.vistaId?.startsWith(cernerSite.facilityId),
+    isCerner = selectCernerFacilityIds(state)?.some(
+      cernerSite =>
+        appointmentToCancel.location.vistaId?.startsWith(cernerSite.vhaId),
+      // appointmentToCancel.location.vistaId?.startsWith(cernerSite.facilityId),
     );
   }
   return {

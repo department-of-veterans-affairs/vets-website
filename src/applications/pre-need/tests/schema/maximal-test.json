@@ -19,7 +19,29 @@
             "postalCode": "02034"
           },
           "view:contactInfo": {
-            "applicantPhoneNumber": "234244444"
+            "applicantPhoneNumber": "1234244444"
+          }
+        }
+      },
+      "applicantForeign": {
+        "applicantRelationshipToClaimant": "Authorized Agent/Rep",
+        "view:applicantInfo": {
+          "name": {
+            "first": "Harry",
+            "middle": "James",
+            "last": "Santiago",
+            "suffix": "Sr."
+          },
+          "mailingAddress": {
+            "street": "55 Angus street",
+            "street2": "Apt 4",
+            "city": "Dundee City",
+            "country": "GBR",
+            "postalCode": "DD1 1AA"
+          },
+          "state": "Scotland",
+          "view:contactInfo": {
+            "applicantPhoneNumber": "443825555555"
           }
         }
       },

@@ -3,8 +3,14 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router';
 
-import { SELECTED, FORMAT_YMD, FORMAT_READABLE } from '../constants';
+import {
+  SELECTED,
+  FORMAT_YMD,
+  FORMAT_READABLE,
+  errorMessages,
+} from '../constants';
 import { replaceDescriptionContent } from '../utils/replace';
+import { isValidDate } from '../validations/date';
 
 /** Modified from HLR v2 card */
 /**
@@ -28,6 +34,13 @@ export const IssueCardContent = ({
   // A valid rated disability *can* have a rating percentage of 0%
   const showPercentNumber = (ratingIssuePercentNumber || '') !== '';
   const date = approxDecisionDate || decisionDate;
+  const dateMessage = isValidDate(date) ? (
+    moment(date, FORMAT_YMD).format(FORMAT_READABLE)
+  ) : (
+    <span className="usa-input-error-message vads-u-display--inline">
+      {errorMessages.cardInvalidDate}
+    </span>
+  );
 
   return (
     <div id={id} className="widget-content-wrap">
@@ -43,8 +56,7 @@ export const IssueCardContent = ({
       )}
       {date && (
         <p>
-          Decision date:{' '}
-          <strong>{moment(date, FORMAT_YMD).format(FORMAT_READABLE)}</strong>
+          Decision date: <strong>{dateMessage}</strong>
         </p>
       )}
     </div>
@@ -119,6 +131,7 @@ export const IssueCard = ({
 
   const titleClass = [
     'widget-title',
+    'dd-privacy-hidden',
     'vads-u-font-size--h4',
     'vads-u-margin--0',
     'capitalize',
@@ -126,7 +139,6 @@ export const IssueCard = ({
 
   const removeButtonClass = [
     'remove-issue',
-    'usa-button-secondary',
     'vads-u-width--auto',
     'vads-u-margin-left--2',
     'vads-u-margin-top--0',
@@ -153,14 +165,13 @@ export const IssueCard = ({
         >
           Edit
         </Link>
-        <button
-          type="button"
-          className={removeButtonClass}
-          aria-label={`remove ${issueName}`}
+        <va-button
+          secondary
+          class={removeButtonClass}
+          label={`remove ${issueName}`}
           onClick={handlers.onRemove}
-        >
-          Remove
-        </button>
+          text="Remove"
+        />
       </div>
     ) : null;
 

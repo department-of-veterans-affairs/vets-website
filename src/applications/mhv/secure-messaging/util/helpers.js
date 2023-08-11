@@ -135,6 +135,10 @@ export const handleHeader = (folderId, folder) => {
   }
 };
 
+export const updatePageTitle = newTitle => {
+  document.title = newTitle;
+};
+
 export const updateMessageInThread = (thread, response) => {
   const { data, included } = response;
   const updatedMessage = data.attributes;
@@ -161,4 +165,25 @@ export const updateMessageInThread = (thread, response) => {
     }
     return message;
   });
+};
+
+export const convertPathNameToTitleCase = str => {
+  const formattedStr = str.replace(/\//g, '').trim(); // Remove slashes and trim whitespace
+  const words = formattedStr.split('_'); // Split the string by underscores
+
+  const capitalizedWords = words.map(word => {
+    const lowerCasedWord = word.toLowerCase();
+    return lowerCasedWord.charAt(0).toUpperCase() + lowerCasedWord.slice(1);
+  });
+
+  return capitalizedWords.join(' '); // Join the words with spaces
+};
+
+export const messageSignatureFormatter = singatureObj => {
+  if (singatureObj?.includeSignature) {
+    return `\n\n\n${singatureObj.signatureName}\n${
+      singatureObj.signatureTitle
+    }`;
+  }
+  return null;
 };

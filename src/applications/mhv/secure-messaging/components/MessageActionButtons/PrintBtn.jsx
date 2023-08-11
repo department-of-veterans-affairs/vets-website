@@ -69,7 +69,7 @@ const PrintBtn = props => {
           data-testid="print-modal-popup"
           visible={isModalVisible}
         >
-          <div className="modal-body">
+          <div>
             <VaRadio
               className="form-radio-buttons"
               enable-analytics
@@ -86,17 +86,13 @@ const PrintBtn = props => {
               <VaRadioOption
                 data-testid="radio-print-all-messages"
                 style={{ display: 'flex' }}
-                aria-label={`Print all messages in this conversation (${
-                  messageThreadCount.current
-                } messages)`}
+                aria-label={`Print all messages in this conversation (${messageThreadCount} messages)`}
                 label="Print all messages in this conversation"
+                description={`(${messageThreadCount} messages)`}
                 value={PrintMessageOptions.PRINT_THREAD}
                 name="all-messages"
               />
             </VaRadio>
-            <p>
-              <strong>{`(${messageThreadCount} messages)`}</strong>
-            </p>
           </div>
         </VaModal>
       </div>

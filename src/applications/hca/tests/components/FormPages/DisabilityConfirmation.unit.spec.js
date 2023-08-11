@@ -7,19 +7,21 @@ import DisabilityConfirmation from '../../../components/FormPages/DisabilityConf
 describe('hca DisabilityConfirmation', () => {
   const props = { data: {}, goBack: () => {}, goForward: () => {} };
 
-  it('should render', () => {
-    const view = render(<DisabilityConfirmation {...props} />);
-    const selector = view.container.querySelector('va-alert');
-    expect(selector).to.exist;
-    expect(selector).to.contain.text(
-      'Confirm that you receive service-connected pay for a 50% or higher disability rating',
-    );
-  });
+  describe('when the component renders', () => {
+    it('should render `va-alert` with correct title', () => {
+      const { container } = render(<DisabilityConfirmation {...props} />);
+      const selector = container.querySelector('va-alert');
+      expect(selector).to.exist;
+      expect(selector).to.contain.text(
+        'Confirm that you receive service-connected pay for a 50% or higher disability rating',
+      );
+    });
 
-  it('should render progress buttons', () => {
-    const view = render(<DisabilityConfirmation {...props} />);
-    expect(
-      view.container.querySelectorAll('.hca-progress-button'),
-    ).to.have.lengthOf(2);
+    it('should render navigation buttons', () => {
+      const { container } = render(<DisabilityConfirmation {...props} />);
+      expect(
+        container.querySelectorAll('.hca-button-progress'),
+      ).to.have.lengthOf(2);
+    });
   });
 });

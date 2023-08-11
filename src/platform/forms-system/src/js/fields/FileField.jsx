@@ -91,6 +91,7 @@ const FileField = props => {
   );
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
+  const [initialized, setInitialized] = useState(false);
 
   const previousValue = usePreviousValue(formData);
   const fileInputRef = useRef(null);
@@ -107,10 +108,14 @@ const FileField = props => {
   const content = {
     upload: uiOptions.buttonText || 'Upload',
     uploadAnother: uiOptions.addAnotherLabel || 'Upload another',
+    passwordLabel: fileName => `Add a password for ${fileName}`,
     tryAgain: 'Try again',
+    tryAgainLabel: fileName => `Try uploading ${fileName} again`,
     newFile: 'Upload a new file',
     cancel: 'Cancel',
+    cancelLabel: fileName => `Cancel upload of ${fileName}`,
     delete: 'Delete file',
+    deleteLabel: fileName => `Delete ${fileName}`,
     modalTitle:
       uiOptions.modalTitle || 'Are you sure you want to remove this issue?',
     modalContent: fileName =>
@@ -175,7 +180,7 @@ const FileField = props => {
         'vads-u-display--none',
         !checkUploadVisibility(),
       );
-      if (files.length !== prevFiles.length) {
+      if (initialized && files.length !== prevFiles.length) {
         focusAddAnotherButton();
       }
 
@@ -190,22 +195,25 @@ const FileField = props => {
     [formData],
   );
 
-  useEffect(() => {
-    // The File object is not preserved in the save-in-progress data
-    // We need to remove these entries; an empty `file` is included in the
-    // entry, but if API File Object still exists (within the same session), we
-    // can't use Object.keys() on it because it returns an empty array
-    const newData = files.filter(
-      // keep - file may not exist (already uploaded)
-      // keep - file may contain File object; ensure name isn't empty
-      // remove - file may be an empty object
-      data => !data.file || (data.file?.name || '') !== '',
-    );
-
-    if (newData.length !== files.length) {
-      onChange(newData);
-    }
-  });
+  useEffect(
+    () => {
+      // The File object is not preserved in the save-in-progress data
+      // We need to remove these entries; an empty `file` is included in the
+      // entry, but if API File Object still exists (within the same session), we
+      // can't use Object.keys() on it because it returns an empty array
+      const newData = files.filter(
+        // keep - file may not exist (already uploaded)
+        // keep - file may contain File object; ensure name isn't empty
+        // remove - file may be an empty object
+        data => !data.file || (data.file?.name || '') !== '',
+      );
+      if (newData.length !== files.length) {
+        onChange(newData);
+      }
+      setInitialized(true);
+    },
+    [files, onChange],
+  );
 
   /**
    * Add file to list and upload
@@ -380,7 +388,7 @@ const FileField = props => {
 
   const deleteThenAddFile = index => {
     removeFile(index, false);
-    fileButtonRef.current.click();
+    fileInputRef.current?.click();
   };
 
   const getRetryFunction = (allowRetry, index, file) => {
@@ -451,18 +459,23 @@ const FileField = props => {
               setTimeout(() => {
                 scrollToFirstError();
                 if (enableShortWorkflow) {
-                  focusElement(`[name="retry_upload_${index}"]`);
+                  const retryButton = $(`[name="retry_upload_${index}"]`);
+                  if (retryButton) {
+                    focusElement('button', {}, retryButton?.shadowRoot);
+                  }
                 } else if (showPasswordInput) {
                   focusElement(`#${fileListId} .usa-input-error-message`);
                 } else {
                   focusElement('.usa-input-error, .input-error-date, [error]');
                 }
-              }, 100);
+              }, 250);
             } else if (showPasswordInput) {
               setTimeout(() => {
                 const passwordInput = $(`[name="get_password_${index}"]`);
-                focusElement('input', null, passwordInput.shadowRoot);
-                scrollTo(`get_password_${index}"]`);
+                if (passwordInput) {
+                  focusElement('input', {}, passwordInput?.shadowRoot);
+                  scrollTo(`get_password_${index}"]`);
+                }
               }, 100);
             }
 
@@ -491,7 +504,9 @@ const FileField = props => {
               <li key={index} id={fileListId} className={itemClasses}>
                 {file.uploading && (
                   <div className="schemaform-file-uploading">
-                    <strong id={fileNameId}>{file.name}</strong>
+                    <strong id={fileNameId} className="dd-privacy-hidden">
+                      {file.name}
+                    </strong>
                     <br />
                     <va-progress-bar percent={progress} />
                     <va-button
@@ -500,8 +515,7 @@ const FileField = props => {
                       onClick={() => {
                         cancelUpload(index);
                       }}
-                      aria-describedby={fileNameId}
-                      label="Cancel Upload"
+                      label={content.cancelLabel(file.name)}
                       text={content.cancel}
                     />
                   </div>
@@ -509,7 +523,9 @@ const FileField = props => {
                 {description && <p>{description}</p>}
                 {!file.uploading && (
                   <>
-                    <strong id={fileNameId}>{file.name}</strong>
+                    <strong id={fileNameId} className="dd-privacy-hidden">
+                      {file.name}
+                    </strong>
                     {file?.size && <div> {displayFileSize(file.size)}</div>}
                   </>
                 )}
@@ -568,7 +584,7 @@ const FileField = props => {
                     file={file.file}
                     index={index}
                     onSubmitPassword={onSubmitPassword}
-                    ariaDescribedby={fileNameId}
+                    passwordLabel={content.passwordLabel(file.name)}
                   />
                 )}
                 {!formContext.reviewMode &&
@@ -584,7 +600,11 @@ const FileField = props => {
                               index,
                               file.file,
                             )}
-                            aria-describedby={fileNameId}
+                            label={
+                              allowRetry
+                                ? content.tryAgainLabel(file.name)
+                                : content.newFile
+                            }
                             text={retryButtonText}
                           />
                         )}
@@ -594,7 +614,7 @@ const FileField = props => {
                         onClick={() => {
                           openRemoveModal(index);
                         }}
-                        aria-describedby={fileNameId}
+                        label={content.deleteLabel(file.name)}
                         text={deleteButtonText}
                       />
                     </div>

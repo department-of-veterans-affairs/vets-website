@@ -11,6 +11,7 @@ import {
   Alerts,
   Paths,
   threadSortingOptions,
+  PageTitles,
 } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import FolderHeader from '../components/MessageList/FolderHeader';
@@ -25,6 +26,7 @@ import {
 } from '../actions/threads';
 import SearchResults from './SearchResults';
 import { clearSearchResults } from '../actions/search';
+import { convertPathNameToTitleCase, updatePageTitle } from '../util/helpers';
 
 const FolderThreadListView = props => {
   const { testing } = props;
@@ -106,6 +108,10 @@ const FolderThreadListView = props => {
               1,
             ),
           );
+          // updates page title
+          if (folder.name === convertPathNameToTitleCase(location.pathname)) {
+            updatePageTitle(`${folder.name} ${PageTitles.PAGE_TITLE_TAG}`);
+          }
         } else {
           dispatch(
             setThreadSortOrder(

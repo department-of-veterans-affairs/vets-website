@@ -19,15 +19,13 @@ const CareSummariesAndNotes = () => {
       dispatch(
         setBreadcrumbs(
           [
-            { url: '/my-health/medical-records/', label: 'Dashboard' },
             {
-              url: '/my-health/medical-records/health-history',
-              label: 'Health history',
+              url: '/my-health/medical-records',
+              label: 'Medical records',
             },
           ],
           {
-            url:
-              '/my-health/medical-records/health-history/care-summaries-and-notes',
+            url: '/my-health/medical-records/care-summaries-and-notes',
             label: 'VA care summaries and notes',
           },
         ),
@@ -58,12 +56,14 @@ const CareSummariesAndNotes = () => {
   return (
     <div id="care-summaries-and-notes">
       <h1 className="page-title">Care summaries and notes</h1>
-      <p>Review care summaries and notes in your VA medical records.</p>
-      <va-additional-info trigger="What to know about your care summaries and notes">
-        This is some additional info about your care summaries and notes, though
-        we are waiting on the Content Team to tell us what should be here...
-      </va-additional-info>
-
+      <section className="set-width-486">
+        <p>Review care summaries and notes in your VA medical records.</p>
+        <va-additional-info trigger="What to know about your care summaries and notes">
+          This is some additional info about your care summaries and notes,
+          though we are waiting on the Content Team to tell us what should be
+          here...
+        </va-additional-info>
+      </section>
       {content()}
     </div>
   );

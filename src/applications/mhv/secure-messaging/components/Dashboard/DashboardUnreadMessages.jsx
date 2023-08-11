@@ -26,7 +26,9 @@ const DashboardUnreadMessages = props => {
 
       {folders !== undefined &&
         unreadCount > 0 && (
-          <h2 className="vads-u-font-size--h3">{`${unreadCount} unread messages in your inbox`}</h2>
+          <h2 data-dd-privacy="mask" className="vads-u-font-size--h3">
+            {`${unreadCount} unread messages in your inbox`}
+          </h2>
         )}
 
       <Link

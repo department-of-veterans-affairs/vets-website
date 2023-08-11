@@ -5,9 +5,10 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
 import { useDispatch } from 'react-redux';
 import MessageActionButtons from './MessageActionButtons';
+import ReplyButton from './ReplyButton';
 import AttachmentsList from './AttachmentsList';
-import { Categories, Paths } from '../util/constants';
-import { dateFormat } from '../util/helpers';
+import { Categories, Paths, PageTitles } from '../util/constants';
+import { dateFormat, updatePageTitle } from '../util/helpers';
 import MessageThreadBody from './MessageThread/MessageThreadBody';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
@@ -62,14 +63,17 @@ const MessageDetailBlock = props => {
     [location.pathname, dispatch],
   );
 
+  const categoryLabel = Categories[category];
+
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
+      updatePageTitle(
+        `${categoryLabel}: ${subject} ${PageTitles.PAGE_TITLE_TAG}`,
+      );
     },
-    [message],
+    [categoryLabel, message, subject],
   );
-
-  const categoryLabel = Categories[category];
 
   return (
     <div className="message-detail-block">
@@ -77,6 +81,7 @@ const MessageDetailBlock = props => {
         <h1
           className="vads-u-margin-bottom--2"
           aria-label={`Message subject. ${categoryLabel}: ${subject}`}
+          data-dd-privacy="mask"
         >
           {categoryLabel}: {subject}
         </h1>
@@ -93,27 +98,33 @@ const MessageDetailBlock = props => {
         aria-label="Most recent message in this conversation"
       >
         <h2 className="sr-only">Most recent message in this conversation.</h2>
-        <div className="message-metadata" data-testid="message-metadata">
+        <div
+          className="message-metadata"
+          data-testid="message-metadata"
+          data-dd-privacy="mask"
+        >
           <h3 className="sr-only">Message details.</h3>
           <p>
             <strong>From: </strong>
-            {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
+            <span data-dd-privacy="mask">
+              {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
+            </span>
           </p>
           <p>
             <strong>To: </strong>
-            {recipientName}
+            <span data-dd-privacy="mask">{recipientName}</span>
           </p>
           <p>
             <strong>Date: </strong>
-            {dateFormat(sentDate)}
+            <span data-dd-privacy="mask">{dateFormat(sentDate)}</span>
           </p>
           <p>
             <strong>Message ID: </strong>
-            {messageId}
+            <span data-dd-privacy="mask">{messageId}</span>
           </p>
         </div>
 
-        <div className="message-body">
+        <div className="message-body" data-dd-privacy="mask">
           <h3 className="sr-only">Message body.</h3>
           <MessageThreadBody expanded text={body} />
         </div>
@@ -126,12 +137,18 @@ const MessageDetailBlock = props => {
             </>
           )}
       </section>
+      <ReplyButton
+        key="replyButton"
+        visible={!cannotReply}
+        onReply={handleReplyButton}
+      />
     </div>
   );
 };
 MessageDetailBlock.propTypes = {
   cannotReply: PropTypes.bool,
   message: PropTypes.object,
+  onReply: PropTypes.func,
 };
 
 export default MessageDetailBlock;

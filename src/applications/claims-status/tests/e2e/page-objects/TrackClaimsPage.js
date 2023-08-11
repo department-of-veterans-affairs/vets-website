@@ -25,7 +25,7 @@ class TrackClaimsPage {
     cy.visit('/track-claims');
     cy.title().should(
       'eq',
-      'Check your claim or appeal status | Veterans Affairs',
+      'Check your claim, decision review, or appeal status | Veterans Affairs',
     );
     if (claimsList.data.length) {
       cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
@@ -84,7 +84,7 @@ class TrackClaimsPage {
   checkClaimsContent() {
     cy.get('.claims-container-title').should(
       'contain',
-      'Check your claim or appeal status',
+      'Check your claim, decision review, or appeal status',
     );
     cy.get('.claim-list-item-header-v2')
       .first()

@@ -32,7 +32,7 @@ export const ConfirmationPage = () => {
   const { submission, data } = form;
   const issues = getSelected(data || []).map((issue, index) => (
     <li key={index} className="vads-u-margin-bottom--0">
-      {getIssueName(issue)}
+      <span className="dd-privacy-hidden">{getIssueName(issue)}</span>
     </li>
   ));
   const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
@@ -62,7 +62,7 @@ export const ConfirmationPage = () => {
         </h3>
         <h4>Your name</h4>
         {fullName ? (
-          <div>
+          <div className="dd-privacy-hidden">
             {name.first} {name.middle} {name.last}
             {name.suffix ? `, ${name.suffix}` : null}
           </div>
@@ -77,13 +77,11 @@ export const ConfirmationPage = () => {
         ) : null}
         <h4>You’ve selected these issues for review</h4>
         <ul className="vads-u-margin-top--0">{issues}</ul>
-        <button
-          type="button"
-          className="usa-button screen-only"
+        <va-button
+          class="screen-only"
           onClick={window.print}
-        >
-          Print this confirmation
-        </button>
+          text="Print this confirmation"
+        />
       </div>
       <h3>What to expect next</h3>
       <p>

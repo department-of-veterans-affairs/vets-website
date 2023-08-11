@@ -29,7 +29,9 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_XX_123,
   VA_FORM_IDS.FORM_MOCK,
   VA_FORM_IDS.FORM_20_0995,
+  VA_FORM_IDS.FORM_MOCK_ALT_HEADER,
   VA_FORM_IDS.FORM_MOCK_SF_PATTERNS,
+  VA_FORM_IDS.FORM_MOCK_PATTERNS_V3,
 ];
 
 const root = path.join(__dirname, '../../../');
@@ -73,6 +75,7 @@ const formConfigKeys = [
   'showReviewErrors',
   'reviewErrors',
   'useCustomScrollAndFocus',
+  'v3SegmentedProgressBar',
 ];
 
 const validProperty = (

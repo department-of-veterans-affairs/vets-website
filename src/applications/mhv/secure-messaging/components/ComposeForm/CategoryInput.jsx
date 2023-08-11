@@ -1,15 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCategories } from '../../actions/categories';
+import { useSelector } from 'react-redux';
 import { RadioCategories } from '../../util/inputContants';
 
 const CategoryInput = props => {
-  const dispatch = useDispatch();
   const {
     category,
     categoryError,
@@ -18,13 +16,6 @@ const CategoryInput = props => {
     setUnsavedNavigationError,
   } = props;
   const categories = useSelector(state => state.sm.categories.categories);
-
-  useEffect(
-    () => {
-      dispatch(getCategories());
-    },
-    [dispatch],
-  );
 
   const categoryChangeHandler = e => {
     setCategory(e.detail.value || e.target.value);
@@ -48,6 +39,7 @@ const CategoryInput = props => {
         >
           {categories?.map((item, i) => (
             <VaRadioOption
+              data-dd-privacy="mask"
               data-testid="compose-category-radio-button"
               style={{ display: 'flex' }}
               key={i}

@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import { scrollToTop } from '../utilities/scroll-to-top';
 import { redirectIfFormIncomplete } from '../utilities/utils';
 import { getLimits } from '../api';
 import { ROUTES } from '../constants';
@@ -45,8 +44,8 @@ const ReviewPage = ({
         zipCodeInput,
       );
 
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       waitForRenderThenFocus('h1');
-      scrollToTop();
     },
     [dependentsInput, pastMode, router, yearInput, zipCodeInput],
   );
@@ -108,15 +107,16 @@ const ReviewPage = ({
 
   return (
     <>
-      <h1>Aenean tristique mollis</h1>
+      <h1>Review your information</h1>
       <p className="il-review">
-        Fusce risus lacus, efficitur ac magna vitae, cursus lobortis dui.
+        Make any edits that you may need to. Then select{' '}
+        <strong>Continue</strong>.
       </p>
       <ul data-testid="il-review">
         {pastMode && (
           <li>
             <span data-testid="review-year">
-              <strong>Vitae:</strong>
+              <strong>Year:</strong>
               <br /> {yearInput}
             </span>
             <span className="income-limits-edit">
@@ -134,7 +134,7 @@ const ReviewPage = ({
         )}
         <li>
           <span data-testid="review-zip">
-            <strong>Nisci orci:</strong>
+            <strong>Zip code:</strong>
             <br /> {zipCodeInput}
           </span>
           <span className="income-limits-edit">
@@ -151,7 +151,7 @@ const ReviewPage = ({
         </li>
         <li>
           <span data-testid="review-dependents">
-            <strong>Malesuada felis ultrices:</strong>
+            <strong>Number of dependents:</strong>
             <br /> {dependentsInput}
           </span>
           <span className="income-limits-edit">

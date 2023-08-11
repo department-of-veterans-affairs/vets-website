@@ -8,7 +8,7 @@ import moment from '../../lib/moment-tz';
 import AddToCalendar from '../../components/AddToCalendar';
 
 import { getICSTokens, ICS_LINE_LIMIT } from '../../utils/calendar';
-import { getTimezoneTestDate } from '../mocks/setup';
+import { getTestDate } from '../mocks/setup';
 
 describe('VAOS <AddToCalendar>', () => {
   it('should render link with calendar info', () => {
@@ -223,7 +223,7 @@ describe('VAOS <AddToCalendar>', () => {
     // Setting timezone to 11:30pm ET to test date change scenario.
     // Adding 30 minutes to this time should cause the date to change
     // to the next day.
-    MockDate.set(getTimezoneTestDate('America/New_York'));
+    MockDate.set(getTestDate());
 
     const screen = render(<AddToCalendar duration={30} />);
 

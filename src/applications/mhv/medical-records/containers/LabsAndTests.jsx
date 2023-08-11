@@ -19,7 +19,7 @@ const LabsAndTests = () => {
     () => {
       dispatch(
         setBreadcrumbs(
-          [{ url: '/my-health/medical-records/', label: 'Dashboard' }],
+          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
           {
             url: '/my-health/medical-records/labs-and-tests',
             label: 'Lab and test results',
@@ -57,12 +57,13 @@ const LabsAndTests = () => {
   return (
     <div id="labs-and-tests">
       <h1 className="page-title">Lab and test results</h1>
-      <p>Review lab and test results in your VA medical records.</p>
-      <va-additional-info trigger="What to know about lab and test results">
-        This is some additional info about lab and test results, though we are
-        waiting on the Content Team to tell us what should be here...
-      </va-additional-info>
-
+      <section className="set-width-486">
+        <p>Review lab and test results in your VA medical records.</p>
+        <va-additional-info trigger="What to know about lab and test results">
+          This is some additional info about lab and test results, though we are
+          waiting on the Content Team to tell us what should be here...
+        </va-additional-info>
+      </section>
       {content()}
     </div>
   );
