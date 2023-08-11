@@ -6,6 +6,8 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    'ui:description':
+      'We’ll send any updates about your alternate signer certification to this address.',
     preparerAddress: addressUI({ omit: ['isMilitary'] }),
   },
   schema: {
