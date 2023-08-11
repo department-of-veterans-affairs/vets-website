@@ -71,6 +71,7 @@ const formConfigKeys = [
   'submitErrorText',
   'CustomHeader',
   'customText',
+  'CustomHeader',
   'submissionError',
   'saveInProgress',
   'wizardStorageKey',
