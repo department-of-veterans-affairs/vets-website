@@ -121,6 +121,7 @@ class AdditionalEvidencePage extends React.Component {
             files={this.props.files}
             backUrl={this.props.lastPage || filesPath}
             onSubmit={() => {
+              // START lighthouse_migration
               if (this.props.documentsUseLighthouse) {
                 this.props.submitFilesLighthouse(
                   this.props.claim.id,
@@ -134,6 +135,7 @@ class AdditionalEvidencePage extends React.Component {
                   this.props.files,
                 );
               }
+              // END lighthouse_migration
             }}
             onAddFile={this.props.addFile}
             onRemoveFile={this.props.removeFile}
