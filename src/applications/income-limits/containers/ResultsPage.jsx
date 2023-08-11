@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { scrollToTop } from '../utilities/scroll-to-top';
 import { ROUTES } from '../constants';
 import {
   getFirstAccordionHeader,
@@ -28,8 +27,8 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
     () => {
       redirectIfFormIncomplete(dependents, pastMode, router, year, zipCode);
 
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       waitForRenderThenFocus('h1');
-      scrollToTop();
     },
     [dependents, pastMode, router, year, zipCode],
   );
@@ -136,6 +135,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
         <h2>Select your {previousYear} household income range</h2>
         <va-accordion bordered data-testid="il-results" open-single>
           <va-accordion-item
+            level="3"
             data-testid="il-results-1"
             header={getFirstAccordionHeader(pension)}
           >
@@ -155,6 +155,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             {!pastMode && applyUrl}
           </va-accordion-item>
           <va-accordion-item
+            level="3"
             data-testid="il-results-2"
             header={getSecondAccordionHeader(pension, national)}
           >
@@ -170,6 +171,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
           </va-accordion-item>
           {isStandard && (
             <va-accordion-item
+              level="3"
               data-testid="il-results-3"
               header={getThirdAccordionHeader(national, gmt)}
             >
@@ -186,6 +188,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             </va-accordion-item>
           )}
           <va-accordion-item
+            level="3"
             data-testid="il-results-4"
             header={getFourthAccordionHeader(national, gmt, isStandard)}
           >
@@ -200,6 +203,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             {!pastMode && applyUrl}
           </va-accordion-item>
           <va-accordion-item
+            level="3"
             data-testid="il-results-5"
             header={getFifthAccordionHeader(national, gmt, isStandard)}
           >

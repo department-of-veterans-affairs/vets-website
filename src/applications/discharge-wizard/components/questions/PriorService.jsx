@@ -50,7 +50,7 @@ const PriorService = ({
     name: key,
     label:
       'Did you complete a period of service in which your character of service was Honorable or General Under Honorable Conditions?',
-    'label-header-level': 2,
+    'label-header-level': '2',
     key,
     value: formValues[key],
     onVaValueChange: e => {

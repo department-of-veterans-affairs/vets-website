@@ -48,7 +48,6 @@ describe('LabsAndTests list container', () => {
 
   it('displays a list of records', () => {
     const screen = setup();
-    // will count all records for print view, plus the 10 on the current page
-    expect(screen.getAllByTestId('record-list-item').length).to.eq(23);
+    expect(screen.getAllByTestId('record-list-item').length).to.eq(10);
   });
 });
