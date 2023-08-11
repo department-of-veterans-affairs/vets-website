@@ -64,11 +64,10 @@ class SearchComponent {
 
   /** Gets the input field dropdown, moves down three items, and presses Enter */
   navigateSearchSuggestions = () => {
-    cy.get('#search-header-dropdown-input-field')
-      .type('{downarrow}')
-      .type('{downarrow}')
-      .type('{downarrow}')
-      .type('{enter}');
+    cy.get('#search-header-dropdown-input-field').type('{downarrow}');
+    cy.get('#search-header-dropdown-input-field').type('{downarrow}');
+    cy.get('#search-header-dropdown-input-field').type('{downarrow}');
+    cy.get('#search-header-dropdown-input-field').type('{enter}');
   };
 
   /** Focuses on the Search button and checks that the listbox disappears */
