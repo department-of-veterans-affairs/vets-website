@@ -69,7 +69,7 @@ export const getNote = id => {
   });
 };
 
-export const mockGetVitalsList = () => {
+export const getVitalsList = () => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(`${apiBasePath}/medical_records/vitals`, {
       headers,
