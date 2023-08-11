@@ -372,7 +372,7 @@ jobs:
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       test_selection_disallowed_tests: ${{ steps.test_selection_disallowed_tests.outputs.test_selection_disallowed_tests }}
-      changed_file_paths: ${{ steps.changed-file-paths.outputs.changed_file_paths }}
+      changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -424,10 +424,6 @@ jobs:
       - name: Set output of CI_NODE_INDEX
         id: matrix
         run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
-
-      - name: Set output of CHANGED_FILE_PATHS
-        id: changed-file-paths
-        run: echo changed_file_paths=$CHANGED_FILE_PATHS >> $GITHUB_OUTPUT
 
   cypress-tests:
     name: Cypress E2E Tests
