@@ -643,7 +643,7 @@ const responses = {
         { name: 'vaOnlineSchedulingUseDsot', value: true },
         { name: 'vaOnlineSchedulingRequestFlowUpdate', value: true },
         { name: 'vaOnlineSchedulingConvertUtcToLocal', value: false },
-        { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: false },
+        { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: true },
         { name: 'vaOnlineSchedulingPrintList', value: true },
         { name: 'va_online_scheduling_descriptive_back_link', value: true },
         { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
