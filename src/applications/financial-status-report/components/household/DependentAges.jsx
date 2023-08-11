@@ -5,6 +5,7 @@ import { VaNumberInput } from '@department-of-veterans-affairs/component-library
 import { setData } from 'platform/forms-system/src/js/actions';
 import { DEPENDENT_AGE_LABELS } from '../../constants/dependentLabels';
 import { validateIsNumber } from '../../utils/validations';
+import DependentExplainer from './DependentExplainer';
 import ButtonGroup from '../shared/ButtonGroup';
 import ReviewControl from '../shared/ReviewControl';
 
@@ -170,8 +171,6 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
     isReviewMode && !isEditing
       ? 'form-review-panel-page-header vads-u-font-size--h5'
       : 'schemablock-title vads-u-margin-top--5';
-  const text =
-    isReviewMode && !isEditing ? 'Review Dependants ages' : 'Dependents ages';
 
   let dependentAgeInputs = stateDependents.map(
     (dependent, i) =>
@@ -189,7 +188,7 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
       <div
         className={`${isReviewMode ? 'form-review-panel-page-header-row' : ''}`}
       >
-        <HeaderTag className={className}>{text}</HeaderTag>
+        <HeaderTag className={className}>Dependents ages</HeaderTag>
         {isReviewMode &&
           !isEditing && (
             <ReviewControl
@@ -203,11 +202,14 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
           )}
       </div>
       {!isReviewMode ? (
-        <p className="vads-u-padding-top--2">
-          Enter each dependent’s age separately.
-        </p>
+        <>
+          <p className="vads-u-padding-top--2">
+            Enter each dependent’s age separately.
+          </p>
+        </>
       ) : null}
       {dependentAgeInputs}
+      {!isReviewMode ? <DependentExplainer /> : null}
       {isReviewMode && isEditing ? (
         <div className="vads-u-margin-top--2">
           <ReviewControl

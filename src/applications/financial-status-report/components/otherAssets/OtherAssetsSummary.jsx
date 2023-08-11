@@ -29,7 +29,7 @@ const OtherAssetsSummary = ({
         ...data,
         gmtData: {
           ...gmtData,
-          assetsBelowGMT: calculatedAssets < gmtData?.assetThreshold,
+          assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
         },
       });
     },
@@ -146,7 +146,7 @@ OtherAssetsSummary.propTypes = {
     }),
     gmtData: PropTypes.shape({
       assetThreshold: PropTypes.number,
-      assetsBelowGMT: PropTypes.bool,
+      assetsBelowGmt: PropTypes.bool,
       isEligibleForStreamlined: PropTypes.bool,
     }),
   }),
