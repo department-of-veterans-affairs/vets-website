@@ -372,7 +372,7 @@ jobs:
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       test_selection_disallowed_tests: ${{ steps.test_selection_disallowed_tests.outputs.test_selection_disallowed_tests }}
-      e2e_blocked_paths: ${{ steps.e2e-blocked-paths.outputs.e2e_blocked_paths }}
+      changed_file_paths: ${{ steps.changed-file-paths.outputs.changed_file_paths }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -425,9 +425,9 @@ jobs:
         id: matrix
         run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
 
-      - name: Set output of E2E_BLOCKED_PATHS
-        id: e2e-blocked-paths
-        run: echo e2e_blocked_paths=$E2E_BLOCKED_PATHS >> $GITHUB_OUTPUT
+      - name: Set output of CHANGED_FILE_PATHS
+        id: changed-file-paths
+        run: echo changed_file_paths=$CHANGED_FILE_PATHS >> $GITHUB_OUTPUT
 
   cypress-tests:
     name: Cypress E2E Tests
@@ -758,7 +758,7 @@ jobs:
     if: ${{ always() }}
     continue-on-error: true
     env:
-      E2E_BLOCKED_PATHS: ${{ needs.cypress-tests-prep.outputs.e2e_blocked_paths }}
+      CHANGED_FILE_PATHS: ${{ needs.cypress-tests-prep.outputs.changed_file_paths }}
       ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
     steps:
       - name: Checkout
