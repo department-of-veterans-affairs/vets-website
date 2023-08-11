@@ -59,14 +59,14 @@ describe('Folder Header component', () => {
     );
   };
 
-  describe('Folder Header component in CUSTOM FOLDER', () => {
-    it('must display valid CUSTOM FOLDER name', async () => {
+  describe('Folder Header component displays CUSTOM folder and children components', () => {
+    it('must display valid CUSTOM FOLDER name and description: DEMO FOLDER 1', async () => {
       const screen = setup();
       expect(screen.getByText(customFolder.name)).to.exist;
       expect(screen.getByText(Folders.CUSTOM_FOLDER.desc)).to.exist;
     });
 
-    it('renders FilterBox with `threadCount` on CUSTOM FOLDER page', () => {
+    it('renders FilterBox with `threadCount` in CUSTOM FOLDER', () => {
       const screen = setup();
       const filterBox = screen.getByTestId('search-form');
       expect(filterBox).to.exist;
@@ -87,13 +87,13 @@ describe('Folder Header component', () => {
       );
     });
 
-    it('does not render FilterBox w/o `threadCount` on CUSTOM FOLDER page', () => {
+    it('does not render FilterBox w/o `threadCount` on CUSTOM FOLDER', () => {
       const screen = setup(initialState, initialPath, null);
       expect(screen.queryByTestId('search-form')).to.not.exist;
     });
   });
 
-  describe('Folder Header component in INBOX', () => {
+  describe('Folder Header component displays INBOX folder and children components', () => {
     const initialInboxState = {
       sm: {
         folders: {
@@ -110,13 +110,13 @@ describe('Folder Header component', () => {
       },
     };
 
-    it('must display valid INBOX FOLDER name and page title', async () => {
+    it('must display valid FOLDER name: INBOX', async () => {
       const screen = setup(initialState, Paths.INBOX, threadList, inbox);
       expect(screen.getByText(inbox.name, { selector: 'h1' })).to.exist;
       expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
     });
 
-    it('renders FilterBox with `threadCount` on INBOX FOLDER page', () => {
+    it('renders FilterBox with `threadCount` in INBOX FOLDER', () => {
       const screen = setup(initialInboxState, Paths.INBOX, threadList, inbox);
       const filterBox = screen.getByTestId('search-form');
       expect(filterBox).to.exist;
@@ -137,13 +137,13 @@ describe('Folder Header component', () => {
       );
     });
 
-    it('does not render FilterBox w/o `threadCount` on INBOX FOLDER page', () => {
+    it('does not render FilterBox w/o `threadCount` on INBOX FOLDER', () => {
       const screen = setup(initialInboxState, Paths.INBOX, null, inbox);
       expect(screen.queryByTestId('search-form')).to.not.exist;
     });
   });
 
-  describe('Folder Header component in DRAFTS', () => {
+  describe('Folder Header component displays DRAFTS folder and children components', () => {
     const initialDraftsState = {
       sm: {
         folders: {
@@ -160,7 +160,7 @@ describe('Folder Header component', () => {
       },
     };
 
-    it('must display valid DRAFTS FOLDER name and page title', async () => {
+    it('must display valid FOLDER name: DRAFTS', async () => {
       const screen = setup(
         initialDraftsState,
         Paths.DRAFTS,
@@ -171,7 +171,7 @@ describe('Folder Header component', () => {
       expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
     });
 
-    it('renders FilterBox with `threadCount` on DRAFTS FOLDER page', () => {
+    it('renders FilterBox with `threadCount` in DRAFTS FOLDER', () => {
       const screen = setup(
         initialDraftsState,
         Paths.DRAFTS,
@@ -197,13 +197,13 @@ describe('Folder Header component', () => {
       );
     });
 
-    it('does not render FilterBox w/o `threadCount` on DRAFTS FOLDER page', () => {
+    it('does not render FilterBox w/o `threadCount` on DRAFTS FOLDER', () => {
       const screen = setup(initialDraftsState, Paths.DRAFTS, null, drafts);
       expect(screen.queryByTestId('search-form')).to.not.exist;
     });
   });
 
-  describe('Folder Header component in SENT', () => {
+  describe('Folder Header component displays SENT folder and children components', () => {
     const initialSentState = {
       sm: {
         folders: {
@@ -220,14 +220,13 @@ describe('Folder Header component', () => {
       },
     };
 
-    it('must display valid SENT FOLDER name and page title', async () => {
+    it('must display valid FOLDER name: SENT', async () => {
       const screen = setup(initialSentState, Paths.SENT, threadList, sent);
-      expect(screen.getByText(`${sent.name} messages`, { selector: 'h1' })).to
-        .exist;
+      expect(screen.getByText(sent.name, { selector: 'h1' })).to.exist;
       expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
     });
 
-    it('renders FilterBox with `threadCount` on SENT FOLDER page', () => {
+    it('renders FilterBox with `threadCount` in SENT FOLDER', () => {
       const screen = setup(initialSentState, Paths.SENT, threadList, sent);
       const filterBox = screen.getByTestId('search-form');
       expect(filterBox).to.exist;
@@ -248,13 +247,13 @@ describe('Folder Header component', () => {
       );
     });
 
-    it('does not render FilterBox w/o `threadCount` on INBOX FOLDER page', () => {
+    it('does not render FilterBox w/o `threadCount` on INBOX FOLDER', () => {
       const screen = setup(initialSentState, Paths.SENT, null, sent);
       expect(screen.queryByTestId('search-form')).to.not.exist;
     });
   });
 
-  describe('Folder Header component in TRASH', () => {
+  describe('Folder Header component displays TRASH folder and children components', () => {
     const trash = {
       folderId: -3,
       name: DefaultFolders.DELETED.header,
@@ -278,13 +277,13 @@ describe('Folder Header component', () => {
       },
     };
 
-    it('must display valid TRASH FOLDER name and page title', async () => {
+    it('must display valid FOLDER name: TRASH ', async () => {
       const screen = setup(initialTrashState, Paths.DELETED, threadList, trash);
       expect(screen.getByText(trash.name, { selector: 'h1' })).to.exist;
       expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
     });
 
-    it('renders FilterBox with `threadCount` on TRASH FOLDER page', () => {
+    it('renders FilterBox with `threadCount` in TRASH FOLDER', () => {
       const screen = setup(initialTrashState, Paths.DELETED, threadList, trash);
       const filterBox = screen.getByTestId('search-form');
       expect(filterBox).to.exist;
@@ -305,7 +304,7 @@ describe('Folder Header component', () => {
       );
     });
 
-    it('does not render FilterBox w/o `threadCount` on TRASH FOLDER page', () => {
+    it('does not render FilterBox w/o `threadCount` on TRASH FOLDER', () => {
       const screen = setup(initialTrashState, Paths.DELETED, null, trash);
       expect(screen.queryByTestId('search-form')).to.not.exist;
     });

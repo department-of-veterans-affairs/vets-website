@@ -47,9 +47,8 @@ describe('Folder Thread List View container', () => {
     expect(startANewMessageLink).to.have.attr('href', Paths.COMPOSE);
   });
 
-
   it(`verifies page title tag for 'Sent' FolderThreadListView page`, async () => {
-    const initialState = {
+    const initialStateSent = {
       sm: {
         messageDetails: { message: messageResponse },
         folders: { folder: sent, folderList },
