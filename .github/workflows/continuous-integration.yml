@@ -638,6 +638,8 @@ jobs:
       ]
     if: ${{ always() && needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     continue-on-error: true
+    outputs:
+      allow_list: ${{ steps.allow-list-output.outputs.list }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
@@ -747,15 +749,19 @@ jobs:
         working-directory: qa-standards-dashboard-data
       # exports app list and assigns to environmental variable at this step
 
+      - name: Set Allow List Output
+        id: allow-list-output
+        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
+
   allow-list-merge-status:
     name: E2E Allow List Merge Status Check
     runs-on: ubuntu-latest
-    needs: [cypress-tests-prep, update-e2e-allow-list, fetch-e2e-allow-list]
+    needs: [cypress-tests-prep, update-e2e-allow-list]
     if: ${{ always() }}
     continue-on-error: true
     env:
       CHANGED_FILE_PATHS: ${{ needs.cypress-tests-prep.outputs.changed_file_paths }}
-      ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
+      ALLOW_LIST: ${{ needs.update-e2e-allow-list.outputs.allow_list }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
