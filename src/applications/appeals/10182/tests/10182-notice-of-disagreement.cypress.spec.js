@@ -116,6 +116,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.fillPage(); // temporary until page is updated with web components
+          // console.log('testing :index pageHooks', index);
           cy.findByText('Continue', { selector: 'button' }).click();
         });
       },
