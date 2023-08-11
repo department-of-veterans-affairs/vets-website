@@ -1,5 +1,4 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
 
 import { eighteenOrOver, SeventeenOrOlder } from '../helpers';
@@ -19,20 +18,18 @@ function PreSubmitNotice({
         <ul>
           {/* if applicant is 17 years old, show below <li> */
           !eighteenOrOver(formData.veteranDateOfBirth) &&
-            SeventeenOrOlder(formData.veteranDateOfBirth) &&
-            !environment.isProduction() && (
+            SeventeenOrOlder(formData.veteranDateOfBirth) && (
               <li>
                 You are the parent, guardian, or custodian of the applicant
               </li>
             )}
           {/* if applicant is on active duty, show below <li> */
-          formData.currentlyActiveDuty.yes === true &&
-            !environment.isProduction() && (
-              <li>
-                As an active-duty service member, you have consulted with an
-                Education Service Officer (ESO) regarding your education program
-              </li>
-            )}
+          formData.currentlyActiveDuty.yes === true && (
+            <li>
+              As an active-duty service member, you have consulted with an
+              Education Service Officer (ESO) regarding your education program
+            </li>
+          )}
           {/* always show below <li> */}
           <li>
             All statements in this application are true and correct to the best

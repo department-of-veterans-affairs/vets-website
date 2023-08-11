@@ -61,9 +61,10 @@ describe('Pensions directDeposit', () => {
     const routingNumber = formDOM.querySelector(
       '#root_bankAccount_routingNumber',
     );
-    ReactTestUtils.Simulate.blur(routingNumber);
 
     formDOM.fillData('#root_bankAccount_routingNumber', '01234567');
+
+    ReactTestUtils.Simulate.blur(routingNumber);
 
     expect(
       formDOM.querySelector('.usa-input-error #root_bankAccount_routingNumber'),

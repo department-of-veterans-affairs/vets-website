@@ -223,7 +223,9 @@ const ContactInfo = ({
           {content.homePhone}
         </Headers>
         {showSuccessAlert('home-phone', content.homePhone)}
-        <va-telephone contact={homePhoneString} not-clickable />
+        <span className="dd-privacy-hidden">
+          <va-telephone contact={homePhoneString} not-clickable />
+        </span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
             <Link
@@ -242,7 +244,9 @@ const ContactInfo = ({
       <React.Fragment key="mobile">
         <Headers className={headerClassNames}>{content.mobilePhone}</Headers>
         {showSuccessAlert('mobile-phone', content.mobilePhone)}
-        <va-telephone contact={mobilePhoneString} not-clickable />
+        <span className="dd-privacy-hidden">
+          <va-telephone contact={mobilePhoneString} not-clickable />
+        </span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
             <Link
@@ -261,7 +265,7 @@ const ContactInfo = ({
       <React.Fragment key="email">
         <Headers className={headerClassNames}>{content.email}</Headers>
         {showSuccessAlert('email', content.email)}
-        <span>{dataWrap[keys.email] || ''}</span>
+        <span className="dd-privacy-hidden">{dataWrap[keys.email] || ''}</span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
             <Link
@@ -280,9 +284,7 @@ const ContactInfo = ({
       <React.Fragment key="mailing">
         <Headers className={headerClassNames}>{content.mailingAddress}</Headers>
         {showSuccessAlert('address', content.mailingAddress)}
-        <div className="vads-u-display--flex">
-          <AddressView data={dataWrap[keys.address]} />
-        </div>
+        <AddressView data={dataWrap[keys.address]} />
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
             <Link

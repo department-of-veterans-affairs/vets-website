@@ -5,7 +5,7 @@ export default {
   uiSchema: {
     additionalInformation: {
       'ui:title':
-        'Do you have more information to help support your application? You may include additional information here about your relationship information to the Veteran or Claimant and you may also provide the VA with a rationale for the necessity of an alternate signer.',
+        'Do you have more information to help support this certification? You may add details about your relationship to the person with the claim. You may also tell us more about why you need to sign for them.',
       'ui:webComponentField': VaTextareaField,
     },
   },

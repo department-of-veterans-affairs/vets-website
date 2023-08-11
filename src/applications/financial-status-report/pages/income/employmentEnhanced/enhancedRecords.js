@@ -1,5 +1,5 @@
 import React from 'react';
-import EnhancedEmploymentRecord from '../../../components/EnhancedEmploymentRecord';
+import EnhancedEmploymentRecord from '../../../components/employment/EnhancedEmploymentRecord';
 
 export const uiSchema = {
   'ui:title': () => (

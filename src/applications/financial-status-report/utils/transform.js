@@ -1,19 +1,20 @@
 import moment from 'moment';
 import {
+  isStreamlinedShortForm,
+  isStreamlinedLongForm,
+} from './streamlinedDepends';
+import {
   sumValues,
   dateFormatter,
   getFsrReason,
-  getMonthlyIncome,
   getMonthlyExpenses,
   getEmploymentHistory,
   getTotalAssets,
-  otherDeductionsName,
-  otherDeductionsAmt,
-  nameStr,
   getAmountCanBePaidTowardDebt,
   mergeAdditionalComments,
   filterReduceByName,
 } from './helpers';
+import { getMonthlyIncome, safeNumber } from './calculateIncome';
 import { getFormattedPhone } from './contactInformation';
 
 export const transform = (formConfig, form) => {
@@ -43,10 +44,6 @@ export const transform = (formConfig, form) => {
       telephoneNumber,
       dateOfBirth,
       dependents,
-      employmentHistory: {
-        veteran: { employmentRecords = [] },
-        spouse: { spEmploymentRecords = [] },
-      },
       veteranContactInformation: { address = {}, mobilePhone = {} } = {},
     },
     expenses: {
@@ -54,89 +51,46 @@ export const transform = (formConfig, form) => {
       expenseRecords = [],
       food = 0,
       rentOrMortgage = 0,
-    },
+    } = {},
     otherExpenses = [],
     utilityRecords,
     assets,
     installmentContracts = [],
     additionalData,
-    selectedDebts,
     selectedDebtsAndCopays = [],
     realEstateRecords,
-    currEmployment,
-    spCurrEmployment,
-    additionalIncome: {
-      addlIncRecords,
-      spouse: { spAddlIncome },
-    },
-    income,
-    socialSecurity,
-    benefits,
+    gmtData,
   } = form.data;
 
   // enhanced fsr flag
   const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
+  const isShortStreamlined = isStreamlinedShortForm(form.data);
+  const isLongStreamlined = isStreamlinedLongForm(form.data);
 
-  const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
-  const retirementFilters = ['401K', 'IRA', 'Pension'];
-  const socialSecFilters = ['FICA (Social Security and Medicare)'];
-  const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
+  // === Set Streamlined FSR flag ===
+  let streamlinedData;
+  if (isShortStreamlined) {
+    streamlinedData = {
+      value: true,
+      type: 'short',
+    };
+  } else if (isLongStreamlined) {
+    streamlinedData = {
+      value: true,
+      type: 'long',
+    };
+  } else {
+    streamlinedData = {
+      value: false,
+      type: 'none', // not streamlined
+    };
+  }
 
-  // veteran
-  const vetGrossSalary = enhancedFSRActive
-    ? sumValues(employmentRecords, 'grossMonthlyIncome')
-    : sumValues(currEmployment, 'veteranGrossSalary');
-  const vetAddlInc = sumValues(addlIncRecords, 'amount');
-  const vetSocSecAmt = !enhancedFSRActive
-    ? Number(socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0)
-    : 0;
-  const vetComp = sumValues(income, 'compensationAndPension');
-  const vetEdu = sumValues(income, 'education');
-  const vetBenefits = vetComp + vetEdu;
-  const vetDeductions = enhancedFSRActive
-    ? employmentRecords
-        ?.filter(emp => emp.isCurrent)
-        .map(emp => emp.deductions)
-        .flat() ?? 0
-    : currEmployment?.map(emp => emp.deductions).flat() ?? 0;
-  const vetTaxes = filterReduceByName(vetDeductions, taxFilters);
-  const vetRetirement = filterReduceByName(vetDeductions, retirementFilters);
-  const vetSocialSec = filterReduceByName(vetDeductions, socialSecFilters);
-  const vetOther = otherDeductionsAmt(vetDeductions, allFilters);
-  const vetTotDeductions = vetTaxes + vetRetirement + vetSocialSec + vetOther;
-  const vetOtherIncome = vetAddlInc + vetBenefits + vetSocSecAmt;
-  const vetNetIncome = vetGrossSalary - vetTotDeductions;
-
-  // spouse
-  const spGrossSalary = enhancedFSRActive
-    ? sumValues(spEmploymentRecords, 'grossMonthlyIncome')
-    : sumValues(spCurrEmployment, 'spouseGrossSalary');
-  const spAddlInc = sumValues(spAddlIncome, 'amount');
-  const spSocialSecAmt = !enhancedFSRActive
-    ? Number(
-        socialSecurity.spouse?.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-      )
-    : 0;
-  const spComp = Number(
-    benefits.spouseBenefits.compensationAndPension?.replaceAll(',', '') ?? 0,
+  // === Income ===
+  // Extract the values from getMonthlyIncome
+  const { vetIncome, spIncome, totalMonthlyNetIncome } = getMonthlyIncome(
+    form.data,
   );
-  const spEdu = Number(
-    benefits.spouseBenefits.education?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-  );
-  const spBenefits = spComp + spEdu;
-  const spDeductions = enhancedFSRActive
-    ? spEmploymentRecords
-        ?.filter(emp => emp.isCurrent)
-        .map(emp => emp.deductions)
-        .flat() ?? 0
-    : spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
-  const spTaxes = filterReduceByName(spDeductions, taxFilters);
-  const spRetirement = filterReduceByName(spDeductions, retirementFilters);
-  const spSocialSec = filterReduceByName(spDeductions, socialSecFilters);
-  const spOtherAmt = otherDeductionsAmt(spDeductions, allFilters);
-  const spTotDeductions = spTaxes + spRetirement + spSocialSec + spOtherAmt;
-  const spOtherIncome = spAddlInc + spBenefits + spSocialSecAmt;
-  const spNetIncome = spGrossSalary - spTotDeductions;
 
   // === expenses ===
   // rent & mortgage expenses for box 18
@@ -166,14 +120,6 @@ export const transform = (formConfig, form) => {
     ...creditCardBills,
   ];
 
-  // generate name strings
-  const vetOtherName = nameStr(vetSocSecAmt, vetComp, vetEdu, addlIncRecords);
-  const spOtherName = nameStr(spSocialSecAmt, spComp, spEdu, spAddlIncome);
-  const vetOtherDeductionsName = otherDeductionsName(vetDeductions, allFilters);
-  const spOtherDeductionsName = otherDeductionsName(spDeductions, allFilters);
-
-  // get monthly totals
-  const totMonthlyNetIncome = getMonthlyIncome(form.data);
   const totMonthlyExpenses = getMonthlyExpenses(form.data);
   const employmentHistory = getEmploymentHistory(form.data);
   const totalAssets = getTotalAssets(form.data);
@@ -191,7 +137,13 @@ export const transform = (formConfig, form) => {
 
   // monetary assets
   const { monetaryAssets } = assets;
-  const calculatedCashOnHand = filterReduceByName(monetaryAssets, cashFilters);
+  // Cash on hand is stored separately for potential short forms
+  // Same conditions for the cash on hand page depends
+  const calculatedCashOnHand =
+    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt
+      ? filterReduceByName(monetaryAssets, cashFilters) +
+        safeNumber(assets.cashOnHand)
+      : filterReduceByName(monetaryAssets, cashFilters);
   const calculatedCashInBank = filterReduceByName(monetaryAssets, bankFilters);
   const calculatedUsSavingsBonds = filterReduceByName(
     monetaryAssets,
@@ -203,14 +155,9 @@ export const transform = (formConfig, form) => {
   );
 
   // combined fsr options
-  const combinedFSRActive = form.data['view:combinedFinancialStatusReport'];
-  const fsrReason = getFsrReason(
-    combinedFSRActive ? selectedDebtsAndCopays : selectedDebts,
-    combinedFSRActive,
-  );
+  const fsrReason = getFsrReason(selectedDebtsAndCopays);
   const amountCanBePaidTowardDebt = getAmountCanBePaidTowardDebt(
-    combinedFSRActive ? selectedDebtsAndCopays : selectedDebts,
-    combinedFSRActive,
+    selectedDebtsAndCopays,
   );
   // handle dependents
   const enhancedDependent =
@@ -272,43 +219,21 @@ export const transform = (formConfig, form) => {
     income: [
       {
         veteranOrSpouse: 'VETERAN',
-        monthlyGrossSalary: vetGrossSalary,
-        deductions: {
-          taxes: vetTaxes,
-          retirement: vetRetirement,
-          socialSecurity: vetSocialSec,
-          otherDeductions: {
-            name: vetOtherDeductionsName,
-            amount: vetOther,
-          },
-        },
-        totalDeductions: vetTotDeductions,
-        netTakeHomePay: vetNetIncome,
-        otherIncome: {
-          name: vetOtherName,
-          amount: vetOtherIncome,
-        },
-        totalMonthlyNetIncome: vetNetIncome + vetOtherIncome,
+        monthlyGrossSalary: vetIncome.grossSalary,
+        deductions: vetIncome.deductions,
+        totalDeductions: vetIncome.totalDeductions,
+        netTakeHomePay: vetIncome.netTakeHomePay,
+        otherIncome: vetIncome.otherIncome,
+        totalMonthlyNetIncome: vetIncome.totalMonthlyNetIncome,
       },
       {
         veteranOrSpouse: 'SPOUSE',
-        monthlyGrossSalary: spGrossSalary,
-        deductions: {
-          taxes: spTaxes,
-          retirement: spRetirement,
-          socialSecurity: spSocialSec,
-          otherDeductions: {
-            name: spOtherDeductionsName,
-            amount: spOtherAmt,
-          },
-        },
-        totalDeductions: spTotDeductions,
-        netTakeHomePay: spNetIncome,
-        otherIncome: {
-          name: spOtherName,
-          amount: spOtherIncome,
-        },
-        totalMonthlyNetIncome: spNetIncome + spOtherIncome,
+        monthlyGrossSalary: spIncome.grossSalary,
+        deductions: spIncome.deductions,
+        totalDeductions: spIncome.totalDeductions,
+        netTakeHomePay: spIncome.netTakeHomePay,
+        otherIncome: spIncome.otherIncome,
+        totalMonthlyNetIncome: spIncome.totalMonthlyNetIncome,
       },
     ],
     expenses: {
@@ -334,16 +259,14 @@ export const transform = (formConfig, form) => {
       totalMonthlyExpenses: totMonthlyExpenses,
     },
     discretionaryIncome: {
-      netMonthlyIncomeLessExpenses: totMonthlyNetIncome - totMonthlyExpenses,
+      netMonthlyIncomeLessExpenses: totalMonthlyNetIncome - totMonthlyExpenses,
       amountCanBePaidTowardDebt,
     },
     assets: {
       cashInBank: enhancedFSRActive ? calculatedCashInBank : assets.cashInBank,
       cashOnHand: enhancedFSRActive ? calculatedCashOnHand : assets.cashOnHand,
       automobiles: assets.automobiles,
-      trailersBoatsCampers: combinedFSRActive
-        ? assets.recVehicleAmount
-        : sumValues(assets.recVehicles, 'recVehicleAmount'),
+      trailersBoatsCampers: assets.recVehicleAmount,
       usSavingsBonds: enhancedFSRActive
         ? calculatedUsSavingsBonds
         : assets.usSavingsBonds,
@@ -391,13 +314,15 @@ export const transform = (formConfig, form) => {
     },
     additionalData: {
       bankruptcy: {
-        hasBeenAdjudicatedBankrupt: questions.hasBeenAdjudicatedBankrupt,
-        dateDischarged: dateFormatter(additionalData.bankruptcy.dateDischarged),
-        courtLocation: additionalData.bankruptcy.courtLocation,
-        docketNumber: additionalData.bankruptcy.docketNumber,
+        hasBeenAdjudicatedBankrupt: questions?.hasBeenAdjudicatedBankrupt,
+        dateDischarged: dateFormatter(
+          additionalData?.bankruptcy?.dateDischarged,
+        ),
+        courtLocation: additionalData?.bankruptcy?.courtLocation,
+        docketNumber: additionalData?.bankruptcy?.docketNumber,
       },
       additionalComments: mergeAdditionalComments(
-        additionalData.additionalComments,
+        additionalData?.additionalComments,
         enhancedFSRActive ? filteredExpenses : otherExpenses,
       ),
     },
@@ -406,6 +331,7 @@ export const transform = (formConfig, form) => {
       veteranDateSigned: moment().format('MM/DD/YYYY'),
     },
     selectedDebtsAndCopays: [...selectedDebtsAndCopays],
+    streamlined: streamlinedData,
   };
 
   // calculated values should formatted then converted to string

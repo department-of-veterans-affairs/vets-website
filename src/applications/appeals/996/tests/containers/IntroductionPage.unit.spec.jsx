@@ -124,7 +124,7 @@ describe('IntroductionPage', () => {
     expect($$('.vads-c-action-link--green', container).length).to.equal(2);
   });
 
-  it('should show verify your account alert', () => {
+  it('should render verify identity alert', () => {
     setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const { props, mockStore } = getData({ isVerified: false });
     const { container } = render(
@@ -133,7 +133,6 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    const verifyAlert = $('va-alert[status="continue"]', container);
-    expect(verifyAlert.innerHTML).to.contain('href="/verify?');
+    expect($('va-alert[status="continue"]', container)).to.exist;
   });
 });

@@ -21,10 +21,13 @@ const SettingsPage = () => {
   useEffect(
     () => {
       dispatch(
-        setBreadcrumbs([{ url: '/my-health', label: 'Dashboard' }], {
-          url: '/my-health/medical-records/settings',
-          label: 'Settings',
-        }),
+        setBreadcrumbs(
+          [{ url: '/my-health/medical-records', label: 'Medical records' }],
+          {
+            url: '/my-health/medical-records/settings',
+            label: 'Medical records settings',
+          },
+        ),
       );
     },
     [dispatch],
@@ -149,7 +152,7 @@ const SettingsPage = () => {
   return (
     <div className="settings vads-u-margin-bottom--5">
       <section>
-        <h1>Share your medical record</h1>
+        <h1>Medical records settings</h1>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 va-introtext">
           Review and update your medical records sharing and notification
           settings.

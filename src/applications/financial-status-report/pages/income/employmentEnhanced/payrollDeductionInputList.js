@@ -1,4 +1,4 @@
-import PayrollDeductionInputList from '../../../components/PayrollDeductionInputList';
+import PayrollDeductionInputList from '../../../components/householdIncome/PayrollDeductionInputList';
 
 export const uiSchema = {
   currEmployment: {

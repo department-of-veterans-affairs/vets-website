@@ -8,7 +8,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 
-import NeedsToVerify from '../components/NeedsToVerify';
+import NeedsToVerify from '../../shared/components/NeedsToVerify';
 import {
   FACILITY_LOCATOR_URL,
   GET_HELP_REQUEST_URL,

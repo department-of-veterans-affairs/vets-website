@@ -18,9 +18,12 @@ import {
   mockMultipleApiRequests,
 } from 'platform/testing/unit/helpers';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
+
 import Chatbox from '../components/chatbox/Chatbox';
+
 import virtualAgentReducer from '../reducers/index';
 import StartConvoAndTrackUtterances from '../components/webchat/startConvoAndTrackUtterances';
+
 import {
   LOGGED_IN_FLOW,
   CONVERSATION_ID_KEY,
@@ -51,13 +54,13 @@ describe('App', () => {
       WebChat: {
         createStore: createStoreSpy,
         createDirectLine: directLineSpy,
+
         ReactWebChat: () => {
           return <div />;
         },
       },
     });
   }
-
   function createTestStore(initialState, reducers = {}) {
     return createStore(
       combineReducers({

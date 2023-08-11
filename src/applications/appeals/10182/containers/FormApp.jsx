@@ -6,6 +6,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import formConfig from '../config/form';
 import {
   nodPart3UpdateFeature,
@@ -14,6 +15,7 @@ import {
   getIssueNameAndDate,
   processContestableIssues,
 } from '../utils/helpers';
+import { getEligibleContestableIssues } from '../utils/submit';
 
 import { SHOW_PART3 } from '../constants';
 
@@ -47,8 +49,13 @@ export const FormApp = ({
         ) {
           setFormData({
             ...formData,
+            // getEligibleContestableIssues removes issues that are deferred,
+            // missing a title, or have an invalid date, while
+            // processContestableIssues sorts the issues
             contestableIssues: processContestableIssues(
-              contestableIssues?.issues,
+              getEligibleContestableIssues(contestableIssues?.issues, {
+                showPart3,
+              }),
             ),
           });
         } else if (
@@ -95,6 +102,9 @@ export const FormApp = ({
       {children}
     </RoutedSavableApp>
   );
+
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring();
 
   return (
     <article id="form-10182" data-location={`${location?.pathname?.slice(1)}`}>
