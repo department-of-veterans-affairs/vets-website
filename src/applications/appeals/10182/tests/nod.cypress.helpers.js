@@ -9,7 +9,7 @@ export const getRandomDate = () =>
     },
   });
 
-export const fixDecisionDates = (data, { unselected }) => {
+export const fixDecisionDates = (data = [], { unselected } = {}) => {
   return data.map(issue => {
     const newDate = getRandomDate();
     // remove selected value so Cypress can click-select

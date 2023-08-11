@@ -7,7 +7,7 @@ export const SELECTED = 'view:selected';
 /**
  **** INTERNAL FORM URL PATHS ****
  */
-export const CONTACT_INFO = '/contact-information';
+export const CONTACT_INFO_PATH = '/contact-information';
 
 /**
  **** URL PATHS ****
