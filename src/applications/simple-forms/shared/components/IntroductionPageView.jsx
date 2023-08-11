@@ -41,6 +41,7 @@ export const IntroductionPageView = ({
         unauthStartText={unauthStartText}
         displayNonVeteranMessaging={displayNonVeteranMessaging}
         verifiedPrefillAlert={verifiedPrefillAlert}
+        formConfig={formConfig}
       >
         {saveInProgressText}
       </SaveInProgressIntro>
