@@ -7,22 +7,29 @@ const getOrderItems = (type, orders) => {
   return orders.filter(order => order.type === type.label);
 };
 
+const getOrderListItemsByType = (type, orders) => {
+  const items = getOrderItems(type, orders);
+  return items.map((item, idx) => <li key={idx}>{item.text}</li>);
+};
+
 const consultations = avs => {
   if (avs.orders?.length > 0) {
-    const items = getOrderItems(ORDER_TYPES.CONSULT, avs.orders);
-    const orderListItems = items.map((item, idx) => (
-      <li key={idx}>{item.text}</li>
-    ));
-
-    return (
-      <div>
-        <h4>Consultations</h4>
-        <p>
-          You will be contacted by mail or telephone for the following referral:
-        </p>
-        {orderListItems && <ul>{orderListItems}</ul>}
-      </div>
+    const orderListItems = getOrderListItemsByType(
+      ORDER_TYPES.CONSULT,
+      avs.orders,
     );
+    if (orderListItems.length) {
+      return (
+        <div>
+          <h4>Consultations</h4>
+          <p>
+            You will be contacted by mail or telephone for the following
+            referral:
+          </p>
+          <ul>{orderListItems}</ul>
+        </div>
+      );
+    }
   }
 
   return null;
@@ -30,23 +37,25 @@ const consultations = avs => {
 
 const imaging = avs => {
   if (avs.orders?.length > 0) {
-    const items = getOrderItems(ORDER_TYPES.IMAGING, avs.orders);
-    const orderListItems = items.map((item, idx) => (
-      <li key={idx}>{item.text}</li>
-    ));
-
-    return (
-      <div>
-        <h4>Imaging</h4>
-        <p>
-          For CT and MRI scans, you will be contacted by Imaging Service for
-          your appointment. For X-Rays and Ultrasounds, please report to Imaging
-          Service during normmal working hours to complete your exam. If a
-          specific preparation is required, the Technologist will inform you.
-        </p>
-        {orderListItems && <ul>{orderListItems}</ul>}
-      </div>
+    const orderListItems = getOrderListItemsByType(
+      ORDER_TYPES.IMAGING,
+      avs.orders,
     );
+    if (orderListItems.length) {
+      return (
+        <div>
+          <h4>Imaging</h4>
+          <p>
+            For CT and MRI scans, you will be contacted by Imaging Service for
+            your appointment. For X-Rays and Ultrasounds, please report to
+            Imaging Service during normmal working hours to complete your exam.
+            If a specific preparation is required, the Technologist will inform
+            you.
+          </p>
+          <ul>{orderListItems}</ul>
+        </div>
+      );
+    }
   }
 
   return null;
@@ -54,27 +63,23 @@ const imaging = avs => {
 
 const labTests = avs => {
   if (avs.orders?.length > 0) {
-    const items = getOrderItems(ORDER_TYPES.LAB, avs.orders);
-    const orderListItems = items.map((item, idx) => (
-      <li key={idx}>
-        {item.text} ({item.date})
-      </li>
-    ));
-
-    return (
-      <div>
-        <h4>
-          Lab tests: Patients no longer need to fast for most blood draws. Check
-          with your provider whether fasting is required before completing your
-          Laboratory draws.
-        </h4>
-        <p>
-          Please report to the lab for the following blood tests on the date
-          listed for each test:
-        </p>
-        {orderListItems && <ul>{orderListItems}</ul>}
-      </div>
-    );
+    const orderListItems = getOrderListItemsByType(ORDER_TYPES.LAB, avs.orders);
+    if (orderListItems.length) {
+      return (
+        <div>
+          <h4>
+            Lab tests: Patients no longer need to fast for most blood draws.
+            Check with your provider whether fasting is required before
+            completing your Laboratory draws.
+          </h4>
+          <p>
+            Please report to the lab for the following blood tests on the date
+            listed for each test:
+          </p>
+          <ul>{orderListItems}</ul>
+        </div>
+      );
+    }
   }
 
   return null;
@@ -82,23 +87,21 @@ const labTests = avs => {
 
 const medsAndSupplies = avs => {
   if (avs.orders?.length > 0) {
-    const items = getOrderItems(ORDER_TYPES.MED, avs.orders);
-    const orderListItems = items.map((item, idx) => (
-      <li key={idx}>{item.text}</li>
-    ));
-
-    return (
-      <div>
-        <h4>Medications & supplies</h4>
-        <p>
-          Note: this section <strong>only</strong> lists{' '}
-          <strong>changes</strong> to your medication regimen. Please see your
-          complete medication list under My Ongoing Care below.
-        </p>
-        {/* TODO: headings for med change types */}
-        {orderListItems && <ul>{orderListItems}</ul>}
-      </div>
-    );
+    const orderListItems = getOrderListItemsByType(ORDER_TYPES.MED, avs.orders);
+    if (orderListItems.length) {
+      return (
+        <div>
+          <h4>Medications & supplies</h4>
+          <p>
+            Note: this section <strong>only</strong> lists{' '}
+            <strong>changes</strong> to your medication regimen. Please see your
+            complete medication list under My Ongoing Care below.
+          </p>
+          {/* TODO: headings for med change types */}
+          <ul>{orderListItems}</ul>
+        </div>
+      );
+    }
   }
 
   return null;
@@ -106,17 +109,18 @@ const medsAndSupplies = avs => {
 
 const otherOrders = avs => {
   if (avs.orders?.length > 0) {
-    const items = getOrderItems(ORDER_TYPES.OTHER, avs.orders);
-    const orderListItems = items.map((item, idx) => (
-      <li key={idx}>{item.text}</li>
-    ));
-
-    return (
-      <div>
-        <h4>Other orders</h4>
-        {orderListItems && <ul>{orderListItems}</ul>}
-      </div>
+    const orderListItems = getOrderListItemsByType(
+      ORDER_TYPES.OTHER,
+      avs.orders,
     );
+    if (orderListItems.length) {
+      return (
+        <div>
+          <h4>Other orders</h4>
+          <ul>{orderListItems}</ul>
+        </div>
+      );
+    }
   }
 
   return null;
