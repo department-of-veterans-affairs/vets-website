@@ -228,10 +228,12 @@ describe('VAOS <AppointmentsPageV2>', () => {
       );
     });
 
+    // WIP
     it('should display updated title on pending appointment detail page', async () => {
       return true;
     });
 
+    // WIP
     it('should display updated title on past appointment detail page', async () => {
       return true;
     });
