@@ -13,6 +13,7 @@ const nonRequiredFullName = omit('required', fullName);
 export const uiSchema = {
   application: {
     veteran: {
+      'ui:title': 'Sponsor’s previous name',
       serviceName: merge({}, fullNameUI, {
         first: {
           'ui:title': 'Sponsor’s first name',
