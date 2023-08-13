@@ -32,17 +32,18 @@ div:has(.schemaform-sip-alert) {
     font-size: 1.6rem;
     font-weight: normal;
   }
+
+  .schemaform-required-span {
+    display: none;
+  }
 }
 
 .custom-description {
   margin-top: 0;
 }
 
-.hint-text {
-  color: $color-gray-medium;
-}
-
 .authorizer-type .schemaform-required-span,
+.disclosure-information-limited-information .schemaform-required-span,
 .disclosure-information-release-duration .schemaform-required-span,
 .security-information-question .schemaform-required-span,
 .disclosure-information-release-end-date .schemaform-required-span,

@@ -2,6 +2,8 @@ import React from 'react';
 
 import definitions from 'vets-json-schema/dist/definitions.json';
 
+import { releaseEndDateValidation } from '../validations';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -13,8 +15,9 @@ export default {
         </h3>
       ),
       'ui:widget': 'date',
+      'ui:validations': [releaseEndDateValidation],
       'ui:errorMessages': {
-        required: 'Please provide an end date.',
+        required: 'Please select an end date.',
       },
     },
   },
