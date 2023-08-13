@@ -50,7 +50,9 @@ describe('Content on the personal information page', () => {
     });
 
     // Check sexual orientation
-    cy.findByText('Prefer not to answer').should('exist');
+    cy.get('#sexual-orientation').within(() => {
+      cy.findByText('Prefer not to answer').should('exist');
+    });
 
     cy.injectAxeThenAxeCheck();
   });

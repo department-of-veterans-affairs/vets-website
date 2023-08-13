@@ -78,12 +78,16 @@ export const Edit = () => {
     hasVAPServiceConnectionError(state),
   );
 
-  const fieldData = useSelector(state =>
-    selectVAPContactInfoField(state, fieldInfo?.fieldName),
-  );
-
   const hasUnsavedEdits = useSelector(
     state => state.vapService.hasUnsavedEdits,
+  );
+
+  // used to make sure the modal 'editing' state for the field is present
+  // it should match the fieldName that is in the URL query param
+  const modal = useSelector(state => state?.vapService.modal);
+
+  const fieldData = useSelector(state =>
+    selectVAPContactInfoField(state, fieldInfo?.fieldName),
   );
 
   useEffect(() => {
@@ -140,7 +144,7 @@ export const Edit = () => {
     <EditContext.Provider value={{ onCancel: handlers.cancel }}>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseFieldEditingPage}>
         <Toggler.Enabled>
-          {fieldInfo && !hasVAPServiceError ? (
+          {fieldInfo && !hasVAPServiceError && modal ? (
             <>
               {/* this modal is triggered by breadcrumb being clicked with unsaved edits */}
               <EditConfirmCancelModal
