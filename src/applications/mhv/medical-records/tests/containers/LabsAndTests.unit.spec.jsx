@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { waitFor } from '@testing-library/react';
 import LabsAndTests from '../../containers/LabsAndTests';
 import reducer from '../../reducers';
 import labsAndTests from '../fixtures/labsAndTests.json';
@@ -46,8 +47,10 @@ describe('LabsAndTests list container', () => {
       .exist;
   });
 
-  it('displays a list of records', () => {
-    const screen = setup();
-    expect(screen.getAllByTestId('record-list-item').length).to.eq(10);
+  it('displays a list of records', async () => {
+    await waitFor(() => {
+      const screen = setup();
+      expect(screen.getAllByTestId('record-list-item').length).to.eq(10);
+    });
   });
 });
