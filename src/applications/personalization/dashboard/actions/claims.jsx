@@ -128,7 +128,7 @@ const recordClaimsAPIEvent = ({
   startTime,
   success,
   error,
-  apiName = 'GET claims',
+  apiName = 'GET EVSS claims /v0/evss_claims_async',
 }) => {
   const event = {
     event: 'api_call',
@@ -158,7 +158,7 @@ const recordLighthouseClaimsAPIEvent = ({ startTime, success, error }) => {
     startTime,
     success,
     error,
-    apiName: 'GET /benefits_claims',
+    apiName: 'GET Lighthouse claims /v0/benefits_claims',
   });
 };
 

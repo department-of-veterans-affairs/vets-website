@@ -3,7 +3,6 @@ import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide
 import {
   selectVAPResidentialAddress,
   selectPatientFacilities,
-  selectIsCernerPatient,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import {
   selectCernerFacilityIds,
@@ -27,16 +26,15 @@ export const selectRegisteredCernerFacilities = state => {
   const patientFacilities = selectPatientFacilities(state);
   const allFacilities = selectEhrDataByVhaId(state);
 
-  return patientFacilities?.reduce((accumulator, current) => {
-    const facility = allFacilities[current.facilityId];
-    if (facility?.ehr === 'cerner' || current.isCerner)
-      return [...accumulator, facility];
-    return accumulator;
-  }, []);
+  return (
+    patientFacilities?.reduce((accumulator, current) => {
+      const facility = allFacilities[current.facilityId];
+      if (facility?.ehr === 'cerner' || current.isCerner)
+        return [...accumulator, facility];
+      return accumulator;
+    }, []) || []
+  );
 };
-
-export const selectIsRegisteredToSacramentoVA = state =>
-  selectPatientFacilities(state)?.some(f => f.facilityId === '612');
 
 export const selectFeatureApplication = state =>
   toggleValues(state).vaOnlineScheduling;
@@ -49,8 +47,6 @@ export const selectFeatureCommunityCare = state =>
 export const selectFeatureDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
-// Use flat facility page for non Cerner patients
-export const selectUseFlatFacilityPage = state => !selectIsCernerPatient(state);
 
 export const selectHasVAPResidentialAddress = state =>
   !!selectVAPResidentialAddress(state)?.addressLine1;
@@ -111,3 +107,6 @@ export const selectFeatureDescriptiveBackLink = state =>
 
 export const selectFeatureStaticLandingPage = state =>
   toggleValues(state).vaOnlineSchedulingStaticLandingPage;
+
+export const selectFeatureAfterVisitSummary = state =>
+  toggleValues(state).vaOnlineSchedulingAfterVisitSummary;

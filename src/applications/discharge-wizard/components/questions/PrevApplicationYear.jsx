@@ -40,7 +40,7 @@ const PrevApplicationYear = ({
   const radioButtonProps = {
     name: key,
     label: 'What year did you apply for a discharge upgrade?',
-    'label-header-level': 2,
+    'label-header-level': '2',
     key,
     value: formValues[key],
     onVaValueChange: e => {
