@@ -178,6 +178,57 @@ const allergiesAndReactions = avs => {
   return null;
 };
 
+const labResultValues = labResult => {
+  return labResult.map((item, idx) => (
+    <div key={idx}>
+      <h4>{item.test}</h4>
+      Result: {item.result}
+      <br />
+      Units: {item.units}
+      <br />
+      Reference range: {item.refRange}
+      <br />
+      Flag: {item.flag}
+      <br />
+    </div>
+  ));
+};
+
+const labResults = avs => {
+  if (avs.labResults?.length > 0) {
+    const labResultItems = avs.labResults.map((item, idx) => (
+      <div key={idx}>
+        {labResultValues(item.values)}
+        <p>
+          Specimen: {item.specimen}
+          <br />
+          Ordering provider: {item.orderingProvider}
+          <br />
+          Collection Date and time: {item.collectionDatetime}
+          <br />
+          Performing lab: {item.performingLab}
+          <br />
+        </p>
+        <hr />
+      </div>
+    ));
+
+    return (
+      <div className="lab-results">
+        <h3>Recent lab results</h3>
+        <p>
+          Note: If your results are outside the reference range, this doesn’t
+          automatically mean that you have a health problem. Your provider will
+          explain what the results mean for your health.
+        </p>
+        {labResultItems}
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const YourHealthInformation = props => {
   const { avs } = props;
   const appointmentDate = getFormattedAppointmentDate(avs);
@@ -198,6 +249,7 @@ const YourHealthInformation = props => {
       {smokingStatus(avs)}
       {immunizations(avs)}
       {allergiesAndReactions(avs)}
+      {labResults(avs)}
     </div>
   );
 };
