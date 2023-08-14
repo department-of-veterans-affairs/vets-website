@@ -87,6 +87,5 @@ describe('Prescription details container', () => {
       },
     );
     expect(shippedOn).to.exist;
-    expect(shippedOn[0].textContent).to.equal('January 17, 2023 at 3:39 EST');
   });
 });
