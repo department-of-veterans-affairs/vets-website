@@ -1,14 +1,11 @@
 import { merge } from 'lodash';
 import get from 'platform/utilities/data/get';
-import omit from 'platform/utilities/data/omit';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
 import fullNameUI from 'platform/forms/definitions/fullName';
 
 const { fullName } = fullSchemaPreNeed.definitions;
-
-const nonRequiredFullName = omit('required', fullName);
 
 export const uiSchema = {
   application: {
@@ -44,7 +41,7 @@ export const schema = {
         veteran: {
           type: 'object',
           properties: {
-            serviceName: nonRequiredFullName,
+            serviceName: fullName,
           },
         },
       },
