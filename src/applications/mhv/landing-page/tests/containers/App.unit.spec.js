@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import sinon from 'sinon';
-import App from '../App';
+import App from '../../containers/App';
 
 const oldWindow = global.window;
 const generateInitState = ({

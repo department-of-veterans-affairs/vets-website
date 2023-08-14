@@ -8,36 +8,45 @@ import LandingPage from '../components/LandingPage';
 
 import { isLandingPageEnabledForUser } from '../utilities/feature-toggles';
 import { resolveLandingPageLinks } from '../utilities/data';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 import { useDatadogRum } from '../hooks/useDatadogRum';
+import {
+  isAuthenticatedWithSSOe,
+  isLoggedIn,
+  selectDrupalStaticData,
+  selectProfile,
+} from '../selectors';
 
 const App = () => {
+  const appEnabled = useSelector(isLandingPageEnabledForUser);
+  // const authenticated = useSelector(isLoggedIn);
+  const drupalStaticData = useSelector(selectDrupalStaticData);
+  // const profile = useSelector(selectProfile);
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
   const fullState = useSelector(state => state);
   const { featureToggles, user } = fullState;
 
   const data = useMemo(
     () => {
-      const authdWithSSOe = isAuthenticatedWithSSOe(fullState) || false;
-      return resolveLandingPageLinks(authdWithSSOe, featureToggles);
+      return resolveLandingPageLinks(ssoe, featureToggles);
     },
-    [featureToggles, user?.profile?.session?.ssoe],
+    [featureToggles, ssoe],
   );
 
-  const appEnabled = useMemo(
-    () => {
-      return isLandingPageEnabledForUser(fullState);
-    },
-    [fullState],
-  );
+  // const appEnabled = useMemo(
+  //   () => {
+  //     return isLandingPageEnabledForUser(fullState);
+  //   },
+  //   [fullState],
+  // );
 
   useDatadogRum();
-
-  if (featureToggles.loading || user.profile.loading)
-    return <va-loading-indicator />;
+  const loading = featureToggles.loading || drupalStaticData?.vamcEhrData?.loading;
+  if (loading) return <va-loading-indicator />;
   if (!appEnabled) {
-    const url = mhvUrl(true, 'home');
-    window.location.replace(url);
+    const redirectUrl = mhvUrl(ssoe, 'home');
+    console.log({ redirectUrl });
+    window.location.replace(redirectUrl);
     return <></>;
   }
   return (

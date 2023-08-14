@@ -2,7 +2,7 @@
 // eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
 import Timeouts from 'platform/testing/e2e/timeouts';
 
-import MockUser from '../../mocks/api/user';
+import MockUser from '../../../mocks/api/user';
 
 class LandingPage {
   constructor() {
