@@ -27,6 +27,7 @@ import {
   CashOnHand,
   CashOnHandReview,
 } from '../../components/monetary/CashOnHand';
+import RecreationalVehiclesReview from '../../components/otherAssets/RecreationalVehcilesReview';
 import StreamlinedExplainer from '../../components/shared/StreamlinedExplainer';
 import { isStreamlinedShortForm } from '../../utils/streamlinedDepends';
 
@@ -188,7 +189,8 @@ export default {
         depends: formData =>
           formData.questions.hasRecreationalVehicle &&
           !isStreamlinedShortForm(formData),
-        editModeOnReviewPage: false,
+        editModeOnReviewPage: true,
+        CustomPageReview: RecreationalVehiclesReview,
       },
       otherAssets: {
         path: 'other-assets',
