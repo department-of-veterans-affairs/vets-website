@@ -33,7 +33,7 @@ export default class ITFBanner extends React.Component {
         message = itfMessage(
           'Something went wrong on our end, but we’ve received your intent to file!',
           itfError,
-          'info',
+          'error',
         );
         break;
       case 'itf-found':
