@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import { scrollToTop } from '../utilities/scroll-to-top';
 import {
   updateDependents,
   updatePastMode,
@@ -27,8 +26,8 @@ const HomePage = ({
         updateZipCodeField('');
       };
 
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       waitForRenderThenFocus('h1');
-      scrollToTop();
       clearForm();
     },
     [router, updateDependentsField, updateYearField, updateZipCodeField],

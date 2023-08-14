@@ -9,24 +9,24 @@ import { fetchDuplicateContactInfo, updateGlobalPhoneNumber } from '../actions';
 function CustomPhoneNumberField(props) {
   function handleChange(event) {
     if (props?.showMebEnhancements08) {
-      props.updateGlobalPhoneNumber(event);
+      props?.updateGlobalPhoneNumber(event);
       if (event?.length > 9) {
         props.fetchDuplicateContactInfo(props.duplicateEmail, [
           { value: event, dupe: '' },
         ]);
-      } else {
-        props.setFormData({
-          ...props?.formData,
-          duplicatePhone: [{ value: '', dupe: '' }],
-          'view:phoneNumbers': {
-            ...props.formData['view:phoneNumbers'],
-            mobilePhoneNumber: {
-              ...props.formData['view:phoneNumbers'].mobilePhoneNumber,
-              phone: event,
-            },
-          },
-        });
       }
+
+      props?.setFormData({
+        ...props?.formData,
+        duplicatePhone: [{ value: '', dupe: '' }],
+        'view:phoneNumbers': {
+          ...props.formData['view:phoneNumbers'],
+          mobilePhoneNumber: {
+            ...props.formData['view:phoneNumbers'].mobilePhoneNumber,
+            phone: event,
+          },
+        },
+      });
     }
   }
 
@@ -35,7 +35,7 @@ function CustomPhoneNumberField(props) {
       <PhoneNumberWidget
         {...props}
         onChange={handleChange}
-        value={props.mobilePhone}
+        value={props?.mobilePhone}
       />
     </>
   );

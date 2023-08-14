@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -7,15 +7,41 @@ import {
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
 import { currency as currencyFormatter } from '../../utils/helpers';
+import { calculateDiscretionaryIncome } from '../../utils/streamlinedDepends';
 
 const OtherExpensesSummary = ({
   data,
   goToPath,
+  goForward,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { otherExpenses = [] } = data;
+  const { gmtData, otherExpenses = [] } = data;
+
+  useEffect(
+    () => {
+      if (!gmtData?.isEligibleForStreamlined) return;
+
+      const calculatedDiscretionaryIncome = calculateDiscretionaryIncome(data);
+      setFormData({
+        ...data,
+        gmtData: {
+          ...gmtData,
+          discretionaryBelow:
+            calculatedDiscretionaryIncome <
+            gmtData?.discretionaryIncomeThreshold,
+        },
+      });
+    },
+    // avoiding use of data since it changes so often
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      otherExpenses,
+      gmtData?.isEligibleForStreamlined,
+      gmtData?.discretionaryIncomeThreshold,
+    ],
+  );
 
   const onDelete = deleteIndex => {
     const newExpenses = otherExpenses.filter(
@@ -33,10 +59,6 @@ const OtherExpensesSummary = ({
       return goToPath('/other-expenses-checklist');
     }
     return goToPath('/other-expenses-values');
-  };
-
-  const goForward = () => {
-    return goToPath('/option-explainer');
   };
 
   const cardBody = text => (
@@ -101,13 +123,15 @@ OtherExpensesSummary.propTypes = {
   contentBeforeButtons: PropTypes.object,
   data: PropTypes.shape({
     otherExpenses: PropTypes.array,
+    gmtData: PropTypes.shape({
+      isEligibleForStreamlined: PropTypes.bool,
+      discretionaryIncomeThreshold: PropTypes.number,
+    }),
   }),
   goBack: PropTypes.func,
+  goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
-  testingIndex: PropTypes.number,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
 };
 
 export default OtherExpensesSummary;

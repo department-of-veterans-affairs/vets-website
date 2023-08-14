@@ -4,12 +4,13 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import AllergyDetails from '../../containers/AllergyDetails';
 import reducer from '../../reducers';
 import allergy from '../fixtures/allergy.json';
+import { convertAllergy } from '../../reducers/allergies';
 
 describe('Allergy details container', () => {
   const initialState = {
     mr: {
       allergies: {
-        allergyDetails: allergy,
+        allergyDetails: convertAllergy(allergy),
       },
     },
   };
@@ -18,7 +19,7 @@ describe('Allergy details container', () => {
     return renderWithStoreAndRouter(<AllergyDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/allergies/30242',
+      path: '/allergies/7006',
     });
   };
 
@@ -27,7 +28,7 @@ describe('Allergy details container', () => {
     expect(screen);
   });
 
-  it('displays Date of birth for the print view', () => {
+  it('displays date of birth for the print view', () => {
     const screen = setup();
     expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
   });
@@ -41,32 +42,40 @@ describe('Allergy details container', () => {
   it('displays the allergy name as an h1', () => {
     const screen = setup();
 
-    const allergyName = screen.getByText(`Allergy: ${allergy.name}`, {
+    const allergyName = screen.getByText('Allergy: FISH', {
       exact: true,
       selector: 'h1',
     });
     expect(allergyName).to.exist;
   });
 
-  it('displays the formatted received date', () => {
+  it('displays the date entered', () => {
     const screen = setup();
-    const formattedDate = screen.getByText(allergy.date, {
-      exact: true,
-      selector: 'p',
-    });
-    expect(formattedDate).to.exist;
+    expect(screen.getByText('July', { exact: false })).to.exist;
   });
 
-  // reinstate if location turns out to be part of the actual data
-  // it('displays the location', () => {
-  //   const screen = setup();
-  //   const location = screen.getByText(
-  //     initialState.mr.allergies.allergyDetails.location,
-  //     {
-  //       exact: true,
-  //       selector: 'p',
-  //     },
-  //   );
-  //   expect(location).to.exist;
-  // });
+  it('displays the reaction', () => {
+    const screen = setup();
+    expect(screen.getByText('RASH', { exact: false })).to.exist;
+  });
+
+  it('displays the type of allergy', () => {
+    const screen = setup();
+    expect(screen.getByText('food', { exact: false })).to.exist;
+  });
+
+  it('displays the location and drug class', () => {
+    const screen = setup();
+    expect(
+      screen.getAllByText('None noted', {
+        exact: true,
+        selector: 'p',
+      }).length,
+    ).to.eq(2);
+  });
+
+  it('displays provider notes', () => {
+    const screen = setup();
+    expect(screen.getByText("maruf's test comment", { exact: false })).to.exist;
+  });
 });

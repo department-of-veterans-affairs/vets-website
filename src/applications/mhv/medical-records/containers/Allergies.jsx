@@ -44,7 +44,7 @@ const Allergies = () => {
     [dispatch],
   );
 
-  const generateAllergiesPdf = async res => {
+  const generateAllergiesPdf = async () => {
     const pdfData = {
       headerLeft: name,
       headerRight: `Date of birth: ${dob}`,
@@ -61,7 +61,7 @@ const Allergies = () => {
       },
     };
 
-    res.forEach(item => {
+    allergies.forEach(item => {
       pdfData.results.items.push({
         header: item.name,
         items: [
@@ -97,7 +97,7 @@ const Allergies = () => {
           },
           {
             title: 'Provider notes',
-            value: processList(item.notes),
+            value: item.notes,
             inline: !item.notes,
           },
         ],
@@ -129,6 +129,7 @@ const Allergies = () => {
         message="Loading..."
         setFocus
         data-testid="loading-indicator"
+        class="loading-indicator"
       />
     );
   };

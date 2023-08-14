@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -12,8 +13,6 @@ import {
 } from '~/applications/personalization/dashboard/actions/debts';
 import DebtsCardV2 from './DebtsCardV2';
 import CopaysCardV2 from './CopaysCardV2';
-import { canAccess } from '../../../common/selectors';
-import { API_NAMES } from '../../../common/constants';
 
 const NoOutstandingDebtsText = () => {
   return (
@@ -27,9 +26,16 @@ const NoOutstandingDebtsText = () => {
 };
 
 const OutstandingDebtsError = () => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  // status will be 'warning' if toggle is on
+  const status = useToggleValue(TOGGLE_NAMES.myVaUpdateErrorsWarnings)
+    ? 'warning'
+    : 'error';
+
   return (
     <div className="vads-u-margin-bottom--2p5">
-      <va-alert status="error" show-icon data-testid="outstanding-debts-error">
+      <va-alert status={status} show-icon data-testid="outstanding-debts-error">
         <h2 slot="headline">
           We can’t access some of your financial information.
         </h2>
@@ -64,7 +70,6 @@ const PopularActionsForDebts = () => {
 };
 
 const BenefitPaymentsAndDebtV2 = ({
-  canAccessCopays,
   debts,
   copays,
   hasDebtError,
@@ -77,11 +82,9 @@ const BenefitPaymentsAndDebtV2 = ({
   useEffect(
     () => {
       getDebts();
-      if (canAccessCopays) {
-        getCopays();
-      }
+      getCopays();
     },
-    [canAccessCopays, getDebts, getCopays],
+    [getDebts, getCopays],
   );
 
   const debtsCount = debts?.length || 0;
@@ -110,7 +113,7 @@ const BenefitPaymentsAndDebtV2 = ({
       {shouldShowV2Dashboard && (
         <>
           <div className="vads-l-row">
-            {(hasDebtError || hasCopayError) && (
+            {(hasCopayError || hasDebtError) && (
               <>
                 <DashboardWidgetWrapper>
                   <OutstandingDebtsError />
@@ -136,11 +139,10 @@ const BenefitPaymentsAndDebtV2 = ({
             {copaysCount > 0 && (
               <>
                 <DashboardWidgetWrapper>
-                  {hasDebtError && <OutstandingDebtsError />}
                   <CopaysCardV2 copays={copays} />
                 </DashboardWidgetWrapper>
                 <DashboardWidgetWrapper>
-                  <PopularActionsForDebts />
+                  {!debtsCount && !hasDebtError && <PopularActionsForDebts />}
                 </DashboardWidgetWrapper>
               </>
             )}
@@ -177,7 +179,6 @@ const BenefitPaymentsAndDebtV2 = ({
 };
 
 BenefitPaymentsAndDebtV2.propTypes = {
-  canAccessCopays: PropTypes.bool,
   copays: PropTypes.array,
   copaysError: PropTypes.bool,
   debts: PropTypes.arrayOf(
@@ -211,7 +212,6 @@ BenefitPaymentsAndDebtV2.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const canAccessCopays = canAccess(state)[API_NAMES.MEDICAL_COPAYS];
   const debtsIsLoading = state.allDebts.isLoading;
   const debts = state.allDebts.debts || [];
   const copays = state.allDebts.copays || [];
@@ -219,7 +219,6 @@ const mapStateToProps = state => {
     FEATURE_FLAG_NAMES.showMyVADashboardV2
   ];
   return {
-    canAccessCopays,
     debts,
     copays,
     hasDebtError: state.allDebts.debtsErrors.length > 0,
