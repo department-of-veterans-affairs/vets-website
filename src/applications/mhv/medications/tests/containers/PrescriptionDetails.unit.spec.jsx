@@ -77,7 +77,7 @@ describe('Prescription details container', () => {
     const screen = setup();
     const shippedOn = screen.getAllByText(
       dateFormat(
-        initialState.rx.prescriptions.prescriptionDetails.trackingList[0][1][1]
+        initialState.rx.prescriptions.prescriptionDetails.trackingList[0][1][0]
           .completeDateTime,
         'MMMM D, YYYY [at] h:mm z',
       ),
@@ -87,5 +87,6 @@ describe('Prescription details container', () => {
       },
     );
     expect(shippedOn).to.exist;
+    expect(shippedOn[0].textContent).to.equal('January 17, 2023 at 3:39 EST');
   });
 });
