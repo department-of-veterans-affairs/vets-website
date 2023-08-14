@@ -22,10 +22,10 @@ describe('check-in experience', () => {
             <ValidateDisplay />
           </CheckInProvider>,
         );
-        expect(getByText('Check in at VA')).to.exist;
+        expect(getByText('Start checking in for your appointment')).to.exist;
         expect(
           getByText(
-            'We need some information to verify your identity so we can check you in.',
+            'First, we need your last name and date of birth to make sure it’s you.',
           ),
         ).to.exist;
       });
