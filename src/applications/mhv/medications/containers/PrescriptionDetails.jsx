@@ -162,11 +162,16 @@ const PrescriptionDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="page-title">{prescription.prescriptionName}</h1>
-          <p>
-            Last filled on {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
-          </p>
-
+          <h1 className="page-title">
+            <div>{prescription.prescriptionName}</div>
+            <p
+              className="title-last-filled-on vads-u-font-family--sans"
+              data-testid="rx-last-filled-date"
+            >
+              Last filled on{' '}
+              {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
+            </p>
+          </h1>
           <div className="no-print">
             <PrintDownload download={handleDownloadPDF} />
             <va-additional-info trigger="What to know about downloading records">
