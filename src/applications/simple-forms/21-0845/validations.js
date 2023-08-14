@@ -13,7 +13,7 @@ export const releaseEndDateValidation = (errors = {}, fieldData, formData) => {
   if (endDate.isBefore(endOfToday)) {
     errors.addError(
       <>
-        Please select a future date{' '}
+        Please provide a future date{' '}
         <span className="vads-u-font-weight--normal">
           [{earliestValidEndDateString} or later]
         </span>

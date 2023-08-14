@@ -17,7 +17,8 @@ export default {
       'ui:widget': 'date',
       'ui:validations': [releaseEndDateValidation],
       'ui:errorMessages': {
-        required: 'Please select an end date.',
+        required: 'Please provide an end date.',
+        pattern: 'Please provide a valid end date.',
       },
     },
   },
