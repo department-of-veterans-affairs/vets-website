@@ -32,9 +32,8 @@ const MicroDetails = props => {
         'LL',
       )}`,
       footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-      title: `Lab and test results: Microbiology on ${dateFormat(
+      title: `Lab and test results: Microbiology on ${formatDateLong(
         record.date,
-        'LLL',
       )}`,
       subject: 'VA Medical Record',
       preface:

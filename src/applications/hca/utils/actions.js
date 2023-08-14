@@ -3,47 +3,37 @@ import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { getData, isServerError, isClientError } from '.';
-import { HCA_ENROLLMENT_STATUSES } from './constants';
+import {
+  DISABILITY_PREFIX,
+  DISABILITY_RATING_ACTIONS,
+  ENROLLMENT_STATUS_ACTIONS,
+  HCA_ENROLLMENT_STATUSES,
+} from './constants';
 import {
   dismissedHCANotificationDate,
   isEnrollmentStatusLoading,
 } from './selectors';
 
-// flip the `false` to `true` to fake the endpoint when testing locally
+// NOTE: flip the `false` to `true` to fake the endpoint when testing locally
 // eslint-disable-next-line sonarjs/no-redundant-boolean
 const simulateServerLocally = environment.isLocalhost() && false;
+const {
+  FETCH_ENROLLMENT_STATUS_STARTED,
+  FETCH_ENROLLMENT_STATUS_FAILED,
+  FETCH_ENROLLMENT_STATUS_SUCCEEDED,
+  RESET_ENROLLMENT_STATUS,
+  FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
+  FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
+  FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
+  SET_DISMISSED_HCA_NOTIFICATION,
+  SHOW_HCA_REAPPLY_CONTENT,
+} = ENROLLMENT_STATUS_ACTIONS;
 
-// action types related to calling /health_care_applications/enrollment_status
-export const FETCH_ENROLLMENT_STATUS_STARTED =
-  'FETCH_ENROLLMENT_STATUS_STARTED';
-export const FETCH_ENROLLMENT_STATUS_SUCCEEDED =
-  'FETCH_ENROLLMENT_STATUS_SUCCEEDED';
-export const FETCH_ENROLLMENT_STATUS_FAILED = 'FETCH_ENROLLMENT_STATUS_FAILED';
-
-// action types related to calling GET /notifications/dismissed_statuses
-export const FETCH_DISMISSED_HCA_NOTIFICATION_STARTED =
-  'FETCH_DISMISSED_HCA_NOTIFICATION_STARTED';
-export const FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED =
-  'FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED';
-export const FETCH_DISMISSED_HCA_NOTIFICATION_FAILED =
-  'FETCH_DISMISSED_HCA_NOTIFICATION_FAILED';
-
-export const SET_DISMISSED_HCA_NOTIFICATION = 'SET_DISMISSED_HCA_NOTIFICATION';
-
-export const SHOW_HCA_REAPPLY_CONTENT = 'SHOW_HCA_REAPPLY_CONTENT';
-
-// action types related to calling GET /health_care_applications/rating_info'
-export const FETCH_TOTAL_RATING_STARTED = 'FETCH_TOTAL_RATING_STARTED';
-export const FETCH_TOTAL_RATING_SUCCEEDED = 'FETCH_TOTAL_RATING_SUCCEEDED';
-export const FETCH_TOTAL_RATING_FAILED = 'FETCH_TOTAL_RATING_FAILED';
-
-const DISABILITY_PREFIX = 'disability-ratings';
-
-export function showReapplyContent() {
-  return { type: SHOW_HCA_REAPPLY_CONTENT };
-}
-
-// fake a 404 response from /health_care_applications/enrollment_status
+/**
+ * Provide a mocked 404 response when calling `/health_care_applications/enrollment_status`
+ * @param {Function} dispatch - tells the enrollment status reducer what data
+ * set to return
+ */
 function callFake404(dispatch) {
   new Promise(resolve => {
     setTimeout(() => {
@@ -58,9 +48,13 @@ function callFake404(dispatch) {
 }
 
 /* eslint-disable no-unused-vars */
-// Disabling ESLint because it's nice to be able to use this function during
-// development and local testing
-// fake a 500 response from /health_care_applications/enrollment_status
+/**
+ * Provide a mocked 500 response when calling `/health_care_applications/enrollment_status`
+ * NOTE: ESLint is disabled because it's nice to be able to use this function during
+ * development and local testing
+ * @param {Function} dispatch - tells the enrollment status reducer what data
+ * set to return
+ */
 function callFake500(dispatch) {
   new Promise(resolve => {
     setTimeout(() => {
@@ -75,7 +69,12 @@ function callFake500(dispatch) {
 }
 /* eslint-enable no-unused-vars */
 
-// fake a 200 call to /health_care_applications/enrollment_status
+/**
+ * Provide a mocked 200 response when calling `/health_care_applications/enrollment_status`
+ * @param {Function} dispatch - tells the enrollment status reducer what data
+ * set to return
+ * @param {String} status - the enrollment status value returned from the server
+ */
 function callFakeSuccess(dispatch, status = HCA_ENROLLMENT_STATUSES.enrolled) {
   new Promise(resolve => {
     setTimeout(() => {
@@ -95,10 +94,14 @@ function callFakeSuccess(dispatch, status = HCA_ENROLLMENT_STATUSES.enrolled) {
   });
 }
 
-// actually call the /health_care_applications/enrollment_status endpoint
+/**
+ * Call the `/health_care_applications/enrollment_status` endpoint
+ * @param {Function} dispatch - tells the enrollment status reducer what data
+ * set to return
+ * @param {Object} formData - data object from the ID form fields
+ */
 function callAPI(dispatch, formData = {}) {
   const baseUrl = `/health_care_applications/enrollment_status`;
-
   const url = appendQuery(baseUrl, {
     'userAttributes[veteranDateOfBirth]': formData.dob,
     'userAttributes[veteranFullName][first]': formData.firstName,
@@ -113,9 +116,31 @@ function callAPI(dispatch, formData = {}) {
     );
 }
 
-// make either a mocked or real call to the
-// /health_care_applications/enrollment_status endpoint, depending on the value
-// of the `simulateServerLocally` flag
+/**
+ * Parse error details on failure of total disability rating fetch
+ * @param {Object} response - object containing either an array of errors or a
+ * single error object
+ */
+function getResponseError(response) {
+  const { errors = null, error, status } = response;
+  if (errors?.length) {
+    const { code, detail } = errors[0];
+    return { code, detail };
+  }
+  if (error) {
+    return { code: status, detail: error };
+  }
+  return null;
+}
+
+/**
+ * Action to fetch the current enrollment status based on the provided user data
+ * NOTE: based on the value of the `simulateServerLocally` variable, the API call will
+ * either be mocked or real.
+ * @param {Object} formData - data object from the ID form fields
+ * @returns {Promise} - resolves to calling the reducer to set the correct state variables
+ * for enrollment status
+ */
 export function getEnrollmentStatus(formData) {
   return (dispatch, getState) => {
     if (isEnrollmentStatusLoading(getState())) {
@@ -128,12 +153,12 @@ export function getEnrollmentStatus(formData) {
     cannot easily been done locally. There are a few ways around this, ordered
     from best to worst options. (Options 2 and 3 and really listed here to be
     informative):
-    1. Confirm that `simulateServerLocally` on line 6 evals to `true` and then
+    1. Confirm that `simulateServerLocally` evals to `true` and then
        optionally adjust what the `callFake404` and/or `callFakeSuccess`
        functions return.
     2. Temporarily change the `baseUrl` to:
        'https://dev-platform-api.va.gov/v0/health_care_applications/enrollment_status, so
-       that we bypass the local APi. If you use the following user creds the
+       that we bypass the local API. If you use the following user creds the
        backend will respond with a 200 and the expected response body:
        WESLEY
        FORD
@@ -144,11 +169,7 @@ export function getEnrollmentStatus(formData) {
        vets-api: app/controllers/v0/health_care_applications_controller.rb#L25
     */
     if (simulateServerLocally) {
-      if (
-        formData &&
-        formData.firstName &&
-        formData.firstName.toLowerCase() === 'pat'
-      ) {
+      if (formData?.firstName?.toLowerCase() === 'pat') {
         return callFake404(dispatch);
       }
       return callFakeSuccess(dispatch, HCA_ENROLLMENT_STATUSES.enrolled);
@@ -157,11 +178,26 @@ export function getEnrollmentStatus(formData) {
   };
 }
 
+/**
+ * Action to reset the enrollment status state to its initial value
+ * @returns {Promise} - resolves to calling the reducer to set the correct state variables
+ * for enrollment status
+ */
+export function resetEnrollmentStatus() {
+  return dispatch => {
+    dispatch({ type: RESET_ENROLLMENT_STATUS });
+  };
+}
+
+/**
+ * Action to fetch dismissed enrollment status notifications
+ * @returns {Promise} - resolves to calling the reducer to set the correct state variables
+ * for enrollment status
+ */
 export function getDismissedHCANotification() {
   return dispatch => {
     dispatch({ type: FETCH_DISMISSED_HCA_NOTIFICATION_STARTED });
     const url = `/notifications/dismissed_statuses/form_10_10ez`;
-
     return apiRequest(url)
       .then(response =>
         dispatch({
@@ -175,6 +211,13 @@ export function getDismissedHCANotification() {
   };
 }
 
+/**
+ * Action to set dismissed enrollment status notifications
+ * @param {String} status - current enrollment status value
+ * @param {Number} statusEffectiveAt - timestamp for effective date
+ * @returns {Promise} - resolves to calling the reducer to set the correct state variables
+ * for enrollment status
+ */
 export function setDismissedHCANotification(status, statusEffectiveAt) {
   return (dispatch, getState) => {
     const hasPreviouslyDismissedNotification = !!dismissedHCANotificationDate(
@@ -206,28 +249,22 @@ export function setDismissedHCANotification(status, statusEffectiveAt) {
   };
 }
 
-function getResponseError(response) {
-  if (response.errors?.length) {
-    const { code, detail } = response.errors[0];
-    return { code, detail };
-  }
-  if (response.error) {
-    return {
-      code: response.status,
-      detail: response.error,
-    };
-  }
-  return null;
-}
-
+/**
+ * Action to fetch users total disability rating
+ * @returns {Promise} - resolves to calling the reducer to set the correct state variables
+ * for disability rating
+ */
 export function fetchTotalDisabilityRating() {
+  const {
+    FETCH_TOTAL_RATING_STARTED,
+    FETCH_TOTAL_RATING_FAILED,
+    FETCH_TOTAL_RATING_SUCCEEDED,
+  } = DISABILITY_RATING_ACTIONS;
   return async dispatch => {
-    dispatch({
-      type: FETCH_TOTAL_RATING_STARTED,
-    });
+    dispatch({ type: FETCH_TOTAL_RATING_STARTED });
     const response = await getData('/health_care_applications/rating_info');
-
     const error = getResponseError(response);
+
     if (error) {
       const errorCode = error.code;
       if (isServerError(errorCode)) {
@@ -253,4 +290,12 @@ export function fetchTotalDisabilityRating() {
       });
     }
   };
+}
+
+/**
+ * Declare action type to determine if users can be shown content on how to reapply for benefits
+ * @returns {Object} - object containing the constant string to use in a fetch action
+ */
+export function showReapplyContent() {
+  return { type: SHOW_HCA_REAPPLY_CONTENT };
 }

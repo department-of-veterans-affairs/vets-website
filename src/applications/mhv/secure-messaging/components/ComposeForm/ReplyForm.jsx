@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,11 +10,15 @@ import AttachmentsList from '../AttachmentsList';
 import { clearDraft, saveReplyDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
-import DeleteDraft from '../Draft/DeleteDraft';
+import ComposeFormActionButtons from './ComposeFormActionButtons';
 import { sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import EmergencyNote from '../EmergencyNote';
-import { dateFormat, navigateToFolderByFolderId } from '../../util/helpers';
+import {
+  dateFormat,
+  messageSignatureFormatter,
+  navigateToFolderByFolderId,
+} from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
@@ -49,6 +53,7 @@ const ReplyForm = props => {
 
   const draftDetails = useSelector(state => state.sm.draftDetails);
   const { isSaving } = draftDetails;
+  const signature = useSelector(state => state.sm.preferences.signature);
 
   // sendReply call requires an id for the message being replied to
   // if a thread contains a saved draft, sendReply call will use the draft's id in params and in body
@@ -64,6 +69,13 @@ const ReplyForm = props => {
   const attachmentNames = attachments.reduce((currentString, item) => {
     return currentString + item.name;
   }, '');
+
+  const formattededSignature = useMemo(
+    () => {
+      return messageSignatureFormatter(signature);
+    },
+    [signature],
+  );
 
   useEffect(
     () => {
@@ -194,20 +206,20 @@ const ReplyForm = props => {
     [draft],
   );
 
-  const setMessageTitle = () => {
-    const casedCategory =
-      category === 'COVID' ? category : capitalize(category);
-    if (category && subject) {
+  const messageTitle = useMemo(
+    () => {
+      const casedCategory =
+        category === 'COVID' ? category : capitalize(category);
+      if (category && !subject) {
+        return `${casedCategory}:`;
+      }
+      if (!category && subject) {
+        return subject;
+      }
       return `${casedCategory}: ${subject}`;
-    }
-    if (category && !subject) {
-      return `${casedCategory}:`;
-    }
-    if (!category && subject) {
-      return subject;
-    }
-    return 'New message';
-  };
+    },
+    [category, subject],
+  );
 
   const checkMessageValidity = () => {
     let messageValid = true;
@@ -304,8 +316,8 @@ const ReplyForm = props => {
   if (replyMessage) {
     return (
       <>
-        <h1 ref={header} className="page-title vads-u-margin-top--0">
-          {setMessageTitle()}
+        <h1 ref={header} className="page-title">
+          {messageTitle}
         </h1>
         <CannotReplyAlert visible={cannotReply} />
 
@@ -369,7 +381,7 @@ const ReplyForm = props => {
                 className="message-body"
                 data-testid="message-body-field"
                 onInput={messageBodyHandler}
-                value={messageBody}
+                value={messageBody || formattededSignature} // populate with the signature, unless there is a saved draft
                 error={bodyError}
               />
               <section className="attachments-section vads-u-margin-top--2">
@@ -385,36 +397,13 @@ const ReplyForm = props => {
                 />
               </section>
               <DraftSavedInfo userSaved={userSaved} />
-              <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
-                {!cannotReply && (
-                  <button
-                    type="button"
-                    id="send-button"
-                    className="usa-button usa-button-primary vads-u-width--full medium-screen:vads-u-flex--1 vads-u-margin-top--0 medium-screen:vads-u-margin-right--1 vads-u-margin-right--0"
-                    data-testid="Send-Button"
-                    onClick={sendMessageHandler}
-                  >
-                    Send
-                  </button>
-                )}
-
-                <button
-                  type="button"
-                  id="save-draft-button"
-                  className="usa-button usa-button-secondary save-draft-button vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--1"
-                  data-testid="Save-Draft-Button"
-                  onClick={e => saveDraftHandler('manual', e)}
-                >
-                  <i className="fas fa-save" aria-hidden="true" />
-                  Save draft
-                </button>
-                {/* UCD requested to keep button even when not saved as draft */}
-                <DeleteDraft
-                  draftId={newDraftId}
-                  setLastFocusableElement={setLastFocusableElement}
-                  setNavigationError={setNavigationError}
-                />
-              </div>
+              <ComposeFormActionButtons
+                onSend={sendMessageHandler}
+                onSaveDraft={(type, e) => saveDraftHandler(type, e)}
+                draftId={newDraftId}
+                setNavigationError={setNavigationError}
+                cannotReply={cannotReply}
+              />
             </div>
           </form>
         </section>

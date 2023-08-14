@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import {
   createIsServiceAvailableSelector,
   selectProfile,
@@ -36,9 +37,16 @@ const NoClaimsOrAppealsText = () => {
 };
 
 const ClaimsAndAppealsError = () => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  // status will be 'warning' if toggle is on
+  const status = useToggleValue(TOGGLE_NAMES.myVaUpdateErrorsWarnings)
+    ? 'warning'
+    : 'error';
+
   return (
     <div className="vads-u-margin-bottom--2p5">
-      <va-alert status="error">
+      <va-alert status={status}>
         <h2 slot="headline">
           We can’t access your claims or appeals information
         </h2>
@@ -54,25 +62,23 @@ const ClaimsAndAppealsError = () => {
   );
 };
 
-const PopularActionsForClaimsAndAppeals = ({ showLearnLink = false }) => {
+const PopularActionsForClaimsAndAppeals = () => {
   return (
     <>
       <h3 className="sr-only">Popular actions for Claims and Appeals</h3>
-      {showLearnLink && (
-        <IconCTALink
-          text="Learn how to file a claim"
-          href="/disability/how-to-file-claim/"
-          icon="file"
-          onClick={() => {
-            recordEvent({
-              event: 'nav-linkslist',
-              'links-list-header': 'Learn how to file a claim',
-              'links-list-section-header': 'Claims and appeals',
-            });
-          }}
-          testId="file-claims-and-appeals-link-v2"
-        />
-      )}
+      <IconCTALink
+        text="Learn how to file a claim"
+        href="/disability/how-to-file-claim/"
+        icon="file"
+        onClick={() => {
+          recordEvent({
+            event: 'nav-linkslist',
+            'links-list-header': 'Learn how to file a claim',
+            'links-list-section-header': 'Claims and appeals',
+          });
+        }}
+        testId="file-claims-and-appeals-link-v2"
+      />
       <IconCTALink
         text="Manage all claims and appeals"
         href="/claim-or-appeal-status/"
@@ -88,10 +94,6 @@ const PopularActionsForClaimsAndAppeals = ({ showLearnLink = false }) => {
       />
     </>
   );
-};
-
-PopularActionsForClaimsAndAppeals.propTypes = {
-  showLearnLink: PropTypes.bool,
 };
 
 const ClaimsAndAppealsV2 = ({
@@ -177,7 +179,7 @@ const ClaimsAndAppealsV2 = ({
               ) : (
                 <>
                   <NoClaimsOrAppealsText />
-                  <PopularActionsForClaimsAndAppeals showLearnLink />
+                  <PopularActionsForClaimsAndAppeals />
                 </>
               )}
             </>
@@ -194,7 +196,7 @@ const ClaimsAndAppealsV2 = ({
 };
 
 ClaimsAndAppealsV2.propTypes = {
-  dataLoadingDisabled: PropTypes.bool.isRequired,
+  dataLoadingDisabled: PropTypes.bool,
   hasAPIError: PropTypes.bool.isRequired,
   loadAppeals: PropTypes.func.isRequired,
   loadClaims: PropTypes.func.isRequired,
@@ -203,7 +205,7 @@ ClaimsAndAppealsV2.propTypes = {
   shouldLoadClaims: PropTypes.bool.isRequired,
   shouldShowLoadingIndicator: PropTypes.bool.isRequired,
   useLighthouseClaims: PropTypes.bool.isRequired,
-  userFullName: PropTypes.string.isRequired,
+  userFullName: PropTypes.object.isRequired,
   appealsData: PropTypes.arrayOf(PropTypes.object),
   claimsData: PropTypes.arrayOf(PropTypes.object),
 };
