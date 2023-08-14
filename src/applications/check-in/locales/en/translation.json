@@ -348,5 +348,8 @@
   "pre-check-in-no-longer-available": "Pre-check-in is no longer available for your appointment time.",
   "something-went-wrong-please-try-again": "Something went wrong on our end. Please try again.",
   "if-you-have-questions-call": "If you have questions about your appointments, call your VA health facility.",
-  "something-went-wrong": "Something went wrong. If you have questions about your appointments, call your VA health facility."
+  "something-went-wrong": "Something went wrong. If you have questions about your appointments, call your VA health facility.",
+  "start-checking-in-for-your-appointment": "Start checking in for your appointment",
+  "we-need-your-last-name-and-birth": "First, we need your last name and date of birth to make sure it’s you.",
+  "check-if-your-info-is-up-to-date": "Check if your information is up to date"
 }
