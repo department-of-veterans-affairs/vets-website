@@ -97,7 +97,6 @@ export const NotificationCheckbox = ({
         <VaCheckbox
           checked={checked}
           enableAnalytics
-          messageAriaDescribedby=""
           label={label}
           onVaChange={handleChange}
           data-testid={checkboxId}
