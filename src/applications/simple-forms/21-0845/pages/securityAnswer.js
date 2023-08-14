@@ -19,15 +19,11 @@ export default {
         </legend>
       );
     },
-    'ui:description':
-      'Enter the information your third-party source will need to provide to verify their identity.',
     securityAnswer: {
-      'ui:title': 'Your answer',
+      'ui:title':
+        'Enter the information your third-party source will need to provide to verify their identity.',
       'ui:errorMessages': {
         required: 'Please enter your answer.',
-      },
-      'ui:options': {
-        hideLabelText: true,
       },
     },
   },

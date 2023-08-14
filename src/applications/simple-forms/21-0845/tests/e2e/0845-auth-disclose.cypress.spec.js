@@ -15,12 +15,12 @@ const testConfig = createTestConfig(
 
     dataDir: path.join(__dirname, 'fixtures', 'data'),
 
-    dataSets: ['authTypeNonVet', 'authTypeVet'],
+    dataSets: ['authTypeVet', 'authTypeNonVet'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start your application without signing in/i, {
+          cy.findAllByText(/start your authorization without signing in/i, {
             selector: 'a',
           }).click();
         });
@@ -32,7 +32,7 @@ const testConfig = createTestConfig(
               data.authorizerType === AUTHORIZER_TYPES.VETERAN
                 ? data.veteranFullName
                 : data.authorizerFullName;
-            reviewAndSubmitPageFlow(signerName);
+            reviewAndSubmitPageFlow(signerName, 'Submit authorization');
           });
         });
       },
