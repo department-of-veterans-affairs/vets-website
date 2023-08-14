@@ -272,5 +272,8 @@
   "claim-checkbox-confirm": "I confirm that the information is true and correct to the best of my knowledge and belief. I’ve read and I accept the beneficiary travel agreement.",
   "claim-review-error": "You must accept the beneficiary travel agreement before continuing.",
   "agree-to-these-terms": "Agree to these terms",
-  "file-later": "File later"
+  "file-later": "File later",
+  "start-checking-in-for-your-appointment": "Start checking in for your appointment",
+  "we-need-your-last-name-and-birth": "First, we need your last name and date of birth to make sure it’s you.",
+  "check-if-your-info-is-up-to-date": "Check if your information is up to date"
 }
