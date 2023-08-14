@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { getShortTimezone } from '../utils';
+
 const clinicsVisited = avs => {
+  const shortTimezone = getShortTimezone(avs);
   const clinics = avs.clinicsVisited.map(clinic => {
-    // TODO: format time and add time zone.
     return (
       <div key={clinic.clinicIen}>
-        <h3>{clinic.time}</h3>
+        <h3>
+          {clinic.time} {shortTimezone}
+        </h3>
         <ul>
           {/* TODO: style lists without bullets. */}
           {/* TODO: add building icon. */}

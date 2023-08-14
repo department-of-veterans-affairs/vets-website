@@ -1,7 +1,6 @@
 const APPOINTMENT_TYPES = {
   RECALL: {
     key: 'RECALL',
-    // TODO: Find out if this is correct.
     label: 'Recall',
   },
   SCHEDULED: {

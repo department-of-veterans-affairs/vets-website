@@ -10,6 +10,26 @@ const parseVistaDate = date => {
   return parse(date, 'MM/dd/yyyy', new Date());
 };
 
+const stripDst = (timeZone, shortTimezone) => {
+  if (/^(America|US\/)/.test(timeZone) && /^[PMCE][DS]T$/.test(shortTimezone)) {
+    return shortTimezone.replace('ST', 'T').replace('DT', 'T');
+  }
+
+  return shortTimezone;
+};
+
+const getShortTimezone = avs => {
+  const { timeZone } = avs.meta;
+
+  const options = { timeZone, timeZoneName: 'short' };
+  const shortTimezone = new Intl.DateTimeFormat('en-US', options)
+    .format(utcToZonedTime(new Date(), timeZone))
+    .split(' ')[1];
+
+  // Strip out middle char in short timezone.
+  return stripDst(timeZone, shortTimezone);
+};
+
 const getFormattedAppointmentDate = avs => {
   return formatDateLong(parseVistaDateTime(avs.appointments[0]?.datetime));
 };
@@ -17,14 +37,7 @@ const getFormattedAppointmentDate = avs => {
 const getFormattedGenerationDate = avs => {
   const { generatedDate, timeZone } = avs.meta;
   const zonedDate = utcToZonedTime(generatedDate, timeZone);
-
-  const options = {
-    timeZone,
-    timeZoneName: 'short',
-  };
-  const shortTimeZone = new Intl.DateTimeFormat('en-US', options)
-    .format(zonedDate)
-    .split(' ')[1];
+  const shortTimeZone = getShortTimezone(avs);
 
   return `${format(
     zonedDate,
@@ -36,6 +49,7 @@ const getFormattedGenerationDate = avs => {
 export {
   getFormattedAppointmentDate,
   getFormattedGenerationDate,
+  getShortTimezone,
   parseVistaDate,
   parseVistaDateTime,
 };
