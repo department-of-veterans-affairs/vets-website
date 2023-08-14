@@ -265,13 +265,13 @@ for doing very specific things.
 
 ## Supported Browsers
 
-| Browser                   | Minimum version | Note                                   |
-| :------------------------ | :-------------: | :------------------------------------- |
-| Internet Explorer         |       11        |                                        |
-| Microsoft Edge            |       13        |                                        |
-| Safari / iOS Safari       |        9        |                                        |
-| Chrome / Android Web view |       44        | _Latest version with >0.5% of traffic_ |
-| Firefox                   |       52        | _Latest version with >0.5% of traffic_ |
+| Browser                   | Minimum version | Note                                      |
+| :------------------------ | :-------------: | :---------------------------------------- |
+| ~~Internet Explorer~~     |     ~~11~~      | _IE 11 is deprecated as of June 15, 2022_ |
+| Microsoft Edge            |       13        |                                           |
+| Safari / iOS Safari       |        9        |                                           |
+| Chrome / Android Web view |       44        | _Latest version with >0.5% of traffic_    |
+| Firefox                   |       52        | _Latest version with >0.5% of traffic_    |
 
 ## API Keys
 
