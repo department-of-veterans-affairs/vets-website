@@ -30,6 +30,11 @@ const getShortTimezone = avs => {
   return stripDst(timeZone, shortTimezone);
 };
 
+const getFormattedAppointmentTime = twentyFourHourTime => {
+  const time = parse(twentyFourHourTime, 'HH:mm', new Date());
+  return format(time, 'H:mm aaaa');
+};
+
 const getFormattedAppointmentDate = avs => {
   return formatDateLong(parseVistaDateTime(avs.appointments[0]?.datetime));
 };
@@ -48,6 +53,7 @@ const getFormattedGenerationDate = avs => {
 
 export {
   getFormattedAppointmentDate,
+  getFormattedAppointmentTime,
   getFormattedGenerationDate,
   getShortTimezone,
   parseVistaDate,

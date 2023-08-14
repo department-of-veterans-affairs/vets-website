@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getShortTimezone } from '../utils';
+import { getFormattedAppointmentTime, getShortTimezone } from '../utils';
 
 const clinicsVisited = avs => {
   const shortTimezone = getShortTimezone(avs);
@@ -9,14 +9,18 @@ const clinicsVisited = avs => {
     return (
       <div key={clinic.clinicIen}>
         <h3>
-          {clinic.time} {shortTimezone}
+          {getFormattedAppointmentTime(clinic.time)} {shortTimezone}
         </h3>
         <ul>
-          {/* TODO: style lists without bullets. */}
-          {/* TODO: add building icon. */}
-          <li key="clinicSite">{clinic.site}</li>
-          <li key="clinicName">{clinic.clinic}</li>
-          {/* TODO: add details link. */}
+          <li className="clinic-information" key="clinicSite">
+            <i
+              className="fas fa-building"
+              aria-hidden="true"
+              data-testid="appointment-icon"
+            />
+            {clinic.site}
+          </li>
+          <li key="clinicName">Clinic: {clinic.clinic}</li>
         </ul>
       </div>
     );
