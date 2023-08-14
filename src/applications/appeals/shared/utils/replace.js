@@ -6,11 +6,47 @@ import { REGEXP } from '../constants';
  * Include spacing in regexp so:
  *  "10 percent " => "10% "
  *  "20 percent." => "20%."
+ * @param {String} text - Text to replace
+ * @returns {String}
  */
 const replacePercent = text => text.replace(REGEXP.PERCENT, '%$2');
 
+/**
+ * Replace typographical quote with single quote
+ * Lighthouse needs ASCII (Windows-1252) characters to build the PDF, but there
+ * is no conversion in place (yet)
+ * @param {String} text - Text to replace
+ * @returns {String}
+ */
+const replaceApostrophe = text => text.replace(REGEXP.APOSTROPHE, "'");
+
+/**
+ * Replace extra whitespace & trim result
+ * @param {String} text - Text to replace
+ * @returns {String}
+ */
+const replaceWhitespace = text => text.replace(REGEXP.WHITESPACE, ' ').trim();
+
+/**
+ * Add leading zero to numbers < 10
+ * @param {String} part - date part (month or day) to add leading zeros to
+ * @returns {String}
+ */
+// Add leading zero to date month or day; but use slice since we have some
+// Veterans using older Safari versions that don't support padStart
+const addLeadingZero = part => `00${part || ''}`.slice(-2);
+
+/** ***************** */
+
+const submitTransformers = [
+  // add more here
+  replaceWhitespace,
+  replaceApostrophe,
+];
+
 const transformers = [
   // add more here
+  replaceWhitespace,
   replacePercent,
 ];
 
@@ -26,18 +62,6 @@ export const replaceDescriptionContent = text =>
   );
 
 /**
- * Replace typographical quote with single quote
- * Lighthouse needs ASCII (Windows-1252) characters to build the PDF, but there
- * is no conversion in place (yet)
- */
-const replaceApostrophe = text => text.replace(REGEXP.APOSTROPHE, "'");
-
-const submitTransformers = [
-  // add more here
-  replaceApostrophe,
-];
-
-/**
  * Replace problematic characters preventing submission to Lighthouse
  * @param {String} text - text to modify
  * @returns {String}
@@ -47,10 +71,6 @@ export const replaceSubmittedData = text =>
     (resultingText, transformer) => transformer(resultingText),
     text || '',
   );
-
-// Add leading zero to date month or day; but use slice since we have some
-// Veterans using older Safari versions that don't support padStart
-const addLeadingZero = part => `00${part || ''}`.slice(-2);
 
 /**
  * Change a date string with no leading zeros (e.g. 2020-1-2) into a date with

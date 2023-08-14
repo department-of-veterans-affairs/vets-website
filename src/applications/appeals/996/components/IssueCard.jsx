@@ -4,7 +4,7 @@ import moment from 'moment';
 import { Link } from 'react-router';
 
 import { SELECTED, FORMAT_YMD, FORMAT_READABLE } from '../constants';
-import { replaceDescriptionContent } from '../utils/replace';
+import { replaceDescriptionContent } from '../../shared/utils/replace';
 
 /** HLR v2 card */
 /**

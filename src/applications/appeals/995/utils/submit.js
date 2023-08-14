@@ -12,7 +12,10 @@ import {
   hasHomePhone,
   hasMobilePhone,
 } from './contactInfo';
-import { replaceSubmittedData, fixDateFormat } from './replace';
+import {
+  replaceSubmittedData,
+  fixDateFormat,
+} from '../../shared/utils/replace';
 import {
   buildVaLocationString,
   buildPrivateString,

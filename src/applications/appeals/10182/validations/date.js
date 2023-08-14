@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 
-import { fixDateFormat } from '../utils/replace';
+import { fixDateFormat } from '../../shared/utils/replace';
 import { FORMAT_YMD, SHOW_PART3, MAX_YEARS_PAST } from '../constants';
 
 import { issueErrorMessages } from '../content/addIssue';

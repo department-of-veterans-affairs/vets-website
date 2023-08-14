@@ -6,7 +6,10 @@ import {
   SUBMITTED_DISAGREEMENTS,
   SHOW_PART3,
 } from '../constants';
-import { replaceSubmittedData, fixDateFormat } from './replace';
+import {
+  replaceSubmittedData,
+  fixDateFormat,
+} from '../../shared/utils/replace';
 
 /**
  * @typedef FormData
@@ -200,7 +203,7 @@ export const addIncludedIssues = formData => {
   return issues.concat(
     (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
       if (issue[SELECTED] && issue.issue && issue.decisionDate) {
-        // match contestable issue pattern
+        // match contested issue pattern
         issuesToAdd.push({
           type: 'contestableIssue',
           attributes: {

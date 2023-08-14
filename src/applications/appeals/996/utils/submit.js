@@ -4,7 +4,10 @@ import {
   MAX_LENGTH,
   SUBMITTED_DISAGREEMENTS,
 } from '../constants';
-import { replaceSubmittedData, fixDateFormat } from './replace';
+import {
+  replaceSubmittedData,
+  fixDateFormat,
+} from '../../shared/utils/replace';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`

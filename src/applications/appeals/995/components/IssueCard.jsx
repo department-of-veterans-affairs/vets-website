@@ -9,7 +9,7 @@ import {
   FORMAT_READABLE,
   errorMessages,
 } from '../constants';
-import { replaceDescriptionContent } from '../utils/replace';
+import { replaceDescriptionContent } from '../../shared/utils/replace';
 import { isValidDate } from '../validations/date';
 
 /** Modified from HLR v2 card */
