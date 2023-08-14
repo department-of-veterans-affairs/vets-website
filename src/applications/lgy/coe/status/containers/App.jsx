@@ -25,6 +25,7 @@ import {
   Ineligible,
   Pending,
 } from '../components/statuses';
+import DocumentUploader from '../components/DocumentUploader/DocumentUploader';
 
 const App = ({
   canApply,
@@ -154,6 +155,7 @@ const App = ({
           >
             {content}
           </DowntimeNotification>
+          <DocumentUploader />
         </div>
       </RequiredLoginView>
     </>
