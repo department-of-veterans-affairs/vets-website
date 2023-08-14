@@ -155,11 +155,11 @@ const allergiesAndReactions = avs => {
           <br />
           Verified date: {formatDateLong(parseVistaDate(item.verifiedDate))}
           <br />
-          Severity: {item.severity}
+          Severity: {item.severity || 'None noted'}
           <br />
-          Reaction: {item.reactions.join(', ')}
+          Reaction: {item.reactions.join(', ') || 'None noted'}
           <br />
-          Allergy type: {item.type}
+          Allergy type: {item.type || 'None noted'}
           <br />
           Site: {item.site}
         </p>
