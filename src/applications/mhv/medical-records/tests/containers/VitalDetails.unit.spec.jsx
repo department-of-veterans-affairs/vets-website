@@ -4,7 +4,6 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import reducer from '../../reducers';
 import { user } from '../fixtures/user-reducer.json';
 import VitalDetails from '../../containers/VitalDetails';
-import { vitalTypeDisplayNames } from '../../util/constants';
 import vital from '../fixtures/vital.json';
 import { convertVital } from '../../reducers/vitals';
 
@@ -35,13 +34,10 @@ describe('Vital details container', () => {
   it('displays the vital name inside an h1 as a span', () => {
     const screen = setup();
 
-    const vitalName = screen.getByText(
-      vitalTypeDisplayNames[initialState.mr.vitals.vitalDetails[0].type],
-      {
-        exact: true,
-        selector: 'h1',
-      },
-    );
+    const vitalName = screen.getByText('Blood pressure', {
+      exact: true,
+      selector: 'h1',
+    });
     expect(vitalName).to.exist;
   });
 

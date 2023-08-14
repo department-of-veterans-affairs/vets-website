@@ -37,7 +37,7 @@ describe('Chem Hem details component', () => {
 
   it('should display the test name', () => {
     const header = screen.getAllByText(
-      initialState.mr.labsAndTests.labsAndTestsDetails.name,
+      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
       {
         exact: true,
         selector: 'h1',
@@ -47,13 +47,10 @@ describe('Chem Hem details component', () => {
   });
 
   it('should display the test results', () => {
-    const results = screen.getByText(
-      initialState.mr.labsAndTests.labsAndTestsDetails.results[0].name,
-      {
-        exact: true,
-        selector: 'h3',
-      },
-    );
+    const results = screen.getByText('POTASSIUM', {
+      exact: true,
+      selector: 'h3',
+    });
     expect(results).to.exist;
   });
 

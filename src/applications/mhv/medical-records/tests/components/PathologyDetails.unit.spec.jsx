@@ -36,13 +36,10 @@ describe('Pathology details component', () => {
 
   it('should display the test name', () => {
     const screen = setup();
-    const header = screen.getAllByText(
-      initialState.mr.labsAndTests.labsAndTestsDetails.name,
-      {
-        exact: true,
-        selector: 'h1',
-      },
-    );
+    const header = screen.getAllByText('LR SURGICAL PATHOLOGY REPORT', {
+      exact: true,
+      selector: 'h1',
+    });
     expect(header).to.exist;
   });
 
