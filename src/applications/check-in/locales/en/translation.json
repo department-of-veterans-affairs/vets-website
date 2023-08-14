@@ -351,5 +351,8 @@
   "mileage-reimbursement-rates": "Mileage reimbursement rates",
   "the-payment-amount-depends-on-type" : "The payment amount you receive depends on the type of appointment. We pay round-trip mileage for your scheduled appointments. We may only pay return mileage for unscheduled visits like walk-in appointments or labs.",
   "mileage-only-reimbursement-for-your": "Mileage-only reimbursement for your appointment at {{facility}}{{provider}} on {{date, dayWithTime}}",
-  "this-claim-is-for-your": "This claim is for your appointment at {{facility}}{{provider}} on {{date, dayWithTime}}"
+  "this-claim-is-for-your": "This claim is for your appointment at {{facility}}{{provider}} on {{date, dayWithTime}}",
+  "start-checking-in-for-your-appointment": "Start checking in for your appointment",
+  "we-need-your-last-name-and-birth": "First, we need your last name and date of birth to make sure it’s you.",
+  "check-if-your-info-is-up-to-date": "Check if your information is up to date"
 }
