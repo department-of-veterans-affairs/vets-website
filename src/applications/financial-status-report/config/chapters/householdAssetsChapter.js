@@ -19,6 +19,7 @@ import AddAsset from '../../components/otherAssets/AddAsset';
 import OtherAssetsChecklist from '../../components/otherAssets/OtherAssetsChecklist';
 import OtherAssetsSummary from '../../components/otherAssets/OtherAssetsSummary';
 import OtherAssetsSummaryReview from '../../components/otherAssets/OtherAssetsSummaryReview';
+import RealEstateReview from '../../components/otherAssets/RealEstateReview';
 import EnhancedVehicleRecord from '../../components/otherAssets/EnhancedVehicleRecord';
 import VehicleSummaryWidget from '../../components/otherAssets/VehicleSummaryWidget';
 import MonetaryAssetsSummaryReview from '../../components/monetary/MonetaryAssetsSummaryReview';
@@ -126,7 +127,8 @@ export default {
           formData.questions.hasRealEstate &&
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
-        editModeOnReviewPage: false,
+        editModeOnReviewPage: true,
+        CustomPageReview: RealEstateReview,
       },
       vehicles: {
         path: 'vehicles',
