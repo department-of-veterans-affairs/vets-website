@@ -50,6 +50,8 @@ describe(`${pageTitle} - custom-street2-label`, () => {
     );
 
     expect(screen.queryAllByText('Street address line 2')).to.have.lengthOf(0);
-    expect(screen.queryAllByText('Apt./Unit number')).to.have.lengthOf(1);
+    expect(screen.queryAllByText('Apartment or unit number')).to.have.lengthOf(
+      1,
+    );
   });
 });
