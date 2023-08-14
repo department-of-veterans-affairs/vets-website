@@ -6,8 +6,10 @@ import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
 import draftMessage from '../../fixtures/message-draft-response.json';
 import reducer from '../../../reducers';
+import signatureReducers from '../../fixtures/signature-reducers.json';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
 import { Paths, Prompts } from '../../../util/constants';
+import { messageSignatureFormatter } from '../../../util/helpers';
 
 describe('Compose form component', () => {
   const initialState = {
@@ -72,8 +74,8 @@ describe('Compose form component', () => {
       },
     );
 
-    const editListLink = await screen.getByText('Edit List', {
-      selector: 'button',
+    const editListLink = await screen.getByTestId('Edit-List-Button', {
+      selector: 'va-button',
       exact: true,
     });
     expect(
@@ -151,17 +153,97 @@ describe('Compose form component', () => {
       {
         initialState: state,
         reducers: reducer,
-        path: `/draft/7171715`,
+        path: `/draft/${draftMessage.id}`,
       },
     );
 
     const draftMessageHeadingText = await screen.getAllByRole('heading', {
       name: 'COVID: Covid-Inquiry',
-      level: 3,
+      level: 2,
     });
     const deleteButton = await screen.getByTestId('delete-draft-button');
 
     expect(draftMessageHeadingText).to.exist;
     expect(deleteButton).to.exist;
+  });
+
+  it('displays user signature on /new-message when signature is enabled', async () => {
+    const customState = {
+      sm: {
+        triageTeams: { triageTeams },
+        categories: { categories },
+        draftDetails: {},
+        preferences: signatureReducers.signatureEnabled,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={triageTeams} draft={{}} />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+
+    const messageInput = await screen.getByTestId('message-body-field');
+
+    expect(messageInput)
+      .to.have.attribute('value')
+      .equal(
+        messageSignatureFormatter(signatureReducers.signatureEnabled.signature),
+      );
+  });
+
+  it('does not display user signature on /new-message when signature is disabled', async () => {
+    const customState = {
+      sm: {
+        triageTeams: { triageTeams },
+        categories: { categories },
+        draftDetails: {},
+        preferences: signatureReducers.signatureDisabled,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={triageTeams} draft={{}} />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+
+    const messageInput = await screen.getByTestId('message-body-field');
+
+    expect(messageInput).to.not.have.attribute('value');
+  });
+
+  it('does not append an existing draft message body with enabled signature', async () => {
+    const customState = {
+      sm: {
+        triageTeams: { triageTeams },
+        categories: { categories },
+        draftDetails: { draftMessage },
+        preferences: signatureReducers.signatureEnabled,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={triageTeams} draft={draftMessage} />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: `/draft/${draftMessage.id}`,
+      },
+    );
+
+    const messageInput = await screen.getByTestId('message-body-field');
+
+    expect(messageInput)
+      .to.have.attribute('value')
+      .not.equal(
+        messageSignatureFormatter(signatureReducers.signatureEnabled.signature),
+      );
   });
 });

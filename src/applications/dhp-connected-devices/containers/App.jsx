@@ -15,14 +15,31 @@ export default function App() {
   );
   const content = isLoading ? <va-loading-indicator set-focus /> : pageContent;
 
+  const disclaimerText = () => {
+    return (
+      <p>
+        <strong>
+          This page is meant for Digital Health Pathway pilot participants only.
+        </strong>{' '}
+        If you have not received an invitation to join a DHP pilot program but
+        are interested in sharing your device data with your VA care team,
+        please visit the{' '}
+        <a
+          href="https://mobile.va.gov/app/share-my-health-data"
+          target="_blank"
+          rel="noreferrer"
+        >
+          VA Share My Health Data app
+        </a>
+        .
+      </p>
+    );
+  };
+
   return (
     <div className="usa-grid-full margin landing-page">
       <MetaTags>
         <meta name="robots" content="noindex" />
-        <meta
-          name="google-site-verification"
-          content="scLJgpqcnJ33AfSYWbB9cdebuyOuHWWWoW_zdeyYNc4"
-        />
       </MetaTags>
       <div className="usa-width-three-fourths">
         <article className="usa-content">
@@ -31,15 +48,11 @@ export default function App() {
           </div>
           <div className="va-introtext">
             <p>
-              Connecting a device will share your device health data with VA.
-              This data is automatically shared with your care team.
+              Connecting a device will share your health data with VA. This data
+              will become available to your care team.
             </p>
           </div>
-          <p>
-            <strong>Note:</strong> Your shared data will not be monitored by
-            your VA care team. If you have concerns about any specific shared
-            data, you must contact your care team directly.
-          </p>
+          {disclaimerText()}
           {content}
           <FrequentlyAskedQuestions />
         </article>

@@ -79,32 +79,21 @@ const getData = ({
         },
         pageList: [],
       },
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: { get() {} },
+        dismissedDowntimeWarnings: [],
+      },
     }),
     subscribe: () => {},
     dispatch: () => {},
   },
 });
 
-const globalWin = {
-  location: {
-    pathname: '/introduction',
-    replace: () => {},
-  },
-};
-
 describe('IntroductionPage', () => {
-  let oldWindow;
-  let gaData;
-
-  beforeEach(() => {
-    oldWindow = global.window;
-    global.window = Object.create(global.window);
-    Object.assign(global.window, globalWin);
-    global.window.dataLayer = [];
-    gaData = global.window.dataLayer;
-  });
   afterEach(() => {
-    global.window = oldWindow;
     removeHlrWizardStatus();
   });
 
@@ -135,28 +124,7 @@ describe('IntroductionPage', () => {
     expect($$('.vads-c-action-link--green', container).length).to.equal(2);
   });
 
-  it('should render alert showing a server error', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
-    const error = 'We can’t load your issues';
-    const { props, mockStore } = getData({
-      loggedIn: false,
-      status: '',
-      error,
-    });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} delay={0} />
-      </Provider>,
-    );
-
-    const alert = $('va-alert', container);
-    expect(alert.innerHTML).to.include(error);
-    const recordedEvent = gaData[gaData.length - 1];
-    expect(recordedEvent.event).to.equal('visible-alert-box');
-    expect(recordedEvent['alert-box-heading']).to.include(error);
-  });
-
-  it('should show verify your account alert', () => {
+  it('should render verify identity alert', () => {
     setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const { props, mockStore } = getData({ isVerified: false });
     const { container } = render(
@@ -165,23 +133,6 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    const verifyAlert = $('va-alert[status="warning"]', container);
-    expect(verifyAlert.innerHTML).to.contain('href="/verify?');
-  });
-
-  it('should show contestable issue loading indicator', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
-    const { props, mockStore } = getData({ status: '' });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-
-    const loading = $('va-loading-indicator', container);
-    expect(loading).to.exist;
-    expect(loading.getAttribute('message')).to.eq(
-      'Loading your previous decisions...',
-    );
+    expect($('va-alert[status="continue"]', container)).to.exist;
   });
 });

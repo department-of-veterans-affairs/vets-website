@@ -5,9 +5,9 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import { scrollToTop } from '../utilities/scroll-to-top';
+import { getPreviousYear } from '../utilities/utils';
 import { ROUTES } from '../constants';
 import { updateDependents, updateEditMode } from '../actions';
 
@@ -43,8 +43,8 @@ const DependentsPage = ({
         return;
       }
 
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       waitForRenderThenFocus('h1');
-      scrollToTop();
     },
     [pastMode, router, year, zipCode],
   );
@@ -72,7 +72,7 @@ const DependentsPage = ({
 
   const onDependentsInput = event => {
     setError(false);
-    updateDependentsField(event.target.value);
+    updateDependentsField(parseInt(event.target.value, 10).toString());
   };
 
   const onBackClick = () => {
@@ -85,9 +85,14 @@ const DependentsPage = ({
 
   return (
     <>
-      <h1>Donec nec venenatis neque etiam ac nisi orci?</h1>
+      {pastMode && year ? (
+        <h1>How many dependents did you have in {year - 1}?</h1>
+      ) : (
+        <h1>How many dependents did you have last year?</h1>
+      )}
       <form>
         <VaNumberInput
+          className="vads-u-margin-bottom--1"
           data-testid="il-dependents"
           error={
             (submitted &&
@@ -95,7 +100,10 @@ const DependentsPage = ({
               'Please enter a number between 0 and 100.') ||
             null
           }
-          hint="Dependents hint text"
+          hint={`Enter the total number of dependents for ${getPreviousYear(
+            pastMode,
+            year,
+          )}, including your spouse, unmarried children under 18 years old, and other dependents.`}
           id="numberOfDependents"
           inputmode="numeric"
           label="Number of dependents"
@@ -107,7 +115,22 @@ const DependentsPage = ({
           required
           value={dependents || ''}
         />
+        <va-additional-info trigger="Who qualifies as a dependent">
+          <div>
+            <p className="vads-u-margin-top--0">
+              Here&#8217;s who we consider dependents for health care
+              eligibility purposes:
+            </p>
+            <ul>
+              <li>Your spouse</li>
+              <li>Unmarried children who are under 18 years old</li>
+              <li>Adult children who were disabled before age 18</li>
+              <li>Children ages 18 to 23 who attend school full time</li>
+            </ul>
+          </div>
+        </va-additional-info>
         <VaButtonPair
+          className="vads-u-margin-top--3"
           data-testid="il-buttonPair"
           onPrimaryClick={onContinueClick}
           onSecondaryClick={onBackClick}

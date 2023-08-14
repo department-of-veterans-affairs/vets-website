@@ -7,8 +7,12 @@ const OtherAssetsSummaryReview = ({ data, title }) => {
   const { otherAssets = [] } = assets;
 
   return (
-    <div>
-      <h4>{title}</h4>
+    <div className="form-review-panel-page">
+      <div className="form-review-panel-page-header-row">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+          {title}
+        </h4>
+      </div>
       <dl className="review">
         {otherAssets.map((asset, index) => {
           return (

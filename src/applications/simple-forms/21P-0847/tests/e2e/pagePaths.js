@@ -5,12 +5,6 @@ export default {
   preparerPersonalInfo:
     formChapters.preparerPersonalInformationChapter.pages
       .preparerPersonalInformation.path,
-  relationshipToDeceasedClaimant:
-    formChapters.relationshipToDeceasedClaimantChapter.pages
-      .relationshipToDeceasedClaimant.path,
-  otherRelationshipToDeceasedClaimant:
-    formChapters.relationshipToDeceasedClaimantChapter.pages
-      .otherRelationshipToDeceasedClaimant.path,
   preparerIdentificationInformation:
     formChapters.preparerIdentificationInformationChapter.pages
       .preparerIdentificationInformation.path,
@@ -19,9 +13,12 @@ export default {
   preparerContactInformation:
     formChapters.preparerContactInformationChapter.pages
       .preparerContactInformation.path,
-  veteranPersonalInformation:
-    formChapters.veteranPersonalInformationChapter.pages
-      .veteranPersonalInformation.path,
+  deceasedClaimantPersonalInformation:
+    formChapters.deceasedClaimantPersonalInformationChapter.pages
+      .deceasedClaimantPersonalInformation.path,
+  relationshipToDeceasedClaimant:
+    formChapters.relationshipToDeceasedClaimantChapter.pages
+      .relationshipToDeceasedClaimant.path,
   veteranIdentificationInformation:
     formChapters.veteranIdentificationInformationChapter.pages
       .veteranIdentificationInformation.path,

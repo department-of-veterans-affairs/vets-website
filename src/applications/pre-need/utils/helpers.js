@@ -9,10 +9,12 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
+
 import {
   stringifyFormReplacer,
   filterViewFields,
 } from 'platform/forms-system/src/js/helpers';
+
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
@@ -352,9 +354,7 @@ export const veteranUI = {
       'ui:title': 'Black or African American',
     },
     isNativeHawaiianOrOtherPacificIslander: {
-      'ui:title': !environment.isProduction()
-        ? 'Native Hawaiian or other Pacific Islander'
-        : 'Native Hawaiian or Other Pacific Islander',
+      'ui:title': 'Native Hawaiian or other Pacific Islander',
     },
     isAsian: {
       'ui:title': 'Asian',
@@ -399,7 +399,7 @@ export const serviceRecordsUI = {
     'Please provide all your service periods. If you need to add another service period, please click the Add Another Service Period button.',
   'ui:options': {
     viewField: ServicePeriodView,
-    itemName: 'service period',
+    itemName: 'Service period',
     keepInPageOnReview: true,
   },
   items: {

@@ -9,6 +9,16 @@ describe('Secure Messaging Compose', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
+
+    cy.intercept('GET', 'my_health/v1/messaging/messages/signature', {
+      data: {
+        signatureName: 'Name',
+        includeSignature: true,
+        signatureTitle: 'Title',
+      },
+      errors: {},
+      metadata: {},
+    });
     landingPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck('main', {

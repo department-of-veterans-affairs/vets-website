@@ -1,6 +1,6 @@
 import React from 'react';
-import ReviewCardField from '../../components/ReviewCardField';
-import ContactInfoCard from '../../components/ContactInfoCard';
+import ReviewCardField from '../../components/shared/ReviewCardField';
+import ContactInfoCard from '../../components/shared/ContactInfoCard';
 
 import {
   SCHEMA_DEFINITIONS,

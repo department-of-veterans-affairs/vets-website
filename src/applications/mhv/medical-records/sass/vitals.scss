@@ -2,19 +2,24 @@
   list-style: none;
   margin: 0px;
   padding: 0px;
+  border-bottom: 1px solid $color-gray-lightest;
 
   li {
     margin: 0px;
     padding: 24px 0px 24px 0px;
-    border-top: 1px solid $color-gray-light;
+    border-top: 1px solid $color-gray-lightest;
     @media print {
       break-inside: avoid;
     }
     h2 {
+      font-size: 17px;
+      margin: 0px 0px 16px;
+    }
+    h3 {
       font-size: 15px;
       margin: 16px 0px 0px;
     }
-    h2:first-child {
+    h3:first-child {
       margin: 0px;
     }
     p {
@@ -45,3 +50,8 @@
     padding: 0px;
   }
 }
+
+va-pagination{
+  border-top: 0;
+}
+

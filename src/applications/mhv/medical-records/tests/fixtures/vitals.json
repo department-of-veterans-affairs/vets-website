@@ -1,99 +1,163 @@
-[
-    {
-      "name": "Blood pressure",
-      "id": 155,
-      "measurement": "120/80 mm[Hg]",
-      "date": "2022-06-14T17:42:46.000Z",
-      "facility": "school parking lot",
-      "comments": [
-        "Protects from delta variant",
-        "May need another booster for other variants"
-      ]
-    },
-    {
-      "name": "Blood Sugar",
-      "id": 122,
-      "measurement": "99 mg/dL",
-      "date": "2022-04-13T17:42:46.000Z",
-      "facility": "some super long name of a facility that will hopefully be several lines so I can test the ellipsis",
-      "reactions": ["Just this one"]
-    },
-    {
-      "name": "Temperature",
-      "id": 123,
-      "measurement": "98 degrees Farenheit",
-      "date": "2022-04-13T17:42:46.000Z",
-      "facility": "school parking lot"
-    },
-    {
-    "name": "Blood pressure",
-    "id": 156,
-    "measurement": "170/120 mm[Hg]",
-    "date": "2022-04-13T17:42:46.000Z",
-    "facility": "school parking lot"
-    },
-    {
-      "name": "Blood pressure",
-      "id": 156,
-      "measurement": "170/120 mm[Hg]",
-      "date": "2022-04-13T17:42:46.000Z",
-      "facility": "school parking lot"
-    },
-    {
-      "name": "Blood pressure",
-      "id": 156,
-      "measurement": "170/120 mm[Hg]",
-      "date": "2022-04-13T17:42:46.000Z",
-      "facility": "school parking lot"
-    },
-    {
-      "name": "Blood pressure",
-      "id": 156,
-      "measurement": "170/120 mm[Hg]",
-      "date": "2022-04-13T17:42:46.000Z",
-      "facility": "school parking lot"
-    },
-    {
-      "name": "Blood pressure",
-      "id": 156,
-      "measurement": "170/120 mm[Hg]",
-      "date": "2022-04-13T17:42:46.000Z",
-      "facility": "school parking lot"
-    },
-    {
-      "name": "Blood pressure",
-      "id": 156,
-      "measurement": "170/120 mm[Hg]",
-      "date": "2022-04-13T17:42:46.000Z",
-      "facility": "school parking lot"
-    },
-    {
-      "name": "Blood pressure",
-      "id": 156,
-      "measurement": "170/120 mm[Hg]",
-      "date": "2022-04-13T17:42:46.000Z",
-      "facility": "school parking lot"
-    },
-    {
-      "name": "Pulse rate",
-      "id": 124,
-      "measurement": "120 beats/minute",
-      "date": "2018-05-04T17:42:46.000Z",
-      "facility": "school parking lot"
-    },
-    {
-      "name": "Respiration",
-      "id": 125,
-      "measurement": "60 breaths/minute",
-      "date": "2016-04-28T17:42:46.000Z",
-      "facility": "school parking lot"
-    },
-    {
-      "name": "Pulse Oximetry",
-      "id": 126,
-      "measurement": "95%",
-      "date": "2016-04-28T17:42:46.000Z",
-      "facility": "school parking lot"
-    }
-  ]
-  
+{
+  "id": "868a0f70-f920-4483-9be4-fa64f65d2e85",
+  "meta": {
+      "lastUpdated": "2023-07-21T12:22:25.721-04:00"
+  },
+  "type": "searchset",
+  "total": 2,
+  "link": [
+      {
+          "relation": "self",
+          "url": "https://mhv-intb-api.myhealth.va.gov/fhir/Observation?_count=100&patient=952"
+      }
+  ],
+  "entry": [
+      {
+          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/Observation/957",
+          "resource": {
+            "resourceType" : "Observation",
+            "id" : "ex-MHV-heartRate-1",
+            "meta" : {
+              "profile" : [
+                "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.vitals"
+              ]
+            },
+            "text" : {
+              "status" : "generated",
+              "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Observation</b><a name=\"ex-MHV-heartRate-1\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Observation &quot;ex-MHV-heartRate-1&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.vitals.html\">VA MHV PHR Vital-Signs</a></p></div><p><b>identifier</b>: id:\u00a0?ngen-9?\u00a0(use:\u00a0USUAL)</p><p><b>status</b>: final</p><p><b>category</b>: Vital Signs <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-observation-category.html\">Observation Category Codes</a>#vital-signs)</span></p><p><b>code</b>: PULSE <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#8867-4 &quot;Heart rate&quot;)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-2.html\">Patient/ex-MHV-patient-2</a> &quot; MHVLISAONE&quot;</p><p><b>effective</b>: 2004-12-25 23:50:50-0500</p><p><b>value</b>: 185 /min<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM code /min = '/min')</span></p><p><b>note</b>: a bit fast</p></div>"
+            },
+            "identifier" : [
+              {
+                "use" : "usual"
+              }
+            ],
+            "status" : "final",
+            "category" : [
+              {
+                "coding" : [
+                  {
+                    "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code" : "vital-signs"
+                  }
+                ]
+              }
+            ],
+            "code" : {
+              "coding" : [
+                {
+                  "system" : "http://loinc.org",
+                  "code" : "8867-4",
+                  "display" : "Heart rate"
+                }
+              ],
+              "text" : "PULSE"
+            },
+            "subject" : {
+              "reference" : "Patient/ex-MHV-patient-2"
+            },
+            "effectiveDateTime" : "2004-12-25T23:50:50-05:00",
+            "valueQuantity" : {
+              "value" : 185,
+              "system" : "http://unitsofmeasure.org",
+              "code" : "/min"
+            },
+            "note" : [
+              {
+                "text" : "a bit fast"
+              }
+            ]
+          },
+          "search": {
+              "mode": "match"
+          }
+      },
+      {
+          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/Observation/956",
+          "resource": {
+            "resourceType" : "Observation",
+            "id" : "ex-MHV-vitals-1",
+            "meta" : {
+              "profile" : [
+                "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.vitalsBP"
+              ]
+            },
+            "text" : {
+              "status" : "generated",
+              "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Observation</b><a name=\"ex-MHV-vitals-1\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Observation &quot;ex-MHV-vitals-1&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.vitalsBP.html\">VA MHV PHR Vital-Signs for Blood Pressure</a></p></div><p><b>identifier</b>: id:\u00a0VitalSignTO.6003810\u00a0(use:\u00a0USUAL)</p><p><b>status</b>: final</p><p><b>category</b>: Vital Signs <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-observation-category.html\">Observation Category Codes</a>#vital-signs)</span></p><p><b>code</b>: BLOOD PRESSURE <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#85354-9 &quot;Blood pressure panel with all children optional&quot;)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-2.html\">Patient/ex-MHV-patient-2</a> &quot; MHVLISAONE&quot;</p><p><b>effective</b>: 2004-09-24 11:17:54+0000</p><blockquote><p><b>component</b></p><p><b>code</b>: Systolic blood pressure <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#8480-6)</span></p><p><b>value</b>: 126 mmHg<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM code mm[Hg] = 'mm[Hg]')</span></p></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: Diastolic blood pressure <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#8462-4)</span></p><p><b>value</b>: 70 mmHg<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM code mm[Hg] = 'mm[Hg]')</span></p></blockquote></div>"
+            },
+            "identifier" : [
+              {
+                "use" : "usual",
+                "system" : "urn:oid:2.16.840.1.113883.4.349.4.989",
+                "value" : "VitalSignTO.6003810"
+              }
+            ],
+            "status" : "final",
+            "category" : [
+              {
+                "coding" : [
+                  {
+                    "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code" : "vital-signs"
+                  }
+                ]
+              }
+            ],
+            "code" : {
+              "coding" : [
+                {
+                  "system" : "http://loinc.org",
+                  "code" : "85354-9",
+                  "display" : "Blood pressure panel with all children optional"
+                }
+              ],
+              "text" : "BLOOD PRESSURE"
+            },
+            "subject" : {
+              "reference" : "Patient/ex-MHV-patient-2"
+            },
+            "effectiveDateTime" : "2004-09-24T11:17:54Z",
+            "component" : [
+              {
+                "code" : {
+                  "coding" : [
+                    {
+                      "system" : "http://loinc.org",
+                      "code" : "8480-6",
+                      "display" : "Systolic blood pressure"
+                    }
+                  ]
+                },
+                "valueQuantity" : {
+                  "value" : 126,
+                  "unit" : "mmHg",
+                  "system" : "http://unitsofmeasure.org",
+                  "code" : "mm[Hg]"
+                }
+              },
+              {
+                "code" : {
+                  "coding" : [
+                    {
+                      "system" : "http://loinc.org",
+                      "code" : "8462-4",
+                      "display" : "Diastolic blood pressure"
+                    }
+                  ]
+                },
+                "valueQuantity" : {
+                  "value" : 70,
+                  "unit" : "mmHg",
+                  "system" : "http://unitsofmeasure.org",
+                  "code" : "mm[Hg]"
+                }
+              }
+            ]
+          },
+          "search": {
+              "mode": "match"
+          }
+      }
+  ],
+  "resourceType": "Bundle"
+}

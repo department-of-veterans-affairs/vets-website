@@ -127,7 +127,7 @@ const formConfig = {
       pages: {
         // v2 - show contested + added issues
         contestableIssues: {
-          title: 'Issues eligible for review',
+          title: 'You’ve selected these issues for review',
           path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssuesPage.uiSchema,
           schema: contestableIssuesPage.schema,

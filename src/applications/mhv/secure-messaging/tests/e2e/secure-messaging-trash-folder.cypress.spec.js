@@ -1,22 +1,16 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import mockMessages from '../fixtures/messages-response.json';
+import PatientMessageTrashPage from './pages/PatientMessageTrashPage';
 
-describe('Secure Messaging Trash Folder AXE Check', () => {
-  it('Axe Check Trash Folder', () => {
+describe('Secure Messaging Trash Folder checks', () => {
+  beforeEach(() => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
-    cy.intercept('GET', '/my_health/v1/messaging/folders/-3', mockMessages).as(
-      'trashFolder',
-    );
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/-3/messages',
-      mockMessages,
-    ).as('trashFolderMessages');
-    cy.get('[data-testid="trash-sidebar"]').click();
+    PatientMessageTrashPage.loadMessages();
+  });
+  it('Axe Check Trash Folder', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -25,5 +19,76 @@ describe('Secure Messaging Trash Folder AXE Check', () => {
         },
       },
     });
+  });
+
+  it('Verify folder header', () => {
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    PatientMessageTrashPage.verifyFolderHeader('Trash');
+    PatientMessageTrashPage.verifyResponseBodyLength();
+  });
+
+  it('Verify filter works correctly', () => {
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    PatientMessageTrashPage.inputFilterData('test');
+    PatientMessageTrashPage.filterMessages();
+    PatientMessageTrashPage.verifyFilterResults('test');
+  });
+
+  it('Verify clear filter btn works correctly', () => {
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    PatientMessageTrashPage.inputFilterData('any');
+    PatientMessageTrashPage.filterMessages();
+    PatientMessageTrashPage.clearFilter();
+    PatientMessageTrashPage.verifyFilterFieldCleared();
+  });
+
+  it('Check sorting works properly', () => {
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    PatientMessageTrashPage.verifySorting();
+  });
+
+  it('Checks for "End of conversations in this folder" text', () => {
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    cy.get('.endOfThreads').should('not.exist');
+    PatientMessageTrashPage.navigateToLastPage();
+    cy.get('.endOfThreads').should(
+      'have.text',
+      'End of conversations in this folder',
+    );
   });
 });

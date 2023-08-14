@@ -1,30 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import RecordList from '../components/RecordList/RecordList';
-import { getVitalsList } from '../actions/vitals';
+import { getVitals } from '../actions/vitals';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { RecordType } from '../util/constants';
+import { RecordType, vitalTypes } from '../util/constants';
 
 const Vitals = () => {
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
-  // const vitals = []; // used to test use cases with no vitals on record
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getVitalsList());
-  });
+    dispatch(getVitals());
+  }, []);
 
   useEffect(
     () => {
       dispatch(
         setBreadcrumbs(
-          [
-            { url: '/my-health/medical-records/', label: 'Dashboard' },
-            {
-              url: '/my-health/medical-records/health-history',
-              label: 'Health history',
-            },
-          ],
+          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
           { url: '/my-health/medical-records/vitals', label: 'VA vitals' },
         ),
       );
@@ -36,15 +29,12 @@ const Vitals = () => {
     () => {
       if (vitals?.length) {
         setCards([
-          vitals.filter(
-            vital => vital.name.toLowerCase() === 'blood pressure',
-          )[0],
-          vitals.filter(vital => vital.name.toLowerCase() === 'height')[0],
-          vitals.filter(vital => vital.name.toLowerCase() === 'pain level')[0],
-          vitals.filter(vital => vital.name.toLowerCase() === 'pulse rate')[0],
-          vitals.filter(vital => vital.name.toLowerCase() === 'respiration')[0],
-          vitals.filter(vital => vital.name.toLowerCase() === 'temperature')[0],
-          vitals.filter(vital => vital.name.toLowerCase() === 'weight')[0],
+          vitals.find(vital => vital.type === vitalTypes.BLOOD_PRESSURE),
+          vitals.find(vital => vital.type === vitalTypes.BREATHING_RATE),
+          vitals.find(vital => vital.type === vitalTypes.PULSE),
+          vitals.find(vital => vital.type === vitalTypes.HEIGHT),
+          vitals.find(vital => vital.type === vitalTypes.TEMPERATURE),
+          vitals.find(vital => vital.type === vitalTypes.WEIGHT),
         ]);
       }
     },
@@ -52,7 +42,7 @@ const Vitals = () => {
   );
 
   const content = () => {
-    if (cards?.length === 7) {
+    if (cards?.length) {
       return (
         <RecordList
           records={cards}
@@ -83,11 +73,13 @@ const Vitals = () => {
   return (
     <div className="vaccines" id="vitals">
       <h1>Vitals</h1>
-      <p>Review vitals in your VA medical records</p>
-      <va-additional-info trigger="What to know about vitals">
-        This is some additional info about vitals, though we are waiting on the
-        Content Team to tell us what should be here...
-      </va-additional-info>
+      <section className="set-width-486">
+        <p>Review vitals in your VA medical records.</p>
+        <va-additional-info trigger="What to know about vitals">
+          This is some additional info about vitals, though we are waiting on
+          the Content Team to tell us what should be here...
+        </va-additional-info>
+      </section>
       {content()}
     </div>
   );

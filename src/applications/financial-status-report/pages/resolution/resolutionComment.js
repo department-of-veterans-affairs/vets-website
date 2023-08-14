@@ -1,9 +1,9 @@
 import {
   CurrentDebtTitle,
   CurrentDebtDescription,
-} from '../../components/CurrentDebtTitle';
-import ResolutionAmount from '../../components/ResolutionAmount';
-import CustomResolutionReview from '../../components/CustomResolutionReview';
+} from '../../components/shared/CurrentDebtTitle';
+import ResolutionAmount from '../../components/resolution/ResolutionAmount';
+import CustomResolutionReview from '../../components/shared/CustomResolutionReview';
 import { validateResolutionAmount } from '../../utils/validations';
 
 export const uiSchema = {

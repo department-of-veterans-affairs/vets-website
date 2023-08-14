@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,12 +10,15 @@ import AttachmentsList from '../AttachmentsList';
 import { clearDraft, saveReplyDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
-import DeleteDraft from '../Draft/DeleteDraft';
+import ComposeFormActionButtons from './ComposeFormActionButtons';
 import { sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import EmergencyNote from '../EmergencyNote';
-import HowToAttachFiles from '../HowToAttachFiles';
-import { dateFormat, navigateToFolderByFolderId } from '../../util/helpers';
+import {
+  dateFormat,
+  messageSignatureFormatter,
+  navigateToFolderByFolderId,
+} from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
@@ -50,6 +53,7 @@ const ReplyForm = props => {
 
   const draftDetails = useSelector(state => state.sm.draftDetails);
   const { isSaving } = draftDetails;
+  const signature = useSelector(state => state.sm.preferences.signature);
 
   // sendReply call requires an id for the message being replied to
   // if a thread contains a saved draft, sendReply call will use the draft's id in params and in body
@@ -65,6 +69,13 @@ const ReplyForm = props => {
   const attachmentNames = attachments.reduce((currentString, item) => {
     return currentString + item.name;
   }, '');
+
+  const formattededSignature = useMemo(
+    () => {
+      return messageSignatureFormatter(signature);
+    },
+    [signature],
+  );
 
   useEffect(
     () => {
@@ -195,20 +206,20 @@ const ReplyForm = props => {
     [draft],
   );
 
-  const setMessageTitle = () => {
-    const casedCategory =
-      category === 'COVID' ? category : capitalize(category);
-    if (category && subject) {
+  const messageTitle = useMemo(
+    () => {
+      const casedCategory =
+        category === 'COVID' ? category : capitalize(category);
+      if (category && !subject) {
+        return `${casedCategory}:`;
+      }
+      if (!category && subject) {
+        return subject;
+      }
       return `${casedCategory}: ${subject}`;
-    }
-    if (category && !subject) {
-      return `${casedCategory}:`;
-    }
-    if (!category && subject) {
-      return subject;
-    }
-    return 'New message';
-  };
+    },
+    [category, subject],
+  );
 
   const checkMessageValidity = () => {
     let messageValid = true;
@@ -306,7 +317,7 @@ const ReplyForm = props => {
     return (
       <>
         <h1 ref={header} className="page-title">
-          {setMessageTitle()}
+          {messageTitle}
         </h1>
         <CannotReplyAlert visible={cannotReply} />
 
@@ -349,6 +360,7 @@ const ReplyForm = props => {
               <span
                 className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
                 style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
+                data-dd-privacy="mask"
               >
                 <i
                   className="fas fa-reply vads-u-margin-right--0p5 vads-u-margin-top--0p25"
@@ -361,6 +373,7 @@ const ReplyForm = props => {
                 <br />
               </span>
               <va-textarea
+                data-dd-privacy="mask"
                 label="Message"
                 required
                 id="reply-message-body"
@@ -368,12 +381,10 @@ const ReplyForm = props => {
                 className="message-body"
                 data-testid="message-body-field"
                 onInput={messageBodyHandler}
-                value={messageBody}
+                value={messageBody || formattededSignature} // populate with the signature, unless there is a saved draft
                 error={bodyError}
               />
               <section className="attachments-section vads-u-margin-top--2">
-                <strong>Attachments</strong>
-                <HowToAttachFiles />
                 <AttachmentsList
                   attachments={attachments}
                   setAttachments={setAttachments}
@@ -386,31 +397,13 @@ const ReplyForm = props => {
                 />
               </section>
               <DraftSavedInfo userSaved={userSaved} />
-              <div className="compose-form-actions vads-u-display--flex">
-                {!cannotReply && (
-                  <va-button
-                    text="Send"
-                    class="vads-u-flex--1 send-button vads-u-margin-bottom--1"
-                    data-testid="Send-Button"
-                    onClick={sendMessageHandler}
-                  />
-                )}
-
-                <va-button
-                  id="save-draft-button"
-                  text="Save draft"
-                  secondary
-                  class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1"
-                  data-testid="Save-Draft-Button"
-                  onClick={e => saveDraftHandler('manual', e)}
-                />
-                {/* UCD requested to keep button even when not saved as draft */}
-                <DeleteDraft
-                  draftId={newDraftId}
-                  setLastFocusableElement={setLastFocusableElement}
-                  setNavigationError={setNavigationError}
-                />
-              </div>
+              <ComposeFormActionButtons
+                onSend={sendMessageHandler}
+                onSaveDraft={(type, e) => saveDraftHandler(type, e)}
+                draftId={newDraftId}
+                setNavigationError={setNavigationError}
+                cannotReply={cannotReply}
+              />
             </div>
           </form>
         </section>
@@ -424,19 +417,21 @@ const ReplyForm = props => {
             <h3 className="sr-only">Message details</h3>
             <p className="vads-u-margin--0">
               <strong>From: </strong>
-              {replyMessage.senderName}
+              <span data-dd-privacy="mask">{replyMessage.senderName}</span>
             </p>
             <p className="vads-u-margin--0" data-testid="message-to">
               <strong>To: </strong>
-              {replyMessage.recipientName}
+              <span data-dd-privacy="mask">{replyMessage.recipientName}</span>
             </p>
             <p className="vads-u-margin--0" data-testid="message-date">
               <strong>Date: </strong>
-              {dateFormat(replyMessage.sentDate)}
+              <span data-dd-privacy="mask">
+                {dateFormat(replyMessage.sentDate)}
+              </span>
             </p>
             <p className="vads-u-margin--0" data-testid="message-id">
               <strong>Message ID: </strong>
-              {replyMessage.messageId}
+              <span data-dd-privacy="mask">{replyMessage.messageId}</span>
             </p>
           </div>
 

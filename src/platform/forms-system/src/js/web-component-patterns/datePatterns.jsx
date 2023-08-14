@@ -26,11 +26,31 @@ const currentOrPastDateUI = title => {
   };
 };
 
+/**
+ * Web component uiSchema for current or past dates with digit select for month
+ *
+ * ```js
+ * exampleDate: currentOrPastDateDigitsUI('Date of event')
+ * exampleDate: {
+ *  ...currentOrPastDateDigitsUI('Date of event')
+ * }
+ * ```
+ * @param {string} title
+ * @returns {UISchemaOptions} uiSchema
+ */
+const currentOrPastDateDigitsUI = title => ({
+  ...currentOrPastDateUI(title),
+  'ui:options': {
+    monthSelect: false,
+  },
+});
+
 /** @type {UISchemaOptions} */
 const DATE_OF_BIRTH_UI = {
   ...currentOrPastDateUI('Date of birth'),
   'ui:errorMessages': {
     pattern: 'Please provide a valid date',
+    required: 'Please enter date of birth',
   },
 };
 
@@ -53,6 +73,34 @@ const dateOfBirthUI = title => {
     : DATE_OF_BIRTH_UI;
 };
 
+/** @type {UISchemaOptions} */
+const DATE_OF_DEATH_UI = {
+  ...currentOrPastDateUI('Date of death'),
+  'ui:errorMessages': {
+    pattern: 'Please provide a valid date',
+    required: 'Please enter date of death',
+  },
+};
+
+/**
+ * Web component uiSchema for date of death
+ *
+ * ```js
+ * dateOfDeath: dateOfDeathUI()
+ * dateOfDeath: dateOfDeathUI('Stepchild’s date of death')
+ * ```
+ * @param {string} [title] optional title to override default 'Date of death'
+ * @returns {UISchemaOptions} uiSchema
+ */
+const dateOfDeathUI = title => {
+  return title
+    ? {
+        ...DATE_OF_DEATH_UI,
+        'ui:title': title,
+      }
+    : DATE_OF_DEATH_UI;
+};
+
 /**
  * @returns `commonDefinitions.date`
  */
@@ -61,11 +109,19 @@ const currentOrPastDateSchema = commonDefinitions.date;
 /**
  * @returns `commonDefinitions.date`
  */
+const currentOrPastDateDigitsSchema = commonDefinitions.date;
+
+/**
+ * @returns `commonDefinitions.date`
+ */
 const dateOfBirthSchema = commonDefinitions.date;
 
 export {
   currentOrPastDateUI,
+  currentOrPastDateDigitsUI,
   dateOfBirthUI,
+  dateOfDeathUI,
   currentOrPastDateSchema,
+  currentOrPastDateDigitsSchema,
   dateOfBirthSchema,
 };

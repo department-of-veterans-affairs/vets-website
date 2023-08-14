@@ -1,5 +1,5 @@
 import { v2 } from '../../mocks/appointments';
-import { generateFeatureToggles } from '../../mocks/feature-toggles';
+import { generateFeatureToggles } from '../../../common/mocks/feature-toggles';
 
 import {
   makeUserObject,

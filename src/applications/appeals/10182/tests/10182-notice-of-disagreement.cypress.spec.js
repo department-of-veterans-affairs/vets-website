@@ -25,7 +25,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
 
     // Rename and modify the test data as needed.
-    dataSets: ['maximal-test', 'minimal-test'],
+    dataSets: ['no-api-issues', 'minimal-test', 'maximal-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -44,12 +44,25 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(testData => {
+            cy.findByText('Continue', { selector: 'button' }).click();
+            // prevent continuing without any issues selected
+            cy.location('pathname').should(
+              'eq',
+              `${BASE_URL}/${CONTESTABLE_ISSUES_PATH}`,
+            );
+            cy.get('va-alert[status="error"] h3').should(
+              'contain',
+              testData.contestableIssues?.length
+                ? 'You’ll need to select an issue'
+                : 'Sorry, we couldn’t find any eligible issues',
+            );
+
             testData.additionalIssues?.forEach(additionalIssue => {
               if (additionalIssue.issue && additionalIssue[SELECTED]) {
                 cy.get('.add-new-issue').click();
                 cy.url().should('include', `${BASE_URL}/add-issue?index=`);
                 cy.axeCheck();
-                cy.get('#add-nod-issue')
+                cy.get('#issue-name')
                   .shadow()
                   .find('input')
                   .type(additionalIssue.issue);
@@ -57,7 +70,7 @@ const testConfig = createTestConfig(
                 cy.get('#submit').click();
               }
             });
-            testData.contestableIssues.forEach(issue => {
+            testData.contestableIssues?.forEach(issue => {
               if (issue[SELECTED]) {
                 cy.get(
                   `h4:contains("${issue.attributes.ratingIssueSubjectText}")`,
@@ -71,6 +84,23 @@ const testConfig = createTestConfig(
           });
         });
       },
+
+      'extension-reason': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            const { extensionReason } = testData;
+            if (extensionReason) {
+              cy.get('va-textarea')
+                .shadow()
+                .find('textarea')
+                .type(extensionReason);
+            }
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+
       'evidence-submission/upload': () => {
         cy.get('input[type="file"]')
           .upload(
@@ -90,7 +120,8 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/profile/status', mockStatus);
       cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('POST', 'v0/decision_review_evidence', mockUpload);
-      cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+      cy.intercept('POST', `v0/${formConfig.submitUrl}`, mockSubmit);
+      cy.intercept('POST', `v1/${formConfig.submitUrl}`, mockSubmit);
 
       cy.get('@testData').then(data => {
         cy.intercept('GET', '/v0/in_progress_forms/10182', mockPrefill);

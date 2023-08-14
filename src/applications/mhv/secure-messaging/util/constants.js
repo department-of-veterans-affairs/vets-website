@@ -24,7 +24,7 @@ export const DefaultFolders = {
   },
   SENT: {
     id: -1,
-    header: 'Sent messages',
+    header: 'Sent',
     desc: '',
   },
   DRAFTS: { id: -2, header: 'Drafts', desc: '' },
@@ -33,6 +33,14 @@ export const DefaultFolders = {
     header: 'Trash',
     desc: `These are the messages you moved to the trash from your inbox or folders. We won't permanently delete any messages.`,
   },
+  CUSTOM_FOLDER: {
+    desc: `This is a folder you created. You can add conversations to this folder by moving them from your inbox or other folders.`,
+  },
+};
+
+export const MessageReadStatus = {
+  READ: 'READ',
+  UNREAD: null,
 };
 
 export const ErrorMessages = {
@@ -203,7 +211,7 @@ export const Breadcrumbs = {
   DRAFTS: { path: Paths.DRAFTS, label: 'Drafts' },
   DRAFT: { path: Paths.DRAFT, label: 'Drafts' },
   FOLDERS: { path: Paths.FOLDERS, label: 'Back to my folders' },
-  SENT: { path: Paths.SENT, label: 'Sent messages' },
+  SENT: { path: Paths.SENT, label: 'Sent' },
   TRASH: { path: Paths.DELETED, label: 'Trash' },
 };
 
@@ -302,5 +310,14 @@ export const PrintMessageOptions = {
 
 export const BreadcrumbViews = {
   DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
-  MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3',
+  MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-margin-y--0',
+};
+
+export const PageTitles = {
+  DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veterans Affairs',
+  PAGE_TITLE_TAG: '- MHV Secure Messaging | Veterans Affairs',
+  EDIT_DRAFT_PAGE_TITLE_TAG:
+    'Edit draft - MHV Secure Messaging | Veterans Affairs',
+  MY_FOLDERS_PAGE_TITLE_TAG:
+    'My folders - MHV Secure Messaging | Veterans Affairs',
 };

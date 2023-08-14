@@ -22,7 +22,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['witnessPhone', 'witnessEmail'],
+    required: ['witnessPhone'],
     properties: {
       witnessPhone: definitions.phone,
       witnessEmail: formDefinitions.pdfEmail,

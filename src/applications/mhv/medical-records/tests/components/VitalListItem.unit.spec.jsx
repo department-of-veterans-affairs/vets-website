@@ -5,20 +5,23 @@ import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
 import vitals from '../fixtures/vitals.json';
 import { RecordType } from '../../util/constants';
+import { convertVital } from '../../reducers/vitals';
 
 describe('Vital list item component', () => {
   const initialState = {
     mr: {
       vitals: {
-        vitalsList: vitals,
-        vitalDetails: vitals[0],
+        vitalsList: vitals.entry.map(item => convertVital(item.resource)),
       },
     },
   };
 
   const setup = (state = initialState) => {
     return renderWithStoreAndRouter(
-      <RecordListItem record={vitals[0]} type={RecordType.VITALS} />,
+      <RecordListItem
+        record={initialState.mr.vitals.vitalsList[1]}
+        type={RecordType.VITALS}
+      />,
       {
         initialState: state,
         reducers: reducer,
@@ -32,18 +35,24 @@ describe('Vital list item component', () => {
     expect(screen.getByText('Blood pressure', { exact: true })).to.exist;
   });
 
-  it('should contain the name and date of the record', () => {
+  it('should contain the name of the record', () => {
     const screen = setup();
     const recordName = screen.getByText('Blood pressure', { exact: true });
-    const recordDate = screen.getByText('June', { exact: false });
     expect(recordName).to.exist;
+  });
+
+  it('should contain the date of the record', () => {
+    const screen = setup();
+    const recordDate = screen.getByText('September', {
+      exact: false,
+    });
     expect(recordDate).to.exist;
   });
 
   it('should contain a link to view record details', () => {
     const screen = setup();
     const recordDetailsLink = screen.getByRole('link', {
-      name: 'View Blood pressure over time',
+      name: 'View blood pressure over time',
     });
     expect(recordDetailsLink).to.exist;
   });

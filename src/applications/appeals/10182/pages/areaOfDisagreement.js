@@ -1,11 +1,8 @@
 import {
   issueName,
   issusDescription,
-  serviceConnection,
-  effectiveDate,
-  evaluation,
   AreaOfDisagreementReviewField,
-  otherLabel,
+  titles,
   otherDescription,
   missingAreaOfDisagreementErrorMessage,
 } from '../content/areaOfDisagreement';
@@ -18,6 +15,11 @@ import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../constants';
 // add 1 for last comma
 const allDisagreementsLength =
   Object.values(SUBMITTED_DISAGREEMENTS).join(',').length + 1;
+
+const widgetProps = {
+  true: { 'aria-describedby': 'disagreement-title' },
+  false: { 'aria-describedby': 'disagreement-title' },
+};
 
 export default {
   uiSchema: {
@@ -40,20 +42,24 @@ export default {
         },
         disagreementOptions: {
           serviceConnection: {
-            'ui:title': serviceConnection,
+            'ui:title': titles.serviceConnection,
             'ui:reviewField': AreaOfDisagreementReviewField,
+            'ui:options': { widgetProps },
           },
           effectiveDate: {
-            'ui:title': effectiveDate,
+            'ui:title': titles.effectiveDate,
             'ui:reviewField': AreaOfDisagreementReviewField,
+            'ui:options': { widgetProps },
           },
           evaluation: {
-            'ui:title': evaluation,
+            'ui:title': titles.evaluation,
             'ui:reviewField': AreaOfDisagreementReviewField,
+            'ui:options': { widgetProps },
           },
         },
         otherEntry: {
-          'ui:title': otherLabel,
+          'ui:title': titles.otherEntry,
+          'ui:reviewField': AreaOfDisagreementReviewField,
           'ui:description': otherDescription,
           'ui:options': {
             updateSchema: (formData, _schema, _uiSchema, index) => ({
@@ -63,7 +69,8 @@ export default {
               ),
             }),
             // index is appended to this ID in the TextWidget
-            ariaDescribedby: 'other_hint_text',
+            ariaDescribedby: 'disagreement-title other_hint_text',
+            hideEmptyValueInReview: true,
           },
         },
       },

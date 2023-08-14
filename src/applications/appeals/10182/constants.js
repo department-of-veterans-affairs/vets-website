@@ -17,6 +17,9 @@ export const GET_HELP_REQUEST_URL =
 // key for contestableIssues to indicate that the user selected the issue
 export const SELECTED = 'view:selected';
 
+// feature flag for form update
+export const SHOW_PART3 = 'view:showPart3';
+
 export const CONTESTABLE_ISSUES_API =
   '/notice_of_disagreements/contestable_issues';
 
@@ -24,6 +27,10 @@ export const FORMAT_READABLE = 'LL';
 
 // contestable issue dates
 export const FORMAT_YMD = 'YYYY-MM-DD';
+
+// NOD update (Part III, box 11) allows for past decision dates, but we should
+// limit them. Picking 100 years until told otherwise
+export const MAX_YEARS_PAST = 100;
 
 export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
 
@@ -49,7 +56,7 @@ export const MAX_LENGTH = {
   ZIP_CODE5: 5,
   POSTAL_CODE: 16,
   REP_NAME: 120,
-  // EXTENSION_REASON: 2300, // in v2 schema
+  EXTENSION_REASON: 2300, // in v2 schema
 };
 
 // Using MAX_LENGTH.DISAGREEMENT_REASON (90) and with all checkboxes selected,
