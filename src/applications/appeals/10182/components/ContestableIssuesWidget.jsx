@@ -180,7 +180,7 @@ const ContestableIssuesWidget = props => {
   return (
     <>
       <div name="eligibleScrollElement" />
-      {showNoIssues && <NoIssuesLoadedAlert submitted={submitted} />}
+      {showNoIssues && <NoIssuesLoadedAlert />}
       {!showNoIssues &&
         submitted &&
         !hasSelected && (
