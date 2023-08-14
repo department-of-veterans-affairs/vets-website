@@ -353,5 +353,8 @@
   "how-we-calculate-mileage": "How we calculate mileage",
   "we-pay-round-trip-mileage-for-scheduled": "We pay round-trip mileage for your scheduled appointments",
   "we-may--only-pay-return-for-unscheduled": "We may only pay return mileage for unscheduled appointments, like walk-ins and labs",
-  "check-current-mileage-rates": "Check current mileage rates"
+  "check-current-mileage-rates": "Check current mileage rates",
+  "start-checking-in-for-your-appointment": "Start checking in for your appointment",
+  "we-need-your-last-name-and-birth": "First, we need your last name and date of birth to make sure it’s you.",
+  "check-if-your-info-is-up-to-date": "Check if your information is up to date"
 }

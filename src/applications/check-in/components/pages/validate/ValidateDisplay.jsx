@@ -83,15 +83,10 @@ export default function ValidateDisplay({
 
   return (
     <Wrapper
-      pageTitle={header || t('check-in-at-va')}
+      pageTitle={header || t('start-checking-in-for-your-appointment')} 
       testID={`${app}-validate-page`}
     >
-      <p>
-        {subtitle ||
-          t(
-            'we-need-some-information-to-verify-your-identity-so-we-can-check-you-in',
-          )}
-      </p>
+      <p>{subtitle || t('we-need-your-last-name-and-birth')}</p>
       {showValidateError ? (
         <div className="validate-error-alert" tabIndex="-1">
           <va-alert

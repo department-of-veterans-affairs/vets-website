@@ -82,10 +82,6 @@ const ValidateVeteran = props => {
   return (
     <>
       <ValidateDisplay
-        header={t('check-in-at-va')}
-        subTitle={t(
-          'we-need-some-information-to-verify-your-identity-so-we-can-check-you-in',
-        )}
         lastNameInput={{
           lastNameError,
           setLastName,
