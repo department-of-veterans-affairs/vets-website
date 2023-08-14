@@ -26,7 +26,7 @@ const consultations = avs => {
             You will be contacted by mail or telephone for the following
             referral:
           </p>
-          <ul>{orderListItems}</ul>
+          <ul className="bulleted-list">{orderListItems}</ul>
         </div>
       );
     }
@@ -52,7 +52,7 @@ const imaging = avs => {
             If a specific preparation is required, the Technologist will inform
             you.
           </p>
-          <ul>{orderListItems}</ul>
+          <ul className="bulleted-list">{orderListItems}</ul>
         </div>
       );
     }
@@ -76,7 +76,7 @@ const labTests = avs => {
             Please report to the lab for the following blood tests on the date
             listed for each test:
           </p>
-          <ul>{orderListItems}</ul>
+          <ul className="bulleted-list">{orderListItems}</ul>
         </div>
       );
     }
@@ -98,7 +98,7 @@ const medsAndSupplies = avs => {
             complete medication list under My Ongoing Care below.
           </p>
           {/* TODO: headings for med change types */}
-          <ul>{orderListItems}</ul>
+          <ul className="bulleted-list">{orderListItems}</ul>
         </div>
       );
     }
@@ -117,7 +117,7 @@ const otherOrders = avs => {
       return (
         <div>
           <h4>Other orders</h4>
-          <ul>{orderListItems}</ul>
+          <ul className="bulleted-list">{orderListItems}</ul>
         </div>
       );
     }
@@ -153,6 +153,7 @@ const YourTreatmentPlan = props => {
       {labTests(avs)}
       {medsAndSupplies(avs)}
       {otherOrders(avs)}
+      {/* TODO: add health reminders. */}
       {patientInstructions(avs)}
     </div>
   );

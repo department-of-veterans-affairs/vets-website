@@ -59,7 +59,7 @@ const primaryCareTeam = avs => {
     return (
       <div>
         <h3>Primary care team</h3>
-        <ul>{teamMembers}</ul>
+        <ul className="bulleted-list">{teamMembers}</ul>
       </div>
     );
   }

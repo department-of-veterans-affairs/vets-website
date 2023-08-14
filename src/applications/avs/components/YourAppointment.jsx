@@ -62,7 +62,7 @@ const youWereDiagnosedWith = avs => {
     return (
       <div>
         <h3>You were diagnosed with</h3>
-        <ul>{diagnosisListItems}</ul>
+        <ul className="bulleted-list">{diagnosisListItems}</ul>
       </div>
     );
   }
@@ -77,7 +77,7 @@ const vitalSigns = avs => {
         <p>
           {vitalSign.type}
           <br />
-          {vitalSign.value}
+          Result: {vitalSign.value}
         </p>
         <hr />
       </div>
@@ -102,6 +102,7 @@ const procedures = avs => {
     return (
       <div>
         <h3>Procedures</h3>
+        {/* TODO: use bulleted list. */}
       </div>
     );
   }
