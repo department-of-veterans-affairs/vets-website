@@ -247,16 +247,12 @@ class SaveInProgressIntro extends React.Component {
                   </ul>
                 </>
               )}
-              {/* TODO:
-              - Verify "...filling out..." below can be a sitewide change.
-              - Check with Designer re. {appType} -- need to choose between "form" and "authorization".
-              */}
               <p>
                 {!this.props.hideUnauthedStartLink && (
                   <>
-                    <strong>Note:</strong> You can sign in after you start
-                    filling out your {appType}. But you&rsquo;ll lose any
-                    information you already filled in.
+                    <strong>Note:</strong> You can sign in after you start your{' '}
+                    {appType}. But you&rsquo;ll lose any information you already
+                    filled in.
                   </>
                 )}
               </p>
