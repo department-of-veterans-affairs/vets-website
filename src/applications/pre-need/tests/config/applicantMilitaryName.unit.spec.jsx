@@ -5,15 +5,15 @@ import { mount } from 'enzyme';
 
 import {
   DefinitionTester,
-  fillData,
+  selectRadio,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe('Pre-need sponsor military name information', () => {
+describe('Pre-need applicant military name', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.militaryHistory.pages.sponsorMilitaryNameInformation;
+  } = formConfig.chapters.militaryHistory.pages.applicantMilitaryName;
 
   it('should render', () => {
     const form = mount(
@@ -24,8 +24,7 @@ describe('Pre-need sponsor military name information', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(3);
-    expect(form.find('select').length).to.equal(1);
+    expect(form.find('input').length).to.equal(2);
     form.unmount();
   });
 
@@ -42,7 +41,7 @@ describe('Pre-need sponsor military name information', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -58,31 +57,7 @@ describe('Pre-need sponsor military name information', () => {
       />,
     );
 
-    fillData(form, 'input#root_application_veteran_serviceName_last', 'Smith');
-    fillData(form, 'input#root_application_veteran_serviceName_first', 'Jane');
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
-  });
-
-  it('should submit with all info filled in', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    fillData(form, 'input#root_application_veteran_serviceName_last', 'Smith');
-    fillData(form, 'input#root_application_veteran_serviceName_first', 'Jane');
-    fillData(form, 'input#root_application_veteran_serviceName_middle', 'M');
-    fillData(form, 'select#root_application_veteran_serviceName_suffix', 'Jr.');
-
+    selectRadio(form, 'root_application_veteran_view:hasServiceName', 'N');
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(0);

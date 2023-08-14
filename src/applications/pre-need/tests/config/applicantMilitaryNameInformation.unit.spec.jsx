@@ -9,11 +9,11 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe('Pre-need sponsor military name information', () => {
+describe('Pre-need applicant military name information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.militaryHistory.pages.sponsorMilitaryNameInformation;
+  } = formConfig.chapters.militaryHistory.pages.applicantMilitaryNameInformation;
 
   it('should render', () => {
     const form = mount(
