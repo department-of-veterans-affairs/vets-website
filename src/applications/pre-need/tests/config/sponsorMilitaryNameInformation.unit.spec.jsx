@@ -42,7 +42,7 @@ describe('Pre-need sponsor military name', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(form.find('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
