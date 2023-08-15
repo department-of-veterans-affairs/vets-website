@@ -12,6 +12,7 @@ import { useDatadogRum } from '../hooks/useDatadogRum';
 import {
   isAuthenticatedWithSSOe,
   isLandingPageEnabled,
+  isLoggedIn,
   selectDrupalStaticData,
   selectProfile,
 } from '../selectors';
@@ -20,6 +21,7 @@ const App = () => {
   const appEnabled = useSelector(isLandingPageEnabled);
   const drupalStaticData = useSelector(selectDrupalStaticData);
   const profile = useSelector(selectProfile);
+  const signedIn = useSelector(isLoggedIn);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const fullState = useSelector(state => state);
   const { featureToggles, user } = fullState;
@@ -33,6 +35,7 @@ const App = () => {
 
   useDatadogRum();
 
+  if (!signedIn) return <RequiredLoginView user={user} />;
   const loading =
     drupalStaticData?.vamcEhrData?.loading ||
     featureToggles.loading ||
