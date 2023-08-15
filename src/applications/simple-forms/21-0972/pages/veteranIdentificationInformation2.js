@@ -11,10 +11,8 @@ import {
 export default {
   uiSchema: {
     veteranSsn: ssnUI(),
-    veteranVaFileNumber: vaFileNumberUI(),
-    veteranServiceNumber: serviceNumberUI(
-      'Veteran’s service number (if applicable)',
-    ),
+    veteranVaFileNumber: vaFileNumberUI('VA file number'),
+    veteranServiceNumber: serviceNumberUI('Veteran’s service number'),
   },
   schema: {
     type: 'object',

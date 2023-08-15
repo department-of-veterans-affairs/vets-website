@@ -4,6 +4,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
+import CustomHeader from '../components/CustomHeader';
 
 const placeholderSchema = {
   type: 'object',
@@ -21,6 +22,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  CustomHeader,
   preSubmitInfo: {
     statementOfTruth: {
       body:
