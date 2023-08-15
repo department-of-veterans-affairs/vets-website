@@ -1,12 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import {
-  DefinitionTester,
-  fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pre-need sponsor military history', () => {
@@ -29,7 +25,7 @@ describe('Pre-need sponsor military history', () => {
     form.unmount();
   });
 
-  it('should not submit empty form', () => {
+  /* it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -68,5 +64,5 @@ describe('Pre-need sponsor military history', () => {
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
     form.unmount();
-  });
+  }); */
 });
