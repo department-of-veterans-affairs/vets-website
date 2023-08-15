@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { isLandingPageEnabled } from 'applications/mhv/landing-page/selectors';
-import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import MY_HEALTH_LINK from 'platform/site-wide/mega-menu/constants/MY_HEALTH_LINK';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import MY_HEALTH_LINK from '~/platform/site-wide/mega-menu/constants/MY_HEALTH_LINK';
 
 const MyHealthLink = ({ isSSOe, onClick }) => {
   const state = useSelector(s => s);
@@ -27,6 +28,11 @@ const MyHealthLink = ({ isSSOe, onClick }) => {
       </a>
     </li>
   );
+};
+
+MyHealthLink.propTypes = {
+  isSSOe: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 export default MyHealthLink;

@@ -36,7 +36,7 @@ describe(`${appName} -- Auth Redirect`, () => {
     });
   });
 
-  describe('cerner patient', () => {
+  describe('Cerner patient', () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('redirects to MHV National Portal', () => {
       cy.login(cernerUser);

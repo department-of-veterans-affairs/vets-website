@@ -40,7 +40,12 @@ const App = () => {
     drupalStaticData?.vamcEhrData?.loading ||
     featureToggles.loading ||
     profile.loading;
-  if (loading) return <va-loading-indicator />;
+  if (loading)
+    return (
+      <div className="vads-u-margin--5">
+        <va-loading-indicator message="Please wait..." />
+      </div>
+    );
   if (!appEnabled) {
     const redirectUrl = mhvUrl(ssoe, 'home');
     // console.log({ redirectUrl });
