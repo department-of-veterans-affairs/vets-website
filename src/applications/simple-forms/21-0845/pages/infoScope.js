@@ -35,9 +35,9 @@ export default {
 
           return {
             title: (
-              <span className="vads-u-font-family--serif vads-u-font-size--h4 vads-u-font-weight--bold">
+              <h3 className="custom-header">
                 {titleString.replace('[third-party-name]', thirdPartyName)}
-              </span>
+              </h3>
             ),
           };
         },
