@@ -14,7 +14,6 @@ import {
   issuesNeedUpdating,
   getSelected,
   getIssueNameAndDate,
-  processContestableIssues,
 } from '../utils/helpers';
 import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
 import forcedMigrations from '../migrations/forceMigrations';
@@ -23,6 +22,8 @@ import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
+
+import { processContestableIssues } from '../../shared/utils/issues';
 
 export const Form0996App = ({
   loggedIn,

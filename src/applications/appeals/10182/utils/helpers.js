@@ -3,6 +3,8 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { SELECTED, SHOW_PART3 } from '../constants';
 
+import { processContestableIssues } from '../../shared/utils/issues';
+
 export const someSelected = issues =>
   (issues || []).some(issue => issue[SELECTED]);
 
@@ -68,30 +70,6 @@ export const isEmptyObject = obj =>
   obj && typeof obj === 'object' && !Array.isArray(obj)
     ? Object.keys(obj)?.length === 0 || false
     : false;
-
-// getEligibleContestableIssues will remove deferred issues and issues > 1 year
-// past their decision date. This function removes issues with no title & sorts
-// the list by descending (newest first) decision date
-export const processContestableIssues = contestableIssues => {
-  const regexDash = /-/g;
-  const getDate = entry =>
-    (entry.attributes?.approxDecisionDate || '').replace(regexDash, '');
-
-  // remove issues with no title & sort by date - see
-  // https://dsva.slack.com/archives/CSKKUL36K/p1623956682119300
-  return (contestableIssues || [])
-    .filter(issue => getIssueName(issue))
-    .sort((a, b) => {
-      const dateA = getDate(a);
-      const dateB = getDate(b);
-      if (dateA === dateB) {
-        // If the dates are the same, sort by title
-        return getIssueName(a) > getIssueName(b) ? 1 : -1;
-      }
-      // YYYYMMDD string comparisons will work in place of using moment
-      return dateA > dateB ? -1 : 1;
-    });
-};
 
 export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
   if (loadedIssues.length !== existingIssues.length) {

@@ -230,6 +230,11 @@ describe('processContestableIssues', () => {
       '2020-12-01',
     ]);
   });
+  it('should filter out duplicate issues', () => {
+    const issues = getIssues(['2020-02-01', '2020-03-01', '2020-02-01']);
+    const result = processContestableIssues(issues);
+    expect(getDates(result)).to.deep.equal(['2020-03-01', '2020-02-01']);
+  });
 });
 
 describe('calculateIndexOffset', () => {

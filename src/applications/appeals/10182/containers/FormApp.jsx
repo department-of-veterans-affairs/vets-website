@@ -13,7 +13,6 @@ import {
   issuesNeedUpdating,
   getSelected,
   getIssueNameAndDate,
-  processContestableIssues,
 } from '../utils/helpers';
 import { getEligibleContestableIssues } from '../utils/submit';
 
@@ -22,6 +21,8 @@ import { SHOW_PART3 } from '../constants';
 import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
+
+import { processContestableIssues } from '../../shared/utils/issues';
 
 export const FormApp = ({
   isLoading,

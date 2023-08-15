@@ -2,46 +2,14 @@ import moment from 'moment';
 
 import { SELECTED, LEGACY_TYPE, FORMAT_YMD, AMA_DATE } from '../constants';
 
+import { processContestableIssues } from '../../shared/utils/issues';
+import '../../shared/definitions';
+
 /**
- * @typedef ContestableIssues
- * @type {Array<Object>}
- * @property {ContestableIssueItem|LegacyAppealsItem}
- */
-/**
- * @typedef ContestableIssueItem
- * @type {Object}
- * @property {String} type - always set to "contestableIssue"
- * @property {ContestableIssueAttributes} attributes - essential properties
- * @property {Boolean} 'view:selected' - internal boolean indicating that the
- *   issue has been selected by the user
- */
-/**
- * @typedef ContestableIssueAttributes
- * @type {Object}
- * @property {String} ratingIssueSubjectText - title of issue
- * @property {String} description - issue description
- * @property {Number} ratingIssuePercentNumber - disability rating percentage
- * @property {String} approxDecisionDate - decision date (YYYY-MM-DD)
- * @property {Number} decisionIssueId - decision id
- * @property {String} ratingIssueReferenceId - issue reference number
- * @property {String} ratingDecisionReferenceId - decision reference id
- */
-/**
- * @typedef AdditionalIssues
- * @type {Array<Object>}
- * @property {AdditionalIssueItem}
- */
-/**
- * @typedef AdditionalIssueItem
- * @type {Object}
- * @property {String} issue - title of issue
- * @property {String} decisionDate - decision date (YYYY-MM-DD)
- * @returns
- */
-/** Filter out ineligible contestable issues:
+ * Filter out ineligible contestable issues:
  * - remove issues with an invalid decision date
  * - remove issues that are deferred
- * @prop {ContestableIssues} - Array of both eligible & ineligible contestable
+ * @param {ContestableIssues} - Array of both eligible & ineligible contestable
  *  issues, plus legacy issues
  * @return {ContestableIssues} - filtered list
  */
@@ -66,30 +34,11 @@ export const getEligibleContestableIssues = issues => {
 };
 
 /**
- * @typedef LegacyAppealsItem
- * @type {Object}
- * @property {String} type - always set to "legacyAppeals"
- * @property {LegacyAppealsAttributes} attributes - essential properties
- * @property {Boolean} 'view:selected' - internal boolean indicating that the
- *   issue has been selected by the user
- */
-/**
- * @typedef LegacyAppealsAttributes
- * @type {Object}
- * @property {String} decisionDate - decision date (ISO)
- * @property {String} latestSocSsocDate - SOC/SSOC date (ISO)
- * @property {String} veteranFullName - First & Last name
- * @property {LegacyAppealsIssue} issues - list of legacy issues
- */
-/**
- * @typedef LegacyAppealsIssue
- * @param {String} summary - issue summary
- */
-/** Find legacy appeal array included with contestable issues & return length
+ * Find legacy appeal array included with contestable issues & return length
  * Note: we are using the length of this array instead of trying to do a 1:1
  * coorelation of contestable issues to legacy issues since we're only getting a
  * summary and not a matching name or date (at least in the mock data).
- * @prop {ContestableIssues} issues - Array of both eligible & ineligible
+ * @param {ContestableIssues} issues - Array of both eligible & ineligible
  *  contestable issues, plus legacy issues
  * @return {Number} - length of legacy array
  */
@@ -185,30 +134,6 @@ export const isEmptyObject = obj =>
   obj && typeof obj === 'object' && !Array.isArray(obj)
     ? Object.keys(obj)?.length === 0 || false
     : false;
-
-// getEligibleContestableIssues will remove deferred issues and issues > 1 year
-// past their decision date. This function removes issues with no title & sorts
-// the list by descending (newest first) decision date
-export const processContestableIssues = contestableIssues => {
-  const regexDash = /-/g;
-  const getDate = entry =>
-    (entry.attributes?.approxDecisionDate || '').replace(regexDash, '');
-
-  // remove issues with no title & sort by date - see
-  // https://dsva.slack.com/archives/CSKKUL36K/p1623956682119300
-  return (contestableIssues || [])
-    .filter(issue => getIssueName(issue))
-    .sort((a, b) => {
-      const dateA = getDate(a);
-      const dateB = getDate(b);
-      if (dateA === dateB) {
-        // If the dates are the same, sort by title
-        return getIssueName(a) > getIssueName(b) ? 1 : -1;
-      }
-      // YYYYMMDD string comparisons will work in place of using moment
-      return dateA > dateB ? -1 : 1;
-    });
-};
 
 export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
   if (loadedIssues.length !== existingIssues.length) {

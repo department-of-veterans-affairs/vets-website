@@ -38,13 +38,7 @@ const addLeadingZero = part => `00${part || ''}`.slice(-2);
 
 /** ***************** */
 
-const submitTransformers = [
-  // add more here
-  replaceWhitespace,
-  replaceApostrophe,
-];
-
-const transformers = [
+const descriptionTransformers = [
   // add more here
   replaceWhitespace,
   replacePercent,
@@ -56,10 +50,16 @@ const transformers = [
  * @returns {String}
  */
 export const replaceDescriptionContent = text =>
-  transformers.reduce(
+  descriptionTransformers.reduce(
     (resultingText, transformer) => transformer(resultingText),
     text || '',
   );
+
+const submitTransformers = [
+  // add more here
+  replaceWhitespace,
+  replaceApostrophe,
+];
 
 /**
  * Replace problematic characters preventing submission to Lighthouse

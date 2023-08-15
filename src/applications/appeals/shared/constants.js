@@ -81,9 +81,10 @@ export const MAX_LENGTH = {
  **** REGULAR EXPRESSIONS ****
  */
 export const REGEXP = {
-  WHITESPACE: /\s+/g,
   APOSTROPHE: /\u2019/g,
+  DASH: /-/g,
   PERCENT: /(\s|\b)percent(\s|\b)/gi,
+  WHITESPACE: /\s+/g,
 };
 
 /**

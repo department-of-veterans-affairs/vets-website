@@ -20,7 +20,7 @@ import {
 import user from '../tests/fixtures/mocks/user.json';
 
 import formConfig from '../config/form';
-import { issuesNeedUpdating, processContestableIssues } from '../utils/helpers';
+import { issuesNeedUpdating } from '../utils/helpers';
 import {
   removeNonSelectedIssuesFromEvidence,
   evidenceNeedsUpdating,
@@ -29,6 +29,8 @@ import {
 import ITFWrapper from './ITFWrapper';
 import { WIP } from '../components/WIP';
 import { SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
+
+import { processContestableIssues } from '../../shared/utils/issues';
 
 export const App = ({
   loggedIn,
