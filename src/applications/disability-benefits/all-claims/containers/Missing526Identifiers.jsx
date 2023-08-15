@@ -1,6 +1,8 @@
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import PropTypes from 'prop-types';
+
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import recordEvent from 'platform/monitoring/record-event';
 
 // Downcases the first char in the capitalized form title passed to this component
 // This is needed because we reference it within a sentance
@@ -17,7 +19,7 @@ const filterMissingIdentifiers = form526RequiredIdentifers => {
 
 const formatMissingIdentifiers = missingIdentifiers => {
   const READABLE_IDENTIFIER_MAPPING = {
-    particpantId: 'Participant ID',
+    participantId: 'Participant ID',
     birlsId: 'BIRLS ID',
     ssn: 'Social Security Number',
     birthDate: 'Date of Birth',
@@ -54,6 +56,17 @@ const displayContent = (title, form526RequiredIdentifers) => {
   const missingIdentifiers = filterMissingIdentifiers(
     form526RequiredIdentifers,
   );
+
+  recordEvent({
+    event: 'visible-alert-box',
+    'alert-box-type': 'warning',
+    'alert-box-heading': title,
+    'error-key': `missing_526_identifiers_${missingIdentifiers.join('_')}`,
+    'alert-box-full-width': false,
+    'alert-box-background-only': false,
+    'alert-box-closeable': false,
+  });
+
   const formattedIdentifiers = formatMissingIdentifiers(missingIdentifiers);
 
   return (
@@ -85,7 +98,7 @@ Missing526Identifiers.propTypes = {
   title: PropTypes.string.isRequired,
   form526RequiredIdentifers: PropTypes.arrayOf(
     PropTypes.shape({
-      particpantId: PropTypes.bool.isRequired,
+      participantId: PropTypes.bool.isRequired,
       birlsId: PropTypes.bool.isRequired,
       ssn: PropTypes.bool.isRequired,
       birthDate: PropTypes.bool.isRequired,
