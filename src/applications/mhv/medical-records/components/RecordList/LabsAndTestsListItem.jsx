@@ -11,7 +11,7 @@ const LabsAndTestsListItem = props => {
     return (
       <>
         <span className="field-label">
-          {record.orderedBy ? 'Ordered by: ' : 'Requested by: '}
+          {record.orderedBy ? 'Ordered by ' : 'Requested by '}
         </span>{' '}
         {record.orderedBy || record.requestedBy}
       </>
@@ -23,10 +23,15 @@ const LabsAndTestsListItem = props => {
       className="record-list-item vads-u-padding-y--2 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
       data-testid="record-list-item"
     >
-      <h4>{record.name}</h4>
+      <h4 className="vads-u-margin-bottom--0">{record.name}</h4>
       <div className="fields">
         <div>{formattedDate}</div>
-        <div>{record.category}</div>
+        {record.type === 'radiology' && (
+          <div>Type of test: X-rays and imaging tests (Radiology)</div>
+        )}
+        {record.type === 'chemistry_hematology' && (
+          <div>Type of test: Chemistry and hematology</div>
+        )}
         {(record.orderedBy || record.requestedBy) && (
           <div>{orderedOrRequested()}</div>
         )}
