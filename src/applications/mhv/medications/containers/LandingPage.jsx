@@ -293,15 +293,17 @@ const LandingPage = () => {
                 </a>
               </va-accordion-item>
             </va-accordion>
-            <br />
-            <br />
           </section>
         </div>
       </div>
     );
   };
 
-  return <div className="vads-u-margin-top--3">{content()}</div>;
+  return (
+    <div className="vads-u-margin-top--3 vads-u-margin-bottom--6">
+      {content()}
+    </div>
+  );
 };
 
 export default LandingPage;
