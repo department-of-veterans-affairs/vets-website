@@ -100,7 +100,7 @@ class PatientInboxPage {
       },
       errors: {},
       metadata: {},
-    });
+    }).as('signature');
 
     cy.visit('my-health/secure-messages/inbox/', {
       onBeforeLoad: win => {
