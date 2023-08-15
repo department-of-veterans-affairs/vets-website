@@ -509,10 +509,9 @@ describe('App', () => {
 
             expect(authActivityHandlerSpy.callCount).to.equal(1);
 
-            // waitFor(() =>
-            expect(sessionStorage.getItem(LOGGED_IN_FLOW)).to.equal('true');
-            // console.log('waitFor, logged in flow in storage:', sessionStorage.getItem(LOGGED_IN_FLOW))
-            // );
+            waitFor(() =>
+              expect(sessionStorage.getItem(LOGGED_IN_FLOW)).to.equal('true'),
+            );
           });
         });
 
