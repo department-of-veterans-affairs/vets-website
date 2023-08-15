@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { expect } from 'chai';
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
-import { isLandingPageEnabled } from '../selectors';
+import { isLandingPageEnabled } from '../../selectors';
 import manifest from '../../manifest.json';
 
 // x const { featureToggles, user } = state;

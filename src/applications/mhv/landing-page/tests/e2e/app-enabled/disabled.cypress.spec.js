@@ -6,9 +6,14 @@ import user from '../../fixtures/user.json';
 describe(appName, () => {
   beforeEach(() => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
-    cy.intercept('GET', '/v0/feature_toggles*', featureTogglesDisabled).as('featureTogglesDisabled');
-    const redirectUrl = 'https://mhv-syst.myhealth.va.gov/mhv-portal-web/home';
-    cy.intercept('GET', redirectUrl, '').as('redirect');
+    cy.intercept('GET', '/v0/feature_toggles*', featureTogglesDisabled).as(
+      'featureTogglesDisabled',
+    );
+    const mhvRedirectUrl =
+      'https://mhv-syst.myhealth.va.gov/mhv-portal-web/home';
+    cy.intercept('GET', mhvRedirectUrl, '').as('mhvRedirect');
+    const mhvAuthRedirectUrl = 'https://pint.eauth.va.gov/mhv-portal-web/eauth';
+    cy.intercept('GET', mhvAuthRedirectUrl, '').as('mhvAuthRedirect');
   });
 
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
@@ -16,6 +21,6 @@ describe(appName, () => {
     cy.login(user);
     cy.visit('/my-health/');
     cy.url().should('not.include', '/my-health/');
-    cy.wait('@redirect');
+    cy.wait('@mhvAuthRedirect');
   });
 });

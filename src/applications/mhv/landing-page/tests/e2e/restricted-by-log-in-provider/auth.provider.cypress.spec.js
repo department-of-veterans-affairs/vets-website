@@ -1,23 +1,31 @@
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
-import manifest from '../../../manifest.json';
+import { appName } from '../../../manifest.json';
+import vamcEhr from '../../fixtures/vamc-ehr.json';
 
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
 
-describe(manifest.appName, () => {
+describe(appName, () => {
   beforeEach(() => {
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
+    const mhvRedirectUrl =
+      'https://mhv-syst.myhealth.va.gov/mhv-portal-web/home';
+    cy.intercept('GET', mhvRedirectUrl, '').as('mhvRedirect');
+    const mhvAuthRedirectUrl = 'https://pint.eauth.va.gov/mhv-portal-web/eauth';
+    cy.intercept('GET', mhvAuthRedirectUrl, '').as('mhvAuthRedirect');
+
     ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
     ApiInitializer.initializeUserData.withDefaultUser();
   });
 
-  it('landing page is enabled for idme', () => {
+  it('landing page is enabled for ID.me', () => {
     LandingPage.visitPage({ serviceProvider: CSP_IDS.ID_ME });
     LandingPage.validatePageLoaded();
     LandingPage.validateURL();
     cy.injectAxeThenAxeCheck();
   });
 
-  it('landing page is enabled for login gov', () => {
+  it('landing page is enabled for Login.gov', () => {
     LandingPage.visitPage({ serviceProvider: CSP_IDS.LOGIN_GOV });
     LandingPage.validatePageLoaded();
     LandingPage.validateURL();
@@ -25,8 +33,9 @@ describe(manifest.appName, () => {
   });
 
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-  it('landing page is disabled for dslogon', () => {
+  it('landing page is disabled for DS Logon', () => {
     LandingPage.visitPage({ serviceProvider: CSP_IDS.DS_LOGON });
     LandingPage.validateRedirectHappened();
+    cy.wait('@mhvAuthRedirect');
   });
 });
