@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
 import { getAvs } from '../api/v0';
 import {
@@ -29,10 +33,11 @@ const generateFooter = avs => {
   );
 };
 
-const Avs = () => {
-  // TODO: handle un-authed users.
+const Avs = props => {
   // TODO: boot folks out if the feature toggle is not enabled.
-  const { id } = useParams();
+  const user = useSelector(selectUser);
+  const { isLoggedIn } = props;
+  const { id } = props.params;
 
   const [avs, setAvs] = useState({});
   const [loading, setLoading] = useState(true);
@@ -44,12 +49,15 @@ const Avs = () => {
         setAvs(response.data.attributes);
         setLoading(false);
       };
-      fetchAvs();
+
+      if (isLoggedIn) {
+        fetchAvs();
+      }
     },
-    [id],
+    [id, isLoggedIn],
   );
 
-  if (loading) {
+  if (isLoggedIn && loading) {
     return (
       <va-loading-indicator
         data-testid="loading-indicator"
@@ -59,29 +67,39 @@ const Avs = () => {
   }
 
   return (
-    <div>
-      <h1>After-visit Summary</h1>
-      <va-accordion>
-        <va-accordion-item header={generateAppointmentHeader(avs)}>
-          <YourAppointment avs={avs} />
-        </va-accordion-item>
-        <va-accordion-item header="Your treatment plan from this appointment">
-          <YourTreatmentPlan avs={avs} />
-        </va-accordion-item>
-        <va-accordion-item header="Your health information as of this appointment">
-          <YourHealthInformation avs={avs} />
-        </va-accordion-item>
-        <va-accordion-item header="More information">
-          <MoreInformation avs={avs} />
-        </va-accordion-item>
-      </va-accordion>
-      {generateFooter(avs)}
+    <div className="vads-l-grid-container main-content">
+      <RequiredLoginView
+        user={user}
+        serviceRequired={[backendServices.USER_PROFILE]}
+      >
+        <h1>After-visit Summary</h1>
+        <va-accordion>
+          <va-accordion-item header={generateAppointmentHeader(avs)}>
+            <YourAppointment avs={avs} />
+          </va-accordion-item>
+          <va-accordion-item header="Your treatment plan from this appointment">
+            <YourTreatmentPlan avs={avs} />
+          </va-accordion-item>
+          <va-accordion-item header="Your health information as of this appointment">
+            <YourHealthInformation avs={avs} />
+          </va-accordion-item>
+          <va-accordion-item header="More information">
+            <MoreInformation avs={avs} />
+          </va-accordion-item>
+        </va-accordion>
+        {generateFooter(avs)}
+      </RequiredLoginView>
     </div>
   );
 };
 
+const mapStateToProps = state => ({
+  isLoggedIn: state.user.login.currentlyLoggedIn,
+});
+
 Avs.propTypes = {
-  id: PropTypes.string,
+  isLoggedIn: PropTypes.bool,
+  params: PropTypes.object,
 };
 
-export default Avs;
+export default connect(mapStateToProps)(Avs);
