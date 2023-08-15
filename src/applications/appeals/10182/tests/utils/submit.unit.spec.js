@@ -30,6 +30,18 @@ const issue1 = {
       ratingIssuePercentNumber: '10',
     },
   },
+  rawCleaned: {
+    type: 'contestableIssue',
+    attributes: {
+      ratingIssueSubjectText: 'tinnitus',
+      description: 'both ears',
+      approxDecisionDate: validDate1,
+      decisionIssueId: 1,
+      ratingIssueReferenceId: '2',
+      ratingDecisionReferenceId: '3',
+      ratingIssuePercentNumber: '10',
+    },
+  },
   result: {
     type: 'contestableIssue',
     attributes: {
@@ -48,6 +60,16 @@ const issue2 = {
     type: 'contestableIssue',
     attributes: {
       ratingIssueSubjectText: 'left   knee ',
+      approxDecisionDate: validDate2,
+      decisionIssueId: 4,
+      ratingIssueReferenceId: '5',
+    },
+  },
+  rawCleaned: {
+    type: 'contestableIssue',
+    attributes: {
+      ratingIssueSubjectText: 'left knee',
+      description: '',
       approxDecisionDate: validDate2,
       decisionIssueId: 4,
       ratingIssueReferenceId: '5',
@@ -94,7 +116,7 @@ describe('getEligibleContestableIssues', () => {
       },
     };
     expect(getEligibleContestableIssues([issue, issue2.raw])).to.deep.equal([
-      issue2.raw,
+      issue2.rawCleaned,
     ]);
   });
   it('should keep older decision dates when show part 3 feature is enabled', () => {
@@ -103,7 +125,7 @@ describe('getEligibleContestableIssues', () => {
       getEligibleContestableIssues([issue1.raw, issue2.raw], {
         showPart3: true,
       }),
-    ).to.deep.equal([issue1.raw, issue2.raw]);
+    ).to.deep.equal([issue1.rawCleaned, issue2.rawCleaned]);
   });
 });
 

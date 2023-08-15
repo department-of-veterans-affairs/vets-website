@@ -120,23 +120,17 @@ export const processContestableIssues = contestableIssues => {
 export const calculateIndexOffset = (index, contestableIssuesLength) =>
   index - contestableIssuesLength;
 
-export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
-  if (loadedIssues.length !== existingIssues.length) {
-    return true;
-  }
-  // sort both arrays so we don't end up in an endless loop
-  const issues = processContestableIssues(existingIssues);
-
-  return !processContestableIssues(loadedIssues).every(
-    ({ attributes }, index) => {
-      const existing = issues[index]?.attributes || {};
-      return (
-        attributes.ratingIssueSubjectText === existing.ratingIssueSubjectText &&
-        attributes.approxDecisionDate === existing.approxDecisionDate
-      );
-    },
-  );
-};
+export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) =>
+  loadedIssues.length !== existingIssues.length
+    ? true
+    : !loadedIssues.every(({ attributes }, index) => {
+        const existing = existingIssues[index]?.attributes || {};
+        return (
+          attributes.ratingIssueSubjectText ===
+            existing.ratingIssueSubjectText &&
+          attributes.approxDecisionDate === existing.approxDecisionDate
+        );
+      });
 
 /**
  * Filters out duplicate issue

@@ -18,7 +18,6 @@ import {
   getIssueNameAndDate,
   hasDuplicates,
   isEmptyObject,
-  issuesNeedUpdating,
   appStateSelector,
   getItemSchema,
   readableList,
@@ -51,7 +50,7 @@ describe('getEligibleContestableIssues', () => {
   it('should keep issues with dates more than one year in the past', () => {
     expect(
       getEligibleContestableIssues([olderIssue, eligibleIssue]),
-    ).to.deep.equal([olderIssue, eligibleIssue]);
+    ).to.deep.equal([eligibleIssue, olderIssue]);
   });
   it('should filter out missing dates', () => {
     expect(
@@ -350,36 +349,6 @@ describe('isEmptyObject', () => {
     expect(isEmptyObject(true)).to.be.false;
     expect(isEmptyObject(() => {})).to.be.false;
     expect(isEmptyObject({ test: '' })).to.be.false;
-  });
-});
-
-describe('issuesNeedUpdating', () => {
-  const getIssues = (allText, dates) =>
-    allText.map((text, index) => ({
-      attributes: {
-        ratingIssueSubjectText: text,
-        approxDecisionDate: dates?.[index],
-      },
-    }));
-  it('should return true if the array lengths are different', () => {
-    expect(issuesNeedUpdating([], [1])).to.be.true;
-    expect(issuesNeedUpdating([1], [1, 2])).to.be.true;
-    expect(issuesNeedUpdating([1, 2], [1])).to.be.true;
-  });
-  it('should return true if the one entry is different', () => {
-    const loaded = getIssues(['a', 'b'], ['2020-02-01', '2020-03-01']);
-    const existing1 = getIssues(['a', 'c'], ['2020-02-01', '2020-03-01']);
-    expect(issuesNeedUpdating(loaded, existing1)).to.be.true;
-
-    const existing2 = getIssues(['a', 'b'], ['2020-02-01', '2020-03-02']);
-    expect(issuesNeedUpdating(loaded, existing2)).to.be.true;
-  });
-  it('should return false if all entries are the same', () => {
-    const issues = getIssues(
-      ['a', 'b', 'c'],
-      ['2020-02-01', '2020-03-01', '2020-01-01'],
-    );
-    expect(issuesNeedUpdating(issues, issues)).to.be.false;
   });
 });
 

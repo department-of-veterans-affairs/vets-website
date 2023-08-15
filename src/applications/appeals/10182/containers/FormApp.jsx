@@ -10,7 +10,6 @@ import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import formConfig from '../config/form';
 import {
   nodPart3UpdateFeature,
-  issuesNeedUpdating,
   getSelected,
   getIssueNameAndDate,
 } from '../utils/helpers';
@@ -22,7 +21,10 @@ import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
-import { processContestableIssues } from '../../shared/utils/issues';
+import {
+  issuesNeedUpdating,
+  processContestableIssues,
+} from '../../shared/utils/issues';
 
 export const FormApp = ({
   isLoading,

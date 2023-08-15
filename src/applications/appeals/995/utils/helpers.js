@@ -14,7 +14,7 @@ import '../../shared/definitions';
  * @return {ContestableIssues} - filtered list
  */
 export const getEligibleContestableIssues = issues => {
-  return (issues || []).filter(issue => {
+  const result = (issues || []).filter(issue => {
     const {
       approxDecisionDate,
       ratingIssueSubjectText = '',
@@ -31,6 +31,7 @@ export const getEligibleContestableIssues = issues => {
       moment(approxDecisionDate, FORMAT_YMD).isValid()
     );
   });
+  return processContestableIssues(result);
 };
 
 /**
@@ -134,23 +135,6 @@ export const isEmptyObject = obj =>
   obj && typeof obj === 'object' && !Array.isArray(obj)
     ? Object.keys(obj)?.length === 0 || false
     : false;
-
-export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
-  if (loadedIssues.length !== existingIssues.length) {
-    return true;
-  }
-  // sort both arrays so we don't end up in an endless loop
-  const issues = processContestableIssues(existingIssues);
-  return !processContestableIssues(loadedIssues).every(
-    ({ attributes }, index) => {
-      const existing = issues[index]?.attributes || {};
-      return (
-        attributes.ratingIssueSubjectText === existing.ratingIssueSubjectText &&
-        attributes.approxDecisionDate === existing.approxDecisionDate
-      );
-    },
-  );
-};
 
 export const appStateSelector = state => ({
   // Validation functions are provided the pageData and not the

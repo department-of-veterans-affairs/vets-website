@@ -21,7 +21,7 @@ export const isVersion1Data = formData => !!formData?.zipCode5;
  */
 export const getEligibleContestableIssues = issues => {
   const today = moment().startOf('day');
-  return (issues || []).filter(issue => {
+  const result = (issues || []).filter(issue => {
     const {
       approxDecisionDate = '',
       ratingIssueSubjectText = '',
@@ -37,6 +37,7 @@ export const getEligibleContestableIssues = issues => {
     }
     return date.add(1, 'years').isAfter(today);
   });
+  return processContestableIssues(result);
 };
 
 /**
@@ -128,23 +129,6 @@ export const isEmptyObject = obj =>
   obj && typeof obj === 'object' && !Array.isArray(obj)
     ? Object.keys(obj)?.length === 0 || false
     : false;
-
-export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
-  if (loadedIssues.length !== existingIssues.length) {
-    return true;
-  }
-  // sort both arrays so we don't end up in an endless loop
-  const issues = processContestableIssues(existingIssues);
-  return !processContestableIssues(loadedIssues).every(
-    ({ attributes }, index) => {
-      const existing = issues[index]?.attributes || {};
-      return (
-        attributes.ratingIssueSubjectText === existing.ratingIssueSubjectText &&
-        attributes.approxDecisionDate === existing.approxDecisionDate
-      );
-    },
-  );
-};
 
 export const appStateSelector = state => ({
   // Validation functions are provided the pageData and not the

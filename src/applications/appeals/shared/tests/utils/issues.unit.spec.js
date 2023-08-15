@@ -278,6 +278,35 @@ describe('issuesNeedUpdating', () => {
       ),
     ).to.be.false;
   });
+
+  // copied from alternate unit tests in 995
+  const getIssues = (allText, dates) =>
+    allText.map((text, index) => ({
+      attributes: {
+        ratingIssueSubjectText: text,
+        approxDecisionDate: dates?.[index],
+      },
+    }));
+  it('should return true if the array lengths are different', () => {
+    expect(issuesNeedUpdating([], [1])).to.be.true;
+    expect(issuesNeedUpdating([1], [1, 2])).to.be.true;
+    expect(issuesNeedUpdating([1, 2], [1])).to.be.true;
+  });
+  it('should return true if the one entry is different', () => {
+    const loaded = getIssues(['a', 'b'], ['2020-02-01', '2020-03-01']);
+    const existing1 = getIssues(['a', 'c'], ['2020-02-01', '2020-03-01']);
+    expect(issuesNeedUpdating(loaded, existing1)).to.be.true;
+
+    const existing2 = getIssues(['a', 'b'], ['2020-02-01', '2020-03-02']);
+    expect(issuesNeedUpdating(loaded, existing2)).to.be.true;
+  });
+  it('should return false if all entries are the same', () => {
+    const issues = getIssues(
+      ['a', 'b', 'c'],
+      ['2020-02-01', '2020-03-01', '2020-01-01'],
+    );
+    expect(issuesNeedUpdating(issues, issues)).to.be.false;
+  });
 });
 
 describe('appStateSelector', () => {

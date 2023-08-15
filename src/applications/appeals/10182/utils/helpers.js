@@ -3,8 +3,6 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { SELECTED, SHOW_PART3 } from '../constants';
 
-import { processContestableIssues } from '../../shared/utils/issues';
-
 export const someSelected = issues =>
   (issues || []).some(issue => issue[SELECTED]);
 
@@ -70,24 +68,6 @@ export const isEmptyObject = obj =>
   obj && typeof obj === 'object' && !Array.isArray(obj)
     ? Object.keys(obj)?.length === 0 || false
     : false;
-
-export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
-  if (loadedIssues.length !== existingIssues.length) {
-    return true;
-  }
-  // sort both arrays so we don't end up in an endless loop
-  const issues = processContestableIssues(existingIssues);
-
-  return !processContestableIssues(loadedIssues).every(
-    ({ attributes }, index) => {
-      const existing = issues[index]?.attributes || {};
-      return (
-        attributes.ratingIssueSubjectText === existing.ratingIssueSubjectText &&
-        attributes.approxDecisionDate === existing.approxDecisionDate
-      );
-    },
-  );
-};
 
 export const appStateSelector = state => ({
   // Validation functions are provided the pageData and not the

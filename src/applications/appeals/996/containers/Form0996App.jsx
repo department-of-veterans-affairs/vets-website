@@ -10,11 +10,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import formConfig from '../config/form';
 import { SAVED_CLAIM_TYPE } from '../constants';
 import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
-import {
-  issuesNeedUpdating,
-  getSelected,
-  getIssueNameAndDate,
-} from '../utils/helpers';
+import { getSelected, getIssueNameAndDate } from '../utils/helpers';
 import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
 import forcedMigrations from '../migrations/forceMigrations';
 
@@ -23,7 +19,10 @@ import {
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
 
-import { processContestableIssues } from '../../shared/utils/issues';
+import {
+  issuesNeedUpdating,
+  processContestableIssues,
+} from '../../shared/utils/issues';
 
 export const Form0996App = ({
   loggedIn,

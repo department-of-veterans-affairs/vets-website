@@ -10,7 +10,10 @@ import {
   replaceSubmittedData,
   fixDateFormat,
 } from '../../shared/utils/replace';
-import { returnUniqueIssues } from '../../shared/utils/issues';
+import {
+  returnUniqueIssues,
+  processContestableIssues,
+} from '../../shared/utils/issues';
 import '../../shared/definitions';
 
 /** Filter out ineligible contestable issues:
@@ -22,7 +25,7 @@ import '../../shared/definitions';
  */
 export const getEligibleContestableIssues = (issues, { showPart3 } = {}) => {
   const today = moment().startOf('day');
-  return (issues || []).filter(issue => {
+  const result = (issues || []).filter(issue => {
     const {
       approxDecisionDate = '',
       ratingIssueSubjectText = '',
@@ -38,6 +41,7 @@ export const getEligibleContestableIssues = (issues, { showPart3 } = {}) => {
     }
     return showPart3 || date.add(1, 'years').isAfter(today);
   });
+  return processContestableIssues(result);
 };
 
 /**
