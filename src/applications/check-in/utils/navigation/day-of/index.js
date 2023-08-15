@@ -20,7 +20,7 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
     order: 0,
   },
   {
-    url: URLS.LOADING,
+    url: URLS.APPOINTMENTS,
     order: 1,
   },
   {
