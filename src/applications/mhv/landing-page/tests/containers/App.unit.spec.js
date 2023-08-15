@@ -175,13 +175,16 @@ describe('MHV landing page', () => {
       const store = mockStore(initState);
       const replace = sinon.spy();
       global.window.location = { ...global.window.location, replace };
-      const { container } = render(
+      const { getByRole } = render(
         <Provider store={store}>
           <App />
         </Provider>,
       );
-      expect(container.querySelector('h1')).to.not.exist;
       expect(replace.called).to.be.true;
+      const loading = getByRole('progressbar', {
+        text: 'Redirecting to login...',
+      });
+      expect(loading).to.exist;
     });
     it('user is a cerner patient and feature enabled -- should not show the landing page', () => {
       const middleware = [];
