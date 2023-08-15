@@ -174,3 +174,20 @@ export const VeteranSSNDescription = (
     requirement to apply for the program.
   </va-additional-info>
 );
+
+export const VeteranFullNameDescription = (
+  <>
+    <span className="vads-u-display--block vads-u-color--gray-medium">
+      Enter the name on the Veteran’s government-issued ID, like a driver’s
+      license or passport
+    </span>
+  </>
+);
+
+export const VeteranHomeAddressDescription = (
+  <>
+    <span className="vads-u-display--block vads-u-color--gray-medium">
+      This is the address where the Veteran lives
+    </span>
+  </>
+);

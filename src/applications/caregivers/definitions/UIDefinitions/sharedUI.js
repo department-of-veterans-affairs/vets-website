@@ -6,7 +6,11 @@ import email from 'platform/forms-system/src/js/definitions/email';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import { validateSSNIsUnique } from '../../utils/helpers';
-import { EmailEncouragementDescription } from '../../components/FormDescriptions';
+import {
+  EmailEncouragementDescription,
+  VeteranFullNameDescription,
+  VeteranHomeAddressDescription,
+} from '../../components/FormDescriptions';
 import AddressWithAutofill from '../../components/FormFields/AddressWithAutofill';
 
 const stateLabels = createUSAStateLabels(states);
@@ -35,9 +39,10 @@ export const genderUI = label => ({
 
 export const fullNameUI = label => ({
   first: {
-    'ui:title': `${label} first name`,
+    'ui:title': `${label} legal first name`,
+    'ui:description': VeteranFullNameDescription,
     'ui:errorMessages': {
-      required: `Please enter ${label}  first name`,
+      required: `Please enter ${label} legal first name`,
     },
   },
   last: {
@@ -76,11 +81,12 @@ export const addressWithoutCountryUI = label => ({
   'ui:title': ' ',
   'ui:order': ['street', 'street2', 'city', 'state', 'postalCode'],
   street: {
-    'ui:title': `${label} current street address`,
-    'ui:errorMessages': { required: 'Please enter a street address' },
+    'ui:title': `${label} current home address`,
+    'ui:description': VeteranHomeAddressDescription,
+    'ui:errorMessages': { required: 'Please enter a home address' },
   },
   street2: {
-    'ui:title': `Street address line 2`,
+    'ui:title': `Home address line 2`,
   },
   city: {
     'ui:title': `City`,
