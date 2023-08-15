@@ -1,5 +1,9 @@
 import { range } from 'lodash';
-import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import {
+  minYear,
+  currentYear,
+  maxYear,
+} from 'platform/forms-system/src/js/helpers';
 import { dateToMoment } from '../utilities/date';
 
 /**
@@ -54,6 +58,10 @@ function isValidYear(value) {
   return Number(value) >= minYear && Number(value) <= maxYear;
 }
 
+function isValidBirthYear(value) {
+  return Number(value) >= minYear && Number(value) <= currentYear;
+}
+
 function isValidMonths(value) {
   return Number(value) >= 0;
 }
@@ -90,6 +98,10 @@ function isValidDate(day, month, year) {
     date.getMonth() === adjustedMonth &&
     date.getFullYear() === Number(year)
   );
+}
+
+function isValidBirthDate(day, month, year) {
+  return isValidDate(day, month, year) && isValidBirthYear(year);
 }
 
 function isNotBlankDateField(field) {
@@ -215,6 +227,19 @@ function validateWhiteSpace(errors, input) {
   }
 }
 
+function validateDateOfBirth(errors, dateString) {
+  const dateArray = dateString.split('-');
+  const yearString = dateArray[0];
+  const monthString = dateArray[1];
+  const dayString = dateArray[2];
+
+  if (!isValidBirthDate(dayString, monthString, yearString)) {
+    errors.addError(
+      `Please provide a valid date of birth, with Year between ${minYear} and ${currentYear}.`,
+    );
+  }
+}
+
 /**
  * Returns a validator that checks the input length.
  * Used like: 'ui:validations': [validateLength(50)]
@@ -239,6 +264,8 @@ export {
   isFullDate,
   isNotBlank,
   isNotBlankDateField,
+  isValidBirthDate,
+  isValidBirthYear,
   isValidDate,
   isValidDateRange,
   isValidEmail,
@@ -252,6 +279,7 @@ export {
   isValidSSN,
   isValidValue,
   validateCustomFormComponent,
+  validateDateOfBirth,
   validateIfDirty,
   validateIfDirtyDate,
   validateLength,
