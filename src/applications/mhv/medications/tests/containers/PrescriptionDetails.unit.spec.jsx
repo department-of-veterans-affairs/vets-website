@@ -72,4 +72,20 @@ describe('Prescription details container', () => {
     );
     expect(location).to.exist;
   });
+
+  it('displays Shipped on in Refill History', () => {
+    const screen = setup();
+    const shippedOn = screen.getAllByText(
+      dateFormat(
+        initialState.rx.prescriptions.prescriptionDetails.trackingList[0][1][0]
+          .completeDateTime,
+        'MMMM D, YYYY [at] h:mm z',
+      ),
+      {
+        exact: true,
+        selector: 'p',
+      },
+    );
+    expect(shippedOn).to.exist;
+  });
 });
