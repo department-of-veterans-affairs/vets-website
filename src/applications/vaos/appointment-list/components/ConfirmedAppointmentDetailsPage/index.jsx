@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useParams, useRouteMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import moment from '../../../lib/moment-tz';
@@ -20,7 +20,6 @@ import DetailsCC from './DetailsCC';
 import DetailsVideo from './DetailsVideo';
 
 export default function ConfirmedAppointmentDetailsPage() {
-  const match = useRouteMatch();
   const dispatch = useDispatch();
   const { id } = useParams();
   const {
@@ -39,9 +38,8 @@ export default function ConfirmedAppointmentDetailsPage() {
     selectFeatureVaosV2Next(state),
   );
   const appointmentDate = moment.parseZone(appointment?.start);
-
   const isVideo = appointment?.vaos?.isVideo;
-  const isCommunityCare = !!match.path.includes('cc');
+  const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const isVA = !isVideo && !isCommunityCare;
 
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
@@ -67,7 +65,7 @@ export default function ConfirmedAppointmentDetailsPage() {
         scrollAndFocus();
       }
     },
-    [appointment, appointmentDate, isCommunityCare],
+    [appointment, appointmentDate, isCommunityCare, featureBreadcrumbUrlUpdate],
   );
 
   useEffect(
