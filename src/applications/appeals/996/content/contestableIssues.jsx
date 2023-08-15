@@ -182,7 +182,7 @@ MaxSelectionsAlert.propTypes = {
   closeModal: PropTypes.func,
 };
 
-export const NoIssuesLoadedAlert = ({ submitted }) => {
+export const NoIssuesLoadedAlert = () => {
   const wrapAlert = useRef(null);
 
   useEffect(
@@ -191,7 +191,7 @@ export const NoIssuesLoadedAlert = ({ submitted }) => {
         scrollAndFocus(wrapAlert.current);
       }
     },
-    [wrapAlert, submitted],
+    [wrapAlert],
   );
 
   recordEvent({
@@ -216,10 +216,6 @@ export const NoIssuesLoadedAlert = ({ submitted }) => {
       </va-alert>
     </div>
   );
-};
-
-NoIssuesLoadedAlert.propTypes = {
-  submitted: PropTypes.bool,
 };
 
 export const noneSelected =

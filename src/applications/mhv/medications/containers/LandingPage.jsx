@@ -50,12 +50,12 @@ const LandingPage = () => {
           </section>
           <section>
             <h2>Questions about this tool</h2>
-            <va-accordion bordered>
+            <va-accordion bordered data-testid="accordion-dropdown">
               <va-accordion-item>
                 <h3 className="vads-u-font-size--h6" slot="headline">
                   Does this tool list all my medications and supplies?
                 </h3>
-                <p>
+                <p data-testid="tool-information">
                   This tool lists medications and supplies prescribed by your VA
                   providers. It also lists medications and supplies prescribed
                   by non-VA providers, if you filled them through a VA pharmacy.
@@ -111,7 +111,7 @@ const LandingPage = () => {
                   What types of prescriptions can I refill and track in this
                   tool?
                 </h3>
-                <p>
+                <p data-testid="track-refill-prescription-info">
                   You can refill and track your shipments of most VA
                   prescriptions. This includes prescription medications and
                   prescription supplies, like diabetic supplies.
@@ -134,7 +134,7 @@ const LandingPage = () => {
                   When will I get my prescriptions, and when should I request a
                   refill?
                 </h3>
-                <p>
+                <p data-testid="prescription-refill-info">
                   Prescriptions usually arrive within 3 to 5 days after we ship
                   them. You can find tracking information in your prescription
                   details.
@@ -154,7 +154,7 @@ const LandingPage = () => {
                 <h3 className="vads-u-font-size--h6" slot="headline">
                   Will VA protect my personal health information?
                 </h3>
-                <p>
+                <p data-test-id="security-policy">
                   Yes. This is a secure website. We follow strict security
                   policies and practices to protect your personal health
                   information.
@@ -175,7 +175,7 @@ const LandingPage = () => {
                 <h3 className="vads-u-font-size--h6" slot="headline">
                   What if I have more questions?
                 </h3>
-                <p>
+                <p data-testid="more-questions">
                   For questions about your medications and supplies, send a
                   secure message to your care team.
                 </p>
