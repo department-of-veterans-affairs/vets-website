@@ -9,6 +9,33 @@ const titleLowerCase = (title = '') => {
   return `${firstChar.toLowerCase()}${rest.join('')}`;
 };
 
+const filterMissingIdentifiers = form526RequiredIdentifers => {
+  return Object.keys(form526RequiredIdentifers).filter(
+    idName => form526RequiredIdentifers[idName] === false,
+  );
+};
+
+const formatMissingIdentifiers = missingIdentifiers => {
+  const READABLE_IDENTIFIER_MAPPING = {
+    particpantId: 'Participant ID',
+    birlsId: 'BIRLS ID',
+    ssn: 'Social Security Number',
+    birthDate: 'Date of Birth',
+    edipi: 'EDIPI',
+  };
+
+  const readableIdentifiers = missingIdentifiers.map(
+    idName => READABLE_IDENTIFIER_MAPPING[idName],
+  );
+
+  // Properly format "and" and commas based on list size
+  const listFormatter = new Intl.ListFormat('en', {
+    style: 'long',
+    type: 'conjunction',
+  });
+  return listFormatter.format(readableIdentifiers);
+};
+
 const Alert = ({ content, title }) => (
   <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
     <div className="usa-content">
@@ -23,7 +50,12 @@ Alert.propTypes = {
   title: PropTypes.string,
 };
 
-const displayContent = (title, missingIdentifiers) => {
+const displayContent = (title, form526RequiredIdentifers) => {
+  const missingIdentifiers = filterMissingIdentifiers(
+    form526RequiredIdentifers,
+  );
+  const formattedIdentifiers = formatMissingIdentifiers(missingIdentifiers);
+
   return (
     <>
       <h2 className="vads-u-display--inline-block vads-u-font-size--h3 vads-u-margin-top--0">
@@ -31,8 +63,8 @@ const displayContent = (title, missingIdentifiers) => {
       </h2>
 
       <p className="vads-u-font-size--base">
-        We’re missing your {missingIdentifiers}. We need this information before
-        you can {titleLowerCase(title)}. Call us at{' '}
+        We’re missing your {formattedIdentifiers}. We need this information
+        before you can {titleLowerCase(title)}. Call us at{' '}
         <va-telephone contact={CONTACTS.HELP_DESK} /> (
         <va-telephone contact={CONTACTS['711']} tty />) to update your
         information. We’re here Monday through Friday from 8:00 a.m. to 9:00
@@ -43,45 +75,15 @@ const displayContent = (title, missingIdentifiers) => {
   );
 };
 
-const formatMissingIdentifiers = identifiers => {
-  const READABLE_IDENTIFIER_MAPPING = {
-    particpantId: 'Participant ID',
-    birlsId: 'BIRLS ID',
-    ssn: 'Social Security Number',
-    birthDate: 'Date of Birth',
-    edipi: 'EDIPI',
-  };
-
-  const missingIdentifiers = Object.keys(identifiers).filter(
-    idName => identifiers[idName] === false,
-  );
-  const readableIdentifiers = missingIdentifiers.map(
-    idName => READABLE_IDENTIFIER_MAPPING[idName],
-  );
-
-  // Properly format "and" and commas based on list size
-  const listFormatter = new Intl.ListFormat('en', {
-    style: 'long',
-    type: 'conjunction',
-  });
-  return listFormatter.format(readableIdentifiers);
-};
-
-export const Missing526Identifiers = ({
-  title,
-  form526RequiredIdentifersPresence,
-}) => {
-  const missingIdentifiers = formatMissingIdentifiers(
-    form526RequiredIdentifersPresence,
-  );
-  const alertContent = displayContent(title, missingIdentifiers);
+export const Missing526Identifiers = ({ title, form526RequiredIdentifers }) => {
+  const alertContent = displayContent(title, form526RequiredIdentifers);
 
   return <Alert title={title} content={alertContent} />;
 };
 
 Missing526Identifiers.propTypes = {
   title: PropTypes.string.isRequired,
-  form526RequiredIdentifersPresence: PropTypes.arrayOf(
+  form526RequiredIdentifers: PropTypes.arrayOf(
     PropTypes.shape({
       particpantId: PropTypes.bool.isRequired,
       birlsId: PropTypes.bool.isRequired,
