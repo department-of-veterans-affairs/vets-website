@@ -3,14 +3,14 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import formConfig from '../config/form';
-import manifest from '../manifest.json';
+import formConfig from '../../config/form';
+import manifest from '../../manifest.json';
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    dataDir: path.join(__dirname, 'data'),
+    dataDir: path.join(__dirname, 'fixtures', 'data'),
 
     // Rename and modify the test data as needed.
     dataSets: ['test-data'],
