@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 // Relative imports.
 import { CernerCallToAction } from '.';
+import widgetTypes from '../../../widgetTypes';
 
 describe('<CernerCallToAction>', () => {
   it('renders what we expect on its initial render', () => {
@@ -57,7 +58,12 @@ describe('<CernerCallToAction>', () => {
   });
 
   it('renders what we expect when it finished fetching facilities and there are facilities and feature flag is set', () => {
-    const wrapper = shallow(<CernerCallToAction featureStaticLandingPage />);
+    const wrapper = shallow(
+      <CernerCallToAction
+        featureStaticLandingPage
+        widgetType={widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE}
+      />,
+    );
     wrapper.setState({
       fetching: false,
       facilities: [
