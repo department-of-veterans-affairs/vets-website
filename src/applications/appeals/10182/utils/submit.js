@@ -10,68 +10,15 @@ import {
   replaceSubmittedData,
   fixDateFormat,
 } from '../../shared/utils/replace';
+import { returnUniqueIssues } from '../../shared/utils/issues';
+import '../../shared/definitions';
 
-/**
- * @typedef FormData
- * @type {Object<Object>}
- * @property {Veteran} veteran - data from prefill & profile
- * @property {ContestableIssues} contestableIssues - issues loaded from API
- * @property {AdditionaIssues} additionalIssues - issues entered by Veteran
- * @property {Evidence} evidence - Evidence uploaded by Veteran
- * @property {Boolean} homeless - homeless choice
- * @property {String} boardReviewOption - Veteran selected review option - enum
- *   to "direct_review", "evidence_submission" or "hearing"
- * @property {String} hearingTypePreference - Vetera selected hearing type -
- *   enum to "virtual_hearing", "video_conference" or "central_office"
- * @property {Boolean} socOptIn - check box indicating the Veteran has opted in
- *   to the new appeal process (always false)
- * @property {Boolean} requestingExtension - yes/no indicating the Veteran is
- *   requesting an extension
- * @property {String} extensionReason - Text of why the Veteran is requesting an
- *   extension
- * @property {Boolean} appealingVhaDenial - yes/no indicating the Veteran is
- *   appealing a VHA denial
- * @property {Boolean} view:additionalEvidence - Veteran choice to upload more
- *   evidence
- */
-/**
- * @typedef Veteran
- * @type {Object}
- * @property {String} ssnLastFour - Last four of SSN from prefill
- * @property {String} vaFileLastFour - Last four of VA file number from prefill
- * @property {Object<String>} address - Veteran's home address from profile
- * @property {Object<String>} phone - Veteran's home phone from profile
- * @property {Object<String>} email - Veteran's email from profile
- */
-/**
- * @typedef ContestableIssues
- * @type {Array<Object>}
- * @property {ContestableIssue~Item}
- */
-/**
- * @typedef ContestableIssue~Item
- * @type {Object}
- * @property {String} type - always set to "contestableIssue"
- * @property {ContestableIssue~Attributes} attributes - essential properties
- * @property {Boolean} 'view:selected' - internal boolean indicating that the
- *   issue has been selected by the user
- */
-/**
- * @typedef ContestableIssue~Attributes
- * @type {Object}
- * @property {String} ratingIssueSubjectText - title of issue
- * @property {String} description - issue description
- * @property {Number} ratingIssuePercentNumber - disability rating percentage
- * @property {String} approxDecisionDate - decision date (YYYY-MM-DD)
- * @property {Number} decisionIssueId - decision id
- * @property {String} ratingIssueReferenceId - issue reference number
- * @property {String} ratingDecisionReferenceId - decision reference id
- */
 /** Filter out ineligible contestable issues:
  * - remove issues more than one year past their decision date
  * - remove issues that are deferred
- * @prop {ContestableIssues} - Array of both eligible & ineligible contestable
+ * @property {ContestableIssues} - Array of both eligible & ineligible contestable
  *  issues
+ * @return {ContestableIssues} - Array of eligible contestable issues
  */
 export const getEligibleContestableIssues = (issues, { showPart3 } = {}) => {
   const today = moment().startOf('day');
@@ -95,7 +42,7 @@ export const getEligibleContestableIssues = (issues, { showPart3 } = {}) => {
 
 /**
  * Combine issues values into one field
- * @param {ContestableIssue~Attributes} attributes
+ * @param {ContestableIssueAttributes} attributes
  * @returns {String} Issue name - rating % - description combined
  */
 export const createIssueName = ({ attributes } = {}) => {
@@ -110,43 +57,14 @@ export const createIssueName = ({ attributes } = {}) => {
     description,
   ]
     .filter(part => part)
-    .join(' - ')
-    .substring(0, MAX_LENGTH.ISSUE_NAME);
-  return replaceSubmittedData(result);
+    .join(' - ');
+  return replaceSubmittedData(result).substring(0, MAX_LENGTH.ISSUE_NAME);
 };
 
 /**
- * @typedef ContestableIssue~SubmittableItem
- * @type {Object}
- * @property {String} issue - title of issue returned by createIssueName function
- * @property {String} decisionDate - decision date string (YYYY-MM-DD)
- * @property {String} disagreementArea - area of disagreement
- * @property {Number=} decisionIssueId - decision id
- * @property {String=} ratingIssueReferenceId - issue reference number
- * @property {String=} ratingDecisionReferenceId - decision reference id
- * @example
- * [{
-    "type": "contestableIssue",
-    "attributes": {
-      // required
-      "issue": "tinnitus - 10% - some longer description",
-      "decisionDate": "1900-01-01",
-      // optional
-      "decisionIssueId": 1,
-      "ratingIssueReferenceId": "2",
-      "ratingDecisionReferenceId": "3"
-    }
-  }]
- */
-/**
- * @typedef ContestableIssue~Submittable
- * @type {Array<Object>}
- * @property {ContestableIssue~SubmittableItem}
- */
-/**
  * Get array of submittable contestable issues
  * @param {ContestableIssues}
- * @returns {ContestableIssue~Submittable}
+ * @returns {ContestableIssueSubmittable}
  */
 export const getContestableIssues = ({ contestableIssues } = {}) =>
   (contestableIssues || []).filter(issue => issue[SELECTED]).map(issue => {
@@ -176,31 +94,14 @@ export const getContestableIssues = ({ contestableIssues } = {}) =>
   });
 
 /**
- * @typedef AdditionalIssues
- * @type {Array<Object>}
- * @property {AdditionalIssue~Item}
- */
-/**
- * @typedef AdditionalIssue~Item - user-added issues
- * @type {Object}
- * @property {String} issue - user entered issue name
- * @property {String} decisionDate - user entered decision date
- * @property {Boolean} 'view:selected' - user selected issue
- * @returns {ContestableIssue~Submittable}
- * @example
- *  [{
-      "issue": "right shoulder",
-      "decisionDate": "2010-01-06"
-    }]
- */
-/**
  * Combine included issues and additional issues
  * @param {FormData}
- * @returns {ContestableIssue~Submittable}
+ * @returns {ContestableIssuesSubmittable}
  */
 export const addIncludedIssues = formData => {
   const issues = getContestableIssues(formData);
-  return issues.concat(
+
+  const result = issues.concat(
     (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
       if (issue[SELECTED] && issue.issue && issue.decisionDate) {
         // match contested issue pattern
@@ -215,13 +116,16 @@ export const addIncludedIssues = formData => {
       return issuesToAdd;
     }, []),
   );
+
+  // Ensure only unique entries are submitted
+  return returnUniqueIssues(result);
 };
 
 /**
  * Add area of disagreement
- * @param {ContestableIssue~Submittable} issues - selected & processed issues
+ * @param {ContestableIssuesSubmittable} issues - selected & processed issues
  * @param {FormData} formData
- * @return {ContestableIssues~Submittable} issues with "disagreementArea" added
+ * @return {ContestableIssuesSubmittable} issues with "disagreementArea" added
  */
 export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
   const keywords = {
@@ -252,10 +156,10 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
 /**
  * @typedef Evidence
  * @type {Array<Object>}
- * @property {Evidence~File}
+ * @property {EvidenceFile}
  */
 /**
- * @typedef Evidence~File - user-uploaded evidence files
+ * @typedef EvidenceFile - user-uploaded evidence files
  * @type {Object}
  * @property {String} name - uploaded file name
  * @property {String} confirmationCode - UUID returned by upload API
@@ -264,7 +168,7 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
  *  with the user provided password (not yet implemented)
  */
 /**
- * @typedef Evidence~Submittable
+ * @typedef EvidenceSubmittable
  * @type {Object}
  * @property {String} name - uploaded file name
  * @property {String} confirmationCode - UUID returned by upload API
@@ -272,7 +176,7 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
 /**
  * Return processed array of file uploads
  * @param {FormData}
- * @returns {Evidence~Submittable[]}
+ * @returns {EvidenceSubmittable[]}
  */
 export const addUploads = formData =>
   formData.boardReviewOption === 'evidence_submission' &&
@@ -294,35 +198,6 @@ export const removeEmptyEntries = object =>
     Object.entries(object).filter(([_, value]) => value !== ''),
   );
 
-/**
- * Veteran~submittable
- * @property {Address~submittable} address
- * @property {Phone~submittable} phone
- * @property {String} emailAddressText (v0)
- * @property {String} email (v1)
- * @property {Boolean} homeless
- */
-/**
- * Address~submittable
- * @typedef {Object}
- * @property {String} addressLine1
- * @property {String} addressLine2
- * @property {String} addressLine3
- * @property {String} city
- * @property {String} stateCode
- * @property {String} zipCode5
- * @property {String} countryName
- * @property {String} countryCodeIso2
- * @property {String} internationalPostalCode
- */
-/**
- * Phone~submittable
- * @typedef {Object}
- * @property {String} countryCode
- * @property {String} areaCode
- * @property {String} phoneNumber
- * @property {String} phoneNumberExt
- */
 /**
  * Strip out extra profile home address data & rename zipCode to zipCode5
  * @param {Veteran} veteran - Veteran formData object

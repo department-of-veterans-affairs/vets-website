@@ -21,8 +21,8 @@ const issue1 = {
   raw: {
     type: 'contestableIssue',
     attributes: {
-      ratingIssueSubjectText: 'tinnitus',
-      description: 'both ears',
+      ratingIssueSubjectText: '  tinnitus ',
+      description: 'both   ears ',
       approxDecisionDate: validDate1,
       decisionIssueId: 1,
       ratingIssueReferenceId: '2',
@@ -47,7 +47,7 @@ const issue2 = {
   raw: {
     type: 'contestableIssue',
     attributes: {
-      ratingIssueSubjectText: 'left knee',
+      ratingIssueSubjectText: 'left   knee ',
       approxDecisionDate: validDate2,
       decisionIssueId: 4,
       ratingIssueReferenceId: '5',
@@ -192,6 +192,21 @@ describe('addIncludedIssues', () => {
     expect(
       addIncludedIssues({ ...formData, additionalIssues: [] }),
     ).to.deep.equal([issue2.result]);
+  });
+  it('should remove duplicate items', () => {
+    const formData = {
+      contestableIssues: [
+        { ...issue1.raw, [SELECTED]: true },
+        { ...issue2.raw, [SELECTED]: true },
+        { ...issue1.raw, [SELECTED]: true },
+        { ...issue2.raw, [SELECTED]: true },
+      ],
+      additionalIssues: [],
+    };
+    expect(addIncludedIssues(formData)).to.deep.equal([
+      issue1.result,
+      issue2.result,
+    ]);
   });
 });
 
