@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import CheckIn from './pages/CheckIn';
 import Confirmation from './pages/Confirmation';
+import AppointmentsPage from '../components/pages/Appointments';
 import Demographics from './pages/Demographics';
 import NextOfKin from './pages/NextOfKin';
 import EmergencyContact from './pages/EmergencyContact';
@@ -38,6 +39,15 @@ const routes = [
     permissions: {
       requiresForm: true,
     },
+  },
+  {
+    path: URLS.APPOINTMENTS,
+    component: AppointmentsPage,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
   },
   {
     path: URLS.DEMOGRAPHICS,
