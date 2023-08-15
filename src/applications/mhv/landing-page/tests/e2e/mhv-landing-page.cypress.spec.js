@@ -1,14 +1,15 @@
-import { appName, rootUrl } from '../../manifest.json';
+import manifest from '../../manifest.json';
 
-describe(appName, () => {
+describe(manifest.appName, () => {
   // Skip tests in CI until the app is released.
   // Remove this block when the app has a content page in production.
-  beforeEach(() => {
+  before(function() {
     if (Cypress.env('CI')) this.skip();
   });
 
   it('is accessible', () => {
-    cy.visit(rootUrl);
-    cy.injectAxeThenAxeCheck();
+    cy.visit(manifest.rootUrl)
+      .injectAxe()
+      .axeCheck();
   });
 });

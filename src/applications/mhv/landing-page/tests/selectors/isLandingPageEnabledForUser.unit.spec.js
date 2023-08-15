@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { expect } from 'chai';
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
-import { isLandingPageEnabled } from '../../selectors';
+import { isLandingPageEnabledForUser } from '../../selectors';
 import { appName } from '../../manifest.json';
 
 const stateFn = ({
@@ -41,17 +41,17 @@ const stateFn = ({
 let result;
 let state;
 
-describe(`${appName} -- isLandingPageEnabled selector`, () => {
+describe(`${appName} -- isLandingPageEnabledForUser selector`, () => {
   describe('returns true when', () => {
     it('user signed in with ID.me, feature enabled, has non-Cerner facility', () => {
       state = stateFn();
-      result = isLandingPageEnabled(state);
+      result = isLandingPageEnabledForUser(state);
       expect(result).to.be.true;
     });
 
     it('user signed in with Login.gov', () => {
       state = stateFn({ serviceName: CSP_IDS.LOGIN_GOV });
-      result = isLandingPageEnabled(state);
+      result = isLandingPageEnabledForUser(state);
       expect(result).to.be.true;
     });
   });
@@ -59,19 +59,19 @@ describe(`${appName} -- isLandingPageEnabled selector`, () => {
   describe('returns false when', () => {
     it('feature toggle is off', () => {
       state = stateFn({ mhv_landing_page_enabled: false });
-      result = isLandingPageEnabled(state);
+      result = isLandingPageEnabledForUser(state);
       expect(result).to.be.false;
     });
 
     it('user is logged out', () => {
       state = stateFn({ currentlyLoggedIn: false });
-      result = isLandingPageEnabled(state);
+      result = isLandingPageEnabledForUser(state);
       expect(result).to.be.false;
     });
 
     it('user signed in with DS Logon', () => {
       state = stateFn({ serviceName: CSP_IDS.DS_LOGON });
-      result = isLandingPageEnabled(state);
+      result = isLandingPageEnabledForUser(state);
       expect(result).to.be.false;
     });
 
@@ -80,13 +80,13 @@ describe(`${appName} -- isLandingPageEnabled selector`, () => {
       // 668 is listed as a Cerner facility in state.drupalStaticData.vamcEhrData.
       const facilities = [{ facilityId: '668', isCerner: false }];
       state = stateFn({ facilities });
-      result = isLandingPageEnabled(state);
+      result = isLandingPageEnabledForUser(state);
       expect(result).to.be.false;
     });
 
     it('user has no facilities', () => {
       state = stateFn({ facilities: [] });
-      result = isLandingPageEnabled(state);
+      result = isLandingPageEnabledForUser(state);
       expect(result).to.be.false;
     });
   });

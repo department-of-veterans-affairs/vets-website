@@ -11,11 +11,8 @@ describe(`${appName} -- Auth Redirect`, () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'featureToggles',
     );
-    const mhvRedirectUrl =
-      'https://mhv-syst.myhealth.va.gov/mhv-portal-web/home';
-    cy.intercept('GET', mhvRedirectUrl, '').as('mhvRedirect');
-    const mhvAuthRedirectUrl = 'https://pint.eauth.va.gov/mhv-portal-web/eauth';
-    cy.intercept('GET', mhvAuthRedirectUrl, '').as('mhvAuthRedirect');
+    const redirectUrl = 'https://pint.eauth.va.gov/mhv-portal-web/eauth';
+    cy.intercept('GET', redirectUrl, '').as('mhvRedirect');
   });
 
   describe('unauthenticated user', () => {
@@ -41,7 +38,7 @@ describe(`${appName} -- Auth Redirect`, () => {
     it('redirects to MHV National Portal', () => {
       cy.login(cernerUser);
       cy.visit(rootUrl);
-      cy.wait('@mhvAuthRedirect');
+      cy.wait('@mhvRedirect');
     });
   });
 
@@ -50,7 +47,7 @@ describe(`${appName} -- Auth Redirect`, () => {
     it('redirects to MHV National Portal', () => {
       cy.login(noFacilitiesUser);
       cy.visit(rootUrl);
-      cy.wait('@mhvAuthRedirect');
+      cy.wait('@mhvRedirect');
     });
   });
 });
