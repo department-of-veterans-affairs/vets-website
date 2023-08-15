@@ -196,57 +196,58 @@ export class CernerCallToAction extends Component {
         data-testid="cerner-cta-widget"
       >
         <div className="usa-alert-body">
-          {featureStaticLandingPage && (
-            <>
-              <h3 className="usa-alert-heading">
-                Choose the right health portal
-              </h3>
-              <p className="vads-u-font-weight--bold">
-                {`To ${fillins.cta1} these facilities, go to My VA Health:`}
-              </p>
-              <div className="vads-u-margin-y--1">
-                <ul className="vads-u-margin-left--1p5 vads-u-margin-bottom--1">
-                  <ListItem
-                    facilities={cernerFacilities}
-                    ehrDataByVhaId={ehrDataByVhaId}
-                  />
-                </ul>
+          {featureStaticLandingPage &&
+            widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE === widgetType && (
+              <>
+                <h3 className="usa-alert-heading">
+                  Choose the right health portal
+                </h3>
+                <p className="vads-u-font-weight--bold">
+                  {`To ${fillins.cta1} these facilities, go to My VA Health:`}
+                </p>
+                <div className="vads-u-margin-y--1">
+                  <ul className="vads-u-margin-left--1p5 vads-u-margin-bottom--1">
+                    <ListItem
+                      facilities={cernerFacilities}
+                      ehrDataByVhaId={ehrDataByVhaId}
+                    />
+                  </ul>
+                  <a
+                    className="vads-c-action-link--blue"
+                    href={myVAHealthLink}
+                    onClick={onCTALinkClick}
+                    rel="noreferrer noopener"
+                    target="_blank"
+                  >
+                    Go to My VA Health
+                  </a>
+                </div>
+                <va-additional-info trigger="Having trouble opening My VA health?">
+                  Try these steps:
+                  <ul className="vads-u-margin-left--1p5">
+                    <li>Disable your browser's pop-up blocker</li>
+                    <li>
+                      Sign in to My VA health with the same account you used to
+                      sign in to VA.gov
+                    </li>
+                  </ul>
+                </va-additional-info>
+                <p className="vads-u-font-weight--bold">
+                  {`For any other facility, go to ${fillins.cta2} on ${
+                    fillins.featureLocation
+                  }.`}
+                </p>
                 <a
                   className="vads-c-action-link--blue"
-                  href={myVAHealthLink}
+                  href={myHealtheVetLink}
                   onClick={onCTALinkClick}
                   rel="noreferrer noopener"
                   target="_blank"
                 >
-                  Go to My VA Health
+                  {`Go to ${fillins.cta2} on VA.gov`}
                 </a>
-              </div>
-              <va-additional-info trigger="Having trouble opening My VA health?">
-                Try these steps:
-                <ul className="vads-u-margin-left--1p5">
-                  <li>Disable your browser's pop-up blocker</li>
-                  <li>
-                    Sign in to My VA health with the same account you used to
-                    sign in to VA.gov
-                  </li>
-                </ul>
-              </va-additional-info>
-              <p className="vads-u-font-weight--bold">
-                {`For any other facility, go to ${fillins.cta2} on ${
-                  fillins.featureLocation
-                }.`}
-              </p>
-              <a
-                className="vads-c-action-link--blue"
-                href={myHealtheVetLink}
-                onClick={onCTALinkClick}
-                rel="noreferrer noopener"
-                target="_blank"
-              >
-                {`Go to ${fillins.cta2} on VA.gov`}
-              </a>
-            </>
-          )}
+              </>
+            )}
           {!featureStaticLandingPage && (
             <>
               <h3 className="usa-alert-heading">
