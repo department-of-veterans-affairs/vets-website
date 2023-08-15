@@ -1,12 +1,18 @@
-.medication-details-div {
-    @media screen {
-        border-top: 1px solid $color-gray-lighter;
-    }
+.page-title {
+  p {
+    font-size: 1.6rem;
+    font-weight: normal;
+  }
+}
 
-    h3 {
-        margin: 16px 0px 0px 0px;
-    }
-    p {
-        margin: 0px;
-    }
+.medication-details-div {
+  @media screen {
+    border-top: 1px solid $color-gray-lighter;
+  }
+  h3 {
+    margin: 16px 0;
+  }
+  p {
+    margin: 0px;
+  }
 }
