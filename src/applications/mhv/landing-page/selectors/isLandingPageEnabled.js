@@ -1,7 +1,7 @@
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
-import { selectPatientFacilities } from '~/platform/user/selectors';
+import { isLoggedIn, selectPatientFacilities } from '~/platform/user/selectors';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 
@@ -16,15 +16,18 @@ const ENABLED_LOGIN_PROVIDERS = Object.freeze([
  *   - toggleValues(state)
  *   - selectProfile(state)
  *   - selectDrupalStaticData(state).vamcEhrData
- * Check that the loading property of these objects is false before calling this
- * function.
+ * Check that the loading property of these objects are false before calling
+ * this selector function.
  * @param {Object} state Current redux state.
  * @returns {Boolean} Returns true if the landing page is enabled. Returns
  *   false, otherwise.
  */
 export const isLandingPageEnabled = state => {
+  const loggedIn = isLoggedIn(state);
+  if (!loggedIn) return false;
   const mhvlpFeatureToggle = FEATURE_FLAG_NAMES.mhvLandingPageEnabled;
   const featureToggleEnabled = toggleValues(state)[mhvlpFeatureToggle];
+  if (!featureToggleEnabled) return false;
   const serviceName = signInServiceName(state);
   const hasValidLoginProvider = ENABLED_LOGIN_PROVIDERS.includes(serviceName);
   // selectPatientFacilites alters the facilities array using map. You _must_
@@ -32,8 +35,9 @@ export const isLandingPageEnabled = state => {
   const facilities = selectPatientFacilities(state) || [];
   const hasFacilities = facilities.length > 0;
   const isCernerPatient = selectIsCernerPatient(state);
-  // console.log({ featureToggleEnabled, serviceName, hasValidLoginProvider, hasFacilities, isCernerPatient });
+  // console.log({ loggedIn, featureToggleEnabled, serviceName, hasValidLoginProvider, hasFacilities, isCernerPatient });
   return (
+    loggedIn &&
     featureToggleEnabled &&
     hasValidLoginProvider &&
     hasFacilities &&

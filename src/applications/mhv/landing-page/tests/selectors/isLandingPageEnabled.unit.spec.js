@@ -2,199 +2,91 @@
 import { expect } from 'chai';
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import { isLandingPageEnabled } from '../../selectors';
-import manifest from '../../manifest.json';
+import { appName } from '../../manifest.json';
 
-// x const { featureToggles, user } = state;
-// x const { serviceName } = user?.profile?.signIn;
-// x const { currentlyLoggedIn } = user?.login;
-// const isCernerPatient = selectIsCernerPatient(state);
+const stateFn = ({
+  currentlyLoggedIn = true,
+  facilities = [{ facilityId: '757', isCerner: false }],
+  mhv_landing_page_enabled = true,
+  serviceName = CSP_IDS.ID_ME,
+} = {}) => ({
+  featureToggles: {
+    mhv_landing_page_enabled,
+  },
+  drupalStaticData: {
+    vamcEhrData: {
+      data: {
+        cernerFacilities: [
+          {
+            vhaId: '668',
+            ehr: 'cerner',
+          },
+        ],
+      },
+    },
+  },
+  user: {
+    profile: {
+      facilities,
+      signIn: {
+        serviceName,
+      },
+    },
+    login: {
+      currentlyLoggedIn,
+    },
+  },
+});
 
-describe(manifest.appName, () => {
-  describe('is landing page enabled for user', () => {
-    it('app is disabled if the the feature toggle is disabled', () => {
-      const state = {
-        featureToggles: {
-          mhv_landing_page_enabled: false,
-        },
-      };
-      const result = isLandingPageEnabled(state);
-      expect(result).to.be.false;
-    });
-    it('app is disabled if the feature is enabled but the user is not logged in', () => {
-      const state = {
-        featureToggles: {
-          mhv_landing_page_enabled: true,
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: false,
-          },
-        },
-      };
-      const result = isLandingPageEnabled(state);
-      expect(result).to.be.false;
-    });
-    it('app is enabled if the feature is enabled; the user is logged in as idme', () => {
-      const state = {
-        featureToggles: {
-          mhv_landing_page_enabled: true,
-        },
-        user: {
-          profile: {
-            signIn: {
-              serviceName: CSP_IDS.ID_ME,
-            },
-            facilities: [
-              {
-                facilityId: '668',
-                isCerner: false,
-              },
-            ],
-          },
-          login: {
-            currentlyLoggedIn: true,
-          },
-        },
-      };
-      const result = isLandingPageEnabled(state);
+let result;
+let state;
+
+describe(`${appName} -- isLandingPageEnabled selector`, () => {
+  describe('returns true when', () => {
+    it('user signed in with ID.me, feature enabled, has non-Cerner facility', () => {
+      state = stateFn();
+      result = isLandingPageEnabled(state);
       expect(result).to.be.true;
     });
-    it('app is enabled if the feature is enabled; the user is logged in as login.gov', () => {
-      const state = {
-        featureToggles: {
-          mhv_landing_page_enabled: true,
-        },
-        user: {
-          profile: {
-            signIn: {
-              serviceName: CSP_IDS.LOGIN_GOV,
-            },
-            facilities: [
-              {
-                facilityId: '668',
-                isCerner: false,
-              },
-            ],
-          },
-          login: {
-            currentlyLoggedIn: true,
-          },
-        },
-      };
-      const result = isLandingPageEnabled(state);
+
+    it('user signed in with Login.gov', () => {
+      state = stateFn({ serviceName: CSP_IDS.LOGIN_GOV });
+      result = isLandingPageEnabled(state);
       expect(result).to.be.true;
     });
-    it('app is disabled if the feature is enabled; the user is logged in as dslogon', () => {
-      const state = {
-        featureToggles: {
-          mhv_landing_page_enabled: true,
-        },
-        user: {
-          profile: {
-            signIn: {
-              serviceName: CSP_IDS.DS_LOGON,
-            },
-          },
-          login: {
-            currentlyLoggedIn: true,
-          },
-        },
-      };
-      const result = isLandingPageEnabled(state);
+  });
+
+  describe('returns false when', () => {
+    it('feature toggle is off', () => {
+      state = stateFn({ mhv_landing_page_enabled: false });
+      result = isLandingPageEnabled(state);
       expect(result).to.be.false;
     });
-    it('app is disabled if the feature is enabled AND the user is logged in as a valid ID provider AND the user is a cerner patient', () => {
-      const state = {
-        featureToggles: {
-          mhv_landing_page_enabled: true,
-        },
-        drupalStaticData: {
-          vamcEhrData: {
-            data: {
-              cernerFacilities: [
-                {
-                  vhaId: '668',
-                  ehr: 'cerner',
-                },
-              ],
-            },
-          },
-        },
-        user: {
-          profile: {
-            facilities: [
-              {
-                facilityId: '668',
-                isCerner: true,
-              },
-            ],
-            signIn: {
-              serviceName: CSP_IDS.ID_ME,
-            },
-          },
-          login: {
-            currentlyLoggedIn: true,
-          },
-        },
-      };
-      const result = isLandingPageEnabled(state);
+
+    it('user is logged out', () => {
+      state = stateFn({ currentlyLoggedIn: false });
+      result = isLandingPageEnabled(state);
       expect(result).to.be.false;
     });
-    it('app is enabled if the feature is enabled AND the user is logged in as a valid ID provider AND the user is not a cerner patient', () => {
-      const state = {
-        featureToggles: {
-          mhv_landing_page_enabled: true,
-        },
-        drupalStaticData: {
-          vamcEhrData: {
-            data: {
-              cernerFacilities: [
-                {
-                  vhaId: '668',
-                  ehr: 'cerner',
-                },
-              ],
-            },
-          },
-        },
-        user: {
-          profile: {
-            facilities: [
-              {
-                facilityId: 'not-668',
-                isCerner: false,
-              },
-            ],
-            signIn: {
-              serviceName: CSP_IDS.ID_ME,
-            },
-          },
-          login: {
-            currentlyLoggedIn: true,
-          },
-        },
-      };
-      const result = isLandingPageEnabled(state);
-      expect(result).to.be.true;
+
+    it('user signed in with DS Logon', () => {
+      state = stateFn({ serviceName: CSP_IDS.DS_LOGON });
+      result = isLandingPageEnabled(state);
+      expect(result).to.be.false;
     });
-    it('app is disabled if the feature is enabled AND the user is logged AND has no facilities', () => {
-      const state = {
-        featureToggles: {
-          mhv_landing_page_enabled: true,
-        },
-        user: {
-          profile: {
-            facilities: [],
-            signIn: {
-              serviceName: CSP_IDS.ID_ME,
-            },
-          },
-          login: {
-            currentlyLoggedIn: true,
-          },
-        },
-      };
-      const result = isLandingPageEnabled(state);
+
+    it('user is a Cerner patient', () => {
+      // NOTE: selectPatientFacilities will change isCerner property since facilityId
+      // 668 is listed as a Cerner facility in state.drupalStaticData.vamcEhrData.
+      const facilities = [{ facilityId: '668', isCerner: false }];
+      state = stateFn({ facilities });
+      result = isLandingPageEnabled(state);
+      expect(result).to.be.false;
+    });
+
+    it('user has no facilities', () => {
+      state = stateFn({ facilities: [] });
+      result = isLandingPageEnabled(state);
       expect(result).to.be.false;
     });
   });
