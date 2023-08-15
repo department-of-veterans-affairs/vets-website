@@ -9,19 +9,22 @@ import {
   FORMAT_READABLE,
   errorMessages,
 } from '../constants';
-import { replaceDescriptionContent } from '../../shared/utils/replace';
 import { isValidDate } from '../validations/date';
+
+import { replaceDescriptionContent } from '../../shared/utils/replace';
+import '../../shared/definitions';
 
 /** Modified from HLR v2 card */
 /**
  * IssueCardContent
+ * @param {String} id - unique ID
  * @param {String} description - contestable issue description
  * @param {String} ratingIssuePercentNumber - rating %, number with no %
  * @param {String} approxDecisionDate - contestable issue date formatted as
  *   "YYYY-MM-DD"
  * @param {String} decisionDate - additional issue date formatted as
  *   "YYYY-MM-DD"
- * @return {React Component}
+ * @return {JSX}
  */
 export const IssueCardContent = ({
   id,
@@ -72,30 +75,17 @@ IssueCardContent.propTypes = {
 };
 
 /**
- * ContestableIssue
- * @typedef {Object}
- * @property {String} ratingIssueSubjectText - contestable issue title
- * @property {String} description - contestable issue description
- * @property {String} ratingIssuePercentNumber - rating %, number with no %
- * @property {String} approxDecisionDate - date formatted as "YYYY-MM-DD"
- */
-/**
- * AdditionalIssue
- * @type {Object}
- * @property {String} issue - user entered issue name
- * @property {String} decisionDate - user entered decision date
- */
-/**
  * IssueCard
- * @typedef {Object}
- * @property {String} id - ID base for form elements
- * @property {Number} index - index of item in list
- * @property {ContestableIssue|AdditionalIssue} item - issue values
- * @property {Object} options - ui:options
- * @property {func} onChange - onChange callback
- * @property {func} onRemove - remove issue callback
- * @property {Boolean} showCheckbox - don't show checkbox on review & submit
+ * @param {String} id - ID base for form elements
+ * @param {Number} index - index of item in list
+ * @param {ContestableIssueItem|AdditionalIssueItem} item - issue values
+ * @param {Object} options - ui:options
+ * @param {func} onChange - onChange callback
+ * @param {Boolean} showCheckbox - don't show checkbox on review & submit
+ * @param {func} onRemove - remove issue callback
  *  page when not in edit mode
+ * @param {Boolean} onReviewPage - When true, list is rendered on review page
+ * @return {JSX}
  */
 export const IssueCard = ({
   id,

@@ -5,10 +5,12 @@ import { Link } from 'react-router';
 
 import { SELECTED, FORMAT_YMD, FORMAT_READABLE } from '../constants';
 import { replaceDescriptionContent } from '../../shared/utils/replace';
+import '../../shared/definitions';
 
 /** Copied from HLR v2 issue card */
 /**
  * IssueCardContent
+ * @param {String} id - unique ID
  * @param {String} description - contestable issue description
  * @param {String} ratingIssuePercentNumber - rating %, number with no %
  * @param {String} approxDecisionDate - contestable issue date formatted as
@@ -63,30 +65,16 @@ IssueCardContent.propTypes = {
 };
 
 /**
- * ContestableIssue
- * @typedef {Object}
- * @property {String} ratingIssueSubjectText - contestable issue title
- * @property {String} description - contestable issue description
- * @property {String} ratingIssuePercentNumber - rating %, number with no %
- * @property {String} approxDecisionDate - date formatted as "YYYY-MM-DD"
- */
-/**
- * AdditionalIssue
- * @type {Object}
- * @property {String} issue - user entered issue name
- * @property {String} decisionDate - user entered decision date
- */
-/**
  * IssueCard
- * @typedef {Object}
- * @property {String} id - ID base for form elements
- * @property {Number} index - index of item in list
- * @property {ContestableIssue|AdditionalIssue} item - issue values
- * @property {Object} options - ui:options
- * @property {func} onChange - onChange callback
- * @property {func} onRemove - remove issue callback
- * @property {Boolean} showCheckbox - don't show checkbox on review & submit
+ * @param {String} id - ID base for form elements
+ * @param {Number} index - index of item in list
+ * @param {ContestableIssueItem|AdditionalIssueItem} item - issue values
+ * @param {Object} options - ui:options
+ * @param {func} onChange - onChange callback
+ * @param {func} onRemove - remove issue callback
+ * @param {Boolean} showCheckbox - don't show checkbox on review & submit
  *  page when not in edit mode
+ * @return {JSX}
  */
 export const IssueCard = ({
   id,
