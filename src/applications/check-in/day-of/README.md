@@ -141,6 +141,7 @@ Though we have the HOC, its now considered best practice to query redux using th
   - when to sunset: when we are in a situation where new content is not added to the site until it is translated into spanish
 - `check_in_experience_travel_reimbursement`: Enables travel reimbursement workflow for day-of check-in.
 - `check_in_experience_browser_monitoring`: Enables browser monitoring for check-in applications.
+- `check_in_experience_unified_landing_page`: Enabled the unified check in landing page
 
 ### How to test this?
 

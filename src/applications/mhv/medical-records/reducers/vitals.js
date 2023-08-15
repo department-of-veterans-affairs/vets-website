@@ -1,6 +1,6 @@
-import environment from 'platform/utilities/environment';
 import { Actions } from '../util/actionTypes';
-import { testing } from '../util/constants';
+import { LoincCodes, emptyField } from '../util/constants';
+import { isArrayAndHasItems, macroCase } from '../util/helpers';
 
 const initialState = {
   /**
@@ -14,21 +14,34 @@ const initialState = {
   vitalDetails: undefined,
 };
 
-const convertVitalsList = recordList => {
-  recordList.entry.map(item => {
-    const record = item.resource;
-    return {
-      name: 'Blood Sugar', // will be replaced by type
-      type: record.code.coding.code || record.code.coding.display,
-      id: 122,
-      measurement: record.component[0].valueQuantity || record.value,
-      date: record.effectiveDateTime,
-      location: record.encounter,
-      facility: 'asdf', // will be replaced by location
-      reactions: ['Just this one'], // might only be comments
-      comments: record.note.text,
-    };
-  });
+const getMeasurement = (record, type) => {
+  if (type === 'BLOOD_PRESSURE') {
+    const systolic = record.component.find(
+      item => item.code.coding[0].code === LoincCodes.SYSTOLIC,
+    );
+    const diastolic = record.component.find(
+      item => item.code.coding[0].code === LoincCodes.DIASTOLIC,
+    );
+    return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
+  }
+  return record.valueQuantity?.value + record.valueQuantity?.code;
+};
+
+export const convertVital = record => {
+  const type = macroCase(record.code?.text);
+  return {
+    name:
+      record.code?.text ||
+      (isArrayAndHasItems(record.code?.coding) &&
+        record.code?.coding[0].display),
+    type,
+    id: record.id,
+    measurement: getMeasurement(record, type) || emptyField,
+    date: record.effectiveDateTime || emptyField,
+    location: record.encounter || emptyField,
+    notes:
+      (isArrayAndHasItems(record.note) && record.note[0].text) || emptyField,
+  };
 };
 
 export const vitalReducer = (state = initialState, action) => {
@@ -42,18 +55,12 @@ export const vitalReducer = (state = initialState, action) => {
       };
     }
     case Actions.Vitals.GET_LIST: {
-      const recordList = action.response;
-      let vitalsList;
-      if (environment.BUILDTYPE === 'localhost' && testing) {
-        convertVitalsList(recordList);
-      } else {
-        vitalsList = recordList.map(vaccine => {
-          return { ...vaccine };
-        });
-      }
       return {
         ...state,
-        vitalsList,
+        vitalsList:
+          action.response.entry?.map(vital => {
+            return convertVital(vital.resource);
+          }) || [],
       };
     }
     default:
