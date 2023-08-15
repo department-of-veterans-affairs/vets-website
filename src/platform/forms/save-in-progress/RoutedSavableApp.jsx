@@ -33,6 +33,7 @@ const { Element } = Scroll;
 class RoutedSavableApp extends React.Component {
   constructor(props) {
     super(props);
+    this.FormApp = props.FormApp || FormApp;
     this.location = props.location || window.location;
   }
 
@@ -287,9 +288,9 @@ class RoutedSavableApp extends React.Component {
       );
     } else {
       content = (
-        <FormApp formConfig={formConfig} currentLocation={currentLocation}>
+        <this.FormApp formConfig={formConfig} currentLocation={currentLocation}>
           {children}
-        </FormApp>
+        </this.FormApp>
       );
     }
 

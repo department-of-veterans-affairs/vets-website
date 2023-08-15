@@ -57,9 +57,10 @@ export const vitalReducer = (state = initialState, action) => {
     case Actions.Vitals.GET_LIST: {
       return {
         ...state,
-        vitalsList: action.response.entry?.map(item =>
-          convertVital(item.resource),
-        ),
+        vitalsList:
+          action.response.entry?.map(vital => {
+            return convertVital(vital.resource);
+          }) || [],
       };
     }
     default:
