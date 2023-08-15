@@ -33,7 +33,7 @@
           "serviceName": "idme",
           "accountType": "N/A"
         },
-        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3"
       },
       "vaProfile": {
         "status": "OK",

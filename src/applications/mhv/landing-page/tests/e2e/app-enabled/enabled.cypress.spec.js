@@ -14,7 +14,7 @@ describe(appName, () => {
   it('landing page is enabled', () => {
     cy.login(user);
     cy.visit('/my-health/');
-    cy.wait('@mockUser');
+    // cy.wait('@mockUser');
     cy.get('h1').should('be.visible').and('have.text', 'My HealtheVet');
     cy.url().should('include', '/my-health/');
     cy.injectAxeThenAxeCheck();

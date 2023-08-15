@@ -6,7 +6,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 
 import LandingPage from '../components/LandingPage';
 
-import { isLandingPageEnabledForUser } from '../utilities/feature-toggles';
+import { isLandingPageEnabled } from '../selectors';
 import { resolveLandingPageLinks } from '../utilities/data';
 
 import { useDatadogRum } from '../hooks/useDatadogRum';
@@ -18,10 +18,10 @@ import {
 } from '../selectors';
 
 const App = () => {
-  const appEnabled = useSelector(isLandingPageEnabledForUser);
+  const appEnabled = useSelector(isLandingPageEnabled);
   // const authenticated = useSelector(isLoggedIn);
   const drupalStaticData = useSelector(selectDrupalStaticData);
-  // const profile = useSelector(selectProfile);
+  const profile = useSelector(selectProfile);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const fullState = useSelector(state => state);
   const { featureToggles, user } = fullState;
@@ -41,7 +41,10 @@ const App = () => {
   // );
 
   useDatadogRum();
-  const loading = featureToggles.loading || drupalStaticData?.vamcEhrData?.loading;
+  const loading =
+    drupalStaticData?.vamcEhrData?.loading ||
+    featureToggles.loading ||
+    profile.loading;
   if (loading) return <va-loading-indicator />;
   if (!appEnabled) {
     const redirectUrl = mhvUrl(ssoe, 'home');
