@@ -31,9 +31,9 @@ export default class ITFBanner extends React.Component {
     switch (this.props.status) {
       case 'error':
         message = itfMessage(
-          'Something went wrong on our end, but we’ve received your intent to file!',
+          'We’re sorry. Something went wrong on our end.',
           itfError,
-          'info',
+          'error',
         );
         break;
       case 'itf-found':
