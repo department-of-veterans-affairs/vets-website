@@ -2,12 +2,14 @@ import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getLink } from '../../../services/appointment';
+
 import AppointmentColumnLayout from './AppointmentColumnLayout';
 import AppointmentFlexGrid from './AppointmentFlexGrid';
 import AppointmentListItem from './AppointmentListItem';
 import AppointmentRow from './AppointmentRow';
 
 export default function UpcomingAppointmentLayout({
+  featureBreadcrumbUrlUpdate,
   featureStatusImprovement,
   hashTable,
 }) {
@@ -92,6 +94,7 @@ export default function UpcomingAppointmentLayout({
       const idClickable = `id-${appt.id.replace('.', '\\.')}`;
 
       const link = getLink({
+        featureBreadcrumbUrlUpdate,
         featureStatusImprovement,
         appointment: appt,
       });
@@ -141,5 +144,6 @@ export default function UpcomingAppointmentLayout({
 
 UpcomingAppointmentLayout.propTypes = {
   featureStatusImprovement: PropTypes.bool,
+  featureBreadcrumbUrlUpdate: PropTypes.bool,
   hashTable: PropTypes.object,
 };
