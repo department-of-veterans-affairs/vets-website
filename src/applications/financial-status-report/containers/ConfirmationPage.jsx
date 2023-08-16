@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { useSelector, connect } from 'react-redux';
+import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
@@ -9,7 +9,7 @@ import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/med
 import GetFormHelp from '../components/shared/GetFormHelp';
 import { deductionCodes } from '../constants/deduction-codes';
 import DownloadFormPDF from '../components/shared/DownloadFormPDF';
-import { fsrConfirmationEmailToggle, fsrReasonDisplay } from '../utils/helpers';
+import { fsrReasonDisplay } from '../utils/helpers';
 import { DEBT_TYPES } from '../constants';
 import {
   isStreamlinedLongForm,
@@ -96,8 +96,6 @@ RequestDetailsCard.propTypes = {
 };
 
 const ConfirmationPage = ({ form, download }) => {
-  const showFSREmail = useSelector(state => fsrConfirmationEmailToggle(state));
-
   const { response } = form.submission;
   const { data } = form;
 
@@ -127,23 +125,34 @@ const ConfirmationPage = ({ form, download }) => {
         <strong>Please print this page for your records.</strong>
       </p>
 
-      {showFSREmail && (
-        <va-alert status="success">
-          <h3 className="confirmation-page-title">
-            We’ve received your request
-          </h3>
-          <p>
-            We’ll send you an email confirming your request to{' '}
-            <strong>{data.personalData.emailAddress}.</strong>
-          </p>
-        </va-alert>
-      )}
+      <va-alert status="success">
+        <h3>You’re tentatively eligible for debt relief</h3>
+        <p>
+          We’ll complete our final review of your request and mail you a letter
+          with more details. We’ll also send a confirmation email to
+          <strong> {data.personalData.emailAddress}</strong> for this
+          submission.
+        </p>
+      </va-alert>
       <p>
-        We’ll send you a letter with our decision and any next steps.{' '}
-        <strong>
-          If you experience changes that may affect our decision (like a loss or
-          new job), you’ll need to submit a new request.
-        </strong>
+        Here’s what you can expect from our final review of your request:
+        <ul>
+          <li className="vads-u-font-family--sans">
+            We’ll forgive part or all of the unpaid debt you asked us to waive.
+            You won’t have to pay the amount we forgive.
+          </li>
+          <li className="vads-u-font-family--sans">
+            We’ll review any payments you have already made to pay down this
+            debt. In some cases, we may pay you back for certain amounts.
+          </li>
+        </ul>
+        You don’t need to do anything else at this time.
+        <br />
+        <br />
+        If you don’t receive your letter in the next 30 days or have any
+        questions, call us at <va-telephone contact="8664001238" />(
+        <va-telephone contact="711" tty />
+        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
 
       {response && (
