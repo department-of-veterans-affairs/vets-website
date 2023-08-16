@@ -1,6 +1,115 @@
 {
   "data": [
     {
+      "id": "172403",
+      "type": "appointments",
+      "attributes": {
+        "id": "172403",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
+            "value": "14251"
+          }
+        ],
+        "kind": "cc",
+        "status": "proposed",
+        "serviceType": "audiology-routine exam",
+        "serviceTypes": [
+          {
+            "text": "audiology-routine exam"
+          }
+        ],
+        "reasonCode": {
+          "text": "test"
+        },
+        "patientIcn": "1013124304V115761",
+        "locationId": "984",
+        "created": "2023-05-12T17:45:00Z",
+        "requestedPeriods": [
+          {
+            "start": "2023-05-17T04:00:00Z",
+            "localStartTime": "2023-05-17T00:00:00.000-04:00"
+          }
+        ],
+        "contact": {
+          "telecom": [
+            {
+              "type": "phone",
+              "value": "7036753607"
+            },
+            {
+              "type": "email",
+              "value": "marcy.nadedau@va.gov"
+            }
+          ]
+        },
+        "preferredTimesForPhoneCall": [
+          "Morning"
+        ],
+        "preferredLocation": {
+          "city": "Dayton",
+          "state": "OH"
+        },
+        "preferredLanguage": "English",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "ccRequestedCancellation": false,
+          "hsrmTaskId": "14251"
+        },
+        "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_health_facility",
+            "name": "Dayton VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.74935,
+            "long": -84.2532,
+            "website": "https://www.dayton.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "937-268-6511"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "4100 West Third Street"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45428-9000"
+            },
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "Urology",
+              "WomensHealth"
+            ]
+          }
+        }
+      }
+    },
+    {
       "id": "25956",
       "type": "appointments",
       "attributes": {

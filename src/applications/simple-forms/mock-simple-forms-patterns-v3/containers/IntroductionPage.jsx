@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
@@ -27,22 +28,16 @@ const childContent = (
     <h3>Pages</h3>
     <ul>
       <li>
-        <a href="/mock-form-patterns/personal-information-1">
-          Personal information
-        </a>
+        <Link to="/personal-information-1">Personal information</Link>
       </li>
       <li>
-        <a href="/mock-form-patterns/personal-information-2">
-          Identification information
-        </a>
+        <Link to="/personal-information-2">Identification information</Link>
       </li>
       <li>
-        <a href="/mock-form-patterns/mailing-address">Mailing address</a>
+        <Link to="/mailing-address">Mailing address</Link>
       </li>
       <li>
-        <a href="/mock-form-patterns/contact-information">
-          Contact information
-        </a>
+        <Link to="/contact-information">Contact information</Link>
       </li>
     </ul>
   </>
