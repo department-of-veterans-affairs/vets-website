@@ -118,7 +118,6 @@ export default Object.freeze({
   showPaymentAndDebtSection: 'show_payment_and_debt_section',
   showContactChatbot: 'show_contact_chatbot',
   showDashboardNotifications: 'show_dashboard_notifications',
-  showMyVADashboardV2: 'show_myva_dashboard_2_0',
   showDigitalForm1095b: 'show_digital_form_1095b',
   showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
