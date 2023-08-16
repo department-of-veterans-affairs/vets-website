@@ -33,9 +33,6 @@ export const uiSchema = {
         </>
       ),
       'ui:widget': 'yesNo',
-      'ui:options': {
-        showFieldLabel: 'label',
-      },
       'ui:errorMessages': {
         required:
           'Please provide your installment contracts or other debts information.',
