@@ -15,7 +15,8 @@ export default {
     veteranServiceNumber: {
       'ui:title': 'Service number (if available)',
       'ui:errorMessages': {
-        maxLength: 'Please enter a number with fewer than 10 digits.',
+        pattern:
+          'Please enter a valid Service number, with 0-2 upper-case letters followed by 5-8 digits.',
       },
     },
   },
@@ -25,10 +26,7 @@ export default {
     properties: {
       veteranSSN: definitions.ssn,
       veteranVaFileNumber: definitions.vaFileNumber,
-      veteranServiceNumber: {
-        type: 'string',
-        maxLength: 10,
-      },
+      veteranServiceNumber: definitions.veteranServiceNumber,
     },
   },
 };

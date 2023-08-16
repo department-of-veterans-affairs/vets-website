@@ -18,6 +18,6 @@ describe('Pending', () => {
 
     expect($('va-alert', container)).to.exist;
     expect($('h2', container)).to.exist;
-    expect($('input[type="file"]', container)).to.exist;
+    expect($('va-file-input', container)).to.exist;
   });
 });
