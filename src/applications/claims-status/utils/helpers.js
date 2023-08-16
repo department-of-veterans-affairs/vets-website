@@ -146,6 +146,18 @@ export function displayFileSize(size) {
   return `${Math.round(mbSize)}MB`;
 }
 
+export function groupClaimsByDocsNeeded(list) {
+  const claimsWithOpenRequests = list.filter(
+    claim => claim.attributes.documentsNeeded,
+  );
+
+  const claimsWithoutOpenRequests = list.filter(
+    claim => !claim.attributes.documentsNeeded,
+  );
+
+  return claimsWithOpenRequests.concat(claimsWithoutOpenRequests);
+}
+
 export const DOC_TYPES = [
   { value: 'L029', label: 'Copy of a DD214' },
   { value: 'L450', label: 'STR - Dental - Photocopy' },

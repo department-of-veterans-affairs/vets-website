@@ -37,7 +37,11 @@ export const convertNote = note => {
     summary:
       (isArrayAndHasItems(note.content) &&
         typeof note.content[0].attachment?.data === 'string' &&
-        Buffer.from(note.content[0].attachment.data, 'base64').toString()) ||
+        Buffer.from(note.content[0].attachment.data, 'base64')
+          .toString()
+          .split('\r')
+          .filter(i => i !== '\r')
+          .join('')) ||
       emptyField,
     location:
       (isArrayAndHasItems(note.context?.related) &&

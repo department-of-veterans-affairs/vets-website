@@ -8,6 +8,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceTravelLogic = false,
     checkInExperienceBrowserMonitoring = false,
     checkInExperiencePreCheckInActionLinkTopPlacement = true,
+    checkInExperienceUnifiedLandingPage = false,
   } = toggles;
 
   return {
@@ -45,6 +46,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_pre_check_in_action_link_top_placement',
           value: checkInExperiencePreCheckInActionLinkTopPlacement,
+        },
+        {
+          name: 'check_in_experience_unified_landing_page',
+          value: checkInExperienceUnifiedLandingPage,
         },
       ],
     },

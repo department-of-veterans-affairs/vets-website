@@ -147,7 +147,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.preparerQualifications1]: ({ afterHook }) => {
+      [pagePaths.preparerQualifications1A]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -238,7 +238,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const signerName = data.preparerFullName;
-            reviewAndSubmitPageFlow(signerName);
+            reviewAndSubmitPageFlow(signerName, 'Submit form');
           });
         });
       },
