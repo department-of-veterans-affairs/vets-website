@@ -101,13 +101,16 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
     sendWindowEvent('webchat-message-activity');
   }
   const payload = action.payload || {};
-  const dataorEmpty = payload.activity || {};
-  const text = dataorEmpty.text || '';
-  const rxSkillWasTriggered = text.includes(
-    'You are now in the Prescriptions Bot.',
-  );
-  const rxSkillWasExited = text.includes('Returning to the main chatbot...');
-
+  // const dataorEmpty = payload.activity || {};
+  // const text = dataorEmpty.text || '';
+  // const rxSkillWasTriggered = text.includes(
+  //   'You are now in the Prescriptions Bot.',
+  // );
+  // use event name for rxSkill
+  const rxSkillWasTriggered = payload.activity.name === 'RX_Skill_Entry';
+  // const rxSkillWasExited = text.includes('Returning to the main chatbot...');
+  // use event name for rxSkillExit
+  const rxSkillWasExited = payload.activity.name === 'RX_Skill_Exit';
   if (rxSkillWasTriggered) {
     setSessionStorageAsString(IS_RX_SKILL, true);
     sendWindowEvent('rxSkill');
