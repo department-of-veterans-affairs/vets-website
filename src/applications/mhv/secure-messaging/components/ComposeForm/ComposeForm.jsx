@@ -26,6 +26,7 @@ import {
   Categories,
   Prompts,
   ErrorMessages,
+  DefaultFolders,
 } from '../../util/constants';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -162,12 +163,18 @@ const ComposeForm = props => {
           attachments.map(upload => sendData.append('uploads[]', upload));
           dispatch(sendMessage(sendData, true))
             .then(() =>
-              navigateToFolderByFolderId(currentFolder?.folderId || 0, history),
+              navigateToFolderByFolderId(
+                currentFolder?.folderId || DefaultFolders.INBOX.id,
+                history,
+              ),
             )
             .catch(setSendMessageFlag(false));
         } else {
           dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
-            navigateToFolderByFolderId(currentFolder?.folderId || 0, history),
+            navigateToFolderByFolderId(
+              currentFolder?.folderId || DefaultFolders.INBOX.id,
+              history,
+            ),
           );
         }
       }

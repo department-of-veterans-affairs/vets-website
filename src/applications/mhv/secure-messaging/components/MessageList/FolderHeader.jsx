@@ -61,7 +61,7 @@ const FolderHeader = props => {
       <>{handleFolderDescription()}</>
       {folder.folderId === Folders.INBOX.id && <ComposeMessageButton />}
       <ManageFolderButtons />
-      {threadCount?.length > 0 && (
+      {threadCount > 0 && (
         <SearchForm
           folder={folder}
           keyword=""
@@ -77,7 +77,7 @@ const FolderHeader = props => {
 FolderHeader.propTypes = {
   folder: PropTypes.object,
   searchProps: PropTypes.object,
-  threadCount: PropTypes.array,
+  threadCount: PropTypes.number,
 };
 
 export default FolderHeader;

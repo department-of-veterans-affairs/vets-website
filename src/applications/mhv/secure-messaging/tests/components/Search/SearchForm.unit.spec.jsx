@@ -63,7 +63,7 @@ describe('Search form', () => {
         keyword="test"
         resultsCount={searchResults.length}
         query={query}
-        threadCount={threadList}
+        threadCount={threadList.length}
       />,
       {
         initialState,
@@ -94,7 +94,7 @@ describe('Search form', () => {
         folder={folder}
         resultsCount={searchResults.length}
         query={query}
-        threadCount={threadList}
+        threadCount={threadList.length}
       />,
       {
         initialState,

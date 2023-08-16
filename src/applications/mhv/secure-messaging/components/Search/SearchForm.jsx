@@ -248,7 +248,7 @@ const SearchForm = props => {
             new message. These emails include the message ID.
           </va-additional-info>
         )}
-        {threadCount && (
+        {threadCount > 0 && (
           <div>
             <FilterBox
               ref={filterBoxRef}
@@ -301,7 +301,7 @@ SearchForm.propTypes = {
   keyword: PropTypes.string,
   query: PropTypes.object,
   resultsCount: PropTypes.number,
-  threadCount: PropTypes.array,
+  threadCount: PropTypes.number,
 };
 
 export default SearchForm;

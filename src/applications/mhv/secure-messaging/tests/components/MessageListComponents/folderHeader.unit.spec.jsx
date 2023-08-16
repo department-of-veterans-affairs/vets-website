@@ -30,19 +30,13 @@ describe('Folder Header component', () => {
       },
       messageDetails: { message: messageResponse },
     },
-    user: {
-      profile: {
-        session: {
-          ssoe: true,
-        },
-      },
-    },
   };
   const initialPath = `/folders/${customFolder.folderId}`;
+  const initialThreadCount = threadList.length;
   const setup = (
     state = initialState,
     path = initialPath,
-    threadCount = threadList,
+    threadCount = initialThreadCount,
     folder = customFolder,
   ) => {
     return renderWithStoreAndRouter(
@@ -101,23 +95,26 @@ describe('Folder Header component', () => {
           folderList,
         },
       },
-      user: {
-        profile: {
-          session: {
-            ssoe: true,
-          },
-        },
-      },
     };
 
     it('must display valid FOLDER name: INBOX', async () => {
-      const screen = setup(initialState, Paths.INBOX, threadList, inbox);
+      const screen = setup(
+        initialState,
+        Paths.INBOX,
+        initialThreadCount,
+        inbox,
+      );
       expect(screen.getByText(inbox.name, { selector: 'h1' })).to.exist;
       expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
     });
 
     it('renders FilterBox with `threadCount` in INBOX FOLDER', () => {
-      const screen = setup(initialInboxState, Paths.INBOX, threadList, inbox);
+      const screen = setup(
+        initialInboxState,
+        Paths.INBOX,
+        initialThreadCount,
+        inbox,
+      );
       const filterBox = screen.getByTestId('search-form');
       expect(filterBox).to.exist;
 
@@ -151,13 +148,6 @@ describe('Folder Header component', () => {
           folderList,
         },
       },
-      user: {
-        profile: {
-          session: {
-            ssoe: true,
-          },
-        },
-      },
     };
 
     it('must display valid FOLDER name: DRAFTS', async () => {
@@ -175,7 +165,7 @@ describe('Folder Header component', () => {
       const screen = setup(
         initialDraftsState,
         Paths.DRAFTS,
-        threadList,
+        initialThreadCount,
         drafts,
       );
       const filterBox = screen.getByTestId('search-form');
@@ -211,13 +201,6 @@ describe('Folder Header component', () => {
           folderList,
         },
       },
-      user: {
-        profile: {
-          session: {
-            ssoe: true,
-          },
-        },
-      },
     };
 
     it('must display valid FOLDER name: SENT', async () => {
@@ -227,7 +210,12 @@ describe('Folder Header component', () => {
     });
 
     it('renders FilterBox with `threadCount` in SENT FOLDER', () => {
-      const screen = setup(initialSentState, Paths.SENT, threadList, sent);
+      const screen = setup(
+        initialSentState,
+        Paths.SENT,
+        initialThreadCount,
+        sent,
+      );
       const filterBox = screen.getByTestId('search-form');
       expect(filterBox).to.exist;
 
@@ -268,23 +256,26 @@ describe('Folder Header component', () => {
           folderList,
         },
       },
-      user: {
-        profile: {
-          session: {
-            ssoe: true,
-          },
-        },
-      },
     };
 
     it('must display valid FOLDER name: TRASH ', async () => {
-      const screen = setup(initialTrashState, Paths.DELETED, threadList, trash);
+      const screen = setup(
+        initialTrashState,
+        Paths.DELETED,
+        initialThreadCount,
+        trash,
+      );
       expect(screen.getByText(trash.name, { selector: 'h1' })).to.exist;
       expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
     });
 
     it('renders FilterBox with `threadCount` in TRASH FOLDER', () => {
-      const screen = setup(initialTrashState, Paths.DELETED, threadList, trash);
+      const screen = setup(
+        initialTrashState,
+        Paths.DELETED,
+        initialThreadCount,
+        trash,
+      );
       const filterBox = screen.getByTestId('search-form');
       expect(filterBox).to.exist;
 
