@@ -47,7 +47,9 @@ export function FacilityPatientSatisfactionScoresWidget(props) {
         <div className="vads-u-display--flex">
           {!!facility.feedback.health.primaryCareUrgent && (
             <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-margin-right--1">
-              <h4 className="vads-u-margin--0">Primary care</h4>
+              <h4 className="vads-u-margin--0 vads-u-font-size--h5 vads-u-font-weight--normal">
+                Primary care
+              </h4>
               <p
                 id="facility-patient-satisfaction-scores-primary-urgent-score"
                 className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
@@ -58,7 +60,9 @@ export function FacilityPatientSatisfactionScoresWidget(props) {
           )}
           {!!facility.feedback.health.specialtyCareUrgent && (
             <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5">
-              <h4 className="vads-u-margin--0">Specialty care</h4>
+              <h4 className="vads-u-margin--0 vads-u-font-size--h5 vads-u-font-weight--normal">
+                Specialty care
+              </h4>
               <p
                 id="facility-patient-satisfaction-scores-specialty-urgent-score"
                 className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
@@ -79,7 +83,9 @@ export function FacilityPatientSatisfactionScoresWidget(props) {
         <div className="vads-u-display--flex">
           {!!facility.feedback.health.primaryCareRoutine && (
             <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-margin-right--1">
-              <h4 className="vads-u-margin--0">Primary care</h4>
+              <h4 className="vads-u-margin--0 vads-u-font-size--h5 vads-u-font-weight--normal">
+                Primary care
+              </h4>
               <p
                 id="facility-patient-satisfaction-scores-primary-routine-score"
                 className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
@@ -91,7 +97,9 @@ export function FacilityPatientSatisfactionScoresWidget(props) {
 
           {!!facility.feedback.health.specialtyCareRoutine && (
             <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5">
-              <h4 className="vads-u-margin--0">Specialty care</h4>
+              <h4 className="vads-u-margin--0 vads-u-font-size--h5 vads-u-font-weight--normal">
+                Specialty care
+              </h4>
               <p
                 id="facility-patient-satisfaction-scores-specialty-routine-score"
                 className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
