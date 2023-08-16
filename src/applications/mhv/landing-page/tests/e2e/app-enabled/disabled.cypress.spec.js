@@ -9,9 +9,6 @@ describe(appName, () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureTogglesDisabled).as(
       'featureTogglesDisabled',
     );
-    const mhvRedirectUrl =
-      'https://mhv-syst.myhealth.va.gov/mhv-portal-web/home';
-    cy.intercept('GET', mhvRedirectUrl, '').as('mhvRedirect');
     const mhvAuthRedirectUrl = 'https://pint.eauth.va.gov/mhv-portal-web/eauth';
     cy.intercept('GET', mhvAuthRedirectUrl, '').as('mhvAuthRedirect');
   });

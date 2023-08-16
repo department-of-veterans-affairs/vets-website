@@ -82,20 +82,20 @@ describe(`${appName} -- <App /> container`, () => {
 
   it('renders a loading indicator when drupalStaticData.vamcEhrData is loading', () => {
     const initialState = stateFn({ vamcEhrDataLoading: true });
-    const { getByRole } = setup({ initialState });
-    getByRole('progressbar', { text: 'Please wait...' });
+    const { getByTestId } = setup({ initialState });
+    getByTestId('mhv-landing-page-loading');
   });
 
   it('renders a loading indicator when featureToggles is loading', () => {
     const initialState = stateFn({ featureTogglesLoading: true });
-    const { getByRole } = setup({ initialState });
-    getByRole('progressbar', { text: 'Please wait...' });
+    const { getByTestId } = setup({ initialState });
+    getByTestId('mhv-landing-page-loading');
   });
 
   it('renders a loading indicator when profile is loading', () => {
     const initialState = stateFn({ profileLoading: true });
-    const { getByRole } = setup({ initialState });
-    getByRole('progressbar', { text: 'Please wait...' });
+    const { getByTestId } = setup({ initialState });
+    getByTestId('mhv-landing-page-loading');
   });
 
   it('redirects when feature toggle is disabled', () => {

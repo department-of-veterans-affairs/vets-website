@@ -8,9 +8,6 @@ import LandingPage from '../pages/LandingPage';
 describe(appName, () => {
   beforeEach(() => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
-    const mhvRedirectUrl =
-      'https://mhv-syst.myhealth.va.gov/mhv-portal-web/home';
-    cy.intercept('GET', mhvRedirectUrl, '').as('mhvRedirect');
     const mhvAuthRedirectUrl = 'https://pint.eauth.va.gov/mhv-portal-web/eauth';
     cy.intercept('GET', mhvAuthRedirectUrl, '').as('mhvAuthRedirect');
 

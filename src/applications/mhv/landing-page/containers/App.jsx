@@ -54,7 +54,10 @@ const App = () => {
   if (loading)
     return (
       <div className="vads-u-margin--5">
-        <va-loading-indicator message="Please wait..." />
+        <va-loading-indicator
+          data-testid="mhv-landing-page-loading"
+          message="Please wait..."
+        />
       </div>
     );
   return (
