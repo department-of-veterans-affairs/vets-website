@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+import environment from 'platform/utilities/environment';
+
 const find = require('find');
 const path = require('path');
 
@@ -11,19 +13,23 @@ function getAppManifests() {
       // eslint-disable-next-line import/no-dynamic-require
       const manifest = require(file);
 
-      return Object.assign({}, manifest, {
+      return {
+        ...manifest,
         filePath: file,
         entryFile: path.resolve(
           root,
           path.join(path.dirname(file), manifest.entryFile),
         ),
-      });
+      };
     });
 }
 
 function getAppRoutes() {
   return getAppManifests()
-    .map(m => m.rootUrl)
+    .map(
+      m =>
+        !environment.isProduction() && m.newRootUrl ? m.newRootUrl : m.rootUrl,
+    )
     .filter(m => m);
 }
 
