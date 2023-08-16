@@ -761,7 +761,6 @@ jobs:
     continue-on-error: true
     env:
       CHANGED_FILE_PATHS: ${{ needs.cypress-tests-prep.outputs.changed_file_paths }}
-      ALLOW_LIST: ${{ needs.update-e2e-allow-list.outputs.allow_list }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
