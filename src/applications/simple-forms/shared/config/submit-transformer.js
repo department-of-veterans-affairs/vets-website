@@ -6,7 +6,7 @@ const escapedCharacterReplacer = (_key, value) => {
       .replaceAll('"', "'")
       .replace(/(?:\r\n|\n\n|\r|\n)/g, '; ')
       .replace(/(?:\t|\f|\b)/g, '')
-      .replace(/\\(?!(f|n|r|t|[u,U][\d,a-fA-F]{4}))/gm, '/');
+      .replaceAll('\\', '/');
   }
 
   return value;
