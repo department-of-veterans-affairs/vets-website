@@ -90,10 +90,9 @@ describe(`${appName} -- <App /> container`, () => {
     let replace;
 
     beforeEach(() => {
-      originalLocation = global.window.location;
+      originalLocation = window.location;
       replace = sinon.spy();
-      delete global.window.location;
-      global.window.location = { replace };
+      window.location = { replace };
     });
 
     afterEach(() => {
