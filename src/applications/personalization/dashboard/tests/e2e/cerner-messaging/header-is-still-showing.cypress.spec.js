@@ -1,4 +1,3 @@
-import { generateFeatureToggles } from '../../../../common/mocks/feature-toggles';
 import { cernerUser } from '../../../../common/mocks/users';
 import vamcErc from '../../fixtures/vamc-ehr.json';
 
@@ -13,10 +12,6 @@ describe('MyVA Dashboard - Appointments - v2', () => {
   });
 
   it('Header still exists when cerner message exists on V2', () => {
-    cy.intercept(
-      '/v0/feature_toggles*',
-      generateFeatureToggles({ showMyVADashboardV2: true }),
-    );
     cy.visit('my-va/');
     cy.injectAxeThenAxeCheck();
     cy.get('[data-testid="cerner-widget"] > .hydrated').should('exist');

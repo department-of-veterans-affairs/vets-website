@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -21,6 +20,7 @@ import {
   PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
   DBQ_URL,
+  OMB_CONTROL,
 } from '../constants';
 
 class IntroductionPage extends React.Component {
@@ -275,9 +275,11 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro buttonOnly {...sipProps} />
         {itfNotice}
-        <div className="omb-info--container">
-          <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="03/31/2021" />
-        </div>
+        <va-omb-info
+          res-burden={25}
+          omb-number={OMB_CONTROL}
+          exp-date="03/31/2021"
+        />
       </div>
     );
   }

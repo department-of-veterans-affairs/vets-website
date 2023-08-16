@@ -398,7 +398,7 @@ describe('getTimeZone', () => {
 describe('getPart3Data', () => {
   const getResult = ({ ext = false, denial = false } = {}) => ({
     requestingExtension: ext,
-    appealingVhaDenial: denial,
+    appealingVhaDenial: denial, // Vha not VHA is submitted
   });
   it('should return an empty object', () => {
     expect(getPart3Data({})).to.deep.equal({});
@@ -407,7 +407,7 @@ describe('getPart3Data', () => {
     expect(getPart3Data({ [SHOW_PART3]: true })).to.deep.equal(getResult());
   });
   it('should return appealing VHA denial as true', () => {
-    const data = { [SHOW_PART3]: true, appealingVhaDenial: true };
+    const data = { [SHOW_PART3]: true, appealingVHADenial: true };
     const result = getResult({ denial: true });
     expect(getPart3Data(data)).to.deep.equal(result);
   });
