@@ -86,12 +86,9 @@ describe(`${appName} -- <App /> container`, () => {
   });
 
   describe('redirects when', () => {
-    let originalWindow;
-    let replace;
-
     it('feature toggle is disabled', () => {
-      originalWindow = global.window;
-      replace = sinon.spy();
+      const originalWindow = global.window;
+      const replace = sinon.spy();
       global.window.location = { ...global.window.location, replace };
       const initialState = stateFn({ mhv_landing_page_enabled: false });
       setup({ initialState });
@@ -100,8 +97,8 @@ describe(`${appName} -- <App /> container`, () => {
     });
 
     it('signed in with DS Logon', () => {
-      originalWindow = global.window;
-      replace = sinon.spy();
+      const originalWindow = global.window;
+      const replace = sinon.spy();
       global.window.location = { ...global.window.location, replace };
       const initialState = stateFn({ serviceName: CSP_IDS.DS_LOGON });
       setup({ initialState });
@@ -110,8 +107,8 @@ describe(`${appName} -- <App /> container`, () => {
     });
 
     it('user has a Cerner facility', () => {
-      originalWindow = global.window;
-      replace = sinon.spy();
+      const originalWindow = global.window;
+      const replace = sinon.spy();
       global.window.location = { ...global.window.location, replace };
       const facilities = [{ facilityId: '668', isCerner: false }];
       const initialState = stateFn({ facilities });
@@ -121,8 +118,8 @@ describe(`${appName} -- <App /> container`, () => {
     });
 
     it('user has no facilities', () => {
-      originalWindow = global.window;
-      replace = sinon.spy();
+      const originalWindow = global.window;
+      const replace = sinon.spy();
       global.window.location = { ...global.window.location, replace };
       const initialState = stateFn({ facilities: [] });
       setup({ initialState });
