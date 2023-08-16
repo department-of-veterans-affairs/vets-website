@@ -20,3 +20,6 @@ checks:
     enabled: true
   identical-code:
     enabled: true
+exclude_patterns:
+  - "src/applications/ds-playground/**/*"
+  - "src/applications/ds-v3-playground/**/*"
