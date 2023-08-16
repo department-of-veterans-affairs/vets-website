@@ -744,15 +744,6 @@ jobs:
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
           GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
 
-      - name: Fetch allow list
-        run: yarn get-allow-list
-        working-directory: qa-standards-dashboard-data
-      # exports app list and assigns to environmental variable at this step
-
-      - name: Set Allow List Output
-        id: allow-list-output
-        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
-
   allow-list-merge-status:
     name: E2E Allow List Merge Status Check
     runs-on: ubuntu-latest
@@ -761,10 +752,22 @@ jobs:
     continue-on-error: true
     env:
       CHANGED_FILE_PATHS: ${{ needs.cypress-tests-prep.outputs.changed_file_paths }}
-      ALLOW_LIST: ${{ needs.update-e2e-allow-list.outputs.allow_list }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -776,6 +779,21 @@ jobs:
             .cache/yarn
             /github/home/.cache/Cypress
             node_modules
+
+      - name: Init Dashboard Data Repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch allow list
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+      # exports app list and assigns to environmental variable at this step
+
+      - name: Set Allow List Output
+        id: allow-list-output
+        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
 
       - name: Check if code can be merged
         run: node script/github-actions/check-e2e-status.js
