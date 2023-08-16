@@ -116,14 +116,6 @@ const NotificationChannel = props => {
                 isAllowed: newValue,
                 wasAllowed: isOptedIn,
               });
-              recordEvent({
-                event: 'int-radio-button-option-click',
-                'radio-button-label': itemName,
-                'radio-button-optionLabel': `${
-                  channelTypes[channelType]
-                } - ${newValue}`,
-                'radio-button-required': false,
-              });
 
               saveSetting(channelId, model.getApiCallObject());
             }}
