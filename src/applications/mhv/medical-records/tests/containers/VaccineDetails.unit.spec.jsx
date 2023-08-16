@@ -43,7 +43,7 @@ describe('Vaccines details container', () => {
     const screen = setup();
 
     const vaccineName = screen.getByText(
-      initialState.mr.vaccines.vaccineDetails.name,
+      'INFLUENZA, INJECTABLE, QUADRIVALENT',
       {
         exact: true,
         selector: 'h1',
@@ -61,27 +61,12 @@ describe('Vaccines details container', () => {
     expect(formattedDate).to.exist;
   });
 
-  it('displays the manufacturer', () => {
-    const screen = setup();
-    const manufacturer = screen.getAllByText(
-      initialState.mr.vaccines.vaccineDetails.manufacturer,
-      {
-        exact: true,
-        selector: 'p',
-      },
-    );
-    expect(manufacturer).to.exist;
-  });
-
   it('displays the location', () => {
     const screen = setup();
-    const location = screen.getAllByText(
-      initialState.mr.vaccines.vaccineDetails.location,
-      {
-        exact: true,
-        selector: 'p',
-      },
-    );
+    const location = screen.getByText('None noted', {
+      exact: true,
+      selector: 'p',
+    });
     expect(location).to.exist;
   });
 });

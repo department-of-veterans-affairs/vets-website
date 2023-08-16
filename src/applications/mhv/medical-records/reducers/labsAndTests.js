@@ -96,16 +96,16 @@ const convertMicrobiologyRecord = record => {
 const convertPathologyRecord = record => {
   return {
     id: record.id,
-    name: 'Surgical pathology',
+    name: record.code?.text,
     type: labTypes.PATHOLOGY,
-    category: '',
-    orderedBy: 'Beth M. Smith',
-    requestedBy: 'John J. Lydon',
-    date: record.effectiveDateTime,
-    sampleTested: record.specimen,
-    labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    collectingLocation: record.performer,
-    results: record.conclusion || record.result,
+    category: concatCategoryCodeText(record),
+    orderedBy: record.physician || emptyField,
+    requestedBy: record.physician || emptyField,
+    date: formatDateLong(record.effectiveDateTime),
+    sampleTested: record.specimen?.text || emptyField,
+    labLocation: record.labLocation || emptyField,
+    collectingLocation: record.location || emptyField,
+    results: record.conclusion || record.result || emptyField,
   };
 };
 

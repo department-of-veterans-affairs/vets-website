@@ -1,5 +1,9 @@
 import moment from 'moment';
 import {
+  isStreamlinedShortForm,
+  isStreamlinedLongForm,
+} from './streamlinedDepends';
+import {
   sumValues,
   dateFormatter,
   getFsrReason,
@@ -60,6 +64,27 @@ export const transform = (formConfig, form) => {
 
   // enhanced fsr flag
   const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
+  const isShortStreamlined = isStreamlinedShortForm(form.data);
+  const isLongStreamlined = isStreamlinedLongForm(form.data);
+
+  // === Set Streamlined FSR flag ===
+  let streamlinedData;
+  if (isShortStreamlined) {
+    streamlinedData = {
+      value: true,
+      type: 'short',
+    };
+  } else if (isLongStreamlined) {
+    streamlinedData = {
+      value: true,
+      type: 'long',
+    };
+  } else {
+    streamlinedData = {
+      value: false,
+      type: 'none', // not streamlined
+    };
+  }
 
   // === Income ===
   // Extract the values from getMonthlyIncome
@@ -306,6 +331,7 @@ export const transform = (formConfig, form) => {
       veteranDateSigned: moment().format('MM/DD/YYYY'),
     },
     selectedDebtsAndCopays: [...selectedDebtsAndCopays],
+    streamlined: streamlinedData,
   };
 
   // calculated values should formatted then converted to string

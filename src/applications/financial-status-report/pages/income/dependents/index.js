@@ -1,4 +1,5 @@
 import React from 'react';
+import DependentExplainer from '../../../components/household/DependentExplainer';
 
 export const uiSchema = {
   'ui:title': 'Your dependents',
@@ -57,6 +58,11 @@ export const uiSchemaEnhanced = {
       },
     },
   },
+  'view:components': {
+    'view:dependentsAdditionalInfo': {
+      'ui:description': DependentExplainer,
+    },
+  },
 };
 
 export const schemaEnhanced = {
@@ -68,6 +74,15 @@ export const schemaEnhanced = {
       properties: {
         hasDependents: {
           type: 'string',
+        },
+      },
+    },
+    'view:components': {
+      type: 'object',
+      properties: {
+        'view:dependentsAdditionalInfo': {
+          type: 'object',
+          properties: {},
         },
       },
     },

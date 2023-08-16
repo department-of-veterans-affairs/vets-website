@@ -1154,7 +1154,7 @@ const formConfig = {
               },
               [formFields.receiveTextMessages]: {
                 'ui:title':
-                  'Would you like to receive text message notifications on your education benefits?',
+                  'Would you like to receive text message notifications about your education benefits?',
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
