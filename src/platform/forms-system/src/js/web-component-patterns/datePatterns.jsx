@@ -116,6 +116,11 @@ const currentOrPastDateDigitsSchema = commonDefinitions.date;
  */
 const dateOfBirthSchema = commonDefinitions.date;
 
+/**
+ * @returns `commonDefinitions.date`
+ */
+const dateOfDeathSchema = commonDefinitions.date;
+
 export {
   currentOrPastDateUI,
   currentOrPastDateDigitsUI,
@@ -124,4 +129,5 @@ export {
   currentOrPastDateSchema,
   currentOrPastDateDigitsSchema,
   dateOfBirthSchema,
+  dateOfDeathSchema,
 };
