@@ -144,7 +144,7 @@ export class CernerCallToAction extends Component {
       linksHeaderText,
       myVAHealthLink,
       myHealtheVetLink,
-      featureStaticLandingPage,
+      featureStaticLandingPage = false,
       widgetType,
     } = this.props;
     const { error, fetching, facilities } = this.state;
@@ -248,7 +248,9 @@ export class CernerCallToAction extends Component {
                 </a>
               </>
             )}
-          {!featureStaticLandingPage && (
+          {((featureStaticLandingPage &&
+            widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE !== widgetType) ||
+            featureStaticLandingPage === false) && (
             <>
               <h3 className="usa-alert-heading">
                 Your VA health care team may be using our My VA Health portal
