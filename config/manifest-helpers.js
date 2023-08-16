@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
-import environment from 'platform/utilities/environment';
 
 const find = require('find');
 const path = require('path');
+const environment = require('platform/utilities/environment');
 
 const root = path.join(__dirname, '..');
 
