@@ -39,6 +39,8 @@ const App = () => {
     featureToggles.loading ||
     profile.loading;
 
+  const redirecting = signedIn && !loading && !appEnabled;
+
   useEffect(
     () => {
       const redirect = () => {
@@ -46,12 +48,12 @@ const App = () => {
         // console.log({ redirectUrl }); // eslint-disable-line no-console
         window.location.replace(redirectUrl);
       };
-      if (signedIn && !loading && !appEnabled) redirect();
+      if (redirecting) redirect();
     },
-    [appEnabled, loading, signedIn, ssoe],
+    [ssoe, redirecting],
   );
 
-  if (loading)
+  if (loading || redirecting)
     return (
       <div className="vads-u-margin--5">
         <va-loading-indicator

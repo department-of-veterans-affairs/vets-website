@@ -102,20 +102,23 @@ describe(`${appName} -- <App /> container`, () => {
 
     it('feature toggle is disabled', () => {
       const initialState = stateFn({ mhv_landing_page_enabled: false });
-      setup({ initialState });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
       expect(replace.called).to.be.true;
     });
 
     it('signed in with DS Logon', () => {
       const initialState = stateFn({ serviceName: CSP_IDS.DS_LOGON });
-      setup({ initialState });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
       expect(replace.called).to.be.true;
     });
 
     it('user has a Cerner facility', () => {
       const facilities = [{ facilityId: '668' }];
       const initialState = stateFn({ facilities });
-      setup({ initialState });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
       expect(replace.called).to.be.true;
     });
 
@@ -126,13 +129,15 @@ describe(`${appName} -- <App /> container`, () => {
         { facilityId: '650' },
       ];
       const initialState = stateFn({ facilities });
-      setup({ initialState });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
       expect(replace.called).to.be.true;
     });
 
     it('user has no facilities', () => {
       const initialState = stateFn({ facilities: [] });
-      setup({ initialState });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
       expect(replace.called).to.be.true;
     });
   });
