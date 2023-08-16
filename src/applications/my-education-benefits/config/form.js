@@ -1439,7 +1439,14 @@ const formConfig = {
                     Chapter30: 'Montgomery GI Bill Active Duty (Chapter 30)',
                     Chapter1606:
                       'Montgomery GI Bill Selected Reserve (Chapter 1606)',
-                    CannotRelinquish: "I'm not sure",
+                    CannotRelinquish: state => {
+                      // Access the feature flag from the state here.
+                      const { showMebEnhancements09 } = state.featureToggles;
+
+                      return showMebEnhancements09
+                        ? "I'm not eligible for Chapter 30 or Chapter 1606 benefits"
+                        : "I'm not sure";
+                    },
                   },
                   widgetProps: {
                     Chapter30: { 'data-info': 'Chapter30' },
@@ -1448,9 +1455,7 @@ const formConfig = {
                   },
                   selectedProps: {
                     Chapter30: { 'aria-describedby': 'Chapter30' },
-                    Chapter1606: {
-                      'aria-describedby': 'Chapter1606',
-                    },
+                    Chapter1606: { 'aria-describedby': 'Chapter1606' },
                     CannotRelinquish: {
                       'aria-describedby': 'CannotRelinquish',
                     },
@@ -1462,7 +1467,6 @@ const formConfig = {
                         if (!eligibility || !eligibility.length) {
                           return benefits;
                         }
-
                         return {
                           enum: benefits.filter(
                             benefit =>
