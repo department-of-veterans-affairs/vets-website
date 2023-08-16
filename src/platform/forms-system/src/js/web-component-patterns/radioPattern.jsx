@@ -13,23 +13,20 @@ import VaRadioField from '../web-component-fields/VaRadioField';
  *  }
  * })
  * ```
- * @param {{
+ * @param {UIOptions & {
  *  title?: UISchemaOptions['ui:title'],
  *  description?: UISchemaOptions['ui:description'],
- *  labels: Record<PropertyKey, string>,
- *  tile?: boolean,
  * }} options
  * @returns {UISchemaOptions}
  */
-export const radioUI = ({ title, description, labels, tile }) => {
+export const radioUI = ({ title, description, ...uiOptions }) => {
   return {
     'ui:title': title,
     'ui:description': description,
     'ui:webComponentField': VaRadioField,
     'ui:widget': 'radio', // This is required for the review page to render the field properly
     'ui:options': {
-      tile,
-      labels,
+      ...uiOptions,
     },
   };
 };
