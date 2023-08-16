@@ -260,6 +260,7 @@ export const ancillaryFormUploadUi = (
     widgetType = 'select',
     customClasses = '',
     isDisabled = false,
+    buttonText = '',
     addAnotherLabel = 'Add Another',
   } = {},
 ) => {
@@ -276,6 +277,7 @@ export const ancillaryFormUploadUi = (
     itemDescription,
     hideLabelText: !label,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
+    buttonText,
     addAnotherLabel,
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
     // not sure what to do here... we need to differentiate pdf vs everything
