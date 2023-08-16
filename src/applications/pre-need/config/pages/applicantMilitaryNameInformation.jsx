@@ -1,3 +1,4 @@
+import React from 'react';
 import { merge } from 'lodash';
 import get from 'platform/utilities/data/get';
 
@@ -10,7 +11,9 @@ const { fullName } = fullSchemaPreNeed.definitions;
 export const uiSchema = {
   application: {
     veteran: {
-      'ui:title': 'Previous name',
+      'ui:description': () => {
+        return <h3 className="vads-u-font-size--h5">Previous name</h3>;
+      },
       serviceName: merge({}, fullNameUI, {
         first: {
           'ui:required': form =>
