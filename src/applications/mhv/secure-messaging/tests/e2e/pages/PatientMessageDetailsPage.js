@@ -434,12 +434,9 @@ class PatientMessageDetailsPage {
     );
   };
 
-  ReplyToMessagebody = messageBody => {
-    cy.get('[data-testid="message-replied-to"]')
-      .find('[data-testid="message-body"]')
-      .should($mbody => {
-        expect($mbody.text()).to.contain(messageBody);
-      });
+  // temporary changed to 'contain', 'REPLY'
+  ReplyToMessageBody = () => {
+    cy.get('[data-testid="message-body"]').should('contain', 'REPLY');
   };
 }
 

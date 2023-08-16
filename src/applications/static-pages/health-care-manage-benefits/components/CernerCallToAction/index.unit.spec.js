@@ -55,4 +55,20 @@ describe('<CernerCallToAction>', () => {
 
     wrapper.unmount();
   });
+
+  it('renders what we expect when it finished fetching facilities and there are facilities and feature flag is set', () => {
+    const wrapper = shallow(<CernerCallToAction featureStaticLandingPage />);
+    wrapper.setState({
+      fetching: false,
+      facilities: [
+        { attributes: { name: 'Example Facility 1' } },
+        { attributes: { name: 'Example Facility 2' } },
+      ],
+    });
+
+    const text = wrapper.text();
+    expect(text).to.include('Choose the right health portal');
+
+    wrapper.unmount();
+  });
 });
