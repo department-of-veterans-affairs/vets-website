@@ -1,5 +1,6 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 // Relative imports.
 import { appointmentsToolLink, getCernerURL } from 'platform/utilities/cerner';
 import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
@@ -17,6 +18,7 @@ export const AuthContent = ({
   otherFacilities,
   ehrDataByVhaId,
   useSingleLogout,
+  widgetType,
 }) => (
   <>
     <CernerCallToAction
@@ -29,6 +31,7 @@ export const AuthContent = ({
         '/pages/scheduling/upcoming',
         useSingleLogout,
       )}
+      widgetType={widgetType}
     />
     <p data-testid="cerner-content">
       <strong>Note:</strong> If you can’t keep an existing appointment, please
@@ -182,6 +185,7 @@ export const AuthContent = ({
 );
 
 AuthContent.propTypes = {
+  widgetType: PropTypes.string.isRequired,
   cernerFacilities: cernerFacilitiesPropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,
   otherFacilities: otherFacilitiesPropType,

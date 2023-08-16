@@ -40,7 +40,7 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.ReplyToMessageId(messageDetails);
 
     messageDetails.data.attributes.body = messageDetailsBody;
-    messageDetailsPage.ReplyToMessagebody(messageDetailsBody);
+    messageDetailsPage.ReplyToMessageBody(messageDetailsBody);
     draftsPage.clickDeleteButton();
     draftsPage.confirmDeleteReplyDraftWithEnterKey(messageDetails);
     landingPage.verifyDeleteConfirmMessage();
