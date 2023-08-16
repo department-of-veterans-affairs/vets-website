@@ -86,45 +86,54 @@ describe(`${appName} -- <App /> container`, () => {
   });
 
   describe('redirects when', () => {
+    let originalLocation;
+    let replace;
+
+    beforeEach(() => {
+      originalLocation = global.window.location;
+      replace = sinon.spy();
+      delete global.window.location;
+      global.window.location = { replace };
+    });
+
+    afterEach(() => {
+      global.window.location = originalLocation;
+    });
+
     it('feature toggle is disabled', () => {
-      const originalWindow = global.window;
-      const replace = sinon.spy();
-      global.window.location = { ...global.window.location, replace };
       const initialState = stateFn({ mhv_landing_page_enabled: false });
       setup({ initialState });
       expect(replace.called).to.be.true;
-      global.window = originalWindow;
     });
 
     it('signed in with DS Logon', () => {
-      const originalWindow = global.window;
-      const replace = sinon.spy();
-      global.window.location = { ...global.window.location, replace };
       const initialState = stateFn({ serviceName: CSP_IDS.DS_LOGON });
       setup({ initialState });
       expect(replace.called).to.be.true;
-      global.window = originalWindow;
     });
 
     it('user has a Cerner facility', () => {
-      const originalWindow = global.window;
-      const replace = sinon.spy();
-      global.window.location = { ...global.window.location, replace };
-      const facilities = [{ facilityId: '668', isCerner: false }];
+      const facilities = [{ facilityId: '668' }];
       const initialState = stateFn({ facilities });
       setup({ initialState });
       expect(replace.called).to.be.true;
-      global.window = originalWindow;
+    });
+
+    it('user has one Cerner facility', () => {
+      const facilities = [
+        { facilityId: '655' },
+        { facilityId: '668' },
+        { facilityId: '650' },
+      ];
+      const initialState = stateFn({ facilities });
+      setup({ initialState });
+      expect(replace.called).to.be.true;
     });
 
     it('user has no facilities', () => {
-      const originalWindow = global.window;
-      const replace = sinon.spy();
-      global.window.location = { ...global.window.location, replace };
       const initialState = stateFn({ facilities: [] });
       setup({ initialState });
       expect(replace.called).to.be.true;
-      global.window = originalWindow;
     });
   });
 });
