@@ -8,7 +8,7 @@ import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { IssueCard } from './IssueCard';
-import { SELECTED, MAX_LENGTH, LAST_ISSUE, REVIEW_ISSUES } from '../constants';
+import { LAST_ISSUE, REVIEW_ISSUES } from '../constants';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
@@ -16,13 +16,15 @@ import {
   MaxSelectionsAlert,
   removeModalContent,
 } from '../content/contestableIssues';
+import { focusIssue } from '../utils/focus';
+
+import { MAX_LENGTH, SELECTED } from '../../shared/constants';
+import { isEmptyObject } from '../../shared/utils/helpers';
 import {
   getSelected,
   someSelected,
-  isEmptyObject,
   calculateIndexOffset,
-} from '../utils/helpers';
-import { focusIssue } from '../utils/focus';
+} from '../../shared/utils/issues';
 
 /**
  * ContestableIssuesWidget
@@ -86,6 +88,8 @@ const ContestableIssuesWidget = props => {
     .concat((additionalIssues || []).filter(Boolean));
 
   const hasSelected = someSelected(items);
+  // Only show alert initially when no issues loaded
+  const [showNoLoadedIssues] = useState(items.length === 0);
 
   if (onReviewPage && inReviewMode && items.length && !hasSelected) {
     return <NoneSelectedAlert count={items.length} headerLevel={5} />;
@@ -173,12 +177,12 @@ const ContestableIssuesWidget = props => {
   });
 
   const showNoIssues =
-    items.length === 0 && (!onReviewPage || (onReviewPage && inReviewMode));
+    showNoLoadedIssues && (!onReviewPage || (onReviewPage && inReviewMode));
 
   return (
     <>
       <div name="eligibleScrollElement" />
-      {showNoIssues && <NoIssuesLoadedAlert submitted={submitted} />}
+      {showNoIssues && <NoIssuesLoadedAlert />}
       {!showNoIssues &&
         submitted &&
         !hasSelected && (

@@ -6,7 +6,8 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
-import { getSignerFullName } from './helpers';
+import { AUTHORIZER_TYPES } from '../../definitions/constants';
+import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
 
 const testConfig = createTestConfig(
   {
@@ -14,44 +15,25 @@ const testConfig = createTestConfig(
 
     dataDir: path.join(__dirname, 'fixtures', 'data'),
 
-    dataSets: ['authTypeNonVet', 'authTypeVet'],
+    dataSets: ['authTypeVet', 'authTypeNonVet'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start your application without signing in/i, {
+          cy.findAllByText(/start your authorization without signing in/i, {
             selector: 'a',
           }).click();
-        });
-      },
-      'disclosure-information-limited-information': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-checkbox[label="Status of pending claim or appeal"]')
-            .first()
-            .shadow()
-            .find('label')
-            .click()
-            .then(() => {
-              cy.findByText(/continue/i, { selector: 'button' }).click();
-            });
         });
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const signerName = getSignerFullName(data);
-            cy.get('#veteran-signature')
-              .shadow()
-              .get('#inputField')
-              .type(signerName);
+            const signerName =
+              data.authorizerType === AUTHORIZER_TYPES.VETERAN
+                ? data.veteranFullName
+                : data.authorizerFullName;
+            reviewAndSubmitPageFlow(signerName, 'Submit authorization');
           });
-          cy.get(`va-checkbox[name="veteran-certify"]`)
-            .shadow()
-            .find('input')
-            .check();
-          cy.findAllByText(/submit authorization/i, {
-            selector: 'button',
-          }).click();
         });
       },
     },

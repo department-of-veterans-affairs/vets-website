@@ -6,7 +6,6 @@ import disabilityRating from '@@profile/tests/fixtures/disability-rating-success
 import ERROR_500 from '@@profile/tests/fixtures/500.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
-import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import vamcErc from '../fixtures/vamc-ehr.json';
 import ERROR_400 from '~/applications/personalization/dashboard/utils/mocks/ERROR_400';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
@@ -30,17 +29,6 @@ describe('MyVA Dashboard - Appointments v2 Error States', () => {
     );
     cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
     cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcErc);
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: featureFlagNames.showMyVADashboardV2,
-            value: true,
-          },
-        ],
-      },
-    });
   });
 
   describe('when the user has VA Healthcare', () => {
