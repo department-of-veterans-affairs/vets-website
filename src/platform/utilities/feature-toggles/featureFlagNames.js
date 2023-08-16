@@ -139,6 +139,7 @@ export default Object.freeze({
   showMebEnhancements: 'show_meb_enhancements',
   showMebEnhancements06: 'show_meb_enhancements_06',
   showMebEnhancements08: 'show_meb_enhancements_08',
+  showMebEnhancements09: 'show_meb_enhancements_09',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
   showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
