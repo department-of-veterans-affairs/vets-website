@@ -1,4 +1,10 @@
 {
   "data": {
+    "veteranFullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "2000-01-01",
+    "veteranDateOfDeath": "2022-01-01"
   }
 }
