@@ -16,9 +16,6 @@ export const uiSchema = {
       'ui:title':
         'Do you make monthly payments on any installments contracts or other debts you make monthly payments on?',
       'ui:widget': 'yesNo',
-      'ui:options': {
-        showFieldLabel: 'label',
-      },
       'ui:required': () => true,
       'ui:errorMessages': {
         required:
