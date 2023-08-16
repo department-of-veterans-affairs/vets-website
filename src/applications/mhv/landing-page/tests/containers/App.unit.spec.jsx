@@ -21,6 +21,7 @@ const stateFn = ({
   featureToggles: {
     loading: featureTogglesLoading,
     mhv_landing_page_enabled,
+    sign_in_service_enabled: true,
   },
   drupalStaticData: {
     vamcEhrData: {
@@ -39,6 +40,9 @@ const stateFn = ({
     profile: {
       loading: profileLoading,
       facilities,
+      session: {
+        ssoe: false,
+      },
       signIn: {
         serviceName,
       },

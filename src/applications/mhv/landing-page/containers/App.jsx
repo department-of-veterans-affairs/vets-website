@@ -18,7 +18,7 @@ import {
 
 const App = () => {
   const { featureToggles, user } = useSelector(state => state);
-  const appEnabled = useSelector(isLandingPageEnabledForUser);
+  const enabled = useSelector(isLandingPageEnabledForUser);
   const drupalStaticData = useSelector(selectDrupalStaticData);
   const profile = useSelector(selectProfile);
   const signedIn = useSelector(isLoggedIn);
@@ -39,7 +39,7 @@ const App = () => {
     featureToggles.loading ||
     profile.loading;
 
-  const redirecting = signedIn && !loading && !appEnabled;
+  const redirecting = signedIn && !loading && !enabled;
 
   useEffect(
     () => {
