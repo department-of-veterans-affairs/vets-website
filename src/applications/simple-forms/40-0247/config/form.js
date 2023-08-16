@@ -7,7 +7,7 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import vetPersInfoPg from '../pages/veteranPersonalInformation';
+import vetPersInfoNameDatesPg from '../pages/veteranPersonalInformationNameDates';
 
 // mock-data import for local development
 // import testData from '../tests/e2e/fixtures/data/test-data.json';
@@ -54,17 +54,17 @@ const formConfig = {
     veteranPersonalInfoChapter: {
       title: 'Veteran’s personal information',
       pages: {
-        page1: {
-          path: 'veteran-personal-information',
-          title: 'Veteran’s personal information',
+        veteranPersonalInfoNameDatesPage: {
+          path: 'veteran-personal-information-name-dates',
+          title: 'Veteran’s personal information - name and dates',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           // initialData:
           // !!mockData && environment.isLocalhost() && !window.Cypress
           // ? mockData
           // : undefined,
-          uiSchema: vetPersInfoPg.uiSchema,
-          schema: vetPersInfoPg.schema,
+          uiSchema: vetPersInfoNameDatesPg.uiSchema,
+          schema: vetPersInfoNameDatesPg.schema,
         },
       },
     },
