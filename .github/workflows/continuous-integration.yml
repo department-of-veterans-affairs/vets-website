@@ -744,14 +744,14 @@ jobs:
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
           GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
 
-      - name: Fetch allow list
-        run: yarn get-allow-list
-        working-directory: qa-standards-dashboard-data
-      # exports app list and assigns to environmental variable at this step
+      # - name: Fetch allow list
+      #   run: yarn get-allow-list
+      #   working-directory: qa-standards-dashboard-data
+      # # exports app list and assigns to environmental variable at this step
 
-      - name: Set Allow List Output
-        id: allow-list-output
-        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
+      # - name: Set Allow List Output
+      #   id: allow-list-output
+      #   run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
 
   allow-list-merge-status:
     name: E2E Allow List Merge Status Check
@@ -776,6 +776,21 @@ jobs:
             .cache/yarn
             /github/home/.cache/Cypress
             node_modules
+
+      - name: Init Dashboard Data Repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch allow list
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+      # exports app list and assigns to environmental variable at this step
+
+      - name: Set Allow List Output
+        id: allow-list-output
+        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
 
       - name: Check if code can be merged
         run: node script/github-actions/check-e2e-status.js
