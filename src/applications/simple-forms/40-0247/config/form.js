@@ -18,7 +18,9 @@ const formConfig = {
   urlPrefix: '/',
   // submitUrl: '/v0/api',
   submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+    Promise.resolve({
+      confirmationNumber: '[mock-confirmation-number]',
+    }),
   trackingPrefix: '0247-pmc',
   dev: {
     // showNavLinks: true,
