@@ -12,6 +12,9 @@ const SERVICE_NUMBER_DEFAULT_TITLE = 'Service number';
 /**
  * Web component for Social Security number
  *
+ * Pattern recommendation: Use the applicable person in the title
+ * rather than in the field names.
+ *
  * ```js
  * example: ssnUI() // Social Security number
  * example: ssnUI("Veteran's Social Security number")
@@ -49,6 +52,9 @@ const ssnSchema = commonDefinitions.ssn;
 /**
  * Web component for VA File Number
  *
+ * Pattern recommendation: Use the applicable person in the title
+ * rather than in the field names.
+ *
  * ```js
  * example: vaFileNumberUI() // VA file number
  * example: vaFileNumberUI("Veteran's VA file number")
@@ -84,6 +90,9 @@ const vaFileNumberSchema = commonDefinitions.centralMailVaFile;
 
 /**
  * Web component field for Service Number
+ *
+ * Pattern recommendation: Use the applicable person in the title
+ * rather than in the field names.
  *
  * ```js
  * example: serviceNumberUI() // Service number
