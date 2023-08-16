@@ -21,8 +21,8 @@ const hasDebts = false;
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
     myVaUseExperimental: true,
-    showMyVADashboardV2: true,
     myVaUseLighthouseClaims: true,
+    myVaUpdateErrorsWarnings: true,
   }),
   'GET /v0/user': user.cernerUser,
   'OPTIONS /v0/maintenance_windows': 'OK',

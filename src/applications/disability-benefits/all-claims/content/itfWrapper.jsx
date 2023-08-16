@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { recordEventOnce } from 'platform/monitoring/record-event';
@@ -47,18 +46,18 @@ const expander = (
 export const claimsIntakeAddress = (
   <p className="va-address-block vads-u-font-size--base">
     Department of Veterans Affairs
-    <br />
+    <br role="presentation" />
     Claims Intake Center
-    <br />
+    <br role="presentation" />
     PO Box 4444
-    <br />
+    <br role="presentation" />
     Janesville, WI 53547-4444
   </p>
 );
 
 export const itfError = (
   <div>
-    <div>
+    <div className="vads-u-margin-bottom--2">
       <p className="vads-u-font-size--base">
         We’re sorry. Your Intent to File request didn’t go through because
         something went wrong on our end. For help creating an Intent to File a
@@ -69,7 +68,6 @@ export const itfError = (
       </p>
       {claimsIntakeAddress}
     </div>
-    {expander}
   </div>
 );
 

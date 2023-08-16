@@ -35,19 +35,13 @@ const ConditionDetails = () => {
         dispatch(
           setBreadcrumbs(
             [
-              { url: '/my-health/medical-records/', label: 'Dashboard' },
               {
-                url: '/my-health/medical-records/health-history',
-                label: 'Health history',
-              },
-              {
-                url:
-                  '/my-health/medical-records/health-history/health-conditions',
-                label: 'VA health conditions',
+                url: '/my-health/medical-records/health-conditions',
+                label: 'Conditions',
               },
             ],
             {
-              url: `/my-health/medical-records/health-history/health-conditions/${conditionId}`,
+              url: `/my-health/medical-records/health-conditions/${conditionId}`,
               label: conditionDetails?.name,
             },
           ),
@@ -174,6 +168,7 @@ const ConditionDetails = () => {
         message="Loading..."
         setFocus
         data-testid="loading-indicator"
+        class="loading-indicator"
       />
     );
   };

@@ -8,6 +8,7 @@ export default function BackLink({ appointment }) {
     isPendingAppointment,
     isUpcomingAppointment,
   } = appointment.vaos;
+
   const handleBackLinkText = () => {
     let linkText;
     if (isPendingAppointment) {

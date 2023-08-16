@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getPrescriptionDetails } from '../actions/prescriptions';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  fillPrescription,
+  getPrescriptionDetails,
+} from '../actions/prescriptions';
 import PrintHeader from './PrintHeader';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
@@ -37,6 +41,15 @@ const PrescriptionDetails = () => {
       );
     }
   });
+
+  useEffect(
+    () => {
+      if (prescription) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [prescription],
+  );
 
   const pdfData = {
     headerBanner: [
@@ -134,6 +147,9 @@ const PrescriptionDetails = () => {
     );
   };
 
+  const refillHistory = prescription?.rxRfRecords?.[0]?.[1];
+  const shippedOn = prescription?.trackingList?.[0]?.[1];
+
   useEffect(
     () => {
       if (prescriptionId) dispatch(getPrescriptionDetails(prescriptionId));
@@ -146,8 +162,16 @@ const PrescriptionDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="page-title">{prescription.prescriptionName}</h1>
-
+          <h1 className="page-title">
+            <div>{prescription.prescriptionName}</div>
+            <p
+              className="title-last-filled-on vads-u-font-family--sans"
+              data-testid="rx-last-filled-date"
+            >
+              Last filled on{' '}
+              {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
+            </p>
+          </h1>
           <div className="no-print">
             <PrintDownload download={handleDownloadPDF} />
             <va-additional-info trigger="What to know about downloading records">
@@ -171,7 +195,35 @@ const PrescriptionDetails = () => {
               About your prescription
             </h2>
             <div className="no-print">
-              <va-button text="Refill prescription" />
+              {prescription.error && (
+                <div>
+                  <va-alert status="error" visible>
+                    <p className="vads-u-margin-y--0">
+                      We didn’t get your refill request. Try again.
+                    </p>
+                    <p className="vads-u-margin-y--0">
+                      If it still doesn’t work, call your VA pharmacy
+                      {prescription?.phoneNumber ? (
+                        <>
+                          <span> at </span>
+                          <va-telephone contact={prescription.phoneNumber} />
+                          <span>
+                            (<va-telephone tty contact="711" />)
+                          </span>
+                        </>
+                      ) : (
+                        <>.</>
+                      )}
+                    </p>
+                  </va-alert>
+                </div>
+              )}
+              <va-button
+                text="Refill prescription"
+                onClick={() =>
+                  dispatch(fillPrescription(prescription.prescriptionId))
+                }
+              />
             </div>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescription number
@@ -216,7 +268,13 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed by
             </h3>
-            <p>{prescription?.presciberName || 'None noted'}</p>
+            <p>
+              {prescription.providerFirstName
+                ? `${prescription.providerLastName}, ${
+                    prescription.providerFirstName
+                  }`
+                : 'None noted'}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
             </h3>
@@ -263,35 +321,39 @@ const PrescriptionDetails = () => {
 
           <div className="medication-details-div vads-u-margin-bottom--8">
             <h2 className="vads-u-margin-top--3">Refill history</h2>
-            {prescription.history && prescription.history.length > 0 ? (
-              prescription.history.map(entry => (
-                <div key={entry.requestDate}>
+            {refillHistory && refillHistory.length > 0 ? (
+              refillHistory.map((entry, i) => (
+                <div key={entry.id}>
                   <h3 className="vads-u-font-size--lg vads-u-font-family--sans">
-                    {dateFormat(entry.requestDate, 'MMMM YYYY')}
+                    {dateFormat(entry.dispensedDate, 'MMMM D, YYYY')}
                   </h3>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
-                    Requested on
+                    Refill requested on
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.requestDate, 'MMMM D, YYYY [at] h:mm z')}
+                    {dateFormat(entry.refillSubmitDate, 'MMMM D, YYYY')}
                   </p>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                     Filled by pharmacy on
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.dispenseDate, 'MMMM D, YYYY [at] h:mm z')}
+                    {dateFormat(entry.dispensedDate, 'MMMM D, YYYY')}
                   </p>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                     Shipped on
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.shippedDate, 'MMMM D, YYYY [at] h:mm z')}
+                    {dateFormat(
+                      shippedOn?.[i]?.completeDateTime,
+                      'MMMM D, YYYY [at] h:mm z',
+                    )}
                   </p>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                     Description of the medication or supply
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.description, 'MMMM D, YYYY [at] h:mm z')}
+                    {/* TODO: Not yet available */}
+                    Not noted
                   </p>
                   <div className="no-print">
                     <va-additional-info trigger="Review image">

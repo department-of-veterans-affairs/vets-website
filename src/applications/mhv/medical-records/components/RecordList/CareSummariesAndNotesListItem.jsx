@@ -1,26 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { LoincCodes, emptyField } from '../../util/constants';
 
 const CareSummariesAndNotesListItem = props => {
   const { record } = props;
+  const isDischargeSummary = record.type === LoincCodes.DISCHARGE_SUMMARY;
 
   const dateOrDates = () => {
-    if (record.startDate && record.endDate) {
+    if (isDischargeSummary) {
       return `${record.startDate} to ${record.endDate}`;
     }
     return record.dateSigned;
-  };
-
-  const signedByOrAdmittingPhysician = () => {
-    return (
-      <>
-        <span className="field-label">
-          {record.signedBy ? 'Signed by ' : 'Admitting physician: '}
-        </span>{' '}
-        {record.signedBy || record.admittingPhysician}
-      </>
-    );
   };
 
   return (
@@ -31,13 +22,16 @@ const CareSummariesAndNotesListItem = props => {
       <h4>{record.name}</h4>
       <div className="fields">
         <div>{dateOrDates()}</div>
-        <div>{record.facility}</div>
-        {(record.signedBy || record.admittingPhysician) && (
-          <div>{signedByOrAdmittingPhysician()}</div>
-        )}
+        {record.location !== emptyField && <div>{record.location}</div>}
+        <div>
+          <span className="field-label">
+            {record.isDischargeSummary ? 'Signed by ' : 'Admitted by '}
+          </span>{' '}
+          {record.physician}
+        </div>
       </div>
       <Link
-        to={`/health-history/care-summaries-and-notes/${record.id}`}
+        to={`/care-summaries-and-notes/${record.id}`}
         className="vads-u-margin-y--0p5 no-print"
       >
         <strong>Details</strong>

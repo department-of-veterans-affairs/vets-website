@@ -99,7 +99,7 @@ describe('Fetch Debts Successfully', () => {
       .first()
       .click();
 
-    cy.get('.debt-card').should('have.length', 2);
+    cy.get('[data-testid="debt-selection-checkbox"]').should('have.length', 2);
 
     cy.injectAxeThenAxeCheck();
   });

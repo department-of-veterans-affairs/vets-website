@@ -116,14 +116,6 @@ const NotificationChannel = props => {
                 isAllowed: newValue,
                 wasAllowed: isOptedIn,
               });
-              recordEvent({
-                event: 'int-radio-button-option-click',
-                'radio-button-label': itemName,
-                'radio-button-optionLabel': `${
-                  channelTypes[channelType]
-                } - ${newValue}`,
-                'radio-button-required': false,
-              });
 
               saveSetting(channelId, model.getApiCallObject());
             }}
@@ -197,13 +189,13 @@ const NotificationChannel = props => {
 };
 
 NotificationChannel.propTypes = {
-  disabledForCheckbox: PropTypes.bool.isRequired,
   saveSetting: PropTypes.func.isRequired,
   apiStatus: PropTypes.string,
   channelId: PropTypes.string,
   channelType: PropTypes.number,
   defaultSendIndicator: PropTypes.bool,
   description: PropTypes.string,
+  disabledForCheckbox: PropTypes.bool,
   isMissingContactInfo: PropTypes.bool,
   isOptedIn: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   itemId: PropTypes.string,

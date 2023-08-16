@@ -52,13 +52,13 @@
 
 .thread-list-sort {
   width: 100%;
-
-  display: flex;
-  align-items: flex-end;
+  flex-wrap: wrap;
 
   va-select {
-    margin-right: 16px;
-    min-width: 220px;
+
+    @media (min-width: $small-screen) {
+      max-width: 225px;
+    }
   }
 
   va-button {
@@ -69,9 +69,16 @@
 
   va-button::part(button) {
     height: 4.2rem;
-    width: fit-content;
-    min-width: 78px;
-    margin: 3px;
+    flex-grow: 1;
+    margin-right: 0;
+    margin-bottom: 3px;
+    align-self: flex-end;
+
+    @media (min-width: $small-screen) {
+      width: fit-content;
+      max-width: 78px;
+      margin-right: auto;
+    }
   }
 }
 
