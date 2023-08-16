@@ -2,28 +2,31 @@ import React from 'react';
 
 export const notSelfSufficientDescription = (
   <div>
-    <va-additional-info trigger="What does VA mean by &quot;not capable of self-support?&quot;">
+    <va-additional-info trigger="What does &quot;unable to support themself&quot; mean?">
       <p className="vads-u-margin-bottom--4">
-        To be considered a <strong>child not capable of self-support,</strong>{' '}
-        the child must be:
+        We consider a child to be <strong>unable to support themself</strong> if
+        both of these are true:
       </p>
       <ul className="vads-u-margin-bottom--4">
         <li>
-          Diagnosed with a mental/physical disability that leaves them
-          permanently unable to support themselves
+          The child has a diagnosed physical or mental disability that makes
+          them unable to support themself,
+          <strong>and</strong>
         </li>
-        <li>Currently permanently disabled</li>
+        <li>The child is permanently disabled</li>
       </ul>
-      <p>To add a child not capable of self-support, you’ll need to provide:</p>
+      <p>
+        To add this child as a dependent, you’ll need to provide this evidence:
+      </p>
       <ul>
         <li className="vads-u-margin-bottom--2">
-          Medical evidence showing a permanent mental or physical disability,{' '}
+          Medical evidence that shows a permanent physical or mental disability,{' '}
           <strong>and</strong>
         </li>
         <li>
-          A statement from an attending physician showing the nature{' '}
-          <strong>and</strong> extent of the child’s physical or mental
-          impairment
+          A statement from your child’s doctor that shows the type{' '}
+          <strong>and</strong> severity of the child’s physical or mental
+          condition
         </li>
       </ul>
     </va-additional-info>
