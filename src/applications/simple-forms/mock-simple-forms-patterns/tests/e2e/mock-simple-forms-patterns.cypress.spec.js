@@ -15,6 +15,7 @@ import {
   selectCheckboxWebComponent,
   selectDropdownWebComponent,
   selectRadioWebComponent,
+  selectRelationshipToVeteranPattern,
   selectYesNoWebComponent,
 } from '../../../shared/tests/e2e/helpers';
 
@@ -215,10 +216,9 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            // web components
-            selectRadioWebComponent(
-              'wcv3RelationshipToVeteran_relationshipToVeteran',
-              data.wcv3RelationshipToVeteran.relationshipToVeteran,
+            selectRelationshipToVeteranPattern(
+              'wcv3RelationshipToVeteran',
+              data.wcv3RelationshipToVeteran,
             );
 
             cy.axeCheck();
