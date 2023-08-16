@@ -10,8 +10,7 @@ export const notSelfSufficientDescription = (
       <ul className="vads-u-margin-bottom--4">
         <li>
           The child has a diagnosed physical or mental disability that makes
-          them unable to support themself,
-          <strong>and</strong>
+          them unable to support themself, <strong>and</strong>
         </li>
         <li>The child is permanently disabled</li>
       </ul>
