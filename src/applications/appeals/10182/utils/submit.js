@@ -26,7 +26,7 @@ import { replaceSubmittedData, fixDateFormat } from './replace';
  *   requesting an extension
  * @property {String} extensionReason - Text of why the Veteran is requesting an
  *   extension
- * @property {Boolean} appealingVhaDenial - yes/no indicating the Veteran is
+ * @property {Boolean} appealingVHADenial - yes/no indicating the Veteran is
  *   appealing a VHA denial
  * @property {Boolean} view:additionalEvidence - Veteran choice to upload more
  *   evidence
@@ -396,7 +396,7 @@ export const getTimeZone = () =>
  *   requesting an extension
  * @param {String} extensionReason - Text of why the Veteran is requesting an
  *   extension
- * @param {Boolean} appealingVhaDenial - yes/no indicating the Veteran is
+ * @param {Boolean} appealingVHADenial - yes/no indicating the Veteran is
  *   appealing a VHA denial
  * @returns {Object} data from part III, box 11 of form expiring on 3/31/2025
  */
@@ -407,9 +407,15 @@ export const getPart3Data = formData => {
   const {
     requestingExtension = false,
     extensionReason = '',
-    appealingVhaDenial = false,
+    appealingVHADenial = false,
   } = formData;
-  const result = { requestingExtension, appealingVhaDenial };
+  const result = {
+    requestingExtension,
+    /* - Lighthouse is expecting `appealingVhaDenial`
+     * - Save-in-progress renames `appealingVhaDenial` to `appealingVHADenial`
+     *   so we just kept the all-cap VHA within the form data */
+    appealingVhaDenial: appealingVHADenial,
+  };
   if (requestingExtension) {
     result.extensionReason = extensionReason;
   }
