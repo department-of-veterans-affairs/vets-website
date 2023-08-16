@@ -52,7 +52,7 @@ const stateFn = ({
 const setup = ({ initialState = stateFn() } = {}) =>
   renderWithStoreAndRouter(<App />, { initialState });
 
-const originalWindow = global.window;
+let originalWindow;
 let replace;
 
 describe(`${appName} -- <App /> container`, () => {
@@ -61,6 +61,7 @@ describe(`${appName} -- <App /> container`, () => {
   });
 
   beforeEach(() => {
+    originalWindow = global.window;
     replace = sinon.spy();
     global.window.location = {
       ...global.window.location,
