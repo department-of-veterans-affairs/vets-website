@@ -17,7 +17,15 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      veteranFullName: fullNameNoSuffixSchema,
+      veteranFullName: {
+        ...fullNameNoSuffixSchema,
+        properties: {
+          ...fullNameNoSuffixSchema.properties,
+          first: { ...fullNameNoSuffixSchema.properties.first, maxLength: 12 },
+          // TODO: Check if middle should also have maxLength: 1 set for PDF
+          last: { ...fullNameNoSuffixSchema.properties.last, maxLength: 18 },
+        },
+      },
       veteranDateOfBirth: dateOfBirthSchema,
       veteranDateOfDeath: dateOfDeathSchema,
     },
