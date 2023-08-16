@@ -6,7 +6,7 @@ import { appName } from '../../manifest.json';
 
 const stateFn = ({
   currentlyLoggedIn = true,
-  facilities = [{ facilityId: '757', isCerner: false }],
+  facilities = [{ facilityId: '655', isCerner: false }],
   mhv_landing_page_enabled = true,
   serviceName = CSP_IDS.ID_ME,
 } = {}) => ({
@@ -78,7 +78,11 @@ describe(`${appName} -- isLandingPageEnabledForUser selector`, () => {
     it('user is a Cerner patient', () => {
       // NOTE: selectPatientFacilities will change isCerner property since facilityId
       // 668 is listed as a Cerner facility in state.drupalStaticData.vamcEhrData.
-      const facilities = [{ facilityId: '668', isCerner: false }];
+      const facilities = [
+        { facilityId: '655', isCerner: false },
+        { facilityId: '650', isCerner: false },
+        { facilityId: '668', isCerner: false },
+      ];
       state = stateFn({ facilities });
       result = isLandingPageEnabledForUser(state);
       expect(result).to.be.false;

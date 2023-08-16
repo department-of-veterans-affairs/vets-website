@@ -38,7 +38,15 @@ export const isLandingPageEnabledForUser = state => {
   const facilities = selectPatientFacilities(state) || [];
   const hasFacilities = facilities.length > 0;
   const isCernerPatient = selectIsCernerPatient(state);
-  // console.log({ loggedIn, featureToggleEnabled, serviceName, hasValidLoginProvider, hasFacilities, isCernerPatient });
+  /* eslint-disable-next-line no-console */
+  console.log({
+    loggedIn,
+    featureToggleEnabled,
+    serviceName,
+    hasValidLoginProvider,
+    hasFacilities,
+    isCernerPatient,
+  });
   return (
     loggedIn &&
     featureToggleEnabled &&

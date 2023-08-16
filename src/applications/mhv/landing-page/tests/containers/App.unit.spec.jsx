@@ -11,7 +11,7 @@ import { appName } from '../../manifest.json';
 
 const stateFn = ({
   currentlyLoggedIn = true,
-  facilities = [{ facilityId: '757', isCerner: false }],
+  facilities = [{ facilityId: '655', isCerner: false }],
   featureTogglesLoading = false,
   mhv_landing_page_enabled = true,
   profileLoading = false,

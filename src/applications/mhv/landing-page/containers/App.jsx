@@ -13,16 +13,17 @@ import {
   isLoggedIn,
   selectDrupalStaticData,
   selectProfile,
+  signInServiceEnabled,
 } from '../selectors';
 
 const App = () => {
+  const { featureToggles, user } = useSelector(state => state);
   const appEnabled = useSelector(isLandingPageEnabledForUser);
   const drupalStaticData = useSelector(selectDrupalStaticData);
   const profile = useSelector(selectProfile);
   const signedIn = useSelector(isLoggedIn);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const fullState = useSelector(state => state);
-  const { featureToggles, user } = fullState;
+  const useSiS = useSelector(signInServiceEnabled);
 
   const data = useMemo(
     () => {
@@ -42,7 +43,7 @@ const App = () => {
     () => {
       const redirect = () => {
         const redirectUrl = mhvUrl(ssoe, 'home');
-        // console.log({ redirectUrl });
+        console.log({ redirectUrl }); // eslint-disable-line no-console
         window.location.replace(redirectUrl);
       };
       if (signedIn && !loading && !appEnabled) redirect();
@@ -50,7 +51,6 @@ const App = () => {
     [appEnabled, loading, signedIn, ssoe],
   );
 
-  if (!signedIn) return <RequiredLoginView user={user} />;
   if (loading)
     return (
       <div className="vads-u-margin--5">
@@ -62,6 +62,7 @@ const App = () => {
     );
   return (
     <RequiredLoginView
+      useSiS={useSiS}
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
