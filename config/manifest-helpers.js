@@ -2,7 +2,7 @@
 
 const find = require('find');
 const path = require('path');
-const environment = require('platform/utilities/environment');
+const ENVIRONMENTS = require('../src/site/constants/environments');
 
 const root = path.join(__dirname, '..');
 
@@ -28,7 +28,9 @@ function getAppRoutes() {
   return getAppManifests()
     .map(
       m =>
-        !environment.isProduction() && m.newRootUrl ? m.newRootUrl : m.rootUrl,
+        process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD && m.newRootUrl
+          ? m.newRootUrl
+          : m.rootUrl,
     )
     .filter(m => m);
 }
