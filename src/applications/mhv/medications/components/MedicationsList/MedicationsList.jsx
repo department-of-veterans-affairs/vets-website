@@ -42,10 +42,10 @@ const MedicationsList = props => {
 
   return (
     <>
-      <div className="rx-page-total-info no-print">
+      <h2 className="rx-page-total-info no-print vads-u-font-family--sans">
         Showing {displayNums[0]} - {displayNums[1]} of {rxList.length}{' '}
         medications
-      </div>
+      </h2>
       <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter no-print" />
       <div className="vads-l-row vads-u-flex-direction--column no-print">
         {rxList?.length > 0 &&
