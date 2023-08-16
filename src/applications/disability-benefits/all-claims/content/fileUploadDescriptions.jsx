@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { MAX_FILE_SIZE_MB, MAX_PDF_FILE_SIZE_MB } from '../constants';
 
 /**
@@ -29,3 +30,7 @@ export const UploadDescription = ({ uploadTitle }) => (
     </p>
   </div>
 );
+
+UploadDescription.propTypes = {
+  uploadTitle: PropTypes.string,
+};

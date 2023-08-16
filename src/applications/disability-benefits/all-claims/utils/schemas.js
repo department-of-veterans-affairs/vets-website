@@ -3,11 +3,11 @@ import { merge, omit } from 'lodash';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import _ from 'platform/utilities/data';
-import environment from 'platform/utilities/environment';
-import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
-import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import ReviewCardField from '@department-of-veterans-affairs/platform-forms-system/ReviewCardField';
+import AddressViewField from '@department-of-veterans-affairs/platform-forms-system/AddressViewField';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {
   validateMilitaryCity,
