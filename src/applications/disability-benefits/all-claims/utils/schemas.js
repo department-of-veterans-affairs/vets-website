@@ -304,7 +304,7 @@ export const ancillaryFormUploadUi = (
       };
     },
     attachmentSchema: ({ fileId }) => ({
-      'ui:title': 'Document type',
+      'ui:title': 'File type',
       'ui:disabled': isDisabled,
       'ui:widget': widgetType,
       'ui:options': {
