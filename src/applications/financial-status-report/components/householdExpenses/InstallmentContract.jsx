@@ -8,6 +8,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import { isValidCurrency } from '../../utils/validations';
+import ContractsExplainer from './ContractsExplainer';
 
 const defaultRecord = [
   {
@@ -191,7 +192,7 @@ const InstallmentContract = props => {
             the information for one contract or debt below.
           </p>
         </legend>
-
+        <ContractsExplainer />
         <div className="input-size-6">
           <VaTextInput
             className="no-wrap input-size-6"
