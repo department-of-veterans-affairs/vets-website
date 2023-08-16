@@ -107,6 +107,22 @@ const appointments = avs => {
   return null;
 };
 
+const appointmentNotes = avs => {
+  /* TODO: verify that this is the correct key.
+      cf. https://dsva.slack.com/archives/C04UBETRY8N/p1692218093057099?thread_ts=1689804331.671129&cid=C04UBETRY8N
+  */
+  if (avs.comments) {
+    return (
+      <div>
+        <h3>Appointment notes</h3>
+        <p>{avs.comments}</p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const smokingStatus = avs => {
   if (avs.patientInfo?.smokingStatus) {
     return (
@@ -244,7 +260,7 @@ const YourHealthInformation = props => {
       {primaryCareProvider(avs)}
       {primaryCareTeam(avs)}
       {appointments(avs)}
-      {/* TODO: add Appointment Notes section? */}
+      {appointmentNotes(avs)}
       {/* TODO: add problem list */}
       {smokingStatus(avs)}
       {immunizations(avs)}
