@@ -126,7 +126,9 @@ const ConfirmationPage = ({ form, download }) => {
       </p>
 
       <va-alert status="success">
-        <h3>You’re tentatively eligible for debt relief</h3>
+        <h3 slot="headline" className="vads-u-font-size--h3">
+          You’re tentatively eligible for debt relief
+        </h3>
         <p>
           We’ll complete our final review of your request and mail you a letter
           with more details. We’ll also send a confirmation email to
