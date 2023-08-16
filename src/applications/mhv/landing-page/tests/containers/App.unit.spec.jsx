@@ -52,23 +52,7 @@ const stateFn = ({
 const setup = ({ initialState = stateFn() } = {}) =>
   renderWithStoreAndRouter(<App />, { initialState });
 
-let originalWindow;
-let replace;
-
 describe(`${appName} -- <App /> container`, () => {
-  afterEach(() => {
-    global.window = originalWindow;
-  });
-
-  beforeEach(() => {
-    originalWindow = global.window;
-    replace = sinon.spy();
-    global.window.location = {
-      ...global.window.location,
-      replace,
-    };
-  });
-
   it('renders', () => {
     const { getByRole } = setup();
     getByRole('heading', { text: 'My HealtheVet', level: 1 });
@@ -81,46 +65,69 @@ describe(`${appName} -- <App /> container`, () => {
     getByRole('progressbar', { text: 'Redirecting to login...' });
   });
 
-  it('renders a loading indicator when drupalStaticData.vamcEhrData is loading', () => {
-    const initialState = stateFn({ vamcEhrDataLoading: true });
-    const { getByTestId } = setup({ initialState });
-    getByTestId('mhv-landing-page-loading');
+  describe('renders a loading indicator when', () => {
+    it('drupalStaticData.vamcEhrData is loading', () => {
+      const initialState = stateFn({ vamcEhrDataLoading: true });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
+    });
+
+    it('featureToggles is loading', () => {
+      const initialState = stateFn({ featureTogglesLoading: true });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
+    });
+
+    it('profile is loading', () => {
+      const initialState = stateFn({ profileLoading: true });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
+    });
   });
 
-  it('renders a loading indicator when featureToggles is loading', () => {
-    const initialState = stateFn({ featureTogglesLoading: true });
-    const { getByTestId } = setup({ initialState });
-    getByTestId('mhv-landing-page-loading');
-  });
+  describe('redirects when', () => {
+    let originalWindow;
+    let replace;
 
-  it('renders a loading indicator when profile is loading', () => {
-    const initialState = stateFn({ profileLoading: true });
-    const { getByTestId } = setup({ initialState });
-    getByTestId('mhv-landing-page-loading');
-  });
+    it('feature toggle is disabled', () => {
+      originalWindow = global.window;
+      replace = sinon.spy();
+      global.window.location = { ...global.window.location, replace };
+      const initialState = stateFn({ mhv_landing_page_enabled: false });
+      setup({ initialState });
+      expect(replace.called).to.be.true;
+      global.window = originalWindow;
+    });
 
-  it('redirects when feature toggle is disabled', () => {
-    const initialState = stateFn({ mhv_landing_page_enabled: false });
-    setup({ initialState });
-    expect(replace.called).to.be.true;
-  });
+    it('signed in with DS Logon', () => {
+      originalWindow = global.window;
+      replace = sinon.spy();
+      global.window.location = { ...global.window.location, replace };
+      const initialState = stateFn({ serviceName: CSP_IDS.DS_LOGON });
+      setup({ initialState });
+      expect(replace.called).to.be.true;
+      global.window = originalWindow;
+    });
 
-  it('redirects when is signed in with DS Logon', () => {
-    const initialState = stateFn({ serviceName: CSP_IDS.DS_LOGON });
-    setup({ initialState });
-    expect(replace.called).to.be.true;
-  });
+    it('user has a Cerner facility', () => {
+      originalWindow = global.window;
+      replace = sinon.spy();
+      global.window.location = { ...global.window.location, replace };
+      const facilities = [{ facilityId: '668', isCerner: false }];
+      const initialState = stateFn({ facilities });
+      setup({ initialState });
+      expect(replace.called).to.be.true;
+      global.window = originalWindow;
+    });
 
-  it('redirects when user has a Cerner facility', () => {
-    const facilities = [{ facilityId: '668', isCerner: false }];
-    const initialState = stateFn({ facilities });
-    setup({ initialState });
-    expect(replace.called).to.be.true;
-  });
-
-  it('redirects when user has no facilities', () => {
-    const initialState = stateFn({ facilities: [] });
-    setup({ initialState });
-    expect(replace.called).to.be.true;
+    it('user has no facilities', () => {
+      originalWindow = global.window;
+      replace = sinon.spy();
+      global.window.location = { ...global.window.location, replace };
+      const initialState = stateFn({ facilities: [] });
+      setup({ initialState });
+      expect(replace.called).to.be.true;
+      global.window = originalWindow;
+    });
   });
 });

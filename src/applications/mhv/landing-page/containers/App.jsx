@@ -43,7 +43,7 @@ const App = () => {
     () => {
       const redirect = () => {
         const redirectUrl = mhvUrl(ssoe, 'home');
-        console.log({ redirectUrl }); // eslint-disable-line no-console
+        // console.log({ redirectUrl }); // eslint-disable-line no-console
         window.location.replace(redirectUrl);
       };
       if (signedIn && !loading && !appEnabled) redirect();
