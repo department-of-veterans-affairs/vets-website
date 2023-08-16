@@ -36,10 +36,14 @@ const getFormattedAppointmentTime = twentyFourHourTime => {
 };
 
 const getFormattedAppointmentDate = avs => {
-  return formatDateLong(parseVistaDateTime(avs.appointments[0]?.datetime));
+  return (
+    formatDateLong(parseVistaDateTime(avs.appointments?.[0]?.datetime)) || ''
+  );
 };
 
 const getFormattedGenerationDate = avs => {
+  if (!avs.meta) return '';
+
   const { generatedDate, timeZone } = avs.meta;
   const zonedDate = utcToZonedTime(generatedDate, timeZone);
   const shortTimeZone = getShortTimezone(avs);
