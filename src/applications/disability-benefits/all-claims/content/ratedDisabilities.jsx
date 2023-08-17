@@ -24,7 +24,7 @@ export const disabilityOption = ({
   const showMaxRatingMessage =
     Number.isInteger(maximumRatingPercentage) &&
     maximumRatingPercentage === ratingPercentage &&
-    String(localStorage.getItem('showDisability526MaximumRating')) !== 'false';
+    String(localStorage.getItem('showDisability526MaximumRating')) === 'true';
 
   return (
     <>

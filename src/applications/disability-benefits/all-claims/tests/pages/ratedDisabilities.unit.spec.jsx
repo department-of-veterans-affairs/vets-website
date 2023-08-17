@@ -4,6 +4,7 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import localStorage from 'platform/utilities/storage/localStorage';
 import formConfig from '../../config/form.js';
 import initialData from '../initialData.js';
 
@@ -128,5 +129,32 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
         .text(),
     ).to.equal('Current rating: 0%');
     form.unmount();
+  });
+
+  it('renders maximum rating education when available and relevant', () => {
+    localStorage.setItem('showDisability526MaximumRating', true);
+    const form = mount(
+      <Provider store={store}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={initialData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
+    );
+
+    const labels = form.find('input[type="checkbox"] + label');
+    expect(
+      labels
+        .at(0)
+        .find('p')
+        .last()
+        .text(),
+    ).to.equal(
+      'You’re already at the maximum rating for post traumatic stress disorder.',
+    );
+    form.unmount();
+    localStorage.removeItem('showDisability526MaximumRating');
   });
 });
