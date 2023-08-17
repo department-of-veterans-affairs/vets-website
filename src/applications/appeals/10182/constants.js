@@ -69,7 +69,7 @@ export const SUBMITTED_DISAGREEMENTS = {
   evaluation: 'disability evaluation',
 };
 
-export const LAST_ISSUE = 'lastNodItem'; // focus management across pages
+export const LAST_ISSUE = 'lastItem'; // focus management across pages
 export const REVIEW_ISSUES = 'onReviewPageIssues';
 
 export const CONTESTABLE_ISSUES_PATH = 'contestable-issues';

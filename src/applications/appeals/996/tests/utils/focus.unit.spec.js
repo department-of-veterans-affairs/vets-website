@@ -7,9 +7,9 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   // focusRadioH3,
   focusAlertH3,
-  focusIssue,
 } from '../../utils/focus';
 import { LAST_ISSUE } from '../../constants';
+import { focusIssue } from '../../../shared/utils/focus';
 
 // Skipping focusRadioH3 because testing library doesn't support shadow DOM
 /* describe('focusRadioH3', () => {

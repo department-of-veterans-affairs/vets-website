@@ -102,7 +102,6 @@ export const IssueCard = ({
   // ui:options
   const appendId = options.appendId ? `_${options.appendId}` : '';
   const elementId = `${id}_${index}${appendId}`;
-
   const itemIsSelected = item[SELECTED];
   const isEditable = !!item.issue;
   const issueName = item.issue || item.ratingIssueSubjectText;

@@ -22,7 +22,7 @@ import {
   isEmptyObject,
   calculateIndexOffset,
 } from '../utils/helpers';
-import { focusIssue } from '../utils/focus';
+import { focusIssue } from '../../shared/utils/focus';
 
 /**
  * ContestableIssuesWidget
@@ -95,7 +95,6 @@ const ContestableIssuesWidget = props => {
 
   const handlers = {
     closeModal: () => setShowErrorModal(false),
-
     onChange: (index, event) => {
       let { checked } = event.target;
       if (checked && getSelected(formData).length + 1 > MAX_LENGTH.SELECTIONS) {
@@ -123,7 +122,6 @@ const ContestableIssuesWidget = props => {
         });
       }
     },
-
     onShowRemoveModal: cardIndex => {
       const adjustedIndex = calculateIndexOffset(cardIndex, value.length);
       setRemoveIndex(adjustedIndex);

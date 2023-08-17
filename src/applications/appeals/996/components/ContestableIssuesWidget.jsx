@@ -22,7 +22,7 @@ import {
   isEmptyObject,
   calculateIndexOffset,
 } from '../utils/helpers';
-import { focusIssue } from '../utils/focus';
+import { focusIssue } from '../../shared/utils/focus';
 
 /**
  * ContestableIssuesWidget (HLR v2)
