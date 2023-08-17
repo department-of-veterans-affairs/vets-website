@@ -58,7 +58,9 @@ if (blockedPathsWithCodeChanges.length > 0) {
       path,
       start_line: 1,
       end_line: 1,
-      title: 'E2E Allow List Merge Block Warning',
+      title: warningsExistPastLimit
+        ? 'E2E Allow List Merge Blocked'
+        : 'E2E Allow List Merge Block Warning',
       message: warningsExistPastLimit
         ? 'Code in this PR is associated with this test spec which is currently blocking merges due to being disabled longer than 90 days. This test spec and/or its target code being tested must be corrected before code can be merged on this application.'
         : 'Code in this PR is associated with this test spec which is currently under a warning. If this warning is not cleared, merging will be blocked in the near future. See the E2E Allow List for full details',
@@ -72,9 +74,8 @@ if (blockedPathsWithCodeChanges.length > 0) {
   core.exportVariable('ANNOTATIONS_EXIST', false);
 }
 
-// if (warningsExistPastLimit) {
-//   core.setFailed(
-//     `One or more directories contain tests that have been disabled for a total exceeding 90 days. In the future, merging will be blocked until all warnings are cleared. The paths in question are: ${blockedPathsWithCodeChanges}`,
-//   );
-//   process.exit(1);
-// }
+if (warningsExistPastLimit) {
+  core.setFailed(
+    `One or more directories contain tests that have been disabled for a total exceeding 90 days. In the future, merging will be blocked until all warnings are cleared. The paths in question are: ${blockedPathsWithCodeChanges}`,
+  );
+}
