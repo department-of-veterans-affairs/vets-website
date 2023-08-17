@@ -65,7 +65,7 @@ if (blockedPathsWithCodeChanges.length > 0) {
       annotation_level: 'failure',
     };
   });
-  fs.writeFileSync('annotations.json', annotationsJson);
+  fs.writeFileSync('annotations.json', JSON.stringify(annotationsJson));
   core.exportVariable('ANNOTATIONS_EXIST', true);
 } else {
   core.exportVariable('ANNOTATIONS_EXIST', false);
