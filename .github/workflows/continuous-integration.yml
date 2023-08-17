@@ -795,8 +795,11 @@ jobs:
       - name: Check if code can be merged
         run: node script/github-actions/check-e2e-status.js
 
+      - name: Log ANNOTATIONS_EXIST
+        run: echo ${{ env.ANNOTATIONS_EXIST }}
+
       - name: Annotate Files accordingly
-        if: ${{ env.ANNOTATIONS_EXIST == true }}
+        if: ${{ env.ANNOTATIONS_EXIST }} == true
         uses: yuzutech/annotations-action@v0.4.0
         with:
           repo-token: '${{ env.VA_VSP_BOT_GITHUB_TOKEN }}'
