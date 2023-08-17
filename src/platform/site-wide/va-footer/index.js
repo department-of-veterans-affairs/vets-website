@@ -21,7 +21,12 @@ export const footerElemementId = 'footerNav';
 export default function startVAFooter(footerData, store, onFooterLoad) {
   // Derive the widget and its data properties for props.
   const root = document.querySelector(`[id="footerNav"]`);
-  const props = root?.dataset;
+  // Return early if root element not found
+  if (!root) {
+    return;
+  }
+
+  const props = root.dataset;
 
   startReactApp(
     <Provider store={store}>

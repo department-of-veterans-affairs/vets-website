@@ -135,6 +135,14 @@
   {
     "appName": "DS V3 Playground",
     "entryName": "ds-v3-playground",
-    "rootUrl": "/ds-v3-playground"
+    "rootUrl": "/ds-v3-playground",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html",
+      "noHeader": true,
+      "customHeader": true,
+      "customFooter": true
+    },
+    "useLocalStylesAndComponents": true
   }
 ]

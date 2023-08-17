@@ -4,8 +4,7 @@ import {
   isReverseTab,
   getTabbableElements,
 } from '../utilities/accessibility';
-
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '../utilities/ui';
 
 /*
  * Creates function that captures/releases Veterans Crisis Line modal focus.
@@ -13,6 +12,10 @@ import { focusElement } from 'platform/utilities/ui';
 export default function addFocusBehaviorToCrisisLineModal() {
   const overlay = document.getElementById('modal-crisisline');
   const modal = document.querySelector('.va-crisis-panel.va-modal-inner');
+
+  /* Return early if no modal or overlay found */
+  if (!modal || !overlay) return;
+
   const tabbableElements = getTabbableElements(modal);
   let openControl;
   const closeControl = tabbableElements[0];
@@ -34,7 +37,8 @@ export default function addFocusBehaviorToCrisisLineModal() {
 
   function closeModal(e) {
     if (isEscape(e)) {
-      overlay.classList.remove('va-overlay--open');
+      // Adding ? because overlay may not exist
+      overlay?.classList.remove('va-overlay--open');
       document.body.classList.remove('va-pos-fixed');
       focusElement(openControl);
     }

@@ -101,14 +101,6 @@ export default function V3BasePage() {
   const onCloseEventV3 = () => setIsVisibleV3(!isVisibleV3);
   const openModalV3 = () => setIsVisibleV3(true);
 
-  const hideHeader = () => {
-    const el = document.createElement('style');
-    el.innerText =
-      'header.header { display: none; } footer.footer { display: none; }';
-    document.body.appendChild(el);
-  };
-  hideHeader();
-
   return (
     <>
       <div className="grid-container">
