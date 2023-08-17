@@ -307,6 +307,123 @@ describe('issuesNeedUpdating', () => {
     );
     expect(issuesNeedUpdating(issues, issues)).to.be.false;
   });
+
+  it('should sort and return false', () => {
+    const existing = [
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 5',
+          approxDecisionDate: '2023-05-05',
+          decisionIssueId: 5,
+          ratingIssueReferenceId: '5',
+          ratingDecisionReferenceId: '5',
+          ratingIssuePercentNumber: '50',
+        },
+        'view:selected': false,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 4',
+          approxDecisionDate: '2023-04-04',
+          decisionIssueId: 4,
+          ratingIssueReferenceId: '4',
+        },
+        'view:selected': false,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 3',
+          approxDecisionDate: '2023-03-03',
+          ratingIssueReferenceId: '3',
+          ratingDecisionReferenceId: '3',
+        },
+        'view:selected': false,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 2',
+          approxDecisionDate: '2023-02-02',
+          decisionIssueId: 2,
+          ratingDecisionReferenceId: '2',
+        },
+        'view:selected': false,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 1',
+          approxDecisionDate: '2023-01-01',
+          decisionIssueId: 1,
+          ratingIssuePercentNumber: '1',
+        },
+        'view:selected': false,
+      },
+    ];
+    const loaded = [
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 3',
+          approxDecisionDate: '2023-03-03',
+          ratingIssueReferenceId: '3',
+          ratingDecisionReferenceId: '3',
+          description: '',
+        },
+        'view:selected': false,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 2',
+          approxDecisionDate: '2023-02-02',
+          decisionIssueId: 2,
+          ratingIssueReferenceId: '2',
+          description: '',
+        },
+        'view:selected': false,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 5',
+          approxDecisionDate: '2023-05-05',
+          decisionIssueId: 50,
+          ratingIssuePercentNumber: '5',
+          description: '',
+        },
+        'view:selected': true,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 1',
+          approxDecisionDate: '2023-01-01',
+          decisionIssueId: 1,
+          ratingIssueReferenceId: '1',
+          ratingDecisionReferenceId: '1',
+          ratingIssuePercentNumber: '10',
+          description: '',
+        },
+        'view:selected': false,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 4',
+          approxDecisionDate: '2023-04-04',
+          decisionIssueId: 4,
+          ratingDecisionReferenceId: '4',
+          description: '',
+        },
+        'view:selected': false,
+      },
+    ];
+    expect(issuesNeedUpdating(loaded, existing)).to.be.false;
+  });
 });
 
 describe('appStateSelector', () => {

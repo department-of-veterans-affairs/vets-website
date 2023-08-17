@@ -120,8 +120,10 @@ export const processContestableIssues = contestableIssues => {
 export const calculateIndexOffset = (index, contestableIssuesLength) =>
   index - contestableIssuesLength;
 
-export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) =>
-  loadedIssues.length !== existingIssues.length
+export const issuesNeedUpdating = (loaded = [], formIssues = []) => {
+  const loadedIssues = processContestableIssues(loaded);
+  const existingIssues = processContestableIssues(formIssues);
+  return loadedIssues.length !== existingIssues.length
     ? true
     : !loadedIssues.every(({ attributes }, index) => {
         const existing = existingIssues[index]?.attributes || {};
@@ -131,6 +133,7 @@ export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) =>
           attributes.approxDecisionDate === existing.approxDecisionDate
         );
       });
+};
 
 /**
  * Filters out duplicate issue
