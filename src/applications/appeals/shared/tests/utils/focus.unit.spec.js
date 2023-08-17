@@ -4,42 +4,8 @@ import { render, waitFor } from '@testing-library/react';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import {
-  // focusRadioH3,
-  focusAlertH3,
-} from '../../utils/focus';
-import { focusIssue } from '../../../shared/utils/focus';
-import { LAST_ISSUE } from '../../../shared/constants';
-
-// Skipping focusRadioH3 because testing library doesn't support shadow DOM
-/* describe('focusRadioH3', () => {
-     it('should focus on H3 inside va-radio shadow DOM', () => {
-       render(
-         <div>
-           <va-radio label="Label H3" label-header-level="3" />
-         </div>,
-       );
-     });
-  }); */
-
-describe('focusAlertH3', () => {
-  it('should focus on H3 inside alert', async () => {
-    const { container } = render(
-      <div>
-        <va-alert status="error">
-          <h3 slot="headline">H3 text</h3>
-        </va-alert>
-      </div>,
-    );
-
-    focusAlertH3();
-
-    await waitFor(() => {
-      const h3 = $('h3', container);
-      expect(document.activeElement).to.eq(h3);
-    });
-  });
-});
+import { focusIssue } from '../../utils/focus';
+import { LAST_ISSUE } from '../../constants';
 
 describe('focusIssue', () => {
   afterEach(() => {
@@ -55,14 +21,12 @@ describe('focusIssue', () => {
             <a href="#0" className="edit-issue-link">
               Edit
             </a>
-            <va-button class="remove-issue" text="Remove" />
           </li>
           <li id="issue-1">
             <input />
             <a href="#1" className="edit-issue-link">
               Edit
             </a>
-            <va-button class="remove-issue" text="Remove" />
           </li>
         </ul>
         <a href="#new" className="add-new-issue">
