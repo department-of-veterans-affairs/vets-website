@@ -1,18 +1,15 @@
 import moment from 'moment';
 
-import {
-  SELECTED,
-  MAX_LENGTH,
-  SUBMITTED_DISAGREEMENTS,
-  SHOW_PART3,
-} from '../constants';
+import { MAX_LENGTH, SHOW_PART3 } from '../constants';
 import { replaceSubmittedData, fixDateFormat } from './replace';
+
+import { SELECTED } from '../../shared/constants';
 
 /**
  * @typedef FormData
  * @type {Object<Object>}
  * @property {Veteran} veteran - data from prefill & profile
- * @property {ContestableIssues} contestableIssues - issues loaded from API
+ * @property {ContestableIssues} contestedIssues - issues loaded from API
  * @property {AdditionaIssues} additionalIssues - issues entered by Veteran
  * @property {Evidence} evidence - Evidence uploaded by Veteran
  * @property {Boolean} homeless - homeless choice
@@ -26,7 +23,7 @@ import { replaceSubmittedData, fixDateFormat } from './replace';
  *   requesting an extension
  * @property {String} extensionReason - Text of why the Veteran is requesting an
  *   extension
- * @property {Boolean} appealingVhaDenial - yes/no indicating the Veteran is
+ * @property {Boolean} appealingVHADenial - yes/no indicating the Veteran is
  *   appealing a VHA denial
  * @property {Boolean} view:additionalEvidence - Veteran choice to upload more
  *   evidence
@@ -145,8 +142,8 @@ export const createIssueName = ({ attributes } = {}) => {
  * @param {ContestableIssues}
  * @returns {ContestableIssue~Submittable}
  */
-export const getContestableIssues = ({ contestableIssues } = {}) =>
-  (contestableIssues || []).filter(issue => issue[SELECTED]).map(issue => {
+export const getContestableIssues = ({ contestedIssues } = {}) =>
+  (contestedIssues || []).filter(issue => issue[SELECTED]).map(issue => {
     const attr = issue.attributes;
     const attributes = [
       'decisionIssueId',
@@ -212,38 +209,6 @@ export const addIncludedIssues = formData => {
       return issuesToAdd;
     }, []),
   );
-};
-
-/**
- * Add area of disagreement
- * @param {ContestableIssue~Submittable} issues - selected & processed issues
- * @param {FormData} formData
- * @return {ContestableIssues~Submittable} issues with "disagreementArea" added
- */
-export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
-  const keywords = {
-    serviceConnection: () => SUBMITTED_DISAGREEMENTS.serviceConnection,
-    effectiveDate: () => SUBMITTED_DISAGREEMENTS.effectiveDate,
-    evaluation: () => SUBMITTED_DISAGREEMENTS.evaluation,
-  };
-  return issues.map((issue, index) => {
-    const entry = areaOfDisagreement[index];
-    const reasons = Object.entries(entry?.disagreementOptions || {})
-      .map(([key, value]) => value && keywords[key](entry))
-      .concat((entry?.otherEntry || '').trim())
-      .filter(Boolean);
-    const disagreementArea = replaceSubmittedData(
-      // max length in schema
-      reasons.join(',').substring(0, MAX_LENGTH.DISAGREEMENT_REASON),
-    );
-    return {
-      ...issue,
-      attributes: {
-        ...issue.attributes,
-        disagreementArea,
-      },
-    };
-  });
 };
 
 /**
@@ -396,7 +361,7 @@ export const getTimeZone = () =>
  *   requesting an extension
  * @param {String} extensionReason - Text of why the Veteran is requesting an
  *   extension
- * @param {Boolean} appealingVhaDenial - yes/no indicating the Veteran is
+ * @param {Boolean} appealingVHADenial - yes/no indicating the Veteran is
  *   appealing a VHA denial
  * @returns {Object} data from part III, box 11 of form expiring on 3/31/2025
  */
@@ -407,9 +372,15 @@ export const getPart3Data = formData => {
   const {
     requestingExtension = false,
     extensionReason = '',
-    appealingVhaDenial = false,
+    appealingVHADenial = false,
   } = formData;
-  const result = { requestingExtension, appealingVhaDenial };
+  const result = {
+    requestingExtension,
+    /* - Lighthouse is expecting `appealingVhaDenial`
+     * - Save-in-progress renames `appealingVhaDenial` to `appealingVHADenial`
+     *   so we just kept the all-cap VHA within the form data */
+    appealingVhaDenial: appealingVHADenial,
+  };
   if (requestingExtension) {
     result.extensionReason = extensionReason;
   }
