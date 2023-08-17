@@ -37,7 +37,11 @@ describe('Return to Notification Settings CTA', () => {
   });
   it('should be shown after adding mobile phone number', () => {
     cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
-    cy.findByRole('link', { name: /add.*mobile phone/i }).click();
+    cy.get('va-link')
+      .shadow()
+      .within(() => {
+        cy.findByRole('link', { name: /add a phone number/i }).click();
+      });
     cy.findByRole('button', { name: /edit mobile phone/i })
       .should('be.focused')
       // I'd like to simulate hitting `enter` instead of clicking, but doing

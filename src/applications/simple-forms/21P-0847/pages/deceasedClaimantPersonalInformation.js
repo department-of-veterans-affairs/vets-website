@@ -1,6 +1,6 @@
 import {
   currentOrPastDateSchema,
-  currentOrPastDateUI,
+  dateOfDeathUI,
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
   titleSchema,
@@ -15,7 +15,7 @@ export default {
       'Now, we’ll ask for information about the person whose claim you’re requesting to continue.',
     ),
     deceasedClaimantFullName: fullNameNoSuffixUI(),
-    deceasedClaimantDateOfDeath: currentOrPastDateUI('Date of death'),
+    deceasedClaimantDateOfDeath: dateOfDeathUI(),
   },
   schema: {
     type: 'object',

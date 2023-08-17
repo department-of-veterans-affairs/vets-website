@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router';
 
-import { SELECTED, FORMAT_YMD, FORMAT_READABLE } from '../constants';
 import { replaceDescriptionContent } from '../utils/replace';
+import { SELECTED, FORMAT_YMD, FORMAT_READABLE } from '../../shared/constants';
 
 /** Copied from HLR v2 issue card */
 /**
@@ -32,19 +32,22 @@ export const IssueCardContent = ({
   return (
     <div id={id} className="widget-content-wrap">
       {description && (
-        <p className="vads-u-margin-bottom--0">
+        <p className="vads-u-margin-bottom--0 dd-privacy-hidden">
           {replaceDescriptionContent(description)}
         </p>
       )}
       {showPercentNumber && (
         <p className="vads-u-margin-bottom--0">
-          Current rating: <strong>{`${ratingIssuePercentNumber}%`}</strong>
+          Current rating:{' '}
+          <strong className="dd-privacy-hidden">{`${ratingIssuePercentNumber}%`}</strong>
         </p>
       )}
       {date && (
         <p>
           Decision date:{' '}
-          <strong>{moment(date, FORMAT_YMD).format(FORMAT_READABLE)}</strong>
+          <strong className="dd-privacy-hidden">
+            {moment(date, FORMAT_YMD).format(FORMAT_READABLE)}
+          </strong>
         </p>
       )}
     </div>
@@ -119,6 +122,7 @@ export const IssueCard = ({
 
   const titleClass = [
     'widget-title',
+    'dd-privacy-hidden',
     'vads-u-font-size--h4',
     'vads-u-margin--0',
     'capitalize',

@@ -1,4 +1,3 @@
-import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
@@ -20,9 +19,9 @@ import {
   canUploadEvidence,
   wantsToUploadEvidence,
   needsHearingType,
-  appStateSelector,
+  showPart3,
+  showExtensionReason,
 } from '../utils/helpers';
-import { getIssueTitle } from '../content/areaOfDisagreement';
 
 import { CONTESTABLE_ISSUES_PATH } from '../constants';
 
@@ -32,10 +31,15 @@ import homeless from '../pages/homeless';
 import contactInfo from '../pages/contactInfo';
 import contestableIssues from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
-import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
+import areaOfDisagreementFollowUp from '../../shared/pages/areaOfDisagreement';
+import AreaOfDisagreement from '../../shared/components/AreaOfDisagreement';
+import extensionRequest from '../pages/extensionRequest';
+import extensionReason from '../pages/extensionReason';
+import appealingVhaDenial from '../pages/appealingVhaDenial';
 import filingDeadlines from '../pages/filingDeadlines';
 import issueSummary from '../pages/issueSummary';
 import boardReview from '../pages/boardReview';
+import hearingType from '../pages/hearingType';
 import evidenceIntro from '../pages/evidenceIntro';
 import evidenceUpload from '../pages/evidenceUpload';
 
@@ -45,15 +49,17 @@ import {
   savedFormMessages,
 } from '../content/saveInProgress';
 
+import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
+import { appStateSelector } from '../../shared/utils/issues';
+
 // import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
-import hearingType from '../pages/hearingType';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/notice_of_disagreements`,
+  submitUrl: '/notice_of_disagreements',
   trackingPrefix: '10182-board-appeal-',
 
   downtime: {
@@ -67,7 +73,8 @@ const formConfig = {
   },
 
   formId: VA_FORM_IDS.FORM_10182,
-  version: migrations.length - 1,
+  version: migrations.length,
+  migrations,
   title: 'Request a Board Appeal',
   subTitle: 'VA Form 10182 (Notice of Disagreement)',
 
@@ -124,6 +131,27 @@ const formConfig = {
           uiSchema: filingDeadlines.uiSchema,
           schema: filingDeadlines.schema,
         },
+        extensionRequest: {
+          title: 'Request an extension',
+          path: 'extension-request',
+          depends: showPart3,
+          uiSchema: extensionRequest.uiSchema,
+          schema: extensionRequest.schema,
+        },
+        extensionReason: {
+          title: 'Reason for extension',
+          path: 'extension-reason',
+          depends: showExtensionReason,
+          uiSchema: extensionReason.uiSchema,
+          schema: extensionReason.schema,
+        },
+        appealingVhaDenial: {
+          title: 'Appealing denial of VA health care benefits',
+          path: 'appealing-denial',
+          depends: showPart3,
+          uiSchema: appealingVhaDenial.uiSchema,
+          schema: appealingVhaDenial.schema,
+        },
         contestableIssues: {
           title: 'You’ve selected these issues for review',
           path: CONTESTABLE_ISSUES_PATH,
@@ -145,6 +173,8 @@ const formConfig = {
         areaOfDisagreementFollowUp: {
           title: getIssueTitle,
           path: 'area-of-disagreement/:index',
+          CustomPage: AreaOfDisagreement,
+          CustomPageReview: null,
           showPagePerItem: true,
           arrayPath: 'areaOfDisagreement',
           uiSchema: areaOfDisagreementFollowUp.uiSchema,

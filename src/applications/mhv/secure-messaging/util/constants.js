@@ -24,7 +24,7 @@ export const DefaultFolders = {
   },
   SENT: {
     id: -1,
-    header: 'Sent messages',
+    header: 'Sent',
     desc: '',
   },
   DRAFTS: { id: -2, header: 'Drafts', desc: '' },
@@ -36,6 +36,11 @@ export const DefaultFolders = {
   CUSTOM_FOLDER: {
     desc: `This is a folder you created. You can add conversations to this folder by moving them from your inbox or other folders.`,
   },
+};
+
+export const MessageReadStatus = {
+  READ: 'READ',
+  UNREAD: null,
 };
 
 export const ErrorMessages = {
@@ -206,7 +211,7 @@ export const Breadcrumbs = {
   DRAFTS: { path: Paths.DRAFTS, label: 'Drafts' },
   DRAFT: { path: Paths.DRAFT, label: 'Drafts' },
   FOLDERS: { path: Paths.FOLDERS, label: 'Back to my folders' },
-  SENT: { path: Paths.SENT, label: 'Sent messages' },
+  SENT: { path: Paths.SENT, label: 'Sent' },
   TRASH: { path: Paths.DELETED, label: 'Trash' },
 };
 
@@ -305,7 +310,7 @@ export const PrintMessageOptions = {
 
 export const BreadcrumbViews = {
   DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
-  MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3',
+  MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-margin-y--0',
 };
 
 export const PageTitles = {

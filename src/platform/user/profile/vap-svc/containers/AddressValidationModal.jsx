@@ -192,8 +192,8 @@ class AddressValidationModal extends React.Component {
           className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-bottom--0p5">
-            <span>{street}</span>
-            <span>{cityStateZip}</span>
+            <span className="dd-privacy-hidden">{street}</span>
+            <span className="dd-privacy-hidden">{cityStateZip}</span>
             <span>{country}</span>
 
             {isAddressFromUser &&

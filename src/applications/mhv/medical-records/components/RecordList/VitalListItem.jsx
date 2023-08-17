@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import moment from 'moment';
-import ItemList from '../shared/ItemList';
 import { vitalTypeDisplayNames } from '../../util/constants';
 
 const VitalListItem = props => {
@@ -26,11 +25,9 @@ const VitalListItem = props => {
           <div className="location-collapsed vads-u-line-height--3">
             Location: {record.location}
           </div>
-          <div className="print-only">
-            Provider notes: <ItemList list={record.notes} />
-          </div>
+          <div className="print-only">Provider notes: {record.notes}</div>
           <Link
-            to={`/health-history/vitals/${_.kebabCase(record.type)}`}
+            to={`/vitals/${_.kebabCase(record.type)}`}
             className="vads-u-margin-y--0p5 no-print"
           >
             <strong>

@@ -2,7 +2,6 @@ import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system
 
 import { v2 } from '../../mocks/appointments';
 import { mockFolderResponse } from '../../utils/mocks/messaging/folder';
-import { generateFeatureToggles } from '../../../common/mocks/feature-toggles';
 
 import {
   makeUserObject,
@@ -28,12 +27,6 @@ const userWithoutRxMessaging = makeUserObject({
 describe('MyVA Dashboard - Rx Messaging - v2', () => {
   beforeEach(() => {
     mockLocalStorage();
-    cy.intercept(
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        showMyVADashboardV2: true,
-      }),
-    );
     cy.intercept('GET', '/vaos/v2/appointments*', req => {
       const rv = v2.createAppointmentSuccess({ startsInDays: [] });
       req.reply(rv);

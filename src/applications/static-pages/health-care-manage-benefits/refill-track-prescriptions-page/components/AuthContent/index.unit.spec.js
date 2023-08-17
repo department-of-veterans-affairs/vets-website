@@ -10,7 +10,6 @@ describe('Prescriptions Page <AuthContent>', () => {
     const wrapper = shallow(<AuthContent />);
 
     const text = wrapper.text();
-    expect(text).to.include('CernerCallToAction');
     expect(text).to.include(
       'How can VA’s prescription tools help me manage my health care?',
     );

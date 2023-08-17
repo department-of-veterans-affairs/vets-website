@@ -103,7 +103,7 @@ const ContactInformation = () => {
     () => {
       // Show alert when navigating away
       if (hasUnsavedEdits) {
-        window.onbeforeunload = () => true;
+        window.onbeforeunload = () => '';
         return;
       }
 

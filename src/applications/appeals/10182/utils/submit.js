@@ -1,13 +1,15 @@
 import moment from 'moment';
 
-import { SELECTED, MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../constants';
+import { MAX_LENGTH, SHOW_PART3 } from '../constants';
 import { replaceSubmittedData, fixDateFormat } from './replace';
+
+import { SELECTED } from '../../shared/constants';
 
 /**
  * @typedef FormData
  * @type {Object<Object>}
  * @property {Veteran} veteran - data from prefill & profile
- * @property {ContestableIssues} contestableIssues - issues loaded from API
+ * @property {ContestableIssues} contestedIssues - issues loaded from API
  * @property {AdditionaIssues} additionalIssues - issues entered by Veteran
  * @property {Evidence} evidence - Evidence uploaded by Veteran
  * @property {Boolean} homeless - homeless choice
@@ -17,6 +19,12 @@ import { replaceSubmittedData, fixDateFormat } from './replace';
  *   enum to "virtual_hearing", "video_conference" or "central_office"
  * @property {Boolean} socOptIn - check box indicating the Veteran has opted in
  *   to the new appeal process (always false)
+ * @property {Boolean} requestingExtension - yes/no indicating the Veteran is
+ *   requesting an extension
+ * @property {String} extensionReason - Text of why the Veteran is requesting an
+ *   extension
+ * @property {Boolean} appealingVHADenial - yes/no indicating the Veteran is
+ *   appealing a VHA denial
  * @property {Boolean} view:additionalEvidence - Veteran choice to upload more
  *   evidence
  */
@@ -59,7 +67,7 @@ import { replaceSubmittedData, fixDateFormat } from './replace';
  * @prop {ContestableIssues} - Array of both eligible & ineligible contestable
  *  issues
  */
-export const getEligibleContestableIssues = issues => {
+export const getEligibleContestableIssues = (issues, { showPart3 } = {}) => {
   const today = moment().startOf('day');
   return (issues || []).filter(issue => {
     const {
@@ -75,7 +83,7 @@ export const getEligibleContestableIssues = issues => {
     if (isDeferred || !date.isValid() || !ratingIssueSubjectText) {
       return false;
     }
-    return date.add(1, 'years').isAfter(today);
+    return showPart3 || date.add(1, 'years').isAfter(today);
   });
 };
 
@@ -134,8 +142,8 @@ export const createIssueName = ({ attributes } = {}) => {
  * @param {ContestableIssues}
  * @returns {ContestableIssue~Submittable}
  */
-export const getContestableIssues = ({ contestableIssues } = {}) =>
-  (contestableIssues || []).filter(issue => issue[SELECTED]).map(issue => {
+export const getContestableIssues = ({ contestedIssues } = {}) =>
+  (contestedIssues || []).filter(issue => issue[SELECTED]).map(issue => {
     const attr = issue.attributes;
     const attributes = [
       'decisionIssueId',
@@ -204,38 +212,6 @@ export const addIncludedIssues = formData => {
 };
 
 /**
- * Add area of disagreement
- * @param {ContestableIssue~Submittable} issues - selected & processed issues
- * @param {FormData} formData
- * @return {ContestableIssues~Submittable} issues with "disagreementArea" added
- */
-export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
-  const keywords = {
-    serviceConnection: () => SUBMITTED_DISAGREEMENTS.serviceConnection,
-    effectiveDate: () => SUBMITTED_DISAGREEMENTS.effectiveDate,
-    evaluation: () => SUBMITTED_DISAGREEMENTS.evaluation,
-  };
-  return issues.map((issue, index) => {
-    const entry = areaOfDisagreement[index];
-    const reasons = Object.entries(entry?.disagreementOptions || {})
-      .map(([key, value]) => value && keywords[key](entry))
-      .concat((entry?.otherEntry || '').trim())
-      .filter(Boolean);
-    const disagreementArea = replaceSubmittedData(
-      // max length in schema
-      reasons.join(',').substring(0, MAX_LENGTH.DISAGREEMENT_REASON),
-    );
-    return {
-      ...issue,
-      attributes: {
-        ...issue.attributes,
-        disagreementArea,
-      },
-    };
-  });
-};
-
-/**
  * @typedef Evidence
  * @type {Array<Object>}
  * @property {Evidence~File}
@@ -284,7 +260,8 @@ export const removeEmptyEntries = object =>
  * Veteran~submittable
  * @property {Address~submittable} address
  * @property {Phone~submittable} phone
- * @property {String} emailAddressText
+ * @property {String} emailAddressText (v0)
+ * @property {String} email (v1)
  * @property {Boolean} homeless
  */
 /**
@@ -297,6 +274,7 @@ export const removeEmptyEntries = object =>
  * @property {String} stateCode
  * @property {String} zipCode5
  * @property {String} countryName
+ * @property {String} countryCodeIso2
  * @property {String} internationalPostalCode
  */
 /**
@@ -312,7 +290,8 @@ export const removeEmptyEntries = object =>
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
  */
-export const getAddress = ({ veteran = {} } = {}) => {
+export const getAddress = (formData = {}) => {
+  const { veteran = {} } = formData;
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
   const internationalPostalCode = truncate(
@@ -328,8 +307,12 @@ export const getAddress = ({ veteran = {} } = {}) => {
     zipCode5: internationalPostalCode
       ? '00000'
       : truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
-    countryName: veteran.address?.countryName || '',
-    // countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY), // v2
+    // Include countryName (v1) or countryCodeISO2 (v2)
+    countryName: formData[SHOW_PART3] ? '' : veteran.address?.countryName || '',
+    // note "ISO2" is submitted, "Iso2" is from profile address
+    countryCodeISO2: formData[SHOW_PART3]
+      ? truncate('countryCodeIso2', MAX_LENGTH.COUNTRY)
+      : '',
     internationalPostalCode,
   });
 };
@@ -351,6 +334,18 @@ export const getPhone = ({ veteran = {} } = {}) => {
 };
 
 /**
+ * Return v0 or v1 key with email data
+ * @param {Veteran} veteran - Veteran formData object
+ * @returns {Object} submittable email
+ */
+export const getEmail = (formData = {}) => {
+  // v0 uses emailAddressText
+  // v1 uses email
+  const key = formData[SHOW_PART3] ? 'email' : 'emailAddressText';
+  return { [key]: formData.veteran?.email || '' };
+};
+
+/**
  * Get user's current time zone
  * @returns {String}
  * @example 'America/Los_Angeles'
@@ -359,3 +354,35 @@ export const getTimeZone = () =>
   // supports IE11
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
   Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+/**
+ *
+ * @param {Boolean} requestingExtension - yes/no indicating the Veteran is
+ *   requesting an extension
+ * @param {String} extensionReason - Text of why the Veteran is requesting an
+ *   extension
+ * @param {Boolean} appealingVHADenial - yes/no indicating the Veteran is
+ *   appealing a VHA denial
+ * @returns {Object} data from part III, box 11 of form expiring on 3/31/2025
+ */
+export const getPart3Data = formData => {
+  if (!formData[SHOW_PART3]) {
+    return {};
+  }
+  const {
+    requestingExtension = false,
+    extensionReason = '',
+    appealingVHADenial = false,
+  } = formData;
+  const result = {
+    requestingExtension,
+    /* - Lighthouse is expecting `appealingVhaDenial`
+     * - Save-in-progress renames `appealingVhaDenial` to `appealingVHADenial`
+     *   so we just kept the all-cap VHA within the form data */
+    appealingVhaDenial: appealingVHADenial,
+  };
+  if (requestingExtension) {
+    result.extensionReason = extensionReason;
+  }
+  return result;
+};

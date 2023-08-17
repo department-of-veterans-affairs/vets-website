@@ -12,12 +12,14 @@ import { testing } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
+const headers = {
+  'Content-Type': 'application/json',
+};
+
 export const getLabsAndTests = () => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(`${apiBasePath}/medical_records/labs_and_tests`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     });
   }
   return new Promise(resolve => {
@@ -30,9 +32,7 @@ export const getLabsAndTests = () => {
 export const getLabOrTest = id => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(`${apiBasePath}/medical_records/labs_and_tests/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     });
   }
   return new Promise(resolve => {
@@ -46,9 +46,7 @@ export const getLabOrTest = id => {
 export const getNotes = () => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     });
   }
   return new Promise(resolve => {
@@ -61,9 +59,7 @@ export const getNotes = () => {
 export const getNote = id => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(`${apiBasePath}/medical_records/clinical_notes/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     });
   }
   return new Promise(resolve => {
@@ -73,12 +69,10 @@ export const getNote = id => {
   });
 };
 
-export const mockGetVitalsList = () => {
+export const getVitalsList = () => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(`${apiBasePath}/medical_records/vitals`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     });
   }
   return new Promise(resolve => {
@@ -91,9 +85,7 @@ export const mockGetVitalsList = () => {
 export const getConditions = () => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(`${apiBasePath}/medical_records/conditions`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     });
   }
   return new Promise(resolve => {
@@ -106,9 +98,7 @@ export const getConditions = () => {
 export const getCondition = id => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(`${apiBasePath}/medical_records/conditions/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     });
   }
   return new Promise(resolve => {
@@ -122,9 +112,7 @@ export const getCondition = id => {
 export const getAllergies = () => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(`${apiBasePath}/medical_records/allergies`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     });
   }
   return new Promise(resolve => {
@@ -137,15 +125,15 @@ export const getAllergies = () => {
 export const getAllergy = id => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(`${apiBasePath}/medical_records/allergies/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     });
   }
   return new Promise(resolve => {
     setTimeout(() => {
-      const allergy = allergies.find(alg => +alg.id === +id);
-      resolve(allergy);
+      const allergy = allergies.entry.find(
+        alg => String(alg.resource.id) === String(id),
+      );
+      resolve(allergy.resource);
     }, 1000);
   });
 };
@@ -156,15 +144,9 @@ export const getAllergy = id => {
  */
 export const getVaccineList = () => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
-    return apiRequest(
-      // Temporarily hard-coding a patient ID for development.
-      `${apiBasePath}/medical_records/vaccines`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
+    return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
+      headers,
+    });
   }
   return new Promise(resolve => {
     setTimeout(() => {
@@ -181,14 +163,35 @@ export const getVaccineList = () => {
 export const getVaccine = id => {
   if (environment.BUILDTYPE === 'localhost' && testing) {
     return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     });
   }
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(vaccine);
     }, 1000);
+  });
+};
+
+/**
+ * Get the VHIE sharing status of the current user.
+ *
+ * @returns JSON object containing consent_status, either OPT-IN or OPT-OUT
+ */
+export const getSharingStatus = () => {
+  return apiRequest(`${apiBasePath}/health_records/sharing/status`, {
+    headers,
+  });
+};
+
+/**
+ * Update the VHIE sharing status
+ * @param {Boolean} optIn true to opt-in, false to opt-out
+ */
+export const postSharingUpdateStatus = (optIn = false) => {
+  const endpoint = optIn ? 'optin' : 'optout';
+  return apiRequest(`${apiBasePath}/health_records/sharing/${endpoint}`, {
+    method: 'POST',
+    headers,
   });
 };

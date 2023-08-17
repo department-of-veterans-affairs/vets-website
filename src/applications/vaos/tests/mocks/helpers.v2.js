@@ -237,7 +237,7 @@ export function mockSchedulingConfigurations(configs, isCCEnabled = false) {
  * @param {MomentDate} startDate The start date for the appointment slots
  * @param {MomentDate} endDate The end date for the appointment slots
  * @param {string} clinicId The VistA clinic id the slots are in
- * @param {boolean} withError Flag to determin if the response should fail.
+ * @param {boolean} withError Flag to determine if the response should fail.
  * @param {Array<VARSlot>} response The list of slots to return from the mock
  */
 export function mockAppointmentSlotFetch({

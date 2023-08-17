@@ -33,13 +33,13 @@ describe('hca <DependentList>', () => {
 
     it('should render the correct amount of list items', () => {
       const { container } = render(<DependentList {...props} />);
-      const selector = container.querySelectorAll('.hca-dependent-list--tile');
+      const selector = container.querySelectorAll('.hca-dependent-list--card');
       expect(selector).to.have.lengthOf(2);
     });
 
     it('should render the correct list item data', () => {
       const { container } = render(<DependentList {...props} />);
-      const tiles = container.querySelectorAll('.hca-dependent-list--tile');
+      const tiles = container.querySelectorAll('.hca-dependent-list--card');
       tiles.forEach((item, index) => {
         const dependent = props.list[index];
         const { fullName, dependentRelation } = dependent;
