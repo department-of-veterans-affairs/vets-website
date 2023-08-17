@@ -154,6 +154,13 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     ).to.equal(
       'You’re already at the maximum rating for post traumatic stress disorder.',
     );
+    expect(
+      labels
+        .at(1)
+        .find('p')
+        .last()
+        .text(),
+    ).to.equal('Current rating: 0%');
     form.unmount();
     localStorage.removeItem('showDisability526MaximumRating');
   });
