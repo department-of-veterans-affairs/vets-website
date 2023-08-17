@@ -9,6 +9,7 @@ import {
   isValidUSZipCode,
   isValidCanPostalCode,
 } from 'platform/forms/address';
+import environment from 'platform/utilities/environment';
 
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
@@ -197,21 +198,13 @@ export function uiSchema(
             schemaUpdate.properties,
           );
           schemaUpdate.properties = set('state.enumNames', labelList, withEnum);
-
-          // all the countries with state lists require the state field, so add that if necessary
-          if (
-            !ignoreRequired &&
-            required &&
-            !addressSchema.required.some(field => field === 'state')
-          ) {
-            schemaUpdate.required = addressSchema.required.concat('state');
-          }
         }
 
         if (
           !ignoreRequired &&
           required &&
-          !addressSchema.required.some(field => field === 'state')
+          !addressSchema.required.some(field => field === 'state') &&
+          !environment.isProduction()
         ) {
           schemaUpdate.required = addressSchema.required.concat('state');
         }
