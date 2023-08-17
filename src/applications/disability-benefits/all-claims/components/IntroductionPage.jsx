@@ -10,9 +10,16 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 import { itfNotice } from '../content/introductionPage';
-import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
+import {
+  show526Wizard,
+  show526MaxRating,
+  isBDD,
+  getPageTitle,
+  getStartText,
+} from '../utils';
 import {
   BDD_INFO_URL,
   DISABILITY_526_V2_ROOT_URL,
@@ -27,6 +34,10 @@ class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('h1');
     scrollToTop();
+    localStorage.setItem(
+      'showDisability526MaximumRating',
+      this.props.showMaxRating,
+    );
   }
 
   render() {
@@ -290,6 +301,7 @@ const mapStateToProps = state => ({
   isBDDForm: isBDD(state?.form?.data),
   loggedIn: isLoggedIn(state),
   showWizard: show526Wizard(state),
+  showMaxRating: show526MaxRating(state),
 });
 
 IntroductionPage.propTypes = {
@@ -307,6 +319,7 @@ IntroductionPage.propTypes = {
   isBDDForm: PropTypes.bool,
   loggedIn: PropTypes.bool,
   showWizard: PropTypes.bool,
+  showMaxRating: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(IntroductionPage);
