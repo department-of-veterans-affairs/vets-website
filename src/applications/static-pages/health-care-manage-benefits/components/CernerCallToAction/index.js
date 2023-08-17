@@ -181,7 +181,7 @@ export class CernerCallToAction extends Component {
     }
 
     // Derive MyHealtheVet link text.
-    const myHealtheVetLinkText = myHealtheVetLink.includes('appointments')
+    const myHealtheVetLinkText = myHealtheVetLink?.includes('appointments')
       ? 'Go to the VA appointments tool'
       : 'Go to My HealtheVet';
 
