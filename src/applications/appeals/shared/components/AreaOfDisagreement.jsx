@@ -59,7 +59,7 @@ const AreaOfDisagreement = ({
   const setCheckboxError = (disagreement = {}) => {
     const hasError = !hasAreaOfDisagreementChoice(disagreement);
     setCheckboxErrorMessage(
-      hasError ? errorMessages.maxOtherEntry.missingDisagreement : null,
+      hasError ? errorMessages.missingDisagreement : null,
     );
     return hasError;
   };

@@ -7,7 +7,7 @@ export const SELECTED = 'view:selected';
 /**
  **** INTERNAL FORM URL PATHS ****
  */
-export const CONTACT_INFO = '/contact-information';
+export const CONTACT_INFO_PATH = '/contact-information';
 
 /**
  **** URL PATHS ****
@@ -32,7 +32,7 @@ export const HLR_FORM_URL =
 
 export const NOD_INFO_URL = `${DR_URL}/board-appeal`;
 export const NOD_BASE_URL = `${NOD_INFO_URL}/request-board-appeal-form-10182`;
-export const NOD_OTHER_WAYS_URL = `${NOD_INFO_URL}#you-can-also-request-a-board-a`;
+export const NOD_OPTIONS_URL = `${NOD_INFO_URL}/#what-are-my-board-appeal-optio`;
 export const NOD_FORM_URL = 'https://www.va.gov/vaforms/va/pdf/VA10182.pdf';
 
 export const CLAIM_STATUS_TOOL_URL = '/claim-or-appeal-status';
