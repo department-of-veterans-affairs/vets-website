@@ -1,16 +1,25 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 // Relative imports.
 import CallToActionWidget from 'applications/static-pages/cta-widget';
 import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
+import { connect } from 'react-redux';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 
-export const UnauthContent = () => (
+export const UnauthContent = ({ featureStaticLandingPage, widgetType }) => (
   <>
     <CallToActionWidget
       appId="view-appointments"
       setFocus={false}
       headerLevel={2}
+      myHealtheVetLink={
+        featureStaticLandingPage
+          ? '/my-health/appointments'
+          : '/health-care/schedule-view-va-appointments/appointments'
+      }
+      widgetType={widgetType}
     />
     <p data-testid="non-cerner-content">
       <strong>Note:</strong> If you can’t keep an existing appointment, please
@@ -160,4 +169,17 @@ export const UnauthContent = () => (
   </>
 );
 
-export default UnauthContent;
+UnauthContent.propTypes = {
+  widgetType: PropTypes.string.isRequired,
+  featureStaticLandingPage: PropTypes.bool,
+};
+
+const mapStateToProps = state => {
+  const featureStaticLandingPage = toggleValues(state)
+    .vaOnlineSchedulingStaticLandingPage;
+  return {
+    featureStaticLandingPage,
+  };
+};
+
+export default connect(mapStateToProps)(UnauthContent);
