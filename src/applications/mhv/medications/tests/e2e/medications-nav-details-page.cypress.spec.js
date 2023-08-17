@@ -22,6 +22,24 @@ describe('verify navigation to medication details Page', () => {
     detailsPage.verifyPrescriptionsStatus(
       mockPrescriptionDetails.data.attributes.refillStatus,
     );
+    detailsPage.verifyPrescriptionsName(
+      mockPrescriptionDetails.data.attributes.prescriptionName,
+    );
+
+    detailsPage.verifyPrescriptionsfacilityName(
+      mockPrescriptionDetails.data.attributes.facilityName,
+    );
+
+    detailsPage.verifyPrescriptionsorderedDate(
+      mockPrescriptionDetails.data.attributes.orderedDate,
+    );
+
+    detailsPage.verifyPrescriptionsquantity(
+      mockPrescriptionDetails.data.attributes.quantity,
+    );
+    detailsPage.verifyPrescriptionsexpirationDate(
+      mockPrescriptionDetails.data.attributes.expirationDate,
+    );
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

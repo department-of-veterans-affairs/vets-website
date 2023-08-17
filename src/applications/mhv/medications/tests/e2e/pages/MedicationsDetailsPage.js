@@ -22,10 +22,42 @@ class MedicationsDetailsPage {
     );
   };
 
+  verifyPrescriptionsName = prescriptionName => {
+    cy.get('.page-title > div').should('have.text', prescriptionName);
+  };
+
   verifyPrescriptionsStatus = PrescriptionsStatus => {
     cy.get('.vads-u-margin-top--2 > :nth-child(6)').should(
       'have.text',
       PrescriptionsStatus,
+    );
+  };
+
+  verifyPrescriptionsquantity = Prescriptionsquantity => {
+    cy.get('.vads-u-margin-y--3 > :nth-child(7)').should(
+      'have.text',
+      Prescriptionsquantity,
+    );
+  };
+
+  verifyPrescriptionsexpirationDate = PrescriptionsexpirationDate => {
+    cy.get('.vads-u-margin-top--2 > :nth-child(13)').should(
+      'have.text',
+      PrescriptionsexpirationDate,
+    );
+  };
+
+  verifyPrescriptionsorderedDate = PrescriptionsorderedDate => {
+    cy.get('.vads-u-margin-top--2 > :nth-child(11)').should(
+      'have.text',
+      PrescriptionsorderedDate,
+    );
+  };
+
+  verifyPrescriptionsfacilityName = PrescriptionsfacilityName => {
+    cy.get('.vads-u-margin-top--2 > :nth-child(17)').should(
+      'have.text',
+      PrescriptionsfacilityName,
     );
   };
 
