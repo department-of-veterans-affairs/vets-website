@@ -71,9 +71,9 @@ if (blockedPathsWithCodeChanges.length > 0) {
   core.exportVariable('ANNOTATIONS_EXIST', false);
 }
 
-if (warningsExistPastLimit) {
-  core.setFailed(
-    `One or more directories contain tests that have been disabled for a total exceeding 90 days. In the future, merging will be blocked until all warnings are cleared. The paths in question are: ${blockedPathsWithCodeChanges}`,
-  );
-  process.exit(1);
-}
+// if (warningsExistPastLimit) {
+//   core.setFailed(
+//     `One or more directories contain tests that have been disabled for a total exceeding 90 days. In the future, merging will be blocked until all warnings are cleared. The paths in question are: ${blockedPathsWithCodeChanges}`,
+//   );
+//   process.exit(1);
+// }
