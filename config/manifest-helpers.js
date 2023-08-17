@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-
 const find = require('find');
 const path = require('path');
 
