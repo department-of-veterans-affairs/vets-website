@@ -17,7 +17,6 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 
 import { selectAvailableServices } from '~/platform/user/selectors';
 
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import HealthCareCTA from './HealthCareCTAV2';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
@@ -65,11 +64,7 @@ const HealthCareContentV2 = ({
     ],
   );
 
-  const shouldShowUnreadMessageAlert =
-    shouldFetchUnreadMessages && !hasInboxError && unreadMessagesCount > 0;
-
-  const shouldShowOnOneColumn =
-    !isVAPatient || (!shouldShowUnreadMessageAlert && !hasUpcomingAppointment);
+  const shouldShowOnOneColumn = !isVAPatient || !hasUpcomingAppointment;
 
   const NoUpcomingAppointmentsText = () => {
     return (
@@ -147,32 +142,6 @@ const HealthCareContentV2 = ({
   return (
     <div className="vads-l-row">
       <DashboardWidgetWrapper>
-        {/* Messages */}
-        {shouldShowUnreadMessageAlert ? (
-          <div
-            className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
-            data-testid="unread-messages-alert-v2"
-          >
-            <va-alert status="warning" show-icon>
-              <div className="vads-u-margin-top--0">
-                {`You have ${unreadMessagesCount} unread message${
-                  unreadMessagesCount === 1 ? '' : 's'
-                }. `}
-                <CTALink
-                  text="Review your messages"
-                  href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-                  onClick={() =>
-                    recordEvent({
-                      event: 'nav-linkslist',
-                      'links-list-header': 'View your messages',
-                      'links-list-section-header': 'Health care',
-                    })
-                  }
-                />
-              </div>
-            </va-alert>
-          </div>
-        ) : null}
         {hasAppointmentsError && <HealthcareError />}
         {hasUpcomingAppointment && (
           /* Appointments */
