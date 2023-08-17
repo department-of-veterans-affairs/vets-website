@@ -7,7 +7,6 @@ import * as Sentry from '@sentry/browser';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
-import { appointmentsToolLink } from 'platform/utilities/cerner';
 import { getButtonType } from 'applications/static-pages/analytics/addButtonLinkListeners';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { connect } from 'react-redux';
@@ -182,10 +181,9 @@ export class CernerCallToAction extends Component {
     }
 
     // Derive MyHealtheVet link text.
-    const myHealtheVetLinkText =
-      myHealtheVetLink === appointmentsToolLink
-        ? 'Go to the VA appointments tool'
-        : 'Go to My HealtheVet';
+    const myHealtheVetLinkText = myHealtheVetLink.includes('appointments')
+      ? 'Go to the VA appointments tool'
+      : 'Go to My HealtheVet';
 
     const fillins = this.getFillins(widgetType);
     return (
