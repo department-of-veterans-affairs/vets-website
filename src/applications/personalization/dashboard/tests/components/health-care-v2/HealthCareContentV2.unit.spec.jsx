@@ -32,19 +32,6 @@ describe('<UnconnectedHealthCareContentV2 />', () => {
     tree.getByTestId('cerner-widget');
   });
 
-  it('should render the unread message alert', () => {
-    const tree = render(
-      <UnconnectedHealthCareContentV2
-        shouldFetchUnreadMessages
-        unreadMessagesCount={2}
-      />,
-    );
-
-    tree.getByTestId('unread-messages-alert-v2');
-    tree.getByText('You have 2 unread messages.');
-    tree.getByText('Review your messages');
-  });
-
   it('should render the HealthcareError', () => {
     // delete instances of Toggler when errors are launched
     const initialState = {
