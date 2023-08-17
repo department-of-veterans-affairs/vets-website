@@ -802,7 +802,7 @@ jobs:
         if: ${{ env.ANNOTATIONS_EXIST }} == true
         uses: yuzutech/annotations-action@v0.4.0
         with:
-          repo-token: '${{ env.VA_VSP_BOT_GITHUB_TOKEN }}'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
           title: 'E2E Allow List Annotations'
           input: './annotations.json'
 
