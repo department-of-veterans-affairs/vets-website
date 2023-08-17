@@ -246,69 +246,65 @@ describe('calculateIndexOffset', () => {
 });
 
 describe('issuesNeedUpdating', () => {
-  const createEntry = (ratingIssueSubjectText, approxDecisionDate) => ({
+  const createEntry = (
+    ratingIssueSubjectText = '',
+    approxDecisionDate = '2000-01-01',
+  ) => ({
     attributes: {
       ratingIssueSubjectText,
       approxDecisionDate,
     },
   });
   it('should return true if array lengths are different', () => {
-    expect(issuesNeedUpdating([], [''])).to.be.true;
-    expect(issuesNeedUpdating([''], ['', ''])).to.be.true;
+    expect(issuesNeedUpdating([createEntry()], [createEntry('a')])).to.be.true;
+    expect(
+      issuesNeedUpdating(
+        [createEntry('a')],
+        [createEntry('a'), createEntry('b')],
+      ),
+    ).to.be.true;
+    expect(
+      issuesNeedUpdating(
+        [createEntry('a'), createEntry('b')],
+        [createEntry('a')],
+      ),
+    ).to.be.true;
   });
   it('should return true if content is different', () => {
     expect(
       issuesNeedUpdating(
-        [createEntry('test', '123'), createEntry('test2', '345')],
-        [createEntry('test', '123'), createEntry('test2', '346')],
+        [createEntry('test'), createEntry('test2')],
+        [createEntry('test'), createEntry('test2', '2001-01-01')],
       ),
     ).to.be.true;
     expect(
       issuesNeedUpdating(
-        [createEntry('test', '123'), createEntry('test3', '345')],
-        [createEntry('test', '123'), createEntry('test', '345')],
+        [createEntry('test'), createEntry('test3')],
+        [createEntry('test'), createEntry('test', '2001-01-01')],
       ),
     ).to.be.true;
   });
-  it('should return true if arrays are the same', () => {
+  it('should return false if arrays are the same, or same after removing duplicates', () => {
     expect(
       issuesNeedUpdating(
-        [createEntry('test', '123'), createEntry('test2', '345')],
-        [createEntry('test', '123'), createEntry('test2', '345')],
+        [createEntry('test'), createEntry('test2')],
+        [createEntry('test'), createEntry('test2')],
+      ),
+    ).to.be.false;
+    expect(
+      issuesNeedUpdating(
+        [
+          createEntry('test'),
+          createEntry('test'),
+          createEntry('test2'),
+          createEntry('test2'),
+        ],
+        [createEntry('test'), createEntry('test2')],
       ),
     ).to.be.false;
   });
 
-  // copied from alternate unit tests in 995
-  const getIssues = (allText, dates) =>
-    allText.map((text, index) => ({
-      attributes: {
-        ratingIssueSubjectText: text,
-        approxDecisionDate: dates?.[index],
-      },
-    }));
-  it('should return true if the array lengths are different', () => {
-    expect(issuesNeedUpdating([], [1])).to.be.true;
-    expect(issuesNeedUpdating([1], [1, 2])).to.be.true;
-    expect(issuesNeedUpdating([1, 2], [1])).to.be.true;
-  });
-  it('should return true if the one entry is different', () => {
-    const loaded = getIssues(['a', 'b'], ['2020-02-01', '2020-03-01']);
-    const existing1 = getIssues(['a', 'c'], ['2020-02-01', '2020-03-01']);
-    expect(issuesNeedUpdating(loaded, existing1)).to.be.true;
-
-    const existing2 = getIssues(['a', 'b'], ['2020-02-01', '2020-03-02']);
-    expect(issuesNeedUpdating(loaded, existing2)).to.be.true;
-  });
-  it('should return false if all entries are the same', () => {
-    const issues = getIssues(
-      ['a', 'b', 'c'],
-      ['2020-02-01', '2020-03-01', '2020-01-01'],
-    );
-    expect(issuesNeedUpdating(issues, issues)).to.be.false;
-  });
-
-  it('should sort and return false', () => {
+  it('should sort full data and return false', () => {
     const existing = [
       {
         type: 'contestableIssue',

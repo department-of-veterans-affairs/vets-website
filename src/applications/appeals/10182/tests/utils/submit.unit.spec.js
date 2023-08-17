@@ -218,7 +218,7 @@ describe('addIncludedIssues', () => {
   });
   it('should remove duplicate items', () => {
     const formData = {
-      contestableIssues: [
+      contestedIssues: [
         { ...issue1.raw, [SELECTED]: true },
         { ...issue2.raw, [SELECTED]: true },
         { ...issue1.raw, [SELECTED]: true },
