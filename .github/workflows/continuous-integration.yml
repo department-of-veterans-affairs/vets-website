@@ -747,7 +747,8 @@ jobs:
   allow-list-merge-status:
     name: E2E Allow List Merge Status Check
     runs-on: ubuntu-latest
-    needs: [cypress-tests-prep, update-e2e-allow-list]
+    # needs: [cypress-tests-prep, update-e2e-allow-list]
+    needs: [cypress-tests-prep]
     if: ${{ always() }}
     continue-on-error: true
     env:
@@ -791,12 +792,15 @@ jobs:
         working-directory: qa-standards-dashboard-data
       # exports app list and assigns to environmental variable at this step
 
-      - name: Set Allow List Output
-        id: allow-list-output
-        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
-
       - name: Check if code can be merged
         run: node script/github-actions/check-e2e-status.js
+
+      - name: Annotate Files accordingly
+        uses: yuzutech/annotations-action@v0.4.0
+        with:
+          repo-token: '${{ env.VA_VSP_BOT_GITHUB_TOKEN }}'
+          title: 'E2E Allow List Annotations'
+          input: './annotations.json'
 
   testing-reports-unit-tests:
     name: Testing Reports - Unit Tests

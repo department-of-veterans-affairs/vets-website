@@ -5,7 +5,7 @@ import merge from 'lodash/merge';
 const gaBankInfoHelpText = () => {
   window.dataLayer.push({
     event: 'edu-5490--form-help-text-clicked',
-    'help-text-label': 'What if I don’t have a bank account?',
+    'help-text-label': 'What if I don’ttt have a bank account?',
   });
 };
 
