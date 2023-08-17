@@ -8,14 +8,14 @@ import { connect } from 'react-redux';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 
-export const UnauthContent = ({ featureStaticLandingPage, widgetType }) => (
+export const UnauthContent = ({ featureBreadcrumbUrlUpdate, widgetType }) => (
   <>
     <CallToActionWidget
       appId="view-appointments"
       setFocus={false}
       headerLevel={2}
       myHealtheVetLink={
-        featureStaticLandingPage
+        featureBreadcrumbUrlUpdate
           ? '/my-health/appointments'
           : '/health-care/schedule-view-va-appointments/appointments'
       }
@@ -171,14 +171,14 @@ export const UnauthContent = ({ featureStaticLandingPage, widgetType }) => (
 
 UnauthContent.propTypes = {
   widgetType: PropTypes.string.isRequired,
-  featureStaticLandingPage: PropTypes.bool,
+  featureBreadcrumbUrlUpdate: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
-  const featureStaticLandingPage = toggleValues(state)
-    .vaOnlineSchedulingStaticLandingPage;
+  const featureBreadcrumbUrlUpdate = toggleValues(state)
+    .vaOnlineSchedulingBreadcrumbUrlUpdate;
   return {
-    featureStaticLandingPage,
+    featureBreadcrumbUrlUpdate,
   };
 };
 
