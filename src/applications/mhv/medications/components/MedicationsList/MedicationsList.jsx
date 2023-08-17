@@ -42,7 +42,10 @@ const MedicationsList = props => {
 
   return (
     <>
-      <h2 className="rx-page-total-info no-print vads-u-font-family--sans">
+      <h2
+        className="rx-page-total-info no-print vads-u-font-family--sans"
+        data-testid="page-total-info"
+      >
         Showing {displayNums[0]} - {displayNums[1]} of {rxList.length}{' '}
         medications
       </h2>
