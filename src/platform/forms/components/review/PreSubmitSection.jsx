@@ -44,6 +44,10 @@ export function statementOfTruthFullName(formData, fullNamePath) {
   return fullNameString;
 }
 
+function fullNameReducer(fullNameString) {
+  return fullNameString.replaceAll(' ', '').toLowerCase();
+}
+
 /*
 *  RenderPreSubmitSection - renders PreSubmitSection by default or presubmit.CustomComponent
 *  PreSubmitSection - ~Default component that renders if no CustomComponent is provided~ (this describes a decision in RenderPreSubmitSection- describe what PreSubmitSection is, remove this since it's not a prop, or add it as a prop with a default value)
@@ -151,10 +155,12 @@ export function PreSubmitSection(props) {
               type="text"
               error={
                 (showPreSubmitError || statementOfTruthSignatureBlurred) &&
-                form?.data.statementOfTruthSignature !==
-                  statementOfTruthFullName(
-                    form?.data,
-                    statementOfTruth.fullNamePath,
+                fullNameReducer(form?.data.statementOfTruthSignature) !==
+                  fullNameReducer(
+                    statementOfTruthFullName(
+                      form?.data,
+                      statementOfTruth.fullNamePath,
+                    ),
                   )
                   ? `Please enter your name exactly as it appears on your application: ${statementOfTruthFullName(
                       form?.data,
