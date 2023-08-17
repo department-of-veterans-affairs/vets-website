@@ -114,7 +114,7 @@ const MedicationsListCard = props => {
       <div className="rx-card-detials vads-u-padding--2">
         <h3 className="vads-u-font-weight--bold">
           <Link
-            className="vads-u-margin-y--0p5"
+            className="vads-u-margin-y--0p5 vads-u-font-size--h4"
             to={`/prescriptions/${rx.prescriptionId}`}
             data-testid="medications-history-details-link"
           >
