@@ -53,9 +53,9 @@ const warningsExistPastLimit = ALLOW_LIST.some(
 );
 
 if (blockedPathsWithCodeChanges.length > 0) {
-  const annotationsJson = allDisallowedTestsWithWarnings.map(spec => {
+  const annotationsJson = blockedPathsWithCodeChanges.map(path => {
     return {
-      path: spec.spec_path,
+      path,
       start_line: 1,
       end_line: 1,
       title: 'E2E Allow List Merge Block Warning',
