@@ -1,6 +1,7 @@
 import moment from 'moment';
 
-import { SELECTED, LEGACY_TYPE } from '../constants';
+import { LEGACY_TYPE } from '../constants';
+import { SELECTED } from '../../shared/constants';
 
 /**
  * Determine if we're in the v1 flow using the save-in-progress data

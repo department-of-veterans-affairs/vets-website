@@ -1,11 +1,11 @@
 import moment from 'moment';
 
+import { SHOW_PART3 } from '../constants';
 import {
   SELECTED,
   MAX_LENGTH,
   SUBMITTED_DISAGREEMENTS,
-  SHOW_PART3,
-} from '../constants';
+} from '../../shared/constants';
 import { replaceSubmittedData, fixDateFormat } from './replace';
 
 /**

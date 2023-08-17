@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getDate } from '../../utils/dates';
-import { SELECTED, MAX_LENGTH } from '../../constants';
+import { SELECTED, MAX_LENGTH } from '../../../shared/constants';
 
 import {
   selectionRequired,

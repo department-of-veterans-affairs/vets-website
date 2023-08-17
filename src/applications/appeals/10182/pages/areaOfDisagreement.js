@@ -10,7 +10,7 @@ import {
 import { areaOfDisagreementRequired } from '../validations';
 import { calculateOtherMaxLength } from '../utils/disagreement';
 import { getIssueName } from '../utils/helpers';
-import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../constants';
+import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../../shared/constants';
 
 // add 1 for last comma
 const allDisagreementsLength =

@@ -1,7 +1,8 @@
 // import the toggleValues helper
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { SELECTED, SHOW_PART3 } from '../constants';
+import { SHOW_PART3 } from '../constants';
+import { SELECTED } from '../../shared/constants';
 
 export const someSelected = issues =>
   (issues || []).some(issue => issue[SELECTED]);

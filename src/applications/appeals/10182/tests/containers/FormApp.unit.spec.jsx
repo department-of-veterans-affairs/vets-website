@@ -11,7 +11,8 @@ import { SET_DATA } from 'platform/forms-system/src/js/actions';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import FormApp from '../../containers/FormApp';
-import { SELECTED, CONTESTABLE_ISSUES_API } from '../../constants';
+import { CONTESTABLE_ISSUES_API } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../actions';
 import { contestableIssuesResponse } from '../fixtures/mocks/contestable-issues.json';
 

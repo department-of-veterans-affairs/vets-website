@@ -1,7 +1,8 @@
 import moment from 'moment';
 import { expect } from 'chai';
 
-import { SELECTED, LEGACY_TYPE } from '../../constants';
+import { LEGACY_TYPE } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 import { getDate } from '../../utils/dates';
 
 import {

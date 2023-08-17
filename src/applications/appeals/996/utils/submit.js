@@ -1,9 +1,9 @@
+import { CONFERENCE_TIMES_V2 } from '../constants';
 import {
   SELECTED,
-  CONFERENCE_TIMES_V2,
   MAX_LENGTH,
   SUBMITTED_DISAGREEMENTS,
-} from '../constants';
+} from '../../shared/constants';
 import { replaceSubmittedData, fixDateFormat } from './replace';
 
 /**

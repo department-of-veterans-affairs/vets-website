@@ -14,9 +14,6 @@ export const BOARD_APPEAL_OPTIONS_URL =
 export const GET_HELP_REQUEST_URL =
   '/decision-reviews/get-help-with-review-request';
 
-// key for contestableIssues to indicate that the user selected the issue
-export const SELECTED = 'view:selected';
-
 // feature flag for form update
 export const SHOW_PART3 = 'view:showPart3';
 
@@ -36,38 +33,6 @@ export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
 
 export const MAX_FILE_SIZE_MB = 100;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
-
-// Values from Lighthouse maintained schema v1
-// see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v1/10182.json
-export const MAX_LENGTH = {
-  SELECTIONS: 100, // submitted issues (not in schema)
-  ISSUE_NAME: 180,
-  DISAGREEMENT_REASON: 90,
-  EMAIL: 255,
-  COUNTRY_CODE: 3,
-  AREA_CODE: 4,
-  PHONE_NUMBER: 14,
-  PHONE_NUMBER_EXT: 10,
-  ADDRESS_LINE1: 60,
-  ADDRESS_LINE2: 30,
-  ADDRESS_LINE3: 10,
-  CITY: 60,
-  COUNTRY: 2,
-  ZIP_CODE5: 5,
-  POSTAL_CODE: 16,
-  REP_NAME: 120,
-  EXTENSION_REASON: 2300, // in v2 schema
-};
-
-// Using MAX_LENGTH.DISAGREEMENT_REASON (90) and with all checkboxes selected,
-// this string is submitted - the numbers constitute the "something else" typed
-// in value
-// "service connection,effective date,disability evaluation,1234567890123456789012345678901234"
-export const SUBMITTED_DISAGREEMENTS = {
-  serviceConnection: 'service connection',
-  effectiveDate: 'effective date',
-  evaluation: 'disability evaluation',
-};
 
 export const REVIEW_ISSUES = 'onReviewPageIssues';
 

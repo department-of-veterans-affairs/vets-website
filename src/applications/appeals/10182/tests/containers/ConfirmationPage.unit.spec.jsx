@@ -7,7 +7,8 @@ import formConfig from '../../config/form';
 import initialData from '../schema/initialData';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import { SELECTED, FORMAT_READABLE } from '../../constants';
+import { FORMAT_READABLE } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 
 const data = {
   user: {

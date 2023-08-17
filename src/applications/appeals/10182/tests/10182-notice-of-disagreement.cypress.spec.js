@@ -17,8 +17,8 @@ import {
   CONTESTABLE_ISSUES_API,
   CONTESTABLE_ISSUES_PATH,
   BASE_URL,
-  SELECTED,
 } from '../constants';
+import { SELECTED } from '../../shared/constants';
 
 const testConfig = createTestConfig(
   {

@@ -10,7 +10,7 @@ import {
   maxSelectedErrorMessage,
 } from '../content/contestableIssues';
 import { content as extensionReasonContent } from '../content/extensionReason';
-import { MAX_LENGTH } from '../constants';
+import { MAX_LENGTH } from '../../shared/constants';
 
 /**
  *

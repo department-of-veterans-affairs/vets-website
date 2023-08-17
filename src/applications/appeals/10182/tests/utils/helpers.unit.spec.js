@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { SELECTED } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 import {
   someSelected,
   hasSomeSelected,
