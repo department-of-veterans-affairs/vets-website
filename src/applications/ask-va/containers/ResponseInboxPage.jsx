@@ -54,35 +54,37 @@ const ResponseInboxPage = ({ profile, params }) => {
     question,
     reply,
   } = inboxMessage.attributes;
-
+  // TODO: Add a loading Spinner
   return !error ? (
-    <article className="schemaform-intro">
-      <h1 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Response Inbox
-      </h1>
-      {`${profile.userFullName.first} ${profile.userFullName.last}`}
-      <p>
-        <strong>Inqiry Number:</strong> {inquiryNumber}
-      </p>
-      <p>
-        Status: <em>{processingStatus}</em>
-      </p>
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">Question:</h2>
-      <br />
-      <p>{question}</p>
-      <br />
-      <hr />
-      <Link aria-label="Go sign in" to="/contact-us/ask-va-too/introduction">
-        <VaButton onClick={() => {}} primary text="Return to Dashboard" />
-      </Link>
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">Activity</h2>
-      <p>
-        <strong>Reply:</strong>
-      </p>
-      <p>{reply.data.attributes.reply}</p>
-    </article>
+    <div className="row">
+      <article className="schemaform-intro">
+        <h1 className="vads-u-font-size--h3 vad-u-margin-top--0">
+          Response Inbox
+        </h1>
+        {`${profile.userFullName.first} ${profile.userFullName.last}`}
+        <p>
+          <strong>Inqiry Number:</strong> {inquiryNumber}
+        </p>
+        <p>
+          Status: <em>{processingStatus}</em>
+        </p>
+        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">Question:</h2>
+        <br />
+        <p>{question}</p>
+        <br />
+        <hr />
+        <Link aria-label="Go sign in" to="/contact-us/ask-va-too/introduction">
+          <VaButton onClick={() => {}} primary text="Return to Dashboard" />
+        </Link>
+        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">Activity</h2>
+        <p>
+          <strong>Reply:</strong>
+        </p>
+        <p>{reply.data.attributes.reply}</p>
+      </article>
+    </div>
   ) : (
-    <VaAlert status="info" class="vads-u-margin-y--4">
+    <VaAlert status="info" class="row vads-u-margin-y--4">
       <ServerErrorAlert />
       <Link aria-label="Go sign in" to="/contact-us/ask-va-too/introduction">
         <VaButton
