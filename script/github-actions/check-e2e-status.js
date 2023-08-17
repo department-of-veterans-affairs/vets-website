@@ -31,7 +31,7 @@ const allDisallowedTestsWithWarnings = ALLOW_LIST.filter(
   spec =>
     spec.allowed === false &&
     spec.disallowed_at &&
-    getDaysSinceDate(spec.disallowed) > 60,
+    getDaysSinceDate(spec.disallowed_at) > 60,
 ).map(spec => spec.spec_path);
 
 const appsAdjusted = CHANGED_FILE_PATHS.map(specPath =>
@@ -44,6 +44,7 @@ const appsAdjusted = CHANGED_FILE_PATHS.map(specPath =>
 const blockedPathsWithCodeChanges = allDisallowedTestsWithWarnings.filter(
   entry => appsAdjusted.some(appPath => entry.includes(appPath)),
 );
+console.log(blockedPathsWithCodeChanges);
 
 const warningsExistPastLimit = ALLOW_LIST.some(
   entry =>
