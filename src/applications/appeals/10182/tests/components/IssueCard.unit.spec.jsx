@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { IssueCardContent, IssueCard } from '../../components/IssueCard';
-import { SELECTED } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 
 const getContestableIssue = (id, selected) => ({
   ratingIssueSubjectText: `issue-${id}`,

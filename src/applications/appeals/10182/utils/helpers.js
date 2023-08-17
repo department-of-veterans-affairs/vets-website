@@ -1,10 +1,7 @@
 // import the toggleValues helper
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { SELECTED, SHOW_PART3 } from '../constants';
-
-export const someSelected = issues =>
-  (issues || []).some(issue => issue[SELECTED]);
+import { SHOW_PART3 } from '../constants';
 
 // checks
 export const canUploadEvidence = formData =>
@@ -13,69 +10,6 @@ export const needsHearingType = formData =>
   formData.boardReviewOption === 'hearing';
 export const wantsToUploadEvidence = formData =>
   canUploadEvidence(formData) && formData['view:additionalEvidence'];
-
-export const hasSomeSelected = ({ contestableIssues, additionalIssues } = {}) =>
-  someSelected(contestableIssues) || someSelected(additionalIssues);
-
-export const getSelected = formData => {
-  const contestableIssues = (formData?.contestableIssues || []).filter(
-    issue => issue[SELECTED],
-  );
-  const additionalIssues = (formData?.additionalIssues || []).filter(
-    issue => issue[SELECTED],
-  );
-  // include index to help with error messaging
-  return contestableIssues.concat(additionalIssues).map((issue, index) => ({
-    ...issue,
-    index,
-  }));
-};
-
-// additionalIssues (items) are separate because we're checking the count before
-// the formData is updated
-export const getSelectedCount = (formData, items) =>
-  getSelected({ ...formData, additionalIssues: items }).length;
-
-/**
- * Get issue name/title from either a manually added issue or issue loaded from
- * the API
- * @param {AdditionalIssueItem|ContestableIssueItem}
- */
-export const getIssueName = (entry = {}) =>
-  entry.issue || entry.attributes?.ratingIssueSubjectText;
-
-export const getIssueDate = (entry = {}) =>
-  entry.decisionDate || entry.attributes?.approxDecisionDate || '';
-
-// used for string comparison
-export const getIssueNameAndDate = (entry = {}) =>
-  `${(getIssueName(entry) || '').toLowerCase()}${getIssueDate(entry)}`;
-
-const processIssues = (array = []) =>
-  array.filter(Boolean).map(entry => getIssueNameAndDate(entry));
-
-export const hasDuplicates = (data = {}) => {
-  const contestableIssues = processIssues(data.contestableIssues);
-  const additionalIssues = processIssues(data.additionalIssues);
-  // ignore duplicate contestable issues (if any)
-  const fullList = [...new Set(contestableIssues)].concat(additionalIssues);
-
-  return fullList.length !== new Set(fullList).size;
-};
-
-// Simple one level deep check
-export const isEmptyObject = obj =>
-  obj && typeof obj === 'object' && !Array.isArray(obj)
-    ? Object.keys(obj)?.length === 0 || false
-    : false;
-
-export const appStateSelector = state => ({
-  // Validation functions are provided the pageData and not the
-  // formData on the review & submit page. For more details
-  // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
-  contestableIssues: state.form?.data?.contestableIssues || [],
-  additionalIssues: state.form?.data?.additionalIssues || [],
-});
 
 export const noticeOfDisagreementFeature = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.form10182Nod];
@@ -86,36 +20,3 @@ export const nodPart3UpdateFeature = state =>
 export const showPart3 = formData => formData[SHOW_PART3];
 export const showExtensionReason = formData =>
   showPart3(formData) && formData.requestingExtension;
-
-export const getItemSchema = (schema, index) => {
-  const itemSchema = schema;
-  if (itemSchema.items.length > index) {
-    return itemSchema.items[index];
-  }
-  return itemSchema.additionalItems;
-};
-
-/**
- * Convert an array into a readable list of items
- * @param {String[]} list - Array of items. Empty entries are stripped out
- * @returns {String}
- * @example
- * readableList(['1', '2', '3', '4', 'five'])
- * // => '1, 2, 3, 4 and five'
- */
-export const readableList = list => {
-  const cleanedList = list.filter(Boolean);
-  return [cleanedList.slice(0, -1).join(', '), cleanedList.slice(-1)[0]].join(
-    cleanedList.length < 2 ? '' : ' and ',
-  );
-};
-
-/**
- * Calculate the index offset for the additional issue
- * @param {Number} index - index of data in combined array of contestable issues
- *   and additional issues
- * @param {Number} contestableIssuesLength - contestable issues array length
- * @returns {Number}
- */
-export const calculateIndexOffset = (index, contestableIssuesLength) =>
-  index - contestableIssuesLength;

@@ -12,6 +12,7 @@ import address from '../pages/mailingAddress';
 import phoneAndEmail from '../pages/phoneAndEmail';
 import thirdPartyType from '../pages/thirdPartyType';
 import organizationInfo from '../pages/organizationInfo';
+import { CustomPage } from '../components/CustomPage';
 
 /**
  * This form is used for experimentally testing a custom header.
@@ -64,6 +65,7 @@ const formConfig = {
           title: 'Who’s submitting this authorization?',
           uiSchema: authorizerType.uiSchema,
           schema: authorizerType.schema,
+          CustomPage,
         },
       },
     },
@@ -75,24 +77,28 @@ const formConfig = {
           title: 'Your name and dated of birth',
           uiSchema: nameAndDate.uiSchema,
           schema: nameAndDate.schema,
+          CustomPage,
         },
         identificationInfoPage: {
           path: 'identification-information',
           title: 'Your identification information',
           uiSchema: identificationInformation.uiSchema,
           schema: identificationInformation.schema,
+          CustomPage,
         },
         mailingAddressPage: {
           path: 'mailing-address',
           title: 'Your mailing address',
           uiSchema: address.uiSchema,
           schema: address.schema,
+          CustomPage,
         },
         phoneAndEmailPage: {
           path: 'phone-and-email',
           title: 'Your phone and email',
           uiSchema: phoneAndEmail.uiSchema,
           schema: phoneAndEmail.schema,
+          CustomPage,
         },
       },
     },
@@ -105,12 +111,14 @@ const formConfig = {
             'Do you authorize us to release your information to a specific person or to an organization?',
           uiSchema: thirdPartyType.uiSchema,
           schema: thirdPartyType.schema,
+          CustomPage,
         },
         organizationInfoPage: {
           path: 'organization-information',
           title: "Organization's information",
           uiSchema: organizationInfo.uiSchema,
           schema: organizationInfo.schema,
+          CustomPage,
         },
       },
     },

@@ -145,12 +145,12 @@ const EmploymentRecord = props => {
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0">Add a job</h3>
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+            Tell us about any jobs your spouse had in the past 2 years that they
+            received pay stubs for. You’ll need to provide their income
+            information if it’s a current job.
+          </p>
         </legend>
-        <p>
-          Tell us about any jobs your spouse had in the past 2 years that they
-          received pay stubs for. You’ll need to provide their income
-          information if it’s a current job.
-        </p>
         <div className="input-size-5">
           <VaSelect
             id="type"

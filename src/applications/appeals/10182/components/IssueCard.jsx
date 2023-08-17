@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router';
 
-import { SELECTED, FORMAT_YMD, FORMAT_READABLE } from '../constants';
 import { replaceDescriptionContent } from '../../shared/utils/replace';
-import '../../shared/definitions';
+import { SELECTED, FORMAT_YMD, FORMAT_READABLE } from '../../shared/constants';
 
 /** Copied from HLR v2 issue card */
 /**

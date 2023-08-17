@@ -8,22 +8,20 @@ import { setData } from 'platform/forms-system/src/js/actions';
 
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import formConfig from '../config/form';
-import {
-  nodPart3UpdateFeature,
-  getSelected,
-  getIssueNameAndDate,
-} from '../utils/helpers';
+import { nodPart3UpdateFeature } from '../utils/helpers';
 import { getEligibleContestableIssues } from '../utils/submit';
 
 import { SHOW_PART3 } from '../constants';
 
-import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
-
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
+import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
+
 import {
-  issuesNeedUpdating,
+  getSelected,
+  getIssueNameAndDate,
   processContestableIssues,
+  issuesNeedUpdating,
 } from '../../shared/utils/issues';
 
 export const FormApp = ({
@@ -47,7 +45,7 @@ export const FormApp = ({
         } else if (
           issuesNeedUpdating(
             contestableIssues?.issues,
-            formData.contestableIssues,
+            formData.contestedIssues,
           )
         ) {
           setFormData({
@@ -55,7 +53,7 @@ export const FormApp = ({
             // getEligibleContestableIssues removes issues that are deferred,
             // missing a title, or have an invalid date, while
             // processContestableIssues sorts the issues
-            contestableIssues: processContestableIssues(
+            contestedIssues: processContestableIssues(
               getEligibleContestableIssues(contestableIssues?.issues, {
                 showPart3,
               }),
@@ -124,7 +122,7 @@ FormApp.propTypes = {
   }),
   formData: PropTypes.shape({
     areaOfDisagreement: PropTypes.array,
-    contestableIssues: PropTypes.array,
+    contestedIssues: PropTypes.array,
     [SHOW_PART3]: PropTypes.bool,
   }),
   getContestableIssues: PropTypes.func,

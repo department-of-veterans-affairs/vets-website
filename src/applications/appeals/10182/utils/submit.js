@@ -1,11 +1,8 @@
 import moment from 'moment';
 
-import {
-  SELECTED,
-  MAX_LENGTH,
-  SUBMITTED_DISAGREEMENTS,
-  SHOW_PART3,
-} from '../constants';
+import { MAX_LENGTH, SHOW_PART3 } from '../constants';
+
+import { SELECTED } from '../../shared/constants';
 import {
   replaceSubmittedData,
   fixDateFormat,
@@ -70,8 +67,8 @@ export const createIssueName = ({ attributes } = {}) => {
  * @param {ContestableIssues}
  * @returns {ContestableIssueSubmittable}
  */
-export const getContestableIssues = ({ contestableIssues } = {}) =>
-  (contestableIssues || []).filter(issue => issue[SELECTED]).map(issue => {
+export const getContestableIssues = ({ contestedIssues } = {}) =>
+  (contestedIssues || []).filter(issue => issue[SELECTED]).map(issue => {
     const attr = issue.attributes;
     const attributes = [
       'decisionIssueId',
@@ -123,38 +120,6 @@ export const addIncludedIssues = formData => {
 
   // Ensure only unique entries are submitted
   return returnUniqueIssues(result);
-};
-
-/**
- * Add area of disagreement
- * @param {ContestableIssuesSubmittable} issues - selected & processed issues
- * @param {FormData} formData
- * @return {ContestableIssuesSubmittable} issues with "disagreementArea" added
- */
-export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
-  const keywords = {
-    serviceConnection: () => SUBMITTED_DISAGREEMENTS.serviceConnection,
-    effectiveDate: () => SUBMITTED_DISAGREEMENTS.effectiveDate,
-    evaluation: () => SUBMITTED_DISAGREEMENTS.evaluation,
-  };
-  return issues.map((issue, index) => {
-    const entry = areaOfDisagreement[index];
-    const reasons = Object.entries(entry?.disagreementOptions || {})
-      .map(([key, value]) => value && keywords[key](entry))
-      .concat((entry?.otherEntry || '').trim())
-      .filter(Boolean);
-    const disagreementArea = replaceSubmittedData(
-      // max length in schema
-      reasons.join(',').substring(0, MAX_LENGTH.DISAGREEMENT_REASON),
-    );
-    return {
-      ...issue,
-      attributes: {
-        ...issue.attributes,
-        disagreementArea,
-      },
-    };
-  });
 };
 
 /**
@@ -278,7 +243,7 @@ export const getTimeZone = () =>
  *   requesting an extension
  * @param {String} extensionReason - Text of why the Veteran is requesting an
  *   extension
- * @param {Boolean} appealingVhaDenial - yes/no indicating the Veteran is
+ * @param {Boolean} appealingVHADenial - yes/no indicating the Veteran is
  *   appealing a VHA denial
  * @returns {Object} data from part III, box 11 of form expiring on 3/31/2025
  */
@@ -289,9 +254,15 @@ export const getPart3Data = formData => {
   const {
     requestingExtension = false,
     extensionReason = '',
-    appealingVhaDenial = false,
+    appealingVHADenial = false,
   } = formData;
-  const result = { requestingExtension, appealingVhaDenial };
+  const result = {
+    requestingExtension,
+    /* - Lighthouse is expecting `appealingVhaDenial`
+     * - Save-in-progress renames `appealingVhaDenial` to `appealingVHADenial`
+     *   so we just kept the all-cap VHA within the form data */
+    appealingVhaDenial: appealingVHADenial,
+  };
   if (requestingExtension) {
     result.extensionReason = extensionReason;
   }
