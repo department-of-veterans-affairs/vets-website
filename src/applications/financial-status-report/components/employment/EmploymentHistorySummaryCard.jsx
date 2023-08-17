@@ -126,6 +126,7 @@ const EmploymentHistorySummaryCard = ({
         show-shadow
         data-testid="mini-summary-card"
         aria-label={ariaLabel}
+        class="vads-u-margin-y--3"
       >
         <div className="vads-u-display--flex vads-u-flex-direction--column">
           <h3 className="vads-u-margin-y--0 vads-u-font-size--h4">

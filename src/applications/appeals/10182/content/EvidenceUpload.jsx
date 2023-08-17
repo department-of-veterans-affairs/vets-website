@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { SUPPORTED_UPLOAD_TYPES, MAX_FILE_SIZE_MB } from '../constants';
+import {
+  SUPPORTED_UPLOAD_TYPES,
+  MAX_FILE_SIZE_MB,
+} from '../../shared/constants';
 
 export const evidenceUploadTitle = 'Additional evidence';
 
