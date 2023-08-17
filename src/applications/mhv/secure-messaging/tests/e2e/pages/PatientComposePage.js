@@ -16,7 +16,7 @@ class PatientComposePage {
       .its('request.body')
       .then(request => {
         if (mockRequest) {
-          expect(request.body).to.eq(mockRequest.body);
+          expect(request.body).to.eq(`\n\n\nName\nTitle${mockRequest.body}`);
           expect(request.category).to.eq(mockRequest.category);
           expect(request.recipient_id).to.eq(mockRequest.recipientId);
           expect(request.subject).to.eq(mockRequest.subject);
@@ -250,7 +250,7 @@ class PatientComposePage {
       .and('have.attr', 'checked');
     cy.get('[id="compose-message-body"]').should(
       'have.value',
-      'Test message body',
+      '\n\n\nName\nTitleTest message body',
     );
   };
 
@@ -267,10 +267,11 @@ class PatientComposePage {
   };
 
   verifyClickableURLinMessageBody = url => {
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[id = "textarea"]')
-      .should('have.value', url);
+    cy.get('[data-testid="message-body-field"]').should(
+      'have.attr',
+      'value',
+      `\n\n\nName\nTitle${url}`,
+    );
   };
 
   clickTrashButton = () => {

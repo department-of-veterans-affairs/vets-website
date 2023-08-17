@@ -2757,13 +2757,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^18.0.1":
-  version "18.0.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-18.0.1.tgz#fbb1c8d98ba1d0535a719333a0170b2a4e03df4d"
-  integrity sha512-rOwrGz6MOhk4ZiOJuFTcu3lNal4+lT1K0r4ccYpTCaKYUXv+kSpiNWCtjROiTFIhbTHiVT9CgiGMRsLsNXOu9Q==
+"@department-of-veterans-affairs/component-library@^19.0.0":
+  version "19.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-19.0.0.tgz#1310fa8dd859f250ffa79907dc8656f0bff30d2f"
+  integrity sha512-BJU86drf/pUgcb2nuqe699bzWcV+MXxB5ZSaimRI8kI/xANlrVqseAVGwipvWMnJOO2lJa0TnM2p/9VbLZvGuw==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "13.0.0"
-    "@department-of-veterans-affairs/web-components" "4.45.3"
+    "@department-of-veterans-affairs/react-components" "14.0.0"
+    "@department-of-veterans-affairs/web-components" "4.45.6"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2795,10 +2795,10 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@13.0.0":
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-13.0.0.tgz#e15802f2ec38b35f1091f36732fba560fa01641e"
-  integrity sha512-+ZV3CAhONTZUhhxjhtVCieyeU6FMuBHevspdFO7KS8t/Qex/LPV2k/U5vZ9YTcQU9oGxsrbDjNZGufW99US3AA==
+"@department-of-veterans-affairs/react-components@14.0.0":
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-14.0.0.tgz#11722a695aa09fce1b3e1db46e0bbc711d02dc9a"
+  integrity sha512-xEPyJ/anIiHEeQ0K5qjnx/Qlb51jnmg4ybSOZ3Z5Ior1G/OeAAkmOJCE9Q5A5MJzO56D1pTF6zUS+v0Kt/RnsQ==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
@@ -2836,10 +2836,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.45.3":
-  version "4.45.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.45.3.tgz#e0dd035e72d55740ccec7d5e1ca22ed757ecafbf"
-  integrity sha512-YSmnPC0XLJKfN4Q+/iwr5ZMGP4XjSA+VcnKS78YCHCPUVLxojei3eUmbzjIjK9wfGX1Fym8FCSIdElDU2IbG1w==
+"@department-of-veterans-affairs/web-components@4.45.6":
+  version "4.45.6"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.45.6.tgz#1952c6d9da56900761e979be4aff912082637abb"
+  integrity sha512-jh/HeARTPNvZ8hL+LVmtSNSjYi3XMq2dRe839k1SyEdLmi1M4eD9jnTWleIPqfZPgB0fSUTRfhJXDi+wI8WBIQ==
   dependencies:
     "@stencil/core" "^2.19.2"
     aria-hidden "^1.1.3"
@@ -14380,6 +14380,13 @@ node-fetch@^2.6.11:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.11.tgz#cde7fc71deef3131ef80a738919f999e6edfff25"
   integrity sha512-4I6pdBY1EthSqDmJkiNk3JIT8cswwR9nfeW/cPdUagJYEQG7R95WRH74wpz7ma8Gh/9dI9FP+OU+0E4FvtA55w==
+  dependencies:
+    whatwg-url "^5.0.0"
+
+node-fetch@^2.6.12:
+  version "2.6.12"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.12.tgz#02eb8e22074018e3d5a83016649d04df0e348fba"
+  integrity sha512-C/fGU2E8ToujUivIO0H+tpQ6HWo4eEmchoPIoXtxCrVghxdKq+QOHqEZW7tuP3KlV3bC8FRMO5nMCC7Zm1VP6g==
   dependencies:
     whatwg-url "^5.0.0"
 
