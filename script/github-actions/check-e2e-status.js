@@ -67,6 +67,7 @@ if (blockedPathsWithCodeChanges.length > 0) {
         warningsExistPastLimit.length > 0 ? 'failure' : 'warning',
     };
   });
+  console.log(annotationsJson);
   fs.writeFileSync('annotations.json', JSON.stringify(annotationsJson));
   core.exportVariable('ANNOTATIONS_EXIST', true);
 } else {
