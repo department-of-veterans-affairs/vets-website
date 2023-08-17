@@ -795,6 +795,12 @@ jobs:
       - name: Check if code can be merged
         run: node script/github-actions/check-e2e-status.js
 
+  annotate-e2e-tests:
+    name: Annotate E2E Tests
+    runs-on: ubuntu-latest
+    needs: [allow-list-merge-status]
+    if: ${{ needs.allow-list-merge-status.result == 'failure' }}
+    steps:
       - name: Log ANNOTATIONS_EXIST
         run: echo ${{ env.ANNOTATIONS_EXIST }}
 
