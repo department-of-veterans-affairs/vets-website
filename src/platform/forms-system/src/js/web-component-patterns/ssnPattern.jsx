@@ -146,7 +146,7 @@ const ssnOrVaFileNumberUI = () => {
     vaFileNumber: {
       ...vaFileNumberUI(),
       'ui:options': {
-        hint: 'Must have this or social security number',
+        hint: 'Must have this or Social Security number',
       },
     },
     'ui:options': {
