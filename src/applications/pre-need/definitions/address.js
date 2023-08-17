@@ -9,7 +9,6 @@ import {
   isValidUSZipCode,
   isValidCanPostalCode,
 } from 'platform/forms/address';
-import environment from 'platform/utilities/environment';
 
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
@@ -203,8 +202,7 @@ export function uiSchema(
           if (
             !ignoreRequired &&
             required &&
-            !addressSchema.required.some(field => field === 'state') &&
-            environment.isProduction()
+            !addressSchema.required.some(field => field === 'state')
           ) {
             schemaUpdate.required = addressSchema.required.concat('state');
           }
@@ -213,8 +211,7 @@ export function uiSchema(
         if (
           !ignoreRequired &&
           required &&
-          !addressSchema.required.some(field => field === 'state') &&
-          !environment.isProduction()
+          !addressSchema.required.some(field => field === 'state')
         ) {
           schemaUpdate.required = addressSchema.required.concat('state');
         }
