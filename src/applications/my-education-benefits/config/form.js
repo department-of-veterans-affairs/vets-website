@@ -30,6 +30,7 @@ import ApplicantIdentityView from '../components/ApplicantIdentityView';
 import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
 import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
+import CannotRelinquishLabel from '../components/CannotRelinquishLabel';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import CustomEmailField from '../components/CustomEmailField';
@@ -162,12 +163,6 @@ const filterEligibility = (form, state) => {
         eligibility.includes(benefit) || benefit === 'CannotRelinquish',
     ),
   };
-};
-const adjustLabelForFeatureFlag = state => {
-  const { showMebEnhancements09 } = state.featureToggles; // Update path to your feature flag.
-  return showMebEnhancements09
-    ? "I'm not eligible for Chapter 30 or Chapter 1606 benefits"
-    : "I'm not sure";
 };
 
 function isOnlyWhitespace(str) {
@@ -1458,9 +1453,7 @@ const formConfig = {
                     Chapter30: 'Montgomery GI Bill Active Duty (Chapter 30)',
                     Chapter1606:
                       'Montgomery GI Bill Selected Reserve (Chapter 1606)',
-                    CannotRelinquish: (() => {
-                      return state => adjustLabelForFeatureFlag(state);
-                    })(),
+                    CannotRelinquish: <CannotRelinquishLabel />,
                   },
                   widgetProps: {
                     Chapter30: { 'data-info': 'Chapter30' },
