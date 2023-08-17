@@ -24,8 +24,8 @@ function getAppManifests() {
 }
 
 function getAppRoutes({ buildOptions }) {
-  const hostName = buildOptions.buildtype;
-  const isStagingOrDev = hostName.includes('localhost' || 'staging');
+  const { buildtype } = buildOptions;
+  const isStagingOrDev = buildtype.includes('localhost' || 'staging');
   return getAppManifests()
     .map(m => (isStagingOrDev && m.newRootUrl ? m.newRootUrl : m.rootUrl))
     .filter(m => m);

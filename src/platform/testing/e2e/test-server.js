@@ -20,7 +20,7 @@ const optionDefinitions = [
 
 const options = commandLineArgs(optionDefinitions);
 const root = path.resolve(__dirname, `../../../../build/${options.buildtype}`);
-const routes = manifestHelpers.getAppRoutes();
+const routes = manifestHelpers.getAppRoutes({ optionDefinitions });
 
 const app = express();
 
