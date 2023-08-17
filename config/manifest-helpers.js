@@ -2,7 +2,6 @@
 
 const find = require('find');
 const path = require('path');
-const ENVIRONMENTS = require('../src/site/constants/environments');
 
 const root = path.join(__dirname, '..');
 
@@ -24,14 +23,11 @@ function getAppManifests() {
     });
 }
 
-function getAppRoutes() {
+function getAppRoutes({ buildOptions }) {
+  const hostName = buildOptions.buildtype;
+  const isStagingOrDev = hostName.includes('localhost' || 'staging');
   return getAppManifests()
-    .map(
-      m =>
-        process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD && m.newRootUrl
-          ? m.newRootUrl
-          : m.rootUrl,
-    )
+    .map(m => (isStagingOrDev && m.newRootUrl ? m.newRootUrl : m.rootUrl))
     .filter(m => m);
 }
 
