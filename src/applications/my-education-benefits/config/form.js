@@ -151,6 +151,25 @@ const benefits = [
   'CannotRelinquish',
 ];
 
+const filterEligibility = (form, state) => {
+  const eligibility = state?.eligibility;
+  if (!eligibility || !eligibility.length) {
+    return { enum: benefits };
+  }
+  return {
+    enum: benefits.filter(
+      benefit =>
+        eligibility.includes(benefit) || benefit === 'CannotRelinquish',
+    ),
+  };
+};
+const adjustLabelForFeatureFlag = state => {
+  const { showMebEnhancements09 } = state.featureToggles; // Update path to your feature flag.
+  return showMebEnhancements09
+    ? "I'm not eligible for Chapter 30 or Chapter 1606 benefits"
+    : "I'm not sure";
+};
+
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
@@ -1439,14 +1458,9 @@ const formConfig = {
                     Chapter30: 'Montgomery GI Bill Active Duty (Chapter 30)',
                     Chapter1606:
                       'Montgomery GI Bill Selected Reserve (Chapter 1606)',
-                    CannotRelinquish: state => {
-                      // Access the feature flag from the state here.
-                      const { showMebEnhancements09 } = state.featureToggles;
-
-                      return showMebEnhancements09
-                        ? "I'm not eligible for Chapter 30 or Chapter 1606 benefits"
-                        : "I'm not sure";
-                    },
+                    CannotRelinquish: (() => {
+                      return state => adjustLabelForFeatureFlag(state);
+                    })(),
                   },
                   widgetProps: {
                     Chapter30: { 'data-info': 'Chapter30' },
@@ -1461,22 +1475,8 @@ const formConfig = {
                     },
                   },
                   updateSchema: (() => {
-                    const filterEligibility = createSelector(
-                      state => state.eligibility,
-                      eligibility => {
-                        if (!eligibility || !eligibility.length) {
-                          return benefits;
-                        }
-                        return {
-                          enum: benefits.filter(
-                            benefit =>
-                              eligibility.includes(benefit) ||
-                              benefit === 'CannotRelinquish',
-                          ),
-                        };
-                      },
-                    );
-                    return (form, state) => filterEligibility(form, state);
+                    // Returns the filterEligibility function, which will be used at runtime.
+                    return filterEligibility;
                   })(),
                 },
                 'ui:errorMessages': {
