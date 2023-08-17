@@ -5,7 +5,7 @@ import { render, waitFor } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { focusIssue } from '../../../shared/utils/focus';
-import { LAST_ISSUE } from '../../constants';
+import { LAST_ISSUE } from '../../../shared/constants';
 
 describe('focusIssue', () => {
   afterEach(() => {

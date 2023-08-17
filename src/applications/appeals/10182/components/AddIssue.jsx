@@ -18,11 +18,10 @@ import { getSelected, calculateIndexOffset } from '../utils/helpers';
 import {
   SELECTED,
   MAX_LENGTH,
-  LAST_ISSUE,
   CONTESTABLE_ISSUES_PATH,
   REVIEW_ISSUES,
 } from '../constants';
-
+import { LAST_ISSUE } from '../../shared/constants';
 import { validateDate } from '../validations/date';
 import {
   uniqueIssue,

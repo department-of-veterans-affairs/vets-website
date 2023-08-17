@@ -9,7 +9,7 @@ import {
   focusAlertH3,
 } from '../../utils/focus';
 import { focusIssue } from '../../../shared/utils/focus';
-import { LAST_ISSUE } from '../../constants';
+import { LAST_ISSUE } from '../../../shared/constants';
 
 // Skipping focusRadioH3 because testing library doesn't support shadow DOM
 /* describe('focusRadioH3', () => {

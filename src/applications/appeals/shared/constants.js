@@ -105,3 +105,6 @@ export const SUBMITTED_DISAGREEMENTS = {
   effectiveDate: 'effective date',
   evaluation: 'disability evaluation',
 };
+
+// session storage keys
+export const LAST_ISSUE = 'last-issue'; // focus management across pages
