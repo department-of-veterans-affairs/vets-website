@@ -125,7 +125,7 @@ const formConfig = {
       },
     },
     relationshipToDeceasedClaimantChapter: {
-      title: 'Your relationship',
+      title: 'Your relationship to the deceased claimant',
       pages: {
         relationshipToDeceasedClaimant: {
           path: 'relationship-to-deceased-claimant',

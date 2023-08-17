@@ -102,6 +102,8 @@ const ContestableIssuesWidget = props => {
     .concat(additionalIssues);
 
   const hasSelected = someSelected(items);
+  // Only show alert initially when no issues loaded
+  const [showNoLoadedIssues] = useState(items.length === 0);
 
   if (onReviewPage && inReviewMode && items.length && !hasSelected) {
     return <NoneSelectedAlert count={items.length} headerLevel={5} />;
@@ -188,12 +190,12 @@ const ContestableIssuesWidget = props => {
   });
 
   const showNoIssues =
-    items.length === 0 && (!onReviewPage || (onReviewPage && inReviewMode));
+    showNoLoadedIssues && (!onReviewPage || (onReviewPage && inReviewMode));
 
   return (
     <>
       <div name="eligibleScrollElement" />
-      {showNoIssues && <NoIssuesLoadedAlert submitted={submitted} />}
+      {showNoIssues && <NoIssuesLoadedAlert />}
       {!showNoIssues &&
         submitted &&
         !hasSelected && (
