@@ -55,14 +55,16 @@ const warningsExistPastLimit = ALLOW_LIST.some(
 if (blockedPathsWithCodeChanges.length > 0) {
   const annotationsJson = allDisallowedTestsWithWarnings.map(spec => {
     return {
-      file: spec.spec_path,
-      line: 1,
+      path: spec.spec_path,
+      start_line: 1,
+      end_line: 1,
       title: 'E2E Allow List Merge Block Warning',
       message:
         warningsExistPastLimit.length > 0
           ? 'Code in this PR is associated with this test spec which is currently blocking merges due to being disabled longer than 90 days. This test spec and/or its target code being tested must be corrected before code can be merged on this application.'
           : 'Code in this PR is associated with this test spec which is currently under a warning. If this warning is not cleared, merging will be blocked in the near future. See the E2E Allow List for full details',
-      annotation_level: 'failure',
+      annotation_level:
+        warningsExistPastLimit.length > 0 ? 'failure' : 'warning',
     };
   });
   fs.writeFileSync('annotations.json', JSON.stringify(annotationsJson));
