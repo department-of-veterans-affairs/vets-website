@@ -1,5 +1,5 @@
-import featureToggles from '../../mocks/api/feature-toggles';
-import userData from '../../mocks/api/user';
+import featureToggles from '../../../mocks/api/feature-toggles';
+import userData from '../../../mocks/api/user';
 
 class ApiInitializer {
   initializeFeatureToggle = {
