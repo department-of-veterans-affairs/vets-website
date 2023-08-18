@@ -53,7 +53,7 @@ const warningsExistPastLimit = ALLOW_LIST.some(
   entry =>
     blockedPathsWithCodeChanges.indexOf(entry.spec_path) > -1 &&
     entry.allowed === false &&
-    getDaysSinceDate(entry.disallowed_at > 60),
+    getDaysSinceDate(entry.disallowed_at) > 60,
 );
 
 console.log('warningsExistPastLimit', warningsExistPastLimit);
