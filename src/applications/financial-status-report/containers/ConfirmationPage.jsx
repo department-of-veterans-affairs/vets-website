@@ -119,43 +119,64 @@ const ConfirmationPage = ({ form, download }) => {
     scrollToTop();
   }, []);
 
+  const renderLongFormAlert = () => {
+    return (
+      <>
+        <va-alert status="success">
+          <h3 slot="headline" className="vads-u-font-size--h3">
+            We’ve received your request
+          </h3>
+          <p>
+            We’ll send you an email confirming your request to{' '}
+            <strong>{data.personalData.emailAddress}.</strong>
+          </p>
+        </va-alert>
+        <p>
+          We’ll send you a letter with our decision and any next steps.{' '}
+          <strong>
+            If you experience changes that may affect our decision (like a loss
+            or new job), you’ll need to submit a new request.
+          </strong>
+        </p>
+      </>
+    );
+  };
+
+  const renderSWConfirmationAlert = () => {
+    return (
+      <>
+        <va-alert status="success">
+          <h3 slot="headline" className="vads-u-font-size--h3">
+            You’re tentatively eligible for debt relief
+          </h3>
+          <p>
+            We’ll complete our final review of your request and mail you a
+            letter with more details. We’ll also send a confirmation email to
+            <strong> {data.personalData.emailAddress}</strong> for this
+            submission.
+          </p>
+        </va-alert>
+        <p>You don’t need to do anything else at this time.</p>
+        <p>
+          If you don’t receive your letter in the next 30 days or have any
+          questions, call us at <va-telephone contact="8664001238" />(
+          <va-telephone contact="711" tty />
+          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        </p>
+      </>
+    );
+  };
+
   return (
     <div>
       <p className="vads-u-margin-top--0">
         <strong>Please print this page for your records.</strong>
       </p>
 
-      <va-alert status="success">
-        <h3 slot="headline" className="vads-u-font-size--h3">
-          You’re tentatively eligible for debt relief
-        </h3>
-        <p>
-          We’ll complete our final review of your request and mail you a letter
-          with more details. We’ll also send a confirmation email to
-          <strong> {data.personalData.emailAddress}</strong> for this
-          submission.
-        </p>
-      </va-alert>
-      <p>
-        Here’s what you can expect from our final review of your request:
-        <ul>
-          <li className="vads-u-font-family--sans">
-            We’ll forgive part or all of the unpaid debt you asked us to waive.
-            You won’t have to pay the amount we forgive.
-          </li>
-          <li className="vads-u-font-family--sans">
-            We’ll review any payments you have already made to pay down this
-            debt. In some cases, we may pay you back for certain amounts.
-          </li>
-        </ul>
-        You don’t need to do anything else at this time.
-        <br />
-        <br />
-        If you don’t receive your letter in the next 30 days or have any
-        questions, call us at <va-telephone contact="8664001238" />(
-        <va-telephone contact="711" tty />
-        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-      </p>
+      {!(isStreamlinedLongForm(data) || isStreamlinedShortForm(data)) &&
+        renderLongFormAlert()}
+      {(isStreamlinedLongForm(data) || isStreamlinedShortForm(data)) &&
+        renderSWConfirmationAlert()}
 
       {response && (
         <RequestDetailsCard
