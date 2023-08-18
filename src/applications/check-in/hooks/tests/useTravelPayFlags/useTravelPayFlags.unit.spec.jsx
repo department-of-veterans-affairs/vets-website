@@ -65,6 +65,9 @@ describe('check-in', () => {
           checkInData: {
             context: {
               token: 123,
+              appointment: {
+                startTime: '2022-08-12T15:15:00',
+              },
             },
             form: {
               data: {
@@ -90,6 +93,50 @@ describe('check-in', () => {
         expect(component.getByTestId('travelPayMileage')).to.have.text('yes');
         expect(component.getByTestId('travelPayVehicle')).to.have.text('yes');
         expect(component.getByTestId('travelPayEligible')).to.have.text('yes');
+        expect(component.getByTestId('travelPayData')).to.have.text(
+          '2022-08-12',
+        );
+      });
+    });
+    describe('should render date in ISO form when feature flag is on.', () => {
+      let store;
+      beforeEach(() => {
+        const middleware = [];
+        const mockStore = configureStore(middleware);
+        const initState = {
+          features: {
+            // eslint-disable-next-line camelcase
+            check_in_experience_travel_logic: true,
+          },
+          checkInData: {
+            context: {
+              token: 123,
+              appointment: {
+                startTime: '2022-08-12T15:15:00',
+              },
+            },
+            form: {
+              data: {
+                'travel-question': 'yes',
+                'travel-address': 'yes',
+                'travel-mileage': 'yes',
+                'travel-vehicle': 'yes',
+              },
+              pages: [],
+            },
+          },
+        };
+        store = mockStore(initState);
+      });
+      it('should render with redux store data', () => {
+        const component = render(
+          <Provider store={store}>
+            <TestComponent />
+          </Provider>,
+        );
+        expect(component.getByTestId('travelPayData')).to.have.text(
+          '2022-08-12T15:15:00-07:00',
+        );
       });
     });
   });
