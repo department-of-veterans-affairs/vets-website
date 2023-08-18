@@ -30,6 +30,7 @@ import ApplicantIdentityView from '../components/ApplicantIdentityView';
 import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
 import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
+import CannotRelinquishLabel from '../components/CannotRelinquishLabel';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import CustomEmailField from '../components/CustomEmailField';
@@ -150,6 +151,19 @@ const benefits = [
   ELIGIBILITY.CHAPTER1606,
   'CannotRelinquish',
 ];
+
+const filterEligibility = (form, state) => {
+  const eligibility = state?.eligibility;
+  if (!eligibility || !eligibility.length) {
+    return { enum: benefits };
+  }
+  return {
+    enum: benefits.filter(
+      benefit =>
+        eligibility.includes(benefit) || benefit === 'CannotRelinquish',
+    ),
+  };
+};
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
@@ -1391,7 +1405,14 @@ const formConfig = {
           path: 'benefit-selection',
           title: 'Benefit selection',
           subTitle: 'You’re applying for the Post-9/11 GI Bill®',
-          depends: formData => formData.eligibility?.length,
+          depends: formData => {
+            // If the showMebEnhancements09 feature flag is turned on, show the page
+            if (formData.showMebEnhancements09) {
+              return true;
+            }
+            // If the feature flag is not turned on, check the eligibility length
+            return Boolean(formData.eligibility?.length);
+          },
           uiSchema: {
             'view:post911Notice': {
               'ui:description': (
@@ -1439,7 +1460,7 @@ const formConfig = {
                     Chapter30: 'Montgomery GI Bill Active Duty (Chapter 30)',
                     Chapter1606:
                       'Montgomery GI Bill Selected Reserve (Chapter 1606)',
-                    CannotRelinquish: "I'm not sure",
+                    CannotRelinquish: <CannotRelinquishLabel />,
                   },
                   widgetProps: {
                     Chapter30: { 'data-info': 'Chapter30' },
@@ -1448,31 +1469,14 @@ const formConfig = {
                   },
                   selectedProps: {
                     Chapter30: { 'aria-describedby': 'Chapter30' },
-                    Chapter1606: {
-                      'aria-describedby': 'Chapter1606',
-                    },
+                    Chapter1606: { 'aria-describedby': 'Chapter1606' },
                     CannotRelinquish: {
                       'aria-describedby': 'CannotRelinquish',
                     },
                   },
                   updateSchema: (() => {
-                    const filterEligibility = createSelector(
-                      state => state.eligibility,
-                      eligibility => {
-                        if (!eligibility || !eligibility.length) {
-                          return benefits;
-                        }
-
-                        return {
-                          enum: benefits.filter(
-                            benefit =>
-                              eligibility.includes(benefit) ||
-                              benefit === 'CannotRelinquish',
-                          ),
-                        };
-                      },
-                    );
-                    return (form, state) => filterEligibility(form, state);
+                    // Returns the filterEligibility function, which will be used at runtime.
+                    return filterEligibility;
                   })(),
                 },
                 'ui:errorMessages': {
