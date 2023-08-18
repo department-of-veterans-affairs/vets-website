@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
+import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import Wrapper from '../../layout/Wrapper';
 import { APP_NAMES } from '../../../utils/appConstants';
@@ -14,12 +15,17 @@ const AppointmentsPage = props => {
   const { app } = useSelector(selectApp);
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
+  const { goToNextPage } = useFormRouting(router);
 
   const { isComplete, refreshCheckInData } = useGetCheckInData({
     refreshNeeded: true,
     router,
     isPreCheckIn: app === APP_NAMES.PRE_CHECK_IN,
   });
+
+  const handleClick = () => {
+    goToNextPage();
+  };
 
   useEffect(
     () => {
@@ -48,6 +54,15 @@ const AppointmentsPage = props => {
       <div data-testid="upcoming-appointments">
         Region 2: Upcoming appointments
       </div>
+      <button
+        type="button"
+        className="usa-button usa-button-big vads-u-font-size--md"
+        data-testid="check-in-button"
+        onClick={handleClick}
+        value="Attempt Check In"
+      >
+        Attempt Check In
+      </button>
     </Wrapper>
   );
 };
