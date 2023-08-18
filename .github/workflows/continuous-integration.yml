@@ -803,13 +803,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [allow-list-merge-status]
     # if: needs.allow-list-merge-status.result == 'failure'
-    if: ${{ always() }}
+    if: ${{ always() && needs.allow-list-merge-status.outputs.e2e_annotations }}
     env:
-      ANNOTATIONS_JSON: ${{ needs.allow-list-merge-status.outputs.annotations_json }}
+      ANNOTATIONS_JSON: ${{ needs.allow-list-merge-status.outputs.e2e_annotations }}
     steps:
-      - name: log results
-        run: echo ${{ needs.allow-list-merge-status.result }}
-
       - name: Create annotations file
         run: |
           echo ${{ env.ANNOTATIONS_JSON }} > annotations.json
