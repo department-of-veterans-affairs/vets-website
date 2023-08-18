@@ -45,7 +45,7 @@ export function statementOfTruthFullName(formData, fullNamePath) {
 }
 
 function fullNameReducer(fullNameString) {
-  return fullNameString.replaceAll(' ', '').toLowerCase();
+  return fullNameString?.replaceAll(' ', '').toLowerCase();
 }
 
 /*
