@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Link } from 'react-router-dom';
+import { labTypes } from '../../util/constants';
 
 const LabsAndTestsListItem = props => {
   const { record } = props;
@@ -26,10 +27,10 @@ const LabsAndTestsListItem = props => {
       <h4 className="vads-u-margin-bottom--0">{record.name}</h4>
       <div className="fields">
         <div>{formattedDate}</div>
-        {record.type === 'radiology' && (
+        {record.type === labTypes.RADIOLOGY && (
           <div>Type of test: X-rays and imaging tests (Radiology)</div>
         )}
-        {record.type === 'chemistry_hematology' && (
+        {record.type === labTypes.CHEM_HEM && (
           <div>Type of test: Chemistry and hematology</div>
         )}
         {(record.orderedBy || record.requestedBy) && (
