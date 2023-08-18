@@ -14,7 +14,7 @@ describe('NOD selected issues summary page', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.conditions.pages.issueSummary;
-  const data = { contestableIssues: [{}] };
+  const data = { contestedIssues: [{}] };
 
   it('should render', () => {
     const form = mount(
@@ -23,7 +23,7 @@ describe('NOD selected issues summary page', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          contestableIssues: [{ [SELECTED]: true }],
+          contestedIssues: [{ [SELECTED]: true }],
           additionalIssues: [{ [SELECTED]: true }],
         }}
         formData={{}}

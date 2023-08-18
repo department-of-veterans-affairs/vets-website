@@ -54,9 +54,9 @@ const RadiologyDetails = props => {
               <p className="no-print">
                 <va-link
                   active
-                  href={`/my-health/medical-records/labs-and-tests/radiology-images/${
+                  href={`/my-health/medical-records/labs-and-tests/${
                     record.id
-                  }`}
+                  }/images`}
                   text={`See all ${record.images.length} images`}
                 />
               </p>

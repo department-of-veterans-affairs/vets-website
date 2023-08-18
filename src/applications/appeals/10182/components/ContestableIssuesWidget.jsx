@@ -17,12 +17,13 @@ import {
   MaxSelectionsAlert,
   removeModalContent,
 } from '../content/contestableIssues';
+
+import { isEmptyObject } from '../../shared/utils/helpers';
 import {
   getSelected,
   someSelected,
-  isEmptyObject,
   calculateIndexOffset,
-} from '../utils/helpers';
+} from '../../shared/utils/issues';
 import { focusIssue } from '../../shared/utils/focus';
 
 /**

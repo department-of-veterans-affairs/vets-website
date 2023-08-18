@@ -1,10 +1,12 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import mockRxPageOne from './fixtures/prescriptions.json';
 import mockRxPageTwo from './fixtures/presciptions-page-2.json';
+import MedicationsListPage from './pages/MedicationsListPage';
 
 describe('Medications Landing Page', () => {
   it('visits Medications landing Page', () => {
     const site = new MedicationsSite();
+    const listPage = new MedicationsListPage();
     cy.visit('my-health/medications');
     site.login();
     const threadLength = 21;
@@ -16,7 +18,8 @@ describe('Medications Landing Page', () => {
       const currentItem = item;
       currentItem.attributes.threadPAgeSize = threadLength;
     });
-    cy.get('[href="/my-health/medications/prescriptions"]').click();
+    listPage.clickGotoMedicationsLink();
+    // cy.get('[href="/my-health/medications/prescriptions"]').click();
     site.loadVAPaginationPrescriptions(1, mockRxPageOne, 20);
     site.verifyPaginationPrescirptionsDisplayed(1, 20, threadLength);
     site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo, 1);

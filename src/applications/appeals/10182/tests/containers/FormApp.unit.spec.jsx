@@ -12,9 +12,10 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import FormApp from '../../containers/FormApp';
 import { CONTESTABLE_ISSUES_API } from '../../constants';
-import { SELECTED } from '../../../shared/constants';
 import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../actions';
 import { contestableIssuesResponse } from '../fixtures/mocks/contestable-issues.json';
+
+import { SELECTED } from '../../../shared/constants';
 
 const getData = ({
   showNod = true,
@@ -152,7 +153,7 @@ describe('FormApp', () => {
         issues,
       },
       formData: {
-        contestableIssues: [],
+        contestedIssues: [],
         areaOfDisagreement: [],
         additionalIssues: [{ issue: 'test2', [SELECTED]: true }],
       },
@@ -168,7 +169,7 @@ describe('FormApp', () => {
     await waitFor(() => {
       const action = store.getActions()[0];
       expect(action.type).to.eq(SET_DATA);
-      expect(action.data.contestableIssues.length).to.eq(1);
+      expect(action.data.contestedIssues.length).to.eq(1);
     });
   });
 
@@ -189,7 +190,7 @@ describe('FormApp', () => {
         issues,
       },
       formData: {
-        contestableIssues: issues,
+        contestedIssues: issues,
         areaOfDisagreement: [],
         additionalIssues: [{ issue: 'test2', [SELECTED]: true }],
       },

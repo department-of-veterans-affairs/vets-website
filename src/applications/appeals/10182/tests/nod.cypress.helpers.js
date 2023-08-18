@@ -1,4 +1,4 @@
-import { getDate } from '../utils/dates';
+import { getDate } from '../../shared/utils/dates';
 import { SELECTED } from '../../shared/constants';
 
 export const getRandomDate = () =>
@@ -9,7 +9,7 @@ export const getRandomDate = () =>
     },
   });
 
-export const fixDecisionDates = (data, { unselected }) => {
+export const fixDecisionDates = (data = [], { unselected } = {}) => {
   return data.map(issue => {
     const newDate = getRandomDate();
     // remove selected value so Cypress can click-select
@@ -33,8 +33,8 @@ export const fixDecisionDates = (data, { unselected }) => {
 
 const date = getDate({ offset: { months: -2 } });
 
-export const mockContestableIssues = ({ contestableIssues }) =>
-  contestableIssues.map(issue => ({
+export const mockContestableIssues = ({ contestedIssues }) =>
+  contestedIssues.map(issue => ({
     id: null,
     type: 'contestableIssue',
     attributes: {

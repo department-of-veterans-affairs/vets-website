@@ -7,8 +7,7 @@ import formConfig from '../../config/form';
 import initialData from '../schema/initialData';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import { FORMAT_READABLE } from '../../constants';
-import { SELECTED } from '../../../shared/constants';
+import { SELECTED, FORMAT_READABLE } from '../../../shared/constants';
 
 const data = {
   user: {
@@ -29,7 +28,7 @@ const data = {
     },
     data: {
       ...initialData.data,
-      contestableIssues: [
+      contestedIssues: [
         {
           [SELECTED]: true,
           attributes: {

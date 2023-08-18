@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { getDate } from '../../utils/dates';
+import { getDate } from '../../../shared/utils/dates';
+import { MAX_LENGTH as NOD_MAX_LENGTH } from '../../constants';
 import { SELECTED, MAX_LENGTH } from '../../../shared/constants';
 
 import {
@@ -15,7 +16,7 @@ import {
 const _ = null;
 
 describe('uniqueIssue', () => {
-  const contestableIssues = [
+  const contestedIssues = [
     {
       attributes: {
         ratingIssueSubjectText: 'test',
@@ -32,14 +33,14 @@ describe('uniqueIssue', () => {
   it('should not show an error when there are duplicate contestable issues', () => {
     const errors = { addError: sinon.spy() };
     uniqueIssue(errors, _, _, _, _, _, {
-      contestableIssues: [contestableIssues[0], contestableIssues[0]],
+      contestedIssues: [contestedIssues[0], contestedIssues[0]],
     });
     expect(errors.addError.notCalled).to.be.true;
   });
   it('should not show an error when there are no duplicate issues (only date differs)', () => {
     const errors = { addError: sinon.spy() };
     uniqueIssue(errors, _, _, _, _, _, {
-      contestableIssues,
+      contestedIssues,
       additionalIssues: [{ issue: 'test', decisionDate: '2021-01-02' }],
     });
     expect(errors.addError.notCalled).to.be.true;
@@ -47,7 +48,7 @@ describe('uniqueIssue', () => {
   it('should show an error when there is a duplicate additional issue', () => {
     const errors = { addError: sinon.spy() };
     uniqueIssue(errors, _, _, _, _, _, {
-      contestableIssues,
+      contestedIssues,
       additionalIssues: [{ issue: 'test', decisionDate: '2021-01-01' }],
     });
     expect(errors.addError.called).to.be.true;
@@ -55,7 +56,7 @@ describe('uniqueIssue', () => {
   it('should show an error when there are multiple duplicate additional issue', () => {
     const errors = { addError: sinon.spy() };
     uniqueIssue(errors, _, _, _, _, _, {
-      contestableIssues,
+      contestedIssues,
       additionalIssues: [
         { issue: 'test2', decisionDate: '2021-02-01' },
         { issue: 'test2', decisionDate: '2021-02-01' },
@@ -80,7 +81,7 @@ describe('maxIssues', () => {
       [SELECTED]: true,
     };
     maxIssues(errors, _, _, _, _, _, {
-      contestableIssues: new Array(MAX_LENGTH.SELECTIONS).fill(template),
+      contestedIssues: new Array(MAX_LENGTH.SELECTIONS).fill(template),
       additionalIssues: [template],
     });
     expect(errors.addError.called).to.be.true;
@@ -89,7 +90,7 @@ describe('maxIssues', () => {
 
 describe('selectionRequired', () => {
   const getData = (selectContested = false, selectAdditional = false) => ({
-    contestableIssues: [
+    contestedIssues: [
       {
         attributes: {
           ratingIssueSubjectText: 'test',
@@ -139,7 +140,7 @@ describe('missingIssueName', () => {
 describe('maxNameLength', () => {
   it('should show an error when a name is too long', () => {
     const errors = { addError: sinon.spy() };
-    maxNameLength(errors, 'ab '.repeat(MAX_LENGTH.ISSUE_NAME / 2));
+    maxNameLength(errors, 'ab '.repeat(NOD_MAX_LENGTH.ISSUE_NAME / 2));
     expect(errors.addError.called).to.be.true;
   });
   it('should show an error when a name is not too long', () => {
