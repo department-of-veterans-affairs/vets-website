@@ -30,8 +30,10 @@ const allDisallowedTestsWithWarnings = ALLOW_LIST.filter(
   spec =>
     spec.allowed === false &&
     spec.disallowed_at &&
-    getDaysSinceDate(spec.disallowed_at) > 60,
-).map(spec => spec.spec_path);
+    getDaysSinceDate(spec.disallowed_at) > 45,
+);
+
+console.log('all disallowed tests: ', allDisallowedTestsWithWarnings);
 
 const appsAdjusted = CHANGED_FILE_PATHS.map(specPath =>
   specPath
@@ -40,30 +42,38 @@ const appsAdjusted = CHANGED_FILE_PATHS.map(specPath =>
     .join('/'),
 );
 
+console.log('apps adjusted: ', appsAdjusted);
+
 const blockedPathsWithCodeChanges = allDisallowedTestsWithWarnings.filter(
-  entry => appsAdjusted.some(appPath => entry.includes(appPath)),
+  entry => appsAdjusted.some(appPath => entry.spec_path.includes(appPath)),
 );
-console.log(blockedPathsWithCodeChanges);
+console.log('blocked paths with code changes: ', blockedPathsWithCodeChanges);
 
 const warningsExistPastLimit = ALLOW_LIST.some(
   entry =>
     blockedPathsWithCodeChanges.indexOf(entry.spec_path) > -1 &&
-    entry.allowed === false,
+    entry.allowed === false &&
+    getDaysSinceDate(entry.disallowed_at > 60),
 );
 
+console.log('warningsExistPastLimit', warningsExistPastLimit);
+
 if (blockedPathsWithCodeChanges.length > 0) {
-  const annotationsJson = blockedPathsWithCodeChanges.map(path => {
+  const annotationsJson = blockedPathsWithCodeChanges.map(spec => {
+    const daysSinceWarned = getDaysSinceDate(spec.disallowed_at);
     return {
-      path,
+      path: spec.spec_path,
       start_line: 1,
       end_line: 1,
-      title: warningsExistPastLimit
-        ? 'E2E Allow List Merge Blocked'
-        : 'E2E Allow List Merge Block Warning',
-      message: warningsExistPastLimit
-        ? 'Code in this PR is associated with this test spec which is currently blocking merges due to being disabled longer than 90 days. This test spec and/or its target code being tested must be corrected before code can be merged on this application.'
-        : 'Code in this PR is associated with this test spec which is currently under a warning. If this warning is not cleared, merging will be blocked in the near future. See the E2E Allow List for full details',
-      annotation_level: warningsExistPastLimit ? 'failure' : 'warning',
+      title:
+        daysSinceWarned > 60
+          ? 'E2E Allow List Merge Blocked'
+          : 'E2E Allow List Merge Block Warning',
+      message:
+        daysSinceWarned > 60
+          ? 'Code in this PR is associated with this test spec which is currently blocking merges due to being disabled longer than 90 days. This test spec and/or its target code being tested must be corrected before code can be merged on this application.'
+          : 'Code in this PR is associated with this test spec which is currently under a warning. If this warning is not cleared, merging will be blocked in the near future. See the E2E Allow List for full details',
+      annotation_level: daysSinceWarned > 60 ? 'failure' : 'warning',
     };
   });
   console.log(annotationsJson);

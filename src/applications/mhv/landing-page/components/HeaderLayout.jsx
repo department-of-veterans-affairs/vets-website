@@ -17,7 +17,7 @@ const HeaderLayout = () => {
           </p>
         </div>
       </div>
-      <div className="vadsss-u-display--none medium-screen:vads-u-display--block vads-l-col--6">
+      <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--6">
         <img
           src="/img/mhv-logo.png"
           className="mhv-logo vads-u-margin-left--9 vads-u-margin-top--3"
