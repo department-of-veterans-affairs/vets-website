@@ -51,7 +51,9 @@ console.log('blocked paths with code changes: ', blockedPathsWithCodeChanges);
 
 const warningsExistPastLimit = ALLOW_LIST.some(
   entry =>
-    blockedPathsWithCodeChanges.indexOf(entry.spec_path) > -1 &&
+    blockedPathsWithCodeChanges
+      .map(spec => spec.spec_path)
+      .indexOf(entry.spec_path) > -1 &&
     entry.allowed === false &&
     getDaysSinceDate(entry.disallowed_at) > 60,
 );
