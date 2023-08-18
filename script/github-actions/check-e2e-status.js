@@ -61,6 +61,7 @@ console.log('warningsExistPastLimit', warningsExistPastLimit);
 if (blockedPathsWithCodeChanges.length > 0) {
   const annotationsJson = blockedPathsWithCodeChanges.map(spec => {
     const daysSinceWarned = getDaysSinceDate(spec.disallowed_at);
+    console.log(spec, daysSinceWarned);
     return {
       path: spec.spec_path,
       start_line: 1,
