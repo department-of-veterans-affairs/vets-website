@@ -141,8 +141,10 @@ const CreditCardBill = props => {
               creditCardBills.length === index ? 'Add' : 'Update'
             } a credit card bill`}
           </h3>
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+            Enter your credit card bill’s information.
+          </p>
         </legend>
-        <p>Enter your credit card bill’s information.</p>
         <div className="input-size-3 no-wrap">
           <va-number-input
             error={(submitted && unpaidBalanceError) || null}
