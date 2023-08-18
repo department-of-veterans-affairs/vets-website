@@ -22,6 +22,7 @@ import {
   getClaimType,
   mockData,
   roundToNearest,
+  groupClaimsByDocsNeeded,
 } from '../../utils/helpers';
 
 import {
@@ -35,9 +36,56 @@ import {
   STATUS_TYPES,
   AOJS,
   getPageRange,
+  sortByLastUpdated,
 } from '../../utils/appeals-v2-helpers';
 
 describe('Disability benefits helpers: ', () => {
+  describe('groupClaimsByDocsNeeded', () => {
+    const claims = [
+      {
+        claimId: 1,
+        type: 'claim',
+        attributes: {
+          claimPhaseDates: { phaseChangeDate: '2010-01-01' },
+          documentsNeeded: true,
+        },
+      },
+      {
+        claimId: 2,
+        type: 'claim',
+        attributes: {
+          claimPhaseDates: { phaseChangeDate: '2015-01-01' },
+          documentsNeeded: false,
+        },
+      },
+      {
+        claimId: 3,
+        type: 'claim',
+        attributes: {
+          claimPhaseDates: { phaseChangeDate: '2020-01-01' },
+          documentsNeeded: true,
+        },
+      },
+    ];
+
+    it('should always raise the grouped claims to the top', () => {
+      const groupedClaims = groupClaimsByDocsNeeded(claims);
+
+      expect(groupedClaims[0].attributes.documentsNeeded).to.be.true;
+      expect(groupedClaims[1].attributes.documentsNeeded).to.be.true;
+      expect(groupedClaims[2].attributes.documentsNeeded).to.be.false;
+    });
+
+    it('should preserve the order within the group and outside it', () => {
+      const sortedClaims = claims.sort(sortByLastUpdated);
+      const groupedClaims = groupClaimsByDocsNeeded(sortedClaims);
+
+      expect(groupedClaims[0].claimId).to.equal(3);
+      expect(groupedClaims[1].claimId).to.equal(1);
+      expect(groupedClaims[2].claimId).to.equal(2);
+    });
+  });
+
   describe('groupTimelineActivity', () => {
     it('should group events before a phase into phase 1', () => {
       const events = [

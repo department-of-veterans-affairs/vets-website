@@ -1,4 +1,5 @@
-import { SELECTED, MAX_LENGTH } from '../constants';
+import { MAX_LENGTH as NOD_MAX_LENGTH } from '../constants';
+import { SELECTED, MAX_LENGTH } from '../../shared/constants';
 
 /**
  * A CustomPage only needs/uses minimal uiSchema/schema
@@ -32,7 +33,7 @@ export default {
           properties: {
             issue: {
               type: 'string',
-              maxLength: MAX_LENGTH.ISSUE_NAME,
+              maxLength: NOD_MAX_LENGTH.ISSUE_NAME,
             },
             decisionDate: {
               type: 'string',

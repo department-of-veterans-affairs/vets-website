@@ -147,6 +147,9 @@ const PrescriptionDetails = () => {
     );
   };
 
+  const refillHistory = prescription?.rxRfRecords?.[0]?.[1];
+  const shippedOn = prescription?.trackingList?.[0]?.[1];
+
   useEffect(
     () => {
       if (prescriptionId) dispatch(getPrescriptionDetails(prescriptionId));
@@ -318,35 +321,39 @@ const PrescriptionDetails = () => {
 
           <div className="medication-details-div vads-u-margin-bottom--8">
             <h2 className="vads-u-margin-top--3">Refill history</h2>
-            {prescription.rxRfRecords && prescription.rxRfRecords.length > 0 ? (
-              prescription.rxRfRecords.map(entry => (
-                <div key={entry.requestDate}>
+            {refillHistory && refillHistory.length > 0 ? (
+              refillHistory.map((entry, i) => (
+                <div key={entry.id}>
                   <h3 className="vads-u-font-size--lg vads-u-font-family--sans">
-                    {dateFormat(entry.requestDate, 'MMMM YYYY')}
+                    {dateFormat(entry.dispensedDate, 'MMMM D, YYYY')}
                   </h3>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
-                    Requested on
+                    Refill requested on
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.requestDate, 'MMMM D, YYYY [at] h:mm z')}
+                    {dateFormat(entry.refillSubmitDate, 'MMMM D, YYYY')}
                   </p>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                     Filled by pharmacy on
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.dispenseDate, 'MMMM D, YYYY [at] h:mm z')}
+                    {dateFormat(entry.dispensedDate, 'MMMM D, YYYY')}
                   </p>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                     Shipped on
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.shippedDate, 'MMMM D, YYYY [at] h:mm z')}
+                    {dateFormat(
+                      shippedOn?.[i]?.completeDateTime,
+                      'MMMM D, YYYY [at] h:mm z',
+                    )}
                   </p>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                     Description of the medication or supply
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.description, 'MMMM D, YYYY [at] h:mm z')}
+                    {/* TODO: Not yet available */}
+                    Not noted
                   </p>
                   <div className="no-print">
                     <va-additional-info trigger="Review image">
