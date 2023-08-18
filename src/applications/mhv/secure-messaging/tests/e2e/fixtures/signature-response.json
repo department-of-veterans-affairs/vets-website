@@ -1,8 +1,8 @@
 {
   "data": {
-    "signatureName": "Demo Name",
-    "includeSignature": false,
-    "signatureTitle": "Demo Title"
+    "signatureName": "Name",
+    "includeSignature": true,
+    "signatureTitle": "TitleTest"
   },
   "errors": {},
   "metadata": {}

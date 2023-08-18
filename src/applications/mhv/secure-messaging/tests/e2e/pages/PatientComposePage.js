@@ -250,7 +250,7 @@ class PatientComposePage {
       .and('have.attr', 'checked');
     cy.get('[id="compose-message-body"]').should(
       'have.value',
-      '\n\n\nName\nTitleTest message body',
+      '\n\n\nName\nTitleTestTest message body',
     );
   };
 
