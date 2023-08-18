@@ -68,6 +68,8 @@ if (blockedPathsWithCodeChanges.length > 0) {
   });
   console.log(annotationsJson);
   core.setOutput('annotations-json', JSON.stringify(annotationsJson));
+} else {
+  core.setOutput('annotations-json', JSON.stringify([]));
 }
 
 // For tomorrow - export array to output, pass array to new GHA job, create file in GHA job.
