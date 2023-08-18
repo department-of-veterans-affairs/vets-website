@@ -11,7 +11,6 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
-import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   paymentsSuccess,
   paymentsSuccessEmpty,
@@ -30,17 +29,6 @@ describe('The My VA Dashboard - Benefit Payments', () => {
   beforeEach(() => {
     mockLocalStorage();
     cy.login(mockUser);
-    cy.intercept('/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: featureFlagNames.showMyVADashboardV2,
-            value: true,
-          },
-        ],
-      },
-    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/evss_claims_async', claimsSuccess());
@@ -185,17 +173,6 @@ describe('when the payment history claims does not exist', () => {
       },
     });
     cy.login(mockUser1);
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: featureFlagNames.showMyVADashboardV2,
-            value: true,
-          },
-        ],
-      },
-    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/evss_claims_async', claimsSuccess());
@@ -254,17 +231,6 @@ describe('when the payment history claims is false', () => {
       },
     });
     cy.login(mockUser2);
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: featureFlagNames.showMyVADashboardV2,
-            value: true,
-          },
-        ],
-      },
-    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/evss_claims_async', claimsSuccess());

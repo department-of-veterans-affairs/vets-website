@@ -95,6 +95,7 @@ export function schema(
   currentSchema,
   isRequired = false,
   addressProperty = 'address',
+  // if overriding pdfMaxLengths, provide obj with ALL 3 props
   pdfMaxLengths = {
     street: 30,
     street2: 30,

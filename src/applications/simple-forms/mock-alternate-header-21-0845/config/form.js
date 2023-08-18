@@ -5,11 +5,19 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 import CustomHeader from '../components/CustomHeader';
+import authorizerType from '../pages/authorizerType';
+import nameAndDate from '../pages/nameAndDate';
+import identificationInformation from '../pages/identificationInformation';
+import address from '../pages/mailingAddress';
+import phoneAndEmail from '../pages/phoneAndEmail';
+import thirdPartyType from '../pages/thirdPartyType';
+import organizationInfo from '../pages/organizationInfo';
+import { CustomPage } from '../components/CustomPage';
 
-const placeholderSchema = {
-  type: 'object',
-  properties: {},
-};
+/**
+ * This form is used for experimentally testing a custom header.
+ * Check 21-0845 for the actual form
+ */
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -23,14 +31,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   CustomHeader,
-  preSubmitInfo: {
-    statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-    },
-  },
+  preSubmitInfo: {},
   formId: 'FORM_MOCK_ALT_HEADER',
   saveInProgress: {
     messages: {
@@ -62,8 +63,9 @@ const formConfig = {
         authTypePage: {
           path: 'authorizer-type',
           title: 'Who’s submitting this authorization?',
-          uiSchema: {},
-          schema: placeholderSchema,
+          uiSchema: authorizerType.uiSchema,
+          schema: authorizerType.schema,
+          CustomPage,
         },
       },
     },
@@ -73,38 +75,50 @@ const formConfig = {
         nameAndDatePage: {
           path: 'name-and-date-of-birth',
           title: 'Your name and dated of birth',
-          uiSchema: {},
-          schema: placeholderSchema,
+          uiSchema: nameAndDate.uiSchema,
+          schema: nameAndDate.schema,
+          CustomPage,
         },
         identificationInfoPage: {
           path: 'identification-information',
           title: 'Your identification information',
-          uiSchema: {},
-          schema: placeholderSchema,
+          uiSchema: identificationInformation.uiSchema,
+          schema: identificationInformation.schema,
+          CustomPage,
         },
         mailingAddressPage: {
           path: 'mailing-address',
           title: 'Your mailing address',
-          uiSchema: {},
-          schema: placeholderSchema,
+          uiSchema: address.uiSchema,
+          schema: address.schema,
+          CustomPage,
         },
         phoneAndEmailPage: {
           path: 'phone-and-email',
           title: 'Your phone and email',
-          uiSchema: {},
-          schema: placeholderSchema,
+          uiSchema: phoneAndEmail.uiSchema,
+          schema: phoneAndEmail.schema,
+          CustomPage,
         },
       },
     },
     disclosureInfoChapter: {
       title: 'Disclosure information',
       pages: {
-        authTypePage: {
-          path: 'authorized-specific-person-or-org',
+        thirdPartyTypePage: {
+          path: 'third-party-type',
           title:
             'Do you authorize us to release your information to a specific person or to an organization?',
-          uiSchema: {},
-          schema: placeholderSchema,
+          uiSchema: thirdPartyType.uiSchema,
+          schema: thirdPartyType.schema,
+          CustomPage,
+        },
+        organizationInfoPage: {
+          path: 'organization-information',
+          title: "Organization's information",
+          uiSchema: organizationInfo.uiSchema,
+          schema: organizationInfo.schema,
+          CustomPage,
         },
       },
     },

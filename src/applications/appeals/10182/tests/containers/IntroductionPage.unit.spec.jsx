@@ -12,7 +12,7 @@ const getData = ({
   loggedIn = true,
   isVerified = true,
   data = {},
-  contestableIssues = {},
+  contestedIssues = {},
 } = {}) => ({
   props: {
     loggedIn,
@@ -44,7 +44,7 @@ const getData = ({
           metadata: {},
         },
         data,
-        contestableIssues,
+        contestedIssues,
       },
       scheduledDowntime: {
         globalDowntime: null,

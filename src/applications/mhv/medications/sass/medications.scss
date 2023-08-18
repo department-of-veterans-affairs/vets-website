@@ -18,7 +18,6 @@
 .link-button:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
-
 .main-content {
   padding: 10px;
   margin-bottom: 40px;
@@ -30,7 +29,6 @@
 .breadcrumbs-container {
   @media (max-width: $large-screen) {
     margin-left: -16px;
-
   }
   padding: 0px;
 }
@@ -62,6 +60,8 @@
     margin-top: 15px;
     margin-bottom: 15px;
     max-width: 500px;
+    font-size: 1.6rem;
+    font-weight: normal;
   }
   .pagination {
     max-width: 500px;
@@ -79,7 +79,7 @@
     color: $color-gray-dark;
     .rx-card-detials{
       margin-left: 5px;
-      h4 {
+      h3 {
         margin: 8px 0;
       }
       .shipping-info {
