@@ -11,7 +11,7 @@ import { appName } from '../../manifest.json';
 
 const stateFn = ({
   currentlyLoggedIn = true,
-  facilities = [{ facilityId: '757', isCerner: false }],
+  facilities = [{ facilityId: '655', isCerner: false }],
   featureTogglesLoading = false,
   mhv_landing_page_enabled = true,
   profileLoading = false,
@@ -21,6 +21,7 @@ const stateFn = ({
   featureToggles: {
     loading: featureTogglesLoading,
     mhv_landing_page_enabled,
+    sign_in_service_enabled: true,
   },
   drupalStaticData: {
     vamcEhrData: {
@@ -39,6 +40,9 @@ const stateFn = ({
     profile: {
       loading: profileLoading,
       facilities,
+      session: {
+        ssoe: false,
+      },
       signIn: {
         serviceName,
       },
@@ -52,23 +56,7 @@ const stateFn = ({
 const setup = ({ initialState = stateFn() } = {}) =>
   renderWithStoreAndRouter(<App />, { initialState });
 
-let originalWindow;
-let replace;
-
 describe(`${appName} -- <App /> container`, () => {
-  afterEach(() => {
-    global.window = originalWindow;
-  });
-
-  beforeEach(() => {
-    originalWindow = global.window;
-    replace = sinon.spy();
-    global.window.location = {
-      ...global.window.location,
-      replace,
-    };
-  });
-
   it('renders', () => {
     const { getByRole } = setup();
     getByRole('heading', { text: 'My HealtheVet', level: 1 });
@@ -81,46 +69,79 @@ describe(`${appName} -- <App /> container`, () => {
     getByRole('progressbar', { text: 'Redirecting to login...' });
   });
 
-  it('renders a loading indicator when drupalStaticData.vamcEhrData is loading', () => {
-    const initialState = stateFn({ vamcEhrDataLoading: true });
-    const { getByTestId } = setup({ initialState });
-    getByTestId('mhv-landing-page-loading');
+  describe('renders a loading indicator when', () => {
+    it('drupalStaticData.vamcEhrData is loading', () => {
+      const initialState = stateFn({ vamcEhrDataLoading: true });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
+    });
+
+    it('featureToggles is loading', () => {
+      const initialState = stateFn({ featureTogglesLoading: true });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
+    });
+
+    it('profile is loading', () => {
+      const initialState = stateFn({ profileLoading: true });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
+    });
   });
 
-  it('renders a loading indicator when featureToggles is loading', () => {
-    const initialState = stateFn({ featureTogglesLoading: true });
-    const { getByTestId } = setup({ initialState });
-    getByTestId('mhv-landing-page-loading');
-  });
+  describe('redirects when', () => {
+    let originalLocation;
+    let replace;
 
-  it('renders a loading indicator when profile is loading', () => {
-    const initialState = stateFn({ profileLoading: true });
-    const { getByTestId } = setup({ initialState });
-    getByTestId('mhv-landing-page-loading');
-  });
+    beforeEach(() => {
+      originalLocation = window.location;
+      replace = sinon.spy();
+      window.location = { replace };
+    });
 
-  it('redirects when feature toggle is disabled', () => {
-    const initialState = stateFn({ mhv_landing_page_enabled: false });
-    setup({ initialState });
-    expect(replace.called).to.be.true;
-  });
+    afterEach(() => {
+      window.location = originalLocation;
+    });
 
-  it('redirects when is signed in with DS Logon', () => {
-    const initialState = stateFn({ serviceName: CSP_IDS.DS_LOGON });
-    setup({ initialState });
-    expect(replace.called).to.be.true;
-  });
+    it('feature toggle is disabled', () => {
+      const initialState = stateFn({ mhv_landing_page_enabled: false });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
+      expect(replace.calledOnce).to.be.true;
+    });
 
-  it('redirects when user has a Cerner facility', () => {
-    const facilities = [{ facilityId: '668', isCerner: false }];
-    const initialState = stateFn({ facilities });
-    setup({ initialState });
-    expect(replace.called).to.be.true;
-  });
+    it('signed in with DS Logon', () => {
+      const initialState = stateFn({ serviceName: CSP_IDS.DS_LOGON });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
+      expect(replace.calledOnce).to.be.true;
+    });
 
-  it('redirects when user has no facilities', () => {
-    const initialState = stateFn({ facilities: [] });
-    setup({ initialState });
-    expect(replace.called).to.be.true;
+    it('user has a Cerner facility', () => {
+      const facilities = [{ facilityId: '668' }];
+      const initialState = stateFn({ facilities });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
+      expect(replace.calledOnce).to.be.true;
+    });
+
+    it('user has one Cerner facility', () => {
+      const facilities = [
+        { facilityId: '655' },
+        { facilityId: '668' },
+        { facilityId: '650' },
+      ];
+      const initialState = stateFn({ facilities });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
+      expect(replace.calledOnce).to.be.true;
+    });
+
+    it('user has no facilities', () => {
+      const initialState = stateFn({ facilities: [] });
+      const { getByTestId } = setup({ initialState });
+      getByTestId('mhv-landing-page-loading');
+      expect(replace.calledOnce).to.be.true;
+    });
   });
 });

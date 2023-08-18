@@ -13,16 +13,17 @@ import {
   isLoggedIn,
   selectDrupalStaticData,
   selectProfile,
+  signInServiceEnabled,
 } from '../selectors';
 
 const App = () => {
-  const appEnabled = useSelector(isLandingPageEnabledForUser);
+  const { featureToggles, user } = useSelector(state => state);
+  const enabled = useSelector(isLandingPageEnabledForUser);
   const drupalStaticData = useSelector(selectDrupalStaticData);
   const profile = useSelector(selectProfile);
   const signedIn = useSelector(isLoggedIn);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const fullState = useSelector(state => state);
-  const { featureToggles, user } = fullState;
+  const useSiS = useSelector(signInServiceEnabled);
 
   const data = useMemo(
     () => {
@@ -38,20 +39,21 @@ const App = () => {
     featureToggles.loading ||
     profile.loading;
 
+  const redirecting = signedIn && !loading && !enabled;
+
   useEffect(
     () => {
       const redirect = () => {
         const redirectUrl = mhvUrl(ssoe, 'home');
-        // console.log({ redirectUrl });
+        // console.log({ redirectUrl }); // eslint-disable-line no-console
         window.location.replace(redirectUrl);
       };
-      if (signedIn && !loading && !appEnabled) redirect();
+      if (redirecting) redirect();
     },
-    [appEnabled, loading, signedIn, ssoe],
+    [ssoe, redirecting],
   );
 
-  if (!signedIn) return <RequiredLoginView user={user} />;
-  if (loading)
+  if (loading || redirecting)
     return (
       <div className="vads-u-margin--5">
         <va-loading-indicator
@@ -62,6 +64,7 @@ const App = () => {
     );
   return (
     <RequiredLoginView
+      useSiS={useSiS}
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >

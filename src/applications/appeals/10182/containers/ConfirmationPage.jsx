@@ -7,8 +7,8 @@ import { focusElement, scrollTo } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { FORMAT_READABLE } from '../constants';
-import { getSelected, getIssueName } from '../utils/helpers';
+import { FORMAT_READABLE } from '../../shared/constants';
+import { getSelected, getIssueName } from '../../shared/utils/issues';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -62,7 +62,7 @@ export class ConfirmationPage extends React.Component {
             </p>
           )}
           <strong>
-            Issues
+            Issue
             {issues?.length > 1 ? 's' : ''} submitted
           </strong>
           <ul className="vads-u-margin-top--0">{issues || null}</ul>

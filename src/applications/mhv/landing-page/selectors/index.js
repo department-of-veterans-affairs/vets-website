@@ -1,4 +1,7 @@
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import {
+  isAuthenticatedWithSSOe,
+  signInServiceEnabled,
+} from '~/platform/user/authentication/selectors';
 import { isLoggedIn, selectProfile } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
@@ -12,4 +15,5 @@ export {
   isLoggedIn,
   selectDrupalStaticData,
   selectProfile,
+  signInServiceEnabled,
 };

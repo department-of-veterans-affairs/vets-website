@@ -1,4 +1,4 @@
-import manifest from '../../manifest.json';
+import manifest from '../manifest.json';
 
 describe(manifest.appName, () => {
   // Skip tests in CI until the app is released.
@@ -8,8 +8,7 @@ describe(manifest.appName, () => {
   });
 
   it('is accessible', () => {
-    cy.visit(manifest.rootUrl)
-      .injectAxe()
-      .axeCheck();
+    cy.visit(manifest.rootUrl);
+    cy.injectAxeThenAxeCheck();
   });
 });
