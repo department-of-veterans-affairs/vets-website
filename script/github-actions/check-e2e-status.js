@@ -19,21 +19,11 @@ function getDaysSinceDate(diff) {
     : Math.round(daysSinceDate);
 }
 
-// const allDisallowedTestsWithWarnings = ALLOW_LIST.filter(
-//   spec =>
-//     spec.allowed === false &&
-//     spec.warned_at &&
-//     getDaysSinceDate(spec.warned_at) > 60,
-// ).map(spec => spec.spec_path);
-
 const allDisallowedTestsWithWarnings = ALLOW_LIST.filter(
-  spec =>
-    spec.allowed === false &&
-    spec.disallowed_at &&
-    getDaysSinceDate(spec.disallowed_at) > 45,
+  spec => spec.allowed === false && spec.warned_at,
 );
 
-console.log('all disallowed tests: ', allDisallowedTestsWithWarnings);
+console.log(console.log(allDisallowedTestsWithWarnings));
 
 const appsAdjusted = CHANGED_FILE_PATHS.map(specPath =>
   specPath
@@ -42,12 +32,9 @@ const appsAdjusted = CHANGED_FILE_PATHS.map(specPath =>
     .join('/'),
 );
 
-console.log('apps adjusted: ', appsAdjusted);
-
 const blockedPathsWithCodeChanges = allDisallowedTestsWithWarnings.filter(
   entry => appsAdjusted.some(appPath => entry.spec_path.includes(appPath)),
 );
-console.log('blocked paths with code changes: ', blockedPathsWithCodeChanges);
 
 const warningsExistPastLimit = ALLOW_LIST.some(
   entry =>
@@ -55,14 +42,12 @@ const warningsExistPastLimit = ALLOW_LIST.some(
       .map(spec => spec.spec_path)
       .indexOf(entry.spec_path) > -1 &&
     entry.allowed === false &&
-    getDaysSinceDate(entry.disallowed_at) > 60,
+    getDaysSinceDate(entry.warned_at) > 60,
 );
-
-console.log('warningsExistPastLimit', warningsExistPastLimit);
 
 if (blockedPathsWithCodeChanges.length > 0) {
   const annotationsJson = blockedPathsWithCodeChanges.map(spec => {
-    const daysSinceWarned = getDaysSinceDate(spec.disallowed_at);
+    const daysSinceWarned = getDaysSinceDate(spec.warned_at);
     console.log(spec, daysSinceWarned);
     return {
       path: spec.spec_path,
@@ -79,15 +64,15 @@ if (blockedPathsWithCodeChanges.length > 0) {
       annotation_level: daysSinceWarned > 60 ? 'failure' : 'warning',
     };
   });
-  console.log(annotationsJson);
   core.setOutput('annotations-json', JSON.stringify(annotationsJson));
 } else {
   core.setOutput('annotations-json', JSON.stringify([]));
 }
 
-// For tomorrow - export array to output, pass array to new GHA job, create file in GHA job.
 if (warningsExistPastLimit) {
   core.setFailed(
-    `One or more directories contain tests that have been disabled for a total exceeding 90 days. In the future, merging will be blocked until all warnings are cleared. The paths in question are: ${blockedPathsWithCodeChanges}`,
+    `One or more directories contain tests that have been disabled for a total exceeding 90 days. In the future, merging will be blocked until all warnings are cleared. The paths in question are: ${blockedPathsWithCodeChanges.map(
+      spec => spec.spec_path,
+    )}`,
   );
 }
