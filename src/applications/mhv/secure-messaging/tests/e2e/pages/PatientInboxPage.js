@@ -1,5 +1,6 @@
 import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
+import mockSignature from '../fixtures/signature-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
@@ -97,7 +98,6 @@ class PatientInboxPage {
       },
     });
 
-    cy.wait('@folders');
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     cy.wait('@inboxMessages');
@@ -272,7 +272,7 @@ class PatientInboxPage {
       cy.injectAxe();
     }
 
-    cy.wait('@folders');
+    // cy.wait('@folders');
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     if (doAxeCheck) {
@@ -294,7 +294,13 @@ class PatientInboxPage {
 
   clickDraftsSideBar = () => {};
 
-  clickMyFoldersSideBar = () => {};
+  clickMyFoldersSideBar = () => {
+    cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
+      'folders',
+    );
+    cy.get('[data-testid ="my-folders-sidebar"]').click();
+    cy.wait('@folders');
+  };
 
   getLoadedMessages = () => {
     return this.loadedMessagesData;
@@ -315,7 +321,13 @@ class PatientInboxPage {
   };
 
   navigateToComposePage = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/signature',
+      mockSignature,
+    ).as('signature');
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
+    cy.wait('@signature');
     const interstitialPage = new PatientInterstitialPage();
     interstitialPage.getContinueButton().click({ force: true });
   };

@@ -141,7 +141,9 @@ class PatientMessageDraftsPage {
       this.currentThread,
     ).as('full-thread');
 
-    cy.contains(mockParentMessageDetails.data.attributes.subject).click();
+    cy.contains(mockParentMessageDetails.data.attributes.subject).click({
+      waitForAnimations: true,
+    });
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

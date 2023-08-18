@@ -42,7 +42,6 @@ class FolderLoadPage {
 
     cy.get(`[data-testid="${folderName}-sidebar"]`).click();
 
-    cy.wait('@folders');
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
   };

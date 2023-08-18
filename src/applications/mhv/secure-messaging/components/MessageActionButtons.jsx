@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllFolders } from '../actions';
 import MoveMessageToFolderBtn from './MessageActionButtons/MoveMessageToFolderBtn';
 import PrintBtn from './MessageActionButtons/PrintBtn';
 import { DefaultFolders } from '../util/constants';
@@ -15,15 +14,6 @@ const MessageActionButtons = props => {
   const dispatch = useDispatch();
   const folders = useSelector(state => state.sm.folders.folderList);
   const activeFolder = useSelector(state => state.sm.folders.folder);
-
-  useEffect(
-    () => {
-      const abortCont = new AbortController();
-      dispatch(getAllFolders(), { abort: abortCont.signal });
-      return () => abortCont.abort();
-    },
-    [dispatch],
-  );
 
   const buttonsArray = useMemo(
     () => {
