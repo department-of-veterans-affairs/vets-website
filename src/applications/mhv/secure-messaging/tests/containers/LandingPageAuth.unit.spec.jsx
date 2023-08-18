@@ -4,16 +4,15 @@ import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 import LandingPageAuth from '../../containers/LandingPageAuth';
-import { PageTitles } from '../../util/constants';
+import { PageTitles, ErrorMessages } from '../../util/constants';
 import reducer from '../../reducers';
-import folderList from '../fixtures/folder-response.json';
-import { unreadCountInbox } from '../../util/helpers';
+import folders from '../fixtures/folder-inbox-response.json';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 describe('Landing dashboard', () => {
   const initialState = {
     sm: {
-      folders: { folderList },
+      folders: { folder: folders.inbox },
     },
     user: {
       profile: {
@@ -31,18 +30,15 @@ describe('Landing dashboard', () => {
     });
   };
 
-  let screen = null;
-  beforeEach(() => {
-    screen = setup();
-  });
-
   it('verifies page title tag for landing page', async () => {
+    setup();
     await waitFor(() => {
       expect(global.document.title).to.equal(PageTitles.DEFAULT_PAGE_TITLE_TAG);
     });
   });
 
   it('renders without errors', async () => {
+    const screen = setup();
     expect(
       screen.getByText(
         'Communicate privately and securely with your VA health care team online.',
@@ -54,22 +50,38 @@ describe('Landing dashboard', () => {
   });
 
   it('displays a number of unread messsages', async () => {
-    const unreadCount = unreadCountInbox(folderList);
+    const screen = setup();
     await waitFor(() => {
-      expect(screen.getByText(`${unreadCount} unread messages in your inbox`))
-        .to.exist;
+      expect(
+        screen.getByText(
+          `${folders.inbox.unreadCount} unread messages in your inbox`,
+        ),
+      ).to.exist;
     });
   });
 
+  it('displays an error when unable to retrieve a folder', () => {
+    const testState = {
+      ...initialState,
+      sm: { folders: { folder: null } },
+    };
+    const screen = setup(testState);
+    expect(screen.getByText(ErrorMessages.LandingPage.GET_INBOX_ERROR)).to
+      .exist;
+  });
+
   it('displays a View Inbox button', () => {
+    const screen = setup();
     expect(screen.getByText(`Go to your inbox`)).to.exist;
   });
 
   it('displays a Welcome message', () => {
+    const screen = setup();
     expect(screen.getByText(`What to know as you try out this tool`)).to.exist;
   });
 
   it('displays a MHV URL Link', () => {
+    const screen = setup();
     const link = screen.getByText(
       `Go back to the previous version of secure messaging`,
       {
@@ -84,6 +96,7 @@ describe('Landing dashboard', () => {
   });
 
   it('displays a FAQ component', () => {
+    const screen = setup();
     expect(screen.getByText(`Questions about using messages`)).to.exist;
   });
 });
