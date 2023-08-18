@@ -33,6 +33,7 @@ import createViewPaymentHistoryCTA from './view-payment-history/createViewPaymen
 import facilityReducer from './facilities/reducers';
 // Other widgets.
 import createAskVAWidget from './ask-va';
+import createPensionWidget from './pension';
 import createApplicationStatus from './widget-creators/createApplicationStatus';
 import createBTSSSLogin from './BTSSS-login/createBTSSSLogin';
 import createCOEAccess from './coe-access/createCOEAccess';
@@ -221,7 +222,7 @@ create2110210Access(store, widgetTypes.FORM_2110210_CTA);
 create214142Access(store, widgetTypes.FORM_214142_CTA);
 create21P0847Access(store, widgetTypes.FORM_21P0847_CTA);
 create264555Access(store, widgetTypes.FORM_264555_CTA);
-
+createPensionWidget(store, widgetTypes.PENSION);
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {
   createMyVALoginWidget(store);
