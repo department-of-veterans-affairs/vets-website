@@ -6,7 +6,7 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from 'platform/utilities/ui';
 
-import { MAX_LENGTH } from '../constants';
+import { MAX_LENGTH } from '../../shared/constants';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
@@ -25,9 +25,9 @@ export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
   } else {
     wrapClassNames.push('vads-u-margin-top--0');
   }
-  return (
+  return onReviewPage && inReviewMode ? null : (
     <>
-      <legend className="vads-u-width--full">
+      <legend className="vads-u-width--full vads-u-padding-top--0 vads-u-border-top--0">
         <Wrap className={wrapClassNames.join(' ')}>
           Select the issues you’d like us to review
         </Wrap>
@@ -68,7 +68,7 @@ MaxSelectionsAlert.propTypes = {
   closeModal: PropTypes.func,
 };
 
-export const NoIssuesLoadedAlert = ({ submitted }) => {
+export const NoIssuesLoadedAlert = () => {
   const wrapAlert = useRef(null);
 
   useEffect(
@@ -77,7 +77,7 @@ export const NoIssuesLoadedAlert = ({ submitted }) => {
         scrollAndFocus(wrapAlert.current);
       }
     },
-    [wrapAlert, submitted],
+    [wrapAlert],
   );
 
   recordEvent({
@@ -102,10 +102,6 @@ export const NoIssuesLoadedAlert = ({ submitted }) => {
       </va-alert>
     </div>
   );
-};
-
-NoIssuesLoadedAlert.propTypes = {
-  submitted: PropTypes.bool,
 };
 
 export const noneSelected =

@@ -11,9 +11,10 @@
 @import "./chem-hem";
 @import "./print-download";
 @import "./radiology-images";
+@import "./settings";
 
 // Your custom sass
-va-loading-indicator {
+.loading-indicator {
   margin: 200px auto;
 }
 

@@ -19,15 +19,13 @@ const CareSummariesAndNotes = () => {
       dispatch(
         setBreadcrumbs(
           [
-            { url: '/my-health/medical-records/', label: 'Dashboard' },
             {
-              url: '/my-health/medical-records/health-history',
-              label: 'Health history',
+              url: '/my-health/medical-records',
+              label: 'Medical records',
             },
           ],
           {
-            url:
-              '/my-health/medical-records/health-history/care-summaries-and-notes',
+            url: '/my-health/medical-records/care-summaries-and-notes',
             label: 'VA care summaries and notes',
           },
         ),
@@ -51,6 +49,7 @@ const CareSummariesAndNotes = () => {
         message="Loading..."
         setFocus
         data-testid="loading-indicator"
+        class="loading-indicator"
       />
     );
   };

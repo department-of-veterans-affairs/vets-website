@@ -21,9 +21,10 @@ export default {
 
           return {
             title: (
-              <span className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
-                {titleString}
-              </span>
+              <h3 className="custom-header disclosure-information-limited-information">
+                {titleString}{' '}
+                <span className="custom-required-span">(*Required)</span>
+              </h3>
             ),
           };
         },

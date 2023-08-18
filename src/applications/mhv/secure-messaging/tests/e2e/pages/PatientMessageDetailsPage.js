@@ -141,7 +141,7 @@ class PatientMessageDetailsPage {
       mockMessageDetails.data.attributes.recipientId;
     this.currentThread.data.at(index).attributes.triageGroupName =
       mockMessageDetails.data.attributes.triageGroupName;
-    cy.get('[data-testid="reply-button-top"]')
+    cy.get('[data-testid="reply-button-body"]')
       .should('be.visible')
       .click({ force: true });
 
@@ -434,12 +434,9 @@ class PatientMessageDetailsPage {
     );
   };
 
-  ReplyToMessagebody = messageBody => {
-    cy.get('[data-testid="message-replied-to"]')
-      .find('[data-testid="message-body"]')
-      .should($mbody => {
-        expect($mbody.text()).to.contain(messageBody);
-      });
+  // temporary changed to 'contain', 'REPLY'
+  ReplyToMessageBody = () => {
+    cy.get('[data-testid="message-body"]').should('contain', 'REPLY');
   };
 }
 

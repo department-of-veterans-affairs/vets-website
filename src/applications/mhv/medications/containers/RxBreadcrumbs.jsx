@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 // import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 
-const MrBreadcrumbs = () => {
+const RxBreadcrumbs = () => {
   const crumbs = useSelector(state => state.rx.breadcrumbs.list);
   const currentPath = useSelector(state => state.rx.breadcrumbs.location);
   const [isMobile, setIsMobile] = useState(false);
@@ -48,4 +48,4 @@ const MrBreadcrumbs = () => {
   );
 };
 
-export default MrBreadcrumbs;
+export default RxBreadcrumbs;

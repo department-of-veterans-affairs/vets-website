@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { DefaultFolders as Folders, PageTitles } from '../../util/constants';
@@ -11,34 +11,38 @@ const FolderHeader = props => {
   const { folder, searchProps } = props;
   const location = useLocation();
 
-  const handleFolderDescription = () => {
-    let text = '';
-    switch (folder.folderId) {
-      case Folders.INBOX.id:
-      case Folders.SENT.id: // Inbox
-        text = Folders.INBOX.desc;
-        break;
-      case Folders.DRAFTS.id: // Drafts
-        text = Folders.DRAFTS.desc;
-        break;
-      case Folders.DELETED.id: // Trash
-        text = Folders.DELETED.desc;
-        break;
-      default:
-        text = Folders.CUSTOM_FOLDER.desc; // Custom Folder Sub-headerr;
-        break;
-    }
-    return (
-      text && (
-        <p
-          data-testid="folder-description"
-          className="va-introtext folder-description vads-u-margin-top--0"
-        >
-          {text}
-        </p>
-      )
-    );
-  };
+  const folderDescription = useMemo(
+    () => {
+      switch (folder.folderId) {
+        case Folders.INBOX.id:
+        case Folders.SENT.id: // Inbox
+          return Folders.INBOX.desc;
+        case Folders.DRAFTS.id: // Drafts
+          return Folders.DRAFTS.desc;
+        case Folders.DELETED.id: // Trash
+          return Folders.DELETED.desc;
+        default:
+          return Folders.CUSTOM_FOLDER.desc; // Custom Folder Sub-header;
+      }
+    },
+    [folder],
+  );
+
+  const handleFolderDescription = useCallback(
+    () => {
+      return (
+        folderDescription && (
+          <p
+            data-testid="folder-description"
+            className="va-introtext folder-description vads-u-margin-top--0"
+          >
+            {folderDescription}
+          </p>
+        )
+      );
+    },
+    [folderDescription],
+  );
 
   useEffect(
     () => {

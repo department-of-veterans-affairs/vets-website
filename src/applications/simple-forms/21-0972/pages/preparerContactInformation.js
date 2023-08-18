@@ -9,7 +9,7 @@ import {
 export default {
   uiSchema: {
     preparerPhone: phoneUI('Phone number'),
-    preparerEmail: emailUI('Email address (if applicable)'),
+    preparerEmail: emailUI('Email address'),
   },
   schema: {
     type: 'object',

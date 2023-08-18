@@ -12,9 +12,9 @@ const LandingPage = () => {
   useEffect(
     () => {
       dispatch(
-        setBreadcrumbs([{ url: '/my-health', label: 'Dashboard' }], {
+        setBreadcrumbs([], {
           url: '/my-health/medical-records',
-          label: 'About medical records',
+          label: 'Medical records',
         }),
       );
     },
@@ -55,7 +55,7 @@ const LandingPage = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/health-history/care-summaries-and-notes"
+            href="/my-health/medical-records/care-summaries-and-notes"
             text="Go to your care summaries and notes"
             data-testid="section-link"
           />
@@ -85,7 +85,7 @@ const LandingPage = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/health-history/vaccines"
+            href="/my-health/medical-records/vaccines"
             text="Go to your vaccines"
             data-testid="section-link"
           />
@@ -101,7 +101,7 @@ const LandingPage = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/health-history/allergies"
+            href="/my-health/medical-records/allergies"
             text="Go to your allergies"
             data-testid="section-link"
           />
@@ -117,7 +117,7 @@ const LandingPage = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/health-history/health-conditions"
+            href="/my-health/medical-records/health-conditions"
             text="Go to your health conditions"
             data-testid="section-link"
           />
@@ -141,7 +141,7 @@ const LandingPage = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/health-history/vitals"
+            href="/my-health/medical-records/vitals"
             text="Go to your vitals"
             data-testid="section-link"
           />

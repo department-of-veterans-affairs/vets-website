@@ -1,3 +1,4 @@
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
@@ -31,12 +32,12 @@ const initialState = {
 const convertChemHemObservation = results => {
   return results.filter(obs => obs.valueQuantity).map(result => {
     return {
-      name: result.code.coding.text,
-      result: getObservationValueWithUnits(result),
-      standardRange: result.referenceRange[0].text,
-      status: result.status,
-      // labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-      interpretation: concatObservationInterpretations(result),
+      name: result.code.text,
+      result: getObservationValueWithUnits(result) || emptyField,
+      standardRange: result.referenceRange[0].text || emptyField,
+      status: result.status || emptyField,
+      labLocation: result.labLocation || emptyField,
+      interpretation: concatObservationInterpretations(result) || emptyField,
     };
   });
 };
@@ -54,15 +55,14 @@ const convertChemHemRecord = record => {
     type: labTypes.CHEM_HEM,
     name: concatCategoryCodeText(record),
     category: concatCategoryCodeText(record),
-    // orderedBy: 'Beth M. Smith',
-    // requestedBy: 'John J. Lydon',
-    date: record.effectiveDateTime,
-    // orderingLocation:
-    //   '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    // collectingLocation:
-    //   '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
+    orderedBy: record.physician || emptyField,
+    requestedBy: record.physician || emptyField,
+    date: formatDateLong(record.effectiveDateTime),
+    orderingLocation: record.location || emptyField,
+    collectingLocation: record.location || emptyField,
     comments: [record.conclusion],
     results: convertChemHemObservation(results),
+    sampleTested: record.specimen?.text || emptyField,
   };
 };
 
@@ -96,16 +96,16 @@ const convertMicrobiologyRecord = record => {
 const convertPathologyRecord = record => {
   return {
     id: record.id,
-    name: 'Surgical pathology',
+    name: record.code?.text,
     type: labTypes.PATHOLOGY,
-    category: '',
-    orderedBy: 'Beth M. Smith',
-    requestedBy: 'John J. Lydon',
-    date: record.effectiveDateTime,
-    sampleTested: record.specimen,
-    labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    collectingLocation: record.performer,
-    results: record.conclusion || record.result,
+    category: concatCategoryCodeText(record),
+    orderedBy: record.physician || emptyField,
+    requestedBy: record.physician || emptyField,
+    date: formatDateLong(record.effectiveDateTime),
+    sampleTested: record.specimen?.text || emptyField,
+    labLocation: record.labLocation || emptyField,
+    collectingLocation: record.location || emptyField,
+    results: record.conclusion || record.result || emptyField,
   };
 };
 
@@ -215,9 +215,9 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       const recordList = action.response;
       return {
         ...state,
-        labsAndTestsList: recordList.entry.map(record =>
-          convertLabsAndTestsRecord(record),
-        ),
+        labsAndTestsList:
+          recordList.entry?.map(record => convertLabsAndTestsRecord(record)) ||
+          [],
       };
     }
     default:

@@ -8,11 +8,9 @@ import { retrieveMessageThread } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
-import EmergencyNote from '../components/EmergencyNote';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { getTriageTeams } from '../actions/triageTeams';
 import { clearDraft } from '../actions/draftDetails';
-import InterstitialPage from './InterstitialPage';
 import { PrintMessageOptions, PageTitles } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 import { navigateToFolderByFolderId, updatePageTitle } from '../util/helpers';
@@ -41,9 +39,7 @@ const ThreadDetails = props => {
   const [isDraft, setIsDraft] = useState(false);
   const [isReply, setIsReply] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
-  const [acknowledged, setAcknowledged] = useState(false);
-  const [h1Focus, setH1Focus] = useState(false);
-  const header = useRef(h1Focus);
+  const header = useRef();
 
   // necessary to update breadcrumb when there is no active folder in redux store, which happens when user lands on the threadDetails view from the url instead of the parent folder.
   useEffect(
@@ -83,6 +79,7 @@ const ThreadDetails = props => {
           } else {
             setIsDraft(true);
           }
+          updatePageTitle(PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG);
         } else if (message?.messageId) {
           setIsMessage(true);
         }
@@ -95,18 +92,7 @@ const ThreadDetails = props => {
     () => {
       focusElement(header.current);
     },
-    [header],
-  );
-
-  useEffect(
-    () => {
-      if (isDraft || isReply) {
-        setH1Focus(true);
-        focusElement(header.current);
-        updatePageTitle(PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG);
-      }
-    },
-    [acknowledged],
+    [header.current],
   );
 
   const content = () => {
@@ -118,16 +104,7 @@ const ThreadDetails = props => {
         />
       );
     }
-    if (!acknowledged && (isReply || isDraft)) {
-      return (
-        <InterstitialPage
-          acknowledge={() => {
-            setAcknowledged(true);
-          }}
-          type={isReply ? 'reply' : isDraft && 'draft'}
-        />
-      );
-    }
+
     if (isReply && draftMessageHistory !== undefined) {
       return (
         <div className="compose-container">
@@ -149,11 +126,9 @@ const ThreadDetails = props => {
     if (isDraft) {
       return (
         <div className="compose-container">
-          <h1 className="page-title" ref={header}>
+          <h1 className="page-title vads-u-margin-top--0" ref={header}>
             Edit draft
           </h1>
-          <EmergencyNote dropDownFlag />
-
           <ComposeForm draft={draftMessage} recipients={triageTeams} />
         </div>
       );

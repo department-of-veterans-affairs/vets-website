@@ -32,9 +32,9 @@ export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
   } else {
     wrapClassNames.push('vads-u-margin-top--0');
   }
-  return (
+  return onReviewPage && inReviewMode ? null : (
     <>
-      <legend className="vads-u-width--full">
+      <legend className="vads-u-width--full vads-u-padding-top--0 vads-u-border-top--0">
         <Wrap className={wrapClassNames.join(' ')}>
           Select the issues you’d like us to review
         </Wrap>
@@ -182,7 +182,7 @@ MaxSelectionsAlert.propTypes = {
   closeModal: PropTypes.func,
 };
 
-export const NoIssuesLoadedAlert = ({ submitted }) => {
+export const NoIssuesLoadedAlert = () => {
   const wrapAlert = useRef(null);
 
   useEffect(
@@ -191,7 +191,7 @@ export const NoIssuesLoadedAlert = ({ submitted }) => {
         scrollAndFocus(wrapAlert.current);
       }
     },
-    [wrapAlert, submitted],
+    [wrapAlert],
   );
 
   recordEvent({
@@ -216,10 +216,6 @@ export const NoIssuesLoadedAlert = ({ submitted }) => {
       </va-alert>
     </div>
   );
-};
-
-NoIssuesLoadedAlert.propTypes = {
-  submitted: PropTypes.bool,
 };
 
 export const noneSelected =

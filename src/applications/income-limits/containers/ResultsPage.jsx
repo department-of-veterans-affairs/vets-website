@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { scrollToTop } from '../utilities/scroll-to-top';
 import { ROUTES } from '../constants';
 import {
   getFirstAccordionHeader,
@@ -14,6 +13,7 @@ import {
   getFifthAccordionHeader,
 } from '../utilities/results-accordions';
 import { getPreviousYear, redirectIfFormIncomplete } from '../utilities/utils';
+import { customizeTitle } from '../utilities/customize-title';
 
 /**
  * There are two pathways to displaying income ranges on this page
@@ -22,15 +22,20 @@ import { getPreviousYear, redirectIfFormIncomplete } from '../utilities/utils';
  * 2) Non-standard: GMT < NMT  In some rural areas, the Geographic Means Test is lower than the National Means Test
  */
 const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
-  const APPLY_URL =
-    'https://www.va.gov/health-care/apply/application/introduction';
+  const APPLY_URL = '/health-care/apply/application/introduction';
+  const currentYear = new Date().getFullYear();
+  const H1 = `Your income limits for ${year || currentYear}`;
+
+  useEffect(() => {
+    document.title = customizeTitle(H1);
+  });
 
   useEffect(
     () => {
       redirectIfFormIncomplete(dependents, pastMode, router, year, zipCode);
 
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       waitForRenderThenFocus('h1');
-      scrollToTop();
     },
     [dependents, pastMode, router, year, zipCode],
   );
@@ -44,7 +49,6 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
 
     const isStandard = gmt > national;
     const previousYear = getPreviousYear(pastMode, year);
-    const currentYear = new Date().getFullYear();
 
     const currentFlowCopy = (
       <>
@@ -127,16 +131,17 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
 
     return (
       <>
-        <h1>Your income limits for {year || currentYear}</h1>
+        <h1>{H1}</h1>
         {pastMode && pastFlowCopy}
         {!pastMode && currentFlowCopy}
         <va-link
-          href="https://www.va.gov/resources/va-health-care-income-limits"
+          href="/resources/va-health-care-income-limits"
           text="Learn more about income limits and deductions"
         />
         <h2>Select your {previousYear} household income range</h2>
         <va-accordion bordered data-testid="il-results" open-single>
           <va-accordion-item
+            level="3"
             data-testid="il-results-1"
             header={getFirstAccordionHeader(pension)}
           >
@@ -156,6 +161,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             {!pastMode && applyUrl}
           </va-accordion-item>
           <va-accordion-item
+            level="3"
             data-testid="il-results-2"
             header={getSecondAccordionHeader(pension, national)}
           >
@@ -171,6 +177,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
           </va-accordion-item>
           {isStandard && (
             <va-accordion-item
+              level="3"
               data-testid="il-results-3"
               header={getThirdAccordionHeader(national, gmt)}
             >
@@ -187,6 +194,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             </va-accordion-item>
           )}
           <va-accordion-item
+            level="3"
             data-testid="il-results-4"
             header={getFourthAccordionHeader(national, gmt, isStandard)}
           >
@@ -201,6 +209,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             {!pastMode && applyUrl}
           </va-accordion-item>
           <va-accordion-item
+            level="3"
             data-testid="il-results-5"
             header={getFifthAccordionHeader(national, gmt, isStandard)}
           >
@@ -208,7 +217,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             {!pastMode && (
               <>
                 <va-link
-                  href="https://www.va.gov/health-care/eligibility/"
+                  href="/health-care/eligibility/"
                   text="Find out if you may be eligible for VA health care"
                 />
                 <p>
@@ -217,7 +226,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
                   health care.
                 </p>
                 <va-link
-                  href="https://www.va.gov/health-care/health-needs-conditions/mental-health/"
+                  href="/health-care/health-needs-conditions/mental-health/"
                   text="Find out how to get mental health care"
                 />
                 <p>You can also explore non-VA health insurance options.</p>
@@ -239,37 +248,37 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
         <ul className="il-results-more-info">
           <li>
             <va-link
-              href="https://www.va.gov/health-care/eligibility/"
+              href="/health-care/eligibility/"
               text="Eligibility for VA health care"
             />
           </li>
           <li>
             <va-link
-              href="https://www.va.gov/health-care/copay-rates/"
+              href="/health-care/copay-rates/"
               text="Current VA health care copay rates"
             />
           </li>
           <li>
             <va-link
-              href="https://www.va.gov/health-care/update-health-information/"
+              href="/health-care/update-health-information/"
               text="Update your VA health benefits information"
             />
           </li>
           <li>
             <va-link
-              href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+              href="/health-care/get-reimbursed-for-travel-pay/"
               text="VA travel pay reimbursement"
             />
           </li>
           <li>
             <va-link
-              href="https://www.va.gov/health-care/health-needs-conditions/mental-health/"
+              href="/health-care/health-needs-conditions/mental-health/"
               text="VA mental health services"
             />
           </li>
           <li>
             <va-link
-              href="https://www.va.gov/health-care/about-va-health-benefits/"
+              href="/health-care/about-va-health-benefits/"
               text="About VA health benefits"
             />
           </li>

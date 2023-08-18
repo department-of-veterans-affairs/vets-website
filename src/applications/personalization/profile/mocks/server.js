@@ -6,6 +6,7 @@ const { set } = require('lodash');
 const user = require('./endpoints/user');
 const mhvAcccount = require('./endpoints/mhvAccount');
 const address = require('./endpoints/address');
+const emailAddress = require('./endpoints/email-adresses');
 const phoneNumber = require('./endpoints/phone-number');
 const status = require('./endpoints/status');
 const ratingInfo = require('./endpoints/rating-info');
@@ -52,7 +53,18 @@ const genericErrors = {
 
 /* eslint-disable camelcase */
 const responses = {
-  'GET /v0/user': user.handleUserRequest,
+  'GET /v0/user': (_req, res) => {
+    // example user data cases
+    // return res.json(user.loa3User72); // default user (success)
+    // return res.json(user.loa1User); // user with loa1
+    // return res.json(user.badAddress); // user with bad address
+    // return res.json(user.loa3User); // user with loa3
+    // return res.json(user.nonVeteranUser); // non-veteran user
+    // return res.json(user.externalServiceError); // external service error
+    // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
+    // return res.json(user.loa3UserWithNoEmail); // user with no email address
+    return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
+  },
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': (_req, res) => {
@@ -76,21 +88,21 @@ const responses = {
     return res.json(maintenanceWindows.noDowntime);
   },
   'GET /v0/feature_toggles': (_req, res) => {
+    const secondsOfDelay = 0;
     delaySingleResponse(
       () =>
         res.json(
           generateFeatureToggles({
-            profileUseInfoCard: true,
             profileUseFieldEditingPage: true,
             profileLighthouseDirectDeposit: true,
-            profileUseNotificationSettingsCheckboxes: false,
-            profileShowEmailNotificationSettings: false,
-            profileShowMhvNotificationSettings: false,
-            profileShowPaymentsNotificationSetting: false,
-            profileShowQuickSubmitNotificationSetting: false,
+            profileUseNotificationSettingsCheckboxes: true,
+            profileShowEmailNotificationSettings: true,
+            profileShowMhvNotificationSettings: true,
+            profileShowPaymentsNotificationSetting: true,
+            profileShowQuickSubmitNotificationSetting: true,
           }),
         ),
-      0,
+      secondsOfDelay,
     );
   },
   'GET /v0/ppiu/payment_information': (_req, res) => {
@@ -156,6 +168,12 @@ const responses = {
   },
   'POST /v0/profile/telephones': (_req, res) => {
     return res.status(200).json(phoneNumber.transactions.received);
+  },
+  'POST /v0/profile/email_addresses': (_req, res) => {
+    return res.status(200).json(emailAddress.transactions.received);
+  },
+  'PUT /v0/profile/email_addresses': (_req, res) => {
+    return res.status(200).json(emailAddress.transactions.received);
   },
   'PUT /v0/profile/addresses': (req, res) => {
     // return res.status(401).json(require('../tests/fixtures/401.json'));

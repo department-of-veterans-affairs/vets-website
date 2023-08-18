@@ -91,6 +91,17 @@ class PatientInboxPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       this.mockRecipients,
     ).as('recipients');
+
+    cy.intercept('GET', 'my_health/v1/messaging/messages/signature', {
+      data: {
+        signatureName: 'Name',
+        includeSignature: true,
+        signatureTitle: 'Title',
+      },
+      errors: {},
+      metadata: {},
+    }).as('signature');
+
     cy.visit('my-health/secure-messages/inbox/', {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
@@ -352,7 +363,7 @@ class PatientInboxPage {
   };
 
   navigateReply = () => {
-    cy.tabToElement('[data-testid="reply-button-top"]');
+    cy.tabToElement('[data-testid="reply-button-body"]');
     cy.realPress(['Enter']);
   };
 
@@ -376,13 +387,14 @@ class PatientInboxPage {
       .contains('Add filters')
       .click({
         waitForAnimations: true,
+        force: true,
       });
   };
 
   selectAdvancedSearchCategory = () => {
     cy.get('#category-dropdown')
       .find('#select')
-      .select('COVID');
+      .select('COVID', { force: true });
   };
 
   selectAdvancedSearchCategoryCustomFolder = () => {
@@ -394,6 +406,7 @@ class PatientInboxPage {
   submitSearchButton = () => {
     cy.get('[data-testid="filter-messages-button"]').click({
       waitForAnimations: true,
+      force: true,
     });
   };
 
@@ -444,6 +457,34 @@ class PatientInboxPage {
     cy.wait('@draft_message').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });
+  };
+
+  verifySorting = () => {
+    let listBefore;
+    let listAfter;
+    cy.get('.thread-list-item')
+      .find('.received-date')
+      .then(list => {
+        listBefore = Cypress._.map(list, el => el.innerText);
+        cy.log(listBefore);
+      })
+      .then(() => {
+        this.sortMessagesByDate('Oldest to newest');
+        cy.get('.thread-list-item')
+          .find('.received-date')
+          .then(list2 => {
+            listAfter = Cypress._.map(list2, el => el.innerText);
+            cy.log(listAfter);
+            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
+            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
+          });
+      });
+  };
+
+  verifySignature = () => {
+    cy.get('[data-testid="message-body-field"]')
+      .should('have.attr', 'value')
+      .and('not.be.empty');
   };
 }
 
