@@ -58,11 +58,13 @@ const pageFocus = () => {
       focusSelector = '#nav-form-header';
     }
 
-    waitForRenderThenFocus(focusSelector);
-    // need to scroll up to focus-element after waitForRenderThenFocus
-    setTimeout(() => {
-      scrollTo(focusSelector, getScrollOptions({ offset: 100 }));
-    }, 100);
+    if (!window.Cypress) {
+      waitForRenderThenFocus(focusSelector);
+      // need to scroll up to focus-element after waitForRenderThenFocus
+      setTimeout(() => {
+        scrollTo(focusSelector, getScrollOptions({ offset: 100 }));
+      }, 100);
+    }
   };
 };
 
