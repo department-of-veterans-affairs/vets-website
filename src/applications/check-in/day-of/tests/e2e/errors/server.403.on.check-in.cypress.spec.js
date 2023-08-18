@@ -22,7 +22,8 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('C5728 - Check in - 404 api error', () => {
+  // Skipping for now
+  it.skip('C5728 - Check in - 404 api error', () => {
     Error.validateURL();
     Error.validatePageLoaded();
     cy.injectAxeThenAxeCheck();

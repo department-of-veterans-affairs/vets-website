@@ -2,6 +2,7 @@ import '../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
@@ -43,7 +44,16 @@ describe('Check In Experience', () => {
         req => {
           req.reply(responses.shift());
         },
-      ).as('testid');
+      ).as('appointmentsPageGet');
+      cy.intercept(
+        {
+          method: 'GET',
+          url: '/check_in/v2/patient_check_ins/*',
+        },
+        req => {
+          req.reply(responses.shift());
+        },
+      ).as('appointmentsRefresh');
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -57,6 +67,11 @@ describe('Check In Experience', () => {
 
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+
+      AppointmentsPage.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      AppointmentsPage.attemptCheckIn();
+
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
 

@@ -2,7 +2,7 @@ import '../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import Demographics from '../../../../tests/e2e/pages/Demographics';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Check In Experience ', () => {
   beforeEach(() => {
@@ -51,7 +51,7 @@ describe('Check In Experience ', () => {
     ValidateVeteran.attemptToGoToNextPageWithEnterKey();
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPageWithEnterKey();
-    Demographics.validatePageLoaded();
+    AppointmentsPage.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
   });
 });

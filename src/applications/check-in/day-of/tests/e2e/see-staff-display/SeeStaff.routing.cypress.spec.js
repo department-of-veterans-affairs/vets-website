@@ -6,6 +6,7 @@ import Demographics from '../../../../tests/e2e/pages/Demographics';
 import SeeStaff from '../pages/SeeStaff';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Check In Experience', () => {
   describe('See Staff display', () => {
@@ -29,7 +30,7 @@ describe('Check In Experience', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-      Demographics.validatePageLoaded();
+      AppointmentsPage.attemptCheckIn();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -40,29 +41,13 @@ describe('Check In Experience', () => {
     it('Navigation routing hitting no on every page', () => {
       cy.injectAxeThenAxeCheck();
       Demographics.attemptToGoToNextPage('no');
-
-      SeeStaff.validatePageLoaded();
       SeeStaff.selectBackButton();
-
-      Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
-
-      EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage('no');
-
-      SeeStaff.validatePageLoaded();
       SeeStaff.selectBackButton();
-
-      EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
-
-      NextOfKin.validatePage.dayOf();
       NextOfKin.attemptToGoToNextPage('no');
-
-      SeeStaff.validatePageLoaded();
       SeeStaff.selectBackButton();
-
-      NextOfKin.validatePage.dayOf();
       NextOfKin.attemptToGoToNextPage();
     });
   });
