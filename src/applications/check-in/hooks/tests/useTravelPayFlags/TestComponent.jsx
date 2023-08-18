@@ -9,7 +9,7 @@ export default function TestComponent() {
     setTravelPayClaimSent,
     travelPayEligible,
   } = useTravelPayFlags({
-    startTime: '2022-08-12T15:15:00',
+    startTime: new Date('2022-08-12T15:15:00.000-07:00').toISOString(),
   });
   return (
     <div>
