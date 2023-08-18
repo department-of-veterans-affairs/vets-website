@@ -39,6 +39,7 @@ export const App = ({
   showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
+  showMebEnhancements09,
   email,
   duplicateEmail,
   duplicatePhone,
@@ -70,6 +71,7 @@ export const App = ({
     [
       claimantInfo,
       featureTogglesLoaded,
+      fetchedContactInfo,
       fetchedPersonalInfo,
       formData,
       getPersonalInfo,
@@ -214,6 +216,13 @@ export const App = ({
         });
       }
 
+      if (showMebEnhancements09 !== formData.showMebEnhancements09) {
+        setFormData({
+          ...formData,
+          showMebEnhancements09,
+        });
+      }
+
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
@@ -231,7 +240,10 @@ export const App = ({
       showMebEnhancements,
       showMebEnhancements06,
       showMebEnhancements08,
+      showMebEnhancements09,
       getDuplicateContactInfo,
+      duplicateEmail,
+      duplicatePhone,
     ],
   );
 
@@ -247,7 +259,7 @@ export const App = ({
         });
       }
     },
-    [email],
+    [email, formData, setFormData],
   );
 
   // Commenting out until Direct Deposit component is updated
@@ -280,7 +292,10 @@ export const App = ({
 App.propTypes = {
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
+  duplicateEmail: PropTypes.array,
+  duplicatePhone: PropTypes.array,
   eligibility: PropTypes.arrayOf(PropTypes.string),
+  email: PropTypes.string,
   featureTogglesLoaded: PropTypes.bool,
   firstName: PropTypes.string,
   formData: PropTypes.object,
@@ -290,16 +305,14 @@ App.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
-  setFormData: PropTypes.func,
-  showMebDgi40Features: PropTypes.bool,
-  showMebCh33SelfForm: PropTypes.bool,
-  email: PropTypes.string,
   mobilePhone: PropTypes.string,
+  setFormData: PropTypes.func,
+  showMebCh33SelfForm: PropTypes.bool,
+  showMebDgi40Features: PropTypes.bool,
   showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
-  duplicateEmail: PropTypes.array,
-  duplicatePhone: PropTypes.array,
+  showMebEnhancements09: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
