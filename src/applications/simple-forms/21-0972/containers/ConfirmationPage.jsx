@@ -235,11 +235,6 @@ const childContent = (
 export const ConfirmationPage = () => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
-  // mock for testing
-  const fullName = {
-    first: 'first',
-    last: 'last',
-  };
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
@@ -247,7 +242,7 @@ export const ConfirmationPage = () => {
     <ConfirmationPageView
       submitterHeader="Who submitted this form"
       formType="alternate signer certification"
-      submitterName={fullName}
+      submitterName={form.data.preparerFullName}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       content={content}

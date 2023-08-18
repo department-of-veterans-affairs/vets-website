@@ -10,6 +10,26 @@ export const getClaimantIdentificationText = formData => {
   );
 };
 
+export const claimantIsVeteran = ({ formData } = {}) => {
+  // key 0 corresponds to claimant is the Veteran
+  return formData?.claimantIdentification === claimantIdentificationKeys[0];
+};
+
+export const claimantIsSpouse = ({ formData } = {}) => {
+  // key 1 corresponds to claimant is the Spouse
+  return formData?.claimantIdentification === claimantIdentificationKeys[1];
+};
+
+export const claimantIsParent = ({ formData } = {}) => {
+  // key 2 corresponds to claimant is the Spouse
+  return formData?.claimantIdentification === claimantIdentificationKeys[2];
+};
+
+export const claimantIsChild = ({ formData } = {}) => {
+  // key 3 corresponds to claimant is the Spouse
+  return formData?.claimantIdentification === claimantIdentificationKeys[3];
+};
+
 export const claimantIsNotVeteran = ({ formData } = {}) => {
   // key 0 corresponds to claimant is the Veteran
   return formData?.claimantIdentification !== claimantIdentificationKeys[0];
