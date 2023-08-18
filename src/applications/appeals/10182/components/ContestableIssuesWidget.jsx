@@ -8,7 +8,7 @@ import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { IssueCard } from './IssueCard';
-import { SELECTED, MAX_LENGTH, LAST_ISSUE, REVIEW_ISSUES } from '../constants';
+import { LAST_ISSUE, REVIEW_ISSUES } from '../constants';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
@@ -16,13 +16,15 @@ import {
   MaxSelectionsAlert,
   removeModalContent,
 } from '../content/contestableIssues';
+import { focusIssue } from '../utils/focus';
+
+import { MAX_LENGTH, SELECTED } from '../../shared/constants';
+import { isEmptyObject } from '../../shared/utils/helpers';
 import {
   getSelected,
   someSelected,
-  isEmptyObject,
   calculateIndexOffset,
-} from '../utils/helpers';
-import { focusIssue } from '../utils/focus';
+} from '../../shared/utils/issues';
 
 /**
  * ContestableIssuesWidget
