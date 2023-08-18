@@ -1,22 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Paths } from '../../util/constants';
+import { Paths, ErrorMessages } from '../../util/constants';
 
 const DashboardUnreadMessages = props => {
-  const { unreadCount } = props;
+  const { inbox } = props;
   return (
     <div className="unread-messages" data-testid="total-unread-messages">
-      {unreadCount === null && (
+      {inbox === null && (
         <h2 className="vads-u-font-size--h3">
-          Unable to retrieve messages at this moment
+          {ErrorMessages.LandingPage.GET_INBOX_ERROR}
         </h2>
       )}
 
-      {unreadCount !== undefined &&
-        unreadCount > 0 && (
+      {inbox !== undefined &&
+        inbox?.unreadCount > 0 && (
           <h2 data-dd-privacy="mask" className="vads-u-font-size--h3">
-            {`${unreadCount} unread messages in your inbox`}
+            {`${inbox.unreadCount} unread messages in your inbox`}
           </h2>
         )}
 
@@ -32,7 +32,7 @@ const DashboardUnreadMessages = props => {
 };
 
 DashboardUnreadMessages.propTypes = {
-  unreadCount: PropTypes.number,
+  inbox: PropTypes.object,
 };
 
 export default DashboardUnreadMessages;

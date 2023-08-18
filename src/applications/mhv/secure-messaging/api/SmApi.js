@@ -25,11 +25,14 @@ export const getFolderList = () => {
  * @returns
  */
 export const getFolder = folderId => {
-  return apiRequest(`${apiBasePath}/messaging/folders/${folderId}`, {
-    headers: {
-      'Content-Type': 'application/json',
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}?useCache=false`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     },
-  });
+  );
 };
 
 /**

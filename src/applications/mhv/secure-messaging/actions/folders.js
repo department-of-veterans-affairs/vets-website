@@ -31,35 +31,38 @@ export const getFolders = () => async dispatch => {
 };
 
 export const retrieveFolder = folderId => async dispatch => {
-  // dispatch({ type: Actions.Folder.CLEAR });
-  let folder;
-  const response = await getFolder(folderId);
-  if (response.errors) {
-    dispatch({
-      type: Actions.Alerts.ADD_ALERT,
-      payload: response.errors[0],
-    });
-  } else {
-    if (response.data.attributes.folderId === -3) {
-      folder = {
-        data: {
-          attributes: {
-            count: response.data.attributes.count,
-            folderId: response.data.attributes.folderId,
-            name: 'Trash',
-            systemFolder: response.data.attributes.systemFolder,
-            unreadCount: response.data.attributes.unreadCount,
+  await getFolder(folderId)
+    .then(response => {
+      let folder;
+      if (response.data.attributes.folderId === -3) {
+        folder = {
+          data: {
+            attributes: {
+              count: response.data.attributes.count,
+              folderId: response.data.attributes.folderId,
+              name: 'Trash',
+              systemFolder: response.data.attributes.systemFolder,
+              unreadCount: response.data.attributes.unreadCount,
+            },
           },
-        },
-      };
-    } else {
-      folder = response;
-    }
-    dispatch({
-      type: Actions.Folder.GET,
-      response: folder,
+        };
+      } else {
+        folder = response;
+      }
+      dispatch({
+        type: Actions.Folder.GET,
+        response: folder,
+      });
+    })
+    .catch(error => {
+      dispatch({
+        type: Actions.Folder.GET,
+        response: null,
+      });
+      dispatch(
+        addAlert(Constants.ALERT_TYPE_ERROR, '', error.errors[0].detail),
+      );
     });
-  }
 };
 
 export const clearFolder = () => async dispatch => {

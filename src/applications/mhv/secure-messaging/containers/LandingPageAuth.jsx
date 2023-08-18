@@ -57,7 +57,7 @@ const LandingPageAuth = () => {
         Communicate privately and securely with your VA health care team online.
       </p>
       <ComposeMessageButton />
-      <DashboardUnreadMessages unreadCount={inbox?.unreadCount} />
+      <DashboardUnreadMessages inbox={inbox} />
       <WelcomeMessage />
       <FrequentlyAskedQuestions prefLink={prefLink} />
     </div>
