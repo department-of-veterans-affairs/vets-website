@@ -602,6 +602,7 @@ const formConfig = {
               schema: applicantMilitaryName.schema,
             },
             applicantMilitaryNameInformation: {
+              title: 'Previous name',
               path: 'applicant-military-name-information',
               depends: formData => isVeteranAndHasServiceName(formData),
               uiSchema: applicantMilitaryNameInformation.uiSchema,
@@ -621,6 +622,7 @@ const formConfig = {
               schema: sponsorMilitaryName.schema,
             },
             sponsorMilitaryNameInformation: {
+              title: 'Sponsor’s previous name',
               path: 'sponsor-military-name-information',
               depends: formData => isNotVeteranAndHasServiceName(formData),
               uiSchema: sponsorMilitaryNameInformation.uiSchema,
