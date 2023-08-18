@@ -1,30 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { unreadCountInbox } from '../../util/helpers';
 import { Paths } from '../../util/constants';
 
 const DashboardUnreadMessages = props => {
-  const { folders } = props;
-  const [unreadCount, setUnreadCount] = useState(null);
-
-  useEffect(
-    () => {
-      if (folders?.length > 0) {
-        setUnreadCount(unreadCountInbox(folders));
-      }
-    },
-    [folders],
-  );
+  const { unreadCount } = props;
   return (
     <div className="unread-messages" data-testid="total-unread-messages">
-      {folders === undefined && (
+      {unreadCount === null && (
         <h2 className="vads-u-font-size--h3">
           Unable to retrieve messages at this moment
         </h2>
       )}
 
-      {folders !== undefined &&
+      {unreadCount !== undefined &&
         unreadCount > 0 && (
           <h2 data-dd-privacy="mask" className="vads-u-font-size--h3">
             {`${unreadCount} unread messages in your inbox`}
@@ -43,7 +32,7 @@ const DashboardUnreadMessages = props => {
 };
 
 DashboardUnreadMessages.propTypes = {
-  folders: PropTypes.arrayOf(PropTypes.object),
+  unreadCount: PropTypes.number,
 };
 
 export default DashboardUnreadMessages;
