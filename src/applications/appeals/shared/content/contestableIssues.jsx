@@ -95,10 +95,10 @@ export const NoIssuesLoadedAlert = () => {
   return (
     <div ref={wrapAlert}>
       <va-alert status="error" class="vads-u-margin-bottom--2">
-        <h3 slot="headline">Sorry, we couldn’t find any eligible issues</h3>
+        <h3 slot="headline">We can’t load your issues right now</h3>
         <p>
-          If you’d like to add an issue for review, select "Add a new issue" to
-          get started.
+          You can try again later, or if you’d like to add your issue manually,
+          you can select "Add a new issue" to get started.
         </p>
       </va-alert>
     </div>

@@ -150,7 +150,7 @@ describe('<ContestableIssuesWidget>', () => {
 
     expect($$('va-alert', container).length).to.equal(1);
     expect($('va-alert', container).innerHTML).to.contain(
-      'Sorry, we couldn’t find any eligible issues',
+      'We can’t load your issues right now',
     );
   });
 
