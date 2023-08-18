@@ -34,7 +34,7 @@ export const App = ({
     );
   }
 
-  return <UnauthContent />;
+  return <UnauthContent widgetType={widgetType} />;
 };
 
 App.propTypes = {
