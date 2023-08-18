@@ -747,8 +747,7 @@ jobs:
   allow-list-merge-status:
     name: E2E Allow List Merge Status Check
     runs-on: ubuntu-latest
-    # needs: [cypress-tests-prep, update-e2e-allow-list]
-    needs: [cypress-tests-prep]
+    needs: [cypress-tests-prep, update-e2e-allow-list]
     if: ${{ always() }}
     continue-on-error: true
     outputs:
