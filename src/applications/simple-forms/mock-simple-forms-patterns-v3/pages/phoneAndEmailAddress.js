@@ -23,5 +23,6 @@ export default {
       mobilePhone: phoneSchema,
       emailAddress: emailSchema,
     },
+    required: ['homePhone'],
   },
 };
