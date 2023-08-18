@@ -751,6 +751,8 @@ jobs:
     needs: [cypress-tests-prep]
     if: ${{ always() }}
     continue-on-error: true
+    outputs:
+      e2e_annotations: ${{ steps.e2e-merge-check.outputs.annotations-json }}
     env:
       CHANGED_FILE_PATHS: ${{ needs.cypress-tests-prep.outputs.changed_file_paths }}
     steps:
@@ -793,6 +795,7 @@ jobs:
       # exports app list and assigns to environmental variable at this step
 
       - name: Check if code can be merged
+        id: e2e-merge-check
         run: node script/github-actions/check-e2e-status.js
 
   annotate-e2e-tests:
@@ -800,12 +803,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: [allow-list-merge-status]
     if: ${{ needs.allow-list-merge-status.result == 'failure' }}
+    env:
+      ANNOTATIONS_JSON: ${{ needs.allow-list-merge-status.outputs.annotations_json }}
     steps:
-      - name: Log ANNOTATIONS_EXIST
-        run: echo ${{ env.ANNOTATIONS_EXIST }}
+      - name: Create annotations file
+        run: |
+          echo ${{ env.ANNOTATIONS_JSON }} > annotations.json
+          cat annotations.json
 
       - name: Annotate Files accordingly
-        if: ${{ env.ANNOTATIONS_EXIST }} == true
         uses: yuzutech/annotations-action@v0.4.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}

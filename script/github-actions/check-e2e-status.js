@@ -2,7 +2,6 @@
 /* eslint-disable camelcase */
 
 const core = require('@actions/core');
-const fs = require('fs');
 
 const ALLOW_LIST = JSON.parse(process.env.ALLOW_LIST);
 const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
@@ -68,12 +67,10 @@ if (blockedPathsWithCodeChanges.length > 0) {
     };
   });
   console.log(annotationsJson);
-  fs.writeFileSync('annotations.json', JSON.stringify(annotationsJson));
-  core.exportVariable('ANNOTATIONS_EXIST', true);
-} else {
-  core.exportVariable('ANNOTATIONS_EXIST', false);
+  core.setOutput('annotations-json', JSON.stringify(annotationsJson));
 }
 
+// For tomorrow - export array to output, pass array to new GHA job, create file in GHA job.
 if (warningsExistPastLimit) {
   core.setFailed(
     `One or more directories contain tests that have been disabled for a total exceeding 90 days. In the future, merging will be blocked until all warnings are cleared. The paths in question are: ${blockedPathsWithCodeChanges}`,
