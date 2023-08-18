@@ -6,7 +6,7 @@ import {
 } from '../content/extensionReason';
 import { extensionReason } from '../validations/issues';
 import { showExtensionReason } from '../utils/helpers';
-import { MAX_LENGTH } from '../../shared/constants';
+import { MAX_LENGTH } from '../constants';
 
 const requestExtension = {
   uiSchema: {

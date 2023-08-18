@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MAX_LENGTH } from '../../shared/constants';
+import { MAX_LENGTH } from '../constants';
 
 export const issueErrorMessages = {
   missingIssue: 'Add the name of an issue',
