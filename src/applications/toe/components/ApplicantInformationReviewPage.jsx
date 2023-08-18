@@ -31,7 +31,7 @@ const ApplicantInformationReviewPage = ({
   const formattedDateOfBirth = formatDateString(dateOfBirth);
   return (
     <>
-      <div className="form-reviewww-panel-page">
+      <div className="form-review-panel-page">
         <div className="form-review-panel-page-header-row">
           <h4 className="form-review-panel-page-header vads-u-font-size--h5">
             {title}
