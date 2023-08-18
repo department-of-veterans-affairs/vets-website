@@ -50,7 +50,7 @@ describe(manifest.appName, () => {
     FolderLoadPage.verifyBackToMessagesButton();
   });
 
-  it.skip('Check the header', () => {
+  it('Check the header', () => {
     FolderLoadPage.loadDeletedMessages();
     cy.injectAxe();
     cy.axeCheck('main', {
