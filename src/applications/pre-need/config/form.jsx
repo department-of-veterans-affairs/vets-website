@@ -582,7 +582,9 @@ const formConfig = {
       },
     },
     supportingDocuments: {
-      title: 'Supporting documents',
+      title: environment.isProduction()
+        ? 'Supporting documents'
+        : 'Supporting files',
       pages: {
         supportingDocuments: {
           path: 'supporting-documents',

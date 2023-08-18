@@ -1,4 +1,5 @@
 import React from 'react';
+import environment from 'platform/utilities/environment';
 import { isVeteran } from '../utils/helpers';
 
 export default function SupportingDocumentsDescription(props) {
@@ -7,13 +8,27 @@ export default function SupportingDocumentsDescription(props) {
   return (
     <div>
       <div>
-        <h3 className="vads-u-font-size--h5">
-          Upload your supporting documents{' '}
-        </h3>
-        <p>
-          If you have supporting documents readily available, you can upload
-          them to help us make a determination quickly.{' '}
-        </p>
+        {environment.isProduction() ? (
+          <h3 className="vads-u-font-size--h5">
+            Upload your supporting documents{' '}
+          </h3>
+        ) : (
+          <h3 className="vads-u-font-size--h5">
+            Upload your supporting files{' '}
+          </h3>
+        )}
+        {environment.isProduction() ? (
+          <p>
+            If you have supporting documents readily available, you can upload
+            them to help us make a determination quickly.{' '}
+          </p>
+        ) : (
+          <p>
+            If you have supporting files readily available, you can upload them
+            to help us make a determination. If you don't have service history
+            files, you can still apply and we'll request them for you.{' '}
+          </p>
+        )}
         <p>
           You'll need to scan your documents onto the device you're using to
           submit this application, such as your computer, tablet, or mobile
