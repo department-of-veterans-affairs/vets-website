@@ -104,5 +104,33 @@ describe('Edit page', () => {
 
       cy.url().should('contain', '/profile/notifications');
     });
+
+    it('should show modal when cancelling changes and a single change is made to an input field', () => {
+      cy.visit(
+        `${
+          PROFILE_PATHS.EDIT
+        }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
+      );
+
+      checkForLegacyLoadingIndicator();
+
+      cy.injectAxeThenAxeCheck();
+
+      cy.findByLabelText(/Mobile phone number/i)
+        .type('{backspace}')
+        .tab();
+
+      cy.findByTestId('cancel-edit-button').click();
+
+      cy.url().should('not.contain', '/profile/notifications');
+
+      cy.get('va-modal')
+        .shadow()
+        .within(() => {
+          cy.findByRole('button', { name: /cancel my changes/i }).click();
+        });
+
+      cy.url().should('contain', '/profile/notifications');
+    });
   });
 });

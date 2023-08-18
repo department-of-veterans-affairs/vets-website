@@ -3,9 +3,11 @@ import moment from 'moment';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 
 import { fixDateFormat } from '../utils/replace';
-import { FORMAT_YMD, SHOW_PART3, MAX_YEARS_PAST } from '../constants';
+import { SHOW_PART3 } from '../constants';
 
 import { issueErrorMessages } from '../content/addIssue';
+
+import { FORMAT_YMD, MAX_YEARS_PAST } from '../../shared/constants';
 
 const minDate1 = moment()
   .subtract(1, 'year')
