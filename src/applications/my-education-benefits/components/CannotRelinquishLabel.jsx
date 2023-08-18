@@ -16,4 +16,5 @@ CannotRelinquishLabel.prototypes = {
 const mapStateToProps = state => ({
   ...getAppData(state),
 });
+
 export default connect(mapStateToProps)(CannotRelinquishLabel);
