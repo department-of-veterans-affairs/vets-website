@@ -8,11 +8,9 @@ class AppointmentsPage {
   };
 
   attemptCheckIn = () => {
-    cy.visit('health-care/appointment-check-in/contact-information');
-  };
-
-  attemptPreCheckIn = () => {
-    cy.visit('health-care/appointment-pre-check-in/contact-information');
+    cy.get('button[data-testid="check-in-button"]').click({
+      waitForAnimations: true,
+    });
   };
 }
 
