@@ -4,7 +4,6 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import localStorage from 'platform/utilities/storage/localStorage';
 import formConfig from '../../config/form.js';
 import initialData from '../initialData.js';
 
@@ -132,7 +131,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
   });
 
   it('renders maximum rating education when available and relevant', () => {
-    localStorage.setItem('showDisability526MaximumRating', true);
+    window.sessionStorage.setItem('showDisability526MaximumRating', true);
     const form = mount(
       <Provider store={store}>
         <DefinitionTester
@@ -162,6 +161,6 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
         .text(),
     ).to.equal('Current rating: 0%');
     form.unmount();
-    localStorage.removeItem('showDisability526MaximumRating');
+    window.sessionStorage.removeItem('showDisability526MaximumRating');
   });
 });

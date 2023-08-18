@@ -1,6 +1,5 @@
 import React from 'react';
 
-import localStorage from 'platform/utilities/storage/localStorage';
 import { capitalizeEachWord } from '../utils';
 import { NULL_CONDITION_STRING } from '../constants';
 
@@ -24,7 +23,8 @@ export const disabilityOption = ({
   const showMaxRatingMessage =
     Number.isInteger(maximumRatingPercentage) &&
     maximumRatingPercentage === ratingPercentage &&
-    String(localStorage.getItem('showDisability526MaximumRating')) === 'true';
+    String(window.sessionStorage.getItem('showDisability526MaximumRating')) ===
+      'true';
 
   return (
     <>

@@ -10,7 +10,6 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
-import localStorage from 'platform/utilities/storage/localStorage';
 
 import { itfNotice } from '../content/introductionPage';
 import {
@@ -34,7 +33,7 @@ class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('h1');
     scrollToTop();
-    localStorage.setItem(
+    window.sessionStorage.setItem(
       'showDisability526MaximumRating',
       this.props.showMaxRating,
     );
