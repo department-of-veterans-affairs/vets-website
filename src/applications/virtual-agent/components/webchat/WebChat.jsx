@@ -103,6 +103,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     suggestedActionTextColor: 'white',
     suggestedActionBorderRadius: 5,
     suggestedActionBorderWidth: 0,
+    microphoneButtonColorOnDictate: 'rgb(255, 255, 255)',
   };
 
   const handleTelemetry = event => {

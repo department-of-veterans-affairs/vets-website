@@ -17,35 +17,29 @@ import VaCheckboxField from '../web-component-fields/VaCheckboxField';
  * STREET_PATTERN - rejects white space only
  * US_POSTAL_CODE_PATTERN - Matches 5 digit zipcodes
  */
-export const STREET_PATTERN = '^.*\\S.*';
-export const US_POSTAL_CODE_PATTERN = '^\\d{5}$';
+const STREET_PATTERN = '^.*\\S.*';
+const US_POSTAL_CODE_PATTERN = '^\\d{5}$';
 
-export const MILITARY_CITY_VALUES = constants.militaryCities.map(
-  city => city.value,
-);
-export const MILITARY_CITY_NAMES = constants.militaryCities.map(
-  city => city.label,
-);
+const MILITARY_CITY_VALUES = constants.militaryCities.map(city => city.value);
+const MILITARY_CITY_NAMES = constants.militaryCities.map(city => city.label);
 
-export const MILITARY_STATE_VALUES = constants.militaryStates.map(
+const MILITARY_STATE_VALUES = constants.militaryStates.map(
   state => state.value,
 );
-export const MILITARY_STATE_NAMES = constants.militaryStates.map(
-  state => state.label,
-);
+const MILITARY_STATE_NAMES = constants.militaryStates.map(state => state.label);
 
-export const COUNTRY_VALUES = constants.countries.map(country => country.value);
-export const COUNTRY_NAMES = constants.countries.map(country => country.label);
+const COUNTRY_VALUES = constants.countries.map(country => country.value);
+const COUNTRY_NAMES = constants.countries.map(country => country.label);
 
 // filtered States that include US territories
-export const filteredStates = constants.states.USA.filter(
+const filteredStates = constants.states.USA.filter(
   state => !MILITARY_STATE_VALUES.includes(state.value),
 );
 
-export const STATE_VALUES = filteredStates.map(state => state.value);
-export const STATE_NAMES = filteredStates.map(state => state.label);
+const STATE_VALUES = filteredStates.map(state => state.value);
+const STATE_NAMES = filteredStates.map(state => state.label);
 
-export const schemaCrossXRef = {
+const schemaCrossXRef = {
   isMilitary: 'isMilitary',
   'view:militaryBaseDescription': 'view:militaryBaseDescription',
   country: 'country',
