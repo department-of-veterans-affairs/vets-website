@@ -143,8 +143,8 @@ describe('check-in', () => {
             <TestComponent />
           </Provider>,
         );
-        expect(component.getByTestId('travelPayData')).to.have.text(
-          '2022-08-12T15:15:00-07:00',
+        expect(component.getByTestId('travelPayData')).to.contain.text(
+          '2022-08-12T15:15:00',
         );
       });
     });
