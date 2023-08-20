@@ -48,6 +48,7 @@ export default {
   MEDICAL_COPAYS_CTA: 'medical-copays-cta',
   OPT_OUT_APP_STATUS: 'opt-out-app-status',
   OTHER_FACILITY_LOCATIONS_LIST: 'other-facility-locations-list',
+  PENSION: 'pension-widget',
   PENSION_APP_STATUS: 'pension-app-status',
   POST_911_GI_BILL_STATUS_WIDGET: 'post-9-11-gi-bill-status',
   REFILL_TRACK_PRESCRIPTIONS_PAGE: 'refill-track-prescriptions-page',
