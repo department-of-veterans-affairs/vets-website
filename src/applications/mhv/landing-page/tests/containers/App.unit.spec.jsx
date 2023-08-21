@@ -97,7 +97,7 @@ describe(`${appName} -- <App /> container`, () => {
       originalLocation = global.window.location;
       delete global.window.location;
       replace = sinon.spy();
-      global.window.location = { replace };
+      global.window.location = { ...originalLocation, replace };
     });
 
     afterEach(() => {
