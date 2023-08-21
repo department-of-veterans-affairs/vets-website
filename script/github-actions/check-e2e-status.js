@@ -60,7 +60,7 @@ if (blockedPathsWithCodeChanges.length > 0) {
       message:
         daysSinceWarned > 60
           ? 'Code in this PR is associated with this test spec which is currently blocking merges due to being disabled at least 90 days. This test spec and/or its target code being tested must be corrected before code can be merged on this application.'
-          : 'Code in this PR is associated with this test spec which is currently under a warning due to being disabled for at least 45 days. If this warning is not cleared, merging will be blocked in the near future. See the E2E Allow List for full details',
+          : 'Code in this PR is associated with this test spec which is currently under a warning due to being disabled for at least 45 days. If this warning is not cleared, merging will be blocked when the time passes 90 days. See the E2E Allow List for full details',
       annotation_level: daysSinceWarned > 60 ? 'failure' : 'warning',
     };
   });
