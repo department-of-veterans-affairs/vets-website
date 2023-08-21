@@ -1,4 +1,4 @@
-import { SELECTED, MAX_LENGTH } from '../constants';
+import { SELECTED, MAX_LENGTH } from '../../shared/constants';
 
 /**
  * A CustomPage only needs/uses minimal uiSchema/schema

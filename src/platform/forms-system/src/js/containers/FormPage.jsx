@@ -188,9 +188,14 @@ class FormPage extends React.Component {
             onReviewPage={formContext?.onReviewPage}
             trackingPrefix={this.props.form.trackingPrefix}
             uploadFile={this.props.uploadFile}
+            schema={schema}
+            uiSchema={uiSchema}
             goBack={this.goBack}
             goForward={this.onSubmit}
             goToPath={this.goToPath}
+            callOnContinue={callOnContinue}
+            onChange={this.onChange}
+            onSubmit={this.onSubmit}
             setFormData={this.props.setData}
             contentBeforeButtons={contentBeforeButtons}
             contentAfterButtons={contentAfterButtons}

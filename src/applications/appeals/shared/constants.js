@@ -7,7 +7,7 @@ export const SELECTED = 'view:selected';
 /**
  **** INTERNAL FORM URL PATHS ****
  */
-export const CONTACT_INFO = '/contact-information';
+export const CONTACT_INFO_PATH = '/contact-information';
 
 /**
  **** URL PATHS ****
@@ -32,7 +32,7 @@ export const HLR_FORM_URL =
 
 export const NOD_INFO_URL = `${DR_URL}/board-appeal`;
 export const NOD_BASE_URL = `${NOD_INFO_URL}/request-board-appeal-form-10182`;
-export const NOD_OTHER_WAYS_URL = `${NOD_INFO_URL}#you-can-also-request-a-board-a`;
+export const NOD_OPTIONS_URL = `${NOD_INFO_URL}/#what-are-my-board-appeal-optio`;
 export const NOD_FORM_URL = 'https://www.va.gov/vaforms/va/pdf/VA10182.pdf';
 
 export const CLAIM_STATUS_TOOL_URL = '/claim-or-appeal-status';
@@ -70,20 +70,36 @@ export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
  **** MAX LENGTH ****
  */
 
-// Values from Lighthouse maintained schema v1
-// see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v1/10182.json
+// Values from Lighthouse maintained schema v2
+// see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json
 export const MAX_LENGTH = {
-  SELECTIONS: 100, // submitted issues
+  SELECTIONS: 100, // submitted issues (not in schema)
+  ISSUE_NAME: 140,
   DISAGREEMENT_REASON: 90,
+  EMAIL: 255,
+  COUNTRY_CODE: 3,
+  AREA_CODE: 4,
+  PHONE_NUMBER: 14,
+  PHONE_NUMBER_EXT: 10,
+  ADDRESS_LINE1: 60,
+  ADDRESS_LINE2: 30,
+  ADDRESS_LINE3: 10,
+  CITY: 60,
+  COUNTRY: 2,
+  ZIP_CODE5: 5,
+  POSTAL_CODE: 16,
+  REP_FIRST_NAME: 30,
+  REP_LAST_NAME: 40,
 };
 
 /**
  **** REGULAR EXPRESSIONS ****
  */
 export const REGEXP = {
-  WHITESPACE: /\s/g,
   APOSTROPHE: /\u2019/g,
+  DASH: /-/g,
   PERCENT: /(\s|\b)percent(\s|\b)/gi,
+  WHITESPACE: /\s+/g,
 };
 
 /**
@@ -105,3 +121,6 @@ export const SUBMITTED_DISAGREEMENTS = {
   effectiveDate: 'effective date',
   evaluation: 'disability evaluation',
 };
+
+// session storage keys
+export const LAST_ISSUE = 'last-issue'; // focus management across pages

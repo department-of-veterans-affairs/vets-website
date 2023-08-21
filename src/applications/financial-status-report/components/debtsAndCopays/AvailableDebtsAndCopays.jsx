@@ -119,10 +119,6 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
 
   return (
     <div data-testid="debt-selection-content">
-      <p className="vads-u-margin-bottom--3">
-        Select one or more debts you want to request relief for{' '}
-        <span className="required-text">(*Required)</span>
-      </p>
       <div
         className={
           selectionError
