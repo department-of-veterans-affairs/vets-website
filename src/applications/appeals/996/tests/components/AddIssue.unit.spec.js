@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import { AddIssue } from '../../components/AddIssue';
 import { issueErrorMessages } from '../../content/addIssue';
-import { MAX_LENGTH, LAST_ISSUE } from '../../constants';
+import { MAX_LENGTH, LAST_ISSUE } from '../../../shared/constants';
 import { getDate } from '../../utils/dates';
 import { $, $$ } from '../../utils/ui';
 

@@ -112,6 +112,15 @@ const testConfig = createTestConfig(
         areaOfDisagreementPageHook({ afterHook, index: 2 });
       },
 
+      'area-of-disagreement/:index': ({ afterHook /* , index */ }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.fillPage(); // temporary until page is updated with web components
+          // console.log('testing :index pageHooks', index);
+          cy.findByText('Continue', { selector: 'button' }).click();
+        });
+      },
+
       'evidence-submission/upload': () => {
         cy.get('input[type="file"]')
           .upload(

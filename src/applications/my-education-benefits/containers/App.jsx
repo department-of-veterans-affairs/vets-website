@@ -48,6 +48,23 @@ export const App = ({
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
 
+  // Prevent some browsers from changing the value when scrolling while hovering
+  //  over an input[type="number"] with focus.
+  document.addEventListener(
+    'wheel',
+    event => {
+      if (
+        event.target.type === 'number' &&
+        document.activeElement === event.target
+      ) {
+        event.preventDefault();
+        document.body.scrollTop += event.deltaY; // Chrome, Safari, et al
+        document.documentElement.scrollTop += event.deltaY; // Firefox, IE, maybe more
+      }
+    },
+    { passive: false },
+  );
+
   // Commenting out next line until component can handle astrisks (See TOE app)
   // const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
