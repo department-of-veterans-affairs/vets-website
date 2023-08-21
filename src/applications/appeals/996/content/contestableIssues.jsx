@@ -7,7 +7,6 @@ import {
   COVID_FAQ_URL,
   DECISION_REVIEWS_URL,
 } from '../constants';
-import { MAX_LENGTH } from '../../shared/constants';
 import DownloadLink from './DownloadLink';
 
 const disabilitiesList = (
