@@ -12,7 +12,10 @@ const LandingPage = () => {
         <div className="main-content">
           <section>
             <h1>About Medications</h1>
-            <p className="vads-u-font-size--h3">Intro/lead text</p>
+            <p className="vads-u-font-size--h3">
+              Learn how to manage your VA prescriptions and review all
+              medications in your VA medical records.
+            </p>
           </section>
           <section>
             <a
