@@ -1,8 +1,8 @@
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import manifest from 'applications/mhv/landing-page/manifest.json';
 
-import ApiInitializer from 'applications/mhv/landing-page/tests/utilities/ApiInitializer';
-import LandingPage from 'applications/mhv/landing-page/tests/pages/LandingPage';
+import ApiInitializer from 'applications/mhv/landing-page/tests/e2e/utilities/ApiInitializer';
+import LandingPage from 'applications/mhv/landing-page/tests/e2e/pages/LandingPage';
 
 describe(manifest.appName, () => {
   it('shows the new link when enabled', () => {
@@ -10,10 +10,10 @@ describe(manifest.appName, () => {
     ApiInitializer.initializeUserData.withDefaultUser();
     LandingPage.visitPage({ serviceProvider: CSP_IDS.ID_ME });
     cy.injectAxeThenAxeCheck();
-    cy.get('[data-e2e-id="my-health-4"]')
+    cy.get('[data-e2e-id="my-healthe-vet-4"]')
       .should('be.visible')
-      .and('have.text', 'My Health');
-    cy.get('[data-e2e-id="my-health-4"]').should(
+      .and('have.text', 'My HealtheVet');
+    cy.get('[data-e2e-id="my-healthe-vet-4"]').should(
       'have.attr',
       'href',
       '/my-health/',
@@ -25,10 +25,10 @@ describe(manifest.appName, () => {
     cy.login();
     cy.visit('/');
     cy.injectAxeThenAxeCheck();
-    cy.get('[data-e2e-id="my-health-4"]')
+    cy.get('[data-e2e-id="my-healthe-vet-4"]')
       .should('be.visible')
-      .and('have.text', 'My Health');
-    cy.get('[data-e2e-id="my-health-4"]')
+      .and('have.text', 'My HealtheVet');
+    cy.get('[data-e2e-id="my-healthe-vet-4"]')
       .should('have.attr', 'href')
       .and('include', 'mhv-portal-web/eauth');
   });

@@ -75,14 +75,4 @@ describe('focusIssue', () => {
       expect(document.activeElement).to.eq(target);
     });
   });
-  it.skip('should focus on second remove button', async () => {
-    window.sessionStorage.setItem(LAST_ISSUE, '1,remove-cancel');
-    const { container } = await renderPage();
-    await focusIssue(0, container);
-    await waitFor(() => {
-      const target = $('#issue-1 .remove-issue', container);
-      // this won't work since RTL doesn't support shadowRoot
-      expect(document.activeElement).to.eq(target);
-    });
-  });
 });

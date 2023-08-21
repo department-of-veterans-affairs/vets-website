@@ -4,7 +4,7 @@ import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 
 import { IssueCardContent, IssueCard } from '../../components/IssueCard';
-import { SELECTED } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 
 const getContestableIssue = (id, selected) => ({
   ratingIssueSubjectText: `issue-${id}`,
