@@ -17,12 +17,6 @@ import { focusElement } from 'platform/utilities/ui';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
-import {
-  MissingServices,
-  MissingId,
-  MissingDob,
-} from './containers/MissingServices';
-
 import { MVI_ADD_SUCCEEDED } from './actions';
 import {
   WIZARD_STATUS,
@@ -43,26 +37,18 @@ import {
   fetchBranches,
   clearBranches,
 } from './utils/serviceBranches';
+import { Missing526Identifiers } from './containers/Missing526Identifiers';
 
 export const serviceRequired = [
   backendServices.FORM526,
   backendServices.ORIGINAL_CLAIMS,
 ];
 
-export const idRequired = [
-  // checks if EDIPI & SSN exists
-  backendServices.EVSS_CLAIMS,
-  // checks if EDIPI, SSN & either a BIRLS ID or Participant ID exists
-  backendServices.ORIGINAL_CLAIMS,
-];
-
-export const hasRequiredServices = profile =>
-  serviceRequired.some(service => profile.services.includes(service));
-
-export const hasRequiredId = profile =>
-  idRequired.some(service => profile.services.includes(service));
-
-export const hasRequiredDob = profile => !!profile.dob;
+const missingRequiredIdentifiers = profile => {
+  return Object.values(profile.claims.form526RequiredIdentifers).some(
+    idPresence => idPresence === false,
+  );
+};
 
 export const isIntroPage = ({ pathname = '' } = {}) =>
   pathname.endsWith('/introduction');
@@ -189,21 +175,15 @@ export const Form526Entry = ({
     return wrapWithBreadcrumb(title, <AddPerson title={title} />);
   }
 
-  // RequiredLoginView will handle unverified users by showing the
-  // appropriate link
-  if (profile.verified) {
-    // EVSS requires user DOB for submission - see #27374
-    if (!hasRequiredDob(profile)) {
-      return wrapWithBreadcrumb(title, <MissingDob title={title} />);
-    }
-    // User is missing either their SSN, EDIPI, or BIRLS ID
-    if (!hasRequiredId(profile)) {
-      return wrapWithBreadcrumb(title, <MissingId title={title} />);
-    }
-    // User doesn't have the required services. Show an alert
-    if (!hasRequiredServices(profile)) {
-      return wrapWithBreadcrumb(title, <MissingServices title={title} />);
-    }
+  if (profile.verified && missingRequiredIdentifiers(profile)) {
+    const identifiers = profile.claims.form526RequiredIdentifers;
+    return wrapWithBreadcrumb(
+      title,
+      <Missing526Identifiers
+        title={title}
+        form526RequiredIdentifers={identifiers}
+      />,
+    );
   }
 
   return wrapWithBreadcrumb(
