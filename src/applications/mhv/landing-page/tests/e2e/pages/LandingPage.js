@@ -2,7 +2,10 @@
 // eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
 import Timeouts from 'platform/testing/e2e/timeouts';
 
-import MockUser from '../../mocks/api/user';
+import {
+  cernerUser,
+  generateUserWithServiceProvider,
+} from '../../../mocks/api/user';
 
 class LandingPage {
   constructor() {
@@ -24,12 +27,12 @@ class LandingPage {
   };
 
   visitPage = ({ serviceProvider = 'idme' } = {}) => {
-    cy.login(MockUser.generateUserWithServiceProvider({ serviceProvider }));
+    cy.login(generateUserWithServiceProvider({ serviceProvider }));
     cy.visit(this.pageUrl);
   };
 
   visitPageAsCernerPatient = () => {
-    cy.login(MockUser.cernerPatient);
+    cy.login(cernerUser);
     cy.visit(this.pageUrl);
   };
 }
