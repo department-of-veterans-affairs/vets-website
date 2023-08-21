@@ -10,6 +10,7 @@ import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform
 import { getPreviousYear } from '../utilities/utils';
 import { ROUTES } from '../constants';
 import { updateDependents, updateEditMode } from '../actions';
+import { customizeTitle } from '../utilities/customize-title';
 
 const DependentsPage = ({
   dependents,
@@ -23,6 +24,16 @@ const DependentsPage = ({
 }) => {
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const determineH1 = () => {
+    return pastMode && year
+      ? `How many dependents did you have in ${year - 1}?`
+      : `How many dependents did you have last year?`;
+  };
+
+  useEffect(() => {
+    document.title = customizeTitle(determineH1());
+  });
 
   const dependentsValid = deps => {
     return deps?.match(/^[0-9]+$/) && deps >= 0 && deps <= 100;
@@ -85,11 +96,7 @@ const DependentsPage = ({
 
   return (
     <>
-      {pastMode && year ? (
-        <h1>How many dependents did you have in {year - 1}?</h1>
-      ) : (
-        <h1>How many dependents did you have last year?</h1>
-      )}
+      <h1>{determineH1()}</h1>
       <form>
         <VaNumberInput
           className="vads-u-margin-bottom--1"

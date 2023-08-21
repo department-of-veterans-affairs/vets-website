@@ -15,6 +15,15 @@ function maskSSN(ssnString = '') {
   return formatSSN(maskedSSN);
 }
 
+/**
+ * Use a ssnPattern instead of this.
+ *
+ * Examples:
+ * ```
+ * ssnOnly: ssnUI()
+ * veteranIds: ssnOrVaFileNumberUI()
+ * ```
+ * @param {WebComponentFieldProps} props */
 export default function SsnField(fieldProps) {
   const props = vaTextInputFieldMapping(fieldProps);
 

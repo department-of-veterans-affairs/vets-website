@@ -4,14 +4,13 @@ import {
   vaFileNumberSchema as vaFileNumberNewSchema,
   vaFileNumberUI as vaFileNumberNewUI,
   ssnOrVaFileNumberUI,
+  ssnOrVaFileNumberSchema,
   titleSchema,
   titleUI,
   inlineTitleUI,
   inlineTitleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { ssnUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
-
-const v3WCUI = ssnOrVaFileNumberUI(title => `V3 - ${title}`);
 
 /** @type {PageSchema} */
 export default {
@@ -41,8 +40,7 @@ export default {
       },
     },
     'view:wcv3Title': inlineTitleUI('Web component v3'),
-    wcv3SsnNew: v3WCUI.socialSecurityNumber,
-    wcv3VaFileNumberNew: v3WCUI.vaFileNumber,
+    wcv3SsnNew: ssnOrVaFileNumberUI(),
   },
   schema: {
     type: 'object',
@@ -58,8 +56,7 @@ export default {
       wcOldSsn: ssnNewSchema,
       wcOldVaFileNumber: vaFileNumberNewSchema,
       'view:wcv3Title': inlineTitleSchema,
-      wcv3SsnNew: ssnNewSchema,
-      wcv3VaFileNumberNew: vaFileNumberNewSchema,
+      wcv3SsnNew: ssnOrVaFileNumberSchema,
     },
     required: ['ssn', 'wcOldSsn', 'wcv3SsnNew'],
   },

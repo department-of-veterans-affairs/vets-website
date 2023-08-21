@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RecordListItem from './RecordListItem';
 import { RecordType } from '../../util/constants';
@@ -14,6 +15,7 @@ const RecordList = props => {
 
   const [currentRecords, setCurrentRecords] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isInitialPage, setInitialPage] = useState(true);
   const paginatedRecords = useRef([]);
 
   const paginateData = data => {
@@ -21,6 +23,7 @@ const RecordList = props => {
   };
 
   const onPageChange = page => {
+    setInitialPage(false);
     setCurrentRecords(paginatedRecords.current[page - 1]);
     setCurrentPage(page);
   };
@@ -41,6 +44,16 @@ const RecordList = props => {
     [currentPage, records],
   );
 
+  useEffect(
+    () => {
+      if (!isInitialPage) {
+        focusElement(document.querySelector('#showingRecords'));
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      }
+    },
+    [currentPage],
+  );
+
   const displayNums = fromToNums(currentPage, records?.length);
 
   return (
@@ -48,10 +61,11 @@ const RecordList = props => {
       <div
         className="pagination vads-u-padding-y--1 vads-u-margin-bottom--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
         hidden={hidePagination}
+        id="showingRecords"
       >
         Showing {displayNums[0]}
         &#8211;
-        {displayNums[1]} of {totalEntries} records
+        {displayNums[1]} of {totalEntries} records from newest to oldest
       </div>
       <div className="no-print">
         {currentRecords?.length > 0 &&
