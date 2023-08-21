@@ -4,12 +4,27 @@ import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import formConfig from '../config/form';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
+import { useFeatureToggle } from '../utils/use-feature-toggle';
 
 const IntroductionPage = props => {
+  const {
+    isSupplyReorderingSleepApneaEnabled,
+    isLoadingFeatureFlags,
+  } = useFeatureToggle();
+
+  if (isLoadingFeatureFlags)
+    return <va-loading-indicator message="Loading your information..." />;
+
+  let supplyDescription = 'hearing aid batteries and accessories';
+
+  if (isSupplyReorderingSleepApneaEnabled) {
+    supplyDescription = 'hearing aid and sleep apnea supplies';
+  }
+
   return (
     <>
       {' '}
-      <FormTitle title="Order hearing aid and sleep apnea supplies" />
+      <FormTitle title={`Order ${supplyDescription}`} />
       <div className="schemaform-intro">
         <SaveInProgressIntro
           hideUnauthedStartLink
@@ -18,19 +33,18 @@ const IntroductionPage = props => {
           pageList={props.route.pageList}
           verifyRequiredPrefill={props.route.formConfig.verifyRequiredPrefill}
           unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
-          startText="Order hearing aid and sleep apnea supplies"
+          startText={`Order ${supplyDescription}`}
           unauthStartText="Sign in to start your order"
           formConfig={formConfig}
         >
-          Please complete this form to order hearing aid and sleep apnea
-          supplies.
+          Please complete this form to order {supplyDescription}.
         </SaveInProgressIntro>
         <h2
           className="vads-u-font-size--h3"
           itemProp="name"
           id="am-i-eligible-to-order-prosthe"
         >
-          Follow the steps below to order hearing aid and sleep apnea supplies.
+          Follow the steps below to order {supplyDescription}.
         </h2>
         <div className="process schemaform-process">
           <ol>
@@ -46,24 +60,24 @@ const IntroductionPage = props => {
                 What if I need help with my order?
               </p>
               <p>
-                If you need help ordering hearing aid and sleep apnea supplies,
-                you can call the Denver Logistics Center Customer Service
-                Section at <Telephone contact="303-273-6200" /> or email{' '}
+                If you need help ordering {supplyDescription}, you can call the
+                Denver Logistics Center Customer Service Section at{' '}
+                <Telephone contact="303-273-6200" /> or email{' '}
                 <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
             </li>
             <li className="process-step list-two">
               <h3 className="vads-u-font-size--h4">Place your order</h3>
-              <p>
-                Complete this hearing aid and sleep apnea supplies order form.
-              </p>
+              <p>Complete this {supplyDescription} order form.</p>
               <p>These are the steps you can expect when placing an order:</p>
               <ul>
                 <li>Confirm your personal information</li>
                 <li>Confirm or edit your shipping address and email address</li>
                 <li>Select any hearing aids that need batteries</li>
                 <li>Select any hearing aid accessories you need</li>
-                <li>Select any sleep apnea supplies you need</li>
+                {isSupplyReorderingSleepApneaEnabled && (
+                  <li>Select any sleep apnea supplies you need</li>
+                )}
                 <li>Review and submit order</li>
               </ul>
               <p>
@@ -101,7 +115,7 @@ const IntroductionPage = props => {
           prefillEnabled={props.route.formConfig.prefillEnabled}
           messages={props.route.formConfig.savedFormMessages}
           pageList={props.route.pageList}
-          startText="Order hearing aid and sleep apnea supplies"
+          startText={`Order ${supplyDescription}`}
           unauthStartText="Sign in to start your order"
           formConfig={formConfig}
         />
