@@ -8,15 +8,13 @@ import PrintHeader from '../shared/PrintHeader';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
-import { dateFormat, nameFormat, sendErrorToSentry } from '../../util/helpers';
+import { nameFormat, sendErrorToSentry } from '../../util/helpers';
 
 const MicroDetails = props => {
   const { record, fullState } = props;
   const user = useSelector(state => state.user.profile);
   const name = nameFormat(user.userFullName);
-  const dob = dateFormat(user.dob, 'LL');
-
-  const formattedDate = formatDateLong(record?.date);
+  const dob = formatDateLong(user.dob);
 
   const generateMicrobiologyPdf = async () => {
     const pdfData = {
@@ -32,9 +30,7 @@ const MicroDetails = props => {
         'LL',
       )}`,
       footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-      title: `Lab and test results: Microbiology on ${formatDateLong(
-        record.date,
-      )}`,
+      title: `Lab and test results: Microbiology on ${record.date}`,
       subject: 'VA Medical Record',
       preface:
         'If you have any questions about these results, send a secure message to your care team.',
@@ -113,7 +109,7 @@ const MicroDetails = props => {
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Date:{' '}
               </h2>
-              <p>{formattedDate}</p>
+              <p>{record.date}</p>
             </div>
             <div className="no-print">
               <PrintDownload list download={generateMicrobiologyPdf} />
@@ -161,7 +157,7 @@ const MicroDetails = props => {
               <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                 Date completed
               </h3>
-              <p>{formattedDate}</p>
+              <p>{record.date}</p>
             </div>
 
             <div className="test-results-container">
@@ -188,7 +184,7 @@ const MicroDetails = props => {
                   </a>
                 </p>
               </va-additional-info>
-              <p className="vads-u-font-size--base make-monospace">
+              <p className="vads-u-font-size--base monospace">
                 {record.results}
               </p>{' '}
             </div>
