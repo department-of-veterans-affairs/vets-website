@@ -27,7 +27,7 @@ describe('Bad Address Alert -- Contact Page -- Form alert', () => {
     cy.intercept('POST', '/v0/profile/address_validation', addressValidation);
 
     // this is key to simulate the same address being attempted to be updated
-    // regarless of what address the form fields show
+    // regardless of what address the form fields show
     cy.intercept(
       'PUT',
       '/v0/profile/addresses',
