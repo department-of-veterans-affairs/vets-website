@@ -1,47 +1,70 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
 import LandingPage from '../components/LandingPage';
-
-import { isLandingPageEnabledForUser } from '../utilities/feature-toggles';
 import { resolveLandingPageLinks } from '../utilities/data';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-
 import { useDatadogRum } from '../hooks/useDatadogRum';
+import {
+  isAuthenticatedWithSSOe,
+  isLandingPageEnabledForUser,
+  isLoggedIn,
+  selectDrupalStaticData,
+  selectProfile,
+  signInServiceEnabled,
+} from '../selectors';
 
 const App = () => {
-  const fullState = useSelector(state => state);
-  const { featureToggles, user } = fullState;
+  const { featureToggles, user } = useSelector(state => state);
+  const enabled = useSelector(isLandingPageEnabledForUser);
+  const drupalStaticData = useSelector(selectDrupalStaticData);
+  const profile = useSelector(selectProfile);
+  const signedIn = useSelector(isLoggedIn);
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
+  const useSiS = useSelector(signInServiceEnabled);
 
   const data = useMemo(
     () => {
-      const authdWithSSOe = isAuthenticatedWithSSOe(fullState) || false;
-      return resolveLandingPageLinks(authdWithSSOe, featureToggles);
+      return resolveLandingPageLinks(ssoe, featureToggles);
     },
-    [featureToggles, user?.profile?.session?.ssoe],
-  );
-
-  const appEnabled = useMemo(
-    () => {
-      return isLandingPageEnabledForUser(fullState);
-    },
-    [fullState],
+    [featureToggles, ssoe],
   );
 
   useDatadogRum();
 
-  if (featureToggles.loading || user.profile.loading)
-    return <va-loading-indicator />;
-  if (!appEnabled) {
-    const url = mhvUrl(true, 'home');
-    window.location.replace(url);
-    return <></>;
-  }
+  const loading =
+    drupalStaticData?.vamcEhrData?.loading ||
+    featureToggles.loading ||
+    profile.loading;
+
+  const redirecting = signedIn && !loading && !enabled;
+
+  useEffect(
+    () => {
+      const redirect = () => {
+        const redirectUrl = mhvUrl(ssoe, 'home');
+        // console.log({ redirectUrl }); // eslint-disable-line no-console
+        window.location.replace(redirectUrl);
+      };
+      if (redirecting) redirect();
+    },
+    [ssoe, redirecting],
+  );
+
+  if (loading || redirecting)
+    return (
+      <div className="vads-u-margin--5">
+        <va-loading-indicator
+          data-testid="mhv-landing-page-loading"
+          message="Please wait..."
+        />
+      </div>
+    );
   return (
     <RequiredLoginView
+      useSiS={useSiS}
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
