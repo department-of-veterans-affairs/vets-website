@@ -433,7 +433,6 @@ export function submitRequest(id) {
 export const submit5103 = submitRequest;
 
 // id => {
-//   return submitRequest(id);
 //   return dispatch => {
 //     dispatch({
 //       type: SUBMIT_DECISION_REQUEST,
