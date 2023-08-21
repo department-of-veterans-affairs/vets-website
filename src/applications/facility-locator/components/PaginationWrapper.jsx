@@ -1,4 +1,4 @@
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { LocationType } from '../constants';
@@ -26,7 +26,7 @@ export class PaginationWrapper extends Component {
       results.length > 0
     ) {
       return (
-        <Pagination
+        <VaPagination
           onPageSelect={handlePageSelect}
           page={currentPage}
           pages={totalPages}

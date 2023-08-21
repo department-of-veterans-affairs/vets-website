@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -19,7 +20,6 @@ import {
 import user from '../tests/fixtures/mocks/user.json';
 
 import formConfig from '../config/form';
-import { issuesNeedUpdating, processContestableIssues } from '../utils/helpers';
 import {
   removeNonSelectedIssuesFromEvidence,
   evidenceNeedsUpdating,
@@ -27,6 +27,12 @@ import {
 
 import ITFWrapper from './ITFWrapper';
 import { WIP } from '../components/WIP';
+import { SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
+
+import {
+  issuesNeedUpdating,
+  processContestableIssues,
+} from '../../shared/utils/issues';
 
 export const App = ({
   loggedIn,
@@ -41,6 +47,8 @@ export const App = ({
   contestableIssues = {},
   legacyCount,
   isLoadingFeatures,
+  accountUuid,
+  inProgressFormId,
   show995,
 }) => {
   // vapContactInfo is an empty object locally, so mock it
@@ -64,10 +72,25 @@ export const App = ({
 
   useEffect(
     () => {
-      if (show995) {
+      // Set user account & application id in Sentry so we can access their form
+      // data for any thrown errors
+      if (accountUuid && inProgressFormId) {
+        Sentry.setTag('account_uuid', accountUuid);
+        Sentry.setTag('in_progress_form_id', inProgressFormId);
+      }
+    },
+    [accountUuid, inProgressFormId],
+  );
+
+  useEffect(
+    () => {
+      if (
+        show995 &&
+        SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)
+      ) {
         // form data is reset after logging in and from the save-in-progress data,
         // so get it from the session storage
-        if (!formData.benefitType && subTaskBenefitType) {
+        if (!formData.benefitType) {
           setFormData({
             ...formData,
             benefitType: subTaskBenefitType,
@@ -142,6 +165,8 @@ export const App = ({
         title={formConfig.title}
         benefitType={subTaskBenefitType}
         router={router}
+        accountUuid={accountUuid}
+        inProgressFormId={inProgressFormId}
       >
         {children}
       </ITFWrapper>
@@ -155,7 +180,7 @@ export const App = ({
     return <WIP />;
   }
 
-  if (!subTaskBenefitType) {
+  if (!SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)) {
     router.push('/start');
     content = wrapInH1(
       <va-loading-indicator message="Please wait while we restart the application for you." />,
@@ -183,6 +208,7 @@ export const App = ({
 App.propTypes = {
   getContestableIssues: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
+  accountUuid: PropTypes.string,
   children: PropTypes.any,
   contestableIssues: PropTypes.shape({}),
   formData: PropTypes.shape({
@@ -193,6 +219,7 @@ App.propTypes = {
     legacyCount: PropTypes.number,
     informalConferenceRep: PropTypes.shape({}),
   }),
+  inProgressFormId: PropTypes.number,
   isLoadingFeatures: PropTypes.bool,
   legacyCount: PropTypes.number,
   location: PropTypes.shape({
@@ -207,9 +234,12 @@ App.propTypes = {
   }),
   savedForms: PropTypes.array,
   show995: PropTypes.bool,
+  testSetTag: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
+  accountUuid: state?.user?.profile?.accountUuid,
+  inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   loggedIn: isLoggedIn(state),
   formData: state.form?.data || {},
   profile: selectProfile(state) || {},

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import AdditionalEvidenceItem from './AdditionalEvidenceItem';
 import AskVAToDecide from '../AskVAToDecide';
 import RequestedFilesInfo from '../RequestedFilesInfo';
-import SubmittedTrackedItem from '../SubmittedTrackedItem';
+import SubmittedTrackedItem from './SubmittedTrackedItem';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
 const FIRST_GATHERING_EVIDENCE_PHASE = 3;

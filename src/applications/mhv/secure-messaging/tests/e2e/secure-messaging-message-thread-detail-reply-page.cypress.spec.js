@@ -1,5 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
+import PatientReplyPage from './pages/PatientReplyPage';
 
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockMessages from './fixtures/messages-response.json';
@@ -10,6 +11,7 @@ describe('Secure Messaging Reply Message Details Thread', () => {
     const landingPage = new PatientInboxPage();
     const patientInterstitialPage = new PatientInterstitialPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
+    const replyPage = new PatientReplyPage();
 
     const site = new SecureMessagingSite();
     site.login();
@@ -17,14 +19,28 @@ describe('Secure Messaging Reply Message Details Thread', () => {
     landingPage.loadInboxMessages(mockMessages, testMessage);
     messageDetailsPage.loadMessageDetails(testMessage);
     messageDetailsPage.loadReplyPageDetails(testMessage);
-    patientInterstitialPage.getContinueButton().click();
-    messageDetailsPage.verifyExpandedMessageDateDisplay(testMessage);
-    cy.contains('expand').click();
-    messageDetailsPage.verifyExpandedMessageFromDisplay(testMessage);
-    messageDetailsPage.verifyExpandedMessageIDDisplay(testMessage);
+    patientInterstitialPage
+      .getContinueButton()
+      .click({ waitforanimations: true });
+
+    replyPage.verifyExpandedMessageDateDisplay(testMessage);
+
+    cy.get(
+      `[data-testid='expand-message-button-${
+        testMessage.data.attributes.messageId
+      }']`,
+    ).click({ waitforanimations: true });
+    replyPage.verifyExpandedMessageDateDisplay(testMessage);
+    // messageDetailsPage.verifyExpandedMessageIDDisplay(testMessage); // TODO: Pending UCD decision if message ID should be displayed
     messageDetailsPage.verifyExpandedMessageToDisplay(testMessage);
     messageDetailsPage.verifyUnexpandedMessageFromDisplay(testMessage);
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

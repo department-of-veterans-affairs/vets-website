@@ -79,10 +79,6 @@ describe('Pre-Check In Experience ', () => {
 
     // page: Confirmation
     Confirmation.validatePageLoaded();
-    Confirmation.expandAllAccordions();
-    cy.createScreenshots(
-      'Pre-check-in--phone-appt-confirmation-answer-no-to-all',
-    );
     cy.injectAxeThenAxeCheck();
   });
 });

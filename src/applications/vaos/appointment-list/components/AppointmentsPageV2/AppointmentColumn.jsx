@@ -7,7 +7,7 @@ function getClasses({ className, first, last, padding, size }) {
   if (className) {
     const names = classNames(
       `vads-u-flex--${size}`,
-      `vads-u-padding-top--${padding || '0p25'}`,
+      `vads-u-padding-top--${padding || '0'}`,
       {
         'vads-u-margin-left--1': first,
         'vads-u-margin-right--1': last,
@@ -21,7 +21,7 @@ function getClasses({ className, first, last, padding, size }) {
   // Default class names
   return classNames(
     `vads-u-flex--${size}`,
-    `vads-u-padding-top--${padding || '0p25'}`,
+    `vads-u-padding-top--${padding || '0'}`,
     {
       'vads-u-margin-left--1': first,
       'vads-u-margin-right--1': last,

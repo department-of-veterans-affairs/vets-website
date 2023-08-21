@@ -8,7 +8,8 @@ import {
   selectHideDirectDepositCompAndPen,
 } from '@@profile/selectors';
 import { Prompt } from 'react-router-dom';
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
@@ -37,6 +38,8 @@ import DirectDepositWrapper from './DirectDepositWrapper';
 import TemporaryOutage from './alerts/TemporaryOutage';
 
 import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
+
+import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 
 const DirectDeposit = ({
   cnpUiState,
@@ -210,7 +213,9 @@ const mapStateToProps = state => {
     isVerifiedUser: isLOA3 && isUsingEligibleSignInService && is2faEnabled,
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
-    hideDirectDepositCompAndPen: selectHideDirectDepositCompAndPen(state),
+    hideDirectDepositCompAndPen:
+      toggleValues(state)?.[TOGGLE_NAMES.profileUseExperimental] ||
+      selectHideDirectDepositCompAndPen(state),
     useOAuth: isAuthenticatedWithOAuth(state),
   };
 };

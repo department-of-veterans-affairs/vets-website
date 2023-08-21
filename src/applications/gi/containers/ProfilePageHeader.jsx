@@ -332,7 +332,7 @@ const ProfilePageHeader = ({
               </span>{' '}
               (
               <a
-                href="#profile-school-ratings"
+                href="#veteran-ratings"
                 onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
               >
                 See {ratingCount} ratings by Veterans

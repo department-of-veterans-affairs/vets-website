@@ -1,5 +1,4 @@
 import React from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchMultiFacility } from './actions';
@@ -83,7 +82,7 @@ export class FacilityMapWidgetDynamic extends React.Component {
     const error = multiError ? multiError[facilityID] : false;
 
     if (loading) {
-      return <LoadingIndicator message="Loading facility..." />;
+      return <va-loading-indicator message="Loading facility..." />;
     }
 
     if (error) {

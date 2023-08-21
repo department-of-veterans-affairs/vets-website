@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
@@ -26,6 +25,12 @@ import BenefitsForm from './BenefitsForm';
 import LearnMoreLabel from '../LearnMoreLabel';
 import VARadioButton from '../VARadioButton';
 
+export const issueZipCodeHintText = (
+  <p className="vads-u-font-weight--normal label-description">
+    Postal code must be a 5-digit number
+  </p>
+);
+
 function CalculateYourBenefitsForm({
   calculatorInputChange,
   displayedInputs,
@@ -40,6 +45,13 @@ function CalculateYourBenefitsForm({
   focusHandler,
 }) {
   const [invalidZip, setInvalidZip] = useState('');
+  const [zipDirty, setZipDirty] = useState(false);
+  const handlers = {
+    onZipBlur: () => {
+      setZipDirty(true);
+    },
+  };
+
   const [expanded, setExpanded] = useState({
     yourBenefits: true,
     aboutYourSchool: false,
@@ -134,21 +146,25 @@ function CalculateYourBenefitsForm({
   };
 
   const handleBeneficiaryZIPCodeChanged = event => {
-    if (!event.dirty) {
-      onBeneficiaryZIPCodeChanged(event.value);
-      if (event.value.length === 5) {
+    const { value } = event.target;
+    if (!zipDirty || value.length <= 5) {
+      onBeneficiaryZIPCodeChanged(value);
+      if (value.length === 5) {
         recordEvent({
           event: 'gibct-form-change',
           'gibct-form-field': 'gibctExtensionSearchZipCode',
-          'gibct-form-value': event.value,
+          'gibct-form-value': value,
         });
       }
       setInvalidZip('');
 
       recalculateBenefits();
-    } else if (inputs.beneficiaryZIP.length < 5) {
+    }
+
+    if (value.length < 5) {
       setInvalidZip('Postal code must be a 5-digit number');
     }
+    setZipDirty(false);
   };
 
   const handleInputChange = (event, target, name) => {
@@ -192,7 +208,7 @@ function CalculateYourBenefitsForm({
     recalculateBenefits();
   };
 
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabled] = useState(false);
 
   const updateEligibility = (e, name, number) => {
     if (number === 2) {
@@ -203,12 +219,14 @@ function CalculateYourBenefitsForm({
         'gibct-form-value': value,
       });
       eligibilityChange({ [name]: value });
+
       if (name === 'militaryStatus') {
+        /*
         setIsDisabled(true);
         if (value === 'spouse' || value === 'child') {
           setIsDisabled(false);
-        }
-        eligibilityChange({ giBillChapter: '33a' });
+        } */
+        // eligibilityChange({ giBillChapter: '33a' });
       }
       recalculateBenefits();
     }
@@ -221,12 +239,14 @@ function CalculateYourBenefitsForm({
       'gibct-form-value': value,
     });
     eligibilityChange({ [field]: value });
+
     if (field === 'militaryStatus') {
+      /*
       setIsDisabled(true);
       if (value === 'spouse' || value === 'child') {
         setIsDisabled(false);
-      }
-      eligibilityChange({ giBillChapter: '33a' });
+      } */
+      // eligibilityChange({ giBillChapter: '33a' });
     }
     recalculateBenefits();
   };
@@ -261,7 +281,8 @@ function CalculateYourBenefitsForm({
   };
 
   const handleHasClassesOutsideUSChange = e => {
-    handleBeneficiaryZIPCodeChanged({ value: '' });
+    handleBeneficiaryZIPCodeChanged({ target: { value: '' } });
+    // handleBeneficiaryZIPCodeChanged({ value: '' });
     handleCheckboxChange(e);
 
     recordEvent({
@@ -368,7 +389,7 @@ function CalculateYourBenefitsForm({
         : 'inStateWithoutLink';
 
     return (
-      <ExpandingGroup open={displayedInputs.tuition && inputs.inState === 'no'}>
+      <>
         <>
           <LearnMoreLabel
             text={radioButtonsLabelText}
@@ -385,8 +406,8 @@ function CalculateYourBenefitsForm({
             }
           />
         </>
-        {renderInStateTuition()}
-      </ExpandingGroup>
+        {inputs.inState === 'no' && <>{renderInStateTuition()}</>}
+      </>
     );
   };
 
@@ -466,7 +487,7 @@ function CalculateYourBenefitsForm({
     const yellowRibbonFieldId = 'yellowRibbonField';
 
     return (
-      <ExpandingGroup open={inputs.yellowRibbonRecipient === 'yes'}>
+      <>
         <>
           <LearnMoreLabel
             text="Will you be a Yellow Ribbon recipient?"
@@ -546,7 +567,7 @@ function CalculateYourBenefitsForm({
             </div>
           </AlertBox>
         </div>
-      </ExpandingGroup>
+      </>
     );
   };
 
@@ -711,7 +732,7 @@ function CalculateYourBenefitsForm({
 
     return (
       <div>
-        <ExpandingGroup open={inputs.calendar === 'nontraditional'}>
+        <>
           <Dropdown
             label={learnMoreLabel({
               text: 'School Calendar',
@@ -733,9 +754,8 @@ function CalculateYourBenefitsForm({
             onBlur={handleInputBlur}
             onFocus={handleEYBInputFocus}
           />
-
-          {dependentDropdowns}
-        </ExpandingGroup>
+          {inputs.calendar === 'nontraditional' && <>{dependentDropdowns}</>}
+        </>
       </div>
     );
   };
@@ -767,7 +787,7 @@ function CalculateYourBenefitsForm({
     );
 
     return (
-      <ExpandingGroup open={inputs.kickerEligible === 'yes'}>
+      <>
         <>
           <LearnMoreLabel
             text={radioButtonsLabelText}
@@ -784,8 +804,8 @@ function CalculateYourBenefitsForm({
             }}
           />
         </>
-        {amountInput}
-      </ExpandingGroup>
+        {inputs.kickerEligible === 'yes' && <>{amountInput}</>}
+      </>
     );
   };
 
@@ -858,14 +878,17 @@ function CalculateYourBenefitsForm({
 
         zipcodeInput = (
           <div name="beneficiary-zip-question">
-            <TextInput
-              autoFocus
-              errorMessage={errorMessageCheck}
-              label={label}
+            <VaTextInput
+              id="beneficiaryZIPCode"
               name="beneficiaryZIPCode"
-              field={{ value: inputs.beneficiaryZIP }}
-              onValueChange={handleBeneficiaryZIPCodeChanged}
-              charMax={5}
+              type="text"
+              label={label}
+              required
+              value={inputs.beneficiaryZIP}
+              onInput={handleBeneficiaryZIPCodeChanged}
+              onBlur={handlers.onZipBlur}
+              maxlength="5"
+              error={errorMessageCheck}
             />
           </div>
         );
@@ -896,12 +919,9 @@ function CalculateYourBenefitsForm({
       : profile.attributes.name;
 
     return (
-      <ExpandingGroup
-        open={
-          displayExtensionSelector ||
-          displayExtensionBeneficiaryInternationalCheckbox()
-        }
-      >
+      <>
+        {displayExtensionSelector ||
+          displayExtensionBeneficiaryInternationalCheckbox()}
         <>
           <LearnMoreLabel
             text={radioButtonsLabelText}
@@ -924,7 +944,7 @@ function CalculateYourBenefitsForm({
           {zipcodeLocation}
           {internationalCheckbox}
         </div>
-      </ExpandingGroup>
+      </>
     );
   };
 
@@ -953,7 +973,7 @@ function CalculateYourBenefitsForm({
     );
 
     return (
-      <ExpandingGroup open={inputs.buyUp === 'yes'}>
+      <>
         <VARadioButton
           radioLabel="Participate in buy-up program?"
           name="buyUp"
@@ -967,7 +987,7 @@ function CalculateYourBenefitsForm({
           }
         />
         {amountInput}
-      </ExpandingGroup>
+      </>
     );
   };
 
@@ -1079,6 +1099,7 @@ function CalculateYourBenefitsForm({
         <div>
           <BenefitsForm
             eligibilityChange={updateEligibility}
+            eligibilityChangeRedux={eligibilityChange}
             {...eligibility}
             hideModal={hideModal}
             showModal={showModal}

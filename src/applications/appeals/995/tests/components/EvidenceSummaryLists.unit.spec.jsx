@@ -10,6 +10,7 @@ import {
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
   EVIDENCE_UPLOAD_PATH,
+  LIMITATION_KEY,
 } from '../../constants';
 
 import { content } from '../../content/evidenceSummary';
@@ -103,9 +104,38 @@ describe('evidenceSummaryList', () => {
       const { container } = render(<VaContent list={vaEvidence} testing />);
 
       const li = $$('li', container);
-      expect(li[0].textContent).to.contain(content.missingIssues);
+      expect(li[0].textContent).to.contain('Missing condition');
       expect(li[1].textContent).to.contain('Test 1 and Test 2');
     });
+    it('should show missing location name & treatment dates', () => {
+      const vaEvidence = [
+        {
+          locationAndName: '',
+          issues: [],
+          evidenceDates: { from: '--', to: '' },
+        },
+      ];
+      const { container } = render(<VaContent list={vaEvidence} testing />);
+
+      const li = $('li', container);
+      expect(li.textContent).to.contain('Missing location name');
+      expect(li.textContent).to.contain('Missing treatment dates');
+    });
+    it('should show missing start treatment date', () => {
+      const vaEvidence = [{ evidenceDates: { from: '2000-1-1', to: '' } }];
+      const { container } = render(<VaContent list={vaEvidence} testing />);
+
+      const li = $('li', container);
+      expect(li.textContent).to.contain('Missing end date');
+    });
+    it('should show missing end treatment date', () => {
+      const vaEvidence = [{ evidenceDates: { from: '--', to: '2000-1-1' } }];
+      const { container } = render(<VaContent list={vaEvidence} testing />);
+
+      const li = $('li', container);
+      expect(li.textContent).to.contain('Missing start date');
+    });
+
     it('should have edit links pointing to the appropriate VA indexed page', () => {
       const vaEvidence = records().locations;
       const { container } = render(<VaContent list={vaEvidence} testing />);
@@ -121,7 +151,7 @@ describe('evidenceSummaryList', () => {
     it('should execute callback when removing an entry', () => {
       const removeSpy = sinon.spy();
       const vaEvidence = records().locations;
-      const handlers = { removeVaLocation: removeSpy };
+      const handlers = { showModal: removeSpy };
       const { container } = render(
         <VaContent list={vaEvidence} handlers={handlers} testing />,
       );
@@ -130,9 +160,11 @@ describe('evidenceSummaryList', () => {
       fireEvent.click(buttons[0]);
       expect(removeSpy.calledOnce).to.be.true;
       expect(removeSpy.args[0][0].target.getAttribute('data-index')).to.eq('0');
+      expect(removeSpy.args[0][0].target.getAttribute('data-type')).to.eq('va');
       fireEvent.click(buttons[1]);
       expect(removeSpy.calledTwice).to.be.true;
       expect(removeSpy.args[1][0].target.getAttribute('data-index')).to.eq('1');
+      expect(removeSpy.args[1][0].target.getAttribute('data-type')).to.eq('va');
     });
   });
 
@@ -187,7 +219,7 @@ describe('evidenceSummaryList', () => {
       );
 
       const li = $$('li', container);
-      expect(li[0].textContent).to.contain(content.missingIssues);
+      expect(li[0].textContent).to.contain('Missing condition');
       expect(li[1].textContent).to.contain('Test 1, Test 2, and Tinnitus');
     });
     it('should have edit links pointing to the appropriate private indexed page or limitation page', () => {
@@ -210,7 +242,7 @@ describe('evidenceSummaryList', () => {
     it('should execute callback when removing an entry', () => {
       const removeSpy = sinon.spy();
       const privateEvidence = records().providerFacility;
-      const handlers = { removePrivateFacility: removeSpy };
+      const handlers = { showModal: removeSpy };
       const { container } = render(
         <PrivateContent list={privateEvidence} handlers={handlers} testing />,
       );
@@ -219,14 +251,20 @@ describe('evidenceSummaryList', () => {
       fireEvent.click(buttons[0]);
       expect(removeSpy.calledOnce).to.be.true;
       expect(removeSpy.args[0][0].target.getAttribute('data-index')).to.eq('0');
+      expect(removeSpy.args[0][0].target.getAttribute('data-type')).to.eq(
+        'private',
+      );
       fireEvent.click(buttons[1]);
       expect(removeSpy.calledTwice).to.be.true;
       expect(removeSpy.args[1][0].target.getAttribute('data-index')).to.eq('1');
+      expect(removeSpy.args[1][0].target.getAttribute('data-type')).to.eq(
+        'private',
+      );
     });
     it('should execute callback when removing the limitation', () => {
       const removeSpy = sinon.spy();
       const privateEvidence = records().providerFacility;
-      const handlers = { removePrivateLimitation: removeSpy };
+      const handlers = { showModal: removeSpy };
       const { container } = render(
         <PrivateContent
           list={privateEvidence}
@@ -239,6 +277,9 @@ describe('evidenceSummaryList', () => {
       const buttons = $$('.remove-item', container);
       fireEvent.click(buttons[2]);
       expect(removeSpy.called).to.be.true;
+      expect(removeSpy.args[0][0].target.getAttribute('data-type')).to.eq(
+        LIMITATION_KEY,
+      );
     });
   });
 
@@ -286,7 +327,7 @@ describe('evidenceSummaryList', () => {
     it('should execute callback when removing an upload', () => {
       const removeSpy = sinon.spy();
       const otherEvidence = records().additionalDocuments;
-      const handlers = { removeUpload: removeSpy };
+      const handlers = { showModal: removeSpy };
       const { container } = render(
         <UploadContent list={otherEvidence} handlers={handlers} testing />,
       );
@@ -295,9 +336,15 @@ describe('evidenceSummaryList', () => {
       fireEvent.click(buttons[0]);
       expect(removeSpy.calledOnce).to.be.true;
       expect(removeSpy.args[0][0].target.getAttribute('data-index')).to.eq('0');
+      expect(removeSpy.args[0][0].target.getAttribute('data-type')).to.eq(
+        'upload',
+      );
       fireEvent.click(buttons[1]);
       expect(removeSpy.calledTwice).to.be.true;
       expect(removeSpy.args[1][0].target.getAttribute('data-index')).to.eq('1');
+      expect(removeSpy.args[1][0].target.getAttribute('data-type')).to.eq(
+        'upload',
+      );
     });
   });
 });

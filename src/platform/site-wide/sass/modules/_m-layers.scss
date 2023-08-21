@@ -11,8 +11,10 @@
 #preview-site-alert {
   z-index: $low-layer;
 }
-#session-timeout-modal {
+
+#logout-modal-root {
   // Needs to show up over everything because the user is about to get signed out
+  position: relative;
   z-index: 9999;
 }
 

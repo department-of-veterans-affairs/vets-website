@@ -1,27 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { retrieveMessageThread } from '../actions/messages';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import InterstitialPage from './InterstitialPage';
+import { PrintMessageOptions } from '../util/constants';
+import { getPatientSignature } from '../actions/preferences';
 
 const MessageReply = () => {
   const dispatch = useDispatch();
   const { replyId } = useParams();
   const { error } = useSelector(state => state.sm.draftDetails);
   const replyMessage = useSelector(state => state.sm.messageDetails.message);
-  const messageHistory = useSelector(
-    state => state.sm.messageDetails.messageHistory,
+  const { messageHistory, printOption, threadViewCount } = useSelector(
+    state => state.sm.messageDetails,
   );
   const [acknowledged, setAcknowledged] = useState(false);
 
   useEffect(
     () => {
       dispatch(retrieveMessageThread(replyId));
+      dispatch(getPatientSignature());
     },
     [replyId, dispatch],
+  );
+
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+    },
+    [acknowledged, replyMessage],
   );
 
   const content = () => {
@@ -51,7 +62,11 @@ const MessageReply = () => {
     return (
       <>
         {messageHistory?.length > 0 && (
-          <MessageThread messageHistory={messageHistory} />
+          <MessageThread
+            messageHistory={messageHistory}
+            isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
+            viewCount={threadViewCount}
+          />
         )}
       </>
     );

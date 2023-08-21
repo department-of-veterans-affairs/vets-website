@@ -32,11 +32,10 @@
     {
       "type": "contestableIssue",
       "attributes": {
-        "issue": "Ankylosis of knee - 10% - Service connection for Ankylosis of knee is granted with an evaluation of 10 percent effective December 2, 2020.",
-        "decisionDate": "2022-03-12",
-        "decisionIssueId": 44,
-        "ratingIssueReferenceId": "66",
-        "disagreementArea": "service connection,effective date,disability evaluation,this is an other entry"
+        "issue": "Traumatic Brain Injury - 5%",
+        "decisionIssueId": 10,
+        "decisionDate": "2021-06-05",
+        "disagreementArea": "effective date"
       }
     }
   ]

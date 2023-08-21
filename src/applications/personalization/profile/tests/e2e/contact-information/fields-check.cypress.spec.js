@@ -4,18 +4,18 @@ import { mockUser } from '@@profile/tests/fixtures/users/user';
 import mockPersonalInformation from '@@profile/tests/fixtures/personal-information-success.json';
 import mockServiceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
-import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
+import {
+  mockFeatureToggles,
+  mockGETEndpoints,
+} from '@@profile/tests/e2e/helpers';
 
 const setup = () => {
   cy.login(mockUser);
   cy.intercept('v0/profile/personal_information', mockPersonalInformation);
   cy.intercept('v0/profile/service_history', mockServiceHistory);
   cy.intercept('v0/profile/full_name', mockFullName);
-  mockGETEndpoints([
-    'v0/mhv_account',
-    'v0/feature_toggles*',
-    'v0/ppiu/payment_information',
-  ]);
+  mockGETEndpoints(['v0/mhv_account', 'v0/ppiu/payment_information']);
+  mockFeatureToggles();
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
   cy.injectAxe();
 

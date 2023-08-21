@@ -6,7 +6,7 @@ const { pciuStates: PCIU_STATES } = constants;
 import {
   VA_FORM_IDS,
   VA_FORM_IDS_IN_PROGRESS_FORMS_API,
-} from 'platform/forms/constants';
+} from '@department-of-veterans-affairs/platform-forms/constants';
 
 import disabilityLabels from './content/disabilityLabels';
 
@@ -105,7 +105,7 @@ export const VA_FORM4192_URL =
 export const MAX_FILE_SIZE_MB = 50;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
-export const MAX_PDF_FILE_SIZE_MB = 150;
+export const MAX_PDF_FILE_SIZE_MB = 99;
 // binary based
 export const MAX_PDF_FILE_SIZE_BYTES = MAX_PDF_FILE_SIZE_MB * 1024 ** 2;
 
@@ -313,6 +313,10 @@ export const EBEN_526_PATH =
 export const BDD_INFO_URL =
   '/disability/how-to-file-claim/when-to-file/pre-discharge-claim/';
 
+/** Public Disability Benefits Questionnaires (DBQs) page which links to the Separation Helth Assessment Part A */
+export const DBQ_URL =
+  'https://www.benefits.va.gov/compensation/dbq_publicdbqs.asp';
+
 // maxLength from schema
 export const CHAR_LIMITS = [
   'primaryDescription',
@@ -333,3 +337,5 @@ export const CHAR_LIMITS = [
 
 // migration max string length
 export const MAX_HOUSING_STRING_LENGTH = 500;
+
+export const OMB_CONTROL = '2900-0747';

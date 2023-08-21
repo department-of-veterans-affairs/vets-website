@@ -60,9 +60,14 @@ describe('Check In Experience', () => {
       AppointmentDetails.validateWhat();
       AppointmentDetails.validateProvider();
       AppointmentDetails.validateWhere();
+      AppointmentDetails.validateFacilityAddress(true);
+      AppointmentDetails.validateDirectionsLink(false);
       AppointmentDetails.validatePhone();
       AppointmentDetails.validateCheckInButton();
       AppointmentDetails.validateReturnToAppointmentsPageButton();
+      cy.createScreenshots(
+        'Day-of-check-in--Appointment-detail-with-check-in-button',
+      );
       cy.injectAxeThenAxeCheck();
     });
     it('Can check-in from details page for eligible appointment', () => {
@@ -90,6 +95,9 @@ describe('Check In Experience', () => {
       AppointmentDetails.validateAppointmentMessage();
       AppointmentDetails.validateNoCheckInButton();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots(
+        'Day-of-check-in--Appointment-detail-ineligible-apppointment',
+      );
     });
   });
 });

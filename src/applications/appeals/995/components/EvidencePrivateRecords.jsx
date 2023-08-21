@@ -9,7 +9,6 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import environment from 'platform/utilities/environment';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { countries, states } from 'platform/forms/address';
 import debounce from 'platform/utilities/data/debounce';
@@ -18,7 +17,7 @@ import { EVIDENCE_PRIVATE_PATH, NO_ISSUES_SELECTED } from '../constants';
 
 import { content } from '../content/evidencePrivateRecords';
 import { getSelected, getIssueName } from '../utils/helpers';
-import { getIndex } from '../utils/evidence';
+import { getIndex, hasErrors } from '../utils/evidence';
 
 import { checkValidations } from '../validations';
 import {
@@ -75,7 +74,6 @@ const EvidencePrivateRecords = ({
   goToPath,
   setFormData,
   testingIndex,
-  testingMethod,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
@@ -120,11 +118,9 @@ const EvidencePrivateRecords = ({
       data,
       currentIndex,
     )[0],
-    from: checkValidations([validatePrivateFromDate], currentData)[0],
-    to: checkValidations([validatePrivateToDate], currentData)[0],
+    from: checkValidations([validatePrivateFromDate], currentData),
+    to: checkValidations([validatePrivateToDate], currentData),
   };
-
-  const hasErrors = () => Object.values(errors).filter(Boolean).length;
 
   useEffect(
     () => {
@@ -211,7 +207,8 @@ const EvidencePrivateRecords = ({
       // we're switching pages, don't set a field to dirty otherwise the next
       // page may set this and focus on an error without blurring a field
       if (!isBusy) {
-        const fieldName = event.target.getAttribute('name');
+        // event.detail from testing
+        const fieldName = event.target?.getAttribute('name') || event.detail;
         updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
       }
     },
@@ -246,7 +243,7 @@ const EvidencePrivateRecords = ({
 
     onAddAnother: event => {
       event.preventDefault();
-      if (hasErrors()) {
+      if (hasErrors(errors)) {
         // don't show modal
         updateState({ submitted: true });
         focusEvidence();
@@ -263,7 +260,7 @@ const EvidencePrivateRecords = ({
       event.preventDefault();
       updateState({ submitted: true });
       // non-empty entry, focus on error
-      if (hasErrors()) {
+      if (hasErrors(errors)) {
         focusEvidence();
         return;
       }
@@ -282,7 +279,7 @@ const EvidencePrivateRecords = ({
       // a new empty entry
       if (isEmptyPrivateEntry(currentData)) {
         updateCurrentFacility({ remove: true });
-      } else if (hasErrors()) {
+      } else if (hasErrors(errors)) {
         // focus on first error
         updateState({ submitted: true, showModal: true });
         return;
@@ -333,25 +330,14 @@ const EvidencePrivateRecords = ({
   };
 
   const showError = name =>
-    ((currentState.submitted || currentState.dirty[name]) && errors[name]) ||
+    ((currentState.submitted || currentState.dirty[name]) &&
+      (Array.isArray(errors[name]) ? errors[name][0] : errors[name])) ||
     null;
 
-  // for testing only; testing-library can't close modal by clicking shadow dom
-  // so this adds a clickable button for testing, adding a color + attr name
-  // will allow simulating a field name, e.g. "onBlur:from" blurs the from date
-  const [testMethod, testName = 'test'] = (testingMethod || '').split(':');
-  const testMethodButton =
-    testingMethod && !environment.isProduction() ? (
-      <button
-        id="test-method"
-        className="sr-only"
-        type="button"
-        name={testName}
-        onClick={handlers[testMethod]}
-      >
-        test
-      </button>
-    ) : null;
+  const isInvalid = (name, part) => {
+    const message = errors[name]?.[1] || '';
+    return message.includes(part) || message.includes('other');
+  };
 
   const hasStates =
     states[(currentData.providerFacilityAddress?.country)] || [];
@@ -526,6 +512,9 @@ const EvidencePrivateRecords = ({
           onDateBlur={handlers.onBlur}
           value={currentData.treatmentDateRange?.from}
           error={showError('from')}
+          invalidMonth={isInvalid('from', 'month')}
+          invalidDay={isInvalid('from', 'day')}
+          invalidYear={isInvalid('from', 'year')}
         />
         <VaMemorableDate
           id="facility-to-date"
@@ -536,6 +525,9 @@ const EvidencePrivateRecords = ({
           onDateBlur={handlers.onBlur}
           value={currentData.treatmentDateRange?.to}
           error={showError('to')}
+          invalidMonth={isInvalid('to', 'month')}
+          invalidDay={isInvalid('to', 'day')}
+          invalidYear={isInvalid('to', 'year')}
         />
         <div className="vads-u-margin-top--2">
           <Link
@@ -549,7 +541,6 @@ const EvidencePrivateRecords = ({
 
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}
-          {testMethodButton}
           <FormNavButtons
             goBack={handlers.onGoBack}
             goForward={handlers.onGoForward}
@@ -589,7 +580,6 @@ EvidencePrivateRecords.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
-  testingMethod: PropTypes.string,
 };
 
 export default EvidencePrivateRecords;

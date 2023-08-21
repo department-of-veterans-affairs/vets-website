@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { has, head } from 'lodash';
-import { initiateIdRequest, timeoutRedirect } from '../actions';
-import config from '../config';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import EmailVICHelp from 'platform/static-data/EmailVICHelp';
+import { initiateIdRequest, timeoutRedirect } from '../actions';
+import config from '../config';
 
 class Main extends React.Component {
   constructor(props) {
@@ -65,7 +65,7 @@ class Main extends React.Component {
   renderVicError() {
     const headline = (
       <h4 className="usa-alert-heading">
-        We're sorry. Something went wrong when loading the page.
+        We’re sorry. Something went wrong when loading the page.
       </h4>
     );
     const content = (
@@ -87,13 +87,13 @@ class Main extends React.Component {
 
   renderErrors() {
     const { errors } = this.props;
-    const code = head(errors).code;
+    const { code } = head(errors);
     const detail = has(config.messages, code)
       ? config.messages[code]
       : config.messages.default;
     const content = (
       <div>
-        <h4 className="usa-alert-heading">We can't process your request</h4>
+        <h4 className="usa-alert-heading">We can’t process your request</h4>
         {detail}
       </div>
     );
@@ -110,14 +110,14 @@ class Main extends React.Component {
     const view = (
       <div className="row">
         <div className="usa-width-two-thirds medium-8 vet-id-card">
-          <h1>Printed Veteran ID Card</h1>
+          <h1>Veteran ID Card</h1>
           <p>
-            You can use your printed Veteran ID Card (VIC) instead of your DD214
-            to get discounts on goods and services offered to Veterans. You can
-            also use other identification cards for this purpose. Find out if
-            you need a VIC or if you already have what you need.
+            You can use your Veteran ID Card (VIC) instead of your DD214 to get
+            discounts on goods and services offered to Veterans. You can also
+            use other identification cards for this purpose. Find out if you
+            need a VIC or if you already have what you need.
           </p>
-          <h3>Should I request a printed Veteran ID card?</h3>
+          <h3>Should I request a Veteran ID card?</h3>
           <p>
             You <b>do not</b> need to request this card if you have one of
             these:
@@ -151,8 +151,8 @@ class Main extends React.Component {
             request.{' '}
           </p>
           <p>
-            <strong>Note:</strong> To continue, you'll need a government-issued
-            ID (like your driver's license) and a photo of yourself from the
+            <strong>Note:</strong> To continue, you’ll need a government-issued
+            ID (like your driver’s license) and a photo of yourself from the
             shoulders up. Make sure you have what you need for this next step.
           </p>
           <div>

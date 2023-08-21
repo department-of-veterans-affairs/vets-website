@@ -13,6 +13,22 @@ const defaultProps = {
   letterType: 'commissary',
 };
 
+const lhMigrationOptions = {
+  listEndpoint: {
+    method: 'GET',
+    path: '/v0/letters',
+  },
+  summaryEndpoint: {
+    method: 'GET',
+    path: '/v0/letters/beneficiary',
+  },
+  downloadEndpoint: {
+    method: 'POST',
+    path: '/v0/letters',
+  },
+  dataEntryPoint: ['data', 'attributes'],
+};
+
 describe('<DownloadLetterLink>', () => {
   it('should render', () => {
     const component = ReactTestUtils.renderIntoDocument(
@@ -35,7 +51,12 @@ describe('<DownloadLetterLink>', () => {
     global.window.dataLayer = [];
 
     const getLetterPdf = sinon.spy();
-    const props = set('getLetterPdf', getLetterPdf, defaultProps);
+    const props = set(
+      'getLetterPdf',
+      getLetterPdf,
+      defaultProps,
+      lhMigrationOptions,
+    );
     const component = ReactTestUtils.renderIntoDocument(
       <DownloadLetterLink {...props} />,
     );
@@ -49,6 +70,7 @@ describe('<DownloadLetterLink>', () => {
     expect(getLetterPdf.args[0]).to.eql([
       defaultProps.letterType,
       defaultProps.letterName,
+      undefined,
       undefined,
     ]);
     expect(global.window.dataLayer[0]).to.eql({

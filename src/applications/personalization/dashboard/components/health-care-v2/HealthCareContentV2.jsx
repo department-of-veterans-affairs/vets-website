@@ -4,18 +4,15 @@ import PropTypes from 'prop-types';
 
 import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import recordEvent from '~/platform/monitoring/record-event';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
 import {
   selectUnreadCount,
   selectUserCernerFacilityNames,
-  selectUseVaosV2APi,
 } from '~/applications/personalization/dashboard/selectors';
-import {
-  fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction,
-  fetchConfirmedFutureAppointmentsV2 as fetchConfirmedFutureAppointmentsV2Action,
-} from '~/applications/personalization/appointments/actions';
+import { fetchConfirmedFutureAppointmentsV2 as fetchConfirmedFutureAppointmentsV2Action } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 import { selectAvailableServices } from '~/platform/user/selectors';
@@ -31,7 +28,6 @@ const HealthCareContentV2 = ({
   appointments,
   authenticatedWithSSOe,
   shouldFetchUnreadMessages,
-  fetchConfirmedFutureAppointments,
   fetchConfirmedFutureAppointmentsV2,
   facilityNames,
   fetchUnreadMessages,
@@ -41,7 +37,6 @@ const HealthCareContentV2 = ({
   shouldShowLoadingIndicator,
   hasInboxError,
   hasAppointmentsError,
-  useVaosV2Api,
   isVAPatient,
 }) => {
   const nextAppointment = appointments?.[0];
@@ -50,20 +45,10 @@ const HealthCareContentV2 = ({
   useEffect(
     () => {
       if (!dataLoadingDisabled && isVAPatient) {
-        if (useVaosV2Api) {
-          fetchConfirmedFutureAppointmentsV2();
-        } else {
-          fetchConfirmedFutureAppointments();
-        }
+        fetchConfirmedFutureAppointmentsV2();
       }
     },
-    [
-      fetchConfirmedFutureAppointments,
-      dataLoadingDisabled,
-      useVaosV2Api,
-      fetchConfirmedFutureAppointmentsV2,
-      isVAPatient,
-    ],
+    [dataLoadingDisabled, fetchConfirmedFutureAppointmentsV2, isVAPatient],
   );
 
   useEffect(
@@ -109,13 +94,16 @@ const HealthCareContentV2 = ({
   };
 
   const HealthcareError = () => {
+    const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+    // status will be 'warning' if toggle is on
+    const status = useToggleValue(TOGGLE_NAMES.myVaUpdateErrorsWarnings)
+      ? 'warning'
+      : 'error';
+
     return (
       <div className="vads-u-margin-bottom--2p5">
-        <va-alert
-          status="error"
-          show-icon
-          data-testid="outstanding-debts-error-v2"
-        >
+        <va-alert status={status} show-icon data-testid="healthcare-error-v2">
           <h2 slot="headline">We can’t access your appointment information</h2>
           <div>
             We’re sorry. Something went wrong on our end and we can’t access
@@ -172,7 +160,6 @@ const HealthCareContentV2 = ({
                 }. `}
                 <CTALink
                   text="Review your messages"
-                  newTab
                   href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
                   onClick={() =>
                     recordEvent({
@@ -195,8 +182,7 @@ const HealthCareContentV2 = ({
         {isVAPatient &&
           !hasUpcomingAppointment &&
           !hasAppointmentsError && <NoUpcomingAppointmentsText />}
-        {shouldShowOnOneColumn ||
-        (hasAppointmentsError && shouldShowUnreadMessageAlert) ? (
+        {shouldShowOnOneColumn ? (
           <HealthCareCTA
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
@@ -207,7 +193,7 @@ const HealthCareContentV2 = ({
           />
         ) : null}
       </DashboardWidgetWrapper>
-      {!shouldShowOnOneColumn && !hasAppointmentsError ? (
+      {!shouldShowOnOneColumn ? (
         <DashboardWidgetWrapper>
           <HealthCareCTA
             hasInboxError={hasInboxError}
@@ -253,15 +239,13 @@ const mapStateToProps = state => {
     // to showing the loading indicator _after_ the useEffect hooks have run and
     // API requests have started.
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
-    unreadMessagesCount: selectUnreadCount(state).count || 0,
-    useVaosV2Api: selectUseVaosV2APi(state),
+    unreadMessagesCount: selectUnreadCount(state)?.count || 0,
     facilityNames: selectUserCernerFacilityNames(state),
   };
 };
 
 const mapDispatchToProps = {
   fetchUnreadMessages: fetchUnreadMessageCountAction,
-  fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
   fetchConfirmedFutureAppointmentsV2: fetchConfirmedFutureAppointmentsV2Action,
 };
 
@@ -279,10 +263,8 @@ HealthCareContentV2.propTypes = {
     }),
   ),
   authenticatedWithSSOe: PropTypes.bool,
-  canAccessRx: PropTypes.bool,
   dataLoadingDisabled: PropTypes.bool,
   facilityNames: PropTypes.arrayOf(PropTypes.string),
-  fetchConfirmedFutureAppointments: PropTypes.func,
   fetchConfirmedFutureAppointmentsV2: PropTypes.func,
   fetchUnreadMessages: PropTypes.func,
   hasAppointmentsError: PropTypes.bool,
@@ -293,8 +275,9 @@ HealthCareContentV2.propTypes = {
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
   shouldShowLoadingIndicator: PropTypes.bool,
   unreadMessagesCount: PropTypes.number,
-  useVaosV2Api: PropTypes.bool,
 };
+
+export const UnconnectedHealthCareContentV2 = HealthCareContentV2;
 
 export default connect(
   mapStateToProps,

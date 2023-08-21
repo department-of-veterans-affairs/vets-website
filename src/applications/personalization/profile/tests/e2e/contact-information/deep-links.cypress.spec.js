@@ -3,6 +3,7 @@ import { PROFILE_PATHS } from '@@profile/constants';
 import { mockNotificationSettingsAPIs } from '../helpers';
 
 import mockUser from '../../fixtures/users/user-36.json';
+import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 
 const deepLinks = [
   // this first one is to make sure unsupported deep link urls manage focus
@@ -54,12 +55,7 @@ function checkAllDeepLinks(mobile = false) {
   }
 
   // should show a loading indicator
-  cy.findByRole('progressbar').should('exist');
-  cy.findByText(/loading your information/i).should('exist');
-
-  // and then the loading indicator should be removed
-  cy.findByRole('progressbar').should('not.exist');
-  cy.findByText(/loading your information/i).should('not.exist');
+  checkForLegacyLoadingIndicator();
 
   deepLinks.forEach(({ url, expectedTarget }) => {
     cy.visit(url);

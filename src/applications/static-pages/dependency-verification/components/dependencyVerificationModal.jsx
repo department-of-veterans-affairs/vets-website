@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 import {
   getDependencyVerifications,
@@ -79,25 +79,24 @@ const DependencyVerificationModal = props => {
 
   return props?.data?.getDependencyVerificationStatus === CALLSTATUS.success ? (
     <>
-      <Modal
-        onClose={handleClose}
+      <VaModal
+        onCloseEvent={handleClose}
         visible={
           props?.data?.getDependencyVerificationStatus === CALLSTATUS.success
         }
-        cssClass="va-modal-large vads-u-padding--1"
+        className="va-modal-large vads-u-padding--1"
         id="dependency-verification"
-        contents={
-          <>
-            <DependencyVerificationHeader />
-            <DependencyVerificationList
-              dependents={props?.data?.verifiableDependents}
-            />
-            <DependencyVerificationFooter
-              handleCloseAndUpdateDiaries={handleCloseAndUpdateDiaries}
-            />
-          </>
-        }
-      />
+      >
+        <>
+          <DependencyVerificationHeader />
+          <DependencyVerificationList
+            dependents={props?.data?.verifiableDependents}
+          />
+          <DependencyVerificationFooter
+            handleCloseAndUpdateDiaries={handleCloseAndUpdateDiaries}
+          />
+        </>
+      </VaModal>
     </>
   ) : null;
 };

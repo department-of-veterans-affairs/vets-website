@@ -1,25 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-import { contestableIssuesPath } from '../constants';
-import { getSelected } from '../utils/helpers';
+import { CONTESTABLE_ISSUES_PATH } from '../constants';
 import { ShowIssuesList } from '../components/ShowIssuesList';
+import { getSelected } from '../../shared/utils/issues';
 
 export const SummaryTitle = ({ formData }) => {
   const issues = getSelected(formData);
 
   return (
     <>
-      <p className="vads-u-margin-top--0">
+      <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
         These are the issues you’re asking the Board to review.
-      </p>
+      </h3>
       {ShowIssuesList({ issues })}
       <p>
-        If an issue is missing, please{' '}
+        If an issue is missing,{' '}
         <Link
           aria-label="go back and add any missing issues for review"
           to={{
-            pathname: contestableIssuesPath,
+            pathname: CONTESTABLE_ISSUES_PATH,
             search: '?redirect',
           }}
         >
@@ -29,4 +30,8 @@ export const SummaryTitle = ({ formData }) => {
       </p>
     </>
   );
+};
+
+SummaryTitle.propTypes = {
+  formData: PropTypes.shape({}),
 };

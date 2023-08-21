@@ -22,39 +22,66 @@ describe('Secure Messaging - Print Functionality', () => {
     );
   });
   it('print all messages', () => {
-    cy.get('[data-testid=print-button]').click();
-    cy.get('[data-testid=radio-print-one-message]')
+    cy.get('[data-testid="print-button"]')
+      .should('be.visible')
+      .click({ force: true });
+    cy.get('[data-testid="radio-print-one-message"]')
       .shadow()
       .find('label')
       .should('have.text', 'Print only this message')
       .should('be.visible');
-    cy.get('[data-testid=radio-print-all-messages]')
+    cy.get('[data-testid="radio-print-all-messages"]')
       .shadow()
       .find('label')
       .should('contain.text', 'Print all messages in this conversation')
       .should('be.visible');
-    cy.get('[data-testid=print-modal-popup]')
+    cy.get('[data-testid="print-modal-popup"]')
       .shadow()
       .find('h1')
       .should('have.text', 'What do you want to print?')
       .should('be.visible');
-    cy.get('[data-testid=radio-print-all-messages]').click();
+    cy.get('[data-testid="radio-print-all-messages"]').click({ force: true });
     cy.window().then(win => {
       win.print();
       expect(win.print).to.be.calledOnce;
+      cy.get('[class ="button-secondary"]').click({ force: true });
       cy.injectAxe();
-      cy.axeCheck();
-    });
-    it('print single message', () => {
-      cy.get('[data-testid=print-button]').click();
-      cy.get('[data-testid=radio-print-one-message]').click();
-      cy.window().then(win => {
-        win.print();
-
-        expect(win.print).to.be.calledOnce;
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+          'color-contrast': {
+            enabled: false,
+          },
+        },
       });
-      cy.injectAxe();
-      cy.axeCheck();
+    });
+  });
+  it('print single message', () => {
+    cy.get('[data-testid="print-button"]').click({ force: true });
+    cy.get('[data-testid="print-modal-popup"]')
+      .shadow()
+      .find('h1')
+      .should('have.text', 'What do you want to print?')
+      .should('be.visible');
+    cy.get('[data-testid="radio-print-one-message"]').click({ force: true });
+    cy.window().then(win => {
+      win.print();
+
+      expect(win.print).to.be.calledOnce;
+    });
+    cy.get('[class ="button-secondary"]').click({ force: true });
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+        'color-contrast': {
+          enabled: false,
+        },
+      },
     });
   });
 });

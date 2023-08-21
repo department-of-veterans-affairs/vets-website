@@ -1,12 +1,13 @@
 import { createSelector } from 'reselect';
-import { selectCernerAppointmentsFacilities } from 'platform/user/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
 import moment from 'moment';
+import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
+  COMP_AND_PEN,
 } from '../../utils/constants';
 import {
   getVAAppointmentLocationId,
@@ -54,8 +55,10 @@ export function getCancelInfo(state) {
   }
   let isCerner = null;
   if (appointmentToCancel) {
-    isCerner = selectCernerAppointmentsFacilities(state)?.some(cernerSite =>
-      appointmentToCancel.location.vistaId?.startsWith(cernerSite.facilityId),
+    isCerner = selectCernerFacilityIds(state)?.some(
+      cernerSite =>
+        appointmentToCancel.location.vistaId?.startsWith(cernerSite.vhaId),
+      // appointmentToCancel.location.vistaId?.startsWith(cernerSite.facilityId),
     );
   }
   return {
@@ -157,12 +160,6 @@ export const selectCanceledAppointments = createSelector(
   },
 );
 
-export function selectFirstRequestMessage(state, id) {
-  const { requestMessages } = state.appointments;
-
-  return requestMessages?.[id]?.[0]?.attributes?.messageText || null;
-}
-
 /*
  * V2 Past appointments state selectors
  */
@@ -236,7 +233,6 @@ export function selectRequestedAppointmentDetails(state, id) {
     ]),
     appointmentDetailsStatus,
     facilityData,
-    message: selectFirstRequestMessage(state, id),
     cancelInfo: getCancelInfo(state),
     useV2: featureVAOSServiceCCAppointments,
   };
@@ -318,6 +314,8 @@ export function selectCommunityCareDetailsInfo(state, id) {
 export function selectBackendServiceFailuresInfo(state) {
   const { backendServiceFailures } = state.appointments;
   return {
+    pastStatus: state.appointments.pastStatus,
+    pendingStatus: state.appointments.pendingStatus,
     futureStatus: selectFutureStatus(state),
     backendServiceFailures,
   };
@@ -353,6 +351,12 @@ export function selectIsVideo(appointment) {
 export function selectTypeOfCareName(appointment) {
   const { name } =
     getTypeOfCareById(appointment.vaos.apiData?.serviceType) || {};
+  const serviceCategoryName =
+    appointment.vaos.apiData?.serviceCategory?.[0]?.text || {};
+  if (serviceCategoryName === COMP_AND_PEN) {
+    const { displayName } = getTypeOfCareById(serviceCategoryName);
+    return displayName;
+  }
   return name;
 }
 

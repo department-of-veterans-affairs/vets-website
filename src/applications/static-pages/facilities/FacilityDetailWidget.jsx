@@ -1,14 +1,13 @@
 import React from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { connect } from 'react-redux';
 import { buildHours } from '../../facility-locator/utils/facilityHours';
 import FacilityAddress from './FacilityAddress';
 import FacilityPhone from './FacilityPhone';
 import FacilityApiAlert from './FacilityApiAlert';
-import { connect } from 'react-redux';
 
 export function FacilityDetailWidget({ loading, error, facility }) {
   if (loading || !Object.keys(facility).length) {
-    return <LoadingIndicator message="Loading facility..." />;
+    return <va-loading-indicator message="Loading facility..." />;
   }
 
   if (error) {
@@ -18,7 +17,7 @@ export function FacilityDetailWidget({ loading, error, facility }) {
   const CLINICAL_HOURS_COLUMN_MODIFIER = 5;
 
   // Sort and compile facility hours into a list
-  const hours = facility.attributes.hours;
+  const { hours } = facility.attributes;
   const builtHours = buildHours(hours, true);
   const clinicalHours = builtHours.map((day, index) => {
     const [abbrvDay, times] = day.split(': ');

@@ -10,7 +10,6 @@ import { currency as currencyFormatter } from '../../utils/helpers';
 
 const UtilityBillSummary = ({
   data,
-  goBack,
   goToPath,
   setFormData,
   contentBeforeButtons,
@@ -31,21 +30,32 @@ const UtilityBillSummary = ({
     goToPath('/credit-card-bills');
   };
 
+  const goBack = () => {
+    if (utilityRecords.length === 0) {
+      return goToPath('/utility-bill-checklist');
+    }
+    return goToPath('/utility-bill-values');
+  };
+
   const cardBody = text => (
-    <p className="vads-u-margin-y--2 vads-u-color--gray">{text}</p>
+    <p className="vads-u-margin--0">
+      Monthly amount: <b>{currencyFormatter(text)}</b>
+    </p>
   );
 
   const emptyPrompt = `Select the 'Add additional utility bills' link to add another utility bill. Select the 'Continue' button to proceed to the next question.`;
 
   return (
     <form>
-      <fieldset>
+      <fieldset className="vads-u-margin-y--2">
         <legend
           id="added-utility-bills-summary"
-          className="vads-u-font-family--serif"
+          className="schemaform-block-title"
           name="addedUtilityBillsSummary"
         >
-          You have added these utility bills
+          <h3 className="vads-u-margin--0">
+            You have added these utility bills
+          </h3>
         </legend>
         <div className="vads-l-grid-container--full">
           {!utilityRecords.length ? (
@@ -53,7 +63,7 @@ const UtilityBillSummary = ({
           ) : (
             utilityRecords.map((utility, index) => (
               <MiniSummaryCard
-                body={cardBody(`Value: ${currencyFormatter(utility.amount)}`)}
+                body={cardBody(utility.amount)}
                 editDestination={{
                   pathname: '/add-utility-bill',
                   search: `?index=${index}`,
@@ -62,6 +72,7 @@ const UtilityBillSummary = ({
                 key={utility.name + utility.amount}
                 onDelete={() => onDelete(index)}
                 showDelete
+                index={index}
               />
             ))
           )}

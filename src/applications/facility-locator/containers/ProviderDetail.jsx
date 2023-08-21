@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { object, func } from 'prop-types';
-import { fetchProviderDetail } from '../actions';
 import { focusElement } from 'platform/utilities/ui';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import { fetchProviderDetail } from '../actions';
 import LocationMap from '../components/LocationMap';
 import LocationAddress from '../components/search-results-items/common/LocationAddress';
 import LocationPhoneLink from '../components/search-results-items/common/LocationPhoneLink';
 import LocationDirectionsLink from '../components/search-results-items/common/LocationDirectionsLink';
 import AppointmentInfo from '../components/AppointmentInfo';
 import ProviderDetailBlock from '../components/ProviderDetailBlock';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
 /**
  * Container component for the CC Provider Detail page
@@ -114,7 +113,7 @@ class ProviderDetail extends Component {
     if (currentQuery.inProgress) {
       return (
         <div>
-          <LoadingIndicator message="Loading information..." />
+          <va-loading-indicator message="Loading information..." />
         </div>
       );
     }

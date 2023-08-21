@@ -1,161 +1,22 @@
-import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import {
-  apiRequestWithUrl,
-  parseApiList,
-  parseApiListWithErrors,
-  parseApiObject,
-} from '../utils';
+import { apiRequestWithUrl, parseApiList, parseApiObject } from '../utils';
 
-function getStagingId(facilityId) {
-  if (!environment.isProduction() && facilityId.startsWith('983')) {
+export function getStagingId(facilityId) {
+  if (
+    (!environment.isProduction() && facilityId.startsWith('983')) ||
+    window.Cypress
+  ) {
     return facilityId.replace('983', '442');
   }
 
-  if (!environment.isProduction() && facilityId.startsWith('984')) {
+  if (
+    (!environment.isProduction() && facilityId.startsWith('984')) ||
+    window.Cypress
+  ) {
     return facilityId.replace('984', '552');
   }
 
   return facilityId;
-}
-
-export function getConfirmedAppointments(type, startDate, endDate) {
-  return apiRequestWithUrl(
-    `/vaos/v0/appointments?start_date=${startDate}&end_date=${endDate}&type=${type}`,
-  ).then(parseApiListWithErrors);
-}
-
-export function getPendingAppointments(startDate, endDate) {
-  return apiRequestWithUrl(
-    `/vaos/v0/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
-  ).then(parseApiList);
-}
-
-export function getPendingAppointment(id) {
-  return apiRequestWithUrl(`/vaos/v0/appointment_requests/${id}`).then(
-    parseApiObject,
-  );
-}
-
-export function getConfirmedAppointment(id, type) {
-  return apiRequestWithUrl(`/vaos/v0/appointments/${type}/${id}`).then(
-    parseApiObject,
-  );
-}
-
-export function getRequestMessages(requestId) {
-  return apiRequestWithUrl(
-    `/vaos/v0/appointment_requests/${requestId}/messages`,
-  ).then(resp => resp.data);
-}
-
-// This request takes a while, so we're going to call it early
-// and we need a way to wait for an in progress call to finish
-// So this memoizes the promise and returns it to the caller
-export const getLongTermAppointmentHistory = (() => {
-  const MAX_HISTORY = 24;
-  const MONTH_CHUNK = 12;
-  let promise = null;
-
-  return () => {
-    if (!promise || navigator.userAgent === 'node.js') {
-      const appointments = [];
-      const ranges = [];
-      let currentMonths = 0;
-
-      // Creating an array of start and end dates for each chunk
-      while (currentMonths < MAX_HISTORY) {
-        ranges.push([
-          moment()
-            .startOf('day')
-            .subtract(currentMonths + MONTH_CHUNK, 'months')
-            .toISOString(),
-          moment()
-            .subtract(currentMonths, 'months')
-            .startOf('day')
-            .toISOString(),
-        ]);
-        currentMonths += MONTH_CHUNK;
-      }
-
-      // This is weird, but hopefully clear. There are two chunks with date
-      // ranges from the array created above. We're trying to run them serially,
-      // because we want to be careful about overloading the upstream service,
-      // so Promise.all doesn't fit here
-      promise = getConfirmedAppointments('va', ranges[0][0], ranges[0][1])
-        .then(({ data }) => appointments.push(...data))
-        .then(() => getConfirmedAppointments('va', ranges[1][0], ranges[1][1]))
-        .then(({ data }) => appointments.push(...data))
-        .then(() => appointments);
-    }
-    return promise;
-  };
-})();
-
-export function getParentFacilities(systemIds) {
-  const idList = systemIds.map(id => `facility_codes[]=${id}`).join('&');
-
-  return apiRequestWithUrl(`/vaos/v0/facilities?${idList}`).then(parseApiList);
-}
-
-export function getFacilitiesBySystemAndTypeOfCare(
-  systemId,
-  parentId,
-  typeOfCareId,
-) {
-  return apiRequestWithUrl(
-    `/vaos/v0/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${parentId}`,
-  ).then(parseApiList);
-}
-
-export function getCommunityCare(typeOfCare) {
-  return apiRequestWithUrl(
-    `/vaos/v0/community_care/eligibility/${typeOfCare}`,
-  ).then(parseApiObject);
-}
-
-export function checkPastVisits(
-  systemId,
-  facilityId,
-  typeOfCareId,
-  directOrRequest,
-) {
-  return apiRequestWithUrl(
-    `/vaos/v0/facilities/${facilityId}/visits/${directOrRequest}?system_id=${systemId}&type_of_care_id=${typeOfCareId}`,
-  ).then(parseApiObject);
-}
-
-export function getRequestLimits(facilityIds, typeOfCareId) {
-  let url = `/vaos/v0/facilities/limits?type_of_care_id=${typeOfCareId}&`;
-  if (Array.isArray(facilityIds)) {
-    url += facilityIds.map(id => `facility_ids[]=${id}`).join('&');
-  } else {
-    url += `facility_ids[]=${facilityIds}`;
-  }
-  return apiRequestWithUrl(url).then(parseApiList);
-}
-
-export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
-  return apiRequestWithUrl(
-    `/vaos/v0/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${systemId}`,
-  ).then(parseApiList);
-}
-
-export function getFacilityInfo(facilityId) {
-  return apiRequestWithUrl(
-    `/v1/facilities/va/vha_${getStagingId(facilityId)}`,
-  ).then(parseApiObject);
-}
-
-export function getFacilitiesInfo(facilityIds) {
-  const idList = facilityIds
-    .map(getStagingId)
-    .map(id => `vha_${id}`)
-    .join(',');
-
-  return apiRequestWithUrl(
-    `/v1/facilities/va?ids=${idList}&per_page=${facilityIds.length}`,
-  ).then(parseApiList);
 }
 
 export function getCommunityCareFacilities({
@@ -179,78 +40,4 @@ export function getCommunityCareFacility(id) {
   return apiRequestWithUrl(`/v1/facilities/ccp/${id}`, {
     method: 'GET',
   }).then(parseApiObject);
-}
-
-export function getSitesSupportingVAR(systemIds) {
-  return apiRequestWithUrl(
-    `/vaos/v0/community_care/supported_sites?${systemIds
-      .map(id => `site_codes[]=${id}`)
-      .join('&')}`,
-  ).then(parseApiList);
-}
-
-export function getAvailableSlots(
-  facilityId,
-  typeOfCareId,
-  clinicId,
-  startDate,
-  endDate,
-) {
-  return apiRequestWithUrl(
-    `/vaos/v0/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
-  ).then(parseApiList);
-}
-
-export function getCancelReasons(systemId) {
-  return apiRequestWithUrl(
-    `/vaos/v0/facilities/${systemId}/cancel_reasons`,
-  ).then(parseApiList);
-}
-
-export function updateAppointment(appt) {
-  return apiRequestWithUrl(`/vaos/v0/appointments/cancel`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(appt),
-  });
-}
-
-export function updateRequest(req) {
-  return apiRequestWithUrl(`/vaos/v0/appointment_requests/${req.id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(req),
-  }).then(parseApiObject);
-}
-
-export function submitRequest(type, request) {
-  return apiRequestWithUrl(`/vaos/v0/appointment_requests?type=${type}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(request),
-  }).then(parseApiObject);
-}
-
-export function submitAppointment(appointment) {
-  return apiRequestWithUrl('/vaos/v0/appointments', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(appointment),
-  });
-}
-
-export function getRequestEligibilityCriteria(sites) {
-  return apiRequestWithUrl(
-    `/vaos/v0/request_eligibility_criteria?${sites
-      .map(site => `parent_sites[]=${site}`)
-      .join('&')}`,
-  ).then(parseApiList);
-}
-
-export function getDirectBookingEligibilityCriteria(sites) {
-  return apiRequestWithUrl(
-    `/vaos/v0/direct_booking_eligibility_criteria?${sites
-      .map(site => `parent_sites[]=${site}`)
-      .join('&')}`,
-  ).then(parseApiList);
 }

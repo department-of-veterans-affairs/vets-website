@@ -1,5 +1,5 @@
 import mockCommunicationPreferences from '@@profile/tests/fixtures/communication-preferences/get-200-maximal.json';
-import { generateFeatureToggles } from 'applications/personalization/profile/mocks/endpoints/feature-toggles';
+import { generateFeatureToggles } from '@@profile/mocks/endpoints/feature-toggles';
 
 import {
   mockNotificationSettingsAPIs,
@@ -68,6 +68,52 @@ describe('Notification Settings Feature Toggles', () => {
     });
   });
 
+  describe('Shows/Hides QuickSubmit settings via feature toggle', () => {
+    it('should SHOW the QuickSubmit notif setting when toggle is TRUE', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profileShowQuickSubmitNotificationSetting: true,
+        }),
+      );
+
+      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
+
+      checkForLegacyLoadingIndicator();
+
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
+      NotificationSettingsFeature.confirmQuickSubmitNotificationSetting({
+        exists: true,
+      });
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should NOT SHOW the QuickSubmit notif setting when toggle is FALSE', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profileShowQuickSubmitNotificationSetting: false,
+        }),
+      );
+
+      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
+
+      checkForLegacyLoadingIndicator();
+
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
+      NotificationSettingsFeature.confirmQuickSubmitNotificationSetting({
+        exists: false,
+      });
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
   describe('Shows/Hides MHV settings via feature toggle', () => {
     it('should SHOW the MHV settings when profileShowMhvNotificationSettings toggle is TRUE', () => {
       cy.intercept(
@@ -76,6 +122,7 @@ describe('Notification Settings Feature Toggles', () => {
         generateFeatureToggles({
           profileShowMhvNotificationSettings: true,
           profileShowPaymentsNotificationSetting: true,
+          profileShowEmailNotificationSettings: true,
         }),
       );
 

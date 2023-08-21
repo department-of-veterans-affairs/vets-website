@@ -1,15 +1,10 @@
-import React from 'react';
-import HouseholdExpensesChecklist from '../../components/HouseholdExpensesChecklist';
+import HouseholdExpensesChecklist from '../../components/householdExpenses/HouseholdExpensesChecklist';
 
 export const uiSchema = {
   'ui:title': 'Monthly housing expenses',
+  'ui:field': HouseholdExpensesChecklist,
   householdExpensesChecklist: {
-    'ui:title': (
-      <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        Which of these expenses do you pay for?
-      </span>
-    ),
-    'ui:widget': HouseholdExpensesChecklist,
+    'ui:title': 'householdExpensesChecklist',
     'ui:options': {
       hideOnReview: true,
     },

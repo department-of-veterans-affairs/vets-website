@@ -21,6 +21,8 @@ src/applications/burial-poc-v6 @department-of-veterans-affairs/platform-design-s
 src/platform/forms        @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
 src/platform/forms-system @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
 script/component-migration @department-of-veterans-affairs/platform-design-system-fe
+src/applications/ds-playground @department-of-veterans-affairs/platform-design-system-fe
+src/applications/ds-v3-playground @department-of-veterans-affairs/platform-design-system-fe
 
 # VSP-Identity authentication
 
@@ -49,7 +51,7 @@ src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-
 # Claims & appeals (Benefits Team 1)
 
 src/applications/letters @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/disability-benefits @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/disability-benefits @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/DBEX-TREX
 src/applications/claims-status @department-of-veterans-affairs/benefits-team-1-frontend
 src/applications/appeals @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/vre @department-of-veterans-affairs/benefits-team-1-frontend
@@ -58,7 +60,7 @@ src/applications/sah @department-of-veterans-affairs/benefits-team-1-frontend
 
 # VSA Debt
 
-src/applications/disability-benefits/2346 @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/1010-health-apps-frontend
+src/applications/disability-benefits/2346 @department-of-veterans-affairs/va-cto-health-products
 src/applications/debt-letters @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/1010-health-apps-frontend
 src/applications/burials @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 src/applications/financial-status-report @department-of-veterans-affairs/vsa-debt-frontend
@@ -73,6 +75,7 @@ src/applications/static-pages @department-of-veterans-affairs/vsa-public-website
 src/applications/find-forms @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/yellow-ribbon @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/discharge-wizard @department-of-veterans-affairs/vsa-public-websites-frontend
+src/applications/income-limits @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/search @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/1010-health-apps-frontend
 src/applications/resources-and-support @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/1010-health-apps-frontend
 
@@ -120,10 +123,12 @@ src/applications/toe @department-of-veterans-affairs/my-education-benefits
 
 # My HealtheVet on VA.gov
 
+src/applications/mhv @department-of-veterans-affairs/vfs-mhv-medical-records @department-of-veterans-affairs/vfs-mhv-medications @department-of-veterans-affairs/vfs-mhv-secure-messaging @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-cto-health-products
 src/applications/mhv/medical-records @department-of-veterans-affairs/vfs-mhv-medical-records
+src/applications/mhv/medications @department-of-veterans-affairs/vfs-mhv-medications
 src/applications/mhv/secure-messaging @department-of-veterans-affairs/vfs-mhv-secure-messaging
 src/applications/mhv/landing-page @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-cto-health-products
-
+src/applications/avs @department-of-veterans-affairs/va-cto-health-products
 
 # VA.gov Product Teams - Forms
 

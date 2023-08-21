@@ -4,7 +4,10 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import * as addressUtils from '@@profile/util/contact-information/addressUtils';
-import { FIELD_NAMES, FIELD_TITLES } from 'platform/user/exportsFile';
+import {
+  FIELD_NAMES,
+  FIELD_TITLES,
+} from '@department-of-veterans-affairs/platform-user/exports';
 
 const TestComponent = ({ onClick }) => {
   return (

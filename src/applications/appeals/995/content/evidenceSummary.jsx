@@ -45,7 +45,49 @@ export const content = {
     </>
   ),
 
-  missingIssues: 'Missing treated conditions',
+  // remove messages
+  removeEvidence: {
+    title: 'Are you sure you want to remove this evidence?',
+    limitationTitle: 'Are you sure you want to remove the request limitation?',
+    va: 'We’ll remove the VA medical record request for',
+    private: 'We’ll remove the private medical record request for',
+    limitation: '',
+    upload: 'We’ll remove the uploaded document',
+    modalRemove: 'Yes, remove this',
+    modalNotRemove: 'No, keep this',
+    modalRemoveLimitation: 'Yes, remove limitation',
+    modalNotRemoveLimitation: 'No, keep limitation',
+  },
+
+  // error messages
+  missing: {
+    location: (
+      <span className="usa-input-error-message">Missing location name</span>
+    ),
+    facility: (
+      <span className="usa-input-error-message">Missing provider name</span>
+    ),
+    condition: (
+      <span className="usa-input-error-message">Missing condition</span>
+    ),
+    dates: (
+      <span className="usa-input-error-message">Missing treatment dates</span>
+    ),
+    from: (
+      <span className="usa-input-error-message vads-u-display--inline-block">
+        Missing start date
+      </span>
+    ),
+    to: (
+      <span className="usa-input-error-message vads-u-display--inline-block">
+        Missing end date
+      </span>
+    ),
+    address: (
+      <span className="usa-input-error-message">Incomplete address</span>
+    ),
+  },
+
   missingEvidenceHeader: 'We noticed you didn’t add new evidence',
   missingEvidenceText: (
     <>

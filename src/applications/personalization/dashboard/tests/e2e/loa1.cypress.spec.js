@@ -14,6 +14,8 @@ import manifest from '~/applications/personalization/dashboard/manifest.json';
 function loa1DashboardTest(mobile, stubs) {
   cy.visit(manifest.rootUrl);
 
+  // TODO: update cy.viewport to Cypress.env().vaTopMobileViewports
+  // https://depo-platform-documentation.scrollhelp.site/developer-docs/viewport-testing-helper-functions
   if (mobile) {
     cy.viewport('iphone-4');
   }
@@ -21,12 +23,11 @@ function loa1DashboardTest(mobile, stubs) {
   // make sure that the "Verify" alert is shown
   cy.findByText(/Verify your identity to access/i).should('exist');
   cy.findByText(/we need to make sure you’re you/i).should('exist');
-
-  // focus should be on the h1
-  cy.focused()
-    .contains('My VA')
-    .and('have.prop', 'tagName')
-    .should('equal', 'H1');
+  cy.findByRole('link', { name: 'Verify your identity' }).should(
+    'have.attr',
+    'href',
+    '/verify',
+  );
 
   // make sure that we don't call APIs to get name, service history, or disability rating
   cy.should(() => {
@@ -51,10 +52,6 @@ function loa1DashboardTest(mobile, stubs) {
   cy.findByRole('link', { name: /apply for va health care/i }).should('exist');
   cy.findByRole('link', { name: /file a.*claim/i }).should('exist');
   cy.findByTestId('benefit-of-interest-education-text').should('exist');
-
-  // make the a11y check
-  cy.injectAxe();
-  cy.axeCheck();
 }
 
 describe('The My VA Dashboard', () => {
@@ -103,20 +100,17 @@ describe('The My VA Dashboard', () => {
   });
   it('should handle LOA1 users at desktop size', () => {
     loa1DashboardTest(false, stubs);
+
+    // make the a11y check
+    cy.injectAxe();
+    cy.axeCheck();
   });
 
   it('should handle LOA1 users at mobile phone size', () => {
     loa1DashboardTest(true, stubs);
-  });
-});
 
-describe('When clicking on the verify your identity link', () => {
-  it('should focus on the h1 element', () => {
-    cy.login(loa1User);
-    cy.visit(manifest.rootUrl);
-    cy.findByRole('link', { name: 'Verify your identity' })
-      .should('have.attr', 'href', '/verify')
-      .click();
-    cy.get('h1').should('be.focused');
+    // make the a11y check
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });

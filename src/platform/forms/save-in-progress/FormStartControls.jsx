@@ -23,15 +23,15 @@ class FormStartControls extends React.Component {
     this.state = { modalOpen: false };
   }
 
-  /* eslint-disable-next-line camelcase */
-  UNSAFE_componentWillReceiveProps = newProps => {
-    if (!this.props.returnUrl && newProps.returnUrl) {
-      // TODO: Remove this; it doesn't actually run
-      // The redirect is instead done in RoutedSavableApp
-      // Navigate to the last page they were on
-      this.props.router.push(newProps.returnUrl);
-    }
-  };
+  // /* eslint-disable-next-line camelcase */
+  // UNSAFE_componentWillReceiveProps = newProps => {
+  //   if (!this.props.returnUrl && newProps.returnUrl) {
+  //     // TODO: Remove this; it doesn't actually run
+  //     // The redirect is instead done in RoutedSavableApp
+  //     // Navigate to the last page they were on
+  //     this.props.router.push(newProps.returnUrl);
+  //   }
+  // };
 
   goToBeginning = () => {
     this.props.router.push(this.props.startPage);
@@ -133,11 +133,10 @@ class FormStartControls extends React.Component {
     }
     const { startText } = this.props;
 
-    return this.props.testActionLink ? (
-      // eslint-disable-next-line jsx-a11y/anchor-is-valid
+    return (
       <a
-        href="#"
-        className="vads-c-action-link--green vads-u-padding-left--0"
+        href="#start"
+        className="vads-c-action-link--green"
         onClick={event => {
           event.preventDefault();
           this.handleLoadPrefill();
@@ -147,15 +146,6 @@ class FormStartControls extends React.Component {
       >
         {startText}
       </a>
-    ) : (
-      <div>
-        <VaButton
-          onClick={this.handleLoadPrefill}
-          text={startText}
-          continue
-          label={ariaLabel}
-        />
-      </div>
     );
   }
 }

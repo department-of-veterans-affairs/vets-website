@@ -1,5 +1,4 @@
 import React from 'react';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const deductionCodes = Object.freeze({
   '30': 'Disability compensation and pension debt',
@@ -44,21 +43,24 @@ export const renderAdditionalInfo = deductionCode => {
           </p>
           <p>
             <strong>Disability compensation:</strong>
-            <Telephone className="vads-u-margin-x--0p5" contact="8008271000" />,
+            <va-telephone
+              className="vads-u-margin-x--0p5"
+              contact="8008271000"
+            />
             Monday through Friday, 8:00 a.m to 8:00 p.m. ET
           </p>
           <p>
             <strong>Veterans Pension:</strong>
-            <Telephone
+            <va-telephone
               className="vads-u-margin-left--0p5"
-              contact="87729463850"
+              contact="8772946385"
             />
             , Monday through Friday, 8:00 a.m to 4:30 p.m. ET
           </p>
           <p>
             If you want more information about debt overpayment and available
             options, please call the Debt Management Center at
-            <Telephone
+            <va-telephone
               className="vads-u-margin-left--0p5"
               contact="8008270648"
             />
@@ -93,7 +95,7 @@ export const renderAdditionalInfo = deductionCode => {
           <p>
             If you want more information about the reason for this debt or the
             decision resulting in this debt, please call the Education office at
-            <Telephone
+            <va-telephone
               className="vads-u-margin-left--0p5"
               contact="8884424551"
             />
@@ -103,7 +105,7 @@ export const renderAdditionalInfo = deductionCode => {
           <p>
             If you want more information about debt overpayment and available
             options, please call the Debt Management Center at
-            <Telephone
+            <va-telephone
               className="vads-u-margin-left--0p5"
               contact="8008270648"
             />
@@ -141,7 +143,7 @@ export const renderAdditionalInfo = deductionCode => {
           <p>
             If you want more information about the reason for this debt or the
             decision resulting in this debt, please call the Education office at
-            <Telephone
+            <va-telephone
               className="vads-u-margin-left--0p5"
               contact="8884424551"
             />
@@ -150,7 +152,7 @@ export const renderAdditionalInfo = deductionCode => {
           <p>
             If you want more information about debt overpayment and available
             options, please call the Debt Management Center at
-            <Telephone
+            <va-telephone
               className="vads-u-margin-left--0p5"
               contact="8008270648"
             />

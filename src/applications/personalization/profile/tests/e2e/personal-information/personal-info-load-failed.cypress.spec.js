@@ -1,6 +1,6 @@
 import { setup } from '@@profile/tests/e2e/personal-information/setup';
 import { userPersonalInfoFailure } from 'applications/personalization/profile/mocks/endpoints/personal-information';
-import error403 from '../../fixtures/403.json';
+import error500 from '../../fixtures/500.json';
 
 describe('Loading errors present when viewing personal information page', () => {
   it('should render alert for personal_information api error response', () => {
@@ -13,8 +13,8 @@ describe('Loading errors present when viewing personal information page', () => 
 
   it('should render alerts for legal name and disability rating fields', () => {
     setup({
-      fullNameMockResponse: { statusCode: 403, body: error403 },
-      disabilityRatingMockResponse: { statusCode: 403, body: error403 },
+      fullNameMockResponse: { statusCode: 500, body: error500 },
+      disabilityRatingMockResponse: { statusCode: 500, body: error500 },
     });
 
     cy.findByText(

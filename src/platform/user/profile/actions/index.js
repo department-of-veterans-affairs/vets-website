@@ -51,8 +51,8 @@ export function refreshProfile(
   };
   return async dispatch => {
     const url = forceCacheClear ? appendQuery(baseUrl, query) : baseUrl;
-
     const payload = await apiRequest(url);
+
     if (!payload.errors) {
       sessionStorage.setItem(
         'serviceName',

@@ -1,7 +1,7 @@
 import React from 'react';
-import ItemLoop from '../../../../components/ItemLoop';
-import CardDetailsView from '../../../../components/CardDetailsView';
-import EmploymentRecord from '../../../../components/EmploymentRecord';
+import ItemLoop from '../../../../components/shared/ItemLoop';
+import CardDetailsView from '../../../../components/shared/CardDetailsView';
+import EmploymentRecord from '../../../../components/employment/EmploymentRecord';
 
 export const uiSchema = {
   'ui:title': () => (
@@ -9,7 +9,7 @@ export const uiSchema = {
       <legend className="schemaform-block-title">
         Your spouse’s employment information
       </legend>
-      <p className="vads-u-padding-top--2">
+      <p>
         Tell us about the jobs your spouse has had in the past 2 years for which
         they received paychecks. You’ll need to provide their income information
         for any current job.

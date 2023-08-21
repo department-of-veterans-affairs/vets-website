@@ -7,6 +7,13 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 export const getAppData = state => ({
   eligibility: state.data?.eligibility,
+  duplicateEmail: state.data?.duplicateEmail,
+  duplicatePhone: state.data?.duplicatePhone,
+  email: state?.form?.data?.email?.email,
+  mobilePhone:
+    state?.data?.formData?.data?.attributes?.claimant?.contactInfo
+      ?.mobilePhoneNumber,
+  openModal: state?.data?.openModal,
   featureTogglesLoaded: state.featureToggles?.loading === false,
   formId: state?.form?.formId,
   isClaimantCallComplete: state.data?.personalInfoFetchComplete,
@@ -23,6 +30,20 @@ export const getAppData = state => ({
   ],
   showMebDgi42Features: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebDgi42Features
+  ],
+  // Add the new feature flag: showMebEnhancements
+  showMebEnhancements: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMebEnhancements
+  ],
+  // Add the new feature flag: showMebEnhancements
+  showMebEnhancements06: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMebEnhancements06
+  ],
+  showMebEnhancements08: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMebEnhancements08
+  ],
+  showMebEnhancements09: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMebEnhancements09
   ],
   user: state.user || {},
 });

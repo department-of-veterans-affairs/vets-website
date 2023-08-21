@@ -149,6 +149,9 @@ export const createAndStoreReturnUrl = () => {
       returnUrl = window.location.origin;
     }
   } else {
+    if (sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)) {
+      return sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL);
+    }
     // If we are not on the USiP, we should always return the user back to their current location
     returnUrl = window.location.toString();
   }
@@ -284,11 +287,17 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
   window.location = redirectUrl;
 }
 
-export async function mockLogin({ clickedEvent = AUTH_EVENTS.MOCK_LOGIN }) {
+export async function mockLogin({
+  clickedEvent = AUTH_EVENTS.MOCK_LOGIN,
+  type = '',
+}) {
+  if (!type) {
+    throw new Error('Attempted to call mockLogin without a type');
+  }
   const url = await createOAuthRequest({
     clientId: 'vamock',
+    type,
   });
-
   if (!isExternalRedirect()) {
     setLoginAttempted();
   }

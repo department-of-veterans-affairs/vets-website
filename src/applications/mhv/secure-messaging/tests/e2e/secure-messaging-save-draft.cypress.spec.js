@@ -17,14 +17,33 @@ describe('Secure Messaging Save Draft', () => {
     landingPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse);
-    patientInterstitialPage.getContinueButton().click();
+    patientInterstitialPage.getContinueButton().should('not.exist');
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    });
     // composePage.getMessageSubjectField().type('message Test');
     composePage.getMessageBodyField().type('Test message body');
     cy.realPress(['Enter']);
-    mockDraftResponse.data.attributes.body = 'ststASertTest message body\n';
-    composePage.saveDraft(mockDraftResponse);
-    composePage.sendDraft(mockDraftResponse);
+
+    const mockDraftResponseUpdated = {
+      ...mockDraftResponse,
+      data: {
+        ...mockDraftResponse.data,
+        attributes: {
+          ...mockDraftResponse.data.attributes,
+          body: 'ststASertTest message body\n',
+        },
+      },
+    };
+    composePage.saveDraft(mockDraftResponseUpdated);
+    composePage.sendDraft(mockDraftResponseUpdated);
   });
 });

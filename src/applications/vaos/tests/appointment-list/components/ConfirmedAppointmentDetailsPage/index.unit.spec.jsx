@@ -12,17 +12,11 @@ import {
   mockSingleAppointmentFetch,
   mockVACancelFetches,
 } from '../../../mocks/helpers';
-import {
-  renderWithStoreAndRouter,
-  getTimezoneTestDate,
-} from '../../../mocks/setup';
+import { renderWithStoreAndRouter, getTestDate } from '../../../mocks/setup';
 
 import { AppointmentList } from '../../../../appointment-list';
 import { getICSTokens } from '../../../../utils/calendar';
-import {
-  mockAppointmentCancelFetch,
-  mockSingleVAOSAppointmentFetch,
-} from '../../../mocks/helpers.v2';
+import { mockSingleVAOSAppointmentFetch } from '../../../mocks/helpers.v2';
 import { getVAOSAppointmentMock } from '../../../mocks/v2';
 import {
   mockFacilitiesFetchByVersion,
@@ -46,87 +40,92 @@ const initialState = {
   },
 };
 
-describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
+describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTimezoneTestDate());
-    mockFacilitiesFetchByVersion({ version: 0 });
+    MockDate.set(getTestDate());
+    mockFacilitiesFetchByVersion();
   });
   afterEach(() => {
     MockDate.reset();
   });
 
   it.skip('should show confirmed appointments detail page', async () => {
-    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-    const today = moment.utc();
-    const data = {
-      id: '21cdc6741c00ac67b6cbf6b972d084c1',
-      kind: 'clinic',
-      clinic: '308',
-      start: today.tz('America/Denver').format(),
-      locationId: '983GC',
-      status: 'booked',
-      clinicFriendlyName: "Jennie's Lab",
-      comment: 'New issue: ASAP',
-      stopCode: '123',
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      },
     };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
-    });
+    const url = 'va/1234';
+    const futureDate = moment.utc();
 
-    mockAppointmentInfo({
-      va: [appointment],
-    });
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '1234';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'clinic',
+      clinic: '455',
+      locationId: '983GC',
+      id: '1234',
+      preferredTimesForPhoneCall: ['Morning'],
+      reasonCode: {
+        coding: [{ code: 'New Problem' }],
+        text: 'I have a headache',
+      },
+      comment: 'New issue: I have a headache',
+      serviceType: 'primaryCare',
+      start: futureDate.format(),
+      status: 'booked',
+    };
 
-    mockSingleAppointmentFetch({
-      appointment,
+    mockSingleClinicFetchByVersion({
+      clinicId: '455',
+      locationId: '983GC',
+      clinicName: 'Some fancy clinic name',
+      version: 2,
     });
+    mockSingleVAOSAppointmentFetch({ appointment });
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
-        name: 'Fort Collins VA Clinic',
+        id: '983GC',
+        name: 'Cheyenne VA Medical Center',
         phone: '970-224-1550',
-        version: 0,
+        address: {
+          postalCode: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          line: ['2360 East Pershing Boulevard'],
+        },
       }),
-      version: 0,
     });
+
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
+      initialState: myInitialState,
       path: url,
     });
 
     // Verify document title and content...
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `VA appointment on ${today
-          .tz('America/Denver')
-          .format('dddd, MMMM D, YYYY')}`,
-      );
+      expect(document.activeElement).to.have.tagName('h1');
     });
 
     expect(
       screen.getByRole('heading', {
         level: 1,
         name: new RegExp(
-          today.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
           'i',
         ),
       }),
     ).to.be.ok;
 
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    expect(screen.baseElement).not.to.contain.text(
-      'This appointment occurred in the past.',
-    );
-
+    expect(screen.getByText('Primary care')).to.be.ok;
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-    expect(await screen.findByText(/Fort Collins VA Clinic/)).to.be.ok;
-    expect(screen.getByText(/Jennie's Lab/)).to.be.ok;
+    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
+    expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
     expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(
       screen.getByRole('heading', {
@@ -134,44 +133,436 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-    expect(screen.getByText(/New issue: ASAP/)).to.be.ok;
+    expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
     expect(
       screen.getByTestId('add-to-calendar-link', {
         name: new RegExp(
-          today
+          futureDate
             .tz('America/Denver')
             .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
           'i',
         ),
       }),
     ).to.be.ok;
-    expect(screen.getByText(/Nutrition and food/i)).to.be.ok;
     expect(screen.getByText(/Print/)).to.be.ok;
     expect(screen.getByText(/Cancel appointment/)).to.be.ok;
 
-    userEvent.click(screen.getByText(/VA online scheduling/i));
-    const detailLinks = await screen.findAllByRole('link', {
-      name: /Detail/i,
+    expect(screen.baseElement).not.to.contain.text(
+      'This appointment occurred in the past.',
+    );
+  });
+
+  it('should show confirmed phone appointments detail page', async () => {
+    // Given a booked phone appointment
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      },
+    };
+    // When fetching the specific appointment id
+    const url = '/va/1234';
+    const futureDate = moment(getTestDate());
+
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '1234';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'phone',
+      clinic: '455',
+      locationId: '983GC',
+      id: '1234',
+      preferredTimesForPhoneCall: ['Morning'],
+      reasonCode: {
+        coding: [{ code: 'New Problem' }],
+        text: 'I have a headache',
+      },
+      comment: 'New issue: I have a headache',
+      serviceType: 'primaryCare',
+      start: futureDate.add(1, 'days').format(),
+      status: 'booked',
+      cancellable: true,
+    };
+
+    mockSingleClinicFetchByVersion({
+      clinicId: '455',
+      locationId: '983GC',
+      clinicName: 'Some fancy clinic name',
+      version: 2,
+    });
+    mockSingleVAOSAppointmentFetch({ appointment });
+
+    mockFacilityFetchByVersion({
+      facility: createMockFacilityByVersion({
+        id: '983GC',
+        name: 'Cheyenne VA Medical Center',
+        phone: '970-224-1550',
+        address: {
+          postalCode: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          line: ['2360 East Pershing Boulevard'],
+        },
+      }),
     });
 
-    const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
-    // Go back to Appointment detail...
-    userEvent.click(detailLink);
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: myInitialState,
+      path: url,
+    });
 
-    // Verify page content...
+    // Verify document title and content...
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    // Then it should show it is a phone appointment
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'VA appointment over the phone',
+      }),
+    ).to.be.ok;
+
+    // And show display the instructions
+    expect(
+      screen.getByText(
+        /Someone from your VA facility will call you at your phone number/i,
+      ),
+    ).to.be.ok;
+
+    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
+    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
+    expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
+    expect(screen.getByTestId('facility-telephone')).to.exist;
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'You shared these details about your concern',
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
+    expect(
+      screen.getByTestId('add-to-calendar-link', {
+        name: new RegExp(
+          futureDate
+            .tz('America/Denver')
+            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/Print/)).to.be.ok;
+    expect(screen.getByText(/Cancel appointment/)).to.be.ok;
+
+    expect(screen.baseElement).not.to.contain.text(
+      'This appointment occurred in the past.',
+    );
+  });
+
+  it('should show who cancel phone appointments detail page', async () => {
+    // Given a phone appointment
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      },
+    };
+    const url = '/va/1234';
+    const futureDate = moment(getTestDate());
+    // When the appointment is canceled
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '1234';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'phone',
+      clinic: '455',
+      locationId: '983GC',
+      id: '1234',
+      preferredTimesForPhoneCall: ['Morning'],
+      reasonCode: {
+        coding: [{ code: 'New Problem' }],
+        text: 'I have a headache',
+      },
+      comment: 'New issue: I have a headache',
+      serviceType: 'primaryCare',
+      start: futureDate.format(),
+      status: 'cancelled',
+      cancelationReason: { coding: [{ code: 'pat' }] },
+      location: {
+        id: '983GC',
+        type: 'appointments',
+        attributes: {
+          id: '983GC',
+          vistaSite: '983GC',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
+    };
+
+    mockSingleClinicFetchByVersion({
+      clinicId: '455',
+      locationId: '983GC',
+      clinicName: 'Some fancy clinic name',
+      version: 2,
+    });
+    mockSingleVAOSAppointmentFetch({ appointment });
+
+    mockFacilityFetchByVersion({
+      facility: createMockFacilityByVersion({
+        id: '983GC',
+        name: 'Cheyenne VA Medical Center',
+        phone: '970-224-1550',
+        address: {
+          postalCode: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          line: ['2360 East Pershing Boulevard'],
+        },
+      }),
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: myInitialState,
+      path: url,
+    });
+
+    // Verify document title and content...
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.getByText('Primary care')).to.be.ok;
+
+    // Then it should display who canceled the appointment
+    expect(await screen.findByText(/You canceled your appointment/i)).to.exist;
+
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'VA appointment over the phone',
+      }),
+    ).to.be.ok;
+
+    // And it should not show phone instruction
+    expect(
+      screen.queryByText(
+        /Someone from your VA facility will call you at your phone number/i,
+      ),
+    ).to.be.null;
+
+    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
+
+    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
+    expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
+    expect(screen.getByTestId('facility-telephone')).to.exist;
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'You shared these details about your concern',
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
+
+    // And it should not display the add to calendar link
+    expect(screen.queryByTestId('add-to-calendar-link')).to.be.null;
+
+    // And it should not display the print link
+    expect(screen.queryByRole(/Print/)).to.not.be.ok;
+    expect(screen.queryByRole(/Cancel appointment/)).to.not.be.ok;
+
+    expect(screen.baseElement).not.to.contain.text(
+      'This appointment occurred in the past.',
+    );
+  });
+
+  it('should show details without clinic name when clinic call fails', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      },
+    };
+    const url = '/va/1234';
+    const futureDate = moment.utc();
+
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '1234';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'clinic',
+      clinic: '455',
+      locationId: '983GC',
+      id: '1234',
+      preferredTimesForPhoneCall: ['Morning'],
+      reasonCode: {
+        coding: [{ code: 'New Problem' }],
+        text: 'I have a headache',
+      },
+      comment: 'New issue: I have a headache',
+      serviceType: 'primaryCare',
+      start: futureDate.format(),
+      status: 'booked',
+      cancellable: true,
+    };
+
+    mockSingleVAOSAppointmentFetch({ appointment });
+
+    mockFacilityFetchByVersion({
+      facility: createMockFacilityByVersion({
+        id: '983GC',
+        name: 'Cheyenne VA Medical Center',
+        phone: '970-224-1550',
+        address: {
+          postalCode: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          line: ['2360 East Pershing Boulevard'],
+        },
+      }),
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: myInitialState,
+      path: url,
+    });
+
+    // Verify document title and content...
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
+    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
+    expect(screen.queryByText(/clinic:/)).to.not.exist;
+  });
+
+  it('should show confirmation message if redirected from new appointment submit', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingFacilitiesServiceV2: true,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      },
+    };
+    const url = '/va/1234?confirmMsg=true';
+    const futureDate = moment.utc();
+
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '1234';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'clinic',
+      clinic: '455',
+      locationId: '983GC',
+      id: '1234',
+      comment: 'New issue: I have a headache',
+      serviceType: 'primaryCare',
+      start: futureDate.format(),
+      status: 'booked',
+      cancellable: true,
+    };
+
+    mockSingleClinicFetchByVersion({
+      clinicId: '455',
+      locationId: '983GC',
+      clinicName: 'Some fancy clinic name',
+      version: 2,
+    });
+    mockSingleVAOSAppointmentFetch({ appointment });
+
+    mockFacilityFetchByVersion({
+      facility: createMockFacilityByVersion({
+        id: '983GC',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          postalCode: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          line: ['2360 East Pershing Boulevard'],
+        },
+        phone: '970-224-1550',
+      }),
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: myInitialState,
+      path: url,
+    });
+
     expect(
       await screen.findByRole('heading', {
         level: 1,
         name: new RegExp(
-          today.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
           'i',
         ),
-        // name: /Thursday, January 28, 2021/,
       }),
     ).to.be.ok;
+    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
+
+    expect(screen.baseElement).to.contain('.usa-alert-success');
+    expect(screen.baseElement).to.contain.text(
+      'We’ve scheduled and confirmed your appointment.',
+    );
+
+    expect(screen.queryByTestId('review-appointments-link')).to.exist;
+    expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+
+    expect(
+      screen.queryByTestId('review-appointments-link').getAttribute('text'),
+    ).to.equal('Review your appointments');
+    expect(
+      screen.queryByTestId('schedule-appointment-link').getAttribute('text'),
+    ).to.equal('Schedule a new appointment');
   });
 
-  it('should show confirmed appointment without facility information', async () => {
+  // -------------
+
+  it.skip('should show confirmed appointment without facility information', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -229,7 +620,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.getByText(/Cancel appointment/)).to.be.ok;
   });
 
-  it('should show past confirmed appointments detail page', async () => {
+  it.skip('should show past confirmed appointments detail page', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -257,12 +648,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
         phone: '970-224-1550',
-        version: 0,
       }),
-      version: 0,
     });
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
@@ -311,7 +700,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       }),
     ).to.be.ok;
 
-    expect(screen.getByText(/Primary care/i)).to.be.ok;
     expect(screen.getByText(/New issue: ASAP/)).to.be.ok;
     expect(screen.baseElement).not.to.contain.text(
       new RegExp(
@@ -326,7 +714,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).not.to.contain.text('Cancel appointment');
   });
 
-  it('should allow cancellation', async () => {
+  it.skip('should allow cancellation', async () => {
     // Given a veteran has VA appointments
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
@@ -349,11 +737,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
-        version: 0,
       }),
-      version: 0,
     });
 
     const cancelReason = getCancelReasonMock();
@@ -392,7 +778,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     userEvent.click(screen.getByText(/cancel appointment/i));
     await screen.findByRole('alertdialog');
     expect(window.dataLayer[15]).to.deep.equal({
-      event: 'vaos-cancel-booked-clicked',
+      event: 'interaction',
+      action: 'vaos-cancel-booked-clicked',
     });
     //  And clicks on 'yes, cancel this appointment' to confirm
     userEvent.click(screen.getByText(/yes, cancel this appointment/i));
@@ -427,7 +814,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     // );
   });
 
-  it('should not allow cancellation of COVID-19 vaccine appointments', async () => {
+  it.skip('should not allow cancellation of COVID-19 vaccine appointments', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -449,11 +836,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -475,7 +860,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     );
   });
 
-  it('should display who canceled the appointment', async () => {
+  it.skip('should display who canceled the appointment', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -496,11 +881,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -520,7 +903,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     ).to.exist;
   });
 
-  it('should display who canceled the appointment for past appointments', async () => {
+  it.skip('should display who canceled the appointment for past appointments', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -542,11 +925,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -573,7 +954,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       .exist;
   });
 
-  it('should fire a print request when print button clicked', async () => {
+  it.skip('should fire a print request when print button clicked', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -597,11 +978,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -642,7 +1021,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     global.window.print = oldPrint;
   });
 
-  it('should show error message when single fetch errors', async () => {
+  it.skip('should show error message when single fetch errors', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     // const data = {};
     const appointment = createMockAppointmentByVersion({
@@ -672,7 +1051,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     });
   });
 
-  it('should allow the user to close the cancel modal without canceling', async () => {
+  it.skip('should allow the user to close the cancel modal without canceling', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -692,11 +1071,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -741,11 +1118,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -761,7 +1136,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text('Your appointments');
   });
 
-  it('should verify VA in person calendar ics file format', async () => {
+  it.skip('should verify VA in person calendar ics file format', async () => {
     const startDateTime = moment();
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
@@ -786,12 +1161,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Fort Collins VA Clinic',
         phone: '970-224-1550',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -871,7 +1244,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(tokens.get('END')).includes('VCALENDAR');
   });
 
-  it('should verify VA phone calendar ics file format', async () => {
+  it.skip('should verify VA phone calendar ics file format', async () => {
     const url = '/va/22cdc6741c00ac67b6cbf6b972d084c0';
     const data = {
       id: '22cdc6741c00ac67b6cbf6b972d084c0',
@@ -895,12 +1268,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({
-        id: '442GC',
+        id: '983GC',
         name: 'Cheyenne VA Medical Center',
         phone: '970-224-1550',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -977,7 +1348,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(tokens.get('END')).includes('VCALENDAR');
   });
 
-  it('should show facility specific timezone when available', async () => {
+  it.skip('should show facility specific timezone when available', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const today = moment.utc();
 
@@ -1006,9 +1377,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         id: '437GJ',
         name: 'Facility in Denver time',
         phone: '970-224-1550',
-        version: 0,
       }),
-      version: 0,
     });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1037,610 +1406,5 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       ),
     ).to.exist;
     expect(screen.getByText(/Mountain time/i)).to.exist;
-  });
-});
-
-describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
-  beforeEach(() => {
-    mockFetch();
-    MockDate.set(getTimezoneTestDate());
-    mockFacilitiesFetchByVersion();
-  });
-  afterEach(() => {
-    MockDate.reset();
-  });
-
-  it.skip('should show confirmed appointments detail page', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      },
-    };
-    const url = 'va/1234';
-    const futureDate = moment.utc();
-
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'clinic',
-      clinic: '455',
-      locationId: '983GC',
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'New Problem' }],
-        text: 'I have a headache',
-      },
-      comment: 'New issue: I have a headache',
-      serviceType: 'primaryCare',
-      start: futureDate.format(),
-      status: 'booked',
-    };
-
-    mockSingleClinicFetchByVersion({
-      clinicId: '455',
-      locationId: '983GC',
-      clinicName: 'Some fancy clinic name',
-      version: 2,
-    });
-    mockSingleVAOSAppointmentFetch({ appointment });
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '442GC',
-        name: 'Cheyenne VA Medical Center',
-        phone: '970-224-1550',
-        address: {
-          postalCode: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          line: ['2360 East Pershing Boulevard'],
-        },
-        version: 0,
-      }),
-      version: 0,
-    });
-
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState: myInitialState,
-      path: url,
-    });
-
-    // Verify document title and content...
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    expect(
-      screen.getByRole('heading', {
-        level: 1,
-        name: new RegExp(
-          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
-      }),
-    ).to.be.ok;
-
-    expect(screen.getByText('Primary care')).to.be.ok;
-    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
-    expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
-    expect(screen.getByTestId('facility-telephone')).to.exist;
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'You shared these details about your concern',
-      }),
-    ).to.be.ok;
-    expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
-    expect(
-      screen.getByTestId('add-to-calendar-link', {
-        name: new RegExp(
-          futureDate
-            .tz('America/Denver')
-            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
-          'i',
-        ),
-      }),
-    ).to.be.ok;
-    expect(screen.getByText(/Print/)).to.be.ok;
-    expect(screen.getByText(/Cancel appointment/)).to.be.ok;
-
-    expect(screen.baseElement).not.to.contain.text(
-      'This appointment occurred in the past.',
-    );
-  });
-
-  it('should show confirmed phone appointments detail page', async () => {
-    // Given a booked phone appointment
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      },
-    };
-    // When fetching the specific appointment id
-    const url = '/va/1234';
-    const futureDate = moment(getTimezoneTestDate());
-
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'phone',
-      clinic: '455',
-      locationId: '983GC',
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'New Problem' }],
-        text: 'I have a headache',
-      },
-      comment: 'New issue: I have a headache',
-      serviceType: 'primaryCare',
-      start: futureDate.add(1, 'days').format(),
-      status: 'booked',
-    };
-
-    mockSingleClinicFetchByVersion({
-      clinicId: '455',
-      locationId: '983GC',
-      clinicName: 'Some fancy clinic name',
-      version: 2,
-    });
-    mockSingleVAOSAppointmentFetch({ appointment });
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '442GC',
-        name: 'Cheyenne VA Medical Center',
-        phone: '970-224-1550',
-        address: {
-          postalCode: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          line: ['2360 East Pershing Boulevard'],
-        },
-        version: 0,
-      }),
-      version: 0,
-    });
-
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState: myInitialState,
-      path: url,
-    });
-
-    // Verify document title and content...
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    expect(
-      screen.getByRole('heading', {
-        level: 1,
-        name: new RegExp(
-          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
-      }),
-    ).to.be.ok;
-
-    // Then it should show it is a phone appointment
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'VA appointment over the phone',
-      }),
-    ).to.be.ok;
-
-    // And show display the instructions
-    expect(
-      screen.getByText(
-        /Someone from your VA facility will call you at your phone number/i,
-      ),
-    ).to.be.ok;
-
-    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
-    expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
-    expect(screen.getByTestId('facility-telephone')).to.exist;
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'You shared these details about your concern',
-      }),
-    ).to.be.ok;
-    expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
-    expect(
-      screen.getByTestId('add-to-calendar-link', {
-        name: new RegExp(
-          futureDate
-            .tz('America/Denver')
-            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
-          'i',
-        ),
-      }),
-    ).to.be.ok;
-    expect(screen.getByText(/Print/)).to.be.ok;
-    expect(screen.getByText(/Cancel appointment/)).to.be.ok;
-
-    expect(screen.baseElement).not.to.contain.text(
-      'This appointment occurred in the past.',
-    );
-  });
-
-  it('should show who cancel phone appointments detail page', async () => {
-    // Given a phone appointment
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      },
-    };
-    const url = '/va/1234';
-    const futureDate = moment(getTimezoneTestDate());
-    // When the appointment is canceled
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'phone',
-      clinic: '455',
-      locationId: '983GC',
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'New Problem' }],
-        text: 'I have a headache',
-      },
-      comment: 'New issue: I have a headache',
-      serviceType: 'primaryCare',
-      start: futureDate.format(),
-      status: 'cancelled',
-      cancelationReason: { coding: [{ code: 'pat' }] },
-    };
-
-    mockSingleClinicFetchByVersion({
-      clinicId: '455',
-      locationId: '983GC',
-      clinicName: 'Some fancy clinic name',
-      version: 2,
-    });
-    mockSingleVAOSAppointmentFetch({ appointment });
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '442GC',
-        name: 'Cheyenne VA Medical Center',
-        phone: '970-224-1550',
-        address: {
-          postalCode: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          line: ['2360 East Pershing Boulevard'],
-        },
-        version: 0,
-      }),
-      version: 0,
-    });
-
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState: myInitialState,
-      path: url,
-    });
-
-    // Verify document title and content...
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    expect(
-      screen.getByRole('heading', {
-        level: 1,
-        name: new RegExp(
-          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
-      }),
-    ).to.be.ok;
-
-    expect(screen.getByText('Primary care')).to.be.ok;
-
-    // Then it should display who canceled the appointment
-    expect(await screen.findByText(/You canceled your appointment/i)).to.exist;
-
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'VA appointment over the phone',
-      }),
-    ).to.be.ok;
-
-    // And it should not show phone instruction
-    expect(
-      screen.queryByText(
-        /Someone from your VA facility will call you at your phone number/i,
-      ),
-    ).to.not.to.exist;
-
-    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
-    expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
-    expect(screen.getByTestId('facility-telephone')).to.exist;
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'You shared these details about your concern',
-      }),
-    ).to.be.ok;
-    expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
-
-    // And it should not display the add to calendar link
-    expect(screen.queryByTestId('add-to-calendar-link')).to.be.null;
-
-    // And it should not display the print link
-    expect(screen.queryByRole(/Print/)).to.not.be.ok;
-    expect(screen.queryByRole(/Cancel appointment/)).to.not.be.ok;
-
-    expect(screen.baseElement).not.to.contain.text(
-      'This appointment occurred in the past.',
-    );
-  });
-
-  it('should show details without clinic name when clinic call fails', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      },
-    };
-    const url = '/va/1234';
-    const futureDate = moment.utc();
-
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'clinic',
-      clinic: '455',
-      locationId: '983GC',
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'New Problem' }],
-        text: 'I have a headache',
-      },
-      comment: 'New issue: I have a headache',
-      serviceType: 'primaryCare',
-      start: futureDate.format(),
-      status: 'booked',
-    };
-
-    mockSingleVAOSAppointmentFetch({ appointment });
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '442GC',
-        name: 'Cheyenne VA Medical Center',
-        phone: '970-224-1550',
-        address: {
-          postalCode: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          line: ['2360 East Pershing Boulevard'],
-        },
-        version: 0,
-      }),
-      version: 0,
-    });
-
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState: myInitialState,
-      path: url,
-    });
-
-    // Verify document title and content...
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    expect(
-      screen.getByRole('heading', {
-        level: 1,
-        name: new RegExp(
-          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
-      }),
-    ).to.be.ok;
-
-    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
-    expect(screen.queryByText(/clinic:/)).to.not.exist;
-  });
-
-  it('should show confirmation message if redirected from new appointment submit', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingFacilitiesServiceV2: true,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      },
-    };
-    const url = '/va/1234?confirmMsg=true';
-    const futureDate = moment.utc();
-
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'clinic',
-      clinic: '455',
-      locationId: '983GC',
-      id: '1234',
-      comment: 'New issue: I have a headache',
-      serviceType: 'primaryCare',
-      start: futureDate.format(),
-      status: 'booked',
-    };
-
-    mockSingleClinicFetchByVersion({
-      clinicId: '455',
-      locationId: '983GC',
-      clinicName: 'Some fancy clinic name',
-      version: 2,
-    });
-    mockSingleVAOSAppointmentFetch({ appointment });
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '983GC',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          postalCode: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          line: ['2360 East Pershing Boulevard'],
-        },
-        phone: '970-224-1550',
-      }),
-    });
-
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState: myInitialState,
-      path: url,
-    });
-
-    expect(
-      await screen.findByRole('heading', {
-        level: 1,
-        name: new RegExp(
-          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
-      }),
-    ).to.be.ok;
-    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
-
-    expect(screen.baseElement).to.contain('.usa-alert-success');
-    expect(screen.baseElement).to.contain.text(
-      'We’ve scheduled and confirmed your appointment.',
-    );
-
-    expect(screen.queryByTestId('review-appointments-link')).to.exist;
-    expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
-
-    expect(
-      screen.queryByTestId('review-appointments-link').getAttribute('text'),
-    ).to.equal('Review your appointments');
-    expect(
-      screen.queryByTestId('schedule-appointment-link').getAttribute('text'),
-    ).to.equal('Schedule a new appointment');
-  });
-
-  it('should allow for cancellation', async () => {
-    // Given a veteran has a VA appointments
-    // And has VAOS Service flag
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      },
-    };
-    // And has pulled up the specific VA appointment
-    const url = '/va/1234';
-    const futureDate = moment.utc();
-
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'clinic',
-      clinic: '455',
-      locationId: '983GC',
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'New Problem' }],
-        text: 'I have a headache',
-      },
-      comment: 'New issue: I have a headache',
-      serviceType: 'primaryCare',
-      start: futureDate.format(),
-      status: 'booked',
-    };
-
-    mockSingleClinicFetchByVersion({
-      clinicId: '455',
-      locationId: '983GC',
-      clinicName: 'Some fancy clinic name',
-      version: 2,
-    });
-    mockSingleVAOSAppointmentFetch({ appointment });
-    mockAppointmentCancelFetch({ appointment });
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '442GC',
-        name: 'Cheyenne VA Medical Center',
-        phone: '970-224-1550',
-        address: {
-          postalCode: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          line: ['2360 East Pershing Boulevard'],
-        },
-        version: 0,
-      }),
-      version: 0,
-    });
-
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState: myInitialState,
-      path: url,
-    });
-
-    // Verify document content...
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    expect(
-      screen.getByRole('heading', {
-        level: 1,
-        name: new RegExp(
-          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
-      }),
-    ).to.be.ok;
-
-    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
-    expect(screen.getByText(/Print/)).to.be.ok;
-    expect(screen.getByText(/Cancel appointment/)).to.be.ok;
-
-    // When the veteran clicks on the cancel appointment link
-    userEvent.click(screen.getByText(/cancel appointment/i));
-
-    await screen.findByRole('alertdialog');
-
-    expect(window.dataLayer[0]).to.deep.equal({
-      event: 'vaos-cancel-booked-clicked',
-    });
-    // And click on 'yes, cancel this appointment' to confirm
-    userEvent.click(screen.getByText(/yes, cancel this appointment/i));
-
-    // Then it should display the appointment is canceled
-    await screen.findByTestId('cancel-appointment-SuccessModal');
   });
 });

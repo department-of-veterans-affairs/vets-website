@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import uniqueId from 'lodash/uniqueId';
 import classNames from 'classnames';
@@ -13,6 +14,7 @@ import { focusOnChange, getFocusableElements } from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, showReviewField } from '../helpers';
 import ArrayField from './ArrayField';
+import { getPreviousPagePath, checkValidPagePath } from '../routing';
 
 import { isValidForm } from '../validation';
 import { reduceErrors } from '../utilities/data/reduceErrors';
@@ -25,8 +27,8 @@ const scrollOffset = -40;
  * Displays all the pages in a chapter on the review page
  */
 class ReviewCollapsibleChapter extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleEdit = this.handleEdit.bind(this);
   }
 
@@ -64,6 +66,18 @@ class ReviewCollapsibleChapter extends React.Component {
     this.handleEdit(key, false, index);
   };
 
+  goToPath = customPath => {
+    const { form, pageList, location } = this.props;
+
+    const path =
+      customPath &&
+      checkValidPagePath(pageList, this.props.form.data, customPath)
+        ? customPath
+        : getPreviousPagePath(pageList, form.data, location.pathname);
+
+    this.props.router.push(path);
+  };
+
   shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
     expandedPages.length === 1 &&
     (chapterTitle || '').toLowerCase() === pageTitle.toLowerCase();
@@ -78,9 +92,19 @@ class ReviewCollapsibleChapter extends React.Component {
   };
 
   getChapterTitle = chapterFormConfig => {
+    const { form } = this.props;
+    const formData = form.data;
+    const formConfig = form;
+    const onReviewPage = true;
+
     let chapterTitle = chapterFormConfig.title;
+
     if (typeof chapterFormConfig.title === 'function') {
-      chapterTitle = chapterFormConfig.title(true);
+      chapterTitle = chapterFormConfig.title({
+        formData,
+        formConfig,
+        onReviewPage,
+      });
     }
     if (chapterFormConfig.reviewTitle) {
       chapterTitle = chapterFormConfig.reviewTitle;
@@ -130,7 +154,7 @@ class ReviewCollapsibleChapter extends React.Component {
     }
 
     const classes = classNames('form-review-panel-page', {
-      'schemaform-review-page-warning': !viewedPages.has(fullPageKey),
+      'schemaform-review-page-error': !viewedPages.has(fullPageKey),
       // Remove bottom margin when the div content is empty
       'vads-u-margin-bottom--0': !pageSchema && arrayFields.length === 0,
     });
@@ -250,6 +274,8 @@ class ReviewCollapsibleChapter extends React.Component {
 
   getCustomPageContent = (page, props, editing) => {
     if (editing) {
+      // noop defined as a function for unit tests
+      const noop = function noop() {};
       return (
         <page.CustomPage
           key={page.pageKey}
@@ -262,6 +288,10 @@ class ReviewCollapsibleChapter extends React.Component {
           data={props.form.data}
           updatePage={() => this.handleEdit(page.pageKey, false, page.index)}
           pagePerItemIndex={page.index}
+          // noop for navigation to prevent JS error
+          goBack={noop}
+          goForward={noop}
+          goToPath={this.goToPath}
         />
       );
     }
@@ -273,6 +303,7 @@ class ReviewCollapsibleChapter extends React.Component {
         title={page.title}
         data={props.form.data}
         pagePerItemIndex={page.index}
+        goToPath={this.goToPath}
       />
     );
   };
@@ -359,7 +390,7 @@ class ReviewCollapsibleChapter extends React.Component {
     }
 
     const classes = classNames('usa-accordion-bordered', 'form-review-panel', {
-      'schemaform-review-chapter-warning': this.props.hasUnviewedPages,
+      'schemaform-review-chapter-error': this.props.hasUnviewedPages,
     });
 
     const headerClasses = classNames(
@@ -381,6 +412,12 @@ class ReviewCollapsibleChapter extends React.Component {
         <ul className="usa-unstyled-list" role="list">
           <li>
             <h3 className={headerClasses}>
+              {this.props.hasUnviewedPages && (
+                <span
+                  aria-describedby={`collapsibleButton${this.id}`}
+                  className="schemaform-review-chapter-error-icon"
+                />
+              )}
               <button
                 className="usa-button-unstyled"
                 aria-expanded={this.props.open ? 'true' : 'false'}
@@ -391,23 +428,17 @@ class ReviewCollapsibleChapter extends React.Component {
               >
                 {chapterTitle || ''}
               </button>
-              {this.props.hasUnviewedPages && (
-                <span
-                  aria-describedby={`collapsibleButton${this.id}`}
-                  className="schemaform-review-chapter-warning-icon"
-                />
-              )}
             </h3>
             {this.props.hasUnviewedPages && (
-              <span
-                className="vads-u-color--secondary vads-u-border-left--10px vads-u-border-color--secondary vads-u-display--flex vads-u-padding-left--1p5 vads-u-align-items--center vads-u-font-weight--bold"
+              <va-alert
                 role="alert"
-                style={{ minHeight: '50px' }}
+                status="error"
+                background-only
                 aria-describedby={`collapsibleButton${this.id}`}
               >
                 <span className="sr-only">Error</span>
-                {chapterTitle} needs to be updated
-              </span>
+                <span>Some information has changed. Please review.</span>
+              </va-alert>
             )}
             <div id={`collapsible-${this.id}`}>{pageContent}</div>
           </li>
@@ -430,13 +461,21 @@ ReviewCollapsibleChapter.propTypes = {
   onEdit: PropTypes.func.isRequired,
   pageList: PropTypes.array.isRequired,
   setFormErrors: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
   reviewErrors: PropTypes.shape({}),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReviewCollapsibleChapter);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ReviewCollapsibleChapter),
+);
 
 // for tests
 export { ReviewCollapsibleChapter };

@@ -5,7 +5,7 @@ class Appointments {
   validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Your appointments');
+      .and('contain.text', 'Your appointments');
   };
 
   validateAppointmentLength = length => {
@@ -41,7 +41,7 @@ class Appointments {
       {
         timeout: Timeouts.slow,
       },
-    ).should('contain', 'You can check in starting at this time: 11:00 a.m.');
+    ).should('contain', 'You can check in starting at 11:00 a.m.');
   };
 
   validateEarlyStatusWithoutTime = (appointmentNumber = 2) => {

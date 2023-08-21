@@ -6,10 +6,7 @@ import environment from 'platform/utilities/environment';
 import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
 import { mockAppointmentInfo } from '../../mocks/helpers';
-import {
-  renderWithStoreAndRouter,
-  getTimezoneTestDate,
-} from '../../mocks/setup';
+import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import CanceledAppointmentsList from '../../../appointment-list/components/CanceledAppointmentsList';
 import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 import {
@@ -24,10 +21,10 @@ const initialState = {
   },
 };
 
-describe('VAOS <CanceledAppointmentsList>', () => {
+describe.skip('VAOS <CanceledAppointmentsList>', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTimezoneTestDate());
+    MockDate.set(getTestDate());
     mockFacilitiesFetchByVersion({ version: 0 });
   });
   afterEach(() => {

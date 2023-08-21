@@ -1,11 +1,8 @@
 import React from 'react';
-
 import '~/platform/polyfills';
-
-import Dashboard from './components/Dashboard';
-
 import startApp from '~/platform/startup';
-
+import './sass/dashboard.scss';
+import Dashboard from './components/Dashboard';
 import reducer from './reducers';
 import manifest from './manifest.json';
 

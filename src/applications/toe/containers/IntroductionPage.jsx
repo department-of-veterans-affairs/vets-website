@@ -40,7 +40,6 @@ export const IntroductionPage = ({
         isLOA3 && (
           <SaveInProgressIntro
             buttonOnly
-            testActionLink
             user={user}
             prefillEnabled={route.formConfig.prefillEnabled}
             messages={route.formConfig.savedFormMessages}

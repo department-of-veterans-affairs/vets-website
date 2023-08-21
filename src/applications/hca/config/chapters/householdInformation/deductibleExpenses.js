@@ -3,7 +3,7 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import set from 'platform/utilities/data/set';
 
 import { DeductibleExpensesDescription } from '../../../components/FormDescriptions';
-import { ExpensesGreaterThanIncomeWarning } from '../../../components/FormAlerts';
+import { ExpensesWarning } from '../../../components/FormAlerts';
 import { expensesLessThanIncome } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 import { validateCurrency } from '../../../utils/validation';
@@ -26,7 +26,7 @@ export default {
       ),
     ),
     'view:expensesIncomeWarning1': {
-      'ui:description': ExpensesGreaterThanIncomeWarning,
+      'ui:description': ExpensesWarning,
       'ui:options': {
         hideIf: expensesLessThanIncome('deductibleMedicalExpenses'),
       },
@@ -39,7 +39,7 @@ export default {
       ),
     ),
     'view:expensesIncomeWarning2': {
-      'ui:description': ExpensesGreaterThanIncomeWarning,
+      'ui:description': ExpensesWarning,
       'ui:options': {
         hideIf: expensesLessThanIncome('deductibleFuneralExpenses'),
       },
@@ -48,7 +48,7 @@ export default {
       'Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.',
     ),
     'view:expensesIncomeWarning3': {
-      'ui:description': ExpensesGreaterThanIncomeWarning,
+      'ui:description': ExpensesWarning,
       'ui:options': {
         hideIf: expensesLessThanIncome('deductibleEducationExpenses'),
       },

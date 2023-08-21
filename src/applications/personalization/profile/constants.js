@@ -97,6 +97,17 @@ export const NOTIFICATION_GROUPS = Object.freeze({
   GENERAL: 'group2',
   YOUR_HEALTH_CARE: 'group3',
   PAYMENTS: 'group4',
+  QUICK_SUBMIT: 'group5',
+});
+
+export const NOTIFICATION_CHANNEL_IDS = Object.freeze({
+  TEXT: '1',
+  EMAIL: '2',
+});
+
+export const NOTIFICATION_CHANNEL_LABELS = Object.freeze({
+  [NOTIFICATION_CHANNEL_IDS.TEXT]: 'text',
+  [NOTIFICATION_CHANNEL_IDS.EMAIL]: 'email',
 });
 
 /**
@@ -109,13 +120,20 @@ export const NOTIFICATION_GROUPS = Object.freeze({
  * 10 - Medical images and reports available
  * 11 - Biweekly MHV newsletter
  *
- * These are email notifications and will be added once support for that notification type is added
+ * These are all email based notifications
  *
  */
-export const BLOCKED_NOTIFICATION_IDS = [
+export const BLOCKED_MHV_NOTIFICATION_IDS = [
   'item7',
   'item8',
   'item9',
   'item10',
   'item11',
 ];
+
+// used for api status GA events
+export const API_STATUS = Object.freeze({
+  STARTED: 'started',
+  SUCCESSFUL: 'successful',
+  FAILED: 'failed',
+});

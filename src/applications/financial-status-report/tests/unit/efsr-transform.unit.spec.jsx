@@ -8,7 +8,6 @@ import {
   dateFormatter,
   getFsrReason,
   filterReduceByName,
-  getMonthlyIncome,
   otherDeductionsAmt,
   getMonthlyExpenses,
   getEmploymentHistory,
@@ -16,6 +15,7 @@ import {
   otherDeductionsName,
   nameStr,
 } from '../../utils/helpers';
+import { getMonthlyIncome } from '../../utils/calculateIncome';
 
 describe('efsr-fsr transform helper functions', () => {
   describe('efsr-dateFormatter helper', () => {
@@ -30,11 +30,14 @@ describe('efsr-fsr transform helper functions', () => {
   describe('efsr-getFsrReason helper', () => {
     it('should return string of unique fsr reasons comma separated', () => {
       const debts = [
-        { resolution: { resolutionType: 'Resolution 1' } },
-        { resolution: { resolutionType: 'Resolution 1' } },
-        { resolution: { resolutionType: 'Resolution 3' } },
+        { resolutionOption: 'monthly' },
+        { resolutionOption: 'monthly' },
+        { resolutionOption: 'waiver' },
+        { resolutionOption: 'compromise' },
       ];
-      expect(getFsrReason(debts)).to.equal('Resolution 1, Resolution 3');
+      expect(getFsrReason(debts)).to.equal(
+        'Extended monthly payments, Waiver, Compromise',
+      );
     });
   });
 
@@ -120,10 +123,43 @@ describe('efsr-fsr transform helper functions', () => {
     });
   });
 
-  // Depends on sumValues, filterReduceByName, otherDeductionsAmt
-  describe('efsr-getMonthlyIncome helper', () => {
+  // Depends on sumValues, filterReduceByName, otherDeductionsAmt - getMonthlyIncome
+  describe('efsr getMonthlyIncome helper', () => {
     it('should return monthy income based on veterans net and other income, and spouses net and other income', () => {
-      expect(getMonthlyIncome(inputObject.data)).to.equal(20597.85);
+      const result = getMonthlyIncome(inputObject.data);
+
+      // Veteran's income
+      const { vetIncome } = result;
+      expect(vetIncome.grossSalary).to.equal(7001.1);
+      expect(vetIncome.deductions.taxes).to.equal(781.03);
+      expect(vetIncome.deductions.retirement).to.equal(100);
+      expect(vetIncome.deductions.socialSecurity).to.equal(122.4);
+      expect(vetIncome.deductions.otherDeductions.amount).to.deep.equal(389.01);
+      expect(vetIncome.totalDeductions).to.equal(1392.44);
+      expect(vetIncome.netTakeHomePay).to.equal(5608.66);
+      expect(vetIncome.otherIncome.name).to.equal(
+        'Disability Compensation, Education, Social Security, Employment bonus, Alimony',
+      );
+      expect(vetIncome.otherIncome.amount).to.equal(7012.85);
+      expect(vetIncome.totalMonthlyNetIncome).to.equal(12621.51);
+
+      // Spouse's income
+      const { spIncome } = result;
+      expect(spIncome.grossSalary).to.equal(5000.54);
+      expect(spIncome.deductions.taxes).to.equal(581.01);
+      expect(spIncome.deductions.retirement).to.equal(100);
+      expect(spIncome.deductions.socialSecurity).to.equal(0);
+      expect(spIncome.deductions.otherDeductions.amount).to.deep.equal(254.45);
+      expect(spIncome.totalDeductions).to.equal(935.46);
+      expect(spIncome.netTakeHomePay).to.equal(4065.08);
+      expect(spIncome.otherIncome.name).to.equal(
+        'Disability Compensation, Education, Child support, Alimony, Social Security',
+      );
+      expect(spIncome.otherIncome.amount).to.equal(4701.77);
+      expect(spIncome.totalMonthlyNetIncome).to.equal(8766.85);
+
+      // Total income
+      expect(result.totalMonthlyNetIncome).to.equal(21388.36);
     });
   });
 
@@ -131,34 +167,33 @@ describe('efsr-fsr transform helper functions', () => {
   describe('efsr-getMonthlyExpenses helper', () => {
     it('should return a number which is the sum total monthly expenses', () => {
       const expenses = {
+        'view:enhancedFinancialStatusReport': true,
         expenses: {
           expenseRecords: [
             {
               name: 'Rent',
               amount: '100',
             },
-            {
-              name: 'Food',
-              amount: '100',
-            },
           ],
-          rentOrMortgage: '100',
-          food: '100',
         },
         otherExpenses: [
           {
+            name: 'Food',
             amount: '100',
           },
           {
+            name: 'Veteran added',
             amount: '100',
           },
         ],
         utilityRecords: [
           {
-            monthlyUtilityAmount: '100',
+            name: 'Electricity',
+            amount: '100',
           },
           {
-            monthlyUtilityAmount: '100',
+            name: 'Water',
+            amount: '100',
           },
         ],
         installmentContracts: [
@@ -170,7 +205,7 @@ describe('efsr-fsr transform helper functions', () => {
           },
         ],
       };
-      expect(getMonthlyExpenses(expenses)).to.equal(1000);
+      expect(getMonthlyExpenses(expenses)).to.equal(700);
     });
   });
 
@@ -221,6 +256,7 @@ describe('efsr-fsr transform helper functions', () => {
 
     it('should return a spouses employment history', () => {
       const history = {
+        'view:enhancedFinancialStatusReport': true,
         questions: {
           spouseIsEmployed: true,
           vetIsEmployed: false,
@@ -228,7 +264,7 @@ describe('efsr-fsr transform helper functions', () => {
         personalData: {
           employmentHistory: {
             spouse: {
-              employmentRecords: [
+              spEmploymentRecords: [
                 {
                   type: 'Full time',
                   from: '2018-6-XX',
@@ -443,7 +479,9 @@ describe('efsr-fsr transform information', () => {
     it('has valid data', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj).haveOwnProperty('personalData');
-      expect(submissionObj.personalData.telephoneNumber).to.equal('4445551212');
+      expect(submissionObj.personalData.telephoneNumber).to.equal(
+        '(510) 922-4444',
+      );
       expect(submissionObj.personalData.dateOfBirth).to.equal('04/05/1933');
       expect(submissionObj.personalData.married).to.equal(true);
       expect(submissionObj.personalData.agesOfOtherDependents[0]).to.equal(
@@ -538,20 +576,22 @@ describe('efsr-fsr transform information', () => {
       it('has valid data', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj.personalData.address.addresslineOne).to.equal(
-          '123 Fake Street',
+          '1200 Park Ave',
         );
-        expect(submissionObj.personalData.address.addresslineTwo).to.equal('');
+        expect(submissionObj.personalData.address.addresslineTwo).to.equal(
+          'c/o Pixar',
+        );
         expect(submissionObj.personalData.address.addresslineThree).to.equal(
           '',
         );
-        expect(submissionObj.personalData.address.city).to.equal('Tampa');
+        expect(submissionObj.personalData.address.city).to.equal('Emeryville');
         expect(submissionObj.personalData.address.stateOrProvince).to.equal(
-          'FL',
+          'CA',
         );
         expect(submissionObj.personalData.address.zipOrPostalCode).to.equal(
-          '33543',
+          '94608',
         );
-        expect(submissionObj.personalData.address.countryName).to.equal('USA');
+        expect(submissionObj.personalData.address.countryName).to.equal('US');
       });
     });
     describe('efsr-employment history', () => {
@@ -787,13 +827,16 @@ describe('efsr-fsr transform information', () => {
     });
     it('has valid data', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
-      expect(submissionObj.expenses.rentOrMortgage).to.equal('1200.53');
-      expect(submissionObj.expenses.food).to.equal('4000.38');
+      expect(submissionObj.expenses.rentOrMortgage).to.equal('2000.53');
+      expect(submissionObj.expenses.food).to.equal('1000.54');
       expect(submissionObj.expenses.utilities).to.equal('701.35');
+      expect(submissionObj.expenses.otherLivingExpenses.amount).to.equal(
+        '195.25',
+      );
       expect(
         submissionObj.expenses.expensesInstallmentContractsAndOtherDebts,
       ).to.equal('2000.64');
-      expect(submissionObj.expenses.totalMonthlyExpenses).to.equal('13404.35');
+      expect(submissionObj.expenses.totalMonthlyExpenses).to.equal('5898.31');
     });
     describe('efsr-other living expenses', () => {
       it('has valid structure', () => {
@@ -808,10 +851,10 @@ describe('efsr-fsr transform information', () => {
       it('has valid data', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj.expenses.otherLivingExpenses.name).to.equal(
-          'Pool service, Lawn service',
+          'Clothing, Veteran added, Property tax',
         );
         expect(submissionObj.expenses.otherLivingExpenses.amount).to.equal(
-          '300.54',
+          '195.25',
         );
       });
     });
@@ -832,7 +875,7 @@ describe('efsr-fsr transform information', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(
         submissionObj.discretionaryIncome.netMonthlyIncomeLessExpenses,
-      ).to.equal('7193.50');
+      ).to.equal('15490.05');
       expect(
         submissionObj.discretionaryIncome.amountCanBePaidTowardDebt,
       ).to.equal('61.02');
@@ -1077,7 +1120,7 @@ describe('efsr-fsr transform information', () => {
     it('has valid data', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj.additionalData.additionalComments).to.equal(
-        'Supporting personal statement...\nIndividual expense amount: Pool service ($200.00), Lawn service ($100.54)',
+        'Supporting personal statement...\nIndividual expense amount: Clothing ($10.00), Veteran added ($100.00), Property tax ($85.25)',
       );
     });
     describe('efsr-bankruptcy', () => {

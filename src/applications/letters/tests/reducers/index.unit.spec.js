@@ -25,23 +25,19 @@ function reduce(action, state = initialState) {
 }
 
 const benefitSummaryOptionData = {
-  data: {
-    attributes: {
-      benefitInformation: {
-        awardEffectiveDate: '1965-01-01T05:00:00.000+00:00',
-        monthlyAwardAmount: 200,
-        hasChapter35Eligibility: true,
-      },
-      militaryService: [
-        {
-          branch: 'ARMY',
-          characterOfService: 'HONORABLE',
-          enteredDate: '1965-01-01T05:00:00.000+00:00',
-          releasedDate: '1972-10-01T04:00:00.000+00:00',
-        },
-      ],
-    },
+  benefitInformation: {
+    awardEffectiveDate: '1965-01-01T05:00:00.000+00:00',
+    monthlyAwardAmount: 200,
+    hasChapter35Eligibility: true,
   },
+  militaryService: [
+    {
+      branch: 'ARMY',
+      characterOfService: 'HONORABLE',
+      enteredDate: '1965-01-01T05:00:00.000+00:00',
+      releasedDate: '1972-10-01T04:00:00.000+00:00',
+    },
+  ],
 };
 
 describe('letters reducer', () => {
@@ -91,17 +87,13 @@ describe('letters reducer', () => {
     const state = reduce({
       type: GET_LETTERS_SUCCESS,
       data: {
-        data: {
-          attributes: {
-            letters: [
-              {
-                letterType: LETTER_TYPES.commissary,
-                name: 'Commissary Letter',
-              },
-            ],
-            fullName: 'Johann Bach',
+        letters: [
+          {
+            letterType: LETTER_TYPES.commissary,
+            name: 'Commissary Letter',
           },
-        },
+        ],
+        fullName: 'Johann Bach',
       },
     });
 

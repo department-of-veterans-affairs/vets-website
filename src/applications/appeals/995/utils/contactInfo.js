@@ -1,18 +1,11 @@
 import { CONTACT_EDIT } from '../constants';
 
-/**
- * @typedef phoneObject
- * @type {Object}
- * @property {String} countryCode - country code (1 digit, usually)
- * @property {String} areaCode - area code (3 digits)
- * @property {String} phoneNumber - phone number (7 digits)
- * @property {String} phoneNumberExt - extension
- * @returns
- */
+import '../../shared/definitions';
+
 /**
  * Return a phone number object
  * @param {String} phone - phone number string to convert to an object
- * @return {phoneObject}
+ * @return {PhoneObject}
  */
 export const returnPhoneObject = phone => {
   const result = {
@@ -31,7 +24,7 @@ export const returnPhoneObject = phone => {
 
 /**
  * Combine area code and phone number in a string
- * @param {phoneObj} phone
+ * @param {PhoneObject} phone
  * @returns {String} area code + phone number
  */
 export const getPhoneString = (phone = {}) =>
@@ -45,13 +38,14 @@ export const getFormattedPhone = phone => {
     let i = 0;
     return phonePattern.replace(hashRegex, () => fullString[i++] || '');
   }
-  return '';
+  return fullString;
 };
 
+// schema allows 1 digit area code & 1 digit phone number
 export const hasHomePhone = formData =>
-  getPhoneString(formData?.veteran?.homePhone).length === 10;
+  getPhoneString(formData?.veteran?.homePhone).length >= 2;
 export const hasMobilePhone = formData =>
-  getPhoneString(formData?.veteran?.mobilePhone).length === 10;
+  getPhoneString(formData?.veteran?.mobilePhone).length >= 2;
 
 export const hasHomeAndMobilePhone = formData =>
   hasHomePhone(formData) && hasMobilePhone(formData);

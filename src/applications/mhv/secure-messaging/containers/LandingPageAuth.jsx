@@ -12,11 +12,13 @@ then additional functionality will need to be added to account for this.
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getAllMessages } from '../actions';
 import { getTriageTeams } from '../actions/triageTeams';
 import { retrieveFolder } from '../actions/folders';
 import { getCategories } from '../actions/categories';
-import { DefaultFolders as Folder } from '../util/constants';
+import { DefaultFolders as Folder, PageTitles } from '../util/constants';
+import { updatePageTitle } from '../util/helpers';
 import { getMessages } from '../actions/messages';
 import DashboardUnreadMessages from '../components/Dashboard/DashboardUnreadMessages';
 import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
@@ -54,6 +56,11 @@ const LandingPageAuth = () => {
     },
     [dispatch],
   );
+
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(PageTitles.DEFAULT_PAGE_TITLE_TAG);
+  }, []);
 
   return (
     <div className="dashboard">

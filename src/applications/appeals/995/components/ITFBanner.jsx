@@ -11,6 +11,7 @@ import {
   itfError,
   itfSuccess,
   itfActive,
+  itfExpander,
 } from '../content/itfWrapper';
 
 import { BASE_URL } from '../constants';
@@ -67,6 +68,7 @@ const ITFBanner = props => {
     <div className="itf-inner vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
       <div className="usa-content">
         {message}
+        <div className="vads-u-margin-top--2">{itfExpander}</div>
         {props.status === 'error' ? (
           <p>
             <Link to={BASE_URL} className="vads-u-margin-top--2">

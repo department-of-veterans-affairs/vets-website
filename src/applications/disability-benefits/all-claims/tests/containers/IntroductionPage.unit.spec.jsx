@@ -2,7 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import moment from 'moment';
-
 import { IntroductionPage } from '../../components/IntroductionPage';
 import formConfig from '../../config/form';
 import {
@@ -106,11 +105,41 @@ describe('<IntroductionPage/>', () => {
     );
     wrapper.unmount();
   });
+
   it('should render reset wizard link to intro page', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} showWizard />);
     expect(wrapper.find('#restart-wizard a').props().href).to.equal(
       `${DISABILITY_526_V2_ROOT_URL}/start`,
     );
+    wrapper.unmount();
+  });
+
+  it('should display default prepare overview when not BDD flow', () => {
+    const wrapper = shallow(<IntroductionPage {...defaultProps} showWizard />);
+
+    expect(
+      wrapper.find('[data-testid="process-step1-prepare"]').text(),
+    ).contains('When you file a disability claim');
+
+    wrapper.unmount();
+  });
+
+  it('should display BDD prepare overview when using BDD flow', () => {
+    const wrapper = shallow(
+      <IntroductionPage {...defaultProps} showWizard isBDDForm />,
+    );
+
+    expect(
+      wrapper.find('[data-testid="process-step1-prepare"]').text(),
+    ).contains('When you file a BDD claim online');
+
+    wrapper.unmount();
+  });
+
+  it('should render OMB info', () => {
+    const wrapper = shallow(<IntroductionPage {...defaultProps} />);
+
+    expect(wrapper.find('va-omb-info').length).to.equal(1);
     wrapper.unmount();
   });
 });

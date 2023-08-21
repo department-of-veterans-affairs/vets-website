@@ -1,8 +1,5 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import CallToActionAlert from '../../CallToActionAlert';
 
 const NotFound = () => {
@@ -20,10 +17,9 @@ const NotFound = () => {
         <p>You can verify your identity in one of these 2 ways:</p>
         <h5>Call the VA benefits hotline</h5>
         <p>
-          Please call us at <a href="tel:800-827-1000">800-827-1000</a>. We’re
-          here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have
-          hearing loss, call TTY:{' '}
-          <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
+          Please call us at <va-telephone contact="8008271000" />. We’re here
+          Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have hearing
+          loss, call <va-telephone contact={CONTACTS['711']} tty />.
         </p>
         <p>
           When the system prompts you to give a reason for your call, say,

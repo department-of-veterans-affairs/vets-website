@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaModal,
@@ -6,21 +6,19 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
+import { PrintMessageOptions } from '../../util/constants';
+import { focusOnErrorField } from '../../util/formHelpers';
 
 const PrintBtn = props => {
   const [printOption, setPrintOption] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [printSelectError, setPrintSelectError] = useState(null);
   const messageThread = useSelector(
     state => state.sm.messageDetails.messageHistory,
   );
-  const messageThreadCount = useRef(1);
-  useEffect(
+  const messageThreadCount = useMemo(
     () => {
-      if (messageThread?.length > 0) {
-        messageThread.forEach(() => {
-          messageThreadCount.current += 1;
-        });
-      }
+      return messageThread?.length + 1; // +1 for the original message
     },
     [messageThread],
   );
@@ -35,16 +33,25 @@ const PrintBtn = props => {
 
   const closeModal = () => {
     setIsModalVisible(false);
+    setPrintSelectError(null);
   };
 
-  const handleOnChangePrintOption = ({ target }) => {
-    setPrintOption(target.value);
+  const handleOnChangePrintOption = ({ detail }) => {
+    setPrintOption(detail.value);
+    setPrintSelectError(
+      detail.value ? null : 'Please select an option to print.',
+    );
   };
 
   const handleConfirmPrint = () => {
-    props.handlePrint(printOption);
-    setPrintOption(null);
-    closeModal();
+    if (printOption === null) {
+      setPrintSelectError('Please select an option to print.');
+      focusOnErrorField();
+    } else {
+      setPrintOption(null);
+      closeModal();
+      props.handlePrint(printOption);
+    }
   };
 
   const printModal = () => {
@@ -62,34 +69,30 @@ const PrintBtn = props => {
           data-testid="print-modal-popup"
           visible={isModalVisible}
         >
-          <div className="modal-body">
+          <div>
             <VaRadio
               className="form-radio-buttons"
               enable-analytics
-              // error={ // TODO: add error state}
-              onRadioOptionSelected={handleOnChangePrintOption}
+              error={printSelectError}
+              onVaValueChange={handleOnChangePrintOption}
             >
               <VaRadioOption
                 data-testid="radio-print-one-message"
                 label="Print only this message"
-                name="defaultName"
-                value="this message"
+                value={PrintMessageOptions.PRINT_MAIN}
+                name="this-message"
               />
 
               <VaRadioOption
                 data-testid="radio-print-all-messages"
                 style={{ display: 'flex' }}
-                aria-label={`Print all messages in this conversation (${
-                  messageThreadCount.current
-                } messages)`}
+                aria-label={`Print all messages in this conversation (${messageThreadCount} messages)`}
                 label="Print all messages in this conversation"
-                name="defaultName"
-                value="all messages"
+                description={`(${messageThreadCount} messages)`}
+                value={PrintMessageOptions.PRINT_THREAD}
+                name="all-messages"
               />
             </VaRadio>
-            <p>
-              <strong>{`(${messageThreadCount.current} messages)`}</strong>
-            </p>
           </div>
         </VaModal>
       </div>

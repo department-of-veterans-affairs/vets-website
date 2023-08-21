@@ -2,6 +2,7 @@
   if (Cypress.env('with_screenshots')) {
     await import('../../../day-of/tests/e2e/travel-path/travel.pay.path.cypress.spec');
     await import('../../../day-of/tests/e2e/travel-path/travel.pay.unhappy.path.cypress.spec');
+    await import('../../../day-of/tests/e2e/travel-path/travel.pay.errors.cypress.spec');
   }
 })();
 describe('Screenshots day-of travel pay', () => {

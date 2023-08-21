@@ -40,12 +40,7 @@ const Demographics = props => {
       dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
       setShouldSendDemographicsFlags(window, true);
       const seeStaffMessage = (
-        <>
-          <p>{t('our-staff-can-help-you-update-your-contact-information')}</p>
-          <p className="vads-u-margin-bottom--0">
-            {t('if-you-dont-live-at-a-fixed-address')}
-          </p>
-        </>
+        <p>{t('our-staff-can-help-you-update-your-contact-information')}</p>
       );
       updateSeeStaffMessage(seeStaffMessage);
       jumpToPage(URLS.SEE_STAFF);
@@ -65,9 +60,11 @@ const Demographics = props => {
         demographics={demographics}
         yesAction={yesClick}
         noAction={noClick}
+        eyebrow={t('check-in')}
         subtitle={t(
           'we-can-better-follow-up-with-when-we-have-your-current-information',
         )}
+        router={router}
       />
     </>
   );

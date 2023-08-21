@@ -1,4 +1,5 @@
 {
+  "contactInfoSettings": "none",
   "viewNoDirectDeposit": false,
   "bankAccount": {
     "bankName": "First Bank of Form Mocks",

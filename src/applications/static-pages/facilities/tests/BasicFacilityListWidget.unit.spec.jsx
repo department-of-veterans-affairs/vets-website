@@ -18,7 +18,7 @@ describe('facilities <FacilityListWidget>', () => {
       },
     );
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    expect(tree.find('va-loading-indicator').exists()).to.be.true;
     tree.unmount();
   });
 
@@ -30,7 +30,7 @@ describe('facilities <FacilityListWidget>', () => {
     );
     tree.instance().request.then(() => {
       tree.update();
-      expect(tree.find('LoadingIndicator').exists()).to.be.false;
+      expect(tree.find('va-loading-indicator').exists()).to.be.false;
 
       const facilityNameComponent = tree.find('FacilityTitle').dive();
       const facilityName = facilityNameComponent.find('h3');

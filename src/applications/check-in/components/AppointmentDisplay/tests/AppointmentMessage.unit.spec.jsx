@@ -108,7 +108,7 @@ describe('check-in', () => {
 
       expect(action.getByTestId('too-early-message')).to.exist;
       expect(action.getByTestId('too-early-message')).to.have.text(
-        'You can check in starting at this time: 2:00 p.m.',
+        'You can check in starting at 2:00 p.m.',
       );
     });
     it('should render the bad status message for appointments with INELIGIBLE_ALREADY_CHECKED_IN status', () => {

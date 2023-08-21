@@ -7,6 +7,7 @@ import { startNewAppointmentFlow } from '../redux/actions';
 import {
   selectFeatureRequests,
   selectFeatureStatusImprovement,
+  selectFeaturePrintList,
 } from '../../redux/selectors';
 
 function handleClick(history, dispatch) {
@@ -22,11 +23,14 @@ function handleClick(history, dispatch) {
 function ScheduleNewAppointmentButton() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const isPrintList = useSelector(state => selectFeaturePrintList(state));
 
   return (
     <button
       type="button"
-      className="vaos-hide-for-print"
+      className={`xsmall-screen:${
+        isPrintList ? 'vads-u-margin-bottom--3' : 'vads-u-margin-bottom--2'
+      } vaos-hide-for-print vads-u-margin--0 small-screen:vads-u-margin-bottom--4`}
       aria-label="Start scheduling an appointment"
       id="schedule-button"
       onClick={handleClick(history, dispatch)}

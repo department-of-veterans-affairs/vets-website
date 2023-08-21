@@ -1,34 +1,17 @@
-import { CurrentDebtTitle } from '../../components/CurrentDebtTitle';
-import CustomResolutionReview from '../../components/CustomResolutionReview';
-import {
-  validateCurrency,
-  validateResolutionAmount,
-} from '../../utils/validations';
+import { CurrentDebtTitle } from '../../components/shared/CurrentDebtTitle';
+import ResolutionAmount from '../../components/resolution/ResolutionAmount';
+import CustomResolutionReview from '../../components/shared/CustomResolutionReview';
+import { validateResolutionAmount } from '../../utils/validations';
 
 export const uiSchema = {
   selectedDebtsAndCopays: {
     items: {
       'ui:title': CurrentDebtTitle,
-      'ui:description': ({ formData }) => {
-        return formData.resolutionOption === 'monthly'
-          ? 'How much can you afford to pay monthly on this debt?'
-          : 'How much can you afford to pay as a one-time payment?';
-      },
+      'ui:validations': [validateResolutionAmount],
       resolutionComment: {
         'ui:title': ' ',
         'ui:reviewField': CustomResolutionReview,
-        'ui:options': {
-          classNames: 'schemaform-currency-input',
-          widgetClassNames: 'input-size-3',
-        },
-        'ui:required': (formData, index) => {
-          return (
-            formData.selectedDebtsAndCopays[index]?.resolutionOption &&
-            formData.selectedDebtsAndCopays[index]?.resolutionOption !==
-              'waiver'
-          );
-        },
-        'ui:validations': [validateCurrency, validateResolutionAmount],
+        'ui:widget': ResolutionAmount,
       },
     },
   },

@@ -37,10 +37,14 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title="Apply for VA health care" />
-      <p className="vads-u-margin-top--neg2">
-        Enrollment Application for Health Benefits (VA Form 10-10EZ)
-      </p>
+      {!showLoader && (
+        <>
+          <FormTitle title="Apply for VA health care" />
+          <p className="vads-u-margin-top--neg2">
+            Enrollment Application for Health Benefits (VA Form 10-10EZ)
+          </p>
+        </>
+      )}
 
       <DowntimeNotification
         appTitle="Application for VA health care"
@@ -48,7 +52,7 @@ const IntroductionPage = props => {
       >
         {!showLoader &&
           !showLOA3Content && (
-            <p>
+            <p data-testid="hca-loa1-description">
               VA health care covers care for your physical and mental health.
               This includes a range of services from checkups to surgeries to
               home health care. It also includes prescriptions and medical

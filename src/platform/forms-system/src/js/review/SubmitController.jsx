@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import recordEvent from 'platform/monitoring/record-event';
+import { statementOfTruthFullName } from 'platform/forms/components/review/PreSubmitSection';
+import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
 import SubmitButtons from './SubmitButtons';
 import { isValidForm } from '../validation';
 import { createPageListByChapter, getActiveExpandedPages } from '../helpers';
-import recordEvent from 'platform/monitoring/record-event';
 import { reduceErrors } from '../utilities/data/reduceErrors';
 
 import {
@@ -16,7 +18,6 @@ import {
   submitForm,
   setFormErrors,
 } from '../actions';
-import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
 
 class SubmitController extends Component {
   /* eslint-disable-next-line camelcase */
@@ -59,8 +60,15 @@ class SubmitController extends Component {
 
     // If a pre-submit agreement is required, make sure it was accepted
     const preSubmit = this.getPreSubmit(formConfig);
+    const { statementOfTruth } = preSubmit;
 
-    if (preSubmit.required && !form.data[preSubmit.field]) {
+    if (
+      (preSubmit.required && !form.data[preSubmit.field]) ||
+      (statementOfTruth &&
+        (!form.data.statementOfTruthCertified ||
+          form.data.statementOfTruthSignature !==
+            statementOfTruthFullName(form.data, statementOfTruth.fullNamePath)))
+    ) {
       this.props.setSubmission('hasAttemptedSubmit', true);
       this.props.setSubmission('timestamp', now);
       // <PreSubmitSection/> is displaying an error for this case
@@ -144,9 +152,9 @@ function mapStateToProps(state, ownProps) {
   const { formConfig, pageList } = ownProps;
   const { form, user } = state;
 
-  const router = ownProps.router;
+  const { router } = ownProps;
   const pagesByChapter = createPageListByChapter(formConfig);
-  const trackingPrefix = formConfig.trackingPrefix;
+  const { trackingPrefix } = formConfig;
   const { submission } = form;
   const showPreSubmitError = submission.hasAttemptedSubmit;
 

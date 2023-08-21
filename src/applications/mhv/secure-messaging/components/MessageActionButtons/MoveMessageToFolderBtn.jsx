@@ -13,6 +13,7 @@ import { navigateToFolderByFolderId } from '../../util/helpers';
 import * as Constants from '../../util/constants';
 import { addAlert } from '../../actions/alerts';
 import CreateFolderModal from '../Modals/CreateFolderModal';
+import { focusOnErrorField } from '../../util/formHelpers';
 
 const MoveMessageToFolderBtn = props => {
   const { threadId, allFolders, isVisible, activeFolder } = props;
@@ -43,8 +44,11 @@ const MoveMessageToFolderBtn = props => {
     setFolderInputError(null);
   };
 
-  const handleOnChangeFolder = ({ target }) => {
-    setSelectedFolder(target.value);
+  const handleOnChangeFolder = ({ detail }) => {
+    setSelectedFolder(detail.value);
+    if (detail.value !== null) {
+      setFolderInputError(null);
+    }
   };
 
   const handleConfirmMoveFolderTo = () => {
@@ -52,6 +56,7 @@ const MoveMessageToFolderBtn = props => {
       setFolderInputError(
         Constants.ErrorMessages.MoveConversation.FOLDER_REQUIRED,
       );
+      focusOnErrorField();
     } else {
       if (selectedFolder === 'newFolder') {
         setIsNewModalVisible(true);
@@ -117,12 +122,13 @@ const MoveMessageToFolderBtn = props => {
             required
             enable-analytics
             error={folderInputError}
-            onRadioOptionSelected={handleOnChangeFolder}
+            onVaValueChange={handleOnChangeFolder}
           >
             {updatedFoldersList &&
               updatedFoldersList.map((folder, i) => (
                 <>
                   <VaRadioOption
+                    data-dd-privacy="mask"
                     data-testid={`radiobutton-${folder.name}`}
                     key={i}
                     id={`radiobutton-${folder.name}`}

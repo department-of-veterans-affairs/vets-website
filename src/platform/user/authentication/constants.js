@@ -71,13 +71,6 @@ export const SERVICE_PROVIDERS = {
     policy: 'mhv',
     className: 'mhv-button',
   },
-  [CSP_IDS.VAMOCK]: {
-    label: 'My VA Mock',
-    link: 'https://www.va.gov',
-    image: <> VA Mock</>,
-    policy: 'vamock',
-    className: 'vamock-button',
-  },
 };
 
 export const AUTHN_SETTINGS = {

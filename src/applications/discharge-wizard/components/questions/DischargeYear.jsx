@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { range } from 'lodash';
 import Scroll from 'react-scroll';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // Relative Imports
-import Select from '@department-of-veterans-affairs/component-library/Select';
 import { shouldShowQuestion } from '../../helpers';
 
 const { Element } = Scroll;
@@ -29,33 +29,45 @@ const DischargeYearQuestion = ({
   const currentYear = new Date().getFullYear();
   const yearOptions = range(currentYear - 1992).map(i => {
     const year = currentYear - i;
-    return { label: year.toString(), value: year.toString() };
+    return (
+      <option key={i} value={year.toString()}>
+        {year.toString()}
+      </option>
+    );
   });
+  const before1992Key = yearOptions.length + 1;
 
-  yearOptions.push({ label: 'Before 1992', value: '1991' });
+  yearOptions.push(
+    <option key={before1992Key} value="1991">
+      Before 1992
+    </option>,
+  );
 
-  const label = (
-    <legend className={`${key}_header legend-label`}>
-      What year were you discharged from the military?
-    </legend>
+  yearOptions.unshift(
+    <option key="-1" value="">
+      {' '}
+    </option>,
   );
 
   return (
-    <fieldset className="fieldset-input dischargeYear" key={key}>
-      <Element name={key} />
-      <Select
-        autocomplete="false"
-        label={label}
-        name={key}
-        options={yearOptions}
-        onKeyDown={handleKeyDown}
-        value={{ value: dischargeYear }}
-        onValueChange={update => {
-          updateField(key, update.value);
-          scrollToLast();
-        }}
-      />
-    </fieldset>
+    <div className="vads-u-margin-top--6">
+      <fieldset className="fieldset-input dischargeYear" key={key}>
+        <Element name={key} />
+        <VaSelect
+          autocomplete="false"
+          label="What year were you discharged from the military?"
+          name={key}
+          vaKeyDown={handleKeyDown}
+          value={{ value: dischargeYear }}
+          onVaSelect={update => {
+            updateField(key, update.detail.value);
+            scrollToLast();
+          }}
+        >
+          {yearOptions}
+        </VaSelect>
+      </fieldset>
+    </div>
   );
 };
 

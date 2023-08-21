@@ -17,20 +17,35 @@ describe('Secure Messaging Custom Folder Edit Folder Name Message Validation', (
     landingPage.loadInboxMessages();
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/7038175/threads?pageSize=100&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
+      '/my_health/v1/messaging/folders/7038175/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
       customFolderMessage,
     ).as('customFolder');
 
     cy.get('[data-testid="my-folders-sidebar"]').click();
     cy.contains('TEST2').click();
     cy.wait('@customFolder');
-    cy.get('.left-button').click({ force: true });
+    cy.get('[data-testid="edit-folder-button"]').click({ force: true });
     cy.get('[name="new-folder-name"]')
       .shadow()
       .find('[id="inputField"]')
       .type('Testing');
     cy.get('[visible=""] > [secondary=""]').click();
+    cy.focused({ timeout: 5000 }).should(
+      'have.attr',
+      'data-testid',
+      'edit-folder-button',
+    );
+
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

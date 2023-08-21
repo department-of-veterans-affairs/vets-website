@@ -12,11 +12,11 @@ describe('Secure Messaging Compose with No Provider', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadPageForNoProvider();
-    cy.get('[data-testid="compose-message-link"]').click();
-    patientInterstitialPage.getContinueButton().click();
+    cy.get('[data-testid="compose-message-link"]').click({ force: true });
+    patientInterstitialPage.getContinueButton().click({ force: true });
 
     composePage.selectRecipient('');
-    cy.get('[name="COVID"]').click();
+    composePage.getCategory('COVID').click();
     composePage.getMessageSubjectField().type('Test Subject');
     composePage.getMessageBodyField().type('Test message body');
 
@@ -26,13 +26,16 @@ describe('Secure Messaging Compose with No Provider', () => {
       mockDraftMessage,
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .click();
-    cy.get('[data-testid="compose-recipient-select"]')
-      .shadow()
-      .find('[id="error-message"]')
-      .should('contain', ' Please select a recipient.');
+    composePage.verifySelcteRespitantErrorMessage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

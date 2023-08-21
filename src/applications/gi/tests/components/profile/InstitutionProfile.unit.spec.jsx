@@ -16,7 +16,7 @@ describe('<InstitutionProfile>', () => {
         }}
       />,
     );
-    expect(tree.find('#profile-school-ratings').length).to.eq(1);
+    expect(tree.find('#veteran-ratings').length).to.eq(1);
     tree.unmount();
   });
   it('should not render ratings if rating count < minimum', () => {
@@ -30,7 +30,7 @@ describe('<InstitutionProfile>', () => {
         }}
       />,
     );
-    expect(tree.find('#profile-school-ratings').length).to.eq(0);
+    expect(tree.find('#veteran-ratings').length).to.eq(0);
     tree.unmount();
   });
 });

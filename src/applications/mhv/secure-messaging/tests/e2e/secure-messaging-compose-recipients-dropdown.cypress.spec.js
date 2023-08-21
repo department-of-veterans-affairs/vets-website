@@ -55,7 +55,7 @@ const recipientsResponseFalse = {
 };
 
 describe('recipients dropdown box', () => {
-  it.skip('preferredTriageTeam selcet dropdown default ', () => {
+  it('preferredTriageTeam selcet dropdown default ', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     const patientInterstitialPage = new PatientInterstitialPage();
@@ -69,15 +69,22 @@ describe('recipients dropdown box', () => {
     cy.get('[data-testid="compose-message-link"]').click();
     patientInterstitialPage.getContinueButton().click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.get('[data-testid="compose-recipient-select"]').should('exist');
     cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
       .find('option')
       .its('length')
       .should('equal', 3);
     cy.get('[name="COVID"]').click();
   });
-  it.skip('preferredTriageTeam selcet dropdown false', () => {
+  it('preferredTriageTeam select dropdown false', () => {
     const landingPage = new PatientInboxPage();
     const patientInterstitialPage = new PatientInterstitialPage();
     const site = new SecureMessagingSite();
@@ -90,16 +97,27 @@ describe('recipients dropdown box', () => {
     cy.get('[data-testid="compose-message-link"]').click();
     patientInterstitialPage.getContinueButton().click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/recipients?useCache=false',
       recipientsResponseFalse,
     ).as('recipients');
-    cy.get('[data-testid="compose-recipient-select"]')
-      .find('option')
-      .its('length')
-      .should('equal', 1);
-    cy.get('[name="COVID"]').click();
+    cy.wait('@recipients').then(() => {
+      cy.get('[data-testid="compose-recipient-select"]')
+        .shadow()
+        .find('option')
+        // filtering not required. all elements should be visible due to inheritance from parent element
+        // .filter(':visible', { timeout: 5000 })
+        .its('length')
+        .should('equal', 1);
+      cy.get('[name="COVID"]').click();
+    });
   });
 });

@@ -1,16 +1,15 @@
 // Dependencies.
 import React, { Component } from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
-import SearchResult from '../../components/SearchResult';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { fetchResultsThunk, toggleSearchResultsToolTip } from '../../actions';
 import { focusElement } from 'platform/utilities/ui';
+import SearchResult from '../../components/SearchResult';
+import { fetchResultsThunk, toggleSearchResultsToolTip } from '../../actions';
 import { getYellowRibbonAppState } from '../../helpers/selectors';
 import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
 
@@ -156,7 +155,9 @@ export class SearchResults extends Component {
 
     // Show loading indicator if we are fetching.
     if (fetching) {
-      return <LoadingIndicator setFocus message="Loading search results..." />;
+      return (
+        <va-loading-indicator setFocus message="Loading search results..." />
+      );
     }
 
     // Show the error alert box if there was an error.
@@ -247,9 +248,9 @@ export class SearchResults extends Component {
         </ul>
 
         {/* Pagination */}
-        <Pagination
+        <VaPagination
           className="vads-u-border-top--0"
-          onPageSelect={onPageSelect}
+          onPageSelect={e => onPageSelect(e.detail.page)}
           page={page}
           pages={Math.ceil(totalResults / perPage)}
           maxPageListLength={perPage}

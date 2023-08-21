@@ -41,7 +41,6 @@ function HowToApplyPost911GiBillV2({
             pageList={route.pageList}
             prefillEnabled={route?.formConfig?.prefillEnabled}
             startText="Start your application"
-            testActionLink
             user={user}
           />
         )}

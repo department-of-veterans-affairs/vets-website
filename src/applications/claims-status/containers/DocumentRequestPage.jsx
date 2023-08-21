@@ -28,6 +28,7 @@ import {
   setFieldsDirty,
   clearNotification,
 } from '../actions';
+import { scrubDescription } from '../utils/helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 // START lighthouse_migration
 import { cstUseLighthouse } from '../selectors';
@@ -89,10 +90,10 @@ class DocumentRequestPage extends React.Component {
     return (
       <>
         <h1 className="claims-header">{trackedItem.displayName}</h1>
-        {trackedItem.type.endsWith('you_list') ? (
+        {trackedItem.status === 'NEEDED_FROM_YOU' ? (
           <DueDate date={trackedItem.suspenseDate} />
         ) : null}
-        {trackedItem.type.endsWith('others_list') ? (
+        {trackedItem.status === 'NEEDED_FROM_OTHERS' ? (
           <div className="optional-upload">
             <p>
               <strong>Optional</strong> - We’ve asked others to send this to us,
@@ -100,7 +101,7 @@ class DocumentRequestPage extends React.Component {
             </p>
           </div>
         ) : null}
-        <p>{trackedItem.description}</p>
+        <p>{scrubDescription(trackedItem.description)}</p>
       </>
     );
   }
@@ -208,12 +209,24 @@ class DocumentRequestPage extends React.Component {
 function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   const { claimDetail, uploads } = claimsState;
+  const useLighthouse = cstUseLighthouse(state);
+
+  let trackedItems = [];
   let trackedItem = null;
   if (claimDetail.detail) {
-    [trackedItem] = claimDetail.detail.attributes.eventsTimeline.filter(
-      event =>
-        event.trackedItemId === parseInt(ownProps.params.trackedItemId, 10),
-    );
+    const { attributes } = claimDetail.detail;
+    const { trackedItemId } = ownProps.params;
+    if (useLighthouse) {
+      trackedItems = attributes.trackedItems;
+      [trackedItem] = trackedItems.filter(
+        event => event.id === parseInt(trackedItemId, 10),
+      );
+    } else {
+      trackedItems = attributes.eventsTimeline;
+      [trackedItem] = trackedItems.filter(
+        event => event.trackedItemId === parseInt(trackedItemId, 10),
+      );
+    }
   }
 
   return {
@@ -229,7 +242,7 @@ function mapStateToProps(state, ownProps) {
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.message,
     // START lighthouse_migration
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse,
     // END lighthouse_migration
   };
 }

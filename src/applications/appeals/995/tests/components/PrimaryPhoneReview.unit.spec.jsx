@@ -4,7 +4,7 @@ import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
 import PrimaryPhoneReview from '../../components/PrimaryPhoneReview';
-import { PRIMARY_PHONE } from '../../constants';
+import { PRIMARY_PHONE, errorMessages } from '../../constants';
 import { content } from '../../content/primaryPhone';
 
 import maximalData from '../fixtures/data/maximal-test.json';
@@ -40,7 +40,15 @@ describe('<PrimaryPhoneReview>', () => {
     const editPageSpy = sinon.spy();
     const { container } = render(setup({ editPage: editPageSpy }));
 
-    fireEvent.click($('.edit-page', container));
+    fireEvent.click($('va-button', container));
     expect(editPageSpy.called).to.be.true;
+  });
+
+  it('should show an error message when the primary phone value isn’t defined', () => {
+    const { container } = render(setup({ primary: '' }));
+    expect($('dt', container).textContent).to.eq(
+      errorMessages.missingPrimaryPhone,
+    );
+    expect($('dd', container).textContent).to.eq('');
   });
 });

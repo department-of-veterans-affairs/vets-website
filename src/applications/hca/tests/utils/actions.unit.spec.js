@@ -11,23 +11,29 @@ import {
   getDismissedHCANotification,
   setDismissedHCANotification,
   getEnrollmentStatus,
-  FETCH_ENROLLMENT_STATUS_STARTED,
-  FETCH_ENROLLMENT_STATUS_SUCCEEDED,
-  FETCH_ENROLLMENT_STATUS_FAILED,
-  FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
-  FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
-  FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
-  SET_DISMISSED_HCA_NOTIFICATION,
+  resetEnrollmentStatus,
 } from '../../utils/actions';
+import { ENROLLMENT_STATUS_ACTIONS } from '../../utils/constants';
 
-let dispatch;
+describe('hca actions', () => {
+  const {
+    FETCH_ENROLLMENT_STATUS_STARTED,
+    FETCH_ENROLLMENT_STATUS_SUCCEEDED,
+    FETCH_ENROLLMENT_STATUS_FAILED,
+    RESET_ENROLLMENT_STATUS,
+    FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
+    FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
+    FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
+    SET_DISMISSED_HCA_NOTIFICATION,
+  } = ENROLLMENT_STATUS_ACTIONS;
+  let dispatch;
 
-describe('HCA actions', () => {
-  describe('getEnrollmentStatus', () => {
+  describe('when `getEnrollmentStatus` executes', () => {
     beforeEach(() => {
       dispatch = sinon.spy();
     });
-    describe('on fetch success', () => {
+
+    describe('when fetch operation succeeds', () => {
       it('should dispatch a fetch succeeded action with data', () => {
         const mockData = { data: 'data' };
         const getState = () => ({
@@ -48,7 +54,7 @@ describe('HCA actions', () => {
       });
     });
 
-    describe('on fetch failure', () => {
+    describe('when fetch operation fails', () => {
       it('should dispatch a fetch failed action', () => {
         const mockData = { data: 'data' };
         const getState = () => ({
@@ -117,12 +123,23 @@ describe('HCA actions', () => {
     });
   });
 
-  describe('getDismissedHCANotification', () => {
+  describe('when `resetEnrollmentStatus` executes', () => {
     beforeEach(() => {
       dispatch = sinon.spy();
     });
 
-    describe('on fetch success', () => {
+    it('should dispatch a reset enrollment status action', () => {
+      resetEnrollmentStatus()(dispatch);
+      expect(dispatch.firstCall.args[0].type).to.equal(RESET_ENROLLMENT_STATUS);
+    });
+  });
+
+  describe('when `getDismissedHCANotification` executes', () => {
+    beforeEach(() => {
+      dispatch = sinon.spy();
+    });
+
+    describe('when fetch operation succeeds', () => {
       it('should dispatch a fetch succeeded action with data', () => {
         const mockData = { data: 'data' };
         mockApiRequest(mockData);
@@ -138,7 +155,7 @@ describe('HCA actions', () => {
       });
     });
 
-    describe('on fetch failure', () => {
+    describe('when fetch operation fails', () => {
       it('should dispatch a fetch failed action', () => {
         const mockData = { data: 'data' };
         mockApiRequest(mockData, false);
@@ -154,7 +171,7 @@ describe('HCA actions', () => {
     });
   });
 
-  describe('setDismissedHCANotification', () => {
+  describe('when `setDismissedHCANotification` executes', () => {
     const statusEffectiveAtDate = 1565025055759;
     beforeEach(() => {
       mockFetch();
@@ -173,12 +190,14 @@ describe('HCA actions', () => {
           }),
         );
       });
+
       it('should dispatch a SET_DISMISSED_HCA_NOTIFICATION action with the effective date', () => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_DISMISSED_HCA_NOTIFICATION,
           data: statusEffectiveAtDate,
         });
       });
+
       it('should call the correct POST endpoint', () => {
         expect(global.fetch.firstCall.args[0]).to.contain(
           '/v0/notifications/dismissed_statuses',
@@ -198,12 +217,14 @@ describe('HCA actions', () => {
           }),
         );
       });
+
       it('should dispatch a SET_DISMISSED_HCA_NOTIFICATION action with the effective date', () => {
         expect(dispatch.firstCall.args[0]).to.eql({
           type: SET_DISMISSED_HCA_NOTIFICATION,
           data: statusEffectiveAtDate,
         });
       });
+
       it('should call the correct PUT endpoint if a notification is being dismissed for the second time', () => {
         expect(global.fetch.firstCall.args[0]).to.contain(
           '/notifications/dismissed_statuses/form_10_10ez',

@@ -6,6 +6,8 @@ import mockServiceHistory from '@@profile/tests/fixtures/service-history-success
 import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
 import mockPaymentInfoNotEligible from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
 import dd4eduNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
+import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
+import { mockFeatureToggles } from '../helpers';
 
 const setup = () => {
   cy.login(mockUser);
@@ -14,15 +16,10 @@ const setup = () => {
   cy.intercept('v0/profile/full_name', mockFullName);
   cy.intercept('v0/ppiu/payment_information', mockPaymentInfoNotEligible);
   cy.intercept('v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
+  mockFeatureToggles();
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
-  // should show a loading indicator
-  cy.findByRole('progressbar').should('exist');
-  cy.findByText(/loading your information/i).should('exist');
-
-  // and then the loading indicator should be removed
-  cy.findByText(/loading your information/i).should('not.exist');
-  cy.findByRole('progressbar').should('not.exist');
+  checkForLegacyLoadingIndicator();
 };
 
 describe('When there is a known issue connecting to VA Profile', () => {

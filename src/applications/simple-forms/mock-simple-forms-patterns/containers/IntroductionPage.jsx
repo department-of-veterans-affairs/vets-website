@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -24,13 +25,58 @@ class IntroductionPage extends React.Component {
           Complete this form. After you submit the form, you&rsquo;ll get a
           confirmation message. You can print this page for your records.
         </p>
+        <div>
+          <h3>Pages</h3>
+          <ul>
+            <li>
+              <Link to="/text-input">Text input</Link>
+            </li>
+            <li>
+              <Link to="/text-input-widgets1">Text input widgets 1</Link>
+            </li>
+            <li>
+              <Link to="/text-input-full-name">Text input full name</Link>
+            </li>
+            <li>
+              <Link to="/text-input-address">Text input address</Link>
+            </li>
+            <li>
+              <Link to="/ssn-pattern">Ssn pattern</Link>
+            </li>
+            <li>
+              <Link to="/checkbox-and-text-input">Checkbox and text input</Link>
+            </li>
+            <li>
+              <Link to="/checkbox-group">Checkbox group</Link>
+            </li>
+            <li>
+              <Link to="/select">Select</Link>
+            </li>
+            <li>
+              <Link to="/radio">Radio</Link>
+            </li>
+            <li>
+              <Link to="/radio-relationship-to-veteran">
+                Radio relationship to veteran
+              </Link>
+            </li>
+            <li>
+              <Link to="/date">Date</Link>
+            </li>
+            <li>
+              <Link to="/array-single-page">Array in a single page</Link>
+            </li>
+            <li>
+              <Link to="/array-multiple-page">Array with multiple pages</Link>
+            </li>
+          </ul>
+        </div>
         <SaveInProgressIntro
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the housing grant application"
-          testActionLink
         >
           Please complete the Simple Forms Patterns form to apply for Simple
           Forms Patterns.

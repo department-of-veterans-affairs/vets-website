@@ -1,4 +1,5 @@
-import recordAnalyticsEvent from 'platform/monitoring/record-event';
+import recordAnalyticsEvent from '~/platform/monitoring/record-event';
+
 import {
   createCNPDirectDepositAnalyticsDataObject,
   getData,
@@ -7,7 +8,9 @@ import {
   isSignedUpForEDUDirectDeposit,
 } from '../util';
 
-import { captureError, ERROR_SOURCES } from '../util/analytics';
+import { captureError } from '../util/analytics';
+import { DirectDepositClient } from '../util/direct-deposit';
+import { API_STATUS } from '../constants';
 
 export const CNP_PAYMENT_INFORMATION_FETCH_STARTED =
   'CNP_PAYMENT_INFORMATION_FETCH_STARTED';
@@ -43,30 +46,22 @@ export const EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED =
 export const EDU_PAYMENT_INFORMATION_SAVE_FAILED =
   'EDU_PAYMENT_INFORMATION_SAVE_FAILED';
 
-const captureDirectDepositErrorResponse = ({ error, apiEventName }) => {
-  const [firstError = {}] = error.errors ?? [];
-  const {
-    code = 'code-unknown',
-    title = 'title-unknown',
-    detail = 'detail-unknown',
-    status = 'status-unknown',
-  } = firstError;
-
-  captureError(error, {
-    eventName: apiEventName,
-    code,
-    title,
-    detail,
-    status,
-  });
-};
-
-export function fetchCNPPaymentInformation(recordEvent = recordAnalyticsEvent) {
+export function fetchCNPPaymentInformation({
+  recordEvent = recordAnalyticsEvent,
+  useLighthouseDirectDepositEndpoint = false,
+  captureCNPError = captureError,
+}) {
   return async dispatch => {
+    const client = new DirectDepositClient({
+      useLighthouseDirectDepositEndpoint,
+      recordEvent,
+    });
+
     dispatch({ type: CNP_PAYMENT_INFORMATION_FETCH_STARTED });
 
-    recordEvent({ event: `profile-get-cnp-direct-deposit-started` });
-    const response = await getData('/ppiu/payment_information');
+    client.recordCNPEvent({ status: API_STATUS.STARTED });
+
+    const response = await getData(client.endpoint);
 
     // sample error when getting payment information
     // response = {
@@ -82,63 +77,70 @@ export function fetchCNPPaymentInformation(recordEvent = recordAnalyticsEvent) {
     // };
 
     if (response.error) {
-      recordEvent({ event: `profile-get-cnp-direct-deposit-failed` });
+      client.recordCNPEvent({ status: API_STATUS.FAILED });
+
+      captureCNPError(response, {
+        eventName: 'cnp-get-direct-deposit-failed',
+        useLighthouseDirectDepositEndpoint,
+      });
+
       dispatch({
         type: CNP_PAYMENT_INFORMATION_FETCH_FAILED,
         response,
       });
     } else {
-      recordEvent({
-        event: `profile-get-cnp-direct-deposit-retrieved`,
-        // The API might report an empty payment address for some folks who are
-        // already enrolled in direct deposit. But we want to make sure we
-        // always treat those who are signed up as being eligible. Therefore
-        // we'll check to see if they either have a payment address _or_ are
-        // already signed up for direct deposit here:
-        'direct-deposit-setup-eligible':
-          isEligibleForCNPDirectDeposit(response) ||
-          isSignedUpForCNPDirectDeposit(response),
-        'direct-deposit-setup-complete': isSignedUpForCNPDirectDeposit(
-          response,
-        ),
+      const formattedResponse = useLighthouseDirectDepositEndpoint
+        ? client.formatDirectDepositResponseFromLighthouse(response)
+        : response?.responses[0];
+
+      client.recordCNPEvent({
+        status: API_STATUS.SUCCESSFUL,
+        extraProperties: {
+          // The API might report an empty payment address for some folks who are
+          // already enrolled in direct deposit. But we want to make sure we
+          // always treat those who are signed up as being eligible. Therefore
+          // we'll check to see if they either have a payment address _or_ are
+          // already signed up for direct deposit here:
+          'direct-deposit-setup-eligible':
+            isEligibleForCNPDirectDeposit(formattedResponse) ||
+            isSignedUpForCNPDirectDeposit(formattedResponse),
+          'direct-deposit-setup-complete': isSignedUpForCNPDirectDeposit(
+            formattedResponse,
+          ),
+        },
       });
+
       dispatch({
         type: CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
-        response,
+        response: formattedResponse,
       });
     }
   };
 }
 
-export function saveCNPPaymentInformation(
+export function saveCNPPaymentInformation({
   fields,
   isEnrollingInDirectDeposit = false,
+  useLighthouseDirectDepositEndpoint = false,
   recordEvent = recordAnalyticsEvent,
-) {
+  captureCNPError = captureError,
+}) {
   return async dispatch => {
-    let gaClientId;
-    try {
-      // eslint-disable-next-line no-undef
-      gaClientId = ga.getAll()[0].get('clientId');
-    } catch (e) {
-      // don't want to break submitting because of a weird GA issue
-    }
-    const apiRequestOptions = {
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ...fields,
-        gaClientId,
-      }),
-      method: 'PUT',
-      mode: 'cors',
-    };
+    const client = new DirectDepositClient({
+      useLighthouseDirectDepositEndpoint,
+      recordEvent,
+    });
 
     dispatch({ type: CNP_PAYMENT_INFORMATION_SAVE_STARTED });
 
-    const response = await getData(
-      '/ppiu/payment_information',
-      apiRequestOptions,
-    );
+    const apiRequestOptions = client.generateApiRequestOptions(fields);
+
+    client.recordCNPEvent({
+      status: API_STATUS.STARTED,
+      method: apiRequestOptions.method,
+    });
+
+    const response = await getData(client.endpoint, apiRequestOptions);
 
     // Leaving this here for the time being while we wrap up the error handling
     // const response = {
@@ -166,24 +168,46 @@ export function saveCNPPaymentInformation(
     // };
 
     if (response.error || response.errors) {
+      // TODO: if there is a response.errors shouldn't we be using that instead of []?
       const errors = response.error?.errors || [];
-      const analyticsData = createCNPDirectDepositAnalyticsDataObject(
+      const analyticsData = createCNPDirectDepositAnalyticsDataObject({
         errors,
-        isEnrollingInDirectDeposit,
-      );
-      recordEvent(analyticsData);
+        isEnrolling: isEnrollingInDirectDeposit,
+        useLighthouseDirectDepositEndpoint,
+      });
+
+      client.recordCNPEvent({
+        status: API_STATUS.FAILED,
+        method: apiRequestOptions.method,
+        extraProperties: analyticsData,
+      });
+
+      captureCNPError(response, {
+        eventName: 'cnp-put-direct-deposit-failed',
+        useLighthouseDirectDepositEndpoint,
+      });
+
       dispatch({
         type: CNP_PAYMENT_INFORMATION_SAVE_FAILED,
         response,
       });
     } else {
-      recordEvent({
-        event: 'profile-transaction',
-        'profile-section': `cnp-direct-deposit-information`,
+      client.recordCNPEvent({
+        status: API_STATUS.SUCCESSFUL,
+        method: apiRequestOptions.method,
+        extraProperties: {
+          event: 'profile-transaction',
+          'profile-section': `cnp-direct-deposit-information`,
+        },
       });
+
+      const formattedResponse = useLighthouseDirectDepositEndpoint
+        ? client.formatDirectDepositResponseFromLighthouse(response)
+        : response?.responses[0];
+
       dispatch({
         type: CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
-        response,
+        response: formattedResponse,
       });
     }
   };
@@ -193,7 +217,10 @@ export function editCNPPaymentInformationToggled(open) {
   return { type: CNP_PAYMENT_INFORMATION_EDIT_TOGGLED, open };
 }
 
-export function fetchEDUPaymentInformation(recordEvent = recordAnalyticsEvent) {
+export function fetchEDUPaymentInformation(
+  recordEvent = recordAnalyticsEvent,
+  captureEDUError = captureError,
+) {
   return async dispatch => {
     dispatch({ type: EDU_PAYMENT_INFORMATION_FETCH_STARTED });
 
@@ -202,12 +229,12 @@ export function fetchEDUPaymentInformation(recordEvent = recordAnalyticsEvent) {
       const response = await getData('/profile/ch33_bank_accounts');
       // .errors is returned from the API, .error is returned from getData
       if (response.errors || response.error) {
-        const err = response.error || response.errors;
         recordEvent({ event: 'profile-get-edu-direct-deposit-failed' });
-        captureDirectDepositErrorResponse({
-          error: { ...err, source: ERROR_SOURCES.API },
-          apiEventName: 'profile-get-edu-direct-deposit-failed',
+
+        captureEDUError(response, {
+          eventName: 'edu-get-direct-deposit-failed',
         });
+
         dispatch({
           type: EDU_PAYMENT_INFORMATION_FETCH_FAILED,
           response,
@@ -222,6 +249,7 @@ export function fetchEDUPaymentInformation(recordEvent = recordAnalyticsEvent) {
             response,
           ),
         });
+
         dispatch({
           type: EDU_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
           response: {
@@ -231,10 +259,7 @@ export function fetchEDUPaymentInformation(recordEvent = recordAnalyticsEvent) {
       }
     } catch (error) {
       recordEvent({ event: 'profile-get-edu-direct-deposit-failed' });
-      captureDirectDepositErrorResponse({
-        error,
-        apiEventName: 'profile-get-edu-direct-deposit-failed',
-      });
+
       dispatch({
         type: EDU_PAYMENT_INFORMATION_FETCH_FAILED,
         response: { error },
@@ -243,10 +268,11 @@ export function fetchEDUPaymentInformation(recordEvent = recordAnalyticsEvent) {
   };
 }
 
-export function saveEDUPaymentInformation(
+export function saveEDUPaymentInformation({
   fields,
   recordEvent = recordAnalyticsEvent,
-) {
+  captureEDUError = captureError,
+}) {
   return async dispatch => {
     let gaClientId;
     try {
@@ -288,9 +314,9 @@ export function saveEDUPaymentInformation(
           'profile-section': 'edu-direct-deposit-information',
           'error-key': `${errorName}-save-error-api-response`,
         });
-        captureDirectDepositErrorResponse({
-          error: { err, response, source: ERROR_SOURCES.API },
-          apiEventName: 'profile-put-edu-direct-deposit-api-failed',
+
+        captureEDUError(response, {
+          eventName: 'edu-put-direct-deposit-failed',
         });
 
         dispatch({
@@ -310,10 +336,6 @@ export function saveEDUPaymentInformation(
         });
       }
     } catch (error) {
-      captureDirectDepositErrorResponse({
-        error,
-        apiEventName: 'profile-put-edu-direct-deposit-failed-exception',
-      });
       recordEvent({
         event: 'profile-edit-failure',
         'profile-action': 'save-failure',

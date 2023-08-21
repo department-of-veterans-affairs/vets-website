@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllFolders } from '../actions';
 import MoveMessageToFolderBtn from './MessageActionButtons/MoveMessageToFolderBtn';
 import PrintBtn from './MessageActionButtons/PrintBtn';
-import * as Constants from '../util/constants';
+import { DefaultFolders } from '../util/constants';
 import ActionButtons from './shared/ActionButtons';
-import ReplyButton from './MessageActionButtons/ReplyButton';
+import ReplyBtn from './MessageActionButtons/ReplyBtn';
 import TrashButton from './MessageActionButtons/TrashButton';
+import { Actions } from '../util/actionTypes';
 
 const MessageActionButtons = props => {
   const { id, hideReplyButton, threadId } = props;
@@ -27,23 +28,35 @@ const MessageActionButtons = props => {
   const buttonsArray = useMemo(
     () => {
       const handlePrint = printOption => {
-        if (printOption === 'all messages') {
-          props.handlePrintThreadStyleClass('print thread');
-        }
-        if (printOption === 'this message') {
-          props.handlePrintThreadStyleClass('this message');
-        }
+        dispatch({
+          type: Actions.Message.SET_THREAD_PRINT_OPTION,
+          payload: printOption,
+        });
         if (printOption !== null) {
           window.print();
         }
       };
 
       const buttons = [];
+
       buttons.push(
         <li key="print">
           <PrintBtn handlePrint={handlePrint} id={id} />
         </li>,
       );
+
+      if (folders) {
+        buttons.push(
+          <MoveMessageToFolderBtn
+            activeFolder={activeFolder}
+            key="moveMessageToFolderBtn"
+            isVisible={activeFolder?.folderId !== DefaultFolders.SENT.id}
+            threadId={threadId}
+            messageId={id}
+            allFolders={folders}
+          />,
+        );
+      }
 
       buttons.push(
         <TrashButton
@@ -52,32 +65,22 @@ const MessageActionButtons = props => {
           threadId={threadId}
           messageId={id}
           visible={
-            activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
-            activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id
+            activeFolder?.folderId !== DefaultFolders.SENT.id &&
+            activeFolder?.folderId !== DefaultFolders.DELETED.id
           }
         />,
       );
-      if (folders) {
+
+      if (activeFolder?.folderId === DefaultFolders.SENT.id) {
         buttons.push(
-          <MoveMessageToFolderBtn
-            activeFolder={activeFolder}
-            key="moveMessageToFolderBtn"
-            isVisible={
-              activeFolder?.folderId !== Constants.DefaultFolders.SENT.id
-            }
-            threadId={threadId}
-            messageId={id}
-            allFolders={folders}
+          <ReplyBtn
+            key="replyBtn"
+            visible={!hideReplyButton}
+            onReply={props.onReply}
           />,
         );
       }
-      buttons.push(
-        <ReplyButton
-          key="replyButton"
-          visible={!hideReplyButton}
-          onReply={props.onReply}
-        />,
-      );
+
       return buttons;
     },
     [activeFolder, folders, hideReplyButton, id, props, threadId],
@@ -87,7 +90,6 @@ const MessageActionButtons = props => {
 };
 
 MessageActionButtons.propTypes = {
-  handlePrintThreadStyleClass: PropTypes.func,
   hideReplyButton: PropTypes.bool,
   id: PropTypes.number,
   onReply: PropTypes.func,

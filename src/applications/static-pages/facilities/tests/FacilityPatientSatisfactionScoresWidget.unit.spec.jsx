@@ -11,7 +11,7 @@ describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
   it('should render loading', () => {
     const tree = shallow(<FacilityPatientSatisfactionScoresWidget loading />);
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    expect(tree.find('va-loading-indicator').exists()).to.be.true;
     tree.unmount();
   });
 
@@ -23,7 +23,7 @@ describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
       />,
     );
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.false;
+    expect(tree.find('va-loading-indicator').exists()).to.be.false;
 
     const facilityPatientSatisfactionScoresEffectiveDate = tree.find(
       '#facility-patient-satisfaction-scores-effective-date',
@@ -63,7 +63,7 @@ describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
       />,
     );
     expect(tree).to.be.empty;
-    expect(tree.find('LoadingIndicator').exists()).to.be.false;
+    expect(tree.find('va-loading-indicator').exists()).to.be.false;
     expect(tree.find('h2#our-patient-satisfaction-scores').exists()).to.be
       .false;
 

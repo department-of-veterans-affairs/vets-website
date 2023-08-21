@@ -21,9 +21,12 @@ export default {
     },
     'view:prefillMessage': {
       'ui:description': PrefillMessage,
+      'ui:options': {
+        hideIf: formData => !formData['view:isLoggedIn'],
+      },
     },
-    veteranAddress: merge({}, addressUI('Mailing address', true), {
-      'ui:description': MailingAddressDescription,
+    veteranAddress: merge({}, addressUI(null, true), {
+      'ui:title': MailingAddressDescription,
       street: {
         'ui:title': 'Street address',
         'ui:errorMessages': {
@@ -34,6 +37,12 @@ export default {
       city: {
         'ui:errorMessages': {
           pattern: 'Please provide a valid city. Must be at least 1 character.',
+        },
+      },
+      state: {
+        'ui:title': 'State/Province/Region',
+        'ui:errorMessages': {
+          required: 'Please enter a state/province/region',
         },
       },
     }),

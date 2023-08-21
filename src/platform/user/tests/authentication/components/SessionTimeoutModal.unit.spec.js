@@ -3,12 +3,11 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
+import { SessionTimeoutModal } from 'platform/user/authentication/components/SessionTimeoutModal';
 
 const defaultProps = {
   isLoggedIn: true,
-  onExtendSession: sinon.spy(),
-  signOut: sinon.spy(),
+  initializeProfile: sinon.spy(),
   authenticatedWithOAuth: false,
   serviceName: 'logingov',
 };

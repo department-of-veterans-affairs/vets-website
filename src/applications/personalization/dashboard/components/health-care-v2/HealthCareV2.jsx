@@ -4,45 +4,27 @@ import PropTypes from 'prop-types';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import HealthCareContentV2 from './HealthCareContentV2';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
-import {
-  selectUnreadCount,
-  selectUseVaosV2APi,
-} from '~/applications/personalization/dashboard/selectors';
-import {
-  fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction,
-  fetchConfirmedFutureAppointmentsV2 as fetchConfirmedFutureAppointmentsV2Action,
-} from '~/applications/personalization/appointments/actions';
+import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
+import { fetchConfirmedFutureAppointmentsV2 as fetchConfirmedFutureAppointmentsV2Action } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 import { selectAvailableServices } from '~/platform/user/selectors';
 
 const HealthCareV2 = ({
   shouldFetchUnreadMessages,
-  fetchConfirmedFutureAppointments,
   fetchConfirmedFutureAppointmentsV2,
   fetchUnreadMessages,
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
-  useVaosV2Api,
   isVAPatient,
 }) => {
   useEffect(
     () => {
       if (!dataLoadingDisabled && isVAPatient) {
-        if (useVaosV2Api) {
-          fetchConfirmedFutureAppointmentsV2();
-        } else {
-          fetchConfirmedFutureAppointments();
-        }
+        fetchConfirmedFutureAppointmentsV2();
       }
     },
-    [
-      fetchConfirmedFutureAppointments,
-      dataLoadingDisabled,
-      useVaosV2Api,
-      fetchConfirmedFutureAppointmentsV2,
-      isVAPatient,
-    ],
+    [dataLoadingDisabled, fetchConfirmedFutureAppointmentsV2, isVAPatient],
   );
 
   useEffect(
@@ -111,19 +93,16 @@ const mapStateToProps = state => {
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
     shouldShowPrescriptions,
     unreadMessagesCount: selectUnreadCount(state).count || 0,
-    useVaosV2Api: selectUseVaosV2APi(state),
   };
 };
 
 const mapDispatchToProps = {
   fetchUnreadMessages: fetchUnreadMessageCountAction,
-  fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
   fetchConfirmedFutureAppointmentsV2: fetchConfirmedFutureAppointmentsV2Action,
 };
 
 HealthCareV2.propTypes = {
   authenticatedWithSSOe: PropTypes.bool.isRequired,
-  canAccessRx: PropTypes.bool.isRequired,
   appointments: PropTypes.arrayOf(
     PropTypes.shape({
       additionalInfo: PropTypes.string,
@@ -138,9 +117,8 @@ HealthCareV2.propTypes = {
   ),
   dataLoadingDisabled: PropTypes.bool,
   facilityLocations: PropTypes.arrayOf(PropTypes.string),
-  fetchConfirmedFutureAppointments: PropTypes.func,
   fetchConfirmedFutureAppointmentsV2: PropTypes.func,
-  fetchUnreadMessages: PropTypes.bool,
+  fetchUnreadMessages: PropTypes.func,
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
   isVAPatient: PropTypes.bool,
@@ -149,8 +127,9 @@ HealthCareV2.propTypes = {
   shouldShowLoadingIndicator: PropTypes.bool,
   shouldShowPrescriptions: PropTypes.bool,
   unreadMessagesCount: PropTypes.number,
-  useVaosV2Api: PropTypes.bool,
 };
+
+export const UnconnectedHealthCareV2 = HealthCareV2;
 
 export default connect(
   mapStateToProps,

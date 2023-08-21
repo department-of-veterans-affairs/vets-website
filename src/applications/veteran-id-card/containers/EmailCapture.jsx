@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { submitEmail, setEmail } from '../actions';
+// eslint-disable-next-line deprecate/import
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import { submitEmail, setEmail, setDirty } from '../actions';
 
 class EmailCapture extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class EmailCapture extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.submitEmail(this.props.email.value);
+    this.props.submitEmail(this.props.email);
   }
 
   validateEmailAddress(email) {
@@ -26,10 +26,10 @@ class EmailCapture extends React.Component {
     if (this.props.success) {
       view = (
         <div>
-          <h1>Printed Veteran ID Card</h1>
+          <h1>Veteran ID Card</h1>
           <AlertBox
             headline="Thank you for your email address. We will follow up with instructions on how to proceed with the application."
-            content={''}
+            content=""
             isVisible
             status="success"
           />
@@ -38,7 +38,7 @@ class EmailCapture extends React.Component {
     } else {
       view = (
         <div>
-          <h1>Printed Veteran ID Card</h1>
+          <h1>Veteran ID Card</h1>
           <p>
             You've reached the new Veteran ID Card application. We're excited to
             bring this important recognition to Veterans. We've experienced a
@@ -53,18 +53,19 @@ class EmailCapture extends React.Component {
             <a href="/privacy-policy/">See our privacy policy</a>
           </p>
           <form onSubmit={this.handleSubmit}>
-            <TextInput
-              errorMessage={this.props.errors && this.props.errors[0].title}
-              label={<span>Email address</span>}
+            <va-text-input
+              error={this.props.errors && this.props.errors[0].title}
+              label="Email address"
               name="email"
               field={this.props.email}
-              onValueChange={update => this.props.setEmail(update)}
+              onInput={update => this.props.setEmail(update)}
+              onBlur={update => this.props.setDirty(update)}
               required
             />
             <div>
               <button
                 className="usa-button"
-                disabled={this.props.errors || !this.props.email.dirty}
+                disabled={this.props.errors || !this.props.dirty}
                 type="submit"
               >
                 Submit
@@ -94,12 +95,14 @@ const mapStateToProps = state => {
     success: emailState.success,
     errors: emailState.errors,
     submitting: emailState.submitting,
+    dirty: emailState.dirty,
   };
 };
 
 const mapDispatchToProps = {
   submitEmail,
   setEmail,
+  setDirty,
 };
 
 export default connect(

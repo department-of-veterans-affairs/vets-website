@@ -12,15 +12,13 @@ describe('Yellow Ribbon container <SearchForm>', () => {
     const tree = mount(<SearchForm />);
     const select = tree.find('select');
     const input = tree.find('input');
-    const AdditionalInfoToolTipLabel = tree.find('a .additional-info-title');
+    const AdditionalInfoComponent = tree.find('va-additional-info');
     // open additional info tip
-    tree.find('a .additional-info-title').simulate('click');
-    const AdditionalInfoToolTipContent = tree.find('.additional-info-content');
-
+    tree.find('va-additional-info').simulate('click');
     expect(select.length).to.be.equal(1);
     expect(input.length).to.be.equal(4);
-    expect(AdditionalInfoToolTipLabel.html()).to.include(TOOL_TIP_LABEL);
-    expect(AdditionalInfoToolTipContent.html()).to.include(TOOL_TIP_CONTENT);
+    expect(AdditionalInfoComponent.html()).to.include(TOOL_TIP_LABEL);
+    expect(AdditionalInfoComponent.html()).to.include(TOOL_TIP_CONTENT);
     tree.unmount();
   });
 

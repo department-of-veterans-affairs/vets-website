@@ -1,7 +1,4 @@
 import React from 'react';
-import Telephone, {
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const NeedHelp = () => (
   <article className="vads-u-font-family--sans">
@@ -29,13 +26,13 @@ const NeedHelp = () => (
 
     <p>
       You may be required to submit a financial status report. Call the DMC at
-      <Telephone className="vads-u-margin-x--0p5" contact="8008270648" />
+      <va-telephone className="vads-u-margin-x--0p5" contact="8008270648" />
       between 6:30 a.m. and 6:00 p.m. CT to discuss your options and next steps.
       For international callers, use
-      <Telephone
+      <va-telephone
         className="vads-u-margin-left--0p5"
         contact="6127136415"
-        pattern={PATTERNS.OUTSIDE_US}
+        international
       />
       .
     </p>
@@ -53,12 +50,12 @@ const NeedHelp = () => (
       <p className="vads-u-margin-top--2">
         If you think a debt was created in error, you can dispute it. Get
         information about disputing a debt by calling the DMC at
-        <Telephone className="vads-u-margin-x--0p5" contact="8008270648" />
+        <va-telephone className="vads-u-margin-x--0p5" contact="8008270648" />
         between 6:30 a.m. and 6:00 p.m. CT. For international callers, use
-        <Telephone
+        <va-telephone
           className="vads-u-margin-left--0p5"
           contact="6127136415"
-          pattern={PATTERNS.OUTSIDE_US}
+          international
         />
         .
       </p>

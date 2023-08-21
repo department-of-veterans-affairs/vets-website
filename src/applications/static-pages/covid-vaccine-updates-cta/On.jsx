@@ -1,6 +1,4 @@
 import React from 'react';
-import * as AlertBoxComponent from '@department-of-veterans-affairs/component-library/AlertBox';
-
 import { connect } from 'react-redux';
 import {
   DowntimeNotification,
@@ -22,8 +20,6 @@ const recordButtonClick = buttonClickLabel => {
 
 function OnState({ copy }) {
   if (!copy) return null;
-
-  const AlertBox = AlertBoxComponent.default;
   return (
     <>
       <DowntimeNotification
@@ -32,69 +28,66 @@ function OnState({ copy }) {
       >
         <div />
       </DowntimeNotification>
-      <AlertBox
-        status={AlertBoxComponent.ALERT_TYPE.INFO}
-        headline={copy.headline}
-        content={
-          <>
-            <p>{copy.cta}</p>
+      <va-alert status="info">
+        <h3 slot="headline">{copy.headline}</h3>
 
-            {copy.expandedEligibilityContent ? (
-              <ul>
-                <li>
-                  <strong>
-                    {copy.expandedEligibilityContent.veteran.boldedNote}
-                  </strong>
-                  {copy.expandedEligibilityContent.veteran.body}
-                </li>
-                <li>
-                  <strong>
-                    {copy.expandedEligibilityContent.nonVeteran.boldedNote}
-                  </strong>
-                  {copy.expandedEligibilityContent.nonVeteran.body}
-                </li>
-              </ul>
-            ) : (
-              ''
-            )}
+        <>
+          <p>{copy.cta}</p>
 
-            {copy.body ? <p>{copy.body}</p> : ''}
-            <p>
-              {copy.boldedNote ? <strong>{copy.boldedNote} </strong> : ''}
-              {copy.note ? copy.note : ''}
-            </p>
+          {copy.expandedEligibilityContent ? (
+            <ul>
+              <li>
+                <strong>
+                  {copy.expandedEligibilityContent.veteran.boldedNote}
+                </strong>
+                {copy.expandedEligibilityContent.veteran.body}
+              </li>
+              <li>
+                <strong>
+                  {copy.expandedEligibilityContent.nonVeteran.boldedNote}
+                </strong>
+                {copy.expandedEligibilityContent.nonVeteran.body}
+              </li>
+            </ul>
+          ) : (
+            ''
+          )}
+          {copy.body ? <p>{copy.body}</p> : ''}
+          <p>
+            {copy.boldedNote ? <strong>{copy.boldedNote} </strong> : ''}
+            {copy.note ? copy.note : ''}
+          </p>
 
-            <DowntimeNotification
-              dependencies={[externalServices.vetextVaccine]}
-              render={(downtime, children) => {
-                if (downtime.status === 'down') {
-                  return (
-                    <button
-                      onClick={() => {
-                        recordButtonClick(copy.buttonText);
-                      }}
-                      disabled
-                    >
-                      {copy.buttonText}
-                    </button>
-                  );
-                }
-                return children; // Render normal enabled button
+          <DowntimeNotification
+            dependencies={[externalServices.vetextVaccine]}
+            render={(downtime, children) => {
+              if (downtime.status === 'down') {
+                return (
+                  <button
+                    onClick={() => {
+                      recordButtonClick(copy.buttonText);
+                    }}
+                    disabled
+                  >
+                    {copy.buttonText}
+                  </button>
+                );
+              }
+              return children; // Render normal enabled button
+            }}
+          >
+            <a
+              onClick={() => {
+                recordButtonClick(copy.buttonText);
               }}
+              href={coronaVirusVaccinationUrl}
+              className="usa-button-primary"
             >
-              <a
-                onClick={() => {
-                  recordButtonClick(copy.buttonText);
-                }}
-                href={coronaVirusVaccinationUrl}
-                className="usa-button-primary"
-              >
-                {copy.buttonText}
-              </a>
-            </DowntimeNotification>
-          </>
-        }
-      />
+              {copy.buttonText}
+            </a>
+          </DowntimeNotification>
+        </>
+      </va-alert>
     </>
   );
 }

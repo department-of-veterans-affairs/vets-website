@@ -1,7 +1,11 @@
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import React from 'react';
+import moment from 'moment';
 import Batteries from '../components/Batteries';
+
+const fakeOrderDate1 = moment().subtract(1, 'years');
+const fakeOrderDate2 = moment().subtract(2, 'years');
 
 const fakeStore = {
   getState: () => ({
@@ -14,7 +18,7 @@ const fakeStore = {
             productGroup: 'Battery',
             productId: 1,
             availableForReorder: true,
-            lastOrderDate: '2020-05-30',
+            lastOrderDate: fakeOrderDate1.format('YYYY-MM-DD'),
             nextAvailabilityDate: '2020-01-01',
             quantity: 60,
             prescribedDate: '2020-12-20',
@@ -24,7 +28,7 @@ const fakeStore = {
             productGroup: 'Battery',
             productId: 4,
             availableForReorder: true,
-            lastOrderDate: '2020-04-18',
+            lastOrderDate: fakeOrderDate2.format('YYYY-MM-DD'),
             nextAvailabilityDate: '2019-12-15',
             quantity: 5,
             size: '3mm',
@@ -89,8 +93,12 @@ describe('Batteries', () => {
   });
   it('should display the last order date of the batteries', () => {
     const wrapper = mount(<Batteries store={fakeStore} />);
-    expect(wrapper.text()).to.include('Last order date:  05/30/2020');
-    expect(wrapper.text()).to.include('Last order date:  04/18/2020');
+    expect(wrapper.text()).to.include(
+      `Last order date:  ${fakeOrderDate1.format('MM/DD/YYYY')}`,
+    );
+    expect(wrapper.text()).to.include(
+      `Last order date:  ${fakeOrderDate2.format('MM/DD/YYYY')}`,
+    );
     wrapper.unmount();
   });
   it('should display the quantity of the battery', () => {

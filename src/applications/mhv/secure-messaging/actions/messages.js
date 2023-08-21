@@ -11,21 +11,13 @@ import {
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
-import { isOlderThan } from '../util/helpers';
+import { getLastSentMessage, isOlderThan } from '../util/helpers';
 
-const oldMessageAlert = (sentDate, isDraft = false) => dispatch => {
-  if (!isDraft && isOlderThan(sentDate, 45)) {
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_INFO,
-        Constants.Alerts.Message.CANNOT_REPLY_INFO_HEADER,
-        Constants.Alerts.Message.CANNOT_REPLY_BODY,
-        Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
-        Constants.Links.Link.CANNOT_REPLY.TO,
-        Constants.Links.Link.CANNOT_REPLY.TITLE,
-      ),
-    );
-  }
+export const oldMessageAlert = sentDate => dispatch => {
+  dispatch({
+    type: Actions.Message.CANNOT_REPLY_ALERT,
+    payload: isOlderThan(sentDate, 45),
+  });
 };
 
 /**
@@ -72,17 +64,8 @@ export const retrieveMessageHistory = (
     // Info handling for old messages
     // Update to use new response.data in draftsDetails later
     const { attributes } = response.data?.length > 0 && response.data[0];
-    if (attributes && isOlderThan(attributes.sentDate, 45)) {
-      dispatch(
-        addAlert(
-          Constants.ALERT_TYPE_INFO,
-          Constants.Alerts.Message.DRAFT_CANNOT_REPLY_INFO_HEADER,
-          Constants.Alerts.Message.DRAFT_CANNOT_REPLY_INFO_BODY,
-          Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
-          Constants.Links.Link.CANNOT_REPLY.TO,
-          Constants.Links.Link.CANNOT_REPLY.TITLE,
-        ),
-      );
+    if (attributes) {
+      dispatch(oldMessageAlert(attributes.sentDate));
     }
   }
 };
@@ -119,7 +102,7 @@ export const retrieveMessage = (
 
   // Info handling for old messages
   const { sentDate } = response.data.attributes;
-  dispatch(oldMessageAlert(sentDate, isDraft));
+  dispatch(oldMessageAlert(sentDate));
 };
 
 /**
@@ -137,13 +120,18 @@ export const markMessageAsRead = messageId => async () => {
  * @param {Long} messageId
  * @returns
  */
-export const markMessageAsReadInThread = messageId => async dispatch => {
+export const markMessageAsReadInThread = (
+  messageId,
+  isDraftThread,
+) => async dispatch => {
   const response = await getMessage(messageId);
   if (response.errors) {
     // TODO Add error handling
   } else {
     dispatch({
-      type: Actions.Message.GET_IN_THREAD,
+      type: isDraftThread
+        ? Actions.Draft.GET_IN_THREAD
+        : Actions.Message.GET_IN_THREAD,
       response,
     });
   }
@@ -164,24 +152,15 @@ export const retrieveMessageThread = (
   if (!refresh) {
     dispatch(clearMessage());
   }
-  const response = await getMessageThread(messageId);
-  if (response.errors) {
-    // TODO Add error handling
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_ERROR,
-        Constants.Alerts.Message.CANNOT_REPLY_INFO_HEADER,
-        Constants.Alerts.Message.CANNOT_REPLY_BODY,
-        Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
-        Constants.Links.Link.CANNOT_REPLY.TO,
-        Constants.Links.Link.CANNOT_REPLY.TITLE,
-      ),
-    );
-  } else {
+  try {
+    const response = await getMessageThread(messageId);
     const msgResponse = await getMessage(response.data[0].attributes.messageId);
     if (!msgResponse.errors) {
-      const sentDate = response.data.find(m => m.attributes.sentDate !== null)
-        ?.attributes.sentDate;
+      // finding last sent message in a thread to check if it is not too old for replies
+      const lastSentDate = getLastSentMessage(response.data)?.attributes
+        .sentDate;
+      dispatch(oldMessageAlert(lastSentDate));
+
       const isDraft = response.data[0].attributes.draftDate !== null;
       const replyToName =
         response.data
@@ -199,17 +178,17 @@ export const retrieveMessageThread = (
           ?.attributes.folderId.toString() ||
         response.data[0].attributes.folderId;
 
-      if (sentDate) {
-        dispatch(oldMessageAlert(sentDate, isDraft));
-      }
       dispatch({
         type: isDraft ? Actions.Draft.GET : Actions.Message.GET,
         response: {
           data: {
             replyToName,
             threadFolderId,
-            ...msgResponse.data,
-            ...response.data[0],
+            replyToMessageId: msgResponse.data.attributes.messageId,
+            attributes: {
+              ...response.data[0].attributes,
+              ...msgResponse.data.attributes,
+            },
           },
           included: msgResponse.included,
         },
@@ -219,6 +198,13 @@ export const retrieveMessageThread = (
         response: { data: response.data.slice(1, response.data.length) },
       });
     }
+  } catch (e) {
+    const errorMessage =
+      e.errors[0].status === '404'
+        ? Constants.Alerts.Thread.THREAD_NOT_FOUND_ERROR
+        : e.errors[0]?.detail;
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', errorMessage));
+    throw e;
   }
 };
 
@@ -278,7 +264,11 @@ export const sendMessage = (message, attachments) => async dispatch => {
       ),
     );
   } catch (e) {
-    if (e.errors && e.errors[0].code === Constants.Errors.Code.BLOCKED_USER) {
+    if (
+      e.errors &&
+      (e.errors[0].code === Constants.Errors.Code.BLOCKED_USER ||
+        e.errors[0].code === Constants.Errors.code.BLOCKED_USER2)
+    ) {
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_ERROR,
@@ -298,6 +288,11 @@ export const sendMessage = (message, attachments) => async dispatch => {
   }
 };
 
+/** when sending a reply with an existing draft message, same draft message id is passed as a param query and in the body of the request
+ * @param {Long} replyToId - the id of the message being replied to. If replying with a saved draft, this is the id of the draft message
+ * @param {Object} message - contains "body" field. Add "draft_id" field if replying with a saved draft and pass messageId of the same draft message
+ */
+
 export const sendReply = (
   replyToId,
   message,
@@ -313,7 +308,11 @@ export const sendReply = (
       ),
     );
   } catch (e) {
-    if (e.errors && e.errors[0].code === Constants.Errors.Code.BLOCKED_USER) {
+    if (
+      e.errors &&
+      (e.errors[0].code === Constants.Errors.Code.BLOCKED_USER ||
+        e.errors[0].code === Constants.Errors.Code.BLOCKED_USER2)
+    ) {
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_ERROR,
@@ -321,7 +320,7 @@ export const sendReply = (
           Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
         ),
       );
-    } else
+    } else {
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_ERROR,
@@ -329,6 +328,7 @@ export const sendReply = (
           Constants.Alerts.Message.SEND_MESSAGE_ERROR,
         ),
       );
+    }
     throw e;
   }
 };

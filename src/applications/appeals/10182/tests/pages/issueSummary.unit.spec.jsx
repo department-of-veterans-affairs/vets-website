@@ -6,14 +6,15 @@ import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
-import { SELECTED, contestableIssuesPath } from '../../constants';
+import { CONTESTABLE_ISSUES_PATH } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 
 describe('NOD selected issues summary page', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.conditions.pages.issueSummary;
-  const data = { contestableIssues: [{}] };
+  const data = { contestedIssues: [{}] };
 
   it('should render', () => {
     const form = mount(
@@ -22,7 +23,7 @@ describe('NOD selected issues summary page', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          contestableIssues: [{ [SELECTED]: true }],
+          contestedIssues: [{ [SELECTED]: true }],
           additionalIssues: [{ [SELECTED]: true }],
         }}
         formData={{}}
@@ -47,7 +48,7 @@ describe('NOD selected issues summary page', () => {
 
     expect(link.length).to.equal(1);
     expect(link.text()).to.contain('go back and add');
-    expect(link.props().to.pathname).to.equal(contestableIssuesPath);
+    expect(link.props().to.pathname).to.equal(CONTESTABLE_ISSUES_PATH);
     expect(link.props().to.search).to.equal('?redirect');
     form.unmount();
   });

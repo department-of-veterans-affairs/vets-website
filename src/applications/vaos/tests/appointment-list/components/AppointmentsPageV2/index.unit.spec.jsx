@@ -9,15 +9,16 @@ import userEvent from '@testing-library/user-event';
 import {
   createTestStore,
   renderWithStoreAndRouter,
-  getTimezoneTestDate,
+  getTestDate,
 } from '../../../mocks/setup';
 import AppointmentsPageV2 from '../../../../appointment-list/components/AppointmentsPageV2';
 import {
   mockAppointmentInfo,
   mockPastAppointmentInfo,
 } from '../../../mocks/helpers';
-import { getVARequestMock } from '../../../mocks/v0';
 import { createMockAppointmentByVersion } from '../../../mocks/data';
+import { mockVAOSAppointmentsFetch } from '../../../mocks/helpers.v2';
+import { getVAOSRequestMock } from '../../../mocks/v2';
 
 const initialState = {
   featureToggles: {
@@ -33,7 +34,7 @@ const initialState = {
 describe('VAOS <AppointmentsPageV2>', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTimezoneTestDate());
+    MockDate.set(getTestDate());
     mockAppointmentInfo({});
   });
   afterEach(() => {
@@ -215,12 +216,12 @@ describe('VAOS <AppointmentsPageV2>', () => {
       expect(
         await screen.findByRole('heading', {
           level: 1,
-          name: 'Your appointments',
+          name: 'Appointments',
         }),
       );
       await waitFor(() => {
         expect(global.document.title).to.equal(
-          `Your appointments | VA online scheduling | Veterans Affairs`,
+          `Appointments | VA online scheduling | Veterans Affairs`,
         );
       });
 
@@ -253,28 +254,35 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
     it('should display updated appointment request page', async () => {
       // Given the veteran lands on the VAOS homepage
-      const startDate = moment.utc();
-      const appointment = getVARequestMock();
+      const appointment = getVAOSRequestMock();
+      appointment.id = '1';
       appointment.attributes = {
-        ...appointment.attributes,
-        status: 'Submitted',
-        optionDate1: startDate,
-        optionTime1: 'AM',
-        purposeOfVisit: 'New Issue',
-        bestTimetoCall: ['Morning'],
-        email: 'patient.test@va.gov',
-        phoneNumber: '5555555566',
-        typeOfCareId: '323',
-        reasonForVisit: 'Back pain',
-        friendlyLocationName: 'Some VA medical center',
-        comment: 'loss of smell',
-        facility: {
-          ...appointment.attributes.facility,
-          facilityCode: '983GC',
-        },
+        id: '1',
+        kind: 'clinic',
+        locationId: '983',
+        requestedPeriods: [{}],
+        serviceType: 'primaryCare',
+        status: 'proposed',
       };
-      appointment.id = '1234';
-      mockAppointmentInfo({ requests: [appointment] });
+
+      mockVAOSAppointmentsFetch({
+        start: moment()
+          .subtract(1, 'month')
+          .format('YYYY-MM-DD'),
+        end: moment()
+          .add(395, 'days')
+          .format('YYYY-MM-DD'),
+        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        requests: [appointment],
+      });
+      mockVAOSAppointmentsFetch({
+        start: moment()
+          .subtract(120, 'days')
+          .format('YYYY-MM-DD'),
+        end: moment().format('YYYY-MM-DD'),
+        statuses: ['proposed', 'cancelled'],
+        requests: [appointment],
+      });
 
       // When the page displays
       const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
@@ -282,7 +290,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       });
 
       // Then it should display upcoming appointments
-      await screen.findByRole('heading', { name: 'Your appointments' });
+      await screen.findByRole('heading', { name: 'Appointments' });
 
       // When the veteran clicks the Pending button
       let navigation = await screen.findByRole('link', {
@@ -363,7 +371,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       });
 
       // Then it should display the upcoming appointments
-      await screen.findByRole('heading', { name: 'Your appointments' });
+      await screen.findByRole('heading', { name: 'Appointments' });
 
       // When the veteran clicks the Past button
       let navigation = screen.getByRole('link', { name: 'Past' });
@@ -411,6 +419,32 @@ describe('VAOS <AppointmentsPageV2>', () => {
           e => e === `vaos-status-past-link-clicked`,
         ),
       );
+    });
+  });
+
+  describe('when print list flag is on', () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingDirect: true,
+        vaOnlineSchedulingCommunityCare: false,
+        vaOnlineSchedulingStatusImprovement: true,
+        vaOnlineSchedulingPrintList: true,
+      },
+      user: userState,
+    };
+
+    it('should show tertiary print button', async () => {
+      // Given the veteran lands on the VAOS homepage
+      mockPastAppointmentInfo({});
+
+      // When the page displays
+      const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+        initialState: defaultState,
+      });
+
+      // Then it should display the tertiary print button
+      expect(screen.getByRole('button', { name: 'print list' })).to.be.ok;
     });
   });
 });

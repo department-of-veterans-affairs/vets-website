@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from 'platform/utilities/environment';
 
 export const directDepositDescription = () => {
@@ -45,8 +45,8 @@ export const directDepositAlert = () => (
 );
 
 export const bankInfoHelpText = (
-  <AdditionalInfo
-    triggerText="What if I don't have a bank account or don't want to use direct deposit?"
+  <VaAdditionalInfo
+    trigger="What if I don't have a bank account or don't want to use direct deposit?"
     onClick={gaBankInfoHelpText}
   >
     <div>
@@ -65,12 +65,10 @@ export const bankInfoHelpText = (
         Note: The Department of the Treasury requires us to make electronic
         payments. If you don’t want to use direct deposit, you’ll need to call
         the Department of the Treasury at{' '}
-        <a className="help-phone-number-link" href="tel:1-800-333-1795">
-          888-224-2950
-        </a>
+        <va-telephone className="help-phone-number-link" contact="8003331795" />
         . Ask to talk with a representative who handles waiver requests. They
         can answer any questions or concerns you may have.
       </p>
     </div>
-  </AdditionalInfo>
+  </VaAdditionalInfo>
 );

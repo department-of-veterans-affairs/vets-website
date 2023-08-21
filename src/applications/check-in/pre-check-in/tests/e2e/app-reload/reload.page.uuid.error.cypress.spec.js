@@ -79,6 +79,7 @@ describe('Pre-Check In Experience', () => {
       cy.reload();
       Error.validateUuidNotFoundErrorPageLoaded();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Pre-check-in--reload--404-uuid-not-found');
     });
   });
 });

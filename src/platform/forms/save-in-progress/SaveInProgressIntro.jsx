@@ -41,7 +41,6 @@ class SaveInProgressIntro extends React.Component {
         isExpired={isExpired}
         messages={this.props.messages}
         startText={this.props.startText}
-        testActionLink={this.props.testActionLink}
         startPage={startPage}
         formId={this.props.formId}
         returnUrl={this.props.returnUrl}
@@ -62,6 +61,7 @@ class SaveInProgressIntro extends React.Component {
     let alert;
     let includesFormControls = false;
     const {
+      alertTitle,
       formId,
       renderSignInMessage,
       prefillEnabled,
@@ -223,26 +223,38 @@ class SaveInProgressIntro extends React.Component {
       ) : (
         <div className="usa-alert usa-alert-info schemaform-sip-alert">
           <div className="usa-alert-body">
-            <H className="usa-alert-heading">
-              Sign in now to save your work in progress
-            </H>
+            <H className="usa-alert-heading">{alertTitle}</H>
             <div className="usa-alert-text">
-              <p>Here&rsquo;s how signing in now helps you:</p>
-              <ul>
-                <li>
-                  We can fill in some of your information for you to save you
-                  time.
-                </li>
-                <li>
-                  You can save your work in progress. You&rsquo;ll have{' '}
-                  {retentionPeriod} from when you start or make updates to your{' '}
-                  {appType} to come back and finish it.
-                </li>
-              </ul>
+              {this.props.displayNonVeteranMessaging ? (
+                <p>
+                  By signing in, you can save your work in progress.
+                  You&rsquo;ll have {retentionPeriod} from when you start or
+                  make updates to your {appType} to come back and finish it.
+                </p>
+              ) : (
+                <>
+                  <p>Here&rsquo;s how signing in now helps you:</p>
+                  <ul>
+                    <li>
+                      We can fill in some of your information for you to save
+                      you time.
+                    </li>
+                    <li>
+                      You can save your work in progress. You&rsquo;ll have{' '}
+                      {retentionPeriod} from when you start or make updates to
+                      your {appType} to come back and finish it.
+                    </li>
+                  </ul>
+                </>
+              )}
               <p>
-                <strong>Note:</strong> You can sign in after you start your{' '}
-                {appType}. But you&rsquo;ll lose any information you already
-                filled in.
+                {!this.props.hideUnauthedStartLink && (
+                  <>
+                    <strong>Note:</strong> You can sign in after you start your{' '}
+                    {appType}. But you&rsquo;ll lose any information you already
+                    filled in.
+                  </>
+                )}
               </p>
               {unauthStartButton}
               {!this.props.hideUnauthedStartLink && (
@@ -393,6 +405,7 @@ SaveInProgressIntro.propTypes = {
   toggleLoginModal: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   afterButtonContent: PropTypes.element,
+  alertTitle: PropTypes.string,
   ariaDescribedby: PropTypes.string,
   ariaLabel: PropTypes.string,
   buttonOnly: PropTypes.bool,
@@ -406,6 +419,7 @@ SaveInProgressIntro.propTypes = {
   formData: PropTypes.object,
   gaStartEventName: PropTypes.string,
   headingLevel: PropTypes.number,
+  displayNonVeteranMessaging: PropTypes.bool,
   hideUnauthedStartLink: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   lastSavedDate: PropTypes.number,
@@ -420,7 +434,6 @@ SaveInProgressIntro.propTypes = {
   returnUrl: PropTypes.string,
   startMessageOnly: PropTypes.bool,
   startText: PropTypes.string,
-  testActionLink: PropTypes.bool,
   unauthStartText: PropTypes.string,
   unverifiedPrefillAlert: PropTypes.element,
   verifiedPrefillAlert: PropTypes.element,
@@ -428,9 +441,9 @@ SaveInProgressIntro.propTypes = {
 };
 
 SaveInProgressIntro.defaultProps = {
+  alertTitle: 'Sign in now to save your work in progress',
   retentionPeriod: '60 days',
   unauthStartText: '',
-  testActionLink: false,
   formConfig: {
     customText: {
       appType: '',

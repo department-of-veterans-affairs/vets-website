@@ -3,6 +3,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import Decision from '../components/appeals-v2/Decision';
 import { ITEMS_PER_PAGE } from '../constants';
@@ -502,6 +503,20 @@ export function getStatusContents(appeal, name = {}) {
             ama={appealType === APPEAL_TYPES.appeal}
             boardDecision
           />
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstIncludeDdlBoaLetters}>
+            <Toggler.Enabled>
+              <p>
+                You can download your decision letter online now. You can also
+                get other letters related to your claims and appeals.
+                <Link
+                  className="ddl-link vads-c-action-link--blue"
+                  to="your-claim-letters"
+                >
+                  Get your decision letters
+                </Link>
+              </p>
+            </Toggler.Enabled>
+          </Toggler>
         </div>
       );
       break;
@@ -663,6 +678,20 @@ export function getStatusContents(appeal, name = {}) {
             overview:
           </p>
           <Decision issues={details.issues} aoj={aoj} />
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstIncludeDdlBoaLetters}>
+            <Toggler.Enabled>
+              <p>
+                You can download your decision letter online now. You can also
+                get other letters related to your claims and appeals.
+                <Link
+                  className="ddl-link vads-c-action-link--blue"
+                  to="your-claim-letters"
+                >
+                  Get your decision letters
+                </Link>
+              </p>
+            </Toggler.Enabled>
+          </Toggler>
           <p>
             If you disagree with either the Board decision or the{' '}
             {aojDescription} decision, you can request another review. The

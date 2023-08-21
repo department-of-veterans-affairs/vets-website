@@ -15,22 +15,12 @@ import stub from '../../constants/stub.json';
 
 const SELECTORS = {
   WIDGET: '[data-widget-type="find-va-forms"]',
+  INPUT_ROOT: 'va-search-input',
   SEARCH_FORM: '[data-e2e-id="find-form-search-form"]',
   SEARCH_RESULT_TITLE: '[data-e2e-id="result-title"]',
-  NEXT_PAGE: '.va-pagination-next > a',
+  NEXT_PAGE: '.pagination-next > li > button',
   SORT_SELECT_WIDGET: 'select.find-forms-search--sort-select',
 };
-
-function axeTestPage() {
-  cy.injectAxe();
-  cy.axeCheck('main', {
-    rules: {
-      'aria-roles': {
-        enabled: false,
-      },
-    },
-  });
-}
 
 describe('functionality of Find Forms', () => {
   beforeEach(() => {
@@ -51,18 +41,33 @@ describe('functionality of Find Forms', () => {
   it('search the form and expect dom to have elements - C3994', () => {
     // navigate to find-forms and make axe check on browser
     cy.visit('/find-forms/');
-    axeTestPage();
 
     // Ensure form is present
     cy.get(SELECTORS.SEARCH_FORM);
 
     // Search the form
-    cy.get('input#va-form-query').type('health');
-    cy.get(`${SELECTORS.SEARCH_FORM} .usa-button`).click();
+    cy.get(SELECTORS.INPUT_ROOT)
+      .shadow()
+      .find('input')
+      .scrollIntoView()
+      .clear()
+      .focus()
+      .type('health', { force: true })
+      .should('not.be.disabled');
+
+    cy.get(SELECTORS.INPUT_ROOT)
+      .shadow()
+      .find('button')
+      .should('exist')
+      .click();
+
     cy.wait('@getFindAForm');
 
     // Ensure at least 1 title is present
-    cy.get(`${SELECTORS.SEARCH_RESULT_TITLE}`);
+    cy.get(`${SELECTORS.SEARCH_RESULT_TITLE}`).should('exist');
+
+    cy.injectAxe();
+    cy.axeCheck();
 
     // iterate through all pages and ensure each form download link is present on each form result.
     const validForms = stub.data
@@ -83,7 +88,7 @@ describe('functionality of Find Forms', () => {
       if (hasNextPage) {
         cy.get(SELECTORS.NEXT_PAGE)
           .click()
-          .then(() => axeTestPage());
+          .then(() => cy.axeCheck());
       }
     });
 
@@ -102,12 +107,17 @@ describe('functionality of Find Forms', () => {
     cy.visit('/find-forms/?q=health');
     cy.get('a[data-testid^="pdf-link"]').then($links => {
       const randomIndex = Math.floor(Math.random() * $links.length);
-
       cy.wrap($links)
         .eq(randomIndex)
         .scrollIntoView()
-        .click();
+        .click({ force: true });
     });
-    cy.get('#va-modal-title').should('contain.text', 'PDF');
+    cy.get('va-modal', { timeout: 25000 })
+      .shadow()
+      .get('.va-modal-title')
+      .should('contain.text', 'PDF');
+
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });

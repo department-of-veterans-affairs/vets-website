@@ -24,8 +24,8 @@ describe('<ClaimLetterListItem>', () => {
   it('should have the correct title', () => {
     const screen = render(<ClaimLetterListItem letter={mockLetter} />);
 
-    const title = screen.getByText(/Letter dated/i);
-    expect(title.textContent).to.eq('Letter dated September 22, 2022');
+    const title = screen.getByRole('heading', { level: 2 });
+    expect(title.textContent).to.eq('September 22, 2022 letter');
   });
 
   it('should have the correct description', () => {

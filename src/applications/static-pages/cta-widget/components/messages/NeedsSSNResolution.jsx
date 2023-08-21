@@ -1,10 +1,6 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import CallToActionAlert from '../CallToActionAlert';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const NeedsSSNResolution = () => {
   const content = {
@@ -24,12 +20,11 @@ const NeedsSSNResolution = () => {
             verify your identity:
           </strong>
         </p>
-        <AdditionalInfo triggerText="Call the VA benefits hotline">
+        <va-additional-info trigger="Call the VA benefits hotline">
           <p>
-            Please call us at <a href="tel:800-827-1000">800-827-1000</a>. We’re
-            here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have
-            hearing loss, call TTY:{' '}
-            <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
+            Please call us at <va-telephone contact="8008271000" />. We’re here
+            Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have
+            hearing loss, call <va-telephone contact={CONTACTS['711']} tty />.
           </p>
           <p>
             When the system prompts you to give a reason for your call, say,
@@ -51,14 +46,14 @@ const NeedsSSNResolution = () => {
               (EFT)
             </li>
           </ul>
-        </AdditionalInfo>
+        </va-additional-info>
         <div className="vads-u-margin-top--1p5">
-          <AdditionalInfo triggerText="Or ask us a question online">
+          <va-additional-info trigger="Or ask us a question online">
             <p>Ask us a question online.</p>
             <p>
               <a href="/contact-us/">Contact us online through Ask VA</a>
             </p>
-          </AdditionalInfo>
+          </va-additional-info>
         </div>
       </div>
     ),

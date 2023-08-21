@@ -29,7 +29,7 @@ const testConfig = createTestConfig(
         cy.get('#introductionRadios va-radio-option')
           .first()
           .click();
-        cy.findByText(/continue/i, { selector: 'button' })
+        cy.get('va-button[continue]')
           .first()
           .click();
 

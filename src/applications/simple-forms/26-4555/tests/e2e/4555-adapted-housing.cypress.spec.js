@@ -1,10 +1,11 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
-import mockSubmit from './fixtures/mocks/application-submit.json';
+import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
+import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
+import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
 
 const testConfig = createTestConfig(
   {
@@ -47,27 +48,14 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const { fullName } = data.veteran;
-            cy.get('#veteran-signature')
-              .shadow()
-              .find('input')
-              .first()
-              .type(
-                fullName.middle
-                  ? `${fullName.first} ${fullName.middle} ${fullName.last}`
-                  : `${fullName.first} ${fullName.last}`,
-              );
-            cy.get(`input[name="veteran-certify"]`).check();
-            cy.findAllByText(/Submit application/i, {
-              selector: 'button',
-            }).click();
+            reviewAndSubmitPageFlow(data.veteran.fullName);
           });
         });
       },
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-      cy.intercept('POST', '/forms_api/v1/simple_forms', mockSubmit);
+      cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     },
     skip: false,
   },

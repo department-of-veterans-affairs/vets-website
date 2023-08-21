@@ -3,7 +3,7 @@ import React from 'react';
 import CautionFlagDetails from './CautionFlagDetails';
 import SchoolClosingDetails from './SchoolClosingDetails';
 import LearnMoreLabel from '../LearnMoreLabel';
-import { ariaLabels } from '../../constants';
+import { ariaLabels, complaintData } from '../../constants';
 
 export function CautionaryInformation({ institution, showModal }) {
   const {
@@ -20,13 +20,15 @@ export function CautionaryInformation({ institution, showModal }) {
     displayEmpty,
     key,
     thisCampus,
+    definition,
   }) => {
     if (!displayEmpty && !thisCampus && !allCampuses) return null;
     const bold = description === 'Total Complaints';
     return (
       <tr key={key}>
         <th>
-          <strong>{description}</strong>
+          <strong>{description}</strong> <br />
+          {definition}
         </th>
         <td>{bold ? <strong>{thisCampus}</strong> : thisCampus}</td>
         <td>{bold ? <strong>{allCampuses}</strong> : allCampuses}</td>
@@ -34,14 +36,24 @@ export function CautionaryInformation({ institution, showModal }) {
     );
   };
 
-  const renderListRow = ({ description, key, value }) => {
+  const renderListRow = ({ description, key, value, definition }) => {
     if (value < 1) return null;
     const bold = description === 'Total Complaints';
     return (
       <div className="row " key={key}>
         <div className="small-11 columns">
           <p className="vads-u-margin--0">
-            {bold ? <strong>{description}:</strong> : `${description}:`}
+            {description !== 'Other' ? (
+              <va-additional-info
+                trigger={
+                  bold ? <strong>{description}:</strong> : `${description}:`
+                }
+              >
+                <div>{definition}</div>
+              </va-additional-info>
+            ) : (
+              description
+            )}
           </p>
         </div>
         <div className="small-1 columns">
@@ -98,7 +110,7 @@ export function CautionaryInformation({ institution, showModal }) {
       <LearnMoreLabel
         id="typeAccredited-button"
         bold
-        text={'All campuses'}
+        text="All campuses"
         onClick={() => {
           showModal('allCampuses');
         }}
@@ -108,32 +120,6 @@ export function CautionaryInformation({ institution, showModal }) {
       />
     </div>
   );
-
-  const complaintData = [
-    {
-      type: 'Financial Issues (e.g., Tuition/Fee charges)',
-      key: 'financial',
-    },
-    { type: 'Quality of Education', key: 'quality' },
-    { type: 'Refund Issues', key: 'refund' },
-    { type: 'Recruiting/Marketing Practices', key: 'marketing' },
-    { type: 'Accreditation', key: 'accreditation' },
-    { type: 'Change in degree plan/requirements', key: 'degreeRequirements' },
-    { type: 'Student Loans', key: 'studentLoans' },
-    { type: 'Grade Policy', key: 'grades' },
-    { type: 'Transfer of Credits', key: 'creditTransfer' },
-    {
-      type: 'Post-Graduation Job Opportunities',
-      key: 'job',
-      totalKey: 'jobs',
-    },
-    { type: 'Release of Transcripts', key: 'transcript' },
-    { type: 'Other', key: 'other' },
-    {
-      type: 'Total Complaints',
-      totals: ['facilityCode', 'mainCampusRollUp'],
-    },
-  ];
 
   const complaintRows = complaintData.reduce(
     (hydratedComplaints, complaint) => {
@@ -147,6 +133,7 @@ export function CautionaryInformation({ institution, showModal }) {
         allCampuses: complaint.totals
           ? complaints[totals[1]]
           : complaints[`${totalKey || key}ByOpeIdDoNotSum`],
+        definition: complaint?.definition || '',
       };
       return [...hydratedComplaints, hydratedComplaint];
     },
@@ -218,6 +205,7 @@ export function CautionaryInformation({ institution, showModal }) {
                     description: c.description,
                     thisCampus: c.thisCampus || 0,
                     allCampuses: c.allCampuses || 0,
+                    definition: c.definition,
                   });
                 })}
               </tbody>
@@ -246,6 +234,7 @@ export function CautionaryInformation({ institution, showModal }) {
               key: c.description,
               description: c.description,
               value: c.thisCampus,
+              definition: c.definition,
             });
           })}
           <h4 className="vads-u-margin-bottom--0">{allCampusesLink}</h4>
@@ -266,6 +255,7 @@ export function CautionaryInformation({ institution, showModal }) {
               key: c.description,
               description: c.description,
               value: c.allCampuses,
+              definition: c.definition,
             });
           })}
         </div>
@@ -277,7 +267,7 @@ export function CautionaryInformation({ institution, showModal }) {
           rel="noopener noreferrer"
           id="submit-a-complaint"
         >
-          Submit a complaint through our Feedback System
+          Submit a complaint through our Feedback Tool
         </a>
       </div>
     </div>

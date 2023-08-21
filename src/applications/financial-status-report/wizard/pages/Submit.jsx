@@ -11,7 +11,7 @@ import ContactDMC from '../components/Contacts';
 import DelayedLiveRegion from '../DelayedLiveRegion';
 import { fsrFeatureToggle } from '../../utils/helpers';
 
-import { MaintenanceAlert } from '../../components/Alerts';
+import { MaintenanceAlert } from '../../components/alerts/Alerts';
 
 const StartForm = ({ setWizardStatus }) => {
   const label = 'Start your request now';

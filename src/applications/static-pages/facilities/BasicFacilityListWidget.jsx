@@ -1,6 +1,5 @@
 import React from 'react';
 import { apiRequest } from 'platform/utilities/api';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import FacilityTitle from './FacilityTitle';
 import FacilityAddress from './FacilityAddress';
 import FacilityPhone from './FacilityPhone';
@@ -38,7 +37,7 @@ export default class BasicFacilityListWidget extends React.Component {
 
   render() {
     if (this.state.loading) {
-      return <LoadingIndicator message="Loading facilities..." />;
+      return <va-loading-indicator message="Loading facilities..." />;
     }
 
     if (this.state.error) {

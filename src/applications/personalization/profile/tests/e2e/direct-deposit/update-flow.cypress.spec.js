@@ -4,6 +4,7 @@ import mockUserInEVSS from '@@profile/tests/fixtures/users/user-36.json';
 import mockDD4CNPNotEnrolled from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-set-up.json';
 import mockDD4CNPEnrolled from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-set-up.json';
 import mockDD4EDUEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-enrolled.json';
+import { mockFeatureToggles } from '../helpers';
 
 const TEST_ACCOUNT = {
   NUMBER: '123123123',
@@ -69,6 +70,7 @@ describe('Direct Deposit', () => {
     cy.login(mockUserInEVSS);
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEnrolled);
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
+    mockFeatureToggles();
     cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
     cy.injectAxe();
   });

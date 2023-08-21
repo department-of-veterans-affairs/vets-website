@@ -3,26 +3,14 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import VaccineDetails from '../../containers/VaccineDetails';
 import reducer from '../../reducers';
+import vaccine from '../fixtures/vaccine.json';
+import { convertVaccine } from '../../reducers/vaccines';
 
 describe('Vaccines details container', () => {
   const initialState = {
     mr: {
       vaccines: {
-        vaccineDetails: {
-          name: 'COVID-19 vaccine',
-          id: '123',
-          date: '2022-06-14T17:42:46.000Z',
-          vaccineId: '000000',
-          type: 'COVID-19 booster',
-          dosage: '1st booster',
-          series: 'Phizer',
-          facility: 'school parking lot',
-          reactions: ['sore arm', 'fever'],
-          comments: [
-            'Protects from delta variant',
-            'May need another booster for other variants',
-          ],
-        },
+        vaccineDetails: convertVaccine(vaccine),
       },
     },
   };
@@ -31,7 +19,7 @@ describe('Vaccines details container', () => {
     return renderWithStoreAndRouter(<VaccineDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/vaccine-details/123',
+      path: '/vaccine-details/957',
     });
   };
 
@@ -40,13 +28,9 @@ describe('Vaccines details container', () => {
     expect(screen);
   });
 
-  it('displays CONFIDENTIAL header for print view', () => {
+  it('displays Date of birth for the print view', () => {
     const screen = setup();
-    const printHeading = screen.getByRole('heading', {
-      name: 'CONFIDENTIAL',
-      level: 4,
-    });
-    expect(printHeading).to.exist;
+    expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
   });
 
   it('displays a print button', () => {
@@ -59,7 +43,7 @@ describe('Vaccines details container', () => {
     const screen = setup();
 
     const vaccineName = screen.getByText(
-      initialState.mr.vaccines.vaccineDetails.name,
+      'INFLUENZA, INJECTABLE, QUADRIVALENT',
       {
         exact: true,
         selector: 'h1',
@@ -70,43 +54,19 @@ describe('Vaccines details container', () => {
 
   it('displays the formatted received date', () => {
     const screen = setup();
-    const formattedDate = screen.getByText('June 14, 2022', {
-      exact: true,
+    const formattedDate = screen.getByText('August', {
+      exact: false,
       selector: 'p',
     });
-    expect(formattedDate).to.exist;
-  });
-
-  it('displays the type and dosage', () => {
-    const screen = setup();
-    const formattedDate = screen.getByText('COVID-19 booster, 1st booster', {
-      exact: true,
-      selector: 'p',
-    });
-    expect(formattedDate).to.exist;
-  });
-
-  it('displays the series', () => {
-    const screen = setup();
-    const formattedDate = screen.getByText(
-      initialState.mr.vaccines.vaccineDetails.series,
-      {
-        exact: true,
-        selector: 'p',
-      },
-    );
     expect(formattedDate).to.exist;
   });
 
   it('displays the location', () => {
     const screen = setup();
-    const formattedDate = screen.getByText(
-      initialState.mr.vaccines.vaccineDetails.series,
-      {
-        exact: true,
-        selector: 'p',
-      },
-    );
-    expect(formattedDate).to.exist;
+    const location = screen.getByText('None noted', {
+      exact: true,
+      selector: 'p',
+    });
+    expect(location).to.exist;
   });
 });

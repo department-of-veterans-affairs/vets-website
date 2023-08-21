@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import Covid19PhoneLink from '../../../../components/search-results-items/common/Covid19PhoneLink';
 
 describe('Covid19PhoneLink', () => {
-  it('Should render with number', () => {
+  it('Should render web component with number', () => {
     const phone = {
       number: '999-456-7890',
     };
@@ -15,13 +15,13 @@ describe('Covid19PhoneLink', () => {
         .text()
         .trim(),
     ).to.equal('Call to schedule:');
-    expect(wrapper.find('Telephone').html()).to.equal(
-      '<a class="no-wrap vads-u-margin-left--0p25" href="tel:+19994567890" aria-label="9 9 9. 4 5 6. 7 8 9 0.">999-456-7890</a>',
+    expect(wrapper.find('va-telephone').html()).to.equal(
+      '<va-telephone className="vads-u-margin-left--0p25" contact="9994567890" extension=""></va-telephone>',
     );
     wrapper.unmount();
   });
 
-  it('Should render with number and extension', () => {
+  it('Should render web component with number and extension', () => {
     const phone = {
       number: '999-456-7890',
       extension: '421',
@@ -33,13 +33,13 @@ describe('Covid19PhoneLink', () => {
         .text()
         .trim(),
     ).to.equal('Call to schedule:');
-    expect(wrapper.find('Telephone').html()).to.equal(
-      '<a class="no-wrap vads-u-margin-left--0p25" href="tel:+19994567890,421" aria-label="9 9 9. 4 5 6. 7 8 9 0. extension 4 2 1.">999-456-7890, ext. 421</a>',
+    expect(wrapper.find('va-telephone').html()).to.equal(
+      '<va-telephone className="vads-u-margin-left--0p25" contact="9994567890" extension="421"></va-telephone>',
     );
     wrapper.unmount();
   });
 
-  it('Should render with number with parsed extension', () => {
+  it('Should render web component with number with parsed extension', () => {
     const phone = {
       number: '999-456-7890 x421',
     };
@@ -50,8 +50,8 @@ describe('Covid19PhoneLink', () => {
         .text()
         .trim(),
     ).to.equal('Call to schedule:');
-    expect(wrapper.find('Telephone').html()).to.equal(
-      '<a class="no-wrap vads-u-margin-left--0p25" href="tel:+19994567890,421" aria-label="9 9 9. 4 5 6. 7 8 9 0. extension 4 2 1.">999-456-7890, ext. 421</a>',
+    expect(wrapper.find('va-telephone').html()).to.equal(
+      '<va-telephone className="vads-u-margin-left--0p25" contact="9994567890" extension="421"></va-telephone>',
     );
     wrapper.unmount();
   });

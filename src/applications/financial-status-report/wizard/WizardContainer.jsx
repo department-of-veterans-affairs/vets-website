@@ -10,9 +10,9 @@ import {
 import Wizard, {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
-import { MaintenanceAlert } from '../components/Alerts';
+import { MaintenanceAlert } from '../components/alerts/Alerts';
 import pages from './pages';
-import GetFormHelp from '../components/GetFormHelp';
+import GetFormHelp from '../components/shared/GetFormHelp';
 
 const WizardContainer = ({ setWizardStatus, showFSR }) => {
   return (
@@ -20,7 +20,7 @@ const WizardContainer = ({ setWizardStatus, showFSR }) => {
       <div className="usa-width-two-thirds medium-8 columns">
         <FormTitle
           title="Request help with VA debt for overpayments and copay bills"
-          subTitle="Financial Status Report"
+          subTitle="Financial Status Report (VA Form 5655)"
         />
         <div className="wizard-container">
           <DowntimeNotification

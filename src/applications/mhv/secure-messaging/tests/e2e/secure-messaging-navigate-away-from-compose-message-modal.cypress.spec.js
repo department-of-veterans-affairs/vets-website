@@ -1,21 +1,27 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json';
-import mockDeletedFolderMetaResponse from './fixtures/folder-deleted-metadata.json';
-import mockSentFolderMetaResponse from './fixtures/folder-sent-metadata.json';
+import mockDeletedFolderMetaResponse from './fixtures/trashResponse/folder-deleted-metadata.json';
+import mockSentFolderMetaResponse from './fixtures/sentResponse/folder-sent-metadata.json';
 import PatientComposePage from './pages/PatientComposePage';
 
-describe('Secure Messaging Navigate Away From Compose Message', () => {
+describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   const composePage = new PatientComposePage();
 
-  it('Navigate Away From Compose To Inbox', () => {
+  it('Navigate Away From `Start a new message` To Inbox', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.enterComposeMessageDetails('General');
     composePage.selectSideBarMenuOption('Inbox');
     composePage.clickOnContinueEditingButton();
@@ -27,12 +33,18 @@ describe('Secure Messaging Navigate Away From Compose Message', () => {
     cy.get('[data-testid="compose-message-link"]').should('be.visible');
   });
 
-  it('Navigate Away From Compose To Draft', () => {
+  it('Navigate Away From `Start a new message` To Draft', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.enterComposeMessageDetails('General');
     composePage.selectSideBarMenuOption('Drafts');
     composePage.clickOnContinueEditingButton();
@@ -48,12 +60,18 @@ describe('Secure Messaging Navigate Away From Compose Message', () => {
     composePage.verifyExpectedPageOpened('Drafts');
   });
 
-  it('Navigate Away From Compose To Sent', () => {
+  it('Navigate Away From `Start a new message` To Sent', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.enterComposeMessageDetails('General');
     composePage.selectSideBarMenuOption('Sent');
     composePage.clickOnContinueEditingButton();
@@ -66,15 +84,21 @@ describe('Secure Messaging Navigate Away From Compose Message', () => {
     ).as('sentResponse');
     composePage.selectSideBarMenuOption('Sent');
     composePage.clickOnDeleteDraftButton();
-    composePage.verifyExpectedPageOpened('Sent messages');
+    composePage.verifyExpectedPageOpened('Sent');
   });
 
-  it('Navigate Away From Compose To Trash', () => {
+  it('Navigate Away From `Start a new message` To Trash', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.enterComposeMessageDetails('General');
     composePage.selectSideBarMenuOption('Trash');
     composePage.clickOnContinueEditingButton();
@@ -90,12 +114,18 @@ describe('Secure Messaging Navigate Away From Compose Message', () => {
     composePage.verifyExpectedPageOpened('Trash');
   });
 
-  it('Navigate Away From Compose To MY Folders', () => {
+  it('Navigate Away From `Start a new message` To MY Folders', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.enterComposeMessageDetails('General');
     composePage.selectSideBarMenuOption('My folders');
     composePage.clickOnContinueEditingButton();

@@ -23,6 +23,7 @@ import { getUpcomingAppointmentListInfo } from '../../redux/selectors';
 import { Label } from './Label';
 import { getTypeOfCareById } from '../../../utils/appointment';
 import ListItem from './ListItem';
+import AppointmentRow from './AppointmentRow';
 
 function handleClick({ history, link, idClickable }) {
   return () => {
@@ -151,105 +152,107 @@ export default function AppointmentListItemGroup({ data }) {
           handleClick={() => handleClick({ history, link, idClickable })}
           handleKeyDown={() => handleKeyDown({ history, link, idClickable })}
         >
-          <div
-            className={classNames(
-              'vads-l-col vads-u-margin-left--1 vads-u-padding-y--1p5',
-            )}
-          >
-            <Label label="Canceled" />
-            {index === 0 && (
-              <>
-                <h3
-                  className="vads-u-display--inline-block vads-u-text-align--center vads-u-margin-top--0 vads-u-margin-bottom--0"
-                  style={{ width: '24px' }}
-                >
-                  {appointmentDate.format('D')}
-                </h3>
-                <span className="vads-u-margin-left--1">
-                  {appointmentDate.format('ddd')}
-                </span>
-                <span className="sr-only"> {description}</span>
-              </>
-            )}
-          </div>
-          <div
-            className={classNames(
-              'vads-l-col',
-              'vads-u-padding-y--2',
-              'vads-u-padding-right--1',
-              {
+          <AppointmentRow className="xsmall-screen:vads-u-flex-direction--row">
+            <div
+              className={classNames(
+                'vads-l-col vads-u-margin-left--1 vads-u-padding-y--1p5',
+              )}
+            >
+              <Label label="Canceled" />
+              {index === 0 && (
+                <>
+                  <h3
+                    className="vads-u-display--inline-block vads-u-text-align--center vads-u-margin-top--0 vads-u-margin-bottom--0"
+                    style={{ width: '24px' }}
+                  >
+                    {appointmentDate.format('D')}
+                  </h3>
+                  <span className="vads-u-margin-left--1">
+                    {appointmentDate.format('ddd')}
+                  </span>
+                  <span className="sr-only"> {description}</span>
+                </>
+              )}
+            </div>
+            <div
+              className={classNames(
+                'vads-l-col',
+                'vads-u-padding-y--2',
+                'vads-u-padding-right--1',
+                {
+                  'vads-u-border-bottom--1px': isBorderBottom,
+                  'vads-u-border-color--gray-medium': isBorderBottom,
+                },
+              )}
+            >
+              <div
+                style={{
+                  ...styles.canceled,
+                }}
+              >
+                {`${appointmentDate.format('h:mm')} ${appointmentDate.format(
+                  'a',
+                )} ${abbreviation}`}{' '}
+              </div>
+            </div>
+            <div
+              className={classNames('vads-l-col--4', 'vads-u-padding-y--2', {
                 'vads-u-border-bottom--1px': isBorderBottom,
                 'vads-u-border-color--gray-medium': isBorderBottom,
-              },
-            )}
-          >
-            <div
-              style={{
-                ...styles.canceled,
-              }}
+              })}
             >
-              {`${appointmentDate.format('h:mm')} ${appointmentDate.format(
-                'a',
-              )} ${abbreviation}`}{' '}
+              <div
+                className="vads-u-font-weight--bold"
+                style={{
+                  ...styles.canceled,
+                }}
+              >
+                {appointmentDetails}
+              </div>
             </div>
-          </div>
-          <div
-            className={classNames('vads-l-col--4', 'vads-u-padding-y--2', {
-              'vads-u-border-bottom--1px': isBorderBottom,
-              'vads-u-border-color--gray-medium': isBorderBottom,
-            })}
-          >
             <div
-              className="vads-u-font-weight--bold"
-              style={{
-                ...styles.canceled,
-              }}
+              className={classNames('vads-l-col--4', 'vads-u-padding-y--2', {
+                'vads-u-border-bottom--1px': isBorderBottom,
+                'vads-u-border-color--gray-medium': isBorderBottom,
+              })}
             >
-              {appointmentDetails}
-            </div>
-          </div>
-          <div
-            className={classNames('vads-l-col--4', 'vads-u-padding-y--2', {
-              'vads-u-border-bottom--1px': isBorderBottom,
-              'vads-u-border-color--gray-medium': isBorderBottom,
-            })}
-          >
-            <div style={styles.canceled}>
-              <i
-                aria-hidden="true"
-                className={classNames('fas', 'vads-u-margin-right--1', {
-                  'fa-phone': isVAPhoneAppointment(appointment),
-                  'fa-video': isVideo,
-                  'fa-building': isInPersonVAAppointment() || isCommunityCare,
-                  'fa-blank': isCommunityCare,
-                })}
-              />
+              <div style={styles.canceled}>
+                <i
+                  aria-hidden="true"
+                  className={classNames('fas', 'vads-u-margin-right--1', {
+                    'fa-phone': isVAPhoneAppointment(appointment),
+                    'fa-video': isVideo,
+                    'fa-building': isInPersonVAAppointment() || isCommunityCare,
+                    'fa-blank': isCommunityCare,
+                  })}
+                />
 
-              {appointmentType}
+                {appointmentType}
+              </div>
             </div>
-          </div>
-          <div
-            className={classNames(
-              'vads-l-col',
-              'vads-u-margin-right--1',
-              'vads-u-padding-y--2',
-              'vaos-hide-for-print',
-              'vads-u-text-align--right',
-              {
-                'vads-u-border-bottom--1px': isBorderBottom,
-                'vads-u-border-color--gray-medium': isBorderBottom,
-              },
-            )}
-          >
-            <va-link
-              className="vaos-appts__focus--hide-outline"
-              aria-label={label}
-              href={link}
-              onClick={e => e.preventDefault()}
-              text="Details"
-              role="link"
-            />
-          </div>
+            <div
+              className={classNames(
+                'vads-l-col',
+                'vads-u-margin-right--1',
+                'vads-u-padding-y--2',
+                'vaos-hide-for-print',
+                'vads-u-text-align--right',
+                {
+                  'vads-u-border-bottom--1px': isBorderBottom,
+                  'vads-u-border-color--gray-medium': isBorderBottom,
+                },
+              )}
+            >
+              <va-link
+                className="vaos-appts__focus--hide-outline"
+                aria-label={label}
+                href={link}
+                onClick={e => e.preventDefault()}
+                text="Details"
+                role="link"
+              />
+            </div>
+          </AppointmentRow>
         </AppointmentFlexGrid>
       </ListItem>
     );

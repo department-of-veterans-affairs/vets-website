@@ -51,6 +51,7 @@ const setup = ({ path, mockGA = mockGADefaultArgs }) => {
   global.ga = originalGA;
   global.window.crypto = mockCrypto;
   removeLoginAttempted();
+  sessionStorage.clear();
 
   const { mockGAActive, trackingId, throwGAError } = mockGA;
   if (mockGAActive) {
@@ -392,6 +393,17 @@ describe('Authentication Utilities', () => {
         setup({});
       });
     });
+
+    it('should return the `authReturnUrl` if it is already presented', () => {
+      setup({ path: nonUsipPath });
+      const internalLink = 'http://va.gov/track-claims/';
+      sessionStorage.setItem('authReturnUrl', internalLink);
+      expect(authUtilities.createAndStoreReturnUrl()).to.equal(internalLink);
+      expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
+        internalLink,
+      );
+      sessionStorage.clear();
+    });
   });
 
   describe('redirect', () => {
@@ -437,12 +449,14 @@ describe('Authentication Utilities', () => {
 
   describe('mockLogin', () => {
     it('should redirect to proper mockLogin url', async () => {
-      setup({});
-      await authUtilities.mockLogin({});
-      expect(global.window.location).to.include(
-        'v0/sign_in/authorize?client_id=vamock',
-      );
-      setup({});
+      Object.values(CSP_IDS).forEach(async policy => {
+        setup({});
+        await authUtilities.mockLogin({}, policy);
+        expect(global.window.location).to.include(
+          `v0/sign_in/authorize?type=${policy}&client_id=vamock`,
+        );
+        setup({});
+      });
     });
   });
 

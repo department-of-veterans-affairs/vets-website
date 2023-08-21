@@ -73,14 +73,6 @@ describe('<Main>', () => {
     wrapper.unmount();
   });
 
-  it('should NOT render when disabled in the app registry', () => {
-    props.showNavLogin = false;
-    const wrapper = shallow(<Main {...props} />);
-    expect(wrapper.find('SearchHelpSignIn').exists()).to.be.false;
-    expect(wrapper.find(SignInModal).exists()).to.be.false;
-    wrapper.unmount();
-  });
-
   describe('checkLoggedInStatus', () => {
     it('should set logged in status to false if there is no active session', () => {
       const wrapper = shallow(<Main {...props} />);
@@ -273,6 +265,16 @@ describe('<Main>', () => {
     expect(appendSpy.calledWith()).to.be.true;
     expect(appendSpy.returnValues[0].next).to.equal('loginModal');
 
+    wrapper.unmount();
+  });
+
+  it('should append `&oauth=true` when the login modal is opened and signInServiceEnabled feature flag is true', () => {
+    const wrapper = shallow(<Main {...props} useSignInService />);
+    wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
+    const signInModalProps = wrapper.find('SignInModal').props();
+    expect(signInModalProps.useSiS).to.be.true;
+    expect(appendSpy.returnValues[0].next).to.equal('loginModal');
+    expect(appendSpy.returnValues[0].oauth).to.equal(true);
     wrapper.unmount();
   });
 

@@ -26,5 +26,18 @@ describe('check-in', () => {
 
       expect(screen.queryByTestId('refresh-appointments-button')).to.exist;
     });
+    it('displays a loading component if there is no appointment', () => {
+      const screen = render(
+        <CheckInProvider
+          store={{
+            appointments: [],
+          }}
+        >
+          <CheckIn appointments={[]} />
+        </CheckInProvider>,
+      );
+
+      expect(screen.getByTestId('loading-indicator')).to.exist;
+    });
   });
 });

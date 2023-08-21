@@ -1,15 +1,13 @@
 // Node modules.
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 // Relative imports.
 import CallToActionWidget from 'applications/static-pages/cta-widget';
 import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
 
 export const UnauthContent = () => (
   <>
-    <CallToActionWidget appId="rx" setFocus={false} />
+    <CallToActionWidget appId="rx" setFocus={false} headerLevel={2} />
     <h2>How can VA’s prescription tool help me manage my health care?</h2>
     <p>
       This web- and mobile-based service helps you manage your VA prescriptions
@@ -180,11 +178,9 @@ export const UnauthContent = () => (
       </li>
       <li>
         Call the My HealtheVet help desk at{' '}
-        <a href="tel:18773270022" aria-label="8 7 7. 3 2 7. 0 0 2 2.">
-          877-327-0022
-        </a>{' '}
-        (TTY: <Telephone contact={CONTACTS.HELP_TTY} />
-        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        <va-telephone contact="8773270022" />{' '}
+        <va-telephone contact={CONTACTS.HELP_TTY} tty />. We’re here Monday
+        through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </li>
       <li>
         Or{' '}

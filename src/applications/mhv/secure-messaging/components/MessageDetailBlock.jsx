@@ -1,17 +1,20 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory, useLocation } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
 import { useDispatch } from 'react-redux';
 import MessageActionButtons from './MessageActionButtons';
+import ReplyButton from './ReplyButton';
 import AttachmentsList from './AttachmentsList';
-import PrintMessageThread from './PrintMessageThread';
-import { Categories } from '../util/constants';
-import { dateFormat } from '../util/helpers';
+import { Categories, Paths, PageTitles } from '../util/constants';
+import { dateFormat, updatePageTitle } from '../util/helpers';
 import MessageThreadBody from './MessageThread/MessageThreadBody';
 import { closeAlert } from '../actions/alerts';
+import CannotReplyAlert from './shared/CannotReplyAlert';
 
 const MessageDetailBlock = props => {
+  const { message, cannotReply } = props;
   const {
     threadId,
     messageId,
@@ -21,20 +24,21 @@ const MessageDetailBlock = props => {
     sentDate,
     senderName,
     recipientName,
+    triageGroupName,
     attachments,
-  } = props.message;
+  } = message;
 
   const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation();
   const sentReplyDate = format(new Date(sentDate), 'MM-dd-yyyy');
   const cannotReplyDate = addDays(new Date(sentReplyDate), 45);
-  const [printThread, setPrintThread] = useState('dont-print-thread');
   const [hideReplyButton, setReplyButton] = useState(false);
+  const fromMe = recipientName === triageGroupName;
 
   const handleReplyButton = useCallback(
     () => {
-      history.push(`/reply/${messageId}`);
+      history.push(`${Paths.REPLY}${messageId}/`);
     },
     [history, messageId],
   );
@@ -59,95 +63,92 @@ const MessageDetailBlock = props => {
     [location.pathname, dispatch],
   );
 
-  const handlePrintThreadStyleClass = option => {
-    if (option === 'print thread') {
-      setPrintThread('print-thread');
-    }
-    if (option !== 'print thread') {
-      setPrintThread('dont-print-thread');
-    }
-  };
-
   const categoryLabel = Categories[category];
 
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(
+        `${categoryLabel}: ${subject} ${PageTitles.PAGE_TITLE_TAG}`,
+      );
+    },
+    [categoryLabel, message, subject],
+  );
+
   return (
-    <section className="message-detail-block">
+    <div className="message-detail-block">
       <header className="message-detail-header">
-        <h2
+        <h1
           className="vads-u-margin-bottom--2"
           aria-label={`Message subject. ${categoryLabel}: ${subject}`}
+          data-dd-privacy="mask"
         >
           {categoryLabel}: {subject}
-        </h2>
+        </h1>
+        <CannotReplyAlert visible={cannotReply} />
       </header>
       <MessageActionButtons
         id={messageId}
         threadId={threadId}
-        handlePrintThreadStyleClass={handlePrintThreadStyleClass}
         onReply={handleReplyButton}
-        hideReplyButton={hideReplyButton}
+        hideReplyButton={cannotReply}
       />
-      <main
+      <section
         className="message-detail-content"
-        role="heading"
-        aria-level="2"
         aria-label="Most recent message in this conversation"
       >
-        <section
+        <h2 className="sr-only">Most recent message in this conversation.</h2>
+        <div
           className="message-metadata"
           data-testid="message-metadata"
-          aria-label="message details."
+          data-dd-privacy="mask"
         >
+          <h3 className="sr-only">Message details.</h3>
           <p>
             <strong>From: </strong>
-            {senderName}
+            <span data-dd-privacy="mask">
+              {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
+            </span>
           </p>
           <p>
             <strong>To: </strong>
-            {recipientName}
+            <span data-dd-privacy="mask">{recipientName}</span>
           </p>
           <p>
             <strong>Date: </strong>
-            {dateFormat(sentDate)}
+            <span data-dd-privacy="mask">{dateFormat(sentDate)}</span>
           </p>
           <p>
             <strong>Message ID: </strong>
-            {messageId}
+            <span data-dd-privacy="mask">{messageId}</span>
           </p>
-        </section>
+        </div>
 
-        <section className="message-body" aria-label="Message body.">
+        <div className="message-body" data-dd-privacy="mask">
+          <h3 className="sr-only">Message body.</h3>
           <MessageThreadBody expanded text={body} />
-        </section>
+        </div>
 
         {!!attachments &&
           attachments.length > 0 && (
             <>
-              <div className="message-body-attachments-label">
-                <strong>Attachments</strong>
-              </div>
+              <h3 className="sr-only">Message attachments.</h3>
               <AttachmentsList attachments={attachments} />
             </>
           )}
-
-        <div className="message-detail-note vads-u-text-align--center">
-          <p>
-            <i>
-              Note: This message may not be from the person you intially
-              contacted. It may have been reassigned to efficiently address your
-              original message
-            </i>
-          </p>
-        </div>
-      </main>
-      <div className={printThread}>
-        <PrintMessageThread messageId={messageId} />
-      </div>
-    </section>
+      </section>
+      <ReplyButton
+        key="replyButton"
+        visible={!cannotReply}
+        onReply={handleReplyButton}
+      />
+    </div>
   );
 };
 MessageDetailBlock.propTypes = {
+  cannotReply: PropTypes.bool,
   message: PropTypes.object,
+  onReply: PropTypes.func,
 };
 
 export default MessageDetailBlock;

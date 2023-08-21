@@ -8,15 +8,10 @@ import {
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
 
-import environment from 'platform/utilities/environment';
 import { eighteenOrOver } from '../helpers';
 
-const isNotProd = !environment.isProduction();
-
-const conditionalFields = isNotProd ? ['minorQuestions'] : [];
-
 const defaults = () => ({
-  fields: conditionalFields,
+  fields: ['minorQuestions'],
   required: [],
   labels: {},
   isVeteran: false,
@@ -83,8 +78,7 @@ export default function GuardianInformation(schema, options) {
     path: 'personal-information/guardian-contact',
     title: 'Guardian Contact',
     initialData: {},
-    depends: formData =>
-      !eighteenOrOver(formData.relativeDateOfBirth) && isNotProd,
+    depends: formData => !eighteenOrOver(formData.relativeDateOfBirth),
     uiSchema: {
       'ui:order': fields,
       'ui:description': guardianDescription,
@@ -94,23 +88,10 @@ export default function GuardianInformation(schema, options) {
             ignoreCase: true,
           }),
         ],
-        'ui:options': {
-          hideIf: formData => {
-            let shouldNotShow = true;
-            const overEighteen = eighteenOrOver(formData.relativeDateOfBirth);
-            if (!isNotProd && !overEighteen) {
-              shouldNotShow = true;
-            } else {
-              shouldNotShow = false;
-            }
-            return shouldNotShow;
-          },
-        },
         guardianFirstName: {
           'ui:title': 'First name of Parent, Guardian or Custodian',
           'ui:required': formData => {
             const isRequired = eighteenOrOver(formData.relativeDateOfBirth);
-
             return !isRequired;
           },
         },

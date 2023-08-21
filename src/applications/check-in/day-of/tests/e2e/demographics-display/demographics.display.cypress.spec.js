@@ -28,7 +28,7 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('demographics display', () => {
+    it('should display demographics fields', () => {
       Demographics.validateSubTitle();
       Demographics.validateDemographicsFields('.confirmable-page ul');
       cy.injectAxeThenAxeCheck();

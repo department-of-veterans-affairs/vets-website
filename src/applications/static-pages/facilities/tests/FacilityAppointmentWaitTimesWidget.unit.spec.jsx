@@ -8,7 +8,7 @@ describe('facilities <FacilityAppointmentWaitTimesWidget>', () => {
   it('should render loading', () => {
     const tree = shallow(<FacilityAppointmentWaitTimesWidget loading />);
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    expect(tree.find('va-loading-indicator').exists()).to.be.true;
     tree.unmount();
   });
 
@@ -21,7 +21,7 @@ describe('facilities <FacilityAppointmentWaitTimesWidget>', () => {
       />,
     );
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.false;
+    expect(tree.find('va-loading-indicator').exists()).to.be.false;
 
     const appointmentWaitTimesHeader = tree.find('h3');
     expect(appointmentWaitTimesHeader.text()).to.contain(

@@ -13,10 +13,12 @@ import {
   getTimeZone,
   createIssueName,
   getContestedIssues,
-  // addIncludedIssues,
+  addIncludedIssues,
   getAddress,
   getPhone,
+  hasDuplicateLocation,
   getEvidence,
+  hasDuplicateFacility,
   getForm4142,
 } from '../../utils/submit';
 
@@ -115,6 +117,67 @@ describe('getContestedIssues', () => {
       ],
     };
     expect(getContestedIssues(formData)).to.deep.equal([issue2.result]);
+  });
+  it('should return empty array', () => {
+    expect(getContestedIssues()).to.deep.equal([]);
+  });
+});
+
+describe('addIncludedIssues', () => {
+  it('should add additional items to contestedIssues array', () => {
+    const issue = {
+      type: 'contestableIssue',
+      attributes: { issue: 'test', decisionDate: validDate1 },
+    };
+    const formData = {
+      contestedIssues: [
+        { ...issue1.raw, [SELECTED]: false },
+        { ...issue2.raw, [SELECTED]: true },
+      ],
+      additionalIssues: [
+        { issue: 'not-added', decisionDate: validDate2, [SELECTED]: false },
+        { ...issue.attributes, [SELECTED]: true },
+      ],
+    };
+    expect(addIncludedIssues(formData)).to.deep.equal([issue2.result, issue]);
+    expect(
+      addIncludedIssues({ ...formData, additionalIssues: [] }),
+    ).to.deep.equal([issue2.result]);
+  });
+  it('should not add additional items to contestedIssues array', () => {
+    const issue = {
+      type: 'contestableIssue',
+      attributes: { issue: 'test', decisionDate: validDate1 },
+    };
+    const formData = {
+      contestedIssues: [
+        { ...issue1.raw, [SELECTED]: false },
+        { ...issue2.raw, [SELECTED]: true },
+      ],
+      additionalIssues: [
+        { issue: 'not-added', decisionDate: validDate2, [SELECTED]: false },
+        { ...issue.attributes },
+      ],
+    };
+    expect(addIncludedIssues(formData)).to.deep.equal([issue2.result]);
+    expect(
+      addIncludedIssues({ ...formData, additionalIssues: [] }),
+    ).to.deep.equal([issue2.result]);
+  });
+  it('should remove duplicate items', () => {
+    const formData = {
+      contestedIssues: [
+        { ...issue1.raw, [SELECTED]: true },
+        { ...issue2.raw, [SELECTED]: true },
+        { ...issue1.raw, [SELECTED]: true },
+        { ...issue2.raw, [SELECTED]: true },
+      ],
+      additionalIssues: [],
+    };
+    expect(addIncludedIssues(formData)).to.deep.equal([
+      issue1.result,
+      issue2.result,
+    ]);
   });
 });
 
@@ -268,6 +331,45 @@ describe('getTimeZone', () => {
   });
 });
 
+describe('hasDuplicateLocation', () => {
+  const getLocation = ({
+    wrap = false,
+    name = 'test 1',
+    from = '2022-01-01',
+    to = '2022-02-02',
+  } = {}) => {
+    const location = {
+      locationAndName: name,
+      issues: ['1', '2'],
+      evidenceDates: wrap ? [{ startDate: from, endDate: to }] : { from, to },
+    };
+    return wrap ? { attributes: location } : location;
+  };
+  const list = [
+    getLocation({ wrap: true }),
+    getLocation({ name: 'test 2', wrap: true }),
+  ];
+
+  it('should not find any duplicates', () => {
+    const name = getLocation({ name: 'test 3' });
+    expect(hasDuplicateLocation(list, name)).to.be.false;
+    const to = getLocation({ to: '2022-03-03' });
+    expect(hasDuplicateLocation(list, to)).to.be.false;
+    const from = getLocation({ from: '2022-03-03' });
+    expect(hasDuplicateLocation(list, from)).to.be.false;
+  });
+  it('should report duplicate location', () => {
+    const first = getLocation();
+    expect(hasDuplicateLocation(list, first)).to.be.true;
+    const second = getLocation({ name: 'test 2' });
+    expect(hasDuplicateLocation(list, second)).to.be.true;
+
+    // check date format without leading zeros
+    const first2 = getLocation({ from: '2022-1-1', to: '2022-2-2' });
+    expect(hasDuplicateLocation(list, first2)).to.be.true;
+  });
+});
+
 describe('getEvidence', () => {
   const getData = ({ hasVa = true } = {}) => ({
     data: {
@@ -349,6 +451,67 @@ describe('getEvidence', () => {
       ['upload'],
     );
   });
+  it('should combine duplicate VA locations & dates', () => {
+    const evidence = getData();
+    evidence.data.locations.push(evidence.data.locations[0]);
+    evidence.data.locations.push(evidence.data.locations[1]);
+
+    expect(evidence.data.locations.length).to.eq(4);
+    expect(getEvidence(evidence.data)).to.deep.equal(evidence.result);
+  });
+});
+
+describe('hasDuplicateFacility', () => {
+  const getFacility = ({
+    wrap = false,
+    name = 'test 1',
+    from = '2022-01-01',
+    to = '2022-02-02',
+    country = 'USA',
+    street = '123 Main',
+    city = 'Anywhere',
+    state = 'Confusion',
+    postalCode = '55555',
+  } = {}) => ({
+    providerFacilityName: name,
+    providerFacilityAddress: { country, street, city, state, postalCode },
+    issues: ['1', '2'],
+    treatmentDateRange: wrap ? [{ from, to }] : { from, to },
+  });
+  const list = [
+    getFacility({ wrap: true }),
+    getFacility({ name: 'test 2', wrap: true }),
+  ];
+  it('should not find any duplicates', () => {
+    const name = getFacility({ name: 'test 3' });
+    expect(hasDuplicateFacility(list, name)).to.be.false;
+
+    const country = getFacility({ country: 'UK' });
+    expect(hasDuplicateFacility(list, country)).to.be.false;
+    const street = getFacility({ street: '456 Second St' });
+    expect(hasDuplicateFacility(list, street)).to.be.false;
+    const city = getFacility({ city: 'Here' });
+    expect(hasDuplicateFacility(list, city)).to.be.false;
+    const state = getFacility({ state: 'There' });
+    expect(hasDuplicateFacility(list, state)).to.be.false;
+    const postalCode = getFacility({ postalCode: '90210' });
+    expect(hasDuplicateFacility(list, postalCode)).to.be.false;
+
+    const to = getFacility({ to: '2022-03-03' });
+    expect(hasDuplicateFacility(list, to)).to.be.false;
+    const from = getFacility({ from: '2022-03-03' });
+    expect(hasDuplicateFacility(list, from)).to.be.false;
+  });
+  it('should report duplicate location', () => {
+    const first = getFacility();
+    expect(hasDuplicateFacility(list, first)).to.be.true;
+    const second = getFacility({ name: 'test 2' });
+    expect(hasDuplicateFacility(list, second)).to.be.true;
+
+    // check date format without leading zeros
+    const first2 = getFacility({ from: '2022-1-1', to: '2022-2-2' });
+    expect(hasDuplicateFacility(list, first2)).to.be.true;
+  });
 });
 
 describe('getForm4142', () => {
@@ -358,13 +521,15 @@ describe('getForm4142', () => {
     // Move treatementDateRange entry into an array
     providerFacility: [
       {
-        test: 'foo',
+        providerFacilityName: 'foo',
+        providerFacilityAddress: 'bar',
         treatmentDateRange: wrap
           ? [{ from: '2000-01-01', to: '2000-02-02' }]
           : { from: '2000-1-1', to: '2000-2-2' },
       },
       {
-        test: 'bar',
+        providerFacilityName: 'bar',
+        providerFacilityAddress: 'foo',
         treatmentDateRange: wrap
           ? [{ from: '2001-03-03', to: '2001-04-04' }]
           : { from: '2001-3-3', to: '2001-4-4' },
@@ -385,5 +550,14 @@ describe('getForm4142', () => {
       ...getData(),
     };
     expect(getForm4142(data)).to.deep.equal(null);
+  });
+  it('should combine duplicate facilities', () => {
+    const data = {
+      [EVIDENCE_PRIVATE]: true,
+      ...getData(),
+    };
+    data.providerFacility.push(data.providerFacility[0]); // add duplicate
+    expect(data.providerFacility.length).to.eq(3);
+    expect(getForm4142(data)).to.deep.equal(getData(true));
   });
 });

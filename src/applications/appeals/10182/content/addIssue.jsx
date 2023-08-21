@@ -3,40 +3,51 @@ import React from 'react';
 import { MAX_LENGTH } from '../constants';
 
 export const issueErrorMessages = {
-  missingIssue: 'Please add the name of an issue',
-  uniqueIssue: 'Please enter a unique condition name',
-  maxLength: `Please enter less than ${
+  missingIssue: 'Add the name of an issue',
+  uniqueIssue: 'Enter a unique condition name',
+  maxLength: `Enter less than ${
     MAX_LENGTH.ISSUE_NAME
   } characters for this issue name`,
 
-  invalidDate: 'Please provide a valid date',
-  missingDecisionDate: 'Please enter a decision date',
-  invalidDateRange: (min, max) =>
-    `Please enter a year between ${min} and ${max}`,
-  pastDate: 'Please add a past decision date',
-  newerDate: 'Please add an issue with a decision date less than a year old',
+  invalidDate: 'Provide a valid date',
+  missingDecisionDate: 'Enter a decision date',
+  invalidDateRange: (min, max) => `Enter a year between ${min} and ${max}`,
+  pastDate: 'Add a past decision date',
+  // date must be < 1 year old
+  newerDate: 'Add an issue with a decision date less than a year old',
+  // date must be more recent (set to 100 years max)
+  recentDate: 'You must add a more recent decision date',
 };
 
-export const addIssueTitle = 'Add an issue and our decision date on this issue';
+export const content = {
+  title: {
+    add: 'Add an issue',
+    edit: 'Edit an issue',
+  },
 
-export const issueNameLabel = 'Name of issue';
-export const issueNameHintText = (
-  <p className="vads-u-font-weight--normal label-description">
-    You can only add an issue that you’ve already received a VA decision notice
-    for.
-  </p>
-);
-
-export const dateOfDecisionLabel = 'Date of notification of the decision';
-export const dateOfDecisionHintText = (
-  <p className="vads-u-font-weight--normal label-description">
-    You can find the decision date on your decision notice (the letter you
-    received physically in the mail from us).
-  </p>
-);
+  button: {
+    cancel: 'Cancel',
+    add: 'Add issue',
+    edit: 'Update issue',
+  },
+  name: {
+    label: 'Name of issue',
+    hint: (
+      <p className="vads-u-font-weight--normal label-description">
+        You can only add an issue that you’ve already received a VA decision
+        notice for.
+      </p>
+    ),
+  },
+  date: {
+    label: 'Date of decision',
+    hint:
+      'You can find the decision date on your decision notice (the letter you received physically in the mail from us).',
+  },
+};
 
 export const missingIssuesErrorMessageText =
-  'Please add and select an issue, or select an eligible issue on the previous page';
+  'Add, and select, at least one issue, so we can process your request';
 
 export const missingIssuesErrorMessage = (
   <span className="usa-input-error-message" role="alert">

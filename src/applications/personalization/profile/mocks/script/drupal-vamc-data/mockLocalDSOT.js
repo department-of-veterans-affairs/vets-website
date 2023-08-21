@@ -62,8 +62,8 @@ const requestAndSaveFile = (url, filepath) => {
 
 /**
  * create local drupal vamc data if it doesn't exist or is older than 2 weeks
- *  | See: https://depo-platform-documentation.scrollhelp.site/developer-docs/how-to-opt-in-to-drupal-as-the-source-of-truth-for
- *  | Or related issue: https://github.com/department-of-veterans-affairs/va.gov-team/issues/54395
+ *  | See: [Platform Docs](https://depo-platform-documentation.scrollhelp.site/developer-docs/how-to-opt-in-to-drupal-as-the-source-of-truth-for)
+ *  | Or [related issue](https://github.com/department-of-veterans-affairs/va.gov-team/issues/54395)
  *
  * @returns {boolean}
  */
@@ -71,7 +71,7 @@ const mockLocalDSOT = () => {
   try {
     if (fs.existsSync(pathToSaveData)) {
       debug('🚀 FILE EXISTS... NOT POPULATING');
-      const fileCreationDate = fs.statSync(pathToSaveData).birthtime;
+      const fileCreationDate = fs.statSync(pathToSaveData).mtime;
       const isOlderThanTwoWeeks = dfns.isBefore(fileCreationDate, twoWeeksAgo);
 
       if (isOlderThanTwoWeeks) {

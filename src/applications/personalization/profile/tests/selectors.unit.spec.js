@@ -27,16 +27,12 @@ describe('profile selectors', () => {
       state = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [
-              {
-                paymentAccount: {
-                  accountType: '',
-                  financialInstitutionName: null,
-                  accountNumber: '123123123',
-                  financialInstitutionRoutingNumber: '',
-                },
-              },
-            ],
+            paymentAccount: {
+              accountType: '',
+              financialInstitutionName: null,
+              accountNumber: '123123123',
+              financialInstitutionRoutingNumber: '',
+            },
           },
         },
       };
@@ -53,8 +49,7 @@ describe('profile selectors', () => {
       expect(selectors.cnpDirectDepositIsSetUp(state)).to.be.false;
     });
     it('returns `false` when the account number is not set', () => {
-      state.vaProfile.cnpPaymentInformation.responses[0].paymentAccount.accountNumber =
-        '';
+      state.vaProfile.cnpPaymentInformation.paymentAccount.accountNumber = '';
       expect(selectors.cnpDirectDepositIsSetUp(state)).to.be.false;
     });
     it('returns `false` when the payment info endpoint failed to get data', () => {
@@ -86,16 +81,12 @@ describe('profile selectors', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [
-              {
-                paymentAccount: {
-                  accountType: '',
-                  financialInstitutionName: null,
-                  accountNumber: '123123123',
-                  financialInstitutionRoutingNumber: '',
-                },
-              },
-            ],
+            paymentAccount: {
+              accountType: '',
+              financialInstitutionName: null,
+              accountNumber: '123123123',
+              financialInstitutionRoutingNumber: '',
+            },
           },
         },
       };
@@ -109,42 +100,35 @@ describe('profile selectors', () => {
     });
   });
 
-  describe('cnpDirectDepositAddressIsSetUp selector', () => {
+  describe('cnpDirectDepositIsEligible selector', () => {
     let state;
     beforeEach(() => {
       state = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [
-              {
-                paymentAddress: {
-                  addressOne: '123 Main',
-                  city: 'San Francisco',
-                  stateCode: 'CA',
-                },
-              },
-            ],
+            paymentAddress: {
+              addressOne: '123 Main',
+              city: 'San Francisco',
+              stateCode: 'CA',
+            },
           },
         },
       };
     });
     it('returns `true` if there is a street, city, and state set on the payment info payment address', () => {
-      expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.true;
+      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.true;
     });
     it('returns `false` if the street address is missing', () => {
-      state.vaProfile.cnpPaymentInformation.responses[0].paymentAddress.addressOne =
-        '';
-      expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.false;
+      state.vaProfile.cnpPaymentInformation.paymentAddress.addressOne = '';
+      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
     });
     it('returns `false` if the city is missing', () => {
-      state.vaProfile.cnpPaymentInformation.responses[0].paymentAddress.city =
-        '';
-      expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.false;
+      state.vaProfile.cnpPaymentInformation.paymentAddress.city = '';
+      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
     });
     it('returns `false` if the state is missing', () => {
-      state.vaProfile.cnpPaymentInformation.responses[0].paymentAddress.stateCode =
-        '';
-      expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.false;
+      state.vaProfile.cnpPaymentInformation.paymentAddress.stateCode = '';
+      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
     });
 
     it('returns `false` when the payment info endpoint failed to get data', () => {
@@ -155,7 +139,30 @@ describe('profile selectors', () => {
           },
         },
       };
-      expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.false;
+      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
+    });
+
+    describe('when useLighthouseFormat is true', () => {
+      beforeEach(() => {
+        state = {
+          vaProfile: {
+            cnpPaymentInformation: {
+              controlInformation: {
+                canUpdateDirectDeposit: true,
+              },
+            },
+          },
+        };
+      });
+
+      it('returns `true` if control info canUpdateDirectDeposit is true', () => {
+        expect(selectors.cnpDirectDepositIsEligible(state, true)).to.be.true;
+      });
+
+      it('returns `false` if control info canUpdateDirectDeposit is false', () => {
+        state.vaProfile.cnpPaymentInformation.controlInformation.canUpdateDirectDeposit = false;
+        expect(selectors.cnpDirectDepositIsEligible(state, true)).to.be.false;
+      });
     });
   });
 
@@ -164,15 +171,11 @@ describe('profile selectors', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [
-              {
-                controlInformation: {
-                  isCompetentIndicator: true,
-                  noFiduciaryAssignedIndicator: true,
-                  notDeceasedIndicator: true,
-                },
-              },
-            ],
+            controlInformation: {
+              isCompetentIndicator: true,
+              noFiduciaryAssignedIndicator: true,
+              notDeceasedIndicator: true,
+            },
           },
         },
       };
@@ -181,9 +184,7 @@ describe('profile selectors', () => {
     it('returns `false` if the control information is not set', () => {
       const state = {
         vaProfile: {
-          cnpPaymentInformation: {
-            responses: [{ cnpPaymentInformation: {} }],
-          },
+          cnpPaymentInformation: {},
         },
       };
       expect(selectors.cnpDirectDepositIsBlocked(state)).to.be.false;
@@ -192,14 +193,9 @@ describe('profile selectors', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [
-              {
-                controlInformation: {
-                  isCompetentIndicator: null,
-                  noFiduciaryAssignedIndicator: true,
-                },
-              },
-            ],
+            controlInformation: {
+              isCompetentIndicator: false,
+            },
           },
         },
       };
@@ -209,13 +205,9 @@ describe('profile selectors', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [
-              {
-                controlInformation: {
-                  isCompetentIndicator: true,
-                },
-              },
-            ],
+            controlInformation: {
+              noFiduciaryAssignedIndicator: false,
+            },
           },
         },
       };
@@ -225,14 +217,9 @@ describe('profile selectors', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
-            responses: [
-              {
-                controlInformation: {
-                  isCompetentIndicator: true,
-                  noFiduciaryAssignedIndicator: true,
-                },
-              },
-            ],
+            controlInformation: {
+              notDeceasedIndicator: false,
+            },
           },
         },
       };

@@ -1,6 +1,21 @@
 /** time to wait (in ms) after the user stops typing before initiating draft auto-save */
 export const draftAutoSaveTimeout = 5000;
 
+export const Paths = {
+  INBOX: '/inbox/',
+  SENT: '/sent/',
+  DRAFTS: '/drafts/',
+  DRAFT: '/draft/',
+  DELETED: '/trash/',
+  COMPOSE: '/new-message/',
+  MESSAGE: '/message/',
+  MESSAGE_THREAD: '/thread/',
+  FOLDERS: '/folders/',
+  SEARCH: '/search/',
+  SEARCH_RESULTS: '/search/results/',
+  REPLY: '/reply/',
+};
+
 export const DefaultFolders = {
   INBOX: {
     id: 0,
@@ -9,7 +24,7 @@ export const DefaultFolders = {
   },
   SENT: {
     id: -1,
-    header: 'Sent messages',
+    header: 'Sent',
     desc: '',
   },
   DRAFTS: { id: -2, header: 'Drafts', desc: '' },
@@ -18,6 +33,14 @@ export const DefaultFolders = {
     header: 'Trash',
     desc: `These are the messages you moved to the trash from your inbox or folders. We won't permanently delete any messages.`,
   },
+  CUSTOM_FOLDER: {
+    desc: `This is a folder you created. You can add conversations to this folder by moving them from your inbox or other folders.`,
+  },
+};
+
+export const MessageReadStatus = {
+  READ: 'READ',
+  UNREAD: null,
 };
 
 export const ErrorMessages = {
@@ -36,6 +59,8 @@ export const ErrorMessages = {
       title: "We can't save attachments in a draft message",
       p1:
         "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
+      saveDraft: 'Save draft without attachments',
+      editDraft: 'Keep editing',
     },
     UNABLE_TO_SAVE_OTHER: 'Something went wrong... Failed to save message.',
     ATTACHMENTS: {
@@ -49,15 +74,17 @@ export const ErrorMessages = {
     },
   },
   SearchForm: {
-    FOLDER_REQUIRED: 'Please select a folder',
-    KEYWORD_REQUIRED: 'Please enter a keyword',
-    START_DATE_REQUIRED: 'Please enter a start date',
-    END_DATE_REQUIRED: 'Please enter an end date',
-    START_DATE_AFTER_END_DATE: 'Start date must be on or before end date',
-    END_DATE_BEFORE_START_DATE: 'End date must be on or after start date',
+    FOLDER_REQUIRED: 'Please select a folder.',
+    KEYWORD_REQUIRED: 'Please enter a keyword.',
+    START_DATE_REQUIRED: 'Please enter a start date.',
+    END_DATE_REQUIRED: 'Please enter an end date.',
+    START_DATE_AFTER_END_DATE: 'Start date must be on or before end date.',
+    END_DATE_BEFORE_START_DATE: 'End date must be on or after start date.',
+    END_YEAR_GREATER_THAN_CURRENT_YEAR:
+      'End year must not be greater than current year.',
     NO_FIELDS_SELECTED_MODAL_HEADER:
       "Please use at least one of the following search fields or choose a date range other than 'any'.",
-    SEARCH_TERM_REQUIRED: 'Please enter a search term',
+    SEARCH_TERM_REQUIRED: 'Please enter a search term.',
   },
   MoveConversation: {
     FOLDER_REQUIRED: 'Please select a folder to move the message to.',
@@ -129,12 +156,14 @@ export const Alerts = {
   },
   Thread: {
     GET_THREAD_ERROR: 'We’re sorry. Something went wrong on our end.',
+    THREAD_NOT_FOUND_ERROR: 'This conversation was not found.',
   },
 };
 
 export const Errors = {
   Code: {
-    BLOCKED_USER: 'SM151',
+    BLOCKED_USER: 'SM119',
+    BLOCKED_USER2: 'SM151',
   },
 };
 
@@ -143,12 +172,17 @@ export const Links = {
     CANNOT_REPLY: {
       CLASSNAME: 'fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1',
       TITLE: 'Start a new message',
-      TO: '/compose',
+      TO: Paths.COMPOSE,
     },
   },
 };
 
 export const Prompts = {
+  Attachment: {
+    REMOVE_ATTACHMENT_TITLE: 'Are you sure you want to remove this attachment?',
+    REMOVE_ATTACHMENT_CONTENT:
+      'If you remove an attachment, you will have to attach it again.',
+  },
   Compose: {
     EDIT_LIST_TITLE: 'Edit your contact list',
     EDIT_LIST_CONTENT:
@@ -166,21 +200,19 @@ export const Prompts = {
       "Drafts are permanently deleted and this action can't be undone. \n\n Deleting a draft won't affect other messages in this conversation.",
   },
 };
+
 export const Breadcrumbs = {
+  MESSAGES: { path: '/', label: 'Back to messages' },
   COMPOSE: {
-    path: '/compose',
-    label: 'Compose message',
+    path: Paths.COMPOSE,
+    label: 'Start a new message',
   },
-  INBOX: { path: '/inbox', label: 'Inbox' },
-  DRAFTS: { path: '/drafts', label: 'Drafts' },
-  DRAFT: { path: '/draft', label: 'Drafts' },
-  FOLDERS: { path: '/folders', label: 'My folders' },
-  SENT: { path: '/sent', label: 'Sent messages' },
-  TRASH: { path: '/trash', label: 'Trash' },
-  SEARCH: { path: '/search', label: 'Search messages' },
-  SEARCH_ADVANCED: { path: '/advanced', label: 'Advanced search' },
-  SEARCH_RESULTS: { path: '/results', label: 'Search results' },
-  FAQ: { path: '/faq', label: 'Messages FAQs' },
+  INBOX: { path: Paths.INBOX, label: 'Back to inbox' },
+  DRAFTS: { path: Paths.DRAFTS, label: 'Drafts' },
+  DRAFT: { path: Paths.DRAFT, label: 'Drafts' },
+  FOLDERS: { path: Paths.FOLDERS, label: 'Back to my folders' },
+  SENT: { path: Paths.SENT, label: 'Sent' },
+  TRASH: { path: Paths.DELETED, label: 'Trash' },
 };
 
 export const ALERT_TYPE_ERROR = 'error';
@@ -221,10 +253,71 @@ export const Attachments = {
 };
 
 export const threadSortingOptions = {
-  DESCENDING: 'DESC',
-  ASCENDING: 'ASC',
-  SORT_BY_SENDER: 'SENDER_NAME',
-  SORT_BY_RECEPIENT: 'RECIPIENT_NAME',
-  SORT_BY_SENT_DATE: 'SENT_DATE',
-  SORT_BY_DRAFT_DATE: 'DRAFT_DATE',
+  SENT_DATE_DESCENDING: {
+    sortField: 'SENT_DATE',
+    sortOrder: 'DESC',
+    value: 'SENT_DATE_DESCENDING',
+    label: 'Newest to oldest',
+  },
+  SENT_DATE_ASCENDING: {
+    sortField: 'SENT_DATE',
+    sortOrder: 'ASC',
+    value: 'SENT_DATE_ASCENDING',
+    label: 'Oldest to newest',
+  },
+  DRAFT_DATE_DESCENDING: {
+    sortField: 'DRAFT_DATE',
+    sortOrder: 'DESC',
+    value: 'DRAFT_DATE_DESCENDING',
+    label: 'Newest to oldest',
+  },
+  DRAFT_DATE_ASCENDING: {
+    sortField: 'DRAFT_DATE',
+    sortOrder: 'ASC',
+    value: 'DRAFT_DATE_ASCENDING',
+    label: 'Oldest to newest',
+  },
+  SENDER_ALPHA_DESCENDING: {
+    sortField: 'SENDER_NAME',
+    sortOrder: 'DESC',
+    value: 'SENDER_ALPHA_DESCENDING',
+    label: 'Z to A - Sender’s name',
+  },
+  SENDER_ALPHA_ASCENDING: {
+    sortField: 'SENDER_NAME',
+    sortOrder: 'ASC',
+    value: 'SENDER_ALPHA_ASCENDING',
+    label: 'A to Z - Sender’s name',
+  },
+  RECEPIENT_ALPHA_DESCENDING: {
+    sortField: 'RECIPIENT_NAME',
+    sortOrder: 'DESC',
+    value: 'RECEPIENT_ALPHA_DESCENDING',
+    label: 'Z to A - Recipient’s name',
+  },
+  RECEPIENT_ALPHA_ASCENDING: {
+    sortField: 'RECIPIENT_NAME',
+    sortOrder: 'ASC',
+    value: 'RECEPIENT_ALPHA_ASCENDING',
+    label: 'A to Z - Recipient’s name',
+  },
+};
+
+export const PrintMessageOptions = {
+  PRINT_MAIN: 'PRINT_MAIN',
+  PRINT_THREAD: 'PRINT_THREAD',
+};
+
+export const BreadcrumbViews = {
+  DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
+  MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-margin-y--0',
+};
+
+export const PageTitles = {
+  DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veterans Affairs',
+  PAGE_TITLE_TAG: '- MHV Secure Messaging | Veterans Affairs',
+  EDIT_DRAFT_PAGE_TITLE_TAG:
+    'Edit draft - MHV Secure Messaging | Veterans Affairs',
+  MY_FOLDERS_PAGE_TITLE_TAG:
+    'My folders - MHV Secure Messaging | Veterans Affairs',
 };

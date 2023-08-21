@@ -1,16 +1,31 @@
 import mockDraftMessage from '../fixtures/message-draft-response.json';
+import mockMessageResponse from '../fixtures/message-response.json';
+import mockThreadResponse from '../fixtures/thread-response.json';
 
 class PatientComposePage {
-  sendMessage = () => {
+  sendMessage = mockRequest => {
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/messages',
       mockDraftMessage,
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .click({ force: true });
-    cy.wait('@message');
+    cy.wait('@message')
+      .its('request.body')
+      .then(request => {
+        if (mockRequest) {
+          expect(request.body).to.eq(`\n\n\nName\nTitle${mockRequest.body}`);
+          expect(request.category).to.eq(mockRequest.category);
+          expect(request.recipient_id).to.eq(mockRequest.recipientId);
+          expect(request.subject).to.eq(mockRequest.subject);
+        }
+      });
+  };
+
+  getCategory = category => {
+    return cy.get(`[name=${category}]`);
   };
 
   pushSendMessageWithKeyboardPress = () => {
@@ -20,9 +35,9 @@ class PatientComposePage {
       mockDraftMessage,
     ).as('message');
     cy.tabToElement('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .realPress(['Enter']);
-    cy.wait('@message');
+    // cy.wait('@message');
   };
 
   verifySendMessageConfirmationMessage = () => {
@@ -33,7 +48,7 @@ class PatientComposePage {
   };
 
   verifySendMessageConfirmationMessageHasFocus = () => {
-    cy.get('.vads-u-margin-bottom--1').should('be.focused');
+    cy.get('.vads-u-margin-bottom--1', { timeout: 5000 }).should('be.focused');
   };
 
   //* Refactor*  Need to get rid of this method and split out
@@ -44,10 +59,7 @@ class PatientComposePage {
       .find('label')
       .contains(category)
       .click({ force: true });
-    cy.get('[data-testid="attach-file-input"]').selectFile(
-      'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
-      { force: true },
-    );
+    // this.attachMessageFromFile('test_image.jpg');
     this.getMessageSubjectField().type('Test Subject');
     this.getMessageBodyField().type('Test message body');
   };
@@ -73,6 +85,35 @@ class PatientComposePage {
       .select(recipient);
   };
 
+  selectCategoryByTabbingKeyboard = () => {
+    cy.tabToElement('#OTHEROTHER');
+    cy.realPress(['Enter']);
+  };
+
+  selectCategory = () => {
+    cy.get('#OTHEROTHER').click({ force: true });
+  };
+
+  verifyFocusonMessageAttachment = () => {
+    cy.get('.editable-attachment > span').should('have.focus');
+  };
+
+  verifyFocusOnErrorMessageToSelectRecipient = () => {
+    cy.focused().should('have.attr', 'error', 'Please select a recipient.');
+  };
+
+  verifyFocusOnErrorMessageToSelectCategory = () => {
+    cy.focused().should('have.attr', 'error', 'Please select a category.');
+  };
+
+  verifyFocusOnErrorEmptyMessageSubject = () => {
+    cy.focused().should('have.attr', 'error', 'Subject cannot be blank.');
+  };
+
+  verifyFocusOnErrorEmptyMessageBody = () => {
+    cy.focused().should('have.attr', 'error', 'Message body cannot be blank.');
+  };
+
   //* Refactor* Needs to have mockDraftMessage as parameter
   clickOnSendMessageButton = () => {
     cy.intercept(
@@ -81,7 +122,7 @@ class PatientComposePage {
       mockDraftMessage,
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .click();
   };
 
@@ -152,6 +193,7 @@ class PatientComposePage {
 
   removeAttachMessageFromFile = () => {
     cy.get('.remove-attachment-button').click();
+    cy.contains('Remove').click();
   };
 
   //* Refactor*Remove and consolidate
@@ -208,7 +250,7 @@ class PatientComposePage {
       .and('have.attr', 'checked');
     cy.get('[id="compose-message-body"]').should(
       'have.value',
-      'Test message body',
+      '\n\n\nName\nTitleTest message body',
     );
   };
 
@@ -225,10 +267,69 @@ class PatientComposePage {
   };
 
   verifyClickableURLinMessageBody = url => {
+    cy.get('[data-testid="message-body-field"]').should(
+      'have.attr',
+      'value',
+      `\n\n\nName\nTitle${url}`,
+    );
+  };
+
+  clickTrashButton = () => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockMessageResponse.data.attributes.messageId
+      }`,
+      mockMessageResponse,
+    ).as('mockMessageResponse');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockThreadResponse.data.at(2).attributes.messageId
+      }`,
+      mockThreadResponse,
+    ).as('mockThreadResponse');
+    cy.get('[data-testid="trash-button-text"]').click({
+      force: true,
+    });
+  };
+
+  clickConfirmDeleteButton = () => {
+    cy.get('[data-testid=delete-message-modal]')
+      .shadow()
+      .find('button')
+      .contains('Confirm')
+      .should('be.visible')
+      .click({ force: true });
+  };
+
+  verifyDeleteDraftSuccessfulMessage = () => {
+    cy.get('.vads-u-margin-bottom--1').should(
+      'have.text',
+      'Message conversation was successfully moved to Trash.',
+    );
+  };
+
+  verifySelcteRespitantErrorMessage = () => {
+    cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
+      .find('[id="error-message"]')
+      .should('contain', ' Please select a recipient.');
+  };
+
+  verifyBodyErrorMessage = () => {
     cy.get('[data-testid="message-body-field"]')
       .shadow()
-      .find('[id = "textarea"]')
-      .should('have.value', url);
+      .find('[id=error-message]')
+      .should('be.visible');
+  };
+
+  verifySubjectErrorMessage = () => {
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('[id=input-error-message]')
+      .should('be.visible');
   };
 }
+
 export default PatientComposePage;

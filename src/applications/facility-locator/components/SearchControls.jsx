@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
+import omit from 'platform/utilities/data/omit';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   healthServices,
   benefitsServices,
@@ -372,25 +373,22 @@ const SearchControls = props => {
 
   return (
     <div className="search-controls-container clearfix">
-      <Modal
-        title={
+      <VaModal
+        modalTitle={
           currentQuery.geocodeError === 1
             ? 'We need to use your location'
             : "We couldn't locate you"
         }
-        onClose={() => clearGeocodeError()}
+        onCloseEvent={() => clearGeocodeError()}
         status="warning"
         visible={currentQuery.geocodeError > 0}
-        contents={
-          <>
-            <p>
-              {currentQuery.geocodeError === 1
-                ? 'Please enable location sharing in your browser to use this feature.'
-                : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
-            </p>
-          </>
-        }
-      />
+      >
+        <p>
+          {currentQuery.geocodeError === 1
+            ? 'Please enable location sharing in your browser to use this feature.'
+            : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
+        </p>
+      </VaModal>
       <form id="facility-search-controls" onSubmit={handleSubmit}>
         <div className="columns">
           {renderLocationInputField()}

@@ -3,10 +3,10 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import backendServices from 'platform/user/profile/constants/backendServices';
-import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
+import backendServices from '~/platform/user/profile/constants/backendServices';
+import { RequiredLoginView } from '~/platform/user/authorization/components/RequiredLoginView';
 
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 import {
   ProfileUnconnected as Profile,
   mapStateToProps,
@@ -45,6 +45,8 @@ describe('Profile', () => {
       location: {
         pathname: '/profile/personal-information',
       },
+      useLighthouseDirectDepositEndpoint: false,
+      togglesLoaded: true,
     };
   });
 
@@ -184,6 +186,9 @@ describe('mapStateToProps', () => {
     loa: {
       current: 3,
     },
+    featureToggles: {
+      loading: false,
+    },
   });
   const makeDefaultVaProfileState = () => ({
     hero: {
@@ -281,6 +286,8 @@ describe('mapStateToProps', () => {
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',
       'isBlocked',
+      'useLighthouseDirectDepositEndpoint',
+      'togglesLoaded',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
   });

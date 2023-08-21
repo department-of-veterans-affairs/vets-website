@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 import {
   beneficiaryZIPCodeChanged,
   calculatorInputChange,
@@ -10,7 +11,6 @@ import {
 } from '../actions';
 import { getCalculatedBenefits } from '../selectors/vetTecCalculator';
 import VetTecEstimateYourBenefitsForm from '../components/vet-tec/VetTecEstimateYourBenefitsForm';
-import PropTypes from 'prop-types';
 import { ariaLabels } from '../constants';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 
@@ -26,6 +26,7 @@ export class VetTecEstimateYourBenefits extends React.Component {
 
   housingAllowanceClassName =
     'small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7';
+
   renderLearnMoreLabel = ({ text, modal, ariaLabel }) => (
     <LearnMoreLabel
       text={text}
@@ -92,7 +93,7 @@ export class VetTecEstimateYourBenefits extends React.Component {
           </div>
         </div>
       </div>
-      <div className={'vads-u-margin-left--2p5'}>
+      <div className="vads-u-margin-left--2p5">
         <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
           <div className="small-9 small-screen:small-9 columns">
             <div>
@@ -184,7 +185,12 @@ export class VetTecEstimateYourBenefits extends React.Component {
 
   render() {
     if (isEmpty(this.props.calculated)) {
-      return <LoadingIndicator message="Loading your estimated benefits..." />;
+      return (
+        <VaLoadingIndicator
+          data-testid="loading-indicator"
+          message="Loading your estimated benefits..."
+        />
+      );
     }
     const { outputs } = this.props.calculated;
 

@@ -1,4 +1,5 @@
 import { Actions } from '../util/actionTypes';
+import { updateMessageInThread } from '../util/helpers';
 
 const initialState = {
   /**
@@ -10,6 +11,7 @@ const initialState = {
    * @type {array}
    */
   draftMessageHistory: undefined,
+  replyToMessageId: undefined,
 };
 
 export const draftDetailsReducer = (state = initialState, action) => {
@@ -27,6 +29,7 @@ export const draftDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         lastSaveTime: null,
+        replyToMessageId: data.replyToMessageId,
         draftMessage: {
           replyToName: data.replyToName,
           threadFolderId: data.threadFolderId,
@@ -60,6 +63,7 @@ export const draftDetailsReducer = (state = initialState, action) => {
         isSaving: false,
         lastSaveTime: Date.now(),
         saveError: null,
+        replyToMessageId: data.attributes.messageId,
         draftMessage: {
           ...data.attributes,
           attachments: msgAttachments,
@@ -71,18 +75,32 @@ export const draftDetailsReducer = (state = initialState, action) => {
         isSaving: false,
         lastSaveTime: Date.now(),
         saveError: null,
+        draftMessage: {
+          ...state.draftMessage,
+          ...action.response,
+          attachments: msgAttachments,
+        },
       };
     case Actions.Draft.SAVE_FAILED:
       return {
         ...state,
         isSaving: false,
         lastSaveTime: null,
-        saveError: action.response,
+        saveError: { ...action.response },
       };
     case Actions.Draft.CLEAR_DRAFT:
       return {
         ...initialState,
       };
+    case Actions.Draft.GET_IN_THREAD: {
+      return {
+        ...state,
+        draftMessageHistory: updateMessageInThread(
+          state.draftMessageHistory,
+          action.response,
+        ),
+      };
+    }
     default:
       return state;
   }

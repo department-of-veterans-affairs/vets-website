@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
  *   @param {Function} onClick - The callback function to be called when the button is clicked.
  *   @param {Boolean} [disabled] - Optional. Indicates whether the button should be disabled or not. Defaults to false.
  *   @param {Boolean} [secondary] - Optional. Indicates whether the button should have a secondary style. Defaults to false.
+ *   @param {String} [type] - Optional. The type of button. Defaults to 'button'.
  *   @param {String} [iconLeft] - Optional. The icon to be displayed to the left of the button label.
  *   @param {String} [iconRight] - Optional. The icon to be displayed to the right of the button label.
  * @return {React Component}
@@ -24,7 +25,7 @@ const ButtonGroup = ({ buttons }) => {
           } columns`}
         >
           <button
-            type="button"
+            type={button.type ? button.type : 'button'}
             className={
               button.secondary ? 'usa-button-secondary' : 'usa-button-primary'
             }
@@ -55,7 +56,8 @@ ButtonGroup.propTypes = {
   buttons: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
-      onClick: PropTypes.func.isRequired,
+      type: PropTypes.oneOf(['button', 'submit', 'cancel']),
+      onClick: PropTypes.func,
       disabled: PropTypes.bool,
       secondary: PropTypes.bool,
       iconLeft: PropTypes.string,

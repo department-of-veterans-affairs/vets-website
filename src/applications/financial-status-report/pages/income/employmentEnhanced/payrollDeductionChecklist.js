@@ -1,13 +1,8 @@
-import React from 'react';
-import PayrollDeductionCheckList from '../../../components/PayrollDeductionChecklist';
+import PayrollDeductionCheckList from '../../../components/householdIncome/PayrollDeductionChecklist';
 
 export const uiSchema = {
   payrollDeductionCheckList: {
-    'ui:title': (
-      <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        Which of the following payroll deductions do you pay?
-      </span>
-    ),
+    'ui:title': 'Which of the following payroll deductions do you pay?',
     'ui:widget': PayrollDeductionCheckList,
     'ui:options': {
       hideOnReview: true,

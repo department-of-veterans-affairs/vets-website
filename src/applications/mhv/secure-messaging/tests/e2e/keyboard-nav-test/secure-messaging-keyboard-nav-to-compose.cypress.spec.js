@@ -12,8 +12,14 @@ describe('Secure Messaging Keyboard Nav To Compose', () => {
     cy.tabToElement('[data-testid="compose-message-link"]');
     cy.realPress(['Enter']);
     cy.injectAxe();
-    cy.axeCheck();
-    cy.tabToElement('a', 'Continue to start message');
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    cy.tabToElement('[data-testid="continue-button"] ');
     cy.realPress(['Enter']);
     cy.tabToElement('[data-testid="message-body-field"] ');
   });

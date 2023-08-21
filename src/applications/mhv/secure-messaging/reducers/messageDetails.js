@@ -1,4 +1,6 @@
 import { Actions } from '../util/actionTypes';
+import { updateMessageInThread } from '../util/helpers';
+import { PrintMessageOptions } from '../util/constants';
 
 const initialState = {
   /**
@@ -6,15 +8,17 @@ const initialState = {
    */
   message: undefined,
   /**
-   * The message history for the currently displayed message
+   * The message thread currently displayed to the user
    * @type {array}
    */
   messageHistory: undefined,
-  /**
-   * The message thread currently displayed to the user
-   */
   isLoading: false,
   error: null,
+  printOption: PrintMessageOptions.PRINT_THREAD,
+  threadViewCount: 5,
+
+  /** for messages older than 45 days, we cannot reply */
+  cannotReply: false,
 };
 
 export const messageDetailsReducer = (state = initialState, action) => {
@@ -39,34 +43,12 @@ export const messageDetailsReducer = (state = initialState, action) => {
       };
     }
     case Actions.Message.GET_IN_THREAD: {
-      const { data, included } = action.response;
-      const updatedMessage = data.attributes;
-      let updatedThread = state.messageHistory;
-      updatedThread = updatedThread.map(message => {
-        if (message.messageId === updatedMessage.messageId) {
-          const msgAttachments =
-            included &&
-            included.map(item => ({
-              id: item.id,
-              link: item.links.download,
-              ...item.attributes,
-            }));
-          return {
-            // some fields in the thread object are not returned in the /read message response
-            // so we need to preserve them for the thread
-            threadId: message.threadId,
-            folderId: message.folderId,
-            draftDate: message.draftDate,
-            toDate: message.toDate,
-            ...updatedMessage,
-            attachments: msgAttachments,
-          };
-        }
-        return message;
-      });
       return {
         ...state,
-        messageHistory: updatedThread,
+        messageHistory: updateMessageInThread(
+          state.messageHistory,
+          action.response,
+        ),
       };
     }
     case Actions.Message.MOVE_REQUEST: {
@@ -95,7 +77,16 @@ export const messageDetailsReducer = (state = initialState, action) => {
       };
     }
     case Actions.Message.CLEAR_HISTORY: {
-      return { ...state, messageHistory: { ...initialState } };
+      return { ...state, messageHistory: { ...initialState.messageHistory } };
+    }
+    case Actions.Message.SET_THREAD_PRINT_OPTION: {
+      return { ...state, printOption: action.payload };
+    }
+    case Actions.Message.SET_THREAD_VIEW_COUNT: {
+      return { ...state, threadViewCount: action.payload };
+    }
+    case Actions.Message.CANNOT_REPLY_ALERT: {
+      return { ...state, cannotReply: action.payload };
     }
     default:
       return state;

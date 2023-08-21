@@ -1,87 +1,81 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { waitFor } from '@testing-library/react';
+import { beforeEach } from 'mocha';
 import reducer from '../../reducers';
 import { user } from '../fixtures/user-reducer.json';
 import VitalDetails from '../../containers/VitalDetails';
+import vital from '../fixtures/vital.json';
+import { convertVital } from '../../reducers/vitals';
 
 describe('Vital details container', () => {
   const initialState = {
     mr: {
       vitals: {
-        vitalDetails: [
-          {
-            name: 'Blood pressure',
-            id: '155',
-            measurement: '120/80 mm[Hg]',
-            date: '2022-06-14T17:42:46.000Z',
-            facility: 'school parking lot',
-          },
-        ],
+        vitalDetails: [convertVital(vital)],
       },
     },
     user,
   };
 
-  const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<VitalDetails />, {
-      initialState: state,
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<VitalDetails />, {
+      initialState,
       reducers: reducer,
-      path: '/health-history/vitals/bloodpressure',
+      path: '/vitals/blood-pressure',
     });
-  };
+  });
 
   it('renders without errors', () => {
-    const screen = setup();
     expect(screen);
   });
 
-  it('displays CONFIDENTIAL header for print view', () => {
-    const screen = setup();
-    const printHeading = screen.getByRole('heading', {
-      name: 'CONFIDENTIAL',
-      level: 4,
+  it('displays the vital name inside an h1 as a span', () => {
+    const vitalName = screen.getByText('Blood pressure', {
+      exact: true,
+      selector: 'h1',
     });
-    expect(printHeading).to.exist;
+    expect(vitalName).to.exist;
+  });
+
+  it('displays Date of birth for the print view', () => {
+    expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
   });
 
   it('displays a print button', () => {
-    const screen = setup();
     const printButton = screen.getByTestId('print-records-button');
     expect(printButton).to.exist;
   });
 
-  it('displays the vital name as an h1', () => {
-    const screen = setup();
-
-    const vitalName = screen.getByText(
-      initialState.mr.vitals.vitalDetails[0].name,
-      {
-        exact: true,
-        selector: 'h1',
-      },
-    );
-    expect(vitalName).to.exist;
-  });
-
   it('displays the formatted received date', () => {
-    const screen = setup();
-    const formattedDate = screen.getAllByText('June 14, 2022', {
-      exact: true,
-      selector: 'p',
+    waitFor(() => {
+      const formattedDate = screen.getAllByText('September', {
+        exact: false,
+        selector: 'h2',
+      });
+      expect(formattedDate.length).to.eq(2);
     });
-    expect(formattedDate).to.exist;
   });
 
-  it('displays the location', () => {
-    const screen = setup();
-    const location = screen.getAllByText(
-      initialState.mr.vitals.vitalDetails[0].facility,
-      {
+  it('displays the result', () => {
+    waitFor(() => {
+      const location = screen.getAllByText('126/70', {
         exact: true,
         selector: 'p',
-      },
-    );
-    expect(location).to.exist;
+      });
+      expect(location.length).to.eq(2);
+    });
+  });
+
+  it('displays the location and provider notes', () => {
+    waitFor(() => {
+      const location = screen.getAllByText('None noted', {
+        exact: true,
+        selector: 'p',
+      });
+      expect(location.length).to.eq(4);
+    });
   });
 });

@@ -37,8 +37,16 @@ const ContactInfoReview = ({ data, editPage }) => {
   const display = [
     [content.home, () => getFormattedPhone(homePhone)],
     [content.mobile, () => getFormattedPhone(mobilePhone)],
-    [content.email, () => email],
-    [content.country, () => (isUS ? '' : address.countryName)],
+    [
+      content.email,
+      () =>
+        email || (
+          <span className="usa-input-error-message">
+            {content.missingEmail}
+          </span>
+        ),
+    ],
+    [content.country, () => address.countryName],
     [content.address1, () => address.addressLine1],
     [content.address2, () => address.addressLine2],
     [content.address3, () => address.addressLine3],
@@ -77,16 +85,15 @@ const ContactInfoReview = ({ data, editPage }) => {
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           {content.title}
         </h4>
-        <button
-          type="button"
+        <va-button
           ref={editRef}
-          id="confirmContactInformationEdit"
-          className="edit-page usa-button-secondary"
           onClick={handlers.onEditPage}
-          aria-label={content.editLabel}
-        >
-          {content.edit}
-        </button>
+          id="confirmContactInformationEdit"
+          class="edit-page"
+          label={content.editLabel}
+          text={content.edit}
+          secondary
+        />
       </div>
       {list.length ? <dl className="review">{list}</dl> : null}
     </div>

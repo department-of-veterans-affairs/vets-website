@@ -45,16 +45,66 @@ describe('Pre-Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('Appointment details page content loads for in person appointment', () => {
+    it('Appointment details page content loads for in person appointment with address', () => {
       Confirmation.clickDetails();
       AppointmentDetails.validatePageLoadedInPerson();
       AppointmentDetails.validateSubtitleInPerson();
       AppointmentDetails.validateWhen();
       AppointmentDetails.validateWhat();
       AppointmentDetails.validateProvider();
-      AppointmentDetails.validateWhere();
+      AppointmentDetails.validateWhere('in-person');
+      AppointmentDetails.validateFacilityAddress(true);
+      AppointmentDetails.validateDirectionsLink(true);
       AppointmentDetails.validatePhone();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Pre-check-in--Appointment-detail--in-person');
+    });
+  });
+
+  describe('Appointment details in person no facility address', () => {
+    beforeEach(() => {
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializePreCheckInDataGet,
+        initializePreCheckInDataPost,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
+
+      initializeSessionPost.withSuccess();
+      initializePreCheckInDataGet.withSuccess({
+        uuid: '5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3',
+      });
+
+      initializePreCheckInDataPost.withSuccess();
+
+      cy.visitPreCheckInWithUUID();
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      Introduction.validatePageLoaded();
+      Introduction.attemptToGoToNextPage();
+      Demographics.validatePageLoaded();
+      Demographics.attemptToGoToNextPage();
+      EmergencyContact.validatePageLoaded();
+      EmergencyContact.attemptToGoToNextPage();
+      NextOfKin.validatePageLoaded();
+      NextOfKin.attemptToGoToNextPage();
+      Confirmation.validatePageContent();
+    });
+    afterEach(() => {
+      cy.window().then(window => {
+        window.sessionStorage.clear();
+      });
+    });
+    it('Appointment details displays without address when no address is present', () => {
+      Confirmation.clickDetails();
+      AppointmentDetails.validateFacilityAddress(false);
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots(
+        'Pre-check-in--Appointment-detail--in-person--no-facility-address',
+      );
     });
   });
 
@@ -105,6 +155,9 @@ describe('Pre-Check In Experience', () => {
       AppointmentDetails.validateWhere('phone');
       AppointmentDetails.validatePhone();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots(
+        'Pre-check-in--Phone-appointment--Appointment-detail',
+      );
     });
   });
 });

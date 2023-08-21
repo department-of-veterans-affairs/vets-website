@@ -10,6 +10,7 @@ import {
   filterByOptions,
   filterEvents,
 } from '.';
+import { createEvent } from './event-generator';
 
 describe('deriveMostRecentDate', () => {
   it('returns the argument fieldDatetimeRangeTimezone when it is falsey', () => {
@@ -123,89 +124,87 @@ describe('filterEvents', () => {
   // '2021-01-01T07:00:00.000Z'
   const now = moment(1609484400 * 1000);
 
-  const upcomingEvent = {
-    id: 'upcoming',
-    entityId: '1',
-    fieldDatetimeRangeTimezone: [
-      {
-        endValue: now
-          .clone()
-          .add(1, 'seconds')
-          .add(2, 'hours')
-          .unix(),
-        value: now
-          .clone()
-          .add(1, 'hours')
-          .unix(),
-        timezone: 'America/New_York',
-      },
-    ],
-  };
+  const upcomingEvent = createEvent(
+    now
+      .clone()
+      .add(1, 'hours')
+      .unix(),
+    now
+      .clone()
+      .add(1, 'seconds')
+      .add(2, 'hours')
+      .unix(),
+    'Upcoming Event',
+    { id: 'upcoming' },
+  );
 
-  const nextWeekEvent = {
-    id: 'next-week',
-    entityId: '2',
-    fieldDatetimeRangeTimezone: [
-      {
-        endValue: now
-          .clone()
-          .add(7, 'days')
-          .startOf('week')
-          .add(2, 'hours')
-          .unix(),
-        value: now
-          .clone()
-          .add(7, 'days')
-          .startOf('week')
-          .add(1, 'hours')
-          .unix(),
-        timezone: 'America/New_York',
-      },
-    ],
-  };
+  const nextMonthEvent = createEvent(
+    now
+      .clone()
+      .add(1, 'month')
+      .startOf('month')
+      .add(1, 'hours')
+      .unix(),
+    now
+      .clone()
+      .add(1, 'month')
+      .startOf('month')
+      .add(2, 'hours')
+      .unix(),
+    'Next Month Event',
+    { id: 'next-month' },
+  );
 
-  const nextMonthEvent = {
-    id: 'next-month',
-    entityId: '3',
-    fieldDatetimeRangeTimezone: [
-      {
-        endValue: now
-          .clone()
-          .add(1, 'month')
-          .startOf('month')
-          .add(2, 'hours')
-          .unix(),
-        value: now
-          .clone()
-          .add(1, 'month')
-          .startOf('month')
-          .add(1, 'hours')
-          .unix(),
-        timezone: 'America/New_York',
-      },
-    ],
-  };
+  const nextWeekEvent = createEvent(
+    now
+      .clone()
+      .add(7, 'days')
+      .startOf('week')
+      .add(1, 'hours')
+      .unix(),
+    now
+      .clone()
+      .add(7, 'days')
+      .startOf('week')
+      .add(2, 'hours')
+      .unix(),
+    'Next Week Event',
+    { id: 'next-week' },
+  );
 
-  const pastEvent = {
-    id: 'past',
-    entityId: '4',
-    fieldDatetimeRangeTimezone: [
-      {
-        endValue: now
-          .clone()
-          .subtract(2, 'days')
-          .add(1, 'hours')
-          .unix(),
-        value: now
-          .clone()
-          .subtract(2, 'days')
-          .unix(),
-        timezone: 'America/New_York',
-      },
-    ],
-  };
+  const pastEvent = createEvent(
+    now
+      .clone()
+      .subtract(2, 'days')
+      .unix(),
+    now
+      .clone()
+      .subtract(2, 'days')
+      .add(1, 'hours')
+      .unix(),
+    'Past Event',
+    { id: 'past' },
+  );
 
-  const events = [upcomingEvent, nextWeekEvent, nextMonthEvent, pastEvent];
+  const activeEvent = createEvent(
+    now
+      .clone()
+      .subtract(1, 'hour')
+      .unix(),
+    now
+      .clone()
+      .add(2, 'hour')
+      .unix(),
+    'Active Event',
+  );
+
+  const events = [
+    upcomingEvent,
+    nextWeekEvent,
+    nextMonthEvent,
+    pastEvent,
+    activeEvent,
+  ];
 
   it('returns what we expect with no arguments', () => {
     expect(
@@ -222,7 +221,12 @@ describe('filterEvents', () => {
   it('returns what we expect for upcoming', () => {
     expect(
       filterEvents(events, 'upcoming', undefined, now.clone()),
-    ).to.deep.equal([upcomingEvent, nextWeekEvent, nextMonthEvent]);
+    ).to.deep.equal([
+      upcomingEvent,
+      nextWeekEvent,
+      nextMonthEvent,
+      activeEvent,
+    ]);
   });
 
   it('returns what we expect for next-week', () => {
@@ -232,9 +236,26 @@ describe('filterEvents', () => {
   });
 
   it('returns what we expect for next-month', () => {
-    expect(
-      filterEvents(events, 'next-month', undefined, now.clone()),
-    ).to.deep.equal([nextMonthEvent]);
+    const filteredEvents = filterEvents(
+      events,
+      'next-month',
+      undefined,
+      now.clone(),
+    );
+
+    // next-month results can also include next-week results, depending on
+    // timing of the test run. If there are 2 results, assert that both events
+    // are present, otherwise, assert that only next-month exits.
+    if (filteredEvents.length === 2) {
+      const titles = [];
+      filteredEvents.forEach(event => {
+        titles.push(event.title);
+      });
+      expect(filteredEvents).to.have.length(2);
+      expect(titles).to.have.members(['Next Week Event', 'Next Month Event']);
+    } else {
+      expect(filteredEvents).to.deep.equal([nextMonthEvent]);
+    }
   });
 
   it('returns what we expect for past', () => {

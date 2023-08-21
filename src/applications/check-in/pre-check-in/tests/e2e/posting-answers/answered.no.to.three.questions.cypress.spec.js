@@ -77,8 +77,13 @@ describe('Pre-Check In Experience ', () => {
 
     // page: Confirmation
     Confirmation.validatePageLoaded();
+    cy.createScreenshots(
+      'Pre-check-in--confirmation-answer-no-to-all--default-accordions',
+    );
     Confirmation.expandAllAccordions();
-    cy.createScreenshots('Pre-check-in--confirmation-answer-no-to-all');
+    cy.createScreenshots(
+      'Pre-check-in--confirmation-answer-no-to-all--expanded-accordions',
+    );
     cy.injectAxeThenAxeCheck();
   });
 });

@@ -1,6 +1,5 @@
 // Node modules.
 import React from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
@@ -15,12 +14,19 @@ export const YellowRibbonApp = ({ hasFetchedOnce }) => (
     data-e2e-id="yellow-ribbon-app"
   >
     {/* Breadcrumbs */}
-    <Breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
+    <va-breadcrumbs
+      label="Breadcrumb"
+      className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0"
+    >
       <a href="/">Home</a>
       <a href="/education/">Education and training</a>
       <a href={manifest.rootUrl}>Find a Yellow Ribbon school</a>
-      {hasFetchedOnce && <a href={window.location.href}>Search results</a>}
-    </Breadcrumbs>
+      {hasFetchedOnce && (
+        <li>
+          <a href={window.location.href}>Search results</a>
+        </li>
+      )}
+    </va-breadcrumbs>
 
     {/* Derive the Page */}
     {hasFetchedOnce ? <SearchResultsPage /> : <FindYellowRibbonPage />}

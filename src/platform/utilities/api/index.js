@@ -20,7 +20,7 @@ const retryOn = async (attempt, error, response) => {
   if (error) return false;
 
   if (response.status === 403) {
-    const errorResponse = await response.json();
+    const errorResponse = await response.clone().json();
 
     if (
       errorResponse?.errors === 'Access token has expired' &&

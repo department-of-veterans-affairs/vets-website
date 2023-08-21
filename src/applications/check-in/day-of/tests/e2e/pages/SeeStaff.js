@@ -8,7 +8,7 @@ class SeeStaff {
   };
 
   validateMessage = (
-    message = 'Our staff can help you update your contact information.If you don’t live at a fixed address right now, we’ll help you find the best way to stay connected with us.',
+    message = 'Our staff can help you update your contact information.',
   ) => {
     cy.get('h1')
       .next()

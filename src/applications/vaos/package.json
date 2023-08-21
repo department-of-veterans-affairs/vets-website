@@ -1,0 +1,44 @@
+{
+    "name": "@department-of-veterans-affairs/applications-vaos",
+    "version": "1.0.0",
+    "licence": "MIT",
+    "scripts": {
+      "build": "echo Your build script goes here",
+      "test": "echo Your test script goes here",
+      "demo":"echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+    },
+    "dependencies": {
+      "classnames": "^2.3.1",
+      "history-v4": "npm:history@4.9.0",
+      "moment": "~2.29.4",
+      "moment-timezone": "^0.5.35",
+      "prop-types": "^15.6.1",
+      "reselect": "^2.5.4",
+      "simple-guid": "0.0.1"
+    },
+    "devDependencies": {
+      "@babel/parser": "^7.17.7",
+      "@babel/traverse": "^7.17.3",
+      "@sentry/browser": "^6.13.2",
+      "@testing-library/dom": "^7.26.6",
+      "@testing-library/react": "^11.1.2",
+      "@testing-library/user-event": "^12.2.2",
+      "append-query": "^2.1.1",
+      "chai": "^4.3.4",
+      "glob": "^7.2.0",
+      "just-diff": "^3.1.1",
+      "mockdate": "^3.0.5",
+      "mocker-api": "^2.9.0",
+      "sinon": "^3.2.1"
+    },
+    "peerDependecies":{
+        "react": "*",
+        "react-redux": "*",
+        "react-router": "*" ,
+        "react-router-dom": "*",
+        "redux": "*",
+        "redux-thunk": "*"       
+    },
+    "private": true
+  }
+  

@@ -23,7 +23,7 @@ import {
   yesNo,
 } from './options-for-select';
 
-export default {
+export {
   CallHRC,
   CallNCACenter,
   CallVBACenter,

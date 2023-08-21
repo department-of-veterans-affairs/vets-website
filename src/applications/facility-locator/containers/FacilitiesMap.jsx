@@ -44,7 +44,7 @@ import {
 import { distBetween } from '../utils/facilityDistance';
 import SearchResult from '../components/SearchResult';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
-import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
+import { otherToolsLink } from '../utils/mapLinks';
 import SearchAreaControl from '../components/SearchAreaControl';
 import Covid19Result from '../components/search-results-items/Covid19Result';
 import Alert from '../components/Alert';
@@ -213,7 +213,9 @@ const FacilitiesMap = props => {
     });
   };
 
-  const handlePageSelect = page => {
+  const handlePageSelect = e => {
+    const { page } = e.detail;
+
     resetMapElements();
     const { currentQuery } = props;
     const coords = currentQuery.position;
@@ -645,9 +647,6 @@ const FacilitiesMap = props => {
             Find a VA location or in-network community care provider. For
             same-day care for minor illnesses or injuries, select Urgent care
             for facility type.
-          </p>
-          <p>
-            <strong>Coronavirus update:</strong> {coronavirusUpdate}
           </p>
         </div>
         {renderView()}

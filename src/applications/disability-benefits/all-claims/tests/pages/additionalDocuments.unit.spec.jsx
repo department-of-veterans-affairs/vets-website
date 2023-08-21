@@ -3,12 +3,16 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-
+import moment from 'moment';
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester, // selectCheckbox
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { createStore } from 'redux';
+import { render } from '@testing-library/react';
+import formConfig from '../../config/form';
+import { SAVED_SEPARATION_DATE } from '../../constants';
+import { selfAssessmentHeadline } from '../../content/selfAssessmentAlert';
 
 const invalidDocumentData = {
   additionalDocuments: [
@@ -117,5 +121,53 @@ describe('526EZ document upload', () => {
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.equal(true);
     form.unmount();
+  });
+
+  it('should not display alert if not BDD', () => {
+    const { queryByText } = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={validDocumentData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(selfAssessmentHeadline)).to.not.exist;
+  });
+
+  it('should display alert when BDD SHA enabled', () => {
+    const fakeStore = createStore(() => ({
+      featureToggles: {},
+    }));
+
+    // mock BDD
+    sessionStorage.setItem(
+      SAVED_SEPARATION_DATE,
+      moment()
+        .add(90, 'days')
+        .format('YYYY-MM-DD'),
+    );
+
+    const form = render(
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={validDocumentData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
+    );
+
+    form.getByText(
+      'Please submit your Separation Health Assessment - Part A Self-Assessment as soon as possible',
+    );
   });
 });

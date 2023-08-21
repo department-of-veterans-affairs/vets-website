@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import PropTypes from 'prop-types';
 
 const Modals = ({ children, title }) => {
@@ -70,7 +69,11 @@ Modals.Rights = () => (
       </li>
       <li>
         By Phone: Contact VA at
-        <Telephone contact="1-888-827-4817" className="vads-u-margin-x--0p5" />
+        <va-telephone
+          international
+          contact="8888274817"
+          className="vads-u-margin-x--0p5"
+        />
       </li>
       <li>
         By Mail: Make check or money order payable to "VA" and include account
@@ -211,7 +214,11 @@ Modals.Rights = () => (
       </li>
       <li>
         By Phone: Contact VA at
-        <Telephone contact="1-888-400-1238" className="vads-u-margin-x--0p5" />
+        <va-telephone
+          international
+          contact="8884001238"
+          className="vads-u-margin-x--0p5"
+        />
       </li>
       <li>
         Online: Visit
@@ -248,7 +255,11 @@ Modals.Rights = () => (
     <p>
       For additional information, to request necessary forms or assistance in
       accessing forms online, contact VA at
-      <Telephone contact="1-866-400-1238" className="vads-u-margin-left--0p5" />
+      <va-telephone
+        international
+        contact="8664001238"
+        className="vads-u-margin-left--0p5"
+      />
       .
     </p>
 
@@ -261,7 +272,11 @@ Modals.Rights = () => (
       representing you in adjudicated proceedings before VA are subject to a fee
       limitation as set forth in 38 U.S.C 5904. If you desire representation and
       have not already designated a representative, contact VA at
-      <Telephone contact="1-866-400-1238" className="vads-u-margin--0p5" />
+      <va-telephone
+        international
+        contact="8664001238"
+        className="vads-u-margin--0p5"
+      />
       to request the necessary forms. If an attorney or accredited agent
       represents you before VA, a copy of any agreement between you and the
       attorney or accredited agent about the payment of the attorney's or
@@ -290,7 +305,11 @@ Modals.Rights = () => (
         www.va.gov/vhapublications
       </a>
       or call toll free at
-      <Telephone contact="1-866-400-1238" className="vads-u-margin-x--0p5" />
+      <va-telephone
+        international
+        contact="8664001238"
+        className="vads-u-margin-x--0p5"
+      />
       to obtain a copy by mail. Furnishing the check information is voluntary,
       but a decision not to do so may require you to make payment by some other
       method.
@@ -303,7 +322,11 @@ Modals.Rights = () => (
       be reflected in your account on the next statement. For assistance in
       understanding your billing statement and assessed copayment charges
       contact VA at
-      <Telephone contact="1-866-400-1238" className="vads-u-margin-left--0p5" />
+      <va-telephone
+        international
+        contact="8664001238"
+        className="vads-u-margin-left--0p5"
+      />
       .
     </p>
 

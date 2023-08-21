@@ -88,7 +88,12 @@ describe('Pre-Check In Experience ', () => {
       .should('equal', 200);
 
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots(
+      'Pre-check-in--Confirmation-answer-yes-to-all--default-accordions',
+    );
     Confirmation.expandAllAccordions();
-    cy.createScreenshots('Pre-check-in--Confirmation-answer-yes-to-all');
+    cy.createScreenshots(
+      'Pre-check-in--Confirmation-answer-yes-to-all--expanded-accordions',
+    );
   });
 });

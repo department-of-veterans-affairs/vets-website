@@ -6,9 +6,16 @@ import {
 } from '../api/SmApi';
 
 const findByKeyword = (keyword, messages) => {
+  const parsedMessageId = parseInt(keyword, 10);
   return messages.filter(message => {
-    const { subject, senderName, recipientName } = message.attributes;
+    const {
+      subject,
+      senderName,
+      recipientName,
+      messageId,
+    } = message.attributes;
     return (
+      (messageId && messageId === parsedMessageId) ||
       (subject && subject.toLowerCase().includes(keyword)) ||
       (senderName && senderName.toLowerCase().includes(keyword)) ||
       (recipientName && recipientName.toLowerCase().includes(keyword))
@@ -40,13 +47,15 @@ export const runBasicSearch = (folderId, keyword) => async dispatch => {
   }
 };
 
-export const runAdvancedSearch = (folder, query) => async dispatch => {
+export const runAdvancedSearch = (folder, query, keyword) => async dispatch => {
   dispatch({ type: Actions.Search.START });
   try {
-    const response = await searchFolderAdvanced(folder.id, query);
+    const response = await searchFolderAdvanced(folder.folderId, query);
+    const matches = findByKeyword(keyword, response.data);
+
     dispatch({
       type: Actions.Search.RUN_ADVANCED,
-      response: { folder, query, data: response.data },
+      response: { folder, keyword, query, data: matches },
     });
   } catch (error) {
     const err = error.errors[0];
@@ -67,4 +76,16 @@ export const runAdvancedSearch = (folder, query) => async dispatch => {
       });
     }
   }
+};
+
+export const setSearchSort = sort => async dispatch => {
+  dispatch({ type: Actions.Search.SET_SORT, payload: sort });
+};
+
+export const setSearchPage = page => async dispatch => {
+  dispatch({ type: Actions.Search.SET_PAGE, payload: page });
+};
+
+export const clearSearchResults = () => async dispatch => {
+  dispatch({ type: Actions.Search.CLEAR });
 };

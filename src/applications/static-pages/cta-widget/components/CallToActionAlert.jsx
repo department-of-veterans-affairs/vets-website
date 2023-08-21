@@ -1,10 +1,8 @@
 import React from 'react';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-
 export default function CallToActionAlert({
   heading,
-  headerLevel,
+  headerLevel = 3,
   alertText,
   primaryButtonText,
   primaryButtonHandler,
@@ -16,11 +14,10 @@ export default function CallToActionAlert({
 }) {
   const buttonClass =
     status === 'continue' ? 'va-button-primary' : 'usa-button-primary';
-
-  const alertProps = {
-    headline: heading,
-    level: headerLevel,
-    content: (
+  const CustomHeaderLevel = `h${headerLevel}`;
+  return (
+    <va-alert visible status={status}>
+      <CustomHeaderLevel slot="headline">{heading}</CustomHeaderLevel>
       <div>
         {alertText}
         {primaryButtonText && (
@@ -42,9 +39,6 @@ export default function CallToActionAlert({
           </button>
         )}
       </div>
-    ),
-    status,
-  };
-
-  return <AlertBox isVisible {...alertProps} />;
+    </va-alert>
+  );
 }

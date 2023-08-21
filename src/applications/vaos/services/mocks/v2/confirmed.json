@@ -211,6 +211,124 @@
       }
     },
     {
+      "id": "180402",
+      "type": "apfrepointments",
+      "attributes": {
+        "id": "180402",
+        "identifier": [
+          {
+            "system": "urn:va.gov:masv2:cerner:appointment",
+            "value": "Appointment/52499028"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.cerner.com/d45741b3-8335-463d-ab16-8c5f0bcf78ed/codeSet/14249",
+                "code": "381456583"
+              }
+            ]
+          }
+        ],
+        "description": "PC Established Patient",
+        "patientIcn": "1012845331V153043",
+        "locationId": "757",
+        "practitioners": [
+          {
+            "name": {
+              "family": "Everett",
+              "given": [
+                "Matthew",
+                "DO"
+              ]
+            }
+          }
+        ],
+        "start": "2024-07-19T12:00:00Z",
+        "end": "2024-07-19T12:30:00Z",
+        "minutesDuration": 30,
+        "requestedPeriods": null,
+        "cancellable": false,
+        "patientInstruction": "Preparations:\n- If you have any new non-VA medical records since your last visit, please bring them.\r\nIf you need to cancel or reschedule your appointment, please call our Contact Center at 614-257-5200 or visit the patient portal.",
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          }
+        },
+        "localStartTime": "2024-07-19T08:00:00.000-04:00",
+        "location": {
+          "id": "757",
+          "type": "appointments",
+          "attributes": {
+            "id": "757",
+            "facilitiesApiId": "vha_757",
+            "vistaSite": "757",
+            "vastParent": "757",
+            "type": "va_health_facility",
+            "name": "Chalmers P. Wylie Veterans Outpatient Clinic",
+            "classification": "Health Care Center (HCC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.98048,
+            "long": -82.9123,
+            "website": "https://www.va.gov/central-ohio-health-care/locations/chalmers-p-wylie-veterans-outpatient-clinic/",
+            "phone": {
+              "main": "614-257-5200",
+              "fax": "614-257-5460",
+              "pharmacy": "614-257-5230",
+              "afterHours": "614-257-5512",
+              "patientAdvocate": "614-257-5290",
+              "mentalHealthClinic": "614-257-5631",
+              "enrollmentCoordinator": "614-257-5628"
+            },
+            "mailingAddress": {
+              "type": "postal",
+              "line": [
+                null,
+                null,
+                null
+              ]
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "420 North James Road",
+                null,
+                null
+              ],
+              "city": "Columbus",
+              "state": "OH",
+              "postalCode": "43219-1834"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "CaregiverSupport",
+              "Covid19Vaccine",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "Nutrition",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "UrgentCare",
+              "Urology"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            },
+            "visn": "10"
+          }
+        }
+      }
+    },
+    {
       "id": "124063",
       "type": "appointments",
       "attributes": {
@@ -762,7 +880,7 @@
         "requestedPeriods": null,
         "serviceType": "outpatientMentalHealth",
         "slot": null,
-        "start": "2022-01-23T20:00:00Z",
+        "start": "2023-06-23T20:00:00Z",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
@@ -1015,7 +1133,7 @@
           ]
         },
         "description": "Upcoming phone appointment",
-        "end": "2022-12-27T18:19:34",
+        "end": "2023-07-27T18:19:34",
         "id": "06aa456va",
         "kind": "phone",
         "locationId": "983",
@@ -1030,7 +1148,7 @@
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2022-12-27T18:19:34",
+        "start": "2023-07-27T18:19:34",
         "status": "booked",
         "telehealth": null
       }
@@ -1249,6 +1367,98 @@
         "start": "2022-12-28T18:19:34",
         "status": "cancelled",
         "telehealth": null
+      }
+    },
+    {
+      "id": "167311",
+      "type": "appointments",
+      "attributes": {
+        "id": "167311",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "4139383339353233"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceType": "audiology",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "audiology"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "COMPENSATION & PENSION",
+                "display": "COMPENSATION & PENSION"
+              }
+            ],
+            "text": "COMPENSATION & PENSION"
+          }
+        ],
+        "patientIcn": "1013120826V646496",
+        "locationId": "983GC",
+        "clinic": "945",
+        "start": "2023-06-22T13:00:00Z",
+        "end": "2023-06-22T14:00:00Z",
+        "created": "2023-03-17T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": [
+            "NO ACTION TAKEN"
+          ]
+        },
+        "serviceName": "FTC C&P AUDIO BEV",
+        "physicalLocation": "FORT COLLINS AUDIO",
+        "friendlyName": "C&P BEV AUDIO FTC",
+        "location": {
+          "id": "983GC",
+          "type": "appointments",
+          "attributes": {
+            "id": "983GC",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Fort Collins VA Clinic",
+            "classification": "Multi-Specialty CBOC",
+            "timezone": {
+              "timeZoneId": "America/Denver"
+            },
+            "lat": 40.553875,
+            "long": -105.08795,
+            "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp",
+            "phone": {
+              "main": "970-224-1550"
+            },
+            "physicalAddress": {
+              "line": [
+                "2509 Research Boulevard"
+              ],
+              "city": "Fort Collins",
+              "state": "CO",
+              "postalCode": "80526-8108"
+            },
+            "healthService": [
+              "Audiology",
+              "EmergencyCare",
+              "MentalHealthCare",
+              "PrimaryCare",
+              "SpecialtyCare"
+            ]
+          }
+        }
       }
     },
     {

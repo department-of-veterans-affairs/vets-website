@@ -16,6 +16,8 @@ import {
   registerCypressHelpers,
 } from '../helpers';
 
+import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
+
 registerCypressHelpers();
 
 describe('Notification Settings', () => {
@@ -31,14 +33,22 @@ describe('Notification Settings', () => {
       });
     });
   });
-  // TODO: Re-enable these tests when the COVID-19 alerts are a supported
-  // notification item. Or whenever a notification item supports email as a
-  // notification channel
-  context.skip(
-    'when both mobile phone and email are supported communication channels',
+
+  context(
+    'when both mobile phone and email are enabled communication channels',
     () => {
       context('when user is missing mobile phone', () => {
-        it('should show the correct messages - C9503', () => {
+        it('should show available email notifications and show expandable alert for mobile notifications - C9503', () => {
+          cy.intercept(
+            'GET',
+            '/v0/feature_toggles*',
+            generateFeatureToggles({
+              profileShowEmailNotificationSettings: true,
+              profileUseNotificationSettingsCheckboxes: true,
+              profileShowMhvNotificationSettings: true,
+              profileShowPaymentsNotificationSetting: true,
+            }),
+          );
           const user = makeMockUser();
           user.data.attributes.vet360ContactInformation.mobilePhone = null;
           cy.login(user);
@@ -51,30 +61,47 @@ describe('Notification Settings', () => {
           cy.loadingIndicatorWorks();
 
           cy.findByText('veteran@gmail.com').should('exist');
-          cy.findByText('Appointment reminders').should('exist');
-          cy.findByText('Prescription shipment and tracking updates').should(
-            'exist',
-          );
-          cy.findByTestId('missing-contact-info-alert')
-            .should('exist')
-            .and('contain.text', 'mobile phone')
-            .within(() => {
-              cy.findByRole('link', { name: /add.*mobile.*profile/i }).should(
-                'exist',
-              );
-            });
-          cy.findAllByRole('link', { name: /add your mobile/i }).should(
-            'have.length.above',
-            2,
-          );
+
           cy.findAllByTestId('notification-group').should('exist');
-          cy.findByRole('link', { name: /add your email/i }).should(
-            'not.exist',
-          );
+
+          // email based notifications should be shown
+          cy.findByText('RX refill shipment notification').should('exist');
+          cy.findByText('VA Appointment reminders').should('exist');
+          cy.findByText('Secure messaging alert').should('exist');
+          cy.findByText('Medical images and reports available').should('exist');
+
+          cy.get('va-alert-expandable').click();
+
+          // should find alert with details on what notifications are missing due to missing mobile phone
+          cy.get('va-alert-expandable').within(() => {
+            cy.findByRole('link', {
+              name: 'Add your mobile number to your profile',
+            }).should('exist');
+            cy.findByText('Appointment reminders').should('exist');
+            cy.findByText('Prescription shipment and tracking updates').should(
+              'exist',
+            );
+            cy.findByText('Appeal status updates').should('exist');
+            cy.findByText(
+              'Disability and pension deposit notifications',
+            ).should('exist');
+          });
+
+          cy.injectAxeThenAxeCheck();
         });
       });
       context('when user is missing email address', () => {
-        it('should show the correct messages - C9504', () => {
+        it('should show available mobile text notifications and show expandable alert for email notifications - C9504', () => {
+          cy.intercept(
+            'GET',
+            '/v0/feature_toggles*',
+            generateFeatureToggles({
+              profileShowEmailNotificationSettings: true,
+              profileUseNotificationSettingsCheckboxes: true,
+              profileShowMhvNotificationSettings: true,
+              profileShowPaymentsNotificationSetting: true,
+            }),
+          );
           const user = makeMockUser();
           user.data.attributes.vet360ContactInformation.email = null;
           cy.login(user);
@@ -86,29 +113,58 @@ describe('Notification Settings', () => {
 
           cy.loadingIndicatorWorks();
 
-          cy.findByText('503-555-1234').should('exist');
-          cy.findByTestId('missing-contact-info-alert')
-            .should('exist')
-            .and('contain.text', 'email address')
-            .within(() => {
-              cy.findByRole('link', { name: /add.*email.*profile/i }).should(
-                'exist',
-              );
-            });
-          cy.findAllByRole('link', { name: /add your email/i }).should(
-            'have.lengthOf',
-            2,
-          );
+          cy.findByTestId('mobile-phone-number-on-file')
+            .shadow()
+            .findByText('503-555-1234')
+            .should('exist');
+
           cy.findAllByTestId('notification-group').should('exist');
-          cy.findByRole('link', { name: /add your mobile/i }).should(
-            'not.exist',
+
+          // text based notifications should be shown
+          cy.findByText('Appointment reminders').should('exist');
+          cy.findByText('Prescription shipment and tracking updates').should(
+            'exist',
           );
+          cy.findByText(`Board of Veterans' Appeals hearing reminder`).should(
+            'exist',
+          );
+          cy.findByText('Appeal status updates').should('exist');
+          cy.findByText('Disability and pension deposit notifications').should(
+            'exist',
+          );
+
+          cy.get('va-alert-expandable').click();
+
+          // should find alert with details on what notifications are missing due to missing mobile phone
+          cy.get('va-alert-expandable').within(() => {
+            cy.findByRole('link', {
+              name: 'Add your email address to your profile',
+            }).should('exist');
+            cy.findByText('RX refill shipment notification').should('exist');
+            cy.findByText('VA Appointment reminders').should('exist');
+            cy.findByText('Secure messaging alert').should('exist');
+            cy.findByText('Medical images and reports available').should(
+              'exist',
+            );
+            cy.findByText('Biweekly MHV newsletter').should('exist');
+          });
+
+          cy.injectAxeThenAxeCheck();
         });
       });
       context(
         'when user is missing both email address and mobile phone',
         () => {
           it('should show the correct message, not attempt to fetch notification prefs, and hide all notification groups - C9505', () => {
+            cy.intercept(
+              'GET',
+              '/v0/feature_toggles*',
+              generateFeatureToggles({
+                profileShowEmailNotificationSettings: true,
+                profileUseNotificationSettingsCheckboxes: true,
+                profileShowMhvNotificationSettings: true,
+              }),
+            );
             const user = makeMockUser();
             user.data.attributes.vet360ContactInformation.email = null;
             user.data.attributes.vet360ContactInformation.mobilePhone = null;
@@ -125,19 +181,35 @@ describe('Notification Settings', () => {
             );
             cy.injectAxeThenAxeCheck();
 
+            cy.findByText('We don’t have your contact information').should(
+              'exist',
+            );
+
             cy.findByTestId('missing-contact-info-alert')
               .should('exist')
-              .and('contain.text', 'mobile phone')
-              .and('contain.text', 'email address')
-              .invoke('text')
-              .should('match', /we don’t have your contact info/i)
-              .and('match', /update.*contact info/i);
+              .and('contain.text', 'phone number')
+              .and('contain.text', 'email address');
+
             cy.should(() => {
               expect(getCommPrefsStub).not.to.be.called;
             });
-            cy.findByRole('link', { name: /update your contact info/i }).should(
-              'exist',
-            );
+
+            cy.findByTestId('add-mobile-phone-link')
+              .shadow()
+              .within(() => {
+                cy.findByRole('link', {
+                  name: 'Add a phone number to your profile',
+                }).should('exist');
+              });
+
+            cy.findByTestId('add-email-address-link')
+              .shadow()
+              .within(() => {
+                cy.findByRole('link', {
+                  name: 'Add an email address to your profile',
+                }).should('exist');
+              });
+
             cy.findAllByTestId('notification-group').should('not.exist');
           });
         },
@@ -167,14 +239,14 @@ describe('Notification Settings', () => {
           );
           cy.injectAxeThenAxeCheck();
 
-          cy.findByTestId('missing-contact-info-alert')
-            .should('exist')
-            .and('contain.text', 'mobile phone')
+          cy.findAllByTestId('add-mobile-phone-link')
+            .shadow()
             .within(() => {
-              cy.findByRole('link', { name: /add.*mobile.*profile/i }).should(
-                'exist',
-              );
+              cy.findByRole('link', {
+                name: 'Add a phone number to your profile',
+              }).should('exist');
             });
+
           cy.findAllByTestId('notification-group').should('not.exist');
           cy.should(() => {
             expect(getCommPrefsStub).not.to.be.called;
@@ -182,7 +254,14 @@ describe('Notification Settings', () => {
         });
       });
       context('when user is missing email address', () => {
-        it('should not show an alert - C9507', () => {
+        it('when profileShowEmailNotificationSettings is false, should not show missing contact info alert  - C9507', () => {
+          cy.intercept(
+            'GET',
+            '/v0/feature_toggles*',
+            generateFeatureToggles({
+              profileShowEmailNotificationSettings: false,
+            }),
+          );
           const user = makeMockUser();
           user.data.attributes.vet360ContactInformation.email = null;
           cy.login(user);
@@ -200,9 +279,9 @@ describe('Notification Settings', () => {
             .should('exist');
           cy.findByTestId('missing-contact-info-alert').should('not.exist');
           cy.findAllByTestId('notification-group').should('exist');
-          cy.findByRole('link', { name: /add your mobile/i }).should(
-            'not.exist',
-          );
+
+          cy.findAllByTestId('add-mobile-phone-link').should('not.exist');
+          cy.injectAxeThenAxeCheck();
         });
       });
     },

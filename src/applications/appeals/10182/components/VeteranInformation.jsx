@@ -8,14 +8,15 @@ import { genderLabels } from 'platform/static-data/labels';
 import { selectProfile } from 'platform/user/selectors';
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
-import { FORMAT_READABLE } from '../constants';
+import { FORMAT_YMD, FORMAT_READABLE } from '../../shared/constants';
 
 const VeteranInformation = ({ profile = {}, veteran = {} }) => {
   const { ssnLastFour, vaFileLastFour } = veteran;
   const { dob, gender, userFullName = {} } = profile;
   const { first, middle, last, suffix } = userFullName;
 
-  const dateOfBirth = dob ? moment(dob).format(FORMAT_READABLE) : '';
+  // moment called with undefined = today's date
+  const momentDob = moment(dob || null, FORMAT_YMD);
 
   // separate each number so the screenreader reads "number ending with 1 2 3 4"
   // instead of "number ending with 1,234"
@@ -29,34 +30,46 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
 
   return (
     <>
-      <p>This is the personal information we have on file for you.</p>
-      <br />
+      <h3 className="vads-u-margin-y--2">
+        Confirm the personal information we have on file for you.
+      </h3>
       <div className="blue-bar-block">
-        <strong className="name">
+        <strong className="name dd-privacy-hidden">
           {`${first || ''} ${middle || ''} ${last || ''}`}
           {suffix && `, ${suffix}`}
         </strong>
         {ssnLastFour && (
-          <p className="ssn">Social Security number: {mask(ssnLastFour)}</p>
+          <p className="ssn">
+            Social Security number:{' '}
+            <span className="dd-privacy-mask">{mask(ssnLastFour)}</span>
+          </p>
         )}
         {vaFileLastFour && (
-          <p className="vafn">VA file number: {mask(vaFileLastFour)}</p>
+          <p className="vafn">
+            VA file number:{' '}
+            <span className="dd-privacy-mask">{mask(vaFileLastFour)}</span>
+          </p>
         )}
         <p>
-          Date of birth: <span className="dob">{dateOfBirth}</span>
+          Date of birth:{' '}
+          {momentDob.isValid() ? (
+            <span className="dob dd-privacy-mask">
+              {momentDob.format(FORMAT_READABLE)}
+            </span>
+          ) : null}
         </p>
         <p>
           Gender:{' '}
-          <span className="gender">
+          <span className="gender dd-privacy-hidden">
             {(gender && genderLabels[gender]) || ''}
           </span>
         </p>
       </div>
-      <br />
+      <br role="presentation" />
       <p>
         <strong>Note:</strong> If you need to update your personal information,
-        please call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />. We’re
-        here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />. We’re here
+        Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
   );

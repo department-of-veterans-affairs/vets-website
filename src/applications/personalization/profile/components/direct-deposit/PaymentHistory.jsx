@@ -1,10 +1,11 @@
 import React from 'react';
-import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
-import recordEvent from '~/platform/monitoring/record-event';
-import ProfileInfoTable from '../ProfileInfoTable';
+import PropTypes from 'prop-types';
+
+import recordAnalyticsEvent from '~/platform/monitoring/record-event';
+
 import { ProfileInfoCard } from '../ProfileInfoCard';
 
-function PaymentHistory() {
+function PaymentHistory({ recordEvent = recordAnalyticsEvent } = {}) {
   const tableData = [
     {
       value: (
@@ -31,29 +32,18 @@ function PaymentHistory() {
   ];
 
   return (
-    <>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
-        <Toggler.Enabled>
-          <ProfileInfoCard
-            className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-            data={tableData}
-            level={2}
-            namedAnchor="payment-history"
-            title="VA payment history"
-          />
-        </Toggler.Enabled>
-
-        <Toggler.Disabled>
-          <ProfileInfoTable
-            className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-            title="VA payment history"
-            data={tableData}
-            level={2}
-          />
-        </Toggler.Disabled>
-      </Toggler>
-    </>
+    <ProfileInfoCard
+      className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+      data={tableData}
+      level={2}
+      namedAnchor="payment-history"
+      title="VA payment history"
+    />
   );
 }
+
+PaymentHistory.propTypes = {
+  recordEvent: PropTypes.func,
+};
 
 export default PaymentHistory;

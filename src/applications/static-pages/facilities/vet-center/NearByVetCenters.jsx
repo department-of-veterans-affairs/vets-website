@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { apiRequest } from 'platform/utilities/api';
 import { connect, useDispatch } from 'react-redux';
 import VetCenterInfoSection from './components/VetCenterInfoSection';
@@ -128,7 +127,7 @@ const NearByVetCenters = props => {
   );
 
   if (props.facilitiesLoading) {
-    return <LoadingIndicator message="Loading facilities..." />;
+    return <va-loading-indicator message="Loading facilities..." />;
   }
 
   // TODO: consider moving to a separate component

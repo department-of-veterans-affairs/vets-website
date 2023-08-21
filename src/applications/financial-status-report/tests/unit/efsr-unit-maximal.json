@@ -1,15 +1,18 @@
 {
   "data": {
-    "view:combinedFinancialStatusReport": true,
     "view:enhancedFinancialStatusReport": true,
     "otherExpenses": [
       {
-        "name": "Pool service",
-        "amount": "200"
+        "name": "Clothing",
+        "amount": "10"
       },
       {
-        "name": "Lawn service",
-        "amount": "100.54"
+        "name": "Food",
+        "amount": "1000.54"
+      },
+      {
+        "name": "Veteran added",
+        "amount": "100"
       }
     ],
     "view:components": {
@@ -27,12 +30,14 @@
           "amount": "1200.53"
         },
         {
-          "name": "Food",
-          "amount": "4000.38"
+          "name": "Mortgage payment",
+          "amount": "800.00"
+        },
+        {
+          "name": "Property tax",
+          "amount": "85.25"
         }
-      ],
-      "rentOrMortgage": "1200.53",
-      "food": "4000.38"
+      ]
     },
     "assets": {
       "realEstateValue": "800000.81",
@@ -200,13 +205,32 @@
       ],
       "employmentHistory": {
         "spouse": {
-          "employmentRecords": [
+          "spEmploymentRecords": [
             {
               "type": "Full time",
               "from": "2018-6-XX",
               "to": "",
               "isCurrent": true,
-              "employerName": "Spouse Current"
+              "employerName": "Spouse Current",
+              "grossMonthlyIncome": "5000.54",
+              "deductions": [
+                {
+                  "name": "Federal tax",
+                  "amount": "350.56"
+                },
+                {
+                  "name": "State tax",
+                  "amount": "230.45"
+                },
+                {
+                  "name": "Pension",
+                  "amount": "100"
+                },
+                {
+                  "name": "Health insurance",
+                  "amount": "254.45"
+                }
+              ]
             },
             {
               "type": "Full time",
@@ -291,6 +315,59 @@
       },
       "telephoneNumber": "4445551212",
       "emailAddress": "test2@test1.net",
+      "veteranContactInformation": {
+          "email": "test@user.com",
+          "address": {
+              "addressLine1": "1200 Park Ave",
+              "addressLine2": "c/o Pixar",
+              "addressLine3": null,
+              "addressPou": "CORRESPONDENCE",
+              "addressType": "DOMESTIC",
+              "city": "Emeryville",
+              "countryName": "United States",
+              "countryCodeIso2": "US",
+              "countryCodeIso3": "USA",
+              "countryCodeFips": null,
+              "countyCode": null,
+              "countyName": null,
+              "createdAt": "2020-05-30T03:57:20.000+00:00",
+              "effectiveEndDate": null,
+              "effectiveStartDate": "2020-07-10T20:10:45.000+00:00",
+              "id": 173917,
+              "internationalPostalCode": null,
+              "province": null,
+              "sourceDate": "2020-07-10T20:10:45.000+00:00",
+              "sourceSystemUser": null,
+              "stateCode": "CA",
+              "transactionId": "7139aa82-fd06-45ea-a217-9654869924bd",
+              "updatedAt": "2020-07-10T20:10:46.000+00:00",
+              "validationKey": null,
+              "vet360Id": "1273780",
+              "zipCode": "94608",
+              "zipCodeSuffix": null
+          },
+          "mobilePhone": {
+              "areaCode": "510",
+              "countryCode": "1",
+              "createdAt": "2020-06-12T16:56:37.000+00:00",
+              "extension": "",
+              "effectiveEndDate": null,
+              "effectiveStartDate": "2020-07-14T19:07:45.000+00:00",
+              "id": 146766,
+              "isInternational": false,
+              "isTextable": null,
+              "isTextPermitted": null,
+              "isTty": null,
+              "isVoicemailable": null,
+              "phoneNumber": "9224444",
+              "phoneType": "HOME",
+              "sourceDate": "2020-07-14T19:07:45.000+00:00",
+              "sourceSystemUser": null,
+              "transactionId": "92c49d39-22b2-4bd6-92b4-0b7e7c63c6a9",
+              "updatedAt": "2020-07-14T19:07:46.000+00:00",
+              "vet360Id": "1273780"
+          }
+      },
       "veteranFullName": {
         "first": "Greg",
         "last": "Anderson",

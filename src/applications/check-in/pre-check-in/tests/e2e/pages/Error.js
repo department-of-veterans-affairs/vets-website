@@ -4,7 +4,7 @@ class Error {
   validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Sorry, we can’t complete pre-check-in');
+      .and('have.text', 'Sorry, we can’t complete pre-check-in.');
 
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
@@ -16,7 +16,7 @@ class Error {
   validatePageLoadedGeneric = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Sorry, we can’t complete pre-check-in');
+      .and('have.text', 'Sorry, we can’t complete pre-check-in.');
 
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
@@ -28,7 +28,7 @@ class Error {
   validateUUIDErrorPageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Sorry, we can’t complete pre-check-in');
+      .and('have.text', 'Sorry, we can’t complete pre-check-in.');
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .should(
@@ -60,7 +60,7 @@ class Error {
   validateCanceledPageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Sorry, pre-check-in is no longer available');
+      .and('have.text', 'Sorry, pre-check-in is no longer available.');
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .contains('is cancelled.');
@@ -69,7 +69,7 @@ class Error {
   validateExpiredPageLoaded = (appointmentType = 'in-person') => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Sorry, pre-check-in is no longer available');
+      .and('have.text', 'Sorry, pre-check-in is no longer available.');
     if (appointmentType === 'phone') {
       cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
         .should('be.visible')
@@ -88,7 +88,7 @@ class Error {
   validatePast15MinutesPageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Sorry, pre-check-in is no longer available');
+      .and('have.text', 'Sorry, pre-check-in is no longer available.');
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .contains(

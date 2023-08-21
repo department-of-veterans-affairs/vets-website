@@ -1,25 +1,25 @@
 import moment from 'moment-timezone';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { DefaultFolders as Folders } from './constants';
+import { DefaultFolders as Folders, Paths } from './constants';
 
 export const folderPathByFolderId = folderId => {
   let path = '';
   if (folderId !== null) {
     switch (parseInt(folderId, 10)) {
       case Folders.INBOX.id:
-        path = '/inbox';
+        path = Paths.INBOX;
         break;
       case Folders.DRAFTS.id:
-        path = '/drafts';
+        path = Paths.DRAFTS;
         break;
       case Folders.SENT.id:
-        path = '/sent';
+        path = Paths.SENT;
         break;
       case Folders.DELETED.id:
-        path = '/trash';
+        path = Paths.DELETED;
         break;
       default:
-        path = `/folder/${folderId}`;
+        path = `${Paths.FOLDERS}${folderId}/`;
         break;
     }
   } else {
@@ -39,7 +39,7 @@ export const unreadCountInbox = folders => {
 };
 
 export const navigateToFoldersPage = history => {
-  history.push('/folders');
+  history.push(Paths.FOLDERS);
 };
 
 export const today = new Date();
@@ -95,11 +95,19 @@ export const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-
  * @param {*} days
  * @returns {Boolean} true if timestamp is older than days
  */
-
 export const isOlderThan = (timestamp, days) => {
   const now = moment();
   const then = moment(timestamp);
   return now.diff(then, 'days') > days;
+};
+
+export const getLastSentMessage = messages => {
+  return messages.find(
+    m =>
+      m.attributes !== undefined
+        ? m.attributes.sentDate !== null
+        : m.sentDate !== null,
+  );
 };
 
 // Opens the veterans Crisis modal (the modal that appears when clicking the red banner in the header (or footer on mobile) to connect to the crisis line)
@@ -125,4 +133,57 @@ export const handleHeader = (folderId, folder) => {
     default:
       return folder.name;
   }
+};
+
+export const updatePageTitle = newTitle => {
+  document.title = newTitle;
+};
+
+export const updateMessageInThread = (thread, response) => {
+  const { data, included } = response;
+  const updatedMessage = data.attributes;
+  return thread.map(message => {
+    if (message.messageId === updatedMessage.messageId) {
+      const msgAttachments =
+        included &&
+        included.map(item => ({
+          id: item.id,
+          link: item.links.download,
+          ...item.attributes,
+        }));
+      return {
+        // some fields in the thread object are not returned in the /read message response
+        // so we need to preserve them for the thread
+        threadId: message.threadId,
+        folderId: message.folderId,
+        draftDate: message.draftDate,
+        toDate: message.toDate,
+        ...updatedMessage,
+        attachments: msgAttachments,
+        preloaded: true, // this is used to determine if we need to fetch the message body again on expand
+      };
+    }
+    return message;
+  });
+};
+
+export const convertPathNameToTitleCase = str => {
+  const formattedStr = str.replace(/\//g, '').trim(); // Remove slashes and trim whitespace
+  const words = formattedStr.split('_'); // Split the string by underscores
+
+  const capitalizedWords = words.map(word => {
+    const lowerCasedWord = word.toLowerCase();
+    return lowerCasedWord.charAt(0).toUpperCase() + lowerCasedWord.slice(1);
+  });
+
+  return capitalizedWords.join(' '); // Join the words with spaces
+};
+
+export const messageSignatureFormatter = singatureObj => {
+  if (singatureObj?.includeSignature) {
+    return `\n\n\n${singatureObj.signatureName}\n${
+      singatureObj.signatureTitle
+    }`;
+  }
+  return null;
 };

@@ -1,38 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { urlRegex, httpRegex } from '../../util/helpers';
+import Linkify from 'react-linkify';
 
 const MessageThreadBody = props => {
-  const { expanded, text } = props;
-  const words = text?.split(/[^\S\r\n]+/g);
+  const { text } = props;
+
+  const componentDecorator = (href, linkText) => (
+    <a href={href} target="_blank" rel="noreferrer">
+      {linkText}
+    </a>
+  );
 
   return (
-    <div
-      className={
-        expanded
-          ? 'message-list-body-expanded vads-u-margin-bottom--2'
-          : 'message-list-body-collapsed'
-      }
-    >
+    <div className="vads-u-padding-y--1 ">
       <>
-        <span className="vads-u-margin-y--0">
-          {words?.map((word, i) => {
-            return (word.match(urlRegex) || word.match(httpRegex)) &&
-              words.length >= 1 ? (
-              <a
-                tabIndex={!expanded ? -1 : 0}
-                key={i}
-                href={word}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {`${word} `}
-              </a>
-            ) : (
-              `${word} `
-            );
-          })}
-        </span>
+        <pre
+          data-testid="message-body"
+          className="vads-u-margin-y--0"
+          data-dd-privacy="mask"
+        >
+          <Linkify componentDecorator={componentDecorator}>{text}</Linkify>
+        </pre>
       </>
     </div>
   );

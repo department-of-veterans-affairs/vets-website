@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import {
+  VaPagination,
+  VaLoadingIndicator,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
@@ -34,7 +36,7 @@ import {
 } from '../selectors/schoolSearch';
 import { transformSearchToolAddress } from '../helpers';
 
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 export class SchoolSelectField extends React.Component {
   constructor(props) {
@@ -114,7 +116,8 @@ export class SchoolSelectField extends React.Component {
     });
   };
 
-  handlePageSelect = page => {
+  handlePageSelect = e => {
+    const { page } = e.detail;
     this.resultCount.focus();
 
     this.debouncedSearchInstitutions({
@@ -248,9 +251,7 @@ export class SchoolSelectField extends React.Component {
             >
               {'School Information'}
               {!manualSchoolEntryChecked && (
-                <span className="schemaform-required-span">
-                  {'(*Required)'}
-                </span>
+                <span className="schemaform-required-span">(*Required)</span>
               )}
             </label>
             {showErrors && (
@@ -268,7 +269,7 @@ export class SchoolSelectField extends React.Component {
               </span>
             )}
             <span>
-              {'Enter your school’s name or city to search for your school'}
+              Enter your school’s name or city to search for your school
             </span>
             <div className="search-controls">
               <Element name="schoolSearch" />
@@ -288,7 +289,7 @@ export class SchoolSelectField extends React.Component {
                   className="search-schools-button usa-button-primary"
                   onClick={this.handleSearchClick}
                 >
-                  {'Search Schools'}
+                  Search Schools
                 </button>
               </div>
               <div className="clear-search">
@@ -296,7 +297,7 @@ export class SchoolSelectField extends React.Component {
                   className="va-button-link start-over"
                   onClick={this.handleStartOver}
                 >
-                  {'Start Over'}
+                  Start Over
                 </button>
               </div>
             </div>
@@ -389,9 +390,9 @@ export class SchoolSelectField extends React.Component {
                                 </span>
                               )}
                               {(city || state) && (
-                                <span className="institution-city-state">{`${city}${city &&
-                                  state &&
-                                  ', '}${state}`}</span>
+                                <span className="institution-city-state">
+                                  {`${city}${city && state && ', '}${state}`}
+                                </span>
                               )}
                               {!city &&
                                 !state && (
@@ -407,10 +408,11 @@ export class SchoolSelectField extends React.Component {
                   )}
                 </div>
               )}
+            ={' '}
             {showSearchResults &&
               showInstitutionsLoading && (
                 <div>
-                  <LoadingIndicator
+                  <VaLoadingIndicator
                     message={`Searching ${institutionQuery}...`}
                   />
                 </div>
@@ -419,18 +421,19 @@ export class SchoolSelectField extends React.Component {
               showNoResultsFound && (
                 <div className="no-results-box">
                   <p>
-                    <strong>{'We can’t find your school'}</strong>
+                    <strong>We can’t find your school</strong>
                     <br />
-                    {
-                      'We’re sorry. We can’t find any school that matches your entry. Please try entering a different school name or city. Or, you can check the box to enter your school information yourself.'
-                    }
+                    We’re sorry. We can’t find any school that matches your
+                    entry. Please try entering a different school name or city.
+                    Or, you can check the box to enter your school information
+                    yourself.
                   </p>
                 </div>
               )}
             {showSearchResults &&
               showPaginationLoading && (
                 <div>
-                  <LoadingIndicator
+                  <VaLoadingIndicator
                     message={`Loading page ${currentPageNumber} results for ${institutionQuery}...`}
                   />
                 </div>
@@ -438,11 +441,13 @@ export class SchoolSelectField extends React.Component {
           </div>
           {showSearchResults &&
             showPagination && (
-              <Pagination
+              <VaPagination
                 page={currentPageNumber}
                 pages={pagesCount}
                 ariaLabelSuffix="of school results"
                 onPageSelect={this.handlePageSelect}
+                maxPageListLength={10}
+                showLastPage
               />
             )}
         </div>

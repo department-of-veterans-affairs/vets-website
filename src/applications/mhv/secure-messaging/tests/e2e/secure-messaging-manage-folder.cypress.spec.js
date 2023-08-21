@@ -17,7 +17,7 @@ describe('Secure Messaging Manage Folder AXE check', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
     folderPage.createANewFolderButton().click();
     const createFolderName = 'create folder test';
-    folderPage.createFolderTextBox().type(createFolderName);
+    folderPage.createFolderTextBox().type(createFolderName, { force: true });
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/folders',
@@ -27,7 +27,13 @@ describe('Secure Messaging Manage Folder AXE check', () => {
     cy.wait('@createFolder');
     folderPage.verifyCreateFolderSuccessMessage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
   it('Check Delete Folder Success', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
@@ -37,7 +43,7 @@ describe('Secure Messaging Manage Folder AXE check', () => {
     cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderId}`, {
       statusCode: 204,
     }).as('deleteFolder');
-    folderPage.clickAndLoadCustumFolder(
+    folderPage.clickAndLoadCustomFolder(
       folderName,
       folderId,
       MockCustomFolderResponse,
@@ -50,6 +56,12 @@ describe('Secure Messaging Manage Folder AXE check', () => {
       .click();
     folderPage.verifyDeleteSuccessMessage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

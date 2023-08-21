@@ -1,77 +1,100 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
 
-import { IntroductionPage } from '../../containers/IntroductionPage';
-import manifest from '../../manifest.json';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-const defaultProps = ({ isVerified = true } = {}) => ({
-  loggedIn: true,
-  isVerified,
-  location: {
-    pathname: '/introduction',
-    basename: manifest.rootUrl,
-  },
-  route: {
-    formConfig: {
-      title: 'NOD',
-      verifyRequiredPrefill: true,
-      savedFormMessages: [],
+import IntroductionPage from '../../containers/IntroductionPage';
+import formConfig from '../../config/form';
+
+const getData = ({
+  loggedIn = true,
+  isVerified = true,
+  data = {},
+  contestedIssues = {},
+} = {}) => ({
+  props: {
+    loggedIn,
+    location: {
+      basename: '/sc-base-url',
     },
-    pageList: [],
+    route: {
+      formConfig,
+      pageList: [{ path: '/introduction' }, { path: '/next', formConfig }],
+    },
+  },
+  mockStore: {
+    getState: () => ({
+      user: {
+        login: {
+          currentlyLoggedIn: loggedIn,
+        },
+        profile: {
+          savedForms: [],
+          prefillsAvailable: [],
+          verified: isVerified,
+        },
+      },
+      form: {
+        formId: formConfig.formId,
+        loadedStatus: 'success',
+        savedStatus: '',
+        loadedData: {
+          metadata: {},
+        },
+        data,
+        contestedIssues,
+      },
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: { get() {} },
+        dismissedDowntimeWarnings: [],
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
   },
 });
 
 describe('IntroductionPage', () => {
   it('should render', () => {
-    const tree = shallow(<IntroductionPage {...defaultProps()} />);
-    const intro = tree.find('Connect(SaveInProgressIntro)');
-    expect(intro).to.exist;
-    expect(tree.find('FormTitle').props().title).to.eq('NOD');
-
-    tree.unmount();
+    const { props, mockStore } = getData({ loggedIn: false });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    expect($('h1', container).textContent).to.eq('Request a Board Appeal');
+    expect($('va-process-list', container)).to.exist;
+    expect($('va-omb-info', container)).to.exist;
+    expect($('.schemaform-sip-alert', container)).to.exist;
   });
 
-  it('should render SaveInProgressIntro', () => {
-    const tree = shallow(<IntroductionPage {...defaultProps()} />);
-    const saveInProgressIntro = tree.find('Connect(SaveInProgressIntro)');
-    expect(saveInProgressIntro.length).to.equal(2);
-
-    tree.unmount();
+  it('should render start action links', () => {
+    const { props, mockStore } = getData();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    expect($$('.vads-c-action-link--green', container).length).to.equal(2);
   });
 
-  it('should show verify your account alert', () => {
-    const props = defaultProps({ isVerified: false });
-    const tree = shallow(<IntroductionPage {...props} />);
-    const saveInProgressIntro = tree.find('Connect(SaveInProgressIntro)');
-
-    const alertText = tree
-      .find('NeedsToVerify')
-      .first()
-      .html();
-    expect(saveInProgressIntro.length).to.eq(0);
-    expect(alertText).to.contain('/verify?');
-    tree.unmount();
-  });
-
-  it('should render start button', () => {
-    const props = {
-      ...defaultProps(),
-      contestableIssues: {
-        issues: [{}],
-        status: 'done',
-        error: '',
-      },
-    };
-
-    const tree = shallow(<IntroductionPage {...props} />);
-    const saveInProgressIntro = tree
-      .find('Connect(SaveInProgressIntro)')
-      .first();
-    expect(saveInProgressIntro.props().startText).to.include(
-      'Start the Board Appeal request',
+  it('should render verify identity alert', () => {
+    const { props, mockStore } = getData({ isVerified: false });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
     );
 
-    tree.unmount();
+    expect($('.schemaform-sip-alert', container)).to.not.exist;
+    expect($('h2', container).textContent).to.contain(
+      'verify your identity to access more VA.gov tools and features',
+    );
+    expect($('va-alert[status="continue"]', container)).to.exist;
   });
 });

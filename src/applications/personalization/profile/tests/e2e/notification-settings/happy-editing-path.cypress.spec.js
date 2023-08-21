@@ -10,7 +10,7 @@ import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockPatient from '@@profile/tests/fixtures/users/user-36.json';
 import mockCommunicationPreferences from '@@profile/tests/fixtures/communication-preferences/get-200-maximal.json';
-import mockPostSuccess from '@@profile/tests/fixtures/communication-preferences/post-200-success.json';
+import mockPostSuccessShippingUpdates from '@@profile/tests/fixtures/communication-preferences/post-200-success-shipping-updates.json';
 import mockPatchSuccess from '@@profile/tests/fixtures/communication-preferences/patch-200-success.json';
 
 import {
@@ -27,11 +27,7 @@ describe('Updating Notification Settings', () => {
       statusCode: 200,
       body: mockCommunicationPreferences,
     });
-    cy.intercept('POST', '/v0/profile/communication_preferences', {
-      statusCode: 200,
-      body: mockPostSuccess,
-      delay: 100,
-    });
+
     cy.intercept('PATCH', '/v0/profile/communication_preferences/*', {
       statusCode: 200,
       body: mockPatchSuccess,
@@ -43,17 +39,23 @@ describe('Updating Notification Settings', () => {
       cy.login(mockPatient);
       cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
 
-      // TODO: uncomment when email is a supported communication channel
-      // cy.findByTestId('select-options-alert').should('exist');
+      cy.intercept('POST', '/v0/profile/communication_preferences', {
+        statusCode: 200,
+        body: mockPostSuccessShippingUpdates,
+        delay: 100,
+      });
 
-      // both radio buttons will start off unchecked because of the mocked
+      const doNotifyRadioName =
+        'Notify me of Prescription shipment and tracking updates by text';
+
+      const dontNotifyRadioName =
+        'Do not notify me of Prescription shipment and tracking updates by text';
+
+      // radio button will start off unchecked because of the mocked
       // response from mockCommunicationPreferences
-      cy.findByRole('radio', {
-        name: /^do not notify me of.*hearing reminder.*by email/i,
-      }).should('not.be.checked');
 
       cy.findByRole('radio', {
-        name: /^notify me of.*hearing reminder.*by email/i,
+        name: doNotifyRadioName,
       })
         .should('not.be.checked')
         .click()
@@ -66,10 +68,10 @@ describe('Updating Notification Settings', () => {
       cy.findByText(/^Saving.../).should('not.exist');
       cy.findByText(/update saved/i).should('exist');
       cy.findByRole('radio', {
-        name: /^do not notify me of.*hearing reminder.*by email/i,
+        name: dontNotifyRadioName,
       }).should('not.be.checked');
       cy.findByRole('radio', {
-        name: /^notify me of.*hearing reminder.*by email/i,
+        name: doNotifyRadioName,
       })
         .should('be.checked')
         .should('not.be.disabled');

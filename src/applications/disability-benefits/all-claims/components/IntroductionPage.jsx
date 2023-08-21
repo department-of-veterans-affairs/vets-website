@@ -1,14 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { focusElement } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { isLoggedIn } from 'platform/user/selectors';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
@@ -20,6 +19,8 @@ import {
   WIZARD_STATUS,
   PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
+  DBQ_URL,
+  OMB_CONTROL,
 } from '../constants';
 
 class IntroductionPage extends React.Component {
@@ -31,7 +32,6 @@ class IntroductionPage extends React.Component {
   render() {
     const { route, loggedIn, formId, isBDDForm, showWizard } = this.props;
     const { formConfig, pageList } = route;
-
     const pageTitle = `${getPageTitle(isBDDForm)} ${PAGE_TITLE_SUFFIX}`;
     const startText = getStartText(isBDDForm);
     document.title = `${pageTitle}${DOCUMENT_TITLE_SUFFIX}`;
@@ -60,7 +60,6 @@ class IntroductionPage extends React.Component {
       downtime: formConfig.downtime,
       retentionPeriod: '1 year',
       ariaDescribedby: 'main-content',
-      testActionLink: true,
     };
 
     return (
@@ -114,10 +113,36 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <h3 className="vads-u-font-size--h4">Prepare</h3>
-              <p>
-                When you file a disability claim, you’ll have a chance to
-                provide evidence to support your claim. Evidence could include:
-              </p>
+              {!isBDDForm && (
+                <p data-testid="process-step1-prepare">
+                  When you file a disability claim, you’ll have a chance to
+                  provide evidence to support your claim. Evidence could
+                  include:
+                </p>
+              )}
+              {isBDDForm && (
+                <>
+                  <p data-testid="process-step1-prepare">
+                    When you file a BDD claim online, we’ll ask you to upload
+                    this required form:{' '}
+                    <a href={DBQ_URL} target="_blank" rel="noreferrer">
+                      Separation Health Assessment - Part A Self-Assessment
+                      (opens in a new tab)
+                    </a>
+                    . We recommend you download and fill out this form on a
+                    desktop computer or laptop. Then return to this page to
+                    start the application process.
+                  </p>
+                  <p>
+                    <strong>Note:</strong> We estimate that it will take you at
+                    least 30 minutes to complete this form.
+                  </p>
+                  <p>
+                    You’ll also have a chance to provide this type of evidence
+                    to support your claim:
+                  </p>
+                </>
+              )}
               <ul>
                 <li>
                   {isBDDForm ? 'Service treatment records, ' : ''}
@@ -250,9 +275,11 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro buttonOnly {...sipProps} />
         {itfNotice}
-        <div className="omb-info--container">
-          <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="03/31/2021" />
-        </div>
+        <va-omb-info
+          res-burden={25}
+          omb-number={OMB_CONTROL}
+          exp-date="03/31/2021"
+        />
       </div>
     );
   }
@@ -260,9 +287,9 @@ class IntroductionPage extends React.Component {
 
 const mapStateToProps = state => ({
   formId: state.form.formId,
+  isBDDForm: isBDD(state?.form?.data),
   loggedIn: isLoggedIn(state),
   showWizard: show526Wizard(state),
-  isBDDForm: isBDD(state?.form?.data),
 });
 
 IntroductionPage.propTypes = {

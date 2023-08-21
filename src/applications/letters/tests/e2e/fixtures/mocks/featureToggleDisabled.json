@@ -1,0 +1,11 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "bcas_letters_use_lighthouse",
+        "value": false
+      }
+    ]
+  }
+}

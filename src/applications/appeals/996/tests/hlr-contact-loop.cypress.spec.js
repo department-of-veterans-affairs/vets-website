@@ -8,12 +8,16 @@
 
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
-import { BASE_URL, WIZARD_STATUS, CONTESTABLE_ISSUES_API } from '../constants';
+import {
+  BASE_URL,
+  WIZARD_STATUS,
+  CONTESTABLE_ISSUES_API,
+  CONTACT_INFO_PATH,
+} from '../constants';
 
 import mockUser from './fixtures/mocks/user.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockV2Data from './fixtures/data/maximal-test-v2.json';
-import { mockContestableIssues } from './hlr.cypress.helpers';
 
 // Telephone specific responses
 import mockTelephoneUpdate from './fixtures/mocks/telephone-update.json';
@@ -24,6 +28,9 @@ const checkOpt = {
 };
 
 describe('HLR contact info loop', () => {
+  Cypress.config({ requestTimeout: 10000 });
+  const MAIN_CONTACT_PATH = `${BASE_URL}/${CONTACT_INFO_PATH}`;
+
   beforeEach(() => {
     window.dataLayer = [];
     cy.intercept('GET', '/v0/feature_toggles?*', {
@@ -33,11 +40,7 @@ describe('HLR contact info loop', () => {
       },
     });
 
-    cy.intercept(
-      'GET',
-      `/v1${CONTESTABLE_ISSUES_API}compensation`,
-      mockContestableIssues,
-    );
+    cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, []);
     cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockV2Data);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockV2Data);
 
@@ -84,7 +87,10 @@ describe('HLR contact info loop', () => {
 
     // Mobile phone
     cy.get('a[href$="phone"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-mobile-phone`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -93,7 +99,10 @@ describe('HLR contact info loop', () => {
 
     // Email
     cy.get('a[href$="email-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-email-address`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-email-address`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -102,7 +111,10 @@ describe('HLR contact info loop', () => {
 
     // Mailing address
     cy.get('a[href$="mailing-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mailing-address`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-mailing-address`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -110,31 +122,28 @@ describe('HLR contact info loop', () => {
     cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
   });
 
-  /*
-   * Skipping for now because clicking "update" should return to the contact
-   * info page, but this isn't working... I think I'm missing an intermediate
-   * step here?
-
-  it.skip('should edit info on a new page, update & return to contact info page - C12884', () => {
+  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+  it('should edit info on a new page, update & return to contact info page - C12884', () => {
     getToContactPage();
-
-    // Contact info
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+    cy.intercept('/v0/profile/telephones', mockTelephoneUpdateSuccess);
 
     // Mobile phone
-    cy.get('a[href$="phone"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
+    cy.get('a[href$="mobile-phone"]').click();
+    cy.contains('Edit mobile phone').should('be.visible');
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-mobile-phone`,
+    );
 
     cy.findByLabelText(/mobile phone/i)
       .clear()
       .type('8885551212');
-    cy.findByLabelText(/extension/i)
-      .clear()
-      .type('12345');
-    cy.findAllByText(/update/i, { selector: 'button' })
+    cy.findAllByText(/save/i, { selector: 'button' })
       .first()
       .click();
-    // Not returning to the contact info page :(
+
+    cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
+
+    // Skipping AXE-check; already done in previous test.
   });
-  */
 });

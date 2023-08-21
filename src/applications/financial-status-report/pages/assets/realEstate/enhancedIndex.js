@@ -16,11 +16,19 @@ const Explainer = (
 );
 
 const RealEstateDescription = (
-  <p className="vads-u-color--gray">This includes properties with a mortage.</p>
+  <p className="vads-u-color--gray vads-u-margin--0">
+    This includes properties with a mortage.
+  </p>
 );
 
 export const uiSchema = {
-  'ui:title': 'Your real estate assets',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Your real estate assets</h3>
+      </legend>
+    </>
+  ),
   'ui:options': {
     hideOnReview: true,
   },

@@ -12,31 +12,28 @@ import submitForm from './submitForm';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
-import ReviewDescription from '../components/ReviewDescription';
-import {
-  EditPhone,
-  EditEmail,
-  EditAddress,
-} from '../components/EditContactInfo';
 import AddIssue from '../components/AddIssue';
+import reviewErrors from '../content/reviewErrors';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
-import contactInfo from '../pages/contactInformation';
 import homeless from '../pages/homeless';
+import contactInfo from '../pages/contactInformation';
 import contestableIssuesPage from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
 import optIn from '../pages/optIn';
 import issueSummary from '../pages/issueSummary';
 import informalConference from '../pages/informalConference';
-import informalConferenceRepV2 from '../pages/informalConferenceRepV2';
-import informalConferenceTime from '../pages/informalConferenceTimeV2';
+import informalConferenceRepV2 from '../pages/informalConferenceRep';
+import informalConferenceTime from '../pages/informalConferenceTime';
+import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
 import {
   errorMessages,
   WIZARD_STATUS,
-  contestableIssuesPath,
+  CONTESTABLE_ISSUES_PATH,
+  ADD_ISSUE_PATH,
 } from '../constants';
 import { appStateSelector, mayHaveLegacyAppeals } from '../utils/helpers';
 import { getIssueTitle } from '../content/areaOfDisagreement';
@@ -98,10 +95,16 @@ const formConfig = {
   subTitle: 'VA Form 20-0996 (Higher-Level Review)',
   defaultDefinitions: {},
   preSubmitInfo,
+  // showReviewErrors: true,
+  reviewErrors,
+
+  // when true, initial focus on page to H3s by default, and enable page
+  // scrollAndFocusTarget (selector string or function to scroll & focus)
+  useCustomScrollAndFocus: true,
+
   chapters: {
     infoPages: {
       title: 'Veteran information',
-      reviewDescription: ReviewDescription,
       pages: {
         veteranInformation: {
           title: 'Veteran information',
@@ -116,48 +119,16 @@ const formConfig = {
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
         },
-        confirmContactInformation: {
-          title: 'Contact information',
-          path: 'contact-information',
-          uiSchema: contactInfo.uiSchema,
-          schema: contactInfo.schema,
-        },
-        editMobilePhone: {
-          title: 'Edit mobile phone',
-          path: 'edit-mobile-phone',
-          CustomPage: EditPhone,
-          CustomPageReview: EditPhone,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-        editEmailAddress: {
-          title: 'Edit email address',
-          path: 'edit-email-address',
-          CustomPage: EditEmail,
-          CustomPageReview: EditEmail,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-        editMailingAddress: {
-          title: 'Edit mailing address',
-          path: 'edit-mailing-address',
-          CustomPage: EditAddress,
-          CustomPageReview: EditAddress,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
+        ...contactInfo,
       },
     },
     conditions: {
-      title: 'Issues eligible for review',
+      title: 'Issues for review',
       pages: {
         // v2 - show contested + added issues
         contestableIssues: {
-          title: ' ',
-          path: contestableIssuesPath,
+          title: 'You’ve selected these issues for review',
+          path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssuesPage.uiSchema,
           schema: contestableIssuesPage.schema,
           appStateSelector,
@@ -165,13 +136,14 @@ const formConfig = {
         // v2 - add issue. Accessed from contestableIssues page only
         addIssue: {
           title: 'Add issues for review',
-          path: 'add-issue',
+          path: ADD_ISSUE_PATH,
           depends: () => false,
           // showPagePerItem: true,
           // arrayPath: 'additionalIssues',
           CustomPage: AddIssue,
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
+          returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         areaOfDisagreementFollowUp: {
           title: getIssueTitle,
@@ -221,9 +193,16 @@ const formConfig = {
         conferenceTime: {
           path: 'informal-conference/conference-availability',
           title: 'Scheduling availability',
-          depends: formData => formData?.informalConference !== 'no',
+          depends: formData => formData?.informalConference === 'me',
           uiSchema: informalConferenceTime.uiSchema,
           schema: informalConferenceTime.schema,
+        },
+        conferenceTimeRep: {
+          path: 'informal-conference/conference-rep-availability',
+          title: 'Scheduling availability',
+          depends: formData => formData?.informalConference === 'rep',
+          uiSchema: informalConferenceTimeRep.uiSchema,
+          schema: informalConferenceTimeRep.schema,
         },
       },
     },

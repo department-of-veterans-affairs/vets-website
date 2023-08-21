@@ -1,6 +1,5 @@
 const moment = require('moment');
 const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
-const { MOCK_SIPS_API } = require('../constants');
 
 const responses = {
   ...commonResponses,
@@ -124,7 +123,7 @@ const responses = {
     },
   },
 
-  [`GET ${MOCK_SIPS_API}`]: {
+  [`GET /v0/disability_compensation_in_progress_forms/`]: {
     formData: {
       veteran: {
         primaryPhone: '4445551212',

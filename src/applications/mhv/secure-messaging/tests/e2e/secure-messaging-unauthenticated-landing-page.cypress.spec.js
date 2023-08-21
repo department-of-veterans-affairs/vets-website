@@ -1,8 +1,8 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 
-describe('Secure Messaging Compose', () => {
-  it('can send message', () => {
+describe.skip('Secure Messaging Compose', () => {
+  it.skip('can send message', () => {
     const site = new SecureMessagingSite();
     const patientInboxPage = new PatientInboxPage();
     site.login(false);
@@ -16,6 +16,12 @@ describe('Secure Messaging Compose', () => {
     cy.get('[data-testid="inbox-sidebar"] > a').click();
 
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

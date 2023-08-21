@@ -91,11 +91,7 @@
                 {
                   "id": 1,
                   "name": "Text",
-                  "description": "SMS Notification",
-                  "communicationPermission": {
-                    "id": 1234,
-                    "allowed": false
-                  }
+                  "description": "SMS Notification"
                 }
               ]
             },
@@ -178,6 +174,25 @@
                     "id": 4281,
                     "allowed": true
                   }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "QuickSubmit",
+          "description": "QuickSubmit Notifications",
+          "communicationItems": [
+            {
+              "id": 12,
+              "name": "QuickSubmit Upload Status",
+              "communicationChannels": [
+                {
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification",
+                  "defaultSendIndicator": true
                 }
               ]
             }

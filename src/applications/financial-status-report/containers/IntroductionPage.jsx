@@ -6,7 +6,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import recordEvent from 'platform/monitoring/record-event';
 import formConfig from '../config/form';
-import UnverifiedPrefillAlert from '../components/UnverifiedPrefillAlert';
+import UnverifiedPrefillAlert from '../components/shared/UnverifiedPrefillAlert';
 import { WIZARD_STATUS } from '../wizard/constants';
 import manifest from '../manifest.json';
 import { clearJobIndex } from '../utils/session';
@@ -21,7 +21,7 @@ const IntroductionPage = ({ route, formId }) => {
     <div className="fsr-introduction schemaform-intro">
       <FormTitle
         title="Request help with VA debt for overpayments and copay bills"
-        subTitle="Equal to VA Form 5655 (Financial Status Report)"
+        subTitle="Financial Status Report (VA Form 5655)"
       />
       <SaveInProgressIntro
         startText="Start your request now"

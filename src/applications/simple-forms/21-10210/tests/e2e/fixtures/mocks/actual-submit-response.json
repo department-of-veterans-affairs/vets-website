@@ -1,0 +1,12 @@
+{
+  "status": "applicationSubmitted",
+  "errorMessage": false,
+  "id": false,
+  "timestamp": "2023-04-13T00:06:44.645Z",
+  "hasAttemptedSubmit": true,
+  "response": {
+    "attributes": {
+      "confirmationNumber": "123123123"
+    }
+  }
+}

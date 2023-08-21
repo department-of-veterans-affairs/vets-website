@@ -6,6 +6,7 @@ const { set } = require('lodash');
 const user = require('./endpoints/user');
 const mhvAcccount = require('./endpoints/mhvAccount');
 const address = require('./endpoints/address');
+const emailAddress = require('./endpoints/email-adresses');
 const phoneNumber = require('./endpoints/phone-number');
 const status = require('./endpoints/status');
 const ratingInfo = require('./endpoints/rating-info');
@@ -16,53 +17,131 @@ const {
 } = require('./endpoints/personal-information');
 const {
   maximalSetOfPreferences,
+  generateSuccess,
 } = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
-const payments = require('./endpoints/payment-history');
+const paymentInformation = require('./endpoints/payment-information');
+const disabilityComps = require('./endpoints/disability-compensations');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
 const fullName = require('./endpoints/full-name');
+const {
+  baseUserTransitionAvailabilities,
+} = require('./endpoints/user-transition-availabilities');
+
+const error500 = require('../tests/fixtures/500.json');
+const error401 = require('../tests/fixtures/401.json');
+const error403 = require('../tests/fixtures/403.json');
+
+const maintenanceWindows = require('./endpoints/maintenance-windows');
 
 // seed data for VAMC drupal source of truth json file
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
-// some node script utils
-const { debug } = require('./script/utils');
+// utils
+const { debug, delaySingleResponse } = require('./script/utils');
 
 // uncomment if using status retries
 // let retries = 0;
 
+// use one of these to provide a generic error for any endpoint
+const genericErrors = {
+  error500,
+  error401,
+  error403,
+};
+
 /* eslint-disable camelcase */
 const responses = {
-  'GET /v0/user': user.handleUserRequest,
-  'GET /v0/profile/status': status,
+  'GET /v0/user': (_req, res) => {
+    // example user data cases
+    // return res.json(user.loa3User72); // default user (success)
+    // return res.json(user.loa1User); // user with loa1
+    // return res.json(user.badAddress); // user with bad address
+    // return res.json(user.loa3User); // user with loa3
+    // return res.json(user.nonVeteranUser); // non-veteran user
+    // return res.json(user.externalServiceError); // external service error
+    // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
+    // return res.json(user.loa3UserWithNoEmail); // user with no email address
+    return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
+  },
+  'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
-  'GET /v0/maintenance_windows': { data: [] },
-  'GET /v0/feature_toggles': generateFeatureToggles({
-    profileUseInfoCard: true,
-    profileUseFieldEditingPage: true,
-  }),
+  'GET /v0/maintenance_windows': (_req, res) => {
+    // three different scenarios for testing downtime banner
+    // all service names/keys are available in src/platform/monitoring/DowntimeNotification/config/externalService.js
+    // but couldn't be directly imported due to export default vs module.exports
+
+    // return res.json(
+    //   maintenanceWindows.createDowntimeApproachingNotification([
+    //     maintenanceWindows.SERVICES.EMIS,
+    //   ]),
+    // );
+
+    // return res.json(
+    //   maintenanceWindows.createDowntimeActiveNotification([
+    //     maintenanceWindows.SERVICES.MVI,
+    //     maintenanceWindows.SERVICES.EMIS,
+    //   ]),
+    // );
+
+    return res.json(maintenanceWindows.noDowntime);
+  },
+  'GET /v0/feature_toggles': (_req, res) => {
+    const secondsOfDelay = 0;
+    delaySingleResponse(
+      () =>
+        res.json(
+          generateFeatureToggles({
+            profileUseFieldEditingPage: true,
+            profileLighthouseDirectDeposit: true,
+            profileUseNotificationSettingsCheckboxes: true,
+            profileShowEmailNotificationSettings: true,
+            profileShowMhvNotificationSettings: true,
+            profileShowPaymentsNotificationSetting: true,
+            profileShowQuickSubmitNotificationSetting: true,
+          }),
+        ),
+      secondsOfDelay,
+    );
+  },
   'GET /v0/ppiu/payment_information': (_req, res) => {
     // 47841 - Below are the three cases where all of Profile should be gated off
-    // payments.paymentHistory.isFiduciary
-    // payments.paymentHistory.isDeceased
-    // payments.paymentHistory.isNotCompetent
+    // paymentInformation.isFiduciary
+    // paymentInformation.isDeceased
+    // paymentInformation.isNotCompetent
 
     // This is a 'normal' payment history / control case data
-    // payments.paymentHistory.simplePaymentHistory
+    // paymentInformation.base
 
-    return res.status(200).json(payments.paymentHistory.simplePaymentHistory);
+    return res.status(200).json(paymentInformation.notEligible);
   },
   'PUT /v0/ppiu/payment_information': (_req, res) => {
-    return res
-      .status(200)
-      .json(
-        _.set(
-          payments.paymentInformation.saved.success,
-          'data.attributes.error',
-          payments.paymentInformation.errors.routingNumberInvalid,
-        ),
-      );
+    // substitute the various errors arrays to test various update error responses
+    // Examples:
+    // paymentInformation.updates.errors.fraud
+    // paymentsInformation.updates.errors.phoneNumber
+    // paymentsInformation.updates.errors.address
+    // return res
+    //   .status(200)
+    //   .json(
+    //     _.set(
+    //       _.cloneDeep(paymentInformation.base),
+    //       'data.attributes.error',
+    //       paymentInformation.updates.errors.invalidAddress,
+    //     ),
+    //   );
+
+    // successful update response
+    return res.status(200).json(paymentInformation.updates.success);
+  },
+  'GET /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
+    // Lighthouse based API endpoint for direct deposit CNP
+    // alternate to the PPIU endpoint above: /v0/ppiu/payment_information
+    return res.json(disabilityComps.base);
+  },
+  'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
+    return res.status(200).json(disabilityComps.updates.success);
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount.needsPatient,
@@ -86,6 +165,15 @@ const responses = {
     ratingInfo.success.serviceConnected40,
   'PUT /v0/profile/telephones': (_req, res) => {
     return res.status(200).json(phoneNumber.transactions.received);
+  },
+  'POST /v0/profile/telephones': (_req, res) => {
+    return res.status(200).json(phoneNumber.transactions.received);
+  },
+  'POST /v0/profile/email_addresses': (_req, res) => {
+    return res.status(200).json(emailAddress.transactions.received);
+  },
+  'PUT /v0/profile/email_addresses': (_req, res) => {
+    return res.status(200).json(emailAddress.transactions.received);
   },
   'PUT /v0/profile/addresses': (req, res) => {
     // return res.status(401).json(require('../tests/fixtures/401.json'));
@@ -133,10 +221,7 @@ const responses = {
     // }
 
     // uncomment to conditionally provide a failure error code based on transaction id
-    if (
-      req?.params?.id === 'erroredId' ||
-      req?.params?.id === '06880455-a2e2-4379-95ba-90aa53fdb273'
-    ) {
+    if (req?.params?.id === 'erroredId') {
       return res.json(
         _.set(status.failure, 'data.attributes.transactionId', req.params.id),
       );
@@ -146,9 +231,37 @@ const responses = {
       _.set(status.success, 'data.attributes.transactionId', req.params.id),
     );
   },
-  'GET /v0/profile/communication_preferences': (_req, res) => {
-    return res.json(maximalSetOfPreferences);
+  'GET /v0/profile/communication_preferences': (req, res) => {
+    if (req?.query?.error === 'true') {
+      return res.status(500).json(genericErrors.error500);
+    }
+    return delaySingleResponse(() => res.json(maximalSetOfPreferences), 1);
   },
+  'PATCH /v0/profile/communication_preferences/:pref': (req, res) => {
+    const {
+      communicationItem: {
+        id: communicationItemId,
+        communicationChannel: {
+          id: communicationChannelId,
+          communicationPermission: { allowed },
+        },
+      },
+    } = req.body;
+
+    const mockedRes = _.cloneDeep(generateSuccess());
+
+    _.merge(mockedRes, {
+      bio: {
+        communicationItemId,
+        communicationChannelId,
+        allowed,
+      },
+    });
+
+    delaySingleResponse(() => res.json(mockedRes), 1);
+  },
+
+  'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
 };
 
 function terminationHandler(signal) {

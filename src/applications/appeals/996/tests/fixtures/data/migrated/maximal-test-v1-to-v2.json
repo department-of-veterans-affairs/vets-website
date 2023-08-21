@@ -3,26 +3,7 @@
   "veteran": {
     "ssnLastFour": "7821",
     "vaFileLastFour": "8765",
-    "zipCode5": "94608",
-    "address": {
-      "addressLine1": "123 test",
-      "addressLine2": "c/o foo",
-      "addressLine3": "suite 99",
-      "city": "Big City",
-      "stateCode": "NV",
-      "zipCode": "10101",
-      "countryName": "USA",
-      "internationalPostalCode": "12345",
-      "updatedAt": "2021-01-01"
-    },
-    "phone": {
-      "countryCode": "2",
-      "areaCode": "345",
-      "phoneNumber": "6789012",
-      "phoneNumberExt": "34",
-      "updatedAt": "2021-01-01"
-    },
-    "email": "test@user.com"
+    "zipCode5": "94608"
   },
   "privacyAgreementAccepted": true,
   "informalConference": "rep",
@@ -56,6 +37,7 @@
       "type": "contestableIssue",
       "attributes": {
         "ratingIssueSubjectText": "Monocular vision",
+        "description": "",
         "ratingIssuePercentNumber": "5",
         "approxDecisionDate": "2021-06-04",
         "decisionIssueId": 1,

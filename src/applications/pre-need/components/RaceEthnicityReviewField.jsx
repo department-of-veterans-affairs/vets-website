@@ -1,5 +1,4 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 
 export default function RaceEthnicityReviewField(props) {
   const { formContext, uiSchema, schema, formData } = props;
@@ -17,19 +16,12 @@ export default function RaceEthnicityReviewField(props) {
       <div className="review-row">
         <dt>{uiSchema['ui:title']}</dt>
       </div>
-      {environment.isProduction()
-        ? categories.slice(1).map(prop => (
-            <div key={prop} className="review-row">
-              <dt />
-              <dd>{uiSchema[prop]['ui:title']}</dd>
-            </div>
-          ))
-        : categories.map(prop => (
-            <div key={prop} className="review-row">
-              <dt />
-              <dd>{uiSchema[prop]['ui:title']}</dd>
-            </div>
-          ))}
+      {categories.map(prop => (
+        <div key={prop} className="review-row">
+          <dt />
+          <dd>{uiSchema[prop]['ui:title']}</dd>
+        </div>
+      ))}
     </>
   );
 }

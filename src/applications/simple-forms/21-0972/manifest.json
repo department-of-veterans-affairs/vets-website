@@ -1,0 +1,7 @@
+{
+  "appName": "Sign VA claim forms as an alternate signer",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "21-0972-alternate-signer",
+  "rootUrl": "/supporting-forms-for-claims/alternate-signer-form-21-0972",
+  "productId": "38f07696-546f-4c9a-a6f0-16348bde4d33"
+}

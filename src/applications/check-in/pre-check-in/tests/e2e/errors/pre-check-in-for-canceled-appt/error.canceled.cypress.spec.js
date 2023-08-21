@@ -37,8 +37,13 @@ describe('Pre-Check In Experience ', () => {
     // UUID with canceled appointments should navigate to the error page.
     Error.validateCanceledPageLoaded();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots(
+      'Pre-check-in--canceled-appointment--default-accordions',
+    );
     Confirmation.expandAllAccordions();
-    cy.createScreenshots('Pre-check-in--canceled-appointment');
+    cy.createScreenshots(
+      'Pre-check-in--canceled-appointment--expanded-accordions',
+    );
   });
   it('Not every appointment is cancelled should result in a generic Error Page', () => {
     apiData.payload.appointments[1].status = '';

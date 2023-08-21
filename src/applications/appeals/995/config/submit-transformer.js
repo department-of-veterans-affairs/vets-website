@@ -9,7 +9,7 @@ import {
   getForm4142,
 } from '../utils/submit';
 
-import { EVIDENCE_OTHER } from '../constants';
+import { EVIDENCE_OTHER, SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
 
 export function transform(formConfig, form) {
   // https://developer.va.gov/explore/appeals/docs/decision_reviews?version=current
@@ -18,7 +18,11 @@ export function transform(formConfig, form) {
     const { benefitType, additionalDocuments } = formData;
 
     const attributes = {
-      benefitType,
+      // fall back to compensation; this will fix a few existing submission
+      // with "other" benefit type set that are being rejected
+      benefitType: SUPPORTED_BENEFIT_TYPES_LIST.includes(benefitType)
+        ? benefitType
+        : 'compensation',
       ...getClaimantData(formData),
 
       veteran: {

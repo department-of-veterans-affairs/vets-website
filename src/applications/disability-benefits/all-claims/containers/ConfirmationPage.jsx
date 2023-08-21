@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { focusElement } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import {
+  focusElement,
+  scrollToTop,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {
   submissionStatuses,
@@ -47,16 +49,17 @@ export default class ConfirmationPage extends React.Component {
 }
 
 ConfirmationPage.propTypes = {
-  submissionStatus: PropTypes.oneOf(Object.values(submissionStatuses)),
+  disabilities: PropTypes.array.isRequired,
   fullName: PropTypes.shape({
     first: PropTypes.string,
     last: PropTypes.string,
     middle: PropTypes.string,
     suffix: PropTypes.string,
   }).isRequired,
-  disabilities: PropTypes.array.isRequired,
   submittedAt: PropTypes.string.isRequired,
   claimId: PropTypes.string,
+  isSubmittingBDD: PropTypes.bool,
   jobId: PropTypes.string,
   submissionId: PropTypes.string,
+  submissionStatus: PropTypes.oneOf(Object.values(submissionStatuses)),
 };

@@ -21,7 +21,7 @@ describe('check in', () => {
       expect(
         component.getByTestId('travel-pay-eligible-success-message'),
       ).to.have.text(
-        'We’re processing your travel reimbursement claim request. We’ll send you a text message with the submission status of your travel reimbursement claim.',
+        'We’re processing your travel reimbursement claim. We’ll send you a text to let you know the status of your claim.',
       );
     });
     it('renders a not eligible message', () => {

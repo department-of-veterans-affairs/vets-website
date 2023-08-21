@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 
 import TabNav from './TabNav';
 import ClaimSyncWarning from './ClaimSyncWarning';
@@ -37,6 +37,17 @@ export default function ClaimDetailLayout(props) {
     );
   } else if (claim !== null) {
     const claimTitle = `Your ${getClaimType(claim)} claim`;
+    const { closeDate, contentions, status } = claim.attributes || {};
+
+    const hasContentions = contentions && contentions.length;
+    const isOpen = status !== 'COMPLETE' && closeDate === null;
+
+    const contentionsText = hasContentions
+      ? contentions
+          .slice(0, MAX_CONTENTIONS)
+          .map(cond => cond.name)
+          .join(', ')
+      : 'Not available';
 
     headingContent = (
       <>
@@ -54,17 +65,8 @@ export default function ClaimDetailLayout(props) {
           <h2 className="claim-contentions-header vads-u-font-size--h6">
             What you’ve claimed:
           </h2>
-          <span>
-            {claim?.attributes?.contentionList &&
-            claim.attributes.contentionList.length
-              ? claim.attributes.contentionList
-                  .slice(0, MAX_CONTENTIONS)
-                  .map(cond => cond.trim())
-                  .join(', ')
-              : 'Not available'}
-          </span>
-          {claim?.attributes?.contentionList &&
-          claim.attributes.contentionList.length > MAX_CONTENTIONS ? (
+          <span>{contentionsText}</span>
+          {hasContentions && contentions.length > MAX_CONTENTIONS ? (
             <span>
               <br />
               <Link to={`your-claims/${claim.id}/details`}>
@@ -89,8 +91,7 @@ export default function ClaimDetailLayout(props) {
           >
             {currentTab === tab && (
               <div className="va-tab-content claim-tab-content">
-                {isPopulatedClaim(claim || {}) ||
-                !claim?.attributes.open ? null : (
+                {isPopulatedClaim(claim.attributes || {}) || !isOpen ? null : (
                   <AddingDetails />
                 )}
                 {props.children}

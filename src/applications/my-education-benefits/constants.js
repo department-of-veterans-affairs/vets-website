@@ -1,9 +1,11 @@
 import environment from 'platform/utilities/environment';
 
-export const FORMAT_DATE_READABLE = 'MMMM DD, YYYY';
+export const CHANGE_YOUR_NAME =
+  'https://www.va.gov/resources/how-to-change-your-legal-name-on-file-with-va/';
 export const DATE_TIMESTAMP = 'YYYY-MM-DD';
+export const FORMAT_DATE_READABLE = 'MMMM DD, YYYY';
 export const LETTER_URL = `${environment.API_URL}/meb_api/v0/claim_letter`;
-
+export const YOUR_PROFILE_URL = '/profile';
 export const formFields = {
   accountNumber: 'accountNumber',
   accountType: 'accountType',

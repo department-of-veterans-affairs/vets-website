@@ -5,16 +5,22 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import {
-  mockContestableIssues,
-  getRandomDate,
-  // fixDecisionDates,
-} from './hlr.cypress.helpers';
+import { getRandomDate, fixDecisionDates } from './hlr.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
+import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUser from './fixtures/mocks/user.json';
-import { CONTESTABLE_ISSUES_API, WIZARD_STATUS, SELECTED } from '../constants';
+import mockVamc from './fixtures/mocks/vamc-ehr.json';
+import mockUserAvail from './fixtures/mocks/user_transition_availabilities.json';
+
+import {
+  CONTESTABLE_ISSUES_API,
+  WIZARD_STATUS,
+  BASE_URL,
+  CONTESTABLE_ISSUES_PATH,
+} from '../constants';
+import { SELECTED } from '../../shared/constants';
 
 const testConfig = createTestConfig(
   {
@@ -45,40 +51,45 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'additional-issues': () => {
-        cy.get('@testData').then(data => {
-          data.additionalIssues.forEach((item, index) => {
-            if (index !== 0) {
-              cy.get('.va-growable-add-btn')
-                .first()
-                .click();
-            }
-
-            cy.get(`input[name$="${index}_issue"]`)
-              .first()
-              .clear()
-              .type(item.issue);
-            const date = getRandomDate()
-              .replace(/-0/g, '-')
-              .split('-');
-            cy.get(`select[name$="${index}_decisionDateMonth"]`).select(
-              date[1],
+      [CONTESTABLE_ISSUES_PATH]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            cy.findByText('Continue', { selector: 'button' }).click();
+            // prevent continuing without any issues selected
+            cy.location('pathname').should(
+              'eq',
+              `${BASE_URL}/${CONTESTABLE_ISSUES_PATH}`,
             );
-            cy.get(`select[name$="${index}_decisionDateDay"]`).select(date[2]);
-            cy.get(`input[name$="${index}_decisionDateYear"]`)
-              .clear()
-              .type(date[0]);
-            cy.get('.update')
-              .first()
-              .click({ force: true });
-            if (!item[SELECTED]) {
-              cy.get(
-                `input[type="checkbox"][name="root_additionalIssues_${index}"]`,
-              )
-                .first()
-                // remove auto-check if not selected in data
-                .click({ force: true });
-            }
+            cy.get('va-alert[status="error"] h3').should(
+              'contain',
+              'You’ll need to select an issue',
+            );
+
+            testData.additionalIssues?.forEach(additionalIssue => {
+              if (additionalIssue.issue && additionalIssue[SELECTED]) {
+                cy.get('.add-new-issue').click();
+                cy.url().should('include', `${BASE_URL}/add-issue?index=`);
+                cy.axeCheck();
+                cy.get('#issue-name')
+                  .shadow()
+                  .find('input')
+                  .type(additionalIssue.issue);
+                cy.fillDate('decision-date', getRandomDate());
+                cy.get('#submit').click();
+              }
+            });
+            testData.contestedIssues.forEach(issue => {
+              if (issue[SELECTED]) {
+                cy.get(
+                  `h4:contains("${issue.attributes.ratingIssueSubjectText}")`,
+                )
+                  .closest('li')
+                  .find('input[type="checkbox"]')
+                  .click();
+              }
+            });
+            cy.findByText('Continue', { selector: 'button' }).click();
           });
         });
       },
@@ -90,28 +101,20 @@ const testConfig = createTestConfig(
       cy.login(mockUser);
 
       cy.intercept('GET', '/v0/profile/status', mockStatus);
-
-      cy.intercept(
-        'GET',
-        `/v0${CONTESTABLE_ISSUES_API}compensation`,
-        mockContestableIssues,
-      );
-      cy.intercept(
-        'GET',
-        `/v1${CONTESTABLE_ISSUES_API}compensation`,
-        mockContestableIssues,
-      );
+      cy.intercept('GET', '/v0/maintenance_windows', []);
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamc);
+      cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
+      cy.intercept('GET', '/v0/user_transition_availabilities', mockUserAvail);
 
       cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
 
-      cy.intercept('POST', '/v0/higher_level_reviews', mockSubmit);
       cy.intercept('POST', '/v1/higher_level_reviews', mockSubmit);
 
-      cy.get('@testData').then(testData => {
-        cy.intercept('GET', '/v0/in_progress_forms/20-0996', testData);
-        cy.intercept('PUT', '/v0/in_progress_forms/20-0996', testData);
-        cy.intercept('GET', '/v0/feature_toggles?*', {
-          data: { features: [] },
+      cy.get('@testData').then(data => {
+        cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockPrefill);
+        cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
+        cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, {
+          data: fixDecisionDates(data.contestedIssues, { unselected: true }),
         });
       });
     },

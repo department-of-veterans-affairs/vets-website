@@ -49,6 +49,7 @@ import {
   sortByLastUpdated,
 } from '../utils/appeals-v2-helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
+import { groupClaimsByDocsNeeded } from '../utils/helpers';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -67,7 +68,8 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   componentDidMount() {
-    document.title = 'Check your claim or appeal status | Veterans Affairs';
+    document.title =
+      'Check your claim, decision review, or appeal status | Veterans Affairs';
 
     const {
       appealsLoading,
@@ -268,12 +270,12 @@ class YourClaimsPageV2 extends React.Component {
           <div className="usa-width-two-thirds medium-8 columns">
             <ClaimsBreadcrumbs />
             <h1 className="claims-container-title">
-              Check your claim or appeal status
+              Check your claim, decision review, or appeal status
             </h1>
             <va-on-this-page />
             <MobileAppMessage />
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
-              Your claims or appeals
+              Your claims, decision reviews, or appeals
             </h2>
             <div>{this.renderErrorMessages()}</div>
             <va-additional-info
@@ -368,7 +370,7 @@ function mapStateToProps(state) {
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
     fullName: state.user.profile.userFullName,
-    list: sortedList,
+    list: groupClaimsByDocsNeeded(sortedList),
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
     synced: claimsState.claimSync.synced,
     // START lighthouse_migration

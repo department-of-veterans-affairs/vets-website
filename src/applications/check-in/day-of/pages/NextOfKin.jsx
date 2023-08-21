@@ -71,8 +71,10 @@ const NextOfKin = props => {
       />
       <NextOfKinDisplay
         nextOfKin={nextOfKin}
+        eyebrow={t('check-in')}
         yesAction={yesClick}
         noAction={noClick}
+        router={router}
       />
     </>
   );

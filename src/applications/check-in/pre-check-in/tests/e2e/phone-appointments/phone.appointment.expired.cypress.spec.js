@@ -44,7 +44,12 @@ describe('Pre-Check In Experience ', () => {
     Error.validateExpiredPageLoaded('phone');
     Error.validateAccordionBlocks();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots(
+      'Pre-check-in--Phone-appointment--expired-error--default-accordions',
+    );
     Confirmation.expandAllAccordions();
-    cy.createScreenshots('Pre-check-in--Phone-appointment--expired-error');
+    cy.createScreenshots(
+      'Pre-check-in--Phone-appointment--expired-error--expanded-accordions',
+    );
   });
 });

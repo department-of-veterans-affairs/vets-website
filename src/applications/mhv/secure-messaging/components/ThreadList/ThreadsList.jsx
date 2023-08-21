@@ -1,191 +1,102 @@
-/*
-Outstanding work:
-- Uncomment pagination code once pagination bug is fixed by backend. Currently the api doesnt return correct amount of results per page.
-- error handling when there are no threads in a folder
-*/
-
-import React from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import {
-  // VaPagination,
-  VaSelect,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useLocation } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ThreadListItem from './ThreadListItem';
 import { threadSortingOptions } from '../../util/constants';
+import ThreadListSort from './ThreadListSort';
 
-const SENDER_ALPHA_ASCENDING = 'sender-alpha-asc';
-const SENDER_ALPHA_DESCENDING = 'sender-alpha-desc';
-const RECEPIENT_ALPHA_ASCENDING = 'recepient-alpha-asc';
-const RECEPIENT_ALPHA_DESCENDING = 'recepient-alpha-desc';
-
-// Arbitrarily set because the VaPagination component has a required prop for this.
-// This value dictates how many pages are displayed in a pagination component
-// const MAX_PAGE_LIST_LENGTH = 5;
-
-let sortOrderSelection;
 const ThreadsList = props => {
-  const location = useLocation();
   const {
     folder,
     threadList,
     keyword,
-    setPageNum,
     pageNum,
-    setSortOrder,
-    setSortBy,
-    handleThreadApiCall,
+    paginationCallback,
+    sortCallback,
+    sortOrder,
     threadsPerPage,
   } = props;
 
-  const totalEntries = threadList?.length;
+  const MAX_PAGE_LIST_LENGTH = 5;
+
+  const [displayNums, setDisplayNums] = useState({
+    from: 0,
+    to: 0,
+    label: '',
+  }); // [from, to]
   const totalThreads = threadList[0]?.threadPageSize;
-  // get display numbers
-  const fromToNums = (page, total) => {
-    const from = (page - 1) * threadsPerPage + 1;
-    const to = Math.min(page * threadsPerPage, total);
-    return [from, to];
-  };
-  // sort messages
-  const handleThreadSortSelection = sortOption => {
-    switch (sortOption) {
-      case threadSortingOptions.ASCENDING:
-        setSortOrder(threadSortingOptions.ASCENDING);
-        if (location.pathname === '/drafts') {
-          setSortBy(threadSortingOptions.SORT_BY_DRAFT_DATE);
-          break;
-        }
-        setSortBy(threadSortingOptions.SORT_BY_SENT_DATE);
-        break;
-      case threadSortingOptions.DESCENDING:
-        setSortOrder(threadSortingOptions.DESCENDING);
-        if (location.pathname === '/drafts') {
-          setSortBy(threadSortingOptions.SORT_BY_DRAFT_DATE);
-          break;
-        }
-        setSortBy(threadSortingOptions.SORT_BY_SENT_DATE);
-        break;
-      case SENDER_ALPHA_ASCENDING:
-        setSortOrder(threadSortingOptions.ASCENDING);
-        setSortBy(threadSortingOptions.SORT_BY_SENDER);
-        break;
-      case SENDER_ALPHA_DESCENDING:
-        setSortOrder(threadSortingOptions.DESCENDING);
-        setSortBy(threadSortingOptions.SORT_BY_SENDER);
-        break;
-      case RECEPIENT_ALPHA_ASCENDING:
-        setSortOrder(threadSortingOptions.ASCENDING);
-        setSortBy(threadSortingOptions.SORT_BY_RECEPIENT);
-        break;
-      case RECEPIENT_ALPHA_DESCENDING:
-        setSortOrder(threadSortingOptions.DESCENDING);
-        setSortBy(threadSortingOptions.SORT_BY_RECEPIENT);
-        break;
-      default:
-        setSortOrder(threadSortingOptions.ASCENDING);
-        setSortBy(threadSortingOptions.SORT_BY_SENT_DATE);
-    }
-  };
 
-  // update pagination values on...page change
-  // const onPageChange = page => {
-  //   setPageNum(page);
-  // };
+  const [atEndOfThreads, setAtEndOfThreads] = useState(false);
 
-  // handle message sorting on sort button click
-  const handleMessageSort = () => {
-    setSortOrder(sortOrderSelection);
-    setPageNum(1);
-    handleThreadApiCall();
-  };
+  const fromToNums = useMemo(
+    () => {
+      const from = (pageNum - 1) * threadsPerPage + 1;
+      const to = Math.min(pageNum * threadsPerPage, totalThreads);
+      return { from, to };
+    },
+    [pageNum, threadsPerPage, totalThreads],
+  );
 
-  const handleOnSelect = e => {
-    sortOrderSelection = e.detail.value;
-    handleThreadSortSelection(e.detail.value);
-  };
+  useEffect(
+    () => {
+      // get display numbers
+      if (fromToNums && totalThreads) {
+        const label = `Showing ${fromToNums.from} to ${
+          fromToNums.to
+        } of ${totalThreads} conversations`;
+        setDisplayNums({ ...fromToNums, label });
+      }
 
-  const displayNums = fromToNums(pageNum, totalEntries);
-  // const totalThreadPages = Math.ceil(totalThreads / threadsPerPage);
+      if (totalThreads === fromToNums.to) {
+        setAtEndOfThreads(true);
+      } else {
+        setAtEndOfThreads(false);
+      }
+    },
+    [fromToNums, totalThreads],
+  );
 
   return (
-    <div className="thread-list vads-l-row vads-u-flex-direction--column">
-      <div className="thread-list-sort">
-        <VaSelect
-          id="sort-order-dropdown"
-          label="Sort by"
-          name="sort-order"
-          value={sortOrderSelection}
-          onVaSelect={e => {
-            handleOnSelect(e);
-          }}
+    <>
+      <ThreadListSort sortOrder={sortOrder} sortCallback={sortCallback} />
+      <div className="thread-list vads-l-row vads-u-flex-direction--column">
+        <h2 className="sr-only">List of conversations</h2>
+        <div
+          role="status"
+          data-testid="displaying-number-of-threads"
+          className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
         >
-          <option value={threadSortingOptions.DESCENDING}>
-            Newest to oldest
-          </option>
-          <option value={threadSortingOptions.ASCENDING}>
-            Oldest to newest
-          </option>
-          {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
-            <>
-              <option value={SENDER_ALPHA_ASCENDING}>
-                A to Z - Sender’s name
-              </option>
-              <option value={SENDER_ALPHA_DESCENDING}>
-                Z to A - Sender’s name
-              </option>
-            </>
-          ) : (
-            <>
-              <option value={RECEPIENT_ALPHA_ASCENDING}>
-                A to Z - Recipient’s name
-              </option>
-              <option value={RECEPIENT_ALPHA_DESCENDING}>
-                Z to A - Recipient’s name
-              </option>
-            </>
-          )}
-        </VaSelect>
+          {displayNums.label}
+          <span className="sr-only">
+            {` sorted by ${threadSortingOptions[sortOrder].label}`}
+          </span>
+        </div>
+        {threadList?.length > 0 &&
+          threadList.map((thread, idx) => (
+            <ThreadListItem
+              key={`${thread.messageId}+${idx}`}
+              keyword={keyword}
+              activeFolder={folder}
+              thread={thread}
+            />
+          ))}
+        {atEndOfThreads && (
+          <div className="endOfThreads vads-u-padding-y--2">
+            <span>End of conversations in this folder</span>
+          </div>
+        )}
 
-        <va-button
-          type="button"
-          text="Sort"
-          label="Sort"
-          data-testid="sort-button"
-          onClick={() => {
-            handleMessageSort();
-            recordEvent({
-              event: 'cta-button-click',
-              'button-type': 'primary',
-              'button-click-label': 'Sort messages',
-            });
-          }}
-        />
-      </div>
-      <div className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
-        Displaying {displayNums[0]}
-        &#8211;
-        {displayNums[1]} of {totalThreads} conversations
-      </div>
-      {threadList?.length > 0 &&
-        threadList.map((thread, idx) => (
-          <ThreadListItem
-            key={`${thread.messageId}+${idx}`}
-            keyword={keyword}
-            activeFolder={folder}
-            thread={thread}
+        {threadList?.length > 1 && (
+          <VaPagination
+            onPageSelect={e => paginationCallback(e.detail.page)}
+            page={pageNum}
+            pages={Math.ceil(threadList[0]?.threadPageSize / threadsPerPage)}
+            maxPageListLength={MAX_PAGE_LIST_LENGTH}
+            showLastPage
           />
-        ))}
-      {/* {totalThreads > 1 && (
-        <VaPagination
-          onPageSelect={e => onPageChange(e.detail.page)}
-          page={pageNum}
-          pages={totalThreadPages}
-          maxPageListLength={MAX_PAGE_LIST_LENGTH}
-          showLastPage
-        />
-      )} */}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 
@@ -193,13 +104,11 @@ export default ThreadsList;
 
 ThreadsList.propTypes = {
   folder: PropTypes.object,
-  handleThreadApiCall: PropTypes.func,
-  isSearch: PropTypes.bool,
   keyword: PropTypes.string,
   pageNum: PropTypes.number,
-  setSortBy: PropTypes.func,
-  setPageNum: PropTypes.func,
-  setSortOrder: PropTypes.func,
+  paginationCallback: PropTypes.func,
+  sortCallback: PropTypes.func,
+  sortOrder: PropTypes.string,
   threadList: PropTypes.array,
   threadsPerPage: PropTypes.number,
 };

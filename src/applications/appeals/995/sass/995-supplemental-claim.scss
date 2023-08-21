@@ -94,7 +94,7 @@
 
   .checkbox-hidden {
     .widget-content {
-      margin: 2rem 0 0 2rem;
+      margin: 2rem 0 0 0;
     }
   }
 }
@@ -189,26 +189,6 @@ article[data-location$="va-medical-records"] {
   }
 }
 
-article[data-location="review-and-submit"],
-article[data-location="primary-phone-number"] {
-  /* Make radio group legend the same size as an h3 */
-  va-radio::part(legend) {
-    font-size: 2rem;
-    font-weight: 700;
-  }
-
-  va-radio-option {
-    font-weight: 700;
-  }
-  /* Add actual phone number to radio option */
-  va-radio-option:after {
-    display: block;
-    margin-left: 3rem;
-    font-weight: 400;
-    content: attr(data-number);
-  }
-}
-
 article[data-location="review-and-submit"] {
   /* Add actual phone number to radio option */
   va-radio-option:after {
@@ -216,12 +196,18 @@ article[data-location="review-and-submit"] {
   }
 
   .review-fieldset {
-    margin-top: 2rem;
-
     legend {
       border-top: 1px solid $color-gray-light;
       padding-top: 2rem;
     }
+  }
+
+  .form-review-panel-page-header {
+    padding-right: 1rem;
+    line-height: 2.5rem;
+  }
+  .form-review-panel-page-header-row {
+    align-items: flex-start;
   }
 }
 

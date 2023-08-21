@@ -3,34 +3,7 @@ import React from 'react';
 import { isArray, isString, uniqueId } from 'lodash';
 import classNames from 'classnames';
 import { makeField } from '~/platform/forms/fields';
-
-const MessageWrapper = ({ children, classes, id, alert }) => {
-  return (
-    <span
-      id={id}
-      className={classNames(
-        'vads-u-margin-top--0p5',
-        'rb-input-message',
-        'vads-u-font-weight--bold',
-        classes,
-      )}
-      role={alert ? 'alert' : undefined}
-      aria-live={alert ? 'polite' : undefined}
-    >
-      {children}
-    </span>
-  );
-};
-
-MessageWrapper.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
-  alert: PropTypes.bool,
-  classes: PropTypes.string,
-  id: PropTypes.string,
-};
+import { NotificationStatusMessage } from './NotificationStatusMessage';
 
 /**
  * A radio button group with a label.
@@ -85,13 +58,18 @@ const NotificationRadioButtons = ({
   if (errorMessage) {
     errorSpanId = `${id}-error-message`;
     errorSpan = (
-      <MessageWrapper id={errorSpanId} classes="rb-input-message-error" alert>
+      <NotificationStatusMessage
+        id={errorSpanId}
+        classes="rb-input-message-error rb-input-message vads-u-flex--fill vads-u-margin-top--0p5"
+        alert
+        legacy
+      >
         <i
           className="fas fa-exclamation-circle vads-u-margin-right--1"
           aria-hidden="true"
         />{' '}
         <span className="sr-only">Error</span> {errorMessage}
-      </MessageWrapper>
+      </NotificationStatusMessage>
     );
   }
 
@@ -100,7 +78,7 @@ const NotificationRadioButtons = ({
   if (loadingMessage) {
     loadingSpanId = `${id}-loading-message`;
     loadingSpan = (
-      <MessageWrapper
+      <NotificationStatusMessage
         id={loadingSpanId}
         classes="vads-u-font-weight--normal"
         alert
@@ -110,7 +88,7 @@ const NotificationRadioButtons = ({
           aria-hidden="true"
         />{' '}
         {loadingMessage}
-      </MessageWrapper>
+      </NotificationStatusMessage>
     );
   }
 
@@ -119,17 +97,18 @@ const NotificationRadioButtons = ({
   if (successMessage) {
     successSpanId = `${id}-success-message`;
     successSpan = (
-      <MessageWrapper
+      <NotificationStatusMessage
         id={successSpanId}
-        classes="rb-input-message-success"
+        classes="rb-input-message-success rb-input-message vads-u-flex--fill vads-u-margin-top--0p5"
         alert
+        legacy
       >
         <i
           className="fas fa-check-circle vads-u-margin-right--1"
           aria-hidden="true"
         />{' '}
         <span className="sr-only">Success</span> {successMessage}
-      </MessageWrapper>
+      </NotificationStatusMessage>
     );
   }
 

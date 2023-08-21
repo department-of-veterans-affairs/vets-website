@@ -4,8 +4,15 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import FormApp from 'platform/forms-system/src/js/containers/FormApp';
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import {
+  getNextPagePath,
+  checkValidPagePath,
+} from 'platform/forms-system/src/js/routing';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import environment from 'platform/utilities/environment';
+import { getScrollOptions } from 'platform/utilities/ui';
+import { restartShouldRedirect } from 'platform/site-wide/wizard';
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
@@ -13,17 +20,12 @@ import {
   setFetchFormStatus,
   fetchInProgressForm,
 } from './actions';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isInProgressPath } from '../helpers';
 import { getSaveInProgressState } from './selectors';
-import environment from 'platform/utilities/environment';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
-import { getScrollOptions } from 'platform/utilities/ui';
-import { restartShouldRedirect } from 'platform/site-wide/wizard';
 
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 /*
  * Primary component for a schema generated form app.
@@ -31,8 +33,10 @@ const Element = Scroll.Element;
 class RoutedSavableApp extends React.Component {
   constructor(props) {
     super(props);
+    this.FormApp = props.FormApp || FormApp;
     this.location = props.location || window.location;
   }
+
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
@@ -71,6 +75,7 @@ class RoutedSavableApp extends React.Component {
       this.redirectOrLoad(this.props);
     }
   }
+
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(newProps) {
     // When a user is logged in, the profile finishes loading after the component
@@ -96,7 +101,18 @@ class RoutedSavableApp extends React.Component {
         // The onFormLoaded callback should handle navigating to the start of the form
         newProps.formConfig.onFormLoaded(newProps);
       } else {
-        newProps.router.push(newProps.returnUrl);
+        // Check that returnUrl is an active page. If not, return to first page
+        // after intro page
+        const isValidReturnUrl = checkValidPagePath(
+          newProps.routes[newProps.routes.length - 1].pageList,
+          newProps.formData,
+          newProps.returnUrl,
+        );
+        newProps.router.push(
+          isValidReturnUrl
+            ? newProps.returnUrl
+            : this.getFirstNonIntroPagePath(newProps),
+        );
       }
       // Set loadedStatus in redux to not-attempted to not show the loading page
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
@@ -248,22 +264,33 @@ class RoutedSavableApp extends React.Component {
       (!formConfig.disableSave && this.shouldRedirectOrLoad)
     ) {
       content = (
-        <LoadingIndicator message="Retrieving your profile information..." />
+        <va-loading-indicator
+          label="Loading"
+          message="Retrieving your profile information..."
+        />
       );
     } else if (!formConfig.disableSave && loadingForm) {
       content = (
-        <LoadingIndicator message={`Retrieving your saved ${appType}...`} />
+        <va-loading-indicator
+          label="Loading"
+          message={`Retrieving your saved ${appType}...`}
+        />
       );
     } else if (
       !formConfig.disableSave &&
       this.props.savedStatus === SAVE_STATUSES.pending
     ) {
-      content = <LoadingIndicator message={`Saving your ${appType}...`} />;
+      content = (
+        <va-loading-indicator
+          label="Loading"
+          message={`Saving your ${appType}...`}
+        />
+      );
     } else {
       content = (
-        <FormApp formConfig={formConfig} currentLocation={currentLocation}>
+        <this.FormApp formConfig={formConfig} currentLocation={currentLocation}>
           {children}
-        </FormApp>
+        </this.FormApp>
       );
     }
 

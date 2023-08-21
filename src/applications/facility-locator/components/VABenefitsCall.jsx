@@ -1,8 +1,5 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 export default function VABenefitsCall() {
   return (
@@ -13,10 +10,9 @@ export default function VABenefitsCall() {
       </p>
       <p className="p1">
         <strong>To get help with benefits</strong>, call{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} /> toll-free. We’re here
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> toll-free. We’re here
         Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have hearing{' '}
-        loss, call TTY:{' '}
-        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
+        loss, call TTY: <va-telephone contact="711" />.
       </p>
     </div>
   );

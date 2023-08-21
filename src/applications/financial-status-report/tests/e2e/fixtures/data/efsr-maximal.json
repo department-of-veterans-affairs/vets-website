@@ -1,14 +1,18 @@
 {
-  "view:combinedFinancialStatusReport": true,
   "view:enhancedFinancialStatusReport": true,
+  "view:streamlinedWaiver": true,
   "otherExpenses": [
     {
-      "name": "Pool service",
-      "amount": "200"
+      "name": "Clothing",
+      "amount": "10"
     },
     {
-      "name": "Lawn service",
-      "amount": "100.54"
+      "name": "Food",
+      "amount": "1000.54"
+    },
+    {
+      "name": "Veteran added",
+      "amount": "100"
     }
   ],
   "view:components": {
@@ -20,8 +24,23 @@
     "view:vaBenefitsOnFile": {}
   },
   "expenses": {
-    "rentOrMortgage": "1200.53",
-    "food": "4000.38"
+    "expenseRecords": [
+      {
+        "name": "Rent",
+        "amount": "1200.53"
+      }
+    ],
+    "creditCardBills": [
+      {
+        "purpose": "Credit card payment",
+        "creditorName": "",
+        "originalAmount": "",
+        "unpaidBalance": "300000",
+        "amountDueMonthly": "10000",
+        "dateStarted": "",
+        "amountPastDue": "7000"
+      }
+    ]
   },
   "assets": {
     "realEstateValue": "800000.81",
@@ -139,6 +158,7 @@
   },
   "questions": {
     "hasBeenAdjudicatedBankrupt": true,
+    "hasCreditCardBills": true,
     "hasOtherExpenses": true,
     "hasRepayments": true,
     "hasUtilities": true,
@@ -153,7 +173,6 @@
     "isMarried": true,
     "hasAdditionalIncome": true,
     "hasSocialSecurity": true,
-    "hasCreditCardBills":false, 
     "vetIsEmployed": true
   },
   "installmentContracts": [
@@ -201,13 +220,20 @@
     ],
     "employmentHistory": {
       "spouse": {
-        "employmentRecords": [
+        "spEmploymentRecords": [
           {
             "type": "Full time",
             "from": "2018-6-XX",
             "to": "",
             "isCurrent": true,
-            "employerName": "Spouse Current"
+            "employerName": "Spouse Current",
+            "grossMonthlyIncome": "100",
+            "deductions": [
+              {
+                "name": "State tax",
+                "amount": "10"
+              }
+            ]
           },
           {
             "type": "Full time",
@@ -257,6 +283,59 @@
     },
     "telephoneNumber": "4445551212",
     "emailAddress": "test2@test1.net",
+    "veteranContactInformation": {
+        "email": "test@user.com",
+        "address": {
+            "addressLine1": "1200 Park Ave",
+            "addressLine2": "c/o Pixar",
+            "addressLine3": null,
+            "addressPou": "CORRESPONDENCE",
+            "addressType": "DOMESTIC",
+            "city": "Emeryville",
+            "countryName": "United States",
+            "countryCodeIso2": "US",
+            "countryCodeIso3": "USA",
+            "countryCodeFips": null,
+            "countyCode": null,
+            "countyName": null,
+            "createdAt": "2020-05-30T03:57:20.000+00:00",
+            "effectiveEndDate": null,
+            "effectiveStartDate": "2020-07-10T20:10:45.000+00:00",
+            "id": 173917,
+            "internationalPostalCode": null,
+            "province": null,
+            "sourceDate": "2020-07-10T20:10:45.000+00:00",
+            "sourceSystemUser": null,
+            "stateCode": "CA",
+            "transactionId": "7139aa82-fd06-45ea-a217-9654869924bd",
+            "updatedAt": "2020-07-10T20:10:46.000+00:00",
+            "validationKey": null,
+            "vet360Id": "1273780",
+            "zipCode": "94608",
+            "zipCodeSuffix": null
+        },
+        "mobilePhone": {
+            "areaCode": "510",
+            "countryCode": "1",
+            "createdAt": "2020-06-12T16:56:37.000+00:00",
+            "extension": "",
+            "effectiveEndDate": null,
+            "effectiveStartDate": "2020-07-14T19:07:45.000+00:00",
+            "id": 146766,
+            "isInternational": false,
+            "isTextable": null,
+            "isTextPermitted": null,
+            "isTty": null,
+            "isVoicemailable": null,
+            "phoneNumber": "9224444",
+            "phoneType": "HOME",
+            "sourceDate": "2020-07-14T19:07:45.000+00:00",
+            "sourceSystemUser": null,
+            "transactionId": "92c49d39-22b2-4bd6-92b4-0b7e7c63c6a9",
+            "updatedAt": "2020-07-14T19:07:46.000+00:00",
+            "vet360Id": "1273780"
+        }
+    },
     "veteranFullName": {
       "first": "Greg",
       "last": "Anderson",
@@ -268,83 +347,6 @@
     "ssn": "1234",
     "fileNumber": "5678"
   },
-  "selectedDebts": [
-    {
-      "fileNumber": "796121200",
-      "payeeNumber": "00",
-      "personEntitled": "AJHONS",
-      "deductionCode": "30",
-      "benefitType": "Comp & Pen",
-      "diaryCode": "080",
-      "diaryCodeDescription": "Referred to the Department of the Treasury",
-      "amountOverpaid": 0,
-      "amountWithheld": 0,
-      "originalAr": 136.24,
-      "currentAr": 100,
-      "debtHistory": [
-        {
-          "date": "02/25/2009",
-          "letterCode": "914",
-          "description": "Paid In Full - Account balance cleared via offset, not including TOP."
-        },
-        {
-          "date": "02/07/2009",
-          "letterCode": "905",
-          "description": "Administrative Write Off"
-        },
-        {
-          "date": "12/03/2008",
-          "letterCode": "487",
-          "description": "Death Case Pending Action"
-        }
-      ],
-      "id": 0,
-      "resolution": {
-        "resolutionType": "Waiver",
-        "agreeToWaiver": true
-      }
-    },
-    {
-      "fileNumber": "796121200",
-      "payeeNumber": "00",
-      "personEntitled": "AJOHNS",
-      "deductionCode": "74",
-      "benefitType": "CH33 Student Tuition EDU",
-      "diaryCode": "117",
-      "diaryCodeDescription": "Pending payment",
-      "amountOverpaid": 0,
-      "amountWithheld": 475,
-      "originalAr": 2210.9,
-      "currentAr": 1000,
-      "debtHistory": [
-        {
-          "date": "04/01/2017",
-          "letterCode": 608,
-          "description": "Full C&P Benefit Offset Notifi"
-        },
-        {
-          "date": "11/18/2015",
-          "letterCode": 130,
-          "description": "Debt Increase - Due P"
-        },
-        {
-          "date": "04/08/2015",
-          "letterCode": 608,
-          "description": "Full C&P Benefit Offset Notifi"
-        },
-        {
-          "date": "03/26/2015",
-          "letterCode": 100,
-          "description": "First Demand Letter - Inactive Benefits - Due Process"
-        }
-      ],
-      "id": 3,
-      "resolution": {
-        "resolutionType": "Compromise",
-        "offerToPay": "700.43"
-      }
-    }
-  ],
   "selectedDebtsAndCopays": [
     {
       "fileNumber": "796121200",
@@ -378,6 +380,7 @@
       "id": 0,
       "debtType": "DEBT",
       "resolutionOption": "waiver",
+      "resolutionComment": "",
       "resolutionWaiverCheck": true
     },
     {
@@ -1238,6 +1241,7 @@
       },
       "debtType": "COPAY",
       "resolutionOption": "waiver",
+      "resolutionComment": "",
       "resolutionWaiverCheck": true
     }
   ],
@@ -1251,30 +1255,6 @@
     "deductionCode": "",
     "originalAr": 0
   },
-  "spCurrEmployment": [
-    {
-      "spouseGrossSalary": "4000.45",
-      "deductions": [
-        {
-          "name": "Federal tax",
-          "amount": "325.54"
-        },
-        {
-          "name": "Health insurance",
-          "amount": "250.34"
-        },
-        {
-          "name": "Garnishment",
-          "amount": "150"
-        }
-      ],
-      "type": "Full time",
-      "from": "2018-6-XX",
-      "to": "",
-      "isCurrent": true,
-      "employerName": "Spouse Current"
-    }
-  ],
   "financialOverview": {},
   "availableOptions": {},
   "income": [

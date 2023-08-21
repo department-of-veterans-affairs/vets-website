@@ -1,6 +1,10 @@
 import { range } from 'lodash';
+import {
+  minYear,
+  currentYear,
+  maxYear,
+} from 'platform/forms-system/src/js/helpers';
 import { dateToMoment } from '../utilities/date';
-import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
 
 /**
  * General Validations *
@@ -54,6 +58,10 @@ function isValidYear(value) {
   return Number(value) >= minYear && Number(value) <= maxYear;
 }
 
+function isValidBirthYear(value) {
+  return Number(value) >= minYear && Number(value) <= currentYear;
+}
+
 function isValidMonths(value) {
   return Number(value) >= 0;
 }
@@ -90,6 +98,10 @@ function isValidDate(day, month, year) {
     date.getMonth() === adjustedMonth &&
     date.getFullYear() === Number(year)
   );
+}
+
+function isValidBirthDate(day, month, year) {
+  return isValidDate(day, month, year) && isValidBirthYear(year);
 }
 
 function isNotBlankDateField(field) {
@@ -208,22 +220,23 @@ function isValidRoutingNumber(value) {
   return false;
 }
 
-function getFileError(file) {
-  if (file.errorMessage) {
-    return file.errorMessage;
-  } else if (file.uploading) {
-    return 'Uploading file...';
-  } else if (!file.confirmationCode) {
-    return 'Something went wrong...';
-  }
-
-  return null;
-}
-
 // validator to prevent users from entering just whitespace on required fields
 function validateWhiteSpace(errors, input) {
   if (typeof input !== 'undefined' && !/\S/.test(input)) {
     errors.addError('Please provide a response');
+  }
+}
+
+function validateDateOfBirth(errors, dateString) {
+  const dateArray = dateString.split('-');
+  const yearString = dateArray[0];
+  const monthString = dateArray[1];
+  const dayString = dateArray[2];
+
+  if (!isValidBirthDate(dayString, monthString, yearString)) {
+    errors.addError(
+      `Please provide a valid date of birth, with Year between ${minYear} and ${currentYear}.`,
+    );
   }
 }
 
@@ -251,6 +264,8 @@ export {
   isFullDate,
   isNotBlank,
   isNotBlankDateField,
+  isValidBirthDate,
+  isValidBirthYear,
   isValidDate,
   isValidDateRange,
   isValidEmail,
@@ -264,10 +279,10 @@ export {
   isValidSSN,
   isValidValue,
   validateCustomFormComponent,
+  validateDateOfBirth,
   validateIfDirty,
   validateIfDirtyDate,
   validateLength,
   isValidRoutingNumber,
-  getFileError,
   validateWhiteSpace,
 };

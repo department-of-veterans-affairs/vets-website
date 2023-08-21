@@ -1,7 +1,6 @@
 /** @module testing/mocks/setup */
 
 import React from 'react';
-import moment from '../../lib/moment-tz';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history-v4';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
@@ -10,30 +9,22 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/dom';
 
-import { commonReducer } from 'platform/startup/store';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { commonReducer } from '@department-of-veterans-affairs/platform-startup/store';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
+import { cleanup } from '@testing-library/react';
 import reducers from '../../redux/reducer';
 import newAppointmentReducer from '../../new-appointment/redux/reducer';
 import covid19VaccineReducer from '../../covid-19-vaccine/redux/reducer';
 import unenrolledVaccineReducer from '../../unenrolled-vaccine/redux/reducer';
 
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
-import { cleanup } from '@testing-library/react';
+import moment from '../../lib/moment-tz';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
 import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
 import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
-import {
-  getDirectBookingEligibilityCriteriaMock,
-  getParentSiteMock,
-  getRequestEligibilityCriteriaMock,
-} from './v0';
-import {
-  mockCommunityCareEligibility,
-  mockDirectBookingEligibilityCriteria,
-  mockParentSites,
-  mockRequestEligibilityCriteria,
-} from './helpers';
+import { getParentSiteMock } from './v0';
+import { mockCommunityCareEligibility, mockParentSites } from './helpers';
 
 import createRoutesWithStore from '../../routes';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
@@ -42,6 +33,7 @@ import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VA
 import VaccineFacilityPage from '../../covid-19-vaccine/components/VAFacilityPage';
 import { TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import {
+  mockSchedulingConfigurations,
   mockV2CommunityCareEligibility,
   mockVAOSParentSites,
 } from './helpers.v2';
@@ -49,6 +41,7 @@ import { TYPES_OF_CARE } from '../../utils/constants';
 import ClosestCityStatePage from '../../new-appointment/components/ClosestCityStatePage';
 import { createMockFacilityByVersion } from './data';
 import { mockFacilitiesFetchByVersion } from './fetch';
+import { getSchedulingConfigurationMock } from './v2';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -163,39 +156,16 @@ export function renderFromRoutes({ initialState, store = null, path = '/' }) {
 }
 
 /**
- * This function returns a date for which adjusting the timezone
- * to the provided zone results in a date on a different day.
- *
- * For example, if you're on ET and you call this function with
- * America/Denver, then you'll get a time of 12:30 am, because that will
- * be a different day of the month than the same time in America/Denver
- *
- * If the local zone and the passed zone are the same, you'll get a 12:30
- * am date, similar to zones that are ahead of the passed zone.
+ * This function returns a date string for use with MockDate
  *
  * @export
- * @param {string} [zone=America/Denver] The timezone of the facility being used for testing
- * @returns {string} An ISO date string for a date that will cross over midnight
+ * @returns {string} An ISO date string for a date
  */
-export function getTimezoneTestDate(zone = 'America/Denver') {
-  let mockedDate;
-  const localOffset = moment().utcOffset();
-  const facilityTimezone = moment()
-    .tz(zone)
-    .utcOffset();
-
-  if (localOffset >= facilityTimezone) {
-    mockedDate = moment()
-      .set('hour', 0)
-      .set('minute', 30);
-  } else {
-    mockedDate = moment()
-      .subtract(1, 'day')
-      .set('hour', 23)
-      .set('minute', 30);
-  }
-
-  return mockedDate.format('YYYY-MM-DD[T]HH:mm:ss');
+export function getTestDate() {
+  return moment()
+    .set('hour', 0)
+    .set('minute', 30)
+    .format('YYYY-MM-DD[T]HH:mm:ss');
 }
 
 /**
@@ -282,57 +252,32 @@ export async function setTypeOfEyeCare(store, label) {
  * @param {string} facilityId The facility id of the facility to be selected
  * @param {Object} params
  * @param {?VAFacility} params.facilityData The facility data to use in the mock
- * @param {VATSDirectCriteria} [params.directCriteria={}] Direct booking criteria to use
- * @param {VATSRequestCriteria} [params.requestCriteria={}] Request criteria to use
  * @returns {string} The url path that was routed to after clicking Continue
  */
 export async function setVAFacility(
   store,
   facilityId,
-  { facilityData = null, directCriteria = {}, requestCriteria = {} } = {},
+  { facilityData = null } = {},
 ) {
-  const siteCode = facilityId.substring(0, 3);
-  const typeOfCareId = store.getState().newAppointment.data.typeOfCareId;
-  const parentSite = {
-    id: siteCode,
-    attributes: {
-      ...getParentSiteMock().attributes,
-      institutionCode: siteCode,
-      rootStationCode: siteCode,
-      parentStationCode: siteCode,
-    },
-  };
-
-  const directFacilities = [
-    getDirectBookingEligibilityCriteriaMock({
-      id: facilityId,
-      typeOfCareId,
-      ...directCriteria,
-    }),
-  ];
-
-  const requestFacilities = [
-    getRequestEligibilityCriteriaMock({
-      id: facilityId,
-      typeOfCareId,
-      ...requestCriteria,
-    }),
-  ];
-
-  const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
+  // TODO: Make sure this works in staging before removal
+  // const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
 
   const facilities = [
     facilityData ||
       createMockFacilityByVersion({
-        id: realFacilityID,
-        version: 0,
+        id: facilityId,
       }),
   ];
 
-  mockParentSites([siteCode], [parentSite]);
-  mockDirectBookingEligibilityCriteria([siteCode], directFacilities);
-  mockRequestEligibilityCriteria([siteCode], requestFacilities);
-  mockFacilitiesFetchByVersion({ facilities, version: 0 });
+  mockFacilitiesFetchByVersion({ children: true, facilities });
+  mockSchedulingConfigurations([
+    getSchedulingConfigurationMock({
+      id: '983',
+      typeOfCareId: 'primaryCare',
+      directEnabled: true,
+      requestEnabled: true,
+    }),
+  ]);
 
   const { findByText, history } = renderWithStoreAndRouter(
     <VAFacilityPageV2 />,
@@ -357,28 +302,24 @@ export async function setVAFacility(
  * @returns {string} The url path that was routed to after clicking Continue
  */
 export async function setVaccineFacility(store, facilityId, facilityData = {}) {
-  const siteCode = facilityId.substring(0, 3);
-
-  const directFacilities = [
-    getDirectBookingEligibilityCriteriaMock({
-      id: facilityId,
-      typeOfCareId: TYPE_OF_CARE_ID,
-    }),
-  ];
-
-  const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
+  // TODO: Make sure this works in staging before removal
+  // const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
 
   const facilities = [
     createMockFacilityByVersion({
-      id: realFacilityID,
-      version: 0,
+      id: facilityId,
       ...facilityData,
     }),
   ];
 
-  mockDirectBookingEligibilityCriteria([siteCode], directFacilities);
-  mockRequestEligibilityCriteria([siteCode], []);
-  mockFacilitiesFetchByVersion({ facilities, version: 0 });
+  mockFacilitiesFetchByVersion({ children: true, facilities, version: 2 });
+  mockSchedulingConfigurations([
+    getSchedulingConfigurationMock({
+      id: '983',
+      typeOfCareId: TYPE_OF_CARE_ID,
+      directEnabled: true,
+    }),
+  ]);
 
   const { findByText, history } = renderWithStoreAndRouter(
     <VaccineFacilityPage />,

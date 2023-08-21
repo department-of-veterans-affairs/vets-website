@@ -18,13 +18,10 @@ import {
   getIssueNameAndDate,
   hasDuplicates,
   isEmptyObject,
-  processContestableIssues,
-  issuesNeedUpdating,
   appStateSelector,
   getItemSchema,
   readableList,
   calculateIndexOffset,
-  checkContestableIssueError,
 } from '../../utils/helpers';
 
 describe('getEligibleContestableIssues', () => {
@@ -53,7 +50,7 @@ describe('getEligibleContestableIssues', () => {
   it('should keep issues with dates more than one year in the past', () => {
     expect(
       getEligibleContestableIssues([olderIssue, eligibleIssue]),
-    ).to.deep.equal([olderIssue, eligibleIssue]);
+    ).to.deep.equal([eligibleIssue, olderIssue]);
   });
   it('should filter out missing dates', () => {
     expect(
@@ -355,74 +352,6 @@ describe('isEmptyObject', () => {
   });
 });
 
-describe('processContestableIssues', () => {
-  const getIssues = dates =>
-    dates.map(date => ({
-      attributes: { ratingIssueSubjectText: 'a', approxDecisionDate: date },
-    }));
-  const getDates = dates =>
-    dates.map(date => date.attributes.approxDecisionDate);
-
-  it('should return an empty array with undefined issues', () => {
-    expect(getDates(processContestableIssues())).to.deep.equal([]);
-  });
-  it('should filter out issues missing a title', () => {
-    const issues = getIssues(['2020-02-01', '2020-03-01', '2020-01-01']);
-    issues[0].attributes.ratingIssueSubjectText = '';
-    const result = processContestableIssues(issues);
-    expect(getDates(result)).to.deep.equal(['2020-03-01', '2020-01-01']);
-  });
-  it('should sort issues spanning months with newest date first', () => {
-    const dates = ['2020-02-01', '2020-03-01', '2020-01-01'];
-    const result = processContestableIssues(getIssues(dates));
-    expect(getDates(result)).to.deep.equal([
-      '2020-03-01',
-      '2020-02-01',
-      '2020-01-01',
-    ]);
-  });
-  it('should sort issues spanning a year & months with newest date first', () => {
-    const dates = ['2021-01-31', '2020-12-01', '2021-02-02', '2021-02-01'];
-    const result = processContestableIssues(getIssues(dates));
-    expect(getDates(result)).to.deep.equal([
-      '2021-02-02',
-      '2021-02-01',
-      '2021-01-31',
-      '2020-12-01',
-    ]);
-  });
-});
-
-describe('issuesNeedUpdating', () => {
-  const getIssues = (allText, dates) =>
-    allText.map((text, index) => ({
-      attributes: {
-        ratingIssueSubjectText: text,
-        approxDecisionDate: dates?.[index],
-      },
-    }));
-  it('should return true if the array lengths are different', () => {
-    expect(issuesNeedUpdating([], [1])).to.be.true;
-    expect(issuesNeedUpdating([1], [1, 2])).to.be.true;
-    expect(issuesNeedUpdating([1, 2], [1])).to.be.true;
-  });
-  it('should return true if the one entry is different', () => {
-    const loaded = getIssues(['a', 'b'], ['2020-02-01', '2020-03-01']);
-    const existing1 = getIssues(['a', 'c'], ['2020-02-01', '2020-03-01']);
-    expect(issuesNeedUpdating(loaded, existing1)).to.be.true;
-
-    const existing2 = getIssues(['a', 'b'], ['2020-02-01', '2020-03-02']);
-    expect(issuesNeedUpdating(loaded, existing2)).to.be.true;
-  });
-  it('should return false if all entries are the same', () => {
-    const issues = getIssues(
-      ['a', 'b', 'c'],
-      ['2020-02-01', '2020-03-01', '2020-01-01'],
-    );
-    expect(issuesNeedUpdating(issues, issues)).to.be.false;
-  });
-});
-
 describe('appStateSelector', () => {
   const getIssues = (contestedIssues, additionalIssues) => ({
     state: { form: { data: { contestedIssues, additionalIssues } } },
@@ -477,21 +406,5 @@ describe('calculateIndexOffset', () => {
     expect(calculateIndexOffset(2, 2)).to.eq(0);
     expect(calculateIndexOffset(4, 2)).to.eq(2);
     expect(calculateIndexOffset(5, 4)).to.eq(1);
-  });
-});
-
-describe('checkContestableIssueError', () => {
-  it('should return false if no error', () => {
-    expect(checkContestableIssueError()).to.be.false;
-  });
-  it('should return false if 404 error', () => {
-    expect(checkContestableIssueError({ errors: [{ status: '404' }] })).to.be
-      .false;
-  });
-  it('should return true', () => {
-    expect(checkContestableIssueError({})).to.be.true;
-    expect(checkContestableIssueError({ error: 'blah' })).to.be.true;
-    expect(checkContestableIssueError({ errors: [{ status: '123' }] })).to.be
-      .true;
   });
 });

@@ -41,14 +41,14 @@ function letters(state = initialState, action) {
   switch (action.type) {
     case GET_LETTERS_SUCCESS: {
       const letterDownloadStatus = {};
-      action.data.data.attributes.letters.forEach(letter => {
+      action.data.letters.forEach(letter => {
         letterDownloadStatus[letter.letterType] = DOWNLOAD_STATUSES.pending;
       });
 
       return {
         ...state,
-        letters: action.data.data.attributes.letters,
-        fullName: action.data.data.attributes.fullName,
+        letters: action.data.letters,
+        fullName: action.data.fullName,
         lettersAvailability: AVAILABILITY_STATUSES.available,
         letterDownloadStatus,
       };
@@ -85,7 +85,7 @@ function letters(state = initialState, action) {
       );
     case GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS: {
       // Gather all possible displayed options that the user may toggle on/off.
-      const benefitInfo = action.data.data.attributes.benefitInformation;
+      const benefitInfo = action.data.benefitInformation;
       const possibleOptions = [];
       Object.keys(benefitInfo).forEach(key => {
         if (
@@ -112,8 +112,8 @@ function letters(state = initialState, action) {
 
       return {
         ...state,
-        benefitInfo: action.data.data.attributes.benefitInformation,
-        serviceInfo: action.data.data.attributes.militaryService,
+        benefitInfo: action.data.benefitInformation,
+        serviceInfo: action.data.militaryService,
         optionsAvailable: true,
         requestOptions,
       };

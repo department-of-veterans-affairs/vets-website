@@ -5,6 +5,9 @@ import mockPaymentInfoNotEligible from '@@profile/tests/fixtures/dd4cnp/dd4cnp-i
 import personalInformation from '@@profile/tests/fixtures/personal-information-success.json';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 
+import { generateFeatureToggles } from '@@profile/mocks/endpoints/feature-toggles';
+import user from '@@profile/mocks/endpoints/user';
+
 import error500 from '@@profile/tests/fixtures/500.json';
 
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
@@ -107,6 +110,27 @@ export function mockNotificationSettingsAPIs() {
   cy.intercept('/v0/profile/service_history', serviceHistory);
   cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
   cy.intercept('/v0/ppiu/payment_information', mockPaymentInfoNotEligible);
+  mockFeatureToggles();
+}
+
+// Mock happy path for loa3 user
+// all the required APIs are mocked for the profile to load in general
+// all feature toggles are mocked to be true
+export function mockProfileLOA3() {
+  mockGETEndpoints(['/v0/mhv_account']);
+  cy.intercept(
+    '/v0/disability_compensation_form/rating_info',
+    disabilityRating,
+  );
+  cy.intercept('/v0/profile/full_name', fullName);
+  cy.intercept('/v0/profile/personal_information', personalInformation);
+  cy.intercept('/v0/profile/service_history', serviceHistory);
+  cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
+  cy.intercept('/v0/ppiu/payment_information', mockPaymentInfoNotEligible);
+  cy.intercept('/v0/user', user.loa3User72);
+
+  const togglesAllOn = true;
+  mockFeatureToggles(() => generateFeatureToggles({}, togglesAllOn));
 }
 
 export function registerCypressHelpers() {

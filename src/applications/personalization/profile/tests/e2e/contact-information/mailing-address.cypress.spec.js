@@ -1,6 +1,9 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 import mockUser from '@@profile/tests/fixtures/users/user-36.json';
-import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
+import {
+  mockFeatureToggles,
+  mockGETEndpoints,
+} from '@@profile/tests/e2e/helpers';
 
 const setup = (mobile = false) => {
   if (mobile) {
@@ -14,9 +17,9 @@ const setup = (mobile = false) => {
     'v0/profile/status',
     'v0/profile/personal_information',
     'v0/profile/service_history',
-    'v0/feature_toggles*',
     'v0/ppiu/payment_information',
   ]);
+  mockFeatureToggles();
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
   // should show a loading indicator

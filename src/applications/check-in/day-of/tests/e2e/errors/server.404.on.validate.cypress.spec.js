@@ -23,5 +23,6 @@ describe('Check In Experience', () => {
     Error.validateURL();
     Error.validatePageLoaded('uuid-not-found');
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Day-of-check-in--Error-expired');
   });
 });

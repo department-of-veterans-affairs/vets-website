@@ -75,13 +75,20 @@ const getData = ({
         login: {
           currentlyLoggedIn: loggedIn,
         },
-        profile: { ...mockProfile, savedForms, verified },
+        profile: {
+          ...mockProfile,
+          savedForms,
+          verified,
+          accountUuid: 'abcd-5678',
+        },
       },
       form: {
         loadedStatus: 'success',
         savedStatus: '',
         loadedData: {
-          metadata: {},
+          metadata: {
+            inProgressFormId: '5678',
+          },
         },
         data,
       },
@@ -198,6 +205,21 @@ describe('App', () => {
   it('should redirect to start', () => {
     const push = sinon.spy();
     const { props, data } = getData({ push, data: {} });
+    const { container } = render(
+      <Provider store={mockStore(data)}>
+        <App {...props} />
+      </Provider>,
+    );
+
+    const alert = $('va-loading-indicator', container);
+    expect(alert).to.exist;
+    expect(alert.getAttribute('message')).to.contain('restart the app');
+    expect(push.calledWith('/start')).to.be.true;
+  });
+
+  it('should redirect to start for unsupported benefit types', () => {
+    const push = sinon.spy();
+    const { props, data } = getData({ push, data: { benefitType: 'other' } });
     const { container } = render(
       <Provider store={mockStore(data)}>
         <App {...props} />

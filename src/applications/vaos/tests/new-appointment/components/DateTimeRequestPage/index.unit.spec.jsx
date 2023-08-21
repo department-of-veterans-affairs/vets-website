@@ -2,18 +2,22 @@ import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
+import userEvent from '@testing-library/user-event';
+
+import { waitFor, within } from '@testing-library/dom';
+import { Route } from 'react-router-dom';
+import { mockFetch } from 'platform/testing/unit/helpers';
+import { FETCH_STATUS } from '../../../../utils/constants';
+import DateTimeRequestPage from '../../../../new-appointment/components/DateTimeRequestPage';
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setCommunityCareFlow,
 } from '../../../mocks/setup';
-import userEvent from '@testing-library/user-event';
-
-import DateTimeRequestPage from '../../../../new-appointment/components/DateTimeRequestPage';
-import { FETCH_STATUS } from '../../../../utils/constants';
-import { waitFor, within } from '@testing-library/dom';
-import { Route } from 'react-router-dom';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
+import { getSchedulingConfigurationMock } from '../../../mocks/v2';
+import { createMockFacilityByVersion } from '../../../mocks/data';
+import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
 
 async function chooseMorningRequestSlot(screen) {
   const currentMonth = moment()
@@ -468,12 +472,41 @@ describe('VAOS <DateTimeRequestPage>', () => {
   });
 
   describe('community care iterations flag is turned on', () => {
+    beforeEach(() => {
+      mockFacilitiesFetchByVersion({
+        children: true,
+        ids: ['983', '984'],
+        facilities: [
+          createMockFacilityByVersion({
+            id: '983',
+          }),
+          createMockFacilityByVersion({
+            id: '984',
+          }),
+        ],
+      });
+      mockSchedulingConfigurations(
+        [
+          getSchedulingConfigurationMock({
+            id: '983',
+            typeOfCareId: 'primaryCare',
+            requestEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '984',
+            typeOfCareId: 'primaryCare',
+            requestEnabled: true,
+          }),
+        ],
+        true,
+      );
+    });
     it('should continue to closest city page', async () => {
       // Given the user has two or more supported parent sites
       // And the user is in the community care flow
       const store = await setCommunityCareFlow({
         toggles: {},
-        registeredSites: ['983'],
+        registeredSites: ['983', '984'],
         parentSites: [{ id: '983' }, { id: '983GC' }],
         supportedSites: ['983', '983GC'],
       });
@@ -508,7 +541,9 @@ describe('VAOS <DateTimeRequestPage>', () => {
       // Given the user has one supported parent site
       // And the user is in the community care flow
       const store = await setCommunityCareFlow({
-        toggles: {},
+        toggles: {
+          vaOnlineSchedulingFacilitiesServiceV2: true,
+        },
         registeredSites: ['983'],
         parentSites: [{ id: '983' }, { id: '983GC' }],
         supportedSites: ['983'],

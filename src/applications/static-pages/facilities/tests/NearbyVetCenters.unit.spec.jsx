@@ -4,8 +4,8 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import { mockApiRequest } from 'platform/testing/unit/helpers.js';
-import NearbyVetCenters from '../vet-center/NearByVetCenters';
 import * as mapboxUtils from 'applications/facility-locator/utils/mapbox';
+import NearbyVetCenters from '../vet-center/NearByVetCenters';
 
 const createFakeStore = state => {
   return {
@@ -90,7 +90,7 @@ describe('NearbyVetCenters', () => {
         <NearbyVetCenters />
       </Provider>,
     );
-    expect(wrapper.find('LoadingIndicator').exists()).to.be.true;
+    expect(wrapper.find('va-loading-indicator').exists()).to.be.true;
     wrapper.unmount();
   });
 
@@ -104,7 +104,7 @@ describe('NearbyVetCenters', () => {
         <NearbyVetCenters />
       </Provider>,
     );
-    expect(wrapper.find('LoadingIndicator').exists()).to.be.false;
+    expect(wrapper.find('va-loading-indicator').exists()).to.be.false;
     wrapper.unmount();
   });
 
@@ -144,8 +144,8 @@ describe('NearbyVetCenters', () => {
         <Provider store={fakeStore}>
           <NearbyVetCenters
             mainVetCenterAddress={mainVetCenterAddress}
-            mainVetCenterId={'vc_0434V'}
-            mainVetCenterPhone={'906-233-0244'}
+            mainVetCenterId="vc_0434V"
+            mainVetCenterPhone="906-233-0244"
           />
         </Provider>,
       );

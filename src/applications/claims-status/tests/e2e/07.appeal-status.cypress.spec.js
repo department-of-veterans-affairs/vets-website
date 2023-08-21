@@ -2,7 +2,14 @@ import legacyAppeal from './fixtures/mocks/legacy-appeal.json';
 import backendStatuses from './fixtures/mocks/backend-statuses.json';
 
 beforeEach(() => {
-  cy.intercept('GET', '/v0/feature_toggles*', { data: { features: [] } });
+  cy.intercept('GET', '/v0/feature_toggles*', {
+    data: {
+      features: [
+        { name: 'cst_include_ddl_boa_letters', value: true },
+        { name: 'claim_letters_access', value: true },
+      ],
+    },
+  });
   cy.intercept('GET', '/v0/backend_statuses*', backendStatuses);
   cy.intercept('GET', '/v0/appeals', legacyAppeal);
   cy.login();
@@ -56,5 +63,35 @@ describe('Appeals page test', () => {
     cy.get('va-accordion-item[open="true"]').should('be.visible');
     cy.get('va-accordion-item[open="true"] li').should('have.length', 4);
     cy.axeCheck();
+  });
+
+  it('should show DDL link for decided appeal ', () => {
+    cy.visit('/track-claims/appeals/13/status');
+
+    cy.get('h1').should('contain', 'Appeal received August 2017');
+
+    cy.get('a.ddl-link').should('be.visible');
+    cy.get('a.ddl-link')
+      .invoke('attr', 'href')
+      .should('eq', '/track-claims/your-claim-letters');
+
+    cy.get('a.ddl-link').click();
+
+    cy.get('h1').should('contain', 'Your VA claim letters');
+  });
+
+  it('should show DDL link for post-decided appeal ', () => {
+    cy.visit('/track-claims/appeals/14/status');
+
+    cy.get('h1').should('contain', 'Appeal received August 2017');
+
+    cy.get('a.ddl-link').should('be.visible');
+    cy.get('a.ddl-link')
+      .invoke('attr', 'href')
+      .should('eq', '/track-claims/your-claim-letters');
+
+    cy.get('a.ddl-link').click();
+
+    cy.get('h1').should('contain', 'Your VA claim letters');
   });
 });

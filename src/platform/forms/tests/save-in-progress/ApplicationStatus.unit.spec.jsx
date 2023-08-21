@@ -28,7 +28,7 @@ describe('schemaform <ApplicationStatus>', () => {
       />,
     );
 
-    expect(tree.subTree('LoadingIndicator')).to.not.be.false;
+    expect(tree.subTree('va-loading-indicator')).to.not.be.false;
   });
   it('should render apply button', () => {
     const tree = SkinDeep.shallowRender(

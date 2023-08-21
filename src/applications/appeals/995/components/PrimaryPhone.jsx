@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import recordEvent from 'platform/monitoring/record-event';
 
 import { getFormattedPhone } from '../utils/contactInfo';
 import { checkValidations, missingPrimaryPhone } from '../validations';
-import { PRIMARY_PHONE, errorMessages } from '../constants';
+import {
+  PRIMARY_PHONE,
+  PRIMARY_PHONE_TYPES,
+  errorMessages,
+} from '../constants';
 import { content } from '../content/primaryPhone';
 
 export const PrimaryPhone = ({
@@ -22,7 +27,7 @@ export const PrimaryPhone = ({
   const [primary, setPrimary] = useState(data?.[PRIMARY_PHONE] || '');
   const [hasError, setHasError] = useState(null);
 
-  const { homePhone = {}, mobilePhone = {} } = data?.veteran || {};
+  const { veteran } = data || {};
 
   const checkErrors = (formData = data) => {
     const error = checkValidations([missingPrimaryPhone], primary, formData);
@@ -45,6 +50,12 @@ export const PrimaryPhone = ({
         setFormData(formData);
         // setFormData lags a little, so check updated data
         checkErrors(formData);
+        recordEvent({
+          event: 'int-radio-button-option-click',
+          'radio-button-label': content.label,
+          'radio-button-optionLabel': content[`${value}Label`],
+          'radio-button-required': false,
+        });
       }
     },
   };
@@ -67,29 +78,24 @@ export const PrimaryPhone = ({
         <div name="topScrollElement" />
         <VaRadio
           class="vads-u-margin-y--2"
-          label="What is your primary phone number?"
+          label={content.label}
           label-header-level="3"
           hint="We may need to contact you if we have questions about your Supplemental Claim."
           error={hasError && errorMessages.missingPrimaryPhone}
           onVaValueChange={handlers.onSelection}
           required
         >
-          <va-radio-option
-            id="home-phone"
-            label={content.homeLabel}
-            value="home"
-            name="primary"
-            checked={primary === 'home'}
-            data-number={getFormattedPhone(homePhone)}
-          />
-          <va-radio-option
-            id="mobile-phone"
-            label={content.mobileLabel}
-            value="mobile"
-            name="primary"
-            checked={primary === 'mobile'}
-            data-number={getFormattedPhone(mobilePhone)}
-          />
+          {PRIMARY_PHONE_TYPES.map(type => (
+            <va-radio-option
+              key={type}
+              id={`${type}-phone`}
+              label={content[`${type}Label`]}
+              value={type}
+              name="primary"
+              checked={primary === type}
+              description={getFormattedPhone(veteran?.[`${type}Phone`])}
+            />
+          ))}
         </VaRadio>
         {navButtons}
       </form>

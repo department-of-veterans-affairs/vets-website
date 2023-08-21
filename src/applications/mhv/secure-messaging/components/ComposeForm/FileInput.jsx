@@ -128,6 +128,10 @@ const FileInput = ({ attachments, setAttachments }) => {
 
       {attachments?.length < Attachments.MAX_FILE_COUNT && (
         <>
+          {/* Wave plugin addressed this as an issue, label required */}
+          <label htmlFor="attachments" hidden>
+            Attachments input
+          </label>
           <input
             ref={fileInputRef}
             type="file"

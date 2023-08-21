@@ -120,6 +120,12 @@
   color: $color-gray-light !important;
 }
 
+/* override to constrain modal width  */
+#liveForm .kpl_builder[style] {
+  width: auto !important;
+  max-width: 28rem !important;
+}
+
 /* helper text under textarea */
 #liveForm .kpl_builder.neb-form-wcag .description.help-block {
   color: $color-gray-dark !important;

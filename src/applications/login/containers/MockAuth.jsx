@@ -27,7 +27,7 @@ export default function MockAuth() {
                 <p className="vads-u-font-size--base">
                   Mocked authentication is only available in the development and
                   localhost environments. Read more about{' '}
-                  <a href="https://github.com/department-of-veterans-affairs/vets-website/pull/23518">
+                  <a href="https://github.com/department-of-veterans-affairs/va.gov-team/tree/master/products/identity/Mocked%20Authentication">
                     {' '}
                     mock authentication{' '}
                   </a>{' '}

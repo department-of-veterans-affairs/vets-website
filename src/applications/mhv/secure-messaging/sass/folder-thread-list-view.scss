@@ -1,40 +1,17 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .message-count {
-    font-weight: normal;
+  font-weight: normal;
 }
 .thread-list-draft {
-    color: $color-secondary-darkest;
+  color: $color-secondary-darkest;
+  font-weight: 700;
 }
 .thread-list {
-    width: 100%;
-    // @media (max-width: $small-screen) {
-        word-wrap: break-word;
-    //   }
-  .thread-list-sort {
-    width: 100%;
-
-    display: flex;
-    align-items: flex-end;
-
-    va-select {
-      margin-right: 16px;
-      min-width: 220px;
-    }
-
-    va-button {
-      display: contents;
-      height: 37px;
-      padding: 0;
-    }
-
-    va-button::part(button) {
-      height: 4.2rem;
-      width: fit-content;
-      min-width: 78px;
-      margin: 3px;
-    }
-  }
+  width: 100%;
+  // @media (max-width: $small-screen) {
+  word-wrap: break-word;
+  //   }
 
   .unread-column {
     max-width: 15px;
@@ -73,3 +50,38 @@
   }
 }
 
+.thread-list-sort {
+  width: 100%;
+  flex-wrap: wrap;
+
+  va-select {
+
+    @media (min-width: $small-screen) {
+      max-width: 225px;
+    }
+  }
+
+  va-button {
+    display: contents;
+    height: 37px;
+    padding: 0;
+  }
+
+  va-button::part(button) {
+    height: 4.2rem;
+    flex-grow: 1;
+    margin-right: 0;
+    margin-bottom: 3px;
+    align-self: flex-end;
+
+    @media (min-width: $small-screen) {
+      width: fit-content;
+      max-width: 78px;
+      margin-right: auto;
+    }
+  }
+}
+
+#sort-order-dropdown::part(label) {
+  margin-top: 12px;
+}

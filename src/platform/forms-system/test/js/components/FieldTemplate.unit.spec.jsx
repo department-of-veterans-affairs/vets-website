@@ -217,6 +217,35 @@ describe('Schemaform <FieldTemplate>', () => {
 
     expect(tree.text()).to.contain('Blah');
   });
+  it('should hide the description using ui:option', () => {
+    const schema = {
+      type: 'string',
+    };
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:description': <div>Blah</div>,
+      'ui:options': {
+        hideDuplicateDescription: true,
+      },
+    };
+    const formContext = {
+      touched: {},
+    };
+    const errors = ['Some error'];
+    const tree = SkinDeep.shallowRender(
+      <FieldTemplate
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        rawErrors={errors}
+        formContext={formContext}
+      >
+        <div className="field-child" />
+      </FieldTemplate>,
+    );
+
+    expect(tree.text()).to.not.contain('Blah');
+  });
   it('should render description component', () => {
     const schema = {
       type: 'string',
@@ -326,6 +355,35 @@ describe('Schemaform <FieldTemplate>', () => {
     expect(tree.subTree('label').text()).to.equal('Title');
     expect(tree.subTree('fieldset')).to.be.false;
   });
+  it('should not render fieldset or label wrapper if showFieldLabel is set to no-wrap', () => {
+    const schema = {
+      type: 'string',
+    };
+    const uiSchema = {
+      'ui:title': <h3>Title</h3>,
+      'ui:widget': 'radio',
+      'ui:options': {
+        showFieldLabel: 'no-wrap',
+      },
+    };
+    const formContext = {
+      touched: {},
+    };
+    const tree = SkinDeep.shallowRender(
+      <FieldTemplate
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        formContext={formContext}
+      >
+        <div className="field-child" />
+      </FieldTemplate>,
+    );
+
+    expect(tree.subTree('h3').text()).to.equal('Title');
+    expect(tree.subTree('label')).to.be.false;
+    expect(tree.subTree('fieldset')).to.be.false;
+  });
   it('should not render a label if no title provided', () => {
     const schema = {
       type: 'string',
@@ -399,5 +457,32 @@ describe('Schemaform <FieldTemplate>', () => {
 
     expect(tree.subTree('label')).not.to.be.empty;
     expect(tree.everySubTree('.schemaform-required-span')).not.to.be.empty;
+  });
+  it('should render a web-component when ui:webComponentField is provided', () => {
+    const WebComponentField = () => {
+      return <></>;
+    };
+
+    const schema = {
+      type: 'string',
+    };
+    const uiSchema = {
+      'ui:webComponentField': WebComponentField,
+    };
+    const formContext = {
+      touched: {},
+    };
+    const tree = SkinDeep.shallowRender(
+      <FieldTemplate
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        formContext={formContext}
+      >
+        children
+      </FieldTemplate>,
+    );
+
+    expect(tree.text()).to.equal('<WebComponentField />');
   });
 });

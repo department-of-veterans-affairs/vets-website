@@ -9,6 +9,7 @@ import {
   validateVaIssues,
   validateVaFromDate,
   validateVaToDate,
+  buildVaLocationString,
   isEmptyVaEntry,
   validateVaUnique,
   validatePrivateName,
@@ -20,6 +21,7 @@ import {
   validatePrivateIssues,
   validatePrivateFromDate,
   validatePrivateToDate,
+  buildPrivateString,
   isEmptyPrivateEntry,
   validatePrivateUnique,
 } from '../../validations/evidence';
@@ -122,6 +124,89 @@ describe('VA evidence', () => {
     });
   });
 
+  describe('buildVaLocationString', () => {
+    const getLocation = ({
+      name = 'name',
+      issues = ['1', '2'],
+      from = '2022-01-01',
+      to = '2022-02-02',
+    } = {}) => ({
+      locationAndName: name,
+      issues,
+      evidenceDates: { from, to },
+    });
+    it('should add different joiners', () => {
+      expect(buildVaLocationString(getLocation())).to.eq(
+        'name122022-01-012022-02-02',
+      );
+      expect(buildVaLocationString(getLocation(), ',')).to.eq(
+        'name,1,2,2022-01-01,2022-02-02',
+      );
+      expect(buildVaLocationString(getLocation(), ';')).to.eq(
+        'name;1;2;2022-01-01;2022-02-02',
+      );
+    });
+    it('should return expected strings', () => {
+      expect(buildVaLocationString({})).to.eq('');
+      expect(buildVaLocationString({}, ',')).to.eq(',,');
+      expect(
+        buildVaLocationString(
+          getLocation({ issues: [], from: '', to: '' }),
+          ',',
+        ),
+      ).to.eq('name,,');
+      expect(
+        buildVaLocationString(getLocation({ from: '', to: '' }), ','),
+      ).to.eq('name,1,2,,');
+      expect(buildVaLocationString(getLocation({ to: '' }), ',')).to.eq(
+        'name,1,2,2022-01-01,',
+      );
+      expect(buildVaLocationString(getLocation(), ',')).to.eq(
+        'name,1,2,2022-01-01,2022-02-02',
+      );
+    });
+    it('should remove empty dates', () => {
+      expect(buildVaLocationString(getLocation({ from: '--' }), ',')).to.eq(
+        'name,1,2,,2022-02-02',
+      );
+      expect(buildVaLocationString(getLocation({ from: '-00-00' }), ',')).to.eq(
+        'name,1,2,,2022-02-02',
+      );
+      expect(buildVaLocationString(getLocation({ to: '--' }), ',')).to.eq(
+        'name,1,2,2022-01-01,',
+      );
+      expect(buildVaLocationString(getLocation({ to: '-00-00' }), ',')).to.eq(
+        'name,1,2,2022-01-01,',
+      );
+    });
+    it('should add leading zeros to dates', () => {
+      expect(
+        buildVaLocationString(getLocation({ from: '2021-12-4' }), ','),
+      ).to.eq('name,1,2,2021-12-04,2022-02-02');
+      expect(
+        buildVaLocationString(getLocation({ from: '2022-1-16' }), ','),
+      ).to.eq('name,1,2,2022-01-16,2022-02-02');
+      expect(
+        buildVaLocationString(getLocation({ from: '2022-1-5' }), ','),
+      ).to.eq('name,1,2,2022-01-05,2022-02-02');
+
+      expect(
+        buildVaLocationString(getLocation({ to: '2022-12-3' }), ','),
+      ).to.eq('name,1,2,2022-01-01,2022-12-03');
+      expect(
+        buildVaLocationString(getLocation({ to: '2022-3-17' }), ','),
+      ).to.eq('name,1,2,2022-01-01,2022-03-17');
+      expect(buildVaLocationString(getLocation({ to: '2022-3-3' }), ',')).to.eq(
+        'name,1,2,2022-01-01,2022-03-03',
+      );
+    });
+    it('should not include issues', () => {
+      expect(
+        buildVaLocationString(getLocation(), ',', { includeIssues: false }),
+      ).to.eq('name,2022-01-01,2022-02-02');
+    });
+  });
+
   describe('isEmptyVaEntry', () => {
     it('should return true for empty entries', () => {
       expect(isEmptyVaEntry()).to.be.true;
@@ -133,6 +218,10 @@ describe('VA evidence', () => {
       expect(isEmptyVaEntry({ evidenceDates: {} })).to.be.true;
       expect(isEmptyVaEntry({ evidenceDates: { from: '--', to: '--' } })).to.be
         .true;
+      expect(isEmptyVaEntry({ evidenceDates: { from: '-0-0', to: '-0-0' } })).to
+        .be.true;
+      expect(isEmptyVaEntry({ evidenceDates: { from: '-00-00', to: '--' } })).to
+        .be.true;
       expect(
         isEmptyVaEntry({
           locationAndName: '',
@@ -166,13 +255,13 @@ describe('VA evidence', () => {
       locations: [
         {
           locationAndName: 'Location 1',
-          issues: ['Ankylosis of knee'],
+          issues: ['test 1', 'test 2'],
           evidenceDates: { from: '2001-01-01', to: '2011-01-01' },
         },
         {},
         {
           locationAndName: 'Location 2',
-          issues: ['Ankylosis of knees'],
+          issues: ['test 1', 'test 2'],
           evidenceDates: { from: '2002-02-02', to: '2012-02-02' },
         },
         {
@@ -182,8 +271,8 @@ describe('VA evidence', () => {
         },
         {
           locationAndName: name3,
-          issues: ['AnKyLoSiS of KNEE'],
-          evidenceDates: { from: '2001-01-01', to: '2011-01-01' },
+          issues: ['TeSt 2', 'tEsT 1'],
+          evidenceDates: { from: '2001-1-01', to: '2011-01-1' },
         },
       ],
     });
@@ -195,19 +284,19 @@ describe('VA evidence', () => {
     it('should NOT show an error for duplicate locations when on the first duplicate', () => {
       const errors = { addError: sinon.spy() };
       validateVaUnique(errors, {}, getLocations('LOCATION 1'), _, _, 0);
-      expect(errors.addError.calledWith(errorMessages.evidence.unique)).to.be
+      expect(errors.addError.calledWith(errorMessages.evidence.uniqueVA)).to.be
         .false;
     });
     it('should SHOW an error for duplicate locations when not on the first duplicate index', () => {
       const errors = { addError: sinon.spy() };
       validateVaUnique(errors, {}, getLocations('LOCATION 1'), _, _, 4);
-      expect(errors.addError.calledWith(errorMessages.evidence.unique)).to.be
+      expect(errors.addError.calledWith(errorMessages.evidence.uniqueVA)).to.be
         .true;
     });
     it('should NOT show an error for duplicate locations when on a different index', () => {
       const errors = { addError: sinon.spy() };
       validateVaUnique(errors, {}, getLocations('LOCATION 2'), _, _, 0);
-      expect(errors.addError.calledWith(errorMessages.evidence.unique)).to.be
+      expect(errors.addError.calledWith(errorMessages.evidence.uniqueVA)).to.be
         .false;
     });
 
@@ -403,6 +492,160 @@ describe('Private evidence', () => {
     });
   });
 
+  describe('buildPrivateString', () => {
+    const getLocation = ({
+      name = 'name',
+      issues = ['1', '2'],
+      country = 'USA',
+      street = '123 Main',
+      city = 'Anywhere',
+      state = 'Confusion',
+      postalCode = '55555',
+      from = '2022-01-01',
+      to = '2022-02-02',
+    } = {}) => ({
+      providerFacilityName: name,
+      issues,
+      providerFacilityAddress: {
+        country,
+        street,
+        city,
+        state,
+        postalCode,
+      },
+      treatmentDateRange: { from, to },
+    });
+    it('should add different joiners', () => {
+      expect(buildPrivateString(getLocation())).to.eq(
+        'nameUSA123 MainAnywhereConfusion55555122022-01-012022-02-02',
+      );
+      expect(buildPrivateString(getLocation(), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,2022-02-02',
+      );
+      expect(buildPrivateString(getLocation(), ';')).to.eq(
+        'name;USA;123 Main;Anywhere;Confusion;55555;1;2;2022-01-01;2022-02-02',
+      );
+    });
+    it('should return expected strings', () => {
+      expect(buildPrivateString({})).to.eq('');
+      expect(buildPrivateString({}, ',')).to.eq(',,');
+      expect(
+        buildPrivateString(
+          getLocation({
+            country: '',
+            street: '',
+            city: '',
+            state: '',
+            postalCode: '',
+            issues: [],
+            from: '',
+            to: '',
+          }),
+          ',',
+        ),
+      ).to.eq('name,,,,,,,');
+      expect(
+        buildPrivateString(
+          getLocation({
+            street: '',
+            city: '',
+            state: '',
+            postalCode: '',
+            issues: [],
+            from: '',
+            to: '',
+          }),
+          ',',
+        ),
+      ).to.eq('name,USA,,,,,,');
+      expect(
+        buildPrivateString(
+          getLocation({
+            city: '',
+            state: '',
+            postalCode: '',
+            issues: [],
+            from: '',
+            to: '',
+          }),
+          ',',
+        ),
+      ).to.eq('name,USA,123 Main,,,,,');
+      expect(
+        buildPrivateString(
+          getLocation({
+            state: '',
+            postalCode: '',
+            issues: [],
+            from: '',
+            to: '',
+          }),
+          ',',
+        ),
+      ).to.eq('name,USA,123 Main,Anywhere,,,,');
+      expect(
+        buildPrivateString(
+          getLocation({ postalCode: '', issues: [], from: '', to: '' }),
+          ',',
+        ),
+      ).to.eq('name,USA,123 Main,Anywhere,Confusion,,,');
+      expect(
+        buildPrivateString(getLocation({ issues: [], from: '', to: '' }), ','),
+      ).to.eq('name,USA,123 Main,Anywhere,Confusion,55555,,');
+      expect(buildPrivateString(getLocation({ from: '', to: '' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,,',
+      );
+      expect(buildPrivateString(getLocation({ to: '' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,',
+      );
+      expect(buildPrivateString(getLocation(), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,2022-02-02',
+      );
+    });
+    it('should remove empty dates', () => {
+      expect(buildPrivateString(getLocation({ from: '--' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,,2022-02-02',
+      );
+      expect(buildPrivateString(getLocation({ from: '-00-00' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,,2022-02-02',
+      );
+      expect(buildPrivateString(getLocation({ to: '--' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,',
+      );
+      expect(buildPrivateString(getLocation({ to: '-00-00' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,',
+      );
+    });
+    it('should add leading zeros to dates', () => {
+      expect(buildPrivateString(getLocation({ from: '2021-12-4' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2021-12-04,2022-02-02',
+      );
+      expect(buildPrivateString(getLocation({ from: '2022-1-16' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-16,2022-02-02',
+      );
+      expect(buildPrivateString(getLocation({ from: '2022-1-5' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-05,2022-02-02',
+      );
+
+      expect(buildPrivateString(getLocation({ to: '2022-12-3' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,2022-12-03',
+      );
+      expect(buildPrivateString(getLocation({ to: '2022-3-17' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,2022-03-17',
+      );
+      expect(buildPrivateString(getLocation({ to: '2022-3-3' }), ',')).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,2022-03-03',
+      );
+    });
+    it('should not include issues', () => {
+      expect(
+        buildPrivateString(getLocation(), ',', { includeIssues: false }),
+      ).to.eq(
+        'name,USA,123 Main,Anywhere,Confusion,55555,2022-01-01,2022-02-02',
+      );
+    });
+  });
+
   describe('isEmptyPrivateEntry', () => {
     it('should return true for empty entries', () => {
       expect(isEmptyPrivateEntry()).to.be.true;
@@ -443,6 +686,18 @@ describe('Private evidence', () => {
       expect(
         isEmptyPrivateEntry({ treatmentDateRange: { from: '--', to: '--' } }),
       ).to.be.true;
+
+      expect(
+        isEmptyPrivateEntry({
+          treatmentDateRange: { from: '-0-0', to: '-0-0' },
+        }),
+      ).to.be.true;
+      expect(
+        isEmptyPrivateEntry({
+          treatmentDateRange: { from: '-00-00', to: '--' },
+        }),
+      ).to.be.true;
+
       expect(
         isEmptyPrivateEntry({
           providerFacilityName: '',
@@ -533,14 +788,14 @@ describe('Private evidence', () => {
         {
           providerFacilityName: 'Facility 1',
           providerFacilityAddress,
-          issues: ['Ankylosis of knee'],
+          issues: ['test 1', 'test 2'],
           treatmentDateRange: { from: '2001-01-01', to: '2011-01-01' },
         },
         {},
         {
           providerFacilityName: 'Facility 2',
           providerFacilityAddress,
-          issues: ['Ankylosis of knee'],
+          issues: ['test 1', 'test 2'],
           treatmentDateRange: { from: '2002-02-02', to: '2012-02-02' },
         },
         {
@@ -552,7 +807,7 @@ describe('Private evidence', () => {
         {
           providerFacilityName: name3,
           providerFacilityAddress,
-          issues: ['AnKyLoSiS of KNEE'],
+          issues: ['TeSt 2', 'tEsT 1'],
           treatmentDateRange: { from: '2001-01-01', to: '2011-01-01' },
         },
       ],
@@ -570,8 +825,8 @@ describe('Private evidence', () => {
     it('should SHOW an error for duplicate Facilities on the indexed page', () => {
       const errors = { addError: sinon.spy() };
       validatePrivateUnique(errors, _, getFacilities('FACILITY 1'), _, _, 4);
-      expect(errors.addError.calledWith(errorMessages.evidence.unique)).to.be
-        .true;
+      expect(errors.addError.calledWith(errorMessages.evidence.uniquePrivate))
+        .to.be.true;
     });
     it('should NOT show a duplicate Facility error on a different index', () => {
       const errors = { addError: sinon.spy() };

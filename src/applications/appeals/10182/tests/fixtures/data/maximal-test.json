@@ -9,6 +9,7 @@
         "addressLine3": "Box 45678901234",
         "city": "New York",
         "countryName": "United States",
+        "countryCodeIso2": "US",
         "stateCode": "NY",
         "zipCode": "30012"
       },
@@ -25,13 +26,16 @@
     "hearingTypePreference": "central_office",
     "socOptIn": false,
     "view:additionalEvidence": true,
+    "requestingExtension": true,
+    "extensionReason": "Lorem ipsum",
+    "appealingVHADenial": false,
 
-    "contestableIssues": [
+    "contestedIssues": [
       {
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "tinnitus",
-          "approxDecisionDate": "2021-06-01",
+          "approxDecisionDate": "2021-6-1",
           "decisionIssueId": 1,
           "ratingIssueReferenceId": "2",
           "ratingDecisionReferenceId": "3",
@@ -43,7 +47,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "left knee",
-          "approxDecisionDate": "2021-06-02",
+          "approxDecisionDate": "2021-6-2",
           "decisionIssueId": 4,
           "ratingIssueReferenceId": "5"
         },
@@ -53,7 +57,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "right knee",
-          "approxDecisionDate": "2021-06-03",
+          "approxDecisionDate": "2021-6-3",
           "ratingIssueReferenceId": "6",
           "ratingDecisionReferenceId": "7"
         },
@@ -63,7 +67,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "PTSD",
-          "approxDecisionDate": "2021-06-04",
+          "approxDecisionDate": "2021-6-4",
           "decisionIssueId": 8,
           "ratingDecisionReferenceId": "9"
         },
@@ -73,7 +77,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "Traumatic Brain Injury",
-          "approxDecisionDate": "2021-06-05",
+          "approxDecisionDate": "2021-6-5",
           "decisionIssueId": 10
         },
         "view:selected": false
@@ -82,12 +86,12 @@
     "additionalIssues": [
       {
         "issue": "right arm",
-        "decisionDate": "2021-06-07",
+        "decisionDate": "2021-6-7",
         "view:selected": false
       },
       {
         "issue": "right shoulder",
-        "decisionDate": "2021-06-06",
+        "decisionDate": "2021-6-6",
         "view:selected": true
       }
     ],
@@ -102,7 +106,7 @@
           "effectiveDate": true,
           "evaluation": true
         },
-        "otherEntry": "this is an other entry"
+        "otherEntry": "this is tinnitus entry"
       },
       {
         "type": "contestableIssue",
@@ -120,7 +124,7 @@
         "disagreementOptions": {
           "evaluation": true
         },
-        "otherEntry": "this is another’s other entry"
+        "otherEntry": "this is right shoulder entry"
       }
     ],
     "evidence": [

@@ -1,22 +1,10 @@
-import { merge, omit, without } from 'lodash';
+import { merge, omit } from 'lodash';
 import get from 'platform/utilities/data/get';
-import { createSelector } from 'reselect';
 
 import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
-import {
-  validateMonthYear,
-  validateFutureDateIfExpectedGrad,
-} from 'platform/forms-system/src/js/validation';
-import {
-  schema as addressSchema,
-  uiSchema as addressUI,
-} from 'platform/forms/definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
-import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as personId from 'platform/forms/definitions/personId';
-import dateRangeUi from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUi from 'platform/forms/definitions/fullName';
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
@@ -28,29 +16,22 @@ import {
   benefitsRelinquishedWarning,
   benefitsDisclaimerChild,
   benefitsDisclaimerSpouse,
-  relationshipLabels,
-  highSchoolStatusLabels,
+  relationshipAndChildTypeLabels,
   transform,
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
 
-import { stateLabels, survivorBenefitsLabels } from '../../utils/labels';
+import { survivorBenefitsLabels } from '../../utils/labels';
 
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
-import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage5490 from '../content/directDeposit';
-import createDirectDepositPage from '../../pages/directDeposit';
 import applicantInformationUpdate from '../components/applicantInformationUpdate';
 import GuardianInformation from '../components/GuardianInformation';
 import applicantServicePage from '../../pages/applicantService';
-import createSchoolSelectionPage, {
-  schoolSelectionOptionsFor,
-} from '../../pages/schoolSelection';
-import additionalBenefitsPage from '../../pages/additionalBenefits';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -63,7 +44,6 @@ const {
   benefitsRelinquishedDate,
   currentlyActiveDuty,
   currentSameAsPrevious,
-  highSchool,
   outstandingFelony,
   previousBenefits,
   serviceBranch,
@@ -74,12 +54,10 @@ const {
 } = fullSchema5490.properties;
 
 const {
-  secondaryContact,
   date,
   dateRange,
   educationType,
   fullName,
-  postHighSchoolTrainings,
   vaFileNumber,
   phone,
   ssn,
@@ -87,22 +65,40 @@ const {
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
 
-const removeAdditionalBenefit = () => {
-  if (environment.isProduction()) {
-    return {
-      applicantInformation: applicantInformationUpdate(fullSchema5490, {
-        labels: { relationship: relationshipLabels },
-      }),
-      additionalBenefits: additionalBenefitsPage(fullSchema5490, {
-        fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource'],
-      }),
-      applicantService: applicantServicePage(fullSchema5490),
-    };
-  }
+const relationshipEqualToSpouse = (myGet, formData) => {
+  return myGet('relationshipAndChildType', formData) === 'spouse';
+};
 
+const relationshipNotEqualToSpouse = (myGet, formData) => {
+  return myGet('relationshipAndChildType', formData) !== 'spouse';
+};
+
+const relationshipEqualToChild = (myGet, formData) => {
+  return (
+    myGet('relationshipAndChildType', formData) === 'adopted' ||
+    myGet('relationshipAndChildType', formData) === 'biological' ||
+    myGet('relationshipAndChildType', formData) === 'step'
+  );
+};
+
+const relationshipNotEqualToChild = (myGet, formData) => {
+  return (
+    myGet('relationshipAndChildType', formData) !== 'adopted' ||
+    myGet('relationshipAndChildType', formData) !== 'biological' ||
+    myGet('relationshipAndChildType', formData) !== 'step'
+  );
+};
+
+const getRelationship = (myGet, formData) => {
+  return myGet('relationshipAndChildType', formData);
+};
+
+const removeAdditionalBenefit = () => {
   return {
     applicantInformation: applicantInformationUpdate(fullSchema5490, {
-      labels: { relationship: relationshipLabels },
+      labels: {
+        relationshipAndChildType: relationshipAndChildTypeLabels,
+      },
     }),
     applicantService: applicantServicePage(fullSchema5490),
   };
@@ -170,13 +166,13 @@ const formConfig = {
             'view:benefitsDisclaimerChild': {
               'ui:description': benefitsDisclaimerChild,
               'ui:options': {
-                hideIf: form => get('relationship', form) !== 'child',
+                hideIf: form => relationshipNotEqualToChild(get, form),
               },
             },
             'view:benefitsDisclaimerSpouse': {
               'ui:description': benefitsDisclaimerSpouse,
               'ui:options': {
-                hideIf: form => get('relationship', form) !== 'spouse',
+                hideIf: form => relationshipNotEqualToSpouse(get, form),
               },
             },
             benefit: {
@@ -185,7 +181,7 @@ const formConfig = {
               'ui:options': {
                 labels: survivorBenefitsLabels,
                 updateSchema: (form, schema, uiSchema) => {
-                  const relationship = get('relationship', form);
+                  const relationship = getRelationship(get, form);
                   const nestedContent = {
                     chapter33: benefitSelectionWarning(
                       'chapter33',
@@ -206,25 +202,16 @@ const formConfig = {
               'ui:title':
                 ' Are you looking for Special Restorative Training because of a disability? Special Restorative Training could include speech and voice therapy, language retraining, lip reading, or Braille reading and writing.',
               'ui:widget': 'yesNo',
-              'ui:options': {
-                hideIf: () => environment.isProduction(),
-              },
             },
             vocationalTraining: {
               'ui:title':
                 'Are you looking for Special Vocational Training or specialized courses because a disability prevents you from pursuing an education program?',
               'ui:widget': 'yesNo',
-              'ui:options': {
-                hideIf: () => environment.isProduction(),
-              },
             },
             educationalCounseling: {
               'ui:title':
                 'Would you like to get vocational and educational counseling?',
               'ui:widget': 'yesNo',
-              'ui:options': {
-                hideIf: () => environment.isProduction(),
-              },
             },
           },
           schema: {
@@ -462,21 +449,15 @@ const formConfig = {
               marriageDate: {
                 ...dateUI('Date of marriage'),
                 'ui:title': 'Date of marriage',
-                'ui:options': {
-                  hideIf: formData =>
-                    get('relationship', formData) === 'spouse' &&
-                    environment.isProduction(),
-                },
                 'ui:required': formData =>
-                  get('relationship', formData) === 'spouse' &&
-                  !environment.isProduction(),
+                  relationshipEqualToSpouse(get, formData),
               },
               divorcePending: {
                 'ui:title':
                   'Is there a divorce or annulment pending with your sponsor?',
                 'ui:widget': 'yesNo',
                 'ui:required': formData =>
-                  get('relationship', formData) === 'spouse',
+                  relationshipEqualToSpouse(get, formData),
               },
               remarried: {
                 'ui:title':
@@ -492,7 +473,7 @@ const formConfig = {
                   get('spouseInfo.remarried', formData),
               },
               'ui:options': {
-                hideIf: formData => get('relationship', formData) !== 'spouse',
+                hideIf: formData => relationshipNotEqualToSpouse(get, formData),
               },
             },
             currentSameAsPrevious: {
@@ -561,7 +542,7 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   get('benefit', formData) === 'chapter33' &&
-                  get('relationship', formData) === 'spouse',
+                  relationshipEqualToSpouse(get, formData),
               },
             },
             sponsorStatus: {
@@ -577,7 +558,7 @@ const formConfig = {
                 },
                 hideIf: formData =>
                   get('benefit', formData) === 'chapter35' ||
-                  get('relationship', formData) === 'child',
+                  relationshipEqualToChild(get, formData),
               },
             },
             'view:sponsorDateOfDeath': {
@@ -587,7 +568,7 @@ const formConfig = {
                 expandUnderCondition: status => status && status !== 'powOrMia',
                 hideIf: formData =>
                   get('benefit', formData) === 'chapter35' ||
-                  get('relationship', formData) === 'child',
+                  relationshipEqualToChild(get, formData),
               },
             },
             'view:sponsorDateListedMiaOrPow': {
@@ -597,7 +578,7 @@ const formConfig = {
                 expandUnderCondition: status => status && status === 'powOrMia',
                 hideIf: formData =>
                   get('benefit', formData) === 'chapter35' ||
-                  get('relationship', formData) === 'child',
+                  relationshipEqualToChild(get, formData),
               },
             },
           },
@@ -655,173 +636,7 @@ const formConfig = {
         },
       },
     },
-    educationHistory: {
-      title: 'Education history',
-      pages: {
-        educationHistory: {
-          title: 'Education history',
-          path: 'education/history',
-          initialData: {},
-          uiSchema: {
-            highSchool: {
-              status: {
-                'ui:title': 'What’s your current high school status?',
-                'ui:options': {
-                  labels: highSchoolStatusLabels,
-                  expandUnderClassNames: 'schemaform-expandUnder-indent',
-                },
-              },
-              highSchoolOrGedCompletionDate: {
-                ...monthYearUI(null),
-                'ui:options': {
-                  monthYear: true,
-                  expandUnderCondition: status =>
-                    status === 'graduated' || status === 'graduationExpected',
-                  expandUnder: 'status',
-                  updateSchema: form => {
-                    const status = get('highSchool.status', form);
 
-                    if (status === 'graduationExpected') {
-                      return {
-                        title:
-                          'When do you expect to earn your high school diploma?',
-                      };
-                    }
-
-                    return {
-                      title: 'When did you earn your high school diploma?',
-                    };
-                  },
-                },
-                'ui:validations': [
-                  validateMonthYear,
-                  validateFutureDateIfExpectedGrad,
-                ],
-              },
-              'view:hasHighSchool': {
-                'ui:options': {
-                  expandUnderCondition: status => status === 'discontinued',
-                  expandUnder: 'status',
-                },
-                name: {
-                  'ui:title': 'Name of high school',
-                },
-                city: {
-                  'ui:title': 'City',
-                },
-                state: {
-                  'ui:title': 'State',
-                  'ui:options': {
-                    labels: stateLabels,
-                  },
-                },
-                dateRange: dateRangeUi(),
-              },
-            },
-            'view:hasTrainings': {
-              'ui:title': 'Do you have any training after high school?',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                hideIf: form => {
-                  const status = get('highSchool.status', form);
-                  return (
-                    status === 'discontinued' ||
-                    status === 'graduationExpected' ||
-                    status === 'neverAttended'
-                  );
-                },
-              },
-            },
-            postHighSchoolTrainings: merge({}, postHighSchoolTrainingsUi, {
-              'ui:options': {
-                expandUnder: 'view:hasTrainings',
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              highSchool: {
-                type: 'object',
-                properties: {
-                  status: highSchool.properties.status,
-                  highSchoolOrGedCompletionDate: date,
-                  'view:hasHighSchool': {
-                    type: 'object',
-                    properties: {
-                      name: highSchool.properties.name,
-                      city: highSchool.properties.city,
-                      state: highSchool.properties.state,
-                      dateRange: highSchool.properties.dateRange,
-                    },
-                  },
-                },
-              },
-              'view:hasTrainings': {
-                type: 'boolean',
-              },
-              postHighSchoolTrainings,
-            },
-          },
-        },
-      },
-    },
-    schoolSelection: {
-      title: 'School selection',
-      pages: {
-        schoolSelection: merge(
-          {},
-          createSchoolSelectionPage(
-            fullSchema5490,
-            schoolSelectionOptionsFor['5490'],
-          ),
-          {
-            // Rephrase the question for facility name in educationProgram
-            uiSchema: {
-              educationProgram: {
-                name: {
-                  'ui:title':
-                    'Name of school, university, or training facility you want to attend',
-                },
-                educationType: {
-                  'ui:options': {
-                    updateSchema: (() => {
-                      const edTypes = educationType.enum;
-                      // Using reselect here avoids running the filter code
-                      // and creating a new object unless either benefit or
-                      // relationship has changed
-                      const filterEducationType = createSelector(
-                        form => get('benefit', form),
-                        form => get('relationship', form),
-                        (benefitData, relationshipData) => {
-                          // Remove tuition top-up
-                          const filterOut = ['tuitionTopUp'];
-                          // Correspondence not available to Chapter 35 (DEA) children
-                          if (
-                            benefitData === 'chapter35' &&
-                            relationshipData === 'child'
-                          ) {
-                            filterOut.push('correspondence');
-                          }
-                          // Flight training available to Chapter 33 (Fry Scholarships) only
-                          if (benefitData && benefitData !== 'chapter33') {
-                            filterOut.push('flightTraining');
-                          }
-
-                          return { enum: without(edTypes, filterOut) };
-                        },
-                      );
-
-                      return form => filterEducationType(form);
-                    })(),
-                  },
-                },
-              },
-            },
-          },
-        ),
-      },
-    },
     personalInformation: {
       title: 'Personal information',
       pages: {
@@ -829,49 +644,8 @@ const formConfig = {
           fullSchema5490,
           'relativeAddress',
         ),
-        secondaryContact: {
-          title: 'Secondary contact',
-          path: 'personal-information/secondary-contact',
-          initialData: {},
-          depends: () => environment.isProduction(), // delete this row when ready for prod
-          uiSchema: {
-            'ui:title': 'Secondary contact',
-            'ui:description':
-              'This person should know where you can be reached at all times.',
-            secondaryContact: {
-              fullName: {
-                'ui:title': 'Name',
-              },
-              phone: phoneUI('Telephone number'),
-              sameAddress: {
-                'ui:title': 'Address for secondary contact is the same as mine',
-              },
-              address: merge({}, addressUI(), {
-                'ui:options': {
-                  hideIf: formData =>
-                    get('secondaryContact.sameAddress', formData) === true,
-                },
-              }),
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              secondaryContact: {
-                type: 'object',
-                properties: {
-                  fullName: secondaryContact.properties.fullName,
-                  phone,
-                  sameAddress: secondaryContact.properties.sameAddress,
-                  address: addressSchema(fullSchema5490),
-                },
-              },
-            },
-          },
-        },
-        directDeposit: !environment.isProduction()
-          ? createDirectDepositPage5490()
-          : createDirectDepositPage(fullSchema5490),
+
+        directDeposit: createDirectDepositPage5490(),
       },
     },
     GuardianInformation: {

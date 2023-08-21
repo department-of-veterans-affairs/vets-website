@@ -1,10 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import {
   currency,
   calcDueDate,
@@ -37,9 +34,9 @@ const PastDueContent = ({ id, date, amount }) => (
     was {currency(amount)}. If you haven’t either paid your full balance or
     requested financial help, contact the VA Health Resource Center at
     <span className="vads-u-margin-x--0p5">
-      <Telephone contact="866-400-1238" />
+      <va-telephone contact="8664001238" />
     </span>
-    (TTY: <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />
+    ( <va-telephone tty contact={CONTACTS[711]} />
     ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
   </p>
 );

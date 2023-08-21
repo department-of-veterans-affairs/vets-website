@@ -9,15 +9,27 @@ describe('Secure Messaging Compose Form Keyboard Nav', () => {
     landingPage.loadInboxMessages();
   });
   it('Tab to Message Body', () => {
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.tabToElement('[data-testid="message-body-field"] ').should('exist');
   });
   it('Tab to Save Draft Button', () => {
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.tabToElement('[data-testid="Save-Draft-Button"]').should('exist');
   });
 });

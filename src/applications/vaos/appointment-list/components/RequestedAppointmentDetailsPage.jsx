@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
+import BackLink from '../../components/BackLink';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
@@ -21,12 +22,14 @@ import {
   getVAAppointmentLocationId,
 } from '../../services/appointment';
 import { selectRequestedAppointmentDetails } from '../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import { startAppointmentCancel, fetchRequestDetails } from '../redux/actions';
 import RequestedStatusAlert from './RequestedStatusAlert';
 import { getTypeOfCareById } from '../../utils/appointment';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -61,6 +64,13 @@ export default function RequestedAppointmentDetailsPage() {
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
   );
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const showBackLink = useToggleValue(
+    TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink,
+  );
   useEffect(
     () => {
       dispatch(fetchRequestDetails(id));
@@ -75,9 +85,13 @@ export default function RequestedAppointmentDetailsPage() {
         const typeOfCareText = lowerCase(
           appointment?.type?.coding?.[0]?.display,
         );
-        const title = `${isCanceled ? 'Canceled' : 'Pending'} ${
+        let title = `${isCanceled ? 'Canceled' : 'Pending'} ${
           isCC ? 'Community care' : 'VA'
         } ${typeOfCareText} appointment`;
+
+        if (featureBreadcrumbUrlUpdate) {
+          title = title.concat(` | Veterans Affairs`);
+        }
 
         document.title = title;
       }
@@ -135,15 +149,18 @@ export default function RequestedAppointmentDetailsPage() {
 
   return (
     <PageLayout>
-      <Breadcrumbs>
-        <a
-          href={`/health-care/schedule-view-va-appointments/appointments/requests/${id}`}
-        >
-          Request detail
-        </a>
-      </Breadcrumbs>
-
-      <h1>
+      {showBackLink ? (
+        <BackLink appointment={appointment} />
+      ) : (
+        <Breadcrumbs>
+          <NavLink
+            to={`/health-care/schedule-view-va-appointments/appointments/requests/${id}`}
+          >
+            Request detail
+          </NavLink>
+        </Breadcrumbs>
+      )}
+      <h1 className="vads-u-margin-y--2p5">
         {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
       </h1>
       <RequestedStatusAlert appointment={appointment} facility={facility} />

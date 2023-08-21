@@ -1,222 +1,274 @@
 {
   "data": [
     {
-      "id": "7192838",
-      "type": "messages",
+      "id": "2664983",
+      "type": "message_threads",
       "attributes": {
-        "messageId": 7192838,
+        "threadId": 2664983,
+        "folderId": 0,
+        "messageId": 2666253,
+        "threadPageSize": 28,
+        "messageCount": 7,
         "category": "OTHER",
-        "subject": "PT2CL: JPEG/JFIF/PNG/JPG",
-        "body": null,
-        "attachment": true,
-        "sentDate": "2022-10-05T20:54:15.000Z",
-        "senderId": 20029,
-        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
-        "recipientId": 6820911,
-        "recipientName": "ECSTEN, THOMAS ",
-        "readReceipt": "READ"
+        "subject": "General Inquiry",
+        "triageGroupName": "Dimitar's TG",
+        "sentDate": "2023-02-16T16:33:34.000Z",
+        "draftDate": null,
+        "senderId": 694294,
+        "senderName": "TZVETANOV, DIMITAR  A",
+        "recipientName": "MHVTP, SAFARI ",
+        "recipientId": 406227,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
       },
       "links": {
-        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7192838"
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2664983"
       }
     },
     {
-      "id": "7191448",
-      "type": "messages",
+      "id": "2665844",
+      "type": "message_threads",
       "attributes": {
-        "messageId": 7191448,
-        "category": "EDUCATION",
-        "subject": "Education Inquiry",
-        "body": null,
-        "attachment": false,
-        "sentDate": "2022-10-03T15:32:09.000Z",
-        "senderId": 6177,
-        "senderName": "MANIVASAGAM, RAJESH ",
-        "recipientId": 7107671,
-        "recipientName": "Jeasmitha's dist group.",
-        "readReceipt": "READ"
+        "threadId": 2665844,
+        "folderId": 0,
+        "messageId": 2665845,
+        "threadPageSize": 28,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "Reply Draft Test",
+        "triageGroupName": "Dimitar's TG",
+        "sentDate": "2023-02-16T14:14:32.000Z",
+        "draftDate": null,
+        "senderId": 694294,
+        "senderName": "TZVETANOV, DIMITAR  A",
+        "recipientName": "MHVTP, SAFARI ",
+        "recipientId": 406227,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
       },
       "links": {
-        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7191448"
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2665844"
       }
     },
     {
-      "id": "7185771",
-      "type": "messages",
+      "id": "2649146",
+      "type": "message_threads",
       "attributes": {
-        "messageId": 7185771,
-        "category": "COVID",
-        "subject": "Covid-Inquiry",
-        "body": null,
-        "attachment": false,
-        "sentDate": "2022-09-19T21:13:23.000Z",
-        "senderId": 20029,
-        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
-        "recipientId": 6820911,
-        "recipientName": "ECSTEN, THOMAS ",
-        "readReceipt": null
+        "threadId": 2649146,
+        "folderId": 0,
+        "messageId": 2665253,
+        "threadPageSize": 28,
+        "messageCount": 3,
+        "category": "TEST_RESULTS",
+        "subject": "Test Compose",
+        "triageGroupName": "Dimitar's TG",
+        "sentDate": "2023-02-16T01:09:06.000Z",
+        "draftDate": null,
+        "senderId": 694294,
+        "senderName": "TZVETANOV, DIMITAR  A",
+        "recipientName": "MHVTP, SAFARI ",
+        "recipientId": 406227,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
       },
       "links": {
-        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7185771"
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2649146"
       }
     },
     {
-      "id": "7183467",
-      "type": "messages",
+      "id": "2649112",
+      "type": "message_threads",
       "attributes": {
-        "messageId": 7183467,
-        "category": "COVID",
-        "subject": "Covid-Inquiry-17",
-        "body": null,
-        "attachment": false,
-        "sentDate": "2022-09-15T20:20:56.000Z",
-        "senderId": 6177,
-        "senderName": "MANIVASAGAM, RAJESH ",
-        "recipientId": 6820911,
-        "recipientName": "ECSTEN, THOMAS ",
-        "readReceipt": "READ"
-      },
-      "links": {
-        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7183467"
-      }
-    },
-    {
-      "id": "7181007",
-      "type": "messages",
-      "attributes": {
-        "messageId": 7181007,
+        "threadId": 2649112,
+        "folderId": 0,
+        "messageId": 2649113,
+        "threadPageSize": 28,
+        "messageCount": 5,
         "category": "TEST_RESULTS",
         "subject": "Test Inquiry",
-        "body": null,
-        "attachment": false,
-        "sentDate": "2022-09-13T16:09:26.000Z",
-        "senderId": 20029,
+        "triageGroupName": "Dimitar's TG",
+        "sentDate": "2023-02-07T15:36:28.000Z",
+        "draftDate": null,
+        "senderId": 694294,
+        "senderName": "TZVETANOV, DIMITAR  A",
+        "recipientName": "MHVTP, SAFARI ",
+        "recipientId": 406227,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2649112"
+      }
+    },
+    {
+      "id": "2402958",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 2402958,
+        "folderId": 0,
+        "messageId": 2402959,
+        "threadPageSize": 28,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "DG Message to ALANA SLC10",
+        "triageGroupName": "SM Clinician Redesign TG***01_SLC10",
+        "sentDate": "2022-07-19T16:32:04.000Z",
+        "draftDate": null,
+        "senderId": 263530,
         "senderName": "ISLAM, MOHAMMAD  RAFIQ",
-        "recipientId": 6820911,
-        "recipientName": "ECSTEN, THOMAS ",
-        "readReceipt": null
+        "recipientName": "DG_SLC10_MOMHV7388",
+        "recipientId": 1486187,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
       },
       "links": {
-        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7181007"
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2402958"
       }
     },
     {
-      "id": "7180407",
-      "type": "messages",
+      "id": "1486341",
+      "type": "message_threads",
       "attributes": {
-        "messageId": 7180407,
-        "category": "COVID",
-        "subject": "Covid-Inquiry-17",
-        "body": null,
-        "attachment": false,
-        "sentDate": "2022-09-13T12:53:37.000Z",
-        "senderId": 6177,
-        "senderName": "MANIVASAGAM, RAJESH ",
-        "recipientId": 6820911,
-        "recipientName": "ECSTEN, THOMAS ",
-        "readReceipt": "READ"
-      },
-      "links": {
-        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7180407"
-      }
-    },
-    {
-      "id": "7179970",
-      "type": "messages",
-      "attributes": {
-        "messageId": 7179970,
-        "category": "MEDICATIONS",
-        "subject": "Medication-Inquiry",
-        "body": null,
-        "attachment": false,
-        "sentDate": "2022-09-12T15:10:13.000Z",
-        "senderId": 20029,
+        "threadId": 1486341,
+        "folderId": 0,
+        "messageId": 1486342,
+        "threadPageSize": 28,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "DG MESSAGE 7388- ATTACHMENT",
+        "triageGroupName": "$$$XYZ TRIAGE TEAM$$$",
+        "sentDate": "2020-09-17T18:50:15.000Z",
+        "draftDate": null,
+        "senderId": 257555,
         "senderName": "ISLAM, MOHAMMAD  RAFIQ",
-        "recipientId": 6820911,
-        "recipientName": "ECSTEN, THOMAS ",
-        "readReceipt": null
+        "recipientName": "DG_SLC10_MOMHV7388",
+        "recipientId": 1486187,
+        "proxySenderName": null,
+        "hasAttachment": true,
+        "unsentDrafts": false,
+        "unreadMessages": false
       },
       "links": {
-        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7179970"
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1486341"
       }
     },
     {
-      "id": "7179963",
-      "type": "messages",
+      "id": "1417653",
+      "type": "message_threads",
       "attributes": {
-        "messageId": 7179963,
-        "category": "MEDICATIONS",
-        "subject": "Medication-Inquiry",
-        "body": null,
-        "attachment": false,
-        "sentDate": "2022-09-12T15:06:07.000Z",
-        "senderId": 20029,
+        "threadId": 1417653,
+        "folderId": 0,
+        "messageId": 1417654,
+        "threadPageSize": 28,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "CL2PT:   SM-AUDIOLOGY",
+        "triageGroupName": "TOMCAT UPGARDE TESTING_SLC10",
+        "sentDate": "2020-08-13T20:37:43.000Z",
+        "draftDate": null,
+        "senderId": 263530,
         "senderName": "ISLAM, MOHAMMAD  RAFIQ",
-        "recipientId": 6820911,
-        "recipientName": "ECSTEN, THOMAS ",
-        "readReceipt": null
+        "recipientName": "MHVTP, SAFARI ",
+        "recipientId": 406227,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
       },
       "links": {
-        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7179963"
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1417653"
       }
     },
     {
-      "id": "7179613",
-      "type": "messages",
+      "id": "874509",
+      "type": "message_threads",
       "attributes": {
-        "messageId": 7179613,
-        "category": "COVID",
-        "subject": "Covid-Inquiry",
-        "body": null,
-        "attachment": false,
-        "sentDate": "2022-09-12T14:34:28.000Z",
-        "senderId": 20029,
-        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
-        "recipientId": 6820911,
-        "recipientName": "ECSTEN, THOMAS ",
-        "readReceipt": null
+        "threadId": 874509,
+        "folderId": 0,
+        "messageId": 874522,
+        "threadPageSize": 28,
+        "messageCount": 2,
+        "category": "OTHER",
+        "subject": "General Inquiry",
+        "triageGroupName": "API TEST TRIAGE_SLC10_AARON READ",
+        "sentDate": "2019-01-30T14:22:58.000Z",
+        "draftDate": null,
+        "senderId": 849030,
+        "senderName": "READ, AARON",
+        "recipientName": "MHVTP, SAFARI",
+        "recipientId": 406227,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
       },
       "links": {
-        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7179613"
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/874509"
       }
     },
     {
-      "id": "7177474",
-      "type": "messages",
+      "id": "873619",
+      "type": "message_threads",
       "attributes": {
-        "messageId": 7177474,
-        "category": "APPOINTMENTS",
-        "subject": "Appointment Inquiry",
-        "body": null,
-        "attachment": false,
-        "sentDate": "2022-09-08T00:55:51.000Z",
-        "senderId": 6177,
-        "senderName": "MANIVASAGAM, RAJESH ",
-        "recipientId": 6820911,
-        "recipientName": "ECSTEN, THOMAS ",
-        "readReceipt": "READ"
+        "threadId": 873619,
+        "folderId": 0,
+        "messageId": 873641,
+        "threadPageSize": 28,
+        "messageCount": 2,
+        "category": "OTHER",
+        "subject": "clinician test 300 SYSB",
+        "triageGroupName": "API TEST TRIAGE_SLC10_AARON READ",
+        "sentDate": "2019-01-25T15:08:18.000Z",
+        "draftDate": null,
+        "senderId": 849030,
+        "senderName": "READ, AARON",
+        "recipientName": "MHVTP, SAFARI",
+        "recipientId": 406227,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": true
       },
       "links": {
-        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7177474"
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/873619"
+      }
+    },
+    {
+      "id": "873626",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 873626,
+        "folderId": 0,
+        "messageId": 873627,
+        "threadPageSize": 28,
+        "messageCount": 2,
+        "category": "OTHER",
+        "subject": "clinician test 300 SYSB",
+        "triageGroupName": "API TEST TRIAGE_SLC10_AARON READ",
+        "sentDate": "2019-01-25T15:08:12.000Z",
+        "draftDate": null,
+        "senderId": 849030,
+        "senderName": "READ, AARON",
+        "recipientName": "MHVTP, SAFARI",
+        "recipientId": 406227,
+        "proxySenderName": null,
+        "hasAttachment": true,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/873626"
       }
     }
-  ],
-  "links": {
-    "self": "http://127.0.0.1:3000/my_health/v1/messaging/folders/0/messages?",
-    "first": "http://127.0.0.1:3000/my_health/v1/messaging/folders/0/messages?page=1&per_page=10",
-    "prev": null,
-    "next": "http://127.0.0.1:3000/my_health/v1/messaging/folders/0/messages?page=2&per_page=10",
-    "last": "http://127.0.0.1:3000/my_health/v1/messaging/folders/0/messages?page=5&per_page=10"
-  },
-  "meta": {
-    "sort": {
-      "sentDate": "DESC"
-    },
-    "pagination": {
-      "currentPage": 1,
-      "perPage": 10,
-      "totalPages": 5,
-      "totalEntries": 49
-    }
-  }
+  ]
 }

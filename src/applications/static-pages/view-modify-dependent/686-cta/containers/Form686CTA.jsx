@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import CallToActionWidget from 'applications/static-pages/cta-widget';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
@@ -10,7 +9,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 const Form686CTA = props => {
   let content;
   if (props.showContent === undefined) {
-    content = <LoadingIndicator message="Loading..." />;
+    content = <va-loading-indicator message="Loading..." />;
   } else if (props.showContent === false) {
     content = (
       <EbenefitsLink

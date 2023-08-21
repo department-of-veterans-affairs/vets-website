@@ -1,5 +1,4 @@
 import React from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect } from 'react-redux';
 import { mapboxToken } from '../../facility-locator/utils/mapboxToken';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
@@ -40,7 +39,7 @@ export class FacilityMapWidget extends React.Component {
 
   render() {
     if (this.props.loading) {
-      return <LoadingIndicator message="Loading facility..." />;
+      return <va-loading-indicator message="Loading facility..." />;
     }
 
     if (this.props.error) {

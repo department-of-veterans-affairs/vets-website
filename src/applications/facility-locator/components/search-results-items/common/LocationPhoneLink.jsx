@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import { LocationType } from '../../../constants';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 import CCProviderPhoneLink from './CCProviderPhoneLink';
@@ -33,16 +32,16 @@ export const renderPhoneNumber = (
       )}
       {title && <strong id={phoneNumberId}>{title}: </strong>}
       {subTitle}
-      <Telephone
+      <va-telephone
         className={
           subTitle ? 'vads-u-margin-left--0p5' : 'vads-u-margin-left--0p25'
         }
         contact={contact}
         extension={extension}
-        ariaDescribedById={phoneNumberId}
+        aria-describedby={phoneNumberId}
       >
         {formattedPhoneNumber}
-      </Telephone>
+      </va-telephone>
     </div>
   );
 };

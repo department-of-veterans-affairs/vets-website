@@ -9,6 +9,7 @@ import {
   isValidUSZipCode,
   isValidCanPostalCode,
 } from 'platform/forms/address';
+import environment from 'platform/utilities/environment';
 
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
@@ -25,6 +26,22 @@ function validatePostalCodes(errors, address) {
   // Add error message for postal code if it is invalid
   if (address.postalCode && !isValidPostalCode) {
     errors.postalCode.addError('Please provide a valid postal code');
+  }
+}
+
+function validateNotAllWhiteSpaces(
+  errorsLocation,
+  addressField,
+  requiredArray,
+  requiredField,
+) {
+  // Add error message for street if it is all blank spaces.
+  if (
+    requiredArray.includes(requiredField) &&
+    addressField &&
+    addressField.trim() === ''
+  ) {
+    errorsLocation.addError('Please provide a response');
   }
 }
 
@@ -55,6 +72,16 @@ function validateAddress(errors, address, formData, currentSchema) {
   }
 
   validatePostalCodes(errors, address);
+  if (currentSchema.required.length) {
+    const requiredArray = currentSchema.required;
+    validateNotAllWhiteSpaces(
+      errors.street,
+      address.street,
+      requiredArray,
+      'street',
+    );
+    validateNotAllWhiteSpaces(errors.city, address.city, requiredArray, 'city');
+  }
 }
 
 const countryValues = countries.map(object => object.value);
@@ -176,10 +203,20 @@ export function uiSchema(
           if (
             !ignoreRequired &&
             required &&
-            !addressSchema.required.some(field => field === 'state')
+            !addressSchema.required.some(field => field === 'state') &&
+            environment.isProduction()
           ) {
             schemaUpdate.required = addressSchema.required.concat('state');
           }
+        }
+
+        if (
+          !ignoreRequired &&
+          required &&
+          !addressSchema.required.some(field => field === 'state') &&
+          !environment.isProduction()
+        ) {
+          schemaUpdate.required = addressSchema.required.concat('state');
         }
         // We don’t have a state list for the current country, but there’s an enum in the schema
         // so we need to update it
@@ -231,21 +268,6 @@ export function uiSchema(
           withEnum,
         );
       }
-
-      // Hide the state field for non US and CAN addresses
-      if (!stateList && !schemaUpdate.properties.state['ui:hidden']) {
-        schemaUpdate.properties = set(
-          'state.ui:hidden',
-          true,
-          schemaUpdate.properties,
-        );
-      } else if (stateList && schemaUpdate.properties.state['ui:hidden']) {
-        schemaUpdate.properties = unset(
-          'state.ui:hidden',
-          schemaUpdate.properties,
-        );
-      }
-
       return schemaUpdate;
     },
   );
@@ -256,6 +278,38 @@ export function uiSchema(
     'ui:options': {
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
         let currentSchema = addressSchema;
+
+        const modifiedData = { ...formData };
+
+        if (
+          modifiedData.application &&
+          modifiedData.application.claimant &&
+          modifiedData.application.claimant.address &&
+          (modifiedData.application.claimant.address.country !== 'USA' ||
+            modifiedData.application.claimant.address.country !== 'CAN') &&
+          !modifiedData.application.claimant.address.state
+        ) {
+          modifiedData.application.claimant.address.state = '';
+        }
+
+        if (
+          modifiedData.application &&
+          modifiedData.application.applicant &&
+          modifiedData.application.applicant['view:applicantInfo'] &&
+          modifiedData.application.applicant['view:applicantInfo']
+            .mailingAddress &&
+          (modifiedData.application.applicant['view:applicantInfo']
+            .mailingAddress.country !== 'USA' ||
+            modifiedData.application.applicant['view:applicantInfo']
+              .mailingAddress.country !== 'CAN') &&
+          !modifiedData.application.applicant['view:applicantInfo']
+            .mailingAddress.state
+        ) {
+          modifiedData.application.applicant[
+            'view:applicantInfo'
+          ].mailingAddress.state = '';
+        }
+
         if (isRequired) {
           const required = isRequired(formData, index);
           if (required && currentSchema.required.length === 0) {

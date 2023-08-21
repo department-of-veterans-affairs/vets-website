@@ -14,7 +14,7 @@ import {
 } from '@@profile/actions/paymentInformation';
 import {
   cnpDirectDepositAccountInformation,
-  cnpDirectDepositAddressIsSetUp,
+  cnpDirectDepositIsEligible,
   cnpDirectDepositInformation,
   cnpDirectDepositIsSetUp,
   cnpDirectDepositLoadError,
@@ -24,10 +24,10 @@ import {
   eduDirectDepositIsSetUp,
   eduDirectDepositLoadError,
   eduDirectDepositUiState as eduDirectDepositUiStateSelector,
+  profileUseLighthouseDirectDepositEndpoint,
 } from '@@profile/selectors';
 import UpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 import { kebabCase } from 'lodash';
-import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
@@ -39,7 +39,6 @@ import DirectDepositConnectionError from '../alerts/DirectDepositConnectionError
 import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
-import ProfileInfoTable from '../ProfileInfoTable';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { benefitTypes } from '~/applications/personalization/common/constants';
@@ -62,6 +61,7 @@ export const BankInfo = ({
   setFormIsDirty,
   setViewingPayments,
   showSuccessMessage,
+  useLighthouseDirectDepositEndpoint,
 }) => {
   const formPrefix = type;
   const editBankInfoButton = useRef();
@@ -137,17 +137,20 @@ export const BankInfo = ({
   );
 
   const saveBankInfo = () => {
-    const payload = {
+    const fields = {
       financialInstitutionRoutingNumber: formData[routingNumber],
       accountNumber: formData[accountNumber],
       accountType: formData[accountType],
     };
     if (typeIsCNP) {
       // NOTE: You can trigger a save error by sending undefined values in the payload
-      payload.financialInstitutionName = 'Hidden form field';
-      saveBankInformation(payload, isDirectDepositSetUp);
+      saveBankInformation({
+        fields,
+        isEnrollingInDirectDeposit: isDirectDepositSetUp,
+        useLighthouseDirectDepositEndpoint,
+      });
     } else {
-      saveBankInformation(payload);
+      saveBankInformation({ fields });
     }
   };
 
@@ -379,7 +382,8 @@ export const BankInfo = ({
       >
         <p>
           {' '}
-          {`You haven't finished editing and saving the changes to your direct deposit information. If you cancel now, we won't save your changes.`}
+          You haven’t finished editing and saving the changes to your direct
+          deposit information. If you cancel now, we won’t save your changes.
         </p>
         <button
           className="usa-button-primary"
@@ -401,26 +405,14 @@ export const BankInfo = ({
           Cancel
         </button>
       </VaModal>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
-        <Toggler.Enabled>
-          <ProfileInfoCard
-            className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-            title={sectionTitle}
-            data={directDepositData()}
-            namedAnchor={sectionTitleId}
-            level={2}
-          />
-        </Toggler.Enabled>
-        <Toggler.Disabled>
-          <ProfileInfoTable
-            className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-            title={sectionTitle}
-            data={directDepositData()}
-            namedAnchor={sectionTitleId}
-            level={2}
-          />
-        </Toggler.Disabled>
-      </Toggler>
+
+      <ProfileInfoCard
+        className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+        title={sectionTitle}
+        data={directDepositData()}
+        namedAnchor={sectionTitleId}
+        level={2}
+      />
     </>
   );
 };
@@ -435,6 +427,7 @@ BankInfo.propTypes = {
   setViewingPayments: PropTypes.func.isRequired,
   toggleEditState: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
+  useLighthouseDirectDepositEndpoint: PropTypes.bool.isRequired,
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string,
     accountType: PropTypes.string,
@@ -452,6 +445,9 @@ BankInfo.propTypes = {
 
 export const mapStateToProps = (state, ownProps) => {
   const typeIsCNP = ownProps.type === benefitTypes.CNP;
+  const useLighthouseDirectDepositEndpoint = profileUseLighthouseDirectDepositEndpoint(
+    state,
+  );
   return {
     typeIsCNP,
     isLOA3: isLOA3Selector(state),
@@ -468,16 +464,18 @@ export const mapStateToProps = (state, ownProps) => {
       ? !!cnpDirectDepositLoadError(state)
       : !!eduDirectDepositLoadError(state),
     isEligibleToSetUpDirectDeposit: typeIsCNP
-      ? cnpDirectDepositAddressIsSetUp(state)
+      ? cnpDirectDepositIsEligible(state, useLighthouseDirectDepositEndpoint)
       : false,
     directDepositUiState: typeIsCNP
       ? cnpDirectDepositUiStateSelector(state)
       : eduDirectDepositUiStateSelector(state),
+    useLighthouseDirectDepositEndpoint,
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const typeIsCNP = ownProps.type === benefitTypes.CNP;
+
   return {
     ...bindActionCreators(
       {

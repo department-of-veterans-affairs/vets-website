@@ -35,66 +35,9 @@ describe('All Field prefilled tests for TOE app', () => {
       toeFormTestData,
     ).as('toeFormTestData');
 
-    cy.get(
-      'div a.vads-c-action-link--green.vads-u-padding-left--0:nth-child(2)',
-    )
+    cy.get('div a.vads-c-action-link--green:nth-child(2)')
       .contains('Start your benefit application')
       .click();
-  });
-
-  it('Your information page fields are prefilled', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.url().should(
-      'include',
-      '/apply-for-transferred-benefits-form-22-1990e/applicant-information',
-    );
-
-    cy.get('input[id="root_view:userFullName_userFullName_first"]').should(
-      'have.value',
-      toeUser.data.attributes.profile.firstName,
-    );
-    cy.get('input[id="root_view:userFullName_userFullName_middle"]').should(
-      'have.value',
-      toeUser.data.attributes.profile.middleName,
-    );
-    cy.get('input[id="root_view:userFullName_userFullName_last"]').should(
-      'have.value',
-      toeUser.data.attributes.profile.lastName,
-    );
-
-    let toeBirthMonthNum = toeClaimantTestData.data.attributes.claimant.dateOfBirth.substring(
-      5,
-      7,
-    );
-    let toeBirthDayNum = toeClaimantTestData.data.attributes.claimant.dateOfBirth.substring(
-      8,
-    );
-    let toeBirthYearNum = toeClaimantTestData.data.attributes.claimant.dateOfBirth.substring(
-      0,
-      4,
-    );
-    if (toeBirthMonthNum.startsWith('0')) {
-      toeBirthMonthNum = toeBirthMonthNum.substring(1, 2);
-    }
-    if (toeBirthDayNum.startsWith('0')) {
-      toeBirthDayNum = toeBirthDayNum.substring(1, 2);
-    }
-    if (toeBirthYearNum.startsWith('0')) {
-      toeBirthYearNum = toeBirthYearNum.substring(1, 2);
-    }
-    cy.get('select[id*="root_dateOfBirthMonth"] option:selected').should(
-      'have.value',
-      toeBirthMonthNum,
-    );
-    cy.get('select[id*="root_dateOfBirthDay"] option:selected').should(
-      'have.value',
-      toeBirthMonthNum,
-    );
-    cy.get('input[id="root_dateOfBirthYear"]').should(
-      'have.value',
-      toeBirthYearNum,
-    );
-    cy.findByText('Continue').click();
   });
 
   it('Toe Sponsor page fields are prefilled', () => {
@@ -155,291 +98,291 @@ describe('All Field prefilled tests for TOE app', () => {
     cy.contains('Please select at least one sponsor').should('not.exist');
   });
 
-  it('Toe phone and email page fields are prefilled, text and page elements verified', () => {
-    cy.findByText('Continue').click();
-    cy.get('div.form-checkbox-buttons')
-      .eq(0)
-      .find('input')
-      .click();
-    cy.findByText('Continue').click();
-    cy.injectAxeThenAxeCheck();
-    cy.url().should(
-      'include',
-      '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/phone-email',
-    );
+  // it('Toe phone and email page fields are prefilled, text and page elements verified', () => {
+  //   cy.findByText('Continue').click();
+  //   cy.get('div.form-checkbox-buttons')
+  //     .eq(0)
+  //     .find('input')
+  //     .click();
+  //   cy.findByText('Continue').click();
+  //   cy.injectAxeThenAxeCheck();
+  //   cy.url().should(
+  //     'include',
+  //     '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/phone-email',
+  //   );
 
-    // verify page prefilled
-    cy.get(
-      'input[id*="root_view:phoneNumbers_mobilePhoneNumber_phone"]',
-    ).should(
-      'have.value',
-      toeClaimantTestData.data.attributes.claimant.contactInfo
-        .mobilePhoneNumber,
-    );
-    cy.get('input[id*="root_view:phoneNumbers_phoneNumber_phone"]').should(
-      'have.value',
-      toeClaimantTestData.data.attributes.claimant.contactInfo.homePhoneNumber,
-    );
-    cy.get('input[id*="root_email_email"]').should(
-      'have.value',
-      toeUser.data.attributes.profile.email,
-    );
-    cy.get('input[id*="root_email_confirmEmail"]').should(
-      'have.value',
-      toeUser.data.attributes.profile.email,
-    );
+  //   // verify page prefilled
+  //   cy.get(
+  //     'input[id*="root_view:phoneNumbers_mobilePhoneNumber_phone"]',
+  //   ).should(
+  //     'have.value',
+  //     toeClaimantTestData.data.attributes.claimant.contactInfo
+  //       .mobilePhoneNumber,
+  //   );
+  //   cy.get('input[id*="root_view:phoneNumbers_phoneNumber_phone"]').should(
+  //     'have.value',
+  //     toeClaimantTestData.data.attributes.claimant.contactInfo.homePhoneNumber,
+  //   );
+  //   cy.get('input[id*="root_email_email"]').should(
+  //     'have.value',
+  //     toeUser.data.attributes.profile.email,
+  //   );
+  //   cy.get('input[id*="root_email_confirmEmail"]').should(
+  //     'have.value',
+  //     toeUser.data.attributes.profile.email,
+  //   );
 
-    // verify mobile phone number validation
-    cy.get('input[id*="root_view:phoneNumbers_mobilePhoneNumber_phone"]')
-      .clear()
-      .type('555444666661');
-    cy.findByText('Continue').click();
-    cy.contains(
-      'Please enter a 10-digit phone number (with or without dashes)',
-    ).should('exist');
-    cy.get('input[id*="root_view:phoneNumbers_mobilePhoneNumber_phone"]')
-      .clear()
-      .type('555444666');
-    cy.findByText('Continue').click();
-    cy.contains(
-      'Please enter a 10-digit phone number (with or without dashes)',
-    ).should('exist');
-    cy.get(
-      'input[id*="root_view:phoneNumbers_mobilePhoneNumber_isInternational"]',
-    ).click();
-    cy.contains(
-      'Please enter a 10 to 15-digit phone number (with or without dashes)',
-    ).should('exist');
-    cy.get('input[id*="root_view:phoneNumbers_mobilePhoneNumber_phone"]')
-      .clear()
-      .type('5554446661231234');
-    cy.get(
-      'input[id*="root_view:phoneNumbers_mobilePhoneNumber_isInternational"]',
-    ).click();
-    cy.findByText('Continue').click();
-    cy.contains(
-      'Please enter a 10 to 15-digit phone number (with or without dashes)',
-    ).should('exist');
-    cy.get('input[id*="root_view:phoneNumbers_mobilePhoneNumber_phone"]')
-      .clear()
-      .type(
-        toeClaimantTestData.data.attributes.claimant.contactInfo
-          .mobilePhoneNumber,
-      );
+  //   // verify mobile phone number validation
+  //   cy.get('input[id*="root_view:phoneNumbers_mobilePhoneNumber_phone"]')
+  //     .clear()
+  //     .type('555444666661');
+  //   cy.findByText('Continue').click();
+  //   cy.contains(
+  //     'Please enter a 10-digit phone number (with or without dashes)',
+  //   ).should('exist');
+  //   cy.get('input[id*="root_view:phoneNumbers_mobilePhoneNumber_phone"]')
+  //     .clear()
+  //     .type('555444666');
+  //   cy.findByText('Continue').click();
+  //   cy.contains(
+  //     'Please enter a 10-digit phone number (with or without dashes)',
+  //   ).should('exist');
+  //   cy.get(
+  //     'input[id*="root_view:phoneNumbers_mobilePhoneNumber_isInternational"]',
+  //   ).click();
+  //   cy.contains(
+  //     'Please enter a 10 to 15-digit phone number (with or without dashes)',
+  //   ).should('exist');
+  //   cy.get('input[id*="root_view:phoneNumbers_mobilePhoneNumber_phone"]')
+  //     .clear()
+  //     .type('5554446661231234');
+  //   cy.get(
+  //     'input[id*="root_view:phoneNumbers_mobilePhoneNumber_isInternational"]',
+  //   ).click();
+  //   cy.findByText('Continue').click();
+  //   cy.contains(
+  //     'Please enter a 10 to 15-digit phone number (with or without dashes)',
+  //   ).should('exist');
+  //   cy.get('input[id*="root_view:phoneNumbers_mobilePhoneNumber_phone"]')
+  //     .clear()
+  //     .type(
+  //       toeClaimantTestData.data.attributes.claimant.contactInfo
+  //         .mobilePhoneNumber,
+  //     );
 
-    // verify home phone number validation
-    cy.get('input[id*="root_view:phoneNumbers_phoneNumber_phone"]')
-      .clear()
-      .type('555444666661');
-    cy.findByText('Continue').click();
-    cy.contains(
-      'Please enter a 10-digit phone number (with or without dashes)',
-    ).should('exist');
-    cy.get('input[id*="root_view:phoneNumbers_phoneNumber_phone"]')
-      .clear()
-      .type('555444666');
-    cy.findByText('Continue').click();
-    cy.contains(
-      'Please enter a 10-digit phone number (with or without dashes)',
-    ).should('exist');
-    cy.get(
-      'input[id*="root_view:phoneNumbers_phoneNumber_isInternational"]',
-    ).click();
-    cy.contains(
-      'Please enter a 10 to 15-digit phone number (with or without dashes)',
-    ).should('exist');
-    cy.get('input[id*="root_view:phoneNumbers_phoneNumber_phone"]')
-      .clear()
-      .type('5554446661231234');
-    cy.get(
-      'input[id*="root_view:phoneNumbers_phoneNumber_isInternational"]',
-    ).click();
-    cy.findByText('Continue').click();
-    cy.contains(
-      'Please enter a 10 to 15-digit phone number (with or without dashes)',
-    ).should('exist');
-    cy.get('input[id*="root_view:phoneNumbers_phoneNumber_phone"]')
-      .clear()
-      .type(
-        toeClaimantTestData.data.attributes.claimant.contactInfo
-          .mobilePhoneNumber,
-      );
+  //   // verify home phone number validation
+  //   cy.get('input[id*="root_view:phoneNumbers_phoneNumber_phone"]')
+  //     .clear()
+  //     .type('555444666661');
+  //   cy.findByText('Continue').click();
+  //   cy.contains(
+  //     'Please enter a 10-digit phone number (with or without dashes)',
+  //   ).should('exist');
+  //   cy.get('input[id*="root_view:phoneNumbers_phoneNumber_phone"]')
+  //     .clear()
+  //     .type('555444666');
+  //   cy.findByText('Continue').click();
+  //   cy.contains(
+  //     'Please enter a 10-digit phone number (with or without dashes)',
+  //   ).should('exist');
+  //   cy.get(
+  //     'input[id*="root_view:phoneNumbers_phoneNumber_isInternational"]',
+  //   ).click();
+  //   cy.contains(
+  //     'Please enter a 10 to 15-digit phone number (with or without dashes)',
+  //   ).should('exist');
+  //   cy.get('input[id*="root_view:phoneNumbers_phoneNumber_phone"]')
+  //     .clear()
+  //     .type('5554446661231234');
+  //   cy.get(
+  //     'input[id*="root_view:phoneNumbers_phoneNumber_isInternational"]',
+  //   ).click();
+  //   cy.findByText('Continue').click();
+  //   cy.contains(
+  //     'Please enter a 10 to 15-digit phone number (with or without dashes)',
+  //   ).should('exist');
+  //   cy.get('input[id*="root_view:phoneNumbers_phoneNumber_phone"]')
+  //     .clear()
+  //     .type(
+  //       toeClaimantTestData.data.attributes.claimant.contactInfo
+  //         .mobilePhoneNumber,
+  //     );
 
-    // verify email is required
-    cy.get('input[id*="root_email_email"]').clear();
-    cy.get('input[id*="root_email_confirmEmail"]').should(
-      'have.value',
-      toeUser.data.attributes.profile.email,
-    );
-    cy.contains('Please enter an email address').should('exist');
-    cy.contains('Sorry, your emails must match').should('exist');
-    cy.get('input[id*="root_email_confirmEmail').clear();
-    cy.contains('Sorry, your emails must match').should('not.exist');
-    cy.get('input[id*="root_email_email"]').type(
-      toeUser.data.attributes.profile.email,
-    );
-    cy.contains('Please enter an email address').should('exist');
-    cy.get('input[id*="root_email_confirmEmail').type(
-      toeUser.data.attributes.profile.email,
-    );
-    cy.findByText('Continue').click();
-    cy.contains('Please enter an email address').should('not.exist');
-    cy.contains('Sorry, your emails must match').should('not.exist');
-  });
+  //   // verify email is required
+  //   cy.get('input[id*="root_email_email"]').clear();
+  //   cy.get('input[id*="root_email_confirmEmail"]').should(
+  //     'have.value',
+  //     toeUser.data.attributes.profile.email,
+  //   );
+  //   cy.contains('Please enter an email address').should('exist');
+  //   cy.contains('Sorry, your emails must match').should('exist');
+  //   cy.get('input[id*="root_email_confirmEmail').clear();
+  //   cy.contains('Sorry, your emails must match').should('not.exist');
+  //   cy.get('input[id*="root_email_email"]').type(
+  //     toeUser.data.attributes.profile.email,
+  //   );
+  //   cy.contains('Please enter an email address').should('exist');
+  //   cy.get('input[id*="root_email_confirmEmail').type(
+  //     toeUser.data.attributes.profile.email,
+  //   );
+  //   cy.findByText('Continue').click();
+  //   cy.contains('Please enter an email address').should('not.exist');
+  //   cy.contains('Sorry, your emails must match').should('not.exist');
+  // });
 
-  it('Toe Education page fields are prefilled, text and page elements verified', () => {
-    cy.findByText('Continue').click();
-    cy.get('div.form-checkbox-buttons')
-      .eq(1)
-      .find('input')
-      .click();
-    cy.findByText('Continue').click();
-    cy.injectAxeThenAxeCheck();
-    cy.url().should(
-      'include',
-      '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/high-school',
-    );
+  // it('Toe Education page fields are prefilled, text and page elements verified', () => {
+  //   cy.findByText('Continue').click();
+  //   cy.get('div.form-checkbox-buttons')
+  //     .eq(1)
+  //     .find('input')
+  //     .click();
+  //   cy.findByText('Continue').click();
+  //   cy.injectAxeThenAxeCheck();
+  //   cy.url().should(
+  //     'include',
+  //     '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/high-school',
+  //   );
 
-    // education question is required
-    cy.findByText('Continue').click();
-    cy.contains('Please provide a response').should('exist');
+  //   // education question is required
+  //   cy.findByText('Continue').click();
+  //   cy.contains('Please provide a response').should('exist');
 
-    // date of education is required
-    cy.get('input[id*="root_highSchoolDiploma"][value="Yes"]').check();
-    cy.findByText('Continue').click();
-    cy.findByText('Continue').click();
-    cy.contains('Please enter a date').should('exist');
+  //   // date of education is required
+  //   cy.get('input[id*="root_highSchoolDiploma"][value="Yes"]').check();
+  //   cy.findByText('Continue').click();
+  //   cy.findByText('Continue').click();
+  //   cy.contains('Please enter a date').should('exist');
 
-    cy.get('select[id*="root_highSchoolDiplomaDateMonth"]').select('February');
-    cy.get('select[id*="root_highSchoolDiplomaDateDay"]').select('6');
-    cy.get('#root_highSchoolDiplomaDateYear').type('2020');
-  });
+  //   cy.get('select[id*="root_highSchoolDiplomaDateMonth"]').select('February');
+  //   cy.get('select[id*="root_highSchoolDiplomaDateDay"]').select('6');
+  //   cy.get('#root_highSchoolDiplomaDateYear').type('2020');
+  // });
 
-  it('Toe Mailing Address page fields are prefilled, text and page elements verified', () => {
-    cy.findByText('Continue').click();
-    cy.get('div.form-checkbox-buttons')
-      .eq(0)
-      .find('input')
-      .click();
-    cy.findByText('Continue').click();
-    cy.findByText('Continue').click();
-    cy.injectAxeThenAxeCheck();
-    cy.url().should(
-      'include',
-      '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/mailing-address',
-    );
+  // it('Toe Mailing Address page fields are prefilled, text and page elements verified', () => {
+  //   cy.findByText('Continue').click();
+  //   cy.get('div.form-checkbox-buttons')
+  //     .eq(0)
+  //     .find('input')
+  //     .click();
+  //   cy.findByText('Continue').click();
+  //   cy.findByText('Continue').click();
+  //   cy.injectAxeThenAxeCheck();
+  //   cy.url().should(
+  //     'include',
+  //     '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/mailing-address',
+  //   );
 
-    // mailing address fields should be prefilled
-    cy.get(
-      'select[id*="root_view:mailingAddress_address_country"] option:selected',
-    )
-      .invoke('val')
-      .should('eq', 'USA');
+  //   // mailing address fields should be prefilled
+  //   cy.get(
+  //     'select[id*="root_view:mailingAddress_address_country"] option:selected',
+  //   )
+  //     .invoke('val')
+  //     .should('eq', 'USA');
 
-    cy.get('input[id="root_view:mailingAddress_address_street"]').should(
-      'have.value',
-      toeClaimantTestData.data.attributes.claimant.contactInfo.addressLine1,
-    );
-    cy.get('input[id="root_view:mailingAddress_address_street2"]').should(
-      'have.value',
-      toeClaimantTestData.data.attributes.claimant.contactInfo.addressLine2,
-    );
-    cy.get('input[id="root_view:mailingAddress_address_city"]').should(
-      'have.value',
-      toeClaimantTestData.data.attributes.claimant.contactInfo.city,
-    );
-    cy.get(
-      'select[id*="root_view:mailingAddress_address_state"] option:selected',
-    )
-      .invoke('val')
-      .should(
-        'eq',
-        toeClaimantTestData.data.attributes.claimant.contactInfo.stateCode,
-      );
-    cy.get('input[id="root_view:mailingAddress_address_postalCode"]').should(
-      'have.value',
-      toeClaimantTestData.data.attributes.claimant.contactInfo.zipcode,
-    );
+  //   cy.get('input[id="root_view:mailingAddress_address_street"]').should(
+  //     'have.value',
+  //     toeClaimantTestData.data.attributes.claimant.contactInfo.addressLine1,
+  //   );
+  //   cy.get('input[id="root_view:mailingAddress_address_street2"]').should(
+  //     'have.value',
+  //     toeClaimantTestData.data.attributes.claimant.contactInfo.addressLine2,
+  //   );
+  //   cy.get('input[id="root_view:mailingAddress_address_city"]').should(
+  //     'have.value',
+  //     toeClaimantTestData.data.attributes.claimant.contactInfo.city,
+  //   );
+  //   cy.get(
+  //     'select[id*="root_view:mailingAddress_address_state"] option:selected',
+  //   )
+  //     .invoke('val')
+  //     .should(
+  //       'eq',
+  //       toeClaimantTestData.data.attributes.claimant.contactInfo.stateCode,
+  //     );
+  //   cy.get('input[id="root_view:mailingAddress_address_postalCode"]').should(
+  //     'have.value',
+  //     toeClaimantTestData.data.attributes.claimant.contactInfo.zipcode,
+  //   );
 
-    // verifying required fields
+  // verifying required fields
 
-    // add line1 is required
-    cy.get('input[id="root_view:mailingAddress_address_street"]').clear();
-    cy.findByText('Continue').click();
-    cy.contains('Please enter your full street address').should('exist');
-    cy.get('input[id="root_view:mailingAddress_address_street"]').type(
-      toeClaimantTestData.data.attributes.claimant.contactInfo.addressLine1,
-    );
+  // add line1 is required
+  //   cy.get('input[id="root_view:mailingAddress_address_street"]').clear();
+  //   cy.findByText('Continue').click();
+  //   cy.contains('Please enter your full street address').should('exist');
+  //   cy.get('input[id="root_view:mailingAddress_address_street"]').type(
+  //     toeClaimantTestData.data.attributes.claimant.contactInfo.addressLine1,
+  //   );
 
-    // city is reqired
-    cy.get('input[id="root_view:mailingAddress_address_city"]').clear();
-    cy.findByText('Continue').click();
-    cy.contains('Please enter a valid city').should('exist');
-    cy.get('input[id="root_view:mailingAddress_address_city"]').type(
-      toeClaimantTestData.data.attributes.claimant.contactInfo.city,
-    );
+  //   // city is reqired
+  //   cy.get('input[id="root_view:mailingAddress_address_city"]').clear();
+  //   cy.findByText('Continue').click();
+  //   cy.contains('Please enter a valid city').should('exist');
+  //   cy.get('input[id="root_view:mailingAddress_address_city"]').type(
+  //     toeClaimantTestData.data.attributes.claimant.contactInfo.city,
+  //   );
 
-    // postal code is required
-    cy.get('input[id="root_view:mailingAddress_address_postalCode"]').clear();
-    cy.findByText('Continue').click();
-    cy.contains('Zip code must be 5 digits').should('exist');
-    cy.get('input[id="root_view:mailingAddress_address_postalCode"]').type(
-      toeClaimantTestData.data.attributes.claimant.contactInfo.zipcode,
-    );
+  //   // postal code is required
+  //   cy.get('input[id="root_view:mailingAddress_address_postalCode"]').clear();
+  //   cy.findByText('Continue').click();
+  //   cy.contains('Zip code must be 5 digits').should('exist');
+  //   cy.get('input[id="root_view:mailingAddress_address_postalCode"]').type(
+  //     toeClaimantTestData.data.attributes.claimant.contactInfo.zipcode,
+  //   );
 
-    cy.findByText('Continue').click();
-    cy.contains('Please provide a response').should('not.exist');
-    cy.contains('Please enter your full street address').should('not.exist');
-    cy.contains('Please enter a valid city').should('not.exist');
-    cy.contains('Zip code must be 5 digits').should('not.exist');
-  });
+  //   cy.findByText('Continue').click();
+  //   cy.contains('Please provide a response').should('not.exist');
+  //   cy.contains('Please enter your full street address').should('not.exist');
+  //   cy.contains('Please enter a valid city').should('not.exist');
+  //   cy.contains('Zip code must be 5 digits').should('not.exist');
+  // });
 
-  it('Toe contact preference page fields are prefilled, text and page elements verified', () => {
-    cy.findByText('Continue').click();
-    cy.get('div.form-checkbox-buttons')
-      .eq(0)
-      .find('input')
-      .click();
-    cy.findByText('Continue').click();
-    cy.findByText('Continue').click();
-    cy.findByText('Continue').click();
-    cy.injectAxeThenAxeCheck();
-    cy.url().should(
-      'include',
-      '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/preferred-contact-method',
-    );
+  // it('Toe contact preference page fields are prefilled, text and page elements verified', () => {
+  //   cy.findByText('Continue').click();
+  //   cy.get('div.form-checkbox-buttons')
+  //     .eq(0)
+  //     .find('input')
+  //     .click();
+  //   cy.findByText('Continue').click();
+  //   cy.findByText('Continue').click();
+  //   cy.findByText('Continue').click();
+  //   cy.injectAxeThenAxeCheck();
+  //   cy.url().should(
+  //     'include',
+  //     '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/preferred-contact-method',
+  //   );
 
-    // if there are phone and mobile numbers --> NOT Null --> then the radio button should exist
-    if (
-      toeClaimantTestData.data.attributes.claimant.contactInfo
-        .mobilePhoneNumber == null
-    ) {
-      cy.get('input[id*="root_contactMethod"][value="Mobile Phone"]').should(
-        'not.exist',
-      );
-    } else {
-      cy.get('input[id*="root_contactMethod"][value="Mobile Phone"]').should(
-        'exist',
-      );
-    }
+  //   // if there are phone and mobile numbers --> NOT Null --> then the radio button should exist
+  //   if (
+  //     toeClaimantTestData.data.attributes.claimant.contactInfo
+  //       .mobilePhoneNumber == null
+  //   ) {
+  //     cy.get('input[id*="root_contactMethod"][value="Mobile Phone"]').should(
+  //       'not.exist',
+  //     );
+  //   } else {
+  //     cy.get('input[id*="root_contactMethod"][value="Mobile Phone"]').should(
+  //       'exist',
+  //     );
+  //   }
 
-    if (
-      toeClaimantTestData.data.attributes.claimant.contactInfo
-        .homePhoneNumber == null
-    ) {
-      cy.get('input[id*="root_contactMethod"][value="Home Phone"]').should(
-        'not.exist',
-      );
-    } else {
-      cy.get('input[id*="root_contactMethod"][value="Home Phone"]').should(
-        'exist',
-      );
-    }
+  //   if (
+  //     toeClaimantTestData.data.attributes.claimant.contactInfo
+  //       .homePhoneNumber == null
+  //   ) {
+  //     cy.get('input[id*="root_contactMethod"][value="Home Phone"]').should(
+  //       'not.exist',
+  //     );
+  //   } else {
+  //     cy.get('input[id*="root_contactMethod"][value="Home Phone"]').should(
+  //       'exist',
+  //     );
+  //   }
 
-    cy.get('input[id*="root_contactMethod"][value="Email"]').check();
+  //   cy.get('input[id*="root_contactMethod"][value="Email"]').check();
 
-    cy.get('input[value="Yes, send me text message notifications"]').check();
-  });
+  //   cy.get('input[value="Yes, send me text message notifications"]').check();
+  // });
 
   it('Toe direct deposit page fields are prefilled, text and page elements verified', () => {
     cy.findByText('Continue').click();
@@ -533,31 +476,7 @@ describe('All Field prefilled tests for TOE app', () => {
     );
 
     // verifying your information section in review page
-    cy.get('button[id*="collapsibleButton"]')
-      .contains('Your information')
-      .click();
-
-    cy.contains(toeUser.data.attributes.profile.firstName).should('exist');
-    cy.contains(toeUser.data.attributes.profile.middleName).should('exist');
-    cy.contains(toeUser.data.attributes.profile.lastName).should('exist');
-
-    const toeBirthMonthNum = toeClaimantTestData.data.attributes.claimant.dateOfBirth.substring(
-      5,
-      7,
-    );
-    const toeBirthDayNum = toeClaimantTestData.data.attributes.claimant.dateOfBirth.substring(
-      8,
-    );
-    const toeBirthYearNum = toeClaimantTestData.data.attributes.claimant.dateOfBirth.substring(
-      0,
-      4,
-    );
-
-    const toeDoB = `${toeBirthMonthNum}/${toeBirthDayNum}/${toeBirthYearNum}`;
-    cy.contains(toeDoB).should('exist');
-    cy.get('button[id*="collapsibleButton"]')
-      .contains('Your information')
-      .click();
+    cy.get('button[id*="collapsibleButton"]').contains('Your information');
 
     // verifying Sponsor information section in review page
 

@@ -3,7 +3,10 @@ import { cloneDeep, set } from 'lodash';
 import { expect } from 'chai';
 import NotificationGroup from '~/applications/personalization/profile/components/notification-settings/NotificationGroup';
 
-import { renderWithProfileReducersAndRouter } from '~/applications/personalization/profile/tests/unit-test-helpers';
+import {
+  createBasicInitialState,
+  renderWithProfileReducersAndRouter,
+} from '~/applications/personalization/profile/tests/unit-test-helpers';
 import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 
 const mockCommunicationPreferencesState = {
@@ -246,71 +249,25 @@ const mockCommunicationPreferencesState = {
 };
 
 const baseState = {
+  ...createBasicInitialState(),
   featureToggles: {
     [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: true,
-    [TOGGLE_NAMES.profileShowMhvNotificaionSettings]: true,
+    [TOGGLE_NAMES.profileShowMhvNotificationSettings]: true,
+    [TOGGLE_NAMES.profileShowEmailNotificationSettings]: true,
   },
   communicationPreferences: mockCommunicationPreferencesState,
 };
 
 describe('NotificationGroup component', () => {
-  it('should render one of the standard groups regardless of feature toggles', () => {
+  it('should render checkbox for when profileUseNotificationSettingsCheckboxes is true', async () => {
     const initialState = cloneDeep(baseState);
 
-    const view = renderWithProfileReducersAndRouter(
-      <NotificationGroup groupId="group1" />,
-      {
-        initialState,
-      },
-    );
-
-    expect(
-      view.getByText('Applications, claims, decision reviews, and appeals'),
-    ).to.exist;
-  });
-
-  it('should render General VA Updates Group and Items when toggle is true', () => {
-    const initialState = cloneDeep(baseState);
-
-    const view = renderWithProfileReducersAndRouter(
-      <NotificationGroup groupId="group2" />,
-      {
-        initialState,
-      },
-    );
-
-    expect(view.getByText('General VA Updates and Information')).to.exist;
-
-    expect(view.getByText('Biweekly MHV newsletter')).to.exist;
-  });
-
-  it('should NOT render General VA Updates group and Items when toggle is false', async () => {
-    const initialState = cloneDeep(baseState);
     set(
       initialState,
-      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificaionSettings}]`,
-      false,
-    );
-
-    const view = renderWithProfileReducersAndRouter(
-      <NotificationGroup groupId="group2" />,
-      {
-        initialState,
-      },
-    );
-
-    expect(await view.queryByText('General VA Updates and Information')).to.not
-      .exist;
-
-    expect(await view.queryByText('Biweekly MHV newsletter')).to.not.exist;
-  });
-
-  it('should render Payments group and Items when toggle is false', async () => {
-    const initialState = cloneDeep(baseState);
-    set(
-      initialState,
-      `featureToggles[${TOGGLE_NAMES.profileShowPaymentsNotificationSetting}]`,
-      false,
+      `featureToggles[${
+        TOGGLE_NAMES.profileUseNotificationSettingsCheckboxes
+      }]`,
+      true,
     );
 
     const view = renderWithProfileReducersAndRouter(
@@ -320,10 +277,36 @@ describe('NotificationGroup component', () => {
       },
     );
 
-    expect(await view.queryByText('Payments')).to.not.exist;
-
     expect(
-      await view.queryByText('Disability and pension deposit notifications'),
-    ).to.not.exist;
+      await view.findByText('Disability and pension deposit notifications'),
+    ).to.exist;
+
+    expect(await view.findByTestId('checkbox-channel5-1')).to.exist;
+  });
+
+  it('should filter out MHV notifications from group2 when profileShowMhvNotificationSettings is false', () => {
+    const initialState = cloneDeep(baseState);
+
+    set(
+      initialState,
+      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificationSettings}]`,
+      false,
+    );
+
+    const view = renderWithProfileReducersAndRouter(
+      <NotificationGroup groupId="group2" />,
+      {
+        initialState,
+      },
+    );
+
+    expect(view.queryByText('RX refill shipment notification')).to.not.exist;
+
+    expect(view.queryByText('VA Appointment reminders')).to.not.exist;
+
+    expect(view.queryByText('Securing messaging alert')).to.not.exist;
+
+    expect(view.queryByText('Medical images and reports available')).to.not
+      .exist;
   });
 });

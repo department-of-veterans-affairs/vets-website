@@ -1,62 +1,80 @@
 import { expect } from 'chai';
-import {
-  FETCH_TOTAL_RATING_SUCCEEDED,
-  FETCH_TOTAL_RATING_FAILED,
-} from '../../utils/actions';
-import totalRating from '../../reducers/total-disabilities';
+import { DISABILITY_RATING_ACTIONS } from '../../utils/constants';
+import reducer from '../../reducers/total-disabilities';
 
-const initialState = {
-  loading: true, // app starts in loading state
-  error: null,
-  totalDisabilityRating: null,
-  disabilityDecisionTypeName: null,
-};
+describe('hca TotalDisabilities reducer', () => {
+  let state;
+  let reducedState;
+  let action;
 
-describe('totalDisabilities reducer', () => {
-  it('should return the initial state', () => {
-    const state = totalRating(initialState, {});
-    expect(state.loading).to.equal(true);
-    expect(state.error).to.equal(null);
-    expect(state.totalDisabilityRating).to.equal(null);
+  beforeEach(() => {
+    state = undefined;
   });
 
-  it('should handle an error from the API call', () => {
-    const state = totalRating(initialState, {
-      type: FETCH_TOTAL_RATING_FAILED,
-      error: {
-        code: 500,
-        detail: 'failed to load',
-      },
+  describe('default behavior', () => {
+    it('should return the initial state', () => {
+      action = {};
+      reducedState = reducer(state, action);
+      expect(reducedState.loading).to.be.true;
+      expect(reducedState.error).to.be.null;
+      expect(reducedState.totalDisabilityRating).to.be.null;
+      expect(reducedState.disabilityDecisionTypeName).to.be.null;
     });
-    const err = { code: 500, detail: 'failed to load' };
-    expect(state.loading).to.equal(false);
-    expect(state.error.code).to.equal(err.code);
-    expect(state.error.detail).to.equal(err.detail);
-    expect(state.totalDisabilityRating).to.equal(null);
   });
 
-  it('should handle a successful API call', () => {
-    const state = totalRating(initialState, {
-      type: FETCH_TOTAL_RATING_SUCCEEDED,
-      response: {
+  describe('when the action type is not a match', () => {
+    it('should return the inital state', () => {
+      action = { type: '@@INIT' };
+      reducedState = reducer(state, action);
+      expect(reducedState.loading).to.be.true;
+      expect(reducedState.error).to.be.null;
+      expect(reducedState.totalDisabilityRating).to.be.null;
+      expect(reducedState.disabilityDecisionTypeName).to.be.null;
+    });
+  });
+
+  describe('when `FETCH_TOTAL_RATING_STARTED` executes', () => {
+    const { FETCH_TOTAL_RATING_STARTED } = DISABILITY_RATING_ACTIONS;
+    it('should return the inital state', () => {
+      action = { type: FETCH_TOTAL_RATING_STARTED };
+      reducedState = reducer(state, action);
+      expect(reducedState.loading).to.be.true;
+      expect(reducedState.error).to.be.null;
+      expect(reducedState.totalDisabilityRating).to.be.null;
+      expect(reducedState.disabilityDecisionTypeName).to.be.null;
+    });
+  });
+
+  describe('when `FETCH_TOTAL_RATING_FAILED` executes', () => {
+    const { FETCH_TOTAL_RATING_FAILED } = DISABILITY_RATING_ACTIONS;
+    it('should properly handle the error', () => {
+      const error = { code: 500, detail: 'failed to load' };
+      action = { type: FETCH_TOTAL_RATING_FAILED, error };
+      reducedState = reducer(state, action);
+      expect(reducedState.loading).to.be.false;
+      expect(reducedState.error.code).to.equal(error.code);
+      expect(reducedState.error.detail).to.equal(error.detail);
+      expect(reducedState.totalDisabilityRating).to.be.null;
+    });
+  });
+
+  describe('when `FETCH_TOTAL_RATING_SUCCEEDED` executes', () => {
+    const { FETCH_TOTAL_RATING_SUCCEEDED } = DISABILITY_RATING_ACTIONS;
+    it('should properly handle the response', () => {
+      const response = {
         disabilityDecisionTypeName: 'Service Connected',
         userPercentOfDisability: 80,
-      },
+      };
+      action = { type: FETCH_TOTAL_RATING_SUCCEEDED, response };
+      reducedState = reducer(state, action);
+      expect(reducedState.loading).to.be.false;
+      expect(reducedState.error).to.be.null;
+      expect(reducedState.totalDisabilityRating).to.equal(
+        response.userPercentOfDisability,
+      );
+      expect(reducedState.disabilityDecisionTypeName).to.equal(
+        response.disabilityDecisionTypeName,
+      );
     });
-    expect(state.loading).to.equal(false);
-    expect(state.error).to.equal(null);
-    expect(state.totalDisabilityRating).to.equal(80);
-    expect(state.disabilityDecisionTypeName).to.equal('Service Connected');
-  });
-
-  it('should return the state if a type is not matched', () => {
-    const state = totalRating(initialState, {
-      type: 'BLERG',
-    });
-
-    expect(state.loading).to.equal(true);
-    expect(state.error).to.equal(null);
-    expect(state.totalDisabilityRating).to.equal(null);
-    expect(state.disabilityDecisionTypeName).to.equal(null);
   });
 });

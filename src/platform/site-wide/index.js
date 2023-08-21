@@ -15,6 +15,7 @@ import startMegaMenuWidget from './mega-menu';
 import startMobileMenuButton from './mobile-menu-button';
 import startSideNav from './side-nav';
 import startUserNavWidget from './user-nav';
+import startLogoutModal from './user-nav/startLogoutModal';
 import startVAFooter from './va-footer';
 import { addOverlayTriggers } from './legacy/menu';
 
@@ -45,6 +46,7 @@ export default function startSitewideComponents(commonStore) {
 
   // Start site-wide widgets.
   startUserNavWidget(commonStore);
+  startLogoutModal(commonStore);
   startAnnouncementWidget(commonStore);
   startMegaMenuWidget(window.VetsGov.headerFooter.megaMenuData, commonStore);
   startSideNav(window.sideNav, commonStore);

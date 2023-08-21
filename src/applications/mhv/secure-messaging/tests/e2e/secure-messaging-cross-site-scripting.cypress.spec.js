@@ -1,6 +1,7 @@
 import PatientComposePage from './pages/PatientComposePage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
+import requestBody from './fixtures/message-compose-request-body.json';
 
 describe('Secure Messaging - Cross Site Scripting', () => {
   const landingPage = new PatientInboxPage();
@@ -11,24 +12,35 @@ describe('Secure Messaging - Cross Site Scripting', () => {
     site.login();
     landingPage.loadInboxMessages();
     cy.injectAxe();
-    cy.axeCheck();
-    landingPage.loadComposeMessagePage();
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    cy.get('[name="COVID"]').click();
-    composePage
-      .getMessageSubjectField()
-      .type('Test Cross Scripting - ><script>alert(1);</script>');
-    composePage
-      .getMessageBodyField()
-      .type('Test message body- ><script>alert(1);</script>');
-    composePage.sendMessage();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+
+    const requestBodyUpdated = {
+      ...requestBody,
+      subject: 'Test Cross Scripting - ><script>alert(1);</script>',
+      body: 'Test message body - ><script>alert(1);</script>',
+    };
+    landingPage.navigateToComposePage();
+    composePage.selectRecipient(requestBody.recipientId);
+    composePage.getCategory(requestBody.category).click();
+    composePage.getMessageSubjectField().type(`${requestBodyUpdated.subject}`);
+    composePage.getMessageBodyField().type(requestBodyUpdated.body);
+    composePage.sendMessage(requestBodyUpdated);
+
+    // this assertion already added to composePage.sendMessage method. Check if it still needed
     cy.get('@message')
       .its('request.body')
       .should('contain', {
-        category: 'COVID',
-        body: 'Test message body- >\x3Cscript>alert(1);\x3C/script>',
+        category: `${requestBodyUpdated.category}`,
+        body:
+          '\n\n\nName\nTitleTest message body - >\x3Cscript>alert(1);\x3C/script>',
         subject: 'Test Cross Scripting - >\x3Cscript>alert(1);\x3C/script>',
       });
-    cy.contains('Secure message was successfully sent.');
+    composePage.verifySendMessageConfirmationMessage();
   });
 });

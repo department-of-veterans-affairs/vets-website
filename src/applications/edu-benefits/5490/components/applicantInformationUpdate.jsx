@@ -5,39 +5,29 @@ import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/valida
 import fullNameUI from 'platform/forms/definitions/fullName';
 import * as personId from 'platform/forms/definitions/personId';
 
-import { relationshipLabels, genderLabels } from 'platform/static-data/labels';
+import { genderLabels } from 'platform/static-data/labels';
 
-import environment from 'platform/utilities/environment';
-import { ageWarning, eighteenOrOver } from '../helpers';
-
-const isNotProd = !environment.isProduction();
-
-const conditionalFields = prefix => {
-  return isNotProd
-    ? [
-        `${prefix}FullName`,
-        'view:noSSN',
-        `${prefix}SocialSecurityNumber`,
-        `${prefix}DateOfBirth`,
-        'view:ageWarningNotification',
-        'minorHighSchoolQuestions',
-        'gender',
-        'relationship',
-      ]
-    : [
-        `${prefix}FullName`,
-        'view:noSSN',
-        `${prefix}SocialSecurityNumber`,
-        `${prefix}DateOfBirth`,
-        'view:ageWarningNotification',
-        'gender',
-        'relationship',
-      ];
-};
+import {
+  ageWarning,
+  eighteenOrOver,
+  relationshipAndChildTypeLabels,
+} from '../helpers';
 
 const defaults = prefix => ({
-  fields: conditionalFields(prefix),
-  required: [`${prefix}FullName`, `${prefix}DateOfBirth`, 'relationship'],
+  fields: [
+    `${prefix}FullName`,
+    'view:noSSN',
+    `${prefix}SocialSecurityNumber`,
+    `${prefix}DateOfBirth`,
+    'minorHighSchoolQuestions',
+    'gender',
+    'relationshipAndChildType',
+  ],
+  required: [
+    `${prefix}FullName`,
+    `${prefix}DateOfBirth`,
+    'relationshipAndChildType',
+  ],
   labels: {},
   isVeteran: false,
 });
@@ -60,10 +50,6 @@ export default function applicantInformationUpdate(schema, options) {
     ...schema.properties,
     'view:noSSN': {
       type: 'boolean',
-    },
-    'view:ageWarningNotification': {
-      type: 'object',
-      properties: {},
     },
     minorHighSchoolQuestions: {
       type: 'object',
@@ -99,38 +85,17 @@ export default function applicantInformationUpdate(schema, options) {
           futureDate: 'Please provide a valid date',
         },
       },
-      'view:ageWarningNotification': {
+      minorHighSchoolQuestions: {
         'ui:description': ageWarning,
         'ui:options': {
-          hideIf: formData => {
-            return eighteenOrOver(formData.relativeDateOfBirth);
-          },
-        },
-      },
-      minorHighSchoolQuestions: {
-        'ui:options': {
-          expandUnder: 'view:ageWarningNotification',
-          hideIf: formData => {
-            let shouldNotShow = true;
-            const overEighteen = eighteenOrOver(formData.relativeDateOfBirth);
-            if (!isNotProd && !overEighteen) {
-              shouldNotShow = true;
-            } else {
-              shouldNotShow = false;
-            }
-            return shouldNotShow;
-          },
+          expandUnder: [`${prefix}DateOfBirth`],
+          hideIf: formData => eighteenOrOver(formData.relativeDateOfBirth),
         },
         minorHighSchoolQuestion: {
           'ui:title': 'Applicant has graduated high school or received GED?',
           'ui:widget': 'yesNo',
-          'ui:required': formData => {
-            const isNotRequired = eighteenOrOver(formData.relativeDateOfBirth);
-            if (isNotRequired && !isNotProd) {
-              return isNotRequired;
-            }
-            return !isNotRequired;
-          },
+          'ui:required': formData =>
+            !eighteenOrOver(formData.relativeDateOfBirth),
         },
         highSchoolGedGradDate: {
           ...currentOrPastDateUI('Date graduated'),
@@ -173,12 +138,12 @@ export default function applicantInformationUpdate(schema, options) {
           labels: labels.gender || genderLabels,
         },
       },
-      relationship: {
+      relationshipAndChildType: {
         'ui:widget': 'radio',
         'ui:title':
           'What’s your relationship to the service member whose benefit is being transferred to you?',
         'ui:options': {
-          labels: labels.relationship || relationshipLabels,
+          labels: relationshipAndChildTypeLabels,
         },
       },
       ...personId.uiSchema(prefix, 'view:noSSN'),
@@ -187,7 +152,7 @@ export default function applicantInformationUpdate(schema, options) {
       type: 'object',
       definitions: pick(schema.definitions, [
         'fullName',
-        'relationship',
+        'relationshipAndChildType',
         'ssn',
         'gender',
         'date',

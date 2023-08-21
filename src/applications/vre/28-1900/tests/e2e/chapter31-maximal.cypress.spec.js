@@ -38,12 +38,8 @@ const testConfig = createTestConfig(
         // re-inject aXe to get the automatic aXe checks working.
         afterHook(() => {
           cy.injectAxe();
-          cy.get(
-            'va-button[text*="Apply for Veteran Readiness and Employment"]',
-          )
+          cy.get('.vads-c-action-link--green')
             .first()
-            .shadow()
-            .find('button')
             .click();
         });
       },

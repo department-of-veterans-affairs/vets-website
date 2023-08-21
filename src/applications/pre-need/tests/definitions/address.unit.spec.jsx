@@ -6,8 +6,8 @@ import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import { schema, uiSchema } from '../../definitions/address';
 import definitions from 'vets-json-schema/dist/definitions.json';
+import { schema, uiSchema } from '../../definitions/address';
 
 const { address } = definitions;
 const addressSchema = {
@@ -98,7 +98,7 @@ describe('Pre-need definition address', () => {
     ).to.be.true;
 
     fillData(form, 'select#root_country', 'BEL');
-    expect(form.find('input#root_state').exists()).to.be.false;
+    expect(form.find('input#root_state').exists()).to.be.true;
     form.unmount();
   }).timeout(4000);
 

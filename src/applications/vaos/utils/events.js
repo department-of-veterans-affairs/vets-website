@@ -13,7 +13,8 @@ export function recordEligibilityFailure(
   facilityId = null,
 ) {
   recordEvent({
-    event: `vaos-eligibility${errorKey ? `-${errorKey}` : ''}-failed`,
+    event: 'interaction',
+    action: `vaos-eligibility${errorKey ? `-${errorKey}` : ''}-failed`,
     'health-TypeOfCare': typeOfCare,
     'health-FacilityID': facilityId,
   });

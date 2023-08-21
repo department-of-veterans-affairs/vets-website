@@ -1,10 +1,10 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import FormFooter from 'platform/forms/components/FormFooter';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
@@ -68,7 +68,6 @@ import {
   evidenceTypesBDD,
   federalOrders,
   finalIncident,
-  fullyDevelopedClaim,
   homelessOrAtRisk,
   individualUnemployability,
   mentalHealthChanges,
@@ -189,7 +188,8 @@ const formConfig = {
   preSubmitInfo,
   chapters: {
     veteranDetails: {
-      title: isReviewPage => `${isReviewPage ? 'Review ' : ''}Veteran Details`,
+      title: ({ onReviewPage }) =>
+        `${onReviewPage ? 'Review ' : ''}Veteran Details`,
       pages: {
         veteranInformation: {
           title: 'Veteran information',
@@ -203,6 +203,21 @@ const formConfig = {
           uiSchema: contactInformation.uiSchema,
           schema: contactInformation.schema,
           updateFormData: contactInformation.updateFormData,
+        },
+        homelessOrAtRisk: {
+          title: 'Housing situation',
+          path: 'housing-situation',
+          depends: formData => !isBDD(formData),
+          uiSchema: homelessOrAtRisk.uiSchema,
+          schema: homelessOrAtRisk.schema,
+          onContinue: captureEvents.homelessOrAtRisk,
+        },
+        terminallyIll: {
+          title: 'Terminally ill',
+          path: 'terminally-ill',
+          depends: formData => !isBDD(formData),
+          uiSchema: terminallyIll.uiSchema,
+          schema: terminallyIll.schema,
         },
         alternateNames: {
           title: 'Service under another name',
@@ -692,21 +707,6 @@ const formConfig = {
           schema: paymentInformation.schema,
           onContinue: captureEvents.paymentInformation,
         },
-        homelessOrAtRisk: {
-          title: 'Housing situation',
-          path: 'housing-situation',
-          depends: formData => !isBDD(formData),
-          uiSchema: homelessOrAtRisk.uiSchema,
-          schema: homelessOrAtRisk.schema,
-          onContinue: captureEvents.homelessOrAtRisk,
-        },
-        terminallyIll: {
-          title: 'Terminally ill',
-          path: 'terminally-ill',
-          depends: formData => !isBDD(formData),
-          uiSchema: terminallyIll.uiSchema,
-          schema: terminallyIll.schema,
-        },
         vaEmployee: {
           title: 'VA employee',
           path: 'va-employee',
@@ -732,13 +732,6 @@ const formConfig = {
             !isBDD(formData),
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
-        },
-        fullyDevelopedClaim: {
-          title: 'Fully developed claim program',
-          path: 'fully-developed-claim',
-          uiSchema: fullyDevelopedClaim.uiSchema,
-          schema: fullyDevelopedClaim.schema,
-          depends: formData => !isBDD(formData),
         },
       },
     },

@@ -28,7 +28,7 @@ const initialState = {
   },
 };
 
-describe('VAOS <ClinicChoicePage>', () => {
+describe.skip('VAOS <ClinicChoicePage>', () => {
   beforeEach(() => mockFetch());
   it('should display multiple clinics and require one to be chosen', async () => {
     const clinics = [

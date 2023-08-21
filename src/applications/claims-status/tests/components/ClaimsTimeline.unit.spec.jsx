@@ -14,6 +14,7 @@ describe('<ClaimsTimeline>', () => {
 
     expect(tree.everySubTree('ClaimPhase').length).to.equal(5);
   });
+
   it('should render phase back warning text', () => {
     const events = [];
 
@@ -25,6 +26,7 @@ describe('<ClaimsTimeline>', () => {
       tree.everySubTree('ClaimPhase')[2].props.children[0].props.children[1],
     ).to.contain('may be times when a claim moves forward');
   });
+
   it('should render phase back warning box for phase 6', () => {
     const events = [];
 
@@ -39,6 +41,7 @@ describe('<ClaimsTimeline>', () => {
 
     expect(tree.subTree('PhaseBackWarning')).not.to.be.false;
   });
+
   it('should not render phase back warning box if not in phase 6', () => {
     const events = [];
 
@@ -53,6 +56,7 @@ describe('<ClaimsTimeline>', () => {
 
     expect(tree.subTree('PhaseBackWarning')).to.be.false;
   });
+
   it('should render CompleteDetails for phase 5', () => {
     const tree = SkinDeep.shallowRender(
       <ClaimsTimeline events={[]} phase={5} />,

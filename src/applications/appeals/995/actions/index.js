@@ -65,26 +65,38 @@ export const ITF_CREATION_INITIATED = 'ITF_CREATION_INITIATED';
 export const ITF_CREATION_SUCCEEDED = 'ITF_CREATION_SUCCEEDED';
 export const ITF_CREATION_FAILED = 'ITF_CREATION_FAILED';
 
-export function fetchITF() {
+export function fetchITF({ accountUuid, inProgressFormId }) {
   return dispatch => {
     dispatch({ type: ITF_FETCH_INITIATED });
     return apiRequest(ITF_API)
       .then(({ data }) => dispatch({ type: ITF_FETCH_SUCCEEDED, data }))
       .catch(() => {
-        Sentry.captureMessage('itf_fetch_failed');
+        Sentry.withScope(scope => {
+          scope.setExtra('accountUuid', accountUuid);
+          scope.setExtra('inProgressFormId', inProgressFormId);
+          Sentry.captureMessage('itf_fetch_failed');
+        });
         dispatch({ type: ITF_FETCH_FAILED });
       });
   };
 }
 
-export function createITF(benefitType = DEFAULT_BENEFIT_TYPE) {
+export function createITF({
+  accountUuid,
+  benefitType = DEFAULT_BENEFIT_TYPE,
+  inProgressFormId,
+}) {
   return dispatch => {
     dispatch({ type: ITF_CREATION_INITIATED });
 
     return apiRequest(`${ITF_API}/${benefitType}`, { method: 'POST' })
       .then(({ data }) => dispatch({ type: ITF_CREATION_SUCCEEDED, data }))
       .catch(() => {
-        Sentry.captureMessage('itf_creation_failed');
+        Sentry.withScope(scope => {
+          scope.setExtra('accountUuid', accountUuid);
+          scope.setExtra('inProgressFormId', inProgressFormId);
+          Sentry.captureMessage('itf_creation_failed');
+        });
         dispatch({ type: ITF_CREATION_FAILED });
       });
   };

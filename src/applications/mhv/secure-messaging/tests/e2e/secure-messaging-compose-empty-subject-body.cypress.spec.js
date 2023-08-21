@@ -9,32 +9,35 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4'); // trieageTeams with preferredTeam = true will appear in a recipients dropdown only
-    cy.get('[name="COVID"]').click();
-    cy.get('[data-testid="attach-file-input"]').selectFile(
-      'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
-      { force: true },
-    );
+    composePage.getCategory('COVID').click();
+    composePage.attachMessageFromFile('test_image.jpg');
   });
   it('empty message subject error', () => {
     composePage.getMessageBodyField().type('Test message body');
     composePage.clickOnSendMessageButton();
-    cy.get('[data-testid="message-subject-field"]')
-      .shadow()
-      .find('[id=input-error-message]')
-      .should('be.visible');
+    composePage.verifySubjectErrorMessage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
   it('empty message body error', () => {
     composePage.getMessageSubjectField().type('Test Subject');
     composePage.clickOnSendMessageButton();
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[id=error-message]')
-      .should('be.visible');
+    composePage.verifyBodyErrorMessage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

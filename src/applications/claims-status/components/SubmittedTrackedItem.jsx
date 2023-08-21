@@ -1,31 +1,35 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 import {
-  truncateDescription,
-  hasBeenReviewed,
   getItemDate,
+  hasBeenReviewed,
+  truncateDescription,
 } from '../utils/helpers';
 
 export default function SubmittedTrackedItem({ item }) {
-  const closed =
-    item.type.startsWith('never_received') ||
-    item.status === 'NO_LONGER_REQUIRED';
+  const { closedDate, description, displayName, documents, status } = item;
+
+  const closed = status === 'NO_LONGER_REQUIRED' && closedDate !== null;
   const reviewed = hasBeenReviewed(item);
 
   return (
     <div className="submitted-file-list-item">
-      <h3 className="submission-file-type">{item.displayName}</h3>
-      <p className="submission-description">
-        {truncateDescription(item.description)}
-      </p>
-      {item.documents &&
-        item.documents.map((doc, index) => (
+      <h3 className="submission-file-type">{displayName}</h3>
+      {description && (
+        <p className="submission-description">
+          {truncateDescription(description)}
+        </p>
+      )}
+      {documents &&
+        documents.map((doc, index) => (
           <div key={index} className="submission-description">
-            <span className="claim-item-label">File:</span> {doc.filename}
+            <span className="claim-item-label">File:</span>{' '}
+            {doc.originalFileName}
             <br />
-            <span className="claim-item-label">Type:</span> {doc.fileType}
+            <span className="claim-item-label">Type:</span>{' '}
+            {doc.documentTypeLabel}
           </div>
         ))}
       {closed && (
@@ -60,5 +64,17 @@ export default function SubmittedTrackedItem({ item }) {
 }
 
 SubmittedTrackedItem.propTypes = {
-  item: PropTypes.object.isRequired,
+  item: PropTypes.shape({
+    id: PropTypes.number,
+    closedDate: PropTypes.string,
+    description: PropTypes.string,
+    displayName: PropTypes.string,
+    documents: PropTypes.array,
+    overdue: PropTypes.bool,
+    receivedDate: PropTypes.string,
+    requestedDate: PropTypes.string,
+    status: PropTypes.string,
+    suspenseDate: PropTypes.string,
+    uploadsAllowed: PropTypes.bool,
+  }).isRequired,
 };

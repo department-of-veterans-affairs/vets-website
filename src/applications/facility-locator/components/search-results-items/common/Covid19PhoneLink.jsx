@@ -1,5 +1,4 @@
 import React from 'react';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 
 const Covid19PhoneLink = ({
@@ -31,11 +30,11 @@ const Covid19PhoneLink = ({
         {labelText}
         :&nbsp;
       </strong>
-      <Telephone
+      <va-telephone
         className="vads-u-margin-left--0p25"
         contact={contact}
         extension={extension || parsedExtension}
-        ariaDescribedById={labelId}
+        aria-describedby={labelId}
       />
     </div>
   );

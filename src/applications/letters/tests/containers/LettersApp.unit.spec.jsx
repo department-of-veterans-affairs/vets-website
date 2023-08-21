@@ -1,62 +1,54 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 
-import createCommonStore from 'platform/startup/store';
-import { LettersApp, AppContent } from '../../containers/LettersApp';
-
-import reducer from '../../reducers';
-
-const store = createCommonStore(reducer);
-
-const mockRoutes = [{ path: '/fake' }];
-const defaultProps = {
-  store,
-  location: { pathname: '/blah' },
-  route: { childRoutes: mockRoutes },
-  profile: {
-    userFullName: { first: null, middle: null, last: null, suffix: null },
-    email: null,
-    dob: null,
-    gender: null,
-    accountType: null,
-    terms: { loading: false, terms: {} },
-    savedForms: [],
-    prefillsAvailable: [],
-    loading: true,
-  },
-};
+import { AppContent } from '../../containers/LettersApp';
 
 describe('<LettersApp>', () => {
-  it('should render AppContent', () => {
-    const tree = SkinDeep.shallowRender(<LettersApp {...defaultProps} />);
-    // div() throws an exception if it can't find the selector
-    expect(tree.dive(['AppContent'])).to.not.be.null;
-  });
-
   describe('<AppContent>', () => {
     it('should render children if data available', () => {
-      const tree = SkinDeep.shallowRender(
+      const screen = render(
         <AppContent isDataAvailable>
-          <span>Rendered!</span>
+          <div data-testid="children" />
         </AppContent>,
       );
-      expect(tree.text()).to.equal('Rendered!');
+      expect(screen.queryByTestId('children')).to.exist;
     });
 
     it('should display error message if data is not available', () => {
-      const tree = SkinDeep.shallowRender(
+      const screen = render(
         <AppContent isDataAvailable={false}>
-          <span>Rendered!</span>
+          <div data-testid="children" />
         </AppContent>,
       );
-      expect(tree.subTree('h1')).to.exist;
-      expect(tree.subTree('va-alert')).to.exist;
-      const text = tree.text();
-      expect(text).to.contain(
-        'We weren’t able to find information about your VA letters.',
+
+      const errorMessage = screen.queryByText('able to find information', {
+        exact: false,
+      });
+      expect(errorMessage).to.exist;
+      expect(screen.queryByTestId('children')).to.not.exist;
+    });
+
+    it('should render loading indicator if feature toggles are not available', () => {
+      const screen = render(
+        <AppContent featureFlagsLoading>
+          <div data-testid="children" />
+        </AppContent>,
       );
-      expect(text).to.not.contain('Rendered!');
+
+      expect(screen.getByTestId('feature-flags-loading')).to.exist;
+      expect(screen.queryByTestId('children')).to.not.exist;
+    });
+
+    it('should render children if feature toggles are available', () => {
+      const screen = render(
+        <AppContent featureFlagsLoading={false}>
+          <div data-testid="children" />
+        </AppContent>,
+      );
+
+      expect(screen.queryByTestId('feature-flags-loading')).to.not.exist;
+      expect(screen.queryByTestId('children')).to.exist;
     });
   });
 });

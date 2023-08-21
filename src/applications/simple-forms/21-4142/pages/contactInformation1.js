@@ -9,22 +9,16 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [veteranFields.address];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [veteranFields.parentObject]: {
-      'ui:title': (
-        <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-          Mailing Address
-        </h3>
-      ),
       'ui:description': (
-        <div className="vads-u-margin-bottom--4">
-          We&rsquo;ll send any updates about your application to this address.
-        </div>
+        <p>We’ll send any updates about your authorization to this address</p>
       ),
       [veteranFields.address]: addressUiSchema(
         `${[veteranFields.parentObject]}.${[veteranFields.address]}`,
-        undefined,
+        'The Veteran lives on a United States military base outside of the U.S.',
         () => true,
       ),
     },

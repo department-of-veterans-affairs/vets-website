@@ -5,14 +5,20 @@ import searchResults from '../fixtures/search-response.json';
 import folder from '../fixtures/folder-inbox-metadata.json';
 import reducer from '../../reducers';
 import SearchResults from '../../containers/SearchResults';
+import { threadSortingOptions } from '../../util/constants';
 
 describe('Search results', () => {
   const initialState = {
     sm: {
       search: {
+        awaitingResults: false,
+        searchFolder: folder,
         searchResults,
         folder,
         keyword: 'covid',
+        query: {},
+        searchSort: threadSortingOptions.SENT_DATE_DESCENDING.value,
+        page: 1,
       },
     },
   };
@@ -27,7 +33,8 @@ describe('Search results', () => {
 
   it('renders without errors', () => {
     const screen = setup();
-    expect(screen.getByText('Search results', { exact: true })).to.exist;
+    expect(screen.getByTestId('search-messages')).to.exist;
+    expect(screen.getByTestId('sort-button')).to.exist;
   });
 
   it('displays loading indicator when search results are not yet loaded', () => {
@@ -51,17 +58,40 @@ describe('Search results', () => {
         search: {
           searchResults: [],
           folder,
-          keyword: 'covid',
+          keyword: 'messagenotfound',
+          query: {},
         },
       },
     };
     const screen = setup(state);
-    const staticText = screen.queryByText('We didn’t find any results for ', {
-      exact: false,
-    });
-    const keyword = await screen.getAllByText('covid');
-    expect(staticText).to.exist;
-    expect(keyword.length).to.equal(2);
+
+    expect(screen.getByText('We didn’t find any matches for these filters')).to
+      .exist;
+    expect(
+      screen.getByText(
+        'Try changing your filter settings to find matches. Take these steps:',
+      ),
+    ).to.exist;
+    expect(
+      screen.getByText(
+        'Make sure you enter information from one of these fields: to, from, message ID, or subject. We can’t search for information inside the full messages.',
+      ),
+    ).to.exist;
+    expect(
+      screen.getByText(
+        'Make sure you’re in the right folder. We can only filter in one folder at a time.',
+      ),
+    ).to.exist;
+    expect(
+      screen.getByText(
+        'Check your spelling. We can only filter for exact matches.',
+      ),
+    ).to.exist;
+    expect(
+      screen.getByText(
+        'Try removing a filter. If you use too many filters, it’s harder to find a match.',
+      ),
+    ).to.exist;
   });
 
   it('displays a message when an advanced search returns no results', () => {
@@ -82,16 +112,34 @@ describe('Search results', () => {
       },
     };
     const screen = setup(state);
-    const noResultsMessage = screen.getByText(
-      'We didn’t find any results based on the search criteria provided.',
-    );
-    expect(noResultsMessage).to.exist;
-  });
 
-  it('displays the name of folder being searched', () => {
-    const screen = setup();
-    const folderName = screen.getByText(folder.name);
-    expect(folderName).to.exist;
+    expect(screen.getByText('We didn’t find any matches for these filters')).to
+      .exist;
+    expect(
+      screen.getByText(
+        'Try changing your filter settings to find matches. Take these steps:',
+      ),
+    ).to.exist;
+    expect(
+      screen.getByText(
+        'Make sure you enter information from one of these fields: to, from, message ID, or subject. We can’t search for information inside the full messages.',
+      ),
+    ).to.exist;
+    expect(
+      screen.getByText(
+        'Make sure you’re in the right folder. We can only filter in one folder at a time.',
+      ),
+    ).to.exist;
+    expect(
+      screen.getByText(
+        'Check your spelling. We can only filter for exact matches.',
+      ),
+    ).to.exist;
+    expect(
+      screen.getByText(
+        'Try removing a filter. If you use too many filters, it’s harder to find a match.',
+      ),
+    ).to.exist;
   });
 
   it('displays a list of messages when search results are loaded', done => {

@@ -20,7 +20,7 @@ class NotificationSettingsFeature {
   confirmHearingReminderNotificationSanityCheck = () => {
     // check that hearing notification is rendering first
     cy.findByRole('radio', {
-      name: /^do not notify me of.*hearing reminder.*by email/i,
+      name: /^do not notify me of.*hearing reminder.*by text/i,
     }).should('exist');
   };
 
@@ -37,6 +37,16 @@ class NotificationSettingsFeature {
 
     cy.findByRole('radio', {
       name: /^Do not notify me of Disability and pension deposit notifications by text/i,
+    }).should(generateExistenceCheck(exists));
+  };
+
+  confirmQuickSubmitNotificationSetting = ({ exists }) => {
+    cy.findByRole('radio', {
+      name: /^Notify me of QuickSubmit Upload Status by text/i,
+    }).should(generateExistenceCheck(exists));
+
+    cy.findByRole('radio', {
+      name: /^Do not notify me of QuickSubmit Upload Status by text/i,
     }).should(generateExistenceCheck(exists));
   };
 }

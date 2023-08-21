@@ -48,10 +48,11 @@ describe('<AddFilesForm>', () => {
         onDirtyFields={onDirtyFields}
       />,
     );
-    expect(tree.everySubTree('FileInput')).not.to.be.empty;
-    expect(tree.everySubTree('FileInput')[0].props['aria-describedby']).to.eq(
-      'file-requirements',
-    );
+
+    expect(tree.everySubTree('#file-upload')).not.to.be.empty;
+    expect(
+      tree.everySubTree('#file-upload')[0].props['aria-describedby'],
+    ).to.eq('file-requirements');
 
     // VaModal has an id of `upload-status` so we can use that as the selector here
     expect(tree.everySubTree('#upload-status')[0].props.visible).to.be.false;

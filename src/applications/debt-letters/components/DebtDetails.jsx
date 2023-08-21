@@ -7,7 +7,6 @@ import head from 'lodash/head';
 import last from 'lodash/last';
 import first from 'lodash/first';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
@@ -135,7 +134,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                 not include recent updates to your debt reflected above. If you
                 have any questions about your debt history, please contact the
                 Debt Management Center at
-                <Telephone
+                <va-telephone
                   className="vads-u-margin-left--0p5"
                   contact="8008270648"
                 />

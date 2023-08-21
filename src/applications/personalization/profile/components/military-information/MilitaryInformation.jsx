@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { some } from 'lodash';
 import { connect } from 'react-redux';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import recordEvent from '~/platform/monitoring/record-event';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
@@ -158,30 +157,21 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
       />
 
       <div className="vads-u-margin-top--4">
-        <va-additional-info
-          trigger="What if I don't think my military service information is correct?"
-          onClick={() => {
-            recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': 'update-military-information',
-            });
-          }}
-        >
-          <p>
+        <va-additional-info trigger="What if I don't think my military service information is correct?">
+          <p className="vads-u-padding-bottom--2">
             Some Veterans have reported that their military service information
             in their VA.gov profiles doesn’t seem right. When this happens, it’s
             because there’s an error in the information we’re pulling into
             VA.gov from the Defense Enrollment Eligibility Reporting System
             (DEERS).
           </p>
-          <br />
-          <p>
+
+          <p className="vads-u-padding-bottom--2">
             If you don’t think your military service information is correct
             here, call the Defense Manpower Data Center (DMDC). They’ll work
             with you to update your information in DEERS.
           </p>
-          <br />
+
           <p>
             You can call the DMDC at{' '}
             <va-telephone contact={CONTACTS.DS_LOGON} /> (

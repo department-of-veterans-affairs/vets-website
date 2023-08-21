@@ -1,7 +1,10 @@
+import mockMessageResponse from '../fixtures/drafts-search-results.json';
+import folderResponse from '../fixtures/folder-response.json';
+
 class PatientBasicSearchPage {
   // This method clicks the Search messages on the side navigation bar.
   clickSearchMessage = () => {
-    cy.get('[data-testid="search-messages-sidebar"]').click();
+    cy.get('[data-testid="filter-messages-button"]').click();
   };
 
   // This method will access the input field and enters the text that will be used for search.
@@ -9,16 +12,42 @@ class PatientBasicSearchPage {
   typeSearchInputFieldText = text => {
     cy.get('[data-testid="keyword-search-input"]')
       .shadow()
-      .find('[id="va-search-input"]')
-      .type(text, { waitforanimations: false });
+      .find('[id="inputField"]')
+      .type(text, { force: true });
   };
 
-  // This method clicks the Search button.
-  submitSearch = () => {
-    cy.get('[data-testid="keyword-search-input"]')
-      .shadow()
-      .find('[id="va-search-button"]')
-      .click();
+  // This method clicks the Filter button on the Inbox page.
+  submitInboxSearch = () => {
+    cy.intercept(
+      'POST',
+      `/my_health/v1/messaging/folders/${
+        folderResponse.data.at(0).attributes.folderId
+      }/search`,
+      mockMessageResponse,
+    ).as('inboxSearchResults');
+    this.clickSearchMessage();
+  };
+
+  submitDraftSearch = () => {
+    cy.intercept(
+      'POST',
+      `/my_health/v1/messaging/folders/${
+        folderResponse.data.at(1).attributes.folderId
+      }/search`,
+      mockMessageResponse,
+    ).as('DraftSearchResults');
+    this.clickSearchMessage();
+  };
+
+  submitCustomFolderSearch = () => {
+    cy.intercept(
+      'POST',
+      `/my_health/v1/messaging/folders/${
+        folderResponse.data.at(4).attributes.folderId
+      }/search`,
+      mockMessageResponse,
+    ).as('CustomSearchResults');
+    this.clickSearchMessage();
   };
 
   // This method verifies the highlighted text in the messages returned after clicking the search button.
@@ -27,6 +56,13 @@ class PatientBasicSearchPage {
     cy.get('[data-testid="highlighted-text"]').should('contain', text);
   };
 
+  loadInboxSearchResults = () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/folders/0/search',
+      mockMessageResponse,
+    ).as('inboxSearchResults');
+  };
   // This method selects the folder from the drop down menu.
 
   selectMessagesFolder = name => {

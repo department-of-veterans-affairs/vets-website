@@ -28,6 +28,7 @@ There are several different mock UUIDs that can be used as a value for the `id` 
   - pacificTimezoneUUID: `6c72b801-74ac-47fe-82af-cfe59744b45f`
   - allAppointmentTypesUUID: `bb48c558-7b35-44ec-8ab7-32b7d49364fc`
   - missingUUID: `a5895713-ca42-4244-9f38-f8b5db020d04`
+  - noFacilityAddressUUID: `5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3`
 
 ### Pre-check-in
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
@@ -38,6 +39,7 @@ There are several different mock UUIDs that can be used as a value for the `id` 
   - expiredUUID: `354d5b3a-b7b7-4e5c-99e4-8d563f15c521`
   - expiredPhoneUUID: `08ba56a7-68b7-4b9f-b779-53ba609140ef`
   - missingUUID: `a5895713-ca42-4244-9f38-f8b5db020d04`
+  - noFacilityAddressUUID: `5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3`
   - allDemographicsCurrentUUID: `e544c217-6fe8-44c5-915f-6c3d9908a678`
   - onlyDemographicsCurrentUUID: `7397abc0-fb4d-4238-a3e2-32b0e47a1527` (NoK and Emergency Contact not current)
 
@@ -53,9 +55,13 @@ The check-in and pre-check-in apps are very similar, so when possible use and ad
 Internal page routing is defined in `utils\navigation`. Within this directory there are sub-directories for `day-of` and `pre-check-in`. The index file in each sub-directory contains an object that determines the order of the pages. Within the hooks there is a `useFormRouting` hook that is used to route to the next page, previous page, error page, or any specific page in the app.
 
 ## Running tests
-Unit tests for both check-in and pre-check-in can be run using this command: `yarn test:unit --app-folder check-in`. To get detailed errors, run this command with `--log-level=error`
+Unit tests for both check-in and pre-check-in can be run using this command: `yarn test:unit --app-folder check-in`. To get detailed errors, run this command with `--log-level=error`. To get coverage reports run this command `yarn test:unit --app-folder check-in --coverage --coverage-html`. View the report at `/coverage/index.html`
 
 Cypress tests can be run with the GUI using this command: `yarn cy:open`. From there you can filter by `check-in` to run just check-in and pre-check-in end to end tests.
+
+Run Cypress from command line:
+- Run all `yarn cy:run --spec "src/applications/check-in/**/**/*"`
+- Specify browser `-b electron`
 
 ## Writing tests
 ### Unit tests
@@ -104,7 +110,20 @@ Current features day-of only: `yarn cy:run --env with_screenshots=true --spec sr
 
 Phone appointments PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-phone.pci.cypress.spec.js`
 
-Travel Pay PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-pay.day-of.cypress.spec.js`
+Travel Pay day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-pay.day-of.cypress.spec.js`
+
+Errors only day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-errors.day-of.cypress.spec.js`
+
+Errors only PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-errors.pci.cypress.spec.js`
 
 ### Adding additional screenshots
 There is a cypress command that gets imported in our local commands named `createScreenshots`. It is best used after an axe check on the page you wish to capture. Add cy.createScreenshots([filename]) and also make sure that the test is imported in one of the screenshot scripts listed above. Filename syntax should be `application--page-name` example: `Pre-check-in--Validate-with-DOB`. The command will automatically get screenshots for translated versions of the page.
+
+## Adding Feature Toggles
+
+To add a feature toggle follow the steps oulined in the VA Platform Documentation on [Feature Toggles](https://depo-platform-documentation.scrollhelp.site/developer-docs/feature-toggles-guide). Additionally add the feature toggle to selectors, mocks and the readme for Pre-check-in and/or Check-in apps.
+
+- src/applications/check-in/utils/selectors/feature-toggles.js
+- src/applications/check-in/utils/selectors/tests/feature-toggles.unit.spec.js
+- src/applications/check-in/api/local-mock-api/mocks/v2/feature-toggles/index.js
+- src/applications/check-in/day-of/README.md

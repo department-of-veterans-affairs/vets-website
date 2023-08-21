@@ -1,6 +1,6 @@
-import environment from 'platform/utilities/environment';
 import * as Sentry from '@sentry/browser';
-import recordEvent from 'platform/monitoring/record-event';
+import environment from '~/platform/utilities/environment';
+import recordEvent from '~/platform/monitoring/record-event';
 
 const ERROR_SOURCES = Object.freeze({
   API: 'api',
@@ -40,7 +40,8 @@ const captureError = (error, details) => {
         'profile-client-api-error': eventName,
       });
 
-      const message = `profile_client_api_error-${eventName}`;
+      const message = `profile_client_api_error`;
+
       scope.setContext(message, {
         details,
         error,

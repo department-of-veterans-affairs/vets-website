@@ -7,10 +7,12 @@ import {
   countries,
   states,
   mockUserData,
-} from './e2e/fixtures/mocks/letters.js';
+} from './e2e/fixtures/mocks/letters';
+import featureToggleDisabled from './e2e/fixtures/mocks/featureToggleDisabled.json';
 
 describe('Authed Letter Test', () => {
   it('confirms authed letter functionality', () => {
+    cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled);
     cy.intercept('GET', '/v0/letters/beneficiary', benefitSummaryOptions).as(
       'benefitSummaryOptions',
     );

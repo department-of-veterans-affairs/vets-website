@@ -118,7 +118,9 @@ describe('Discharge Wizard <FormQuestions />', () => {
     expect(
       wrapper.find('va-radio[name="1_branchOfService"] va-radio-option'),
     ).to.have.lengthOf(5);
-    expect(wrapper.find('select[name="2_dischargeYear"]')).to.have.lengthOf(1);
+    expect(wrapper.find('va-select[name="2_dischargeYear"]')).to.have.lengthOf(
+      1,
+    );
     expect(wrapper.find('select[name="4_reason"]')).to.have.lengthOf(0);
 
     wrapper.unmount();

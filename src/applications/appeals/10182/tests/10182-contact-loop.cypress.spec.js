@@ -1,4 +1,4 @@
-import { BASE_URL, CONTESTABLE_ISSUES_API } from '../constants';
+import { CONTESTABLE_ISSUES_API } from '../constants';
 
 import mockUser from './fixtures/mocks/user.json';
 import mockUserUpdate from './fixtures/mocks/user-update.json';
@@ -7,6 +7,7 @@ import mockStatus from './fixtures/mocks/profile-status.json';
 import mockData from './fixtures/data/maximal-test.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import { mockContestableIssues } from './nod.cypress.helpers';
+import { NOD_BASE_URL } from '../../shared/constants';
 
 // Profile specific responses
 import mockProfilePhone from './fixtures/mocks/profile-phone.json';
@@ -56,26 +57,24 @@ describe('NOD contact info loop', () => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/profile/status', mockStatus);
 
-    cy.visit(BASE_URL);
+    cy.visit(NOD_BASE_URL);
     cy.injectAxe();
   });
 
   const getToContactPage = () => {
     // start form
-    cy.get('va-button[text*="start the board"]')
+    cy.get('.vads-c-action-link--green')
       .first()
-      .shadow()
-      .find('button')
       .click();
 
     // Veteran info (DOB, SSN, etc)
-    cy.location('pathname').should('eq', `${BASE_URL}/veteran-details`);
+    cy.location('pathname').should('eq', `${NOD_BASE_URL}/veteran-details`);
     cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
       .click();
 
     // Homeless question
-    cy.location('pathname').should('eq', `${BASE_URL}/homeless`);
+    cy.location('pathname').should('eq', `${NOD_BASE_URL}/homeless`);
     cy.get('[type="radio"][value="N"]').check(checkOpt);
     cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
@@ -84,7 +83,7 @@ describe('NOD contact info loop', () => {
 
   it('should edit info on a new page & cancel returns to contact info page', () => {
     getToContactPage();
-    const contactPageUrl = `${BASE_URL}/contact-information`;
+    const contactPageUrl = `${NOD_BASE_URL}/contact-information`;
 
     // Contact info
     cy.location('pathname').should('eq', contactPageUrl);
@@ -93,7 +92,10 @@ describe('NOD contact info loop', () => {
 
     // Mobile phone loops *****
     cy.get('a[href$="phone"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
+    cy.location('pathname').should(
+      'eq',
+      `${NOD_BASE_URL}/edit-contact-information-mobile-phone`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -104,7 +106,7 @@ describe('NOD contact info loop', () => {
     // update phone
     /*
     cy.get('a[href$="phone"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
+    cy.location('pathname').should('eq', `${NOD_BASE_URL}/edit-mobile-phone`);
     cy.findByLabelText(/extension/i)
       .clear()
       .type('12345');
@@ -116,7 +118,10 @@ describe('NOD contact info loop', () => {
 
     // Email loops *****
     cy.get('a[href$="email-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-email-address`);
+    cy.location('pathname').should(
+      'eq',
+      `${NOD_BASE_URL}/edit-contact-information-email-address`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -127,7 +132,7 @@ describe('NOD contact info loop', () => {
     // update email
     /*
     cy.get('a[href$="email-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-email-address`);
+    cy.location('pathname').should('eq', `${NOD_BASE_URL}/edit-email-address`);
     cy.findByLabelText(/email address/i)
       .clear()
       .type('test@test.com');
@@ -139,7 +144,10 @@ describe('NOD contact info loop', () => {
 
     // Mailing address loops *****
     cy.get('a[href$="mailing-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mailing-address`);
+    cy.location('pathname').should(
+      'eq',
+      `${NOD_BASE_URL}/edit-contact-information-mailing-address`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -150,7 +158,7 @@ describe('NOD contact info loop', () => {
     // update address
     /*
     cy.get('a[href$="mailing-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mailing-address`);
+    cy.location('pathname').should('eq', `${NOD_BASE_URL}/edit-mailing-address`);
     cy.findByLabelText(/address line 2/i).clear(); // remove "c/o Pixar"
     cy.findByText(/^update$/i, { selector: 'button' })
       .first()

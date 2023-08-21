@@ -1,92 +1,70 @@
-import { expect } from 'chai';
 import React from 'react';
+import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import SkinDeep from 'skin-deep';
+import { waitFor } from '@testing-library/dom';
 import FolderHeader from '../../../components/MessageList/FolderHeader';
-import folders from '../../fixtures/folder-inbox-response.json';
+import folderResponse from '../../fixtures/folder-response.json';
 import reducer from '../../../reducers';
-import { DefaultFolders as Folder } from '../../../util/constants';
+import { DefaultFolders as Folders, PageTitles } from '../../../util/constants';
 
-describe('FolderHeader component in Inbox', () => {
+describe('FolderHeader component in custom folder', () => {
+  const searchProps = { searchResults: [], awaitingResults: false };
   const initialState = {
     sm: {
       folders: {
-        folderList: folders,
+        folder: {
+          folderId: 7038175,
+          name: 'TEST2',
+          count: 1,
+          unreadCount: 0,
+          systemFolder: false,
+        },
+        folderList: folderResponse,
+      },
+    },
+    user: {
+      profile: {
+        session: {
+          ssoe: true,
+        },
       },
     },
   };
-
-  const setup = folder => {
-    return renderWithStoreAndRouter(<FolderHeader folder={folder} />, {
-      initialState: {
-        sm: {
-          folders: {
-            folder: folders.inbox,
-            ...initialState.sm.folders,
-          },
-        },
+  const setup = (state = initialState) => {
+    return renderWithStoreAndRouter(
+      <FolderHeader
+        folder={{
+          folderId: 7038175,
+          name: 'TEST2',
+          count: 1,
+          unreadCount: 0,
+          systemFolder: false,
+        }}
+        searchProps={{ ...searchProps }}
+      />,
+      {
+        initialState: state,
+        reducers: reducer,
+        path: '/folders/7038175',
       },
-      reducers: reducer,
-    });
+    );
   };
 
-  it('must display valid folder name', async () => {
-    const screen = setup(folders.inbox);
-    expect(
-      screen.getByText(Folder.INBOX.header, {
-        exact: true,
-        selector: 'h1',
-      }),
-    ).to.exist;
+  let screen = null;
+  beforeEach(() => {
+    screen = setup();
   });
 
-  it('must display Compose message link', () => {
-    const screen = setup(folders.inbox);
-    expect(screen.getByText('Start a new message')).to.exist;
-  });
-});
-
-describe('FolderHeader component in Sent folder', () => {
-  const tree = SkinDeep.shallowRender(<FolderHeader folder={folders.sent} />);
-  it('must display valid folder name', () => {
-    expect(tree.subTree('h1').text()).to.equal(Folder.SENT.header);
+  it('must display valid custom folder name', async () => {
+    expect(screen.getByText('TEST2')).to.exist;
+    expect(screen.getByText(Folders.CUSTOM_FOLDER.desc)).to.exist;
   });
 
-  it('must display valid folder description', () => {
-    expect(tree.text()).to.contain(Folder.SENT.desc);
-  });
-
-  it('must NOT display Compose message link', () => {
-    expect(tree.subTree('Link')).is.not.rendered;
-  });
-});
-
-describe('FolderHeader component in Drafts folder', () => {
-  const tree = SkinDeep.shallowRender(<FolderHeader folder={folders.drafts} />);
-  it('must display valid folder name', () => {
-    expect(tree.subTree('h1').text()).to.equal(Folder.DRAFTS.header);
-  });
-
-  it('must display valid folder description', () => {
-    expect(tree.text()).to.contain(Folder.DRAFTS.desc);
-  });
-
-  it('must NOT display Compose message link', () => {
-    expect(tree.subTree('Link')).is.not.rendered;
-  });
-});
-
-describe('FolderHeader component in Trash folder', () => {
-  const tree = SkinDeep.shallowRender(<FolderHeader folder={folders.trash} />);
-  it('must display valid folder name', () => {
-    expect(tree.subTree('h1').text()).to.equal(Folder.DELETED.header);
-  });
-
-  it('must display valid folder description', () => {
-    expect(tree.text()).to.contain(Folder.DELETED.desc);
-  });
-
-  it('must NOT display Compose message link', () => {
-    expect(tree.subTree('Link')).is.not.rendered;
+  it('verifies page title tag for custom folder page', async () => {
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `TEST2 ${PageTitles.PAGE_TITLE_TAG}`,
+      );
+    });
   });
 });

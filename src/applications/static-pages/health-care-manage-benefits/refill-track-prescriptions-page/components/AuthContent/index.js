@@ -1,8 +1,7 @@
 // Node modules.
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 // Relative imports.
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
@@ -22,6 +21,7 @@ export const AuthContent = ({
   otherFacilities,
   ehrDataByVhaId,
   useSingleLogout,
+  widgetType,
 }) => (
   <>
     <CernerCallToAction
@@ -37,6 +37,7 @@ export const AuthContent = ({
         '/pages/medications/current',
         useSingleLogout,
       )}
+      widgetType={widgetType}
     />
     <div>
       <div itemScope itemType="http://schema.org/Question">
@@ -367,7 +368,7 @@ export const AuthContent = ({
                 <li>
                   Call the My HealtheVet help desk at{' '}
                   <va-telephone contact="8773270022" /> (TTY:{' '}
-                  <Telephone contact={CONTACTS.HELP_TTY} />
+                  <va-telephone contact={CONTACTS.HELP_TTY} />
                   ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
                   ET.
                 </li>
@@ -395,6 +396,7 @@ export const AuthContent = ({
 );
 
 AuthContent.propTypes = {
+  widgetType: PropTypes.string.isRequired,
   authenticatedWithSSOe: authenticatedWithSSOePropType,
   cernerFacilities: cernerFacilitiesPropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,

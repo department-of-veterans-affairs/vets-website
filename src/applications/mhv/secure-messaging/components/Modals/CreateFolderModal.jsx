@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaModal,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { Alerts } from '../../util/constants';
 
 const CreateFolderModal = props => {
   const { isModalVisible, setIsModalVisible, onConfirm, folders } = props;
   const [folderName, setFolderName] = useState('');
   const [nameWarning, setNameWarning] = useState('');
+  const folderNameInput = useRef();
   let folderMatch = null;
+
+  useEffect(
+    () => {
+      if (nameWarning.length)
+        focusElement(folderNameInput.current.shadowRoot.querySelector('input'));
+    },
+    [nameWarning],
+  );
 
   const closeNewModal = () => {
     setFolderName('');
@@ -18,8 +28,9 @@ const CreateFolderModal = props => {
     setIsModalVisible(false);
   };
 
-  const confirmNewFolder = () => {
+  const confirmNewFolder = async () => {
     folderMatch = null;
+    await setNameWarning('');
     folderMatch = folders.filter(folder => folder.name === folderName);
     if (folderName === '' || folderName.match(/^[\s]+$/)) {
       setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_NOT_BLANK);
@@ -40,16 +51,16 @@ const CreateFolderModal = props => {
       modalTitle={Alerts.Folder.CREATE_FOLDER_MODAL_HEADER}
       onCloseEvent={closeNewModal}
     >
-      <p
-        className="vads-u-margin--0"
-        data-testid="folder-enter-name-message-text"
-      >
-        {Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
-      </p>
       <VaTextInput
+        data-dd-privacy="mask"
+        ref={folderNameInput}
+        label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
         className="input vads-u-margin--0"
         value={folderName}
-        onInput={e => setFolderName(e.target.value)}
+        onInput={e => {
+          setFolderName(e.target.value);
+          setNameWarning(e.target.value ? '' : 'Folder name cannot be blank');
+        }}
         maxlength="50"
         error={nameWarning}
         name="folder-name"

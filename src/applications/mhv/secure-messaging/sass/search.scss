@@ -2,7 +2,89 @@
 
 .search-form {
   background-color: var(--color-gray-lightest);
-  padding: 16px;
+  padding: 10px 16px;
+  margin-top: 24px;
+
+  h2 {
+    margin-top: 0;
+    font-size: 20px;
+    font-weight: 700;
+    font-style: normal;
+    letter-spacing: 0px;
+    text-align: left;
+    line-height: 26px;
+  }
+
+  va-accordion {
+    margin-left: -16px;
+    width: 90%;
+    @media (max-width: $small-screen) {
+      width: 106%;
+    }
+  }
+
+  .filter-input-box-container {
+    margin-top: -30px;
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+
+  .basic-filter-button-container {
+    margin-top: -5px;
+  }
+  va-button {
+    min-width: 90px;
+    min-height: 40px;
+  }
+
+  @media (max-width: $small-screen) {
+    va-button::part(button) {
+      width: 100%;
+    }
+  }
+
+  .filter-text-input {
+    margin: 0px;
+  }
+
+  .filter-input-box {
+    margin: 0px;
+  }
+
+  @media (min-width: $small-screen) {
+    #additional-filter-accordion::part(accordion-header) {
+      width: 150px;
+    }
+  }
+
+  .custom-filter-button {
+    @media (max-width: $small-screen) {
+      width: 80%;
+    }
+  }
+
+  .advanced-search-field {
+    margin-left: 11px;
+  }
+
+  .filter-content {
+    padding: 10px;
+    border-bottom: 5px solid var(--color-gray-lightest);
+    margin-bottom: -15px;
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-top: -40px;
+    background-color: var(--color-gray-lightest);
+  }
+  .headline-text {
+    margin-left: -20px;
+  }
+
+  h3 {
+    margin: 0 0 10px 0;
+  }
 
   .search-in-description {
     margin: 0 0 6px;
@@ -10,11 +92,14 @@
       margin: 0 0 24px;
     }
   }
+
   .keyword-search-label {
+    width: 100%;
     margin: 0;
   }
   .keyword-help-text {
-    margin: 6px 0 4px;
+    width: 100%;
+    margin: 6px 0 6px;
   }
   .error-message {
     color: var(--color-secondary-dark);
@@ -105,6 +190,7 @@
 .advanced-search-form {
   background-color: var(--color-gray-lightest);
   margin-bottom: 0;
+  padding: 0px;
 
   .advanced-search-field::part(label) {
     font-weight: bold;

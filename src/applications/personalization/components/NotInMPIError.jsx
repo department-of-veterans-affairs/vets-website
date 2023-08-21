@@ -8,7 +8,7 @@ const NotInMPIError = ({ className }) => {
         <h2 slot="headline">
           We can’t match your information with our Veteran records
         </h2>
-        <p>
+        <p className="vads-u-margin-bottom--0">
           You may not be able to use some tools and features right now. But
           we’re working to connect with your records. Try again soon.
         </p>

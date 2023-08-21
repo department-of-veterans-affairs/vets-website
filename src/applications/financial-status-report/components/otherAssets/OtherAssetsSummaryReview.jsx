@@ -7,18 +7,22 @@ const OtherAssetsSummaryReview = ({ data, title }) => {
   const { otherAssets = [] } = assets;
 
   return (
-    <div>
-      <h4>{title}</h4>
-      {otherAssets.map((asset, index) => {
-        return (
-          <dl className="review" key={asset.name + asset.amount + index}>
-            <div className="review-row">
+    <div className="form-review-panel-page">
+      <div className="form-review-panel-page-header-row">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+          {title}
+        </h4>
+      </div>
+      <dl className="review">
+        {otherAssets.map((asset, index) => {
+          return (
+            <div className="review-row" key={asset.name + asset.amount + index}>
               <dt>{asset.name}</dt>
               <dd>{currencyFormatter(asset.amount)}</dd>
             </div>
-          </dl>
-        );
-      })}
+          );
+        })}
+      </dl>
     </div>
   );
 };

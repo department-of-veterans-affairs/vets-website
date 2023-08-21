@@ -7,19 +7,6 @@ import {
 } from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms/validations';
 
-function calculateEndDate() {
-  const endDateLimit = 1;
-  const description = '1 year';
-
-  return {
-    endDateLimit,
-    description,
-    endDate: moment()
-      .endOf('day')
-      .add(endDateLimit, 'years'),
-  };
-}
-
 export function validateServiceDates(
   errors,
   { lastDischargeDate, lastEntryDate },
@@ -27,17 +14,18 @@ export function validateServiceDates(
 ) {
   const fromDate = convertToDateField(lastEntryDate);
   const toDate = convertToDateField(lastDischargeDate);
-  const endDateInfo = calculateEndDate();
+  const endDate = moment()
+    .endOf('day')
+    .add(1, 'years');
 
-  // TODO: Use a constant instead of a magic string
   if (
     !isValidDateRange(fromDate, toDate) ||
-    moment(lastDischargeDate, 'YYYY-MM-DD').isAfter(endDateInfo.endDate)
+    moment(lastDischargeDate, 'YYYY-MM-DD').isAfter(endDate)
   ) {
     errors.lastDischargeDate.addError(
-      `Discharge date must be after the service period start date and before ${endDateInfo.endDate.format(
+      `Discharge date must be after the service period start date and before ${endDate.format(
         'MMMM D, YYYY',
-      )} (${endDateInfo.description} from today)`,
+      )} (1 year from today)`,
     );
   }
 
@@ -52,34 +40,7 @@ export function validateServiceDates(
   }
 }
 
-// export function validateMarriageDate(
-//   errors,
-//   marriageDate,
-//   { spouseDateOfBirth, veteranDateOfBirth, discloseFinancialInformation },
-// ) {
-//   const vetDOB = moment(veteranDateOfBirth);
-//   const spouseDOB = moment(spouseDateOfBirth);
-//   const marriage = moment(marriageDate);
-//   if (
-//     discloseFinancialInformation &&
-//     spouseDOB.isAfter(marriage) &&
-//     vetDOB.isAfter(marriage)
-//   ) {
-//     errors.addError(
-//       'Date of marriage cannot be before the Veteran’s or the spouse’s date of birth',
-//     );
-//   } else if (discloseFinancialInformation && spouseDOB.isAfter(marriage)) {
-//     errors.addError(
-//       'Date of marriage cannot be before the spouse’s date of birth',
-//     );
-//   } else if (discloseFinancialInformation && vetDOB.isAfter(marriage)) {
-//     errors.addError(
-//       'Date of marriage cannot be before the Veteran’s date of birth',
-//     );
-//   }
-//   validateCurrentOrPastDate(errors, marriageDate);
-// }
-
+// NOTE: for household v1 only -- remove after v2 is fully-adopted
 export function validateDependentDate(
   errors,
   dependentDate,
@@ -97,9 +58,24 @@ export function validateDependentDate(
   validateCurrentOrPastDate(errors, dependentDate);
 }
 
+// NOTE: for household v2 only -- rename when v2 is fully-adopted
+export function validateV2DependentDate(errors, fieldData, { dateOfBirth }) {
+  const dependentDate = moment(fieldData);
+  const birthDate = moment(dateOfBirth);
+
+  if (birthDate.isAfter(dependentDate)) {
+    errors.addError(
+      'This date must come after the dependent\u2019s birth date',
+    );
+  }
+  validateCurrentOrPastDate(errors, fieldData);
+}
+
+/**
+ * Source: https://stackoverflow.com/a/16242575
+ * HACK: Due to us-forms-system issue 269 (https://github.com/usds/us-forms-system/issues/269)
+ */
 export function validateCurrency(errors, currencyAmount) {
-  // Source: https://stackoverflow.com/a/16242575
-  // HACK: Due to us-forms-system issue 269 (https://github.com/usds/us-forms-system/issues/269)
   if (
     !/(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/.test(
       currencyAmount,

@@ -32,7 +32,7 @@ const recordITFHelpEvent = () =>
       'File a Supplemental Claim - Intent to File - What is an intent to file',
   });
 
-const expander = (
+export const itfExpander = (
   <VaAdditionalInfo
     trigger="What is an Intent to File?"
     disableAnalytics
@@ -50,26 +50,23 @@ const expander = (
 
 export const itfError = (
   <div>
-    <div>
-      <p className="vads-u-font-size--base">
-        We’re sorry. Your Intent to File request didn’t go through because
-        something went wrong on our end. For help creating an Intent to File a
-        Claim for Compensation, please call Veterans Benefits Assistance at{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-        8:00 a.m. to 9:00 p.m. ET. Or, you can fill out VA Form 21-0966 and
-        submit it to:
-      </p>
-      <p className="va-address-block vads-u-font-size--base">
-        Department of Veterans Affairs
-        <br role="presentation" />
-        Claims Intake Center
-        <br role="presentation" />
-        PO Box 4444
-        <br role="presentation" />
-        Janesville, WI 53547-4444
-      </p>
-    </div>
-    {expander}
+    <p className="vads-u-font-size--base">
+      We’re sorry. Your Intent to File request didn’t go through because
+      something went wrong on our end. For help creating an Intent to File a
+      Claim for Compensation, please call Veterans Benefits Assistance at{' '}
+      <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
+      8:00 a.m. to 9:00 p.m. ET. Or, you can fill out VA Form 21-0966 and submit
+      it to:
+    </p>
+    <p className="va-address-block vads-u-font-size--base">
+      Department of Veterans Affairs
+      <br role="presentation" />
+      Claims Intake Center
+      <br role="presentation" />
+      PO Box 4444
+      <br role="presentation" />
+      Janesville, WI 53547-4444
+    </p>
   </div>
 );
 
@@ -94,18 +91,14 @@ export const itfSuccess = (
         File.
       </p>
     )}
-    {expander}
   </div>
 );
 
 export const itfActive = expirationDate => (
-  <div>
-    <p className="vads-u-font-size--base">
-      Our records show that you already submitted an Intent to File for
-      disability compensation. Your Intent to File will expire on{' '}
-      {displayDate(expirationDate)}. You’ll need to file your claim by this date
-      to receive payments starting from your effective date.
-    </p>
-    {expander}
-  </div>
+  <p className="vads-u-font-size--base">
+    Our records show that you already submitted an Intent to File for disability
+    compensation. Your Intent to File will expire on{' '}
+    {displayDate(expirationDate)}. You’ll need to file your claim by this date
+    to receive payments starting from your effective date.
+  </p>
 );

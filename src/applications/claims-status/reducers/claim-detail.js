@@ -5,6 +5,7 @@ import {
   SET_CLAIM_DETAIL,
   SET_CLAIMS_UNAVAILABLE,
 } from '../actions/types';
+import { serializeClaim } from './serialize';
 
 const initialState = {
   detail: null,
@@ -16,7 +17,7 @@ export default function claimDetailReducer(state = initialState, action) {
     case SET_CLAIM_DETAIL: {
       return {
         ...state,
-        detail: action.claim,
+        detail: serializeClaim(action.claim),
         loading: false,
       };
     }

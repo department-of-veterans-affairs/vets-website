@@ -1,13 +1,10 @@
 import React from 'react';
-import GrossMonthlyIncomeInput from '../../../components/GrossMonthlyIncomeInput';
+import GrossMonthlyIncomeInput from '../../../components/householdIncome/GrossMonthlyIncomeInput';
 
 export const uiSchema = {
   grossMonthlyIncome: {
-    'ui:title': (
-      <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        What’s your gross <strong>monthly</strong> income at this job?
-      </span>
-    ),
+    'ui:title':
+      'What’s your gross <strong>monthly</strong> income at this job?',
     'ui:description': (
       <p className="formfield-subtitle">
         You’ll find this in your pay stub. It’s the amount of your pay before

@@ -1,6 +1,10 @@
 .record-list-item {
   line-height: 2;
-  border-radius: 6px;
+  max-width: 486px;
+
+  h4 {
+    line-height: 1.5;
+  }
 
   .details-link-icon {
     margin-left: 8px;
@@ -23,16 +27,20 @@
   .record-list-item {
     break-inside: avoid;
     border-bottom: 2px solid $color-black !important;
-    border-radius: 0;
+    border-radius: 0px;
     background-color: $color-white !important;
   }
   .fields {
     * {
       line-height: 2;
     }
-    padding: 0 16px;
+    padding: 0px 16px;
     .field-label {
       font-weight: 600;
     }
   }
+}
+
+.pagination {
+  max-width: 486px;
 }

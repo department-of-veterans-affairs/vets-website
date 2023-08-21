@@ -1,16 +1,15 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router';
 
-import { scrollAndFocus } from 'platform/utilities/ui';
-
-import { SELECTED, FORMAT_READABLE, LAST_NOD_ITEM } from '../constants';
-import { replaceDescriptionContent } from '../utils/replace';
+import { replaceDescriptionContent } from '../../shared/utils/replace';
+import { SELECTED, FORMAT_YMD, FORMAT_READABLE } from '../../shared/constants';
 
 /** Copied from HLR v2 issue card */
 /**
  * IssueCardContent
+ * @param {String} id - unique ID
  * @param {String} description - contestable issue description
  * @param {String} ratingIssuePercentNumber - rating %, number with no %
  * @param {String} approxDecisionDate - contestable issue date formatted as
@@ -20,6 +19,7 @@ import { replaceDescriptionContent } from '../utils/replace';
  * @return {React Component}
  */
 export const IssueCardContent = ({
+  id,
   description,
   ratingIssuePercentNumber,
   approxDecisionDate,
@@ -31,20 +31,24 @@ export const IssueCardContent = ({
   const date = approxDecisionDate || decisionDate;
 
   return (
-    <div className="widget-content-wrap">
+    <div id={id} className="widget-content-wrap">
       {description && (
-        <p className="vads-u-margin-bottom--0">
+        <p className="vads-u-margin-bottom--0 dd-privacy-hidden">
           {replaceDescriptionContent(description)}
         </p>
       )}
       {showPercentNumber && (
         <p className="vads-u-margin-bottom--0">
-          Current rating: <strong>{ratingIssuePercentNumber}%</strong>
+          Current rating:{' '}
+          <strong className="dd-privacy-hidden">{`${ratingIssuePercentNumber}%`}</strong>
         </p>
       )}
       {date && (
         <p>
-          Decision date: <strong>{moment(date).format(FORMAT_READABLE)}</strong>
+          Decision date:{' '}
+          <strong className="dd-privacy-hidden">
+            {moment(date, FORMAT_YMD).format(FORMAT_READABLE)}
+          </strong>
         </p>
       )}
     </div>
@@ -55,34 +59,21 @@ IssueCardContent.propTypes = {
   approxDecisionDate: PropTypes.string,
   decisionDate: PropTypes.string,
   description: PropTypes.string,
+  id: PropTypes.string,
   ratingIssuePercentNumber: PropTypes.string,
 };
 
 /**
- * ContestableIssue
- * @typedef {Object}
- * @property {String} ratingIssueSubjectText - contestable issue title
- * @property {String} description - contestable issue description
- * @property {String} ratingIssuePercentNumber - rating %, number with no %
- * @property {String} approxDecisionDate - date formatted as "YYYY-MM-DD"
- */
-/**
- * AdditionalIssue
- * @type {Object}
- * @property {String} issue - user entered issue name
- * @property {String} decisionDate - user entered decision date
- */
-/**
  * IssueCard
- * @typedef {Object}
- * @property {String} id - ID base for form elements
- * @property {Number} index - index of item in list
- * @property {ContestableIssue|AdditionalIssue} item - issue values
- * @property {Object} options - ui:options
- * @property {func} onChange - onChange callback
- * @property {func} onRemove - remove issue callback
- * @property {Boolean} showCheckbox - don't show checkbox on review & submit
+ * @param {String} id - ID base for form elements
+ * @param {Number} index - index of item in list
+ * @param {ContestableIssueItem|AdditionalIssueItem} item - issue values
+ * @param {Object} options - ui:options
+ * @param {func} onChange - onChange callback
+ * @param {func} onRemove - remove issue callback
+ * @param {Boolean} showCheckbox - don't show checkbox on review & submit
  *  page when not in edit mode
+ * @return {JSX}
  */
 export const IssueCard = ({
   id,
@@ -92,6 +83,7 @@ export const IssueCard = ({
   onChange,
   showCheckbox,
   onRemove,
+  onReviewPage,
 }) => {
   // On the review & submit page, there may be more than one
   // of these components in edit mode with the same content, e.g. 526
@@ -100,44 +92,31 @@ export const IssueCard = ({
   // ui:options
   const appendId = options.appendId ? `_${options.appendId}` : '';
   const elementId = `${id}_${index}${appendId}`;
-  const scrollId = `issue-${window.sessionStorage.getItem(LAST_NOD_ITEM)}`;
-
-  const wrapRef = useRef(null);
-
-  useEffect(
-    () => {
-      if (scrollId === wrapRef?.current.id) {
-        scrollAndFocus(wrapRef.current);
-        window.sessionStorage.removeItem(LAST_NOD_ITEM);
-      }
-    },
-    [scrollId, wrapRef, index],
-  );
-
   const itemIsSelected = item[SELECTED];
   const isEditable = !!item.issue;
   const issueName = item.issue || item.ratingIssueSubjectText;
 
   const wrapperClass = [
-    'review-row',
     'widget-wrapper',
     isEditable ? 'additional-issue' : '',
     showCheckbox ? '' : 'checkbox-hidden',
     showCheckbox ? 'vads-u-padding-top--3' : '',
     'vads-u-padding-right--3',
     'vads-u-margin-bottom--0',
+    'vads-u-border-bottom--1px',
+    'vads-u-border-color--gray-light',
   ].join(' ');
 
   const titleClass = [
     'widget-title',
-    'vads-u-font-size--md',
-    'vads-u-font-weight--bold',
-    'vads-u-line-height--1',
+    'dd-privacy-hidden',
+    'vads-u-font-size--h4',
+    'vads-u-margin--0',
+    'capitalize',
   ].join(' ');
 
   const removeButtonClass = [
     'remove-issue',
-    'usa-button-secondary',
     'vads-u-width--auto',
     'vads-u-margin-left--2',
     'vads-u-margin-top--0',
@@ -146,7 +125,7 @@ export const IssueCard = ({
   const handlers = {
     onRemove: event => {
       event.preventDefault();
-      onRemove(index, item);
+      onRemove(index);
     },
     onChange: event => onChange(index, event),
   };
@@ -159,60 +138,59 @@ export const IssueCard = ({
             pathname: '/add-issue',
             search: `?index=${index}`,
           }}
-          className="change-issue-link"
-          aria-label={`Change ${issueName}`}
+          className="edit-issue-link"
+          aria-label={`Edit ${issueName}`}
         >
-          Change
+          Edit
         </Link>
-        <button
-          type="button"
-          className={removeButtonClass}
-          aria-label={`remove ${issueName}`}
+        <va-button
+          secondary
+          class={removeButtonClass}
+          label={`remove ${issueName}`}
           onClick={handlers.onRemove}
-        >
-          Remove
-        </button>
+          text="Remove"
+        />
       </div>
     ) : null;
 
+  // Issues h4 disappears in edit mode, so we need to match the page header
+  // level
+  const Header = onReviewPage ? 'h5' : 'h4';
+
   return (
-    <div
-      id={`issue-${index}`}
-      className={wrapperClass}
-      key={index}
-      ref={wrapRef}
-    >
-      <dt className="widget-checkbox-wrap">
+    <li id={`issue-${index}`} key={index}>
+      <div className={wrapperClass}>
         {showCheckbox ? (
-          <>
+          <div className="widget-checkbox-wrap">
+            {/* Using va-checkbox here causes alignment issues */}
             <input
               type="checkbox"
               id={elementId}
               name={elementId}
               checked={itemIsSelected}
               onChange={handlers.onChange}
+              aria-describedby={`issue-${index}-description`}
+              aria-labelledby={`issue-${index}-title`}
             />
             <label className="schemaform-label" htmlFor={elementId}>
-              <span className="vads-u-visibility--screen-reader">
-                {issueName}
-              </span>
+              {' '}
             </label>
-          </>
-        ) : (
-          <div />
-        )}
-      </dt>
-      <dd
-        className={`${
-          editControls ? 'widget-editable vads-u-padding-bottom--1' : ''
-        } widget-content vads-u-font-weight--normal`}
-        data-index={index}
-      >
-        <div className={titleClass}>{issueName}</div>
-        <IssueCardContent {...item} />
-        {editControls}
-      </dd>
-    </div>
+          </div>
+        ) : null}
+        <div
+          className={`widget-content ${
+            editControls ? 'widget-editable vads-u-padding-bottom--2' : ''
+          }`}
+          data-index={index}
+        >
+          <Header id={`issue-${index}-title`} className={titleClass}>
+            {issueName}
+          </Header>
+          <IssueCardContent id={`issue-${index}-description`} {...item} />
+          {editControls}
+        </div>
+      </div>
+    </li>
   );
 };
 
@@ -235,4 +213,5 @@ IssueCard.propTypes = {
   onChange: PropTypes.func,
   onEdit: PropTypes.func,
   onRemove: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };

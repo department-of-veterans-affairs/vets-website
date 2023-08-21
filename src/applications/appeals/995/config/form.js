@@ -77,7 +77,7 @@ import fullSchema from './form-0995-schema.json';
 
 import {
   focusRadioH3,
-  focusAlertH3,
+  focusH3,
   focusIssue,
   focusEvidence,
   focusUploads,
@@ -191,7 +191,7 @@ const formConfig = {
       title: 'Issues for review',
       pages: {
         contestableIssues: {
-          title: 'Issues',
+          title: 'You’ve selected these issues for review',
           path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
@@ -206,6 +206,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: {},
           schema: blankSchema,
+          returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         issueSummary: {
           title: 'Issue summary',
@@ -233,7 +234,7 @@ const formConfig = {
           CustomPageReview: null, // reviewField renders this!
           uiSchema: notice5103.uiSchema,
           schema: notice5103.schema,
-          scrollAndFocusTarget: focusAlertH3,
+          scrollAndFocusTarget: focusH3,
           initialData: {
             form5103Acknowledged: false,
           },
@@ -243,6 +244,7 @@ const formConfig = {
           path: EVIDENCE_VA_REQUEST,
           uiSchema: evidenceVaRecordsRequest.uiSchema,
           schema: evidenceVaRecordsRequest.schema,
+          scrollAndFocusTarget: focusH3,
         },
         evidenceVaRecords: {
           title: 'VA medical records',
@@ -297,6 +299,7 @@ const formConfig = {
           path: EVIDENCE_ADDITIONAL_PATH,
           uiSchema: evidenceWillUpload.uiSchema,
           schema: evidenceWillUpload.schema,
+          scrollAndFocusTarget: focusH3,
         },
         evidenceUpload: {
           title: 'Uploaded evidence',

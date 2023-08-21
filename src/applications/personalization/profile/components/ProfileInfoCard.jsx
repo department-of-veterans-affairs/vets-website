@@ -50,7 +50,6 @@ const rowTitle = classNames([
   'vads-u-font-weight--bold',
   'vads-u-line-height--4',
   'vads-u-margin--0',
-  'vads-u-margin-bottom--1',
   'vads-u-width--auto',
 ]);
 
@@ -60,6 +59,7 @@ const rowTitleDescription = classNames([
   'vads-u-font-weight--normal',
   'vads-u-margin--0',
   'vads-u-width--full',
+  'vads-u-margin-bottom--1',
 ]);
 
 const rowValue = classNames(['vads-u-margin--0', 'vads-u-width--full']);
@@ -90,6 +90,18 @@ HeadingLevel.propTypes = {
   namedAnchor: PropTypes.string,
 };
 
+const RowDescription = ({ description }) => (
+  <span className={classes.rowTitleDescription}>{description} </span>
+);
+
+RowDescription.propTypes = {
+  description: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.element,
+  ]),
+};
+
 export const List = ({ data }) => {
   return (
     <>
@@ -107,9 +119,7 @@ export const List = ({ data }) => {
               <dfn className={classes.rowTitle}>
                 {rowData.title}
                 {rowData.description && (
-                  <span className={classes.rowTitleDescription}>
-                    {rowData.description}
-                  </span>
+                  <RowDescription description={rowData.description} />
                 )}
                 {rowData.alertMessage && <>{rowData.alertMessage}</>}
               </dfn>
@@ -130,29 +140,38 @@ List.propTypes = {
 const Sections = ({ data, level }) => {
   return (
     <>
-      {data.map((rowData, index) => (
-        <div
-          key={index}
-          className={index === 0 ? classes.firstRow : classes.secondaryRow}
-          id={rowData.id}
-        >
-          {rowData.title && (
-            <HeadingLevel className={classes.rowTitle} level={level}>
-              {rowData.title}
-              {rowData.description && (
-                <span className={classes.rowTitleDescription}>
-                  {rowData.description}
-                </span>
-              )}
-              {rowData.alertMessage && <>{rowData.alertMessage}</>}
-            </HeadingLevel>
-          )}
+      {data.map((rowData, index) => {
+        // heading should only have bottom margin when there is no description
+        const rowHeadingClasses = classNames([
+          classes.rowTitle,
+          {
+            'vads-u-margin-bottom--1': !rowData?.description,
+          },
+        ]);
+        return (
+          <div
+            key={index}
+            className={index === 0 ? classes.firstRow : classes.secondaryRow}
+            id={rowData.id}
+          >
+            {rowData.title && (
+              <>
+                <HeadingLevel className={rowHeadingClasses} level={level}>
+                  {rowData.title}
+                  {rowData.alertMessage && <>{rowData.alertMessage}</>}
+                </HeadingLevel>
+                {rowData.description && (
+                  <RowDescription description={rowData.description} />
+                )}
+              </>
+            )}
 
-          {rowData?.value && (
-            <div className={classes.rowValue}>{rowData.value}</div>
-          )}
-        </div>
-      ))}
+            {rowData?.value && (
+              <div className={classes.rowValue}>{rowData.value}</div>
+            )}
+          </div>
+        );
+      })}
     </>
   );
 };
@@ -174,8 +193,6 @@ ListOrSections.propTypes = {
 // render a list of items, sections of items, or a single item
 // 'asList' as true, will render as an ordered list instead of series of sections (legacy behavior)
 // if single item is passed as data, it will be rendered as is (passing single node)
-// This component will replace the current ProfileInfoTable component and its main purpose is
-// to provide an accessible container for each part of profile pages
 export const ProfileInfoCard = ({
   className,
   title,
@@ -208,9 +225,9 @@ export const ProfileInfoCard = ({
 ProfileInfoCard.propTypes = {
   data: PropTypes.oneOfType([PropTypes.array, PropTypes.object, PropTypes.node])
     .isRequired,
-  title: PropTypes.string.isRequired,
   asList: PropTypes.bool,
   className: PropTypes.string,
   level: optionalNumberBetween(1, 5),
   namedAnchor: PropTypes.string,
+  title: PropTypes.string,
 };

@@ -1,10 +1,10 @@
 import { dropRight, merge } from 'lodash';
+import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import dataGet from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import unset from '../../../../utilities/data/unset';
-import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import { checkValidSchema, createFormPageList } from '../helpers';
+import { checkValidSchema, createFormPageList, isActivePage } from '../helpers';
 
 function isHiddenField(schema = {}) {
   return !!schema['ui:collapsed'] || !!schema['ui:hidden'];
@@ -40,7 +40,8 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
 
           if (arrayHasField && !isRequired) {
             return requiredArray.filter(prop => prop !== nextProp);
-          } else if (!arrayHasField && isRequired) {
+          }
+          if (!arrayHasField && isRequired) {
             return requiredArray.concat(nextProp);
           }
 
@@ -98,7 +99,8 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
 export function isContentExpanded(data, matcher, formData) {
   if (typeof matcher === 'undefined') {
     return !!data;
-  } else if (typeof matcher === 'function') {
+  }
+  if (typeof matcher === 'function') {
     return matcher(data, formData);
   }
 
@@ -601,6 +603,16 @@ export function recalculateSchemaAndData(initialState) {
 
     let newState = state;
 
+    /**
+     * If the page is inactive, in the case of a feature toggle setting or data conditional,
+     * an issue in the schema recalculation is presented in the next conditional statements
+     * if two pages (one active, one inactive) use the same data keys in their respective
+     * schemas. Thus we should not need to recalculate inactive pages any further.
+     */
+    if (!isActivePage(page, formData)) {
+      return newState;
+    }
+
     if (formData !== data) {
       newState = set('data', data, state);
     }
@@ -670,6 +682,7 @@ export function createInitialState(formConfig) {
       state.pages[page.pageKey] = {
         CustomPage: page.CustomPage,
         CustomPageReview: page.CustomPageReview,
+        depends: page.depends,
         uiSchema: page.uiSchema,
         schema,
         editMode: isArrayPage ? [] : false,

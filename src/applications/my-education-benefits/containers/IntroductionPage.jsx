@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 
 import { getAppData } from '../selectors/selectors';
 import HowToApplyPost911GiBillV2 from '../components/HowToApplyPost911GiBillV2';
@@ -41,7 +40,11 @@ export const IntroductionPage = ({
       <IntroductionProcessListV2 />
       {!featureTogglesLoaded && <LoadingIndicator />}
       <IntroductionLoginV2 route={route} />
-      <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="02/28/2023" />
+      <va-omb-info
+        res-burden={15}
+        omb-number="2900-0154"
+        exp-date="03/31/2026"
+      />
     </div>
   );
 };

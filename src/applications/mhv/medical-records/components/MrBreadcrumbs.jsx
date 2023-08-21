@@ -10,21 +10,22 @@ const MrBreadcrumbs = () => {
 
   return (
     <>
-      {crumbs.length > 0 &&
-        crumbs[0]?.url && (
-          <div className="vads-l-row breadcrumbs-container">
-            {/* per exisiting issue found here https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/1296 */}
-            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-web-component-library */}
-            <Breadcrumbs label="Breadcrumb">
-              {crumbs.map((crumb, idx) => (
-                <a href={crumb.url} key={idx}>
-                  {crumb.label}
-                </a>
-              ))}
-              <a href={currentPath?.url}>{currentPath?.label}</a>
-            </Breadcrumbs>
-          </div>
-        )}
+      {crumbs.length > 0 && crumbs[0]?.url ? (
+        <div className="vads-l-row breadcrumbs-container">
+          {/* per exisiting issue found here https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/1296 */}
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-web-component-library */}
+          <Breadcrumbs label="Breadcrumb" mobileFirstProp>
+            {crumbs.map((crumb, idx) => (
+              <a href={crumb.url} key={idx}>
+                Back to {crumb.label}
+              </a>
+            ))}
+            <a href={currentPath?.url}>{currentPath?.label}</a>
+          </Breadcrumbs>
+        </div>
+      ) : (
+        <div className="breadcrumbs-container" />
+      )}
     </>
   );
 };

@@ -1,13 +1,14 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "./secure-messaging-breadcrumb";
 @import "./navigation";
 @import "./folders-list";
 @import "./folder-thread-list-view";
 @forward "usa-button-group";
 
-
 .secure-messaging-container {
   display: flex;
   flex-direction: row;
+
   .main-content {
     display: flex;
     flex-direction: column;
@@ -18,6 +19,10 @@
   .secure-messaging-navigation {
     margin-right: 24px;
   }
+}
+
+.bottom-container {
+  background-color: $color-white;
 }
 
 .breadcrumb-angle .desktop-view-crumb {
@@ -40,6 +45,11 @@
 
 va-alert button {
   width: auto;
+}
+
+va-modal va-radio {
+  margin-left: 0px;
+  margin-bottom: 24px;
 }
 
 .message-box {
@@ -161,10 +171,6 @@ va-alert button {
   }
 }
 
-.page-title {
-  margin: 24px 0;
-}
-
 .link-button,
 .link-button:hover,
 .link-button:active {
@@ -180,7 +186,7 @@ va-alert button {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-@media (max-width: $small-screen) {
+@media (max-width: $medium-screen) {
   .secure-messaging-container {
     flex-direction: column;
     .main-content {
@@ -188,7 +194,6 @@ va-alert button {
       flex-direction: column;
     }
     .secure-messaging-navigation {
-      margin-top: 24px;
       margin-right: 0px;
     }
   }
@@ -208,20 +213,20 @@ va-alert button {
     }
     i {
       margin: 5px 8px 0 0;
+      color: $color-link-default;
       @media (min-width: $medium-screen) {
         margin-top: 0;
       }
     }
     .editable-attachment {
-      border-top: 1px solid $color-gray-medium;
+      border: 1px solid $color-gray-medium;
       display: flex;
       flex-direction: column;
       width: 100%;
+      box-shadow: 1px 1px 8px $color-gray-medium;
+      padding-left: 12px;
       span {
-        margin-top: 16px;
-        @media (min-width: $medium-screen) {
-          margin-top: 0px;
-        }
+        margin: auto;
       }
       @media (min-width: $medium-screen) {
         flex-direction: row;
@@ -235,7 +240,32 @@ va-alert button {
       border-bottom: 1px solid $color-gray-medium;
     }
   }
+  .remove-attachment-icon {
+    width: 1rem;
+    height: 1rem;
+    position: relative;
+    cursor: pointer;
+    font-weight: 400;
+  }
+  .remove-attachment-icon:before,
+  .remove-attachment-icon:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 3.5px;
+    background-color: $color-red-dark;
+  }
+  .remove-attachment-icon:before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  .remove-attachment-icon:after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
   .remove-attachment-button {
+    color: $color-red-dark;
+    background-color: $color-white;
     padding: 0;
     margin: 0;
     width: fit-content;
@@ -249,26 +279,6 @@ va-alert button {
       top: 1px;
       left: 3px;
     }
-  }
-  .remove-attachment-button::part(button) {
-    box-shadow: inset 0 0 0 2px $color-gray-dark;
-    color: $color-gray-dark;
-    height: 36px;
-    margin: 8px 0 16px;
-    @media (min-width: $medium-screen) {
-      margin-top: 16px;
-    }
-  }
-  .remove-attachment-button::part(button)::before {
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    margin-right: 6px;
-    content: "\f00d";
   }
 }
 
@@ -296,7 +306,7 @@ va-loading-indicator {
   .no-word-wrap {
     white-space: nowrap;
   }
-  ul{
+  ul {
     margin-top: 32px;
   }
   .link:visited {

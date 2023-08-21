@@ -20,8 +20,6 @@ const FormNavButtons = ({ goBack, goForward, submitToContinue }) => (
           buttonText="Back"
           buttonClass="usa-button-secondary"
           beforeText="«"
-          // This button is described by the current form's header ID
-          ariaDescribedBy="nav-form-header"
         />
       )}
     </div>
@@ -32,8 +30,6 @@ const FormNavButtons = ({ goBack, goForward, submitToContinue }) => (
         buttonText="Continue"
         buttonClass="usa-button-primary"
         afterText="»"
-        // This button is described by the current form's header ID
-        ariaDescribedBy="nav-form-header"
       />
     </div>
   </div>

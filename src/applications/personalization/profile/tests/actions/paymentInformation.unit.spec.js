@@ -5,7 +5,7 @@ import {
   mockFetch,
   setFetchJSONFailure,
   setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+} from '~/platform/testing/unit/helpers';
 
 import * as paymentInformationActions from '../../actions/paymentInformation';
 
@@ -39,15 +39,34 @@ describe('actions/paymentInformation', () => {
     let actionCreator;
     let dispatch;
     let recordEventSpy;
+    let captureErrorSpy;
 
     describe('fetchCNPPaymentInformation', () => {
       beforeEach(() => {
         setup({ mockGA: true });
         recordEventSpy = sinon.spy();
-        actionCreator = paymentInformationActions.fetchCNPPaymentInformation(
-          recordEventSpy,
-        );
+        captureErrorSpy = sinon.spy();
+        actionCreator = paymentInformationActions.fetchCNPPaymentInformation({
+          recordEvent: recordEventSpy,
+          captureCNPError: captureErrorSpy,
+        });
         dispatch = sinon.spy();
+        setFetchJSONResponse(global.fetch.onFirstCall(), {
+          data: {
+            attributes: {
+              responses: [
+                {
+                  paymentAccount: {
+                    accountType: 'Savings',
+                    financialInstitutionName: 'TD BANK NA',
+                    accountNumber: '************4569',
+                    financialInstitutionRoutingNumber: '*****3093',
+                  },
+                },
+              ],
+            },
+          },
+        });
       });
 
       afterEach(teardown);
@@ -120,9 +139,9 @@ describe('actions/paymentInformation', () => {
           expect(dispatch.secondCall.args[0].type).to.be.equal(
             paymentInformationActions.CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
           );
-          expect(dispatch.secondCall.args[0].response).to.deep.equal({
-            responses: [paymentInfo],
-          });
+          expect(dispatch.secondCall.args[0].response).to.deep.equal(
+            paymentInfo,
+          );
         });
 
         it('reports the correct data to Google Analytics', () => {
@@ -192,9 +211,9 @@ describe('actions/paymentInformation', () => {
           expect(dispatch.secondCall.args[0].type).to.be.equal(
             paymentInformationActions.CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
           );
-          expect(dispatch.secondCall.args[0].response).to.deep.equal({
-            responses: [paymentInfo],
-          });
+          expect(dispatch.secondCall.args[0].response).to.deep.equal(
+            paymentInfo,
+          );
         });
 
         it('reports the correct data to Google Analytics', () => {
@@ -264,9 +283,9 @@ describe('actions/paymentInformation', () => {
           expect(dispatch.secondCall.args[0].type).to.be.equal(
             paymentInformationActions.CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
           );
-          expect(dispatch.secondCall.args[0].response).to.deep.equal({
-            responses: [paymentInfo],
-          });
+          expect(dispatch.secondCall.args[0].response).to.deep.equal(
+            paymentInfo,
+          );
         });
 
         it('reports the correct data to Google Analytics', () => {
@@ -276,6 +295,7 @@ describe('actions/paymentInformation', () => {
           expect(recordEventSpy.secondCall.args[0].event).to.equal(
             'profile-get-cnp-direct-deposit-retrieved',
           );
+
           expect(
             recordEventSpy.secondCall.args[0]['direct-deposit-setup-eligible'],
           ).to.be.true;
@@ -304,18 +324,44 @@ describe('actions/paymentInformation', () => {
       beforeEach(() => {
         setup({ mockGA: true });
         recordEventSpy = sinon.spy();
-        actionCreator = paymentInformationActions.saveCNPPaymentInformation(
-          {
-            data: 'value',
-          },
-          false,
-          recordEventSpy,
-        );
+        captureErrorSpy = sinon.spy();
+        actionCreator = paymentInformationActions.saveCNPPaymentInformation({
+          fields: { data: 'value' },
+          recordEvent: recordEventSpy,
+          captureCNPError: captureErrorSpy,
+        });
         dispatch = sinon.spy();
+        setFetchJSONResponse(global.fetch.onFirstCall(), {
+          data: {
+            attributes: {
+              responses: [
+                {
+                  controlInformation: {
+                    canUpdateAddress: true,
+                    corpAvailIndicator: true,
+                    corpRecFoundIndicator: true,
+                    hasNoBdnPaymentsIndicator: true,
+                    identityIndicator: true,
+                    isCompetentIndicator: true,
+                    indexIndicator: true,
+                    noFiduciaryAssignedIndicator: true,
+                    notDeceasedIndicator: true,
+                  },
+                  paymentAccount: {
+                    accountType: 'Savings',
+                    financialInstitutionName: 'TD BANK NA',
+                    accountNumber: '************4569',
+                    financialInstitutionRoutingNumber: '*****3093',
+                  },
+                },
+              ],
+            },
+          },
+        });
       });
       afterEach(teardown);
 
-      it('calls fetch to `PUT ppiu/payment_information', async () => {
+      it('calls fetch to `PUT ppiu/payment_information`', async () => {
         await actionCreator(dispatch);
 
         expect(global.fetch.firstCall.args[1].method).to.equal('PUT');
@@ -334,6 +380,35 @@ describe('actions/paymentInformation', () => {
 
       describe('if the call succeeds', () => {
         beforeEach(async () => {
+          setFetchJSONResponse(global.fetch.onFirstCall(), {
+            data: {
+              id: '',
+              type: 'evss_ppiu_payment_information_responses',
+              attributes: {
+                responses: [
+                  {
+                    controlInformation: {
+                      canUpdateAddress: false,
+                      corpAvailIndicator: true,
+                      corpRecFoundIndicator: true,
+                      hasNoBdnPaymentsIndicator: true,
+                      identityIndicator: true,
+                      isCompetentIndicator: true,
+                      indexIndicator: true,
+                      noFiduciaryAssignedIndicator: true,
+                      notDeceasedIndicator: true,
+                    },
+                    paymentAccount: {
+                      accountType: 'Savings',
+                      financialInstitutionName: 'TD BANK NA',
+                      accountNumber: '************4569',
+                      financialInstitutionRoutingNumber: '*****3093',
+                    },
+                  },
+                ],
+              },
+            },
+          });
           await actionCreator(dispatch);
         });
 
@@ -345,9 +420,12 @@ describe('actions/paymentInformation', () => {
 
         it('reports the correct data to Google Analytics', () => {
           expect(recordEventSpy.firstCall.args[0].event).to.equal(
+            'profile-put-cnp-direct-deposit-started',
+          );
+          expect(recordEventSpy.secondCall.args[0].event).to.equal(
             'profile-transaction',
           );
-          expect(recordEventSpy.firstCall.args[0]['profile-section']).to.equal(
+          expect(recordEventSpy.secondCall.args[0]['profile-section']).to.equal(
             'cnp-direct-deposit-information',
           );
         });
@@ -386,6 +464,10 @@ describe('actions/paymentInformation', () => {
 
         it('reports the correct data to Google Analytics', () => {
           expect(recordEventSpy.firstCall.args[0]).to.deep.equal({
+            event: 'profile-put-cnp-direct-deposit-started',
+          });
+
+          expect(recordEventSpy.secondCall.args[0]).to.deep.equal({
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
             'profile-section': 'cnp-direct-deposit-information',
@@ -507,12 +589,14 @@ describe('actions/paymentInformation', () => {
       beforeEach(() => {
         setup({ mockGA: true });
         recordEventSpy = sinon.spy();
-        actionCreator = paymentInformationActions.saveEDUPaymentInformation(
-          {
+        captureErrorSpy = sinon.spy();
+        actionCreator = paymentInformationActions.saveEDUPaymentInformation({
+          fields: {
             data: 'value',
           },
-          recordEventSpy,
-        );
+          recordEvent: recordEventSpy,
+          captureEDUError: captureErrorSpy,
+        });
         dispatch = sinon.spy();
       });
       afterEach(teardown);
@@ -607,14 +691,32 @@ describe('actions/paymentInformation', () => {
   });
 
   describe('when `ga` is not set up correctly', () => {
-    beforeEach(() => setup({ mockGA: false }));
+    beforeEach(() => {
+      setup({ mockGA: false });
+      setFetchJSONResponse(global.fetch.onFirstCall(), {
+        data: {
+          attributes: {
+            responses: [
+              {
+                paymentAccount: {
+                  accountType: 'Savings',
+                  financialInstitutionName: 'TD BANK NA',
+                  accountNumber: '************4569',
+                  financialInstitutionRoutingNumber: '*****3093',
+                },
+              },
+            ],
+          },
+        },
+      });
+    });
     afterEach(teardown);
 
     describe('saveCNPPaymentInformation', () => {
       it('still calls fetch and dispatches the correct actions', async () => {
         const actionCreator = paymentInformationActions.saveCNPPaymentInformation(
           {
-            data: 'value',
+            fields: { test: 'value' },
           },
         );
         const dispatch = sinon.spy();

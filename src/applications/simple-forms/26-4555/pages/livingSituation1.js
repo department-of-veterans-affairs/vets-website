@@ -9,6 +9,7 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [livingSituationFields.isInCareFacility];
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     [livingSituationFields.parentObject]: {

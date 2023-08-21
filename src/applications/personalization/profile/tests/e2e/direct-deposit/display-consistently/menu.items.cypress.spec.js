@@ -1,5 +1,5 @@
 import DirectDeposit from '../DirectDeposit';
-import { paymentHistory } from '../../../../mocks/endpoints/payment-history';
+import * as paymentInfo from '../../../../mocks/endpoints/payment-information';
 import { loa3User72, loa1User } from '../../../../mocks/endpoints/user';
 
 import { generateFeatureToggles } from '../../../../mocks/endpoints/feature-toggles';
@@ -11,11 +11,7 @@ describe('Direct Deposit Consistently', () => {
 
   it('should display the menu item for a standard user -- happy path', () => {
     cy.login(loa3User72);
-    cy.intercept(
-      'GET',
-      'v0/ppiu/payment_information',
-      paymentHistory.simplePaymentHistory,
-    );
+    cy.intercept('GET', 'v0/ppiu/payment_information', paymentInfo.base);
 
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();
@@ -30,11 +26,7 @@ describe('Direct Deposit Consistently', () => {
 
   it('should hide the menu for deceased veteran and display blocked alert', () => {
     cy.login(loa3User72);
-    cy.intercept(
-      'GET',
-      'v0/ppiu/payment_information',
-      paymentHistory.isDeceased,
-    );
+    cy.intercept('GET', 'v0/ppiu/payment_information', paymentInfo.isDeceased);
 
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();
@@ -47,7 +39,7 @@ describe('Direct Deposit Consistently', () => {
     cy.intercept(
       'GET',
       'v0/ppiu/payment_information',
-      paymentHistory.isNotCompetent,
+      paymentInfo.isNotCompetent,
     );
 
     DirectDeposit.visitPage();
@@ -58,11 +50,7 @@ describe('Direct Deposit Consistently', () => {
   });
   it('should hide the menu for has fiduciary veteran and display blocked alert', () => {
     cy.login(loa3User72);
-    cy.intercept(
-      'GET',
-      'v0/ppiu/payment_information',
-      paymentHistory.isFiduciary,
-    );
+    cy.intercept('GET', 'v0/ppiu/payment_information', paymentInfo.isFiduciary);
 
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();

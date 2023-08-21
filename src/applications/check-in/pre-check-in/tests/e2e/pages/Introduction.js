@@ -48,14 +48,14 @@ class Introduction {
 
   validateStartButtonTopPlacement = () => {
     cy.get('div[data-testid="start-button"]')
-      .contains('Answer questions')
+      .contains('Complete pre-check-in')
       .parent()
       .prev()
       .contains('Your answers will');
   };
 
   countAppointmentList = expectedLength => {
-    cy.get('ol[data-testid="appointment-list"] li').should(
+    cy.get('ul[data-testid="appointment-list"] li').should(
       'have.length',
       expectedLength,
     );

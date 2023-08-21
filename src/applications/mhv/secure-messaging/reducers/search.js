@@ -1,4 +1,5 @@
 import { Actions } from '../util/actionTypes';
+import { threadSortingOptions } from '../util/constants';
 
 const initialState = {
   /**
@@ -8,6 +9,10 @@ const initialState = {
   searchResults: undefined,
   awaitingResults: false,
   keyword: '',
+  searchFolder: undefined,
+  searchSort: threadSortingOptions.SENT_DATE_DESCENDING.value,
+  query: undefined,
+  page: 1,
 };
 
 export const searchReducer = (state = initialState, action) => {
@@ -19,7 +24,7 @@ export const searchReducer = (state = initialState, action) => {
           const msgAttr = message.attributes;
           return { ...msgAttr };
         }),
-        folder: action.response.folder,
+        searchFolder: action.response.folder,
         keyword: action.response.keyword,
         awaitingResults: false,
       };
@@ -30,8 +35,8 @@ export const searchReducer = (state = initialState, action) => {
           const msgAttr = message.attributes;
           return { ...msgAttr };
         }),
-        folder: action.response.folder,
-        keyword: '',
+        searchFolder: action.response.folder,
+        keyword: action.response.keyword,
         query: action.response.query,
         awaitingResults: false,
       };
@@ -40,6 +45,21 @@ export const searchReducer = (state = initialState, action) => {
         ...state,
         searchResults: initialState.searchResults,
         awaitingResults: true,
+      };
+    case Actions.Search.SET_SORT:
+      return {
+        ...state,
+        searchSort: action.payload,
+      };
+    case Actions.Search.SET_PAGE:
+      return {
+        ...state,
+        page: action.payload,
+      };
+    case Actions.Search.CLEAR:
+      return {
+        ...state,
+        ...initialState,
       };
     default:
       return state;

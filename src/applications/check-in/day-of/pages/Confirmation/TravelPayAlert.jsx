@@ -50,7 +50,7 @@ const TravelPayAlert = props => {
             >
               <div>
                 <p
-                  className="vads-u-margin-top--0"
+                  className="vads-u-margin-y--0"
                   data-testid="travel-pay-eligible-success-message"
                 >
                   <Trans

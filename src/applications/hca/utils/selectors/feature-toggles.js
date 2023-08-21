@@ -5,9 +5,6 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 const selectFeatureToggles = createSelector(
   state => ({
     isLoadingFeatureFlags: state?.featureToggles?.loading,
-    isAiqEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.hcaAmericanIndianEnabled
-    ],
     isBrowserMonitoringEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.hcaBrowserMonitoringEnabled
     ],
@@ -20,7 +17,10 @@ const selectFeatureToggles = createSelector(
     isHouseholdV2Enabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.hcaHouseholdV2Enabled
     ],
-    isSigiEnabled: toggleValues(state)[FEATURE_FLAG_NAMES.caregiverSigiEnabled],
+    isRemoveIdFieldsEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.hcaRemoveIdFieldsEnabled
+    ],
+    isSigiEnabled: toggleValues(state)[FEATURE_FLAG_NAMES.hcaSigiEnabled],
   }),
   toggles => toggles,
 );

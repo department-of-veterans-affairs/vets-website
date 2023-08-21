@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -19,6 +20,7 @@ import {
   NoIssuesLoadedAlert,
   NoneSelectedAlert,
   MaxSelectionsAlert,
+  removeModalContent,
 } from '../content/contestableIssues';
 import {
   getSelected,
@@ -29,23 +31,22 @@ import {
 import { focusIssue } from '../utils/focus';
 
 /**
- * ContestableIssuesWidget
- * Form system parameters passed into this widget
- * @typedef {Object}
- * @property {Boolean} autofocus - should auto focus
- * @property {Boolean} disabled -  is disabled?
- * @property {Object} formContext -  state
- * @property {String} id - ID base for form elements
- * @property {String} label - label text
- * @property {func} onBlur - blur callback
- * @property {func} onChange - on change callback
- * @property {Object} options - ui:options
- * @property {String} placeholder - placeholder text
- * @property {Boolean} readonly - readonly state
- * @property {Object} registry - contains definitions, fields, widgets & templates
- * @property {Boolean} required - Show required flag
- * @property {Object} schema - array schema
- * @property {Object[]} value - array value
+ * ContestableIssuesWidget - Form system parameters passed into this widget
+ * @param {Boolean} autofocus - should auto focus
+ * @param {Boolean} disabled -  is disabled?
+ * @param {Object} formContext -  state
+ * @param {String} id - ID base for form elements
+ * @param {String} label - label text
+ * @param {func} onBlur - blur callback
+ * @param {func} onChange - on change callback
+ * @param {Object} options - ui:options
+ * @param {String} placeholder - placeholder text
+ * @param {Boolean} readonly - readonly state
+ * @param {Object} registry - contains definitions, fields, widgets & templates
+ * @param {Boolean} required - Show required flag
+ * @param {Object} schema - array schema
+ * @param {Object[]} value - array value
+ * @return {JSX}
  */
 const ContestableIssuesWidget = props => {
   const {
@@ -59,6 +60,8 @@ const ContestableIssuesWidget = props => {
   } = props;
 
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [removeIndex, setRemoveIndex] = useState(null);
   const [editState] = useState(window.sessionStorage.getItem(LAST_SC_ITEM));
 
   useEffect(
@@ -98,16 +101,11 @@ const ContestableIssuesWidget = props => {
     .concat(additionalIssues);
 
   const hasSelected = someSelected(items);
+  // Only show alert initially when no issues loaded
+  const [showNoLoadedIssues] = useState(items.length === 0);
 
   if (onReviewPage && inReviewMode && items.length && !hasSelected) {
-    return (
-      <>
-        <dt>
-          <NoneSelectedAlert count={items.length} />
-        </dt>
-        <dd />
-      </>
-    );
+    return <NoneSelectedAlert count={items.length} headerLevel={5} />;
   }
 
   const handlers = {
@@ -139,17 +137,29 @@ const ContestableIssuesWidget = props => {
         });
       }
     },
-    onRemoveIssue: index => {
-      const adjustedIndex = calculateIndexOffset(index, value.length);
+    onShowRemoveModal: cardIndex => {
+      const adjustedIndex = calculateIndexOffset(cardIndex, value.length);
+      setRemoveIndex(adjustedIndex);
+      setShowRemoveModal(true);
+    },
+    onRemoveModalClose: () => {
+      setShowRemoveModal(false);
+      setRemoveIndex(null);
+    },
+    onRemoveIssue: () => {
       const updatedAdditionalIssues = additionalIssues.filter(
-        (issue, indx) => adjustedIndex !== indx,
+        (issue, indx) => removeIndex !== indx,
       );
-
       // Focus management: target add a new issue action link
       window.sessionStorage.setItem(LAST_SC_ITEM, -1);
-      // focusIssue is called by form config scrollAndFocusTarget, but only on
-      // page change
-      focusIssue();
+      setShowRemoveModal(false);
+      setRemoveIndex(null);
+      // setTimeout needed to allow rerender
+      setTimeout(() => {
+        // focusIssue is called by form config scrollAndFocusTarget, but only on
+        // page change
+        focusIssue();
+      });
 
       setFormData({
         ...formData,
@@ -171,10 +181,7 @@ const ContestableIssuesWidget = props => {
       showCheckbox,
       onReviewPage,
       onChange: handlers.onChange,
-      // Don't allow editing or removing API-loaded issues
-      onRemove: item.ratingIssueSubjectText
-        ? null
-        : () => handlers.onRemoveIssue(index),
+      onRemove: handlers.onShowRemoveModal,
     };
 
     // Don't show un-selected ratings in review mode
@@ -182,20 +189,44 @@ const ContestableIssuesWidget = props => {
   });
 
   const showNoIssues =
-    items.length === 0 && (!onReviewPage || (onReviewPage && inReviewMode));
+    showNoLoadedIssues && (!onReviewPage || (onReviewPage && inReviewMode));
 
   return (
     <>
       <div name="eligibleScrollElement" />
-      {showNoIssues && <NoIssuesLoadedAlert submitted={submitted} />}
+      {showNoIssues && <NoIssuesLoadedAlert />}
       {!showNoIssues &&
         submitted &&
-        !hasSelected && <NoneSelectedAlert count={value.length} />}
+        !hasSelected && (
+          <NoneSelectedAlert
+            count={value.length}
+            headerLevel={onReviewPage ? 4 : 3}
+          />
+        )}
       <fieldset className="review-fieldset">
         <ContestableIssuesLegend
           onReviewPage={onReviewPage}
           inReviewMode={inReviewMode}
         />
+        <VaModal
+          clickToClose
+          status="warning"
+          modalTitle={removeModalContent.title}
+          primaryButtonText={removeModalContent.yesButton}
+          secondaryButtonText={removeModalContent.noButton}
+          onCloseEvent={handlers.onRemoveModalClose}
+          onPrimaryButtonClick={handlers.onRemoveIssue}
+          onSecondaryButtonClick={handlers.onRemoveModalClose}
+          visible={showRemoveModal}
+        >
+          <p>
+            {removeIndex !== null
+              ? removeModalContent.description(
+                  additionalIssues[removeIndex].issue,
+                )
+              : null}
+          </p>
+        </VaModal>
         <ul className="issues vads-u-border-top--1px vads-u-border-color--gray-light">
           {content}
         </ul>

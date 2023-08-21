@@ -218,6 +218,51 @@ describe('check-in', () => {
         'Next of kin',
       );
     });
+    describe('Clinic phone number rendering', () => {
+      const noPhoneAppointments = [
+        {
+          clinicFriendlyName: 'TEST CLINIC',
+          clinicName: 'LOM ACC CLINIC TEST',
+        },
+      ];
+      it('Displays questions message', () => {
+        const screen = render(
+          <CheckInProvider>
+            <PreCheckInAccordionBlock
+              demographicsUpToDate="yes"
+              emergencyContactUpToDate="yes"
+              nextOfKinUpToDate="yes"
+              appointments={appointments}
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
+          'Call your VA health care team:',
+        );
+        expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
+          'TEST CLINIC at ',
+        );
+      });
+      it('Does not display questions message', () => {
+        const screen = render(
+          <CheckInProvider>
+            <PreCheckInAccordionBlock
+              demographicsUpToDate="yes"
+              emergencyContactUpToDate="yes"
+              nextOfKinUpToDate="yes"
+              appointments={noPhoneAppointments}
+            />
+          </CheckInProvider>,
+        );
+        expect(
+          screen.getByTestId('pre-check-in-accordions'),
+        ).to.not.contain.text('Call your VA health care team:');
+        expect(
+          screen.getByTestId('pre-check-in-accordions'),
+        ).to.not.contain.text('TEST CLINIC at ');
+      });
+    });
+
     describe('Error page messages render', () => {
       it('In person messages render', () => {
         const screen = render(

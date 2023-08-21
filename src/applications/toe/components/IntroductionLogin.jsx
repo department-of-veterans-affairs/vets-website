@@ -19,6 +19,8 @@ function IntroductionLogin({
   isSponsorsFetchComplete,
   route,
   showHideLoginModal,
+  showMebEnhancements,
+  showMebEnhancements06,
   user,
 }) {
   const apiCallsComplete =
@@ -31,6 +33,9 @@ function IntroductionLogin({
 
   const nextQuery = { next: window.location.pathname };
   const verifyUrl = appendQuery('/verify', nextQuery);
+  const headlineText = showMebEnhancements06
+    ? 'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information and not your sponsor’s.'
+    : 'Save time-and save your work in progress-by signing in before starting your application.';
 
   return (
     <>
@@ -51,10 +56,7 @@ function IntroductionLogin({
               status="continue"
               visible
             >
-              <h2 slot="headline">
-                Save time—and save your work in progress—by signing in before
-                starting your application
-              </h2>
+              <h2 slot="headline">{headlineText}</h2>
               <div>
                 <p className="vads-u-margin-top--0">
                   When you’ve signed in to your verified VA.gov account:
@@ -88,11 +90,23 @@ function IntroductionLogin({
                 </button>
               </div>
             </va-alert>
-
             <p className="vads-u-margin-top--4">
-              <a href="/education/apply-for-education-benefits/application/1990E/applicant/information">
-                Start your application without signing in
-              </a>
+              {showMebEnhancements ? (
+                // If showMebEnhancements is true, display paper form option
+                <>
+                  If you don't want to sign in, you can{' '}
+                  <a href="https://www.va.gov/find-forms/about-form-22-1990e/">
+                    apply using the paper form
+                  </a>
+                  . Please expect longer processing time for decisions when
+                  opting for this method.
+                </>
+              ) : (
+                // If showMebEnhancements is false, display option to start application without signing in
+                <a href="/education/apply-for-education-benefits/application/1990E/applicant/information">
+                  Start your application without signing in
+                </a>
+              )}
             </p>
           </>
         )}
@@ -107,7 +121,6 @@ function IntroductionLogin({
             pageList={route.pageList}
             prefillEnabled={route?.formConfig?.prefillEnabled}
             startText={START_APPLICATION_TEXT}
-            testActionLink
             user={user}
           />
         )}
@@ -159,6 +172,8 @@ IntroductionLogin.propTypes = {
   isPersonalInfoFetchComplete: PropTypes.bool,
   isSponsorsFetchComplete: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
+  showMebEnhancements: PropTypes.bool,
+  showMebEnhancements06: PropTypes.bool,
   user: PropTypes.object,
 };
 

@@ -2,7 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-function Select({ onChange, options, id, label, value }) {
+function Select({
+  onChange,
+  options,
+  id,
+  label,
+  value,
+  className = 'vads-u-margin-bottom--1p5',
+}) {
   const selectOptions = options.map((o, index) => {
     return (
       <option
@@ -21,7 +28,7 @@ function Select({ onChange, options, id, label, value }) {
       id={id}
       label={label ?? 'Select'}
       onVaSelect={onChange}
-      className="usa-select vads-u-margin-bottom--1p5"
+      className={className}
       value={value}
       data-testid="vaosSelect"
     >
@@ -36,6 +43,7 @@ Select.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  className: PropTypes.string,
   label: PropTypes.string,
 };
 

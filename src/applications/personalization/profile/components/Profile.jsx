@@ -11,7 +11,9 @@ import {
 } from '@@profile/actions';
 import {
   cnpDirectDepositInformation,
+  profileUseLighthouseDirectDepositEndpoint,
   selectIsBlocked,
+  togglesAreLoaded,
 } from '@@profile/selectors';
 import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
@@ -50,7 +52,7 @@ import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
-import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 class Profile extends Component {
   componentDidMount() {
@@ -67,6 +69,8 @@ class Profile extends Component {
       shouldFetchTotalDisabilityRating,
       shouldFetchEDUDirectDepositInformation,
       connectDrupalSourceOfTruthCerner,
+      useLighthouseDirectDepositEndpoint,
+      togglesLoaded,
     } = this.props;
     connectDrupalSourceOfTruthCerner();
     if (isLOA3 && isInMVI) {
@@ -74,8 +78,10 @@ class Profile extends Component {
       fetchPersonalInformation();
       fetchMilitaryInformation();
     }
-    if (shouldFetchCNPDirectDepositInformation) {
-      fetchCNPPaymentInformation();
+    if (togglesLoaded && shouldFetchCNPDirectDepositInformation) {
+      fetchCNPPaymentInformation({
+        useLighthouseDirectDepositEndpoint,
+      });
     }
     if (shouldFetchTotalDisabilityRating) {
       fetchTotalDisabilityRating();
@@ -98,24 +104,35 @@ class Profile extends Component {
       shouldFetchEDUDirectDepositInformation,
       shouldFetchTotalDisabilityRating,
       isInMVI,
+      useLighthouseDirectDepositEndpoint,
+      togglesLoaded,
     } = this.props;
     if (isLOA3 && !prevProps.isLOA3 && isInMVI) {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
     }
+
     if (
       shouldFetchTotalDisabilityRating &&
       !prevProps.shouldFetchTotalDisabilityRating
     ) {
       fetchTotalDisabilityRating();
     }
+
     if (
-      shouldFetchCNPDirectDepositInformation &&
-      !prevProps.shouldFetchCNPDirectDepositInformation
+      (togglesLoaded &&
+        !prevProps.togglesLoaded &&
+        shouldFetchCNPDirectDepositInformation) ||
+      (togglesLoaded &&
+        shouldFetchCNPDirectDepositInformation &&
+        !prevProps.shouldFetchCNPDirectDepositInformation)
     ) {
-      fetchCNPPaymentInformation();
+      fetchCNPPaymentInformation({
+        useLighthouseDirectDepositEndpoint,
+      });
     }
+
     if (
       shouldFetchEDUDirectDepositInformation &&
       !prevProps.shouldFetchEDUDirectDepositInformation
@@ -134,11 +151,8 @@ class Profile extends Component {
           dismissDowntimeWarning={this.props.dismissDowntimeWarning}
           initializeDowntimeWarnings={this.props.initializeDowntimeWarnings}
           messaging={{
-            title: (
-              <h3>
-                Some parts of the profile will be down for maintenance soon
-              </h3>
-            ),
+            title:
+              'Some parts of the profile will be down for maintenance soon',
           }}
           // default for className prop is `row-padded` and we do not want that
           // class applied to the wrapper div DowntimeApproaching renders
@@ -160,7 +174,6 @@ class Profile extends Component {
             <BrowserRouter>
               <LastLocationProvider>
                 <ProfileWrapper
-                  routes={routes}
                   isInMVI={this.props.isInMVI}
                   isLOA3={this.props.isLOA3}
                   isBlocked={this.props.isBlocked}
@@ -268,10 +281,13 @@ Profile.propTypes = {
   shouldFetchEDUDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
+  togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
+  useLighthouseDirectDepositEndpoint: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
+  const togglesLoaded = togglesAreLoaded(state);
   const signInServicesEligibleForDD = new Set([
     CSP_IDS.ID_ME,
     CSP_IDS.LOGIN_GOV,
@@ -311,8 +327,6 @@ const mapStateToProps = state => {
   // fails:
   const hasLoadedFullName = isLOA1 || !isInMVI || state.vaProfile?.hero;
 
-  // this piece of state will be set if the call to load name info succeeds or
-  // fails:
   const hasLoadedCNPPaymentInformation =
     !isInMVI || cnpDirectDepositInformation(state);
 
@@ -346,6 +360,10 @@ const mapStateToProps = state => {
       'profile',
     ),
     isBlocked,
+    useLighthouseDirectDepositEndpoint: profileUseLighthouseDirectDepositEndpoint(
+      state,
+    ),
+    togglesLoaded,
   };
 };
 

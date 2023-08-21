@@ -4,22 +4,43 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { beforeEach } from 'mocha';
 import { waitFor } from '@testing-library/react';
 import RecordList from '../../components/RecordList/RecordList';
-import vaccines from '../fixtures/vaccines.json';
 import reducer from '../../reducers';
+import { RecordType } from '../../util/constants';
+
+const vaccines = [
+  {
+    id: '957',
+    name: 'INFLUENZA, INJECTABLE, QUADRIVALENT',
+    date: 'August 5, 2022',
+    location: 'None noted',
+    manufacturer: 'None noted',
+    reactions: ['FEVER'],
+    notes: ['test comment'],
+  },
+  {
+    id: '956',
+    name:
+      'COVID-19 (MODERNA), MRNA, LNP-S, PF, 100 MCG/0.5ML DOSE OR 50 MCG/0.25ML DOSE',
+    date: 'August 8, 2022',
+    location: 'None noted',
+    manufacturer: 'None noted',
+    reactions: [],
+    notes: ['test'],
+  },
+];
 
 describe('Record list component', () => {
   const initialState = {
     mr: {
       vaccines: {
         vaccinesList: vaccines,
-        vaccineDetails: vaccines[0],
       },
     },
   };
   let screen = null;
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
-      <RecordList records={vaccines} type="vaccine" />,
+      <RecordList records={vaccines} type={RecordType.VACCINES} />,
       {
         initialState,
         reducers: reducer,
@@ -29,13 +50,13 @@ describe('Record list component', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen.getByText('Displaying', { exact: false })).to.exist;
+    expect(screen.getByText('Showing', { exact: false })).to.exist;
   });
 
   it('displays a list of records when records are provided', async () => {
     await waitFor(() => {
-      // 15 because 5 (paginated) for regular view plus 10 (unpaginated) for print view
-      expect(screen.getAllByTestId('record-list-item')).to.have.length(15);
+      // 4 because 2 for the regular view plus 2 for the print view
+      expect(screen.getAllByTestId('record-list-item')).to.have.length(4);
     });
   });
 });

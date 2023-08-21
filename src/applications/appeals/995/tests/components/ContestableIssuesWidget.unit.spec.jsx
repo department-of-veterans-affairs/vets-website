@@ -1,7 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { ContestableIssuesWidget } from '../../components/ContestableIssuesWidget';
 import { SELECTED } from '../../constants';
@@ -30,51 +32,38 @@ describe('<ContestableIssuesWidget>', () => {
 
   it('should render a list of check boxes (IssueCard component)', () => {
     const props = getProps();
-    const wrapper = mount(<ContestableIssuesWidget {...props} />);
-    expect(wrapper.find('input[type="checkbox"]').length).to.equal(
+    const { container } = render(<ContestableIssuesWidget {...props} />);
+    expect($$('input[type="checkbox"]', container).length).to.equal(
       props.value.length + props.additionalIssues.length,
     );
-    expect(
-      wrapper
-        .find('.widget-title')
-        .first()
-        .text(),
-    ).to.equal('issue-1');
-    wrapper.unmount();
+    expect($('.widget-title', container).textContent).to.equal('issue-1');
   });
+
   it('should render edit link & remove button', () => {
     const props = getProps();
-    const wrapper = mount(<ContestableIssuesWidget {...props} />);
+    const { container } = render(<ContestableIssuesWidget {...props} />);
     const addLength = props.additionalIssues.length;
-    const link = wrapper.find('a.edit-issue-link');
+    const link = $$('a.edit-issue-link', container);
     expect(link.length).to.equal(addLength);
-    expect(wrapper.find('button.remove-issue').length).to.equal(
-      props.additionalIssues.length,
-    );
-    wrapper.unmount();
+    expect($$('va-button').length).to.equal(props.additionalIssues.length);
   });
 
   it('should wrap the checkboxes in a fieldset', () => {
     const props = getProps();
-    const wrapper = mount(<ContestableIssuesWidget {...props} />);
-    expect(wrapper.find('fieldset').length).to.equal(1);
-    wrapper.unmount();
+    const { container } = render(<ContestableIssuesWidget {...props} />);
+    expect($$('fieldset', container).length).to.equal(1);
   });
 
   it('should call onChange when the checkbox is toggled', () => {
     const onChange = sinon.spy();
     const props = getProps({ onChange });
-    const wrapper = mount(<ContestableIssuesWidget {...props} />);
-    wrapper.find('.form-checkbox').forEach((element, index) => {
+    const { container } = render(<ContestableIssuesWidget {...props} />);
+    $$('.form-checkbox', container).forEach((element, index) => {
       onChange.reset();
 
+      const checkbox = $('input', container);
       // "Click" the option
-      // .simulate('click') wasn't calling the onChange handler for some reason
-      element
-        .find('input')
-        .first()
-        .props()
-        .onChange({ target: { checked: true } });
+      fireEvent.click(checkbox);
 
       // Check that it changed
       expect(onChange.callCount).to.equal(1);
@@ -84,11 +73,7 @@ describe('<ContestableIssuesWidget>', () => {
       });
 
       // "Click" the option
-      element
-        .find('input')
-        .first()
-        .props()
-        .onChange({ target: { checked: false } });
+      fireEvent.click(checkbox);
 
       // Check that it changed back
       expect(onChange.callCount).to.equal(2);
@@ -97,46 +82,89 @@ describe('<ContestableIssuesWidget>', () => {
         [SELECTED]: false,
       });
     });
-    wrapper.unmount();
   });
   it('should not show an error on submission with one selection', () => {
     const props = getProps({ submitted: true });
     const issues = [{ [SELECTED]: true }];
-    const wrapper = mount(
+    const { container } = render(
       <ContestableIssuesWidget {...props} additionalIssues={issues} />,
     );
-    expect(wrapper.find('.usa-input-error').length).to.equal(0);
-    wrapper.unmount();
+    expect($$('.usa-input-error', container).length).to.equal(0);
   });
 
   it('should show an error when submitted with no selections', () => {
     const props = getProps({ submitted: true });
-    const wrapper = mount(<ContestableIssuesWidget {...props} />);
-    expect(wrapper.find('va-alert h3').length).to.equal(1);
-    wrapper.unmount();
+    const { container } = render(<ContestableIssuesWidget {...props} />);
+    expect($$('va-alert', container).length).to.equal(1);
+    expect($('va-alert', container).innerHTML).to.contain(
+      'at least 1 issue before you can continue',
+    );
   });
   it('should show a message when no issues selected on review page', () => {
     const props = getProps({ review: true });
-    const wrapper = mount(<ContestableIssuesWidget {...props} />);
-    expect(wrapper.find('dt').text()).to.contain(
+    const { container } = render(<ContestableIssuesWidget {...props} />);
+    expect($('va-alert', container).innerHTML).to.contain(
       'at least 1 issue before you can continue',
     );
-    wrapper.unmount();
   });
-  it('should remove additional item', () => {
-    const setFormData = sinon.spy();
-    const props = getProps({ setFormData });
-    const wrapper = mount(<ContestableIssuesWidget {...props} />);
 
-    expect(props.additionalIssues.length).to.equal(1);
+  it('should remove additional item after confirming in modal', async () => {
+    const setFormDataSpy = sinon.spy();
+    const props = getProps({ setFormData: setFormDataSpy });
+    const { container } = render(<ContestableIssuesWidget {...props} />);
 
-    wrapper
-      .find('button.remove-issue')
-      .props()
-      .onClick({ preventDefault: () => {} });
+    const removeButton = $$('.remove-issue', container);
+    expect(removeButton.length).to.equal(1);
+    fireEvent.click(removeButton[0]);
 
-    expect(setFormData.called).to.be.true;
-    expect(setFormData.args[0][0].additionalIssues.length).to.equal(0);
-    wrapper.unmount();
+    const modal = $('va-modal', container);
+    modal.__events.primaryButtonClick(); // Remove entry
+
+    await waitFor(() => {
+      expect(setFormDataSpy.called).to.be.true;
+      expect(setFormDataSpy.args[0][0].additionalIssues.length).to.equal(0);
+    });
+  });
+  it('should not remove additional item after choosing No in the modal', async () => {
+    const setFormDataSpy = sinon.spy();
+    const props = getProps({ setFormData: setFormDataSpy });
+    const { container } = render(<ContestableIssuesWidget {...props} />);
+
+    const removeButton = $$('.remove-issue', container);
+    expect(removeButton.length).to.equal(1);
+    fireEvent.click(removeButton[0]);
+
+    const modal = $('va-modal', container);
+    modal.__events.secondaryButtonClick(); // Remove entry
+
+    await waitFor(() => {
+      expect(setFormDataSpy.called).to.be.false;
+    });
+  });
+
+  it('should not show no loaded issues alert after remove all additional items', async () => {
+    const props = getProps();
+    const { container } = render(
+      <ContestableIssuesWidget {...props} additionalIssues={[]} value={[]} />,
+    );
+
+    expect($$('va-alert', container).length).to.equal(1);
+    expect($('va-alert', container).innerHTML).to.contain(
+      'Sorry, we couldn’t find any eligible issues',
+    );
+  });
+
+  it('should not show no loaded issues alert after remove all additional items', async () => {
+    const props = getProps();
+    const { container, rerender } = render(
+      <ContestableIssuesWidget {...props} value={[]} />,
+    );
+
+    rerender(
+      <ContestableIssuesWidget {...props} additionalIssues={[]} value={[]} />,
+    );
+    await waitFor(() => {
+      expect($$('va-alert', container).length).to.equal(0);
+    });
   });
 });

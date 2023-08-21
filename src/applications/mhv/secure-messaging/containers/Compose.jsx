@@ -1,53 +1,53 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearDraft } from '../actions/draftDetails';
 import { retrieveMessageThread } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
-import ReplyForm from '../components/ComposeForm/ReplyForm';
-import MessageThread from '../components/MessageThread/MessageThread';
-import EmergencyNote from '../components/EmergencyNote';
-import AlertBox from '../components/shared/AlertBox';
 import InterstitialPage from './InterstitialPage';
-import { addAlert, closeAlert } from '../actions/alerts';
-import { isOlderThan } from '../util/helpers';
-import * as Constants from '../util/constants';
+import { closeAlert } from '../actions/alerts';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import { PageTitles, Paths } from '../util/constants';
+import { getPatientSignature } from '../actions/preferences';
 
 const Compose = () => {
   const dispatch = useDispatch();
   const { draftMessage, error } = useSelector(state => state.sm.draftDetails);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const { draftId } = useParams();
-  const messageHistory = useSelector(
-    state => state.sm.draftDetails.draftMessageHistory,
-  );
-  const [replyMessage, setReplyMessage] = useState(undefined);
+
   const [acknowledged, setAcknowledged] = useState(false);
   const [draftType, setDraftType] = useState('');
+  const [pageTitle, setPageTitle] = useState('Start a new message');
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
   const header = useRef();
 
-  useEffect(() => {
-    dispatch(getTriageTeams());
+  useEffect(
+    () => {
+      dispatch(getTriageTeams());
+      dispatch(getPatientSignature());
 
-    if (location.pathname === '/compose') {
-      dispatch(clearDraft());
-      setDraftType('compose');
-    } else {
-      dispatch(retrieveMessageThread(draftId));
-    }
-    return () => {
-      dispatch(clearDraft());
-    };
-  }, []);
+      if (location.pathname === Paths.COMPOSE) {
+        dispatch(clearDraft());
+        setDraftType('compose');
+      } else {
+        dispatch(retrieveMessageThread(draftId));
+      }
+      return () => {
+        dispatch(clearDraft());
+      };
+    },
+    [dispatch, draftId, location.pathname],
+  );
 
   useEffect(
     () => {
       if (draftMessage?.messageId && draftMessage.draftDate === null) {
-        history.push('/inbox');
+        history.push(Paths.INBOX);
       }
       return () => {
         if (isDraftPage) {
@@ -60,56 +60,28 @@ const Compose = () => {
 
   useEffect(
     () => {
-      // wait until messageHistory is retrieved to determine if we should show a ReplyForm
-      // To prevent from Edit Draft Title falshing on screen
-      if (messageHistory !== undefined) {
-        if (messageHistory?.length > 0) {
-          // TODO filter history to grab only received messages.
-          setReplyMessage(messageHistory[0]);
-          setDraftType('reply');
-        } else {
-          setReplyMessage(null);
-          setDraftType('draft');
-        }
+      if (isDraftPage) {
+        setPageTitle('Edit draft');
       }
     },
-    [messageHistory],
+    [isDraftPage],
   );
 
   useEffect(
     () => {
-      if (replyMessage && isOlderThan(replyMessage.sentDate, 45)) {
-        dispatch(
-          addAlert(
-            Constants.ALERT_TYPE_INFO,
-            Constants.Alerts.Message.DRAFT_CANNOT_REPLY_INFO_HEADER,
-            Constants.Alerts.Message.DRAFT_CANNOT_REPLY_INFO_BODY,
-            Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
-            Constants.Links.Link.CANNOT_REPLY.TO,
-            Constants.Links.Link.CANNOT_REPLY.TITLE,
-          ),
-        );
-      }
+      if (acknowledged && header) focusElement(document.querySelector('h1'));
+      document.title = `${pageTitle} ${PageTitles.PAGE_TITLE_TAG}`;
     },
-    [replyMessage],
+    [header, acknowledged],
   );
-
-  let pageTitle;
-
-  if (isDraftPage) {
-    pageTitle = 'Edit draft';
-  } else {
-    pageTitle = 'Compose message';
-  }
 
   const content = () => {
     if (!isDraftPage && triageTeams) {
       return (
         <>
-          <h1 className="page-title" ref={header}>
+          <h1 className="page-title vads-u-margin-top--0" ref={header}>
             {pageTitle}
           </h1>
-          <EmergencyNote dropDownFlag />
           <ComposeForm draft={draftMessage} recipients={triageTeams} />
         </>
       );
@@ -135,33 +107,6 @@ const Compose = () => {
       );
     }
 
-    if (replyMessage !== undefined) {
-      return (
-        <>
-          {replyMessage === null ? (
-            <>
-              <h1 className="page-title" ref={header}>
-                {pageTitle}
-              </h1>
-              <EmergencyNote dropDownFlag />
-              <ComposeForm draft={draftMessage} recipients={triageTeams} />
-            </>
-          ) : (
-            <>
-              <ReplyForm
-                draftToEdit={draftMessage}
-                replyMessage={replyMessage}
-                cannotReplyAlert={isOlderThan(replyMessage.sentDate, 45)}
-              />
-              {replyMessage &&
-                messageHistory?.length > 1 && (
-                  <MessageThread messageHistory={messageHistory.slice(1)} />
-                )}
-            </>
-          )}
-        </>
-      );
-    }
     return null;
   };
 
@@ -186,7 +131,7 @@ const Compose = () => {
         <>
           {draftType && (
             <div className="vads-l-grid-container compose-container">
-              <AlertBox />
+              <AlertBackgroundBox closeable />
 
               {content()}
             </div>

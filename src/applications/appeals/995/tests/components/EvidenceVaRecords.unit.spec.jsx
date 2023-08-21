@@ -50,7 +50,6 @@ describe('<EvidenceVaRecords>', () => {
 
   const setup = ({
     index = 0,
-    method = '',
     data = mockData,
     goBack = () => {},
     goForward = () => {},
@@ -60,7 +59,6 @@ describe('<EvidenceVaRecords>', () => {
     <div>
       <EvidenceVaRecords
         testingIndex={index}
-        testingMethod={method}
         data={data}
         goBack={goBack}
         goForward={goForward}
@@ -198,8 +196,16 @@ describe('<EvidenceVaRecords>', () => {
       const errorEls = getErrorElements(container);
       expect(errorEls[0].error).to.eq(errors.locationMissing);
       expect(errorEls[1].error).to.eq(errors.issuesMissing);
+
       expect(errorEls[2].error).to.eq(errorMessages.evidence.missingDate);
+      expect(errorEls[2].invalidMonth).to.be.true;
+      expect(errorEls[2].invalidDay).to.be.true;
+      expect(errorEls[2].invalidYear).to.be.true;
+
       expect(errorEls[3].error).to.eq(errorMessages.evidence.missingDate);
+      expect(errorEls[3].invalidMonth).to.be.true;
+      expect(errorEls[3].invalidDay).to.be.true;
+      expect(errorEls[3].invalidYear).to.be.true;
     };
 
     it('should show & focus on error messages after going forward on an empty first page', async () => {
@@ -306,15 +312,15 @@ describe('<EvidenceVaRecords>', () => {
   });
 
   describe('partial/invalid data navigation', () => {
-    const testAndCloseModal = async (container, total) => {
+    const testAndCloseModal = async (container, total, event) => {
       expect(getErrorElements(container).length).to.eq(total);
       // modal visible
       await waitFor(() => {
         expect($('va-modal[visible="true"]', container)).to.exist;
       });
 
-      // close modal by clicking method-assigned hidden button
-      fireEvent.click($('#test-method', container));
+      // close modal
+      $('va-modal').__events[event]();
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
       });
@@ -356,7 +362,6 @@ describe('<EvidenceVaRecords>', () => {
       };
       const page = setup({
         index,
-        method: 'onModalNo', // remove partial entry
         goBack: goSpy,
         goToPath: goSpy,
         setFormData: setDataSpy,
@@ -366,7 +371,7 @@ describe('<EvidenceVaRecords>', () => {
 
       // back
       clickBack(container);
-      await testAndCloseModal(container, 3);
+      await testAndCloseModal(container, 3, 'secondaryButtonClick');
 
       await waitFor(() => {
         expect(setDataSpy.called).to.be.true;
@@ -383,7 +388,6 @@ describe('<EvidenceVaRecords>', () => {
       const index = 2;
       const page = setup({
         index,
-        method: 'onModalYes', // keep partial entry
         goToPath: goSpy,
         setFormData: setDataSpy,
         data: {
@@ -395,7 +399,8 @@ describe('<EvidenceVaRecords>', () => {
 
       // back
       clickBack(container);
-      await testAndCloseModal(container, 3);
+      // keep partial entry
+      await testAndCloseModal(container, 3, 'primaryButtonClick');
 
       await waitFor(() => {
         expect(setDataSpy.called).to.be.false; // no data change
@@ -431,6 +436,9 @@ describe('<EvidenceVaRecords>', () => {
   });
 
   describe('other errors', () => {
+    const fromBlurEvent = new CustomEvent('blur', { detail: 'from' });
+    const toBlurEvent = new CustomEvent('blur', { detail: 'to' });
+
     // *** OTHER ERRORS ***
     it('should show error when location name is too long', async () => {
       const name = 'abcdef '.repeat(MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME / 6);
@@ -454,16 +462,18 @@ describe('<EvidenceVaRecords>', () => {
         ...mockData,
         locations: [{ evidenceDates: { from } }],
       };
-      const page = setup({ index: 0, data, method: 'onBlur:from' });
+      const page = setup({ index: 0, data });
       const { container } = render(page);
 
-      // blur date inputs - va-text-input blur works, but not the va-memorable-date?
-      // fireEvent.blur(dateFrom);
-      fireEvent.click($('#test-method', container));
+      // blur date from input
+      $('va-memorable-date').__events.dateBlur(fromBlurEvent);
 
       await waitFor(() => {
         const dateFrom = $('va-memorable-date', container);
         expect(dateFrom.error).to.contain(errorMessages.evidence.pastDate);
+        expect(dateFrom.invalidMonth).to.be.false;
+        expect(dateFrom.invalidDay).to.be.false;
+        expect(dateFrom.invalidYear).to.be.true;
       });
     });
 
@@ -473,16 +483,18 @@ describe('<EvidenceVaRecords>', () => {
         ...mockData,
         locations: [{ evidenceDates: { to } }],
       };
-      const page = setup({ index: 0, data, method: 'onBlur:to' });
+      const page = setup({ index: 0, data });
       const { container } = render(page);
 
-      // blur date inputs - va-text-input blur works, but not the va-memorable-date?
-      // fireEvent.blur(dateFrom);
-      fireEvent.click($('#test-method', container));
+      // blur date to input
+      $('va-memorable-date').__events.dateBlur(toBlurEvent);
 
       await waitFor(() => {
         const dateTo = $$('va-memorable-date', container)[1];
         expect(dateTo.error).to.contain(errorMessages.evidence.pastDate);
+        expect(dateTo.invalidMonth).to.be.false;
+        expect(dateTo.invalidDay).to.be.false;
+        expect(dateTo.invalidYear).to.be.true;
       });
     });
 
@@ -492,16 +504,18 @@ describe('<EvidenceVaRecords>', () => {
         ...mockData,
         locations: [{ evidenceDates: { from } }],
       };
-      const page = setup({ index: 0, data, method: 'onBlur:from' });
+      const page = setup({ index: 0, data });
       const { container } = render(page);
 
-      // blur date inputs - va-text-input blur works, but not the va-memorable-date?
-      // fireEvent.blur(dateFrom);
-      fireEvent.click($('#test-method', container));
+      // blur date from input
+      $('va-memorable-date').__events.dateBlur(fromBlurEvent);
 
       await waitFor(() => {
         const dateFrom = $('va-memorable-date', container);
         expect(dateFrom.error).to.contain(errorMessages.evidence.newerDate);
+        expect(dateFrom.invalidMonth).to.be.false;
+        expect(dateFrom.invalidDay).to.be.false;
+        expect(dateFrom.invalidYear).to.be.true;
       });
     });
 
@@ -511,16 +525,18 @@ describe('<EvidenceVaRecords>', () => {
         ...mockData,
         locations: [{ evidenceDates: { to } }],
       };
-      const page = setup({ index: 0, data, method: 'onBlur:to' });
+      const page = setup({ index: 0, data });
       const { container } = render(page);
 
-      // blur date inputs - va-text-input blur works, but not the va-memorable-date?
-      // fireEvent.blur(dateTo);
-      fireEvent.click($('#test-method', container));
+      // blur date to input
+      $('va-memorable-date').__events.dateBlur(toBlurEvent);
 
       await waitFor(() => {
         const dateTo = $$('va-memorable-date', container)[1];
         expect(dateTo.error).to.contain(errorMessages.evidence.newerDate);
+        expect(dateTo.invalidMonth).to.be.false;
+        expect(dateTo.invalidDay).to.be.false;
+        expect(dateTo.invalidYear).to.be.true;
       });
     });
 
@@ -531,13 +547,12 @@ describe('<EvidenceVaRecords>', () => {
         ...mockData,
         locations: [{ evidenceDates: { from, to } }],
       };
-      const page = setup({ index: 0, data, method: 'onBlur:to' });
+      const page = setup({ index: 0, data });
       const { container } = render(page);
 
       const dateTo = $$('va-memorable-date', container)[1];
-      // blur date inputs - va-text-input blur works, but not the va-memorable-date?
-      // fireEvent.blur(dateTo);
-      fireEvent.click($('#test-method', container));
+      // blur date to input
+      $('va-memorable-date').__events.dateBlur(toBlurEvent);
 
       await waitFor(() => {
         expect(dateTo.error).to.contain(errorMessages.endDateBeforeStart);
@@ -553,7 +568,7 @@ describe('<EvidenceVaRecords>', () => {
       fireEvent.blur(input);
 
       await waitFor(() => {
-        expect(input.error).to.contain(errorMessages.evidence.unique);
+        expect(input.error).to.contain(errorMessages.evidence.uniqueVA);
       });
     });
   });

@@ -18,6 +18,9 @@ export default {
     },
     'view:prefillMessage': {
       'ui:description': PrefillMessage,
+      'ui:options': {
+        hideIf: formData => !formData['view:isLoggedIn'],
+      },
     },
     'view:genderIdentity': {
       'ui:title': 'Gender identity',

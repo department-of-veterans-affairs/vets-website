@@ -3,6 +3,7 @@ import { PROFILE_PATHS } from '@@profile/constants';
 import { mockUser } from '@@profile/tests/fixtures/users/user';
 import transactionCompletedWithNoChanges from '@@profile/tests/fixtures/transactions/no-changes-transaction.json';
 import transactionCompletedWithError from '@@profile/tests/fixtures/transactions/error-transaction.json';
+import { mockFeatureToggles } from '../helpers';
 
 const setup = (mobile = false) => {
   if (mobile) {
@@ -10,6 +11,7 @@ const setup = (mobile = false) => {
   }
 
   cy.login(mockUser);
+  mockFeatureToggles();
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
   // should show a loading indicator

@@ -1,5 +1,6 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { DBQ_URL } from '../constants';
 
 export const editNote = name => (
   <p>
@@ -44,5 +45,20 @@ export const ContactCrisis = () => (
       If you have hearing loss, please call TTY at{' '}
       <va-telephone contact={CONTACTS.CRISIS_TTY} />.
     </p>
+  </>
+);
+
+export const bddAlertBegin = (
+  <>
+    <p className="vads-u-font-size--base">
+      You’ll need to upload your completed{' '}
+      <a href={DBQ_URL} target="_blank" rel="noreferrer">
+        Separation Health Assessment - Part A Self-Assessment (opens in a new
+        tab)
+      </a>{' '}
+      so we can request your VA exams. Use a desktop computer or laptop to
+      download and fill out the form.
+    </p>
+    <p />
   </>
 );

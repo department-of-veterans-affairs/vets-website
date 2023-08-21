@@ -1,4 +1,5 @@
 import manifest from '../../manifest.json';
+import { navigateToDebtSelection } from './fixtures/helpers';
 import mockUser from './fixtures/mocks/mockUser.json';
 
 describe.skip('Month Year Error Renders Successfully', () => {
@@ -108,18 +109,7 @@ describe.skip('Month Year Error Renders Successfully', () => {
   });
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('Successfully Navigate to Form Field', () => {
-    cy.get('#start-option-0').click({ waitforanimations: true });
-    cy.get('#reconsider-option-2').click({ waitforanimations: true });
-    cy.get('#recipients-option-1').click({ waitforanimations: true });
-    cy.get('[data-testid="start-button"]').click({ waitforanimations: true });
-
-    cy.findAllByText(/start/i, { selector: 'button' })
-      .first()
-      .click({ waitforanimations: true });
-
-    cy.findAllByText(/continue/i, { selector: 'button' })
-      .first()
-      .click({ waitforanimations: true });
+    navigateToDebtSelection();
 
     cy.get(':nth-child(3) > .vads-u-margin-top--2 > .usa-button').click({
       waitforanimations: true,

@@ -1,0 +1,112 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+$font-family-serif: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
+  serif;
+$font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", "Helvetica",
+  "Roboto", Arial, sans-serif;
+
+.schemaform-subtitle {
+  margin-top: 1.5rem;
+}
+
+div:has(.schemaform-sip-alert) {
+  margin-top: 4rem;
+}
+
+[href="#start"].vads-c-action-link--green {
+  margin-bottom: 2rem;
+}
+
+.custom-header {
+  display: inline-block;
+
+  .custom-required-span {
+    color: $color-secondary-dark;
+    font-family: $font-family-sans-serif;
+    font-size: 1.6rem;
+    font-weight: normal;
+  }
+
+  .schemaform-required-span {
+    display: none;
+  }
+}
+
+.custom-description {
+  margin-top: 0;
+}
+
+.authorizer-type .schemaform-required-span,
+.disclosure-information-limited-information .schemaform-required-span,
+.disclosure-information-release-duration .schemaform-required-span,
+.security-information-question .schemaform-required-span,
+.disclosure-information-release-end-date .schemaform-required-span,
+.security-information-answer .schemaform-required-span {
+  display: none !important;
+}
+
+#root_authorizerAddress_street2,
+#root_personAddress_street2,
+#root_organizationAddress_street2 {
+  max-width: 10rem;
+}
+
+#root_authorizerFullName_middle,
+#root_personFullName_middle,
+#root_veteranFullName_middle {
+  max-width: 5rem;
+}
+
+.row div[id^="root_organizationRepresentatives_"] > .row.small-collapse,
+.row div[id^="organizationRepresentatives_"] > .row.small-collapse {
+  margin: 0 0 !important;
+}
+
+.review-row {
+  .custom-header {
+    font-family: $font-family-sans-serif;
+    font-size: 1.6rem;
+    font-weight: normal;
+    margin-top: 0;
+
+    &.disclosure-information-limited-information {
+      display: none;
+    }
+
+    .custom-required-span {
+      display: none;
+    }
+  }
+
+  .custom-description {
+    display: none;
+  }
+}
+
+.form-review-panel[data-chapter="authorizerTypeChapter"] .review-row dt > span,
+.form-review-panel[data-chapter="disclosureInfoChapter"] .review-row dt > span,
+.form-review-panel[data-chapter="authorizerTypeChapter"] .review-row dt > span,
+.form-review-panel[data-chapter="infoReleaseChapter"] .review-row dt > span,
+.form-review-panel[data-chapter="securityInfoChapter"]
+  .form-review-panel-page:first-child
+  .review-row
+  dt
+  > span {
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", Arial,
+    sans-serif !important;
+  font-size: 1.6rem !important;
+  font-weight: 400 !important;
+}
+
+.form-review-panel[data-chapter="disclosureInfoChapter"]
+  .review
+  .va-growable
+  button {
+  display: none;
+}

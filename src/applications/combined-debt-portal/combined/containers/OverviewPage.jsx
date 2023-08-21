@@ -61,15 +61,15 @@ const OverviewPage = () => {
             <h3>Questions about benefit debt</h3>
             <p>
               Call the Debt Management Center (DMC) at{' '}
-              <va-telephone contact="8008270648" /> (TTY:{' '}
-              <va-telephone contact="711" />
+              <va-telephone contact="8008270648" /> (
+              <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
             <h3>Questions about medical copayment bills</h3>
             <p>
               Call the VA Health Resource Center at{' '}
-              <va-telephone contact="8664001238" /> (TTY:{' '}
-              <va-telephone contact="711" />
+              <va-telephone contact="8664001238" /> (
+              <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
           </>

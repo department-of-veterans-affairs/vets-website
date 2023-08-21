@@ -1,6 +1,5 @@
 import React from 'react';
 import { apiRequest } from 'platform/utilities/api';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import FacilityApiAlert from './FacilityApiAlert';
 import { cleanPhoneNumber, sortFacilitiesByName } from './facilityUtilities';
 import FacilityAddress from './FacilityAddress';
@@ -37,7 +36,7 @@ export default class OtherFacilityListWidget extends React.Component {
 
   render() {
     if (this.state.loading) {
-      return <LoadingIndicator message="Loading facilities..." />;
+      return <va-loading-indicator message="Loading facilities..." />;
     }
 
     if (this.state.error) {
@@ -61,13 +60,9 @@ export default class OtherFacilityListWidget extends React.Component {
               {facility.attributes.phone.main && (
                 <div className="main-phone vads-u-margin-bottom--1">
                   <strong>Main phone: </strong>
-                  <a
-                    href={`tel:${cleanPhoneNumber(
-                      facility.attributes.phone.main,
-                    )}`}
-                  >
-                    {cleanPhoneNumber(facility.attributes.phone.main)}
-                  </a>
+                  <va-telephone
+                    contact={cleanPhoneNumber(facility.attributes.phone.main)}
+                  />
                 </div>
               )}
               {facility.attributes.classification && (

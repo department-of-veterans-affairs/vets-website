@@ -8,6 +8,7 @@ import { RequiredLoginView } from 'platform/user/authorization/components/Requir
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import DowntimeBanner from 'platform/monitoring/DowntimeNotification/components/Banner';
 import CallVBACenter from 'platform/static-data/CallVBACenter';
+import { isLoadingFeatures } from '../selectors';
 
 const UNREGISTERED_ERROR = 'vets_letters_user_unregistered';
 
@@ -48,18 +49,32 @@ export class AppContent extends React.Component {
       );
     }
 
-    return <div className="usa-grid">{this.props.children}</div>;
+    if (!this.props.featureFlagsLoading) {
+      return (
+        <div data-testid="appContentChildren" className="usa-grid">
+          {this.props.children}
+        </div>
+      );
+    }
+    return (
+      <div className="vads-u-margin-y--5">
+        <va-loading-indicator
+          data-testid="feature-flags-loading"
+          message="Loading your information..."
+        />
+      </div>
+    );
   }
 }
 
-export function LettersApp({ user, children }) {
+export function LettersApp({ user, children, featureFlagsLoading }) {
   return (
     <RequiredLoginView
       verify
       serviceRequired={backendServices.EVSS_CLAIMS}
       user={user}
     >
-      <AppContent>
+      <AppContent featureFlagsLoading={featureFlagsLoading}>
         <DowntimeBanner
           appTitle="Letters Generator"
           dependencies={[externalServices.evss]}
@@ -77,11 +92,15 @@ AppContent.propTypes = {
 
 LettersApp.propTypes = {
   children: PropTypes.element,
+  featureFlagsLoading: PropTypes.bool,
   user: PropTypes.shape({}),
 };
 
 function mapStateToProps(state) {
-  return { user: state.user };
+  return {
+    featureFlagsLoading: isLoadingFeatures(state),
+    user: state.user,
+  };
 }
 
 export default connect(mapStateToProps)(LettersApp);

@@ -1,10 +1,13 @@
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
+import vapService from '@@vap-svc/reducers';
+
 import formConfig from '../config/form';
 import {
   FSR_API_CALL_INITIATED,
   FSR_API_ERROR,
   FSR_RESET_ERRORS,
   DEBTS_FETCH_SUCCESS,
+  DEBTS_FETCH_FAILURE,
 } from '../constants/actionTypes';
 import {
   MCP_STATEMENTS_FETCH_INIT,
@@ -46,6 +49,12 @@ const fsrApi = (state = initialState, action) => {
         debts: action.debts,
         pending: false,
       };
+    case DEBTS_FETCH_FAILURE:
+      return {
+        ...state,
+        debtError: action.error,
+        pending: false,
+      };
     case MCP_STATEMENTS_FETCH_SUCCESS:
       return {
         ...state,
@@ -72,4 +81,5 @@ const fsrApi = (state = initialState, action) => {
 export default {
   form: createSaveInProgressFormReducer(formConfig),
   fsr: fsrApi,
+  vapService,
 };

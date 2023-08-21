@@ -25,6 +25,20 @@ class SearchHelpSignIn extends Component {
     ]),
   };
 
+  componentDidMount() {
+    this.showHomepageCreateAccountBlock();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.isLoggedIn === this.props.isLoggedIn &&
+      prevProps.isProfileLoading === this.props.isProfileLoading
+    ) {
+      return;
+    }
+    this.showHomepageCreateAccountBlock();
+  }
+
   handleSignInSignUp = e => {
     e.preventDefault();
     this.props.onSignInSignUp();
@@ -41,19 +55,38 @@ class SearchHelpSignIn extends Component {
 
   handleAccountMenuClick = this.handleMenuClick('account');
 
-  renderSignInContent = () => {
-    const isLoading = this.props.isProfileLoading;
-    const shouldRenderSignedInContent =
-      (!isLoading && this.props.isLoggedIn) || (isLoading && hasSession());
+  showHomepageCreateAccountBlock = () => {
+    if (
+      !this.shouldRenderSignedInContent() &&
+      (window.location.pathname === '/' ||
+        window.location.pathname === '/new-home-page/')
+    ) {
+      // This handles logic to reveal the create account block on the homepage if the user is not logged in
+      const createAccountBlock = document.getElementsByClassName(
+        'homepage-hero__create-account',
+      )[0];
+      if (createAccountBlock) {
+        createAccountBlock.classList.remove('vads-u-display--none');
+      }
+    }
+  };
 
+  shouldRenderSignedInContent = () => {
+    return (
+      (!this.props.isProfileLoading && this.props.isLoggedIn) ||
+      (this.props.isProfileLoading && hasSession())
+    );
+  };
+
+  renderSignInContent = () => {
     const isSubdomain = isVATeamSiteSubdomain();
 
     // Render if (1) profile has loaded and the user is confirmed logged in or
     // (2) loading is in progress and the session is still considered active.
-    if (shouldRenderSignedInContent) {
+    if (this.shouldRenderSignedInContent()) {
       return (
         <SignInProfileMenu
-          disabled={isLoading}
+          disabled={this.props.isProfileLoading}
           clickHandler={this.handleAccountMenuClick}
           greeting={this.props.userGreeting}
           isOpen={this.props.isMenuOpen.account}
@@ -61,7 +94,6 @@ class SearchHelpSignIn extends Component {
         />
       );
     }
-
     return (
       <div className="sign-in-links">
         {!isSubdomain && (
@@ -85,7 +117,7 @@ class SearchHelpSignIn extends Component {
   render() {
     return (
       <div
-        className={`vads-u-display--flex vads-u-align-items--center${
+        className={`hidden-header vads-u-display--flex vads-u-align-items--center${
           this.props.isHeaderV2 ? '' : ' vads-u-padding-top--1'
         }`}
       >

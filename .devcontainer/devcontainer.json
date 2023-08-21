@@ -6,29 +6,38 @@
 			"VARIANT": "14"
 		}
 	},
-	"settings": {
-		"editor.formatOnSave": true,
-		"[json]": {
-			"editor.defaultFormatter": "esbenp.prettier-vscode"
-		},
-		"terminal.integrated.shell.linux": "/bin/bash",
-		"workbench.startupEditor": "readme"
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"davidanson.vscode-markdownlint",
+				"dbaeumer.vscode-eslint",
+				"eamodio.gitlens",
+				"esbenp.prettier-vscode",
+				"github.vscode-pull-request-github",
+				"stylelint.vscode-stylelint",
+				"humao.rest-client",
+				"ms-vsliveshare.vsliveshare",
+				"ms-vsliveshare.vsliveshare-pack",
+				"redhat.vscode-yaml",
+				"tyriar.sort-lines",
+				"visualstudioexptteam.vscodeintellicode",
+				"wayou.vscode-todo-highlight"
+			],
+			"settings": {
+				"editor.formatOnSave": true,
+				"[json]": {
+					"editor.defaultFormatter": "esbenp.prettier-vscode"
+				},
+				"workbench.startupEditor": "readme"
+			},
+			"terminal.integrated.profiles.linux": {
+				"bash": {
+					"path": "/bin/bash"
+				}
+			},
+			"terminal.integrated.defaultProfile.linux": "bash"
+		}
 	},
-	"extensions": [
-		"davidanson.vscode-markdownlint",
-		"dbaeumer.vscode-eslint",
-		"eamodio.gitlens",
-		"esbenp.prettier-vscode",
-		"github.vscode-pull-request-github",
-		"stylelint.vscode-stylelint",
-		"humao.rest-client",
-		"ms-vsliveshare.vsliveshare",
-		"ms-vsliveshare.vsliveshare-pack",
-		"redhat.vscode-yaml",
-		"tyriar.sort-lines",
-		"visualstudioexptteam.vscodeintellicode",
-		"wayou.vscode-todo-highlight"
-	],
 	"forwardPorts": [
 		3000,
 		3001,

@@ -1,5 +1,6 @@
 import React from 'react';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:title': (

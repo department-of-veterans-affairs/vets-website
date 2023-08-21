@@ -9,7 +9,6 @@ export const otherIncome = [
   'Irregular or “gig” income',
   'Retirement or non-VA pension payments',
   'Employment bonus',
-  'Other',
 ];
 
 export const monetaryAssets = [
@@ -63,4 +62,17 @@ export const utilityBillOptions = [
   'Trash',
   'Sewer',
   'Coal',
+];
+
+export const MAX_OTHER_LIVING_NAME_LENGTH = 32;
+export const otherLivingExpensesOptions = [
+  'Clothing',
+  'Entertainment',
+  'Family and child care',
+  'Food',
+  'Health expenses',
+  'Household maintenance',
+  'Legal fees',
+  'Pet care',
+  'Transportation and car expenses',
 ];

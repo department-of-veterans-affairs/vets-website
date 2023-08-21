@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
+import { useLocation } from 'react-router-dom';
 import {
   enterPreviewMode,
   exitPreviewMode,
@@ -16,7 +17,6 @@ import { scrollToFocusedElement, useQueryParams } from '../utils/helpers';
 import ServiceError from '../components/ServiceError';
 import AboutThisTool from '../components/content/AboutThisTool';
 import Disclaimer from '../components/content/Disclaimer';
-import { useLocation } from 'react-router-dom';
 import Covid19Banner from '../components/content/Covid19Banner';
 import CompareDrawer from './CompareDrawer';
 
@@ -89,10 +89,15 @@ export function GiBillApp({
         <div>
           {preview.display && <PreviewBanner version={preview.version} />}
           <GiBillBreadcrumbs />
-          {constants.inProgress && <LoadingIndicator message="Loading..." />}
+          {constants.inProgress && (
+            <VaLoadingIndicator
+              data-testid="loading-indicator"
+              message="Loading..."
+            />
+          )}
           {constants.error && <ServiceError />}
           {!(constants.error || constants.inProgress) && (
-            <DowntimeNotification appTitle={'GI Bill® Comparison Tool'}>
+            <DowntimeNotification appTitle="GI Bill® Comparison Tool">
               {children}
             </DowntimeNotification>
           )}

@@ -1,15 +1,10 @@
-import React from 'react';
-import HouseholdExpensesInputList from '../../components/HouseholdExpensesInputList';
+import HouseholdExpensesInputList from '../../components/householdExpenses/HouseholdExpensesInputList';
 import { validateCurrencyArray } from '../../utils/validations';
 
 export const uiSchema = {
-  'ui:title': 'Your monthly expenses',
+  'ui:title': '',
   expenses: {
-    'ui:title': (
-      <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        How much do you pay for each housing expense every month?
-      </span>
-    ),
+    'ui:title': '',
     'ui:field': HouseholdExpensesInputList,
     'ui:options': {
       hideOnReview: true,

@@ -138,23 +138,21 @@ export function transform(formConfig, form) {
   ];
   veteranFields.forEach(field => {
     if (!withoutViewFields[field]) {
-      withoutViewFields = set(
-        field,
-        form.loadedData.formData[field],
-        withoutViewFields,
-      );
+      const fieldData =
+        form.loadedData.formData[field] ||
+        form['view:veteranInformation'][field];
+      withoutViewFields = set(field, fieldData, withoutViewFields);
     }
   });
 
   // add back & double check compensation type because it could have been removed in filterInactivePages
   if (!withoutViewFields.vaCompensationType) {
-    const highDisabilityRating = 50;
     const userDisabilityRating = parseInt(
       form.data['view:totalDisabilityRating'],
       10,
     );
     const compensationType =
-      userDisabilityRating >= highDisabilityRating
+      userDisabilityRating >= HIGH_DISABILITY_MINIMUM
         ? 'highDisability'
         : form.data.vaCompensationType;
     withoutViewFields = set(
@@ -164,8 +162,17 @@ export function transform(formConfig, form) {
     );
   }
 
-  // add back dependents here, because it could have been removed in filterViewFields
-  if (!withoutViewFields.dependents) {
+  // parse dependents list here, because it could have been removed in filterViewFields
+  if (withoutViewFields.dependents?.length) {
+    const listToSet = withoutViewFields.dependents.map(item => ({
+      ...item,
+      grossIncome: item.grossIncome || 0,
+      netIncome: item.netIncome || 0,
+      otherIncome: item.otherIncome || 0,
+      dependentEducationExpenses: item.dependentEducationExpenses || 0,
+    }));
+    withoutViewFields = set('dependents', listToSet, withoutViewFields);
+  } else {
     withoutViewFields = set('dependents', [], withoutViewFields);
   }
 
@@ -228,7 +235,11 @@ export const medicalCentersByState = mapValues(vaMedicalFacilities, val =>
   val.map(center => center.value),
 );
 
-// check if the declared expenses are greater than the declared income
+/**
+ * check if the declared expenses are greater than the declared income
+ *
+ * NOTE: for household v1 only -- remove when v2 is fully-adopted
+ */
 export function expensesLessThanIncome(fieldShownUnder) {
   const fields = [
     'deductibleMedicalExpenses',
@@ -297,7 +308,6 @@ export function expensesLessThanIncome(fieldShownUnder) {
  * @param {Object} props - second set of props to compare
  * @returns {boolean} - true if any relevant props differ between the two sets
  * of props; otherwise returns false
- *
  */
 export function didEnrollmentStatusChange(prevProps, props) {
   const relevantProps = [
@@ -326,7 +336,7 @@ export function createLiteralMap(arrayToMap) {
 }
 
 /**
- * Helper that determines if the user data contains values that allow them
+ * Helper that determines if the form data contains values that allow users
  * to fill out the form using the short form flow
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if the total disability rating is greater than or equal
@@ -334,8 +344,99 @@ export function createLiteralMap(arrayToMap) {
  * that of a high-disability-rated Veteran.
  */
 export function isShortFormEligible(formData) {
-  const hasHighRating =
-    formData['view:totalDisabilityRating'] >= HIGH_DISABILITY_MINIMUM;
-  const hasHighCompensation = formData.vaCompensationType === 'highDisability';
+  const {
+    'view:totalDisabilityRating': disabilityRating,
+    vaCompensationType,
+  } = formData;
+  const hasHighRating = disabilityRating >= HIGH_DISABILITY_MINIMUM;
+  const hasHighCompensation = vaCompensationType === 'highDisability';
   return hasHighRating || hasHighCompensation;
+}
+
+/**
+ * Helper that determines if the form data contains values that require users
+ * to fill out spousal information
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user declares they would like to provide their
+ * financial data & have a marital status of 'married' or 'separated'.
+ */
+export function includeSpousalInformation(formData) {
+  const { discloseFinancialInformation, maritalStatus } = formData;
+  const hasSpouseToDeclare =
+    maritalStatus?.toLowerCase() === 'married' ||
+    maritalStatus?.toLowerCase() === 'separated';
+  return discloseFinancialInformation && hasSpouseToDeclare;
+}
+
+/**
+ * Helper that returns a descriptive aria label for the edit buttons on the
+ * health insurance information page
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {String} - the name of the provider and either the policy number
+ * or group code.
+ */
+export function getInsuranceAriaLabel(formData) {
+  const { insuranceName, insurancePolicyNumber, insuranceGroupCode } = formData;
+  const labels = {
+    policy: insurancePolicyNumber
+      ? `Policy number ${insurancePolicyNumber}`
+      : null,
+    group: insuranceGroupCode ? `Group code ${insuranceGroupCode}` : null,
+  };
+  return insuranceName
+    ? `${insuranceName}, ${labels.policy ?? labels.group}`
+    : 'insurance policy';
+}
+
+/**
+ * Helper that determines if the a dependent is of the declared college
+ * age of 18-23
+ * @param {String} birthdate - the dependents date of birth
+ * @param {String} testdate - an optional date to pass for testing purposes
+ * @returns {Boolean} - true if the provided date puts the dependent of an
+ * age between 18 and 23.
+ */
+export function isOfCollegeAge(birthdate, testdate = new Date()) {
+  const age = Math.abs(moment(birthdate).diff(moment(testdate), 'years'));
+  return age >= 18 && age <= 23;
+}
+
+/**
+ * Helper that builds the list of active pages for use in the dependent
+ * information add/edit form
+ * @param {Array} subpages - the list of all available pages
+ * @param {Object} formData - the current data object for the dependent
+ * @returns {Array} - the array of pages to map through
+ */
+export function getDependentPageList(pages, formData = {}) {
+  return pages.reduce((acc, page) => {
+    if ('depends' in page) {
+      const { key, value } = page.depends;
+      if (value instanceof Function) {
+        if (value(formData[key])) {
+          acc.push(page);
+        }
+      } else if (formData[key] === value) {
+        acc.push(page);
+      }
+    } else {
+      acc.push(page);
+    }
+    return acc;
+  }, []);
+}
+
+/**
+ * Helper that builds a full name string based on provided input values
+ * @param {Object} name - the object that stores all the available input values
+ * @param {Boolean} outputMiddle - optional param to declare whether to output
+ * the middle name as part of the returned string
+ * @returns {String} - the name string with all extra whitespace removed
+ */
+export function normalizeFullName(name = {}, outputMiddle = false) {
+  const { first = '', middle = '', last = '', suffix = '' } = name;
+  const nameToReturn = outputMiddle
+    ? `${first} ${middle} ${last} ${suffix}`
+    : `${first} ${last} ${suffix}`;
+  return nameToReturn.replace(/ +(?= )/g, '').trim();
 }

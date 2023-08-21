@@ -59,7 +59,6 @@ describe('<EvidencePrivateRecords>', () => {
 
   const setup = ({
     index = 0,
-    method = '',
     data = mockData,
     goBack = () => {},
     goForward = () => {},
@@ -69,7 +68,6 @@ describe('<EvidencePrivateRecords>', () => {
     <div>
       <EvidencePrivateRecords
         testingIndex={index}
-        testingMethod={method}
         data={data}
         goBack={goBack}
         goForward={goForward}
@@ -200,6 +198,11 @@ describe('<EvidencePrivateRecords>', () => {
         .filter(Boolean)
         .forEach((error, index) => {
           expect(errorEls[index].error).to.eq(error);
+          if (error === errors.missingDate) {
+            expect(errorEls[index].invalidMonth).to.be.true;
+            expect(errorEls[index].invalidDay).to.be.true;
+            expect(errorEls[index].invalidYear).to.be.true;
+          }
         });
     };
 
@@ -311,15 +314,15 @@ describe('<EvidencePrivateRecords>', () => {
   });
 
   describe('partial/invalid data navigation', () => {
-    const testAndCloseModal = async (container, total) => {
+    const testAndCloseModal = async (container, total, event) => {
       expect(getErrorElements(container).length).to.eq(total);
       // modal visible
       await waitFor(() => {
         expect($('va-modal[visible="true"]', container)).to.exist;
       });
 
-      // close modal by clicking method-assigned hidden button
-      fireEvent.click($('#test-method', container));
+      // close modal
+      $('va-modal').__events[event]();
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
       });
@@ -369,7 +372,6 @@ describe('<EvidencePrivateRecords>', () => {
       };
       const page = setup({
         index,
-        method: 'onModalNo', // remove partial entry
         goBack: goSpy,
         goToPath: goSpy,
         setFormData: setDataSpy,
@@ -379,7 +381,8 @@ describe('<EvidencePrivateRecords>', () => {
 
       // back
       fireEvent.click($('.usa-button-secondary', container));
-      await testAndCloseModal(container, 8);
+      // Click no
+      await testAndCloseModal(container, 8, 'secondaryButtonClick');
 
       await waitFor(() => {
         expect(setDataSpy.called).to.be.true;
@@ -396,7 +399,6 @@ describe('<EvidencePrivateRecords>', () => {
       const index = 2;
       const page = setup({
         index,
-        method: 'onModalYes', // keep partial entry
         goToPath: goSpy,
         setFormData: setDataSpy,
         data: {
@@ -412,7 +414,8 @@ describe('<EvidencePrivateRecords>', () => {
 
       // back
       fireEvent.click($('.usa-button-secondary', container));
-      await testAndCloseModal(container, 8);
+      // Click yes to keep partial entry
+      await testAndCloseModal(container, 8, 'primaryButtonClick');
 
       await waitFor(() => {
         expect(setDataSpy.called).to.be.false; // no data change
@@ -448,22 +451,27 @@ describe('<EvidencePrivateRecords>', () => {
   });
 
   describe('other errors', () => {
+    const fromBlurEvent = new CustomEvent('blur', { detail: 'from' });
+    const toBlurEvent = new CustomEvent('blur', { detail: 'to' });
+
     it('should show error when start treatment date is in the future', async () => {
       const from = getDate({ offset: { years: +1 } });
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { from } }],
       };
-      const page = setup({ index: 0, data, method: 'onBlur:from' });
+      const page = setup({ index: 0, data });
       const { container } = render(page);
 
       const dateFrom = $('va-memorable-date', container);
-      // blur date inputs - va-text-input blur works, but not the va-memorable-date?
-      // fireEvent.blur(dateFrom);
-      fireEvent.click($('#test-method', container));
+      // blur date from input
+      $('va-memorable-date').__events.dateBlur(fromBlurEvent);
 
       await waitFor(() => {
         expect(dateFrom.error).to.contain(errorMessages.evidence.pastDate);
+        expect(dateFrom.invalidMonth).to.be.false;
+        expect(dateFrom.invalidDay).to.be.false;
+        expect(dateFrom.invalidYear).to.be.true;
       });
     });
 
@@ -473,16 +481,18 @@ describe('<EvidencePrivateRecords>', () => {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { to } }],
       };
-      const page = setup({ index: 0, data, method: 'onBlur:to' });
+      const page = setup({ index: 0, data });
       const { container } = render(page);
 
-      const dateTo = $$('va-memorable-date', container)[1];
-      // blur date inputs - va-text-input blur works, but not the va-memorable-date?
-      // fireEvent.blur(dateFrom);
-      fireEvent.click($('#test-method', container));
+      // blur date to input
+      $('va-memorable-date').__events.dateBlur(toBlurEvent);
 
       await waitFor(() => {
+        const dateTo = $$('va-memorable-date', container)[1];
         expect(dateTo.error).to.contain(errorMessages.evidence.pastDate);
+        expect(dateTo.invalidMonth).to.be.false;
+        expect(dateTo.invalidDay).to.be.false;
+        expect(dateTo.invalidYear).to.be.true;
       });
     });
 
@@ -492,16 +502,18 @@ describe('<EvidencePrivateRecords>', () => {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { from } }],
       };
-      const page = setup({ index: 0, data, method: 'onBlur:from' });
+      const page = setup({ index: 0, data });
       const { container } = render(page);
 
-      const dateFrom = $('va-memorable-date', container);
-      // blur date inputs - va-text-input blur works, but not the va-memorable-date?
-      // fireEvent.blur(dateFrom);
-      fireEvent.click($('#test-method', container));
+      // blur date from input
+      $('va-memorable-date').__events.dateBlur(fromBlurEvent);
 
       await waitFor(() => {
+        const dateFrom = $('va-memorable-date', container);
         expect(dateFrom.error).to.contain(errorMessages.evidence.newerDate);
+        expect(dateFrom.invalidMonth).to.be.false;
+        expect(dateFrom.invalidDay).to.be.false;
+        expect(dateFrom.invalidYear).to.be.true;
       });
     });
 
@@ -511,16 +523,18 @@ describe('<EvidencePrivateRecords>', () => {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { to } }],
       };
-      const page = setup({ index: 0, data, method: 'onBlur:to' });
+      const page = setup({ index: 0, data });
       const { container } = render(page);
 
-      const dateTo = $$('va-memorable-date', container)[1];
-      // blur date inputs - va-text-input blur works, but not the va-memorable-date?
-      // fireEvent.blur(dateTo);
-      fireEvent.click($('#test-method', container));
+      // blur date to input
+      $('va-memorable-date').__events.dateBlur(toBlurEvent);
 
       await waitFor(() => {
+        const dateTo = $$('va-memorable-date', container)[1];
         expect(dateTo.error).to.contain(errorMessages.evidence.newerDate);
+        expect(dateTo.invalidMonth).to.be.false;
+        expect(dateTo.invalidDay).to.be.false;
+        expect(dateTo.invalidYear).to.be.true;
       });
     });
 
@@ -531,16 +545,18 @@ describe('<EvidencePrivateRecords>', () => {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { from, to } }],
       };
-      const page = setup({ index: 0, data, method: 'onBlur:to' });
+      const page = setup({ index: 0, data });
       const { container } = render(page);
 
-      const dateTo = $$('va-memorable-date', container)[1];
-      // blur date inputs - va-text-input blur works, but not the va-memorable-date?
-      // fireEvent.blur(dateTo);
-      fireEvent.click($('#test-method', container));
+      // blur date to input
+      $('va-memorable-date').__events.dateBlur(toBlurEvent);
 
       await waitFor(() => {
+        const dateTo = $$('va-memorable-date', container)[1];
         expect(dateTo.error).to.contain(errorMessages.endDateBeforeStart);
+        expect(dateTo.invalidMonth).to.be.true;
+        expect(dateTo.invalidDay).to.be.true;
+        expect(dateTo.invalidYear).to.be.true;
       });
     });
 
@@ -556,7 +572,7 @@ describe('<EvidencePrivateRecords>', () => {
       fireEvent.blur(input);
 
       await waitFor(() => {
-        expect(input.error).to.contain(errorMessages.evidence.unique);
+        expect(input.error).to.contain(errorMessages.evidence.uniquePrivate);
       });
     });
   });

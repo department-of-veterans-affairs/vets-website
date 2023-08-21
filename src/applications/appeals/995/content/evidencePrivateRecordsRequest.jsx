@@ -10,10 +10,9 @@ export const privateRecordsRequestInfo = (
   >
     <p>
       You have private medical records if you were treated by a private doctor,
-      including a Veteran’s Choice doctor, you’ll have private medical records.
-      We’ll need to see those records to make a decision on your claim. A
-      Disability Benefits Questionnaire is an example of a private medical
-      record.
+      including a Veteran’s Choice doctor. We’ll need those records to make a
+      decision on your claim. A Disability Benefits Questionnaire is an example
+      of a private medical record.
     </p>
   </va-additional-info>
 );
