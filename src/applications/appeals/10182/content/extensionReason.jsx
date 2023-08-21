@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MAX_LENGTH } from '../../shared/constants';
+import { MAX_LENGTH } from '../constants';
 
 const title = 'Reason for extension';
 
