@@ -1,12 +1,23 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
+import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 
 import HealthCareCTAV2 from '../../../components/health-care-v2/HealthCareCTAV2';
 
 describe('<HealthCareCTAV2 />', () => {
+  // delete instances of Toggler when new appts URL is launched
+  const initialLinkState = {
+    featureToggles: {
+      [Toggler.TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate]: true,
+    },
+  };
+
   it("should render when user isn't a VA patient", () => {
-    const tree = render(<HealthCareCTAV2 />);
+    const tree = renderWithStoreAndRouter(
+      <HealthCareCTAV2 />,
+      initialLinkState,
+    );
 
     tree.getByText('Popular actions for Health Care');
     tree.getByTestId('apply-va-healthcare-link-from-cta');
@@ -14,7 +25,10 @@ describe('<HealthCareCTAV2 />', () => {
 
   context('user is a VA patient', () => {
     it('should render', () => {
-      const tree = render(<HealthCareCTAV2 isVAPatient />);
+      const tree = renderWithStoreAndRouter(
+        <HealthCareCTAV2 isVAPatient />,
+        initialLinkState,
+      );
 
       expect(tree.queryByText('Apply for VA health care')).to.be.null;
       expect(tree.queryByTestId('apply-va-healthcare-link-from-cta')).to.be
@@ -28,22 +42,27 @@ describe('<HealthCareCTAV2 />', () => {
 
     context('renders the send a secure message to your health team CTA', () => {
       it('when the unread message count is 0', () => {
-        const tree = render(
+        const tree = renderWithStoreAndRouter(
           <HealthCareCTAV2 isVAPatient unreadMessagesCount={0} />,
+          initialLinkState,
         );
 
         tree.getByTestId('view-your-messages-link-from-cta');
       });
 
       it('when there is an inbox error', () => {
-        const tree = render(<HealthCareCTAV2 isVAPatient hasInboxError />);
+        const tree = renderWithStoreAndRouter(
+          <HealthCareCTAV2 isVAPatient hasInboxError />,
+          initialLinkState,
+        );
 
         tree.getByTestId('view-your-messages-link-from-cta');
       });
 
       it('when there is an inbox error and the unread message count is 0', () => {
-        const tree = render(
+        const tree = renderWithStoreAndRouter(
           <HealthCareCTAV2 isVAPatient hasInboxError unreadMessagesCount={0} />,
+          initialLinkState,
         );
 
         tree.getByTestId('view-your-messages-link-from-cta');

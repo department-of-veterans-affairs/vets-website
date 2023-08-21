@@ -1,16 +1,27 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import moment from 'moment';
 import { getAppointmentTimezone } from '../../../utils/timezone';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
+import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 
 import { AppointmentsCard } from '../../../components/health-care-v2/AppointmentsV2';
 
 describe('<AppointmentsCard />', () => {
+  // delete instances of Toggler when new appts URL is launched
+  const initialLinkState = {
+    featureToggles: {
+      [Toggler.TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate]: true,
+    },
+  };
+
   it('should render without appointments', () => {
     const start = moment.parseZone();
     const startFormatted = start.format('dddd, MMMM Do, YYYY');
     const timeZone = getAppointmentTimezone();
-    const tree = render(<AppointmentsCard />);
+    const tree = renderWithStoreAndRouter(
+      <AppointmentsCard />,
+      initialLinkState,
+    );
 
     tree.getByTestId('health-care-appointments-card-v2');
     tree.getByText('Next appointment');
@@ -34,7 +45,10 @@ describe('<AppointmentsCard />', () => {
     const start = moment.parseZone(appointments[0].startsAt);
     const startFormatted = start.format('dddd, MMMM Do, YYYY');
     const timeZone = getAppointmentTimezone(appointments[0]);
-    const tree = render(<AppointmentsCard appointments={appointments} />);
+    const tree = renderWithStoreAndRouter(
+      <AppointmentsCard appointments={appointments} />,
+      initialLinkState,
+    );
 
     tree.getByTestId('health-care-appointments-card-v2');
     tree.getByText('Next appointment');
@@ -52,7 +66,10 @@ describe('<AppointmentsCard />', () => {
           additionalInfo: 'testing',
         },
       ];
-      const tree = render(<AppointmentsCard appointments={appointments} />);
+      const tree = renderWithStoreAndRouter(
+        <AppointmentsCard appointments={appointments} />,
+        initialLinkState,
+      );
 
       tree.getByText('VA Video Connect testing');
     });
@@ -65,7 +82,10 @@ describe('<AppointmentsCard />', () => {
           providerName,
         },
       ];
-      const tree = render(<AppointmentsCard appointments={appointments} />);
+      const tree = renderWithStoreAndRouter(
+        <AppointmentsCard appointments={appointments} />,
+        initialLinkState,
+      );
 
       tree.getByText(providerName);
     });
