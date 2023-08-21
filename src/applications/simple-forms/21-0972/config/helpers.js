@@ -21,12 +21,12 @@ export const claimantIsSpouse = ({ formData } = {}) => {
 };
 
 export const claimantIsParent = ({ formData } = {}) => {
-  // key 2 corresponds to claimant is the Spouse
+  // key 2 corresponds to claimant is the Parent
   return formData?.claimantIdentification === claimantIdentificationKeys[2];
 };
 
 export const claimantIsChild = ({ formData } = {}) => {
-  // key 3 corresponds to claimant is the Spouse
+  // key 3 corresponds to claimant is the Child
   return formData?.claimantIdentification === claimantIdentificationKeys[3];
 };
 
