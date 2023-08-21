@@ -8,7 +8,8 @@ import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { IssueCard } from './IssueCard';
-import { LAST_ISSUE, REVIEW_ISSUES } from '../constants';
+import { REVIEW_ISSUES } from '../constants';
+import { SELECTED, MAX_LENGTH, LAST_ISSUE } from '../../shared/constants';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
@@ -16,15 +17,14 @@ import {
   MaxSelectionsAlert,
   removeModalContent,
 } from '../content/contestableIssues';
-import { focusIssue } from '../utils/focus';
 
-import { MAX_LENGTH, SELECTED } from '../../shared/constants';
 import { isEmptyObject } from '../../shared/utils/helpers';
 import {
   getSelected,
   someSelected,
   calculateIndexOffset,
 } from '../../shared/utils/issues';
+import { focusIssue } from '../../shared/utils/focus';
 
 /**
  * ContestableIssuesWidget - Form system parameters passed into this widget
@@ -96,7 +96,6 @@ const ContestableIssuesWidget = props => {
 
   const handlers = {
     closeModal: () => setShowErrorModal(false),
-
     onChange: (index, event) => {
       let { checked } = event.target;
       if (checked && getSelected(formData).length + 1 > MAX_LENGTH.SELECTIONS) {
@@ -124,7 +123,6 @@ const ContestableIssuesWidget = props => {
         });
       }
     },
-
     onShowRemoveModal: cardIndex => {
       const adjustedIndex = calculateIndexOffset(cardIndex, value.length);
       setRemoveIndex(adjustedIndex);

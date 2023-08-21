@@ -11,8 +11,8 @@ import {
   BOARD_APPEALS_URL,
   COVID_FAQ_URL,
   DECISION_REVIEWS_URL,
-  MAX_LENGTH,
 } from '../constants';
+import { MAX_LENGTH } from '../../shared/constants';
 import DownloadLink from './DownloadLink';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
