@@ -34,10 +34,9 @@ describe('LabsAndTests list container', () => {
 
   it('displays a subheading', () => {
     expect(
-      screen.getByText(
-        'Review lab and test results in your VA medical records.',
-        { exact: false },
-      ),
+      screen.getByText('Most lab and test results are available', {
+        exact: false,
+      }),
     ).to.exist;
   });
 
