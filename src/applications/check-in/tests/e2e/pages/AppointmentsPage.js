@@ -12,6 +12,12 @@ class AppointmentsPage {
       waitForAnimations: true,
     });
   };
+
+  attemptPreCheckIn = () => {
+    cy.get('button[data-testid="check-in-button"]').click({
+      waitForAnimations: true,
+    });
+  };
 }
 
 export default new AppointmentsPage();
