@@ -1,6 +1,7 @@
 import mockDraftMessage from '../fixtures/message-draft-response.json';
 import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
+import mockSignature from '../fixtures/signature-response.json';
 
 class PatientComposePage {
   sendMessage = mockRequest => {
@@ -269,10 +270,16 @@ class PatientComposePage {
   };
 
   verifyClickableURLinMessageBody = url => {
+    const {
+      signatureName,
+      signatureTitle,
+      includeSignature,
+    } = mockSignature.data;
     cy.get('[data-testid="message-body-field"]').should(
       'have.attr',
       'value',
-      `\n\n\nName\nTitle${url}`,
+      `${includeSignature &&
+        `\n\n\n${signatureName}\n${signatureTitle}`}${url}`,
     );
   };
 

@@ -31,7 +31,7 @@ class FolderLoadPage {
 
   loadFolderMessages = (folderName, folderNumber, folderResponseIndex) => {
     this.foldersSetup();
-    cy.intercept('GET', `/my_health/v1/messaging/folders/${folderNumber}`, {
+    cy.intercept('GET', `/my_health/v1/messaging/folders/${folderNumber}*`, {
       data: mockFolders.data[folderResponseIndex],
     }).as('folderMetaData');
     cy.intercept(
@@ -41,7 +41,8 @@ class FolderLoadPage {
     ).as('folderThreadResponse');
 
     cy.get(`[data-testid="${folderName}-sidebar"]`).click();
-
+    cy.wait('@folderMetaData');
+    cy.wait('@folderThreadResponse');
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
   };

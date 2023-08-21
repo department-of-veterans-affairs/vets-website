@@ -93,15 +93,11 @@ class PatientInboxPage {
       this.mockRecipients,
     ).as('recipients');
 
-    cy.intercept('GET', 'my_health/v1/messaging/messages/signature', {
-      data: {
-        signatureName: 'Name',
-        includeSignature: true,
-        signatureTitle: 'Title',
-      },
-      errors: {},
-      metadata: {},
-    }).as('signature');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/signature',
+      mockSignature,
+    ).as('signature');
 
     cy.visit('my-health/secure-messages/inbox/', {
       onBeforeLoad: win => {
@@ -231,6 +227,11 @@ class PatientInboxPage {
     mockMessages.data.at(
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/signature',
+      mockSignature,
+    ).as('signature');
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',

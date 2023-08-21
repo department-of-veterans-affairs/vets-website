@@ -25,7 +25,7 @@ class PatientMessageDraftsPage {
     cy.log(`draft messages  = ${JSON.stringify(this.mockDraftMessages)}`);
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2',
+      '/my_health/v1/messaging/folders/-2*',
       mockDraftFolderMetaResponse,
     ).as('draftsFolderMetaResponse');
     cy.intercept(
