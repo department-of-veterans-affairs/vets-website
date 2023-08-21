@@ -34,9 +34,9 @@ import transformForSubmit from './submit-transformer';
 // import the appropriate file [flow?.json] for the flow you're working on, or
 // noStmtInfo.json for all flows [manually select claimOwnership, claimantType,
 // & witnessRelationshipWithClaimant via UI]
-// import testData from '../tests/e2e/fixtures/data/noStmtInfo.json';
+import testData from '../tests/e2e/fixtures/data/flow4.json';
 
-// const mockData = testData.data;
+const mockData = testData.data;
 
 const pageScrollAndFocus = () => {
   return () => {
@@ -81,7 +81,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'lay-witness-10210-',
   dev: {
-    // showNavLinks: true,
+    showNavLinks: true,
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -149,7 +149,7 @@ const formConfig = {
       pages: {
         claimOwnershipPage: {
           path: 'claim-ownership',
-          title: 'Who is submitting this statement?',
+          title: 'Claim ownership',
           // needs form-level useCustomScrollAndFocus: true to work.
           // chapter's hideFormNavProgress interferes with scrollAndFocusTarget
           // so using a function here to ensure correct focusSelector is used
@@ -157,16 +157,16 @@ const formConfig = {
           scrollAndFocusTarget: pageScrollAndFocus(),
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          // initialData:
-          // !!mockData && environment.isLocalhost() && !window.Cypress
-          // ? mockData
-          // : undefined,
+          initialData:
+            !!mockData && environment.isLocalhost() && !window.Cypress
+              ? mockData
+              : undefined,
           uiSchema: claimOwnershipPg.uiSchema,
           schema: claimOwnershipPg.schema,
         },
         claimantTypePage: {
           path: 'claimant-type',
-          title: 'Who is submitting this statement?',
+          title: 'Claimant type',
           // see comment for scrollAndFocusTarget in claimOwnershipPage above
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: claimantType.uiSchema,
