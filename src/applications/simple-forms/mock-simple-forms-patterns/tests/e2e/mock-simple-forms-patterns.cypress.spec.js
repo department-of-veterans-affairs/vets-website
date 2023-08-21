@@ -116,7 +116,7 @@ const testConfig = createTestConfig(
 
             // web components
             fillTextWebComponent('wcOldSsn', data.wcOldSsn);
-            fillTextWebComponent('wcv3SsnNew', data.wcv3SsnNew);
+            fillTextWebComponent('wcv3SsnNew_ssn', data.wcv3SsnNew.ssn);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();

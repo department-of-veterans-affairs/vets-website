@@ -1,16 +1,18 @@
-import {
-  getSelected,
-  hasSomeSelected,
-  hasDuplicates,
-  showExtensionReason,
-} from '../utils/helpers';
+import { showExtensionReason } from '../utils/helpers';
 import { issueErrorMessages } from '../content/addIssue';
 import {
   noneSelected,
   maxSelectedErrorMessage,
 } from '../content/contestableIssues';
 import { content as extensionReasonContent } from '../content/extensionReason';
-import { MAX_LENGTH } from '../constants';
+import { MAX_LENGTH as NOD_MAX_LENGTH } from '../constants';
+
+import { MAX_LENGTH, REGEXP } from '../../shared/constants';
+import {
+  getSelected,
+  hasSomeSelected,
+  hasDuplicates,
+} from '../../shared/utils/issues';
 
 /**
  *
@@ -82,7 +84,7 @@ export const missingIssueName = (errors, data) => {
 };
 
 export const maxNameLength = (errors, data) => {
-  if (data.length > MAX_LENGTH.ISSUE_NAME) {
+  if (data.length > NOD_MAX_LENGTH.ISSUE_NAME) {
     errors.addError(issueErrorMessages.maxLength);
   }
 };
@@ -97,7 +99,9 @@ export const extensionReason = (
   appStateData,
 ) => {
   const data = appStateData || formData || {};
-  if (showExtensionReason(data) && !data.extensionReason) {
+  // Ensure reason isn't just whitespace
+  const reason = (data.extensionReason || '').replace(REGEXP.WHITESPACE, '');
+  if (showExtensionReason(data) && !reason) {
     errors.addError(extensionReasonContent.errorMessage);
   }
 };

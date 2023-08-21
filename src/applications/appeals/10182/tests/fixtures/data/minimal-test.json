@@ -29,7 +29,7 @@
     "requestingExtension": false,
     "appealingVHADenial": false,
 
-    "contestableIssues": [
+    "contestedIssues": [
       {
         "type": "contestableIssue",
         "attributes": {

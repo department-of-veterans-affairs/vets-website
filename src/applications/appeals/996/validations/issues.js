@@ -6,7 +6,7 @@ import {
   maxSelectedErrorMessage,
 } from '../content/contestableIssues';
 import { missingAreaOfDisagreementErrorMessage } from '../content/areaOfDisagreement';
-import { MAX_LENGTH } from '../constants';
+import { MAX_LENGTH } from '../../shared/constants';
 
 /**
  *
