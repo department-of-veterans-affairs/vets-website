@@ -42,7 +42,7 @@ const mailingAddressStatusSuccess = {
   },
 };
 
-const mailingAddresUpdateNoChangeDetected = {
+const mailingAddressUpdateNoChangeDetected = {
   data: {
     id: '',
     type: 'async_transaction_va_profile_address_transactions',
@@ -120,7 +120,7 @@ const addressValidation = {
 
 module.exports = {
   mailingAddressUpdateReceived,
-  mailingAddresUpdateNoChangeDetected,
+  mailingAddressUpdateNoChangeDetected,
   mailingAddressStatusSuccess,
   homeAddressUpdateReceived,
   homeAddressUpdateSuccess,

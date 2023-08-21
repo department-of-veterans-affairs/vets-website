@@ -169,13 +169,14 @@ const handleNoChangesDetected = async ({
   if (noChangesDetected) {
     const forceCacheClear = true;
     await dispatch(refreshProfile(forceCacheClear));
-    dispatch(clearTransaction(transaction));
 
     dispatch({
       type: VAP_SERVICE_NO_CHANGES_DETECTED,
       fieldName,
       transaction,
     });
+
+    dispatch(clearTransaction(transaction));
   }
 };
 
