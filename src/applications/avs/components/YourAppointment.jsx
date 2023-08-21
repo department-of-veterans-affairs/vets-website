@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { getFormattedAppointmentTime, getShortTimezone } from '../utils';
 
+import MedicationTerms from './MedicationTerms';
+
 const clinicsVisited = avs => {
   const shortTimezone = getShortTimezone(avs);
   const clinics = avs.clinicsVisited.map(clinic => {
@@ -12,6 +14,7 @@ const clinicsVisited = avs => {
           {getFormattedAppointmentTime(clinic.time)} {shortTimezone}
         </h3>
         <ul>
+          {/* TODO: use H4 for clinic name */}
           <li className="clinic-information" key="clinicSite">
             <i
               className="fas fa-building"
@@ -125,7 +128,7 @@ const clinicMedications = avs => {
           Medications ordered for administration during your visit to a VA
           clinic or emergency department.
         </p>
-        {/* TODO: add "What do these medications terms mean?" */}
+        <MedicationTerms />
       </div>
     );
   }
