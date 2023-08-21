@@ -8,6 +8,7 @@ import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import Wrapper from '../../layout/Wrapper';
 import { APP_NAMES } from '../../../utils/appConstants';
 import { makeSelectApp } from '../../../selectors';
+import { useUpdateError } from '../../../hooks/useUpdateError';
 
 const AppointmentsPage = props => {
   const { router } = props;
@@ -16,8 +17,13 @@ const AppointmentsPage = props => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const { goToNextPage } = useFormRouting(router);
+  const { updateError } = useUpdateError();
 
-  const { isComplete, refreshCheckInData } = useGetCheckInData({
+  const {
+    isComplete,
+    refreshCheckInData,
+    checkInDataError,
+  } = useGetCheckInData({
     refreshNeeded: true,
     router,
     isPreCheckIn: app === APP_NAMES.PRE_CHECK_IN,
@@ -35,6 +41,17 @@ const AppointmentsPage = props => {
       }
     },
     [isComplete, refreshCheckInData],
+  );
+
+  // TODO: Remove this and the checkInDataError property from the useGetCheckInData hook
+  // We could call updateError in the hook
+  useEffect(
+    () => {
+      if (checkInDataError) {
+        updateError('error-fromlocation-precheckin-introduction');
+      }
+    },
+    [checkInDataError, updateError],
   );
 
   if (isLoading) {
