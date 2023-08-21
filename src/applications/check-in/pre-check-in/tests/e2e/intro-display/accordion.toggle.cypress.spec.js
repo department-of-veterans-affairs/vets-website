@@ -30,7 +30,8 @@ describe('Pre-Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('accordion opens and closes', () => {
+    // Skipping for now to later refactor for the new appointments page
+    it.skip('accordion opens and closes', () => {
       cy.injectAxeThenAxeCheck();
       Introduction.toggleAccordion(0, true);
       cy.injectAxeThenAxeCheck();

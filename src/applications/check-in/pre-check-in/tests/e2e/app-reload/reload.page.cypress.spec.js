@@ -5,8 +5,8 @@ import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
-import Introduction from '../pages/Introduction';
 import Confirmation from '../pages/Confirmation';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Pre-Check In Experience', () => {
   describe('reload pages', () => {
@@ -40,16 +40,14 @@ describe('Pre-Check In Experience', () => {
     });
 
     it('Demographics page', () => {
-      Introduction.validatePageLoaded();
-      Introduction.attemptToGoToNextPage();
+      AppointmentsPage.attemptPreCheckIn();
       Demographics.validatePageLoaded();
       cy.reload();
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
     it('emergency contact page', () => {
-      Introduction.validatePageLoaded();
-      Introduction.attemptToGoToNextPage();
+      AppointmentsPage.attemptPreCheckIn();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
@@ -58,8 +56,7 @@ describe('Pre-Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
     });
     it('next of kin page', () => {
-      Introduction.validatePageLoaded();
-      Introduction.attemptToGoToNextPage();
+      AppointmentsPage.attemptPreCheckIn();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
@@ -71,8 +68,7 @@ describe('Pre-Check In Experience', () => {
     });
 
     it('confirmation page', () => {
-      Introduction.validatePageLoaded();
-      Introduction.attemptToGoToNextPage();
+      AppointmentsPage.attemptPreCheckIn();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();

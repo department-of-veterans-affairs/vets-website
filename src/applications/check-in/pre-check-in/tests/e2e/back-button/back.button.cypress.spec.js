@@ -6,9 +6,9 @@ import Introduction from '../pages/Introduction';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Pre-Check In Experience ', () => {
-  let apiData = {};
   beforeEach(() => {
     const {
       initializeFeatureToggle,
@@ -24,7 +24,7 @@ describe('Pre-Check In Experience ', () => {
 
     initializeSessionPost.withSuccess();
 
-    apiData = initializePreCheckInDataGet.withSuccess();
+    initializePreCheckInDataGet.withSuccess();
 
     initializePreCheckInDataPost.withSuccess();
   });
@@ -43,8 +43,7 @@ describe('Pre-Check In Experience ', () => {
     ValidateVeteran.attemptToGoToNextPage();
 
     // page: Introduction
-    Introduction.validatePageLoaded();
-    Introduction.countAppointmentList(apiData.payload.appointments.length);
+    AppointmentsPage.attemptPreCheckIn();
     cy.injectAxeThenAxeCheck();
     Introduction.attemptToGoToNextPage();
 

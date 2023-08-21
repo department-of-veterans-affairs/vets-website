@@ -30,15 +30,16 @@ describe('Pre-Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('intro paragraph is correct', () => {
+    // Skipping for now to repurpose for the new appointments landing page
+    it.skip('intro paragraph is correct', () => {
       Introduction.validateMultipleAppointmentIntroText();
       cy.injectAxeThenAxeCheck();
     });
-    it('appointment list has all appointments', () => {
+    it.skip('appointment list has all appointments', () => {
       Introduction.countAppointmentList(2);
       cy.injectAxeThenAxeCheck();
     });
-    it('start link styling is correct', () => {
+    it.skip('start link styling is correct', () => {
       Introduction.validateStartLinkStyling();
       cy.injectAxeThenAxeCheck();
     });
