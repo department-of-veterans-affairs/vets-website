@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
 /**
- * @typedef DateFns~offset
+ * @typedef DateFnsOffset
  * @property {Number} years - positive or negative number
  * @property {Number} months - positive or negative number
  * @property {Number} weeks - positive or negative number
@@ -13,7 +13,7 @@ import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
  */
 /**
  * Get dynamic date value based on starting date and an offset
- * @param {DateFns~offset} [offset={}] - date offset
+ * @param {DateFnsOffset} [offset={}] - date offset
  * @param {Date} [date=new Date()] - starting date of offset
  * @param {String} [pattern=FORMAT_YMD]
  * @returns {String} - formatted as 'YYYY-MM-DD'

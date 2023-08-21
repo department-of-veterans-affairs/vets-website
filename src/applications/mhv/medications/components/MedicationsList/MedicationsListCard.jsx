@@ -112,15 +112,15 @@ const MedicationsListCard = props => {
   return (
     <div className="rx-card-container vads-u-background-color--white vads-u-margin-y--1 vads-u-border--1px vads-u-border-color--gray-medium no-break">
       <div className="rx-card-detials vads-u-padding--2">
-        <h4 className="vads-u-font-weight--bold">
+        <h3 className="vads-u-font-weight--bold">
           <Link
-            className="vads-u-margin-y--0p5"
+            className="vads-u-margin-y--0p5 vads-u-font-size--h4"
             to={`/prescriptions/${rx.prescriptionId}`}
             data-testid="medications-history-details-link"
           >
             {rx.prescriptionName}
           </Link>
-        </h4>
+        </h3>
         {rx.dispensedDate ? (
           <div>
             Last filled on {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}
