@@ -5,11 +5,11 @@ import {
   VaButtonPair,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import { scrollToTop } from '../utilities/scroll-to-top';
 import { ROUTES } from '../constants';
 import { updateEditMode, updateYear } from '../actions';
+import { customizeTitle } from '../utilities/customize-title';
 
 const YearPage = ({
   editMode,
@@ -21,6 +21,11 @@ const YearPage = ({
 }) => {
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const H1 = 'Income limits from past years going back to 2001';
+
+  useEffect(() => {
+    document.title = customizeTitle(H1);
+  });
 
   useEffect(
     () => {
@@ -32,8 +37,8 @@ const YearPage = ({
         return;
       }
 
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       waitForRenderThenFocus('h1');
-      scrollToTop();
     },
     [pastMode, router],
   );
@@ -88,7 +93,7 @@ const YearPage = ({
 
   return (
     <>
-      <h1>Income limits from past years going back to 2001</h1>
+      <h1>{H1}</h1>
       <p>
         Select the year you&#8217;d like to check income limits for. Then answer
         2 questions to find out how your income may have affected your VA health

@@ -1,9 +1,13 @@
+import React from 'react';
+
 import ArrayField from 'platform/forms-system/src/js/fields/ArrayField';
 import OrgRepsViewField from '../components/OrgRepsViewField';
 
 export default {
   uiSchema: {
-    'ui:title': 'Organization’s representatives',
+    'ui:title': (
+      <h3 className="custom-header">Organization’s representatives</h3>
+    ),
     organizationRepresentatives: {
       'ui:description':
         'List one or more people from the organization who we can share your information with.',

@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { scrollToTop } from '../utilities/scroll-to-top';
 import { ROUTES } from '../constants';
 import {
   getFirstAccordionHeader,
@@ -14,6 +13,7 @@ import {
   getFifthAccordionHeader,
 } from '../utilities/results-accordions';
 import { getPreviousYear, redirectIfFormIncomplete } from '../utilities/utils';
+import { customizeTitle } from '../utilities/customize-title';
 
 /**
  * There are two pathways to displaying income ranges on this page
@@ -23,13 +23,19 @@ import { getPreviousYear, redirectIfFormIncomplete } from '../utilities/utils';
  */
 const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
   const APPLY_URL = '/health-care/apply/application/introduction';
+  const currentYear = new Date().getFullYear();
+  const H1 = `Your income limits for ${year || currentYear}`;
+
+  useEffect(() => {
+    document.title = customizeTitle(H1);
+  });
 
   useEffect(
     () => {
       redirectIfFormIncomplete(dependents, pastMode, router, year, zipCode);
 
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       waitForRenderThenFocus('h1');
-      scrollToTop();
     },
     [dependents, pastMode, router, year, zipCode],
   );
@@ -43,7 +49,6 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
 
     const isStandard = gmt > national;
     const previousYear = getPreviousYear(pastMode, year);
-    const currentYear = new Date().getFullYear();
 
     const currentFlowCopy = (
       <>
@@ -126,7 +131,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
 
     return (
       <>
-        <h1>Your income limits for {year || currentYear}</h1>
+        <h1>{H1}</h1>
         {pastMode && pastFlowCopy}
         {!pastMode && currentFlowCopy}
         <va-link

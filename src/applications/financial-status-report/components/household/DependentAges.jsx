@@ -5,6 +5,7 @@ import { VaNumberInput } from '@department-of-veterans-affairs/component-library
 import { setData } from 'platform/forms-system/src/js/actions';
 import { DEPENDENT_AGE_LABELS } from '../../constants/dependentLabels';
 import { validateIsNumber } from '../../utils/validations';
+import DependentExplainer from './DependentExplainer';
 import ButtonGroup from '../shared/ButtonGroup';
 import ReviewControl from '../shared/ReviewControl';
 
@@ -169,9 +170,7 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
   const className =
     isReviewMode && !isEditing
       ? 'form-review-panel-page-header vads-u-font-size--h5'
-      : 'schemablock-title vads-u-margin-top--5';
-  const text =
-    isReviewMode && !isEditing ? 'Review Dependants ages' : 'Dependents ages';
+      : 'vads-u-margin--0';
 
   let dependentAgeInputs = stateDependents.map(
     (dependent, i) =>
@@ -186,58 +185,67 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
 
   return (
     <form onSubmit={handlers.onSubmit}>
-      <div
-        className={`${isReviewMode ? 'form-review-panel-page-header-row' : ''}`}
-      >
-        <HeaderTag className={className}>{text}</HeaderTag>
-        {isReviewMode &&
-          !isEditing && (
+      <fieldset className="vads-u-margin-y--2">
+        <legend
+          className={`${
+            isReviewMode
+              ? 'form-review-panel-page-header-row'
+              : 'schemaform-block-title'
+          }`}
+        >
+          <HeaderTag className={className}>Dependents ages</HeaderTag>
+          {isReviewMode &&
+            !isEditing && (
+              <ReviewControl
+                // readOnly
+                position="header"
+                isEditing={false}
+                onEditClick={handlers.toggleEditing}
+                ariaLabel={`Edit ${DEPENDENT_AGE_LABELS[1]}`}
+                buttonText="Edit"
+              />
+            )}
+          {!isReviewMode ? (
+            <>
+              <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+                Enter each dependent’s age separately.
+              </p>
+            </>
+          ) : null}
+        </legend>
+        {dependentAgeInputs}
+        {!isReviewMode ? <DependentExplainer /> : null}
+        {isReviewMode && isEditing ? (
+          <div className="vads-u-margin-top--2">
             <ReviewControl
               // readOnly
-              position="header"
-              isEditing={false}
-              onEditClick={handlers.toggleEditing}
-              ariaLabel={`Edit ${DEPENDENT_AGE_LABELS[1]}`}
-              buttonText="Edit"
+              position="footer"
+              isEditing
+              type="submit"
+              ariaLabel={`Update ${DEPENDENT_AGE_LABELS[1]}`}
+              buttonText="Update"
             />
-          )}
-      </div>
-      {!isReviewMode ? (
-        <p className="vads-u-padding-top--2">
-          Enter each dependent’s age separately.
-        </p>
-      ) : null}
-      {dependentAgeInputs}
-      {isReviewMode && isEditing ? (
-        <div className="vads-u-margin-top--2">
-          <ReviewControl
-            // readOnly
-            position="footer"
-            isEditing
-            type="submit"
-            ariaLabel={`Update ${DEPENDENT_AGE_LABELS[1]}`}
-            buttonText="Update"
-          />
-        </div>
-      ) : (
-        !isReviewMode && (
-          <ButtonGroup
-            buttons={[
-              {
-                label: 'Back',
-                onClick: handlers.onCancel,
-                secondary: true,
-                iconLeft: '«',
-              },
-              {
-                label: 'Continue',
-                type: 'submit',
-                iconRight: '»',
-              },
-            ]}
-          />
-        )
-      )}
+          </div>
+        ) : (
+          !isReviewMode && (
+            <ButtonGroup
+              buttons={[
+                {
+                  label: 'Back',
+                  onClick: handlers.onCancel,
+                  secondary: true,
+                  iconLeft: '«',
+                },
+                {
+                  label: 'Continue',
+                  type: 'submit',
+                  iconRight: '»',
+                },
+              ]}
+            />
+          )
+        )}
+      </fieldset>
     </form>
   );
 };

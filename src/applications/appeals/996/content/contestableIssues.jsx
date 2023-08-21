@@ -11,8 +11,8 @@ import {
   BOARD_APPEALS_URL,
   COVID_FAQ_URL,
   DECISION_REVIEWS_URL,
-  MAX_LENGTH,
 } from '../constants';
+import { MAX_LENGTH } from '../../shared/constants';
 import DownloadLink from './DownloadLink';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
@@ -182,7 +182,7 @@ MaxSelectionsAlert.propTypes = {
   closeModal: PropTypes.func,
 };
 
-export const NoIssuesLoadedAlert = ({ submitted }) => {
+export const NoIssuesLoadedAlert = () => {
   const wrapAlert = useRef(null);
 
   useEffect(
@@ -191,7 +191,7 @@ export const NoIssuesLoadedAlert = ({ submitted }) => {
         scrollAndFocus(wrapAlert.current);
       }
     },
-    [wrapAlert, submitted],
+    [wrapAlert],
   );
 
   recordEvent({
@@ -216,10 +216,6 @@ export const NoIssuesLoadedAlert = ({ submitted }) => {
       </va-alert>
     </div>
   );
-};
-
-NoIssuesLoadedAlert.propTypes = {
-  submitted: PropTypes.bool,
 };
 
 export const noneSelected =

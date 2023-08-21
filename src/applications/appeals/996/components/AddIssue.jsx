@@ -15,14 +15,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { getSelected, calculateIndexOffset } from '../utils/helpers';
-import {
-  SELECTED,
-  MAX_LENGTH,
-  LAST_ISSUE,
-  CONTESTABLE_ISSUES_PATH,
-  REVIEW_ISSUES,
-} from '../constants';
-
+import { CONTESTABLE_ISSUES_PATH, REVIEW_ISSUES } from '../constants';
+import { SELECTED, MAX_LENGTH, LAST_ISSUE } from '../../shared/constants';
 import {
   uniqueIssue,
   missingIssueName,
