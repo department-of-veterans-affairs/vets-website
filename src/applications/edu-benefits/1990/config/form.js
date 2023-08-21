@@ -20,7 +20,6 @@ import applicantDescription from 'platform/forms/components/ApplicantDescription
 import { genderLabels } from 'platform/static-data/labels';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import PreSubmitInfo from '../pages/PreSubmitInfo';
-import contactInformationPage from '../../pages/contactInformation';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import GuardianInformation from '../pages/GuardianInformation';
@@ -28,10 +27,9 @@ import GuardianInformation from '../pages/GuardianInformation';
 import manifest from '../manifest.json';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
-import createDirectDepositPage1990 from '../pages/DirectDeposit';
 
 import * as toursOfDuty from '../../definitions/toursOfDuty';
-import serviceBefore1977UI from '../../definitions/serviceBefore1977';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -51,8 +49,6 @@ import {
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
-
-import { hasServiceBefore1977 } from '../../utils/helpers.jsx';
 
 import { benefitsLabels } from '../../utils/labels';
 
@@ -557,32 +553,6 @@ const formConfig = {
             },
           },
         },
-      },
-    },
-    personalInformation: {
-      title: 'Personal information',
-      pages: {
-        contactInformation: merge({}, contactInformationPage(fullSchema1990), {
-          uiSchema: {
-            'ui:title': 'Contact information',
-          },
-        }),
-        dependents: {
-          title: 'Dependent information',
-          path: 'personal-information/dependents',
-          depends: hasServiceBefore1977,
-          uiSchema: {
-            'ui:title': 'Dependents',
-            serviceBefore1977: serviceBefore1977UI,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              serviceBefore1977,
-            },
-          },
-        },
-        directDeposit: createDirectDepositPage1990(),
       },
     },
     GuardianInformation: {
