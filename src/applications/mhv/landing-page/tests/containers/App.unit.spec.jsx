@@ -94,14 +94,14 @@ describe(`${appName} -- <App /> container`, () => {
     let replace;
 
     beforeEach(() => {
-      originalLocation = window.location;
-      delete window.location;
+      originalLocation = global.window.location;
+      delete global.window.location;
       replace = sinon.spy();
-      window.location = { replace };
+      global.window.location = { replace };
     });
 
     afterEach(() => {
-      window.location = originalLocation;
+      global.window.location = originalLocation;
     });
 
     it('feature toggle is disabled', () => {
