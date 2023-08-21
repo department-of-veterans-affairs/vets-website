@@ -1,13 +1,12 @@
 import { expect } from 'chai';
-import { SELECTED, SHOW_PART3 } from '../../constants';
-import { getDate } from '../../utils/dates';
+import { SHOW_PART3 } from '../../constants';
+import { getDate } from '../../../shared/utils/dates';
 
 import {
   getEligibleContestableIssues,
   createIssueName,
   getContestableIssues,
   addIncludedIssues,
-  addAreaOfDisagreement,
   addUploads,
   removeEmptyEntries,
   getAddress,
@@ -16,9 +15,23 @@ import {
   getPart3Data,
 } from '../../utils/submit';
 
+import { SELECTED } from '../../../shared/constants';
+
 const validDate1 = getDate({ offset: { months: -2 } });
 const issue1 = {
   raw: {
+    type: 'contestableIssue',
+    attributes: {
+      ratingIssueSubjectText: '  tinnitus ',
+      description: 'both   ears ',
+      approxDecisionDate: validDate1,
+      decisionIssueId: 1,
+      ratingIssueReferenceId: '2',
+      ratingDecisionReferenceId: '3',
+      ratingIssuePercentNumber: '10',
+    },
+  },
+  rawCleaned: {
     type: 'contestableIssue',
     attributes: {
       ratingIssueSubjectText: 'tinnitus',
@@ -47,7 +60,17 @@ const issue2 = {
   raw: {
     type: 'contestableIssue',
     attributes: {
+      ratingIssueSubjectText: 'left   knee ',
+      approxDecisionDate: validDate2,
+      decisionIssueId: 4,
+      ratingIssueReferenceId: '5',
+    },
+  },
+  rawCleaned: {
+    type: 'contestableIssue',
+    attributes: {
       ratingIssueSubjectText: 'left knee',
+      description: '',
       approxDecisionDate: validDate2,
       decisionIssueId: 4,
       ratingIssueReferenceId: '5',
@@ -94,7 +117,7 @@ describe('getEligibleContestableIssues', () => {
       },
     };
     expect(getEligibleContestableIssues([issue, issue2.raw])).to.deep.equal([
-      issue2.raw,
+      issue2.rawCleaned,
     ]);
   });
   it('should keep older decision dates when show part 3 feature is enabled', () => {
@@ -103,7 +126,7 @@ describe('getEligibleContestableIssues', () => {
       getEligibleContestableIssues([issue1.raw, issue2.raw], {
         showPart3: true,
       }),
-    ).to.deep.equal([issue1.raw, issue2.raw]);
+    ).to.deep.equal([issue1.rawCleaned, issue2.rawCleaned]);
   });
 });
 
@@ -128,7 +151,7 @@ describe('createIssueName', () => {
 describe('getContestableIssues', () => {
   it('should return all issues', () => {
     const formData = {
-      contestableIssues: [
+      contestedIssues: [
         { ...issue1.raw, [SELECTED]: true },
         { ...issue2.raw, [SELECTED]: true },
       ],
@@ -140,7 +163,7 @@ describe('getContestableIssues', () => {
   });
   it('should return second issue', () => {
     const formData = {
-      contestableIssues: [
+      contestedIssues: [
         { ...issue1.raw, [SELECTED]: false },
         { ...issue2.raw, [SELECTED]: true },
       ],
@@ -159,7 +182,7 @@ describe('addIncludedIssues', () => {
       attributes: { issue: 'test', decisionDate: validDate1 },
     };
     const formData = {
-      contestableIssues: [
+      contestedIssues: [
         { ...issue1.raw, [SELECTED]: false },
         { ...issue2.raw, [SELECTED]: true },
       ],
@@ -179,7 +202,7 @@ describe('addIncludedIssues', () => {
       attributes: { issue: 'test', decisionDate: validDate1 },
     };
     const formData = {
-      contestableIssues: [
+      contestedIssues: [
         { ...issue1.raw, [SELECTED]: false },
         { ...issue2.raw, [SELECTED]: true },
       ],
@@ -193,77 +216,20 @@ describe('addIncludedIssues', () => {
       addIncludedIssues({ ...formData, additionalIssues: [] }),
     ).to.deep.equal([issue2.result]);
   });
-});
-
-describe('addAreaOfDisagreement', () => {
-  it('should process a single choice', () => {
+  it('should remove duplicate items', () => {
     const formData = {
-      areaOfDisagreement: [
-        {
-          disagreementOptions: {
-            serviceConnection: true,
-            effectiveDate: false,
-          },
-        },
-        {
-          disagreementOptions: {
-            effectiveDate: true,
-          },
-          otherEntry: '',
-        },
+      contestedIssues: [
+        { ...issue1.raw, [SELECTED]: true },
+        { ...issue2.raw, [SELECTED]: true },
+        { ...issue1.raw, [SELECTED]: true },
+        { ...issue2.raw, [SELECTED]: true },
       ],
+      additionalIssues: [],
     };
-    const result = addAreaOfDisagreement(
-      [issue1.result, issue2.result],
-      formData,
-    );
-    expect(result[0].attributes.disagreementArea).to.equal(
-      'service connection',
-    );
-    expect(result[1].attributes.disagreementArea).to.equal('effective date');
-  });
-  it('should process multiple choices', () => {
-    const formData = {
-      areaOfDisagreement: [
-        {
-          disagreementOptions: {
-            serviceConnection: true,
-            effectiveDate: true,
-            evaluation: true,
-          },
-          otherEntry: '',
-        },
-      ],
-    };
-    const result = addAreaOfDisagreement([issue1.result], formData);
-    expect(result[0].attributes.disagreementArea).to.equal(
-      'service connection,effective date,disability evaluation',
-    );
-  });
-  it('should process other choice', () => {
-    const formData = {
-      areaOfDisagreement: [
-        {
-          disagreementOptions: {
-            serviceConnection: true,
-            effectiveDate: true,
-            evaluation: true,
-          },
-          otherEntry: 'this is an other entry',
-        },
-      ],
-    };
-    const result = addAreaOfDisagreement([issue1.result], formData);
-    expect(result[0].attributes.disagreementArea).to.equal(
-      'service connection,effective date,disability evaluation,this is an other entry',
-    );
-  });
-  it('should not throw a JS error with no disagreement options', () => {
-    const formData = {
-      areaOfDisagreement: [],
-    };
-    const result = addAreaOfDisagreement([issue1.result], formData);
-    expect(result[0].attributes.disagreementArea).to.equal('');
+    expect(addIncludedIssues(formData)).to.deep.equal([
+      issue1.result,
+      issue2.result,
+    ]);
   });
 });
 
@@ -398,7 +364,7 @@ describe('getTimeZone', () => {
 describe('getPart3Data', () => {
   const getResult = ({ ext = false, denial = false } = {}) => ({
     requestingExtension: ext,
-    appealingVhaDenial: denial,
+    appealingVhaDenial: denial, // Vha not VHA is submitted
   });
   it('should return an empty object', () => {
     expect(getPart3Data({})).to.deep.equal({});
@@ -407,7 +373,7 @@ describe('getPart3Data', () => {
     expect(getPart3Data({ [SHOW_PART3]: true })).to.deep.equal(getResult());
   });
   it('should return appealing VHA denial as true', () => {
-    const data = { [SHOW_PART3]: true, appealingVhaDenial: true };
+    const data = { [SHOW_PART3]: true, appealingVHADenial: true };
     const result = getResult({ denial: true });
     expect(getPart3Data(data)).to.deep.equal(result);
   });

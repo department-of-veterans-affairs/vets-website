@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
@@ -127,7 +127,7 @@ describe('<AreaOfDisagreement>', () => {
     expect(goSpy.called).to.be.true;
   });
 
-  it('should not submit page when nothing is checked or input is empty', () => {
+  it('should not submit page when nothing is checked or input is empty', async () => {
     const goSpy = sinon.spy();
     const data = getData({ goForward: goSpy });
     const { container } = render(
@@ -137,10 +137,16 @@ describe('<AreaOfDisagreement>', () => {
     );
 
     fireEvent.click($('button.usa-button-primary', container));
-    expect(goSpy.called).to.be.false;
+
+    await waitFor(() => {
+      expect(goSpy.called).to.be.false;
+      expect(
+        $('va-checkbox-group[error]', container)?.getAttribute('error'),
+      ).to.contain('Choose or enter a reason for disagreement');
+    });
   });
 
-  it('should not submit page when text input is too long', () => {
+  it('should not submit page when text input is too long', async () => {
     const goSpy = sinon.spy();
     const aod = {
       ...aod1,
@@ -159,6 +165,12 @@ describe('<AreaOfDisagreement>', () => {
     );
 
     fireEvent.click($('button.usa-button-primary', container));
-    expect(goSpy.called).to.be.false;
+
+    await waitFor(() => {
+      expect(goSpy.called).to.be.false;
+      expect(
+        $('va-text-input[error]', container)?.getAttribute('error'),
+      ).to.contain('This field should be less than 34 characters');
+    });
   });
 });

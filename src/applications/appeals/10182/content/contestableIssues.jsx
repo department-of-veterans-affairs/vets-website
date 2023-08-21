@@ -6,7 +6,7 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from 'platform/utilities/ui';
 
-import { MAX_LENGTH } from '../constants';
+import { MAX_LENGTH } from '../../shared/constants';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
