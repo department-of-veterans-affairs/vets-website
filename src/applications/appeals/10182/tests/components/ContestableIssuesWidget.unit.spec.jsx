@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { ContestableIssuesWidget } from '../../components/ContestableIssuesWidget';
-import { SELECTED } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 
 describe('<ContestableIssuesWidget>', () => {
   const getProps = ({

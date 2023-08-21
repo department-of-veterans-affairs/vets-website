@@ -37,8 +37,9 @@ const LandingPage = () => {
               Email your feedback and questions to us at <FeedbackEmail />.
             </p>
             <p>
-              Note: You still have access to the pharmacy tool on the My
-              HealtheVet website. You can go back to that site at any time.{' '}
+              <strong>Note:</strong>
+              You still have access to the pharmacy tool on the My HealtheVet
+              website. You can go back to that site at any time.{' '}
               <a
                 href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'pharmacy')}
                 target="_blank"
@@ -295,14 +296,17 @@ const LandingPage = () => {
                 </a>
               </va-accordion-item>
             </va-accordion>
-            <br />
           </section>
         </div>
       </div>
     );
   };
 
-  return <div className="vads-u-margin-top--3">{content()}</div>;
+  return (
+    <div className="vads-u-margin-top--3 vads-u-margin-bottom--6">
+      {content()}
+    </div>
+  );
 };
 
 export default LandingPage;
