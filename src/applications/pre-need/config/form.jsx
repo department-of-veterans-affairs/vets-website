@@ -27,7 +27,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
 import SubmissionError from '../components/SubmissionError';
-import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 import phoneUI from '../components/Phone';
 import { validateSponsorDeathDate } from '../validation';
 
@@ -53,6 +52,7 @@ import {
   nonRequiredFullNameUI,
   buriedWSponsorsEligibility,
 } from '../utils/helpers';
+import SupportingFilesDescription from '../components/SupportingFilesDescription';
 
 const {
   claimant,
@@ -590,7 +590,7 @@ const formConfig = {
           path: 'supporting-documents',
           editModeOnReviewPage: true,
           uiSchema: {
-            'ui:description': SupportingDocumentsDescription,
+            'ui:description': SupportingFilesDescription,
             application: {
               preneedAttachments: fileUploadUI('Select files to upload', {
                 addAnotherLabel: 'Add another',
