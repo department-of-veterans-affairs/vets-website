@@ -207,7 +207,9 @@ const PreSubmitSignature = ({
           onVaChange={value => setCertifyChecked(value)}
           aria-describedby="vet-certify"
           error={
-            certifyCheckboxError && 'You must certify by checking the box.'
+            certifyCheckboxError
+              ? 'You must certify by checking the box.'
+              : null
           }
           required
           enable-analytics
