@@ -1,5 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { DefaultFolders, threadSortingOptions } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
