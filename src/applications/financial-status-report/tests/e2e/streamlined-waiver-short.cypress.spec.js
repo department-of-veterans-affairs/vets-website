@@ -111,11 +111,11 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'transition-page': ({ afterHook }) => {
+      'skip-questions-explainer': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('h4').should(
+          cy.get('h3').should(
             'have.text',
-            'You can skip questions on this form',
+            'You can skip questions on this formWe’re here anytime, day or night – 24/7',
           );
           cy.get('.usa-button-primary').click();
         });

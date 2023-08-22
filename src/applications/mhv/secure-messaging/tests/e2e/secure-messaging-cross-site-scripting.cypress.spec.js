@@ -23,7 +23,7 @@ describe('Secure Messaging - Cross Site Scripting', () => {
     const requestBodyUpdated = {
       ...requestBody,
       subject: 'Test Cross Scripting - ><script>alert(1);</script>',
-      body: 'Test message body- ><script>alert(1);</script>',
+      body: 'Test message body - ><script>alert(1);</script>',
     };
     landingPage.navigateToComposePage();
     composePage.selectRecipient(requestBody.recipientId);
@@ -32,11 +32,13 @@ describe('Secure Messaging - Cross Site Scripting', () => {
     composePage.getMessageBodyField().type(requestBodyUpdated.body);
     composePage.sendMessage(requestBodyUpdated);
 
+    // this assertion already added to composePage.sendMessage method. Check if it still needed
     cy.get('@message')
       .its('request.body')
       .should('contain', {
         category: `${requestBodyUpdated.category}`,
-        body: 'Test message body- >\x3Cscript>alert(1);\x3C/script>',
+        body:
+          '\n\n\nName\nTitleTest message body - >\x3Cscript>alert(1);\x3C/script>',
         subject: 'Test Cross Scripting - >\x3Cscript>alert(1);\x3C/script>',
       });
     composePage.verifySendMessageConfirmationMessage();
