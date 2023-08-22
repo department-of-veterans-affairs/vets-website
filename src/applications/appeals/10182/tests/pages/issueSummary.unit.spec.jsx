@@ -7,7 +7,6 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
 import { CONTESTABLE_ISSUES_PATH } from '../../constants';
-
 import { SELECTED } from '../../../shared/constants';
 
 describe('NOD selected issues summary page', () => {

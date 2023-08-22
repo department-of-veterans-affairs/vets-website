@@ -293,6 +293,7 @@ const mapStateToProps = state => ({
     // vets-api/app/policies/appeals_policy.rb - We need to use this because
     // the SSN is available from prefill, but is not obtained until the form is
     // started :(
+    // enable profile.claims by turning on `profile_user_claims` feature
     selectProfile(state).claims?.appeals || environment.isLocalhost(),
   hasDob: !!(selectProfile(state)?.dob || ''),
 });

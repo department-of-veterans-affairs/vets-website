@@ -7,7 +7,6 @@ import * as Sentry from '@sentry/browser';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
-import { appointmentsToolLink } from 'platform/utilities/cerner';
 import { getButtonType } from 'applications/static-pages/analytics/addButtonLinkListeners';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { connect } from 'react-redux';
@@ -144,7 +143,7 @@ export class CernerCallToAction extends Component {
       linksHeaderText,
       myVAHealthLink,
       myHealtheVetLink,
-      featureStaticLandingPage,
+      featureStaticLandingPage = false,
       widgetType,
     } = this.props;
     const { error, fetching, facilities } = this.state;
@@ -182,10 +181,9 @@ export class CernerCallToAction extends Component {
     }
 
     // Derive MyHealtheVet link text.
-    const myHealtheVetLinkText =
-      myHealtheVetLink === appointmentsToolLink
-        ? 'Go to the VA appointments tool'
-        : 'Go to My HealtheVet';
+    const myHealtheVetLinkText = myHealtheVetLink?.includes('appointments')
+      ? 'Go to the VA appointments tool'
+      : 'Go to My HealtheVet';
 
     const fillins = this.getFillins(widgetType);
     return (
@@ -196,58 +194,61 @@ export class CernerCallToAction extends Component {
         data-testid="cerner-cta-widget"
       >
         <div className="usa-alert-body">
-          {featureStaticLandingPage && (
-            <>
-              <h3 className="usa-alert-heading">
-                Choose the right health portal
-              </h3>
-              <p className="vads-u-font-weight--bold">
-                {`To ${fillins.cta1} these facilities, go to My VA Health:`}
-              </p>
-              <div className="vads-u-margin-y--1">
-                <ul className="vads-u-margin-left--1p5 vads-u-margin-bottom--1">
-                  <ListItem
-                    facilities={cernerFacilities}
-                    ehrDataByVhaId={ehrDataByVhaId}
-                  />
-                </ul>
+          {featureStaticLandingPage &&
+            widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE === widgetType && (
+              <>
+                <h3 className="usa-alert-heading">
+                  Choose the right health portal
+                </h3>
+                <p className="vads-u-font-weight--bold">
+                  {`To ${fillins.cta1} these facilities, go to My VA Health:`}
+                </p>
+                <div className="vads-u-margin-y--1">
+                  <ul className="vads-u-margin-left--1p5 vads-u-margin-bottom--1">
+                    <ListItem
+                      facilities={cernerFacilities}
+                      ehrDataByVhaId={ehrDataByVhaId}
+                    />
+                  </ul>
+                  <a
+                    className="vads-c-action-link--blue"
+                    href={myVAHealthLink}
+                    onClick={onCTALinkClick}
+                    rel="noreferrer noopener"
+                    target="_blank"
+                  >
+                    Go to My VA Health
+                  </a>
+                </div>
+                <va-additional-info trigger="Having trouble opening My VA health?">
+                  Try these steps:
+                  <ul className="vads-u-margin-left--1p5">
+                    <li>Disable your browser's pop-up blocker</li>
+                    <li>
+                      Sign in to My VA health with the same account you used to
+                      sign in to VA.gov
+                    </li>
+                  </ul>
+                </va-additional-info>
+                <p className="vads-u-font-weight--bold">
+                  {`For any other facility, go to ${fillins.cta2} on ${
+                    fillins.featureLocation
+                  }.`}
+                </p>
                 <a
                   className="vads-c-action-link--blue"
-                  href={myVAHealthLink}
+                  href={myHealtheVetLink}
                   onClick={onCTALinkClick}
                   rel="noreferrer noopener"
                   target="_blank"
                 >
-                  Go to My VA Health
+                  {`Go to ${fillins.cta2} on VA.gov`}
                 </a>
-              </div>
-              <va-additional-info trigger="Having trouble opening My VA health?">
-                Try these steps:
-                <ul className="vads-u-margin-left--1p5">
-                  <li>Disable your browser's pop-up blocker</li>
-                  <li>
-                    Sign in to My VA health with the same account you used to
-                    sign in to VA.gov
-                  </li>
-                </ul>
-              </va-additional-info>
-              <p className="vads-u-font-weight--bold">
-                {`For any other facility, go to ${fillins.cta2} on ${
-                  fillins.featureLocation
-                }.`}
-              </p>
-              <a
-                className="vads-c-action-link--blue"
-                href={myHealtheVetLink}
-                onClick={onCTALinkClick}
-                rel="noreferrer noopener"
-                target="_blank"
-              >
-                {`Go to ${fillins.cta2} on VA.gov`}
-              </a>
-            </>
-          )}
-          {!featureStaticLandingPage && (
+              </>
+            )}
+          {((featureStaticLandingPage &&
+            widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE !== widgetType) ||
+            featureStaticLandingPage === false) && (
             <>
               <h3 className="usa-alert-heading">
                 Your VA health care team may be using our My VA Health portal
