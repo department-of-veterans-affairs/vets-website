@@ -82,6 +82,7 @@ const MessageActionButtons = props => {
 MessageActionButtons.propTypes = {
   hideReplyButton: PropTypes.bool,
   id: PropTypes.number,
+  threadId: PropTypes.number,
   onReply: PropTypes.func,
 };
 
