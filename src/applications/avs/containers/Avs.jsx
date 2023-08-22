@@ -46,6 +46,7 @@ const Avs = props => {
     () => {
       const fetchAvs = async () => {
         const response = await getAvs(id);
+        // cf. https://github.com/department-of-veterans-affairs/avs/blob/master/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/model/AvsDataModel.java
         setAvs(response.data.attributes);
         setLoading(false);
       };
