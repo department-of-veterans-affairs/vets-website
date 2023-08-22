@@ -52,7 +52,7 @@ const testConfig = createTestConfig(
               'contain',
               testData.contestedIssues?.length
                 ? 'You’ll need to select an issue'
-                : 'Sorry, we couldn’t find any eligible issues',
+                : 'We can’t load your issues right now',
             );
 
             testData.additionalIssues?.forEach(additionalIssue => {
