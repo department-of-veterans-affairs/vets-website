@@ -121,7 +121,7 @@ const FileField = props => {
     modalContent: fileName =>
       uiOptions.modalContent?.(fileName || 'Unknown') || (
         <span>
-          We’ll remove the uploaded document{' '}
+          We’ll remove the uploaded file{' '}
           <strong>{fileName || 'Unknown'}</strong>
         </span>
       ),

@@ -1,6 +1,6 @@
 import ContestableIssuesWidget from '../components/ContestableIssuesWidget';
 
-import { ContestableIssuesAdditionalInfo } from '../content/contestableIssues';
+import { ContestableIssuesAdditionalInfo } from '../../shared/content/contestableIssues';
 
 import {
   checkIssues,
