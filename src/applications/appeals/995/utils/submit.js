@@ -12,11 +12,16 @@ import {
   hasHomePhone,
   hasMobilePhone,
 } from './contactInfo';
-import { replaceSubmittedData, fixDateFormat } from './replace';
+import {
+  replaceSubmittedData,
+  fixDateFormat,
+} from '../../shared/utils/replace';
 import {
   buildVaLocationString,
   buildPrivateString,
 } from '../validations/evidence';
+import { returnUniqueIssues } from '../../shared/utils/issues';
+import '../../shared/definitions';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -65,7 +70,7 @@ export const getClaimantData = ({
 
 /**
  * Combine issues values into one field
- * @param {ContestableIssue~Attributes} attributes
+ * @param {ContestableIssueAttributes} attributes
  * @returns {String} Issue name - rating % - description combined
  */
 export const createIssueName = ({ attributes } = {}) => {
@@ -80,9 +85,8 @@ export const createIssueName = ({ attributes } = {}) => {
     description,
   ]
     .filter(part => part)
-    .join(' - ')
-    .substring(0, MAX_LENGTH.ISSUE_NAME);
-  return replaceSubmittedData(result);
+    .join(' - ');
+  return replaceSubmittedData(result).substring(0, MAX_LENGTH.ISSUE_NAME);
 };
 
 /* submitted contested issue format
@@ -128,31 +132,14 @@ export const getContestedIssues = ({ contestedIssues } = {}) =>
   });
 
 /**
- * @typedef AdditionalIssues
- * @type {Array<Object>}
- * @property {AdditionalIssue~Item}
- */
-/**
- * @typedef AdditionalIssue~Item - user-added issues
- * @type {Object}
- * @property {String} issue - user entered issue name
- * @property {String} decisionDate - user entered decision date
- * @property {Boolean} 'view:selected' - user selected issue
- * @returns {ContestableIssue~Submittable}
- * @example
- *  [{
-      "issue": "right shoulder",
-      "decisionDate": "2010-01-06"
-    }]
- */
-/**
  * Combine included issues and additional issues
  * @param {FormData}
- * @returns {ContestableIssue~Submittable}
+ * @returns {ContestableIssueSubmittable}
  */
 export const addIncludedIssues = formData => {
   const issues = getContestedIssues(formData);
-  return issues.concat(
+
+  const result = issues.concat(
     (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
       if (issue[SELECTED] && issue.issue && issue.decisionDate) {
         // match contested issue pattern
@@ -167,34 +154,10 @@ export const addIncludedIssues = formData => {
       return issuesToAdd;
     }, []),
   );
+  // Ensure only unique entries are submitted
+  return returnUniqueIssues(result);
 };
 
-/**
- * Veteran~submittable
- * @property {Address~submittable} address
- * @property {Phone~submittable} phone
- * @property {String} emailAddressText
- */
-/**
- * Address~submittableV2
- * @typedef {Object}
- * @property {String} addressLine1
- * @property {String} addressLine2
- * @property {String} addressLine3
- * @property {String} city
- * @property {String} stateCode
- * @property {String} zipCode5
- * @property {String} countryCodeISO2
- * @property {String} internationalPostalCode
- */
-/**
- * Phone~submittable
- * @typedef {Object}
- * @property {String} countryCode
- * @property {String} areaCode
- * @property {String} phoneNumber
- * @property {String} phoneNumberExt
- */
 /**
  * FormData
  * @typedef {Object}
@@ -203,7 +166,7 @@ export const addIncludedIssues = formData => {
 /**
  * Strip out extra profile home address data & rename zipCode to zipCode5
  * @param {FormData} formData
- * @returns {Address~submittableV2}
+ * @returns {AddressSubmittableV2}
  */
 export const getAddress = formData => {
   const { veteran = {} } = formData || {};
@@ -295,32 +258,32 @@ export const getEmail = formData => {
 /**
  * @typedef EvidenceSubmission
  * @type {Array<Object>}
- * @property {EvidenceSubmission~upload|EvidenceSubmission~retrieval}
+ * @property {EvidenceSubmissionUpload|EvidenceSubmissionRetrieval}
  */
 /**
- * @typedef EvidenceSubmission~upload - uploaded evidence
+ * @typedef EvidenceSubmissionUpload - uploaded evidence
  * @type {Object}
  * @property {String} evidenceType - enum: 'upload'
  * @example [{ "evidenceType": "upload" }]
  */
 /**
- * @typedef EvidenceSubmission~none - No evidence
+ * @typedef EvidenceSubmissionNone - No evidence
  * @type {Object}
  * @property {String} evidenceType - enum: 'none'
  * @example [{ "evidenceType": "none" }]
  */
 /**
- * @typedef EvidenceSubmission~evidenceDates
+ * @typedef EvidenceSubmissionEvidenceDates
  * @type {Array<Object>}
  * @property {string} startDate (YYYY-MM-DD)
  * @property {string} endDate (YYYY-MM-DD)
  */
 /**
- * @typedef EvidenceSubmission~retrieval - retrieve evidence
+ * @typedef EvidenceSubmissionRetrieval - retrieve evidence
  * @type {Object}
  * @property {String} evidenceType - enum: 'retrieval'
  * @property {String} locationAndName - VA or private medical records name
- * @property {EvidenceSubmission~evidenceDates} - date range
+ * @property {EvidenceSubmissionEvidenceDates} - date range
  * @example
   "evidenceSubmission": [{
     "evidenceType": ["retrieval", "upload"],

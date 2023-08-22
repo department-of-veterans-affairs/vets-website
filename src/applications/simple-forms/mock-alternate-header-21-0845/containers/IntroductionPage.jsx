@@ -2,17 +2,27 @@ import React from 'react';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import recordEvent from 'platform/monitoring/record-event';
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import { Link } from 'react-router';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
-  render() {
-    const { route } = this.props;
-    const { formConfig, pageList } = route;
+  getStartPage = () => {
+    const { pageList, pathname, formData } = this.props?.route;
+    const data = formData || {};
+    if (pathname) return getNextPagePath(pageList, data, pathname);
+    return pageList[1].path;
+  };
 
+  handleClick = () => {
+    recordEvent({ event: 'no-login-start-form' });
+  };
+
+  render() {
     return (
       <article className="schemaform-intro">
         <FormTitle
@@ -56,30 +66,17 @@ class IntroductionPage extends React.Component {
           VA will no longer give out benefit or claim information (except for
           the information VA has already given out based on your permission).
         </p>
-        <SaveInProgressIntro
-          headingLevel={2}
-          alertTitle="Save time and save your work in progress by signing in"
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
-          verifiedPrefillAlert={
-            <div>
-              <div className="usa-alert usa-alert-info schemaform-sip-alert">
-                <div className="usa-alert-body">
-                  <strong>Note:</strong> Since you’re signed in to your account,
-                  you can save your release authorization in progress and come
-                  back later to finish filling it out.
-                </div>
-              </div>
-              <br />
-            </div>
-          }
-          displayNonVeteranMessaging
-        >
-          Please complete the 21-0845 form to apply for disclosure
-          authorization.
-        </SaveInProgressIntro>
+        <p>
+          {/* Sign in removed because we are only testing unauthenticated experience.
+              Do not use this code. See the actual form 0845 instead. */}
+          <Link
+            onClick={this.handleClick}
+            to={this.getStartPage}
+            className="schemaform-start-button"
+          >
+            Start your application without signing in
+          </Link>
+        </p>
         <va-omb-info
           res-burden={5}
           omb-number="2900-0736"

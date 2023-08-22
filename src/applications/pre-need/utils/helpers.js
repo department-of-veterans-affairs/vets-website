@@ -131,6 +131,20 @@ export function isUnmarriedChild(item) {
   return get('application.claimant.relationshipToVet', item) === '3';
 }
 
+export function isVeteranAndHasServiceName(item) {
+  return (
+    isVeteran(item) &&
+    get('application.veteran.view:hasServiceName', item) === true
+  );
+}
+
+export function isNotVeteranAndHasServiceName(item) {
+  return (
+    !isVeteran(item) &&
+    get('application.veteran.view:hasServiceName', item) === true
+  );
+}
+
 export function buriedWSponsorsEligibility(item) {
   return get('application.hasCurrentlyBuried', item) === '1';
 }

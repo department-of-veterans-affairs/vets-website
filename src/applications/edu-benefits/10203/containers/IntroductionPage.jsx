@@ -10,8 +10,10 @@ import { getRemainingEntitlement } from '../actions/post-911-gib-status';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
-    this.props.getRemainingEntitlement();
+    if (this.props.isLoggedIn) {
+      focusElement('.va-nav-breadcrumbs-list');
+      this.props.getRemainingEntitlement();
+    }
   }
 
   moreThanSixMonths = remaining => {
