@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import recordEvent from 'platform/monitoring/record-event';
+import { formatList } from '../utils';
 
 // Downcases the first char in the capitalized form title passed to this component
 // This is needed because we reference it within a sentance
@@ -30,12 +31,7 @@ const formatMissingIdentifiers = missingIdentifiers => {
     idName => READABLE_IDENTIFIER_MAPPING[idName],
   );
 
-  // Properly format "and" and commas based on list size
-  const listFormatter = new Intl.ListFormat('en', {
-    style: 'long',
-    type: 'conjunction',
-  });
-  return listFormatter.format(readableIdentifiers);
+  return formatList(readableIdentifiers);
 };
 
 const Alert = ({ content, title }) => (
