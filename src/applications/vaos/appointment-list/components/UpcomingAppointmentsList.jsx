@@ -174,6 +174,7 @@ export default function UpcomingAppointmentsList() {
             >
               {featureAppointmentList &&
                 UpcomingAppointmentLayout({
+                  featureBreadcrumbUrlUpdate,
                   featureStatusImprovement,
                   hashTable,
                   history,
