@@ -18,7 +18,9 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
           }-patient-wait-time`}
           className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
         >
-          {`${Number(waitTime).toFixed(0)} days`}
+          {Number(waitTime).toFixed(0) === '0'
+            ? 'No Wait'
+            : `${Number(waitTime).toFixed(0)} days`}
         </p>
       </div>
     );
@@ -58,9 +60,9 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
           </p>
           <div className="usa-grid-full">
             <div className="vads-u-display--flex">
-              {serviceExists.new &&
+              {serviceExists.new >= 0 &&
                 this.appointmentWaitTime(serviceExists.new, service)}
-              {serviceExists.established &&
+              {serviceExists.established >= 0 &&
                 this.appointmentWaitTime(
                   serviceExists.established,
                   service,
