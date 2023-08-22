@@ -25,7 +25,9 @@
     "wcV3CheckboxWithBackground": {},
     "ssn": "454544545",
     "wcOldSsn": "454544545",
-    "wcv3SsnNew": "454544545",
+    "wcv3SsnNew": {
+      "ssn": "454544545"
+    },
     "addressOld": {
       "country": "USA",
       "street": "1234 Main St",
