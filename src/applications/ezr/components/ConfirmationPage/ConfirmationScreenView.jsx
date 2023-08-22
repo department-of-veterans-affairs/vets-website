@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import content from '../../locales/en/content.json';
 
 const ConfirmationScreenView = ({ name, timestamp }) => {

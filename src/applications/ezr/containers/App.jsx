@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
-import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { setData } from 'platform/forms-system/src/js/actions';
 
 import { fetchTotalDisabilityRating } from '../utils/actions/disability-rating';
 import content from '../locales/en/content.json';

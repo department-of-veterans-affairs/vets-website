@@ -1,4 +1,4 @@
-import { isProfileLoading } from '@department-of-veterans-affairs/platform-user/selectors';
+import { isProfileLoading } from 'platform/user/selectors';
 
 /**
  * Map state values to create selector for enrollment status properties
