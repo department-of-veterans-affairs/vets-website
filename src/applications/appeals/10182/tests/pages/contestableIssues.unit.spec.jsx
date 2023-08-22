@@ -12,7 +12,7 @@ const mockStore = data => ({
     form: {
       data: {
         ...data,
-        contestableIssues: [],
+        contestedIssues: [],
       },
     },
     formContext: {
