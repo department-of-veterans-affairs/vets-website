@@ -225,6 +225,7 @@ const PreSubmitSignature = ({
       <VaPrivacyAgreement
         required
         checked={privacyChecked}
+        id="privacy-policy"
         name="privacy-policy"
         showError={
           privacyCheckboxError && 'You must accept by checking the box.'
