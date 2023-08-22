@@ -1,24 +1,26 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Paths, ErrorMessages } from '../../util/constants';
 
 const DashboardUnreadMessages = props => {
   const { inbox } = props;
+  const unreadCountHeader = useMemo(
+    () => {
+      return (
+        <h2 data-dd-privacy="mask" className="vads-u-font-size--h3">
+          {inbox === null && ErrorMessages.LandingPage.GET_INBOX_ERROR}
+          {inbox?.unreadCount > 0 &&
+            `${inbox.unreadCount} unread messages in your inbox`}
+        </h2>
+      );
+    },
+    [inbox],
+  );
+
   return (
     <div className="unread-messages" data-testid="total-unread-messages">
-      {inbox === null && (
-        <h2 className="vads-u-font-size--h3">
-          {ErrorMessages.LandingPage.GET_INBOX_ERROR}
-        </h2>
-      )}
-
-      {inbox !== undefined &&
-        inbox?.unreadCount > 0 && (
-          <h2 data-dd-privacy="mask" className="vads-u-font-size--h3">
-            {`${inbox.unreadCount} unread messages in your inbox`}
-          </h2>
-        )}
+      {unreadCountHeader}
 
       <Link
         className="vads-c-action-link--blue vads-u-margin-top--1"
