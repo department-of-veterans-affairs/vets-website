@@ -37,8 +37,10 @@ const primaryCareProvider = avs => {
       <div>
         <h3>Primary care provider</h3>
         <ul>
-          {/* TODO: Confirm that this is correct - check AVS source, how is the primary care provider pulled? */}
-          <li>{avs.primaryCareProviders[0]}</li>
+          {/* TODO: Confirm that this is correct. */}
+          {avs.primaryCareProviders.length && (
+            <li>{avs.primaryCareProviders[0]}</li>
+          )}
           {avs.primaryCareTeam && <li>{avs.primaryCareTeam}</li>}
         </ul>
       </div>
