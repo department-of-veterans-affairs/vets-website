@@ -8,7 +8,8 @@ import {
   validatePhone,
   contactInfoValidation,
 } from '../../validations';
-import { errorMessages, SELECTED } from '../../constants';
+import { errorMessages } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 
 describe('requireRatedDisability', () => {
   it('should show an error if no disabilities are selected', () => {
