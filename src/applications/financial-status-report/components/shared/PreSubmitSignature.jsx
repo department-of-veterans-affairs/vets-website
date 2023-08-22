@@ -204,7 +204,7 @@ const PreSubmitSignature = ({
           id="veteran-certify"
           label="By checking this box, I certify that the information in this request is true and correct to the best of my knowledge and belief."
           checked={certifyChecked}
-          onVaChange={value => setCertifyChecked(value)}
+          onVaChange={value => setCertifyChecked(value.detail.checked)}
           aria-describedby="vet-certify"
           error={
             certifyCheckboxError
@@ -230,7 +230,7 @@ const PreSubmitSignature = ({
         showError={
           privacyCheckboxError && 'You must accept by checking the box.'
         }
-        onVaChange={value => setPrivacyChecked(value)}
+        onVaChange={value => setPrivacyChecked(value.detail.checked)}
       />
     </>
   );
