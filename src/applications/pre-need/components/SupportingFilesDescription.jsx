@@ -1,7 +1,7 @@
 import React from 'react';
 import environment from 'platform/utilities/environment';
 import { isVeteran } from '../utils/helpers';
-import SupportingFilesCollapsibleSection from './SupportingFilesCollapsibleSection';
+import CollapsibleList from './SupportingFilesCollapsibleList';
 
 export default function SupportingFilesDescription(props) {
   const sponsorOrVet = isVeteran(props.formData) ? '' : "sponsor's";
@@ -43,7 +43,7 @@ export default function SupportingFilesDescription(props) {
           </p>
         )}
         {!environment.isProduction() ? (
-          <SupportingFilesCollapsibleSection />
+          <CollapsibleList />
         ) : (
           <>
             <div>

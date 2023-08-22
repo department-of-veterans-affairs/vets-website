@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-const ExpandableSection = ({ header, pageContent }) => {
+const CollapsiblePanel = ({ header, pageContent }) => {
   const [open, setOpen] = useState(false);
 
   const headerClasses = classNames(
@@ -48,4 +48,4 @@ const ExpandableSection = ({ header, pageContent }) => {
   );
 };
 
-export default ExpandableSection;
+export default CollapsiblePanel;

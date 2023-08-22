@@ -1,8 +1,8 @@
 import React from 'react';
 import { Element } from 'react-scroll';
-import ExpandableSection from './ExpandableSection';
+import CollapsiblePanel from './CollapsiblePanel';
 
-const SupportingFilesCollapsibleSection = () => {
+const CollapsibleList = () => {
   return (
     <div id="SupportingFiles-collapsiblePanel">
       <Element name="chapterSupportingFilesScrollElement" />
@@ -19,7 +19,7 @@ const SupportingFilesCollapsibleSection = () => {
           </h3>
           <ul className="usa-unstyled-list">
             <li>
-              <ExpandableSection
+              <CollapsiblePanel
                 header="If you're applying for yourself"
                 pageContent={
                   <p>
@@ -32,7 +32,7 @@ const SupportingFilesCollapsibleSection = () => {
               />
             </li>
             <li>
-              <ExpandableSection
+              <CollapsiblePanel
                 header="If you're applying on behalf of someone else"
                 pageContent={
                   <>
@@ -99,7 +99,7 @@ const SupportingFilesCollapsibleSection = () => {
               />
             </li>
             <li>
-              <ExpandableSection
+              <CollapsiblePanel
                 header="Can I mail or fax documents?"
                 pageContent={
                   <>
@@ -142,4 +142,4 @@ const SupportingFilesCollapsibleSection = () => {
   );
 };
 
-export default SupportingFilesCollapsibleSection;
+export default CollapsibleList;
