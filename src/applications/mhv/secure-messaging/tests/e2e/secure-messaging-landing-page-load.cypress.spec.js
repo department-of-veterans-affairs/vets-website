@@ -20,4 +20,15 @@ describe('SM main page', () => {
   it('verify header', () => {
     SecureMessagingLandingPage.verifyHeader();
   });
+  it('verify text', () => {
+    // replace with proper assertion
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+  });
 });
