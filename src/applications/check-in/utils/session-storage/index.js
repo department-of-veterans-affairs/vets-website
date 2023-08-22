@@ -13,6 +13,7 @@ const createSessionStorageKeys = ({ isPreCheckIn = true }) => {
   if (!isPreCheckIn) {
     sessionStorageKeys.SHOULD_SEND_TRAVEL_PAY_CLAIM = `${namespace}.should.send.travel.pay.claim`;
     sessionStorageKeys.TRAVEL_CLAIM_DATA = `${namespace}.travel.claim.data`;
+    sessionStorageKeys.TRAVELPAY_SENT = `${namespace}.travel.pay.sent`;
   }
   return sessionStorageKeys;
 };
