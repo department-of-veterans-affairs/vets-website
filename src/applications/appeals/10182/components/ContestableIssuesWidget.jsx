@@ -76,7 +76,7 @@ const ContestableIssuesWidget = props => {
     () => {
       if (
         attempts < 1 &&
-        contestableIssues.status === FETCH_CONTESTABLE_ISSUES_FAILED
+        contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_FAILED
       ) {
         attempts += 1; // only attempt reload once
         getContestableIssues();
