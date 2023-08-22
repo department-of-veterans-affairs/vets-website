@@ -137,7 +137,7 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'transition-page': ({ afterHook }) => {
+      'skip-questions-explainer': ({ afterHook }) => {
         afterHook(() => {
           cy.get('h3').should(
             'have.text',
