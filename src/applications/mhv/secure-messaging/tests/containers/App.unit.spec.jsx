@@ -7,18 +7,18 @@ import App from '../../containers/App';
 import reducer from '../../reducers';
 
 describe('App', () => {
-  let oldLocation;
+  const originalReplace = window.location.replace;
+  let replace;
 
   beforeEach(() => {
-    oldLocation = global.window.location;
-    delete global.window.location;
-    global.window.location = {
-      replace: sinon.spy(),
-    };
+    replace = sinon.spy();
+    Object.defineProperty(window, 'location', {
+      value: { replace },
+    });
   });
 
   afterEach(() => {
-    global.window.location = oldLocation;
+    window.location.replace = originalReplace;
   });
   const initialState = {
     user: {
