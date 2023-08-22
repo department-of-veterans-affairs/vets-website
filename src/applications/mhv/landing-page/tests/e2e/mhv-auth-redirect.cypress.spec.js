@@ -29,7 +29,6 @@ describe(`${appName} -- Auth Redirect`, () => {
       cy.login(user);
       cy.visit(rootUrl);
       cy.get('h1').should('include.text', 'My HealtheVet');
-      // cy.axeCheck();
       cy.injectAxeThenAxeCheck();
     });
   });
