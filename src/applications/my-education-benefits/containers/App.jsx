@@ -77,7 +77,7 @@ export const App = ({
       if (!fetchedPersonalInfo || !fetchedContactInfo) {
         setFetchedPersonalInfo(true);
         setFetchedContactInfo(true);
-        getPersonalInfo(showMebCh33SelfForm);
+        getPersonalInfo(showMebCh33SelfForm, showMebEnhancements09);
       } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
@@ -96,6 +96,7 @@ export const App = ({
       isLoggedIn,
       setFormData,
       showMebCh33SelfForm,
+      showMebEnhancements09,
     ],
   );
 
