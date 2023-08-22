@@ -149,7 +149,7 @@ const formConfig = {
       pages: {
         claimOwnershipPage: {
           path: 'claim-ownership',
-          title: 'Who is submitting this statement?',
+          title: '',
           // needs form-level useCustomScrollAndFocus: true to work.
           // chapter's hideFormNavProgress interferes with scrollAndFocusTarget
           // so using a function here to ensure correct focusSelector is used
@@ -166,7 +166,7 @@ const formConfig = {
         },
         claimantTypePage: {
           path: 'claimant-type',
-          title: 'Who is submitting this statement?',
+          title: '',
           // see comment for scrollAndFocusTarget in claimOwnershipPage above
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: claimantType.uiSchema,
