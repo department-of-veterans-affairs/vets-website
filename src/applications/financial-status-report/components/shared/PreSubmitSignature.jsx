@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import environment from 'platform/utilities/environment';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaTextInput,
+  VaPrivacyAgreement,
+  VaCheckbox,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import {
   isStreamlinedLongForm,
   isStreamlinedShortForm,
@@ -62,26 +65,6 @@ const PreSubmitSignature = ({
   const setNewSignature = event => {
     setSignature({ value: event.target.value, dirty: true });
   };
-
-  const privacyLabel = (
-    <span className="description">
-      I have read and accept the
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        className="vads-u-margin-left--0p5"
-        href={`${environment.BASE_URL}/privacy-policy`}
-      >
-        privacy policy
-        <i
-          className="fas fa-arrow-up-right-from-square"
-          aria-hidden="true"
-          role="img"
-        />
-        <span className="sr-only">opens in a new window</span>
-      </a>
-    </span>
-  );
 
   const normalize = string => {
     if (!string) {
@@ -217,16 +200,17 @@ const PreSubmitSignature = ({
               : ''
           }
         />
-
-        <Checkbox
-          name="veteran-certify"
-          checked={certifyChecked}
-          onValueChange={value => setCertifyChecked(value)}
+        <VaCheckbox
+          id="veteran-certify"
           label="By checking this box, I certify that the information in this request is true and correct to the best of my knowledge and belief."
-          errorMessage={
+          checked={certifyChecked}
+          onVaChange={value => setCertifyChecked(value)}
+          aria-describedby="vet-certify"
+          error={
             certifyCheckboxError && 'You must certify by checking the box.'
           }
           required
+          enable-analytics
         />
       </article>
 
@@ -236,16 +220,14 @@ const PreSubmitSignature = ({
         could affect our decision on this request. Penalties may include a fine,
         imprisonment, or both.
       </p>
-      <Checkbox
-        name="privacy-policy"
-        className="vads-u-margin-bottom--3"
+      <VaPrivacyAgreement
+        required
         checked={privacyChecked}
-        onValueChange={value => setPrivacyChecked(value)}
-        label={privacyLabel}
-        errorMessage={
+        name="privacy-policy"
+        showError={
           privacyCheckboxError && 'You must accept by checking the box.'
         }
-        required
+        onVaChange={value => setPrivacyChecked(value)}
       />
     </>
   );
