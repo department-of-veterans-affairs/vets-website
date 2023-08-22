@@ -1,3 +1,5 @@
+export const APP_NAME = 'Notice of Disagreement';
+
 // feature flag for form update
 export const SHOW_PART3 = 'view:showPart3';
 
@@ -24,7 +26,6 @@ export const MAX_LENGTH = {
   EXTENSION_REASON: 2300, // in v2 schema
 };
 
-export const LAST_ISSUE = 'lastNodItem'; // focus management across pages
 export const REVIEW_ISSUES = 'onReviewPageIssues';
 
 export const CONTESTABLE_ISSUES_PATH = 'contestable-issues';

@@ -13,6 +13,8 @@ import {
   EvidenceUploadDescription,
 } from '../content/EvidenceUpload';
 
+import { createPayload } from '../../shared/utils/upload';
+
 const focusFileCard = name => {
   const target = $$('.schemaform-file-list li').find(entry =>
     entry.textContent?.trim().includes(name),
@@ -30,17 +32,7 @@ export const evidenceUploadUI = {
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
     minSize: 1024,
-    createPayload: (file, _formId, password) => {
-      const payload = new FormData();
-      payload.append('decision_review_evidence_attachment[file_data]', file);
-      if (password) {
-        payload.append(
-          'decision_review_evidence_attachment[password]',
-          password,
-        );
-      }
-      return payload;
-    },
+    createPayload,
     parseResponse: (response, { name }) => {
       setTimeout(() => {
         focusFileCard(name);

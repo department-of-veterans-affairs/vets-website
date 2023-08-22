@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { SHOW_PART3 } from '../../constants';
-import { getDate } from '../../../shared/utils/dates';
 
 import {
   getEligibleContestableIssues,
@@ -16,6 +15,7 @@ import {
 } from '../../utils/submit';
 
 import { SELECTED } from '../../../shared/constants';
+import { getDate } from '../../../shared/utils/dates';
 
 const validDate1 = getDate({ offset: { months: -2 } });
 const issue1 = {

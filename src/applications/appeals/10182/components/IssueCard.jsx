@@ -172,7 +172,11 @@ export const IssueCard = ({
               aria-describedby={`issue-${index}-description`}
               aria-labelledby={`issue-${index}-title`}
             />
-            <label className="schemaform-label" htmlFor={elementId}>
+            <label
+              className="schemaform-label"
+              htmlFor={elementId}
+              data-dd-action-name="contestable issue"
+            >
               {' '}
             </label>
           </div>
