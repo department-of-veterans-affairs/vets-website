@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import IconUser from '@department-of-veterans-affairs/component-library/IconUser';
+import { VaIcon } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import PersonalizationDropDownPanel from './PersonalizationDropDownPanel';
 import PersonalizationDropdown from './PersonalizationDropdown';
 
 function SignInProfileMenu({ greeting, clickHandler, isOpen, disabled }) {
-  const icon = <IconUser color="#fff" role="presentation" />;
+  const icon = <VaIcon icon="person" size={15} />;
 
   return (
     <div>
