@@ -4,7 +4,7 @@ import { issueErrorMessages } from '../content/addIssue';
 import {
   noneSelected,
   maxSelectedErrorMessage,
-} from '../content/contestableIssues';
+} from '../../shared/content/contestableIssues';
 import { missingAreaOfDisagreementErrorMessage } from '../content/areaOfDisagreement';
 import { MAX_LENGTH } from '../../shared/constants';
 
