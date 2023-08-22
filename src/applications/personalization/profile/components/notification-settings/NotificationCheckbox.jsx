@@ -98,7 +98,6 @@ export const NotificationCheckbox = ({
       {!errorMessage && !successMessage && loadingSpan}
       <VaCheckbox
         checked={checked}
-        enable-analytics
         label={label}
         onVaChange={handleChange}
         data-testid={checkboxId}
