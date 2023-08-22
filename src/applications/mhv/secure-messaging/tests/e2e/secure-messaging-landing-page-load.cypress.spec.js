@@ -1,12 +1,13 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import MainMessagesPage from './pages/MainMessagesPage';
+import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
 
 describe('SM main page', () => {
-  it('axe check', () => {
+  beforeEach(() => {
     const site = new SecureMessagingSite();
     site.login();
-    MainMessagesPage.loadMainPage();
-
+    SecureMessagingLandingPage.loadMainPage();
+  });
+  it('axe check', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -15,5 +16,8 @@ describe('SM main page', () => {
         },
       },
     });
+  });
+  it('verify header', () => {
+    SecureMessagingLandingPage.verifyHeader();
   });
 });

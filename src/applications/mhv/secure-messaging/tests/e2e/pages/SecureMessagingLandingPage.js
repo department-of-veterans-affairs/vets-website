@@ -5,7 +5,7 @@ import mockRecipients from '../fixtures/generalResponses/recipients.json';
 import mockCategories from '../fixtures/generalResponses/categories.json';
 import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 
-class MainMessagesPage {
+class SecureMessagingLandingPage {
   loadMainPage = () => {
     cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
       'featureToggles',
@@ -47,6 +47,10 @@ class MainMessagesPage {
     cy.wait('@categories');
     cy.wait('@generalFolder');
   };
+
+  verifyHeader = () => {
+    cy.get('h1').should('have.text', 'Messages');
+  };
 }
 
-export default new MainMessagesPage();
+export default new SecureMessagingLandingPage();
