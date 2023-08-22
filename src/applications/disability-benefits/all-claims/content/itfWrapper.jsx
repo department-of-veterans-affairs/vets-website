@@ -7,7 +7,7 @@ import { recordEventOnce } from 'platform/monitoring/record-event';
 
 // EVSS returns dates like '2014-07-28T19:53:45.810+0000'
 const evssDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
-const outputDateFormat = 'MMMM DD, YYYY';
+const outputDateFormat = 'LLLL';
 const displayDate = dateString =>
   moment(dateString, evssDateFormat).format(outputDateFormat);
 
