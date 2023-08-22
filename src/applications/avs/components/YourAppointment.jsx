@@ -13,18 +13,15 @@ const clinicsVisited = avs => {
         <h3>
           {getFormattedAppointmentTime(clinic.time)} {shortTimezone}
         </h3>
-        <ul>
-          {/* TODO: use H4 for clinic name */}
-          <li className="clinic-information" key="clinicSite">
-            <i
-              className="fas fa-building"
-              aria-hidden="true"
-              data-testid="appointment-icon"
-            />
-            {clinic.site}
-          </li>
-          <li key="clinicName">Clinic: {clinic.clinic}</li>
-        </ul>
+        <h4 className="clinic-information" key="clinicSite">
+          <i
+            className="fas fa-building"
+            aria-hidden="true"
+            data-testid="appointment-icon"
+          />
+          {clinic.site}
+        </h4>
+        <p key="clinicName">Clinic: {clinic.clinic}</p>
       </div>
     );
   });
