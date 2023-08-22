@@ -2,6 +2,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { waitFor } from '@testing-library/dom';
 
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
@@ -90,7 +91,7 @@ describe(`${appName} -- <App /> container`, () => {
   });
 
   describe('redirects when', () => {
-    const originalReplace = window.location.replace;
+    const originalLocation = window.location;
     let replace;
 
     beforeEach(() => {
@@ -101,32 +102,38 @@ describe(`${appName} -- <App /> container`, () => {
     });
 
     afterEach(() => {
-      window.location.replace = originalReplace;
+      window.location = originalLocation;
     });
 
-    it('feature toggle is disabled', () => {
+    it('feature toggle is disabled', async () => {
       const initialState = stateFn({ mhv_landing_page_enabled: false });
       const { getByTestId } = setup({ initialState });
       getByTestId('mhv-landing-page-loading');
-      expect(replace.calledOnce).to.be.true;
+      await waitFor(() => {
+        expect(replace.calledOnce).to.be.true;
+      });
     });
 
-    it('signed in with DS Logon', () => {
+    it('signed in with DS Logon', async () => {
       const initialState = stateFn({ serviceName: CSP_IDS.DS_LOGON });
       const { getByTestId } = setup({ initialState });
       getByTestId('mhv-landing-page-loading');
-      expect(replace.calledOnce).to.be.true;
+      await waitFor(() => {
+        expect(replace.calledOnce).to.be.true;
+      });
     });
 
-    it('user has a Cerner facility', () => {
+    it('user has a Cerner facility', async () => {
       const facilities = [{ facilityId: '668' }];
       const initialState = stateFn({ facilities });
       const { getByTestId } = setup({ initialState });
       getByTestId('mhv-landing-page-loading');
-      expect(replace.calledOnce).to.be.true;
+      await waitFor(() => {
+        expect(replace.calledOnce).to.be.true;
+      });
     });
 
-    it('user has one Cerner facility', () => {
+    it('user has one Cerner facility', async () => {
       const facilities = [
         { facilityId: '655' },
         { facilityId: '668' },
@@ -135,14 +142,18 @@ describe(`${appName} -- <App /> container`, () => {
       const initialState = stateFn({ facilities });
       const { getByTestId } = setup({ initialState });
       getByTestId('mhv-landing-page-loading');
-      expect(replace.calledOnce).to.be.true;
+      await waitFor(() => {
+        expect(replace.calledOnce).to.be.true;
+      });
     });
 
-    it('user has no facilities', () => {
+    it('user has no facilities', async () => {
       const initialState = stateFn({ facilities: [] });
       const { getByTestId } = setup({ initialState });
       getByTestId('mhv-landing-page-loading');
-      expect(replace.calledOnce).to.be.true;
+      await waitFor(() => {
+        expect(replace.calledOnce).to.be.true;
+      });
     });
   });
 });
