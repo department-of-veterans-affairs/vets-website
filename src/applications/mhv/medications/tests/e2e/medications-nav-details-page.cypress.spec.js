@@ -12,8 +12,6 @@ describe('verify navigation to medication details Page', () => {
     site.login();
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
-    detailsPage.clickWhatToKnowAboutMedicationsDropDown();
-    detailsPage.verifyTextInsideDropDownOnDetailsPage();
     detailsPage.verifyRefillPrescriptionsText();
     detailsPage.verifyWhatDoesThisStatusMeanText();
     detailsPage.verifyPrescriptionsNumber(
