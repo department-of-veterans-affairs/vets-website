@@ -1,7 +1,7 @@
 // platform imports
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
-import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 // internal app imports
 import manifest from '../manifest.json';
