@@ -27,9 +27,7 @@ describe('File input component', () => {
 
   it('should allow a file to be attached', async () => {
     const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
-    const screen = render(
-      <FileInput attachments={attachments} setAttachments={() => {}} />,
-    );
+    const screen = render(<FileInput attachments={attachments} />);
 
     const uploader = screen.getByTestId('attach-file-input');
 
