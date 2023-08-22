@@ -143,7 +143,7 @@ export default function UpcomingAppointmentLayout({
 }
 
 UpcomingAppointmentLayout.propTypes = {
-  featureStatusImprovement: PropTypes.bool,
   featureBreadcrumbUrlUpdate: PropTypes.bool,
+  featureStatusImprovement: PropTypes.bool,
   hashTable: PropTypes.object,
 };
