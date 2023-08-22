@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { externalApplicationsConfig } from '../usip-config';
 import {
   EXTERNAL_APPS,
@@ -8,8 +12,12 @@ import {
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
 import CreateAccountLink from './CreateAccountLink';
+import SignInAlertBox from './SignInAlertBox';
 
-export default function LoginActions({ externalApplication }) {
+export const LoginActions = ({
+  showsignInPageAndModalExperiment,
+  externalApplication,
+}) => {
   const [useOAuth, setOAuth] = useState();
   const { OAuth, redirectUri } = getQueryParams();
   const { allowedSignInProviders, allowedSignUpProviders, OAuthEnabled } =
@@ -34,26 +42,7 @@ export default function LoginActions({ externalApplication }) {
 
   return (
     <div className="row">
-      <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h2 id="track-your-status-on-mobile" slot="headline">
-          Sign in with your Login.gov or ID.me account
-        </h2>
-        <div>
-          <p className="vads-u-margin-y--0">
-            Soon all VA websites will follow a new, more secure sign-in process.
-            You’ll need to sign in using your Login.gov or ID.me account. So
-            you’re ready for the change, try signing in now with Login.gov or
-            ID.me.
-          </p>
-        </div>
-        <div>
-          <p className="vads-u-margin-y--0">
-            <a href="https://www.va.gov/resources/creating-an-account-for-vagov/">
-              Learn more about creating a Login.gov or ID.me account{' '}
-            </a>
-          </p>
-        </div>
-      </va-alert>
+      {showsignInPageAndModalExperiment && <SignInAlertBox />}
       <div className="columns small-12" id="sign-in-wrapper">
         {reduceAllowedProviders(allowedSignInProviders, isRegisteredApp).map(
           csp => (
@@ -84,4 +73,16 @@ export default function LoginActions({ externalApplication }) {
       </div>
     </div>
   );
-}
+};
+
+LoginActions.propTypes = {
+  showsignInPageAndModalExperiment: PropTypes.bool,
+};
+
+const mapStateToProps = state => ({
+  showsignInPageAndModalExperiment: toggleValues(state)[
+    FEATURE_FLAG_NAMES.signInPageAndModalExperimentLga
+  ],
+});
+
+export default connect(mapStateToProps)(LoginActions);
