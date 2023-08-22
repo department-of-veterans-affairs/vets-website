@@ -18,7 +18,7 @@ export const NotificationChannelCheckboxesFieldset = ({
     'vads-u-margin--0',
   );
 
-  const fieldsetClasses = classNames(
+  const fieldsetWrapperClasses = classNames(
     'vads-u-position--relative',
     'vads-u-border-left--4px',
     'vads-u-padding-left--1p5',
@@ -33,7 +33,7 @@ export const NotificationChannelCheckboxesFieldset = ({
   );
 
   return (
-    <div className={fieldsetClasses}>
+    <div data-testid="fieldset-wrapper" className={fieldsetWrapperClasses}>
       <fieldset disabled={hasSomePendingUpdates}>
         <legend className="vads-u-padding--0">
           <h3 className={legendHeadingClasses}>{itemName}</h3>
