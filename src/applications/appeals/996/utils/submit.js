@@ -1,15 +1,15 @@
-import {
-  SELECTED,
-  CONFERENCE_TIMES_V2,
-  MAX_LENGTH,
-  SUBMITTED_DISAGREEMENTS,
-} from '../constants';
+import { CONFERENCE_TIMES_V2 } from '../constants';
 import {
   replaceSubmittedData,
   fixDateFormat,
 } from '../../shared/utils/replace';
 import { returnUniqueIssues } from '../../shared/utils/issues';
 import '../../shared/definitions';
+import {
+  SELECTED,
+  MAX_LENGTH,
+  SUBMITTED_DISAGREEMENTS,
+} from '../../shared/constants';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`

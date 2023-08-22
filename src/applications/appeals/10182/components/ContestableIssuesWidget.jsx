@@ -8,23 +8,23 @@ import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { IssueCard } from './IssueCard';
-import { LAST_ISSUE, REVIEW_ISSUES } from '../constants';
+import { REVIEW_ISSUES, APP_NAME } from '../constants';
+
+import { SELECTED, MAX_LENGTH, LAST_ISSUE } from '../../shared/constants';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
   NoneSelectedAlert,
   MaxSelectionsAlert,
   removeModalContent,
-} from '../content/contestableIssues';
-import { focusIssue } from '../utils/focus';
-
-import { MAX_LENGTH, SELECTED } from '../../shared/constants';
+} from '../../shared/content/contestableIssues';
 import { isEmptyObject } from '../../shared/utils/helpers';
 import {
   getSelected,
   someSelected,
   calculateIndexOffset,
 } from '../../shared/utils/issues';
+import { focusIssue } from '../../shared/utils/focus';
 
 /**
  * ContestableIssuesWidget - Form system parameters passed into this widget
@@ -91,12 +91,17 @@ const ContestableIssuesWidget = props => {
   const [showNoLoadedIssues] = useState(items.length === 0);
 
   if (onReviewPage && inReviewMode && items.length && !hasSelected) {
-    return <NoneSelectedAlert count={items.length} headerLevel={5} />;
+    return (
+      <NoneSelectedAlert
+        count={items.length}
+        headerLevel={5}
+        inReviewMode={inReviewMode}
+      />
+    );
   }
 
   const handlers = {
     closeModal: () => setShowErrorModal(false),
-
     onChange: (index, event) => {
       let { checked } = event.target;
       if (checked && getSelected(formData).length + 1 > MAX_LENGTH.SELECTIONS) {
@@ -124,7 +129,6 @@ const ContestableIssuesWidget = props => {
         });
       }
     },
-
     onShowRemoveModal: cardIndex => {
       const adjustedIndex = calculateIndexOffset(cardIndex, value.length);
       setRemoveIndex(adjustedIndex);
@@ -175,19 +179,19 @@ const ContestableIssuesWidget = props => {
     return hideCard ? null : <IssueCard {...cardProps} />;
   });
 
-  const showNoIssues =
-    showNoLoadedIssues && (!onReviewPage || (onReviewPage && inReviewMode));
+  const showNoIssues = showNoLoadedIssues && !onReviewPage;
 
   return (
     <>
       <div name="eligibleScrollElement" />
       {showNoIssues && <NoIssuesLoadedAlert />}
       {!showNoIssues &&
-        submitted &&
-        !hasSelected && (
+        !hasSelected &&
+        (onReviewPage || submitted) && (
           <NoneSelectedAlert
             count={value.length}
             headerLevel={onReviewPage ? 4 : 3}
+            inReviewMode={inReviewMode}
           />
         )}
       <fieldset className="review-fieldset">
@@ -229,7 +233,11 @@ const ContestableIssuesWidget = props => {
           </Link>
         )}
         {showErrorModal && (
-          <MaxSelectionsAlert showModal closeModal={handlers.closeModal} />
+          <MaxSelectionsAlert
+            showModal
+            closeModal={handlers.closeModal}
+            appName={APP_NAME}
+          />
         )}
       </fieldset>
     </>
