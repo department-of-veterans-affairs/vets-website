@@ -90,23 +90,17 @@ describe(`${appName} -- <App /> container`, () => {
   });
 
   describe('redirects when', () => {
-    let originalWindow;
+    let originalReplace;
     let replace;
 
     beforeEach(() => {
-      originalWindow = global.window;
-      global.window = Object.create(global.window);
+      originalReplace = global.window.location.replace;
       replace = sinon.spy();
-      Object.assign(global.window, {
-        pathname: '',
-        location: {
-          replace,
-        },
-      });
+      global.window.location.replace = replace;
     });
 
     afterEach(() => {
-      global.window = originalWindow;
+      global.window.location.replace = originalReplace;
     });
 
     it('feature toggle is disabled', () => {
