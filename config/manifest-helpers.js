@@ -24,7 +24,7 @@ function getAppManifests() {
 
 function getAppRoutes({ buildOptions }) {
   const { buildtype } = buildOptions;
-  const isStagingOrDev = buildtype.includes('localhost' || 'staging');
+  const isStagingOrDev = !buildtype.includes('vagovprod');
   return getAppManifests()
     .map(m => (isStagingOrDev && m.newRootUrl ? m.newRootUrl : m.rootUrl))
     .filter(m => m);

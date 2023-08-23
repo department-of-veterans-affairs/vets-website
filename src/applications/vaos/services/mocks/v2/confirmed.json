@@ -539,6 +539,107 @@
       }
     },
     {
+      "id": "181104",
+      "type": "appointments",
+      "attributes": {
+          "id": "181104",
+          "identifier": [
+              {
+                  "system": "Appointment/",
+                  "value": "4139383435363834"
+              },
+              {
+                  "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+                  "value": "984:5684"
+              },
+              {
+                  "system": "http://med.va.gov/fhir/urn/vaos/vvs/id",
+                  "value": "e4f2d951-7131-ee11-bdf5-001dd8076593"
+              }
+          ],
+          "kind": "telehealth",
+          "status": "booked",
+          "serviceType": "primaryCare",
+          "serviceCategory": [
+              {
+                  "coding": [
+                      {
+                          "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                          "code": "REGULAR",
+                          "display": "REGULAR"
+                      }
+                  ],
+                  "text": "REGULAR"
+              }
+          ],
+          "patientIcn": "1012667219V959720",
+          "locationId": "984GA",
+          "clinic": "4518",
+          "start": "2023-09-28T16:00:00Z",
+          "end": "2023-09-28T16:30:00Z",
+          "minutesDuration": 30,
+          "slot": {
+              "id": "3230323330393238313630303A323032333039323831363330",
+              "start": "2023-09-28T16:00:00Z",
+              "end": "2023-09-28T16:30:00Z"
+          },
+          "created": "2023-08-02T00:00:00Z",
+          "cancellable": false,
+          "telehealth": {
+              "url": "https://pexip.mapsandbox.net/vvc-app/?join=1&media=1&escalate=1&conference=TMPX2097683@pexip.mapsandbox.net&pin=5243773486#",
+              "group": false,
+              "vvsKind": "MOBILE_ANY"
+          },
+          "extension": {
+              "ccLocation": {
+                  "address": {}
+              }
+          },
+          "localStartTime": "2023-09-28T12:00:00.000-04:00",
+          "serviceName": "MID-VAOS PC MD VVC",
+          "friendlyName": "MID-VAOS PC MD VVC",
+          "physicalLocation": "MIDDLETOWN",
+          "location": {
+              "id": "984GA",
+              "type": "appointments",
+              "attributes": {
+                  "id": "984GA",
+                  "vistaSite": "984",
+                  "vastParent": "984",
+                  "type": "va_health_facility",
+                  "name": "Middletown VA Clinic",
+                  "classification": "Multi-Specialty CBOC",
+                  "timezone": {
+                      "timeZoneId": "America/New_York"
+                  },
+                  "lat": 39.50603,
+                  "long": -84.316475,
+                  "website": "https://www.dayton.va.gov/locations/midtwn_cboc.asp",
+                  "phone": {
+                      "main": "513-423-8387"
+                  },
+                  "physicalAddress": {
+                      "type": "physical",
+                      "line": [
+                          "4337 North Union Road"
+                      ],
+                      "city": "Middletown",
+                      "state": "OH",
+                      "postalCode": "45005-5211"
+                  },
+                  "healthService": [
+                      "Audiology",
+                      "MentalHealthCare",
+                      "Optometry",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "SpecialtyCare"
+                  ]
+              }
+          }
+      }
+  },
+    {
       "id": "110143CC",
       "type": "appointments",
       "attributes": {
