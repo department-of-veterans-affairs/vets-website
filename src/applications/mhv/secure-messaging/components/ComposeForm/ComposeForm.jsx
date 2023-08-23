@@ -24,6 +24,7 @@ import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import {
   draftAutoSaveTimeout,
   Categories,
+  DefaultFolders,
   Prompts,
   ErrorMessages,
 } from '../../util/constants';
@@ -149,6 +150,10 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (sendMessageFlag && isSaving !== true) {
+        const navigateToFolder = navigateToFolderByFolderId(
+          currentFolder?.folderId || DefaultFolders.INBOX.id,
+          history,
+        );
         const messageData = {
           category,
           body: messageBody,
@@ -161,13 +166,11 @@ const ComposeForm = props => {
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
           dispatch(sendMessage(sendData, true))
-            .then(() =>
-              navigateToFolderByFolderId(currentFolder?.folderId || 0, history),
-            )
+            .then(() => navigateToFolder)
             .catch(setSendMessageFlag(false));
         } else {
-          dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
-            navigateToFolderByFolderId(currentFolder?.folderId || 0, history),
+          dispatch(sendMessage(JSON.stringify(messageData), false)).then(
+            () => navigateToFolder,
           );
         }
       }

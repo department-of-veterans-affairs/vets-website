@@ -181,7 +181,7 @@ const ManageFolderButtons = () => {
             onClick={confirmDelFolder}
           />
           <va-button
-            secondary="true"
+            secondary
             text="No, keep this folder"
             onClick={closeDelModal}
           />
