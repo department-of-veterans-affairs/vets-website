@@ -22,10 +22,7 @@ export default function TermsOfUse() {
         <a href="/">Home</a>
         <a href="#terms-of-use">VA online services terms of use</a>
       </va-breadcrumbs>
-      <section
-        className="vads-l-grid-container vads-u-padding-y--5 vads-u-padding-x--0"
-        id="terms-of-use"
-      >
+      <section className="vads-l-grid-container vads-u-padding-y--5 vads-u-padding-x--0">
         <div className="usa-content">
           <h1>VA online services terms of use</h1>
           <p className="va-introtext">
@@ -33,25 +30,26 @@ export default function TermsOfUse() {
             to accept the terms of use. We recently updated the terms. Read the
             updated terms on this page. Then confirm if you accept or not.
           </p>
-          <div id="terms-of-use-metadata">
-            <p>
-              Version: 1<br />
-              Last updated: {new Date().toLocaleDateString()}
-            </p>
-            <p>
-              If you want to save or print the terms, you can download a copy
-              now.
-            </p>
-            <va-link
-              href="#download"
-              download
-              fileType="PDF"
-              pages={6}
-              text="Download VA online services terms of use"
-            />
-          </div>
-          <div id="terms-of-use-content">
-            <h2>Terms of Use</h2>
+          <article>
+            <va-on-this-page />
+            <div>
+              <p>
+                Version: 1<br />
+                Last updated: {new Date().toLocaleDateString()}
+              </p>
+              <p>
+                If you want to save or print the terms, you can download a copy
+                now.
+              </p>
+              <va-link
+                href="#download"
+                download
+                fileType="PDF"
+                pages={6}
+                text="Download VA online services terms of use"
+              />
+            </div>
+            <h2 id="terms-of-use">Terms of use</h2>
             <p>
               The Department of Veterans Affairs (VA) owns and manages VA.gov
               and the My HealtheVet health management portal. VA.gov allows you
@@ -68,7 +66,7 @@ export default function TermsOfUse() {
                 }).map((_, i) => (
                   <va-accordion-item
                     header={`${formatOrdinals(i + 1)}`}
-                    level={4}
+                    level={3}
                     key={i}
                   >
                     This is some long summary that needs to see some information
@@ -77,17 +75,20 @@ export default function TermsOfUse() {
                 ))}
               </va-accordion>
             </div>
-          </div>
-          <div id="terms-of-use-alert">
-            <h2>Getting VA benefits and services if you don’t accept</h2>
+            <h2 id="getting-va-benefits-and-services">
+              Getting VA benefits and services if you don’t accept
+            </h2>
             <p>
-              Your decision decline these terms won’t affect your eligibility
+              Your decision to decline these terms won’t affect your eligibility
               for VA health care and benefits in any way. You can still get VA
-              health care and benefits without using online services. If you
-              need help or have questions, <SubmitSignInForm /> We’re here 24/7.
+              health care and benefits in-person without using online services.
+              If you need help or have questions, <SubmitSignInForm /> We’re
+              here 24/7.
             </p>
             <va-alert status="warning" visible>
-              <h3 slot="headline">What will happen if you decline?</h3>
+              <h3 slot="headline" id="what-happens-if-you-decline">
+                What will happen if you decline?
+              </h3>
               <p>
                 If you decline these terms, we'll automatically sign you out and
                 take you back to the VA.gov homepage. And you won't be able to
@@ -110,9 +111,9 @@ export default function TermsOfUse() {
                 <li>Update your personal information</li>
               </ul>
             </va-alert>
-          </div>
-          <div id="terms-of-use-actions">
-            <h2>Do you accept these Terms of Use?</h2>
+            <h2 id="do-you-accept-of-terms-of-use">
+              Do you accept these terms of use?
+            </h2>
             <va-button
               text="Accept"
               onClick={() => {}}
@@ -124,7 +125,7 @@ export default function TermsOfUse() {
               ariaLabel="I decline to VA online serivices terms of use"
               onClick={() => {}}
             />
-          </div>
+          </article>
         </div>
       </section>
     </>
