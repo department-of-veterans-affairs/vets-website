@@ -1,6 +1,8 @@
 import constants from 'vets-json-schema/dist/constants.json';
 // import schema from 'vets-json-schema/dist/20-0996-schema.json';
 
+export const APP_NAME = 'Higher-Level Review';
+
 // *** URLS ***
 export const HLR_INFO_URL = '/decision-reviews/higher-level-review/';
 // Same as "rootUrl" in manifest.json
