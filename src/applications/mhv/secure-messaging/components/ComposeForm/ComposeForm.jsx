@@ -64,7 +64,7 @@ const ComposeForm = props => {
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const fullState = useSelector(state => state);
-  const currentFolder = useSelector(state => state.sm.folders.folder);
+  const currentFolder = useSelector(state => state.sm.folders?.folder);
   const signature = useSelector(state => state.sm.preferences.signature);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
