@@ -1,13 +1,190 @@
 import React, { useEffect, useState } from 'react';
 import { apiRequest } from 'platform/utilities/api';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { formatSSN } from 'platform/utilities/ui';
+
+const convertDateFormat = date =>
+  date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
+
+const locationOfDeath = {
+  nursingHome: 'Nursing home',
+};
+
+const renderFields = [
+  {
+    title: 'Claimant information',
+    id: 'claimant-information',
+  },
+  {
+    title: 'Deceased Veteran information',
+    id: 'deceased-veteran-information',
+  },
+  {
+    title: 'Military history',
+    id: 'military-history',
+  },
+  {
+    title: 'Benefits selection',
+    id: 'benefits-selection',
+  },
+  {
+    title: 'Additional information',
+    id: 'additional-information',
+  },
+];
+
+const generateData = (type, formData) => {
+  switch (type) {
+    case 'claimant-information':
+      return {
+        'Claimant’s first name': formData.claimantFullName.first,
+        'Claimant’s middle name': formData.claimantFullName?.middle ?? 'None',
+        'Claimant’s last name': formData.claimantFullName.last,
+        Suffix: formData.claimantFullName?.suffix ?? 'None',
+        'Relationship to the deceased Veterans': formData.relationship.type,
+      };
+    case 'deceased-veteran-information':
+      return {
+        'Veteran’s first name': formData.veteranFullName.first,
+        'Veteran’s middle name': formData.veteranFullName?.middle ?? 'None',
+        'Veteran’s last name': formData.veteranFullName.last,
+        Suffix: formData.veteranFullName?.suffix ?? 'None',
+        'Social Security number': formatSSN(
+          formData.veteranSocialSecurityNumber,
+        ),
+        'VA file number': formData.vaFileNumber,
+        'Date of birth': convertDateFormat(formData.veteranDateOfBirth),
+        'Place of birth (city and state or foreign country)':
+          formData?.placeOfBirth ?? 'None',
+        'Burial information': {
+          'Date of death': convertDateFormat(formData.deathDate),
+          'Date of burial (includes cremation or interment)': convertDateFormat(
+            formData.burialDate,
+          ),
+          'Where did the Veteran’s death occur?':
+            locationOfDeath[formData.locationOfDeath.location],
+        },
+      };
+    case 'military-history':
+      return {
+        'Previous names': {
+          'Did the Veteran serve under another name?':
+            formData.previousNames.length > 0 ? formData.previousNames : 'No',
+        },
+      };
+    case 'benefits-selection':
+      return {
+        'General selection': {
+          'Burial allowance': 'Selected',
+          'Plot or interment allowance (Check this box if you incurred expensed for the plot to bury the Veteran’s remains.)':
+            'Selected',
+          'Transportation expenses (Transportation of the Veteran’s remains from the place of death to the final resting place)':
+            'None',
+        },
+        'Burial allowance': {
+          'Type of burial allowance':
+            'Service-connected death (for a Veteran death related to, or resulting from, a service-connected disability)',
+          'Did you previously receive a VA burial allowance?': 'Yes',
+        },
+        'Plot or interment allowance': {
+          'Place of burial or location of deceased Veteran’s remains':
+            'Arlington Cemetary',
+          'Was the Veteran buried in a state Veterans cemetary?': 'Yes',
+          'Did a federal/state government or the Veteran’s employer contribute to the burial? (Not including employer life insurance)':
+            'No',
+        },
+      };
+    case 'additional-information':
+      return {
+        'Claimant contact information': {
+          Address: 'render address',
+          'Email address': 'render email',
+          'Phone number': 'render phone',
+        },
+      };
+    default:
+      return {};
+  }
+};
+
+const ArrayComponent = ({ value }) => {
+  return value.map((name, index) => (
+    <va-card key={index}>
+      <p>
+        <strong>First: </strong>
+        {name.first}
+      </p>
+      <p>
+        <strong>Middle: </strong>
+        {name.middle ? name.middle : 'None'}
+      </p>
+      <p>
+        <strong>Last: </strong>
+        {name.last}
+      </p>
+      <p>
+        <strong>Suffix: </strong>
+        {name.suffix ? name.suffix : 'None'}
+      </p>
+    </va-card>
+  ));
+};
+
+const h3Subsections = [
+  'Burial Information',
+  'Previous names',
+  'General selection',
+  'Burial allowance',
+  'Plot or interment allowance',
+  'Claimant contact information',
+];
+
+const CreateSummarySections = ({
+  title = '',
+  id = '',
+  formData = {},
+  bypassData = false,
+}) => {
+  const data = !bypassData ? generateData(id, formData) : formData;
+
+  // console.log(data);
+  return (
+    <>
+      {!bypassData ? (
+        <>
+          <h2 id={id}>{title}</h2>
+          <hr />
+        </>
+      ) : null}
+      <div>
+        {Object.entries(data).map(([key, value]) => (
+          <React.Fragment key={key}>
+            {h3Subsections.includes(key) && typeof value !== 'string' ? (
+              <>
+                <h3>{key}</h3>
+                <CreateSummarySections formData={value} bypassData />
+              </>
+            ) : (
+              <>
+                <p className="vads-u-color--gray">{key}</p>
+
+                {Array.isArray(value) ? (
+                  <ArrayComponent value={value} />
+                ) : (
+                  <p>{value}</p>
+                )}
+              </>
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+    </>
+  );
+};
 
 export const NoFormPage = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     // Example endpoint; update with the specific resource you want to fetch
@@ -48,9 +225,6 @@ export const NoFormPage = () => {
 
   const { formData } = data;
 
-  const convertDateFormat = date =>
-    date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
-
   return (
     <div className="row vads-u-margin-bottom--4">
       <h1>Review Burial Benefits Application</h1>
@@ -80,63 +254,13 @@ export const NoFormPage = () => {
           <h3>Send application by mail</h3>
           <p>Fill out an Application for Burial (VA Form 21P-530EZ).</p>
           <div>
-            <button
-              className="find-forms-max-content vads-u-text-decoration--none"
-              data-testid="pdf-link-10654"
-              id="pdf-link-10654"
-              type="button"
-              onClick={() => {
-                setShowModal(true);
-              }}
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-download fa-lg vads-u-margin-right--1"
-                role="presentation"
-              />
-              <span lang="en" className="vads-u-text-decoration--underline">
-                Download VA Form 21P-530EZ (PDF)
-              </span>
-            </button>
-            <VaModal
-              modalTitle="Download this PDF and open it in Acrobat Reader"
-              onCloseEvent={() => {
-                setShowModal(false);
-              }}
-              onPrimaryButtonClick={function noRefCheck() {}}
-              onSecondaryButtonClick={function noRefCheck() {}}
-              status="info"
-              visible={showModal}
-            >
-              <p>
-                Download this PDF to your desktop computer or laptop. Then use
-                Adobe Acrobat Reader to open and fill out the form. Don’t try to
-                open the PDF on a mobile device or fill it out in your browser.
-              </p>
-              <p>
-                If you want to fill out a paper copy, open the PDF in your
-                browser and print it from there.
-              </p>
-              <a href="https://get.adobe.com/reader/" rel="noopener noreferrer">
-                Get Acrobat Reader for free from Adobe
-              </a>
-              <p />
-              <a
-                href="https://www.vba.va.gov/pubs/forms/VBA-21P-530EZ-ARE.pdf"
-                className="vads-u-margin-top--2"
-                rel="noreferrer noopener"
-                target="_blank"
-              >
-                <i
-                  aria-hidden="true"
-                  className="fas fa-download fa-lg vads-u-margin-right--1"
-                  role="presentation"
-                />
-                <span className="vads-u-text-decoration--underline">
-                  Download VA Form 21P-530EZ
-                </span>
-              </a>
-            </VaModal>
+            <va-link
+              download
+              filetype="PDF"
+              href="https://www.vba.va.gov/pubs/forms/VBA-21P-530EZ-ARE.pdf"
+              pages={8}
+              text="Download VA form 21P-530EZ"
+            />
             <p>
               Mail the completed form to the pension management center (PMC)
             </p>
@@ -151,114 +275,13 @@ export const NoFormPage = () => {
             </p>
             <article>
               <va-on-this-page />
-              <h2 id="claimant-information">Claimant information</h2>
-              <hr />
-              <div>
-                <p className="vads-u-color--gray">Claimant’s first name</p>
-                <p>{formData.claimantFullName.first}</p>
-                <br />
-                <p className="vads-u-color--gray">Claimant’s middle name</p>
-                <p>{formData.claimantFullName.middle}</p>
-                <br />
-                <p className="vads-u-color--gray">Claimant’s last name</p>
-                <p>{formData.claimantFullName.last}</p>
-                <br />
-                <p className="vads-u-color--gray">Suffix</p>
-                <p>{formData.claimantFullName.suffix}</p>
-                <br />
-                <p className="vads-u-color--gray">
-                  Relationship to the deceased Veteran
-                </p>
-                <p>{formData.relationship.type}</p>
-              </div>
-              <h2 id="deceased-veteran-information">
-                Deceased Veteran information
-              </h2>
-              <hr />
-              <p className="vads-u-color--gray">Veteran’s first name</p>
-              <p>{formData.veteranFullName.first}</p>
-              <br />
-              <p v>Veteran’s middle name</p>
-              <p>{formData.veteranFullName.middle}</p>
-              <br />
-              <p className="vads-u-color--gray">Veteran’s last name</p>
-              <p>{formData.veteranFullName.last}</p>
-              <br />
-              <p className="vads-u-color--gray">Suffix</p>
-              <p>
-                {formData.veteranFullName.suffix
-                  ? formData.veteranFullName.suffix
-                  : 'None'}
-              </p>
-              <br />
-              <p className="vads-u-color--gray">Social Security number</p>
-              <p>{formatSSN(formData.veteranSocialSecurityNumber)}</p>
-              <br />
-              <p className="vads-u-color--gray">VA file number</p>
-              <p>{formData.vaFileNumber}</p>
-              <br />
-              <p className="vads-u-color--gray">Date of birth</p>
-              <p>{convertDateFormat(formData.veteranDateOfBirth)}</p>
-              <br />
-              <p className="vads-u-color--gray">
-                Place of birth (city and state or foreign country)
-              </p>
-              <p>{formData.placeOfBirth ? formData.placeOfBirth : 'None'}</p>
-              <h3>Burial information</h3>
-              <p className="vads-u-color--gray">Date of death</p>
-              <p>{convertDateFormat(formData.deathDate)}</p>
-              <br />
-              <p className="vads-u-color--gray">
-                Date of burial (includes cremation or interment)
-              </p>
-              <p>{convertDateFormat(formData.burialDate)}</p>
-              <br />
-              <p className="vads-u-color--gray">
-                Where did the Veteran’s death occur?
-              </p>
-              <p>{formData.locationOfDeath.location}</p>
-              <h2 id="military-history">Military history</h2>
-              <hr />
-              <h3>Previous names</h3>
-              <p className="vads-u-color--gray">
-                Did the Veteran serve under another name?
-              </p>
-              <p>
-                {formData.previousNames.length > 0
-                  ? formData.previousNames.map((name, index) => {
-                      return (
-                        <>
-                          <va-card key={index}>
-                            <p>
-                              <strong>First: </strong>
-                              {name.first}
-                            </p>
-                            <p>
-                              <strong>Middle: </strong>
-                              {name.middle ? name.middle : 'None'}
-                            </p>
-                            <p>
-                              <strong>Last: </strong>
-                              {name.last}
-                            </p>
-                            <p>
-                              <strong>Suffix: </strong>
-                              {name.suffix ? name.suffix : 'None'}
-                            </p>
-                          </va-card>
-                          <br />
-                        </>
-                      );
-                    })
-                  : 'No'}
-              </p>
-              <h2 id="benefits-selection">Benefits selection</h2>
-              <hr />
-              <h3>General Selection</h3>
-              <p className="vads-u-color--gray">Burial allowance</p>
-              <p />
-              <h2 id="additional-information">Additional information</h2>
-              <hr />
+              {renderFields.map(props => (
+                <CreateSummarySections
+                  {...props}
+                  formData={formData}
+                  key={props.id}
+                />
+              ))}
             </article>
           </div>
         </>
