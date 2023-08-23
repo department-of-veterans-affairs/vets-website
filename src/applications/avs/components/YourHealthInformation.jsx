@@ -143,8 +143,7 @@ const immunizations = avs => {
         <p>
           {immunization.name}
           <br />
-          {/* TODO: format date as January 1, 2022 */}
-          Date: {immunization.date}
+          Date: {formatDateLong(parseVistaDate(immunization.date))}
           <br />
           Facility: {immunization.facility}
         </p>
