@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -50,21 +50,22 @@ export const maxSelectedErrorMessage =
 
 // Not setting "visible" as a variable since we're controlling rendering at a
 // higher level
-export const MaxSelectionsAlert = ({ closeModal }) => (
+export const MaxSelectionsAlert = ({ closeModal, appName }) => (
   <VaModal
     modalTitle={maxSelectedErrorMessage}
     status="warning"
     onCloseEvent={closeModal}
     visible
   >
-    You are limited to {MAX_LENGTH.SELECTIONS} selected issues for each
-    Supplemental Claims request. If you would like to select more than{' '}
-    {MAX_LENGTH.SELECTIONS}, please submit this request and create a new request
-    for the remaining issues.
+    You are limited to {MAX_LENGTH.SELECTIONS} selected issues for each{' '}
+    {appName} request. If you would like to select more than{' '}
+    {MAX_LENGTH.SELECTIONS}, submit this request and create a new request for
+    the remaining issues.
   </VaModal>
 );
 
 MaxSelectionsAlert.propTypes = {
+  appName: PropTypes.string,
   closeModal: PropTypes.func,
 };
 
@@ -94,10 +95,10 @@ export const NoIssuesLoadedAlert = () => {
   return (
     <div ref={wrapAlert}>
       <va-alert status="error" class="vads-u-margin-bottom--2">
-        <h3 slot="headline">Sorry, we couldn’t find any eligible issues</h3>
+        <h3 slot="headline">We can’t load your issues right now</h3>
         <p>
-          If you’d like to add an issue for review, please select "Add a new
-          issue" to get started.
+          You can come back later, or if you’d like to add your issue manually,
+          you can select "Add a new issue" to get started.
         </p>
       </va-alert>
     </div>
@@ -110,9 +111,10 @@ export const noneSelected =
 /**
  * Shows the alert box only if the form has been submitted
  */
-export const NoneSelectedAlert = ({ count, headerLevel = 3 }) => {
+export const NoneSelectedAlert = ({ count, headerLevel = 3, inReviewMode }) => {
   const wrapAlert = useRef(null);
-  const Header = `H${headerLevel}`;
+  const Header = `h${headerLevel}`;
+  const margins = `vads-u-margin-${inReviewMode ? 'y' : 'bottom'}--2`;
 
   useEffect(
     () => {
@@ -140,7 +142,7 @@ export const NoneSelectedAlert = ({ count, headerLevel = 3 }) => {
 
   return (
     <div ref={wrapAlert}>
-      <va-alert status="error" class="vads-u-margin-bottom--2">
+      <va-alert status="error" class={margins}>
         <Header
           slot="headline"
           className="eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2"
@@ -156,13 +158,11 @@ export const NoneSelectedAlert = ({ count, headerLevel = 3 }) => {
 NoneSelectedAlert.propTypes = {
   count: PropTypes.number,
   headerLevel: PropTypes.number,
+  inReviewMode: PropTypes.bool,
 };
 
 export const ContestableIssuesAdditionalInfo = (
-  <va-additional-info
-    trigger="Why aren’t all my issues listed here"
-    class="vads-u-margin-top--4"
-  >
+  <va-additional-info trigger="Why isn’t my issue listed here?">
     If you don’t see your issue or decision listed here, it may not be in our
     system yet. This can happen if it’s a more recent claim decision. If you
     have a decision date, you can add a new issue now.

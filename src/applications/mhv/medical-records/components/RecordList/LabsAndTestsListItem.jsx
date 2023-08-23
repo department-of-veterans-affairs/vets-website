@@ -21,7 +21,7 @@ const LabsAndTestsListItem = props => {
 
   return (
     <div
-      className="record-list-item vads-u-padding-y--2 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
+      className="record-list-item vads-u-padding--3 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
       data-testid="record-list-item"
     >
       <h4 className="vads-u-margin-bottom--0">{record.name}</h4>
