@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
 
 const config = {
@@ -79,6 +80,13 @@ const TrackingInfo = ({
       </>
     </div>
   );
+};
+
+TrackingInfo.propTypes = {
+  carrier: PropTypes.string,
+  trackingNumber: PropTypes.string,
+  completeDateTime: PropTypes.string,
+  prescriptionName: PropTypes.string,
 };
 
 export default TrackingInfo;
