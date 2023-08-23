@@ -6,7 +6,10 @@ const convertDateFormat = date =>
   date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
 
 const locationOfDeath = {
-  nursingHome: 'Nursing home',
+  nursingHome: 'Nursing home under VA contract',
+  vaMedicalCenter: 'VA medical center',
+  stateVeteransHome: 'State Veterans home',
+  other: 'Other location',
 };
 
 const renderFields = [
@@ -108,29 +111,31 @@ const generateData = (type, formData) => {
 
 const ArrayComponent = ({ value }) => {
   return value.map((name, index) => (
-    <va-card key={index}>
-      <p>
-        <strong>First: </strong>
-        {name.first}
-      </p>
-      <p>
-        <strong>Middle: </strong>
-        {name.middle ? name.middle : 'None'}
-      </p>
-      <p>
-        <strong>Last: </strong>
-        {name.last}
-      </p>
-      <p>
-        <strong>Suffix: </strong>
-        {name.suffix ? name.suffix : 'None'}
-      </p>
-    </va-card>
+    <div key={index} className="vads-u-margin-bottom--4">
+      <va-card>
+        <p>
+          <strong>First: </strong>
+          {name.first}
+        </p>
+        <p>
+          <strong>Middle: </strong>
+          {name.middle ? name.middle : 'None'}
+        </p>
+        <p>
+          <strong>Last: </strong>
+          {name.last}
+        </p>
+        <p>
+          <strong>Suffix: </strong>
+          {name.suffix ? name.suffix : 'None'}
+        </p>
+      </va-card>
+    </div>
   ));
 };
 
 const h3Subsections = [
-  'Burial Information',
+  'Burial information',
   'Previous names',
   'General selection',
   'Burial allowance',
@@ -152,7 +157,7 @@ const CreateSummarySections = ({
       {!bypassData ? (
         <>
           <h2 id={id}>{title}</h2>
-          <hr />
+          <hr className="vads-u-border-color--primary-darker" />
         </>
       ) : null}
       <div>
@@ -262,6 +267,21 @@ export const NoFormPage = () => {
               text="Download VA form 21P-530EZ"
             />
             <p>
+              You can let us know of your intent to file, and we will record
+              this as a potential start date for your benefits. You may be able
+              to get retroactive payments (payments for the time between when
+              you started your application and when we approve your claim). You
+              can also call us at 800-827-1000 to notify us of your intent to
+              file. We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+            </p>
+            <va-link
+              download
+              filetype="PDF"
+              href="https://www.vba.va.gov/pubs/forms/VBA-21P-530EZ-ARE.pdf"
+              pages={8}
+              text="Download VA form 21P-530EZ"
+            />
+            <p className="vads-u-margin-bottom--4">
               Mail the completed form to the pension management center (PMC)
             </p>
             <p className="va-address-block">

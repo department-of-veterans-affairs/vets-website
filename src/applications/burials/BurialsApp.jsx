@@ -19,7 +19,7 @@ import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage'; // Make sure the path to NoFormPage is correct
 
 export default function BurialsEntry({ location, children }) {
-  const showForm = false;
+  const showForm = true;
   return showForm ? (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
