@@ -7,7 +7,7 @@ import { recordEventOnce } from 'platform/monitoring/record-event';
 
 // EVSS returns dates like '2014-07-28T19:53:45.810+0000'
 const evssDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
-const outputDateFormat = 'LLLL';
+const outputDateFormat = 'dddd MMMM Do[,] Y [at] h[:]ma [ET]';
 // Adding 1 hour to the displayDate output will display the time in the ET timezone as the returned time and date
 // is in the central timezone
 const displayDate = dateString =>
