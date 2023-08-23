@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../../components/FormButtons';
 import RequestEligibilityMessage from './RequestEligibilityMessage';
@@ -19,7 +20,10 @@ import {
 } from '../../redux/selectors';
 import useClinicFormState from './useClinicFormState';
 import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
-import { selectFeatureClinicFilter } from '../../../redux/selectors';
+import {
+  selectFeatureClinicFilter,
+  selectFeatureBreadcrumbUrlUpdate,
+} from '../../../redux/selectors';
 
 function formatTypeOfCare(careLabel) {
   if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
@@ -45,7 +49,11 @@ function getPageTitle(schema, typeOfCare, usingPastClinics) {
 }
 
 const pageKey = 'clinicChoice';
-export default function ClinicChoicePage() {
+export default function ClinicChoicePage(props = null) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
   const featureClinicFilter = useSelector(state =>
     selectFeatureClinicFilter(state),
   );
@@ -72,14 +80,14 @@ export default function ClinicChoicePage() {
   const usingPastClinics =
     typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
   const pastMonths = featureClinicFilter ? 36 : 24;
+  const pageTitle = getPageTitle(schema, typeOfCare, usingPastClinics);
 
   useEffect(() => {
     scrollAndFocus();
-    document.title = `${getPageTitle(
-      schema,
-      typeOfCare,
-      usingPastClinics,
-    )} | Veterans Affairs`;
+    document.title = `${pageTitle} | Veterans Affairs`;
+    if (featureBreadcrumbUrlUpdate) {
+      props.changeTitle(pageTitle);
+    }
   }, []);
 
   return (
@@ -158,3 +166,7 @@ export default function ClinicChoicePage() {
     </div>
   );
 }
+
+ClinicChoicePage.propTypes = {
+  changeTitle: PropTypes.func,
+};

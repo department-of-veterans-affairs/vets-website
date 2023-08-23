@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { usePrevious } from 'platform/utilities/react-hooks';
@@ -25,6 +26,7 @@ import {
   updateFormData,
   hideEligibilityModal,
 } from '../../redux/actions';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -45,7 +47,10 @@ const sortOptions = [
   { value: 'alphabetical', label: 'Alphabetically' },
 ];
 
-export default function VAFacilityPageV2() {
+export default function VAFacilityPageV2(props = null) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
   const history = useHistory();
   const dispatch = useDispatch();
   const {
@@ -97,6 +102,9 @@ export default function VAFacilityPageV2() {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     dispatch(openFacilityPageV2(pageKey, uiSchema, initialSchema));
+    if (featureBreadcrumbUrlUpdate) {
+      props.changeTitle(pageTitle);
+    }
   }, []);
 
   useEffect(
@@ -295,3 +303,7 @@ export default function VAFacilityPageV2() {
     </div>
   );
 }
+
+VAFacilityPageV2.propTypes = {
+  changeTitle: PropTypes.func,
+};
