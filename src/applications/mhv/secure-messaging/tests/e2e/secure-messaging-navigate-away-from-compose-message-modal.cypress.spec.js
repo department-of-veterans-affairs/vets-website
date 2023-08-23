@@ -52,7 +52,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2',
+      '/my_health/v1/messaging/folders/-2*',
       mockDraftFolderMetaResponse,
     ).as('draftsFolderMetaResponse');
     composePage.selectSideBarMenuOption('Drafts');
@@ -79,7 +79,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1',
+      '/my_health/v1/messaging/folders/-1*',
       mockSentFolderMetaResponse,
     ).as('sentResponse');
     composePage.selectSideBarMenuOption('Sent');
@@ -106,7 +106,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-3',
+      '/my_health/v1/messaging/folders/-3*',
       mockDeletedFolderMetaResponse,
     ).as('trashResponse');
     composePage.selectSideBarMenuOption('Trash');

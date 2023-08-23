@@ -43,9 +43,12 @@ const useGetCheckInData = ({
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isTravelReimbursementEnabled } = useSelector(selectFeatureToggles);
+  const { isTravelReimbursementEnabled, isTravelLogicEnabled } = useSelector(
+    selectFeatureToggles,
+  );
   const { jumpToPage } = useFormRouting(router);
   const { setPreCheckinComplete } = useSessionStorage();
+  const { getTravelPaySent } = useSessionStorage(false);
 
   const dispatch = useDispatch();
 
@@ -67,12 +70,15 @@ const useGetCheckInData = ({
         dispatch(receivedMultipleAppointmentDetails(appointments, token));
 
         if (!appointmentsOnly) {
+          const travelPaySent = getTravelPaySent(window);
           dispatch(receivedDemographicsData(demographics));
           dispatch(
             updateDayOfForm({
               patientDemographicsStatus,
               isTravelReimbursementEnabled,
               appointments,
+              isTravelLogicEnabled,
+              travelPaySent,
             }),
           );
         }
