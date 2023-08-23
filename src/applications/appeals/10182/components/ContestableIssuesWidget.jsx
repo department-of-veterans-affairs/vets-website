@@ -7,10 +7,16 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
+import {
+  getContestableIssues as getContestableIssuesAction,
+  FETCH_CONTESTABLE_ISSUES_FAILED,
+} from '../actions';
+
 import { IssueCard } from './IssueCard';
 import { REVIEW_ISSUES, APP_NAME } from '../constants';
 
 import { SELECTED, MAX_LENGTH, LAST_ISSUE } from '../../shared/constants';
+
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
@@ -25,6 +31,8 @@ import {
   calculateIndexOffset,
 } from '../../shared/utils/issues';
 import { focusIssue } from '../../shared/utils/focus';
+
+let attempts = 0;
 
 /**
  * ContestableIssuesWidget - Form system parameters passed into this widget
@@ -42,6 +50,8 @@ import { focusIssue } from '../../shared/utils/focus';
  * @param {Boolean} required - Show required flag
  * @param {Object} schema - array schema
  * @param {Object[]} value - array value
+ * @param {Object} contestableIssues - API status & loaded issues
+ * @param {func} getContestableIssues - API action
  * @return {JSX}
  */
 const ContestableIssuesWidget = props => {
@@ -50,6 +60,8 @@ const ContestableIssuesWidget = props => {
     id,
     options,
     formContext = {},
+    contestableIssues, // API loaded issues
+    getContestableIssues,
     additionalIssues,
     setFormData,
     formData,
@@ -59,6 +71,19 @@ const ContestableIssuesWidget = props => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
   const [editState] = useState(window.sessionStorage.getItem(LAST_ISSUE));
+
+  useEffect(
+    () => {
+      if (
+        attempts < 1 &&
+        contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_FAILED
+      ) {
+        attempts += 1; // only attempt reload once
+        getContestableIssues();
+      }
+    },
+    [contestableIssues, getContestableIssues],
+  );
 
   useEffect(
     () => {
@@ -246,12 +271,18 @@ const ContestableIssuesWidget = props => {
 
 ContestableIssuesWidget.propTypes = {
   additionalIssues: PropTypes.array,
+  contestableIssues: PropTypes.shape({
+    status: PropTypes.string,
+    issues: PropTypes.array,
+    error: PropTypes.string,
+  }),
   formContext: PropTypes.shape({
     onReviewPage: PropTypes.bool,
     reviewMode: PropTypes.bool,
     submitted: PropTypes.bool,
   }),
   formData: PropTypes.shape({}),
+  getContestableIssues: PropTypes.func,
   id: PropTypes.string,
   options: PropTypes.shape({}),
   setFormData: PropTypes.func,
@@ -261,10 +292,12 @@ ContestableIssuesWidget.propTypes = {
 
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
+  contestableIssues: state.contestableIssues,
   additionalIssues: state.form?.data.additionalIssues || [],
 });
 const mapDispatchToProps = {
   setFormData: setData,
+  getContestableIssues: getContestableIssuesAction,
 };
 
 export { ContestableIssuesWidget };

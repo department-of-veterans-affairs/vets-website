@@ -55,7 +55,7 @@ const genericErrors = {
 const responses = {
   'GET /v0/user': (_req, res) => {
     // example user data cases
-    // return res.json(user.loa3User72); // default user (success)
+    return res.json(user.loa3User72); // default user (success)
     // return res.json(user.loa1User); // user with loa1
     // return res.json(user.badAddress); // user with bad address
     // return res.json(user.loa3User); // user with loa3
@@ -63,7 +63,7 @@ const responses = {
     // return res.json(user.externalServiceError); // external service error
     // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
     // return res.json(user.loa3UserWithNoEmail); // user with no email address
-    return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
+    // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
   },
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
@@ -163,7 +163,10 @@ const responses = {
   },
   'GET /v0/disability_compensation_form/rating_info':
     ratingInfo.success.serviceConnected40,
-  'PUT /v0/profile/telephones': (_req, res) => {
+  'PUT /v0/profile/telephones': (req, res) => {
+    if (req?.body?.phoneNumber === '1111111') {
+      return res.json(phoneNumber.transactions.receivedNoChangesDetected);
+    }
     return res.status(200).json(phoneNumber.transactions.received);
   },
   'POST /v0/profile/telephones': (_req, res) => {
@@ -176,7 +179,25 @@ const responses = {
     return res.status(200).json(emailAddress.transactions.received);
   },
   'PUT /v0/profile/addresses': (req, res) => {
+    // uncomment to test 401 error
     // return res.status(401).json(require('../tests/fixtures/401.json'));
+
+    // trigger NO_CHANGES_DETECTED response
+    // based on the text 'same' being put into address line 1 of ui
+    if (req?.body?.addressLine1 === 'same') {
+      return res.json(address.mailingAddressUpdateNoChangeDetected);
+    }
+
+    // simulate a initial request returning a transactionId that is
+    // subsequently used for triggering error from GET v0/profile/status
+    // uncomment to test, and then uses the transactionId 'erroredId' in the status endpoint
+    // return res.json(
+    //   _.set(
+    //     address.mailingAddressUpdateReceived.response,
+    //     'data.attributes.transactionId',
+    //     'erroredId',
+    //   ),
+    // );
 
     // to test the update that comes from the 'yes' action on the address change modal prompt,
     // we can create a success response with a transactionId that is unique using date timestamp
@@ -188,22 +209,6 @@ const responses = {
           `mailingUpdateId-${new Date().getTime()}`,
         ),
       );
-    }
-
-    // simulate a initial request returning a transactionId that is
-    // subsequently used for triggereing error from GET v0/profile/status
-    // return res.json(
-    //   _.set(
-    //     address.mailingAddressUpdateReceived.response,
-    //     'data.attributes.transactionId',
-    //     'erroredId',
-    //   ),
-    // );
-
-    // trigger NO_CHANGES_DETECTED response
-    // based on the text 'same' being put into address line 1 of ui
-    if (req?.body?.addressLine1 === 'same') {
-      return res.json(address.mailingAddresUpdateNoChangeDetected);
     }
 
     // default response
