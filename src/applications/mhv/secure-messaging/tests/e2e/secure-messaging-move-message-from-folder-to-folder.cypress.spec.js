@@ -18,7 +18,7 @@ describe('Secure Messaging Move Message tests', () => {
     const { folderId } = mockFoldersResponse.data.at(4).attributes;
     site.login();
     landingPage.loadInboxMessages();
-    cy.get('[data-testid ="my-folders-sidebar"]').click();
+    landingPage.clickMyFoldersSideBar();
 
     folderPage.clickAndLoadCustomFolder(
       folderName,
