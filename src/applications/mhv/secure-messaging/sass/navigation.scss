@@ -51,7 +51,6 @@
 
   .usa-sidenav-list {
     border-top: 1px solid $color-gray;
-    // padding-top: 4px;
   }
 
   a {
@@ -145,15 +144,19 @@
       }
       .sidebar-navigation-messages-list {
         display: contents;
+
         ul {
           border: 0px;
         }
+
         .sidebar-navigation-messages-list-menu {
           background-color: $color-white;
           display: block;
 
           ul {
+
             li {
+
               a {
                 padding-left: 3rem;
               }
@@ -214,16 +217,6 @@
           color: $color-link-default;
         }
       }
-
-      // .sidebar-navigation-messages-list-menu {
-      //   ul {
-      //     li {
-      //       a {
-      //         padding-left: 3rem;
-      //       }
-      //     }
-      //   }
-      // }
     }
   }
 }
