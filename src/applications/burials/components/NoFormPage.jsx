@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import { formatSSN } from 'platform/utilities/ui';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
 const convertDateFormat = date =>
   date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
@@ -9,7 +11,6 @@ const locationOfDeath = {
   nursingHome: 'Nursing home under VA contract',
   vaMedicalCenter: 'VA medical center',
   stateVeteransHome: 'State Veterans home',
-  other: 'Other location',
 };
 
 const renderFields = [
@@ -63,8 +64,10 @@ const generateData = (type, formData) => {
           'Date of burial (includes cremation or interment)': convertDateFormat(
             formData.burialDate,
           ),
-          'Where did the Veteran’s death occur?':
-            locationOfDeath[formData.locationOfDeath.location],
+          'Where did the Veteran’s death occur?': formData.locationOfDeath
+            ?.other
+            ? formData.locationOfDeath.other
+            : locationOfDeath[formData.locationOfDeath.location],
         },
       };
     case 'military-history':
@@ -111,8 +114,8 @@ const generateData = (type, formData) => {
 
 const ArrayComponent = ({ value }) => {
   return value.map((name, index) => (
-    <div key={index} className="vads-u-margin-bottom--4">
-      <va-card>
+    <div key={index} className="vads-u-margin-top--4">
+      <va-card class="vads-u-background-color--gray-lightest">
         <p>
           <strong>First: </strong>
           {name.first}
@@ -151,7 +154,6 @@ const CreateSummarySections = ({
 }) => {
   const data = !bypassData ? generateData(id, formData) : formData;
 
-  // console.log(data);
   return (
     <>
       {!bypassData ? (
@@ -170,12 +172,14 @@ const CreateSummarySections = ({
               </>
             ) : (
               <>
-                <p className="vads-u-color--gray">{key}</p>
+                <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
+                  {key}
+                </p>
 
                 {Array.isArray(value) ? (
                   <ArrayComponent value={value} />
                 ) : (
-                  <p>{value}</p>
+                  <p className="vads-u-margin-top--0">{value}</p>
                 )}
               </>
             )}
@@ -189,7 +193,7 @@ const CreateSummarySections = ({
 export const NoFormPage = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const loggedIn = useSelector(isLoggedIn);
 
   useEffect(() => {
     // Example endpoint; update with the specific resource you want to fetch
@@ -200,10 +204,8 @@ export const NoFormPage = () => {
       .then(responseData => {
         setData(responseData);
         setLoading(false);
-        // console.log(responseData);
       })
-      .catch(err => {
-        setError(err);
+      .catch(() => {
         setLoading(false);
       });
   }, []);
@@ -217,20 +219,9 @@ export const NoFormPage = () => {
     );
   }
 
-  if (error) {
-    return (
-      <ul>
-        Errors:
-        {error.errors.map((e, i) => (
-          <li key={i}>{e.title}</li>
-        ))}
-      </ul>
-    );
-  }
-
   const { formData } = data;
 
-  return (
+  return loggedIn ? (
     <div className="row vads-u-margin-bottom--4">
       <h1>Review Burial Benefits Application</h1>
       <p>VA Form 21P-530</p>
@@ -277,9 +268,9 @@ export const NoFormPage = () => {
             <va-link
               download
               filetype="PDF"
-              href="https://www.vba.va.gov/pubs/forms/VBA-21P-530EZ-ARE.pdf"
+              href="http://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf"
               pages={8}
-              text="Download VA form 21P-530EZ"
+              text="Download your Intent to File"
             />
             <p className="vads-u-margin-bottom--4">
               Mail the completed form to the pension management center (PMC)
@@ -303,12 +294,144 @@ export const NoFormPage = () => {
                 />
               ))}
             </article>
+            <p>
+              <strong>Note:</strong> According to federal law, there are
+              criminal penalties for withholding information on purpose or
+              providing information that you know is false. Penalties may
+              include a fine, imprisonment for up to 5 years, or both.
+              (Reference: 18 U.S.C. 1001)
+            </p>
+            <va-alert
+              background-only
+              class="vads-u-margin-bottom--1"
+              close-btn-aria-label="Close notification"
+              disable-analytics="false"
+              full-width="false"
+              status="info"
+              visible="true"
+            >
+              <p className="vads-u-margin-y--0">
+                <strong>
+                  Veterans Pension (VA Form 21P-527EZ) can not be currently
+                  completed online.
+                </strong>
+                <br />
+                We have saved your application so you can use it as a reference.
+                You will need to fill out a new form to apply by mail.
+              </p>
+            </va-alert>
+            <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+              Need help?
+            </h2>
+            <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
+            <p>
+              Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />
+              . We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If
+              you have hearing loss, call TTY:{' '}
+              <va-link href="tel:711" text="711" />.
+            </p>
           </div>
         </>
       ) : (
         <div>Has no in progress form</div>
       )}
-      {/* Render the fetched data if needed */}
+    </div>
+  ) : (
+    <div className="row vads-u-margin-bottom--4">
+      <h1>Review Burial Benefits Application</h1>
+      <p>VA Form 21P-530</p>
+      <>
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="info"
+          visible
+        >
+          <h2 id="track-your-status-on-mobile" slot="headline">
+            This online form isn’t working right now
+          </h2>
+          <div>
+            <p className="vads-u-margin-y--0">
+              You can still use the information here to fill out a paper form
+              for VA burial benefits.
+            </p>
+          </div>
+          <br />
+          <va-link
+            href="va.gov"
+            text="Learn more about how to apply for VA burial benefits"
+          />
+        </va-alert>
+        <h3>Send application by mail</h3>
+        <p>Fill out an Application for Burial (VA Form 21P-530EZ).</p>
+        <div>
+          <va-link
+            download
+            filetype="PDF"
+            href="https://www.vba.va.gov/pubs/forms/VBA-21P-530EZ-ARE.pdf"
+            pages={8}
+            text="Download VA form 21P-530EZ"
+          />
+          <p>
+            You can let us know of your intent to file, and we will record this
+            as a potential start date for your benefits. You may be able to get
+            retroactive payments (payments for the time between when you started
+            your application and when we approve your claim). You can also call
+            us at 800-827-1000 to notify us of your intent to file. We’re here
+            Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+          </p>
+          <va-link
+            download
+            filetype="PDF"
+            href="https://www.vba.va.gov/pubs/forms/VBA-21P-530EZ-ARE.pdf"
+            // pages={8}
+            text="Download your Intent to File"
+          />
+          <p className="vads-u-margin-bottom--4">
+            Mail the completed form to the pension management center (PMC)
+          </p>
+          <p className="va-address-block">
+            Department of Veterans Affairs <br />
+            Pension Intake Center
+            <br />
+            PO Box 5365
+            <br />
+            Janesville, WI 53547-5365
+            <br />
+          </p>
+          <p>
+            <strong>Note:</strong> According to federal law, there are criminal
+            penalties for withholding information on purpose or providing
+            information that you know is false. Penalties may include a fine,
+            imprisonment for up to 5 years, or both. (Reference: 18 U.S.C. 1001)
+          </p>
+          <va-alert
+            background-only
+            class="vads-u-margin-bottom--1"
+            close-btn-aria-label="Close notification"
+            disable-analytics="false"
+            full-width="false"
+            status="info"
+            visible="true"
+          >
+            <p className="vads-u-margin-y--0">
+              <strong>
+                Veterans Pension (VA Form 21P-527EZ) can not be currently
+                completed online.
+              </strong>
+              <br />
+              We have saved your application so you can use it as a reference.
+              You will need to fill out a new form to apply by mail.
+            </p>
+          </va-alert>
+          <h3 className="vads-u-margin-bottom--0">Need help?</h3>
+          <hr className="vads-u-border-color--primary" />
+          <p>
+            Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />.
+            We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you
+            have hearing loss, call TTY: <va-link href="tel:711" text="711" />.
+          </p>
+        </div>
+      </>
     </div>
   );
 };
