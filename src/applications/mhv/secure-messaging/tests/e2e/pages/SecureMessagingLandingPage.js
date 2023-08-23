@@ -49,7 +49,9 @@ class SecureMessagingLandingPage {
   };
 
   verifyHeader = () => {
-    cy.get('h1').should('have.text', 'Messages');
+    cy.get('h1')
+      .should('be.visible')
+      .and('have.text', 'Messages');
   };
 }
 

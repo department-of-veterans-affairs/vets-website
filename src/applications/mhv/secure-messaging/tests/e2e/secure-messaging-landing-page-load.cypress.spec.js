@@ -7,6 +7,7 @@ describe('SM main page', () => {
     site.login();
     SecureMessagingLandingPage.loadMainPage();
   });
+
   it('axe check', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
@@ -17,18 +18,16 @@ describe('SM main page', () => {
       },
     });
   });
+
   it('verify header', () => {
     SecureMessagingLandingPage.verifyHeader();
   });
-  it('verify text', () => {
-    // replace with proper assertion
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+
+  // next test have to be updated according to page redesign
+  it('verify paragraphs', () => {
+    cy.get('h2[class="vads-u-margin-top--1"]').should('be.visible');
+    cy.get('.secure-messaging-faq > .vads-u-margin-top--1').should(
+      'be.visible',
+    );
   });
 });
