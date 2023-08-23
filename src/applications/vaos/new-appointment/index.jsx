@@ -85,18 +85,18 @@ export function NewAppointment() {
             path={`${match.url}/choose-visit-type`}
             component={TypeOfVisitPage}
           />
-          <Route
-            path={`${match.url}/choose-sleep-care`}
-            component={TypeOfSleepCarePage}
-          />
-          <Route
-            path={`${match.url}/choose-eye-care`}
-            component={TypeOfEyeCarePage}
-          />
-          <Route
-            path={`${match.url}/audiology`}
-            component={TypeOfAudiologyCarePage}
-          />
+          <Route path={`${match.url}/choose-sleep-care`}>
+            <TypeOfSleepCarePage changeTitle={newTitle => setTitle(newTitle)} />
+          </Route>
+
+          <Route path={`${match.url}/choose-eye-care`}>
+            <TypeOfEyeCarePage changeTitle={newTitle => setTitle(newTitle)} />
+          </Route>
+          <Route path={`${match.url}/audiology`}>
+            <TypeOfAudiologyCarePage
+              changeTitle={newTitle => setTitle(newTitle)}
+            />
+          </Route>
           <Route path={`${match.url}/preferred-date`}>
             <PreferredDatePage changeTitle={newTitle => setTitle(newTitle)} />
           </Route>

@@ -88,28 +88,26 @@ export default function VAFacilityPageV2(props = null) {
   const loadingFacilities =
     childFacilitiesStatus === FETCH_STATUS.loading ||
     childFacilitiesStatus === FETCH_STATUS.notStarted;
-  let pageTitle;
-  if (singleValidVALocation) {
-    pageTitle = 'Your appointment location';
-  } else {
-    pageTitle = 'Choose a VA location';
-  }
+  const pageTitle = singleValidVALocation
+    ? 'Your appointment location'
+    : 'Choose a VA location';
+
   const isLoading =
     loadingFacilities || (singleValidVALocation && loadingEligibility);
   const sortFocusEl = 'select';
   const hasUserAddress = address && !!Object.keys(address).length;
 
   useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
     dispatch(openFacilityPageV2(pageKey, uiSchema, initialSchema));
-    if (featureBreadcrumbUrlUpdate) {
-      props.changeTitle(pageTitle);
-    }
   }, []);
 
   useEffect(
     () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
       scrollAndFocus();
+      if (featureBreadcrumbUrlUpdate) {
+        props.changeTitle(pageTitle);
+      }
     },
     [isLoading],
   );
