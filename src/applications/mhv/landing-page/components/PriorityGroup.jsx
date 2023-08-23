@@ -20,7 +20,10 @@ export const PriorityGroup = ({ fetchHcaEnrollmentStatus, value }) => {
       <div className="vads-l-col--11">
         Your healthcare priority group: {priorityGroup}
         <br />
-        <a href="https://va.gov/health-care/eligibility/priority-groups">
+        <a
+          data-dd-action-name="VA priority groups link"
+          href="/health-care/eligibility/priority-groups"
+        >
           Learn more about priority groups
         </a>
       </div>

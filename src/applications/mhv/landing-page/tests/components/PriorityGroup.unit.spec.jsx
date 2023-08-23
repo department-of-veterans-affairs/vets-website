@@ -28,12 +28,15 @@ describe('Priority Group Component', () => {
     expect(wrapper.getByText(content)).to.exist;
   });
 
-  it('links to an article about priority groups', () => {
+  it('links to an article about priority groups, tracked by datadog', () => {
     const wrapper = setup();
     const name = 'Learn more about priority groups';
     const link = wrapper.getByRole('link', { name });
     expect(link).to.exist;
     expect(link.href.endsWith('/health-care/eligibility/priority-groups')).to.be
       .true;
+    expect(link.getAttribute('data-dd-action-name')).to.eq(
+      'VA priority groups link',
+    );
   });
 });
