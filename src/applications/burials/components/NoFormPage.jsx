@@ -115,24 +115,24 @@ const generateData = (type, formData) => {
 const ArrayComponent = ({ value }) => {
   return value.map((name, index) => (
     <div key={index} className="vads-u-margin-top--4">
-      <va-card class="vads-u-background-color--gray-lightest">
-        <p>
+      <div className="vads-u-background-color--gray-lightest vads-u-padding--1p5">
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
           <strong>First: </strong>
           {name.first}
         </p>
-        <p>
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
           <strong>Middle: </strong>
           {name.middle ? name.middle : 'None'}
         </p>
-        <p>
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
           <strong>Last: </strong>
           {name.last}
         </p>
-        <p>
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
           <strong>Suffix: </strong>
           {name.suffix ? name.suffix : 'None'}
         </p>
-      </va-card>
+      </div>
     </div>
   ));
 };
