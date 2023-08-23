@@ -11,6 +11,7 @@ import { getButtonType } from 'applications/static-pages/analytics/addButtonLink
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import { GA_PREFIX } from 'applications/vaos/utils/constants';
 import {
   cernerFacilitiesPropType,
   ehrDataByVhaIdPropType,
@@ -215,7 +216,12 @@ export class CernerCallToAction extends Component {
                   <a
                     className="vads-c-action-link--blue"
                     href={myVAHealthLink}
-                    onClick={onCTALinkClick}
+                    onClick={() => {
+                      recordEvent({
+                        event: `${GA_PREFIX}-vaos-cerner-redirect-static-landing-page`,
+                      });
+                      onCTALinkClick();
+                    }}
                     rel="noreferrer noopener"
                     target="_blank"
                   >
