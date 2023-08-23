@@ -88,14 +88,19 @@ const RadiologyDetails = props => {
 
             <div className="test-results-container">
               <h2>Results</h2>
-              <va-additional-info
+
+              <va-alert-expandable
+                status="info"
                 trigger="Need help understanding your results?"
                 class="no-print"
               >
                 <p>
-                  Your provider will review your results and explain what they
-                  mean for your health. To ask a question now, send a secure
-                  message to your care team.
+                  Your provider will review your results. If you need to do
+                  anything, your provider will contact you.
+                </p>
+                <p>
+                  If you have questions, send a message to the care team that
+                  ordered this test.
                 </p>
                 <p>
                   <a
@@ -106,11 +111,16 @@ const RadiologyDetails = props => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Start a new message
+                    Compose a new message
                   </a>
                 </p>
-              </va-additional-info>
-              <p>{record.results}</p>
+                <p>
+                  <strong>Note: </strong>
+                  If you have questions about more than 1 test ordered by the
+                  same care team, send 1 message with all of your questions.
+                </p>
+              </va-alert-expandable>
+              <p className="monospace">{record.results}</p>
             </div>
           </section>
         </>
