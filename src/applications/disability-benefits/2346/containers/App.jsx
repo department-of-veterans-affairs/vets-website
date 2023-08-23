@@ -13,19 +13,40 @@ class App extends Component {
   }
 
   render() {
-    const { location, children, isError, pending, isLoggedIn } = this.props;
-    const showMainContent = !pending && !isError;
+    const {
+      location,
+      children,
+      isError,
+      pending,
+      isLoggedIn,
+      featureToggles,
+    } = this.props;
+    const showMainContent = !pending && !isError && !featureToggles.loading;
+    const supplyDescription = featureToggles.supply_reordering_sleep_apnea_enabled
+      ? 'hearing aid and sleep apnea supplies'
+      : 'hearing aid batteries and accessories';
+
+    // Update form config on the fly based on feature toggle.
+    formConfig.title = `Order ${supplyDescription}`;
+    formConfig.saveInProgress.messages.inProgress = `You have a ${supplyDescription} order s in progress.`;
+    formConfig.saveInProgress.messages = {
+      inProgress: `You have a ${supplyDescription}} order in progress.`,
+      expired: `Your saved ${supplyDescription} order has expired. If you want to order ${supplyDescription}, please start a new order.`,
+      saved: `Your ${supplyDescription} order has been saved.`,
+    };
 
     return (
       <>
-        <Breadcrumbs>
-          <a href="/">Home</a>
-          {/* this will get updated when this route is added */}
-          <a href="/health-care">Health care</a>
-          <a href="/health-care/order-hearing-aid-batteries-and-accessories">
-            Order hearing aid and sleep apnea supplies
-          </a>
-        </Breadcrumbs>
+        {!featureToggles.loading && (
+          <Breadcrumbs>
+            <a href="/">Home</a>
+            {/* this will get updated when this route is added */}
+            <a href="/health-care">Health care</a>
+            <a href="/health-care/order-hearing-aid-batteries-and-accessories">
+              Order {supplyDescription}
+            </a>
+          </Breadcrumbs>
+        )}
         {pending && (
           <va-loading-indicator>
             Loading your information...
@@ -52,6 +73,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.mdot.isError,
   pending: state.mdot.pending,
+  featureToggles: state.featureToggles,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,8 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const toggleName = TOGGLE_NAMES.supplyReorderingSleepApneaEnabled;
+  const isSupplyReorderingSleepApneaEnabled = useToggleValue(toggleName);
+  const supplyDescription = isSupplyReorderingSleepApneaEnabled
+    ? 'hearing aid and sleep apnea supplies'
+    : 'hearing aid batteries and accessories';
+
   let content;
   switch (errorCode) {
     case 'MDOT_SUPPLIES_INELIGIBLE':
@@ -30,9 +38,9 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
           <h3 slot="headline">We can’t find your records in our system</h3>
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             <span>
-              You can’t order hearing aid or sleep apnea supplies at this time
-              because we can’t find your records in our system or we’re missing
-              some information needed for you to order.
+              You can’t order {supplyDescription} at this time because we can’t
+              find your records in our system or we’re missing some information
+              needed for you to order.
             </span>
 
             <span className="vads-u-margin-top--1">
@@ -56,8 +64,8 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
           <h3 slot="headline">You can’t reorder your items at this time</h3>
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             <span>
-              You can’t order hearing aid or sleep apnea supplies online at this
-              time because you haven’t placed an order within the past two years
+              You can’t order {supplyDescription} online at this time because
+              you haven’t placed an order within the past two years
             </span>
 
             <span className="vads-u-margin-top--1">
@@ -93,17 +101,16 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
           <h3 slot="headline">We’re sorry. Something went wrong on our end.</h3>
           <div className="mdot-server-error-alert">
             <p>
-              You can’t place an order for hearing aid and sleep apnea supplies
+              You can’t place an order for {supplyDescription}
               because something went wrong on our end.
             </p>
             <p className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-font-family--serif">
               What you can do
             </p>
             <p className="vads-u-margin-top--0">
-              For help ordering hearing aid and sleep apnea supplies, please
-              call the DLC Customer Service Section at{' '}
-              <va-telephone contact="3032736200" /> or email{' '}
-              <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+              For help ordering {supplyDescription}, please call the DLC
+              Customer Service Section at <va-telephone contact="3032736200" />{' '}
+              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </p>
           </div>
         </va-alert>

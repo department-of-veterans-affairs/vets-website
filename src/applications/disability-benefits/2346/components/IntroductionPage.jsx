@@ -4,22 +4,23 @@ import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import formConfig from '../config/form';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
-import { useFeatureToggle } from '../utils/use-feature-toggle';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const IntroductionPage = props => {
+  // Toggle from hearing aid supplies to hearing aid + sleep apnea supplies.
   const {
-    isSupplyReorderingSleepApneaEnabled,
-    isLoadingFeatureFlags,
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
   } = useFeatureToggle();
-
+  const toggleName = TOGGLE_NAMES.supplyReorderingSleepApneaEnabled;
+  const isSupplyReorderingSleepApneaEnabled = useToggleValue(toggleName);
+  const isLoadingFeatureFlags = useToggleLoadingValue(toggleName);
+  const supplyDescription = isSupplyReorderingSleepApneaEnabled
+    ? 'hearing aid and sleep apnea supplies'
+    : 'hearing aid batteries and accessories';
   if (isLoadingFeatureFlags)
     return <va-loading-indicator message="Loading your information..." />;
-
-  let supplyDescription = 'hearing aid batteries and accessories';
-
-  if (isSupplyReorderingSleepApneaEnabled) {
-    supplyDescription = 'hearing aid and sleep apnea supplies';
-  }
 
   return (
     <>

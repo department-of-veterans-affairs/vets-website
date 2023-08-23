@@ -6,6 +6,7 @@ import environment from 'platform/utilities/environment';
 import { BATTERY } from '../constants';
 
 const ConfirmationPage = ({
+  featureToggles,
   vetEmail,
   submittedAt,
   selectedProductArray,
@@ -18,6 +19,9 @@ const ConfirmationPage = ({
   isPartiallySubmittedOrder,
   hasCompleteOrderFailed,
 }) => {
+  const supplyDescription = featureToggles.supply_reordering_sleep_apnea_enabled
+    ? 'hearing aid and sleep apnea supplies'
+    : 'hearing aid batteries and accessories';
   const PrintDetails = () => (
     <div className="print-details">
       <img
@@ -26,9 +30,7 @@ const ConfirmationPage = ({
         width="300"
         className="vads-u-margin-bottom--2"
       />
-      <h1 className="vads-u-font-size--h3">
-        Order hearing aid or sleep apnea supplies
-      </h1>
+      <h1 className="vads-u-font-size--h3">Order {supplyDescription}</h1>
       <span>Form 2346A</span>
       <h2 className="vads-u-font-size--h4">Your order has been submitted</h2>
       <p>
@@ -100,7 +102,7 @@ const ConfirmationPage = ({
             >
               <section>
                 <h4 className="vads-u-margin-top--0">
-                  Request for Hearing Aid or Sleep Apnea Supplies
+                  Request for {supplyDescription}
                 </h4>
                 <p className="vads-u-margin--0">
                   for {fullName?.first} {fullName?.last}
@@ -175,8 +177,8 @@ const ConfirmationPage = ({
             <h2 slot="headline">We’re sorry. Your order wasn’t submitted.</h2>
             <div className="empty-state-alert">
               <p>
-                Your order for hearing aid or sleep apnea supplies wasn’t
-                submitted because you didn’t select any items.
+                Your order for {supplyDescription} wasn’t submitted because you
+                didn’t select any items.
               </p>
               <p className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-font-family--serif">
                 What you can do
@@ -191,8 +193,8 @@ const ConfirmationPage = ({
                   place an order online
                 </a>
                 , please select at least one item before submitting your order.
-                For help ordering hearing aid and sleep apnea supplies, please
-                call the DLC Customer Service Section at{' '}
+                For help ordering {supplyDescription}, please call the DLC
+                Customer Service Section at{' '}
                 <va-telephone contact="3032736200" /> or email{' '}
                 <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
@@ -227,8 +229,8 @@ const ConfirmationPage = ({
                 What you can do
               </p>
               <p className="vads-u-margin-top--0">
-                For help ordering hearing aid or sleep apnea supplies, please
-                call the DLC Customer Service Section at{' '}
+                For help ordering {supplyDescription}, please call the DLC
+                Customer Service Section at{' '}
                 <va-telephone contact="3032736200" /> or email{' '}
                 <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
@@ -242,15 +244,15 @@ const ConfirmationPage = ({
               <h2>We’re sorry. Your order wasn’t submitted.</h2>
               <>
                 <p>
-                  Your order for hearing aid or sleep apnea supplies wasn’t
-                  submitted because something went wrong on our end.
+                  Your order for {supplyDescription} wasn’t submitted because
+                  something went wrong on our end.
                 </p>
                 <p className="vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin-bottom--1">
                   What you can do
                 </p>
                 <p className="vads-u-margin-top--0">
-                  For help ordering hearing aid or sleep apnea supplies, please
-                  call the DLC Customer Service Section at{' '}
+                  For help ordering {supplyDescription}, please call the DLC
+                  Customer Service Section at{' '}
                   <va-telephone contact="3032736200" /> or email{' '}
                   <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
@@ -311,6 +313,7 @@ ConfirmationPage.defaultProps = {
 };
 
 const mapStateToProps = state => {
+  const { featureToggles } = state;
   const selectedAddress = state.form?.data['view:currentAddress'];
   const shippingAddress = state.form?.data[selectedAddress];
   const { fullName, vetEmail, order, supplies } = state.form?.data;
@@ -355,6 +358,7 @@ const mapStateToProps = state => {
     isError = true;
   }
   return {
+    featureToggles,
     submittedAt,
     fullName,
     vetEmail,
