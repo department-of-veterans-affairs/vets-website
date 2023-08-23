@@ -86,8 +86,6 @@ export function fetchPersonalInformation(
           type: FETCH_PERSONAL_INFORMATION_FAILED,
           errors,
         });
-        window.location.href =
-          '/education/apply-for-education-benefits/application/1990/';
         if (!showMebEnhancements09) {
           window.location.href =
             '/education/apply-for-education-benefits/application/1990/';
