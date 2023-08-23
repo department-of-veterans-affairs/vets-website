@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { medicationsUrls } from '../util/constants';
 
 const LandingPage = () => {
   const fullState = useSelector(state => state);
-  const medicationsUrl = fullState.user.login.currentlyLoggedIn
-    ? '/my-health/medications/prescriptions'
-    : '/my-health/medications/my-health/medications/?next=loginModal&oauth=true';
+  const medicationsUrl = !fullState.user.login.currentlyLoggedIn
+    ? medicationsUrls.prescriptionsUrl
+    : medicationsUrls.medicationsLogin;
 
   const content = () => {
     return (
