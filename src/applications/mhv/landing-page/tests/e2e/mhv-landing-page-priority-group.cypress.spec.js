@@ -22,7 +22,7 @@ describe(`${appName} -- Priority Group`, () => {
       cy.visit(rootUrl);
       cy.wait(['@vamcEhr', '@featureToggles', '@hcaEs']);
       cy.injectAxeThenAxeCheck();
-      cy.get('[data-testid=mhvlp-priority-group')
+      cy.get('[data-testid=mhv-priority-group')
         .should('be.visible')
         .and('include.text', 'Your healthcare priority group: 3');
     });

@@ -10,13 +10,20 @@ export const PriorityGroup = ({ fetchHcaEnrollmentStatus, value }) => {
   if (!value) return <></>;
   const priorityGroup = value.replace('Group ', '');
   return (
-    <div data-testid="mhvlp-priority-group">
-      <i className="fas fa-clipboard-check" />
-      Your healthcare priority group: {priorityGroup}
-      <br />
-      <a href="https://va.gov/health-care/eligibility/priority-groups">
-        Learn more about priority groups
-      </a>
+    <div
+      data-testid="mhv-priority-group"
+      className="mhv-priority-group vads-u-display--flex vads-u-justify-content--flex-start vads-u-margin-bottom--3"
+    >
+      <div className="vads-u-margin-x--1">
+        <i className="fas fa-clipboard-check vads-u-font-size--lg" />
+      </div>
+      <div className="vads-l-col--11">
+        Your healthcare priority group: {priorityGroup}
+        <br />
+        <a href="https://va.gov/health-care/eligibility/priority-groups">
+          Learn more about priority groups
+        </a>
+      </div>
     </div>
   );
 };
