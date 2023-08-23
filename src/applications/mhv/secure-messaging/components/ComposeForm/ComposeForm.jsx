@@ -64,7 +64,7 @@ const ComposeForm = props => {
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const fullState = useSelector(state => state);
-  const currentFolder = useSelector(state => state.sm.folders.folder);
+  const currentFolder = useSelector(state => state.sm.folders?.folder);
   const signature = useSelector(state => state.sm.preferences.signature);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
@@ -150,10 +150,6 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (sendMessageFlag && isSaving !== true) {
-        const navigateToFolder = navigateToFolderByFolderId(
-          currentFolder?.folderId || DefaultFolders.INBOX.id,
-          history,
-        );
         const messageData = {
           category,
           body: messageBody,
@@ -166,11 +162,19 @@ const ComposeForm = props => {
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
           dispatch(sendMessage(sendData, true))
-            .then(() => navigateToFolder)
+            .then(() =>
+              navigateToFolderByFolderId(
+                currentFolder?.folderId || DefaultFolders.INBOX.id,
+                history,
+              ),
+            )
             .catch(setSendMessageFlag(false));
         } else {
-          dispatch(sendMessage(JSON.stringify(messageData), false)).then(
-            () => navigateToFolder,
+          dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
+            navigateToFolderByFolderId(
+              currentFolder?.folderId || DefaultFolders.INBOX.id,
+              history,
+            ),
           );
         }
       }
