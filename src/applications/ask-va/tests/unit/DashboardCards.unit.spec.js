@@ -6,12 +6,12 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import ResponseInboxPage from '../../containers/ResponseInboxPage';
+import DashboardCards from '../../containers/DashboardCards';
 
-describe('<ResponseInboxPage>', () => {
+describe('<DashboardCards>', () => {
   const apiRequestWithUrl = `${
     environment.API_URL
-  }/ask_va_api/v0/inquiries/123`;
+  }/ask_va_api/v0/users/dashboard`;
 
   describe('when the api server succeeds', () => {
     let server = null;
@@ -23,16 +23,15 @@ describe('<ResponseInboxPage>', () => {
             ctx.json({
               data: {
                 attributes: {
-                  inquiryNumber: '123',
-                  processingStatus: 'complete',
-                  question: 'Red or blue?',
-                  reply: {
-                    data: {
-                      attributes: {
-                        reply: 'Blue',
+                  inquiries: [
+                    {
+                      data: {
+                        attributes: {
+                          inquiryNumber: 'A-1',
+                        },
                       },
                     },
-                  },
+                  ],
                 },
               },
             }),
@@ -49,7 +48,7 @@ describe('<ResponseInboxPage>', () => {
       server.close();
     });
 
-    it('should render user Response Inbox', async () => {
+    it('should render Inquiry Number', async () => {
       const mockStore = {
         getState: () => ({
           form: {
@@ -71,21 +70,17 @@ describe('<ResponseInboxPage>', () => {
         subscribe: () => {},
         dispatch: () => {},
       };
-      const props = {
-        params: { id: '123' },
-      };
 
       const view = render(
         <Provider store={mockStore}>
-          <ResponseInboxPage {...props} />
+          <DashboardCards />
         </Provider>,
       );
 
       await waitFor(() => {
-        expect(view.container.querySelector('h1')).to.contain.text(
-          'Response Inbox',
+        expect(view.container.querySelector('p')).to.contain.text(
+          'Inquiry Number:',
         );
-        expect(view.container.querySelector('em')).to.contain.text('complete');
       });
     });
   });
