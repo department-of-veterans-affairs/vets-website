@@ -438,7 +438,7 @@ const formConfig = {
             claimantType: CLAIMANT_TYPES.VETERAN,
           },
           path: 'statement-d',
-          title: 'Provide your supporting statement',
+          title: 'Provide your statement',
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: statement.uiSchema,
           schema: statement.schema,
