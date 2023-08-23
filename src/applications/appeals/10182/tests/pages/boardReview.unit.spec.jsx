@@ -1,14 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import { fireEvent, render } from '@testing-library/react';
 import sinon from 'sinon';
 
-import {
-  DefinitionTester,
-  selectRadio,
-} from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
+
+import { BoardReviewReviewField } from '../../content/boardReview';
 
 describe('NOD board review page', () => {
   const {
@@ -17,7 +17,7 @@ describe('NOD board review page', () => {
   } = formConfig.chapters.boardReview.pages.boardReviewOption;
 
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={{}}
         schema={schema}
@@ -27,13 +27,12 @@ describe('NOD board review page', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(3);
-    form.unmount();
+    expect($$('input', container).length).to.equal(3);
   });
 
   it('should allow submit', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={{}}
         schema={schema}
@@ -44,17 +43,17 @@ describe('NOD board review page', () => {
       />,
     );
 
-    selectRadio(form, 'root_boardReviewOption', 'direct_review');
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    fireEvent.click($('input[value="direct_review"]', container));
+    fireEvent.submit($('form', container));
+
+    expect($$('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
-    form.unmount();
   });
 
   // board option is required
   it('should prevent continuing', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={{}}
         schema={schema}
@@ -65,9 +64,43 @@ describe('NOD board review page', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    fireEvent.submit($('form', container));
+
+    expect($$('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
-    form.unmount();
+  });
+});
+
+describe('BoardReviewReviewField', () => {
+  it('should render the value', () => {
+    const { container } = render(
+      <BoardReviewReviewField>
+        {React.createElement(
+          'div',
+          { formData: 'evidence_submission' },
+          'evidence_submission',
+        )}
+      </BoardReviewReviewField>,
+    );
+
+    expect($('dt', container).textContent).to.equal(
+      'Select a Board review option:',
+    );
+    expect($('dd', container).textContent).to.equal('evidence_submission');
+  });
+
+  it('should render the missing value error', () => {
+    const { container } = render(
+      <BoardReviewReviewField>
+        {React.createElement('div', { formData: null })}
+      </BoardReviewReviewField>,
+    );
+
+    expect($('dt', container).textContent).to.equal(
+      'Select a Board review option:',
+    );
+    expect($('dd .usa-input-error-message', container).textContent).to.equal(
+      'Missing Board review option',
+    );
   });
 });

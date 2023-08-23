@@ -9,7 +9,6 @@ import { makeMockUser } from '@@profile/tests/fixtures/users/user';
 import dd4eduNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
 import notInESR from '@@profile/tests/fixtures/enrollment-system/not-in-esr.json';
 import loa1User from '@@profile/tests/fixtures/users/user-loa1.json';
-import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import manifest from '~/applications/personalization/dashboard/manifest.json';
 
 import {
@@ -50,17 +49,6 @@ describe('The My VA Dashboard', () => {
       const user = makeMockUser();
       cy.intercept('/v0/health_care_applications/enrollment_status', notInESR);
       cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: featureFlagNames.showMyVADashboardV2,
-              value: true,
-            },
-          ],
-        },
-      }).as('featuresB');
       cy.login(user);
       cy.visit(manifest.rootUrl);
     });

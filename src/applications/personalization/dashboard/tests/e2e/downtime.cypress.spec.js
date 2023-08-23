@@ -4,7 +4,6 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
-import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
 import manifest from 'applications/personalization/dashboard/manifest.json';
 
@@ -26,17 +25,6 @@ describe('The My VA Dashboard', () => {
       '/v0/disability_compensation_form/rating_info',
       disabilityRating,
     );
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: featureFlagNames.showMyVADashboardV2,
-            value: true,
-          },
-        ],
-      },
-    });
   });
 
   it('should show a dismissible modal if a dependent service has downtime approaching in the next hour', () => {

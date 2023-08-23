@@ -4,6 +4,7 @@ import {
   concatCategoryCodeText,
   concatObservationInterpretations,
   getObservationValueWithUnits,
+  isArrayAndHasItems,
 } from '../util/helpers';
 import {
   LoincCodes,
@@ -96,16 +97,16 @@ const convertMicrobiologyRecord = record => {
 const convertPathologyRecord = record => {
   return {
     id: record.id,
-    name: 'Surgical pathology',
+    name: record.code?.text,
     type: labTypes.PATHOLOGY,
-    category: '',
-    orderedBy: 'Beth M. Smith',
-    requestedBy: 'John J. Lydon',
-    date: record.effectiveDateTime,
-    sampleTested: record.specimen,
-    labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    collectingLocation: record.performer,
-    results: record.conclusion || record.result,
+    category: concatCategoryCodeText(record),
+    orderedBy: record.physician || emptyField,
+    requestedBy: record.physician || emptyField,
+    date: formatDateLong(record.effectiveDateTime),
+    sampleTested: record.specimen?.text || emptyField,
+    labLocation: record.labLocation || emptyField,
+    collectingLocation: record.location || emptyField,
+    results: record.conclusion || record.result || emptyField,
   };
 };
 
@@ -144,13 +145,19 @@ const convertRadiologyRecord = record => {
     id: record.id,
     name: typeCodingDisplay,
     type: labTypes.RADIOLOGY,
-    category: null,
-    orderedBy: null,
-    requestedBy: null,
-    orderingLocation: null,
+    reason: record.reason || emptyField,
+    category: record.category?.text || emptyField,
+    orderedBy:
+      (isArrayAndHasItems(record.author) && record.author[0].display) ||
+      emptyField,
+    requestedBy:
+      (isArrayAndHasItems(record.author) && record.author[0].display) ||
+      emptyField,
+    clinicalHistory: record.clinicalHistory || emptyField,
+    orderingLocation: record.location || emptyField,
     imagingLocation: authorDisplay,
     date: record.date,
-    facility: null,
+    imagingProvider: record.physician || emptyField,
     results: Buffer.from(record.content[0].attachment.data, 'base64').toString(
       'utf-8',
     ),

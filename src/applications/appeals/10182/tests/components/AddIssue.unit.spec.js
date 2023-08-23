@@ -7,12 +7,13 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { AddIssue } from '../../components/AddIssue';
 import { issueErrorMessages } from '../../content/addIssue';
-import { MAX_LENGTH, LAST_ISSUE } from '../../constants';
-import { getDate } from '../../utils/dates';
+import { MAX_LENGTH } from '../../constants';
+import { LAST_ISSUE } from '../../../shared/constants';
+import { getDate } from '../../../shared/utils/dates';
 
 describe('<AddIssue>', () => {
   const validDate = getDate({ offset: { months: -2 } });
-  const contestableIssues = [
+  const contestedIssues = [
     {
       type: 'contestableIssue',
       attributes: {
@@ -81,7 +82,7 @@ describe('<AddIssue>', () => {
     const issue = 'abcdef '.repeat(MAX_LENGTH.ISSUE_NAME / 6);
     const { container } = render(
       setup({
-        data: { contestableIssues, additionalIssues: [{ issue }] },
+        data: { contestedIssues, additionalIssues: [{ issue }] },
         index: 1,
       }),
     );
@@ -94,7 +95,7 @@ describe('<AddIssue>', () => {
     const decisionDate = getDate({ offset: { years: +200 } });
     const { container } = render(
       setup({
-        data: { contestableIssues, additionalIssues: [{ decisionDate }] },
+        data: { contestedIssues, additionalIssues: [{ decisionDate }] },
         index: 1,
       }),
     );
@@ -110,7 +111,7 @@ describe('<AddIssue>', () => {
     const decisionDate = getDate({ offset: { months: +13 } });
     const { container } = render(
       setup({
-        data: { contestableIssues, additionalIssues: [{ decisionDate }] },
+        data: { contestedIssues, additionalIssues: [{ decisionDate }] },
         index: 1,
       }),
     );
@@ -126,7 +127,7 @@ describe('<AddIssue>', () => {
     const decisionDate = getDate({ offset: { months: -13 } });
     const { container } = render(
       setup({
-        data: { contestableIssues, additionalIssues: [{ decisionDate }] },
+        data: { contestedIssues, additionalIssues: [{ decisionDate }] },
         index: 1,
       }),
     );
@@ -145,7 +146,7 @@ describe('<AddIssue>', () => {
     const { container } = render(
       setup({
         goToPath: goToPathSpy,
-        data: { contestableIssues, additionalIssues },
+        data: { contestedIssues, additionalIssues },
         index: 1,
       }),
     );
@@ -163,7 +164,7 @@ describe('<AddIssue>', () => {
     const { container } = render(
       setup({
         goToPath: goToPathSpy,
-        data: { contestableIssues, additionalIssues },
+        data: { contestedIssues, additionalIssues },
         index: 1,
       }),
     );
