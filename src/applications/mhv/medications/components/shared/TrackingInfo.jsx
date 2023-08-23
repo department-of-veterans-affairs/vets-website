@@ -84,9 +84,9 @@ const TrackingInfo = ({
 
 TrackingInfo.propTypes = {
   carrier: PropTypes.string,
-  trackingNumber: PropTypes.string,
   completeDateTime: PropTypes.string,
   prescriptionName: PropTypes.string,
+  trackingNumber: PropTypes.string,
 };
 
 export default TrackingInfo;
