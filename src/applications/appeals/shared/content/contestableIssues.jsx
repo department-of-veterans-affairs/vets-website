@@ -97,7 +97,7 @@ export const NoIssuesLoadedAlert = () => {
       <va-alert status="error" class="vads-u-margin-bottom--2">
         <h3 slot="headline">We can’t load your issues right now</h3>
         <p>
-          You can try again later, or if you’d like to add your issue manually,
+          You can come back later, or if you’d like to add your issue manually,
           you can select "Add a new issue" to get started.
         </p>
       </va-alert>
@@ -113,7 +113,7 @@ export const noneSelected =
  */
 export const NoneSelectedAlert = ({ count, headerLevel = 3, inReviewMode }) => {
   const wrapAlert = useRef(null);
-  const Header = `H${headerLevel}`;
+  const Header = `h${headerLevel}`;
   const margins = `vads-u-margin-${inReviewMode ? 'y' : 'bottom'}--2`;
 
   useEffect(

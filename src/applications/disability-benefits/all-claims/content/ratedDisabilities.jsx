@@ -8,12 +8,23 @@ import { NULL_CONDITION_STRING } from '../constants';
  * @property {String} diagnosticCode
  * @property {String} name
  * @property {String} ratingPercentage
+ * @property {String} maximumRatingPercentage
  * @param {Disability} disability
  */
-export const disabilityOption = ({ name, ratingPercentage, className }) => {
+export const disabilityOption = ({
+  name,
+  ratingPercentage,
+  className,
+  maximumRatingPercentage,
+}) => {
   // May need to throw an error to Sentry if any of these doesn't exist
   // A valid rated disability *can* have a rating percentage of 0%
   const showRatingPercentage = Number.isInteger(ratingPercentage);
+  const showMaxRatingMessage =
+    Number.isInteger(maximumRatingPercentage) &&
+    maximumRatingPercentage === ratingPercentage &&
+    String(window.sessionStorage.getItem('showDisability526MaximumRating')) ===
+      'true';
 
   return (
     <>
@@ -25,6 +36,15 @@ export const disabilityOption = ({ name, ratingPercentage, className }) => {
       {showRatingPercentage && (
         <p>
           Current rating: <strong>{ratingPercentage}%</strong>
+        </p>
+      )}
+      {showMaxRatingMessage && (
+        <p>
+          You’re already at the maximum rating for{' '}
+          {typeof name === 'string'
+            ? name.toLowerCase()
+            : NULL_CONDITION_STRING}
+          .
         </p>
       )}
     </>
