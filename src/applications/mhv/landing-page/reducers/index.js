@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import { hcaEnrollmentStatusReducer } from './hca-es';
 
-const mhvLandingPageReducer = combineReducers({
+const mhvLandingPage = combineReducers({
   hcaEnrollmentStatus: hcaEnrollmentStatusReducer,
 });
 
 export default {
-  mhvLandingPageReducer,
+  mhvLandingPage,
 };

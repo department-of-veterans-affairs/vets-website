@@ -72,9 +72,25 @@ describe('HCA Enrollment Status actions', () => {
         });
     });
 
-    it('dispatches an error', done => {
+    it('dispatches an error when resource is not found', done => {
       const path = '/v0/health_care_applications/enrollment_status';
       const server = mockApi(path, { errorMessage: 'Not Found' }, 404);
+      const dispatch = sinon.spy();
+      const thunk = fetchHcaEnrollmentStatus();
+      thunk(dispatch, initialState)
+        .then(() => {
+          expect(dispatch.calledWith(fetchHcaEnrollmentStatusFailed)).to.be
+            .true;
+        })
+        .finally(() => {
+          server.close();
+          done();
+        });
+    });
+
+    it('dispatches an error when the server experiences an error', done => {
+      const path = '/v0/health_care_applications/enrollment_status';
+      const server = mockApi(path, { errorMessage: 'Server Error' }, 500);
       const dispatch = sinon.spy();
       const thunk = fetchHcaEnrollmentStatus();
       thunk(dispatch, initialState)

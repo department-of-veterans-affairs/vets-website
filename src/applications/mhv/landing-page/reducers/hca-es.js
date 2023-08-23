@@ -14,11 +14,23 @@ export const hcaEnrollmentStatusReducer = (state = initialState, action) => {
   const { payload, type } = action;
   switch (type) {
     case FETCH_HCA_ENROLLMENT_STATUS_STARTED:
-      return { ...state, loading: true };
+      return {
+        ...state,
+        loading: true,
+      };
     case FETCH_HCA_ENROLLMENT_STATUS_SUCCEEDED:
-      return { ...state, data: payload, loading: false };
+      return {
+        ...state,
+        data: payload,
+        loading: false,
+      };
     case FETCH_HCA_ENROLLMENT_STATUS_FAILED:
-      return { ...state, data: payload, error: true, loading: false };
+      return {
+        ...state,
+        data: payload,
+        error: true,
+        loading: false,
+      };
     default:
       return state;
   }
