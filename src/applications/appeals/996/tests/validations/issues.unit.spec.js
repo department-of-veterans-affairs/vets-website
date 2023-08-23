@@ -2,8 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getDate } from '../../utils/dates';
-import { SELECTED, MAX_LENGTH } from '../../../shared/constants';
-
 import {
   uniqueIssue,
   maxIssues,
@@ -12,6 +10,9 @@ import {
   missingIssueName,
   maxNameLength,
 } from '../../validations/issues';
+import { HLR_MAX_LENGTH } from '../../constants';
+
+import { SELECTED, MAX_LENGTH } from '../../../shared/constants';
 
 describe('uniqueIssue', () => {
   const _ = null;
@@ -80,7 +81,9 @@ describe('maxIssues', () => {
       [SELECTED]: true,
     };
     maxIssues(errors, {
-      contestedIssues: new Array(MAX_LENGTH.SELECTIONS + 1).fill(template),
+      contestedIssues: new Array(HLR_MAX_LENGTH.HLR_SELECTIONS + 1).fill(
+        template,
+      ),
     });
     expect(errors.addError.called).to.be.true;
   });

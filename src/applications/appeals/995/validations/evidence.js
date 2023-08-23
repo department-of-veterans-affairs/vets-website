@@ -4,7 +4,7 @@ import { isValidUSZipCode } from 'platform/forms/address';
 
 import {
   errorMessages,
-  MAX_LENGTH,
+  SC_MAX_LENGTH,
   REGEX_COMMA,
   REGEX_EMPTY_DATE,
 } from '../constants';
@@ -21,7 +21,9 @@ export const validateVaLocation = (errors, data) => {
   const { locationAndName } = data || {};
   if (!locationAndName) {
     errors.addError(errorMessages.evidence.locationMissing);
-  } else if (locationAndName.length > MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME) {
+  } else if (
+    locationAndName.length > SC_MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME
+  ) {
     errors.addError(errorMessages.evidence.locationMaxLength);
   }
 };

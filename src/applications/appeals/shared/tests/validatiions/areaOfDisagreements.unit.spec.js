@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { MAX_LENGTH } from '../../constants';
+import { NOD_MAX_LENGTH } from '../../../10182/constants';
 
 import {
   hasAreaOfDisagreementChoice,
@@ -51,7 +51,7 @@ describe.skip('areaOfDisagreementMaxLength', () => {
     const errors = { addError: sinon.spy() };
     areaOfDisagreementMaxLength(
       errors,
-      'ab '.repeat(MAX_LENGTH.ISSUE_NAME / 2),
+      'ab '.repeat(NOD_MAX_LENGTH.NOD_ISSUE_NAME / 2),
     );
     expect(errors.addError.called).to.be.true;
   });

@@ -79,6 +79,19 @@ const supportedBenefitTypes = [
   // 'nca',
 ];
 
+/**
+ **** MAX LENGTH ****
+ */
+
+// Values from Lighthouse maintained schema v2
+// see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json
+export const HLR_MAX_LENGTH = {
+  HLR_SELECTIONS: 100, // submitted issues (not in schema)
+  DISAGREEMENT_REASON: 90,
+  REP_FIRST_NAME: 30,
+  REP_LAST_NAME: 40,
+};
+
 export const LEGACY_TYPE = 'legacyAppeal';
 
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({

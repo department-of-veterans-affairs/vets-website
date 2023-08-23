@@ -1,4 +1,5 @@
-import { SUBMITTED_DISAGREEMENTS, MAX_LENGTH } from '../constants';
+import { HLR_MAX_LENGTH } from '../../996/constants';
+import { SUBMITTED_DISAGREEMENTS } from '../constants';
 import { replaceSubmittedData } from './replace';
 
 /**
@@ -21,7 +22,7 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
       .filter(Boolean);
     const disagreementArea = replaceSubmittedData(
       // max length in schema
-      reasons.join(',').substring(0, MAX_LENGTH.DISAGREEMENT_REASON),
+      reasons.join(',').substring(0, HLR_MAX_LENGTH.DISAGREEMENT_REASON),
     );
     return {
       ...issue,

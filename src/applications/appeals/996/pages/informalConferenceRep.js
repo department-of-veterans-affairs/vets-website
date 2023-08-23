@@ -2,9 +2,6 @@ import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberW
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
-import { errorMessages } from '../constants';
-import { MAX_LENGTH } from '../../shared/constants';
-
 import {
   ContactRepresentativeTitle,
   RepresentativeFirstNameTitle,
@@ -13,8 +10,10 @@ import {
   RepresentativePhoneExtensionTitle,
   RepresentativeEmailTitle,
 } from '../content/InformalConference';
-
 import { validatePhone } from '../validations';
+import { errorMessages, HLR_MAX_LENGTH } from '../constants';
+
+import { MAX_LENGTH } from '../../shared/constants';
 
 export default {
   uiSchema: {
@@ -70,11 +69,11 @@ export default {
           },
           firstName: {
             type: 'string',
-            maxLength: MAX_LENGTH.REP_FIRST_NAME,
+            maxLength: HLR_MAX_LENGTH.REP_FIRST_NAME,
           },
           lastName: {
             type: 'string',
-            maxLength: MAX_LENGTH.REP_LAST_NAME,
+            maxLength: HLR_MAX_LENGTH.REP_LAST_NAME,
           },
           phone: {
             type: 'string',

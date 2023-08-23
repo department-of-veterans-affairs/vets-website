@@ -12,11 +12,11 @@ import recordEvent from 'platform/monitoring/record-event';
 import { getSelected, calculateIndexOffset } from '../utils/helpers';
 import {
   SELECTED,
-  MAX_LENGTH,
   LAST_SC_ITEM,
   CONTESTABLE_ISSUES_PATH,
   REVIEW_ISSUES,
 } from '../constants';
+import { MAX_LENGTH } from '../../shared/constants';
 
 import { checkValidations } from '../validations';
 import {

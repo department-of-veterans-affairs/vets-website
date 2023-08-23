@@ -1,8 +1,7 @@
 import moment from 'moment';
 
-import { MAX_LENGTH, SHOW_PART3 } from '../constants';
+import { NOD_MAX_LENGTH, SHOW_PART3 } from '../constants';
 
-import { SELECTED } from '../../shared/constants';
 import {
   replaceSubmittedData,
   fixDateFormat,
@@ -12,6 +11,7 @@ import {
   processContestableIssues,
 } from '../../shared/utils/issues';
 import '../../shared/definitions';
+import { MAX_LENGTH, SELECTED } from '../../shared/constants';
 
 /** Filter out ineligible contestable issues:
  * - remove issues more than one year past their decision date
@@ -59,7 +59,10 @@ export const createIssueName = ({ attributes } = {}) => {
   ]
     .filter(part => part)
     .join(' - ');
-  return replaceSubmittedData(result).substring(0, MAX_LENGTH.ISSUE_NAME);
+  return replaceSubmittedData(result).substring(
+    0,
+    NOD_MAX_LENGTH.NOD_ISSUE_NAME,
+  );
 };
 
 /**

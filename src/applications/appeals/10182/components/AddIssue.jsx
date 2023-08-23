@@ -24,10 +24,10 @@ import {
 import { content } from '../content/addIssue';
 
 import {
-  MAX_LENGTH,
   SELECTED,
   REVIEW_AND_SUBMIT,
   LAST_ISSUE,
+  MAX_LENGTH,
 } from '../../shared/constants';
 import { getSelected, calculateIndexOffset } from '../../shared/utils/issues';
 

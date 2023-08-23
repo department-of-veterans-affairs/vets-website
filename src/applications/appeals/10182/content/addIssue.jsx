@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { MAX_LENGTH } from '../constants';
+import { NOD_MAX_LENGTH } from '../constants';
 
 export const issueErrorMessages = {
   missingIssue: 'Add the name of an issue',
   uniqueIssue: 'Enter a unique condition name',
   maxLength: `Enter less than ${
-    MAX_LENGTH.ISSUE_NAME
+    NOD_MAX_LENGTH.NOD_ISSUE_NAME
   } characters for this issue name`,
 
   invalidDate: 'Provide a valid date',

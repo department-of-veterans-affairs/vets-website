@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { errorMessages, SELECTED, MAX_LENGTH } from '../../constants';
+import { errorMessages, SELECTED, SC_MAX_LENGTH } from '../../constants';
 import { getDate } from '../../utils/dates';
 
 import {
@@ -42,7 +42,9 @@ describe('VA evidence', () => {
     it('should show an error for a too long location name', () => {
       const errors = { addError: sinon.spy() };
       validateVaLocation(errors, {
-        locationAndName: 'a'.repeat(MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME + 1),
+        locationAndName: 'a'.repeat(
+          SC_MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME + 1,
+        ),
       });
       expect(
         errors.addError.calledWith(errorMessages.evidence.locationMaxLength),

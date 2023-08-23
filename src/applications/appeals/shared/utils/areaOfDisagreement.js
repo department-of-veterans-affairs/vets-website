@@ -1,4 +1,5 @@
-import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../constants';
+import { HLR_MAX_LENGTH } from '../../996/constants';
+import { SUBMITTED_DISAGREEMENTS } from '../constants';
 import { getIssueName } from './issues';
 
 /**
@@ -62,5 +63,5 @@ export const calculateOtherMaxLength = areaOfDisagreement => {
     }
     return totalLength;
   }, 0);
-  return MAX_LENGTH.DISAGREEMENT_REASON - stringLength;
+  return HLR_MAX_LENGTH.DISAGREEMENT_REASON - stringLength;
 };

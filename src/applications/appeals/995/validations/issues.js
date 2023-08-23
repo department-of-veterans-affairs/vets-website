@@ -9,8 +9,10 @@ import {
   noneSelected,
   maxSelectedErrorMessage,
 } from '../../shared/content/contestableIssues';
-import { errorMessages, MAX_LENGTH } from '../constants';
+import { errorMessages } from '../constants';
 import { validateDate } from './date';
+
+import { MAX_LENGTH } from '../../shared/constants';
 
 export const selectionRequired = (
   errors,

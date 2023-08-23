@@ -8,9 +8,9 @@ import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { IssueCard } from './IssueCard';
-import { APP_NAME, REVIEW_ISSUES } from '../constants';
+import { APP_NAME, HLR_MAX_LENGTH, REVIEW_ISSUES } from '../constants';
 
-import { SELECTED, MAX_LENGTH, LAST_ISSUE } from '../../shared/constants';
+import { SELECTED, LAST_ISSUE } from '../../shared/constants';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
@@ -104,7 +104,10 @@ const ContestableIssuesWidget = props => {
     closeModal: () => setShowErrorModal(false),
     onChange: (index, event) => {
       let { checked } = event.target;
-      if (checked && getSelected(formData).length + 1 > MAX_LENGTH.SELECTIONS) {
+      if (
+        checked &&
+        getSelected(formData).length + 1 > HLR_MAX_LENGTH.HLR_SELECTIONS
+      ) {
         setShowErrorModal(true);
         event.preventDefault(); // prevent checking
         checked = false;

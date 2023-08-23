@@ -6,6 +6,7 @@ import {
   maxSelectedErrorMessage,
 } from '../../shared/content/contestableIssues';
 import { missingAreaOfDisagreementErrorMessage } from '../content/areaOfDisagreement';
+import { HLR_MAX_LENGTH } from '../constants';
 import { MAX_LENGTH } from '../../shared/constants';
 
 /**
@@ -58,7 +59,7 @@ export const uniqueIssue = (
 };
 
 export const maxIssues = (error, data) => {
-  if (getSelected(data).length > MAX_LENGTH.SELECTIONS) {
+  if (getSelected(data).length > HLR_MAX_LENGTH.HLR_SELECTIONS) {
     error.addError(maxSelectedErrorMessage);
   }
 };

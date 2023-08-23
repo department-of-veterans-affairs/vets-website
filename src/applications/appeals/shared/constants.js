@@ -73,10 +73,12 @@ export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 // Values from Lighthouse maintained schema v2
 // see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json
 export const MAX_LENGTH = {
-  SELECTIONS: 100, // submitted issues (not in schema)
+  // used in 995 and 996
   ISSUE_NAME: 140,
-  DISAGREEMENT_REASON: 90,
   EMAIL: 255,
+  // used in 995 and 10182
+  SELECTIONS: 100, // submitted issues (not in schema)
+  // used in all 3 forms
   COUNTRY_CODE: 3,
   AREA_CODE: 4,
   PHONE_NUMBER: 14,
@@ -88,8 +90,6 @@ export const MAX_LENGTH = {
   COUNTRY: 2,
   ZIP_CODE5: 5,
   POSTAL_CODE: 16,
-  REP_FIRST_NAME: 30,
-  REP_LAST_NAME: 40,
 };
 
 /**
@@ -112,7 +112,7 @@ export const DISAGREEMENT_TYPES = {
   otherEntry: 'Something else:',
 };
 
-// Using MAX_LENGTH.DISAGREEMENT_REASON (90) and with all checkboxes selected,
+// Using HLR_MAX_LENGTH.DISAGREEMENT_REASON (90) and with all checkboxes selected,
 // this string is submitted - the numbers constitute the "something else" typed
 // in value
 // "service connection,effective date,disability evaluation,1234567890123456789012345678901234"

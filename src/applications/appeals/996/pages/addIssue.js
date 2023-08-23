@@ -1,3 +1,4 @@
+import { HLR_MAX_LENGTH } from '../constants';
 import { SELECTED, MAX_LENGTH } from '../../shared/constants';
 
 /**
@@ -25,7 +26,7 @@ export default {
     properties: {
       addIssue: {
         type: 'array',
-        maxItems: MAX_LENGTH.SELECTIONS,
+        maxItems: HLR_MAX_LENGTH.HLR_SELECTIONS,
         minItems: 1,
         items: {
           type: 'object',

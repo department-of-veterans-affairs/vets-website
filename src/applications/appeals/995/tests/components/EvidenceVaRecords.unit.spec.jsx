@@ -7,7 +7,7 @@ import EvidenceVaRecords from '../../components/EvidenceVaRecords';
 import {
   errorMessages,
   SELECTED,
-  MAX_LENGTH,
+  SC_MAX_LENGTH,
   EVIDENCE_VA_PATH,
 } from '../../constants';
 import { getDate } from '../../utils/dates';
@@ -441,7 +441,9 @@ describe('<EvidenceVaRecords>', () => {
 
     // *** OTHER ERRORS ***
     it('should show error when location name is too long', async () => {
-      const name = 'abcdef '.repeat(MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME / 6);
+      const name = 'abcdef '.repeat(
+        SC_MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME / 6,
+      );
       const data = { ...mockData, locations: [{ locationAndName: name }] };
       const page = setup({ index: 0, data });
       const { container } = render(page);

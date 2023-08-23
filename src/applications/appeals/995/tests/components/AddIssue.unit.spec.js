@@ -4,14 +4,11 @@ import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
 import AddIssue from '../../components/AddIssue';
-import {
-  errorMessages,
-  MAX_LENGTH,
-  LAST_SC_ITEM,
-  MAX_YEARS_PAST,
-} from '../../constants';
+import { errorMessages, LAST_SC_ITEM, MAX_YEARS_PAST } from '../../constants';
 import { getDate } from '../../utils/dates';
 import { $, $$ } from '../../utils/ui';
+
+import { MAX_LENGTH } from '../../../shared/constants';
 
 describe('<AddIssue>', () => {
   const validDate = getDate({ offset: { months: -2 } });

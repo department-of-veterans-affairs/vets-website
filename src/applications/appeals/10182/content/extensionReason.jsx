@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MAX_LENGTH } from '../constants';
+import { NOD_MAX_LENGTH } from '../constants';
 
 const title = 'Reason for extension';
 
@@ -12,7 +12,7 @@ export const content = {
     </p>
   ),
   label: 'Reason for requesting an extension:',
-  hint: `${MAX_LENGTH.EXTENSION_REASON} characters max.`,
+  hint: `${NOD_MAX_LENGTH.EXTENSION_REASON} characters max.`,
   errorMessage: 'This field cannot be left blank.',
 };
 

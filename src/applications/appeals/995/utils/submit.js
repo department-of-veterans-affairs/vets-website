@@ -1,6 +1,6 @@
 import {
   SELECTED,
-  MAX_LENGTH,
+  SC_MAX_LENGTH,
   CLAIMANT_TYPES,
   PRIMARY_PHONE,
   EVIDENCE_VA,
@@ -13,15 +13,17 @@ import {
   hasMobilePhone,
 } from './contactInfo';
 import {
-  replaceSubmittedData,
-  fixDateFormat,
-} from '../../shared/utils/replace';
-import {
   buildVaLocationString,
   buildPrivateString,
 } from '../validations/evidence';
+
+import {
+  replaceSubmittedData,
+  fixDateFormat,
+} from '../../shared/utils/replace';
 import { returnUniqueIssues } from '../../shared/utils/issues';
 import '../../shared/definitions';
+import { MAX_LENGTH } from '../../shared/constants';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -62,7 +64,7 @@ export const getClaimantData = ({
   if (result.claimantType === 'other' && claimantTypeOtherValue) {
     result.claimantTypeOtherValue = (claimantTypeOtherValue || '').substring(
       0,
-      MAX_LENGTH.CLAIMANT_OTHER,
+      SC_MAX_LENGTH.CLAIMANT_OTHER,
     );
   }
   return result;
@@ -185,7 +187,7 @@ export const getAddress = formData => {
     // stateCode is from enum
     stateCode: truncate('stateCode'),
     // user profile provides "Iso2", whereas Lighthouse wants "ISO2"
-    countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.ADDRESS_COUNTRY),
+    countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY),
     // zipCode5 is always required, set to 00000 for international codes
     // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200995.json#L28
     zipCode5: internationalPostalCode
@@ -218,8 +220,8 @@ export const getPhone = formData => {
     replaceSubmittedData(veteran[phone]?.[value] || '').substring(0, max);
   return phone
     ? removeEmptyEntries({
-        countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
-        areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
+        countryCode: truncate('countryCode', MAX_LENGTH.COUNTRY_CODE),
+        areaCode: truncate('areaCode', MAX_LENGTH.AREA_CODE),
         phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
         phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
       })

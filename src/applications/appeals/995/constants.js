@@ -1,5 +1,6 @@
 import constants from 'vets-json-schema/dist/constants.json';
 // import schema from './config/form-0995-schema.json';
+import { MAX_LENGTH } from '../shared/constants';
 
 export const APP_NAME = 'Supplemental Claim';
 
@@ -57,22 +58,9 @@ export const MAX_YEARS_PAST = 100;
 
 // Values from Lighthouse maintained schema
 // see ./config/form-0995-schema.json
-export const MAX_LENGTH = {
-  SELECTIONS: 100, // submitted issues
+export const SC_MAX_LENGTH = {
+  // is EVIDENCE_DATES being used somewhere?
   EVIDENCE_DATES: 4, // items
-  ISSUE_NAME: 140,
-  EMAIL: 255,
-  PHONE_COUNTRY_CODE: 3,
-  PHONE_AREA_CODE: 4,
-  PHONE_NUMBER: 14,
-  PHONE_NUMBER_EXT: 10,
-  ADDRESS_COUNTRY: 2,
-  ADDRESS_LINE1: 60,
-  ADDRESS_LINE2: 30,
-  ADDRESS_LINE3: 10,
-  CITY: 60,
-  ZIP_CODE5: 5,
-  POSTAL_CODE: 16,
   CLAIMANT_OTHER: 25,
   EVIDENCE_LOCATION_AND_NAME: 255,
 };
