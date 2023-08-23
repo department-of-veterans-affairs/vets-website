@@ -17,9 +17,9 @@ const VetPersInfoUiTitle = props => {
     }
     // Flow 4: third-party claim
     return (
-      <span className="vads-u-font-family--serif vads-u-font-size--h5 vads-u-font-weight--bold">
+      <legend className="vads-u-font-family--serif vads-u-font-size--h5 vads-u-font-weight--bold">
         Tell us about the Veteran who’s connected to the claimant
-      </span>
+      </legend>
     );
   }
 
