@@ -218,7 +218,7 @@ export class CernerCallToAction extends Component {
                     href={myVAHealthLink}
                     onClick={() => {
                       recordEvent({
-                        event: `${GA_PREFIX}-vaos-cerner-redirect-static-landing-page`,
+                        event: `${GA_PREFIX}-cerner-redirect-static-landing-page`,
                       });
                       onCTALinkClick();
                     }}
