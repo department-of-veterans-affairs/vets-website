@@ -2,7 +2,7 @@
   border-bottom: 1px solid $color-gray-light;
   border-top: 1px solid $color-gray-light;
 
-  margin: 24px 0px 0px 0px;
+  margin: 20px 0px 0px 0px;
   padding: 0px 0px 32px 0px;
 
   h2 {
@@ -22,15 +22,17 @@
   margin: 32px 0px 40px 0px;
 
   h2 {
-    margin: 32px 0px 0px 0px;
+    margin: 32px 0px 16px;
   }
 
   p {
     white-space: pre-wrap;
+    // font-family: monospace;
   }
 }
 
 .time-header {
+  margin-bottom: 32px;
   h2 {
     margin: 0px 4px 0px 0px;
     font-size: 15px;
@@ -42,10 +44,10 @@
   }
 }
 
-.make-monospace{
+.monospace {
   font-family: monospace;
 }
 
-.set-width-486{
+.set-width-486 {
   max-width: 486px;
 }

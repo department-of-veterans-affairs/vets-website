@@ -15,6 +15,9 @@ const mockStore = data => ({
         contestedIssues: [],
       },
     },
+    contestableIssues: {
+      status: '',
+    },
     formContext: {
       onReviewPage: false,
       reviewMode: false,
@@ -25,6 +28,7 @@ const mockStore = data => ({
   subscribe: () => {},
   dispatch: () => ({
     setFormData: () => {},
+    getContestableIssues: () => {},
   }),
 });
 

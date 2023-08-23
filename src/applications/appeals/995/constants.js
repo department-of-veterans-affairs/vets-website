@@ -1,6 +1,8 @@
 import constants from 'vets-json-schema/dist/constants.json';
 // import schema from './config/form-0995-schema.json';
 
+export const APP_NAME = 'Supplemental Claim';
+
 // *** URLS ***
 export const DECISION_REVIEWS_URL = '/decision-reviews';
 export const SC_INFO_URL = `${DECISION_REVIEWS_URL}/supplemental-claim`;
