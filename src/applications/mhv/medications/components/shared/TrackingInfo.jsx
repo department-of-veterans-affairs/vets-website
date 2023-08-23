@@ -2,24 +2,37 @@ import React from 'react';
 import { dateFormat } from '../../util/helpers';
 
 const config = {
+  dhl: {
+    label: 'DHL',
+    url: 'http://webtrack.dhlglobalmail.com/?id=462&trackingnumber=',
+  },
   fedex: {
     label: 'FedEx',
-    url: 'https://www.fedex.com/fedextrack/?tracknumbers=+',
+    url: 'https://www.fedex.com/fedextrack/?trknbr=',
   },
   ups: {
     label: 'UPS',
-    url: 'https://www.ups.com/track?track=yes&trackNums=',
+    url:
+      'http://wwwapps.ups.com/WebTracking/processInputRequest?HTMLVersion=5.0&loc=en_US&Requester=UPSHome&tracknum=',
   },
   usps: {
     label: 'USPS',
-    url: 'https://tools.usps.com/go/TrackConfirmAction_input?strOrigTrackNum=',
+    url: 'https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=',
   },
 };
 
-const TrackingInfo = props => {
-  const { carrier, trackingNumber, completeDateTime, prescriptionName } = props;
-  const url = config[carrier.toLowerCase()]?.url + trackingNumber;
-  const label = config[carrier.toLowerCase()]?.label;
+const TrackingInfo = ({
+  carrier,
+  trackingNumber,
+  completeDateTime,
+  prescriptionName,
+}) => {
+  const carrierConfig = config[carrier.toLowerCase()];
+
+  const url = carrierConfig
+    ? carrierConfig.url + trackingNumber
+    : trackingNumber;
+  const label = carrierConfig ? carrierConfig.label : carrier;
 
   return (
     <div className="clearfix tracking-info vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3 vads-u-border-left--7px vads-u-border-color--primary">
