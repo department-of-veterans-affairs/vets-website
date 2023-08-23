@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import { apiRequest } from '~/platform/utilities/api';
 
 export const FETCH_HCA_ENROLLMENT_STATUS_STARTED =
@@ -25,5 +26,11 @@ export const fetchHcaEnrollmentStatus = () => dispatch => {
   dispatch(fetchHcaEnrollmentStatusStarted());
   return apiRequest('/health_care_applications/enrollment_status')
     .then(data => dispatch(fetchHcaEnrollmentStatusSucceeded(data)))
-    .catch(err => dispatch(fetchHcaEnrollmentStatusFailed(err)));
+    .catch(err => {
+      Sentry.withScope(scope => {
+        scope.setExtra('error', err);
+        Sentry.captureMessage(FETCH_HCA_ENROLLMENT_STATUS_FAILED);
+      });
+      dispatch(fetchHcaEnrollmentStatusFailed(err));
+    });
 };
