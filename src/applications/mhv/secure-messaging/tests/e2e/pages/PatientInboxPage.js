@@ -91,6 +91,17 @@ class PatientInboxPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       this.mockRecipients,
     ).as('recipients');
+
+    cy.intercept('GET', 'my_health/v1/messaging/messages/signature', {
+      data: {
+        signatureName: 'Name',
+        includeSignature: true,
+        signatureTitle: 'Title',
+      },
+      errors: {},
+      metadata: {},
+    }).as('signature');
+
     cy.visit('my-health/secure-messages/inbox/', {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
@@ -376,13 +387,14 @@ class PatientInboxPage {
       .contains('Add filters')
       .click({
         waitForAnimations: true,
+        force: true,
       });
   };
 
   selectAdvancedSearchCategory = () => {
     cy.get('#category-dropdown')
       .find('#select')
-      .select('COVID');
+      .select('COVID', { force: true });
   };
 
   selectAdvancedSearchCategoryCustomFolder = () => {
@@ -394,6 +406,7 @@ class PatientInboxPage {
   submitSearchButton = () => {
     cy.get('[data-testid="filter-messages-button"]').click({
       waitForAnimations: true,
+      force: true,
     });
   };
 
@@ -466,6 +479,12 @@ class PatientInboxPage {
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });
+  };
+
+  verifySignature = () => {
+    cy.get('[data-testid="message-body-field"]')
+      .should('have.attr', 'value')
+      .and('not.be.empty');
   };
 }
 

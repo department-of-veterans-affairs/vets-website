@@ -96,7 +96,7 @@ const ConditionDetails = () => {
                 inline: true,
               },
               {
-                title: 'SNOMED Clinical Term',
+                title: 'SNOMED Clinical term',
                 value: conditionDetails.name || ' ',
                 inline: true,
               },
@@ -155,7 +155,7 @@ const ConditionDetails = () => {
                 SNOMED Clinical term
               </h2>
               <p>{conditionDetails.name}</p>
-              <h2 className="vads-u-margin-bottom--0">Provider comments</h2>
+              <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
               <ItemList list={conditionDetails.comments} />
             </div>
           </section>
@@ -168,6 +168,7 @@ const ConditionDetails = () => {
         message="Loading..."
         setFocus
         data-testid="loading-indicator"
+        class="loading-indicator"
       />
     );
   };

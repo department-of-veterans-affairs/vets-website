@@ -1,6 +1,5 @@
 import React from 'react';
 
-import definitions from 'vets-json-schema/dist/definitions.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import formDefinitions from '../definitions/form-definitions';
 
@@ -9,7 +8,18 @@ export default {
   uiSchema: {
     witnessPhone: {
       'ui:title': 'Phone number',
-      'ui:autocomplete': 'tel-national',
+      'ui:autocomplete': 'tel',
+      'ui:errorMessages': {
+        minLength:
+          'Please enter a 10-digit phone number (with or without dashes)',
+        pattern:
+          'Please enter a 10-digit phone number (with or without dashes)',
+        required:
+          'Please enter a 10-digit phone number (with or without dashes)',
+      },
+      'ui:options': {
+        inputType: 'tel',
+      },
     },
     witnessEmail: emailUI(
       <span>
@@ -22,9 +32,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['witnessPhone', 'witnessEmail'],
+    required: ['witnessPhone'],
     properties: {
-      witnessPhone: definitions.phone,
+      witnessPhone: formDefinitions.phone,
       witnessEmail: formDefinitions.pdfEmail,
     },
   },

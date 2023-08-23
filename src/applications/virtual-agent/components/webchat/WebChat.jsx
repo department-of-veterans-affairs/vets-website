@@ -103,6 +103,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     suggestedActionTextColor: 'white',
     suggestedActionBorderRadius: 5,
     suggestedActionBorderWidth: 0,
+    microphoneButtonColorOnDictate: 'rgb(255, 255, 255)',
   };
 
   const handleTelemetry = event => {
@@ -158,16 +159,16 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     if (window.WebChat) {
       // find the send box element
       const sendBox = document.querySelector(
-        'input[placeholder="Type your message"]',
+        'input[class="webchat__send-box-text-box__input"]',
       );
       // change the placeholder text of send box
       sendBox.setAttribute(
         'aria-label',
-        'Type or enable the microphone to speak a message',
+        'Type or enable the microphone to speak',
       );
       sendBox.setAttribute(
         'placeholder',
-        'Type or enable the microphone to speak a message ',
+        'Type or enable the microphone to speak',
       );
     }
     return (
@@ -182,6 +183,21 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
         />
       </div>
     );
+  }
+  if (window.WebChat && isRXSkill !== 'true') {
+    // find the send box element
+    const sendBox = document.querySelector(
+      'input[class="webchat__send-box-text-box__input"]',
+    );
+    // change the placeholder text of send box back to the default if it isn't already
+    if (
+      document.querySelector(
+        'input[placeholder="Type or enable the microphone to speak"]',
+      )
+    ) {
+      sendBox.setAttribute('aria-label', 'Type your message');
+      sendBox.setAttribute('placeholder', 'Type your message');
+    }
   }
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>

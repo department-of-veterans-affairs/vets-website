@@ -1,9 +1,10 @@
 import { expect } from 'chai';
 
-import { getDate } from '../../utils/dates';
 import { validateDate, isValidDate } from '../../validations/date';
 import { issueErrorMessages } from '../../content/addIssue';
 import { SHOW_PART3 } from '../../constants';
+
+import { getDate } from '../../../shared/utils/dates';
 
 describe('validateDate & isValidDate', () => {
   let errorMessage = [];
@@ -116,5 +117,15 @@ describe('validateDate & isValidDate', () => {
     const date = getDate({ offset: { years: -2 } });
     validateDate(errors, date, { [SHOW_PART3]: true });
     expect(errorMessage[0]).to.be.undefined;
+  });
+  it('should throw an error for dates in the distant past when feature toggle is set to support the new form', () => {
+    const date = getDate({ offset: { years: -110 } });
+    validateDate(errors, date, { [SHOW_PART3]: true });
+    expect(errorMessage[0]).to.eq(issueErrorMessages.recentDate);
+    expect(errorMessage[1]).to.not.contain('month');
+    expect(errorMessage[1]).to.not.contain('day');
+    expect(errorMessage[1]).to.contain('year');
+    expect(errorMessage[1]).to.not.contain('other');
+    expect(isValidDate(date)).to.be.false;
   });
 });

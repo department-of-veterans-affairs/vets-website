@@ -1,8 +1,8 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { useLocation, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
+import recordEvent from 'platform/monitoring/record-event';
+import { GA_PREFIX } from '../utils/constants';
 
 export default function BackLink({ appointment }) {
   const {
@@ -10,14 +10,35 @@ export default function BackLink({ appointment }) {
     isPendingAppointment,
     isUpcomingAppointment,
   } = appointment.vaos;
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+
+  const location = useLocation();
+
+  const handleClickGATracker = () => {
+    let status;
+    if (isPendingAppointment) {
+      status = 'pending';
+    } else if (isUpcomingAppointment) {
+      status = 'upcoming';
+    } else if (isPastAppointment) {
+      status = 'past';
+    }
+
+    const progress =
+      location.search === '?confirmMsg=true' ? 'confirmation' : 'appointment';
+
+    if (progress === 'confirmation' && status === 'upcoming') {
+      status = 'direct';
+    }
+    return () => {
+      recordEvent({
+        event: `${GA_PREFIX}-${status}-${progress}-details-descriptive-back-link`,
+      });
+    };
+  };
+
   const handleBackLinkText = () => {
     let linkText;
-    if (isPendingAppointment && featureBreadcrumbUrlUpdate) {
-      linkText = 'Back to requests';
-    } else if (isPendingAppointment) {
+    if (isPendingAppointment) {
       linkText = 'Back to pending appointments';
     } else if (isUpcomingAppointment) {
       linkText = 'Back to appointments';
@@ -52,6 +73,7 @@ export default function BackLink({ appointment }) {
         aria-label={handleBackLinkText()}
         to={handleBackLink()}
         className="vaos-hide-for-print vads-u-color--link-default"
+        onClick={handleClickGATracker()}
       >
         {handleBackLinkText()}
       </NavLink>

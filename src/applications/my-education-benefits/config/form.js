@@ -30,6 +30,7 @@ import ApplicantIdentityView from '../components/ApplicantIdentityView';
 import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
 import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
+import CannotRelinquishLabel from '../components/CannotRelinquishLabel';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import CustomEmailField from '../components/CustomEmailField';
@@ -150,6 +151,19 @@ const benefits = [
   ELIGIBILITY.CHAPTER1606,
   'CannotRelinquish',
 ];
+
+const filterEligibility = (form, state) => {
+  const eligibility = state?.eligibility;
+  if (!eligibility || !eligibility.length) {
+    return { enum: benefits };
+  }
+  return {
+    enum: benefits.filter(
+      benefit =>
+        eligibility.includes(benefit) || benefit === 'CannotRelinquish',
+    ),
+  };
+};
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
@@ -973,32 +987,14 @@ const formConfig = {
                     form =>
                       form[formFields.viewPhoneNumbers].mobilePhoneNumber.phone,
                     form => form[formFields.viewPhoneNumbers].phoneNumber.phone,
-                    form => form?.duplicateEmail,
-                    form => form?.duplicatePhone,
-                    (
-                      mobilePhoneNumber,
-                      homePhoneNumber,
-                      duplicateEmail,
-                      duplicatePhone,
-                    ) => {
+                    (mobilePhoneNumber, homePhoneNumber) => {
                       const invalidContactMethods = [];
 
-                      const dupePhonePresent = duplicatePhone?.filter(
-                        entry => entry.dupe === true,
-                      );
-
-                      if (!mobilePhoneNumber || dupePhonePresent?.length > 0) {
+                      if (!mobilePhoneNumber) {
                         invalidContactMethods.push('Mobile Phone');
                       }
                       if (!homePhoneNumber) {
                         invalidContactMethods.push('Home Phone');
-                      }
-                      const dupeEmailPresent = duplicateEmail?.filter(
-                        entry => entry.dupe === true,
-                      );
-
-                      if (dupeEmailPresent?.length > 0) {
-                        invalidContactMethods.push('Email');
                       }
 
                       return {
@@ -1032,15 +1028,8 @@ const formConfig = {
               ),
               [formFields.receiveTextMessages]: {
                 'ui:title':
-                  'Would you like to receive text message notifications on your education benefits?',
+                  'Would you like to receive text message notifications about your education benefits?',
                 'ui:widget': 'radio',
-                'ui:required': formData =>
-                  formData?.duplicatePhone?.some(
-                    entry => entry?.dupe === false && entry?.dupe !== '',
-                  ) ||
-                  formData?.duplicateEmail?.some(
-                    entry => entry?.dupe === false && entry?.dupe !== '',
-                  ),
                 'ui:validations': [
                   (errors, field, formData) => {
                     const isYes = field.slice(0, 4).includes('Yes');
@@ -1049,12 +1038,6 @@ const formConfig = {
                     const { isInternational } = formData[
                       formFields.viewPhoneNumbers
                     ].mobilePhoneNumber;
-                    const hasDupePhone = formData?.duplicatePhone?.filter(
-                      entry => entry?.dupe === true,
-                    );
-                    const hasDupeEmail = formData?.duplicateEmail?.filter(
-                      entry => entry?.dupe === true,
-                    );
 
                     if (isYes) {
                       if (!phoneExist) {
@@ -1065,26 +1048,11 @@ const formConfig = {
                         errors.addError(
                           "You can't select that response because you have an international mobile phone number",
                         );
-                      } else if (hasDupePhone?.length > 0) {
-                        errors.addError(
-                          "You can't select that response because your mobile phone number is on file for another person",
-                        );
                       }
-                    } else if (hasDupeEmail?.length > 0 && !isYes) {
-                      errors.addError(
-                        "You can't select that response because your email is on file for another person",
-                      );
                     }
                   },
                 ],
                 'ui:options': {
-                  hideIf: formData =>
-                    formData?.duplicateEmail?.some(
-                      entry => entry?.dupe === true,
-                    ) &&
-                    formData?.duplicatePhone?.some(
-                      entry => entry?.dupe === true,
-                    ),
                   widgetProps: {
                     Yes: { 'data-info': 'yes' },
                     No: { 'data-info': 'no' },
@@ -1124,8 +1092,7 @@ const formConfig = {
                   ) ||
                   formData[formFields.viewPhoneNumbers][
                     formFields.mobilePhoneNumber
-                  ].isInternational ||
-                  formData?.duplicatePhone?.some(entry => entry?.dupe === true),
+                  ].isInternational,
               },
             },
             'view:noMobilePhoneAlert': {
@@ -1173,6 +1140,12 @@ const formConfig = {
                   <>
                     You can’t choose to get email notifications because your
                     email is on file for another person with education benefits.
+                    You will not be able to take full advantage of VA’s
+                    electronic notifications and enrollment verifications
+                    available. If you cannot, certain electronic services will
+                    be limited or unavailable.
+                    <br />
+                    <br />
                     <a
                       target="_blank"
                       href="https://www.va.gov/education/verify-school-enrollment"
@@ -1184,17 +1157,21 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData =>
-                  formData?.duplicateEmail?.some(
-                    entry => entry?.dupe === false && entry?.dupe !== '',
-                  ) ||
-                  (formData?.duplicateEmail?.some(
-                    entry => entry?.dupe === true,
-                  ) &&
-                    formData?.duplicatePhone?.some(
-                      entry => entry?.dupe === true,
-                    )) ||
-                  (!formData?.duplicateEmail && !formData?.duplicatePhone),
+                hideIf: formData => {
+                  const isNo = formData[
+                    'view:receiveTextMessages'
+                  ]?.receiveTextMessages
+                    ?.slice(0, 3)
+                    ?.includes('No,');
+                  const noDuplicates = formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === false,
+                  );
+
+                  if (isNo && noDuplicates === false) {
+                    return false;
+                  }
+                  return true;
+                },
               },
             },
             'view:mobilePhoneOnFileWithSomeoneElse': {
@@ -1207,6 +1184,8 @@ const formConfig = {
                     advantage of VA’s electronic notifications and enrollment
                     verifications available. If you cannot, certain electronic
                     services will be limited or unavailable.
+                    <br />
+                    <br />
                     <a
                       target="_blank"
                       href="https://www.va.gov/education/verify-school-enrollment"
@@ -1218,51 +1197,26 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData =>
-                  (formData?.duplicatePhone &&
-                    formData?.duplicatePhone?.some(
-                      entry => entry?.dupe === false && entry?.dupe !== '',
-                    )) ||
-                  (formData?.duplicateEmail &&
-                    formData?.duplicateEmail?.some(
-                      entry => entry?.dupe === true,
-                    ) &&
-                    formData?.duplicatePhone &&
-                    formData?.duplicatePhone?.some(
-                      entry => entry?.dupe === true,
-                    )) ||
-                  (!formData?.duplicateEmail && !formData?.duplicatePhone),
-              },
-            },
-            'view:duplicateEmailAndPhoneAndNoHomePhone': {
-              'ui:description': (
-                <va-alert status="warning">
-                  <>
-                    You can’t choose to get text notifications because your
-                    mobile phone number is on file for another person with
-                    education benefits. You will not be able to take full
-                    advantage of VA’s electronic notifications and enrollment
-                    verifications available. If you cannot, certain electronic
-                    services will be limited or unavailable.{' '}
-                    <a
-                      target="_blank"
-                      href="https://www.va.gov/education/verify-school-enrollment/"
-                      rel="noreferrer"
-                    >
-                      Learn more about the Enrollment Verifications
-                    </a>
-                  </>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData =>
-                  formData?.duplicatePhone?.some(
-                    entry => entry?.dupe === false && entry?.dupe !== '',
-                  ) ||
-                  formData?.duplicateEmail?.some(
-                    entry => entry?.dupe === false && entry?.dupe !== '',
-                  ) ||
-                  (!formData?.duplicateEmail && !formData?.duplicatePhone),
+                hideIf: formData => {
+                  const isYes = formData[
+                    'view:receiveTextMessages'
+                  ]?.receiveTextMessages
+                    ?.slice(0, 4)
+                    ?.includes('Yes');
+                  const noDuplicates = formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === false,
+                  );
+
+                  const mobilePhone =
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
+                    ]?.phone;
+
+                  if (isYes && noDuplicates === false && mobilePhone) {
+                    return false;
+                  }
+                  return true;
+                },
               },
             },
           },
@@ -1279,7 +1233,7 @@ const formConfig = {
               },
               [formFields.viewReceiveTextMessages]: {
                 type: 'object',
-                // required: [formFields.receiveTextMessages],
+                required: [formFields.receiveTextMessages],
                 properties: {
                   [formFields.receiveTextMessages]: {
                     type: 'string',
@@ -1451,7 +1405,14 @@ const formConfig = {
           path: 'benefit-selection',
           title: 'Benefit selection',
           subTitle: 'You’re applying for the Post-9/11 GI Bill®',
-          depends: formData => formData.eligibility?.length,
+          depends: formData => {
+            // If the showMebEnhancements09 feature flag is turned on, show the page
+            if (formData.showMebEnhancements09) {
+              return true;
+            }
+            // If the feature flag is not turned on, check the eligibility length
+            return Boolean(formData.eligibility?.length);
+          },
           uiSchema: {
             'view:post911Notice': {
               'ui:description': (
@@ -1499,7 +1460,7 @@ const formConfig = {
                     Chapter30: 'Montgomery GI Bill Active Duty (Chapter 30)',
                     Chapter1606:
                       'Montgomery GI Bill Selected Reserve (Chapter 1606)',
-                    CannotRelinquish: "I'm not sure",
+                    CannotRelinquish: <CannotRelinquishLabel />,
                   },
                   widgetProps: {
                     Chapter30: { 'data-info': 'Chapter30' },
@@ -1508,31 +1469,14 @@ const formConfig = {
                   },
                   selectedProps: {
                     Chapter30: { 'aria-describedby': 'Chapter30' },
-                    Chapter1606: {
-                      'aria-describedby': 'Chapter1606',
-                    },
+                    Chapter1606: { 'aria-describedby': 'Chapter1606' },
                     CannotRelinquish: {
                       'aria-describedby': 'CannotRelinquish',
                     },
                   },
                   updateSchema: (() => {
-                    const filterEligibility = createSelector(
-                      state => state.eligibility,
-                      eligibility => {
-                        if (!eligibility || !eligibility.length) {
-                          return benefits;
-                        }
-
-                        return {
-                          enum: benefits.filter(
-                            benefit =>
-                              eligibility.includes(benefit) ||
-                              benefit === 'CannotRelinquish',
-                          ),
-                        };
-                      },
-                    );
-                    return (form, state) => filterEligibility(form, state);
+                    // Returns the filterEligibility function, which will be used at runtime.
+                    return filterEligibility;
                   })(),
                 },
                 'ui:errorMessages': {

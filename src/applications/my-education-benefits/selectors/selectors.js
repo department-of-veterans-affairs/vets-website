@@ -42,5 +42,8 @@ export const getAppData = state => ({
   showMebEnhancements08: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebEnhancements08
   ],
+  showMebEnhancements09: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMebEnhancements09
+  ],
   user: state.user || {},
 });

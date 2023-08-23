@@ -2,7 +2,6 @@ import React from 'react';
 
 import { omit } from 'lodash';
 
-import definitions from 'vets-json-schema/dist/definitions.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import formDefinitions from '../definitions/form-definitions';
 
@@ -15,7 +14,18 @@ export default {
   uiSchema: {
     veteranPhone: {
       'ui:title': 'Phone number',
-      'ui:autocomplete': 'tel-national',
+      'ui:autocomplete': 'tel',
+      'ui:errorMessages': {
+        minLength:
+          'Please enter a 10-digit phone number (with or without dashes)',
+        pattern:
+          'Please enter a 10-digit phone number (with or without dashes)',
+        required:
+          'Please enter a 10-digit phone number (with or without dashes)',
+      },
+      'ui:options': {
+        inputType: 'tel',
+      },
     },
     veteranEmail: {
       ...partialEmailUi,
@@ -49,9 +59,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['veteranPhone', 'veteranEmail'],
+    required: ['veteranPhone'],
     properties: {
-      veteranPhone: definitions.phone,
+      veteranPhone: formDefinitions.phone,
       veteranEmail: formDefinitions.pdfEmail,
     },
   },

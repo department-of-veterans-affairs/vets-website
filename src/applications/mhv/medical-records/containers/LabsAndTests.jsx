@@ -50,19 +50,22 @@ const LabsAndTests = () => {
         message="Loading..."
         setFocus
         data-testid="loading-indicator"
+        class="loading-indicator"
       />
     );
   };
 
   return (
     <div id="labs-and-tests">
-      <h1 className="page-title">Lab and test results</h1>
+      <h1 className="page-title vads-u-margin-bottom--1">
+        Lab and test results
+      </h1>
       <section className="set-width-486">
-        <p>Review lab and test results in your VA medical records.</p>
-        <va-additional-info trigger="What to know about lab and test results">
-          This is some additional info about lab and test results, though we are
-          waiting on the Content Team to tell us what should be here...
-        </va-additional-info>
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
+          Most lab and test results are available <strong>36 hours</strong>{' '}
+          after the lab confirms them. Pathology results may take{' '}
+          <strong>14 days</strong> or longer to confirm.{' '}
+        </p>
       </section>
       {content()}
     </div>

@@ -141,4 +141,30 @@ describe('<ContestableIssuesWidget>', () => {
       expect(setFormDataSpy.called).to.be.false;
     });
   });
+
+  it('should not show no loaded issues alert after remove all additional items', async () => {
+    const props = getProps();
+    const { container } = render(
+      <ContestableIssuesWidget {...props} additionalIssues={[]} value={[]} />,
+    );
+
+    expect($$('va-alert', container).length).to.equal(1);
+    expect($('va-alert', container).innerHTML).to.contain(
+      'We can’t load your issues right now',
+    );
+  });
+
+  it('should not show no loaded issues alert after remove all additional items', async () => {
+    const props = getProps();
+    const { container, rerender } = render(
+      <ContestableIssuesWidget {...props} value={[]} />,
+    );
+
+    rerender(
+      <ContestableIssuesWidget {...props} additionalIssues={[]} value={[]} />,
+    );
+    await waitFor(() => {
+      expect($$('va-alert', container).length).to.equal(0);
+    });
+  });
 });

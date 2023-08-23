@@ -18,13 +18,19 @@
 .link-button:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
-
 .main-content {
-  max-width: 650px;
+  padding: 10px;
+  margin-bottom: 40px;
 
   @media (max-width: $small-screen) {
     max-width: 480px;
   }
+}
+.breadcrumbs-container {
+  @media (max-width: $large-screen) {
+    margin-left: -16px;
+  }
+  padding: 0px;
 }
 .link-to-details {
   i {
@@ -37,28 +43,29 @@
 
 }
 .landing-page {
-  @media (min-width: $medium-screen) {
-    margin-left: -180px;
-  }
   h1 {
     color: $color-gray-dark;
     margin: 0;
   }
   .medications-list-sort {
-    margin-top: -25px;
-    width: 272;
+    display: flex;
+    flex-direction: row;
+    margin-top: -35px;
+    .sort-button {
+      margin-left: 8px;
+      margin-top: 60px;
+    }
   }
   .rx-page-total-info {
     margin-top: 15px;
     margin-bottom: 15px;
     max-width: 500px;
+    font-size: 1.6rem;
+    font-weight: normal;
   }
   .pagination {
     max-width: 500px;
     border-top: 0px;
-  }
-  .landing-page-content {
-    max-width: 500px;
   }
   section {
     .feedback {
@@ -72,7 +79,7 @@
     color: $color-gray-dark;
     .rx-card-detials{
       margin-left: 5px;
-      h4 {
+      h3 {
         margin: 8px 0;
       }
       .shipping-info {

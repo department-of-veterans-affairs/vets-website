@@ -27,7 +27,6 @@ const testConfig = createTestConfig(
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
-            { name: 'combined_financial_status_report', value: true },
             {
               name: 'combined_financial_status_report_enhancements',
               value: true,
@@ -244,7 +243,7 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'cfsr-recreational-vehicle-records': ({ afterHook }) => {
+      'recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
           cy.findByLabelText(
             /What is the estimated value of all of your trailers, campers, and boats?/,
@@ -493,8 +492,16 @@ const testConfig = createTestConfig(
             .find('input')
             .first()
             .type('Mark Webb');
-          cy.get(`input[name="veteran-certify"]`).check();
-          cy.get(`input[name="privacy-policy"]`).check();
+          cy.get(`#veteran-certify`)
+            .first()
+            .shadow()
+            .find('input')
+            .check();
+          cy.get(`#privacy-policy`)
+            .first()
+            .shadow()
+            .find('input')
+            .check();
           cy.findAllByText(/Submit your request/i, {
             selector: 'button',
           }).click();

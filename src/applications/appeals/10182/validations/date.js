@@ -2,10 +2,11 @@ import moment from 'moment';
 
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 
-import { fixDateFormat } from '../utils/replace';
-import { FORMAT_YMD, SHOW_PART3, MAX_YEARS_PAST } from '../constants';
-
+import { SHOW_PART3 } from '../constants';
 import { issueErrorMessages } from '../content/addIssue';
+
+import { fixDateFormat } from '../../shared/utils/replace';
+import { FORMAT_YMD, MAX_YEARS_PAST } from '../../shared/constants';
 
 const minDate1 = moment()
   .subtract(1, 'year')
@@ -65,12 +66,12 @@ export const validateDate = (
     // Lighthouse won't accept same day (as submission) decision date
     errors.addError(issueErrorMessages.pastDate);
     errorParts.year = true; // only the year is invalid at this point
-  } else if (
-    (!data[SHOW_PART3] && date.isBefore(minDate1)) ||
-    date.isBefore(minDate100)
-  ) {
-    // max 1 year for old form or 100 years for newer form
+  } else if (!data[SHOW_PART3] && date.isBefore(minDate1)) {
     errors.addError(issueErrorMessages.newerDate);
+    errorParts.year = true;
+  } else if (date.isBefore(minDate100)) {
+    // max 1 year for old form or 100 years for newer form
+    errors.addError(issueErrorMessages.recentDate);
     errorParts.year = true; // only the year is invalid at this point
   }
 

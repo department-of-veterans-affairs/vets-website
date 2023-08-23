@@ -3,6 +3,7 @@ import VaRadioField from '../web-component-fields/VaRadioField';
 /**
  * Web component uiSchema for generic radio field
  *
+ * Usage uiSchema:
  * ```js
  * exampleRadio: radioUI({
  *  title: 'Select animal',
@@ -13,23 +14,25 @@ import VaRadioField from '../web-component-fields/VaRadioField';
  *  }
  * })
  * ```
- * @param {{
+ *
+ * Usage schema:
+ * ```js
+ * exampleRadio: radioSchema(['cat', 'dog', 'octopus'])
+ * ```
+ * @param {UIOptions & {
  *  title?: UISchemaOptions['ui:title'],
  *  description?: UISchemaOptions['ui:description'],
- *  labels: Record<PropertyKey, string>,
- *  tile?: boolean,
  * }} options
  * @returns {UISchemaOptions}
  */
-export const radioUI = ({ title, description, labels, tile }) => {
+export const radioUI = ({ title, description, ...uiOptions }) => {
   return {
     'ui:title': title,
     'ui:description': description,
     'ui:webComponentField': VaRadioField,
     'ui:widget': 'radio', // This is required for the review page to render the field properly
     'ui:options': {
-      tile,
-      labels,
+      ...uiOptions,
     },
   };
 };
