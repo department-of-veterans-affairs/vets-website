@@ -256,6 +256,7 @@
     "classnames": "^2.3.1",
     "cookie": "^0.4.1",
     "core-js": "^3.18.0",
+    "@datadog/browser-rum": "^4.45.0",
     "date-fns": "^2.24.0",
     "date-fns-tz": "^1.1.1",
     "dotenv": "^10.0.0",

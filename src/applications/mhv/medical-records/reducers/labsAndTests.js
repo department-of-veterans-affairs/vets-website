@@ -4,6 +4,7 @@ import {
   concatCategoryCodeText,
   concatObservationInterpretations,
   getObservationValueWithUnits,
+  isArrayAndHasItems,
 } from '../util/helpers';
 import {
   LoincCodes,
@@ -144,13 +145,19 @@ const convertRadiologyRecord = record => {
     id: record.id,
     name: typeCodingDisplay,
     type: labTypes.RADIOLOGY,
-    category: null,
-    orderedBy: null,
-    requestedBy: null,
-    orderingLocation: null,
+    reason: record.reason || emptyField,
+    category: record.category?.text || emptyField,
+    orderedBy:
+      (isArrayAndHasItems(record.author) && record.author[0].display) ||
+      emptyField,
+    requestedBy:
+      (isArrayAndHasItems(record.author) && record.author[0].display) ||
+      emptyField,
+    clinicalHistory: record.clinicalHistory || emptyField,
+    orderingLocation: record.location || emptyField,
     imagingLocation: authorDisplay,
     date: record.date,
-    facility: null,
+    imagingProvider: record.physician || emptyField,
     results: Buffer.from(record.content[0].attachment.data, 'base64').toString(
       'utf-8',
     ),

@@ -70,11 +70,26 @@ export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
  **** MAX LENGTH ****
  */
 
-// Values from Lighthouse maintained schema v1
-// see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v1/10182.json
+// Values from Lighthouse maintained schema v2
+// see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json
 export const MAX_LENGTH = {
-  SELECTIONS: 100, // submitted issues
+  SELECTIONS: 100, // submitted issues (not in schema)
+  ISSUE_NAME: 140,
   DISAGREEMENT_REASON: 90,
+  EMAIL: 255,
+  COUNTRY_CODE: 3,
+  AREA_CODE: 4,
+  PHONE_NUMBER: 14,
+  PHONE_NUMBER_EXT: 10,
+  ADDRESS_LINE1: 60,
+  ADDRESS_LINE2: 30,
+  ADDRESS_LINE3: 10,
+  CITY: 60,
+  COUNTRY: 2,
+  ZIP_CODE5: 5,
+  POSTAL_CODE: 16,
+  REP_FIRST_NAME: 30,
+  REP_LAST_NAME: 40,
 };
 
 /**
@@ -106,3 +121,6 @@ export const SUBMITTED_DISAGREEMENTS = {
   effectiveDate: 'effective date',
   evaluation: 'disability evaluation',
 };
+
+// session storage keys
+export const LAST_ISSUE = 'last-issue'; // focus management across pages

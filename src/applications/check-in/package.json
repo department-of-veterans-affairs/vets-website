@@ -6,7 +6,6 @@
     },
     "licence": "MIT",
     "dependencies": {
-        "@datadog/browser-rum": "^4.22.0",
         "@sentry/browser": "^6.13.2",
         "date-fns": "^2.24.0",
         "date-fns-tz": "^1.1.1",
