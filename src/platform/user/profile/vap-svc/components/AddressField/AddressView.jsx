@@ -9,8 +9,15 @@ export default function AddressView({ data: address }) {
   // international address
   return (
     <>
-      <div className="dd-privacy-hidden">{street}</div>
-      <div className="dd-privacy-hidden">{cityStateZip}</div>
+      <div className="dd-privacy-hidden" data-dd-action-name="street">
+        {street}
+      </div>
+      <div
+        className="dd-privacy-hidden"
+        data-dd-action-name="city, state and zip code"
+      >
+        {cityStateZip}
+      </div>
       {country && <div>{country}</div>}
     </>
   );

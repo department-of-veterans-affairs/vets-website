@@ -78,8 +78,12 @@ describe('Confirmation page', () => {
   });
   it('should have Datadog class names to hide PII', () => {
     const tree = mount(<ConfirmationPage store={fakeStore} />);
-    expect(tree.find('span.dd-privacy-hidden').length).to.eq(3);
-    expect(tree.find('li .dd-privacy-hidden').length).to.eq(1);
+    expect(
+      tree.find('span.dd-privacy-hidden[data-dd-action-name]').length,
+    ).to.eq(3);
+    expect(
+      tree.find('li .dd-privacy-hidden[data-dd-action-name]').length,
+    ).to.eq(1);
     tree.unmount();
   });
 });
