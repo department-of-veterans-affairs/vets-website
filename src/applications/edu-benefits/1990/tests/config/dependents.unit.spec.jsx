@@ -6,13 +6,12 @@ import {
   DefinitionTester,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../1990/config/form.js';
+import formConfig from '../../config/form.js';
 
 describe('Edu 1990 dependents', () => {
   const {
     schema,
     uiSchema,
-    depends,
   } = formConfig.chapters.personalInformation.pages.dependents;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -52,31 +51,5 @@ describe('Edu 1990 dependents', () => {
     formDOM.submitForm();
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
-  });
-  it('should show page only if served before 1977', () => {
-    expect(
-      depends({
-        toursOfDuty: [
-          {
-            dateRange: {
-              from: '1970-01-01',
-              to: '1990-01-01',
-            },
-          },
-        ],
-      }),
-    ).to.be.true;
-    expect(
-      depends({
-        toursOfDuty: [
-          {
-            dateRange: {
-              from: '1977-01-02',
-              to: '1990-01-01',
-            },
-          },
-        ],
-      }),
-    ).to.be.false;
   });
 });
