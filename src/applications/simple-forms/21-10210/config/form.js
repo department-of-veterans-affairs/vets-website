@@ -181,7 +181,7 @@ const formConfig = {
         witnessPersInfoPageA: {
           // for Flow 2: 3rd-party claim, vet claimant
           path: 'witness-personal-information-a',
-          title: 'Your personal information',
+          title: '',
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
             claimantType: CLAIMANT_TYPES.VETERAN,
@@ -193,7 +193,7 @@ const formConfig = {
         witnessPersInfoPageB: {
           // for Flow 2: 3rd-party claim, non-vet claimant
           path: 'witness-personal-information-b',
-          title: 'Your personal information',
+          title: '',
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
@@ -204,7 +204,7 @@ const formConfig = {
         },
         witnessOtherRelationshipPage: {
           path: 'witness-other-relationship',
-          title: 'Your other relationship',
+          title: '',
           depends: witnessHasOtherRelationship,
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: witnessOtherRelationship.uiSchema,
@@ -218,7 +218,7 @@ const formConfig = {
       pages: {
         witnessContactInfoPage: {
           path: 'witness-contact-information',
-          title: 'Your contact information',
+          title: '',
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
           },
@@ -274,7 +274,7 @@ const formConfig = {
       pages: {
         claimantPersInfoPage: {
           path: 'claimant-personal-information',
-          title: 'Claimant personal information',
+          title: '',
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
@@ -293,7 +293,7 @@ const formConfig = {
       pages: {
         claimantIdInfoPage: {
           path: 'claimant-identification-information',
-          title: 'Claimant’s identification information',
+          title: '',
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
@@ -312,7 +312,7 @@ const formConfig = {
       pages: {
         claimantAddrInfoPage: {
           path: 'claimant-address-information',
-          title: 'Claimant’s mailing address',
+          title: '',
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
@@ -331,7 +331,7 @@ const formConfig = {
       pages: {
         claimantContInfoPage: {
           path: 'claimant-contact-information',
-          title: 'Claimant’s contact information',
+          title: '',
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
@@ -369,7 +369,7 @@ const formConfig = {
       pages: {
         vetPersInfoPage: {
           path: 'veteran-personal-information',
-          title: 'Veteran personal information',
+          title: '',
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: vetPersInfo.uiSchema,
           schema: vetPersInfo.schema,
@@ -386,7 +386,7 @@ const formConfig = {
       pages: {
         veteranIdentificationInfo1: {
           path: 'veteran-identification-information',
-          title: 'Veteran identification information',
+          title: '',
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: vetIdInfo.uiSchema,
           schema: vetIdInfo.schema,
@@ -403,7 +403,7 @@ const formConfig = {
       pages: {
         veteranMailingAddressInfo1: {
           path: 'veteran-mailing-address',
-          title: 'Veteran mailing address',
+          title: '',
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: vetAddrInfo.uiSchema,
           schema: vetAddrInfo.schema,
@@ -420,7 +420,7 @@ const formConfig = {
       pages: {
         veteranContactInfo1: {
           path: 'veteran-contact-information',
-          title: 'Veteran contact information',
+          title: '',
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: vetContInfo.uiSchema,
           schema: vetContInfo.schema,
@@ -438,7 +438,7 @@ const formConfig = {
             claimantType: CLAIMANT_TYPES.VETERAN,
           },
           path: 'statement-d',
-          title: 'Provide your supporting statement',
+          title: 'Provide your statement',
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: statement.uiSchema,
           schema: statement.schema,
