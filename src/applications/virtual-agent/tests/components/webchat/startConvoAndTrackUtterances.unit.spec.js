@@ -255,6 +255,7 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       const activity = {
         type: 'event',
         name: 'Skill_Entry',
+        value: 'RX_Skill',
         from: { role: 'bot' },
       };
       const rxActivity = {
@@ -284,6 +285,7 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       const activity = {
         type: 'event',
         name: 'Skill_Exit',
+        value: 'RX_Skill',
         from: { role: 'bot' },
       };
       const rxActivity = {
