@@ -44,6 +44,9 @@ export const MessageReadStatus = {
 };
 
 export const ErrorMessages = {
+  LandingPage: {
+    GET_INBOX_ERROR: 'Unable to retrieve messages at this moment',
+  },
   ComposeForm: {
     RECIPIENT_REQUIRED: 'Please select a recipient.',
     CATEGORY_REQUIRED: 'Please select a category.',
@@ -150,6 +153,7 @@ export const Alerts = {
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',
     FOLDER_NAME_TAKEN:
       'That folder name is already in use. Please use another name.',
+    GET_FOLDER_ERROR: 'We’re sorry. Something went wrong on our end.',
   },
   Thread: {
     GET_THREAD_ERROR: 'We’re sorry. Something went wrong on our end.',

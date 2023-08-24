@@ -39,7 +39,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     const folderID = MockFoldersResponse.data.at(4).attributes.folderId;
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderID}`,
+      `/my_health/v1/messaging/folders/${folderID}*`,
       MockCustomFolderResponse,
     ).as('customFolderID');
     cy.intercept(
