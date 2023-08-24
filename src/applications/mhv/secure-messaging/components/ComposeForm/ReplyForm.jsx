@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -226,75 +226,100 @@ const ReplyForm = props => {
     [category, subject],
   );
 
-  const checkMessageValidity = () => {
-    let messageValid = true;
-    if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-      setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
-      messageValid = false;
-    }
-    setMessageInvalid(!messageValid);
-    return messageValid;
-  };
+  const checkMessageValidity = useCallback(
+    () => {
+      let messageValid = true;
+      if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+        setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
+        messageValid = false;
+      }
+      setMessageInvalid(!messageValid);
+      return messageValid;
+    },
+    [messageBody],
+  );
 
-  const sendMessageHandler = async e => {
-    await setMessageInvalid(false);
-    if (checkMessageValidity()) {
-      setSendMessageFlag(true);
-      setNavigationError(null);
-      setLastFocusableElement(e.target);
-    }
-  };
-
-  const saveDraftHandler = async (type, e) => {
-    if (type === 'manual') {
-      setUserSaved(true);
-
+  const sendMessageHandler = useCallback(
+    async e => {
       await setMessageInvalid(false);
       if (checkMessageValidity()) {
+        setSendMessageFlag(true);
+        setNavigationError(null);
         setLastFocusableElement(e.target);
-        setNavigationError(null);
       }
-      if (attachments.length) {
-        setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT);
-        setNavigationError(null);
+    },
+    [checkMessageValidity],
+  );
+
+  const saveDraftHandler = useCallback(
+    async (type, e) => {
+      if (type === 'manual') {
+        setUserSaved(true);
+
+        await setMessageInvalid(false);
+        if (checkMessageValidity()) {
+          setLastFocusableElement(e.target);
+          setNavigationError(null);
+        }
+        if (attachments.length) {
+          setSaveError(
+            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+          );
+          setNavigationError(null);
+        }
       }
-    }
 
-    const draftId = draft && draft.messageId;
-    const newFieldsString = JSON.stringify({
-      rec: selectedRecipient,
-      cat: category,
-      sub: subject,
-      bod: debouncedMessageBody,
-    });
+      const draftId = draft && draft.messageId;
+      const newFieldsString = JSON.stringify({
+        rec: selectedRecipient,
+        cat: category,
+        sub: subject,
+        bod: debouncedMessageBody,
+      });
 
-    if (newFieldsString === fieldsString) {
-      return;
-    }
+      if (newFieldsString === fieldsString) {
+        return;
+      }
 
-    setFieldsString(newFieldsString);
+      setFieldsString(newFieldsString);
 
-    const formData = {
-      recipientId: selectedRecipient,
-      category,
-      subject,
-      body: messageBody,
-    };
+      const formData = {
+        recipientId: selectedRecipient,
+        category,
+        subject,
+        body: messageBody,
+      };
 
-    if (!draftId) {
-      if (checkMessageValidity()) {
-        dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
-          newDraft => {
-            setDraft(newDraft);
-            setNewDraftId(newDraft.messageId);
-          },
+      if (!draftId) {
+        if (checkMessageValidity()) {
+          dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
+            newDraft => {
+              setDraft(newDraft);
+              setNewDraftId(newDraft.messageId);
+            },
+          );
+        }
+      } else if (checkMessageValidity()) {
+        dispatch(
+          saveReplyDraft(replyMessage.messageId, formData, type, draftId),
         );
       }
-    } else if (checkMessageValidity()) {
-      dispatch(saveReplyDraft(replyMessage.messageId, formData, type, draftId));
-    }
-    if (!attachments.length) setNavigationError(null);
-  };
+      if (!attachments.length) setNavigationError(null);
+    },
+    [
+      attachments.length,
+      category,
+      checkMessageValidity,
+      debouncedMessageBody,
+      dispatch,
+      draft,
+      fieldsString,
+      messageBody,
+      replyMessage.messageId,
+      selectedRecipient,
+      subject,
+    ],
+  );
 
   useEffect(
     () => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -251,86 +251,111 @@ const ComposeForm = props => {
     return `${casedCategory}`;
   };
 
-  const checkMessageValidity = () => {
-    let messageValid = true;
-    if (
-      selectedRecipient === '0' ||
-      selectedRecipient === '' ||
-      !selectedRecipient
-    ) {
-      setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+  const checkMessageValidity = useCallback(
+    () => {
+      let messageValid = true;
+      if (
+        selectedRecipient === '0' ||
+        selectedRecipient === '' ||
+        !selectedRecipient
+      ) {
+        setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
 
-      messageValid = false;
-    }
-    if (!subject || subject === '') {
-      setSubjectError(ErrorMessages.ComposeForm.SUBJECT_REQUIRED);
-      messageValid = false;
-    }
-    if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-      setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
-      messageValid = false;
-    }
-    if (!category || category === '') {
-      setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
-      messageValid = false;
-    }
-    setMessageInvalid(!messageValid);
-    return messageValid;
-  };
-
-  const saveDraftHandler = async (type, e) => {
-    if (type === 'manual') {
-      setUserSaved(true);
-      setLastFocusableElement(e.target);
-      await setMessageInvalid(false);
-      if (checkMessageValidity()) {
-        setNavigationError(null);
+        messageValid = false;
       }
-      if (attachments.length) {
-        setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT);
-        setNavigationError(null);
+      if (!subject || subject === '') {
+        setSubjectError(ErrorMessages.ComposeForm.SUBJECT_REQUIRED);
+        messageValid = false;
       }
-    }
+      if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+        setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
+        messageValid = false;
+      }
+      if (!category || category === '') {
+        setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
+        messageValid = false;
+      }
+      setMessageInvalid(!messageValid);
+      return messageValid;
+    },
+    [category, messageBody, selectedRecipient, subject],
+  );
 
-    const draftId = draft && draft.messageId;
-    const newFieldsString = JSON.stringify({
-      rec: debouncedRecipient,
-      cat: debouncedCategory,
-      sub: debouncedSubject,
-      bod: debouncedMessageBody,
-    });
+  const saveDraftHandler = useCallback(
+    async (type, e) => {
+      if (type === 'manual') {
+        setUserSaved(true);
+        setLastFocusableElement(e.target);
+        await setMessageInvalid(false);
+        if (checkMessageValidity()) {
+          setNavigationError(null);
+        }
+        if (attachments.length) {
+          setSaveError(
+            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+          );
+          setNavigationError(null);
+        }
+      }
 
-    if (newFieldsString === fieldsString) {
-      return;
-    }
+      const draftId = draft && draft.messageId;
+      const newFieldsString = JSON.stringify({
+        rec: debouncedRecipient,
+        cat: debouncedCategory,
+        sub: debouncedSubject,
+        bod: debouncedMessageBody,
+      });
 
-    setFieldsString(newFieldsString);
+      if (newFieldsString === fieldsString) {
+        return;
+      }
 
-    const formData = {
-      recipientId: selectedRecipient,
+      setFieldsString(newFieldsString);
+
+      const formData = {
+        recipientId: selectedRecipient,
+        category,
+        subject,
+        body: messageBody,
+      };
+
+      if (checkMessageValidity() === true) {
+        dispatch(saveDraft(formData, type, draftId));
+      }
+      if (!attachments.length) setNavigationError(null);
+    },
+    [
+      attachments.length,
       category,
+      checkMessageValidity,
+      debouncedCategory,
+      debouncedMessageBody,
+      debouncedRecipient,
+      debouncedSubject,
+      dispatch,
+      draft,
+      fieldsString,
+      messageBody,
+      selectedRecipient,
       subject,
-      body: messageBody,
-    };
+    ],
+  );
 
-    if (checkMessageValidity() === true) {
-      dispatch(saveDraft(formData, type, draftId));
-    }
-    if (!attachments.length) setNavigationError(null);
-  };
-
-  const sendMessageHandler = async e => {
-    // TODO add GA event
-    await setMessageInvalid(false);
-    await setSendMessageFlag(false);
-    if (checkMessageValidity()) {
-      setSendMessageFlag(true);
-      setNavigationError(null);
-      setLastFocusableElement(e.target);
-    } else {
-      setSendMessageFlag(false);
-    }
-  };
+  const sendMessageHandler = useCallback(
+    async e => {
+      // TODO add GA event
+      await setMessageInvalid(false);
+      await setSendMessageFlag(false);
+      if (checkMessageValidity()) {
+        setSendMessageFlag(true);
+        setNavigationError(null);
+        setLastFocusableElement(e.target);
+      } else {
+        setSendMessageFlag(false);
+      }
+    },
+    [checkMessageValidity],
+  );
 
   useEffect(
     () => {
