@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { fetchHcaEnrollmentStatus as fetchHcaEnrollmentStatusFn } from '../actions';
-import { selectHcaEnrollmentStatus } from '../selectors';
+import { selectHcaEnrollmentStatus, showPriorityGroup } from '../selectors';
 
-export const PriorityGroup = ({ fetchHcaEnrollmentStatus, value }) => {
-  useEffect(() => fetchHcaEnrollmentStatus(), [fetchHcaEnrollmentStatus]);
-  if (!value) return <></>;
+export const PriorityGroup = ({ enabled, fetchHcaEnrollmentStatus, value }) => {
+  useEffect(() => enabled && fetchHcaEnrollmentStatus(), [
+    enabled,
+    fetchHcaEnrollmentStatus,
+  ]);
+  if (!enabled || !value) return <></>;
   const priorityGroup = value.replace('Group ', '');
   return (
     <div
@@ -32,16 +35,19 @@ export const PriorityGroup = ({ fetchHcaEnrollmentStatus, value }) => {
 };
 
 PriorityGroup.propTypes = {
+  enabled: PropTypes.bool,
   fetchHcaEnrollmentStatus: PropTypes.func,
   value: PropTypes.string,
 };
 
 PriorityGroup.defaultProps = {
+  enabled: false,
   fetchHcaEnrollmentStatus: () => {},
   value: null,
 };
 
 const mapStateToProps = state => ({
+  enabled: showPriorityGroup(state),
   value: selectHcaEnrollmentStatus(state),
 });
 

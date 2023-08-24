@@ -5,7 +5,7 @@ import {
 import { isLoggedIn, selectProfile } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
-import { isLandingPageEnabled } from './isLandingPageEnabled';
+import { isLandingPageEnabled, showPriorityGroup } from './features';
 import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
 
 const selectHcaEnrollmentStatus = state =>
@@ -23,5 +23,6 @@ export {
   selectHcaEnrollmentStatus,
   selectProfile,
   selectVamcEhrData,
+  showPriorityGroup,
   signInServiceEnabled,
 };

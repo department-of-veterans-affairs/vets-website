@@ -12,11 +12,11 @@
       },
       {
         "name": "mhvLandingPageShowPriorityGroup",
-        "value": true
+        "value": false
       },
       {
         "name": "mhv_landing_page_show_priority_group",
-        "value": true
+        "value": false
       }
     ]
   }
