@@ -11,6 +11,7 @@ import vetPersInfoNameDatesPg from '../pages/veteranPersonalInfoNameDates';
 import vetPersInfoDemoPg from '../pages/veteranPersonalInfoDemographics';
 import vetPersInfoGenderIdPg from '../pages/veteranPersonalInfoGenderIdentity';
 import vetIdInfoPg from '../pages/veteranIdInfo';
+import vetSupportDocsPg from '../pages/veteranSupportDocs';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
@@ -95,6 +96,18 @@ const formConfig = {
           uiSchema: vetIdInfoPg.uiSchema,
           schema: vetIdInfoPg.schema,
           pageClass: 'veteran-identification-information',
+        },
+      },
+    },
+    veteranSupportingDocumentationChapter: {
+      title: 'Veteran’s supporting documentation',
+      pages: {
+        veteranSupportDocsPage: {
+          path: 'veteran-supporting-documentation',
+          title: '',
+          uiSchema: vetSupportDocsPg.uiSchema,
+          schema: vetSupportDocsPg.schema,
+          pageClass: 'veteran-supporting-documentation',
         },
       },
     },
