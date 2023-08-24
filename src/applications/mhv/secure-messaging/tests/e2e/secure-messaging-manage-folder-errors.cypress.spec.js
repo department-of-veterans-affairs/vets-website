@@ -53,7 +53,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
       forceNetworkError: true,
     }).as('deleteCustomMessage');
     cy.get('[data-testid="remove-folder-button"]').click();
-    cy.get('[text="Remove"]')
+    cy.get('[text="Yes, remove this folder"]')
       .shadow()
       .find('[type="button"]')
       .click();
