@@ -23,20 +23,26 @@ const ComposeFormActionButtons = ({
         />
       )}
 
-      <button
-        type="button"
-        id="save-draft-button"
-        className={`usa-button usa-button-secondary save-draft-button vads-u-width--full small-screen:vads-u-margin-left--0p5
-                          xsmall-screen:vads-u-flex--1 vads-u-margin-top--0 xsmall-screen:vads-u-margin-right--1 
-                          vads-u-margin-right--0`}
-        data-testid="Save-Draft-Button"
-        onClick={e => onSaveDraft('manual', e)}
-      >
-        <i className="fas fa-save" aria-hidden="true" />
-        Save draft
-      </button>
+      {!cannotReply && (
+        <button
+          type="button"
+          id="save-draft-button"
+          className={`usa-button usa-button-secondary save-draft-button vads-u-width--full small-screen:vads-u-margin-left--0p5
+                            xsmall-screen:vads-u-flex--1 vads-u-margin-top--0 xsmall-screen:vads-u-margin-right--1 
+                            vads-u-margin-right--0`}
+          data-testid="Save-Draft-Button"
+          onClick={e => onSaveDraft('manual', e)}
+        >
+          <i className="fas fa-save" aria-hidden="true" />
+          Save draft
+        </button>
+      )}
       {/* UCD requested to keep button even when not saved as draft */}
-      <DeleteDraft draftId={draftId} setNavigationError={setNavigationError} />
+      <DeleteDraft
+        draftId={draftId}
+        setNavigationError={setNavigationError}
+        cannotReply={cannotReply}
+      />
     </div>
   );
 };
