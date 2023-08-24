@@ -196,8 +196,9 @@ const allergiesAndReactions = avs => {
 
 const labResultValues = labResult => {
   return labResult.map((item, idx) => (
-    <div key={idx}>
-      <h4>{item.test}</h4>
+    <div className="lab-result-value vads-u-margin-bottom--2" key={idx}>
+      <strong>{item.test}</strong>
+      <br />
       Result: {item.result}
       <br />
       Units: {item.units}
@@ -205,7 +206,6 @@ const labResultValues = labResult => {
       Reference range: {item.refRange}
       <br />
       Flag: {item.flag}
-      <br />
     </div>
   ));
 };
