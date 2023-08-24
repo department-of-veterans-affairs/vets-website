@@ -102,8 +102,8 @@ export class ConfirmationPage extends React.Component {
           </p>
           <p>
             Please don’t apply again. Instead, please call our toll-free hotline
-            at <va-telephone contact="877-222-8387" />. We’re here Monday
-            through Friday, 8:00 am to 8:00 pm ET.
+            at <va-telephone contact="8772228387" />. We’re here Monday through
+            Friday, 8:00 am to 8:00 pm ET.
           </p>
           <h4 className="confirmation-guidance-heading">
             How can I check the status of my application?
@@ -139,7 +139,7 @@ export class ConfirmationPage extends React.Component {
                 Once you’re signed in, you can go to your homepage by clicking
                 on the <strong>My VA</strong> link near the top right of any
                 VA.gov page. You’ll find your application status information in
-                the <strong>Your Applications</strong> section of you homepage.
+                the <strong>Your Applications</strong> section of your homepage.
               </p>
               <p>
                 <strong>Please note: </strong>
@@ -170,7 +170,7 @@ export class ConfirmationPage extends React.Component {
             What if I have more questions?
           </h4>
           <p className="confirmation-guidance-message">
-            Please call <va-telephone contact="877-222-8387" /> and select 2.
+            Please call <va-telephone contact="8772228387" /> and select 2.
             We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
         </div>
