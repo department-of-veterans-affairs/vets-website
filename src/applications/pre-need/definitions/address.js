@@ -228,6 +228,10 @@ export function uiSchema(
             field => field !== 'state',
           );
         }
+      } else if (!ignoreRequired && required) {
+        schemaUpdate.required = addressSchema.required.filter(
+          field => field !== 'state',
+        );
       }
 
       // Canada has a different title than others, so set that when necessary
