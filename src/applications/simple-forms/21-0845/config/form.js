@@ -1,5 +1,5 @@
 // this form does NOT use JSON schema for its data model
-// import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import {
   getScrollOptions,
@@ -8,6 +8,7 @@ import {
 import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import manifest from '../manifest.json';
+import transformForSubmit from '../../shared/config/submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
@@ -33,9 +34,9 @@ import authorizerAddressPg from '../pages/authorizerAddress';
 import authorizerContactInfoPg from '../pages/authorizerContactInfo';
 
 // mock-data import for local development
-// import testData from '../tests/e2e/fixtures/data/noAuthType.json';
+import testData from '../tests/e2e/fixtures/data/noAuthType.json';
 
-// const mockData = testData.data;
+const mockData = testData.data;
 
 const pageFocus = () => {
   return () => {
@@ -63,8 +64,9 @@ const pageFocus = () => {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () => Promise.resolve({ confirmationNumber: '123123123' }),
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  // submit: () => Promise.resolve({ confirmationNumber: '123123123' }),
+  transformForSubmit,
   trackingPrefix: 'auth-disclose-0845',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -82,7 +84,7 @@ const formConfig = {
   },
   formId: '21-0845',
   dev: {
-    // showNavLinks: true,
+    showNavLinks: true,
   },
   saveInProgress: {
     messages: {
@@ -118,10 +120,10 @@ const formConfig = {
           title: 'Who’s submitting this authorization?',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          // initialData:
-          //   !!mockData && environment.isLocalhost() && !window.Cypress
-          //     ? mockData
-          //     : undefined,
+          initialData:
+            !!mockData && environment.isLocalhost() && !window.Cypress
+              ? mockData
+              : undefined,
           uiSchema: authorizerTypePg.uiSchema,
           schema: authorizerTypePg.schema,
           // needs form-level useCustomScrollAndFocus: true to work.
