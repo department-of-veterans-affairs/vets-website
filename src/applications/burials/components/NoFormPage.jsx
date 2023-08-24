@@ -4,8 +4,9 @@ import { apiRequest } from 'platform/utilities/api';
 import { formatSSN } from 'platform/utilities/ui';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
-const convertDateFormat = date =>
+const convertDateFormat = date => {
   date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
+};
 
 const locationOfDeath = {
   nursingHome: 'Nursing home under VA contract',
@@ -17,6 +18,13 @@ const formatAddress = address => {
   return `${Object.values(address)
     .filter(line => line !== undefined)
     .join('\n')}`;
+};
+
+const relationshipType = {
+  spouse: 'Spouse',
+  child: 'Child',
+  parent: 'Parent',
+  executor: 'Executor/Administrator of estate',
 };
 
 const renderFields = [
@@ -54,7 +62,10 @@ const generateData = (type, formData) => {
           ? formData.claimantFullName.last
           : '',
         Suffix: formData.claimantFullName?.suffix ?? 'None',
-        'Relationship to the deceased Veterans': formData.relationship.type,
+        'Relationship to the deceased Veterans': formData.relationship.type
+          ?.other
+          ? formData.relationship.other
+          : relationshipType[formData.relationship.type],
       };
     case 'deceased-veteran-information':
       return {
@@ -123,8 +134,8 @@ const generateData = (type, formData) => {
           Address: formData.claimantAddress
             ? formatAddress(formData.claimantAddress)
             : '',
-          'Email address': 'render email',
-          'Phone number': 'render phone',
+          'Email address': formData.claimantEmail ? formData.claimantEmail : '',
+          'Phone number': formData.claimantPhone ? formData.claimantPhone : '',
         },
         'Document upload': {
           'Veterans death certificate': 'render doc',
@@ -289,12 +300,10 @@ export const NoFormPage = () => {
               text="Download VA form 21P-530EZ"
             />
             <p>
-              You can let us know of your intent to file, and we will record
-              this as a potential start date for your benefits. You may be able
-              to get retroactive payments (payments for the time between when
-              you started your application and when we approve your claim). You
-              can also call us at 800-827-1000 to notify us of your intent to
-              file. We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+              You’ll also need to send us an intent to file form. <br /> This
+              form will set the potential start date for your pension benefits
+              as the first date you saved the online form. We’ve pre-filled this
+              form for you.
             </p>
             <va-link
               download
@@ -403,12 +412,10 @@ export const NoFormPage = () => {
             text="Download VA form 21P-530EZ"
           />
           <p>
-            You can let us know of your intent to file, and we will record this
-            as a potential start date for your benefits. You may be able to get
-            retroactive payments (payments for the time between when you started
-            your application and when we approve your claim). You can also call
-            us at 800-827-1000 to notify us of your intent to file. We’re here
-            Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+            You’ll also need to send us an intent to file form. <br /> This form
+            will set the potential start date for your pension benefits as the
+            first date you saved the online form. We’ve pre-filled this form for
+            you.
           </p>
           <va-link
             download
@@ -454,8 +461,10 @@ export const NoFormPage = () => {
               You will need to fill out a new form to apply by mail.
             </p>
           </va-alert>
-          <h3 className="vads-u-margin-bottom--0">Need help?</h3>
-          <hr className="vads-u-border-color--primary" />
+          <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+            Need help?
+          </h2>
+          <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
           <p>
             Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />.
             We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you
