@@ -33,11 +33,6 @@ const CashOnHand = ({
         ...data.assets,
         cashOnHand: cash,
       },
-    });
-
-    // update gmtData for isStreamlinedShortForm
-    setFormData({
-      ...data,
       gmtData: {
         ...gmtData,
         cashBelowGmt: safeNumber(cash) < gmtData?.assetThreshold,
