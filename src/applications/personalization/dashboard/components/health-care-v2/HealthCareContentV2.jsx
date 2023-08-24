@@ -96,6 +96,13 @@ const HealthCareContentV2 = ({
       ? 'warning'
       : 'error';
 
+    // appt link will be /my-health/appointments if toggle is on
+    const apptLink = useToggleValue(
+      TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate,
+    )
+      ? '/my-health/appointments'
+      : '/health-care/schedule-view-va-appointments/appointments';
+
     return (
       <div className="vads-u-margin-bottom--2p5">
         <va-alert status={status} show-icon data-testid="healthcare-error-v2">
@@ -107,7 +114,7 @@ const HealthCareContentV2 = ({
           </div>
           <CTALink
             text="Schedule and manage your appointments"
-            href="/health-care/schedule-view-va-appointments/appointments"
+            href={apptLink}
             showArrow
             className="vads-u-font-weight--bold"
             onClick={() =>

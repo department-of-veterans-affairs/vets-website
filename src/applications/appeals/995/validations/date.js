@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 
-import { fixDateFormat } from '../utils/replace';
+import { fixDateFormat } from '../../shared/utils/replace';
 import { errorMessages, FORMAT_YMD, MAX_YEARS_PAST } from '../constants';
 
 export const minDate = moment()

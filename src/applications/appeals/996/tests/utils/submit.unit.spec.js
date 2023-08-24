@@ -1,10 +1,11 @@
 import { expect } from 'chai';
-import { SELECTED } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 import { getDate } from '../../utils/dates';
 
 import {
   createIssueName,
   getContestedIssues,
+  addIncludedIssues,
   addAreaOfDisagreement,
   getConferenceTime,
   removeEmptyEntries,
@@ -104,6 +105,64 @@ describe('getContestedIssues', () => {
   });
   it('should return empty array', () => {
     expect(getContestedIssues()).to.deep.equal([]);
+  });
+});
+
+describe('addIncludedIssues', () => {
+  it('should add additional items to contestedIssues array', () => {
+    const issue = {
+      type: 'contestableIssue',
+      attributes: { issue: 'test', decisionDate: validDate1 },
+    };
+    const formData = {
+      contestedIssues: [
+        { ...issue1.raw, [SELECTED]: false },
+        { ...issue2.raw, [SELECTED]: true },
+      ],
+      additionalIssues: [
+        { issue: 'not-added', decisionDate: validDate2, [SELECTED]: false },
+        { ...issue.attributes, [SELECTED]: true },
+      ],
+    };
+    expect(addIncludedIssues(formData)).to.deep.equal([issue2.result, issue]);
+    expect(
+      addIncludedIssues({ ...formData, additionalIssues: [] }),
+    ).to.deep.equal([issue2.result]);
+  });
+  it('should not add additional items to contestedIssues array', () => {
+    const issue = {
+      type: 'contestableIssue',
+      attributes: { issue: 'test', decisionDate: validDate1 },
+    };
+    const formData = {
+      contestedIssues: [
+        { ...issue1.raw, [SELECTED]: false },
+        { ...issue2.raw, [SELECTED]: true },
+      ],
+      additionalIssues: [
+        { issue: 'not-added', decisionDate: validDate2, [SELECTED]: false },
+        { ...issue.attributes },
+      ],
+    };
+    expect(addIncludedIssues(formData)).to.deep.equal([issue2.result]);
+    expect(
+      addIncludedIssues({ ...formData, additionalIssues: [] }),
+    ).to.deep.equal([issue2.result]);
+  });
+  it('should remove duplicate items', () => {
+    const formData = {
+      contestedIssues: [
+        { ...issue1.raw, [SELECTED]: true },
+        { ...issue2.raw, [SELECTED]: true },
+        { ...issue1.raw, [SELECTED]: true },
+        { ...issue2.raw, [SELECTED]: true },
+      ],
+      additionalIssues: [],
+    };
+    expect(addIncludedIssues(formData)).to.deep.equal([
+      issue1.result,
+      issue2.result,
+    ]);
   });
 });
 

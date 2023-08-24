@@ -16,7 +16,7 @@ export const content = {
   errorMessage: 'This field cannot be left blank.',
 };
 
-export const extensionReasonReviewField = ({ children }) => (
+export const ExtensionReasonReviewField = ({ children }) => (
   <div className="review-row">
     <dt>{title}</dt>
     <dd>

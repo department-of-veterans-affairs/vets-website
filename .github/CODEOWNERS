@@ -21,6 +21,8 @@ src/applications/burial-poc-v6 @department-of-veterans-affairs/platform-design-s
 src/platform/forms        @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
 src/platform/forms-system @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
 script/component-migration @department-of-veterans-affairs/platform-design-system-fe
+src/applications/ds-playground @department-of-veterans-affairs/platform-design-system-fe
+src/applications/ds-v3-playground @department-of-veterans-affairs/platform-design-system-fe
 
 # VSP-Identity authentication
 
@@ -87,9 +89,10 @@ src/applications/static-pages/tests/facilities @department-of-veterans-affairs/v
 
 src/applications/caregivers @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 
-# Health Care Application
+# Health Care Applications
 
 src/applications/hca @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/benefits-team-1-frontend
+src/applications/ezr @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 
 # Healthcare Experience
 

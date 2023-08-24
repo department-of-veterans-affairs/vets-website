@@ -8,6 +8,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import { isValidCurrency } from '../../utils/validations';
+import ContractsExplainer from './ContractsExplainer';
 
 const defaultRecord = [
   {
@@ -186,11 +187,12 @@ const InstallmentContract = props => {
               installmentContracts.length === index ? 'Add' : 'Update'
             } an installment contract or other debt`}
           </h3>
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+            If you have more than one installment contract or other debt, enter
+            the information for one contract or debt below.
+          </p>
         </legend>
-        <p>
-          If you have more than one installment contract or other debt, enter
-          the information for one contract or debt below.
-        </p>
+        <ContractsExplainer />
         <div className="input-size-6">
           <VaTextInput
             className="no-wrap input-size-6"

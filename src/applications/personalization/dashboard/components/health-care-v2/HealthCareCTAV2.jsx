@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import IconCTALink from '../IconCTALink';
 
@@ -10,6 +11,15 @@ const HealthCareCTAV2 = ({
   hasUpcomingAppointment,
   isVAPatient,
 }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  // appt link will be /my-health/appointments if toggle is on
+  const apptLink = useToggleValue(
+    TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate,
+  )
+    ? '/my-health/appointments'
+    : '/health-care/schedule-view-va-appointments/appointments';
+
   return (
     <>
       <h3 className="sr-only">Popular actions for Health Care</h3>
@@ -46,7 +56,7 @@ const HealthCareCTAV2 = ({
           {!hasUpcomingAppointment &&
             !hasAppointmentsError && (
               <IconCTALink
-                href="/health-care/schedule-view-va-appointments/appointments"
+                href={apptLink}
                 icon="calendar"
                 text="Schedule and manage your appointments"
                 testId="view-manage-appointments-link-from-cta"

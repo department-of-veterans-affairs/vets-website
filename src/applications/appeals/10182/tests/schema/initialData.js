@@ -11,7 +11,7 @@ export default {
   'view:additionalEvidence': '',
 
   // Leave 'view:selected' set to false for unit testing
-  contestableIssues: [
+  contestedIssues: [
     {
       type: 'contestableIssue',
       attributes: {

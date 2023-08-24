@@ -3,9 +3,9 @@ import { replaceSubmittedData } from './replace';
 
 /**
  * Add area of disagreement
- * @param {ContestableIssue~Submittable} issues - selected & processed issues
- * @param {FormData} formData
- * @return {ContestableIssues~Submittable} issues with "disagreementArea" added
+ * @param {ContestableIssueSubmittable} issues - selected & processed issues
+ * @param {AreaOfDisagreement} areaOfDisagreement - in formData
+ * @return {ContestableIssuesSubmittable} issues with "disagreementArea" added
  */
 export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
   const keywords = {
