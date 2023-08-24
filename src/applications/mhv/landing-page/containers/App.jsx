@@ -11,15 +11,15 @@ import {
   isAuthenticatedWithSSOe,
   isLandingPageEnabledForUser,
   isLoggedIn,
-  selectDrupalStaticData,
   selectProfile,
+  selectVamcEhrData,
   signInServiceEnabled,
 } from '../selectors';
 
 const App = () => {
   const { featureToggles, user } = useSelector(state => state);
   const enabled = useSelector(isLandingPageEnabledForUser);
-  const drupalStaticData = useSelector(selectDrupalStaticData);
+  const vamcEhrData = useSelector(selectVamcEhrData);
   const profile = useSelector(selectProfile);
   const signedIn = useSelector(isLoggedIn);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
@@ -35,9 +35,7 @@ const App = () => {
   useDatadogRum();
 
   const loading =
-    drupalStaticData?.vamcEhrData?.loading ||
-    featureToggles.loading ||
-    profile.loading;
+    vamcEhrData.loading || featureToggles.loading || profile.loading;
 
   const redirecting = signedIn && !loading && !enabled;
 
