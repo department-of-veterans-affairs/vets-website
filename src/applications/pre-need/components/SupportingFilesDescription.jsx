@@ -14,9 +14,7 @@ export default function SupportingFilesDescription(props) {
             Upload your supporting documents{' '}
           </h3>
         ) : (
-          <h3 className="vads-u-font-size--h5">
-            Upload your supporting files{' '}
-          </h3>
+          <h3 className="vads-u-font-size--h5">Upload supporting files </h3>
         )}
         {environment.isProduction() ? (
           <p>
