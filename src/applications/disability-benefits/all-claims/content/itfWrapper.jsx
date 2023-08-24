@@ -91,8 +91,8 @@ export const itfSuccess = (
         <strong>Please note:</strong> We found a previous Intent to File request
         in our records that expired on{' '}
         <strong>{displayDate(prevExpirationDate)} ET</strong>. This ITF might
-        have been from an application you started, but didn’t before the ITF
-        expired. Or, it could have been from a claim you already submitted.
+        have been from an application you started, but didn’t finish before the
+        ITF expired. Or, it could have been from a claim you already submitted.
       </p>
     )}
     {expander}
