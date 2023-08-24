@@ -104,9 +104,9 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   const eventName = action?.payload?.activity?.name ?? '';
 
   // use event name for rxSkill
-  const rxSkillWasTriggered = eventName === 'RX_Skill_Entry';
+  const rxSkillWasTriggered = eventName === 'Skill_Entry';
   // use event name for rxSkillExit
-  const rxSkillWasExited = eventName === 'RX_Skill_Exit';
+  const rxSkillWasExited = eventName === 'Skill_Exit';
   if (rxSkillWasTriggered) {
     setSessionStorageAsString(IS_RX_SKILL, true);
     sendWindowEvent('rxSkill');
