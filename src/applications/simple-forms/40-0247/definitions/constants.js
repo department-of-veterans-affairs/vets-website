@@ -7,3 +7,13 @@ export const DEMOGRAPHICS_ITEMS = Object.freeze({
   WHITE: 'White',
   NO_ANSWER: 'Prefer not to answer',
 });
+
+export const GENDER_IDENTITIES = Object.freeze({
+  MAN: 'Man',
+  NON_BINARY: 'Non-binary',
+  TRANSGENDER_MAN: 'Transgender man',
+  TRANSGENDER_WOMAN: 'Transgender woman',
+  WOMAN: 'Woman',
+  NO_ANSWER: 'Prefer not to answer',
+  NOT_LISTED: 'A gender not listed here',
+});

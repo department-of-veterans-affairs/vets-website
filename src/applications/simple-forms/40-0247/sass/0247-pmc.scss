@@ -10,7 +10,10 @@
   #root_veteranDemographics-label {
     display: none !important;
   }
-  va-checkbox[label^="Native Hawaiian"] {
-    margin-left: 2rem;
+}
+
+.form-panel.veteran-personal-information-gender-identity {
+  #root_veteranGenderIdentity-label {
+    display: none !important;
   }
 }

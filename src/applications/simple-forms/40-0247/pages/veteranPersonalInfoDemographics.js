@@ -9,19 +9,18 @@ export default {
   uiSchema: {
     'ui:title': <h3>What is the Veteran’s race, ethnicity, or origin?</h3>,
     'ui:description': (
-      <span>
+      <p>
         (Please check all that apply)
         <br />
         Information is gathered for statistical purposes only.
-      </span>
+      </p>
     ),
     veteranDemographics: {
       'ui:title': 'Race, ethnicity, or origin',
       'ui:widget': GroupCheckboxWidget,
       'ui:options': {
-        // TODO: Check w/ b/e about splitting string by regex /,(?!\s)/g
-        // Options-string should be split only by commas not followed by a space
-        // One value has commas inside it: "Hispanic, Latino, or Spanish"
+        // TODO: Normalize data w/ submit-transformer, as
+        // one value has commas in it.
         labels: Object.values(DEMOGRAPHICS_ITEMS),
         forceDivWrapper: true,
       },
