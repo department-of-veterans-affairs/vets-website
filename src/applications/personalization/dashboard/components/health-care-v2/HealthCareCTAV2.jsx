@@ -41,7 +41,7 @@ const HealthCareCTAV2 = ({
       {isVAPatient && (
         <>
           <IconCTALink
-            text="Send a secure message to your health care team"
+            text="Go to your inbox"
             icon="comments"
             href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
             testId="view-your-messages-link-from-cta"
