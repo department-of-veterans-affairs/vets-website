@@ -1,15 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { getFolders } from '../actions/folders';
 import { folder } from '../selectors';
 import SectionGuideButton from './SectionGuideButton';
 import { DefaultFolders, Paths } from '../util/constants';
 import { trapFocus } from '../../shared/util/ui';
 
 const Navigation = () => {
-  const dispatch = useDispatch();
   const [isMobile, setIsMobile] = useState(true);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const location = useLocation();
@@ -28,13 +26,6 @@ const Navigation = () => {
       focusElement(navMenuButtonRef);
     },
     [navMenuButtonRef],
-  );
-
-  useEffect(
-    () => {
-      dispatch(getFolders());
-    },
-    [dispatch],
   );
 
   useEffect(
