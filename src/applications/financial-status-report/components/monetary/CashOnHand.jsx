@@ -4,6 +4,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 import { currency as currencyFormatter } from '../../utils/helpers';
+import { safeNumber } from '../../utils/calculateIncome';
 
 const CashOnHand = ({
   contentBeforeButtons,
@@ -13,7 +14,7 @@ const CashOnHand = ({
   goForward,
   setFormData,
 }) => {
-  const { assets } = data;
+  const { assets, gmtData } = data;
   const { cashOnHand } = assets;
 
   const [cash, setCash] = useState(cashOnHand);
@@ -33,6 +34,16 @@ const CashOnHand = ({
         cashOnHand: cash,
       },
     });
+
+    // update gmtData for isStreamlinedShortForm
+    setFormData({
+      ...data,
+      gmtData: {
+        ...gmtData,
+        cashBelowGmt: safeNumber(cash) < gmtData?.assetThreshold,
+      },
+    });
+
     return setError(null);
   };
 
@@ -89,6 +100,9 @@ CashOnHand.propTypes = {
   data: PropTypes.shape({
     assets: PropTypes.shape({
       cashOnHand: PropTypes.string,
+    }),
+    gmtData: PropTypes.shape({
+      assetThreshold: PropTypes.number,
     }),
   }),
   goBack: PropTypes.func,
