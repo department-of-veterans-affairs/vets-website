@@ -14,7 +14,7 @@ import { clearDraft } from '../actions/draftDetails';
 import { PrintMessageOptions, PageTitles } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 import { navigateToFolderByFolderId, updatePageTitle } from '../util/helpers';
-import { retrieveFolder } from '../actions/folders';
+import { getFolders, retrieveFolder } from '../actions/folders';
 
 const ThreadDetails = props => {
   const { threadId } = useParams();
@@ -42,6 +42,13 @@ const ThreadDetails = props => {
   const header = useRef();
 
   // necessary to update breadcrumb when there is no active folder in redux store, which happens when user lands on the threadDetails view from the url instead of the parent folder.
+  useEffect(
+    () => {
+      dispatch(getFolders());
+    },
+    [dispatch],
+  );
+
   useEffect(
     () => {
       if (!folder && draftMessage) {
