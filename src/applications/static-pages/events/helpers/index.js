@@ -351,27 +351,49 @@ export const deriveEventLocations = event => {
     return locations;
   }
 
-  if (event?.fieldLocationHumanreadable) {
-    locations.push(event?.fieldLocationHumanreadable);
-  }
+  // if (event?.fieldLocationHumanreadable) {
+  //   locations.push(event?.fieldLocationHumanreadable);
+  // }
 
-  if (event?.fieldAddress?.addressLine1) {
-    locations.push(event?.fieldAddress?.addressLine1);
-  }
+  if (event?.fieldFacilityLocation?.entity?.fieldAddress) {
+    const fieldFacilityEntity = event?.fieldFacilityLocation?.entity;
+    if (fieldFacilityEntity?.fieldAddress?.addressLine1) {
+      locations.push(fieldFacilityEntity?.fieldAddress?.addressLine1);
+    }
 
-  if (event?.fieldAddress?.addressLine2) {
-    locations.push(event?.fieldAddress?.addressLine2);
-  }
+    if (fieldFacilityEntity?.fieldAddress?.addressLine2) {
+      locations.push(fieldFacilityEntity?.fieldAddress?.addressLine2);
+    }
 
-  if (
-    event?.fieldAddress?.locality &&
-    event?.fieldAddress?.administrativeArea
-  ) {
-    locations.push(
-      `${event?.fieldAddress?.locality}, ${
-        event?.fieldAddress?.administrativeArea
-      }`,
-    );
+    if (
+      fieldFacilityEntity?.fieldAddress?.locality &&
+      fieldFacilityEntity?.fieldAddress?.administrativeArea
+    ) {
+      locations.push(
+        `${fieldFacilityEntity?.fieldAddress?.locality}, ${
+          fieldFacilityEntity?.fieldAddress?.administrativeArea
+        }`,
+      );
+    }
+  } else {
+    if (event?.fieldAddress?.addressLine1) {
+      locations.push(event?.fieldAddress?.addressLine1);
+    }
+
+    if (event?.fieldAddress?.addressLine2) {
+      locations.push(event?.fieldAddress?.addressLine2);
+    }
+
+    if (
+      event?.fieldAddress?.locality &&
+      event?.fieldAddress?.administrativeArea
+    ) {
+      locations.push(
+        `${event?.fieldAddress?.locality}, ${
+          event?.fieldAddress?.administrativeArea
+        }`,
+      );
+    }
   }
 
   return locations;

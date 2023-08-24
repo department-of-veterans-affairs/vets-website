@@ -2,8 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { deriveEventLocations } from '../../helpers';
 
-const WhereContent = ({ fieldLocation, fieldType, derivedLocations }) => {
+const WhereContent = ({
+  event,
+  fieldLocation,
+  fieldType,
+  derivedLocations,
+}) => {
   if (fieldType === 'online') return 'This is an online event.';
+  const locationAddress = derivedLocations.join(' ');
   return (
     <>
       <a href={fieldLocation?.entity?.entityUrl.path}>
@@ -11,6 +17,9 @@ const WhereContent = ({ fieldLocation, fieldType, derivedLocations }) => {
       </a>
       {derivedLocations?.length > 0 && (
         <div>
+          <p className="vads-u-margin--0" key={location}>
+            {event?.fieldLocationHumanreadable}
+          </p>
           {derivedLocations?.map(location => (
             <p className="vads-u-margin--0" key={location}>
               {location}
@@ -18,6 +27,14 @@ const WhereContent = ({ fieldLocation, fieldType, derivedLocations }) => {
           ))}
         </div>
       )}
+      <div className="vads-u-margin-bottom--1p5">
+        <a
+          href={`https://maps.google.com?saddr=Current+Location&daddr=${locationAddress}`}
+          rel="noopener noreferrer"
+        >
+          Directions(Google Maps)
+        </a>
+      </div>
     </>
   );
 };
@@ -41,6 +58,7 @@ export const ResultsWhereContent = ({ event }) => {
       <div className="vads-u-display--flex vads-u-flex-direction--column">
         <p className="vads-u-margin--0">
           <WhereContent
+            event={event}
             fieldLocation={fieldFacilityLocation}
             fieldType={fieldLocationType}
             derivedLocations={locations}
@@ -56,9 +74,9 @@ ResultsWhereContent.propTypes = {
 };
 
 WhereContent.propTypes = {
-  derivedLocations: PropTypes.object,
+  derivedLocations: PropTypes.array,
   fieldLocation: PropTypes.object,
-  fieldType: PropTypes.object,
+  fieldType: PropTypes.string,
 };
 
 export default ResultsWhereContent;
