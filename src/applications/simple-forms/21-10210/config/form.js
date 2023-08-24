@@ -218,7 +218,7 @@ const formConfig = {
       pages: {
         witnessContactInfoPage: {
           path: 'witness-contact-information',
-          title: '',
+          title: 'Your contact information',
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
           },
@@ -274,7 +274,7 @@ const formConfig = {
       pages: {
         claimantPersInfoPage: {
           path: 'claimant-personal-information',
-          title: '',
+          title: 'Personal information',
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
@@ -293,7 +293,7 @@ const formConfig = {
       pages: {
         claimantIdInfoPage: {
           path: 'claimant-identification-information',
-          title: '',
+          title: 'Identification information',
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
@@ -312,7 +312,7 @@ const formConfig = {
       pages: {
         claimantAddrInfoPage: {
           path: 'claimant-address-information',
-          title: '',
+          title: 'Mailing address',
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
@@ -331,7 +331,7 @@ const formConfig = {
       pages: {
         claimantContInfoPage: {
           path: 'claimant-contact-information',
-          title: '',
+          title: 'Contact information',
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
@@ -369,7 +369,7 @@ const formConfig = {
       pages: {
         vetPersInfoPage: {
           path: 'veteran-personal-information',
-          title: '',
+          title: 'Personal information',
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: vetPersInfo.uiSchema,
           schema: vetPersInfo.schema,
@@ -386,7 +386,7 @@ const formConfig = {
       pages: {
         veteranIdentificationInfo1: {
           path: 'veteran-identification-information',
-          title: '',
+          title: 'Identification information',
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: vetIdInfo.uiSchema,
           schema: vetIdInfo.schema,
@@ -403,7 +403,7 @@ const formConfig = {
       pages: {
         veteranMailingAddressInfo1: {
           path: 'veteran-mailing-address',
-          title: '',
+          title: 'Mailing address',
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: vetAddrInfo.uiSchema,
           schema: vetAddrInfo.schema,
@@ -420,7 +420,7 @@ const formConfig = {
       pages: {
         veteranContactInfo1: {
           path: 'veteran-contact-information',
-          title: '',
+          title: 'Contact information',
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: vetContInfo.uiSchema,
           schema: vetContInfo.schema,
