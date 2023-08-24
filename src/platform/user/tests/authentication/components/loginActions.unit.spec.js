@@ -2,14 +2,24 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
-
-import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import * as authUtilities from '../../../authentication/utilities';
 import LoginActions from '../../../authentication/components/LoginActions';
 import { CSP_IDS } from '../../../authentication/constants';
+import SignInAlertBox from '../../../authentication/components/SignInAlertBox';
 
 describe('login DOM ', () => {
   const sandbox = sinon.createSandbox();
+  const mockStore = {
+    getState: () => ({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        showsignInPageAndModalExperiment: false,
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
 
   beforeEach(function() {
     sandbox.spy(authUtilities, 'login');
@@ -19,19 +29,12 @@ describe('login DOM ', () => {
     sandbox.restore();
   });
 
-  it('text alert modal is viewable to users', () => {
-    const view = render(<LoginActions />);
-    expect(view.getByText(`Sign in with your Login.gov or ID.me account`)).to
-      .exist;
-    expect(
-      view.getByText(
-        `Soon all VA websites will follow a new, more secure sign-in process. You’ll need to sign in using your Login.gov or ID.me account. So you’re ready for the change, try signing in now with Login.gov or ID.me.`,
-      ),
-    ).to.exist;
-  });
-
   it('login buttons should properly call login method', () => {
-    const loginButtons = mount(<LoginActions />);
+    const loginButtons = mount(
+      <Provider store={mockStore}>
+        <LoginActions />
+      </Provider>,
+    );
 
     const testButton = button => {
       const loginCSP = button.prop('data-csp');
@@ -62,7 +65,11 @@ describe('login DOM ', () => {
       global.window.location = new URL(
         'https://dev.va.gov/sign-in/?application=vaoccmobile&redirect_uri=AHBurnPitRegistry&oauth=false',
       );
-      const loginButtons = mount(<LoginActions externalApplication={csp} />);
+      const loginButtons = mount(
+        <Provider store={mockStore}>
+          <LoginActions externalApplication={csp} />
+        </Provider>,
+      );
       expect(loginButtons.find('[data-csp="dslogon"]').exists()).to.be.true;
       expect(loginButtons.find('#create-account').exists()).to.be.false;
       loginButtons.unmount();
@@ -71,11 +78,25 @@ describe('login DOM ', () => {
       global.window.location = new URL(
         'https://dev.va.gov/sign-in/?application=vaoccmobile',
       );
-      const loginButtons = mount(<LoginActions externalApplication={csp} />);
+      const loginButtons = mount(
+        <Provider store={mockStore}>
+          <LoginActions externalApplication={csp} />
+        </Provider>,
+      );
       expect(loginButtons.find('button').length).to.eql(4);
       expect(loginButtons.find('#create-account').exists()).to.be.true;
-      expect(loginButtons.find('a').length).to.eql(3);
+      expect(loginButtons.find('a').length).to.eql(2);
       loginButtons.unmount();
     });
+  });
+
+  it('text alert modal is viewable to users', () => {
+    const component = mount(
+      <Provider store={mockStore}>
+        <LoginActions />
+      </Provider>,
+    );
+    expect(component.contains(<SignInAlertBox />)).to.be.false;
+    component.unmount();
   });
 });
