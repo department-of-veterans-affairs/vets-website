@@ -105,7 +105,7 @@ const InstallmentContractSummary = ({
                   search: `?index=${index}`,
                 }}
                 heading={bill.purpose}
-                key={index + bill.minPaymentAmount + bill.unpaidBalance}
+                key={index} // Use index as the key
                 onDelete={() => onDelete(index)}
                 showDelete
                 body={billBody(bill)}

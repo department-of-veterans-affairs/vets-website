@@ -91,7 +91,7 @@ const CreditCardBillSummary = ({
                   search: `?index=${index}`,
                 }}
                 heading="Credit card bill"
-                key={bill.minPaymentAmount + bill.unpaidBalance}
+                key={index} // Use index as the key
                 onDelete={() => onDelete(index)}
                 showDelete
                 body={billBody(bill)}
