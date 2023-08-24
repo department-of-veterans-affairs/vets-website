@@ -56,6 +56,7 @@ export const FORMAT_YMD = 'YYYY-MM-DD';
 export const FORMAT_READABLE = 'LL';
 export const FORMAT_COMPACT = 'MMM DD, YYYY';
 
+// Supplemental Claim allows for past decision dates, but we should limit them.
 // Limit past decision dates to 100 years until told otherwise
 export const MAX_YEARS_PAST = 100;
 
@@ -98,7 +99,6 @@ export const MAX_LENGTH = {
   SC_CLAIMANT_OTHER: 25, // does this still exist?
   SC_EVIDENCE_LOCATION_AND_NAME: 255,
   // Higher Lever Review - 996
-  HLR_SELECTIONS: 100, // submitted issues (not in schema)
   HLR_DISAGREEMENT_REASON: 90,
   HLR_REP_FIRST_NAME: 30,
   HLR_REP_LAST_NAME: 40,

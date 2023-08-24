@@ -11,7 +11,7 @@ import {
   focusEvidence,
   focusUploads,
 } from '../../utils/focus';
-import { LAST_SC_ITEM } from '../../constants';
+import { LAST_ISSUE } from '../../../shared/constants';
 
 // Skipping focusRadioH3 because testing library doesn't support shadow DOM
 /* describe('focusRadioH3', () => {
@@ -45,7 +45,7 @@ describe('focusH3', () => {
 
 describe('focusIssue', () => {
   afterEach(() => {
-    window.sessionStorage.removeItem(LAST_SC_ITEM);
+    window.sessionStorage.removeItem(LAST_ISSUE);
   });
   const renderPage = () =>
     render(
@@ -72,7 +72,7 @@ describe('focusIssue', () => {
     );
 
   it('should focus on header', async () => {
-    window.sessionStorage.removeItem(LAST_SC_ITEM);
+    window.sessionStorage.removeItem(LAST_ISSUE);
     const { container } = await renderPage();
 
     await focusIssue(0, container);
@@ -82,7 +82,7 @@ describe('focusIssue', () => {
     });
   });
   it('should focus on add new issue link', async () => {
-    window.sessionStorage.setItem(LAST_SC_ITEM, -1);
+    window.sessionStorage.setItem(LAST_ISSUE, -1);
     const { container } = await renderPage();
 
     await focusIssue(0, container);
@@ -92,7 +92,7 @@ describe('focusIssue', () => {
     });
   });
   it('should focus on second input', async () => {
-    window.sessionStorage.setItem(LAST_SC_ITEM, '1,updated');
+    window.sessionStorage.setItem(LAST_ISSUE, '1,updated');
     const { container } = await renderPage();
 
     await focusIssue(0, container);
@@ -102,7 +102,7 @@ describe('focusIssue', () => {
     });
   });
   it('should focus on second edit link', async () => {
-    window.sessionStorage.setItem(LAST_SC_ITEM, '1,cancel');
+    window.sessionStorage.setItem(LAST_ISSUE, '1,cancel');
     const { container } = await renderPage();
 
     await focusIssue(0, container);
@@ -144,7 +144,7 @@ describe('focusEvidence', () => {
 
 describe('focusUploads', () => {
   afterEach(() => {
-    window.sessionStorage.removeItem(LAST_SC_ITEM);
+    window.sessionStorage.removeItem(LAST_ISSUE);
   });
   const renderPage = () =>
     render(

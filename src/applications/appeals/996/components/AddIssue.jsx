@@ -112,7 +112,7 @@ const AddIssue = props => {
         issue: issueName,
         decisionDate: issueDate,
         // select new item, if the max number isn't already selected
-        [SELECTED]: selectedCount <= MAX_LENGTH.HLR_SELECTIONS,
+        [SELECTED]: selectedCount <= MAX_LENGTH.SELECTIONS,
       };
       setFormData({ ...data, additionalIssues: issues });
       goToPath(returnPath);

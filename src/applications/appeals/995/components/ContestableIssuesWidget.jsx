@@ -9,8 +9,13 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { focusElement, scrollTo } from 'platform/utilities/ui';
 
 import { IssueCard } from './IssueCard';
-import { APP_NAME, LAST_SC_ITEM } from '../constants';
-import { MAX_LENGTH, REVIEW_ISSUES, SELECTED } from '../../shared/constants';
+import { APP_NAME } from '../constants';
+import {
+  LAST_ISSUE,
+  MAX_LENGTH,
+  REVIEW_ISSUES,
+  SELECTED,
+} from '../../shared/constants';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
@@ -58,12 +63,12 @@ const ContestableIssuesWidget = props => {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
-  const [editState] = useState(window.sessionStorage.getItem(LAST_SC_ITEM));
+  const [editState] = useState(window.sessionStorage.getItem(LAST_ISSUE));
 
   useEffect(
     () => {
       if (editState) {
-        window.sessionStorage.removeItem(LAST_SC_ITEM);
+        window.sessionStorage.removeItem(LAST_ISSUE);
         const [lastEdited, returnState] = editState.split(',');
         setTimeout(() => {
           const card = `#issue-${lastEdited}`;
@@ -153,7 +158,7 @@ const ContestableIssuesWidget = props => {
         (issue, indx) => removeIndex !== indx,
       );
       // Focus management: target add a new issue action link
-      window.sessionStorage.setItem(LAST_SC_ITEM, -1);
+      window.sessionStorage.setItem(LAST_ISSUE, -1);
       setShowRemoveModal(false);
       setRemoveIndex(null);
       // setTimeout needed to allow rerender

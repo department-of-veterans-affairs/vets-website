@@ -25,7 +25,7 @@ export default {
     properties: {
       addIssue: {
         type: 'array',
-        maxItems: MAX_LENGTH.HLR_SELECTIONS,
+        maxItems: MAX_LENGTH.SELECTIONS,
         minItems: 1,
         items: {
           type: 'object',

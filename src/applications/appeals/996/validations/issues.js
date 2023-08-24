@@ -58,7 +58,7 @@ export const uniqueIssue = (
 };
 
 export const maxIssues = (error, data) => {
-  if (getSelected(data).length > MAX_LENGTH.HLR_SELECTIONS) {
+  if (getSelected(data).length > MAX_LENGTH.SELECTIONS) {
     error.addError(maxSelectedErrorMessage);
   }
 };

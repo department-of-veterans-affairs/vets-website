@@ -2,7 +2,9 @@ import { expect } from 'chai';
 
 import { getDate } from '../../utils/dates';
 import { validateDate, isValidDate } from '../../validations/date';
-import { errorMessages, MAX_YEARS_PAST } from '../../constants';
+import { errorMessages } from '../../constants';
+
+import { MAX_YEARS_PAST } from '../../../shared/constants';
 
 describe('validateDate & isValidDate', () => {
   let errorMessage = [];

@@ -80,7 +80,7 @@ describe('maxIssues', () => {
       [SELECTED]: true,
     };
     maxIssues(errors, {
-      contestedIssues: new Array(MAX_LENGTH.HLR_SELECTIONS + 1).fill(template),
+      contestedIssues: new Array(MAX_LENGTH.SELECTIONS + 1).fill(template),
     });
     expect(errors.addError.called).to.be.true;
   });

@@ -52,10 +52,6 @@ export const EVIDENCE_OTHER = 'view:hasOtherEvidence';
 // See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
 export const DEFAULT_BENEFIT_TYPE = 'compensation';
 
-// Supplemental Claim allows for past decision dates, but we should limit them.
-// Picking 100 years until told otherwise
-export const MAX_YEARS_PAST = 100;
-
 export const REGEX_COMMA = /[, ]/g;
 export const REGEX_EMPTY_DATE = /(--|-00-00)/;
 
@@ -118,7 +114,6 @@ export const NO_ISSUES_SELECTED = 'No issues were selected';
 export const FORMAT_YMD = 'YYYY-MM-DD';
 export const FORMAT_READABLE = 'LL';
 export const FORMAT_COMPACT = 'MMM DD, YYYY';
-export const LAST_SC_ITEM = 'lastScItem'; // focus management across pages
 export const CONTACT_EDIT = 'edit-contact-info'; // contact info focusing
 export const SUMMARY_EDIT = 'edit-evidence-summary'; // evidence summary focus
 export const REVIEW_CONTACT = 'onReviewPageContact';

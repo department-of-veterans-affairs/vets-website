@@ -109,10 +109,7 @@ const ContestableIssuesWidget = props => {
     closeModal: () => setShowErrorModal(false),
     onChange: (index, event) => {
       let { checked } = event.target;
-      if (
-        checked &&
-        getSelected(formData).length + 1 > MAX_LENGTH.HLR_SELECTIONS
-      ) {
+      if (checked && getSelected(formData).length + 1 > MAX_LENGTH.SELECTIONS) {
         setShowErrorModal(true);
         event.preventDefault(); // prevent checking
         checked = false;
