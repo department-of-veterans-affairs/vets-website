@@ -65,11 +65,7 @@ const ReplyForm = props => {
   const history = useHistory();
   const [draft, setDraft] = useState(null);
 
-  const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
-  const attachmentNames = attachments.reduce((currentString, item) => {
-    return currentString + item.name;
-  }, '');
 
   const formattededSignature = useMemo(
     () => {
@@ -269,7 +265,7 @@ const ReplyForm = props => {
       rec: selectedRecipient,
       cat: category,
       sub: subject,
-      bod: messageBody,
+      bod: debouncedMessageBody,
     });
 
     if (newFieldsString === fieldsString) {
@@ -302,24 +298,11 @@ const ReplyForm = props => {
 
   useEffect(
     () => {
-      if (
-        selectedRecipient &&
-        category &&
-        debouncedSubject &&
-        debouncedMessageBody &&
-        isAutosave &&
-        !cannotReply
-      ) {
+      if (debouncedMessageBody && isAutosave && !cannotReply) {
         saveDraftHandler('auto');
       }
     },
-    [
-      attachmentNames,
-      category,
-      debouncedMessageBody,
-      debouncedSubject,
-      selectedRecipient,
-    ],
+    [debouncedMessageBody],
   );
 
   const messageBodyHandler = e => {

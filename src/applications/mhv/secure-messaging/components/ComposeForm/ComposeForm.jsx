@@ -65,9 +65,11 @@ const ComposeForm = props => {
 
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
-  const attachmentNames = attachments.reduce((currentString, item) => {
-    return currentString + item.name;
-  }, '');
+  const debouncedCategory = useDebounce(category, draftAutoSaveTimeout);
+  const debouncedRecipient = useDebounce(
+    selectedRecipient,
+    draftAutoSaveTimeout,
+  );
 
   const {
     OTHER,
@@ -292,10 +294,10 @@ const ComposeForm = props => {
 
     const draftId = draft && draft.messageId;
     const newFieldsString = JSON.stringify({
-      rec: selectedRecipient,
-      cat: category,
-      sub: subject,
-      bod: messageBody,
+      rec: debouncedRecipient,
+      cat: debouncedCategory,
+      sub: debouncedSubject,
+      bod: debouncedMessageBody,
     });
 
     if (newFieldsString === fieldsString) {
@@ -333,21 +335,20 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (
-        selectedRecipient &&
-        category &&
+        debouncedRecipient &&
+        debouncedCategory &&
         debouncedSubject &&
-        debouncedMessageBody &&
-        !sendMessageFlag
+        debouncedMessageBody
       ) {
         saveDraftHandler('auto');
       }
     },
     [
-      attachmentNames,
-      category,
+      debouncedCategory,
       debouncedMessageBody,
       debouncedSubject,
-      selectedRecipient,
+      debouncedRecipient,
+      saveDraftHandler,
     ],
   );
 
