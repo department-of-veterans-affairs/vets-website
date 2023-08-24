@@ -38,7 +38,7 @@ export default function ReviewPage(props = null) {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     if (featureBreadcrumbUrlUpdate) {
-      props.changeTitle(pageTitle);
+      props.changeCrumb(pageTitle);
     }
   }, []);
 
@@ -138,5 +138,5 @@ export default function ReviewPage(props = null) {
 }
 
 ReviewPage.propTypes = {
-  changeTitle: PropTypes.func,
+  changeCrumb: PropTypes.func,
 };

@@ -69,7 +69,7 @@ export default function PreferredDatePage(props = null) {
     scrollAndFocus();
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     if (featureBreadcrumbUrlUpdate) {
-      props.changeTitle(pageTitle);
+      props.changeCrumb(pageTitle);
     }
   }, []);
 
@@ -104,5 +104,5 @@ export default function PreferredDatePage(props = null) {
 }
 
 PreferredDatePage.propTypes = {
-  changeTitle: PropTypes.func,
+  changeCrumb: PropTypes.func,
 };

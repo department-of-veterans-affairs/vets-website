@@ -131,7 +131,7 @@ export default function DateTimeSelectPage(props = null) {
 
   useEffect(() => {
     if (featureBreadcrumbUrlUpdate) {
-      props.changeTitle(pageTitle);
+      props.changeCrumb(pageTitle);
     }
   }, []);
 
@@ -271,5 +271,5 @@ ErrorMessage.propTypes = {
 };
 
 DateTimeSelectPage.propTypes = {
-  changeTitle: PropTypes.func,
+  changeCrumb: PropTypes.func,
 };

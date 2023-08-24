@@ -106,7 +106,7 @@ export default function VAFacilityPageV2(props = null) {
       document.title = `${pageTitle} | Veterans Affairs`;
       scrollAndFocus();
       if (featureBreadcrumbUrlUpdate) {
-        props.changeTitle(pageTitle);
+        props.changeCrumb(pageTitle);
       }
     },
     [isLoading],
@@ -303,5 +303,5 @@ export default function VAFacilityPageV2(props = null) {
 }
 
 VAFacilityPageV2.propTypes = {
-  changeTitle: PropTypes.func,
+  changeCrumb: PropTypes.func,
 };

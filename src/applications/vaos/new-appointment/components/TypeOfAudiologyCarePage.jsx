@@ -81,7 +81,7 @@ export default function TypeOfAudiologyCarePage(props = null) {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     scrollAndFocus();
     if (featureBreadcrumbUrlUpdate) {
-      props.changeTitle(pageTitle);
+      props.changeCrumb(pageTitle);
     }
   }, []);
 
@@ -116,5 +116,5 @@ export default function TypeOfAudiologyCarePage(props = null) {
 }
 
 TypeOfAudiologyCarePage.propTypes = {
-  changeTitle: PropTypes.func,
+  changeCrumb: PropTypes.func,
 };

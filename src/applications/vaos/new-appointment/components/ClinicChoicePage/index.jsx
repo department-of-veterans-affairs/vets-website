@@ -86,7 +86,7 @@ export default function ClinicChoicePage(props = null) {
     scrollAndFocus();
     document.title = `${pageTitle} | Veterans Affairs`;
     if (featureBreadcrumbUrlUpdate) {
-      props.changeTitle(pageTitle);
+      props.changeCrumb(pageTitle);
     }
   }, []);
 
@@ -168,5 +168,5 @@ export default function ClinicChoicePage(props = null) {
 }
 
 ClinicChoicePage.propTypes = {
-  changeTitle: PropTypes.func,
+  changeCrumb: PropTypes.func,
 };

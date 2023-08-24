@@ -131,7 +131,7 @@ export default function ReasonForAppointmentPage(props = null) {
       ),
     );
     if (featureBreadcrumbUrlUpdate) {
-      props.changeTitle(pageTitle);
+      props.changeCrumb(pageTitle);
     }
   }, []);
 
@@ -204,5 +204,5 @@ export default function ReasonForAppointmentPage(props = null) {
 }
 
 ReasonForAppointmentPage.propTypes = {
-  changeTitle: PropTypes.func,
+  changeCrumb: PropTypes.func,
 };

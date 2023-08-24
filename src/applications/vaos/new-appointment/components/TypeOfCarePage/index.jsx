@@ -64,7 +64,7 @@ export default function TypeOfCarePage(props = null) {
 
   useEffect(() => {
     if (featureBreadcrumbUrlUpdate) {
-      props.changeTitle(pageTitle);
+      props.changeCrumb(pageTitle);
     }
   }, []);
 
@@ -154,5 +154,5 @@ export default function TypeOfCarePage(props = null) {
 }
 
 TypeOfCarePage.propTypes = {
-  changeTitle: PropTypes.func,
+  changeCrumb: PropTypes.func,
 };

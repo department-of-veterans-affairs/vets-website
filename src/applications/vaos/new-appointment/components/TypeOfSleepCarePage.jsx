@@ -81,7 +81,7 @@ export default function TypeOfSleepCarePage(props = null) {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     if (featureBreadcrumbUrlUpdate) {
-      props.changeTitle(pageTitle);
+      props.changeCrumb(pageTitle);
     }
   }, []);
 
@@ -116,5 +116,5 @@ export default function TypeOfSleepCarePage(props = null) {
 }
 
 TypeOfSleepCarePage.propTypes = {
-  changeTitle: PropTypes.func,
+  changeCrumb: PropTypes.func,
 };

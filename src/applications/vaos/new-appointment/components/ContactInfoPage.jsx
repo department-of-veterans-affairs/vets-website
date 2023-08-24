@@ -127,7 +127,7 @@ export default function ContactInfoPage(props = null) {
     scrollAndFocus();
     recordPopulatedEvents(email, mobilePhone || homePhone);
     if (featureBreadcrumbUrlUpdate) {
-      props.changeTitle(pageTitle);
+      props.changeCrumb(pageTitle);
     }
   }, []);
 
@@ -237,5 +237,5 @@ export default function ContactInfoPage(props = null) {
 }
 
 ContactInfoPage.propTypes = {
-  changeTitle: PropTypes.func,
+  changeCrumb: PropTypes.func,
 };
