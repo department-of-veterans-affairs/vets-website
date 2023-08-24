@@ -15,12 +15,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { getSelected, calculateIndexOffset } from '../utils/helpers';
-import {
-  CONTESTABLE_ISSUES_PATH,
-  REVIEW_ISSUES,
-  HLR_MAX_LENGTH,
-} from '../constants';
-import { SELECTED, LAST_ISSUE } from '../../shared/constants';
+import { CONTESTABLE_ISSUES_PATH, REVIEW_ISSUES } from '../constants';
+import { SELECTED, LAST_ISSUE, MAX_LENGTH } from '../../shared/constants';
 import {
   uniqueIssue,
   missingIssueName,
@@ -110,7 +106,7 @@ const AddIssue = props => {
         issue: issueName,
         decisionDate: issueDate,
         // select new item, if the max number isn't already selected
-        [SELECTED]: selectedCount <= HLR_MAX_LENGTH.HLR_SELECTIONS,
+        [SELECTED]: selectedCount <= MAX_LENGTH.HLR_SELECTIONS,
       };
       setFormData({ ...data, additionalIssues: issues });
       goToPath(returnPath);

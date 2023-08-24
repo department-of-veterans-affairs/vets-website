@@ -1,6 +1,5 @@
 import {
   SELECTED,
-  SC_MAX_LENGTH,
   CLAIMANT_TYPES,
   PRIMARY_PHONE,
   EVIDENCE_VA,
@@ -64,7 +63,7 @@ export const getClaimantData = ({
   if (result.claimantType === 'other' && claimantTypeOtherValue) {
     result.claimantTypeOtherValue = (claimantTypeOtherValue || '').substring(
       0,
-      SC_MAX_LENGTH.CLAIMANT_OTHER,
+      MAX_LENGTH.SC_CLAIMANT_OTHER,
     );
   }
   return result;

@@ -4,14 +4,11 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
-import {
-  errorMessages,
-  SELECTED,
-  SC_MAX_LENGTH,
-  EVIDENCE_VA_PATH,
-} from '../../constants';
+import { errorMessages, SELECTED, EVIDENCE_VA_PATH } from '../../constants';
 import { getDate } from '../../utils/dates';
 import { $, $$ } from '../../utils/ui';
+
+import { MAX_LENGTH } from '../../../shared/constants';
 
 /*
 | Data     | Forward     | Back               | Add another      |
@@ -442,7 +439,7 @@ describe('<EvidenceVaRecords>', () => {
     // *** OTHER ERRORS ***
     it('should show error when location name is too long', async () => {
       const name = 'abcdef '.repeat(
-        SC_MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME / 6,
+        MAX_LENGTH.SC_EVIDENCE_LOCATION_AND_NAME / 6,
       );
       const data = { ...mockData, locations: [{ locationAndName: name }] };
       const page = setup({ index: 0, data });

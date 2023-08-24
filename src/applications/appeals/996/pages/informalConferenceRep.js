@@ -11,7 +11,7 @@ import {
   RepresentativeEmailTitle,
 } from '../content/InformalConference';
 import { validatePhone } from '../validations';
-import { errorMessages, HLR_MAX_LENGTH } from '../constants';
+import { errorMessages } from '../constants';
 
 import { MAX_LENGTH } from '../../shared/constants';
 
@@ -69,11 +69,11 @@ export default {
           },
           firstName: {
             type: 'string',
-            maxLength: HLR_MAX_LENGTH.REP_FIRST_NAME,
+            maxLength: MAX_LENGTH.HLR_REP_FIRST_NAME,
           },
           lastName: {
             type: 'string',
-            maxLength: HLR_MAX_LENGTH.REP_LAST_NAME,
+            maxLength: MAX_LENGTH.HLR_REP_LAST_NAME,
           },
           phone: {
             type: 'string',

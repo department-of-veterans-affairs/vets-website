@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { errorMessages, SELECTED, SC_MAX_LENGTH } from '../../constants';
+import { errorMessages, SELECTED } from '../../constants';
 import { getDate } from '../../utils/dates';
 
 import {
@@ -26,6 +26,8 @@ import {
   validatePrivateUnique,
 } from '../../validations/evidence';
 
+import { MAX_LENGTH } from '../../../shared/constants';
+
 describe('VA evidence', () => {
   describe('validateVaLocation', () => {
     it('should not show an error for an added location name', () => {
@@ -43,7 +45,7 @@ describe('VA evidence', () => {
       const errors = { addError: sinon.spy() };
       validateVaLocation(errors, {
         locationAndName: 'a'.repeat(
-          SC_MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME + 1,
+          MAX_LENGTH.SC_EVIDENCE_LOCATION_AND_NAME + 1,
         ),
       });
       expect(

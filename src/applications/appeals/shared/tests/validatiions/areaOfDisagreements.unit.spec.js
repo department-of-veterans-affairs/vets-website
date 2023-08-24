@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { NOD_MAX_LENGTH } from '../../../10182/constants';
-
 import {
   hasAreaOfDisagreementChoice,
   areaOfDisagreementRequired,
   areaOfDisagreementMaxLength,
 } from '../../validations/areaOfDisagreement';
+
+import { MAX_LENGTH } from '../../constants';
 
 describe('hasAreaOfDisagreementChoice && areaOfDisagreementRequired', () => {
   it('should show an error with no selections', () => {
@@ -51,7 +51,7 @@ describe.skip('areaOfDisagreementMaxLength', () => {
     const errors = { addError: sinon.spy() };
     areaOfDisagreementMaxLength(
       errors,
-      'ab '.repeat(NOD_MAX_LENGTH.NOD_ISSUE_NAME / 2),
+      'ab '.repeat(MAX_LENGTH.NOD_ISSUE_NAME / 2),
     );
     expect(errors.addError.called).to.be.true;
   });

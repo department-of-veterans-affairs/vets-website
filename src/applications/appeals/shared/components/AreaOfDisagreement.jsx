@@ -10,8 +10,7 @@ import cloneDeep from 'platform/utilities/data/cloneDeep';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
-import { HLR_MAX_LENGTH } from '../../996/constants';
-import { DISAGREEMENT_TYPES } from '../constants';
+import { DISAGREEMENT_TYPES, MAX_LENGTH } from '../constants';
 import {
   getIssueTitle,
   issueTitle,
@@ -36,7 +35,7 @@ const AreaOfDisagreement = ({
   const [checkboxErrorMessage, setCheckboxErrorMessage] = useState(null);
   const [inputErrorMessage, setInputErrorMessage] = useState(null);
   const [maxLength, setMaxLength] = useState(
-    HLR_MAX_LENGTH.DISAGREEMENT_REASON,
+    MAX_LENGTH.HLR_DISAGREEMENT_REASON,
   );
 
   useEffect(

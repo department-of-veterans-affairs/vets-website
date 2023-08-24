@@ -2,14 +2,11 @@ import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms-system/src/js/utilities/validations';
 import { isValidUSZipCode } from 'platform/forms/address';
 
-import {
-  errorMessages,
-  SC_MAX_LENGTH,
-  REGEX_COMMA,
-  REGEX_EMPTY_DATE,
-} from '../constants';
+import { errorMessages, REGEX_COMMA, REGEX_EMPTY_DATE } from '../constants';
 import { getSelected, getIssueName } from '../utils/helpers';
 import { validateDate } from './date';
+
+import { MAX_LENGTH } from '../../shared/constants';
 import { fixDateFormat } from '../../shared/utils/replace';
 
 // Needed for uniqueness string comparison
@@ -22,7 +19,7 @@ export const validateVaLocation = (errors, data) => {
   if (!locationAndName) {
     errors.addError(errorMessages.evidence.locationMissing);
   } else if (
-    locationAndName.length > SC_MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME
+    locationAndName.length > MAX_LENGTH.SC_EVIDENCE_LOCATION_AND_NAME
   ) {
     errors.addError(errorMessages.evidence.locationMaxLength);
   }

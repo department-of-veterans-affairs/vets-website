@@ -1,4 +1,3 @@
-import { NOD_MAX_LENGTH } from '../constants';
 import { SELECTED, MAX_LENGTH } from '../../shared/constants';
 
 /**
@@ -33,7 +32,7 @@ export default {
           properties: {
             issue: {
               type: 'string',
-              maxLength: NOD_MAX_LENGTH.NOD_ISSUE_NAME,
+              maxLength: MAX_LENGTH.NOD_ISSUE_NAME,
             },
             decisionDate: {
               type: 'string',

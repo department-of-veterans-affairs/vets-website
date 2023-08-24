@@ -56,15 +56,6 @@ export const DEFAULT_BENEFIT_TYPE = 'compensation';
 // Picking 100 years until told otherwise
 export const MAX_YEARS_PAST = 100;
 
-// Values from Lighthouse maintained schema
-// see ./config/form-0995-schema.json
-export const SC_MAX_LENGTH = {
-  // is EVIDENCE_DATES being used somewhere?
-  EVIDENCE_DATES: 4, // items
-  CLAIMANT_OTHER: 25,
-  EVIDENCE_LOCATION_AND_NAME: 255,
-};
-
 export const REGEX_COMMA = /[, ]/g;
 export const REGEX_EMPTY_DATE = /(--|-00-00)/;
 

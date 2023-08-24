@@ -10,9 +10,8 @@ import {
 import { areaOfDisagreementRequired } from '../validations/issues';
 import { calculateOtherMaxLength } from '../utils/disagreement';
 import { getIssueName } from '../utils/helpers';
-import { HLR_MAX_LENGTH } from '../constants';
 
-import { SUBMITTED_DISAGREEMENTS } from '../../shared/constants';
+import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../../shared/constants';
 
 // add 1 for last comma
 const allDisagreementsLength =
@@ -107,7 +106,7 @@ export default {
               type: 'string',
               // disagreementArea limited to 90 chars max
               maxLength:
-                HLR_MAX_LENGTH.DISAGREEMENT_REASON - allDisagreementsLength,
+                MAX_LENGTH.DISAGREEMENT_REASON - allDisagreementsLength,
             },
           },
         },

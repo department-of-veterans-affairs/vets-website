@@ -10,7 +10,6 @@ import {
   missingIssueName,
   maxNameLength,
 } from '../../validations/issues';
-import { HLR_MAX_LENGTH } from '../../constants';
 
 import { SELECTED, MAX_LENGTH } from '../../../shared/constants';
 
@@ -81,9 +80,7 @@ describe('maxIssues', () => {
       [SELECTED]: true,
     };
     maxIssues(errors, {
-      contestedIssues: new Array(HLR_MAX_LENGTH.HLR_SELECTIONS + 1).fill(
-        template,
-      ),
+      contestedIssues: new Array(MAX_LENGTH.HLR_SELECTIONS + 1).fill(template),
     });
     expect(errors.addError.called).to.be.true;
   });

@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { NOD_MAX_LENGTH, SHOW_PART3 } from '../constants';
+import { SHOW_PART3 } from '../constants';
 
 import {
   replaceSubmittedData,
@@ -59,10 +59,7 @@ export const createIssueName = ({ attributes } = {}) => {
   ]
     .filter(part => part)
     .join(' - ');
-  return replaceSubmittedData(result).substring(
-    0,
-    NOD_MAX_LENGTH.NOD_ISSUE_NAME,
-  );
+  return replaceSubmittedData(result).substring(0, MAX_LENGTH.NOD_ISSUE_NAME);
 };
 
 /**

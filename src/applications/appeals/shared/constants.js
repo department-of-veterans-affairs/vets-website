@@ -70,8 +70,9 @@ export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
  **** MAX LENGTH ****
  */
 
-// Values from Lighthouse maintained schema v2
-// see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json
+// Values from Lighthouse maintained schema v1 & v2
+// v1 - see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v1/10182.json
+// v2 - see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json
 export const MAX_LENGTH = {
   // used in 995 and 996
   ISSUE_NAME: 140,
@@ -90,6 +91,17 @@ export const MAX_LENGTH = {
   COUNTRY: 2,
   ZIP_CODE5: 5,
   POSTAL_CODE: 16,
+  // Supplemental Claims - 995
+  SC_CLAIMANT_OTHER: 25, // does this still exist?
+  SC_EVIDENCE_LOCATION_AND_NAME: 255,
+  // Higher Lever Review - 996
+  HLR_SELECTIONS: 100, // submitted issues (not in schema)
+  HLR_DISAGREEMENT_REASON: 90,
+  HLR_REP_FIRST_NAME: 30,
+  HLR_REP_LAST_NAME: 40,
+  // Notice of Disagreements - 10182
+  NOD_ISSUE_NAME: 180,
+  NOD_EXTENSION_REASON: 2300, // in v2 schema
 };
 
 /**
@@ -112,7 +124,7 @@ export const DISAGREEMENT_TYPES = {
   otherEntry: 'Something else:',
 };
 
-// Using HLR_MAX_LENGTH.DISAGREEMENT_REASON (90) and with all checkboxes selected,
+// Using MAX_LENGTH.HLR_DISAGREEMENT_REASON (90) and with all checkboxes selected,
 // this string is submitted - the numbers constitute the "something else" typed
 // in value
 // "service connection,effective date,disability evaluation,1234567890123456789012345678901234"

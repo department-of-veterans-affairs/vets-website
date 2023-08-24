@@ -7,8 +7,8 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { AddIssue } from '../../components/AddIssue';
 import { issueErrorMessages } from '../../content/addIssue';
-import { NOD_MAX_LENGTH } from '../../constants';
-import { LAST_ISSUE } from '../../../shared/constants';
+
+import { LAST_ISSUE, MAX_LENGTH } from '../../../shared/constants';
 import { getDate } from '../../../shared/utils/dates';
 
 describe('<AddIssue>', () => {
@@ -79,7 +79,7 @@ describe('<AddIssue>', () => {
   });
 
   it('should show error when issue name is too long', () => {
-    const issue = 'abcdef '.repeat(NOD_MAX_LENGTH.NOD_ISSUE_NAME / 6);
+    const issue = 'abcdef '.repeat(MAX_LENGTH.NOD_ISSUE_NAME / 6);
     const { container } = render(
       setup({
         data: { contestedIssues, additionalIssues: [{ issue }] },

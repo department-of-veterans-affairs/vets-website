@@ -1,11 +1,10 @@
 import { expect } from 'chai';
-import { HLR_MAX_LENGTH } from '../../constants';
 import {
   copyAreaOfDisagreementOptions,
   calculateOtherMaxLength,
 } from '../../utils/disagreement';
 
-import { SUBMITTED_DISAGREEMENTS } from '../../../shared/constants';
+import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../../../shared/constants';
 
 describe('copyAreaOfDisagreementOptions', () => {
   it('should return original issues only', () => {
@@ -73,11 +72,11 @@ describe('calculateOtherMaxLength', () => {
   const calcLength = settings => {
     const string = values.filter((value, index) => settings[index]).join(',');
     // add 1 to string length for the final comma
-    return HLR_MAX_LENGTH.DISAGREEMENT_REASON - (string.length + 1);
+    return MAX_LENGTH.HLR_DISAGREEMENT_REASON - (string.length + 1);
   };
   it('should return max length when nothing is selected', () => {
     expect(calculateOtherMaxLength(getData([]))).to.eq(
-      HLR_MAX_LENGTH.DISAGREEMENT_REASON,
+      MAX_LENGTH.HLR_DISAGREEMENT_REASON,
     );
   });
   it('should return appropriate length with 1 selection', () => {

@@ -5,7 +5,6 @@ import {
   maxSelectedErrorMessage,
 } from '../../shared/content/contestableIssues';
 import { content as extensionReasonContent } from '../content/extensionReason';
-import { NOD_MAX_LENGTH } from '../constants';
 
 import { MAX_LENGTH, REGEXP } from '../../shared/constants';
 import {
@@ -84,7 +83,7 @@ export const missingIssueName = (errors, data) => {
 };
 
 export const maxNameLength = (errors, data) => {
-  if (data.length > NOD_MAX_LENGTH.NOD_ISSUE_NAME) {
+  if (data.length > MAX_LENGTH.NOD_ISSUE_NAME) {
     errors.addError(issueErrorMessages.maxLength);
   }
 };
