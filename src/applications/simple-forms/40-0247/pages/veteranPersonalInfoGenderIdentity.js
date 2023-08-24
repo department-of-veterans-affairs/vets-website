@@ -3,6 +3,7 @@ import React from 'react';
 import { GENDER_IDENTITIES } from '../definitions/constants';
 import { lowercaseKeys } from '../form-helpers';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:title': <h3>Select the Veteran's gender identity</h3>,

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { FileField } from 'platform/forms-system/src/js/fields/FileField';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:title': <h3>Military/Discharge Documents</h3>,
@@ -49,7 +50,10 @@ export default {
       'ui:title': 'Upload files',
       'ui:field': FileField,
       'ui:options': {
+        hideTitle: false,
+        buttonText: 'Upload file',
         fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+        hideLabelText: false,
       },
     },
   },
