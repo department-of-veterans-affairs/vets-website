@@ -34,5 +34,33 @@ class MedicationsLandingPage {
       )
       .should('be.visible');
   };
+
+  clickMoreWaysToManageYourMedicationsAccordionExpandButton = () => {
+    cy.expandAccordions();
+  };
+
+  verifyHowtoRenewPrescriptionsAccordionDropDown = () => {
+    cy.get('[data-testid="renew-information-button"]')
+      .contains(
+        'If your prescription is too old to refill or has no refills left, you’ll need to request a renewal. The fastest way to renew is by calling the phone number on your prescription label. You can also send a secure message to your care team.',
+      )
+      .should('be.visible');
+  };
+
+  verifyHowToConfirmOrUpdateMailingAddressAccordionDropDown = () => {
+    cy.get('[data-testid="mailing-address-confirmation"]')
+      .contains(
+        'We’ll send your prescriptions to the address we have on file for you. We ship to all addresses in the U.S. and its territories. We don’t ship prescriptions to foreign countries.',
+      )
+      .should('be.visible');
+  };
+
+  verifyHowToReviewAllergiesAndReactionsAccordionDropDown = () => {
+    cy.get('[data-testid="allergies-reactions-review"]')
+      .contains(
+        'Make sure your providers know about all your allergies and reactions to medications.',
+      )
+      .should('be.visible');
+  };
 }
 export default MedicationsLandingPage;
