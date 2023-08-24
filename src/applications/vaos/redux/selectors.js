@@ -1,9 +1,7 @@
 // eslint-disable-next-line import/no-unresolved
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
-import {
-  selectVAPResidentialAddress,
-  selectPatientFacilities,
-} from '@department-of-veterans-affairs/platform-user/selectors';
+import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
+import { selectPatientFacilities } from 'platform/user/cerner-dsot/selectors';
 import {
   selectCernerFacilityIds,
   selectEhrDataByVhaId,
