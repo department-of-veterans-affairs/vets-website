@@ -1,7 +1,7 @@
-import 'platform/polyfills';
+import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/mhv-landing-page.scss';
 
-import startApp from 'platform/startup/router';
+import { startAppFromRouter as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
 
 import routes from './routes';
 import reducer from './reducers';

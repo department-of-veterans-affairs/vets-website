@@ -10,6 +10,7 @@ import PrintHeader from './PrintHeader';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
+import TrackingInfo from '../components/shared/TrackingInfo';
 
 const PrescriptionDetails = () => {
   const currentDate = new Date();
@@ -191,6 +192,12 @@ const PrescriptionDetails = () => {
           </div>
 
           <div className="medication-details-div vads-u-margin-top--2 vads-u-margin-bottom--3">
+            {shippedOn?.[0] && (
+              <TrackingInfo
+                {...shippedOn[0]}
+                prescriptionName={prescription.prescriptionName}
+              />
+            )}
             <h2 className="vads-u-margin-y--2 no-print">
               About your prescription
             </h2>

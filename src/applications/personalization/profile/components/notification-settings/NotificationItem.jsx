@@ -115,6 +115,7 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
                     itemStatusIndicators.hasSomePendingUpdates
                   }
                   last={index === filteredChannels.length - 1}
+                  itemName={itemName}
                 />
               ))}
             </NotificationChannelCheckboxesFieldset>
@@ -126,6 +127,7 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
                 channelId={channelId}
                 key={channelId}
                 description={description}
+                itemName={itemName}
               />
             ))}
           </Toggler.Disabled>
