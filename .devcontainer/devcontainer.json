@@ -39,9 +39,7 @@
 		}
 	},
 	"forwardPorts": [
-		3000,
-		3001,
-		3002
+		3001
 	],
 	"postCreateCommand": "./.devcontainer/codespaces-create.sh",
 	"remoteUser": "node",
