@@ -8,7 +8,7 @@ const routes = (
     <Route exact path="/about-medications" key="medicationLandingPage">
       <LandingPage />
     </Route>
-    <Route path="/">
+    <Route path="/" key="mhvLandingPage">
       <App />
     </Route>
   </Switch>
