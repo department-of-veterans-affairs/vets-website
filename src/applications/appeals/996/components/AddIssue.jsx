@@ -15,8 +15,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { getSelected, calculateIndexOffset } from '../utils/helpers';
-import { CONTESTABLE_ISSUES_PATH, REVIEW_ISSUES } from '../constants';
-import { SELECTED, LAST_ISSUE, MAX_LENGTH } from '../../shared/constants';
 import {
   uniqueIssue,
   missingIssueName,
@@ -25,6 +23,14 @@ import {
 } from '../validations/issues';
 import { validateDate } from '../validations/date';
 import { content } from '../content/addIssue';
+
+import {
+  CONTESTABLE_ISSUES_PATH,
+  REVIEW_ISSUES,
+  LAST_ISSUE,
+  MAX_LENGTH,
+  SELECTED,
+} from '../../shared/constants';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
 const REVIEW_AND_SUBMIT = '/review-and-submit';

@@ -7,8 +7,8 @@ import {
 import { returnUniqueIssues } from '../../shared/utils/issues';
 import '../../shared/definitions';
 import {
-  SELECTED,
   MAX_LENGTH,
+  SELECTED,
   SUBMITTED_DISAGREEMENTS,
 } from '../../shared/constants';
 

@@ -118,12 +118,10 @@ export const NO_ISSUES_SELECTED = 'No issues were selected';
 export const FORMAT_YMD = 'YYYY-MM-DD';
 export const FORMAT_READABLE = 'LL';
 export const FORMAT_COMPACT = 'MMM DD, YYYY';
-
 export const LAST_SC_ITEM = 'lastScItem'; // focus management across pages
 export const CONTACT_EDIT = 'edit-contact-info'; // contact info focusing
 export const SUMMARY_EDIT = 'edit-evidence-summary'; // evidence summary focus
 export const REVIEW_CONTACT = 'onReviewPageContact';
-export const REVIEW_ISSUES = 'onReviewPageIssues';
 export const LIMITATION_KEY = 'limitation';
 
 // Values from benefitTypes in Lighthouse 0995 schema
@@ -215,7 +213,6 @@ export const ATTACHMENTS_OTHER = {
 };
 
 export const CONTACT_INFO_PATH = 'contact-information';
-export const CONTESTABLE_ISSUES_PATH = 'contestable-issues';
 export const ADD_ISSUE_PATH = 'add-issue';
 export const EVIDENCE_VA_REQUEST =
   'supporting-evidence/request-va-medical-records';

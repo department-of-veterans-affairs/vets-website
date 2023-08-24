@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { getDate } from '../../../shared/utils/dates';
 
-import { SELECTED, MAX_LENGTH } from '../../../shared/constants';
+import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 
 import {
   selectionRequired,

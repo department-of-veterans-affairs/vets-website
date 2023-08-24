@@ -11,7 +11,7 @@ import {
   maxNameLength,
 } from '../../validations/issues';
 
-import { SELECTED, MAX_LENGTH } from '../../../shared/constants';
+import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 
 describe('uniqueIssue', () => {
   const _ = null;

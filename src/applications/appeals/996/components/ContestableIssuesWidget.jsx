@@ -8,7 +8,7 @@ import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { IssueCard } from './IssueCard';
-import { APP_NAME, REVIEW_ISSUES } from '../constants';
+import { APP_NAME } from '../constants';
 
 import {
   ContestableIssuesLegend,
@@ -24,7 +24,12 @@ import {
 } from '../../shared/utils/issues';
 import { isEmptyObject } from '../../shared/utils/helpers';
 import { focusIssue } from '../../shared/utils/focus';
-import { SELECTED, LAST_ISSUE, MAX_LENGTH } from '../../shared/constants';
+import {
+  LAST_ISSUE,
+  MAX_LENGTH,
+  REVIEW_ISSUES,
+  SELECTED,
+} from '../../shared/constants';
 
 /**
  * ContestableIssuesWidget - Form system parameters passed into this widget

@@ -13,9 +13,14 @@ import {
 } from '../actions';
 
 import { IssueCard } from './IssueCard';
-import { REVIEW_ISSUES, APP_NAME } from '../constants';
+import { APP_NAME } from '../constants';
 
-import { SELECTED, MAX_LENGTH, LAST_ISSUE } from '../../shared/constants';
+import {
+  LAST_ISSUE,
+  MAX_LENGTH,
+  REVIEW_ISSUES,
+  SELECTED,
+} from '../../shared/constants';
 
 import {
   ContestableIssuesLegend,

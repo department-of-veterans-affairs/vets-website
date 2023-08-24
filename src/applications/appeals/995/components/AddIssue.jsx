@@ -10,13 +10,12 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { getSelected, calculateIndexOffset } from '../utils/helpers';
+import { SELECTED, LAST_SC_ITEM } from '../constants';
 import {
-  SELECTED,
-  LAST_SC_ITEM,
   CONTESTABLE_ISSUES_PATH,
+  MAX_LENGTH,
   REVIEW_ISSUES,
-} from '../constants';
-import { MAX_LENGTH } from '../../shared/constants';
+} from '../../shared/constants';
 
 import { checkValidations } from '../validations';
 import {

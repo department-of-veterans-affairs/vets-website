@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { getSelected } from '../utils/helpers';
 import { ShowIssuesList } from '../components/ShowIssuesList';
-import { CONTESTABLE_ISSUES_PATH } from '../constants';
+import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 
 export const SummaryTitle = ({ formData }) => {
   const issues = getSelected(formData);

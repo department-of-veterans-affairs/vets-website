@@ -15,12 +15,15 @@ export const CONTACT_INFO_PATH = '/contact-information';
 export const DR_URL = '/decision-reviews';
 export const CONTESTED_CLAIMS_URL = `${DR_URL}/contested-claims`;
 export const GET_HELP_REVIEW_REQUEST_URL = `${DR_URL}/get-help-with-review-request`;
-
-export const SC_INFO_URL = `${DR_URL}/supplemental-claim`;
+export const CONTESTABLE_ISSUES_PATH = 'contestable-issues';
+export const SC_INFO_URL = `${DR_URL}/supplemental-claim`; // v2
 export const SC_BASE_URL = `${SC_INFO_URL}/file-supplemental-claim-form-20-0995`;
 export const SC_OTHER_WAYS_URL = `${SC_INFO_URL}#file-by-mail-in-person-or-with`;
 export const SC_FORM_URL =
   'https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf';
+
+// session storage keys
+export const REVIEW_ISSUES = 'onReviewPageIssues';
 
 export const HLR_INFO_URL = `${DR_URL}/higher-level-review`;
 export const HLR_BASE_URL = `${HLR_INFO_URL}/request-higher-level-review-form-20-0996`;
@@ -91,7 +94,7 @@ export const MAX_LENGTH = {
   COUNTRY: 2,
   ZIP_CODE5: 5,
   POSTAL_CODE: 16,
-  // Supplemental Claims - 995
+  // Supplemental Claim - 995
   SC_CLAIMANT_OTHER: 25, // does this still exist?
   SC_EVIDENCE_LOCATION_AND_NAME: 255,
   // Higher Lever Review - 996
@@ -99,7 +102,7 @@ export const MAX_LENGTH = {
   HLR_DISAGREEMENT_REASON: 90,
   HLR_REP_FIRST_NAME: 30,
   HLR_REP_LAST_NAME: 40,
-  // Notice of Disagreements - 10182
+  // Notice of Disagreement - 10182
   NOD_ISSUE_NAME: 180,
   NOD_EXTENSION_REASON: 2300, // in v2 schema
 };

@@ -9,8 +9,8 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { focusElement, scrollTo } from 'platform/utilities/ui';
 
 import { IssueCard } from './IssueCard';
-import { REVIEW_ISSUES, APP_NAME, LAST_SC_ITEM } from '../constants';
-import { SELECTED, MAX_LENGTH } from '../../shared/constants';
+import { APP_NAME, LAST_SC_ITEM } from '../constants';
+import { MAX_LENGTH, REVIEW_ISSUES, SELECTED } from '../../shared/constants';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
