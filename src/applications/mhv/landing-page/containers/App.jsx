@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
-
+import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import LandingPage from '../components/LandingPage';
 import { resolveLandingPageLinks } from '../utilities/data';
 import { useDatadogRum } from '../hooks/useDatadogRum';
@@ -24,6 +24,11 @@ const App = () => {
   const signedIn = useSelector(isLoggedIn);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const useSiS = useSelector(signInServiceEnabled);
+
+  // Use Drupal based Cerner facility data.
+  // https://depo-platform-documentation.scrollhelp.site/developer-docs/how-to-opt-in-to-drupal-as-the-source-of-truth-for
+  const dispatch = useDispatch();
+  useEffect(() => connectDrupalSourceOfTruthCerner(dispatch), [dispatch]);
 
   const data = useMemo(
     () => {
