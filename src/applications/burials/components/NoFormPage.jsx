@@ -13,6 +13,12 @@ const locationOfDeath = {
   stateVeteransHome: 'State Veterans home',
 };
 
+const formatAddress = address => {
+  return `${Object.values(address)
+    .filter(line => line !== undefined)
+    .join('\n')}`;
+};
+
 const renderFields = [
   {
     title: 'Claimant information',
@@ -40,30 +46,42 @@ const generateData = (type, formData) => {
   switch (type) {
     case 'claimant-information':
       return {
-        'Claimant’s first name': formData.claimantFullName.first,
+        'Claimant’s first name': formData.claimantFullName.first
+          ? formData.claimantFullName.first
+          : '',
         'Claimant’s middle name': formData.claimantFullName?.middle ?? 'None',
-        'Claimant’s last name': formData.claimantFullName.last,
+        'Claimant’s last name': formData.claimantFullName.last
+          ? formData.claimantFullName.last
+          : '',
         Suffix: formData.claimantFullName?.suffix ?? 'None',
         'Relationship to the deceased Veterans': formData.relationship.type,
       };
     case 'deceased-veteran-information':
       return {
-        'Veteran’s first name': formData.veteranFullName.first,
+        'Veteran’s first name': formData.veteranFullName.first
+          ? formData.veteranFullName.first
+          : '',
         'Veteran’s middle name': formData.veteranFullName?.middle ?? 'None',
-        'Veteran’s last name': formData.veteranFullName.last,
+        'Veteran’s last name': formData.veteranFullName.last
+          ? formData.veteranFullName.last
+          : '',
         Suffix: formData.veteranFullName?.suffix ?? 'None',
-        'Social Security number': formatSSN(
-          formData.veteranSocialSecurityNumber,
-        ),
-        'VA file number': formData.vaFileNumber,
-        'Date of birth': convertDateFormat(formData.veteranDateOfBirth),
+        'Social Security number': formData.veteranSocialSecurityNumber
+          ? formatSSN(formData.veteranSocialSecurityNumber)
+          : '',
+        'VA file number': formData.vaFileNumber ? formData.vaFileNumber : '',
+        'Date of birth': formData.veteranDateOfBirth
+          ? convertDateFormat(formData.veteranDateOfBirth)
+          : '',
         'Place of birth (city and state or foreign country)':
           formData?.placeOfBirth ?? 'None',
         'Burial information': {
-          'Date of death': convertDateFormat(formData.deathDate),
-          'Date of burial (includes cremation or interment)': convertDateFormat(
-            formData.burialDate,
-          ),
+          'Date of death': formData.deathDate
+            ? convertDateFormat(formData.deathDate)
+            : '',
+          'Date of burial (includes cremation or interment)': formData.burialDate
+            ? convertDateFormat(formData.burialDate)
+            : '',
           'Where did the Veteran’s death occur?': formData.locationOfDeath
             ?.other
             ? formData.locationOfDeath.other
@@ -74,7 +92,7 @@ const generateData = (type, formData) => {
       return {
         'Previous names': {
           'Did the Veteran serve under another name?':
-            formData.previousNames.length > 0 ? formData.previousNames : 'No',
+            formData.previousNames?.length > 0 ? formData.previousNames : 'No',
         },
       };
     case 'benefits-selection':
@@ -102,7 +120,9 @@ const generateData = (type, formData) => {
     case 'additional-information':
       return {
         'Claimant contact information': {
-          Address: 'render',
+          Address: formData.claimantAddress
+            ? formatAddress(formData.claimantAddress)
+            : '',
           'Email address': 'render email',
           'Phone number': 'render phone',
         },
@@ -185,7 +205,12 @@ const CreateSummarySections = ({
                 {Array.isArray(value) ? (
                   <ArrayComponent value={value} />
                 ) : (
-                  <p className="vads-u-margin-top--0">{value}</p>
+                  <p
+                    className="vads-u-margin-top--0"
+                    style={{ whiteSpace: 'pre-line' }}
+                  >
+                    {value}
+                  </p>
                 )}
               </>
             )}
