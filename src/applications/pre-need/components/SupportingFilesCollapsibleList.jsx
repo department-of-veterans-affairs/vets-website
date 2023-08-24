@@ -44,9 +44,9 @@ const CollapsibleList = () => {
                     </p>
                     <br />
                     <p>
-                      You can also upload supporting files or an affidavit ( a
+                      You can also upload supporting files or an affidavit (a
                       written statement of facts confirmed by an oath or
-                      affirmation ) showing that you’re:
+                      affirmation) showing that you’re:
                     </p>
                     <ul>
                       <li>
@@ -70,7 +70,7 @@ const CollapsibleList = () => {
                     <p>
                       <strong>
                         If you’re applying for an unmarried adult child of a
-                        Veteran or service member,
+                        Veteran or service member,{' '}
                       </strong>
                       you can upload supporting files with information about the
                       adult child’s disability. The Veteran or guardian of the
@@ -100,22 +100,22 @@ const CollapsibleList = () => {
             </li>
             <li>
               <CollapsiblePanel
-                header="Can I mail or fax documents?"
+                header="Can I mail or fax files?"
                 pageContent={
                   <>
                     <p>
                       We can process your request more quickly if you upload
-                      your documents here. If you can’t upload your documents:
+                      your files here. If you can’t upload your files:
                     </p>
                     <ol>
-                      <li>Make copies of the documents.</li>
+                      <li>Make copies of the files.</li>
                       <li>
                         Make sure you write your name and confirmation number on
                         every page. You will receive a confirmation number once
                         you submit this application.
                       </li>
                       <li>
-                        Submit application and supporting documents to the VA by
+                        Submit application and supporting files to the VA by
                         mail:
                         <p>
                           <div className="mail-fax-address">
@@ -126,8 +126,8 @@ const CollapsibleList = () => {
                         </p>
                         <strong>Or</strong>
                         <p>
-                          Fax documents to the National Cemetery Scheduling
-                          Office: <va-telephone contact="8558408299" />
+                          Fax files to the National Cemetery Scheduling Office:{' '}
+                          <va-telephone contact="8558408299" />.
                         </p>
                       </li>
                     </ol>
