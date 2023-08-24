@@ -32,7 +32,7 @@ const getShortTimezone = avs => {
 
 const getFormattedAppointmentTime = twentyFourHourTime => {
   const time = parse(twentyFourHourTime, 'HH:mm', new Date());
-  return format(time, 'H:mm aaaa');
+  return format(time, 'h:mm aaaa');
 };
 
 const getFormattedAppointmentDate = avs => {
@@ -50,7 +50,7 @@ const getFormattedGenerationDate = avs => {
 
   return `${format(
     zonedDate,
-    "MMMM d, yyyy' at 'h:mm aaaaa'.m.'",
+    "MMMM d, yyyy' at 'h:mm aaaa'",
     timeZone,
   )} ${shortTimeZone}`;
 };
@@ -62,4 +62,5 @@ export {
   getShortTimezone,
   parseVistaDate,
   parseVistaDateTime,
+  stripDst,
 };
