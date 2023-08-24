@@ -94,10 +94,8 @@ const HealthCareCTA = ({
 HealthCareCTA.propTypes = {
   authenticatedWithSSOe: PropTypes.bool,
   hasAppointmentsError: PropTypes.bool,
-  hasInboxError: PropTypes.bool,
   hasUpcomingAppointment: PropTypes.bool,
   shouldShowPrescriptions: PropTypes.bool,
-  unreadMessagesCount: PropTypes.number,
 };
 
 export default HealthCareCTA;
