@@ -175,8 +175,13 @@ const Prescriptions = () => {
       return (
         <div className="landing-page">
           <PrintHeader />
-          <h1 className="page-title">Medications</h1>
-          <div className="vads-u-margin-bottom--2 no-print">
+          <h1 className="page-title" data-testId="List-Page-Title">
+            Medications
+          </h1>
+          <div
+            className="vads-u-margin-bottom--2 no-print"
+            datat-testId="Title-Notes"
+          >
             Review your prescription medications from VA, and providers outside
             of our network.
           </div>
