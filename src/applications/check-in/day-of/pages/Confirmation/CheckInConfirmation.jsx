@@ -68,7 +68,7 @@ const CheckInConfirmation = props => {
   useEffect(
     () => {
       if (travelPayClaimSent) {
-        const facility = selectedAppointment.facilityId;
+        const { facility } = selectedAppointment;
         const travelPaySent = getTravelPaySent(window);
         travelPaySent[facility] = new Date();
         setShouldSendTravelPayClaim(window, false);
