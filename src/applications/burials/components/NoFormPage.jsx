@@ -102,9 +102,14 @@ const generateData = (type, formData) => {
     case 'additional-information':
       return {
         'Claimant contact information': {
-          Address: 'render address',
+          Address: 'render',
           'Email address': 'render email',
           'Phone number': 'render phone',
+        },
+        'Document upload': {
+          'Veterans death certificate': 'render doc',
+          'Documentation for transportation of the Veteran’s remains or other supporting evidence':
+            'render evidence',
         },
       };
     default:
@@ -144,6 +149,7 @@ const h3Subsections = [
   'Burial allowance',
   'Plot or interment allowance',
   'Claimant contact information',
+  'Document upload',
 ];
 
 const CreateSummarySections = ({
