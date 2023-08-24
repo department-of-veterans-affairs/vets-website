@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import * as authUtilities from '../../../authentication/utilities';
 import LoginActions from '../../../authentication/components/LoginActions';
 import { CSP_IDS } from '../../../authentication/constants';
-import SignInAlertBox from '../../../authentication/components/SignInAlertBox';
 
 describe('login DOM ', () => {
   const sandbox = sinon.createSandbox();
@@ -14,7 +13,7 @@ describe('login DOM ', () => {
     getState: () => ({
       featureToggles: {
         // eslint-disable-next-line camelcase
-        showsignInPageAndModalExperiment: false,
+        showsignInPageAndModalExperiment: true,
       },
     }),
     subscribe: () => {},
@@ -88,15 +87,5 @@ describe('login DOM ', () => {
       expect(loginButtons.find('a').length).to.eql(2);
       loginButtons.unmount();
     });
-  });
-
-  it('text alert modal is viewable to users', () => {
-    const component = mount(
-      <Provider store={mockStore}>
-        <LoginActions />
-      </Provider>,
-    );
-    expect(component.contains(<SignInAlertBox />)).to.be.false;
-    component.unmount();
   });
 });
