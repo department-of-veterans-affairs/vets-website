@@ -5,3 +5,12 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+.form-panel.veteran-personal-information-demographics {
+  #root_veteranDemographics-label {
+    display: none !important;
+  }
+  va-checkbox[label^="Native Hawaiian"] {
+    margin-left: 2rem;
+  }
+}
