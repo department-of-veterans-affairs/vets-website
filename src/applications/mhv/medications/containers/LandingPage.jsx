@@ -3,9 +3,14 @@ import { useSelector } from 'react-redux';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { medicationsUrls } from '../util/constants';
 
 const LandingPage = () => {
   const fullState = useSelector(state => state);
+  const medicationsUrl = !fullState.user.login.currentlyLoggedIn
+    ? medicationsUrls.prescriptionsUrl
+    : medicationsUrls.medicationsLogin;
+
   const content = () => {
     return (
       <div className="landing-page">
@@ -20,7 +25,7 @@ const LandingPage = () => {
           <section>
             <a
               className="vads-c-action-link--green"
-              href="/my-health/medications/prescriptions"
+              href={medicationsUrl}
               data-testid="prescriptions-nav-link"
             >
               Go to your medications
@@ -132,8 +137,7 @@ const LandingPage = () => {
               </va-accordion-item>
               <va-accordion-item>
                 <h3 className="vads-u-font-size--h6" slot="headline">
-                  When will I get my prescriptions, and when should I request a
-                  refill?
+                  How long will it take to get my prescriptions?
                 </h3>
                 <p data-testid="prescription-refill-info">
                   Prescriptions usually arrive within 3 to 5 days after we ship
@@ -177,8 +181,10 @@ const LandingPage = () => {
                   What if I have more questions?
                 </h3>
                 <p data-testid="more-questions">
-                  For questions about your medications and supplies, send a
-                  secure message to your care team.
+                  <strong>
+                    For questions about your medications and supplies,
+                  </strong>{' '}
+                  send a secure message to your care team.
                 </p>
                 <p>
                   <a
@@ -189,7 +195,7 @@ const LandingPage = () => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Compose a message
+                    Compose a message on My HealthVet
                   </a>
                 </p>
                 <p>
@@ -206,9 +212,8 @@ const LandingPage = () => {
             <h2>More ways to manage your medications</h2>
             <p>
               {' '}
-              Learn how to request renewal of your prescriptions that are no
-              longer refillable, update your mailing address, and review
-              allergies and reactions in your VA medical records.
+              Learn how to renew prescriptions, update your mailing address, and
+              review allergies and reactions in your VA medical records.
             </p>
             <va-accordion bordered>
               <va-accordion-item>
@@ -251,7 +256,7 @@ const LandingPage = () => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Compose a message
+                  Compose a message on My HealthVet
                 </a>
               </va-accordion-item>
               <va-accordion-item>
