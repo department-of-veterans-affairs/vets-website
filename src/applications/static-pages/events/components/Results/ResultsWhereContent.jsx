@@ -56,14 +56,14 @@ export const ResultsWhereContent = ({ event }) => {
         <strong>Where:</strong>
       </p>
       <div className="vads-u-display--flex vads-u-flex-direction--column">
-        <p className="vads-u-margin--0">
+        <div className="vads-u-margin--0">
           <WhereContent
             event={event}
             fieldLocation={fieldFacilityLocation}
             fieldType={fieldLocationType}
             derivedLocations={locations}
           />
-        </p>
+        </div>
       </div>
     </div>
   );
