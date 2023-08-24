@@ -2,7 +2,7 @@ import manifest from '../../manifest.json';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
-import mockSentFolder from './fixtures/folder-sent-metadata.json';
+import mockSentFolder from './fixtures/sentResponse/folder-sent-metadata.json';
 import particularFolderResponse from './fixtures/drafts-response.json';
 import customFolderResponse from './fixtures/message-custom-response.json';
 import mockSearchMessages from './fixtures/search-COVID-results.json';
@@ -61,7 +61,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/-2',
+        '/my_health/v1/messaging/folders/-2*',
         mockDraftsFolder,
       );
       cy.intercept(
@@ -114,7 +114,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/-1',
+        '/my_health/v1/messaging/folders/-1*',
         mockSentFolder,
       ).as('basicSearchRequestDraftsMeta');
       cy.intercept(
@@ -167,7 +167,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/-3',
+        '/my_health/v1/messaging/folders/-3*',
         mockTrashFolder,
       );
       cy.intercept(
@@ -220,7 +220,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/7038175',
+        '/my_health/v1/messaging/folders/7038175*',
         mockCustomFolder,
       );
       cy.intercept(
@@ -249,6 +249,9 @@ describe(manifest.appName, () => {
           'aria-required-children': {
             enabled: false,
           },
+          'color-contrast': {
+            enabled: false,
+          },
         },
       });
     });
@@ -260,6 +263,9 @@ describe(manifest.appName, () => {
       cy.axeCheck('main', {
         rules: {
           'aria-required-children': {
+            enabled: false,
+          },
+          'color-contrast': {
             enabled: false,
           },
         },

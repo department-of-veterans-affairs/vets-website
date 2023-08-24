@@ -17,10 +17,19 @@ export const labTypes = {
 };
 
 export const LoincCodes = {
+  // lab and test results
   MICROBIOLOGY: '79381-0',
   PATHOLOGY: '60567-5',
   EKG: '11524-6',
   RADIOLOGY: '18748-4',
+  // care summaries and notes
+  PHYSICIAN_PROCEDURE_NOTE: '11505-5',
+  DISCHARGE_SUMMARY: '18842-5',
+  // vitals
+  BLOOD_PRESSURE: '85354-9',
+  SYSTOLIC: '8480-6',
+  DIASTOLIC: '8462-4',
+  HEART_RATE: '8867-4',
 };
 
 export const FhirResourceTypes = {
@@ -92,8 +101,8 @@ export const testing = false;
 
 export const vitalTypes = {
   BLOOD_PRESSURE: 'BLOOD_PRESSURE',
-  BREATHING_RATE: 'BLOOD_SUGAR',
-  HEART_RATE: 'HEART_RATE',
+  BREATHING_RATE: 'BREATHING_RATE',
+  PULSE: 'PULSE',
   HEIGHT: 'HEIGHT',
   TEMPERATURE: 'TEMPERATURE',
   WEIGHT: 'WEIGHT',
@@ -102,7 +111,7 @@ export const vitalTypes = {
 export const vitalTypeDisplayNames = {
   BLOOD_PRESSURE: 'Blood pressure',
   BREATHING_RATE: 'Breathing rate',
-  HEART_RATE: 'Heart rate',
+  PULSE: 'Heart rate',
   HEIGHT: 'Height',
   TEMPERATURE: 'Temperature',
   WEIGHT: 'Weight',

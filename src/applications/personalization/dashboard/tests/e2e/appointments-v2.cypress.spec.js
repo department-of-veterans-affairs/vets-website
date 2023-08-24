@@ -1,5 +1,4 @@
 import { v2 } from '../../mocks/appointments';
-import { generateFeatureToggles } from '../../mocks/feature-toggles';
 
 import {
   makeUserObject,
@@ -17,12 +16,6 @@ const mockUser = makeUserObject({
 describe('MyVA Dashboard - Appointments - v2', () => {
   beforeEach(() => {
     mockLocalStorage();
-    cy.intercept(
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        showMyVADashboardV2: true,
-      }),
-    );
   });
 
   it('has an appointment in the next 30 days', () => {

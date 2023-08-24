@@ -2,18 +2,32 @@ import moment from 'moment';
 
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 
-import { fixDateFormat } from '../utils/replace';
-import { FORMAT_YMD } from '../constants';
-
+import { SHOW_PART3 } from '../constants';
 import { issueErrorMessages } from '../content/addIssue';
 
-const minDate = moment()
+import { fixDateFormat } from '../../shared/utils/replace';
+import { FORMAT_YMD, MAX_YEARS_PAST } from '../../shared/constants';
+
+const minDate1 = moment()
   .subtract(1, 'year')
+  .startOf('day');
+
+const minDate100 = moment()
+  .subtract(MAX_YEARS_PAST, 'year')
   .startOf('day');
 
 const maxDate = moment().startOf('day');
 
-export const validateDate = (errors, rawString = '') => {
+export const validateDate = (
+  errors,
+  rawString = '',
+  formData = {},
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
+  const data = Object.keys(appStateData || {}).length ? appStateData : formData;
   const dateString = fixDateFormat(rawString);
   const { day, month, year } = parseISODate(dateString);
   const date = moment(rawString, FORMAT_YMD);
@@ -52,8 +66,12 @@ export const validateDate = (errors, rawString = '') => {
     // Lighthouse won't accept same day (as submission) decision date
     errors.addError(issueErrorMessages.pastDate);
     errorParts.year = true; // only the year is invalid at this point
-  } else if (date.isBefore(minDate)) {
+  } else if (!data[SHOW_PART3] && date.isBefore(minDate1)) {
     errors.addError(issueErrorMessages.newerDate);
+    errorParts.year = true;
+  } else if (date.isBefore(minDate100)) {
+    // max 1 year for old form or 100 years for newer form
+    errors.addError(issueErrorMessages.recentDate);
     errorParts.year = true; // only the year is invalid at this point
   }
 

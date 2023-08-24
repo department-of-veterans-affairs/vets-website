@@ -121,7 +121,7 @@ const FileField = props => {
     modalContent: fileName =>
       uiOptions.modalContent?.(fileName || 'Unknown') || (
         <span>
-          We’ll remove the uploaded document{' '}
+          We’ll remove the uploaded file{' '}
           <strong>{fileName || 'Unknown'}</strong>
         </span>
       ),
@@ -504,7 +504,9 @@ const FileField = props => {
               <li key={index} id={fileListId} className={itemClasses}>
                 {file.uploading && (
                   <div className="schemaform-file-uploading">
-                    <strong id={fileNameId}>{file.name}</strong>
+                    <strong id={fileNameId} className="dd-privacy-hidden">
+                      {file.name}
+                    </strong>
                     <br />
                     <va-progress-bar percent={progress} />
                     <va-button
@@ -521,7 +523,9 @@ const FileField = props => {
                 {description && <p>{description}</p>}
                 {!file.uploading && (
                   <>
-                    <strong id={fileNameId}>{file.name}</strong>
+                    <strong id={fileNameId} className="dd-privacy-hidden">
+                      {file.name}
+                    </strong>
                     {file?.size && <div> {displayFileSize(file.size)}</div>}
                   </>
                 )}

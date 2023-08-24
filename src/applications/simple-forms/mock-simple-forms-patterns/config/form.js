@@ -12,6 +12,7 @@ import textInputAddress from '../pages/mockTextInputAddress';
 import textInputSsn from '../pages/mockTextInputSsn';
 import checkboxAndTextInput from '../pages/mockCheckboxAndTextInput';
 import radio from '../pages/mockRadio';
+import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran';
 import select from '../pages/mockSelect';
 import date from '../pages/mockDate';
 import arraySinglePage from '../pages/mockArraySinglePage';
@@ -44,6 +45,7 @@ const formConfig = {
   trackingPrefix: 'mock-simple-forms-patterns-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
   formId: 'FORM_MOCK_SF_PATTERNS',
   saveInProgress: {},
   version: 0,
@@ -133,6 +135,12 @@ const formConfig = {
           uiSchema: radio.uiSchema,
           schema: radio.schema,
           depends: () => includePage('radio'),
+        },
+        radioRelationshipToVeteran: {
+          path: 'radio-relationship-to-veteran',
+          title: 'Radio Relationship to Veteran',
+          uiSchema: radioRelationshipToVeteran.uiSchema,
+          schema: radioRelationshipToVeteran.schema,
         },
       },
     },

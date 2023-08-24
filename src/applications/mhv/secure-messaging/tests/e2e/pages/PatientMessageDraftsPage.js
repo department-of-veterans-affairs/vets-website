@@ -25,7 +25,7 @@ class PatientMessageDraftsPage {
     cy.log(`draft messages  = ${JSON.stringify(this.mockDraftMessages)}`);
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2',
+      '/my_health/v1/messaging/folders/-2*',
       mockDraftFolderMetaResponse,
     ).as('draftsFolderMetaResponse');
     cy.intercept(
@@ -141,7 +141,9 @@ class PatientMessageDraftsPage {
       this.currentThread,
     ).as('full-thread');
 
-    cy.contains(mockParentMessageDetails.data.attributes.subject).click();
+    cy.contains(mockParentMessageDetails.data.attributes.subject).click({
+      waitForAnimations: true,
+    });
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -285,6 +287,28 @@ class PatientMessageDraftsPage {
 
   verifyFocusOnConfirmationMessage = () => {
     cy.get('.last-save-time').should('have.focus');
+  };
+
+  verifySorting = () => {
+    let listBefore;
+    let listAfter;
+    cy.get('.thread-list-item')
+      .find('.received-date')
+      .then(list => {
+        listBefore = Cypress._.map(list, el => el.innerText);
+        cy.log(listBefore);
+      })
+      .then(() => {
+        this.sortMessagesByDate('Oldest to newest');
+        cy.get('.thread-list-item')
+          .find('.received-date')
+          .then(list2 => {
+            listAfter = Cypress._.map(list2, el => el.innerText);
+            cy.log(listAfter);
+            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
+            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
+          });
+      });
   };
 }
 

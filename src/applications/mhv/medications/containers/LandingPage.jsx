@@ -3,9 +3,14 @@ import { useSelector } from 'react-redux';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { medicationsUrls } from '../util/constants';
 
 const LandingPage = () => {
   const fullState = useSelector(state => state);
+  const medicationsUrl = !fullState.user.login.currentlyLoggedIn
+    ? medicationsUrls.prescriptionsUrl
+    : medicationsUrls.medicationsLogin;
+
   const content = () => {
     return (
       <div className="landing-page">
@@ -20,7 +25,8 @@ const LandingPage = () => {
           <section>
             <a
               className="vads-c-action-link--green"
-              href="/my-health/medications/prescriptions"
+              href={medicationsUrl}
+              data-testid="prescriptions-nav-link"
             >
               Go to your medications
             </a>
@@ -36,8 +42,9 @@ const LandingPage = () => {
               Email your feedback and questions to us at <FeedbackEmail />.
             </p>
             <p>
-              Note: You still have access to the pharmacy tool on the My
-              HealtheVet website. You can go back to that site at any time.{' '}
+              <strong>Note:</strong>
+              You still have access to the pharmacy tool on the My HealtheVet
+              website. You can go back to that site at any time.{' '}
               <a
                 href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'pharmacy')}
                 target="_blank"
@@ -49,12 +56,12 @@ const LandingPage = () => {
           </section>
           <section>
             <h2>Questions about this tool</h2>
-            <va-accordion bordered>
+            <va-accordion bordered data-testid="accordion-dropdown">
               <va-accordion-item>
                 <h3 className="vads-u-font-size--h6" slot="headline">
                   Does this tool list all my medications and supplies?
                 </h3>
-                <p>
+                <p data-testid="tool-information">
                   This tool lists medications and supplies prescribed by your VA
                   providers. It also lists medications and supplies prescribed
                   by non-VA providers, if you filled them through a VA pharmacy.
@@ -110,7 +117,7 @@ const LandingPage = () => {
                   What types of prescriptions can I refill and track in this
                   tool?
                 </h3>
-                <p>
+                <p data-testid="track-refill-prescription-info">
                   You can refill and track your shipments of most VA
                   prescriptions. This includes prescription medications and
                   prescription supplies, like diabetic supplies.
@@ -130,10 +137,9 @@ const LandingPage = () => {
               </va-accordion-item>
               <va-accordion-item>
                 <h3 className="vads-u-font-size--h6" slot="headline">
-                  When will I get my prescriptions, and when should I request a
-                  refill?
+                  How long will it take to get my prescriptions?
                 </h3>
-                <p>
+                <p data-testid="prescription-refill-info">
                   Prescriptions usually arrive within 3 to 5 days after we ship
                   them. You can find tracking information in your prescription
                   details.
@@ -153,7 +159,7 @@ const LandingPage = () => {
                 <h3 className="vads-u-font-size--h6" slot="headline">
                   Will VA protect my personal health information?
                 </h3>
-                <p>
+                <p data-test-id="security-policy">
                   Yes. This is a secure website. We follow strict security
                   policies and practices to protect your personal health
                   information.
@@ -174,9 +180,11 @@ const LandingPage = () => {
                 <h3 className="vads-u-font-size--h6" slot="headline">
                   What if I have more questions?
                 </h3>
-                <p>
-                  For questions about your medications and supplies, send a
-                  secure message to your care team.
+                <p data-testid="more-questions">
+                  <strong>
+                    For questions about your medications and supplies,
+                  </strong>{' '}
+                  send a secure message to your care team.
                 </p>
                 <p>
                   <a
@@ -187,7 +195,7 @@ const LandingPage = () => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Compose a message
+                    Compose a message on My HealthVet
                   </a>
                 </p>
                 <p>
@@ -204,9 +212,8 @@ const LandingPage = () => {
             <h2>More ways to manage your medications</h2>
             <p>
               {' '}
-              Learn how to request renewal of your prescriptions that are no
-              longer refillable, update your mailing address, and review
-              allergies and reactions in your VA medical records.
+              Learn how to renew prescriptions, update your mailing address, and
+              review allergies and reactions in your VA medical records.
             </p>
             <va-accordion bordered>
               <va-accordion-item>
@@ -249,7 +256,7 @@ const LandingPage = () => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Compose a message
+                  Compose a message on My HealthVet
                 </a>
               </va-accordion-item>
               <va-accordion-item>
@@ -294,14 +301,17 @@ const LandingPage = () => {
                 </a>
               </va-accordion-item>
             </va-accordion>
-            <br />
           </section>
         </div>
       </div>
     );
   };
 
-  return <div className="vads-u-margin-top--3">{content()}</div>;
+  return (
+    <div className="vads-u-margin-top--3 vads-u-margin-bottom--6">
+      {content()}
+    </div>
+  );
 };
 
 export default LandingPage;

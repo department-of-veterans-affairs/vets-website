@@ -38,18 +38,13 @@ const AllergyDetails = () => {
         dispatch(
           setBreadcrumbs(
             [
-              { url: '/my-health/medical-records/', label: 'Dashboard' },
               {
-                url: '/my-health/medical-records/health-history',
-                label: 'Health history',
-              },
-              {
-                url: '/my-health/medical-records/health-history/allergies',
-                label: 'VA allergies',
+                url: '/my-health/medical-records/allergies',
+                label: 'Allergies',
               },
             ],
             {
-              url: `/my-health/medical-records/health-history/allergies/${allergyId}`,
+              url: `/my-health/medical-records/allergies/${allergyId}`,
               label: allergy.name,
             },
           ),
@@ -108,7 +103,7 @@ const AllergyDetails = () => {
               },
               {
                 title: 'Provider notes',
-                value: processList(allergy.notes),
+                value: allergy.notes,
                 inline: !allergy.notes,
               },
             ],
@@ -185,7 +180,7 @@ const AllergyDetails = () => {
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Provider notes
               </h2>
-              <ItemList list={allergy.notes} />
+              {allergy.notes}
             </div>
           </section>
         </>
@@ -196,6 +191,7 @@ const AllergyDetails = () => {
         message="Loading..."
         setFocus
         data-testid="loading-indicator"
+        class="loading-indicator"
       />
     );
   };

@@ -13,12 +13,10 @@ import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUpload from './fixtures/mocks/mock-upload.json';
 import mockUser from './fixtures/mocks/user.json';
-import {
-  CONTESTABLE_ISSUES_API,
-  CONTESTABLE_ISSUES_PATH,
-  BASE_URL,
-  SELECTED,
-} from '../constants';
+import { CONTESTABLE_ISSUES_API, CONTESTABLE_ISSUES_PATH } from '../constants';
+import { NOD_BASE_URL, SELECTED } from '../../shared/constants';
+
+import { areaOfDisagreementPageHook } from '../../shared/tests/cypress.helpers';
 
 const testConfig = createTestConfig(
   {
@@ -48,19 +46,19 @@ const testConfig = createTestConfig(
             // prevent continuing without any issues selected
             cy.location('pathname').should(
               'eq',
-              `${BASE_URL}/${CONTESTABLE_ISSUES_PATH}`,
+              `${NOD_BASE_URL}/${CONTESTABLE_ISSUES_PATH}`,
             );
             cy.get('va-alert[status="error"] h3').should(
               'contain',
-              testData.contestableIssues?.length
+              testData.contestedIssues?.length
                 ? 'You’ll need to select an issue'
-                : 'Sorry, we couldn’t find any eligible issues',
+                : 'We can’t load your issues right now',
             );
 
             testData.additionalIssues?.forEach(additionalIssue => {
               if (additionalIssue.issue && additionalIssue[SELECTED]) {
                 cy.get('.add-new-issue').click();
-                cy.url().should('include', `${BASE_URL}/add-issue?index=`);
+                cy.url().should('include', `${NOD_BASE_URL}/add-issue?index=`);
                 cy.axeCheck();
                 cy.get('#issue-name')
                   .shadow()
@@ -70,7 +68,7 @@ const testConfig = createTestConfig(
                 cy.get('#submit').click();
               }
             });
-            testData.contestableIssues?.forEach(issue => {
+            testData.contestedIssues?.forEach(issue => {
               if (issue[SELECTED]) {
                 cy.get(
                   `h4:contains("${issue.attributes.ratingIssueSubjectText}")`,
@@ -84,6 +82,45 @@ const testConfig = createTestConfig(
           });
         });
       },
+
+      'extension-reason': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            const { extensionReason } = testData;
+            if (extensionReason) {
+              cy.get('va-textarea')
+                .shadow()
+                .find('textarea')
+                .type(extensionReason);
+            }
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+
+      // 'area-of-disagreement/:index': areaOfDisagreementPageHook,
+
+      // temporary pageHooks until PR #25197 is approved & merged in
+      'area-of-disagreement/0': ({ afterHook }) => {
+        areaOfDisagreementPageHook({ afterHook, index: 0 });
+      },
+      'area-of-disagreement/1': ({ afterHook }) => {
+        areaOfDisagreementPageHook({ afterHook, index: 1 });
+      },
+      'area-of-disagreement/2': ({ afterHook }) => {
+        areaOfDisagreementPageHook({ afterHook, index: 2 });
+      },
+
+      'area-of-disagreement/:index': ({ afterHook /* , index */ }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.fillPage(); // temporary until page is updated with web components
+          // console.log('testing :index pageHooks', index);
+          cy.findByText('Continue', { selector: 'button' }).click();
+        });
+      },
+
       'evidence-submission/upload': () => {
         cy.get('input[type="file"]')
           .upload(
@@ -103,13 +140,14 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/profile/status', mockStatus);
       cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('POST', 'v0/decision_review_evidence', mockUpload);
-      cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+      cy.intercept('POST', `v0/${formConfig.submitUrl}`, mockSubmit);
+      cy.intercept('POST', `v1/${formConfig.submitUrl}`, mockSubmit);
 
       cy.get('@testData').then(data => {
         cy.intercept('GET', '/v0/in_progress_forms/10182', mockPrefill);
         cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
         cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {
-          data: fixDecisionDates(data.contestableIssues, { unselected: true }),
+          data: fixDecisionDates(data.contestedIssues, { unselected: true }),
         });
       });
     },

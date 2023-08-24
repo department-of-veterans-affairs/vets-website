@@ -7,7 +7,7 @@
 
 .secure-messaging-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
   .main-content {
     display: flex;
@@ -17,7 +17,17 @@
     }
   }
   .secure-messaging-navigation {
-    margin-right: 24px;
+    margin-right: 0;
+  }
+}
+
+@media (min-width: $medium-screen) {
+  .secure-messaging-container {
+    flex-direction: row;
+
+    .secure-messaging-navigation {
+      margin-right: 24px;
+    }
   }
 }
 
@@ -171,10 +181,6 @@ va-modal va-radio {
   }
 }
 
-.page-title {
-  margin: 24px 0;
-}
-
 .link-button,
 .link-button:hover,
 .link-button:active {
@@ -188,20 +194,6 @@ va-modal va-radio {
 }
 .link-button:hover {
   background-color: rgba(0, 0, 0, 0.05);
-}
-
-@media (max-width: $medium-screen) {
-  .secure-messaging-container {
-    flex-direction: column;
-    .main-content {
-      display: flex;
-      flex-direction: column;
-    }
-    .secure-messaging-navigation {
-      margin-top: 24px;
-      margin-right: 0px;
-    }
-  }
 }
 
 .attachments-list {

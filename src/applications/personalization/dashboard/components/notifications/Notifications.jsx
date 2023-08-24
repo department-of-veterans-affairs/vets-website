@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '~/platform/utilities/environment';
-import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
-import DebtNotification from './DebtNotification';
+import {
+  useFeatureToggle,
+  Toggler,
+} from '~/platform/utilities/feature-toggles';
+import { fetchNotifications } from '../../../common/actions/notifications';
+import DebtNotificationAlert from './DebtNotificationAlert';
 import TestNotification from './TestNotification';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-import { fetchNotifications } from '../../actions/notifications';
 
 const debtTemplateId = environment.isProduction()
   ? '7efc2b8b-e59a-4571-a2ff-0fd70253e973'
@@ -19,6 +21,13 @@ export const Notifications = ({
   notificationsError,
   dismissalError,
 }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  // status will be 'warning' if toggle is on
+  const status = useToggleValue(TOGGLE_NAMES.myVaUpdateErrorsWarnings)
+    ? 'warning'
+    : 'error';
+
   useEffect(
     () => {
       getNotifications();
@@ -42,10 +51,19 @@ export const Notifications = ({
             data-testid="dashboard-notifications-error"
             className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
           >
-            <VaAlert status="error" show-icon className="vads-u-margin-top--0">
-              We’re sorry. Something went wrong on our end, and we can’t dismiss
-              this notification. Please try again later.
-            </VaAlert>
+            <va-alert
+              status={status}
+              show-icon
+              className="vads-u-margin-top--0"
+            >
+              <h2 slot="headline">Can’t dismiss notification</h2>
+              <div>
+                <p className="vads-u-margin-bottom--0">
+                  We’re sorry. Something went wrong on our end, and we can’t
+                  dismiss this notification. Please try again later.
+                </p>
+              </div>
+            </va-alert>
           </div>
         </DashboardWidgetWrapper>
       )}
@@ -63,7 +81,7 @@ export const Notifications = ({
           </Toggler.Enabled>
 
           <Toggler.Disabled>
-            <DebtNotification
+            <DebtNotificationAlert
               key={n.id}
               hasError={notificationsError}
               notification={n}
@@ -78,19 +96,7 @@ export const Notifications = ({
 Notifications.propTypes = {
   getNotifications: PropTypes.func.isRequired,
   dismissalError: PropTypes.bool,
-  notifications: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      attributes: PropTypes.shape({
-        createdAt: PropTypes.string.isRequired,
-        dismissed: PropTypes.bool.isRequired,
-        templateId: PropTypes.string.isRequired,
-        updatedAt: PropTypes.string,
-        vaProfileId: PropTypes.string.isRequired,
-      }),
-    }),
-  ),
+  notifications: PropTypes.array,
   notificationsError: PropTypes.bool,
 };
 

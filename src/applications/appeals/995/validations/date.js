@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 
-import { fixDateFormat } from '../utils/replace';
+import { fixDateFormat } from '../../shared/utils/replace';
 import { errorMessages, FORMAT_YMD, MAX_YEARS_PAST } from '../constants';
 
 export const minDate = moment()
@@ -30,9 +30,12 @@ export const validateDate = (errors, rawString = '', fullData) => {
   if (
     !year ||
     !day ||
+    isNaN(day) ||
     day === '0' ||
     !month ||
+    isNaN(month) ||
     month === '0' ||
+    isNaN(year) ||
     dateString?.length < FORMAT_YMD.length
   ) {
     // The va-memorable-date component currently overrides the error message

@@ -6,7 +6,11 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { ContestableIssuesWidget } from '../../components/ContestableIssuesWidget';
-import { SELECTED } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
+import {
+  FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+  FETCH_CONTESTABLE_ISSUES_FAILED,
+} from '../../actions';
 
 describe('<ContestableIssuesWidget>', () => {
   const getProps = ({
@@ -14,6 +18,8 @@ describe('<ContestableIssuesWidget>', () => {
     submitted = false,
     onChange = () => {},
     setFormData = () => {},
+    getContestableIssues = () => {},
+    contestableIssues = { status: '' },
   } = {}) => ({
     id: 'id',
     value: [
@@ -28,6 +34,8 @@ describe('<ContestableIssuesWidget>', () => {
       submitted,
     },
     setFormData,
+    getContestableIssues,
+    contestableIssues,
   });
 
   it('should render a list of check boxes (IssueCard component)', () => {
@@ -140,5 +148,58 @@ describe('<ContestableIssuesWidget>', () => {
     await waitFor(() => {
       expect(setFormDataSpy.called).to.be.false;
     });
+  });
+
+  it('should not show no loaded issues alert after remove all additional items', async () => {
+    const props = getProps();
+    const { container } = render(
+      <ContestableIssuesWidget {...props} additionalIssues={[]} value={[]} />,
+    );
+
+    expect($$('va-alert', container).length).to.equal(1);
+    expect($('va-alert', container).innerHTML).to.contain(
+      'We can’t load your issues right now',
+    );
+  });
+
+  it('should not show no loaded issues alert after remove all additional items', async () => {
+    const props = getProps();
+    const { container, rerender } = render(
+      <ContestableIssuesWidget {...props} value={[]} />,
+    );
+
+    rerender(
+      <ContestableIssuesWidget {...props} additionalIssues={[]} value={[]} />,
+    );
+    await waitFor(() => {
+      expect($$('va-alert', container).length).to.equal(0);
+    });
+  });
+
+  it('should call getContestableIssues only once, if there was a previous failure', async () => {
+    const getContestableIssuesSpy = sinon.spy();
+    const props = getProps({
+      contestableIssues: { status: FETCH_CONTESTABLE_ISSUES_FAILED },
+      getContestableIssues: getContestableIssuesSpy,
+    });
+    const { rerender } = render(
+      <ContestableIssuesWidget {...props} value={[]} />,
+    );
+
+    rerender(<ContestableIssuesWidget {...props} value={[]} />);
+
+    await waitFor(() => {
+      expect(getContestableIssuesSpy.calledOnce).to.be.true;
+    });
+  });
+  it('should not call getContestableIssues if there was a previous failure', () => {
+    const getContestableIssuesSpy = sinon.spy();
+    const props = getProps({
+      contestableIssues: { status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED },
+      getContestableIssues: getContestableIssuesSpy,
+    });
+    render(<ContestableIssuesWidget {...props} value={[]} />);
+
+    expect(getContestableIssuesSpy.called).to.be.false;
   });
 });

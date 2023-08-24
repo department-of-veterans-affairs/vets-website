@@ -11,10 +11,9 @@ import preparerPersonalInformation from '../pages/preparerPersonalInformation';
 import preparerIdentificationInformation from '../pages/preparerIdentificationInformation';
 import preparerAddress from '../pages/preparerAddress';
 import preparerContactInformation from '../pages/preparerContactInformation';
-import veteranPersonalInformation from '../pages/veteranPersonalInformation';
+import deceasedClaimantPersonalInformation from '../pages/deceasedClaimantPersonalInformation';
 import veteranIdentificationInformation from '../pages/veteranIdentificationInformation';
 import relationshipToDeceasedClaimant from '../pages/relationshipToDeceasedClaimant';
-import otherRelationshipToDeceasedClaimant from '../pages/otherRelationshipToDeceasedClaimant';
 import additionalInformation from '../pages/additionalInformation';
 
 // mock-data import for local development
@@ -59,7 +58,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for substitute claimant.',
   },
-  title: 'Request to be a substitute claimant',
+  title: 'Request to be a substitute for a deceased claimant',
   subTitle:
     'Request for substitution of claimant upon death of claimant (VA Form 21P-0847)',
   defaultDefinitions: {},
@@ -73,28 +72,11 @@ const formConfig = {
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
-            !!mockData && environment.isLocalhost() ? mockData : undefined,
+            !!mockData && environment.isLocalhost() && !window.Cypress
+              ? mockData
+              : undefined,
           uiSchema: preparerPersonalInformation.uiSchema,
           schema: preparerPersonalInformation.schema,
-        },
-      },
-    },
-    relationshipToDeceasedClaimantChapter: {
-      title: 'Your relationship',
-      pages: {
-        relationshipToDeceasedClaimant: {
-          path: 'relationship-to-deceased-claimant',
-          title: 'Your relationship',
-          uiSchema: relationshipToDeceasedClaimant.uiSchema,
-          schema: relationshipToDeceasedClaimant.schema,
-        },
-        otherRelationshipToDeceasedClaimant: {
-          path: 'other-relationship-to-deceased-claimant',
-          title: 'Your relationship',
-          depends: formData =>
-            formData.relationshipToDeceasedClaimant === 'other',
-          uiSchema: otherRelationshipToDeceasedClaimant.uiSchema,
-          schema: otherRelationshipToDeceasedClaimant.schema,
         },
       },
     },
@@ -131,14 +113,25 @@ const formConfig = {
         },
       },
     },
-    veteranPersonalInformationChapter: {
-      title: 'Veteran’s personal information',
+    deceasedClaimantPersonalInformationChapter: {
+      title: 'Deceased claimant’s personal information',
       pages: {
-        veteranPersonalInformation: {
-          path: 'veteran-personal-information',
-          title: 'Veteran’s personal information',
-          uiSchema: veteranPersonalInformation.uiSchema,
-          schema: veteranPersonalInformation.schema,
+        deceasedClaimantPersonalInformation: {
+          path: 'deceased-claimant-personal-information',
+          title: 'Deceased claimant’s personal information',
+          uiSchema: deceasedClaimantPersonalInformation.uiSchema,
+          schema: deceasedClaimantPersonalInformation.schema,
+        },
+      },
+    },
+    relationshipToDeceasedClaimantChapter: {
+      title: 'Your relationship to the deceased claimant',
+      pages: {
+        relationshipToDeceasedClaimant: {
+          path: 'relationship-to-deceased-claimant',
+          title: 'Your relationship',
+          uiSchema: relationshipToDeceasedClaimant.uiSchema,
+          schema: relationshipToDeceasedClaimant.schema,
         },
       },
     },

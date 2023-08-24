@@ -48,9 +48,9 @@ export const downloadFile = (name, base64Str) => {
 export const getReactions = record => {
   const reactions = [];
   if (!record || !record.reaction) return reactions;
-  record.reaction.forEach(rea => {
-    rea.manifestation.forEach(man => {
-      man.coding.forEach(cod => reactions.push(cod.display));
+  record.reaction.forEach(reaction => {
+    reaction.manifestation.forEach(manifestation => {
+      manifestation.coding.forEach(coding => reactions.push(coding.display));
     });
   });
   return reactions;
@@ -139,4 +139,12 @@ export const sendErrorToSentry = (error, page) => {
  */
 export const macroCase = str => {
   return snakeCase(str).toUpperCase();
+};
+
+/**
+ * @param {Any} obj
+ * @returns {Boolean} true if obj is an array and has at least one item
+ */
+export const isArrayAndHasItems = obj => {
+  return Array.isArray(obj) && obj.length;
 };

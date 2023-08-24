@@ -81,7 +81,11 @@ const getArrayItemPath = pathname => {
         return match;
       }) || {};
 
-    return arrayPath ? `${arrayPath}[${parseInt(index, 10)}]` : '';
+    const indexNumber = parseInt(index, 10);
+    return {
+      arrayItemPath: arrayPath ? `${arrayPath}[${indexNumber}]` : '',
+      index: indexNumber,
+    };
   });
 };
 
@@ -217,45 +221,62 @@ const defaultPostHook = pathname => {
   };
 };
 
+// Look for "/#" or "/#/" in the path
+const REGEXP_PATH_INDEX = /\/\d+\/?/;
+const REGEXP_REMOVE_END_SLASH = /\/$/;
+
 /**
  * Runs the page hook if there is one for the current page.
  * @param {string} pathname - The pathname for the current URL.
  * @returns {boolean} Resolves true if a hook ran and false otherwise.
  */
 Cypress.Commands.add('execHook', pathname => {
-  cy.get('@pageHooks', NO_LOG_OPTION).then(pageHooks => {
-    const hook = pageHooks?.[pathname];
-    let hookExecuted = false;
-    let postHook = defaultPostHook(pathname);
+  cy.get('@pageHooks', NO_LOG_OPTION).then(pageHooks =>
+    cy
+      .location('pathname', NO_LOG_OPTION)
+      .then(getArrayItemPath)
+      .then(({ index }) => {
+        const pathnameKey = REGEXP_PATH_INDEX.test(pathname)
+          ? pathname
+              .split(REGEXP_PATH_INDEX)
+              .join('/:index/')
+              .replace(REGEXP_REMOVE_END_SLASH, '') // remove trailing `/`
+          : pathname;
 
-    if (!hook) return cy.wrap({ hookExecuted, postHook }, NO_LOG_OPTION);
+        const hook = pageHooks?.[pathname] || pageHooks?.[pathnameKey];
+        let hookExecuted = false;
+        let postHook = defaultPostHook(pathname);
 
-    if (typeof hook !== 'function') {
-      throw new Error(`Page hook for ${pathname} is not a function`);
-    }
+        if (!hook) return cy.wrap({ hookExecuted, postHook }, NO_LOG_OPTION);
 
-    // Give the page hook the option to set a custom post hook.
-    const overridePostHook = fn => {
-      if (typeof fn !== 'function') {
-        throw new Error(`Post hook for ${pathname} is not a function`);
-      }
-      postHook = fn;
-    };
+        if (typeof hook !== 'function') {
+          throw new Error(`Page hook for ${pathnameKey} is not a function`);
+        }
 
-    // Context object that's available all page hooks as the first argument.
-    const context = {
-      afterHook: overridePostHook,
-      pathname,
-    };
+        // Give the page hook the option to set a custom post hook.
+        const overridePostHook = fn => {
+          if (typeof fn !== 'function') {
+            throw new Error(`Post hook for ${pathnameKey} is not a function`);
+          }
+          postHook = fn;
+        };
 
-    const hookPromise = new Promise(resolve => {
-      hook(context);
-      hookExecuted = true;
-      resolve({ hookExecuted, postHook });
-    });
+        // Context object that's available all page hooks as the first argument.
+        const context = {
+          afterHook: overridePostHook,
+          pathname: pathnameKey,
+          index,
+        };
 
-    return cy.wrap(hookPromise, NO_LOG_OPTION);
-  });
+        const hookPromise = new Promise(resolve => {
+          hook(context);
+          hookExecuted = true;
+          resolve({ hookExecuted, postHook });
+        });
+
+        return cy.wrap(hookPromise, NO_LOG_OPTION);
+      }),
+  );
 });
 
 /**
@@ -391,7 +412,7 @@ Cypress.Commands.add('enterData', field => {
 Cypress.Commands.add('fillPage', () => {
   cy.location('pathname', NO_LOG_OPTION)
     .then(getArrayItemPath)
-    .then(arrayItemPath => {
+    .then(({ arrayItemPath }) => {
       const touchedFields = new Set();
       const snapshot = {};
 

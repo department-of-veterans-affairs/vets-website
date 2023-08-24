@@ -1,5 +1,5 @@
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { DefaultFolders, threadSortingOptions } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
@@ -25,11 +25,14 @@ export const getFolderList = () => {
  * @returns
  */
 export const getFolder = folderId => {
-  return apiRequest(`${apiBasePath}/messaging/folders/${folderId}`, {
-    headers: {
-      'Content-Type': 'application/json',
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}?useCache=false`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     },
-  });
+  );
 };
 
 /**
@@ -399,5 +402,18 @@ export const searchFolderAdvanced = (folderId = 0, query) => {
       Accept: 'application/json',
     },
     body: JSON.stringify(query),
+  });
+};
+
+/**
+ * Get message signature from user preferences.
+ * @returns {Object} signature object {data: {signatureName, includeSignature, signatureTitle}, errors:{}, metadata: {}}
+ */
+export const getSignature = () => {
+  return apiRequest(`${apiBasePath}/messaging/messages/signature`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
   });
 };

@@ -18,7 +18,7 @@ import {
   FACILITY_LOCATOR_URL,
   GET_HELP_REVIEW_REQUEST_URL,
 } from '../constants';
-import NeedsToVerify from '../components/NeedsToVerify';
+import NeedsToVerify from '../../shared/components/NeedsToVerify';
 
 export const IntroductionPage = props => {
   useEffect(() => {

@@ -54,6 +54,7 @@
  * @property {(form: any, formConfig: any) => any} [transformForSubmit]
  * @property {string} [urlPrefix]
  * @property {boolean} [useCustomScrollAndFocus]
+ * @property {boolean} [v3SegmentedProgressBar] - if true, the V3 segmented progress bar web component is used in place of the v2
  * @property {boolean} [verifyRequiredPrefill]
  * @property {number} [version]
  * @property {string} [wizardStorageKey]
@@ -216,6 +217,7 @@
  * @property {string} [duplicateKey] - For arrays.
  * @property {boolean} [enableAnalytics] - Enable google analytic events. Sent on blur. Use a browser extension such as Adswerve to view the events in the console.
  * @property {string} [expandUnder] - The key of the uiSchema directly before this field
+ * @property {boolean} [expandContentFocus] - Used with expandUnder. When the field expands under, it exclusively shows a vertical, blue bar, is indented, and focuses on the field's input.
  * @property {boolean | (value: string, formData: any) => boolean} [expandUnderCondition] `expandUnderCondition: (value, formData) => !!value`
  * @property {boolean} [forceDivWrapper] - Used as an a11y helper when you need to wrap a field in a div
  * @property {boolean} [freeInput] - for AutoSuggest widget
@@ -233,6 +235,7 @@
  * @property {boolean} [invalid] - For web components. Whether or not aria-invalid will be set on the inner input. Useful when composing the component into something larger, like a date component.
  * @property {boolean} [keepInPageOnReview] - Used to keep a field on the review page. Often used with arrays or expandUnder fields. When used with arrays, removes the default editor box on the review page and shows view-only data with an edit button instead.
  * @property {Record<string, string>} [labels] - Used to specify radio button or yes/no labels
+ * @property {'1' | '2' | '3' | '4' | '5'} [labelHeaderLevel] - The header level for the label. For web components such as radio buttons or checkboxes.
  * @property {string} [messageAriaDescribedby] - For web components. An optional message that will be read by screen readers when the input is focused.
  * @property {boolean} [monthSelect] - For VaMemorableDate web component. If true, will use a select dropdown for the month instead of an input.
  * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [replaceSchema]

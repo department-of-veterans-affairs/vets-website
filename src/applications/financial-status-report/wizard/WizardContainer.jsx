@@ -10,9 +10,9 @@ import {
 import Wizard, {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
-import { MaintenanceAlert } from '../components/Alerts';
+import { MaintenanceAlert } from '../components/alerts/Alerts';
 import pages from './pages';
-import GetFormHelp from '../components/GetFormHelp';
+import GetFormHelp from '../components/shared/GetFormHelp';
 
 const WizardContainer = ({ setWizardStatus, showFSR }) => {
   return (

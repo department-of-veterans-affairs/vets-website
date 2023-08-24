@@ -30,7 +30,7 @@ class FolderManagementPage {
       .find('[type="button"]');
   };
 
-  clickAndLoadCustumFolder = (
+  clickAndLoadCustomFolder = (
     folderName,
     folderId,
     folderData,
@@ -38,7 +38,7 @@ class FolderManagementPage {
   ) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderId}`,
+      `/my_health/v1/messaging/folders/${folderId}*`,
       folderData,
     ).as('customFolderID');
 
@@ -51,8 +51,6 @@ class FolderManagementPage {
     cy.contains(folderName).click();
     cy.wait('@customFolderMessages');
   };
-
-  currentThread = defaultMockThread;
 
   loadCustomFolderMessageDetails = (
     mockParentMessageDetails,
@@ -132,14 +130,6 @@ class FolderManagementPage {
     ).as('full-thread');
 
     cy.contains(mockParentMessageDetails.data.attributes.subject).click();
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
     cy.wait('@message1');
     // cy.wait('@full-thread');
   };
@@ -210,8 +200,35 @@ class FolderManagementPage {
     // cy.wait('@mockCustomResponse');
   };
 
+  foldersSelectors = {
+    folderId: [-3, 7038135, 6976715],
+    folderName: ['Deleted', 'TEST2', 'TESTAGAIN'],
+  };
+
+  // method below works with 'Deleted' folder only for now. Need to be fixed later
+  moveInboxFolderMessageToDifferentFolder = (
+    folderId = this.foldersSelectors.folderId[0],
+    folderName = this.foldersSelectors.folderName[0],
+  ) => {
+    cy.intercept(
+      'PATCH',
+      `my_health/v1/messaging/threads/${
+        mockCustomResponse.data.attributes.threadId
+      }/move?folder_id=${folderId}`,
+      {},
+    );
+    cy.get('[data-testid="move-button-text"]').click({ force: true });
+    cy.get(`[data-testid="radiobutton-${folderName}"]`)
+      .should('exist')
+      .click();
+    cy.get('#modal-primary-button').click();
+  };
+
   verifyMoveMessageSuccessConfirmationFocus = () => {
-    cy.contains('Message conversation was successfully moved.').should('exist');
+    cy.get('[close-btn-aria-label="Close notification"]')
+      .should('exist')
+      .and('have.text', 'Message conversation was successfully moved.');
   };
 }
+
 export default FolderManagementPage;

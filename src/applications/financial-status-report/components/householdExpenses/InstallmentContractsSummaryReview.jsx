@@ -60,7 +60,7 @@ const formatDate = date => {
   // dates are currently formatted as YYYY-MM-DD
   //  however, we only want to display the month and year and
   //  day is populated with XX which does not play well with formatters
-  return moment(new Date(date.substring(0, 8))).format('MMMM YYYY');
+  return moment(new Date(date?.substring(0, 8))).format('MMMM YYYY');
 };
 
 const renderLoanStartDate = contract => {
@@ -97,7 +97,7 @@ const InstallmentContractsSummaryReview = ({ data }) => {
             key={index + contract.amountDueMonthly}
           >
             <div className="form-review-panel-page-header-row">
-              <h4 className="vads-u-font-size--h5">
+              <h4 className="form-review-panel-page-header vads-u-font-size--h5">
                 Installment contract {index + 1}
               </h4>
             </div>

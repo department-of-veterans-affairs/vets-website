@@ -58,18 +58,13 @@ const RadiologyImagesList = () => {
         dispatch(
           setBreadcrumbs(
             [
-              { url: '/my-health/medical-records/', label: 'Dashboard' },
-              {
-                url: '/my-health/medical-records/labs-and-tests',
-                label: 'Lab and test results',
-              },
               {
                 url: `/my-health/medical-records/labs-and-tests/${labId}`,
                 label: labAndTestDetails?.name,
               },
             ],
             {
-              url: `/my-health/medical-records/labs-and-tests/radiology-images/${labId}`,
+              url: `/my-health/medical-records/labs-and-tests/${labId}/images`,
               label: `Images: ${labAndTestDetails?.name}`,
             },
           ),
@@ -141,7 +136,7 @@ const RadiologyImagesList = () => {
                   <va-link
                     className="vads-u-margin-top--1"
                     active
-                    href={`/my-health/medical-records/labs-and-tests/radiology-images/${labId}/${idx +
+                    href={`/my-health/medical-records/labs-and-tests/${labId}/images/${idx +
                       1}`}
                     text="Review full image"
                   />

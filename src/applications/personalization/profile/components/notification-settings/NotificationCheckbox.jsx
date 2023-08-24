@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { NOTIFICATION_CHANNEL_LABELS } from '../../constants';
+import classNames from 'classnames';
 import { NotificationStatusMessage } from './NotificationStatusMessage';
 
 export const NotificationCheckbox = ({
   channelId,
-  channelType,
+  label,
   isOptedIn,
   onValueChange,
   loadingMessage,
@@ -16,8 +16,6 @@ export const NotificationCheckbox = ({
   last,
   defaultSendIndicator,
 }) => {
-  const label = `Notify me by ${NOTIFICATION_CHANNEL_LABELS[channelType]}`;
-
   const checked = useMemo(
     () => {
       if (isOptedIn === null) {
@@ -88,30 +86,33 @@ export const NotificationCheckbox = ({
     );
   }
 
+  const className = classNames({
+    'vads-u-padding-bottom--0p5': last,
+    'vads-u-display--none': loadingMessage,
+  });
+
   return (
     <div>
       {!loadingMessage && !successMessage && errorSpan}
       {!loadingMessage && !errorMessage && successSpan}
       {!errorMessage && !successMessage && loadingSpan}
-      {!loadingMessage && (
-        <VaCheckbox
-          checked={checked}
-          label={label}
-          onVaChange={handleChange}
-          data-testid={checkboxId}
-          id={checkboxId}
-          disabled={disabled}
-          uswds
-          className={last ? 'vads-u-padding-bottom--0p5' : ''}
-        />
-      )}
+      <VaCheckbox
+        checked={checked}
+        label={label}
+        onVaChange={handleChange}
+        data-testid={checkboxId}
+        id={checkboxId}
+        disabled={disabled}
+        uswds
+        className={className}
+      />{' '}
     </div>
   );
 };
 
 NotificationCheckbox.propTypes = {
   channelId: PropTypes.string.isRequired,
-  channelType: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
   onValueChange: PropTypes.func.isRequired,
   defaultSendIndicator: PropTypes.bool,
   disabled: PropTypes.bool,

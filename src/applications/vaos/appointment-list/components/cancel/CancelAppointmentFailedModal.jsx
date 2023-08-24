@@ -34,7 +34,7 @@ export default function CancelAppointmentFailedModal({
           contact your medical center to cancel:
         </p>
       )}
-      <p>
+      <div>
         {facility ? (
           <>
             <strong>{facility.name}</strong>
@@ -49,13 +49,13 @@ export default function CancelAppointmentFailedModal({
             </NewTabAnchor>
           </>
         )}
-      </p>
+      </div>
     </VaModal>
   );
 }
 CancelAppointmentFailedModal.propTypes = {
   onClose: PropTypes.func.isRequired,
-  facility: PropTypes.string,
+  facility: PropTypes.object,
   isBadRequest: PropTypes.bool,
   isConfirmed: PropTypes.bool,
 };

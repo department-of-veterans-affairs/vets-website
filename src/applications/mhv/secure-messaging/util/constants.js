@@ -24,7 +24,7 @@ export const DefaultFolders = {
   },
   SENT: {
     id: -1,
-    header: 'Sent messages',
+    header: 'Sent',
     desc: '',
   },
   DRAFTS: { id: -2, header: 'Drafts', desc: '' },
@@ -38,7 +38,15 @@ export const DefaultFolders = {
   },
 };
 
+export const MessageReadStatus = {
+  READ: 'READ',
+  UNREAD: null,
+};
+
 export const ErrorMessages = {
+  LandingPage: {
+    GET_INBOX_ERROR: 'Unable to retrieve messages at this moment',
+  },
   ComposeForm: {
     RECIPIENT_REQUIRED: 'Please select a recipient.',
     CATEGORY_REQUIRED: 'Please select a category.',
@@ -148,6 +156,7 @@ export const Alerts = {
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',
     FOLDER_NAME_TAKEN:
       'That folder name is already in use. Please use another name.',
+    GET_FOLDER_ERROR: 'We’re sorry. Something went wrong on our end.',
   },
   Thread: {
     GET_THREAD_ERROR: 'We’re sorry. Something went wrong on our end.',
@@ -206,7 +215,7 @@ export const Breadcrumbs = {
   DRAFTS: { path: Paths.DRAFTS, label: 'Drafts' },
   DRAFT: { path: Paths.DRAFT, label: 'Drafts' },
   FOLDERS: { path: Paths.FOLDERS, label: 'Back to my folders' },
-  SENT: { path: Paths.SENT, label: 'Sent messages' },
+  SENT: { path: Paths.SENT, label: 'Sent' },
   TRASH: { path: Paths.DELETED, label: 'Trash' },
 };
 
@@ -305,7 +314,7 @@ export const PrintMessageOptions = {
 
 export const BreadcrumbViews = {
   DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
-  MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3',
+  MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-margin-y--0',
 };
 
 export const PageTitles = {

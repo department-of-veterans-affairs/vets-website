@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json';
 import mockDeletedFolderMetaResponse from './fixtures/trashResponse/folder-deleted-metadata.json';
-import mockSentFolderMetaResponse from './fixtures/folder-sent-metadata.json';
+import mockSentFolderMetaResponse from './fixtures/sentResponse/folder-sent-metadata.json';
 import PatientComposePage from './pages/PatientComposePage';
 
 describe('Secure Messaging Navigate Away From `Start a new message`', () => {
@@ -52,7 +52,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2',
+      '/my_health/v1/messaging/folders/-2*',
       mockDraftFolderMetaResponse,
     ).as('draftsFolderMetaResponse');
     composePage.selectSideBarMenuOption('Drafts');
@@ -79,12 +79,12 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1',
+      '/my_health/v1/messaging/folders/-1*',
       mockSentFolderMetaResponse,
     ).as('sentResponse');
     composePage.selectSideBarMenuOption('Sent');
     composePage.clickOnDeleteDraftButton();
-    composePage.verifyExpectedPageOpened('Sent messages');
+    composePage.verifyExpectedPageOpened('Sent');
   });
 
   it('Navigate Away From `Start a new message` To Trash', () => {
@@ -106,7 +106,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-3',
+      '/my_health/v1/messaging/folders/-3*',
       mockDeletedFolderMetaResponse,
     ).as('trashResponse');
     composePage.selectSideBarMenuOption('Trash');

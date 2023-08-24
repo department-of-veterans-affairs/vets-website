@@ -35,19 +35,13 @@ const ConditionDetails = () => {
         dispatch(
           setBreadcrumbs(
             [
-              { url: '/my-health/medical-records/', label: 'Dashboard' },
               {
-                url: '/my-health/medical-records/health-history',
-                label: 'Health history',
-              },
-              {
-                url:
-                  '/my-health/medical-records/health-history/health-conditions',
-                label: 'VA health conditions',
+                url: '/my-health/medical-records/health-conditions',
+                label: 'Conditions',
               },
             ],
             {
-              url: `/my-health/medical-records/health-history/health-conditions/${conditionId}`,
+              url: `/my-health/medical-records/health-conditions/${conditionId}`,
               label: conditionDetails?.name,
             },
           ),
@@ -102,7 +96,7 @@ const ConditionDetails = () => {
                 inline: true,
               },
               {
-                title: 'SNOMED Clinical Term',
+                title: 'SNOMED Clinical term',
                 value: conditionDetails.name || ' ',
                 inline: true,
               },
@@ -161,7 +155,7 @@ const ConditionDetails = () => {
                 SNOMED Clinical term
               </h2>
               <p>{conditionDetails.name}</p>
-              <h2 className="vads-u-margin-bottom--0">Provider comments</h2>
+              <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
               <ItemList list={conditionDetails.comments} />
             </div>
           </section>
@@ -174,6 +168,7 @@ const ConditionDetails = () => {
         message="Loading..."
         setFocus
         data-testid="loading-indicator"
+        class="loading-indicator"
       />
     );
   };

@@ -61,13 +61,27 @@ const CheckInConfirmation = props => {
   const {
     setShouldSendTravelPayClaim,
     getShouldSendTravelPayClaim,
+    setTravelPaySent,
+    getTravelPaySent,
   } = useSessionStorage(false);
 
   useEffect(
     () => {
-      if (travelPayClaimSent) setShouldSendTravelPayClaim(window, false);
+      if (travelPayClaimSent) {
+        const facility = selectedAppointment.facilityId;
+        const travelPaySent = getTravelPaySent(window);
+        travelPaySent[facility] = new Date();
+        setShouldSendTravelPayClaim(window, false);
+        setTravelPaySent(window, travelPaySent);
+      }
     },
-    [travelPayClaimSent, setShouldSendTravelPayClaim],
+    [
+      travelPayClaimSent,
+      setShouldSendTravelPayClaim,
+      setTravelPaySent,
+      getTravelPaySent,
+      selectedAppointment,
+    ],
   );
 
   const doTravelPay = isTravelReimbursementEnabled && travelPayClaimRequested;

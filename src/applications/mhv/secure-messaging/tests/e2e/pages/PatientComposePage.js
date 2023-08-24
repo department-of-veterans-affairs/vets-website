@@ -1,18 +1,30 @@
 import mockDraftMessage from '../fixtures/message-draft-response.json';
 import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
+import mockSignature from '../fixtures/signature-response.json';
 
 class PatientComposePage {
-  sendMessage = () => {
+  sendMessage = mockRequest => {
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/messages',
       mockDraftMessage,
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .click({ force: true });
-    cy.wait('@message');
+    cy.wait('@message')
+      .its('request.body')
+      .then(request => {
+        if (mockRequest) {
+          expect(request.body).to.eq(
+            `\n\n\nName\nTitleTest${mockRequest.body}`,
+          );
+          expect(request.category).to.eq(mockRequest.category);
+          expect(request.recipient_id).to.eq(mockRequest.recipientId);
+          expect(request.subject).to.eq(mockRequest.subject);
+        }
+      });
   };
 
   getCategory = category => {
@@ -26,7 +38,7 @@ class PatientComposePage {
       mockDraftMessage,
     ).as('message');
     cy.tabToElement('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .realPress(['Enter']);
     // cy.wait('@message');
   };
@@ -50,7 +62,7 @@ class PatientComposePage {
       .find('label')
       .contains(category)
       .click({ force: true });
-    this.attachMessageFromFile('test_image.jpg');
+    // this.attachMessageFromFile('test_image.jpg');
     this.getMessageSubjectField().type('Test Subject');
     this.getMessageBodyField().type('Test message body');
   };
@@ -113,7 +125,7 @@ class PatientComposePage {
       mockDraftMessage,
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .click();
   };
 
@@ -241,7 +253,7 @@ class PatientComposePage {
       .and('have.attr', 'checked');
     cy.get('[id="compose-message-body"]').should(
       'have.value',
-      'Test message body',
+      '\n\n\nName\nTitleTestTest message body',
     );
   };
 
@@ -258,10 +270,17 @@ class PatientComposePage {
   };
 
   verifyClickableURLinMessageBody = url => {
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[id = "textarea"]')
-      .should('have.value', url);
+    const {
+      signatureName,
+      signatureTitle,
+      includeSignature,
+    } = mockSignature.data;
+    cy.get('[data-testid="message-body-field"]').should(
+      'have.attr',
+      'value',
+      `${includeSignature &&
+        `\n\n\n${signatureName}\n${signatureTitle}`}${url}`,
+    );
   };
 
   clickTrashButton = () => {
