@@ -33,7 +33,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
 import SubmissionError from '../components/SubmissionError';
-import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 import phoneUI from '../components/Phone';
 import { validateSponsorDeathDate } from '../validation';
 
@@ -61,6 +60,7 @@ import {
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
 } from '../utils/helpers';
+import SupportingFilesDescription from '../components/SupportingFilesDescription';
 
 const {
   claimant,
@@ -652,9 +652,9 @@ const formConfig = {
       pages: {
         supportingDocuments: {
           path: 'supporting-documents',
-          editModeOnReviewPage: true,
+          editModeOnReviewPage: false,
           uiSchema: {
-            'ui:description': SupportingDocumentsDescription,
+            'ui:description': SupportingFilesDescription,
             application: {
               preneedAttachments: fileUploadUI('Select files to upload', {
                 addAnotherLabel: 'Add another',
