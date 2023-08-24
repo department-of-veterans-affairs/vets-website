@@ -1,14 +1,15 @@
 import React from 'react';
 import moment from 'moment';
+import { expect } from 'chai';
 import { getAppointmentTimezone } from '../../../utils/timezone';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { AppointmentsCard } from '../../../components/health-care-v2/AppointmentsV2';
 
 describe('<AppointmentsCard />', () => {
   // delete instances of Toggler when new appts URL is launched
-  const initialLinkState = {
+  const initialState = {
     featureToggles: {
       [Toggler.TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate]: true,
     },
@@ -18,14 +19,21 @@ describe('<AppointmentsCard />', () => {
     const start = moment.parseZone();
     const startFormatted = start.format('dddd, MMMM Do, YYYY');
     const timeZone = getAppointmentTimezone();
-    const tree = renderWithStoreAndRouter(
-      <AppointmentsCard />,
-      initialLinkState,
-    );
+    const tree = renderWithStoreAndRouter(<AppointmentsCard />, {
+      initialState,
+    });
 
     tree.getByTestId('health-care-appointments-card-v2');
     tree.getByText('Next appointment');
     tree.getByText('Schedule and manage your appointments');
+    expect(
+      tree.getByRole('link', {
+        name: /schedule and manage your appointments/i,
+        value: {
+          text: '/my-health/appointments',
+        },
+      }),
+    ).to.exist;
     tree.getByText(startFormatted);
     tree.getByText(`Time: ${start.format('h:mm a')} ${timeZone.abbreviation}`);
   });
@@ -47,12 +55,20 @@ describe('<AppointmentsCard />', () => {
     const timeZone = getAppointmentTimezone(appointments[0]);
     const tree = renderWithStoreAndRouter(
       <AppointmentsCard appointments={appointments} />,
-      initialLinkState,
+      { initialState },
     );
 
     tree.getByTestId('health-care-appointments-card-v2');
     tree.getByText('Next appointment');
     tree.getByText('Schedule and manage your appointments');
+    expect(
+      tree.getByRole('link', {
+        name: /schedule and manage your appointments/i,
+        value: {
+          text: '/my-health/appointments',
+        },
+      }),
+    ).to.exist;
     tree.getByText('VA Video Connect yada yada yada');
     tree.getByText(startFormatted);
     tree.getByText(`Time: ${start.format('h:mm a')} ${timeZone.abbreviation}`);
@@ -68,10 +84,19 @@ describe('<AppointmentsCard />', () => {
       ];
       const tree = renderWithStoreAndRouter(
         <AppointmentsCard appointments={appointments} />,
-        initialLinkState,
+        { initialState },
       );
 
       tree.getByText('VA Video Connect testing');
+
+      expect(
+        tree.getByRole('link', {
+          name: /schedule and manage your appointments/i,
+          value: {
+            text: '/my-health/appointments',
+          },
+        }),
+      ).to.exist;
     });
 
     it("when the appointment isn't a video appointment", () => {
@@ -84,10 +109,18 @@ describe('<AppointmentsCard />', () => {
       ];
       const tree = renderWithStoreAndRouter(
         <AppointmentsCard appointments={appointments} />,
-        initialLinkState,
+        { initialState },
       );
 
       tree.getByText(providerName);
+      expect(
+        tree.getByRole('link', {
+          name: /schedule and manage your appointments/i,
+          value: {
+            text: '/my-health/appointments',
+          },
+        }),
+      ).to.exist;
     });
   });
 });

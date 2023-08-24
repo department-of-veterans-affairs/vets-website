@@ -2,23 +2,22 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import { UnconnectedHealthCareContentV2 } from '../../../components/health-care-v2/HealthCareContentV2';
 import { createVaosAppointment } from '../../../mocks/appointments/vaos-v2';
 
 describe('<UnconnectedHealthCareContentV2 />', () => {
   // delete instances of Toggler when new appts URL is launched
-  const initialLinkState = {
+  const initialState = {
     featureToggles: {
       [Toggler.TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate]: true,
     },
   };
 
   it('should render', () => {
-    const tree = renderWithStoreAndRouter(
-      <UnconnectedHealthCareContentV2 />,
-      initialLinkState,
-    );
+    const tree = renderWithStoreAndRouter(<UnconnectedHealthCareContentV2 />, {
+      initialState,
+    });
 
     tree.getByTestId('no-healthcare-text-v2');
     expect(tree.container.querySelector('va-loading-indicator')).to.not.exist;
@@ -28,7 +27,7 @@ describe('<UnconnectedHealthCareContentV2 />', () => {
   it('should render the loading indicator', () => {
     const tree = renderWithStoreAndRouter(
       <UnconnectedHealthCareContentV2 shouldShowLoadingIndicator />,
-      initialLinkState,
+      { initialState },
     );
 
     expect(tree.container.querySelector('va-loading-indicator')).to.exist;
@@ -37,7 +36,7 @@ describe('<UnconnectedHealthCareContentV2 />', () => {
   it('should render the Cerner widget', () => {
     const tree = renderWithStoreAndRouter(
       <UnconnectedHealthCareContentV2 facilityNames={['do', 're', 'mi']} />,
-      initialLinkState,
+      { initialState },
     );
 
     tree.getByTestId('cerner-widget');
@@ -49,7 +48,7 @@ describe('<UnconnectedHealthCareContentV2 />', () => {
         shouldFetchUnreadMessages
         unreadMessagesCount={2}
       />,
-      initialLinkState,
+      { initialState },
     );
 
     tree.getByTestId('unread-messages-alert-v2');
@@ -75,7 +74,7 @@ describe('<UnconnectedHealthCareContentV2 />', () => {
     const appointments = [createVaosAppointment()];
     const tree = renderWithStoreAndRouter(
       <UnconnectedHealthCareContentV2 appointments={appointments} />,
-      initialLinkState,
+      { initialState },
     );
 
     tree.getByTestId('health-care-appointments-card-v2');
@@ -84,7 +83,7 @@ describe('<UnconnectedHealthCareContentV2 />', () => {
   it('should render the no upcoming appointments text', () => {
     const tree = renderWithStoreAndRouter(
       <UnconnectedHealthCareContentV2 dataLoadingDisabled isVAPatient />,
-      initialLinkState,
+      { initialState },
     );
 
     tree.getByTestId('no-upcoming-appointments-text-v2');
@@ -94,7 +93,7 @@ describe('<UnconnectedHealthCareContentV2 />', () => {
     it('but show only Apply for VA health care link for a non-patient', () => {
       const tree = renderWithStoreAndRouter(
         <UnconnectedHealthCareContentV2 isVAPatient={false} />,
-        initialLinkState,
+        { initialState },
       );
 
       tree.getAllByTestId('apply-va-healthcare-link-from-cta');
@@ -110,10 +109,18 @@ describe('<UnconnectedHealthCareContentV2 />', () => {
           shouldFetchUnreadMessages
           unreadMessagesCount={2}
         />,
-        initialLinkState,
+        { initialState },
       );
 
       tree.getByText('Popular actions for Health Care');
+      expect(
+        tree.getByRole('link', {
+          name: /schedule and manage your appointments/i,
+          value: {
+            text: '/my-health/appointments',
+          },
+        }),
+      ).to.exist;
     });
   });
 });
