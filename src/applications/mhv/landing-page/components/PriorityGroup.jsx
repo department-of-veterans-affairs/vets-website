@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { fetchHcaEnrollmentStatus as fetchHcaEnrollmentStatusFn } from '../actions';
-import { selectHcaEnrollmentStatus, showPriorityGroup } from '../selectors';
+import { selectPriorityGroup, showPriorityGroup } from '../selectors';
 
 export const PriorityGroup = ({ enabled, fetchHcaEnrollmentStatus, value }) => {
   useEffect(() => enabled && fetchHcaEnrollmentStatus(), [
@@ -48,7 +48,7 @@ PriorityGroup.defaultProps = {
 
 const mapStateToProps = state => ({
   enabled: showPriorityGroup(state),
-  value: selectHcaEnrollmentStatus(state),
+  value: selectPriorityGroup(state),
 });
 
 const mapDispatchToProps = {

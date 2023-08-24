@@ -8,7 +8,7 @@ import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/
 import { isLandingPageEnabled, showPriorityGroup } from './features';
 import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
 
-const selectHcaEnrollmentStatus = state =>
+const selectPriorityGroup = state =>
   state?.mhvLandingPage?.hcaEnrollmentStatus?.data?.priorityGroup || null;
 
 const selectVamcEhrData = state =>
@@ -20,7 +20,7 @@ export {
   isLandingPageEnabledForUser,
   isLoggedIn,
   selectDrupalStaticData,
-  selectHcaEnrollmentStatus,
+  selectPriorityGroup,
   selectProfile,
   selectVamcEhrData,
   showPriorityGroup,

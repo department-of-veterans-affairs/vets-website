@@ -11,7 +11,7 @@ import {
   fetchHcaEnrollmentStatusFailed,
   fetchHcaEnrollmentStatusStarted,
   fetchHcaEnrollmentStatusSucceeded,
-} from '../../actions';
+} from '../../actions/hca-es';
 import { initialState } from '../../reducers/hca-es';
 
 const enrollmentStatus = {

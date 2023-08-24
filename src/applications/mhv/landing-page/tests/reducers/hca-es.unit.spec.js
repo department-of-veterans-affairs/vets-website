@@ -3,7 +3,7 @@ import {
   FETCH_HCA_ENROLLMENT_STATUS_FAILED,
   FETCH_HCA_ENROLLMENT_STATUS_STARTED,
   FETCH_HCA_ENROLLMENT_STATUS_SUCCEEDED,
-} from '../../actions';
+} from '../../actions/hca-es';
 import {
   initialState,
   hcaEnrollmentStatusReducer as reducer,
