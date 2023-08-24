@@ -1,6 +1,7 @@
 import mockDraftMessage from '../fixtures/message-draft-response.json';
 import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
+import mockSignature from '../fixtures/signature-response.json';
 
 class PatientComposePage {
   sendMessage = mockRequest => {
@@ -16,7 +17,9 @@ class PatientComposePage {
       .its('request.body')
       .then(request => {
         if (mockRequest) {
-          expect(request.body).to.eq(`\n\n\nName\nTitle${mockRequest.body}`);
+          expect(request.body).to.eq(
+            `\n\n\nName\nTitleTest${mockRequest.body}`,
+          );
           expect(request.category).to.eq(mockRequest.category);
           expect(request.recipient_id).to.eq(mockRequest.recipientId);
           expect(request.subject).to.eq(mockRequest.subject);
@@ -250,7 +253,7 @@ class PatientComposePage {
       .and('have.attr', 'checked');
     cy.get('[id="compose-message-body"]').should(
       'have.value',
-      '\n\n\nName\nTitleTest message body',
+      '\n\n\nName\nTitleTestTest message body',
     );
   };
 
@@ -267,10 +270,16 @@ class PatientComposePage {
   };
 
   verifyClickableURLinMessageBody = url => {
+    const {
+      signatureName,
+      signatureTitle,
+      includeSignature,
+    } = mockSignature.data;
     cy.get('[data-testid="message-body-field"]').should(
       'have.attr',
       'value',
-      `\n\n\nName\nTitle${url}`,
+      `${includeSignature &&
+        `\n\n\n${signatureName}\n${signatureTitle}`}${url}`,
     );
   };
 
