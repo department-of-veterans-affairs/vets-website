@@ -1,5 +1,8 @@
 // import the toggleValues helper
-import { SELECTED } from '../constants';
+import { SELECTED, REGEXP } from '../constants';
+
+import { replaceDescriptionContent } from './replace';
+import '../definitions';
 
 /**
  * Get issue name/title from either a manually added issue or issue loaded from
@@ -59,21 +62,38 @@ export const hasDuplicates = (data = {}) => {
   return fullList.length !== new Set(fullList).size;
 };
 
-// getEligibleContestableIssues will remove deferred issues and issues > 1 year
-// past their decision date. This function removes issues with no title & sorts
-// the list by descending (newest first) decision date
-export const processContestableIssues = contestedIssues => {
-  const regexDash = /-/g;
-  const getDate = entry =>
-    (entry.attributes?.approxDecisionDate || '').replace(regexDash, '');
-
+/**
+ * Removes deferred issues and issues > 1 year past their decision date. This
+ * function removes issues with no title, cleans up whitespace & sorts the list
+ * by descending (newest first) decision date, then ensures the list only
+ * includes unique entries
+ * @param {ContestableIssues} contestableIssues
+ * @returns {ContestableIssues} Cleaned up & sorted list
+ *  of contestable issues
+ */
+export const processContestableIssues = contestableIssues => {
+  const processDate = entry =>
+    (entry.attributes?.approxDecisionDate || '').replace(REGEXP.DASH, '');
   // remove issues with no title & sort by date - see
   // https://dsva.slack.com/archives/CSKKUL36K/p1623956682119300
-  return (contestedIssues || [])
+  const result = (contestableIssues || [])
     .filter(issue => getIssueName(issue))
+    .map(issue => {
+      const attr = issue.attributes;
+      return {
+        ...issue,
+        attributes: {
+          ...attr,
+          ratingIssueSubjectText: replaceDescriptionContent(
+            attr.ratingIssueSubjectText,
+          ),
+          description: replaceDescriptionContent(attr?.description || ''),
+        },
+      };
+    })
     .sort((a, b) => {
-      const dateA = getDate(a);
-      const dateB = getDate(b);
+      const dateA = processDate(a);
+      const dateB = processDate(b);
       if (dateA === dateB) {
         // If the dates are the same, sort by title
         return getIssueName(a) > getIssueName(b) ? 1 : -1;
@@ -81,6 +101,13 @@ export const processContestableIssues = contestedIssues => {
       // YYYYMMDD string comparisons will work in place of using moment
       return dateA > dateB ? -1 : 1;
     });
+
+  // Return unique contestable issues
+  return [
+    ...new Map(
+      result.map(issue => [getIssueNameAndDate(issue), issue]),
+    ).values(),
+  ];
 };
 
 /**
@@ -93,23 +120,35 @@ export const processContestableIssues = contestedIssues => {
 export const calculateIndexOffset = (index, contestableIssuesLength) =>
   index - contestableIssuesLength;
 
-export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
-  if (loadedIssues.length !== existingIssues.length) {
-    return true;
-  }
-  // sort both arrays so we don't end up in an endless loop
-  const issues = processContestableIssues(existingIssues);
-
-  return !processContestableIssues(loadedIssues).every(
-    ({ attributes }, index) => {
-      const existing = issues[index]?.attributes || {};
-      return (
-        attributes.ratingIssueSubjectText === existing.ratingIssueSubjectText &&
-        attributes.approxDecisionDate === existing.approxDecisionDate
-      );
-    },
-  );
+export const issuesNeedUpdating = (loaded = [], formIssues = []) => {
+  const loadedIssues = processContestableIssues(loaded);
+  const existingIssues = processContestableIssues(formIssues);
+  return loadedIssues.length !== existingIssues.length
+    ? true
+    : !loadedIssues.every(({ attributes }, index) => {
+        const existing = existingIssues[index]?.attributes || {};
+        return (
+          attributes.ratingIssueSubjectText ===
+            existing.ratingIssueSubjectText &&
+          attributes.approxDecisionDate === existing.approxDecisionDate
+        );
+      });
 };
+
+/**
+ * Filters out duplicate issue
+ * @param {ContestableIssueSubmittable} issues - Array of processed issues,
+ *  ready for submission
+ * @returns {ContestableIssueSubmittable} - unique list of issues
+ */
+export const returnUniqueIssues = issues => [
+  ...new Map(
+    issues.map(issue => {
+      const attr = issue.attributes;
+      return [`${attr.issue}-${attr.decisionDate}`, issue];
+    }),
+  ).values(),
+];
 
 export const appStateSelector = state => ({
   // Validation functions are provided the pageData and not the
