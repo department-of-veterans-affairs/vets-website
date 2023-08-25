@@ -7,7 +7,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import { recordAnswer } from '../../../actions/universal';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useStorage } from '../../../hooks/useStorage';
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { URLS } from '../../../utils/navigation';
 
@@ -42,7 +42,7 @@ const TravelPage = ({
       goToNextPage();
     }
   };
-  const { getCheckinComplete } = useSessionStorage(false);
+  const { getCheckinComplete } = useStorage(false);
   useLayoutEffect(() => {
     if (getCheckinComplete(window)) {
       jumpToPage(URLS.DETAILS);

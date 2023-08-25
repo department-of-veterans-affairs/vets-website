@@ -12,13 +12,13 @@ import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 import { validateLogin } from '../../utils/validateVeteran';
 import { makeSelectCurrentContext } from '../../selectors';
 
-import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useStorage } from '../../hooks/useStorage';
 
 const ValidateVeteran = props => {
   const { router } = props;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { setPermissions } = useSessionStorage(false);
+  const { setPermissions } = useStorage(false);
 
   const { updateError } = useUpdateError();
 
