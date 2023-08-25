@@ -99,7 +99,7 @@ export class ConfirmationPage extends React.Component {
         <br role="presentation" />
         <a
           href="/claim-or-appeal-status/"
-          className="usa-button usa-button-primary"
+          className="vads-c-action-link--green"
           aria-describedby="delay-note"
         >
           Check the status of your appeal

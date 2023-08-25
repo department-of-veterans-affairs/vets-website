@@ -215,7 +215,12 @@ export class CernerCallToAction extends Component {
                   <a
                     className="vads-c-action-link--blue"
                     href={myVAHealthLink}
-                    onClick={onCTALinkClick}
+                    onClick={() => {
+                      recordEvent({
+                        event: `vaos-cerner-redirect-static-landing-page`,
+                      });
+                      onCTALinkClick();
+                    }}
                     rel="noreferrer noopener"
                     target="_blank"
                   >
