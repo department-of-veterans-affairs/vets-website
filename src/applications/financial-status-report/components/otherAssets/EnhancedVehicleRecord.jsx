@@ -107,6 +107,52 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
     }
   };
 
+  const renderAddCancelButtons = () => {
+    return (
+      <>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handleBack}
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          id="submit"
+          className="vads-u-width--auto"
+          onClick={updateFormData}
+        >
+          {`${automobiles.length === editIndex ? 'Add' : 'Update'} vehicle`}
+        </button>
+      </>
+    );
+  };
+
+  const renderContinueBackButtons = () => {
+    return (
+      <>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handleBack}
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          id="submit"
+          className="vads-u-width--auto"
+          onClick={updateFormData}
+        >
+          Continue
+        </button>
+      </>
+    );
+  };
+
   return (
     <form>
       <fieldset className="vads-u-margin-y--2">
@@ -197,22 +243,8 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           </ul>
         </va-additional-info>
         <p>
-          <button
-            type="button"
-            id="cancel"
-            className="usa-button-secondary vads-u-width--auto"
-            onClick={handleBack}
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            id="submit"
-            className="vads-u-width--auto"
-            onClick={updateFormData}
-          >
-            {`${automobiles.length === editIndex ? 'Add' : 'Update'} vehicle`}
-          </button>
+          {automobiles.length === 0 && renderContinueBackButtons()}
+          {automobiles.length > 0 && renderAddCancelButtons()}
         </p>
       </fieldset>
     </form>

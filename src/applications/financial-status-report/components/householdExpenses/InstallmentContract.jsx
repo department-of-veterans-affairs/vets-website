@@ -178,6 +178,54 @@ const InstallmentContract = props => {
     },
   };
 
+  const renderAddCancelButtons = () => {
+    return (
+      <>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handlers.onCancel}
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          id="submit"
+          className="vads-u-width--auto"
+          onClick={handlers.onUpdate}
+        >
+          {`${
+            installmentContracts.length === index ? 'Add' : 'Update'
+          } an installment contract`}
+        </button>
+      </>
+    );
+  };
+
+  const renderContinueBackButtons = () => {
+    return (
+      <>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handlers.onCancel}
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          id="submit"
+          className="vads-u-width--auto"
+          onClick={updateFormData}
+        >
+          Continue
+        </button>
+      </>
+    );
+  };
+
   return (
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
@@ -284,24 +332,8 @@ const InstallmentContract = props => {
         </div>
       </fieldset>
       <div>
-        <button
-          type="button"
-          id="cancel"
-          className="usa-button-secondary vads-u-width--auto"
-          onClick={handlers.onCancel}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          id="submit"
-          className="vads-u-width--auto"
-          onClick={handlers.onUpdate}
-        >
-          {`${
-            installmentContracts.length === index ? 'Add' : 'Update'
-          } an installment contract`}
-        </button>
+        {installmentContracts.length === 0 && renderContinueBackButtons()}
+        {installmentContracts.length > 0 && renderAddCancelButtons()}
       </div>
     </form>
   );
