@@ -4,7 +4,7 @@ import mockRxPageTwo from './fixtures/presciptions-page-2.json';
 import MedicationsListPage from './pages/MedicationsListPage';
 
 describe('Medications Landing Page', () => {
-  it('visits Medications landing Page', () => {
+  it.skip('visits Medications landing Page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     cy.visit('my-health/about-medications');

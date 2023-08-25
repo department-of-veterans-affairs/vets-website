@@ -7,7 +7,7 @@ import { medicationsUrls } from '../util/constants';
 
 const LandingPage = () => {
   const fullState = useSelector(state => state);
-  const medicationsUrl = !fullState.user.login.currentlyLoggedIn
+  const medicationsUrl = fullState.user.login.currentlyLoggedIn
     ? medicationsUrls.prescriptionsUrl
     : medicationsUrls.medicationsLogin;
 
@@ -195,7 +195,7 @@ const LandingPage = () => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Compose a message on My HealthVet
+                    Compose a message on My HealtheVet
                   </a>
                 </p>
                 <p>
@@ -256,7 +256,7 @@ const LandingPage = () => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Compose a message on My HealthVet
+                  Compose a message on My HealtheVet
                 </a>
               </va-accordion-item>
               <va-accordion-item>
