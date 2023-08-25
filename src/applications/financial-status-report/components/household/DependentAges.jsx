@@ -84,7 +84,7 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
     );
 
     if (errors.some(error => error !== null) || hasEmptyInput) {
-      event.preventDefault(); // Prevent the form from being submitted if there are errors.
+      event.preventDefault(); // Prevent the form from being submitted when there are errors
       if (hasEmptyInput) {
         const newErrors = stateDependents.map((dependent, i) =>
           dependent.dependentAge === ''
