@@ -47,12 +47,12 @@ export default function NextOfKinDisplay({
       className="vads-u-margin-top--3 vads-u-margin-bottom--3"
     >
       <va-additional-info uswds trigger={t('how-to-update-next-of-kin')}>
-        <p>{t('confirm-who-youd-like-to-represent-your-wishes')}</p>
-        <p>
-          {t(
-            `if-this-isnt-your-correct-information-a-staff-member-can-help--${app}`,
-          )}
-        </p>
+        {t('confirm-who-youd-like-to-represent-your-wishes')}
+        <br />
+        <br />
+        {t(
+          `if-this-isnt-your-correct-information-a-staff-member-can-help--${app}`,
+        )}
       </va-additional-info>
     </div>
   );
