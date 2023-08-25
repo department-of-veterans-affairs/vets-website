@@ -6,6 +6,12 @@ import { fixDateFormat } from '../../shared/utils/replace';
 import { FORMAT_YMD } from '../constants';
 
 import { issueErrorMessages } from '../content/addIssue';
+import {
+  buildErrorParts,
+  createPartsError,
+  isInvalidDateString,
+  hasErrorParts,
+} from '../../shared/validations/date';
 
 const minDate = moment()
   .subtract(1, 'year')
@@ -21,31 +27,14 @@ export const validateDate = (errors, rawString = '') => {
   // new Date() will recalculate and go back to last day of the previous month
   const maxDays = year && month ? new Date(year, month, 0).getDate() : 31;
   const invalidDate = dateString?.length < FORMAT_YMD.length || !date.isValid();
-  const errorParts = {
-    month: !month || month < 1 || month > 12,
-    day: !day || day < 1 || day > maxDays,
-    year: !year,
-    other: false, // catch all for partial & invalid dates
-  };
+  const errorParts = buildErrorParts(month, day, year, maxDays);
 
-  if (
-    !year ||
-    !day ||
-    day === '0' ||
-    !month ||
-    month === '0' ||
-    dateString?.length < FORMAT_YMD.length
-  ) {
+  if (isInvalidDateString(year, day, month, invalidDate)) {
     // The va-date component currently overrides the error message when the
     // value is blank
     errors.addError(issueErrorMessages.missingDecisionDate);
     errorParts.other = true; // other part error
-  } else if (
-    errorParts.month ||
-    errorParts.day ||
-    errorParts.year ||
-    invalidDate
-  ) {
+  } else if (hasErrorParts(errorParts) || invalidDate) {
     errors.addError(issueErrorMessages.invalidDate);
     errorParts.other = true; // other part error
   } else if (date.isSameOrAfter(maxDate)) {
@@ -59,10 +48,7 @@ export const validateDate = (errors, rawString = '') => {
 
   // add second error message containing the part of the date with an error;
   // used to add `aria-invalid` to the specific input
-  const partsError = Object.entries(errorParts).reduce(
-    (result, [partName, hasError]) => result + (hasError ? `${partName} ` : ''),
-    '',
-  );
+  const partsError = createPartsError(errorParts);
   if (partsError) {
     errors.addError(partsError);
   }
