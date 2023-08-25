@@ -9,10 +9,6 @@ const prepareSearch = term => {
 };
 
 describe('Site-wide Search general functionality', () => {
-  beforeEach(() => {
-    cy.server();
-  });
-
   // default cases
   it('appears when the dropdown is clicked', () => {
     cy.visit('/');
@@ -24,10 +20,6 @@ describe('Site-wide Search general functionality', () => {
 });
 
 describe('Site-wide Search functionality with typeahead disabled', () => {
-  beforeEach(() => {
-    cy.server();
-  });
-
   it('Clicking search button initiates search for input - typeahead disabled', () => {
     prepareSearch('benefits');
     cy.get('[data-e2e-id="sitewide-search-submit-button"]').click();
