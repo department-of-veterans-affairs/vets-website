@@ -40,6 +40,9 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
     if (this.props.error) {
       return <FacilityApiAlert />;
     }
+
+    const isWaitTimeValid = waitTime =>
+      typeof waitTime === 'number' && waitTime >= 0;
     const facility = this.props.facility.attributes;
     const service = this.props.service.split('(')[0].toLowerCase();
     const serviceExists = facility?.access?.health.find(
@@ -60,9 +63,9 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
           </p>
           <div className="usa-grid-full">
             <div className="vads-u-display--flex">
-              {serviceExists.new >= 0 &&
+              {isWaitTimeValid(serviceExists.new) &&
                 this.appointmentWaitTime(serviceExists.new, service)}
-              {serviceExists.established >= 0 &&
+              {isWaitTimeValid(serviceExists.established) &&
                 this.appointmentWaitTime(
                   serviceExists.established,
                   service,
