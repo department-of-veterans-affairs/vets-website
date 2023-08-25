@@ -78,6 +78,6 @@ describe('Events <ResultsWhereContent>', () => {
     const component = render(
       <ResultsWhereContent event={locationObjectEvent} />,
     );
-    expect(component.getByText('Directions(Google Maps)')).to.exist;
+    expect(component.getByText('Get directions on Google Maps')).to.exist;
   });
 });

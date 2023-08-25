@@ -9,16 +9,19 @@ const WhereContent = ({
   derivedLocations,
 }) => {
   if (fieldType === 'online') return 'This is an online event.';
-  const locationAddress =
-    derivedLocations?.length > 0 ? derivedLocations.join(' ') : '';
+  const locationAddress = derivedLocations?.length
+    ? derivedLocations.join(' ')
+    : '';
   return (
     <>
       <a href={fieldLocation?.entity?.entityUrl.path}>
         {fieldLocation?.entity?.title}
       </a>
-      <p className="vads-u-margin--0" key={location}>
-        {event?.fieldLocationHumanreadable}
-      </p>
+      {event?.fieldLocationHumanreadable && (
+        <p className="vads-u-margin--0" key={location}>
+          {event?.fieldLocationHumanreadable}
+        </p>
+      )}
       {derivedLocations?.length > 0 && (
         <div>
           {derivedLocations?.map(location => (
@@ -30,7 +33,7 @@ const WhereContent = ({
             href={`https://maps.google.com?saddr=Current+Location&daddr=${locationAddress}`}
             rel="noopener noreferrer"
           >
-            Directions(Google Maps)
+            Get directions on Google Maps
           </a>
         </div>
       )}

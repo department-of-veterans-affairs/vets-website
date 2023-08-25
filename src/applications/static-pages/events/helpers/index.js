@@ -353,23 +353,22 @@ export const deriveEventLocations = event => {
 
   if (event?.fieldFacilityLocation?.entity?.fieldAddress) {
     const fieldFacilityEntity = event?.fieldFacilityLocation?.entity;
-    if (fieldFacilityEntity?.fieldAddress?.addressLine1) {
-      locations.push(fieldFacilityEntity?.fieldAddress?.addressLine1);
+    const {
+      addressLine1,
+      addressLine2,
+      locality,
+      administrativeArea,
+    } = fieldFacilityEntity?.fieldAddress;
+    if (addressLine1) {
+      locations.push(addressLine1);
     }
 
-    if (fieldFacilityEntity?.fieldAddress?.addressLine2) {
-      locations.push(fieldFacilityEntity?.fieldAddress?.addressLine2);
+    if (addressLine2) {
+      locations.push(addressLine2);
     }
 
-    if (
-      fieldFacilityEntity?.fieldAddress?.locality &&
-      fieldFacilityEntity?.fieldAddress?.administrativeArea
-    ) {
-      locations.push(
-        `${fieldFacilityEntity?.fieldAddress?.locality}, ${
-          fieldFacilityEntity?.fieldAddress?.administrativeArea
-        }`,
-      );
+    if (locality && administrativeArea) {
+      locations.push(`${locality}, ${administrativeArea}`);
     }
   } else {
     if (event?.fieldAddress?.addressLine1) {
