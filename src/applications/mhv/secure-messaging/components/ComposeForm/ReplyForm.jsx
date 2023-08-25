@@ -367,7 +367,7 @@ const ReplyForm = props => {
                   aria-hidden="true"
                 />
                 <span className="thread-list-draft reply-draft-label">
-                  (Draft)
+                  {`(Draft) `}
                 </span>
                 {`To: ${draftToEdit?.replyToName ||
                   replyMessage?.senderName}\n(Team: ${
