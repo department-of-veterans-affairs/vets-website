@@ -47,6 +47,21 @@ class NextOfKin {
       .should('include.text', '444-555-6666');
   };
 
+  validateAdditionalInfo = {
+    dayOf: () => {
+      cy.get('div[data-testid="additional-info"]').should(
+        'contain.text',
+        'If this isn’t your correct information, select No and a staff member can help you update your information on the day of your appointment.',
+      );
+    },
+    preCheckIn: () => {
+      cy.get('div[data-testid="additional-info"]').should(
+        'contain.text',
+        'If this isn’t your correct information, select No and a staff member can help you update your information on the day of your appointment.',
+      );
+    },
+  };
+
   validateBackButton = () => {
     cy.get('a[data-testid="back-button"]')
       .should('have.text', 'Back to last screen')

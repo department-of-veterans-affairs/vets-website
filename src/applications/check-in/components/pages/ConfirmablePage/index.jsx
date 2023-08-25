@@ -20,6 +20,7 @@ const ConfirmablePage = ({
   header,
   eyebrow = '',
   subtitle,
+  additionalInfo,
   dataFields = [],
   data = {},
   yesAction = () => {},
@@ -98,6 +99,7 @@ const ConfirmablePage = ({
           ))}
         </ul>
       </div>
+      {additionalInfo}
       <>
         <button
           onClick={onYesClick}
@@ -130,6 +132,7 @@ ConfirmablePage.propTypes = {
   header: PropTypes.string.isRequired,
   noAction: PropTypes.func.isRequired,
   yesAction: PropTypes.func.isRequired,
+  additionalInfo: PropTypes.string,
   eyebrow: PropTypes.string,
   pageType: PropTypes.string,
   router: PropTypes.object,
