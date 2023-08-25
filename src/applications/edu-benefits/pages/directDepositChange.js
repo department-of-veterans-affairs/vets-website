@@ -1,9 +1,14 @@
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
+import environment from 'platform/utilities/environment';
 
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 
-import { bankAccountChangeLabels, directDepositWarning } from '../utils/labels';
+import {
+  bankAccountChangeLabels,
+  bankAccountChangeLabelsUpdate,
+  directDepositWarning,
+} from '../utils/labels';
 
 function isStartUpdate(form) {
   return get('bankAccountChange', form) === 'startUpdate';
@@ -21,7 +26,9 @@ export default function createDirectDepositChangePage(schema) {
         'ui:title': 'Benefit payment method:',
         'ui:widget': 'radio',
         'ui:options': {
-          labels: bankAccountChangeLabels,
+          labels: environment.isProduction()
+            ? bankAccountChangeLabels
+            : bankAccountChangeLabelsUpdate,
         },
       },
       bankAccount: merge({}, bankAccountUI, {
