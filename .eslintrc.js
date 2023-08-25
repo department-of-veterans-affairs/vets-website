@@ -132,6 +132,7 @@ module.exports = {
       rules: {
         '@department-of-veterans-affairs/axe-check-required': 1,
         '@department-of-veterans-affairs/cypress-viewport-deprecated': 1,
+        'cypress/unsafe-to-chain-command': 0,
       },
     },
   ],
