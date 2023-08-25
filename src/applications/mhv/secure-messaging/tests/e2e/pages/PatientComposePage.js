@@ -188,7 +188,7 @@ class PatientComposePage {
   };
 
   attachMessageFromFile = filename => {
-    const filepath = `src/applications/mhv/secure-messaging/tests/e2e/fixtures/${filename}`;
+    const filepath = `src/applications/mhv/secure-messaging/tests/e2e/fixtures/mock-attachments/${filename}`;
     cy.get('[data-testid="attach-file-input"]').selectFile(filepath, {
       force: true,
     });
@@ -329,7 +329,7 @@ class PatientComposePage {
   verifyBodyErrorMessage = () => {
     cy.get('[data-testid="message-body-field"]')
       .shadow()
-      .find('[id=error-message]')
+      .find('[id=input-error-message]')
       .should('be.visible');
   };
 

@@ -16,6 +16,17 @@ const Navigation = () => {
   const closeMenuButtonRef = useRef();
   const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
 
+  const checkScreenSize = useCallback(() => {
+    if (window.innerWidth < 768) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+      setIsNavigationOpen(false);
+    }
+  }, []);
+
+  window.addEventListener('resize', checkScreenSize);
+
   function openNavigation() {
     setIsNavigationOpen(true);
   }
@@ -27,6 +38,10 @@ const Navigation = () => {
     },
     [navMenuButtonRef],
   );
+
+  useEffect(() => {
+    checkScreenSize();
+  }, []);
 
   useEffect(
     () => {
@@ -76,38 +91,6 @@ const Navigation = () => {
     ];
   };
 
-  function checkScreenSize() {
-    if (window.innerWidth <= 768 && setIsMobile !== false) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-      setIsNavigationOpen(false);
-    }
-  }
-
-  function openNavigationBurgerButton() {
-    return (
-      isMobile && (
-        <SectionGuideButton
-          setNavMenuButtonRef={setNavMenuButtonRef}
-          onMenuClick={() => {
-            openNavigation();
-          }}
-          isExpanded={isNavigationOpen}
-        />
-      )
-    );
-  }
-
-  useEffect(
-    () => {
-      checkScreenSize();
-    },
-    [isMobile],
-  );
-
-  window.addEventListener('resize', checkScreenSize);
-
   const headerStyle = location.pathname === '/' ? 'is-active' : null;
 
   const handleActiveLinksStyle = path => {
@@ -133,7 +116,16 @@ const Navigation = () => {
 
   return (
     <div className="secure-messaging-navigation vads-u-flex--auto vads-u-padding-bottom--2 medium-screen:vads-u-padding-bottom--0">
-      {openNavigationBurgerButton()}
+      {isMobile && (
+        <SectionGuideButton
+          setNavMenuButtonRef={setNavMenuButtonRef}
+          onMenuClick={() => {
+            openNavigation();
+          }}
+          isExpanded={isNavigationOpen}
+        />
+      )}
+
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div
           ref={sideBarNavRef}
