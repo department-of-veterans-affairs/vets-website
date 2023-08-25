@@ -28,5 +28,11 @@ class MedicationsListPage {
     );
     cy.contains('Print list').should('be.enabled');
   };
+
+  verifyNavigationToListPageAfterClickingBreadcrumbMedications = () => {
+    cy.get('[data-testid="List-Page-Title"]')
+      .should('have.text', 'Medications')
+      .should('be.visible');
+  };
 }
 export default MedicationsListPage;
