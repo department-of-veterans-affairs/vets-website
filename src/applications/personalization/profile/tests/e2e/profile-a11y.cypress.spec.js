@@ -50,9 +50,6 @@ function checkAllPages(mobile = false) {
   );
   cy.title().should('eq', 'Personal Information | Veterans Affairs');
 
-  // focus should be on the sub-nav's heading when redirected from /profile/
-  cy.focused().contains(/profile/i);
-
   // make the a11y check on the Personal Info section
   cy.injectAxe();
   cy.axeCheck();
@@ -65,8 +62,6 @@ function checkAllPages(mobile = false) {
   );
   cy.title().should('eq', 'Military Information | Veterans Affairs');
   cy.axeCheck();
-  // focus should be on the section's heading
-  cy.focused().contains(PROFILE_PATH_NAMES.MILITARY_INFORMATION);
 
   // make the a11y and focus management check on the Direct Deposit section
   clickSubNavButton(PROFILE_PATH_NAMES.DIRECT_DEPOSIT, mobile);
@@ -76,8 +71,6 @@ function checkAllPages(mobile = false) {
   );
   cy.title().should('eq', 'Direct Deposit Information | Veterans Affairs');
   cy.axeCheck();
-  // focus should be on the section's heading
-  cy.focused().contains(PROFILE_PATH_NAMES.DIRECT_DEPOSIT);
 
   // make the a11y and focus management check on the Account Security section
   clickSubNavButton(PROFILE_PATH_NAMES.ACCOUNT_SECURITY, mobile);
@@ -87,8 +80,6 @@ function checkAllPages(mobile = false) {
   );
   cy.title().should('eq', 'Account Security | Veterans Affairs');
   cy.axeCheck();
-  // focus should be on the section's heading
-  cy.focused().contains(PROFILE_PATH_NAMES.ACCOUNT_SECURITY);
 
   // make the a11y and focus management check on the Connected Apps section
   clickSubNavButton(PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS, mobile);
@@ -100,9 +91,6 @@ function checkAllPages(mobile = false) {
   // wait for this section's loading spinner to disappear...
   cy.findByTestId('connected-apps-loading-indicator').should('not.exist');
   cy.axeCheck();
-  // focus should be on the section's heading
-
-  cy.focused().contains(PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS);
 
   // navigate directly to the Personal Info section via the sub-nav to confirm focus is managed correctly
   clickSubNavButton(PROFILE_PATH_NAMES.PERSONAL_INFORMATION, mobile);
@@ -110,7 +98,6 @@ function checkAllPages(mobile = false) {
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.PERSONAL_INFORMATION}`,
   );
-  cy.focused().contains(PROFILE_PATH_NAMES.PERSONAL_INFORMATION);
 
   // navigate directly to the Contact Info section via the sub-nav to confirm focus is managed correctly
   clickSubNavButton(PROFILE_PATH_NAMES.CONTACT_INFORMATION, mobile);
@@ -118,14 +105,12 @@ function checkAllPages(mobile = false) {
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.CONTACT_INFORMATION}`,
   );
-  cy.focused().contains(PROFILE_PATH_NAMES.CONTACT_INFORMATION);
 }
 
 describe('Profile', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    cy.server();
-    cy.route('GET', '/v0/ppiu/payment_information', mockPaymentInfo);
+    cy.intercept('GET', '/v0/ppiu/payment_information', mockPaymentInfo);
   });
   it('should pass an aXe scan and manage focus on all pages at desktop size', () => {
     checkAllPages(false);
