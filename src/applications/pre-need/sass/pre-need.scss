@@ -56,3 +56,8 @@ article#pre-need[data-location="veteran-applicant-information"] {
     margin-top: 0 !important;
   }
 }
+
+dl.review + dl.review .review-row {
+  border-top: none;
+  padding-top: 0px;
+}
