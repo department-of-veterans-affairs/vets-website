@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -36,11 +37,20 @@ const generateFooter = avs => {
 const Avs = props => {
   // TODO: boot folks out if the feature toggle is not enabled.
   const user = useSelector(selectUser);
+  const { avsEnabled, featureTogglesLoading } = useSelector(
+    state => {
+      return {
+        featureTogglesLoading: state.featureToggles.loading,
+        avsEnabled: state.featureToggles[FEATURE_FLAG_NAMES.avsEnabled],
+      };
+    },
+    state => state.featureToggles,
+  );
   const { isLoggedIn } = props;
   const { id } = props.params;
 
   const [avs, setAvs] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [avsLoading, setAvsLoading] = useState(true);
 
   useEffect(
     () => {
@@ -48,17 +58,21 @@ const Avs = props => {
         const response = await getAvs(id);
         // cf. https://github.com/department-of-veterans-affairs/avs/blob/master/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/model/AvsDataModel.java
         setAvs(response.data.attributes);
-        setLoading(false);
+        setAvsLoading(false);
       };
 
-      if (isLoggedIn) {
+      if (isLoggedIn && avsLoading) {
         fetchAvs();
       }
     },
-    [id, isLoggedIn],
+    [avs, avsLoading, id, isLoggedIn],
   );
 
-  if (isLoggedIn && loading) {
+  if (avsEnabled === false) {
+    window.location.replace('/');
+  }
+
+  if (isLoggedIn && (avsLoading || featureTogglesLoading)) {
     return (
       <va-loading-indicator
         data-testid="loading-indicator"
