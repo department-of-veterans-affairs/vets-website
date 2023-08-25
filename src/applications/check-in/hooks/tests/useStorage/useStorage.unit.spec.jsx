@@ -6,7 +6,7 @@ import { render, fireEvent } from '@testing-library/react';
 import TestComponent from './TestComponent';
 
 describe('check-in', () => {
-  describe('useSessionStorage', () => {
+  describe('useStorage', () => {
     describe('default namespace', () => {
       const removeItem = sinon.spy();
       const window = {
@@ -25,7 +25,7 @@ describe('check-in', () => {
       expect(removeItem.calledWith('health.care.pre.check.in.current.uuid')).to
         .be.true;
     });
-    describe('clearCurrentSession', () => {
+    describe('clearCurrentStorage', () => {
       it('should clear the named space session', () => {
         const removeItem = sinon.spy();
         const window = {
@@ -117,6 +117,38 @@ describe('check-in', () => {
             JSON.stringify({ token: testToken }),
           ),
         ).to.be.true;
+      });
+    });
+
+    describe('getTravelPay from localStorage', () => {
+      it('key is not found', () => {
+        const window = {
+          localStorage: {
+            getItem: () => null,
+          },
+        };
+
+        const component = render(<TestComponent window={window} />);
+        const button = component.getByTestId('get-local-button');
+        fireEvent.click(button);
+        expect(component.getByTestId('from-local').innerHTML).to.be.contain(
+          '{}',
+        );
+      });
+      it('key is found', () => {
+        const window = {
+          localStorage: {
+            getItem: () => JSON.stringify({ facility: 'timestamp' }),
+          },
+        };
+
+        const component = render(<TestComponent window={window} />);
+        const button = component.getByTestId('get-local-button');
+        fireEvent.click(button);
+
+        expect(component.getByTestId('from-local').innerHTML).to.equal(
+          JSON.stringify({ facility: 'timestamp' }),
+        );
       });
     });
   });
