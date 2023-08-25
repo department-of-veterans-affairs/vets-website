@@ -255,6 +255,9 @@ export default function vapService(state = initialState, action) {
         transactions: state.transactions.filter(
           t => t.data.attributes.transactionId !== finishedTransactionId,
         ),
+        transactionsAwaitingUpdate: state.transactionsAwaitingUpdate.filter(
+          tid => tid !== finishedTransactionId,
+        ),
         modal: null,
         fieldTransactionMap,
         mostRecentlySavedField,
