@@ -13,7 +13,7 @@ const LandingPage = () => {
 
   const content = () => {
     return (
-      <div className="landing-page">
+      <div className="landing-page vads-l-grid-container">
         <div className="main-content">
           <section>
             <h1>About Medications</h1>
