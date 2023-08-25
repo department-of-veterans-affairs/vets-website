@@ -16,6 +16,7 @@ import { SHOW_PART3 } from '../constants';
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
+
 import {
   getSelected,
   getIssueNameAndDate,

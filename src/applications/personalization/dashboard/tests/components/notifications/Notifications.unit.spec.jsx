@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 
 import { Notifications } from '../../../components/notifications/Notifications';
 
@@ -32,11 +31,7 @@ describe('<Notifications />', () => {
         },
       },
     ];
-    const initialState = {
-      featureToggles: {
-        [Toggler.TOGGLE_NAMES.myVaUseExperimental]: false,
-      },
-    };
+    const initialState = {};
     const tree = renderWithStoreAndRouter(
       <Notifications
         getNotifications={() => {}}
