@@ -8,8 +8,8 @@ import ClosedClaimMessage from '../../components/ClosedClaimMessage';
 
 describe('<ClosedClaimMessage>', () => {
   context('Appeals', () => {
-    it('should render closed appeals within 30 days', () => {
-      const closeDate = moment().add(-29, 'days');
+    it('should render closed appeals within 60 days', () => {
+      const closeDate = moment().add(-59, 'days');
 
       const claims = [
         {
@@ -46,8 +46,8 @@ describe('<ClosedClaimMessage>', () => {
         .exist;
     });
 
-    it('should not render closed claims at 30 days', () => {
-      const closeDate = moment().add(-30, 'days');
+    it('should not render closed claims at 60 days', () => {
+      const closeDate = moment().add(-60, 'days');
 
       const claims = [
         {
@@ -72,15 +72,7 @@ describe('<ClosedClaimMessage>', () => {
       const screen = render(<ClosedClaimMessage claims={claims} />);
 
       // Check that the component was rendered
-      expect(screen.getByText('Recently closed:')).to.exist;
-
-      // Check that the dates match up with what we would expect
-      expect(screen.getByText('Your Compensation Appeal Received May 10, 2021'))
-        .to.exist;
-
-      const closeDateText = closeDate.format('MMMM D, YYYY');
-      expect(screen.getByText(`has been closed as of ${closeDateText}`)).to
-        .exist;
+      expect(screen.queryByText('Recently closed:')).to.not.exist;
     });
   });
 
