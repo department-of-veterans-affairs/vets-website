@@ -1,5 +1,5 @@
 import { DEBT_TYPES } from '../constants';
-import { getMonthlyIncome, safeNumber } from './calculateIncome';
+import { getMonthlyIncome } from './calculateIncome';
 import { getTotalAssets, getMonthlyExpenses } from './helpers';
 
 const VHA_LIMIT = 5000;
@@ -33,12 +33,11 @@ export const isEligibleForStreamlined = formData => {
  * - Total income below GMT
  * - Assets (cash on hand  specific page) below 6.5% of GMT
  */
-export const isStreamlinedShortForm = formData => {
-  const { assets, gmtData } = formData;
-  const assetBelow = safeNumber(assets?.cashOnHand) < gmtData?.assetThreshold;
-
+export const isStreamlinedShortForm = ({ gmtData }) => {
   return (
-    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt && assetBelow
+    gmtData?.isEligibleForStreamlined &&
+    gmtData?.incomeBelowGmt &&
+    gmtData?.cashBelowGmt
   );
 };
 
@@ -51,9 +50,7 @@ export const isStreamlinedShortForm = formData => {
  * - Total assets below 6.5% of GMT
  * - Discretionary income below 1.25% of GMT
  */
-export const isStreamlinedLongForm = formData => {
-  const { gmtData } = formData;
-
+export const isStreamlinedLongForm = ({ gmtData }) => {
   return (
     gmtData?.isEligibleForStreamlined &&
     !gmtData?.incomeBelowGmt &&

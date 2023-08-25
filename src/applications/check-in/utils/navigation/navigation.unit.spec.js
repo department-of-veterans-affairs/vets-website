@@ -249,7 +249,7 @@ describe('Global check in', () => {
         };
         const isTravelReimbursementEnabled = true;
         const appointments = [
-          { stationNo: '0001', clinicIen: '0001', facilityId: 'testId' },
+          { stationNo: '0001', clinicIen: '0001', facility: 'testId' },
         ];
         expect(appointments).to.have.lengthOf(1);
         const form = updateFormPages(
@@ -277,7 +277,7 @@ describe('Global check in', () => {
         };
         const isTravelReimbursementEnabled = true;
         const appointments = [
-          { stationNo: '0001', clinicIen: '0001', facilityId: 'testId' },
+          { stationNo: '0001', clinicIen: '0001', facility: 'testId' },
         ];
         expect(appointments).to.have.lengthOf(1);
         const form = updateFormPages(
@@ -305,8 +305,8 @@ describe('Global check in', () => {
         };
         const isTravelReimbursementEnabled = true;
         const appointments = [
-          { stationNo: '0001', clinicIen: '0001', facilityId: 'testId' },
-          { stationNo: '0001', clinicIen: '0001', facilityId: 'testId' },
+          { stationNo: '0001', clinicIen: '0001', facility: 'testId' },
+          { stationNo: '0001', clinicIen: '0001', facility: 'testId' },
         ];
         expect(appointments).to.have.lengthOf(2);
         const form = updateFormPages(
@@ -334,7 +334,7 @@ describe('Global check in', () => {
         };
         const isTravelReimbursementEnabled = true;
         const appointments = [
-          { stationNo: '0001', clinicIen: '0001', facilityId: 'testId' },
+          { stationNo: '0001', clinicIen: '0001', facility: 'testId' },
         ];
         expect(appointments).to.have.lengthOf(1);
         const form = updateFormPages(
