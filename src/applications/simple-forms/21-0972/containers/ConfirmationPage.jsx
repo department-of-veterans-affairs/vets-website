@@ -24,8 +24,15 @@ const childContent = (
       section-heading={{
         value: 'null',
       }}
+      uswds={{
+        value: 'true',
+      }}
     >
-      <va-accordion-item header="Accrued benefits" id="first">
+      <va-accordion-item
+        header="Accrued benefits"
+        id="first"
+        uswds={{ value: 'true' }}
+      >
         <ul>
           <li>
             <a href="/find-forms/about-form-21p-601">VA Form 21P-601</a>,
@@ -33,7 +40,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Appeals" id="second">
+      <va-accordion-item header="Appeals" id="second" uswds={{ value: 'true' }}>
         <ul>
           <li>
             <a href="/find-forms/about-form-20-0995">VA Form 20-0995</a>,
@@ -49,7 +56,11 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Auto allowance" id="third">
+      <va-accordion-item
+        header="Auto allowance"
+        id="third"
+        uswds={{ value: 'true' }}
+      >
         <ul>
           <li>
             <a href="/find-forms/about-form-21-4502">VA Form 21-4502</a>,
@@ -61,6 +72,7 @@ const childContent = (
       <va-accordion-item
         header="Benefits for certain children with disabilities"
         id="fourth"
+        uswds={{ value: 'true' }}
       >
         <ul>
           <li>
@@ -70,7 +82,11 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Compensation" id="fifth">
+      <va-accordion-item
+        header="Compensation"
+        id="fifth"
+        uswds={{ value: 'true' }}
+      >
         <ul>
           <li>
             <a href="/find-forms/about-form-21-526ez">VA Form 21-526EZ</a>,
@@ -79,7 +95,11 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Compensation and/or Pension" id="sixth">
+      <va-accordion-item
+        header="Compensation and/or Pension"
+        id="sixth"
+        uswds={{ value: 'true' }}
+      >
         <ul>
           <li>
             <a href="/find-forms/about-form-21-0966">VA Form 21-0966</a>, Intent
@@ -88,7 +108,11 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Dependents" id="seventh">
+      <va-accordion-item
+        header="Dependents"
+        id="seventh"
+        uswds={{ value: 'true' }}
+      >
         <ul>
           <li>
             <a href="/find-forms/about-form-21-686c">VA Form 21-686c</a>,
@@ -96,7 +120,11 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Dependent parent(s)" id="eighth">
+      <va-accordion-item
+        header="Dependent parent(s)"
+        id="eighth"
+        uswds={{ value: 'true' }}
+      >
         <ul>
           <li>
             <a href="/find-forms/about-form-21p-509">VA Form 21P-509</a>,
@@ -104,7 +132,11 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Individual unemployability" id="ninth">
+      <va-accordion-item
+        header="Individual unemployability"
+        id="ninth"
+        uswds={{ value: 'true' }}
+      >
         <ul>
           <li>
             <a href="/find-forms/about-form-21-8940">VA Form 21-8940</a>,
@@ -113,7 +145,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Pension" id="tenth">
+      <va-accordion-item header="Pension" id="tenth" uswds={{ value: 'true' }}>
         <ul>
           <li>
             <a href="/find-forms/about-form-21p-527ez">VA Form 21P-527EZ</a>,
@@ -153,7 +185,11 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Posttramatic stress disorder" id="twelfth">
+      <va-accordion-item
+        header="Posttramatic stress disorder"
+        id="twelfth"
+        uswds={{ value: 'true' }}
+      >
         <ul>
           <li>
             <a href="/find-forms/about-form-21-0781">VA Form 21-0781</a>,
@@ -170,6 +206,7 @@ const childContent = (
       <va-accordion-item
         header="School Age Child(ren) (Aged 18-23 Years and in School)"
         id="thirteenth"
+        uswds={{ value: 'true' }}
       >
         <ul>
           <li>
@@ -181,6 +218,7 @@ const childContent = (
       <va-accordion-item
         header="Specially adapted housing or special home adaptation"
         id="fourteenth"
+        uswds={{ value: 'true' }}
       >
         <ul>
           <li>
@@ -191,7 +229,11 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Survivor benefits" id="fifteenth">
+      <va-accordion-item
+        header="Survivor benefits"
+        id="fifteenth"
+        uswds={{ value: 'true' }}
+      >
         <ul>
           <li>
             <a href="/find-forms/about-form-21p-534ez">
@@ -235,11 +277,6 @@ const childContent = (
 export const ConfirmationPage = () => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
-  // mock for testing
-  const fullName = {
-    first: 'first',
-    last: 'last',
-  };
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
@@ -247,7 +284,7 @@ export const ConfirmationPage = () => {
     <ConfirmationPageView
       submitterHeader="Who submitted this form"
       formType="alternate signer certification"
-      submitterName={fullName}
+      submitterName={form.data.preparerFullName}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       content={content}

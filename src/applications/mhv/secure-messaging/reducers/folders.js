@@ -29,7 +29,10 @@ export const foldersReducer = (state = initialState, action) => {
       };
     case Actions.Folder.GET:
     case Actions.Folder.CREATE:
-      return { ...state, folder: action.response.data.attributes };
+      return {
+        ...state,
+        folder: !action.response ? null : action.response.data.attributes,
+      };
     case Actions.Folder.CLEAR:
       return { ...state, folder: { ...initialState } };
     case Actions.Folder.DELETE:

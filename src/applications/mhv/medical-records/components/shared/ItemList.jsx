@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 const ItemList = props => {
   const { list } = props;
+  if (typeof list === 'string') return list;
   if (list?.length > 1) {
     return (
       <ul className="vads-u-margin-top--0 item-list">

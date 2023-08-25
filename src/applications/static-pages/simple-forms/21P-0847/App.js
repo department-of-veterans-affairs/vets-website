@@ -13,18 +13,11 @@ const App = ({ formEnabled }) => {
   if (formEnabled) {
     return (
       <>
-        <p>You can submit this form online or by mail.</p>
         <a
           className="vads-c-action-link--blue"
           href="/supporting-forms-for-claims/substitute-claimant-form-21P-0847"
         >
           Submit a request online to be a substitute for a deceased claimant
-        </a>
-        <a
-          className="vads-c-action-link--green"
-          href="/find-forms/about-form-21p-0847/"
-        >
-          Get VA Form 21P-0847 to download
         </a>
       </>
     );
@@ -33,12 +26,6 @@ const App = ({ formEnabled }) => {
   return (
     <>
       <p>You can submit this form by mail.</p>
-      <a
-        className="vads-c-action-link--green"
-        href="/find-forms/about-form-21p-0847/"
-      >
-        Get VA Form 21P-0847 to download
-      </a>
     </>
   );
 };
