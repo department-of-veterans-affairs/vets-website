@@ -57,7 +57,7 @@ export const uiSchemaEnhanced = {
       'ui:errorMessages': {
         required: 'Please enter your dependent(s) information.',
       },
-      'ui:validations': [validateIsNumber], // Here's where you're calling the validation function
+      'ui:validations': [validateIsNumber],
     },
   },
   'view:components': {
