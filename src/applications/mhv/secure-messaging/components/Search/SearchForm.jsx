@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearSearchResults, runAdvancedSearch } from '../../actions/search';
@@ -14,7 +14,6 @@ const SearchForm = props => {
   const { folder, keyword, resultsCount, query } = props;
   const dispatch = useDispatch();
   const location = useLocation();
-  const folders = useSelector(state => state.sm.folders.folderList);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTermError, setSearchTermError] = useState(null);
   const [category, setCategory] = useState('');
@@ -247,23 +246,22 @@ const SearchForm = props => {
             new message. These emails include the message ID.
           </va-additional-info>
         )}
-        {folders && (
-          <div>
-            <FilterBox
-              ref={filterBoxRef}
-              folders={folders}
-              keyword={keyword}
-              category={category}
-              setCategory={setCategory}
-              dateRange={dateRange}
-              setDateRange={setDateRange}
-              fromDate={fromDate}
-              setFromDate={setFromDate}
-              toDate={toDate}
-              setToDate={setToDate}
-            />
-          </div>
-        )}
+
+        <div>
+          <FilterBox
+            ref={filterBoxRef}
+            keyword={keyword}
+            category={category}
+            setCategory={setCategory}
+            dateRange={dateRange}
+            setDateRange={setDateRange}
+            fromDate={fromDate}
+            setFromDate={setFromDate}
+            toDate={toDate}
+            setToDate={setToDate}
+          />
+        </div>
+
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           <va-button
             text="Filter"

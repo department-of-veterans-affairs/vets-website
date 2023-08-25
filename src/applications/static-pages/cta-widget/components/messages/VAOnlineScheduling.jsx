@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CallToActionAlert from '../CallToActionAlert';
 
 const alertText = (
@@ -16,20 +17,31 @@ const noCCAlertText = (
   </p>
 );
 
-const VAOnlineScheduling = ({ isCommunityCareEnabled }) => {
+const VAOnlineScheduling = props => {
+  const {
+    vaOnlineSchedulingCommunityCare: featureCommunityCareEnabled,
+    vaOnlineSchedulingBreadcrumbUrlUpdate: featureStaticLandingPage,
+    vaOnlineSchedulingStaticLandingPage: featureBreadcrumbUrlUpdate,
+  } = props.featureToggles;
   const content = {
     heading:
       'Go to the VA appointments tool to view, schedule, or cancel your appointment online',
-    alertText: isCommunityCareEnabled ? alertText : noCCAlertText,
+    alertText: featureCommunityCareEnabled ? alertText : noCCAlertText,
     primaryButtonText: 'Go to your VA appointments',
     primaryButtonHandler: () => {
       window.location =
-        '/health-care/schedule-view-va-appointments/appointments/';
+        featureStaticLandingPage && featureBreadcrumbUrlUpdate
+          ? '/my-health/appointments'
+          : '/health-care/schedule-view-va-appointments/appointments/';
     },
     status: 'info',
   };
 
   return <CallToActionAlert {...content} />;
+};
+
+VAOnlineScheduling.propTypes = {
+  featureToggles: PropTypes.object,
 };
 
 export default VAOnlineScheduling;

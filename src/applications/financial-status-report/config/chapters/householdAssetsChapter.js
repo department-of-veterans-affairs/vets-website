@@ -49,7 +49,7 @@ export default {
       },
       streamlinedShortTransitionPage: {
         // Transition page - streamlined short form only
-        path: 'transition-page',
+        path: 'skip-questions-explainer',
         title: ' ',
         CustomPage: StreamlinedExplainer,
         CustomPageReview: null,

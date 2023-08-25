@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { beforeEach } from 'mocha';
 import reducer from '../../reducers';
 import PathologyDetails from '../../components/LabsAndTests/PathologyDetails';
 import pathology from '../fixtures/pathology.json';
@@ -15,27 +16,26 @@ describe('Pathology details component', () => {
     },
   };
 
-  const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(
       <PathologyDetails
         record={convertLabsAndTestsRecord(pathology)}
-        fullState={state}
+        fullState={initialState}
       />,
       {
-        initialState: state,
+        initialState,
         reducers: reducer,
         path: '/labs-and-tests/125',
       },
     );
-  };
+  });
 
   it('renders without errors', () => {
-    const screen = setup();
     expect(screen);
   });
 
   it('should display the test name', () => {
-    const screen = setup();
     const header = screen.getAllByText('LR SURGICAL PATHOLOGY REPORT', {
       exact: true,
       selector: 'h1',
@@ -44,8 +44,6 @@ describe('Pathology details component', () => {
   });
 
   it('should display the formatted date', () => {
-    const screen = setup();
-
     const formattedDate = screen.getAllByText('August', {
       exact: false,
       selector: 'p',
@@ -54,7 +52,6 @@ describe('Pathology details component', () => {
   });
 
   it('should display the lab results', () => {
-    const screen = setup();
     const results = screen.getByText('Pathologist:SEETHA SURYAPRASAD', {
       exact: false,
       selector: 'p',
