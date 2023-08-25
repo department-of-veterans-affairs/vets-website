@@ -24,40 +24,46 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
   const [isEditing, setIsEditing] = useState(!isReviewMode);
   const [hasDependentsChanged, setHasDependentsChanged] = useState(false);
 
-  useEffect(() => {
-    const shouldInitializeDependents =
-      !stateDependents.length ||
-      stateDependents.length !== parseInt(hasDependents, 10);
+  useEffect(
+    () => {
+      const shouldInitializeDependents =
+        !stateDependents.length ||
+        stateDependents.length !== parseInt(hasDependents, 10);
 
-    if (shouldInitializeDependents) {
-      const addDependents = Array.from(
-        { length: parseInt(hasDependents, 10) },
-        (_, i) => stateDependents[i] || { dependentAge: '' },
-      );
-      setStateDependents(addDependents);
-      setErrors(Array(addDependents.length).fill(null));
-      dispatch(
-        setData({
-          ...formData,
-          personalData: {
-            ...formData.personalData,
-            dependents: addDependents,
-          },
-        }),
-      );
-      if (isReviewMode) {
-        setHasDependentsChanged(true);
-      } else {
-        setHasDependentsChanged(false); // Reset the hasDependentsChanged state variable
+      if (shouldInitializeDependents) {
+        const addDependents = Array.from(
+          { length: parseInt(hasDependents, 10) },
+          (_, i) => stateDependents[i] || { dependentAge: '' },
+        );
+        setStateDependents(addDependents);
+        setErrors(Array(addDependents.length).fill(null));
+        dispatch(
+          setData({
+            ...formData,
+            personalData: {
+              ...formData.personalData,
+              dependents: addDependents,
+            },
+          }),
+        );
+        if (isReviewMode) {
+          setHasDependentsChanged(true);
+        } else {
+          setHasDependentsChanged(false); // Reset the hasDependentsChanged state variable
+        }
       }
-    }
-  }, [dispatch, hasDependents, isReviewMode, formData, stateDependents]);
+    },
+    [dispatch, hasDependents, isReviewMode, formData, stateDependents],
+  );
 
-  useEffect(() => {
-    if (isReviewMode) {
-      setIsEditing(hasDependentsChanged);
-    }
-  }, [isReviewMode, hasDependentsChanged]);
+  useEffect(
+    () => {
+      if (isReviewMode) {
+        setIsEditing(hasDependentsChanged);
+      }
+    },
+    [isReviewMode, hasDependentsChanged],
+  );
 
   const updateDependents = useCallback(
     (target, i) => {
@@ -86,10 +92,11 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
     if (errors.some(error => error !== null) || hasEmptyInput) {
       event.preventDefault(); // Prevent the form from being submitted when there are errors
       if (hasEmptyInput) {
-        const newErrors = stateDependents.map((dependent, i) =>
-          dependent.dependentAge === ''
-            ? 'Please enter your dependent(s) age.'
-            : errors[i],
+        const newErrors = stateDependents.map(
+          (dependent, i) =>
+            dependent.dependentAge === ''
+              ? 'Please enter your dependent(s) age.'
+              : errors[i],
         );
         setErrors(newErrors);
       }
@@ -173,8 +180,9 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
       ? 'form-review-panel-page-header vads-u-font-size--h5'
       : 'vads-u-margin--0';
 
-  let dependentAgeInputs = stateDependents.map((dependent, i) =>
-    isEditing ? renderAgeInput(dependent, i) : renderAgeText(dependent, i),
+  let dependentAgeInputs = stateDependents.map(
+    (dependent, i) =>
+      isEditing ? renderAgeInput(dependent, i) : renderAgeText(dependent, i),
   );
 
   if (!isEditing) {
@@ -194,16 +202,17 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
           }`}
         >
           <HeaderTag className={className}>Dependents ages</HeaderTag>
-          {isReviewMode && !isEditing && (
-            <ReviewControl
-              // readOnly
-              position="header"
-              isEditing={false}
-              onEditClick={handlers.toggleEditing}
-              ariaLabel={`Edit ${DEPENDENT_AGE_LABELS[1]}`}
-              buttonText="Edit"
-            />
-          )}
+          {isReviewMode &&
+            !isEditing && (
+              <ReviewControl
+                // readOnly
+                position="header"
+                isEditing={false}
+                onEditClick={handlers.toggleEditing}
+                ariaLabel={`Edit ${DEPENDENT_AGE_LABELS[1]}`}
+                buttonText="Edit"
+              />
+            )}
           {!isReviewMode ? (
             <>
               <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
