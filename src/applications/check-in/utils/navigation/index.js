@@ -86,7 +86,6 @@ const URLS = Object.freeze({
   COMPLETE: 'complete',
   DETAILS: 'details',
   VALIDATION_NEEDED: 'verify',
-  LOADING: 'loading-appointments',
   TRAVEL_QUESTION: 'travel-pay',
   TRAVEL_VEHICLE: 'travel-vehicle',
   TRAVEL_ADDRESS: 'travel-address',
