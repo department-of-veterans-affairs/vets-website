@@ -54,7 +54,7 @@ const getRecentlyClosedClaims = claims => {
       // if it was closed more than 30 days ago
       return (
         isClosed &&
-        moment(dateClosed)
+        moment(dateClosed || null)
           .startOf('day')
           .isAfter(
             moment()
@@ -98,7 +98,7 @@ const getClaimDate = claim => {
 };
 // END lighthouse_migration
 
-const formatDate = date => moment(date).format('MMMM D, YYYY');
+const formatDate = date => moment(date || null).format('MMMM D, YYYY');
 
 const getLinkText = claim => {
   const claimType = isAppeal(claim)
