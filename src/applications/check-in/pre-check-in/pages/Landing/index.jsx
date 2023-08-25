@@ -9,7 +9,7 @@ import { api } from '../../../api';
 import { createInitFormAction } from '../../../actions/navigation';
 import { createSetSession } from '../../../actions/authentication';
 
-import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useStorage } from '../../../hooks/useStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 
@@ -28,10 +28,10 @@ const Index = props => {
 
   const { jumpToPage } = useFormRouting(router);
   const {
-    clearCurrentSession,
+    clearCurrentStorage,
     setPreCheckinComplete,
     setCurrentToken,
-  } = useSessionStorage();
+  } = useStorage();
 
   const [loadMessage] = useState(t('finding-your-appointment-information'));
   const [sessionCallMade, setSessionCallMade] = useState(false);
@@ -74,7 +74,7 @@ const Index = props => {
               // if successful, dispatch session data  into redux and current window
 
               if (session.error || session.errors) {
-                clearCurrentSession(window);
+                clearCurrentStorage(window);
                 updateError('session-error');
               } else {
                 setCurrentToken(window, token);
@@ -94,7 +94,7 @@ const Index = props => {
             })
             .catch(e => {
               // @TODO move clear current session to hook or HOC
-              clearCurrentSession(window);
+              clearCurrentStorage(window);
               if (e?.errors[0]?.status === '404') {
                 updateError('uuid-not-found');
               } else {
@@ -105,7 +105,7 @@ const Index = props => {
       }
     },
     [
-      clearCurrentSession,
+      clearCurrentStorage,
       dispatch,
       initForm,
       jumpToPage,
