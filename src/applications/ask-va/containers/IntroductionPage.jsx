@@ -5,8 +5,8 @@ import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import DashboardCards from './DashboardCards';
 
 const IntroductionPage = props => {
   const { route, loggedIn, profile } = props;
@@ -31,6 +31,7 @@ const IntroductionPage = props => {
       >
         Please complete the XX-230 form to apply for ask the va test.
       </SaveInProgressIntro>
+      <DashboardCards />
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         {loggedIn ? profile.userFullName.first : 'Hello'}, follow the steps
         below to apply for ask the va test.

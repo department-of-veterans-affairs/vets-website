@@ -1,0 +1,39 @@
+{
+  "data": [
+    {
+      "id": "2298160",
+      "type": "triage_teams",
+      "attributes": {
+        "triageTeamId": 2298160,
+        "name": "Dimitar's TG",
+        "relationType": "PATIENT",
+        "preferredTeam": true
+      }
+    },
+    {
+      "id": "2142750",
+      "type": "triage_teams",
+      "attributes": {
+        "triageTeamId": 2142750,
+        "name": "SM Clinician Redesign TG***01_SLC10",
+        "relationType": "PATIENT",
+        "preferredTeam": true
+      }
+    },
+    {
+      "id": "1899698",
+      "type": "triage_teams",
+      "attributes": {
+        "triageTeamId": 1899698,
+        "name": "SM_CERNER_SLC10",
+        "relationType": "PATIENT",
+        "preferredTeam": true
+      }
+    }
+  ],
+  "meta": {
+    "sort": {
+      "name": "ASC"
+    }
+  }
+}
