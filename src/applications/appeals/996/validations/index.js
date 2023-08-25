@@ -1,4 +1,5 @@
-import { errorMessages, SELECTED } from '../constants';
+import { errorMessages } from '../constants';
+import { SELECTED } from '../../shared/constants';
 
 export const requireRatedDisability = (err, fieldData) => {
   if (!fieldData.some(entry => entry[SELECTED])) {

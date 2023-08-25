@@ -13,7 +13,7 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
     site.login();
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/7038175',
+      '/my_health/v1/messaging/folders/7038175*',
       customFolder,
     ).as('test2Folder');
     landingPage.loadInboxMessages();

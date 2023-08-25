@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { SELECTED } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 import { getDate } from '../../utils/dates';
 
 import {

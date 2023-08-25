@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../../constants';
+import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../../../shared/constants';
 import {
   copyAreaOfDisagreementOptions,
   calculateOtherMaxLength,

@@ -148,6 +148,21 @@ const useSessionStorage = (isPreCheckIn = true) => {
     [SESSION_STORAGE_KEYS],
   );
 
+  const setTravelPaySent = useCallback(
+    (window, value) => {
+      setSessionKey(window, SESSION_STORAGE_KEYS.TRAVELPAY_SENT, value);
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
+  const getTravelPaySent = useCallback(
+    window => {
+      const value = getSessionKey(window, SESSION_STORAGE_KEYS.TRAVELPAY_SENT);
+      return value || {};
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
   return {
     clearCurrentSession,
     setCurrentToken,
@@ -164,6 +179,8 @@ const useSessionStorage = (isPreCheckIn = true) => {
     getProgressState,
     setPermissions,
     getPermissions,
+    setTravelPaySent,
+    getTravelPaySent,
   };
 };
 

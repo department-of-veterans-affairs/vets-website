@@ -253,8 +253,8 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       // fire/execute
       const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
       const activity = {
-        type: 'message',
-        text: 'You are now in the Prescriptions Bot.',
+        type: 'event',
+        name: 'RX_Skill_Entry',
         from: { role: 'bot' },
       };
       const rxActivity = {
@@ -282,8 +282,8 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
     it('should update the session storage RX key to false upon exiting the RX skill and dispatch an RxSkill event ', async () => {
       const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
       const activity = {
-        type: 'message',
-        text: 'Returning to the main chatbot...',
+        type: 'event',
+        name: 'RX_Skill_Exit',
         from: { role: 'bot' },
       };
       const rxActivity = {
@@ -306,6 +306,30 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       const entrySkillEvent = spyDispatchEvent.secondCall.args[0];
       expect(isRxSkillSessionStorageSet).to.equal('false');
       expect(entrySkillEvent.type).to.equal('rxSkill');
+    });
+    it('should not trigger rx skill session storage due to null event', async () => {
+      const activity = {
+        type: 'event',
+        name: null,
+        from: { role: 'bot' },
+      };
+      const rxActivity = {
+        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+        payload: { activity },
+      };
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+      )(store)(fakeNext)(rxActivity);
+      // tests
+      const isRxSkillSessionStorageSet = await sessionStorage.getItem(
+        IS_RX_SKILL,
+      );
+      expect(isRxSkillSessionStorageSet).to.equal(null);
     });
   });
 });
