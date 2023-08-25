@@ -28,16 +28,13 @@ describe('verify navigation to medication details Page', () => {
       mockPrescriptionDetails.data.attributes.facilityName,
     );
 
-    detailsPage.verifyPrescriptionsorderedDate(
-      mockPrescriptionDetails.data.attributes.orderedDate,
-    );
+    detailsPage.verifyPrescriptionsorderedDate();
 
     detailsPage.verifyPrescriptionsquantity(
       mockPrescriptionDetails.data.attributes.quantity,
     );
-    detailsPage.verifyPrescriptionsexpirationDate(
-      mockPrescriptionDetails.data.attributes.expirationDate,
-    );
+    detailsPage.verifyPrescriptionsexpirationDate();
+
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

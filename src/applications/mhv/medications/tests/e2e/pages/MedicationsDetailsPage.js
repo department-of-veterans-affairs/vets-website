@@ -40,17 +40,17 @@ class MedicationsDetailsPage {
     );
   };
 
-  verifyPrescriptionsexpirationDate = PrescriptionsexpirationDate => {
+  verifyPrescriptionsexpirationDate = () => {
     cy.get('.vads-u-margin-top--2 > :nth-child(13)').should(
       'have.text',
-      PrescriptionsexpirationDate,
+      'April 14, 2024',
     );
   };
 
-  verifyPrescriptionsorderedDate = PrescriptionsorderedDate => {
+  verifyPrescriptionsorderedDate = () => {
     cy.get('.vads-u-margin-top--2 > :nth-child(11)').should(
       'have.text',
-      PrescriptionsorderedDate,
+      'April 14, 2023',
     );
   };
 
