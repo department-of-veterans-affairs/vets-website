@@ -22,6 +22,7 @@ const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
     myVaUseExperimental: true,
     myVaUseLighthouseClaims: true,
+    myVaNotificationDotIndicator: true,
     myVaUpdateErrorsWarnings: true,
     vaOnlineSchedulingBreadcrumbUrlUpdate: true,
   }),
