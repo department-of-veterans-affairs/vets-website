@@ -132,7 +132,7 @@ ConfirmablePage.propTypes = {
   header: PropTypes.string.isRequired,
   noAction: PropTypes.func.isRequired,
   yesAction: PropTypes.func.isRequired,
-  additionalInfo: PropTypes.string,
+  additionalInfo: PropTypes.object,
   eyebrow: PropTypes.string,
   pageType: PropTypes.string,
   router: PropTypes.object,
