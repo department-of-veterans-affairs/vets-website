@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { createSessionStorageKeys } from './index';
+import { createStorageKeys } from './index';
 
 describe('check in', () => {
   describe('session storage utils', () => {
     describe('createSessionStorageKeys', () => {
       it('creates objects with the pre-check-in names', () => {
-        const keys = createSessionStorageKeys({ isPreCheckIn: true });
+        const keys = createStorageKeys({ isPreCheckIn: true });
         expect(keys).to.deep.equal({
           CURRENT_UUID: 'health.care.pre.check.in.current.uuid',
           COMPLETE: 'health.care.pre.check.in.complete',
@@ -17,7 +17,7 @@ describe('check in', () => {
         });
       });
       it('creates objects with the check-in names', () => {
-        const keys = createSessionStorageKeys({ isPreCheckIn: false });
+        const keys = createStorageKeys({ isPreCheckIn: false });
         expect(keys).to.deep.equal({
           CURRENT_UUID: 'health.care.check-in.current.uuid',
           COMPLETE: 'health.care.check-in.complete',
