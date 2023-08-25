@@ -9,6 +9,14 @@
       {
         "name": "mhv_landing_page_enabled",
         "value": true
+      },
+      {
+        "name": "mhvMedicationsToVaGovRelease",
+        "value": true
+      },
+      {
+        "name": "mhv_medications_to_va_gov_release",
+        "value": true
       }
     ]
   }

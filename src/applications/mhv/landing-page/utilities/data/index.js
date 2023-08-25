@@ -2,6 +2,7 @@ import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utili
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
 // Link objects with an `oldHref` need to be resolved via resolveToggleLink or resolveLinkCollection
 // Links with only an href should be links to Va.gov pages and shouldn't need resolving
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 
 const hasOwn = (object, prop) =>
   Object.prototype.hasOwnProperty.call(object, prop);
@@ -19,7 +20,9 @@ const resolveToggleLink = (link, featureToggles) => {
 };
 
 const resolveLinkCollection = (links, featureToggles) =>
-  links.map(l => resolveToggleLink(l, featureToggles));
+  links
+    .map(l => resolveToggleLink(l, featureToggles))
+    .filter(link => !!link.href || !!link.text);
 
 const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
   // Appointments section points to VAOS on va.gov
@@ -71,19 +74,31 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, 'prescription_refill'),
         text: 'Refill VA prescriptions',
-        toggle: null,
+        toggle: FEATURE_FLAG_NAMES.mhvMedicationsToVaGovRelease,
       },
       {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, '/prescription-tracking'),
         text: 'Track prescription delivery',
-        toggle: null,
+        toggle: FEATURE_FLAG_NAMES.mhvMedicationsToVaGovRelease,
       },
       {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, '/my-complete-medications-list'),
         text: 'Medications and allergies',
-        toggle: null,
+        toggle: FEATURE_FLAG_NAMES.mhvMedicationsToVaGovRelease,
+      },
+      {
+        href: '/my-health/medications',
+        oldHref: null,
+        text: 'About Medications',
+        toggle: FEATURE_FLAG_NAMES.mhvMedicationsToVaGovRelease,
+      },
+      {
+        href: '/my-health/medications/prescriptions',
+        oldHref: null,
+        text: 'Prescriptions',
+        toggle: FEATURE_FLAG_NAMES.mhvMedicationsToVaGovRelease,
       },
     ],
     featureToggles,
