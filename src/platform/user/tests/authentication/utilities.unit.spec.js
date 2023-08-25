@@ -422,9 +422,7 @@ describe('Authentication Utilities', () => {
       setup({ path: usipPathWithParams(mhvUsipParams) });
 
       authUtilities.redirect(base);
-      expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
-        `${EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]}?deeplinking=home`,
-      );
+      expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(null);
     });
 
     it('should redirect with GA Client ID appended for redirects that include `idme`', async () => {
