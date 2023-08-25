@@ -1,6 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Custom Folder AXE Check', () => {
   beforeEach(() => {
@@ -12,7 +13,7 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
   });
   it('Axe Check Custom Folder List', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -23,7 +24,7 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
 
   it('Verify folder header', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -36,7 +37,7 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
 
   it('Check sorting works properly', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

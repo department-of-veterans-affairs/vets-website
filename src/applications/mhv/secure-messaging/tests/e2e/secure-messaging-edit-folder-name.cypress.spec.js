@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import customFolderMessage from './fixtures/messages-response.json';
 import customFolder from './fixtures/folder-custom-metadata.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Custom Folder Edit Folder Name Message Validation', () => {
   it('Axe Check Custom Folder List', () => {
@@ -37,7 +38,7 @@ describe('Secure Messaging Custom Folder Edit Folder Name Message Validation', (
     );
 
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

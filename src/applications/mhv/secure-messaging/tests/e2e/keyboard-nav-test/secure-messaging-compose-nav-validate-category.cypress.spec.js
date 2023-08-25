@@ -1,6 +1,7 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientInterstitialPage from '../pages/PatientInterstitialPage';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Validate the category', () => {
   it('selects a category', () => {
@@ -27,7 +28,7 @@ describe('Validate the category', () => {
       'have.focus',
     );
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

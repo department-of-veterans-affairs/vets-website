@@ -1,5 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Keyboard Nav To Compose', () => {
   const site = new SecureMessagingSite();
@@ -12,7 +13,7 @@ describe('Secure Messaging Keyboard Nav To Compose', () => {
     cy.tabToElement('[data-testid="compose-message-link"]');
     cy.realPress(['Enter']);
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

@@ -1,5 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('SM main page', () => {
   beforeEach(() => {
@@ -10,7 +11,7 @@ describe('SM main page', () => {
 
   it('axe check', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

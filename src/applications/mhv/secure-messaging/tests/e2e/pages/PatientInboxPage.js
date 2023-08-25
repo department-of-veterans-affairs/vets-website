@@ -10,6 +10,7 @@ import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
+import { AXE_CONTEXT } from '../utils/constants';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -288,7 +289,7 @@ class PatientInboxPage {
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     if (doAxeCheck) {
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,

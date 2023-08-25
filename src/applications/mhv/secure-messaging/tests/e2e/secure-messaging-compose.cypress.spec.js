@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import requestBody from './fixtures/message-compose-request-body.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Compose', () => {
   it('can send message', () => {
@@ -17,7 +18,7 @@ describe('Secure Messaging Compose', () => {
     composePage.getMessageBodyField().type(`${requestBody.body}`);
     composePage.sendMessage(requestBody);
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

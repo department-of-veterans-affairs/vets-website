@@ -4,6 +4,7 @@ import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json'
 import mockDeletedFolderMetaResponse from './fixtures/trashResponse/folder-deleted-metadata.json';
 import mockSentFolderMetaResponse from './fixtures/sentResponse/folder-sent-metadata.json';
 import PatientComposePage from './pages/PatientComposePage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   const landingPage = new PatientInboxPage();
@@ -15,7 +16,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -38,7 +39,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -65,7 +66,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -92,7 +93,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -119,7 +120,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

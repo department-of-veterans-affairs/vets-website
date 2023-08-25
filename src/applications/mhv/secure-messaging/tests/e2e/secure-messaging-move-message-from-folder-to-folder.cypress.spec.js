@@ -8,6 +8,7 @@ import mockCustomDetails from './fixtures/custom-response.json';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import mockMessages from './fixtures/messages-response.json';
 import mockMessagewithAttachment from './fixtures/message-response-withattachments.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Move Message tests', () => {
   it('move message from custom folder', () => {
@@ -32,7 +33,7 @@ describe('Secure Messaging Move Message tests', () => {
 
     folderPage.verifyMoveMessageSuccessConfirmationFocus();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -56,7 +57,7 @@ describe('Secure Messaging Move Message tests', () => {
 
     folderPage.verifyMoveMessageSuccessConfirmationFocus();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

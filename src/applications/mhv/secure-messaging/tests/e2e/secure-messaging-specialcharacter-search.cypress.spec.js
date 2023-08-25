@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientBasicSearchPage from './pages/PatientBasicSearchPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Basic Search Tests', () => {
   const basicSearchPage = new PatientBasicSearchPage();
@@ -22,7 +23,7 @@ describe('Secure Messaging Basic Search Tests', () => {
     basicSearchPage.verifyHighlightedText(searchText);
 
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -38,7 +39,7 @@ describe('Secure Messaging Basic Search Tests', () => {
     basicSearchPage.verifyHighlightedText(searchText);
     cy.injectAxe();
 
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

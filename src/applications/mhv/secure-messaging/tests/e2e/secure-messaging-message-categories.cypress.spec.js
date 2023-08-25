@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import mockMessages from './fixtures/messages-response.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Compose Categories', () => {
   const landingPage = new PatientInboxPage();
@@ -18,7 +19,7 @@ describe('Secure Messaging Compose Categories', () => {
     landingPage.loadInboxMessages();
 
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -31,7 +32,7 @@ describe('Secure Messaging Compose Categories', () => {
     landingPage.navigateToComposePage();
     composePage.enterComposeMessageDetails('General');
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -44,7 +45,7 @@ describe('Secure Messaging Compose Categories', () => {
     landingPage.navigateToComposePage();
     composePage.enterComposeMessageDetails('COVID');
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -57,7 +58,7 @@ describe('Secure Messaging Compose Categories', () => {
     landingPage.navigateToComposePage();
     composePage.enterComposeMessageDetails('Appointment');
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -69,7 +70,7 @@ describe('Secure Messaging Compose Categories', () => {
     landingPage.navigateToComposePage();
     composePage.enterComposeMessageDetails('Medication');
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -81,7 +82,7 @@ describe('Secure Messaging Compose Categories', () => {
     landingPage.navigateToComposePage();
     composePage.enterComposeMessageDetails('Test');
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -94,7 +95,7 @@ describe('Secure Messaging Compose Categories', () => {
     landingPage.navigateToComposePage();
     composePage.enterComposeMessageDetails('Education');
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

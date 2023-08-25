@@ -1,5 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe.skip('Secure Messaging Compose', () => {
   it.skip('can send message', () => {
@@ -16,7 +17,7 @@ describe.skip('Secure Messaging Compose', () => {
     cy.get('[data-testid="inbox-sidebar"] > a').click();
 
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

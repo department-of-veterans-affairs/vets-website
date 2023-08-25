@@ -4,6 +4,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 import mockMessages from './fixtures/messages-response.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 // have to be refactored. skipped for now
 describe.skip('Secure Messaging Reply', () => {
@@ -24,7 +25,7 @@ describe.skip('Secure Messaging Reply', () => {
     const testMessageBody = 'Test message body';
     replyPage.getMessageBodyField().type(testMessageBody, { force: true });
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -64,7 +65,7 @@ describe.skip('Secure Messaging Reply', () => {
       testMessageBody,
     );
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

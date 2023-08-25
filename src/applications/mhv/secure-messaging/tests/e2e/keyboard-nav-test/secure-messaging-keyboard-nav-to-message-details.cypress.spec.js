@@ -3,6 +3,7 @@ import PatientMessageDetailsPage from '../pages/PatientMessageDetailsPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockMessagewithAttachment from '../fixtures/message-response-withattachments.json';
 import mockMessages from '../fixtures/messages-response.json';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Navigate to Message Details ', () => {
   it('Keyboard Navigation to Print Button', () => {
@@ -25,7 +26,7 @@ describe('Navigate to Message Details ', () => {
       'Trash',
     );
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

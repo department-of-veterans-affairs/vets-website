@@ -5,6 +5,7 @@ import mockMessages from './fixtures/messages-response.json';
 import mockRecipients from './fixtures/recipients-response.json';
 import MockCustomFolderResponse from './fixtures/folder-custom-metadata.json';
 import FolderManagementPage from './pages/FolderManagementPage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Manage Folder Errors check', () => {
   const folderPage = new FolderManagementPage();
@@ -24,7 +25,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     );
     cy.get('[data-testid="my-folders-sidebar"]').click({ force: true });
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -58,7 +59,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
       .find('[type="button"]')
       .click();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -89,7 +90,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     folderPage.createFolderModalButton().click();
     folderPage.verifyCreateFolderNetworkFailureMessage();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -103,7 +104,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     folderPage.createANewFolderButton().click();
     folderPage.createFolderModalButton().click();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
