@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import useLastWord from '../useLastWord';
 
 const IconCTALink = ({
@@ -14,6 +14,7 @@ const IconCTALink = ({
   newTab,
   // optional data-testid HTML attribute
   testId,
+  dotIndicator,
 }) => {
   const [lastWord, firstWords] = useLastWord(text);
 
@@ -54,6 +55,18 @@ const IconCTALink = ({
             ) : null}
           </span>
         </span>
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaNotificationDotIndicator}>
+          <Toggler.Enabled>
+            {dotIndicator ? (
+              <span className="fa-stack fa-sm vads-u-height--full vads-u-margin-left--1">
+                <i
+                  aria-hidden="true"
+                  className="fas fa-xs fa-stack-1x vads-u-height--full fa-circle vads-u-color--secondary-dark"
+                />
+              </span>
+            ) : null}
+          </Toggler.Enabled>
+        </Toggler>
       </span>
     </a>
   );
@@ -62,6 +75,7 @@ const IconCTALink = ({
 IconCTALink.propTypes = {
   ariaLabel: PropTypes.string,
   boldText: PropTypes.bool,
+  dotIndicator: PropTypes.bool,
   href: PropTypes.string,
   icon: PropTypes.string,
   newTab: PropTypes.bool,

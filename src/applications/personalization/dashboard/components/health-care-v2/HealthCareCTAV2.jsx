@@ -44,8 +44,9 @@ const HealthCareCTAV2 = ({
         <>
           {(hasInboxError || unreadMessagesCount === 0) && (
             <IconCTALink
-              text="Send a secure message to your health care team"
+              text="Go to inbox"
               icon="comments"
+              dotIndicator
               href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
               testId="view-your-messages-link-from-cta"
               onClick={() =>
