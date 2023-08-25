@@ -8,7 +8,7 @@ describe('Medications Details Page Breadcrumbs', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
-    cy.visit('my-health/medications/');
+    cy.visit('my-health/about-medications/');
     site.login();
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
