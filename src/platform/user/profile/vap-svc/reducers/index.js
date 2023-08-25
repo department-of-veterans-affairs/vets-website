@@ -176,7 +176,7 @@ export default function vapService(state = initialState, action) {
       return {
         ...state,
         metadata,
-        transactionsAwaitingUpdate: state.transactionsAwaitingUpdate.filter(
+        transactionsAwaitingUpdate: state.transactionsAwaitingUpdate?.filter(
           tid => tid !== updatedTransactionId,
         ),
         transactions: state.transactions.map(
@@ -193,7 +193,7 @@ export default function vapService(state = initialState, action) {
       const { transactionId } = action.transaction.data.attributes;
       return {
         ...state,
-        transactionsAwaitingUpdate: state.transactionsAwaitingUpdate.filter(
+        transactionsAwaitingUpdate: state.transactionsAwaitingUpdate?.filter(
           tid => tid !== transactionId,
         ),
       };
@@ -252,10 +252,10 @@ export default function vapService(state = initialState, action) {
       return {
         ...state,
         metadata,
-        transactions: state.transactions.filter(
+        transactions: state.transactions?.filter(
           t => t.data.attributes.transactionId !== finishedTransactionId,
         ),
-        transactionsAwaitingUpdate: state.transactionsAwaitingUpdate.filter(
+        transactionsAwaitingUpdate: state.transactionsAwaitingUpdate?.filter(
           tid => tid !== finishedTransactionId,
         ),
         modal: null,
