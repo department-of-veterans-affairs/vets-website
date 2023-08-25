@@ -1,5 +1,7 @@
 import React from 'react';
 
+import environment from 'platform/utilities/environment';
+
 import { FileField } from 'platform/forms-system/src/js/fields/FileField';
 
 /** @type {PageSchema} */
@@ -50,10 +52,30 @@ export default {
       'ui:title': 'Upload files',
       'ui:field': FileField,
       'ui:options': {
-        hideTitle: false,
-        buttonText: 'Upload file',
-        fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
         hideLabelText: false,
+        showFieldLabel: true,
+        buttonText: 'Upload file',
+        addAnotherLabel: 'Upload another file',
+        attachmentType: {
+          'ui:title': 'File type',
+        },
+        attachmentDescription: {
+          'ui:title': 'Document description',
+        },
+        // TODO: Sync with b/e to determine proper URL
+        fileUploadUrl: `${environment.API_URL}/v0/simple-forms/40-0247/files`,
+        fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+        createPayload: file => {
+          const payload = new FormData();
+          payload.append('file', file);
+          return payload;
+        },
+        parseResponse: fileInfo => ({
+          name: fileInfo.data.attributes.name,
+          size: fileInfo.data.attributes.size,
+          confirmationCode: fileInfo.data.attributes.confirmationCode,
+        }),
+        classNames: 'schemaform-file-upload',
       },
     },
   },
