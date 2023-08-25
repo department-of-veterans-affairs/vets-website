@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import omit from 'platform/utilities/data/omit';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
