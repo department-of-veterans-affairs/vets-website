@@ -67,7 +67,9 @@ const EmploymentQuestion = props => {
       );
     };
 
-    fetchData();
+    if (data['view:streamlinedWaiver']) {
+      fetchData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
