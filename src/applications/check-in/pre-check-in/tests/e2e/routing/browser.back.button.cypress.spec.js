@@ -41,7 +41,7 @@ describe('Pre-Check In Experience ', () => {
     cy.injectAxeThenAxeCheck();
     ValidateVeteran.attemptToGoToNextPage();
 
-    // page: Introduction
+    // page: Appointments
     AppointmentsPage.validatePageLoaded();
     AppointmentsPage.attemptPreCheckIn();
 

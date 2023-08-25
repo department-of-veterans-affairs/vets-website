@@ -2,7 +2,6 @@ import '../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import Introduction from '../pages/Introduction';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
@@ -42,10 +41,10 @@ describe('Pre-Check In Experience ', () => {
 
     ValidateVeteran.attemptToGoToNextPage();
 
-    // page: Introduction
-    AppointmentsPage.attemptPreCheckIn();
+    // page: Appointments
+    AppointmentsPage.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-    Introduction.attemptToGoToNextPage();
+    AppointmentsPage.attemptPreCheckIn();
 
     // page: Demographics
     Demographics.validatePageLoaded();
