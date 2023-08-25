@@ -21,7 +21,9 @@ export class ConfirmationPage extends React.Component {
     const { submission, formId, data } = form;
     const issues = getSelected(data || []).map((issue, index) => (
       <li key={index} className="vads-u-margin-bottom--0">
-        <span className="dd-privacy-hidden">{getIssueName(issue)}</span>
+        <span className="dd-privacy-hidden" data-dd-action-name="issue name">
+          {getIssueName(issue)}
+        </span>
       </li>
     ));
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
@@ -50,9 +52,14 @@ export class ConfirmationPage extends React.Component {
             Request a Board Appeal{' '}
             <span className="additional">(Form {formId})</span>
           </h3>
-          for <span className="dd-privacy-hidden">{fullName}</span>
+          for{' '}
+          <span className="dd-privacy-hidden" data-dd-action-name="full name">
+            {fullName}
+          </span>
           {name.suffix && (
-            <span className="dd-privacy-hidden">{`, ${name.suffix}`}</span>
+            <span className="dd-privacy-hidden" data-dd-action-name="suffix">
+              {`, ${name.suffix}`}
+            </span>
           )}
           {submitDate.isValid() && (
             <p>
@@ -99,7 +106,7 @@ export class ConfirmationPage extends React.Component {
         <br role="presentation" />
         <a
           href="/claim-or-appeal-status/"
-          className="usa-button usa-button-primary"
+          className="vads-c-action-link--green"
           aria-describedby="delay-note"
         >
           Check the status of your appeal
@@ -119,10 +126,14 @@ ConfirmationPage.propTypes = {
     data: PropTypes.shape({}),
     formId: PropTypes.string,
     submission: PropTypes.shape({
-      timestamp: PropTypes.string,
+      timestamp: PropTypes.instanceOf(Date),
     }),
   }),
-  name: PropTypes.string,
+  name: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
+  }),
 };
 
 function mapStateToProps(state) {
