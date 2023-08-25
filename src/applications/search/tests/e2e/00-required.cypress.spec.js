@@ -11,28 +11,19 @@ const SELECTORS = {
 };
 
 const enableDropdownComponent = () => {
-  cy.route({
-    method: 'GET',
-    status: 200,
-    url: '/v0/feature_toggles*',
-    response: {
-      data: {
-        features: [
-          {
-            name: 'search_dropdown_component_enabled',
-            value: true,
-          },
-        ],
-      },
+  cy.intercept('GET', '/v0/feature_toggles*', {
+    data: {
+      features: [
+        {
+          name: 'search_dropdown_component_enabled',
+          value: true,
+        },
+      ],
     },
   });
 };
 
 describe('Sitewide Search smoke test', () => {
-  beforeEach(function() {
-    cy.server();
-  });
-
   it('successfully searches and renders results from the global search', () => {
     enableDropdownComponent();
     cy.intercept('GET', '/v0/search?query=benefits', {
