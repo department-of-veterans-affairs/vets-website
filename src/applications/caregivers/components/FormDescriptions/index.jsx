@@ -183,6 +183,14 @@ export const VeteranFullNameDescription = (
     </span>
   </>
 );
+export const CaregiverFullNameDescription = (
+  <>
+    <span className="vads-u-display--block vads-u-color--gray-medium">
+      Enter the name on the Caregiver’s government-issued ID, like a driver’s
+      license or passport
+    </span>
+  </>
+);
 
 export const VeteranHomeAddressDescription = (
   <>

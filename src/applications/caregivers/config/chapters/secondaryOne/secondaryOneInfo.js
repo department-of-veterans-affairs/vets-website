@@ -4,14 +4,25 @@ import { secondaryOnePageIntro } from '../../../definitions/content';
 import {
   dateOfBirthUI,
   fullNameUI,
+  customFullNameUI,
   genderUI,
   ssnUI,
 } from '../../../definitions/UIDefinitions/sharedUI';
 import { secondaryOneInputLabel } from '../../../definitions/UIDefinitions/caregiverUI';
+import { CaregiverFullNameDescription } from '../../../components/FormDescriptions';
 import SecondaryCaregiverDescription from '../../../components/FormDescriptions/SecondaryCaregiverDescription';
 
 const { secondaryCaregiverOne } = fullSchema.properties;
 const secondaryCaregiverOneProps = secondaryCaregiverOne.properties;
+// Initialize fullNameUI with originalUI
+let extendedNameUI = fullNameUI(secondaryOneInputLabel);
+// Add/replace whatever key/values needed
+extendedNameUI = customFullNameUI(
+  extendedNameUI,
+  'first',
+  'ui:description',
+  CaregiverFullNameDescription,
+);
 
 const secondaryCaregiverInfoPage = {
   uiSchema: {
@@ -20,7 +31,7 @@ const secondaryCaregiverInfoPage = {
       showPageIntro: true,
     }),
     // secondaryOne UI
-    [secondaryOneFields.fullName]: fullNameUI(secondaryOneInputLabel),
+    [secondaryOneFields.fullName]: extendedNameUI,
     [secondaryOneFields.ssn]: ssnUI(secondaryOneInputLabel),
     [secondaryOneFields.dateOfBirth]: dateOfBirthUI(secondaryOneInputLabel),
     [secondaryOneFields.gender]: genderUI(secondaryOneInputLabel),
