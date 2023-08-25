@@ -63,8 +63,7 @@ describe('Check In Experience -- ', () => {
         window.sessionStorage.clear();
       });
     });
-    // Skipping for now
-    it.skip('Veterans may refresh their appointments', () => {
+    it('Veterans may refresh their appointments', () => {
       Appointments.validateAppointmentLength(3);
       Appointments.validateAppointmentTime(3, '6:00 p.m.');
       Appointments.validateUpdateDate();

@@ -52,8 +52,7 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    // Skipped: not sure how this ever passed.
-    it.skip('Eligible appointment details page content loads', () => {
+    it('Eligible appointment details page content loads', () => {
       Confirmation.validatePageLoaded();
       Confirmation.clickDetails();
       AppointmentDetails.validatePageLoadedInPerson();
