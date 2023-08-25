@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import '../sass/medications.scss';
 import { medicationsUrls } from '../util/constants';
 
 const LandingPage = () => {
