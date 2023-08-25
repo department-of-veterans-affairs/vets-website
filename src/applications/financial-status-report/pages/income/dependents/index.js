@@ -1,5 +1,6 @@
 import React from 'react';
 import DependentExplainer from '../../../components/household/DependentExplainer';
+import { validateIsNumber } from '../../../utils/validations';
 
 export const uiSchema = {
   'ui:title': 'Your dependents',
@@ -56,6 +57,7 @@ export const uiSchemaEnhanced = {
       'ui:errorMessages': {
         required: 'Please enter your dependent(s) information.',
       },
+      'ui:validations': [validateIsNumber],
     },
   },
   'view:components': {
