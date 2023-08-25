@@ -351,10 +351,6 @@ export const deriveEventLocations = event => {
     return locations;
   }
 
-  // if (event?.fieldLocationHumanreadable) {
-  //   locations.push(event?.fieldLocationHumanreadable);
-  // }
-
   if (event?.fieldFacilityLocation?.entity?.fieldAddress) {
     const fieldFacilityEntity = event?.fieldFacilityLocation?.entity;
     if (fieldFacilityEntity?.fieldAddress?.addressLine1) {
