@@ -2,7 +2,8 @@ import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberW
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
-import { errorMessages, MAX_LENGTH } from '../constants';
+import { errorMessages } from '../constants';
+import { MAX_LENGTH } from '../../shared/constants';
 
 import {
   ContactRepresentativeTitle,

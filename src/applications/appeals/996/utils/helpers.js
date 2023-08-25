@@ -1,7 +1,8 @@
 import moment from 'moment';
 
-import { SELECTED, LEGACY_TYPE } from '../constants';
+import { LEGACY_TYPE } from '../constants';
 import { processContestableIssues } from '../../shared/utils/issues';
+import { SELECTED } from '../../shared/constants';
 import '../../shared/definitions';
 
 /**
