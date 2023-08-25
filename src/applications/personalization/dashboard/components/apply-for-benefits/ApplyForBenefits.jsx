@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { fetchEDUPaymentInformation as fetchEDUPaymentInformationAction } from '@@profile/actions/paymentInformation';
 import { VA_FORM_IDS } from '~/platform/forms/constants';
 import recordEvent from '~/platform/monitoring/record-event';
 import { isVAPatient, isLOA3, selectProfile } from '~/platform/user/selectors';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
 
@@ -14,7 +16,7 @@ import ApplicationsInProgress from './ApplicationsInProgress';
 import BenefitOfInterest from './BenefitOfInterest';
 
 const AllBenefits = () => (
-  <div className="vads-u-margin-top--2">
+  <div className="vads-u-margin-top--2" data-testid="dashboard-all-benefits">
     <va-additional-info trigger="What benefits does VA offer?">
       <p className="vads-u-font-weight--bold">
         Explore VA.gov to learn about the benefits we offer.
@@ -68,6 +70,10 @@ const BenefitsOfInterest = ({ children }) => {
   );
 };
 
+BenefitsOfInterest.propTypes = {
+  children: PropTypes.object,
+};
+
 const ApplyForBenefits = ({ getESREnrollmentStatus, shouldGetESRStatus }) => {
   useEffect(
     () => {
@@ -81,7 +87,11 @@ const ApplyForBenefits = ({ getESREnrollmentStatus, shouldGetESRStatus }) => {
   return (
     <div data-testid="dashboard-section-apply-for-benefits">
       <h2>Apply for VA benefits</h2>
-      <AllBenefits />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimental}>
+        <Toggler.Disabled>
+          <AllBenefits />
+        </Toggler.Disabled>
+      </Toggler>
       <ApplicationsInProgress />
       <BenefitsOfInterest>
         <>
@@ -146,6 +156,11 @@ const ApplyForBenefits = ({ getESREnrollmentStatus, shouldGetESRStatus }) => {
       </BenefitsOfInterest>
     </div>
   );
+};
+
+ApplyForBenefits.propTypes = {
+  getESREnrollmentStatus: PropTypes.func.isRequired,
+  shouldGetESRStatus: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => {
