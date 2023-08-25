@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useStorage } from '../../../hooks/useStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { makeSelectApp } from '../../../selectors';
 
@@ -33,9 +33,7 @@ const ConfirmablePage = ({
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
   const { jumpToPage } = useFormRouting(router);
-  const { getCheckinComplete } = useSessionStorage(
-    app === APP_NAMES.PRE_CHECK_IN,
-  );
+  const { getCheckinComplete } = useStorage(app === APP_NAMES.PRE_CHECK_IN);
   useLayoutEffect(() => {
     if (getCheckinComplete(window)) {
       jumpToPage(URLS.DETAILS);
