@@ -19,6 +19,7 @@ const TravelPage = ({
   eyebrow,
   bodyText,
   helpText,
+  additionalInfo,
   pageType,
   router,
 }) => {
@@ -80,6 +81,11 @@ const TravelPage = ({
               <div>{helpText}</div>
             </va-alert>
           </div>
+        )}
+        {additionalInfo && (
+          <va-additional-info trigger="Additional Information">
+            <div>{additionalInfo}</div>
+          </va-additional-info>
         )}
         <>
           <button
