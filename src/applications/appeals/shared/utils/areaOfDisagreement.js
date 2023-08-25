@@ -62,5 +62,5 @@ export const calculateOtherMaxLength = areaOfDisagreement => {
     }
     return totalLength;
   }, 0);
-  return MAX_LENGTH.HLR_DISAGREEMENT_REASON - stringLength;
+  return MAX_LENGTH.DISAGREEMENT_REASON - stringLength;
 };

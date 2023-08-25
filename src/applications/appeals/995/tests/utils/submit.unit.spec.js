@@ -1,13 +1,12 @@
 import { expect } from 'chai';
+
 import {
   PRIMARY_PHONE,
-  SELECTED,
   EVIDENCE_VA,
   EVIDENCE_OTHER,
   EVIDENCE_PRIVATE,
 } from '../../constants';
 import { getDate } from '../../utils/dates';
-
 import {
   removeEmptyEntries,
   getTimeZone,
@@ -21,6 +20,8 @@ import {
   hasDuplicateFacility,
   getForm4142,
 } from '../../utils/submit';
+
+import { SELECTED } from '../../../shared/constants';
 
 const text =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, seddo eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';

@@ -1,4 +1,6 @@
-import { errorMessages, SELECTED, PRIMARY_PHONE } from '../constants';
+import { errorMessages, PRIMARY_PHONE } from '../constants';
+
+import { SELECTED } from '../../shared/constants';
 
 /**
  * Check validations for Custom pages

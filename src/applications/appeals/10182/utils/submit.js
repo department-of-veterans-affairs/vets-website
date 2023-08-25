@@ -193,7 +193,7 @@ export const getAddress = (formData = {}) => {
     countryName: formData[SHOW_PART3] ? '' : veteran.address?.countryName || '',
     // note "ISO2" is submitted, "Iso2" is from profile address
     countryCodeISO2: formData[SHOW_PART3]
-      ? truncate('countryCodeIso2', MAX_LENGTH.COUNTRY)
+      ? truncate('countryCodeIso2', MAX_LENGTH.ADDRESS_COUNTRY)
       : '',
     internationalPostalCode,
   });
@@ -208,8 +208,8 @@ export const getPhone = ({ veteran = {} } = {}) => {
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.phone?.[value] || '').substring(0, max);
   return removeEmptyEntries({
-    countryCode: truncate('countryCode', MAX_LENGTH.COUNTRY_CODE),
-    areaCode: truncate('areaCode', MAX_LENGTH.AREA_CODE),
+    countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
+    areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
     phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
     phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
   });

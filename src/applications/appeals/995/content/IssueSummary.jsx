@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 import { getSelected } from '../utils/helpers';
 import { getDate } from '../utils/dates';
-import { SELECTED, FORMAT_READABLE, NO_ISSUES_SELECTED } from '../constants';
+import { NO_ISSUES_SELECTED } from '../constants';
+
+import { FORMAT_READABLE, SELECTED } from '../../shared/constants';
 
 const legendClassNames = [
   'vads-u-margin-top--0',

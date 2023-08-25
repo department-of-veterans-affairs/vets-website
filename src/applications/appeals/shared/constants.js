@@ -8,6 +8,7 @@ export const SELECTED = 'view:selected';
  **** INTERNAL FORM URL PATHS ****
  */
 export const CONTACT_INFO_PATH = '/contact-information';
+export const CONTESTABLE_ISSUES_PATH = 'contestable-issues';
 
 /**
  **** URL PATHS ****
@@ -15,7 +16,6 @@ export const CONTACT_INFO_PATH = '/contact-information';
 export const DR_URL = '/decision-reviews';
 export const CONTESTED_CLAIMS_URL = `${DR_URL}/contested-claims`;
 export const GET_HELP_REVIEW_REQUEST_URL = `${DR_URL}/get-help-with-review-request`;
-export const CONTESTABLE_ISSUES_PATH = 'contestable-issues';
 export const SC_INFO_URL = `${DR_URL}/supplemental-claim`; // v2
 export const SC_BASE_URL = `${SC_INFO_URL}/file-supplemental-claim-form-20-0995`;
 export const SC_OTHER_WAYS_URL = `${SC_INFO_URL}#file-by-mail-in-person-or-with`;
@@ -84,22 +84,22 @@ export const MAX_LENGTH = {
   // used in 995 and 10182
   SELECTIONS: 100, // submitted issues (not in schema)
   // used in all 3 forms
-  COUNTRY_CODE: 3,
-  AREA_CODE: 4,
+  PHONE_COUNTRY_CODE: 3,
+  PHONE_AREA_CODE: 4,
   PHONE_NUMBER: 14,
   PHONE_NUMBER_EXT: 10,
   ADDRESS_LINE1: 60,
   ADDRESS_LINE2: 30,
   ADDRESS_LINE3: 10,
   CITY: 60,
-  COUNTRY: 2,
+  ADDRESS_COUNTRY: 2,
   ZIP_CODE5: 5,
   POSTAL_CODE: 16,
   // Supplemental Claim - 995
   SC_CLAIMANT_OTHER: 25, // does this still exist?
   SC_EVIDENCE_LOCATION_AND_NAME: 255,
   // Higher Lever Review - 996
-  HLR_DISAGREEMENT_REASON: 90,
+  DISAGREEMENT_REASON: 90,
   HLR_REP_FIRST_NAME: 30,
   HLR_REP_LAST_NAME: 40,
   // Notice of Disagreement - 10182
@@ -127,7 +127,7 @@ export const DISAGREEMENT_TYPES = {
   otherEntry: 'Something else:',
 };
 
-// Using MAX_LENGTH.HLR_DISAGREEMENT_REASON (90) and with all checkboxes selected,
+// Using MAX_LENGTH.DISAGREEMENT_REASON (90) and with all checkboxes selected,
 // this string is submitted - the numbers constitute the "something else" typed
 // in value
 // "service connection,effective date,disability evaluation,1234567890123456789012345678901234"

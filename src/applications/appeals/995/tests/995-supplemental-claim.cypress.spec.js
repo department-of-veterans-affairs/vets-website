@@ -23,7 +23,6 @@ import {
   CONTESTABLE_ISSUES_API,
   EVIDENCE_UPLOAD_API,
   PRIMARY_PHONE,
-  SELECTED,
   BASE_URL,
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_REQUEST,
@@ -33,7 +32,7 @@ import {
   EVIDENCE_UPLOAD_PATH,
 } from '../constants';
 
-import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
+import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
 
 const testConfig = createTestConfig(
   {

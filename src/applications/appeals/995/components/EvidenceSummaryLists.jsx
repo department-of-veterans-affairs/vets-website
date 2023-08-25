@@ -8,7 +8,6 @@ import { readableList } from '../utils/helpers';
 import { getDate } from '../utils/dates';
 
 import {
-  FORMAT_COMPACT,
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
@@ -16,6 +15,8 @@ import {
   ATTACHMENTS_OTHER,
   LIMITATION_KEY,
 } from '../constants';
+
+import { FORMAT_COMPACT } from '../../shared/constants';
 
 const listClassNames = [
   'vads-u-border-top--1px',

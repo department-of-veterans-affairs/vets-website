@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { errorMessages, SELECTED } from '../../constants';
+import { errorMessages } from '../../constants';
 import { getDate } from '../../utils/dates';
 
 import {
@@ -26,7 +26,7 @@ import {
   validatePrivateUnique,
 } from '../../validations/evidence';
 
-import { MAX_LENGTH } from '../../../shared/constants';
+import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 
 describe('VA evidence', () => {
   describe('validateVaLocation', () => {

@@ -106,7 +106,7 @@ export default {
               type: 'string',
               // disagreementArea limited to 90 chars max
               maxLength:
-                MAX_LENGTH.HLR_DISAGREEMENT_REASON - allDisagreementsLength,
+                MAX_LENGTH.DISAGREEMENT_REASON - allDisagreementsLength,
             },
           },
         },

@@ -37,9 +37,6 @@ export const EVIDENCE_UPLOAD_API = '/v0/decision_review_evidence';
 
 export const SUBMIT_URL = '/v1/supplemental_claims';
 
-// key for contestedIssues to indicate that the user selected the issue
-export const SELECTED = 'view:selected';
-
 export const PRIMARY_PHONE = 'view:primaryPhone';
 export const PRIMARY_PHONE_TYPES = ['home', 'mobile'];
 
@@ -111,9 +108,6 @@ export const NULL_CONDITION_STRING = 'Unknown Condition';
 export const NO_ISSUES_SELECTED = 'No issues were selected';
 
 // contested issue dates
-export const FORMAT_YMD = 'YYYY-MM-DD';
-export const FORMAT_READABLE = 'LL';
-export const FORMAT_COMPACT = 'MMM DD, YYYY';
 export const CONTACT_EDIT = 'edit-contact-info'; // contact info focusing
 export const SUMMARY_EDIT = 'edit-evidence-summary'; // evidence summary focus
 export const REVIEW_CONTACT = 'onReviewPageContact';

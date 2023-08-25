@@ -8,8 +8,9 @@ import {
   missingPrimaryPhone,
 } from '../../validations';
 import { missingIssueName } from '../../validations/issues';
+import { errorMessages, PRIMARY_PHONE } from '../../constants';
 
-import { errorMessages, SELECTED, PRIMARY_PHONE } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 
 describe('checkValidations', () => {
   it('should return error messages', () => {

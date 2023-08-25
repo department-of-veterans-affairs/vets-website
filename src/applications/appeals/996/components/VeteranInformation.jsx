@@ -8,7 +8,7 @@ import { genderLabels } from 'platform/static-data/labels';
 import { selectProfile } from 'platform/user/selectors';
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
-import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
+import { FORMAT_YMD, FORMAT_READABLE } from '../../shared/constants';
 
 const VeteranInformation = ({ profile = {}, veteran = {} }) => {
   const { ssnLastFour, vaFileLastFour } = veteran;

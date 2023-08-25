@@ -1,7 +1,8 @@
 import moment from 'moment';
 
-import { SELECTED, LEGACY_TYPE, FORMAT_YMD, AMA_DATE } from '../constants';
+import { LEGACY_TYPE, AMA_DATE } from '../constants';
 
+import { FORMAT_YMD, SELECTED } from '../../shared/constants';
 import { processContestableIssues } from '../../shared/utils/issues';
 import '../../shared/definitions';
 

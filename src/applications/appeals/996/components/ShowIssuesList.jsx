@@ -1,6 +1,6 @@
 import React from 'react';
 import { getDate } from '../utils/dates';
-import { FORMAT_READABLE } from '../constants';
+import { FORMAT_READABLE } from '../../shared/constants';
 
 export const ShowIssuesList = ({ issues }) => (
   <ul>

@@ -34,9 +34,7 @@ const AreaOfDisagreement = ({
 }) => {
   const [checkboxErrorMessage, setCheckboxErrorMessage] = useState(null);
   const [inputErrorMessage, setInputErrorMessage] = useState(null);
-  const [maxLength, setMaxLength] = useState(
-    MAX_LENGTH.HLR_DISAGREEMENT_REASON,
-  );
+  const [maxLength, setMaxLength] = useState(MAX_LENGTH.DISAGREEMENT_REASON);
 
   useEffect(
     () => {

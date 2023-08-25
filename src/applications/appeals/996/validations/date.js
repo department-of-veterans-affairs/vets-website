@@ -2,10 +2,10 @@ import moment from 'moment';
 
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 
-import { fixDateFormat } from '../../shared/utils/replace';
-import { FORMAT_YMD } from '../constants';
-
 import { issueErrorMessages } from '../content/addIssue';
+
+import { fixDateFormat } from '../../shared/utils/replace';
+import { FORMAT_YMD } from '../../shared/constants';
 
 const minDate = moment()
   .subtract(1, 'year')

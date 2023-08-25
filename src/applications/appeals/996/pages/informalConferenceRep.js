@@ -79,8 +79,8 @@ export default {
             type: 'string',
             pattern: '^[0-9]{3,21}$',
             maxLength:
-              MAX_LENGTH.COUNTRY_CODE +
-              MAX_LENGTH.AREA_CODE +
+              MAX_LENGTH.PHONE_COUNTRY_CODE +
+              MAX_LENGTH.PHONE_AREA_CODE +
               MAX_LENGTH.PHONE_NUMBER,
           },
           extension: {

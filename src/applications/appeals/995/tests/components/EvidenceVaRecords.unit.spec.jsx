@@ -4,11 +4,11 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
-import { errorMessages, SELECTED, EVIDENCE_VA_PATH } from '../../constants';
+import { errorMessages, EVIDENCE_VA_PATH } from '../../constants';
 import { getDate } from '../../utils/dates';
 import { $, $$ } from '../../utils/ui';
 
-import { MAX_LENGTH } from '../../../shared/constants';
+import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 
 /*
 | Data     | Forward     | Back               | Add another      |

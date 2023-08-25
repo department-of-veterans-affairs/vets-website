@@ -72,11 +72,11 @@ describe('calculateOtherMaxLength', () => {
   const calcLength = settings => {
     const string = values.filter((value, index) => settings[index]).join(',');
     // add 1 to string length for the final comma
-    return MAX_LENGTH.HLR_DISAGREEMENT_REASON - (string.length + 1);
+    return MAX_LENGTH.DISAGREEMENT_REASON - (string.length + 1);
   };
   it('should return max length when nothing is selected', () => {
     expect(calculateOtherMaxLength(getData([]))).to.eq(
-      MAX_LENGTH.HLR_DISAGREEMENT_REASON,
+      MAX_LENGTH.DISAGREEMENT_REASON,
     );
   });
   it('should return appropriate length with 1 selection', () => {

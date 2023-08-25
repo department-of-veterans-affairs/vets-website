@@ -21,7 +21,7 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
       .filter(Boolean);
     const disagreementArea = replaceSubmittedData(
       // max length in schema
-      reasons.join(',').substring(0, MAX_LENGTH.HLR_DISAGREEMENT_REASON),
+      reasons.join(',').substring(0, MAX_LENGTH.DISAGREEMENT_REASON),
     );
     return {
       ...issue,

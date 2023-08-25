@@ -8,9 +8,10 @@ import scrollTo from 'platform/utilities/ui/scrollTo';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import { resetStoredSubTask } from 'platform/forms/sub-task';
 
-import { FORMAT_READABLE } from '../constants';
 import { getSelected, getIssueName } from '../utils/helpers';
 import GetFormHelp from '../content/GetFormHelp';
+
+import { FORMAT_READABLE } from '../../shared/constants';
 
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
