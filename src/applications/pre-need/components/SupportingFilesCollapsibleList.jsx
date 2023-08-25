@@ -42,7 +42,6 @@ const CollapsibleList = () => {
                       Veteran, you will need to provide a copy of their DD214 or
                       other separation papers.
                     </p>
-                    <br />
                     <p>
                       You can also upload supporting files or an affidavit (a
                       written statement of facts confirmed by an oath or
@@ -66,7 +65,6 @@ const CollapsibleList = () => {
                         which the applicant is being cared for
                       </li>
                     </ul>
-                    <br />
                     <p>
                       <strong>
                         If you’re applying for an unmarried adult child of a
@@ -91,8 +89,6 @@ const CollapsibleList = () => {
                         the Veteran, <strong>and</strong>
                       </li>
                       <li>The marital status of the child</li>
-                      <br />
-                      <br />
                     </ul>
                   </>
                 }
@@ -126,7 +122,7 @@ const CollapsibleList = () => {
                         </p>
                         <strong>Or</strong>
                         <p>
-                          Fax files to the National Cemetery Scheduling Office:{' '}
+                          Fax them to the National Cemetery Scheduling Office:{' '}
                           <va-telephone contact="8558408299" />.
                         </p>
                       </li>

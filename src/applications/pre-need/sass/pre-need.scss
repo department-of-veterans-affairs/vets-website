@@ -61,3 +61,13 @@ dl.review + dl.review .review-row {
   border-top: none;
   padding-top: 0px;
 }
+
+fieldset.schemaform-field-template.schemaform-first-field {
+  margin-top: -2em;
+  margin-bottom: -1em;
+}
+
+.schemaform-file-list > li {
+  margin-top: 3em;
+  margin-bottom: -2em;
+}
