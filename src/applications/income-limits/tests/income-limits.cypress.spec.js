@@ -4,11 +4,7 @@ import nonStandardLimits from './fixtures/non-standard-fixture.json';
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
-
-// Temporarily disabling these tests because there is a flaky selector that fails 4 out of 20 times
-// An upgrade to the latest Cypress fixes this problem and Platform is actively working on it
-// https://dsva.slack.com/archives/CBU0KDSB1/p1687455543337769
-xdescribe('Income Limits', () => {
+describe('Income Limits', () => {
   describe('current year flow', () => {
     it('navigates through the flow successfully forward and backward', () => {
       cy.visit('/health-care/income-limits');
