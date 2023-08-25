@@ -20,14 +20,18 @@ const AuthProfileInformation = ({ user }) => {
         <dl className="vads-u-padding-left--1 vads-u-margin-y--0">
           <div data-testid="hca-veteran-fullname">
             <dt className="vads-u-visibility--screen-reader">Full name:</dt>
-            <dd className="vads-u-font-weight--bold">{veteranName}</dd>
+            <dd className="vads-u-font-weight--bold dd-privacy-mask">
+              {veteranName}
+            </dd>
           </div>
           {veteranDOB ? (
             <div data-testid="hca-veteran-dob">
               <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
                 Date of birth:
               </dt>
-              <dd className="vads-u-display--inline-block">{veteranDOB}</dd>
+              <dd className="vads-u-display--inline-block dd-privacy-mask">
+                {veteranDOB}
+              </dd>
             </div>
           ) : null}
         </dl>
