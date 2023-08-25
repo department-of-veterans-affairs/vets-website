@@ -35,7 +35,7 @@ class MedicationsLandingPage {
       .should('be.visible');
   };
 
-  clickMoreWaysToManageYourMedicationsAccordionExpandButton = () => {
+  clickExpandAccordionsOnMedicationsLandingPage = () => {
     cy.expandAccordions();
   };
 
