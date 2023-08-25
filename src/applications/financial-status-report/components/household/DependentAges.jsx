@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { DEPENDENT_AGE_LABELS } from '../../constants/dependentLabels';
-import { validateIsNumber } from '../../utils/validations';
+import { isNumber } from '../../utils/helpers';
 import DependentExplainer from './DependentExplainer';
 import ButtonGroup from '../shared/ButtonGroup';
 import ReviewControl from '../shared/ReviewControl';
@@ -85,22 +85,29 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
   );
 
   const onSubmit = event => {
-    event.preventDefault();
     const hasEmptyInput = stateDependents.some(
       dependent => dependent.dependentAge === '',
     );
-    if (hasEmptyInput) {
-      const newErrors = stateDependents.map(
-        (dependent, i) =>
-          dependent.dependentAge === ''
-            ? 'Please enter your dependent(s) age.'
-            : errors[i],
-      );
-      return setErrors(newErrors);
+
+    if (errors.some(error => error !== null) || hasEmptyInput) {
+      event.preventDefault(); // Prevent the form from being submitted when there are errors
+      if (hasEmptyInput) {
+        const newErrors = stateDependents.map(
+          (dependent, i) =>
+            dependent.dependentAge === ''
+              ? 'Please enter your dependent(s) age.'
+              : errors[i],
+        );
+        setErrors(newErrors);
+      }
+
+      return null;
     }
+
     if (isReviewMode) {
       return setIsEditing(false);
     }
+
     return formData['view:streamlinedWaiver']
       ? goForward(formData)
       : goToPath('/monetary-asset-checklist');
@@ -121,7 +128,7 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
       const newErrors = [...errors];
       if (!value) {
         newErrors[i] = 'Please enter your dependent(s) age.';
-      } else if (!validateIsNumber(value)) {
+      } else if (!isNumber(value)) {
         newErrors[i] = 'Please enter only numerical values';
       } else {
         newErrors[i] = null;
@@ -151,6 +158,7 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
         className="input-size-2 no-wrap"
         onBlur={event => handlers.handleBlur(event, i)}
         error={errors[i]}
+        inputMode="numeric"
         required
       />
     </div>
