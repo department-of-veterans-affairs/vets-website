@@ -182,10 +182,6 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
   const moreResourcesLinks = resolveLinkCollection(
     [
       {
-        href: '/resources/my-healthevet-on-vagov-what-to-know',
-        text: 'Learn more about My HealtheVet on VA.gov',
-      },
-      {
         href: '/resources/the-pact-act-and-your-va-benefits/',
         text: 'The PACT Act and your benefits',
       },
