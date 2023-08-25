@@ -10,13 +10,12 @@ import { appealTypes } from '../utils/appeals-v2-helpers';
 import { getClaimType } from '../utils/helpers';
 
 // HELPERS
+const isAppeal = claim => appealTypes.includes(claim.type);
 const isBenefitsClaimOrAppeal = claim =>
   claim.type !== 'education_benefits_claims';
 
 // START lighthouse_migration
 const isEVSSClaim = claim => claim.type === 'evss_claims';
-const isAppeal = claim => appealTypes.includes(claim.type);
-const isEVSSClaimOrAppeal = claim => isEVSSClaim(claim) || isAppeal(claim);
 // END lighthouse_migration
 
 const getRecentlyClosedClaims = claims => {
@@ -75,8 +74,8 @@ const getRecentlyClosedClaims = claims => {
           ...c,
           attributes: {
             ...c.attributes,
-            dateFiled: events[events.length - 1].date,
-            phaseChangeDate: c.attributes.prior_decision_date || events[0].date,
+            claimDate: events[events.length - 1].date,
+            closeDate: c.attributes.prior_decision_date || events[0].date,
           },
         };
       }
@@ -89,13 +88,13 @@ const getRecentlyClosedClaims = claims => {
 const getCloseDate = claim => {
   const { closeDate, phaseChangeDate } = claim.attributes;
 
-  return isEVSSClaimOrAppeal(claim) ? phaseChangeDate : closeDate;
+  return isEVSSClaim(claim) ? phaseChangeDate : closeDate;
 };
 
-const getFileDate = claim => {
+const getClaimDate = claim => {
   const { claimDate, dateFiled } = claim.attributes;
 
-  return isEVSSClaimOrAppeal(claim) ? dateFiled : claimDate;
+  return isEVSSClaim(claim) ? dateFiled : claimDate;
 };
 // END lighthouse_migration
 
@@ -105,7 +104,7 @@ const getLinkText = claim => {
   const claimType = isAppeal(claim)
     ? 'Compensation Appeal'
     : getClaimType(claim);
-  return `Your ${claimType} Received ${formatDate(getFileDate(claim))}`;
+  return `Your ${claimType} Received ${formatDate(getClaimDate(claim))}`;
 };
 
 export default function ClosedClaimMessage({ claims, onClose }) {
