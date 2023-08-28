@@ -26,7 +26,6 @@ import {
   facilitiesPpmsSuppressCommunityCare,
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
-  facilityLocatorLighthouseCovidVaccineQuery,
 } from '../utils/featureFlagSelectors';
 import ResultsList from '../components/ResultsList';
 import PaginationWrapper from '../components/PaginationWrapper';
@@ -433,7 +432,6 @@ const FacilitiesMap = props => {
           suppressPPMS={props.suppressPPMS}
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
-          searchCovid19Vaccine={props.searchCovid19Vaccine}
           clearSearchText={props.clearSearchText}
         />
         {(isEmergencyCareType || isCppEmergencyCareTypes) && (
@@ -664,7 +662,6 @@ const mapStateToProps = state => ({
   suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
   suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
-  searchCovid19Vaccine: facilityLocatorLighthouseCovidVaccineQuery(state),
   results: state.searchResult.results,
   searchError: state.searchResult.error,
   resultTime: state.searchResult.resultTime,
