@@ -83,3 +83,16 @@
   font-size: 1.6rem !important;
   font-weight: 400 !important;
 }
+
+.form-review-panel[data-chapter="claimantPersonalInfoChapter"],
+.form-review-panel[data-chapter="claimantIdInfoChapter"],
+.form-review-panel[data-chapter="claimantAddrInfoChapter"],
+.form-review-panel[data-chapter="claimantContactInfoChapter"],
+.form-review-panel[data-chapter="veteranPersonalInfoChapter"],
+.form-review-panel[data-chapter="veteranIdentificationInfo"],
+.form-review-panel[data-chapter="veteranMailingAddressInfo"],
+.form-review-panel[data-chapter="veteranContactInfo"] {
+  .form-review-panel-page-header {
+    display: none;
+  }
+}
