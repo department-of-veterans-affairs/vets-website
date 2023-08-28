@@ -1,56 +1,58 @@
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
-
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 
-import { bankAccountChangeLabels, directDepositWarning } from '../utils/labels';
+import {
+  bankAccountChangeLabelsUpdate,
+  directDepositWarning,
+} from '../utils/labels';
 
-function isStartUpdate(form) {
-  return get('bankAccountChange', form) === 'startUpdate';
+function isStartUpdateUpdate(form) {
+  return get('bankAccountChangeUpdate', form) === 'startUpdate';
 }
 
 export default function createDirectDepositChangePage(schema) {
-  const { bankAccountChange, bankAccount } = schema.definitions;
+  const { bankAccountChangeUpdate, bankAccount } = schema.definitions;
   return {
     title: 'Direct deposit',
     path: 'personal-information/direct-deposit',
     initialData: {},
     uiSchema: {
       'ui:title': 'Direct deposit',
-      bankAccountChange: {
+      bankAccountChangeUpdate: {
         'ui:title': 'Benefit payment method:',
         'ui:widget': 'radio',
         'ui:options': {
-          labels: bankAccountChangeLabels,
+          labels: bankAccountChangeLabelsUpdate,
         },
       },
       bankAccount: merge({}, bankAccountUI, {
         'ui:options': {
-          hideIf: formData => !isStartUpdate(formData),
-          expandUnder: 'bankAccountChange',
+          hideIf: formData => !isStartUpdateUpdate(formData),
+          expandUnder: 'bankAccountChangeUpdate',
         },
         accountType: {
-          'ui:required': isStartUpdate,
+          'ui:required': isStartUpdateUpdate,
         },
         accountNumber: {
-          'ui:required': isStartUpdate,
+          'ui:required': isStartUpdateUpdate,
         },
         routingNumber: {
-          'ui:required': isStartUpdate,
+          'ui:required': isStartUpdateUpdate,
         },
       }),
       'view:stopWarning': {
         'ui:description': directDepositWarning,
         'ui:options': {
-          hideIf: formData => formData.bankAccountChange !== 'stop',
-          expandUnder: 'bankAccountChange',
+          hideIf: formData => formData.bankAccountChangeUpdate !== 'stop',
+          expandUnder: 'bankAccountChangeUpdate',
         },
       },
     },
     schema: {
       type: 'object',
       properties: {
-        bankAccountChange,
+        bankAccountChangeUpdate,
         bankAccount,
         'view:stopWarning': {
           type: 'object',

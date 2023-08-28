@@ -36,6 +36,7 @@ export const buildSubmitEventData = formData => {
       formData.serviceBefore1977?.parentDependent,
     ),
     'direct-deposit-method': formData.bankAccountChange,
+    'direct-deposit-method-update': formData.bankAccountChangeUpdate,
     'direct-deposit-account-type': formData.bankAccount?.accountType,
   };
 };
