@@ -23,7 +23,7 @@ import {
   appointmentStartTimePast15,
 } from '../utils/appointment';
 import { useFormRouting } from './useFormRouting';
-import { useSessionStorage } from './useSessionStorage';
+import { useStorage } from './useStorage';
 import { URLS } from '../utils/navigation';
 
 import { useUpdateError } from './useUpdateError';
@@ -47,8 +47,8 @@ const useGetCheckInData = ({
     selectFeatureToggles,
   );
   const { jumpToPage } = useFormRouting(router);
-  const { setPreCheckinComplete } = useSessionStorage();
-  const { getTravelPaySent } = useSessionStorage(false);
+  const { setPreCheckinComplete } = useStorage();
+  const { getTravelPaySent } = useStorage(false, true);
 
   const dispatch = useDispatch();
 

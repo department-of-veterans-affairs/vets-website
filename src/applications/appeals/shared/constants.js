@@ -97,7 +97,9 @@ export const MAX_LENGTH = {
  */
 export const REGEXP = {
   APOSTROPHE: /\u2019/g,
+  COMMA: /[, ]/g,
   DASH: /-/g,
+  EMPTY_DATE: /(--|-00-00)/,
   PERCENT: /(\s|\b)percent(\s|\b)/gi,
   WHITESPACE: /\s+/g,
 };
