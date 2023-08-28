@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
 import PropTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
@@ -50,9 +50,14 @@ export default function NextOfKinDisplay({
         <div>
           <p>{t('confirm-who-youd-like-to-represent-your-wishes')}</p>
           <p>
-            {t(
-              `if-this-isnt-your-correct-information-a-staff-member-can-help--${app}`,
-            )}
+            <Trans
+              i18nKey={t(
+                `if-this-isnt-your-correct-information-a-staff-member-can-help--${app}`,
+              )}
+              components={[
+                <span key="bold" className="vads-u-font-weight--bold" />,
+              ]}
+            />
           </p>
         </div>
       </va-additional-info>
