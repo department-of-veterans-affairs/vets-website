@@ -68,11 +68,8 @@ PersonalizationDropDownPanel.propTypes = {
   /**
    * The text of the drop down button.
    */
-  buttonText: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.string,
-    PropTypes.node,
-  ]).isRequired,
+  buttonText: PropTypes.oneOfType([PropTypes.node, PropTypes.string])
+    .isRequired,
 
   /**
    * A function called when the drop down button is clicked. This is often used
