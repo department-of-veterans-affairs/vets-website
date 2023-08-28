@@ -36,9 +36,16 @@ export const getIssueTitle = (data = {}, { plainText } = {}) => {
   ) : (
     <>
       {prefix}
-      <span className="dd-privacy-hidden">{name}</span>
+      <span className="dd-privacy-hidden" data-dd-action-name="issue name">
+        {name}
+      </span>
       {joiner}
-      <span className="dd-privacy-hidden">{formattedDate}</span>
+      <span
+        className="dd-privacy-hidden"
+        data-dd-action-name="issue decision date"
+      >
+        {formattedDate}
+      </span>
     </>
   );
 };
@@ -62,10 +69,14 @@ export const issueTitle = (props = {}) => {
 // Only show set values (ignore false & undefined)
 export const AreaOfDisagreementReviewField = ({ children }) => {
   const { formData, name } = children?.props || {};
+  const hidden = name === 'otherEntry';
   return formData ? (
     <div className="review-row">
       <dt>{DISAGREEMENT_TYPES[name]}</dt>
-      <dd className={name === 'otherEntry' ? 'dd-privacy-hidden' : ''}>
+      <dd
+        className={hidden ? 'dd-privacy-hidden' : ''}
+        data-dd-action-name={hidden ? 'something else' : ''}
+      >
         {children}
       </dd>
     </div>

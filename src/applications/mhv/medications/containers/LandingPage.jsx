@@ -3,12 +3,17 @@ import { useSelector } from 'react-redux';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { medicationsUrls } from '../util/constants';
 
 const LandingPage = () => {
   const fullState = useSelector(state => state);
+  const medicationsUrl = fullState.user.login.currentlyLoggedIn
+    ? medicationsUrls.prescriptionsUrl
+    : medicationsUrls.medicationsLogin;
+
   const content = () => {
     return (
-      <div className="landing-page">
+      <div className="landing-page vads-l-grid-container">
         <div className="main-content">
           <section>
             <h1>About Medications</h1>
@@ -20,7 +25,7 @@ const LandingPage = () => {
           <section>
             <a
               className="vads-c-action-link--green"
-              href="/my-health/medications/prescriptions"
+              href={medicationsUrl}
               data-testid="prescriptions-nav-link"
             >
               Go to your medications
@@ -37,8 +42,9 @@ const LandingPage = () => {
               Email your feedback and questions to us at <FeedbackEmail />.
             </p>
             <p>
-              Note: You still have access to the pharmacy tool on the My
-              HealtheVet website. You can go back to that site at any time.{' '}
+              <strong>Note:</strong>
+              You still have access to the pharmacy tool on the My HealtheVet
+              website. You can go back to that site at any time.{' '}
               <a
                 href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'pharmacy')}
                 target="_blank"
@@ -131,8 +137,7 @@ const LandingPage = () => {
               </va-accordion-item>
               <va-accordion-item>
                 <h3 className="vads-u-font-size--h6" slot="headline">
-                  When will I get my prescriptions, and when should I request a
-                  refill?
+                  How long will it take to get my prescriptions?
                 </h3>
                 <p data-testid="prescription-refill-info">
                   Prescriptions usually arrive within 3 to 5 days after we ship
@@ -176,8 +181,10 @@ const LandingPage = () => {
                   What if I have more questions?
                 </h3>
                 <p data-testid="more-questions">
-                  For questions about your medications and supplies, send a
-                  secure message to your care team.
+                  <strong>
+                    For questions about your medications and supplies,
+                  </strong>{' '}
+                  send a secure message to your care team.
                 </p>
                 <p>
                   <a
@@ -188,7 +195,7 @@ const LandingPage = () => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Compose a message
+                    Compose a message on My HealtheVet
                   </a>
                 </p>
                 <p>
@@ -205,16 +212,15 @@ const LandingPage = () => {
             <h2>More ways to manage your medications</h2>
             <p>
               {' '}
-              Learn how to request renewal of your prescriptions that are no
-              longer refillable, update your mailing address, and review
-              allergies and reactions in your VA medical records.
+              Learn how to renew prescriptions, update your mailing address, and
+              review allergies and reactions in your VA medical records.
             </p>
             <va-accordion bordered>
               <va-accordion-item>
                 <h3 className="vads-u-font-size--h6" slot="headline">
                   How to renew prescriptions
                 </h3>
-                <p>
+                <p data-testId="renew-information-button">
                   If your prescription is too old to refill or has no refills
                   left, you’ll need to request a renewal. The fastest way to
                   renew is by calling the phone number on your prescription
@@ -250,14 +256,14 @@ const LandingPage = () => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Compose a message
+                  Compose a message on My HealtheVet
                 </a>
               </va-accordion-item>
               <va-accordion-item>
                 <h3 className="vads-u-font-size--h6" slot="headline">
                   How to confirm or update your mailing address
                 </h3>
-                <p>
+                <p data-testId="mailing-address-confirmation">
                   We’ll send your prescriptions to the address we have on file
                   for you. We ship to all addresses in the U.S. and its
                   territories. We don’t ship prescriptions to foreign countries.
@@ -274,7 +280,7 @@ const LandingPage = () => {
                 <h3 className="vads-u-font-size--h6" slot="headline">
                   How to review your allergies and reactions
                 </h3>
-                <p>
+                <p data-testId="allergies-reactions-review">
                   Make sure your providers know about all your allergies and
                   reactions to medications.
                 </p>
@@ -295,14 +301,17 @@ const LandingPage = () => {
                 </a>
               </va-accordion-item>
             </va-accordion>
-            <br />
           </section>
         </div>
       </div>
     );
   };
 
-  return <div className="vads-u-margin-top--3">{content()}</div>;
+  return (
+    <div className="vads-u-margin-top--3 vads-u-margin-bottom--6">
+      {content()}
+    </div>
+  );
 };
 
 export default LandingPage;

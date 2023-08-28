@@ -15,7 +15,8 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import Form0996App from '../../containers/Form0996App';
 import { setHlrWizardStatus, removeHlrWizardStatus } from '../../wizard/utils';
-import { SELECTED, CONTESTABLE_ISSUES_API } from '../../constants';
+import { CONTESTABLE_ISSUES_API } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../actions';
 
 import maximalTestV1 from '../fixtures/data/maximal-test-v1.json';

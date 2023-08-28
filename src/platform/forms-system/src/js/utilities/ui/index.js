@@ -4,6 +4,7 @@ import {
   focusByOrder,
   getScrollOptions,
 } from 'platform/utilities/ui';
+import { webComponentList } from 'platform/forms-system/src/js/web-component-fields/webComponentList';
 
 export const $ = (selectorOrElement, root) =>
   typeof selectorOrElement === 'string'
@@ -45,14 +46,31 @@ const focusableElements = [
  * @param {HTMLElement|node} block - wrapping element
  * @return {HTMLElement[]}
  */
-export const getFocusableElements = block =>
-  block
-    ? [...block?.querySelectorAll(focusableElements.join(','))].filter(
+export const getFocusableElements = block => {
+  let elements = [];
+
+  if (block) {
+    elements = [
+      ...block.querySelectorAll(
+        [...focusableElements, ...webComponentList].join(','),
+      ),
+    ]
+      .map(el => {
+        if (el.shadowRoot) {
+          return getFocusableElements(el.shadowRoot);
+        }
+        return el;
+      })
+      .flat()
+      .filter(
         // Ignore disabled & hidden elements
         // This does not check the element's visibility or opacity
         el => !el.disabled && el.offsetWidth > 0 && el.offsetHeight > 0,
-      )
-    : [];
+      );
+  }
+
+  return elements;
+};
 
 export const scrollElementName = 'ScrollElement';
 

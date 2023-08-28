@@ -12,7 +12,7 @@ export default function PhoneView({ data: phoneData }) {
   );
   const extension = phoneData.extension && <span>x{phoneData.extension}</span>;
   return (
-    <div className="dd-privacy-hidden">
+    <div className="dd-privacy-hidden" data-dd-action-name="phone number">
       {countryCode} {phoneNumber} {extension}
     </div>
   );

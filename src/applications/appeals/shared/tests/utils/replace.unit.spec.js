@@ -4,7 +4,7 @@ import {
   replaceDescriptionContent,
   replaceSubmittedData,
   fixDateFormat,
-} from '../../../10182/utils/replace';
+} from '../../utils/replace';
 
 describe('replaceDescriptionContent', () => {
   it('should return an empty string', () => {
@@ -12,9 +12,14 @@ describe('replaceDescriptionContent', () => {
     expect(replaceDescriptionContent(null)).to.eq('');
     expect(replaceDescriptionContent('')).to.eq('');
   });
+  it('should return an empty string for non-string types', () => {
+    expect(replaceDescriptionContent({})).to.eq('');
+    expect(replaceDescriptionContent(true)).to.eq('');
+    expect(replaceDescriptionContent(10)).to.eq('');
+  });
   it('should not alter an these strings', () => {
-    expect(replaceDescriptionContent('   ')).to.eq('   ');
     expect(replaceDescriptionContent('abc 123')).to.eq('abc 123');
+    expect(replaceDescriptionContent('a b c 123')).to.eq('a b c 123');
   });
   it('should replace percent with a % symbol', () => {
     expect(replaceDescriptionContent('10 percent')).to.eq('10%');
@@ -29,6 +34,10 @@ describe('replaceDescriptionContent', () => {
     expect(replaceDescriptionContent('20 percentile')).to.eq('20 percentile');
     expect(replaceDescriptionContent('percentpercent')).to.eq('percentpercent');
   });
+  it('should strip out multiple whitespace & trim', () => {
+    expect(replaceDescriptionContent('   ')).to.eq('');
+    expect(replaceDescriptionContent(' a  b  c  \t  d')).to.eq('a b c d');
+  });
 });
 
 describe('replaceSubmittedData', () => {
@@ -37,9 +46,14 @@ describe('replaceSubmittedData', () => {
     expect(replaceSubmittedData(null)).to.eq('');
     expect(replaceSubmittedData('')).to.eq('');
   });
-  it('should not alter an these strings', () => {
-    expect(replaceSubmittedData('   ')).to.eq('   ');
+  it('should return an empty string', () => {
+    expect(replaceSubmittedData()).to.eq('');
+    expect(replaceSubmittedData(null)).to.eq('');
+    expect(replaceSubmittedData('')).to.eq('');
+  });
+  it('should not alter these strings', () => {
     expect(replaceSubmittedData('abc 123')).to.eq('abc 123');
+    expect(replaceSubmittedData('a b c 123')).to.eq('a b c 123');
   });
   it('should replace typographical apostrophes with a single quote', () => {
     expect(replaceSubmittedData('don’t won’t can’t you’ll')).to.eq(
@@ -47,11 +61,22 @@ describe('replaceSubmittedData', () => {
     );
     expect(replaceSubmittedData('’100’ times')).to.eq("'100' times");
   });
+  it('should strip out multiple whitespace & trim', () => {
+    expect(replaceSubmittedData('   ')).to.eq('');
+    expect(replaceSubmittedData(' a  b  c  \t  d')).to.eq('a b c d');
+  });
 });
 
 describe('fixDateFormat', () => {
+  it('should return an empty strings for empty or non-string values', () => {
+    expect(fixDateFormat()).to.eq('');
+    expect(fixDateFormat('')).to.eq('');
+    expect(fixDateFormat({})).to.eq('');
+    expect(fixDateFormat(null)).to.eq('');
+    expect(fixDateFormat(10)).to.eq('');
+  });
   it('should return invalid dates strings', () => {
-    expect(fixDateFormat()).to.eq('-00-00');
+    expect(fixDateFormat('-')).to.eq('-00-00');
     expect(fixDateFormat('200')).to.eq('200-00-00');
   });
   it('should return already properly formatted date string', () => {
@@ -70,5 +95,7 @@ describe('fixDateFormat', () => {
     expect(fixDateFormat('2020- 1 - 2 ')).to.eq('2020-01-02');
     expect(fixDateFormat('2023 - 10 - 1')).to.eq('2023-10-01');
     expect(fixDateFormat('2000-6 - 30')).to.eq('2000-06-30');
+    expect(fixDateFormat('2000  -  6 - 30')).to.eq('2000-06-30');
+    expect(fixDateFormat('2000 \t - \t 6 \t - \t 30')).to.eq('2000-06-30');
   });
 });
