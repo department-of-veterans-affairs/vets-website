@@ -1,9 +1,7 @@
 /* eslint jsx-a11y/click-events-have-key-events:  1 */
 /* eslint jsx-a11y/no-static-element-interactions:  1 */
-// Node modules.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
 import { hasSession } from 'platform/user/profile/utilities';
 import SearchMenu from './SearchMenu';
@@ -11,20 +9,6 @@ import SignInProfileMenu from './SignInProfileMenu';
 import isVATeamSiteSubdomain from '../../../utilities/environment/va-subdomain';
 
 class SearchHelpSignIn extends Component {
-  static propTypes = {
-    isHeaderV2: PropTypes.bool,
-    isLOA3: PropTypes.bool,
-    isLoggedIn: PropTypes.bool,
-    isMenuOpen: PropTypes.objectOf(PropTypes.bool).isRequired,
-    isProfileLoading: PropTypes.bool.isRequired,
-    onSignInSignUp: PropTypes.func.isRequired,
-    toggleMenu: PropTypes.func.isRequired,
-    userGreeting: PropTypes.oneOfType([
-      PropTypes.node,
-      PropTypes.arrayOf(PropTypes.node),
-    ]),
-  };
-
   componentDidMount() {
     this.showHomepageCreateAccountBlock();
   }
@@ -97,7 +81,11 @@ class SearchHelpSignIn extends Component {
     return (
       <div className="sign-in-links">
         {!isSubdomain && (
-          <button className="sign-in-link" onClick={this.handleSignInSignUp}>
+          <button
+            className="sign-in-link"
+            onClick={this.handleSignInSignUp}
+            type="button"
+          >
             Sign in
           </button>
         )}
@@ -158,3 +146,17 @@ class SearchHelpSignIn extends Component {
 }
 
 export default SearchHelpSignIn;
+
+SearchHelpSignIn.propTypes = {
+  isMenuOpen: PropTypes.objectOf(PropTypes.bool).isRequired,
+  isProfileLoading: PropTypes.bool.isRequired,
+  toggleMenu: PropTypes.func.isRequired,
+  onSignInSignUp: PropTypes.func.isRequired,
+  isHeaderV2: PropTypes.bool,
+  isLOA3: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  userGreeting: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+  ]),
+};

@@ -13,16 +13,15 @@ export const selectUserGreeting = createSelector(
   () => localStorage.getItem('userFirstName'),
   (name, email, sessionFirstName) => {
     if (name?.first || sessionFirstName) {
-      return [
+      return (
         <span
-          key="firstname"
           className="user-dropdown-email"
           data-dd-privacy="mask"
           data-dd-action-name="First Name"
         >
           {startCase(toLower(name?.first || sessionFirstName))}
-        </span>,
-      ];
+        </span>
+      );
     }
 
     return [

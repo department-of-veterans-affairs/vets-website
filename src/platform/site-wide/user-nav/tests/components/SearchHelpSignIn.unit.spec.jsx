@@ -17,7 +17,7 @@ describe('<SearchHelpSignIn>', () => {
     isProfileLoading: false,
     onSignInSignUp: sinon.spy(),
     toggleMenu: sinon.spy(),
-    userGreeting: 'test@vets.gov',
+    userGreeting: <span>test@vets.gov</span>,
   };
 
   let oldWindow = null;
@@ -61,9 +61,11 @@ describe('<SearchHelpSignIn>', () => {
     const dropdown = wrapper
       .find('SignInProfileMenu')
       .dive()
-      .find('PersonalizationDropDownPanel')
-      .dive();
-    expect(dropdown.text()).to.contain(defaultProps.userGreeting);
+      .find('PersonalizationDropDownPanel');
+
+    expect(dropdown.props().buttonText.props.children).to.contain(
+      `test@vets.gov`,
+    );
     wrapper.unmount();
   });
 

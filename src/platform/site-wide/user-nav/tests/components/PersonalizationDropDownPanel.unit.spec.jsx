@@ -18,7 +18,7 @@ describe('<PersonalizationDropDownPanel>', () => {
     clickHandler = sinon.spy();
 
     props = {
-      buttonText: 'Button text',
+      innerButtonContent: 'Button text',
       clickHandler,
       cssClass: 'testClass',
       isOpen: true,

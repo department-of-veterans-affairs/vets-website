@@ -341,6 +341,9 @@ Main.propTypes = {
   showFormSignInModal: PropTypes.bool,
   showLoginModal: PropTypes.bool,
   useSignInService: PropTypes.bool,
-  userGreeting: PropTypes.array,
+  userGreeting: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+  ]),
   utilitiesMenuIsOpen: PropTypes.object,
 };
