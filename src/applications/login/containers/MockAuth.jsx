@@ -6,7 +6,7 @@ export default function MockAuth() {
     <section className="login">
       <va-banner
         type="warning"
-        headline="Only for development and localhost environments"
+        headline="Only available for local and development environments"
         visible
       />
       <div className="container">
