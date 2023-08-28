@@ -119,7 +119,7 @@ const InstallmentContractSummary = ({
                   bill,
                   keyFieldsForInstallmentContract,
                   index,
-                )} // Use index as the key
+                )}
                 onDelete={() => onDelete(index)}
                 showDelete
                 body={billBody(bill)}
