@@ -5,7 +5,7 @@ import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-lib
 
 import reducers from '~/applications/personalization/dashboard/reducers';
 
-import ClaimsAndAppealsV2 from '../../components/claims-and-appeals-v2/ClaimsAndAppealsV2';
+import ClaimsAndAppealsV2 from '../../../components/claims-and-appeals-v2/ClaimsAndAppealsV2';
 
 function claimsAppealsUser() {
   return {

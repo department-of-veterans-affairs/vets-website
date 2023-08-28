@@ -1,14 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-
 import { daysAgo } from '@@profile/tests/helpers';
-import { wait } from '@@profile/tests/unit-test-helpers';
-import { mockFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '~/applications/personalization/dashboard/reducers';
 
-import ClaimsAndAppeals from '../../components/claims-and-appeals/ClaimsAndAppeals';
+import ClaimsAndAppealsV2 from '../../../components/claims-and-appeals-v2/ClaimsAndAppealsV2';
 
 function claimsAppealsUser() {
   return {
@@ -91,198 +88,21 @@ function makeClaimObject({ dateFiled, updateDate, phase = 1 }) {
 }
 
 function loadingErrorAlertExists(view) {
-  view.getByRole('heading', {
-    name: /^We can’t access any claims or appeals information right now$/i,
-  });
-  view.getByText(
-    /We’re sorry. Something went wrong on our end. If you have any claims or appeals, you won’t be able to access your claims or appeals information right now. Please refresh or try again later./i,
-  );
+  expect(
+    view.getByRole('heading', {
+      name: /^We can’t access your claims or appeals information$/i,
+    }),
+  ).to.exist;
+  expect(
+    view.getByText(
+      'We’re sorry. Something went wrong on our end. If you have any claims and appeals, you won’t be able to access your claims and appeals information right now. Please refresh or try again later.',
+    ),
+  ).to.exist;
 }
 
-describe('ClaimsAndAppeals component', () => {
+describe('ClaimsAndAppealsV2 component', () => {
   let view;
   let initialState;
-  describe('data loading', () => {
-    context(
-      'when user lacks both the `appeals-status` and `evss-claims` services',
-      () => {
-        beforeEach(() => {
-          mockFetch();
-          initialState = {
-            user: {
-              profile: {
-                services: [],
-              },
-            },
-          };
-          view = renderInReduxProvider(<ClaimsAndAppeals />, {
-            initialState,
-            reducers,
-          });
-        });
-        it('should not attempt to get claims or appeals data', async () => {
-          // Because fetch is called as part of an async Redux thunk, we need to
-          // wait here before confirming that fetch was called or not called.
-          await wait(1);
-          const fetchCalls = global.fetch.getCalls();
-          // make sure we are not fetching appeals data
-          expect(
-            fetchCalls.some(call => {
-              return call.args[0].includes('v0/appeals');
-            }),
-          ).to.be.false;
-          // make sure we are not fetching claims data
-          expect(
-            fetchCalls.some(call => {
-              return call.args[0].includes('v0/evss_claims_async');
-            }),
-          ).to.be.false;
-        });
-        it('should not render anything at all', () => {
-          expect(view.queryByRole('progressbar', { label: /loading/i })).to.not
-            .exist;
-          expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
-            .to.not.exist;
-        });
-      },
-    );
-    context(
-      'when user has the `appeals-status` service but lacks the `evss-claims` service',
-      () => {
-        beforeEach(() => {
-          mockFetch();
-          initialState = {
-            user: {
-              profile: {
-                services: ['appeals-status'],
-              },
-            },
-          };
-          view = renderInReduxProvider(<ClaimsAndAppeals />, {
-            initialState,
-            reducers,
-          });
-        });
-        it('should attempt to get appeals data', async () => {
-          // Because fetch is called as part of an async Redux thunk, we need to
-          // wait here before confirming that fetch was called or not called.
-          await wait(1);
-          const fetchCalls = global.fetch.getCalls();
-          // make sure we are fetching appeals data
-          expect(
-            fetchCalls.some(call => {
-              return call.args[0].includes('v0/appeals');
-            }),
-          ).to.be.true;
-        });
-        it('should not attempt to get claims data', async () => {
-          // Because fetch is called as part of an async Redux thunk, we need to
-          // wait here before confirming that fetch was called or not called.
-          await wait(1);
-          const fetchCalls = global.fetch.getCalls();
-          // make sure we are not fetching claims data
-          expect(
-            fetchCalls.some(call => {
-              return call.args[0].includes('v0/evss_claims_async');
-            }),
-          ).to.be.false;
-        });
-        it('should render a loading spinner but no section headline while loading data', async () => {
-          expect(view.findByLabelText(/loading/i)).to.exist;
-          expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
-            .to.not.exist;
-        });
-      },
-    );
-    context(
-      'when user has the `evss-claims` service but lacks the `appeals-status` service',
-      () => {
-        beforeEach(() => {
-          mockFetch();
-          initialState = {
-            user: {
-              profile: {
-                services: ['evss-claims'],
-              },
-            },
-          };
-          view = renderInReduxProvider(<ClaimsAndAppeals />, {
-            initialState,
-            reducers,
-          });
-        });
-        it('should not attempt to get appeals data', async () => {
-          // Because fetch is called as part of an async Redux thunk, we need to
-          // wait here before confirming that fetch was called or not called.
-          await wait(1);
-          const fetchCalls = global.fetch.getCalls();
-          // make sure we are not fetching appeals data
-          expect(
-            fetchCalls.some(call => {
-              return call.args[0].includes('v0/appeals');
-            }),
-          ).to.be.false;
-        });
-        it('should attempt to get claims data', async () => {
-          // Because fetch is called as part of an async Redux thunk, we need to
-          // wait here before confirming that fetch was called or not called.
-          await wait(1);
-          const fetchCalls = global.fetch.getCalls();
-          // make sure we are fetching claims data
-          expect(
-            fetchCalls.some(call => {
-              return call.args[0].includes('v0/evss_claims_async');
-            }),
-          ).to.be.true;
-        });
-        it('should render a loading spinner but no section headline while loading data', async () => {
-          expect(view.findByLabelText(/loading/i)).to.exist;
-          expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
-            .to.not.exist;
-        });
-      },
-    );
-    context(
-      'when user has both the `evss-claims` and `appeals-status` services',
-      () => {
-        beforeEach(() => {
-          mockFetch();
-          initialState = {
-            user: {
-              profile: {
-                services: ['evss-claims', 'appeals-status'],
-              },
-            },
-          };
-          view = renderInReduxProvider(<ClaimsAndAppeals />, {
-            initialState,
-            reducers,
-          });
-        });
-        it('should attempt to get appeals and claims data', async () => {
-          // Because fetch is called as part of an async Redux thunk, we need to
-          // wait here before confirming that fetch was called or not called.
-          await wait(1);
-          const fetchCalls = global.fetch.getCalls();
-          expect(
-            fetchCalls.some(call => {
-              return call.args[0].includes('v0/appeals');
-            }),
-          ).to.be.true;
-          expect(
-            fetchCalls.some(call => {
-              return call.args[0].includes('v0/evss_claims_async');
-            }),
-          ).to.be.true;
-        });
-        it('should render a loading spinner but no section headline while loading data', async () => {
-          expect(view.findByLabelText(/loading/i)).to.exist;
-          expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
-            .to.not.exist;
-        });
-      },
-    );
-  });
 
   describe('error states', () => {
     context('when there is an error fetching appeals data', () => {
@@ -297,15 +117,18 @@ describe('ClaimsAndAppeals component', () => {
             v2Availability: 'ERROR',
           },
         };
-        view = renderInReduxProvider(<ClaimsAndAppeals dataLoadingDisabled />, {
-          initialState,
-          reducers,
-        });
+        view = renderInReduxProvider(
+          <ClaimsAndAppealsV2 dataLoadingDisabled />,
+          {
+            initialState,
+            reducers,
+          },
+        );
       });
       it('should render an error alert', () => {
         expect(view.queryByRole('progressbar')).to.not.exist;
         expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
-          .to.not.exist;
+          .to.exist;
         loadingErrorAlertExists(view);
       });
       it('should not show a CTA', () => {
@@ -330,15 +153,18 @@ describe('ClaimsAndAppeals component', () => {
             claimsAvailability: 'UNAVAILABLE',
           },
         };
-        view = renderInReduxProvider(<ClaimsAndAppeals dataLoadingDisabled />, {
-          initialState,
-          reducers,
-        });
+        view = renderInReduxProvider(
+          <ClaimsAndAppealsV2 dataLoadingDisabled />,
+          {
+            initialState,
+            reducers,
+          },
+        );
       });
       it('should render an error alert', () => {
         expect(view.queryByRole('progressbar')).to.not.exist;
         expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
-          .to.not.exist;
+          .to.exist;
         loadingErrorAlertExists(view);
       });
       it('should not show a CTA', () => {
@@ -363,19 +189,22 @@ describe('ClaimsAndAppeals component', () => {
             claims: [],
           },
         };
-        view = renderInReduxProvider(<ClaimsAndAppeals dataLoadingDisabled />, {
-          initialState,
-          reducers,
-        });
+        view = renderInReduxProvider(
+          <ClaimsAndAppealsV2 dataLoadingDisabled />,
+          {
+            initialState,
+            reducers,
+          },
+        );
       });
-      it('does not render anything, even a headline', () => {
+      it('does not render anything except a headline', () => {
         expect(view.queryByRole('progressbar')).to.not.exist;
         expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
-          .to.not.exist;
+          .to.exist;
       });
     });
     context(
-      'when the user has 3 claims that were all updated in the past 30 days',
+      'when the user has 3 claims that were all updated in the past 60 days',
       () => {
         beforeEach(() => {
           initialState = {
@@ -386,16 +215,16 @@ describe('ClaimsAndAppeals component', () => {
               appeals: [],
               claims: [
                 // claim with recent activity
-                makeClaimObject({ updateDate: daysAgo(7), phase: 3 }),
+                makeClaimObject({ updateDate: daysAgo(34), phase: 3 }),
                 // claim with most recent activity
                 makeClaimObject({ updateDate: daysAgo(1), phase: 7 }),
                 // claim with recent activity
-                makeClaimObject({ updateDate: daysAgo(5), phase: 1 }),
+                makeClaimObject({ updateDate: daysAgo(15), phase: 1 }),
               ],
             },
           };
           view = renderInReduxProvider(
-            <ClaimsAndAppeals dataLoadingDisabled />,
+            <ClaimsAndAppealsV2 dataLoadingDisabled />,
             {
               initialState,
               reducers,
@@ -406,20 +235,13 @@ describe('ClaimsAndAppeals component', () => {
           expect(view.queryByRole('progressbar')).to.not.exist;
           expect(view.getByRole('heading', { name: /^claims and appeals$/i }))
             .to.exist;
-          expect(
-            view.getByRole('link', {
-              name: /check your claim or appeal status/i,
-            }),
-          ).to.exist;
-        });
-        it('shows details about the most recently updated claim or appeal', () => {
-          expect(view.getByRole('link', { name: /^view claim received/i })).to
+          expect(view.getByRole('link', { name: /^review claim received/i })).to
             .exist;
         });
       },
     );
     context(
-      'when the user has 2 claims (1 closed) and 2 appeals (1 closed) that were all updated in the past 30 days',
+      'when the user has 2 claims (1 closed) and 2 appeals (1 closed) that were all updated in the past 60 days',
       () => {
         beforeEach(() => {
           initialState = {
@@ -436,13 +258,13 @@ describe('ClaimsAndAppeals component', () => {
               claims: [
                 // closed claim updated 5 days ago
                 makeClaimObject({ updateDate: daysAgo(5), phase: 8 }),
-                // open claim updated 10 days ago
-                makeClaimObject({ updateDate: daysAgo(10), phase: 7 }),
+                // open claim updated 40 days ago
+                makeClaimObject({ updateDate: daysAgo(40), phase: 7 }),
               ],
             },
           };
           view = renderInReduxProvider(
-            <ClaimsAndAppeals dataLoadingDisabled />,
+            <ClaimsAndAppealsV2 dataLoadingDisabled />,
             {
               initialState,
               reducers,
@@ -453,15 +275,7 @@ describe('ClaimsAndAppeals component', () => {
           expect(view.queryByRole('progressbar')).to.not.exist;
           expect(view.getByRole('heading', { name: /^claims and appeals$/i }))
             .to.exist;
-          expect(
-            view.getByRole('link', {
-              name: /check your claim or appeal status/i,
-            }),
-          ).to.exist;
-        });
-        it('shows details about the most recently updated claim or appeal', () => {
-          expect(view.getByRole('link', { name: /^view details of/i })).to
-            .exist;
+          expect(view.getByRole('link', { name: /^review details/i })).to.exist;
         });
       },
     );
@@ -482,14 +296,14 @@ describe('ClaimsAndAppeals component', () => {
                 // open claim updated 29 days ago
                 makeClaimObject({ updateDate: daysAgo(29), phase: 7 }),
                 // closed claim without recent activity
-                makeClaimObject({ updateDate: daysAgo(31), phase: 8 }),
+                makeClaimObject({ updateDate: daysAgo(61), phase: 8 }),
                 // open claim without recent activity
                 makeClaimObject({ updateDate: daysAgo(100), phase: 1 }),
               ],
             },
           };
           view = renderInReduxProvider(
-            <ClaimsAndAppeals dataLoadingDisabled />,
+            <ClaimsAndAppealsV2 dataLoadingDisabled />,
             {
               initialState,
               reducers,
@@ -502,18 +316,18 @@ describe('ClaimsAndAppeals component', () => {
             .to.exist;
           expect(
             view.getByRole('link', {
-              name: /check your claim or appeal status/i,
+              name: /review claim/i,
             }),
           ).to.exist;
         });
         it('shows details for the most recently updated claim', () => {
-          expect(view.getByRole('link', { name: /^view claim received/i })).to
+          expect(view.getByRole('link', { name: /^review claim received/i })).to
             .exist;
         });
       },
     );
     context(
-      'when the user has no open claims or appeals, but does have an appeal that closed within the past thirty days',
+      'when the user has no open claims or appeals, but does have an appeal that closed within the past 60 days',
       () => {
         beforeEach(() => {
           initialState = {
@@ -534,7 +348,7 @@ describe('ClaimsAndAppeals component', () => {
             },
           };
           view = renderInReduxProvider(
-            <ClaimsAndAppeals dataLoadingDisabled />,
+            <ClaimsAndAppealsV2 dataLoadingDisabled />,
             {
               initialState,
               reducers,
@@ -544,19 +358,17 @@ describe('ClaimsAndAppeals component', () => {
         it('shows the CTA', () => {
           expect(
             view.getByRole('link', {
-              name: /check your claim or appeal status/i,
+              name: /review details/i,
             }),
           ).to.exist;
         });
         it('shows details about the recently closed appeal', () => {
           expect(view.getByRole('heading', { name: /updated on/i })).to.exist;
-          expect(view.getByRole('link', { name: /^view details of/i })).to
-            .exist;
         });
       },
     );
     context(
-      'the user has one open appeal that was updated over thirty days ago',
+      'the user has one open appeal that was updated over 60 days ago',
       () => {
         beforeEach(() => {
           initialState = {
@@ -564,12 +376,12 @@ describe('ClaimsAndAppeals component', () => {
             claims: {
               appealsLoading: false,
               claimsLoading: false,
-              appeals: [makeAppealObject({ updateDate: daysAgo(31) })],
+              appeals: [makeAppealObject({ updateDate: daysAgo(61) })],
               claims: [],
             },
           };
           view = renderInReduxProvider(
-            <ClaimsAndAppeals dataLoadingDisabled />,
+            <ClaimsAndAppealsV2 dataLoadingDisabled />,
             {
               initialState,
               reducers,
@@ -581,7 +393,7 @@ describe('ClaimsAndAppeals component', () => {
             .to.exist;
           expect(
             view.getByRole('link', {
-              name: /check your claim or appeal status/i,
+              name: /review details/i,
             }),
           ).to.exist;
         });
@@ -589,17 +401,10 @@ describe('ClaimsAndAppeals component', () => {
           expect(view.queryByRole('link', { name: /^view details of/i })).to.not
             .exist;
         });
-        it('displays text about no recent activity', () => {
-          expect(
-            view.getByText(
-              /You have no claims or appeals updates in the last 30 days/i,
-            ),
-          ).to.exist;
-        });
       },
     );
     context(
-      'the user only has claims and appeals that closed over thirty days ago',
+      'the user only has claims and appeals that closed over 60 days ago',
       () => {
         beforeEach(() => {
           initialState = {
@@ -615,28 +420,23 @@ describe('ClaimsAndAppeals component', () => {
               ],
               claims: [
                 makeClaimObject({ updateDate: daysAgo(100), phase: 8 }),
-                makeClaimObject({ updateDate: daysAgo(35), phase: 8 }),
-                makeClaimObject({ updateDate: daysAgo(60), phase: 8 }),
+                makeClaimObject({ updateDate: daysAgo(85), phase: 8 }),
+                makeClaimObject({ updateDate: daysAgo(61), phase: 8 }),
               ],
             },
           };
           view = renderInReduxProvider(
-            <ClaimsAndAppeals dataLoadingDisabled />,
+            <ClaimsAndAppealsV2 dataLoadingDisabled />,
             {
               initialState,
               reducers,
             },
           );
         });
-        it('does not render anything, even a headline', () => {
-          expect(view.queryByRole('progressbar')).to.not.exist;
-          expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
-            .to.not.exist;
-        });
       },
     );
     context(
-      'the user has claims that closed over thirty days ago and got a 404 from the appeals endpoint because they have no appeals on file',
+      'the user has claims that closed over 60 days ago and got a 404 from the appeals endpoint because they have no appeals on file',
       () => {
         beforeEach(() => {
           initialState = {
@@ -648,13 +448,13 @@ describe('ClaimsAndAppeals component', () => {
               v2Availability: 'RECORD_NOT_FOUND_ERROR',
               claims: [
                 makeClaimObject({ updateDate: daysAgo(100), phase: 8 }),
-                makeClaimObject({ updateDate: daysAgo(35), phase: 8 }),
-                makeClaimObject({ updateDate: daysAgo(60), phase: 8 }),
+                makeClaimObject({ updateDate: daysAgo(85), phase: 8 }),
+                makeClaimObject({ updateDate: daysAgo(61), phase: 8 }),
               ],
             },
           };
           view = renderInReduxProvider(
-            <ClaimsAndAppeals dataLoadingDisabled />,
+            <ClaimsAndAppealsV2 dataLoadingDisabled />,
             {
               initialState,
               reducers,
