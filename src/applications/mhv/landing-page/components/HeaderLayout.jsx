@@ -5,7 +5,7 @@ const HeaderLayout = () => {
     <div className="vads-l-row vads-u-justify-content--space-between">
       <div className="vads-l-col small-screen:vads-l-col--12 medium-screen:vads-l-col--6">
         <h1>My HealtheVet</h1>
-        <div className="va-introtext vads-u-margin-right--5">
+        <div className="va-introtext">
           <p>
             Welcome to My HealtheVet on VA.gov&mdash;where you can manage your
             VA health care and your health.
