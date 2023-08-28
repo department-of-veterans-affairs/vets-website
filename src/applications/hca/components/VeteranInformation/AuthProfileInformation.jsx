@@ -14,13 +14,16 @@ const AuthProfileInformation = ({ user }) => {
       <p data-testid="hca-veteran-profile-intro">
         {veteranDOB
           ? 'This is the personal information we have on file for you.'
-          : 'Here’s the name we have on file for you.'}
+          : 'Here\u2019s the name we have on file for you.'}
       </p>
       <div className="vads-u-border-left--7px vads-u-border-color--primary vads-u-padding-y--1 vads-u-margin-bottom--3">
         <dl className="vads-u-padding-left--1 vads-u-margin-y--0">
           <div data-testid="hca-veteran-fullname">
             <dt className="vads-u-visibility--screen-reader">Full name:</dt>
-            <dd className="vads-u-font-weight--bold dd-privacy-mask">
+            <dd
+              className="vads-u-font-weight--bold dd-privacy-mask"
+              data-dd-action-name="Veteran name"
+            >
               {veteranName}
             </dd>
           </div>
@@ -29,7 +32,10 @@ const AuthProfileInformation = ({ user }) => {
               <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
                 Date of birth:
               </dt>
-              <dd className="vads-u-display--inline-block dd-privacy-mask">
+              <dd
+                className="vads-u-display--inline-block dd-privacy-mask"
+                data-dd-action-name="Veteran date of birth"
+              >
                 {veteranDOB}
               </dd>
             </div>

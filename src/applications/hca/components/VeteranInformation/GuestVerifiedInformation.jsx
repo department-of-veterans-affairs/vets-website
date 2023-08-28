@@ -23,7 +23,10 @@ const GuestVerifiedInformation = ({ user }) => {
         <dl className="vads-u-padding-left--1 vads-u-margin-y--0">
           <div data-testid="hca-veteran-fullname">
             <dt className="vads-u-visibility--screen-reader">Full name:</dt>
-            <dd className="vads-u-font-weight--bold dd-privacy-mask">
+            <dd
+              className="vads-u-font-weight--bold dd-privacy-mask"
+              data-dd-action-name="Veteran name"
+            >
               {veteranName}
             </dd>
           </div>
@@ -31,7 +34,10 @@ const GuestVerifiedInformation = ({ user }) => {
             <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
               Social Security number:
             </dt>
-            <dd className="vads-u-display--inline-block dd-privacy-mask">
+            <dd
+              className="vads-u-display--inline-block dd-privacy-mask"
+              data-dd-action-name="Veteran Social Security number"
+            >
               {veteranSSN}
             </dd>
           </div>
@@ -39,7 +45,10 @@ const GuestVerifiedInformation = ({ user }) => {
             <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
               Date of birth:
             </dt>
-            <dd className="vads-u-display--inline-block dd-privacy-mask">
+            <dd
+              className="vads-u-display--inline-block dd-privacy-mask"
+              data-dd-action-name="Veteran date of birth"
+            >
               {veteranDOB}
             </dd>
           </div>
