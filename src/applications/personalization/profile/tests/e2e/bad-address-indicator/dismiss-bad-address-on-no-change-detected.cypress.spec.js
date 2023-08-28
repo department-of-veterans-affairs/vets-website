@@ -3,7 +3,7 @@ import { badAddress, loa3User72 } from '../../../mocks/endpoints/user';
 import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 import {
   addressValidation,
-  mailingAddresUpdateNoChangeDetected,
+  mailingAddressUpdateNoChangeDetected,
 } from '../../../mocks/endpoints/address';
 
 import BadAddressFeature from './BadAddressFeature';
@@ -27,11 +27,11 @@ describe('Bad Address Alert -- Contact Page -- Form alert', () => {
     cy.intercept('POST', '/v0/profile/address_validation', addressValidation);
 
     // this is key to simulate the same address being attempted to be updated
-    // regarless of what address the form fields show
+    // regardless of what address the form fields show
     cy.intercept(
       'PUT',
       '/v0/profile/addresses',
-      mailingAddresUpdateNoChangeDetected,
+      mailingAddressUpdateNoChangeDetected,
     );
 
     // first visit the page and see the alerts

@@ -39,10 +39,10 @@ const IntroductionPage = props => {
     <div className="schemaform-intro">
       {!showLoader && (
         <>
-          <FormTitle title="Apply for VA health care" />
-          <p className="vads-u-margin-top--neg2">
-            Enrollment Application for Health Benefits (VA Form 10-10EZ)
-          </p>
+          <FormTitle
+            title="Apply for VA health care"
+            subTitle="Enrollment Application for Health Benefits (VA Form 10-10EZ)"
+          />
         </>
       )}
 

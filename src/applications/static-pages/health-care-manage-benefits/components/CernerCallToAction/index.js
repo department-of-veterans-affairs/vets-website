@@ -189,7 +189,9 @@ export class CernerCallToAction extends Component {
     return (
       <div
         className={classNames('usa-alert', 'usa-alert-warning', {
-          'vads-u-padding-right--0': featureStaticLandingPage,
+          'vads-u-padding-right--0':
+            featureStaticLandingPage &&
+            widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE === widgetType,
         })}
         data-testid="cerner-cta-widget"
       >
@@ -213,7 +215,12 @@ export class CernerCallToAction extends Component {
                   <a
                     className="vads-c-action-link--blue"
                     href={myVAHealthLink}
-                    onClick={onCTALinkClick}
+                    onClick={() => {
+                      recordEvent({
+                        event: `vaos-cerner-redirect-static-landing-page`,
+                      });
+                      onCTALinkClick();
+                    }}
                     rel="noreferrer noopener"
                     target="_blank"
                   >

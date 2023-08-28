@@ -25,7 +25,7 @@ import FormFooter from '../components/FormFooter';
 import GetHelp from '../components/GetHelp';
 
 // chapter 1 Veteran Information
-import VeteranProfileInformation from '../components/FormPages/VeteranProfileInformation';
+import VeteranInformation from '../components/FormPages/VeteranInformation';
 import personalInformationSsn from './chapters/veteranInformation/personalInformationSsn';
 import personalInformationDOB from './chapters/veteranInformation/personalInformationDob';
 import birthInformation from './chapters/veteranInformation/birthInformation';
@@ -165,8 +165,10 @@ const formConfig = {
         veteranProfileInformation: {
           path: 'veteran-information/personal-information',
           title: 'Veteran\u2019s personal information',
-          depends: formData => formData['view:isLoggedIn'],
-          CustomPage: VeteranProfileInformation,
+          depends: formData =>
+            formData['view:isLoggedIn'] ||
+            formData['view:isRemoveIdFieldsEnabled'],
+          CustomPage: VeteranInformation,
           CustomPageReview: null,
           uiSchema: {},
           schema: { type: 'object', properties: {} },

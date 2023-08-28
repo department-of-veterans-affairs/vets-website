@@ -21,6 +21,8 @@ import {
   VaSelect,
   VaTextarea,
   VaTextInput,
+  VaProcessList,
+  VaProcessListItem,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V3BasePage() {
@@ -111,15 +113,15 @@ export default function V3BasePage() {
 
   return (
     <>
-      <div className="grid-container">
-        <div className="grid-row">
+      <div className="vads-grid-container vads-font-sans">
+        <div className="vads-grid-row">
           <h1>V3 Without Formation Demo</h1>
         </div>
 
         {/* Text Input */}
-        <div className="grid-row flex-column border-bottom">
-          <h2 className="grid-col font-ui-md">Text input component</h2>
-          <div className="grid-col">
+        <div className="vads-grid-row vads-flex-direction-column border-bottom">
+          <h2 className="vads-grid-col font-ui-md">Text input component</h2>
+          <div className="vads-grid-col">
             <VaTextInput
               uswds
               name="v3Input"
@@ -132,9 +134,9 @@ export default function V3BasePage() {
         </div>
 
         {/* Number Input */}
-        <div className="grid-row flex-column border-bottom">
-          <h2 className="grid-col font-ui-md">Number input component</h2>
-          <div className="grid-col">
+        <div className="vads-grid-row vads-flex-direction-column border-bottom">
+          <h2 className="vads-grid-col font-ui-md">Number input component</h2>
+          <div className="vads-grid-col">
             <VaNumberInput
               uswds
               name="v3NumberInput"
@@ -148,9 +150,9 @@ export default function V3BasePage() {
         </div>
 
         {/* Select */}
-        <div className="grid-row flex-column border-bottom">
-          <h2 className="grid-col font-ui-md">Select component</h2>
-          <div className="grid-col">
+        <div className="vads-grid-row vads-flex-direction-column border-bottom">
+          <h2 className="vads-grid-col font-ui-md">Select component</h2>
+          <div className="vads-grid-col">
             <VaSelect
               uswds
               name="v3Select"
@@ -166,9 +168,9 @@ export default function V3BasePage() {
         </div>
 
         {/* Radio */}
-        <div className="grid-row flex-column border-bottom">
-          <h2 className="grid-col font-ui-md">Radio component</h2>
-          <div className="grid-col">
+        <div className="vads-grid-row vads-flex-direction-column border-bottom">
+          <h2 className="vads-grid-col font-ui-md">Radio component</h2>
+          <div className="vads-grid-col">
             <VaRadio
               uswds
               label="V3 Radio"
@@ -199,9 +201,9 @@ export default function V3BasePage() {
         </div>
 
         {/* Checkbox */}
-        <div className="grid-row flex-column border-bottom">
-          <h2 className="grid-col font-ui-md">Checkbox component</h2>
-          <div className="grid-col">
+        <div className="vads-grid-row vads-flex-direction-column border-bottom">
+          <h2 className="vads-grid-col font-ui-md">Checkbox component</h2>
+          <div className="vads-grid-col">
             <VaCheckboxGroup
               uswds
               label="V3 Checkbox Group"
@@ -216,9 +218,9 @@ export default function V3BasePage() {
         </div>
 
         {/* Memorable Date */}
-        <div className="grid-row flex-column border-bottom">
-          <h2 className="grid-col font-ui-md">Memorable date component</h2>
-          <div className="grid-col">
+        <div className="vads-grid-row vads-flex-direction-column border-bottom">
+          <h2 className="vads-grid-col font-ui-md">Memorable date component</h2>
+          <div className="vads-grid-col">
             <VaMemorableDate
               name="v3MemorableDate"
               label="V3 Memorable date"
@@ -232,9 +234,9 @@ export default function V3BasePage() {
         </div>
 
         {/* Textarea */}
-        <div className="grid-row flex-column border-bottom">
-          <h2 className="grid-col font-ui-md">Textarea component</h2>
-          <div className="grid-col">
+        <div className="vads-grid-row vads-flex-direction-column border-bottom">
+          <h2 className="vads-grid-col font-ui-md">Textarea component</h2>
+          <div className="vads-grid-col">
             <VaTextarea
               name="v3TextArea"
               label="V3 Textarea"
@@ -247,9 +249,9 @@ export default function V3BasePage() {
         </div>
 
         {/* Button pair */}
-        <div className="grid-row flex-column border-bottom">
-          <h2 className="grid-col font-ui-md">Button pair</h2>
-          <div className="grid-col">
+        <div className="vads-grid-row vads-flex-direction-column border-bottom">
+          <h2 className="vads-grid-col font-ui-md">Button pair</h2>
+          <div className="vads-grid-col">
             <VaButtonPair
               continue
               onPrimaryClick={() =>
@@ -265,9 +267,9 @@ export default function V3BasePage() {
         </div>
 
         {/* Button */}
-        <div className="grid-row flex-column border-bottom">
-          <h2 className="grid-col font-ui-md">Button</h2>
-          <div className="grid-col">
+        <div className="vads-grid-row vads-flex-direction-column border-bottom">
+          <h2 className="vads-grid-col font-ui-md">Button</h2>
+          <div className="vads-grid-col">
             <VaButton
               onClick={() => handleClick('v3ButtonValue', 'V3 edit')}
               text="Edit"
@@ -278,9 +280,9 @@ export default function V3BasePage() {
         </div>
 
         {/* Modal */}
-        <div className="grid-row flex-column border-bottom">
-          <h2 className="grid-col font-ui-md">Modal</h2>
-          <div className="grid-col padding-bottom-2">
+        <div className="vads-grid-row vads-flex-direction-column border-bottom">
+          <h2 className="vads-grid-col font-ui-md">Modal</h2>
+          <div className="vads-grid-col padding-bottom-2">
             <VaButton
               onClick={openModalV3}
               text="Click here to open V3 modal"
@@ -302,9 +304,9 @@ export default function V3BasePage() {
         </div>
 
         {/* Privacy Agreement */}
-        <div className="grid-row flex-column border-bottom">
-          <h2 className="grid-col font-ui-md">Privacy Agreement</h2>
-          <div className="grid-col">
+        <div className="vads-grid-row vads-flex-direction-column border-bottom">
+          <h2 className="vads-grid-col font-ui-md">Privacy Agreement</h2>
+          <div className="vads-grid-col">
             <VaPrivacyAgreement
               id="v3PrivacyAgreement"
               onVaChange={e =>
@@ -324,9 +326,9 @@ export default function V3BasePage() {
         </div>
 
         {/* Alert */}
-        <div className="grid-row flex-column border-bottom">
-          <h2 className="grid-col font-ui-md">Alert</h2>
-          <div className="grid-col">
+        <div className="vads-grid-row vads-flex-direction-column border-bottom">
+          <h2 className="vads-grid-col font-ui-md">Alert</h2>
+          <div className="vads-grid-col">
             <h3>Statuses</h3>
             <VaAlert
               status="info"
@@ -437,9 +439,9 @@ export default function V3BasePage() {
         </div>
 
         {/* Progress bar - segmented */}
-        <div className="grid-row flex-column border-bottom">
-          <h2 className="grid-col font-ui-md">Progress bar - segmented</h2>
-          <div className="grid-col">
+        <div className="vads-grid-row vads-flex-direction-column border-bottom">
+          <h2 className="vads-grid-col font-ui-md">Progress bar - segmented</h2>
+          <div className="vads-grid-col">
             <VaSegmentedProgressBar
               centered-labels
               counters="small"
@@ -454,9 +456,9 @@ export default function V3BasePage() {
         </div>
 
         {/* Additional Info */}
-        <div className="grid-row flex-column border-bottom">
-          <h2 className="grid-col font-ui-md">Additional Info</h2>
-          <div className="grid-col">
+        <div className="vads-grid-row vads-flex-direction-column border-bottom">
+          <h2 className="vads-grid-col font-ui-md">Additional Info</h2>
+          <div className="vads-grid-col">
             <VaAdditionalInfo trigger="Expand Additional Information" uswds>
               <div>Here are some items</div>
               <ul>
@@ -466,6 +468,54 @@ export default function V3BasePage() {
                 <li>Item 4</li>
               </ul>
             </VaAdditionalInfo>
+          </div>
+        </div>
+
+        {/* Process List */}
+        <div className="grid-row flex-column border-bottom">
+          <h2 className="grid-col font-ui-md">Process List</h2>
+          <div className="grid-col">
+            <VaProcessList uswds>
+              <VaProcessListItem>
+                <h3>Check to be sure you can request a Board Appeal</h3>
+                <p>
+                  You can request a Board Appeal up to 1 year from the date on
+                  your decision notice. (Exception: if you have a contested
+                  claim, you have only 60 days from the date on your decision
+                  notice to request a Board Appeal.)
+                </p>
+                <p>You can request a Board Appeal for these claim decisions:</p>
+                <ul>
+                  <li>An initial claim</li>
+                  <li>A Supplemental Claim</li>
+                  <li>A Higher-Level Review</li>
+                </ul>
+                <p>
+                  <strong>Note: </strong>
+                  You can’t request a Board Appeal if you’ve already requested
+                  one for this same claim.
+                </p>
+              </VaProcessListItem>
+              <VaProcessListItem>
+                <h3>Gather your information</h3>
+                <p>Here’s what you’ll need to apply:</p>
+                <ul>
+                  <li>Your mailing address</li>
+                  <li>
+                    The VA decision date for each issue you’d like us to review
+                    (this is the date on the decision notice you got in the
+                    mail)
+                  </li>
+                </ul>
+              </VaProcessListItem>
+              <VaProcessListItem>
+                <h3>Start your request</h3>
+                <p>
+                  We’ll take you through each step of the process. It should
+                  take about 30 minutes.
+                </p>
+              </VaProcessListItem>
+            </VaProcessList>
           </div>
         </div>
       </div>
