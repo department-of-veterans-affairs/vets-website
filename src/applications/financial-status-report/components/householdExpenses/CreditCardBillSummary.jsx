@@ -56,6 +56,12 @@ const CreditCardBillSummary = ({
 
   const emptyPrompt = `Select the 'add additional credit card bill' link to add another bill. Select the continue button to move on to the next question.`;
 
+  const generateBillKey = (bill, index) => {
+    return `${bill?.amountDueMonthly}-${bill?.amountPastDue}-${
+      bill?.unpaidBalance
+    }-${index}`;
+  };
+
   const billBody = bill => {
     return (
       <>
@@ -91,12 +97,7 @@ const CreditCardBillSummary = ({
                   search: `?index=${index}`,
                 }}
                 heading="Credit card bill"
-                key={
-                  index +
-                  bill?.amountDueMonthly +
-                  bill?.amountPastDue +
-                  bill?.unpaidBalance
-                }
+                key={generateBillKey(bill, index)}
                 onDelete={() => onDelete(index)}
                 showDelete
                 body={billBody(bill)}
