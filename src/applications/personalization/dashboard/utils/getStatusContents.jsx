@@ -4,7 +4,7 @@ import _ from 'lodash';
 import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router';
 
-import Decision from '../components/claims-and-appeals-v2/Decision';
+import Decision from '../components/claims-and-appeals/Decision';
 import {
   getAojDescription,
   getDocketName,
