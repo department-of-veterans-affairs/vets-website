@@ -10,7 +10,17 @@ import {
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
 
-import { currency as currencyFormatter } from '../../utils/helpers';
+import {
+  currency as currencyFormatter,
+  generateUniqueKey,
+} from '../../utils/helpers';
+
+export const keyFieldsForInstallmentContract = [
+  'creditorName',
+  'amountDueMonthly',
+  'amountPastDue',
+  'unpaidBalance',
+];
 
 const InstallmentContractSummary = ({
   goToPath,
@@ -105,7 +115,11 @@ const InstallmentContractSummary = ({
                   search: `?index=${index}`,
                 }}
                 heading={bill.purpose}
-                key={index} // Use index as the key
+                key={generateUniqueKey(
+                  bill,
+                  keyFieldsForInstallmentContract,
+                  index,
+                )} // Use index as the key
                 onDelete={() => onDelete(index)}
                 showDelete
                 body={billBody(bill)}

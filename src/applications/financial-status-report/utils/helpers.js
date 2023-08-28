@@ -358,3 +358,11 @@ export const getDiffInDays = date => {
   const dateToday = moment();
   return dateDischarge.diff(dateToday, 'days');
 };
+
+export const generateUniqueKey = (data, fields, index = null) => {
+  const keyParts = fields.map(field => data[field] ?? 'undefined');
+  if (index !== null) {
+    keyParts.push(index);
+  }
+  return keyParts.join('-');
+};

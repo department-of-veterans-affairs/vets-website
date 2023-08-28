@@ -10,7 +10,16 @@ import {
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
 
-import { currency as currencyFormatter } from '../../utils/helpers';
+import {
+  currency as currencyFormatter,
+  generateUniqueKey,
+} from '../../utils/helpers';
+
+export const keyFieldsForCreditCard = [
+  'amountDueMonthly',
+  'amountPastDue',
+  'unpaidBalance',
+];
 
 const CreditCardBillSummary = ({
   goToPath,
@@ -56,12 +65,6 @@ const CreditCardBillSummary = ({
 
   const emptyPrompt = `Select the 'add additional credit card bill' link to add another bill. Select the continue button to move on to the next question.`;
 
-  const generateBillKey = (bill, index) => {
-    return `${bill?.amountDueMonthly}-${bill?.amountPastDue}-${
-      bill?.unpaidBalance
-    }-${index}`;
-  };
-
   const billBody = bill => {
     return (
       <>
@@ -97,7 +100,7 @@ const CreditCardBillSummary = ({
                   search: `?index=${index}`,
                 }}
                 heading="Credit card bill"
-                key={generateBillKey(bill, index)}
+                key={generateUniqueKey(bill, keyFieldsForCreditCard, index)}
                 onDelete={() => onDelete(index)}
                 showDelete
                 body={billBody(bill)}
