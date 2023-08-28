@@ -87,7 +87,7 @@ const MailOrFaxFilesContent = () => {
             <div className="mail-fax-address">
               <div>NCA Intake Center</div>
               <div>P.O. Box 5237</div>
-              <div>Janesville, WI 5347</div>
+              <div>Janesville, WI 53547</div>
             </div>
           </p>
           <strong>Or</strong>
