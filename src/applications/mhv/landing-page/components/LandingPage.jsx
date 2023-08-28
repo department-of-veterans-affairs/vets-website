@@ -3,7 +3,7 @@ import CardLayout from './CardLayout';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
-import PriorityGroup from './PriorityGroup';
+import PriorityGroup from '../containers/PriorityGroup';
 
 const LandingPage = ({ data = null }) => {
   const { cards = null, hubs } = data;

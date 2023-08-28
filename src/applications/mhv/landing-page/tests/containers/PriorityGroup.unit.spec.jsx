@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { PriorityGroup } from '../../components/PriorityGroup';
+import { PriorityGroup } from '../../containers/PriorityGroup';
 
 const initialProps = {
   enabled: true,
@@ -29,14 +29,14 @@ describe('Priority Group Component', () => {
   });
 
   it('displays the assigned priority group', () => {
-    const wrapper = setup();
-    const content = 'Your healthcare priority group: 8G';
-    expect(wrapper.getByText(content)).to.exist;
+    const { getByTestId } = setup();
+    const content = 'Your health care priority group: 8G';
+    expect(getByTestId('mhv-priority-group').textContent).to.contain(content);
   });
 
   it('links to an article about priority groups, tracked by datadog', () => {
     const wrapper = setup();
-    const name = 'Learn more about priority groups';
+    const name = 'priority group';
     const link = wrapper.getByRole('link', { name });
     expect(link).to.exist;
     const linkPath = '/health-care/eligibility/priority-groups';
