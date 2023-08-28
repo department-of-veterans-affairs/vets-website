@@ -20,8 +20,11 @@ const PrintDownload = props => {
       'fas fa-angle-up vads-u-color--primary vads-u-margin-left--0p5';
   }
 
-  const handleKeyDown = e => {
+  const handleUserKeyPress = e => {
+    // 13=Enter 40=DownArrow 38=UpArrow 27=Escape 9=Tab
+
     e.preventDefault();
+
     if (e.keyCode === 38 && printIndex > 0) {
       setPrintIndex(printIndex - 1);
     } else if (e.keyCode === 40 && printIndex < 2) {
@@ -41,13 +44,16 @@ const PrintDownload = props => {
     if (e.keyCode === 27) {
       setMenuOpen(false);
     }
+    if (e.keyCode === 9) {
+      setMenuOpen(true);
+    }
   };
 
   return (
     <div
       className="print-download vads-u-margin-y--2 no-print"
-      onKeyDown={handleKeyDown}
       aria-hidden="true"
+      onKeyDown={handleUserKeyPress}
     >
       <button
         type="button"
