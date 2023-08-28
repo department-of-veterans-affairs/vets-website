@@ -1,12 +1,9 @@
 import React from 'react';
-import { Element } from 'react-scroll';
 import CollapsiblePanel from './CollapsiblePanel';
 
 const CollapsibleList = () => {
   return (
     <div id="SupportingFiles-collapsiblePanel">
-      <Element name="chapterSupportingFilesScrollElement" />
-      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <div className="input-section">
         <div
           id="3-collapsiblePanel"
