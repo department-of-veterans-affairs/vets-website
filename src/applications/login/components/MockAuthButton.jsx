@@ -6,7 +6,7 @@ import {
   CSP_IDS,
   SERVICE_PROVIDERS,
 } from 'platform/user/authentication/constants';
-import Select from '@department-of-veterans-affairs/component-library/Select';
+import { VaSelect } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function MockAuthButton() {
   const [authType, setAuthType] = useState(CSP_IDS.LOGIN_GOV);
@@ -15,18 +15,19 @@ export default function MockAuthButton() {
     environment.getRawBuildtype(),
   ) ? (
     <>
-      <Select
+      <VaSelect
         label="Credential Service Provider"
         name="authType"
-        includeBlankOption={false}
-        errorMessage={mockLoginError}
-        value={{ value: authType }}
-        onValueChange={({ value }) => setAuthType(value)}
-        options={Object.values(SERVICE_PROVIDERS).map(provider => ({
-          label: provider.label,
-          value: provider.policy,
-        }))}
-      />
+        error={mockLoginError}
+        value={authType}
+        onVaSelect={({ detail: { value } }) => setAuthType(value)}
+      >
+        {Object.values(SERVICE_PROVIDERS).map(provider => (
+          <option key={provider.policy} value={provider.policy}>
+            {provider.label}
+          </option>
+        ))}
+      </VaSelect>
       <button
         type="button"
         aria-label="Mock Authentication"
@@ -39,7 +40,7 @@ export default function MockAuthButton() {
           }
         }}
       >
-        Mock Authentication
+        Sign in with mocked authentication
       </button>
     </>
   ) : null;
