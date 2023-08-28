@@ -1,60 +1,64 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
-import { formatSSN } from 'platform/utilities/ui';
+// import { formatSSN } from 'platform/utilities/ui';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
-const convertDateFormat = date => {
-  date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
-};
+// const convertDateFormat = date => {
+//   date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
+// };
 
-const formatPhoneNumber = num =>
-  `(${num.substr(0, 3)}) ${num.substr(3, 3)}-${num.substr(6)}`;
+// const formatPhoneNumber = num =>
+//   `(${num.substr(0, 3)}) ${num.substr(3, 3)}-${num.substr(6)}`;
 
-const locationOfDeath = {
-  nursingHome: 'Nursing home under VA contract',
-  vaMedicalCenter: 'VA medical center',
-  stateVeteransHome: 'State Veterans home',
-};
+// const locationOfDeath = {
+//   nursingHome: 'Nursing home under VA contract',
+//   vaMedicalCenter: 'VA medical center',
+//   stateVeteransHome: 'State Veterans home',
+// };
 
-const burialAllowanceRequest = {
-  nonService: 'Non-Service connected death',
-  vaMedicalCenter:
-    'Service-connected death (for a Veteran death related to, or resulting from, a service-connected disability)',
-};
+// const burialAllowanceRequest = {
+//   nonService: 'Non-Service connected death',
+//   vaMedicalCenter:
+//     'Service-connected death (for a Veteran death related to, or resulting from, a service-connected disability)',
+// };
 
-const formatCurrency = num => `$${num.toLocaleString()}`;
+// const formatCurrency = num => `$${num.toLocaleString()}`;
 const bytesToKB = bytes => `${Math.round(bytes / 1024)} KB`;
 
-const formatAddress = address => {
-  return `${Object.values(address)
-    .filter(line => line !== undefined)
-    .join('\n')}`;
-};
+// const formatAddress = address => {
+//   return `${Object.values(address)
+//     .filter(line => line !== undefined)
+//     .join('\n')}`;
+// };
 
-const relationshipType = {
-  spouse: 'Spouse',
-  child: 'Child',
-  parent: 'Parent',
-  executor: 'Executor/Administrator of estate',
-};
+// const relationshipType = {
+//   spouse: 'Spouse',
+//   child: 'Child',
+//   parent: 'Parent',
+//   executor: 'Executor/Administrator of estate',
+// };
 
 const renderFields = [
   {
-    title: 'Claimant information',
-    id: 'claimant-information',
-  },
-  {
-    title: 'Deceased Veteran information',
-    id: 'deceased-veteran-information',
+    title: 'Applicant information',
+    id: 'applicant-information',
   },
   {
     title: 'Military history',
     id: 'military-history',
   },
   {
-    title: 'Benefits selection',
-    id: 'benefits-selection',
+    title: 'Work history',
+    id: 'work-history',
+  },
+  {
+    title: 'Household information',
+    id: 'household-information',
+  },
+  {
+    title: 'Financial disclosure',
+    id: 'financial-disclosure',
   },
   {
     title: 'Additional information',
@@ -63,122 +67,99 @@ const renderFields = [
 ];
 
 const generateData = (type, formData) => {
+  // add formData back after type
   switch (type) {
-    case 'claimant-information':
+    case 'applicant-information':
       return {
-        'Claimant’s first name': formData.claimantFullName.first
-          ? formData.claimantFullName.first
-          : '',
-        'Claimant’s middle name': formData.claimantFullName?.middle ?? 'None',
-        'Claimant’s last name': formData.claimantFullName.last
-          ? formData.claimantFullName.last
-          : '',
-        Suffix: formData.claimantFullName?.suffix ?? 'None',
-        'Relationship to the deceased Veterans': formData.relationship.type
-          ?.other
-          ? formData.relationship.other
-          : relationshipType[formData.relationship.type],
-      };
-    case 'deceased-veteran-information':
-      return {
-        'Veteran’s first name': formData.veteranFullName.first
-          ? formData.veteranFullName.first
-          : '',
-        'Veteran’s middle name': formData.veteranFullName?.middle ?? 'None',
-        'Veteran’s last name': formData.veteranFullName.last
-          ? formData.veteranFullName.last
-          : '',
-        Suffix: formData.veteranFullName?.suffix ?? 'None',
-        'Social Security number': formData.veteranSocialSecurityNumber
-          ? formatSSN(formData.veteranSocialSecurityNumber)
-          : '',
-        'VA file number': formData.vaFileNumber ? formData.vaFileNumber : '',
-        'Date of birth': formData.veteranDateOfBirth
-          ? convertDateFormat(formData.veteranDateOfBirth)
-          : '',
-        'Place of birth (city and state or foreign country)':
-          formData?.placeOfBirth ?? 'None',
-        'Burial information': {
-          'Date of death': formData.deathDate
-            ? convertDateFormat(formData.deathDate)
-            : '',
-          'Date of burial (includes cremation or interment)': formData.burialDate
-            ? convertDateFormat(formData.burialDate)
-            : '',
-          'Where did the Veteran’s death occur?': formData.locationOfDeath
-            ?.other
-            ? formData.locationOfDeath.other
-            : locationOfDeath[formData.locationOfDeath.location],
-        },
+        'Your first name': 'First',
+        'Your middle name': 'None',
+        'Your last name': 'Last',
+        Suffix: 'None',
+        'Relationship to the deceased Veterans': 'XXX-XX-XXXX',
       };
     case 'military-history':
       return {
-        'Previous names': {
-          'Did the Veteran serve under another name?':
-            formData.previousNames?.length > 0 ? formData.previousNames : 'No',
+        'General history': {
+          'Did you serve under another name?': 'No',
+          'Place of last or anticipated separation (city and state or foreign country)':
+            'None',
+        },
+        'Reserve and National Guard': {
+          'Are you currently on federal active duty in the National Guard?':
+            'No',
+        },
+        'POW status & severance pay': {
+          'Have you ever been a POW?': 'No',
+          'Have you received any type of severance or separation pay': 'No',
         },
       };
-    case 'benefits-selection':
+    case 'work-history':
       return {
-        'General selection': {
-          'Burial allowance': formData['view:claimedBenefits'].burialAllowance
-            ? 'Selected'
-            : 'Not selected',
-          'Plot or interment allowance (Check this box if you incurred expensed for the plot to bury the Veteran’s remains.)': formData[
-            'view:claimedBenefits'
-          ].plotAllowance
-            ? 'Selected'
-            : 'Not selected',
-          'Transportation expenses (Transportation of the Veteran’s remains from the place of death to the final resting place)': formData[
-            'view:claimedBenefits'
-          ].transportation
-            ? formatCurrency(formData['view:claimedBenefits'].amountIncurred)
-            : 'None',
+        'Disability history': {
+          'Have you been treated at a VA medical center for the above disability?':
+            'No',
+          Disability: 'Chronic back pain',
+          'Date disability began': '01/01/1966',
         },
-        'Burial allowance': {
-          'Type of burial allowance':
-            burialAllowanceRequest[formData.burialAllowanceRequested],
-          'Did you previously receive a VA burial allowance?': formData[
-            'view:claimedBenefits'
-          ].burialAllowance
-            ? 'Yes'
-            : 'No',
+        'Employment history': {
+          'Have you had a job (including being self-employed) from 1 year before you became disabled?':
+            'Yes',
+          'Name of employer': 'DreamJob Inc.',
+          Address: 'render address',
+          'Job title': 'Construction',
+          From: '01/01/1980',
+          To: '01/01/1989',
+          'How many days lost to disability': '300',
+          'Total annual earnings': '$30,000.00',
         },
-        'Plot or interment allowance': {
-          'Place of burial or location of deceased Veteran’s remains': formData.placeOfRemains
-            ? formData.placeOfRemains
-            : '',
-          'Was the Veteran buried in a state Veterans cemetary?': formData.stateCemetary
-            ? 'Yes'
-            : 'No',
-          'Did a federal/state government or the Veteran’s employer contribute to the burial? (Not including employer life insurance)': formData.govtContributions
-            ? formatCurrency(formData.amountGovtContribution)
-            : 'No',
+      };
+    case 'household-information':
+      return {
+        'Marriage history': {
+          'What’s your marital status?': 'Never married',
+        },
+        'Dependent children': {
+          'Do you have any dependent children?': 'No',
+        },
+      };
+    case 'financial-disclosure':
+      return {
+        'Helen Garcia’s net worth': {
+          'Cash/Non-interest bearing accounts': '$0.00',
+          'Interest bearing accounts': '$0.00',
+          'IRAs, KEOGH Plans, etc.': '$0.00',
+          'Stocks, bonds,mutual funds, etc.': '$0.00',
+          'Real property (not your home, vehicle, furniture, or clothing)':
+            '$0.00',
+        },
+        'Helen Garcia’s monthly income': {
+          'Social Security': '$0.00',
+          'US Civil Service': '$0.00',
+          'US Railroad Retirement': '$0.00',
+          'Black Lung Benefits': '$0.00',
+          'Service Retirement': '$0.00',
+          'Supplemental Security Income (SSI) or Public Assistance': '$0.00',
+        },
+        'Helen Garcia’s expected income': {
+          'Gross wages and salary': '$0.00',
+          'Total dividends and interest': '$0.00',
         },
       };
     case 'additional-information':
       return {
-        'Claimant contact information': {
-          Address: formData.claimantAddress
-            ? formatAddress(formData.claimantAddress)
-            : '',
-          'Email address': formData.claimantEmail ? formData.claimantEmail : '',
-          'Phone number': formData.claimantPhone
-            ? formatPhoneNumber(formData.claimantPhone)
-            : '',
+        'Direct deposit': {
+          'You did not select to use direct deposit': '',
+        },
+        'Contact information': {
+          'Mailing Address': 'render mailing address',
+          'Primary email': formData.email,
+          'Secondary email': 'None',
+          'Daytime phone': 'None',
+          'Evening phone': 'None',
+          'Mobile phone': '(202) 111-1111',
         },
         'Document upload': {
-          'Veterans death certificate':
-            formData.transportationReceipts.length > 0
-              ? formData.transportationReceipts.slice(0, 1)
-              : '',
-          'Documentation for transportation of the Veteran’s remains or other supporting evidence':
-            formData.transportationReceipts.length > 0
-              ? formData.transportationReceipts.slice(
-                  1,
-                  formData.transportationReceipts.length,
-                )
-              : '',
+          Test: 'test',
         },
       };
     default:
@@ -228,12 +209,19 @@ const ArrayComponent = ({ value }) => {
 };
 
 const h3Subsections = [
-  'Burial information',
-  'Previous names',
-  'General selection',
-  'Burial allowance',
-  'Plot or interment allowance',
-  'Claimant contact information',
+  'General history',
+  'Reserve and National Guard',
+  'POW status & severance pay',
+  'Disability history',
+  'Employment history',
+  'Marriage history',
+  'Dependent children',
+  'Helen Garcia’s net worth',
+  'Helen Garcia’s monthly income',
+  'Helen Garcia’s expected income',
+  'Helen Garcia’s expenses',
+  'Direct deposit',
+  'Contact information',
   'Document upload',
 ];
 
@@ -293,7 +281,7 @@ export const NoFormPage = () => {
   const loggedIn = useSelector(isLoggedIn);
 
   useEffect(() => {
-    const resource = '/in_progress_forms/21P-530';
+    const resource = '/in_progress_forms/21P-527EZ';
 
     apiRequest(resource)
       .then(responseData => {
@@ -304,20 +292,6 @@ export const NoFormPage = () => {
         setLoading(false);
       });
   }, []);
-
-  // useEffect(() => {
-  //   const resource = '/intent_to_file/pension/active';
-
-  //   apiRequest(resource)
-  //     .then(responseData => {
-  //       console.log(responseData);
-  //       setUser(responseData);
-  //       // setLoading(false);
-  //     })
-  //     .catch(() => {
-  //       // setLoading(false);
-  //     });
-  // }, []);
 
   if (loading) {
     return (
@@ -332,8 +306,8 @@ export const NoFormPage = () => {
 
   return loggedIn ? (
     <div className="row vads-u-margin-bottom--4">
-      <h1>Review Burial Benefits Application</h1>
-      <p>VA Form 21P-530</p>
+      <h1>Review Pension Benefits Application</h1>
+      <p>VA Form 21P-527EZ</p>
       {data?.metadata?.inProgressFormId ? (
         <>
           <va-alert
@@ -352,12 +326,12 @@ export const NoFormPage = () => {
             <br />
             <va-link
               href="https://www.va.gov/burials-memorials/veterans-burial-allowance/"
-              text="Learn more about how to apply for VA burial benefits"
+              text="Learn more about how to apply for VA pension benefits"
             />
           </va-alert>
           <h3>Apply by mail</h3>
           <p>
-            Fill out an Application for Veterans Burial (VA Form 21P-530EZ).
+            Fill out an Application for Veterans Pension (VA Form 21P-527EZ).
           </p>
           <div>
             <va-link
@@ -365,15 +339,15 @@ export const NoFormPage = () => {
               filetype="PDF"
               href="https://www.vba.va.gov/pubs/forms/VBA-21P-530EZ-ARE.pdf"
               pages={8}
-              text="Download VA form 21P-530EZ"
+              text="Download VA form 21P-527EZ"
             />
             <p>
-              We’ve captured your intent to file date of{' '}
+              We’ve captured your intent to file date of
               <strong>XX/XX/XXXX</strong>. You have 12 months from that date to
               submit a claim.
             </p>
             <p className="vads-u-margin-bottom--4">
-              Mail your burial form to the pension management center:
+              Mail your pension form to the pension management center:
             </p>
             <p className="va-address-block">
               Department of Veterans Affairs <br />
