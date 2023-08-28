@@ -10,6 +10,7 @@ const HealthCareCTAV2 = ({
   hasAppointmentsError,
   hasUpcomingAppointment,
   isVAPatient,
+  unreadMessagesCount,
 }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
@@ -41,8 +42,9 @@ const HealthCareCTAV2 = ({
       {isVAPatient && (
         <>
           <IconCTALink
-            text="Go to your inbox"
+            text="Go to inbox"
             icon="comments"
+            dotIndicator={unreadMessagesCount > 0}
             href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
             testId="view-your-messages-link-from-cta"
             onClick={() =>
