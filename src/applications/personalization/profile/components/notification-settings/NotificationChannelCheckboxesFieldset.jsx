@@ -18,11 +18,11 @@ export const NotificationChannelCheckboxesFieldset = ({
     'vads-u-margin--0',
   );
 
-  const fieldsetClasses = classNames(
+  const fieldsetWrapperClasses = classNames(
     'vads-u-position--relative',
     'vads-u-border-left--4px',
     'vads-u-padding-left--1p5',
-    'vads-u-padding-bottom--1p5',
+    'vads-u-margin-bottom--1p5',
     'vads-u-margin-left--neg1p5',
     {
       'vads-u-border-color--white':
@@ -33,18 +33,20 @@ export const NotificationChannelCheckboxesFieldset = ({
   );
 
   return (
-    <fieldset className={fieldsetClasses} disabled={hasSomePendingUpdates}>
-      <legend className="vads-u-padding--0">
-        <h3 className={legendHeadingClasses}>{itemName}</h3>
-        {description ? (
-          <p className="vads-u-margin-y--0p5 vads-u-color--gray-medium vads-u-font-size--base vads-u-font-weight--normal">
-            {description}
-          </p>
-        ) : null}
-      </legend>
+    <div data-testid="fieldset-wrapper" className={fieldsetWrapperClasses}>
+      <fieldset disabled={hasSomePendingUpdates}>
+        <legend className="vads-u-padding--0">
+          <h3 className={legendHeadingClasses}>{itemName}</h3>
+          {description ? (
+            <p className="vads-u-margin-y--0p5 vads-u-color--gray-medium vads-u-font-size--base vads-u-font-weight--normal">
+              {description}
+            </p>
+          ) : null}
+        </legend>
 
-      {children}
-    </fieldset>
+        {children}
+      </fieldset>
+    </div>
   );
 };
 

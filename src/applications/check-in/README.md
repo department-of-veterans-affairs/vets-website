@@ -48,9 +48,11 @@ There are several different mock UUIDs that can be used as a value for the `id` 
 
 When adding features, use components from the design system as much as possible. For general spacing, layout, typography, borders, etc... use the utility classes rather than adding to the style sheet.
 
-## Try to be generic
+## Code style
+### Try to be generic
 The check-in and pre-check-in apps are very similar, so when possible use and add to the common reducer, selector, and utils found in the root of the two apps.
-
+### Function parameters
+If you have more than two parameters, structure the parameters in an object to increase readability and ease of use.
 ## Page routing
 Internal page routing is defined in `utils\navigation`. Within this directory there are sub-directories for `day-of` and `pre-check-in`. The index file in each sub-directory contains an object that determines the order of the pages. Within the hooks there is a `useFormRouting` hook that is used to route to the next page, previous page, error page, or any specific page in the app.
 
