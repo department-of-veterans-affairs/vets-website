@@ -46,9 +46,6 @@ class SecureMessagingLandingPage {
 
     cy.wait('@featureToggles');
     cy.wait('@user');
-    cy.wait('@folders');
-    cy.wait('@categories');
-    cy.wait('@generalFolder');
   };
 
   verifyHeader = (text = 'Messages') => {

@@ -7,13 +7,13 @@ import { medicationsUrls } from '../util/constants';
 
 const LandingPage = () => {
   const fullState = useSelector(state => state);
-  const medicationsUrl = !fullState.user.login.currentlyLoggedIn
+  const medicationsUrl = fullState.user.login.currentlyLoggedIn
     ? medicationsUrls.prescriptionsUrl
     : medicationsUrls.medicationsLogin;
 
   const content = () => {
     return (
-      <div className="landing-page">
+      <div className="landing-page vads-l-grid-container">
         <div className="main-content">
           <section>
             <h1>About Medications</h1>
@@ -195,7 +195,7 @@ const LandingPage = () => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Compose a message on My HealthVet
+                    Compose a message on My HealtheVet
                   </a>
                 </p>
                 <p>
@@ -220,7 +220,7 @@ const LandingPage = () => {
                 <h3 className="vads-u-font-size--h6" slot="headline">
                   How to renew prescriptions
                 </h3>
-                <p>
+                <p data-testId="renew-information-button">
                   If your prescription is too old to refill or has no refills
                   left, you’ll need to request a renewal. The fastest way to
                   renew is by calling the phone number on your prescription
@@ -256,14 +256,14 @@ const LandingPage = () => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Compose a message on My HealthVet
+                  Compose a message on My HealtheVet
                 </a>
               </va-accordion-item>
               <va-accordion-item>
                 <h3 className="vads-u-font-size--h6" slot="headline">
                   How to confirm or update your mailing address
                 </h3>
-                <p>
+                <p data-testId="mailing-address-confirmation">
                   We’ll send your prescriptions to the address we have on file
                   for you. We ship to all addresses in the U.S. and its
                   territories. We don’t ship prescriptions to foreign countries.
@@ -280,7 +280,7 @@ const LandingPage = () => {
                 <h3 className="vads-u-font-size--h6" slot="headline">
                   How to review your allergies and reactions
                 </h3>
-                <p>
+                <p data-testId="allergies-reactions-review">
                   Make sure your providers know about all your allergies and
                   reactions to medications.
                 </p>
