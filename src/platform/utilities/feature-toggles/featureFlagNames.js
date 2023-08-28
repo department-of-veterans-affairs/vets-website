@@ -115,6 +115,7 @@ export default Object.freeze({
   profileUseNotificationSettingsCheckboxes: 'profile_use_notification_settings_checkboxes',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
+  ratedDisabilitiesUseLighthouse: 'rated_disabilities_use_lighthouse',
   searchRepresentative: 'search_representative',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
   show526Wizard: 'show526_wizard',
