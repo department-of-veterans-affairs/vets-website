@@ -75,7 +75,7 @@ const Avs = props => {
   if (isLoggedIn && (avsLoading || featureTogglesLoading)) {
     return (
       <va-loading-indicator
-        data-testid="loading-indicator"
+        data-testid="avs-loading-indicator"
         message="Loading your After-visit Summary"
       />
     );

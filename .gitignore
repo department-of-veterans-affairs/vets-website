@@ -5,7 +5,6 @@ logs/
 tmp/
 out/
 src/applications/vaos/docs/
-src/applications/avs/tests/fixtures/
 src/site/tests/html/
 
 # Files to ignore
