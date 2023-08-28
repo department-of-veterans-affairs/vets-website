@@ -68,7 +68,7 @@ export const rxListSortingOptions = [
 ];
 
 export const medicationsUrls = {
-  prescriptionsUrl: '/my-health/medications/prescriptions',
+  prescriptionsUrl: '/my-health/medications/',
   medicationsLogin:
-    '/my-health/medications/my-health/medications/?next=loginModal&oauth=true',
+    '/my-health/medications/prescriptions?next=loginModal&oauth=true',
 };

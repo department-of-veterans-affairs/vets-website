@@ -45,6 +45,6 @@ describe('area of disagreement page', () => {
     // issueTitle isn't called with form data, so we check the static text
     expect(header.textContent).to.contain('Disagreement with');
     expect(header.textContent).to.contain('decision on');
-    expect($('h3 .dd-privacy-hidden', container)).to.exist;
+    expect($('h3 .dd-privacy-hidden[data-dd-action-name]', container)).to.exist;
   });
 });
