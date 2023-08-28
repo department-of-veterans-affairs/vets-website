@@ -91,7 +91,9 @@ describe('<ContactInfo>', () => {
     expect($$('h4', container).length).to.equal(4);
     expect($$('h5', container).length).to.equal(0);
     // mobile phone, home phone, email, mailing address x2
-    expect($$('.dd-privacy-hidden', container).length).to.equal(5);
+    expect(
+      $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
+    ).to.equal(5);
   });
 
   it('should render contact data w/no success messages', () => {
