@@ -9,6 +9,8 @@ const { runCommand } = require('./utils');
 const specDirs = '{src,script}';
 const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
 
+const isStressTest = Boolean(process.env.IS_STRESS_TEST);
+
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'log-level', type: String, defaultValue: 'log' },
   { name: 'app-folder', type: String, defaultValue: null },
@@ -69,4 +71,8 @@ const command = `LOG_LEVEL=${options[
   .map(p => `'${p}'`)
   .join(' ')}`;
 
-runCommand(command);
+const runTestsInLoopUpTo = isStressTest ? 2 : 1;
+
+for (let i = 0; i < runTestsInLoopUpTo; i += 1) {
+  runCommand(command);
+}

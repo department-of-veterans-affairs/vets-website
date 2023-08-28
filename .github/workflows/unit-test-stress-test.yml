@@ -1,0 +1,111 @@
+name: E2E Stress Test
+
+on:
+  # schedule:
+  #   - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
+  push
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: self-hosted
+    outputs:
+      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
+
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Create test results folder
+        run: mkdir -p test-results
+
+      - name: Get changed applications
+        id: get-changed-apps
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'folder'
+
+      - name: Run unit tests
+        run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
+        env:
+          MOCHA_FILE: test-results/unit-tests.xml
+          APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
+          IS_STRESS_TEST: true
+      # - name: Archive unit test results
+      #   if: ${{ always() }}
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: unit-test-report
+      #     path: mochawesome-report
+
+      # - name: Generate coverage report by app
+      #   run: node script/app-coverage-report.js > test-results/coverage_report.txt
+
+      # - name: Upload Coverage Report Artifact
+      #   uses: actions/upload-artifact@v3
+      #   if: ${{ always() }}
+      #   with:
+      #     name: unit-test-coverage-report
+      #     path: coverage/test-coverage-report.json
+
+      # - name: Configure AWS credentials (1)
+      #   if: ${{ github.ref == 'refs/heads/main' }}
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-gov-west-1
+
+      # - name: Get AWS IAM role
+      #   if: ${{ github.ref == 'refs/heads/main' }}
+      #   uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+      #   with:
+      #     ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+      #     env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      # - name: Configure AWS Credentials (2)
+      #   if: ${{ github.ref == 'refs/heads/main' }}
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-gov-west-1
+      #     role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+      #     role-duration-seconds: 900
+      #     role-session-name: vsp-frontendteam-githubaction
+
+      # - name: Upload coverage report to S3
+      #   if: ${{ github.ref == 'refs/heads/main' && steps.get-changed-apps.outputs.folders == '' }}
+      #   run: aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
+
+      # - name: Get code coverage
+      #   if: ${{ always() }}
+      #   id: code-coverage
+      #   run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
+
+      # - name: Publish test results
+      #   if: ${{ always() }}
+      #   continue-on-error: true
+      #   uses: mikepenz/action-junit-report@v2.8.4
+      #   with:
+      #     check_name: 'Unit Tests Summary'
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     report_paths: 'test-results/unit-tests.xml'
+      #     summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
+      #     fail_on_failure: 'true'
