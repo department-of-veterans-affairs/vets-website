@@ -82,7 +82,7 @@ const MailOrFaxFilesContent = () => {
           application.
         </li>
         <li>
-          Submit the application and supporting files to the VA by mail:
+          Submit application and supporting files to the VA by mail:
           <p>
             <div className="mail-fax-address">
               <div>NCA Intake Center</div>
