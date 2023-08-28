@@ -13,7 +13,7 @@ export default (store, widgetType) => {
       const App = module.default;
       ReactDOM.render(
         <Provider store={store}>
-          <App />
+          <App widgetType={widgetType} />
         </Provider>,
         root,
       );

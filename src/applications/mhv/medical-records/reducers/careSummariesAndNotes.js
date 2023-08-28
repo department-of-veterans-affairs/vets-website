@@ -37,7 +37,11 @@ export const convertNote = note => {
     summary:
       (isArrayAndHasItems(note.content) &&
         typeof note.content[0].attachment?.data === 'string' &&
-        Buffer.from(note.content[0].attachment.data, 'base64').toString()) ||
+        Buffer.from(note.content[0].attachment.data, 'base64')
+          .toString()
+          .split('\r')
+          .filter(i => i !== '\r')
+          .join('')) ||
       emptyField,
     location:
       (isArrayAndHasItems(note.context?.related) &&
@@ -67,9 +71,10 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
     case Actions.CareSummariesAndNotes.GET_LIST: {
       return {
         ...state,
-        careSummariesAndNotesList: action.response.entry.map(note => {
-          return convertNote(note.resource);
-        }),
+        careSummariesAndNotesList:
+          action.response.entry?.map(note => {
+            return convertNote(note.resource);
+          }) || [],
       };
     }
     default:

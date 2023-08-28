@@ -1,19 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getDate } from '../utils/dates';
-import { FORMAT_READABLE } from '../constants';
+import { getDate } from '../../shared/utils/dates';
+import { FORMAT_READABLE } from '../../shared/constants';
 
 const ShowIssuesList = ({ issues }) => (
   <ul>
     {issues.map((issue, index) => (
       <li key={index}>
-        <strong className="capitalize dd-privacy-hidden">
+        <strong
+          className="capitalize dd-privacy-hidden"
+          data-dd-action-name="issue name"
+        >
           {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}
         </strong>
         <div>
           Decision date:{' '}
-          <span className="dd-privacy-hidden">
+          <span
+            className="dd-privacy-hidden"
+            data-dd-action-name="issue decision date"
+          >
             {getDate({
               date:
                 issue.attributes?.approxDecisionDate ||

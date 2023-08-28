@@ -8,6 +8,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import { isValidCurrency } from '../../utils/validations';
+import ContractsExplainer from './ContractsExplainer';
 
 const defaultRecord = [
   {
@@ -177,6 +178,54 @@ const InstallmentContract = props => {
     },
   };
 
+  const renderAddCancelButtons = () => {
+    return (
+      <>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handlers.onCancel}
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          id="submit"
+          className="vads-u-width--auto"
+          onClick={handlers.onUpdate}
+        >
+          {`${
+            installmentContracts.length === index ? 'Add' : 'Update'
+          } an installment contract`}
+        </button>
+      </>
+    );
+  };
+
+  const renderContinueBackButtons = () => {
+    return (
+      <>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handlers.onCancel}
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          id="submit"
+          className="vads-u-width--auto"
+          onClick={updateFormData}
+        >
+          Continue
+        </button>
+      </>
+    );
+  };
+
   return (
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
@@ -186,11 +235,12 @@ const InstallmentContract = props => {
               installmentContracts.length === index ? 'Add' : 'Update'
             } an installment contract or other debt`}
           </h3>
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+            If you have more than one installment contract or other debt, enter
+            the information for one contract or debt below.
+          </p>
         </legend>
-        <p>
-          If you have more than one installment contract or other debt, enter
-          the information for one contract or debt below.
-        </p>
+        <ContractsExplainer />
         <div className="input-size-6">
           <VaTextInput
             className="no-wrap input-size-6"
@@ -282,24 +332,9 @@ const InstallmentContract = props => {
         </div>
       </fieldset>
       <div>
-        <button
-          type="button"
-          id="cancel"
-          className="usa-button-secondary vads-u-width--auto"
-          onClick={handlers.onCancel}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          id="submit"
-          className="vads-u-width--auto"
-          onClick={handlers.onUpdate}
-        >
-          {`${
-            installmentContracts.length === index ? 'Add' : 'Update'
-          } an installment contract`}
-        </button>
+        {installmentContracts.length > 0
+          ? renderAddCancelButtons()
+          : renderContinueBackButtons()}
       </div>
     </form>
   );

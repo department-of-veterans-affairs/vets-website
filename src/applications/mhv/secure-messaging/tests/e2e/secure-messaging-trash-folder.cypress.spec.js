@@ -74,4 +74,21 @@ describe('Secure Messaging Trash Folder checks', () => {
     });
     PatientMessageTrashPage.verifySorting();
   });
+
+  it('Checks for "End of conversations in this folder" text', () => {
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    cy.get('.endOfThreads').should('not.exist');
+    PatientMessageTrashPage.navigateToLastPage();
+    cy.get('.endOfThreads').should(
+      'have.text',
+      'End of conversations in this folder',
+    );
+  });
 });

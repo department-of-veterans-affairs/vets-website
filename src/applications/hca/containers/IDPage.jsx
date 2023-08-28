@@ -16,7 +16,10 @@ import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';
 import { ServerErrorAlert } from '../components/FormAlerts';
 import LoginRequiredAlert from '../components/FormAlerts/LoginRequiredAlert';
 
-import { getEnrollmentStatus } from '../utils/actions';
+import {
+  getEnrollmentStatus,
+  resetEnrollmentStatus as resetEnrollmentStatusAction,
+} from '../utils/actions';
 import { didEnrollmentStatusChange } from '../utils/helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
 import {
@@ -30,6 +33,7 @@ const IDPage = props => {
     isSubmittingIDForm,
     loginRequired,
     noESRRecordFound,
+    resetEnrollmentStatus,
     router,
     shouldRedirect,
     showLoadingIndicator,
@@ -89,6 +93,7 @@ const IDPage = props => {
 
   useEffect(() => {
     if (shouldRedirect) router.push('/');
+    resetEnrollmentStatus();
     focusElement('.va-nav-breadcrumbs-list');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -114,7 +119,7 @@ const IDPage = props => {
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title="We need some information before you can start your application" />
+      <FormTitle title="Before you start your application" />
       {showLoadingIndicator ? (
         <va-loading-indicator
           label="Loading"
@@ -123,12 +128,14 @@ const IDPage = props => {
       ) : (
         <>
           <p>
-            This will help us fit the application to your specific needs. Please
-            fill out the form below. Then we’ll take you to the VA health care
-            application (10-10EZ).
+            We need some information before you can start your application. This
+            will help us fit your application to your specific needs.
           </p>
+          <p>Then you can fill out the VA health care application (10-10EZ).</p>
+          <p className="vads-u-font-weight--bold">Sign in and save time</p>
           <p>
-            <strong>Want to skip this step?</strong>
+            You can sign in and confirm that the information we have for you is
+            up to date and then fill out the VA health care application.
           </p>
           <button
             type="button"
@@ -184,6 +191,7 @@ IDPage.propTypes = {
   location: PropTypes.object,
   loginRequired: PropTypes.bool,
   noESRRecordFound: PropTypes.bool,
+  resetEnrollmentStatus: PropTypes.func,
   route: PropTypes.object,
   router: PropTypes.object,
   setFormData: PropTypes.func,
@@ -195,6 +203,7 @@ IDPage.propTypes = {
 };
 
 const mapDispatchToProps = {
+  resetEnrollmentStatus: resetEnrollmentStatusAction,
   setFormData: setData,
   submitIDForm: getEnrollmentStatus,
   toggleLoginModal: toggleLoginModalAction,

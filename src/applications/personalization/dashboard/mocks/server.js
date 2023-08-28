@@ -21,10 +21,11 @@ const hasDebts = false;
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
     myVaUseExperimental: true,
-    showMyVADashboardV2: true,
     myVaUseLighthouseClaims: true,
+    myVaUpdateErrorsWarnings: true,
+    vaOnlineSchedulingBreadcrumbUrlUpdate: true,
   }),
-  'GET /v0/user': user.cernerUser,
+  'GET /v0/user': user.simpleUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/medical_copays': user81Copays,

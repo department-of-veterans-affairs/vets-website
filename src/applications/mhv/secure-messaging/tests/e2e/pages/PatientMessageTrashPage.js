@@ -9,7 +9,7 @@ class PatientMessageTrashPage {
   loadMessages = (mockMessagesResponse = mockTrashMessages) => {
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-3',
+      '/my_health/v1/messaging/folders/-3*',
       mockTrashFolderMetaResponse,
     ).as('trashFolder');
     cy.intercept(
@@ -132,6 +132,12 @@ class PatientMessageTrashPage {
       .shadow()
       .find('#inputField')
       .should('be.empty');
+  };
+
+  navigateToLastPage = () => {
+    cy.get('.pagination-inner li')
+      .last()
+      .click();
   };
 }
 

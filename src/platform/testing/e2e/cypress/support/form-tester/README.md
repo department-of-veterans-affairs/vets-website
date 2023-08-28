@@ -1,5 +1,5 @@
 ----
-# We're moving our docs! 
+# We're moving our docs!
 ### Find [the latest version of this page](https://depo-platform-documentation.scrollhelp.site/developer-docs/Cypress-Form-Tester.1870331957.html) on the Platform website.
 ### Still can't find what you're looking for? Reach out to [#vfs-platform-support](https://dsva.slack.com/archives/CBU0KDSB1) on Slack.
 
@@ -254,6 +254,9 @@ pageHooks: {
   // http://localhost:3001/some-form-app-url/some/path
   'some/path': () => { ... },
 
+  // http://localhost:3001/some-form-app-url/array/1
+  'array/:index': () => { ... },
+
   // http://localhost:3001/some-form-app-url/path
   '/some-form-app-url/path': () => { ... },
 
@@ -262,11 +265,13 @@ pageHooks: {
 },
 ```
 
-The functions **all have access to a context object as a first argument**, which currently provides two things:
+The functions **all have access to a context object as a first argument**, which currently provides three things:
 
 1. `pathname`: a convenient reference to the full pathname that got matched for this page hook.
 
-2. `afterHook`: a helper function that takes a function and uses it to **override the usual end-of-page behavior**.
+2. `index`: index of the page from the array data. This value is obtained from the pathname, e.g. `array-page/1` would set the index to `1`.
+
+3. `afterHook`: a helper function that takes a function and uses it to **override the usual end-of-page behavior**.
 
    Typically, the standard flow for processing a page follows these steps:
 
@@ -298,7 +303,7 @@ The functions **all have access to a context object as a first argument**, which
       });
     },
 
-    'some-other-page': ({ afterHook, pathname }) => {
+    'some-other-page': ({ afterHook, pathname, index }) => {
       // Do whatever you need to in the "main body" of the hook,
       // which replaces the default autofilling behavior.
       cy.log(`Look, I'm on ${pathname}!`);

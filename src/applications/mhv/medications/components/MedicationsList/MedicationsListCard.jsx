@@ -110,27 +110,26 @@ const MedicationsListCard = props => {
   };
 
   return (
-    <div className="rx-card-container vads-u-background-color--gray-lightest vads-u-margin-y--1 no-break">
+    <div className="rx-card-container vads-u-background-color--white vads-u-margin-y--1 vads-u-border--1px vads-u-border-color--gray-medium no-break">
       <div className="rx-card-detials vads-u-padding--2">
-        <h4 className="vads-u-font-weight--bold">{rx.prescriptionName}</h4>
-        <div>Prescription number: {rx.prescriptionNumber}</div>
-        <div>Refills left: {rx.refillRemaining}</div>
-        {rx.dispensedDate && (
-          <>Dispensed on {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}</>
-        )}
-        <div className="link-to-details vads-u-font-weight--bold no-print">
+        <h3 className="vads-u-font-weight--bold">
           <Link
-            className="vads-u-margin-y--0p5"
-            to={`/prescriptions/${rx.prescriptionId}`}
+            className="vads-u-margin-y--0p5 vads-u-font-size--h4"
+            to={`/${rx.prescriptionId}`}
             data-testid="medications-history-details-link"
           >
-            Medication history and details
-            <span className="righ-angle">
-              {' '}
-              <i aria-hidden="true" className="fas fa-angle-right" />
-            </span>
+            {rx.prescriptionName}
           </Link>
-        </div>
+        </h3>
+        {rx.dispensedDate ? (
+          <div>
+            Last filled on {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}
+          </div>
+        ) : (
+          <div>You haven’t filled this prescription yet.</div>
+        )}
+        <div>Refills left: {rx.refillRemaining}</div>
+        <div className="link-to-details vads-u-font-weight--bold no-print" />
         {history === true && extraDetails()}
         {!isExpired && fillRefillButton()}
         {isExpired && (

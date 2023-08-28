@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
+import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+
 import { clearJobIndex } from '../../utils/session';
+import { getGMT } from '../../actions/geographicMeansThreshold';
 
 const EmploymentQuestion = props => {
   const {
@@ -14,6 +18,7 @@ const EmploymentQuestion = props => {
     contentAfterButtons,
   } = props;
 
+  const dispatch = useDispatch();
   const [hasJobToAdd, setHasJobToAdd] = useState(
     data.questions?.vetIsEmployed ?? false,
   );
@@ -37,6 +42,36 @@ const EmploymentQuestion = props => {
     },
     [hasJobToAdd],
   );
+
+  // useEffect to get GMT data
+  useEffect(() => {
+    const fetchData = async () => {
+      const year = 2023;
+      const { hasDependents = 0 } = data?.questions;
+      const dependents = parseInt(hasDependents, 10);
+
+      const {
+        zipCode,
+      } = data?.personalData?.veteranContactInformation?.address;
+
+      const gmtResponse = await getGMT(dependents, year, zipCode);
+
+      dispatch(
+        setData({
+          ...data,
+          gmtData: {
+            ...data.gmtData,
+            ...gmtResponse,
+          },
+        }),
+      );
+    };
+
+    if (data['view:streamlinedWaiver']) {
+      fetchData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const goForward = () => {
     if (hasJobToAdd) {

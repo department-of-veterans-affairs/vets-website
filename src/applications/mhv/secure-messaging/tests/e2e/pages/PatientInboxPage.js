@@ -1,5 +1,6 @@
 import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
+import mockSignature from '../fixtures/signature-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
@@ -91,13 +92,19 @@ class PatientInboxPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       this.mockRecipients,
     ).as('recipients');
+
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/signature',
+      mockSignature,
+    ).as('signature');
+
     cy.visit('my-health/secure-messages/inbox/', {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
       },
     });
 
-    cy.wait('@folders');
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     cy.wait('@inboxMessages');
@@ -220,6 +227,11 @@ class PatientInboxPage {
     mockMessages.data.at(
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/signature',
+      mockSignature,
+    ).as('signature');
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
@@ -272,7 +284,7 @@ class PatientInboxPage {
       cy.injectAxe();
     }
 
-    cy.wait('@folders');
+    // cy.wait('@folders');
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     if (doAxeCheck) {
@@ -294,7 +306,13 @@ class PatientInboxPage {
 
   clickDraftsSideBar = () => {};
 
-  clickMyFoldersSideBar = () => {};
+  clickMyFoldersSideBar = () => {
+    cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
+      'folders',
+    );
+    cy.get('[data-testid ="my-folders-sidebar"]').click();
+    cy.wait('@folders');
+  };
 
   getLoadedMessages = () => {
     return this.loadedMessagesData;
@@ -315,7 +333,13 @@ class PatientInboxPage {
   };
 
   navigateToComposePage = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/signature',
+      mockSignature,
+    ).as('signature');
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
+    cy.wait('@signature');
     const interstitialPage = new PatientInterstitialPage();
     interstitialPage.getContinueButton().click({ force: true });
   };
@@ -468,6 +492,12 @@ class PatientInboxPage {
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });
+  };
+
+  verifySignature = () => {
+    cy.get('[data-testid="message-body-field"]')
+      .should('have.attr', 'value')
+      .and('not.be.empty');
   };
 }
 

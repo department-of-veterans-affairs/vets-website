@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import environment from 'platform/utilities/environment';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaTextInput,
+  VaPrivacyAgreement,
+  VaCheckbox,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import {
+  isStreamlinedLongForm,
+  isStreamlinedShortForm,
+} from '../../utils/streamlinedDepends';
 
 const statementOfTruthItems = [
   'My marital status and number of dependents',
@@ -12,7 +19,27 @@ const statementOfTruthItems = [
   'My bankruptcy history',
 ];
 
+const statementOfTruthItemsShortPath = [
+  'My marital status and number of dependents',
+  'My income (and my spouse’s income if included)',
+  'My household assets',
+];
+
+const statementOfTruthItemsLongPath = [
+  'My marital status and number of dependents',
+  'My income (and my spouse’s income if included)',
+  'My household assets and expenses',
+];
+
 const veteranStatement = `Veteran’s statement of truth: I’ve reviewed the information I provided in this request, including: ${statementOfTruthItems.join(
+  ', ',
+)}`;
+
+const veteranStatementShort = `Veteran’s statement of truth: I’ve reviewed the information I provided in this request, including: ${statementOfTruthItemsShortPath.join(
+  ', ',
+)}`;
+
+const veteranStatementLong = `Veteran’s statement of truth: I’ve reviewed the information I provided in this request, including: ${statementOfTruthItemsLongPath.join(
   ', ',
 )}`;
 
@@ -38,20 +65,6 @@ const PreSubmitSignature = ({
   const setNewSignature = event => {
     setSignature({ value: event.target.value, dirty: true });
   };
-
-  const privacyLabel = (
-    <span>
-      I have read and accept the
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        className="vads-u-margin-left--0p5"
-        href={`${environment.BASE_URL}/privacy-policy`}
-      >
-        privacy policy
-      </a>
-    </span>
-  );
 
   const normalize = string => {
     if (!string) {
@@ -119,6 +132,32 @@ const PreSubmitSignature = ({
     ],
   );
 
+  const getAriaMessage = () => {
+    if (isStreamlinedLongForm(formData)) {
+      return veteranStatementLong;
+    }
+    if (isStreamlinedShortForm(formData)) {
+      return veteranStatementShort;
+    }
+    return veteranStatement;
+  };
+
+  const renderStatementOfTruthItems = () => {
+    if (isStreamlinedLongForm(formData)) {
+      return statementOfTruthItemsLongPath.map((item, index) => {
+        return <li key={index}>{item}</li>;
+      });
+    }
+    if (isStreamlinedShortForm(formData)) {
+      return statementOfTruthItemsShortPath.map((item, index) => {
+        return <li key={index}>{item}</li>;
+      });
+    }
+    return statementOfTruthItems.map((item, index) => {
+      return <li key={index}>{item}</li>;
+    });
+  };
+
   if (isSubmitPending) {
     return (
       <div className="vads-u-margin-bottom--3">
@@ -144,11 +183,7 @@ const PreSubmitSignature = ({
         <p>
           I’ve reviewed the information I provided in this request, including:
         </p>
-        <ul>
-          {statementOfTruthItems.map((item, index) => {
-            return <li key={index}>{item}</li>;
-          })}
-        </ul>
+        <ul>{renderStatementOfTruthItems()}</ul>
 
         <VaTextInput
           label="Veteran's full name"
@@ -157,7 +192,7 @@ const PreSubmitSignature = ({
           name="veteran-signature"
           onInput={setNewSignature}
           type="text"
-          messageAriaDescribedby={veteranStatement}
+          messageAriaDescribedby={getAriaMessage()}
           required
           error={
             signatureError
@@ -165,16 +200,19 @@ const PreSubmitSignature = ({
               : ''
           }
         />
-
-        <Checkbox
-          name="veteran-certify"
-          checked={certifyChecked}
-          onValueChange={value => setCertifyChecked(value)}
+        <VaCheckbox
+          id="veteran-certify"
           label="By checking this box, I certify that the information in this request is true and correct to the best of my knowledge and belief."
-          errorMessage={
-            certifyCheckboxError && 'You must certify by checking the box.'
+          checked={certifyChecked}
+          onVaChange={value => setCertifyChecked(value.detail.checked)}
+          aria-describedby="vet-certify"
+          error={
+            certifyCheckboxError
+              ? 'You must certify by checking the box.'
+              : null
           }
           required
+          enable-analytics
         />
       </article>
 
@@ -184,17 +222,15 @@ const PreSubmitSignature = ({
         could affect our decision on this request. Penalties may include a fine,
         imprisonment, or both.
       </p>
-
-      <Checkbox
-        name="privacy-policy"
-        className="vads-u-margin-bottom--3"
+      <VaPrivacyAgreement
+        required
         checked={privacyChecked}
-        onValueChange={value => setPrivacyChecked(value)}
-        label={privacyLabel}
-        errorMessage={
+        id="privacy-policy"
+        name="privacy-policy"
+        showError={
           privacyCheckboxError && 'You must accept by checking the box.'
         }
-        required
+        onVaChange={value => setPrivacyChecked(value.detail.checked)}
       />
     </>
   );

@@ -5,6 +5,10 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import {
   claimantAddressTitle,
   claimantContactInformationTitle,
+  claimantIsVeteran,
+  claimantIsSpouse,
+  claimantIsParent,
+  claimantIsChild,
   claimantIsNotVeteran,
   claimantPersonalInformationTitle,
   claimantSsnTitle,
@@ -23,7 +27,12 @@ import claimantPersonalInformation from '../pages/claimantPersonalInformation';
 import claimantSsn from '../pages/claimantSsn';
 import claimantAddress from '../pages/claimantAddress';
 import claimantContactInformation from '../pages/claimantContactInformation';
-import preparerQualifications1 from '../pages/preparerQualifications1';
+import {
+  preparerQualificationsSchema1A,
+  preparerQualificationsSchema1B,
+  preparerQualificationsSchema1C,
+  preparerQualificationsSchema1D,
+} from '../pages/preparerQualifications1';
 import preparerQualifications2 from '../pages/preparerQualifications2';
 import veteranPersonalInformation from '../pages/veteranPersonalInformation';
 import veteranIdentificationInformation1 from '../pages/veteranIdentificationInformation1';
@@ -45,34 +54,36 @@ const statementOfTruthBody = (
     <p>
       I also understand that VA may request further documentation or evidence to
       verify or confirm my authorization to sign or complete an application on
-      behalf of the veteran/claimant if necessary. Examples of evidence which VA
-      may request include:
+      behalf of the person with the claim if necessary. VA may request any of
+      these examples:
     </p>
 
     <ul>
       <li>
-        Social Security Number (SSN) or Taxpayer Identification Number (TIN);
+        Social Security Number (SSN) or Taxpayer Identification Number (TIN).
       </li>
       <li>
-        A certificate or order from a court with competent jurisdiction showing
-        my authority to act for the veteran/claimant with a judge’s signature
-        and date/time stamp;
-      </li>
-      <li>Copy of documentation showing appointment of fiduciary;</li>
-      <li>
-        Durable power of attorney showing the name and signature of the
-        veteran/claimant and my authority as attorney in fact or agent;
+        A certificate or order from a court showing my authority to act for the
+        person with the claim. The court must have competent jurisdiction, and
+        the certificate or order must be signed and dated or time-stamped.
       </li>
       <li>
-        Health care power of attorney, affidavit or notarized statement from an
-        institution or person responsible for the care of the veteran/claimant
-        indicating the capacity or responsibility of care provided;
+        A copy of documentation showing that I’m appointed as a fiduciary.
       </li>
-      <li>Or any other documentation showing such authorization.</li>
+      <li>
+        Durable power of attorney showing the name and signature of the person
+        with the claim, and my authority as attorney-in-fact or agent.
+      </li>
+      <li>
+        Health care power of attorney, affidavit, or notarized statement from an
+        institution or person responsible for the care of the claimant. The
+        statement must explain the extent of the provided care.
+      </li>
+      <li>Any other documentation showing relevant authorization.</li>
     </ul>
     <p>
-      I certify that the identifying information in this form has been correctly
-      represented.
+      I confirm that the identifying information in this form is accurate and
+      has been represented correctly.
     </p>
   </>
 );
@@ -98,6 +109,9 @@ const formConfig = {
     },
   },
   formId: '21-0972',
+  customText: {
+    appType: 'form',
+  },
   saveInProgress: {
     messages: {
       inProgress: 'Your alternate signer application (21-0972) is in progress.',
@@ -113,7 +127,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for alternate signer.',
   },
-  title: 'Sign for benefits on behalf of another person',
+  title: 'Sign VA claim forms as an alternate signer',
   subTitle: 'Alternate signer certification (VA Form 21-0972)',
   defaultDefinitions: {},
   chapters: {
@@ -172,7 +186,6 @@ const formConfig = {
       pages: {
         claimantPersonalInformation: {
           path: 'claimant-personal-information',
-          title: 'Claimant personal information',
           // skip if claimant is the veteran
           depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantPersonalInformation.uiSchema,
@@ -185,7 +198,6 @@ const formConfig = {
       pages: {
         claimantSsn: {
           path: 'claimant-identification-information',
-          title: 'Claimant identification information',
           // skip if claimant is the veteran
           depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantSsn.uiSchema,
@@ -198,7 +210,6 @@ const formConfig = {
       pages: {
         claimantAddress: {
           path: 'claimant-address',
-          title: 'Claimant mailing address',
           // skip if claimant is the veteran
           depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantAddress.uiSchema,
@@ -211,7 +222,6 @@ const formConfig = {
       pages: {
         claimantContactInformation: {
           path: 'claimant-contact-information',
-          title: 'Claimant contact information',
           // skip if claimant is the veteran
           depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantContactInformation.uiSchema,
@@ -222,15 +232,37 @@ const formConfig = {
     preparerQualificationsChapter: {
       title: 'Qualifications',
       pages: {
-        preparerQualifications1: {
-          path: 'preparer-qualifications-1',
-          title: 'Qualifications',
-          uiSchema: preparerQualifications1.uiSchema,
-          schema: preparerQualifications1.schema,
+        preparerQualifications1A: {
+          // for veteran claimant
+          path: 'preparer-qualifications-1a',
+          title: 'Qualifying relationship',
+          depends: formData => claimantIsVeteran({ formData }),
+          ...preparerQualificationsSchema1A,
+        },
+        preparerQualifications1B: {
+          // for spouse claimant
+          path: 'preparer-qualifications-1b',
+          title: 'Qualifying relationship',
+          depends: formData => claimantIsSpouse({ formData }),
+          ...preparerQualificationsSchema1B,
+        },
+        preparerQualifications1C: {
+          // for parent claimant
+          path: 'preparer-qualifications-1c',
+          title: 'Qualifying relationship',
+          depends: formData => claimantIsParent({ formData }),
+          ...preparerQualificationsSchema1C,
+        },
+        preparerQualifications1D: {
+          // for child claimant
+          path: 'preparer-qualifications-1d',
+          title: 'Qualifying relationship',
+          depends: formData => claimantIsChild({ formData }),
+          ...preparerQualificationsSchema1D,
         },
         preparerQualifications2: {
           path: 'preparer-qualifications-2',
-          title: 'Qualifications',
+          title: 'Qualifying reasons',
           uiSchema: preparerQualifications2.uiSchema,
           schema: preparerQualifications2.schema,
         },
@@ -252,13 +284,13 @@ const formConfig = {
       pages: {
         veteranIdentificationInformation1: {
           path: 'veteran-identification-information-1',
-          title: 'Veteran’s identification information',
+          title: 'VA claim status',
           uiSchema: veteranIdentificationInformation1.uiSchema,
           schema: veteranIdentificationInformation1.schema,
         },
         veteranIdentificationInformation2: {
           path: 'veteran-identification-information-2',
-          title: 'Veteran’s identification information',
+          title: 'Identity verification',
           uiSchema: veteranIdentificationInformation2.uiSchema,
           schema: veteranIdentificationInformation2.schema,
         },

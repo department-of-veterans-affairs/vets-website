@@ -16,6 +16,7 @@ const remapFormId = {
 
 // These form IDs have a config/form.js file but the formId is not found in vets-json-schema/dist/schemas
 const missingFromVetsJsonSchema = [
+  VA_FORM_IDS.FORM_10_10EZR,
   VA_FORM_IDS.FORM_HC_QSTNR,
   VA_FORM_IDS.FORM_21_0845,
   VA_FORM_IDS.FORM_21_22,
@@ -29,6 +30,8 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_XX_123,
   VA_FORM_IDS.FORM_MOCK,
   VA_FORM_IDS.FORM_20_0995,
+  VA_FORM_IDS.FORM_40_0247,
+  VA_FORM_IDS.FORM_MOCK_ALT_HEADER,
   VA_FORM_IDS.FORM_MOCK_SF_PATTERNS,
   VA_FORM_IDS.FORM_MOCK_PATTERNS_V3,
 ];
@@ -67,6 +70,7 @@ const formConfigKeys = [
   'formSavedPage',
   'additionalRoutes',
   'submitErrorText',
+  'CustomHeader',
   'customText',
   'submissionError',
   'saveInProgress',
@@ -330,6 +334,7 @@ describe('form:', () => {
           validAdditionalRoutes(formConfig);
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);
+          validComponentProperty(formConfig, 'CustomHeader', false);
           validSaveInProgressConfig(formConfig);
           // This return true is needed for the to.eventually.be.ok a few lines down
           // If any of the expects in the above functions fail,

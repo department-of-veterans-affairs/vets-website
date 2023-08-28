@@ -691,6 +691,9 @@ export const form526RequiredIdentifiersInUserObject = state =>
 export const showSubform8940And4192 = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.subform89404192];
 
+export const show526MaxRating = state =>
+  toggleValues(state).disability526MaximumRating;
+
 export const wrapWithBreadcrumb = (title, component) => (
   <>
     <va-breadcrumbs>
