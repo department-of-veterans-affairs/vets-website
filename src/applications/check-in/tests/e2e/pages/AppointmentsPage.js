@@ -8,7 +8,7 @@ class AppointmentsPage {
   };
 
   attemptCheckIn = () => {
-    cy.get('button[data-testid="check-in-button"]').click({
+    cy.get('[data-testid="check-in-button"]').click({
       waitForAnimations: true,
     });
   };

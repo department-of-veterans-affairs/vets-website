@@ -19,11 +19,7 @@ const AppointmentsPage = props => {
   const { goToNextPage } = useFormRouting(router);
   const { updateError } = useUpdateError();
 
-  const {
-    isComplete,
-    refreshCheckInData,
-    checkInDataError,
-  } = useGetCheckInData({
+  const { isComplete, checkInDataError } = useGetCheckInData({
     refreshNeeded: true,
     router,
     isPreCheckIn: app === APP_NAMES.PRE_CHECK_IN,
@@ -36,11 +32,8 @@ const AppointmentsPage = props => {
   useEffect(
     () => {
       setIsLoading(!isComplete);
-      if (!isComplete) {
-        refreshCheckInData();
-      }
     },
-    [isComplete, refreshCheckInData],
+    [isComplete],
   );
 
   // TODO: Remove this and the checkInDataError property from the useGetCheckInData hook
