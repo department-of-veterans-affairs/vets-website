@@ -47,5 +47,9 @@ describe('Pre-Check In Experience', () => {
       NextOfKin.validateNextOfKinData();
       cy.injectAxeThenAxeCheck();
     });
+    it('Displays additional info', () => {
+      NextOfKin.validateAdditionalInfo.dayOf();
+      cy.injectAxeThenAxeCheck();
+    });
   });
 });
