@@ -28,7 +28,7 @@ const WizardContainer = props => {
           28-8832
         </h1>
         <p>
-          Equal to VA Form 25-8832 (Education/Vocational Counseling Application)
+          Equal to VA Form 28-8832 (Education/Vocational Counseling Application)
         </p>
         <h2 className="vads-u-margin-top--3">Is this the form I need?</h2>
         <p>
