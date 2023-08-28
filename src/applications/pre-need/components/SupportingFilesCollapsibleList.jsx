@@ -123,13 +123,13 @@ const CollapsibleList = () => {
             <li>
               <CollapsiblePanel
                 header="If you're applying on behalf of someone else"
-                pageContent={BehalfOfSomeoneElseContent}
+                pageContent={<BehalfOfSomeoneElseContent />}
               />
             </li>
             <li>
               <CollapsiblePanel
                 header="Can I mail or fax files?"
-                pageContent={MailOrFaxFilesContent}
+                pageContent={<MailOrFaxFilesContent />}
               />
             </li>
           </ul>
