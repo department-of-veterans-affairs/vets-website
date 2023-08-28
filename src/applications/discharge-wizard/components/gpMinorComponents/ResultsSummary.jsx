@@ -1,5 +1,5 @@
 // Dependencies
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // Relative Imports
@@ -11,6 +11,12 @@ import {
 } from '../../helpers';
 
 const ResultsSummary = ({ formValues }) => {
+  useEffect(() => {
+    if (formValues.questions.length <= 1) {
+      window.location.replace('/discharge-upgrade-instructions/');
+    }
+  }, []);
+
   const forReconsideration =
     formValues['10_prevApplicationType'] === '3' &&
     formValues['11_failureToExhaust'] !== '1';
