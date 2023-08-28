@@ -93,9 +93,9 @@ const CreditCardBillSummary = ({
                 heading="Credit card bill"
                 key={
                   index +
-                  bill.amountDueMonthly +
-                  bill.amountPastDue +
-                  bill.unpaidBalance
+                  bill?.amountDueMonthly +
+                  bill?.amountPastDue +
+                  bill?.unpaidBalance
                 }
                 onDelete={() => onDelete(index)}
                 showDelete
