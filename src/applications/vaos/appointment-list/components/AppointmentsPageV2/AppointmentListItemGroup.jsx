@@ -19,7 +19,10 @@ import {
   isInPersonVAAppointment,
   isVAPhoneAppointment,
 } from '../../../services/appointment';
-import { getUpcomingAppointmentListInfo } from '../../redux/selectors';
+import {
+  getUpcomingAppointmentListInfo,
+  selectFeatureBreadcrumbUrlUpdate,
+} from '../../redux/selectors';
 import { Label } from './Label';
 import { getTypeOfCareById } from '../../../utils/appointment';
 import ListItem from './ListItem';
@@ -104,6 +107,9 @@ export default function AppointmentListItemGroup({ data }) {
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
 
   // <ul className="vads-u-border-bottom--1px">
   if (Array.isArray(data) === false) return null;
@@ -118,6 +124,7 @@ export default function AppointmentListItemGroup({ data }) {
   return appointments.map((appointment, index) => {
     const facilityId = getVAAppointmentLocationId(appointment);
     const link = getLink({
+      featureBreadcrumbUrlUpdate,
       featureStatusImprovement,
       appointment,
     });

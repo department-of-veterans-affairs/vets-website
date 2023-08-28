@@ -9,6 +9,7 @@ import AppointmentRow from './AppointmentRow';
 
 export default function UpcomingAppointmentLayout({
   featureStatusImprovement,
+  featureBreadcrumbUrlUpdate,
   hashTable,
 }) {
   const keys = Object.keys(hashTable);
@@ -34,6 +35,7 @@ export default function UpcomingAppointmentLayout({
             {hashTable[key].map((appt, j) => {
               const isFirstInDay = j === 0;
               const link = getLink({
+                featureBreadcrumbUrlUpdate,
                 featureStatusImprovement,
                 appointment: appt,
               });
@@ -92,6 +94,7 @@ export default function UpcomingAppointmentLayout({
       const idClickable = `id-${appt.id.replace('.', '\\.')}`;
 
       const link = getLink({
+        featureBreadcrumbUrlUpdate,
         featureStatusImprovement,
         appointment: appt,
       });
@@ -140,6 +143,7 @@ export default function UpcomingAppointmentLayout({
 }
 
 UpcomingAppointmentLayout.propTypes = {
+  featureBreadcrumbUrlUpdate: PropTypes.bool,
   featureStatusImprovement: PropTypes.bool,
   hashTable: PropTypes.object,
 };

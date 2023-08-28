@@ -29,6 +29,7 @@ import {
 import {
   selectFeatureAppointmentList,
   selectFeatureStatusImprovement,
+  selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 import AppointmentCard from './AppointmentsPageV2/AppointmentCard';
 import UpcomingAppointmentLayout from './AppointmentsPageV2/UpcomingAppointmentLayout';
@@ -67,6 +68,9 @@ export default function UpcomingAppointmentsList() {
   );
   const featureAppointmentList = useSelector(state =>
     selectFeatureAppointmentList(state),
+  );
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
   );
 
   useEffect(
@@ -180,6 +184,7 @@ export default function UpcomingAppointmentsList() {
                   const facilityId = getVAAppointmentLocationId(appt);
                   const idClickable = `id-${appt.id.replace('.', '\\.')}`;
                   const link = getLink({
+                    featureBreadcrumbUrlUpdate,
                     featureStatusImprovement,
                     appointment: appt,
                   });
