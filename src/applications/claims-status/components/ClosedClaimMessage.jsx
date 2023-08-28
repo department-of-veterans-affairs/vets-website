@@ -10,6 +10,7 @@ import { appealTypes } from '../utils/appeals-v2-helpers';
 import { getClaimType } from '../utils/helpers';
 
 // HELPERS
+const isAppeal = claim => appealTypes.includes(claim.type);
 const isBenefitsClaimOrAppeal = claim =>
   claim.type !== 'education_benefits_claims';
 
@@ -23,7 +24,7 @@ const getRecentlyClosedClaims = claims => {
     .filter(claim => {
       // Check if this is an appeal, if so we want to filter it out
       // if it was closed more than 60 days ago
-      if (appealTypes.includes(claim.type)) {
+      if (isAppeal(claim)) {
         const sixtyDaysAgo = moment()
           .add(-60, 'days')
           .startOf('day');
@@ -46,14 +47,14 @@ const getRecentlyClosedClaims = claims => {
       const { closeDate, open, phaseChangeDate } = claim.attributes;
 
       const isClosed = isEVSSClaim(claim) ? !open : Boolean(closeDate);
-      const closedDate = isEVSSClaim(claim) ? phaseChangeDate : closeDate;
+      const dateClosed = isEVSSClaim(claim) ? phaseChangeDate : closeDate;
       // END lighthouse_migration
 
       // If the claim is not an appeal, we want to filter it out
       // if it was closed more than 30 days ago
       return (
         isClosed &&
-        moment(closedDate)
+        moment(dateClosed || null)
           .startOf('day')
           .isAfter(
             moment()
@@ -63,7 +64,7 @@ const getRecentlyClosedClaims = claims => {
       );
     })
     .map(c => {
-      if (appealTypes.includes(c.type)) {
+      if (isAppeal(c)) {
         const events = orderBy(
           c.attributes.events,
           [e => moment(e.date).unix()],
@@ -73,8 +74,8 @@ const getRecentlyClosedClaims = claims => {
           ...c,
           attributes: {
             ...c.attributes,
-            dateFiled: events[events.length - 1].date,
-            phaseChangeDate: c.attributes.prior_decision_date || events[0].date,
+            claimDate: events[events.length - 1].date,
+            closeDate: c.attributes.prior_decision_date || events[0].date,
           },
         };
       }
@@ -90,14 +91,21 @@ const getCloseDate = claim => {
   return isEVSSClaim(claim) ? phaseChangeDate : closeDate;
 };
 
-const getFileDate = claim => {
+const getClaimDate = claim => {
   const { claimDate, dateFiled } = claim.attributes;
 
   return isEVSSClaim(claim) ? dateFiled : claimDate;
 };
 // END lighthouse_migration
 
-const formatDate = date => moment(date).format('MMMM D, YYYY');
+const formatDate = date => moment(date || null).format('MMMM D, YYYY');
+
+const getLinkText = claim => {
+  const claimType = isAppeal(claim)
+    ? 'Compensation Appeal'
+    : getClaimType(claim);
+  return `Your ${claimType} Received ${formatDate(getClaimDate(claim))}`;
+};
 
 export default function ClosedClaimMessage({ claims, onClose }) {
   const closedClaims = getRecentlyClosedClaims(claims);
@@ -128,7 +136,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
           <p className="usa-alert-text claims-closed-text" key={claim.id}>
             <Link
               to={
-                appealTypes.includes(claim.type)
+                isAppeal(claim)
                   ? `appeals/${claim.id}/status`
                   : `your-claims/${claim.id}/status`
               }
@@ -136,11 +144,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
                 recordEvent({ event: 'claims-closed-alert-clicked' });
               }}
             >
-              Your{' '}
-              {appealTypes.includes(claim.type)
-                ? 'Compensation Appeal'
-                : getClaimType(claim)}{' '}
-              – Received {formatDate(getFileDate(claim))}
+              {getLinkText(claim)}
             </Link>{' '}
             has been closed as of {formatDate(getCloseDate(claim))}
           </p>

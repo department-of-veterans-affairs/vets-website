@@ -5,6 +5,7 @@ import { fetchEDUPaymentInformation as fetchEDUPaymentInformationAction } from '
 import PropTypes from 'prop-types';
 import { VA_FORM_IDS } from '~/platform/forms/constants';
 import { isVAPatient, isLOA3, selectProfile } from '~/platform/user/selectors';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/utils/actions';
@@ -12,7 +13,7 @@ import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications
 import ApplicationsInProgress from './ApplicationsInProgress';
 
 const AllBenefits = () => (
-  <div className="vads-u-margin-top--2">
+  <div className="vads-u-margin-top--2" data-testid="dashboard-all-benefits">
     <va-additional-info trigger="What benefits does VA offer?">
       <p className="vads-u-font-weight--bold">
         Explore VA.gov to learn about the benefits we offer.
@@ -66,7 +67,11 @@ const SavedApplications = ({ getESREnrollmentStatus, shouldGetESRStatus }) => {
   return (
     <div data-testid="dashboard-section-saved-applications">
       <h2>Benefit application drafts</h2>
-      <AllBenefits />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimental}>
+        <Toggler.Disabled>
+          <AllBenefits />
+        </Toggler.Disabled>
+      </Toggler>
       <ApplicationsInProgress hideH3 />
     </div>
   );
