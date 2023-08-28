@@ -12,7 +12,7 @@ import transformForSubmit from '../../shared/config/submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
-import { AUTHORIZER_TYPES } from '../definitions/constants';
+import { AUTHORIZER_TYPES, INFORMATION_SCOPES } from '../definitions/constants';
 // pages
 import authorizerTypePg from '../pages/authorizerType';
 import veteranPersonalInfoPg from '../pages/veteranPersonalInfo';
@@ -302,7 +302,7 @@ const formConfig = {
           path: 'disclosure-information-limited-information',
           title: 'Limited information',
           depends: {
-            informationScope: 'limited',
+            informationScope: INFORMATION_SCOPES.LIMITED,
           },
           uiSchema: limitedInfoPg.uiSchema,
           schema: limitedInfoPg.schema,
@@ -312,6 +312,9 @@ const formConfig = {
         releaseDurationPage: {
           path: 'disclosure-information-release-duration',
           title: 'Release duration',
+          depends: {
+            informationScope: INFORMATION_SCOPES.ANY,
+          },
           uiSchema: releaseDurationPg.uiSchema,
           schema: releaseDurationPg.schema,
           scrollAndFocusTarget: pageFocus(),
@@ -322,6 +325,7 @@ const formConfig = {
           path: 'disclosure-information-release-end-date',
           title: 'Release end date',
           depends: {
+            informationScope: INFORMATION_SCOPES.ANY,
             releaseDuration: 'untilDate',
           },
           uiSchema: releaseEndDatePg.uiSchema,
