@@ -12,6 +12,7 @@ import {
 
 const ResultsSummary = ({ formValues }) => {
   useEffect(() => {
+    // Redirect to the discharge wizard homepage if there isn't any form values in state.
     if (formValues.questions.length <= 1) {
       window.location.replace('/discharge-upgrade-instructions/');
     }
