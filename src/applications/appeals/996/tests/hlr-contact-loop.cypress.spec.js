@@ -51,6 +51,7 @@ describe('HLR contact info loop', () => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
 
     cy.login(mockUser);
+    cy.intercept('GET', '/v0/user?*', mockUser);
     cy.intercept('GET', '/v0/profile/status', mockStatus);
 
     cy.visit(BASE_URL);
@@ -125,7 +126,6 @@ describe('HLR contact info loop', () => {
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('should edit info on a new page, update & return to contact info page - C12884', () => {
     getToContactPage();
-    cy.intercept('/v0/profile/telephones', mockTelephoneUpdateSuccess);
 
     // Mobile phone
     cy.get('a[href$="mobile-phone"]').click();
@@ -135,9 +135,9 @@ describe('HLR contact info loop', () => {
       `${BASE_URL}/edit-contact-information-mobile-phone`,
     );
 
-    cy.findByLabelText(/mobile phone/i)
-      .clear()
-      .type('8885551212');
+    cy.findByLabelText(/mobile phone/i).clear();
+    cy.findByLabelText(/mobile phone/i).type('8885551212');
+
     cy.findAllByText(/save/i, { selector: 'button' })
       .first()
       .click();

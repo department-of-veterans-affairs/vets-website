@@ -32,6 +32,11 @@ export const fsrConfirmationEmailToggle = state =>
 
 export const allEqual = arr => arr.every(val => val === arr[0]);
 
+export const isNumber = value => {
+  const pattern = /^\d*$/; // This pattern ensures only whole numbers
+  return pattern.test(value);
+};
+
 export const dateFormatter = date => {
   if (!date) return undefined;
   const formatDate = date?.slice(0, -3);
