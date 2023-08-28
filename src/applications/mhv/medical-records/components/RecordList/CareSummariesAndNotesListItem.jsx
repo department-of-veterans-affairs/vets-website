@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { LoincCodes, emptyField } from '../../util/constants';
+import { LoincCodes, EmptyField } from '../../util/constants';
 
 const CareSummariesAndNotesListItem = props => {
   const { record } = props;
@@ -22,7 +22,7 @@ const CareSummariesAndNotesListItem = props => {
       <h4>{record.name}</h4>
       <div className="fields">
         <div>{dateOrDates()}</div>
-        {record.location !== emptyField && <div>{record.location}</div>}
+        {record.location !== EmptyField && <div>{record.location}</div>}
         <div>
           <span className="field-label">
             {record.isDischargeSummary ? 'Signed by ' : 'Admitted by '}

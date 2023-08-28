@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { RecordType, emptyField } from '../util/constants';
+import { RecordType, EmptyField, ALERT_TYPE_ERROR } from '../util/constants';
 import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -16,6 +16,7 @@ import {
   processList,
   sendErrorToSentry,
 } from '../util/helpers';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 
 const Allergies = () => {
   const dispatch = useDispatch();
@@ -24,10 +25,30 @@ const Allergies = () => {
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
   const fullState = useSelector(state => state);
+  const alertList = useSelector(state => state.mr.alerts?.alertList);
+  const [activeAlert, setActiveAlert] = useState();
 
   useEffect(() => {
     dispatch(getAllergiesList());
   }, []);
+
+  useEffect(
+    () => {
+      if (alertList?.length) {
+        const filteredSortedAlerts = alertList
+          .filter(alert => alert.isActive)
+          .sort((a, b) => {
+            // Sort chronologically descending.
+            return b.datestamp - a.datestamp;
+          });
+        if (filteredSortedAlerts.length > 0) {
+          // The activeAlert is the most recent alert marked as active.
+          setActiveAlert(filteredSortedAlerts[0]);
+        }
+      }
+    },
+    [alertList],
+  );
 
   useEffect(
     () => {
@@ -67,7 +88,7 @@ const Allergies = () => {
         items: [
           {
             title: 'Date entered',
-            value: item.date || emptyField,
+            value: item.date || EmptyField,
             inline: true,
           },
           {
@@ -77,17 +98,17 @@ const Allergies = () => {
           },
           {
             title: 'Type of allergy',
-            value: item.type || emptyField,
+            value: item.type || EmptyField,
             inline: true,
           },
           {
             title: 'VA drug class',
-            value: item.drugClass || emptyField,
+            value: item.drugClass || EmptyField,
             inline: true,
           },
           {
             title: 'Location',
-            value: item.location || emptyField,
+            value: item.location || EmptyField,
             inline: true,
           },
           {
@@ -112,6 +133,9 @@ const Allergies = () => {
   };
 
   const content = () => {
+    if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
+      return <AccessTroubleAlertBox className="vads-u-margin-y--4" />;
+    }
     if (allergies?.length > 0) {
       return <RecordList records={allergies} type={RecordType.ALLERGIES} />;
     }

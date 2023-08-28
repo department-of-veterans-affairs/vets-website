@@ -1,5 +1,5 @@
 import { Actions } from '../util/actionTypes';
-import { LoincCodes, emptyField } from '../util/constants';
+import { LoincCodes, EmptyField } from '../util/constants';
 import { isArrayAndHasItems, macroCase } from '../util/helpers';
 
 const initialState = {
@@ -36,11 +36,11 @@ export const convertVital = record => {
         record.code?.coding[0].display),
     type,
     id: record.id,
-    measurement: getMeasurement(record, type) || emptyField,
-    date: record.effectiveDateTime || emptyField,
-    location: record.encounter || emptyField,
+    measurement: getMeasurement(record, type) || EmptyField,
+    date: record.effectiveDateTime || EmptyField,
+    location: record.encounter || EmptyField,
     notes:
-      (isArrayAndHasItems(record.note) && record.note[0].text) || emptyField,
+      (isArrayAndHasItems(record.note) && record.note[0].text) || EmptyField,
   };
 };
 

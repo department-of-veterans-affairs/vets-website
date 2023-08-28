@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -15,7 +15,8 @@ import {
   processList,
   sendErrorToSentry,
 } from '../util/helpers';
-import { emptyField } from '../util/constants';
+import { ALERT_TYPE_ERROR, EmptyField } from '../util/constants';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 
 const AllergyDetails = () => {
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
@@ -24,6 +25,8 @@ const AllergyDetails = () => {
   const dob = dateFormat(user.dob, 'LL');
   const { allergyId } = useParams();
   const dispatch = useDispatch();
+  const alertList = useSelector(state => state.mr.alerts?.alertList);
+  const [activeAlert, setActiveAlert] = useState();
 
   useEffect(
     () => {
@@ -54,6 +57,24 @@ const AllergyDetails = () => {
     [allergy],
   );
 
+  useEffect(
+    () => {
+      if (alertList?.length) {
+        const filteredSortedAlerts = alertList
+          .filter(alert => alert.isActive)
+          .sort((a, b) => {
+            // Sort chronologically descending.
+            return b.datestamp - a.datestamp;
+          });
+        if (filteredSortedAlerts.length > 0) {
+          // The activeAlert is the most recent alert marked as active.
+          setActiveAlert(filteredSortedAlerts[0]);
+        }
+      }
+    },
+    [alertList],
+  );
+
   const generateAllergyPdf = async () => {
     const pdfData = {
       headerLeft: name,
@@ -73,7 +94,7 @@ const AllergyDetails = () => {
             items: [
               {
                 title: 'Date entered',
-                value: allergy.date || emptyField,
+                value: allergy.date || EmptyField,
                 inline: true,
               },
               {
@@ -83,17 +104,17 @@ const AllergyDetails = () => {
               },
               {
                 title: 'Type of allergy',
-                value: allergy.type || emptyField,
+                value: allergy.type || EmptyField,
                 inline: true,
               },
               {
                 title: 'VA drug class',
-                value: allergy.drugClass || emptyField,
+                value: allergy.drugClass || EmptyField,
                 inline: true,
               },
               {
                 title: 'Location',
-                value: allergy.location || emptyField,
+                value: allergy.location || EmptyField,
                 inline: true,
               },
               {
@@ -120,6 +141,9 @@ const AllergyDetails = () => {
   };
 
   const content = () => {
+    if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
+      return <AccessTroubleAlertBox />;
+    }
     if (allergy) {
       return (
         <>
@@ -187,12 +211,14 @@ const AllergyDetails = () => {
       );
     }
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <>
+        <va-loading-indicator
+          message="Loading..."
+          setFocus
+          data-testid="loading-indicator"
+          class="loading-indicator"
+        />
+      </>
     );
   };
 

@@ -9,8 +9,8 @@ import {
 import {
   LoincCodes,
   FhirResourceTypes,
-  labTypes,
-  emptyField,
+  LabTypes,
+  EmptyField,
 } from '../util/constants';
 
 const initialState = {
@@ -34,11 +34,11 @@ const convertChemHemObservation = results => {
   return results.filter(obs => obs.valueQuantity).map(result => {
     return {
       name: result.code.text,
-      result: getObservationValueWithUnits(result) || emptyField,
-      standardRange: result.referenceRange[0].text || emptyField,
-      status: result.status || emptyField,
-      labLocation: result.labLocation || emptyField,
-      interpretation: concatObservationInterpretations(result) || emptyField,
+      result: getObservationValueWithUnits(result) || EmptyField,
+      standardRange: result.referenceRange[0].text || EmptyField,
+      status: result.status || EmptyField,
+      labLocation: result.labLocation || EmptyField,
+      interpretation: concatObservationInterpretations(result) || EmptyField,
     };
   });
 };
@@ -53,17 +53,17 @@ const convertChemHemRecord = record => {
   );
   return {
     id: record.id,
-    type: labTypes.CHEM_HEM,
+    type: LabTypes.CHEM_HEM,
     name: concatCategoryCodeText(record),
     category: concatCategoryCodeText(record),
-    orderedBy: record.physician || emptyField,
-    requestedBy: record.physician || emptyField,
+    orderedBy: record.physician || EmptyField,
+    requestedBy: record.physician || EmptyField,
     date: formatDateLong(record.effectiveDateTime),
-    orderingLocation: record.location || emptyField,
-    collectingLocation: record.location || emptyField,
+    orderingLocation: record.location || EmptyField,
+    collectingLocation: record.location || EmptyField,
     comments: [record.conclusion],
     results: convertChemHemObservation(results),
-    sampleTested: record.specimen?.text || emptyField,
+    sampleTested: record.specimen?.text || EmptyField,
   };
 };
 
@@ -74,19 +74,19 @@ const convertChemHemRecord = record => {
 const convertMicrobiologyRecord = record => {
   return {
     id: record.id,
-    type: labTypes.MICROBIOLOGY,
+    type: LabTypes.MICROBIOLOGY,
     name: 'Microbiology',
     category: '',
     orderedBy: 'Beth M. Smith',
     requestedBy: 'John J. Lydon',
-    date: record.effectiveDateTime || emptyField,
-    sampleFrom: record.type?.text || emptyField,
-    sampleTested: record.specimen?.text || emptyField,
+    date: record.effectiveDateTime || EmptyField,
+    sampleFrom: record.type?.text || EmptyField,
+    sampleTested: record.specimen?.text || EmptyField,
     orderingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    collectingLocation: record.performer?.text || emptyField,
+    collectingLocation: record.performer?.text || EmptyField,
     labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    results: record.conclusion || record.result || emptyField,
+    results: record.conclusion || record.result || EmptyField,
   };
 };
 
@@ -98,15 +98,15 @@ const convertPathologyRecord = record => {
   return {
     id: record.id,
     name: record.code?.text,
-    type: labTypes.PATHOLOGY,
+    type: LabTypes.PATHOLOGY,
     category: concatCategoryCodeText(record),
-    orderedBy: record.physician || emptyField,
-    requestedBy: record.physician || emptyField,
+    orderedBy: record.physician || EmptyField,
+    requestedBy: record.physician || EmptyField,
     date: formatDateLong(record.effectiveDateTime),
-    sampleTested: record.specimen?.text || emptyField,
-    labLocation: record.labLocation || emptyField,
-    collectingLocation: record.location || emptyField,
-    results: record.conclusion || record.result || emptyField,
+    sampleTested: record.specimen?.text || EmptyField,
+    labLocation: record.labLocation || EmptyField,
+    collectingLocation: record.location || EmptyField,
+    results: record.conclusion || record.result || EmptyField,
   };
 };
 
@@ -118,7 +118,7 @@ const convertEkgRecord = record => {
   return {
     id: record.id,
     name: 'Electrocardiogram (EKG)',
-    type: labTypes.EKG,
+    type: LabTypes.EKG,
     category: '',
     orderedBy: 'Beth M. Smith',
     requestedBy: 'John J. Lydon',
@@ -144,20 +144,20 @@ const convertRadiologyRecord = record => {
   return {
     id: record.id,
     name: typeCodingDisplay,
-    type: labTypes.RADIOLOGY,
-    reason: record.reason || emptyField,
-    category: record.category?.text || emptyField,
+    type: LabTypes.RADIOLOGY,
+    reason: record.reason || EmptyField,
+    category: record.category?.text || EmptyField,
     orderedBy:
       (isArrayAndHasItems(record.author) && record.author[0].display) ||
-      emptyField,
+      EmptyField,
     requestedBy:
       (isArrayAndHasItems(record.author) && record.author[0].display) ||
-      emptyField,
-    clinicalHistory: record.clinicalHistory || emptyField,
-    orderingLocation: record.location || emptyField,
+      EmptyField,
+    clinicalHistory: record.clinicalHistory || EmptyField,
+    orderingLocation: record.location || EmptyField,
     imagingLocation: authorDisplay,
     date: record.date,
-    imagingProvider: record.physician || emptyField,
+    imagingProvider: record.physician || EmptyField,
     results: Buffer.from(record.content[0].attachment.data, 'base64').toString(
       'utf-8',
     ),
@@ -171,33 +171,33 @@ const convertRadiologyRecord = record => {
  */
 const getRecordType = record => {
   if (record.resourceType === FhirResourceTypes.DIAGNOSTIC_REPORT) {
-    if (record.code.text === 'CH') return labTypes.CHEM_HEM;
+    if (record.code.text === 'CH') return LabTypes.CHEM_HEM;
     if (
       record.code.coding.some(coding => coding.code === LoincCodes.MICROBIOLOGY)
     )
-      return labTypes.MICROBIOLOGY;
+      return LabTypes.MICROBIOLOGY;
     if (record.code.coding.some(coding => coding.code === LoincCodes.PATHOLOGY))
-      return labTypes.PATHOLOGY;
+      return LabTypes.PATHOLOGY;
   }
   if (record.resourceType === FhirResourceTypes.DOCUMENT_REFERENCE) {
     if (record.type.coding.some(coding => coding.code === LoincCodes.EKG))
-      return labTypes.EKG;
+      return LabTypes.EKG;
     if (record.type.coding.some(coding => coding.code === LoincCodes.RADIOLOGY))
-      return labTypes.RADIOLOGY;
+      return LabTypes.RADIOLOGY;
   }
-  return labTypes.OTHER;
+  return LabTypes.OTHER;
 };
 
 /**
  * Maps each record type to a converter function
  */
 const labsAndTestsConverterMap = {
-  [labTypes.CHEM_HEM]: convertChemHemRecord,
-  [labTypes.MICROBIOLOGY]: convertMicrobiologyRecord,
-  [labTypes.PATHOLOGY]: convertPathologyRecord,
-  [labTypes.EKG]: convertEkgRecord,
-  [labTypes.RADIOLOGY]: convertRadiologyRecord,
-  [labTypes.OTHER]: record => record,
+  [LabTypes.CHEM_HEM]: convertChemHemRecord,
+  [LabTypes.MICROBIOLOGY]: convertMicrobiologyRecord,
+  [LabTypes.PATHOLOGY]: convertPathologyRecord,
+  [LabTypes.EKG]: convertEkgRecord,
+  [LabTypes.RADIOLOGY]: convertRadiologyRecord,
+  [LabTypes.OTHER]: record => record,
 };
 
 /**

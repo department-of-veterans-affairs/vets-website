@@ -1,6 +1,6 @@
 import environment from 'platform/utilities/environment';
 import { Actions } from '../util/actionTypes';
-import { testing } from '../util/constants';
+import { Testing } from '../util/constants';
 
 const initialState = {
   /**
@@ -38,7 +38,7 @@ export const conditionReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Conditions.GET: {
       let conditionDetails;
-      if (environment.BUILDTYPE === 'localhost' && testing) {
+      if (environment.BUILDTYPE === 'localhost' && Testing) {
         convertCondition(action.response);
       } else {
         conditionDetails = action.response;
@@ -51,7 +51,7 @@ export const conditionReducer = (state = initialState, action) => {
     case Actions.Conditions.GET_LIST: {
       const recordList = action.response;
       let conditionsList;
-      if (environment.BUILDTYPE === 'localhost' && testing) {
+      if (environment.BUILDTYPE === 'localhost' && Testing) {
         convertConditionsList(recordList);
       } else {
         conditionsList = recordList.map(condition => {

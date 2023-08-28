@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals } from '../actions/vitals';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { RecordType, vitalTypes } from '../util/constants';
+import { RecordType, VitalTypes } from '../util/constants';
 
 const Vitals = () => {
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
@@ -29,12 +29,12 @@ const Vitals = () => {
     () => {
       if (vitals?.length) {
         setCards([
-          vitals.find(vital => vital.type === vitalTypes.BLOOD_PRESSURE),
-          vitals.find(vital => vital.type === vitalTypes.BREATHING_RATE),
-          vitals.find(vital => vital.type === vitalTypes.PULSE),
-          vitals.find(vital => vital.type === vitalTypes.HEIGHT),
-          vitals.find(vital => vital.type === vitalTypes.TEMPERATURE),
-          vitals.find(vital => vital.type === vitalTypes.WEIGHT),
+          vitals.find(vital => vital.type === VitalTypes.BLOOD_PRESSURE),
+          vitals.find(vital => vital.type === VitalTypes.BREATHING_RATE),
+          vitals.find(vital => vital.type === VitalTypes.PULSE),
+          vitals.find(vital => vital.type === VitalTypes.HEIGHT),
+          vitals.find(vital => vital.type === VitalTypes.TEMPERATURE),
+          vitals.find(vital => vital.type === VitalTypes.WEIGHT),
         ]);
       }
     },

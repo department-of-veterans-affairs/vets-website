@@ -7,7 +7,7 @@ export const RecordType = {
   ALLERGIES: 'allergies',
 };
 
-export const labTypes = {
+export const LabTypes = {
   CHEM_HEM: 'chemistry_hematology',
   MICROBIOLOGY: 'microbiology',
   PATHOLOGY: 'pathology',
@@ -41,7 +41,7 @@ export const FhirResourceTypes = {
 /**
  * Interpretation code map based on https://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html
  */
-export const interpretationMap = {
+export const InterpretationMap = {
   CAR: 'Carrier',
   CARRIER: 'Carrier',
   '<': 'Off scale low',
@@ -95,11 +95,11 @@ export const interpretationMap = {
   WR: 'Weakly reactive',
 };
 
-export const emptyField = 'None noted';
+export const EmptyField = 'None noted';
 
-export const testing = false;
+export const Testing = false;
 
-export const vitalTypes = {
+export const VitalTypes = {
   BLOOD_PRESSURE: 'BLOOD_PRESSURE',
   BREATHING_RATE: 'BREATHING_RATE',
   PULSE: 'PULSE',
@@ -108,7 +108,7 @@ export const vitalTypes = {
   WEIGHT: 'WEIGHT',
 };
 
-export const vitalTypeDisplayNames = {
+export const VitalTypeDisplayNames = {
   BLOOD_PRESSURE: 'Blood pressure',
   BREATHING_RATE: 'Breathing rate',
   PULSE: 'Heart rate',
@@ -116,3 +116,5 @@ export const vitalTypeDisplayNames = {
   TEMPERATURE: 'Temperature',
   WEIGHT: 'Weight',
 };
+
+export const ALERT_TYPE_ERROR = 'error';

@@ -8,7 +8,7 @@ import RadiologyDetails from '../components/LabsAndTests/RadiologyDetails';
 import MicroDetails from '../components/LabsAndTests/MicroDetails';
 import PathologyDetails from '../components/LabsAndTests/PathologyDetails';
 import ChemHemDetails from '../components/LabsAndTests/ChemHemDetails';
-import { labTypes } from '../util/constants';
+import { LabTypes } from '../util/constants';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
@@ -51,21 +51,21 @@ const LabAndTestDetails = () => {
 
   if (labAndTestDetails?.name) {
     switch (labAndTestDetails.type) {
-      case labTypes.CHEM_HEM:
+      case LabTypes.CHEM_HEM:
         return (
           <ChemHemDetails record={labAndTestDetails} fullState={fullState} />
         );
-      case labTypes.MICROBIOLOGY:
+      case LabTypes.MICROBIOLOGY:
         return (
           <MicroDetails record={labAndTestDetails} fullState={fullState} />
         );
-      case labTypes.PATHOLOGY:
+      case LabTypes.PATHOLOGY:
         return (
           <PathologyDetails record={labAndTestDetails} fullState={fullState} />
         );
-      case labTypes.EKG:
+      case LabTypes.EKG:
         return <EkgDetails record={labAndTestDetails} />;
-      case labTypes.RADIOLOGY:
+      case LabTypes.RADIOLOGY:
         return (
           <RadiologyDetails record={labAndTestDetails} fullState={fullState} />
         );

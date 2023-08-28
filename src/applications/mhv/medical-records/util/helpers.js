@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
-import { emptyField, interpretationMap } from './constants';
+import { EmptyField, InterpretationMap } from './constants';
 
 /**
  * @param {*} timestamp
@@ -92,7 +92,7 @@ export const concatObservationInterpretations = record => {
     .filter(interpretation => interpretation.text)
     .map(
       interpretation =>
-        interpretationMap[interpretation.text] || interpretation.text,
+        InterpretationMap[interpretation.text] || interpretation.text,
     );
   return textFields.join(', ');
 };
@@ -117,7 +117,7 @@ export const getObservationValueWithUnits = observation => {
 export const processList = list => {
   if (list?.length > 1) return list.join('. ');
   if (list?.length === 1) return list.toString();
-  return emptyField;
+  return EmptyField;
 };
 
 /**
