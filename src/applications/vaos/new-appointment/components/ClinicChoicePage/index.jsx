@@ -37,18 +37,8 @@ function vowelCheck(givenString) {
   return /^[aeiou]$/i.test(givenString.charAt(0));
 }
 
-function getPageTitle(schema, typeOfCare, usingPastClinics) {
-  const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
-  let pageTitle = 'Choose a VA clinic';
-  if (schema?.properties.clinicId.enum.length === 2 && usingPastClinics) {
-    pageTitle = `Make ${
-      vowelCheck(typeOfCareLabel) ? 'an' : 'a'
-    } ${typeOfCareLabel} appointment at your last clinic`;
-  }
-  return pageTitle;
-}
-
 const pageKey = 'clinicChoice';
+const pageTitle = 'Choose a VA clinic';
 export default function ClinicChoicePage(props = null) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
@@ -80,7 +70,6 @@ export default function ClinicChoicePage(props = null) {
   const usingPastClinics =
     typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
   const pastMonths = featureClinicFilter ? 36 : 24;
-  const pageTitle = getPageTitle(schema, typeOfCare, usingPastClinics);
 
   useEffect(() => {
     scrollAndFocus();
@@ -94,9 +83,7 @@ export default function ClinicChoicePage(props = null) {
     <div>
       {schema.properties.clinicId.enum.length === 2 && (
         <>
-          <h1 className="vads-u-font-size--h2">
-            {getPageTitle(schema, typeOfCare)}
-          </h1>
+          <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
           {usingPastClinics && (
             <>Your last {typeOfCareLabel} appointment was at </>
           )}
@@ -115,9 +102,7 @@ export default function ClinicChoicePage(props = null) {
       )}
       {schema.properties.clinicId.enum.length > 2 && (
         <>
-          <h1 className="vads-u-font-size--h2">
-            {getPageTitle(schema, typeOfCare)}
-          </h1>
+          <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
           {usingPastClinics && (
             <p>
               In the last {pastMonths} months you’ve had{' '}
