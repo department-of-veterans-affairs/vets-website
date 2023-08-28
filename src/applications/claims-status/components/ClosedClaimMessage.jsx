@@ -1,7 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router';
+import {
+  format,
+  getUnixTime,
+  isAfter,
+  isValid,
+  parseISO,
+  startOfDay,
+  subDays,
+} from 'date-fns';
 import { orderBy } from 'lodash';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -25,22 +33,16 @@ const getRecentlyClosedClaims = claims => {
       // Check if this is an appeal, if so we want to filter it out
       // if it was closed more than 60 days ago
       if (isAppeal(claim)) {
-        const sixtyDaysAgo = moment()
-          .add(-60, 'days')
-          .startOf('day');
+        const sixtyDaysAgo = startOfDay(subDays(new Date(), 60));
         const events = orderBy(
           claim.attributes.events,
-          [e => moment(e.date).unix()],
+          [e => getUnixTime(parseISO(e.date))],
           ['desc'],
         );
         const lastEvent = events[0];
+        const lastEventDate = startOfDay(parseISO(lastEvent.date));
 
-        return (
-          !claim.attributes.active &&
-          moment(lastEvent.date)
-            .startOf('day')
-            .isAfter(sixtyDaysAgo)
-        );
+        return !claim.attributes.active && isAfter(lastEventDate, sixtyDaysAgo);
       }
 
       // START lighthouse_migration
@@ -52,22 +54,16 @@ const getRecentlyClosedClaims = claims => {
 
       // If the claim is not an appeal, we want to filter it out
       // if it was closed more than 30 days ago
-      return (
-        isClosed &&
-        moment(dateClosed || null)
-          .startOf('day')
-          .isAfter(
-            moment()
-              .add(-30, 'days')
-              .startOf('day'),
-          )
-      );
+      const thirtyDaysAgo = startOfDay(subDays(new Date(), 30));
+      const startOfCloseDate = startOfDay(parseISO(dateClosed));
+
+      return isClosed && isAfter(startOfCloseDate, thirtyDaysAgo);
     })
     .map(c => {
       if (isAppeal(c)) {
         const events = orderBy(
           c.attributes.events,
-          [e => moment(e.date).unix()],
+          [e => getUnixTime(parseISO(e.date))],
           ['desc'],
         );
         return {
@@ -98,7 +94,13 @@ const getClaimDate = claim => {
 };
 // END lighthouse_migration
 
-const formatDate = date => moment(date || null).format('MMMM D, YYYY');
+const formatDate = date => {
+  const parsedDate = parseISO(date);
+
+  return isValid(parsedDate)
+    ? format(parsedDate, 'MMMM d, yyyy')
+    : 'Invalid date';
+};
 
 const getLinkText = claim => {
   const claimType = isAppeal(claim)
