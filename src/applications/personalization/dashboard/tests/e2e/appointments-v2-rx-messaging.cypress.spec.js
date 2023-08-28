@@ -40,11 +40,10 @@ describe('MyVA Dashboard - Rx Messaging - v2', () => {
   });
 
   context('when user has messaging and rx features', () => {
-    it('should show the rx CTA and unread messages alert', () => {
+    it('should show the view messages and rx CTAs', () => {
       cy.login(userWithRxMessaging);
       cy.visit('my-va/');
-
-      cy.findByTestId('unread-messages-alert-v2').should('exist');
+      cy.findByTestId('view-your-messages-link-from-cta').should('exist');
       cy.injectAxeThenAxeCheck();
     });
   });
