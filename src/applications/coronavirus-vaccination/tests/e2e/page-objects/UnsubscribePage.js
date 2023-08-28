@@ -2,15 +2,19 @@ import featureTogglesEnabled from '../fixtures/toggle-covid-feature.json';
 
 class UnsubscribePage {
   loadPage(status, pageId) {
-    cy.server();
     let optOutRoute;
     if (status === 200) optOutRoute = '**';
-    cy.route('PUT', `**/covid_vaccine/v0/registration/opt_out${optOutRoute}`, {
-      status,
-    });
-    cy.route('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
+
+    cy.intercept(
+      'PUT',
+      `**/covid_vaccine/v0/registration/opt_out${optOutRoute}`,
+      { status },
+    );
+
+    cy.intercept('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
       'feature',
     );
+
     cy.visit(
       `health-care/covid-19-vaccine/stay-informed/unsubscribe?sid=${pageId}`,
     );

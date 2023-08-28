@@ -173,8 +173,11 @@ export const removeModalContent = {
   title: 'Are you sure you want to remove this issue?',
   description: issueName => (
     <span>
-      We’ll remove <strong>{issueName}</strong> from the issues you’d like us to
-      review
+      We’ll remove{' '}
+      <strong className="dd-privacy-hidden" data-dd-action-name="issue name">
+        {issueName}
+      </strong>{' '}
+      from the issues you’d like us to review
     </span>
   ),
   yesButton: 'Yes, remove this',

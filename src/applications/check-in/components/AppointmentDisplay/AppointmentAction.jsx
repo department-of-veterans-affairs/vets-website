@@ -13,7 +13,7 @@ import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
 
 import { CheckInButton } from './CheckInButton';
 import { useUpdateError } from '../../hooks/useUpdateError';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useStorage } from '../../hooks/useStorage';
 import { getAppointmentId } from '../../utils/appointment';
 
 const AppointmentAction = props => {
@@ -22,7 +22,7 @@ const AppointmentAction = props => {
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
 
-  const { setCheckinComplete } = useSessionStorage(false);
+  const { setCheckinComplete } = useStorage(false);
 
   const { updateError } = useUpdateError();
 

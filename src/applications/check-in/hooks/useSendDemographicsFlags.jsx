@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { api } from '../api';
-import { useSessionStorage } from './useSessionStorage';
+import { useStorage } from './useStorage';
 import { useDemographicsFlags } from './useDemographicsFlags';
 
 const useSendDemographicsFlags = () => {
   const {
     getShouldSendDemographicsFlags,
     setShouldSendDemographicsFlags,
-  } = useSessionStorage(false);
+  } = useStorage(false);
   const {
     demographicsData,
     demographicsFlagsSent,

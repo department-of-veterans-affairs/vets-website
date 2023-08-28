@@ -31,7 +31,7 @@ describe('<HealthCareCTAV2 />', () => {
       expect(tree.queryByText('Apply for VA health care')).to.be.null;
       expect(tree.queryByTestId('apply-va-healthcare-link-from-cta')).to.be
         .null;
-      expect(tree.queryByTestId('view-your-messages-link-from-cta')).to.be.null;
+      tree.getByTestId('view-your-messages-link-from-cta');
       tree.getByTestId('view-manage-appointments-link-from-cta');
       expect(
         tree.getByRole('link', {
