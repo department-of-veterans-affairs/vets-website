@@ -16,7 +16,7 @@ const AccessTroubleAlertBox = props => {
     <VaAlert
       status={ALERT_TYPE_ERROR}
       visible
-      class={`${props.className} set-width-486`}
+      class={`${props.className} vads-u-margin-top--4 set-width-486`}
     >
       <h2 slot="headline" data-testid="expired-alert-message">
         We are having trouble accessing your records
