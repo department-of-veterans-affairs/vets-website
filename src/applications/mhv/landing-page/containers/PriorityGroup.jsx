@@ -15,7 +15,7 @@ export const PriorityGroup = ({ enabled, fetchHcaEnrollmentStatus, value }) => {
   return (
     <div
       data-testid="mhv-priority-group"
-      className="vads-u-display--flex medium-screen:vads-u-justify-content--flex-end medium-screen:vads-u-margin-bottom--1"
+      className="vads-u-display--flex medium-screen:vads-u-justify-content--flex-end vads-u-margin-bottom--1"
     >
       <div className="small-screen:vads-u-font-size--md medium-screen:vads-u-font-size--lg">
         <i className="fas fa-clipboard-check vads-u-padding-right--1" />
