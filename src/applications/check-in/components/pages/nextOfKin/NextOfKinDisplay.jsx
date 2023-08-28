@@ -48,8 +48,10 @@ export default function NextOfKinDisplay({
     >
       <va-additional-info uswds trigger={t('how-to-update-next-of-kin')}>
         <div>
-          <p>{t('confirm-who-youd-like-to-represent-your-wishes')}</p>
-          <p>
+          <p className="vads-u-margin-top--0">
+            {t('confirm-who-youd-like-to-represent-your-wishes')}
+          </p>
+          <p className="vads-u-margin-bottom--0">
             <Trans
               i18nKey={t(
                 `if-this-isnt-your-correct-information-a-staff-member-can-help--${app}`,
