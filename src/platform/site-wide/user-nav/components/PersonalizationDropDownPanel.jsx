@@ -40,6 +40,7 @@ export default class PersonalizationDropDownPanel extends React.Component {
         }}
       >
         <button
+          type="button"
           className={buttonClasses}
           aria-controls={this.props.id}
           aria-expanded={this.props.isOpen}
@@ -48,7 +49,7 @@ export default class PersonalizationDropDownPanel extends React.Component {
         >
           <span>
             {this.props.icon}
-            {this.props.buttonText}
+            {this.props.innerButtonContent}
           </span>
         </button>
         <div
@@ -67,7 +68,7 @@ PersonalizationDropDownPanel.propTypes = {
   /**
    * The text of the drop down button.
    */
-  buttonText: PropTypes.string.isRequired,
+  innerButtonContent: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
 
   /**
    * A function called when the drop down button is clicked. This is often used
