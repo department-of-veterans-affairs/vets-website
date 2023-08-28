@@ -69,6 +69,12 @@ class NextOfKin {
       .and('contain', 'emergency-contact');
   };
 
+  openAdditionalInfo = () => {
+    cy.get('.additional-info-title').click({
+      waitForAnimations: true,
+    });
+  };
+
   attemptToGoToNextPage = (button = 'yes') => {
     cy.get(`button[data-testid="${button}-button"]`).click({
       waitForAnimations: true,
