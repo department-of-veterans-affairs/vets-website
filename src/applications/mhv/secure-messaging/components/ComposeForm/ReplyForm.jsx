@@ -366,7 +366,7 @@ const ReplyForm = props => {
                   className="fas fa-reply vads-u-margin-right--0p5 vads-u-margin-top--0p25"
                   aria-hidden="true"
                 />
-                <span className="thread-list-draft reply-draft-label">
+                <span className="thread-list-draft reply-draft-label vads-u-padding-right--0p5">
                   {`(Draft) `}
                 </span>
                 {`To: ${draftToEdit?.replyToName ||
@@ -392,7 +392,7 @@ const ReplyForm = props => {
               ) : (
                 <section
                   aria-label="Message body."
-                  className="vads-u-margin-top--1"
+                  className="vads-u-margin-top--1 old-reply-message-body"
                 >
                   <h3 className="sr-only">Message body.</h3>
                   <MessageThreadBody text={messageBody} />

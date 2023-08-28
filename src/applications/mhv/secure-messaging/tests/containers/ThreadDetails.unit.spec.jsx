@@ -214,6 +214,10 @@ describe('Thread Details container', () => {
       PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG,
     );
 
+    expect(document.querySelector('va-textarea')).to.not.exist;
+
+    expect(document.querySelector('section.old-reply-message-body')).to.exist;
+
     expect(document.querySelector('span').textContent).to.equal(
       '(Draft) To: MORGUN, OLEKSII\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
     );
@@ -304,6 +308,11 @@ describe('Thread Details container', () => {
         'If you need help sooner, use one of these urgent communication options:',
       ),
     ).to.exist;
+
+    expect(document.querySelector('va-textarea')).to.exist;
+
+    expect(document.querySelector('section.old-reply-message-body')).to.not
+      .exist;
 
     expect(document.querySelector('span').textContent).to.equal(
       `(Draft) To: MORGUN, OLEKSII\n(Team: ${triageGroupName})`,
