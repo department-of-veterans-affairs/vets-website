@@ -368,6 +368,9 @@ export const getDiffInDays = date => {
  */
 
 export const generateUniqueKey = (data, fields, index = null) => {
+  if (data === null || !fields.length) {
+    return 'default-key';
+  }
   const keyParts = fields.map(field => data[field] ?? 'undefined');
   if (index !== null) {
     keyParts.push(index);
