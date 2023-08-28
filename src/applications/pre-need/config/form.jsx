@@ -805,20 +805,17 @@ const formConfig = {
                     first: { 'ui:required': isAuthorizedAgent },
                     last: { 'ui:required': isAuthorizedAgent },
                   }),
-                  mailingAddress: environment.isProduction()
-                    ? merge({}, address.uiSchema('Mailing address'), {
-                        country: { 'ui:required': isAuthorizedAgent },
-                        street: { 'ui:required': isAuthorizedAgent },
-                        city: { 'ui:required': isAuthorizedAgent },
-                        postalCode: { 'ui:required': isAuthorizedAgent },
-                      })
-                    : merge({}, address.uiSchema('Mailing address'), {
-                        country: { 'ui:required': isAuthorizedAgent },
-                        street: { 'ui:required': isAuthorizedAgent },
-                        city: { 'ui:required': isAuthorizedAgent },
-                        state: { 'ui:required': isAuthorizedAgent },
-                        postalCode: { 'ui:required': isAuthorizedAgent },
-                      }),
+                  mailingAddress: merge(
+                    {},
+                    address.uiSchema('Mailing address'),
+                    {
+                      country: { 'ui:required': isAuthorizedAgent },
+                      street: { 'ui:required': isAuthorizedAgent },
+                      city: { 'ui:required': isAuthorizedAgent },
+                      state: { 'ui:required': isAuthorizedAgent },
+                      postalCode: { 'ui:required': isAuthorizedAgent },
+                    },
+                  ),
                   'view:contactInfo': {
                     'ui:title': 'Contact information',
                     applicantPhoneNumber: merge(
