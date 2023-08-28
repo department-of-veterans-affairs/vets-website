@@ -10,7 +10,7 @@ import localStorage from 'platform/utilities/storage/localStorage';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers.js';
 
-import Form526Entry, { serviceRequired } from '../../Form526EZApp';
+import Form526Entry, { serviceRequired, idRequired } from '../../Form526EZApp';
 import reducers from '../../reducers';
 import {
   MVI_ADD_INITIATED,
@@ -43,12 +43,13 @@ describe('Form 526EZ Entry Page', () => {
     savedForms = [],
     mvi = '',
     show526Wizard = true,
+    form526RequiredIdentifiersInUserObject = true,
     dob = '2000-01-01',
     pathname = '/introduction',
     router = [],
     addBranches = true,
     claims = {
-      form526RequiredIdentifers: {
+      form526RequiredIdentifierPresence: {
         participantId: true,
         birlsId: true,
         ssn: true,
@@ -90,6 +91,7 @@ describe('Form 526EZ Entry Page', () => {
       },
       featureToggles: {
         show526Wizard,
+        form526RequiredIdentifiersInUserObject,
       },
     };
     const fakeStore = createStore(
@@ -154,32 +156,99 @@ describe('Form 526EZ Entry Page', () => {
   });
 
   describe('Missing user identifiers', () => {
-    it('should render Missing identifers page and log an event in Google Analytics', () => {
-      sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-      const tree = testPage({
-        verified: true,
-        claims: {
-          form526RequiredIdentifers: {
-            participantId: false,
-            birlsId: true,
-            ssn: false,
-            birthDate: true,
-            edipi: false,
-          },
-        },
+    describe('When the form526RequiredIdentifiersInUserObject feature toggle is off', () => {
+      // Logged in & verified, but missing ID
+      it('should render Missing ID page', () => {
+        sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+        const tree = testPage({
+          currentlyLoggedIn: true,
+          verified: true,
+          services: [],
+          form526RequiredIdentifiersInUserObject: false,
+        });
+        expect(tree.find('main')).to.have.lengthOf(0);
+        expect(tree.find('h1').text()).to.contain('File for disability');
+        expect(tree.find('va-alert')).to.have.lengthOf(1);
+        expect(tree.find('va-alert').text()).to.contain('BIRLS ID');
+        const recordedEvent = getLastEvent();
+        expect(recordedEvent.event).to.equal('visible-alert-box');
+        expect(recordedEvent['error-key']).to.include('birls_id');
+        tree.unmount();
       });
 
-      expect(tree.find('va-alert')).to.have.lengthOf(1);
-      expect(tree.find('va-alert').text()).to.contain(
-        'We’re missing your Participant ID, Social Security Number, and EDIPI',
-      );
+      // Logged in & verified, but missing 526 services
+      it('should render Missing services page', () => {
+        sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+        const tree = testPage({
+          currentlyLoggedIn: true,
+          verified: true,
+          // only include 'EVSS_CLAIMS' service
+          services: [idRequired[0]],
+          form526RequiredIdentifiersInUserObject: false,
+        });
+        expect(tree.find('main')).to.have.lengthOf(0);
+        expect(tree.find('h1').text()).to.contain('File for disability');
+        expect(tree.find('va-alert')).to.have.lengthOf(1);
+        expect(tree.find('va-alert').text()).to.contain(
+          'need some information',
+        );
+        const recordedEvent = getLastEvent();
+        expect(recordedEvent.event).to.equal('visible-alert-box');
+        expect(recordedEvent['error-key']).to.include('missing_526');
+        tree.unmount();
+      });
 
-      const recordedEvent = getLastEvent();
-      expect(recordedEvent.event).to.equal('visible-alert-box');
-      expect(recordedEvent['error-key']).to.include(
-        'missing_526_identifiers_participantId_ssn_edipi',
-      );
-      tree.unmount();
+      // Logged in & verified, but missing DOB
+      it('should render Missing DOB alert', () => {
+        sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+        const tree = testPage({
+          currentlyLoggedIn: true,
+          verified: true,
+          // only include 'EVSS_CLAIMS' service
+          services: [idRequired[0]],
+          dob: '',
+          form526RequiredIdentifiersInUserObject: false,
+        });
+        expect(tree.find('main')).to.have.lengthOf(0);
+        expect(tree.find('h1').text()).to.contain('File for disability');
+        expect(tree.find('va-alert')).to.have.lengthOf(1);
+        expect(tree.find('va-alert').text()).to.contain('your date of birth');
+        const recordedEvent = getLastEvent();
+        expect(recordedEvent.event).to.equal('visible-alert-box');
+        expect(recordedEvent['error-key']).to.include('missing_dob');
+        tree.unmount();
+      });
+
+      describe('When the form526RequiredIdentifiersInUserObject feature flag is on', () => {
+        it('should render Missing identifers page and log an event in Google Analytics', () => {
+          sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+          const tree = testPage({
+            verified: true,
+            form526RequiredIdentifiersInUserObject: true,
+            claims: {
+              form526RequiredIdentifierPresence: {
+                participantId: false,
+                birlsId: true,
+                ssn: false,
+                birthDate: true,
+                edipi: false,
+              },
+            },
+          });
+
+          expect(tree.find('va-alert')).to.have.lengthOf(1);
+          expect(tree.find('va-alert').text()).to.contain(
+            'We’re missing your Participant ID, Social Security Number, and EDIPI',
+          );
+
+          const recordedEvent = getLastEvent();
+          expect(recordedEvent.event).to.equal('visible-alert-box');
+          expect(recordedEvent['error-key']).to.include(
+            'missing_526_identifiers_participantId_ssn_edipi',
+          );
+          tree.unmount();
+        });
+      });
     });
   });
 
