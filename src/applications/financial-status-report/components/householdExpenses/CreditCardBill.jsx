@@ -235,8 +235,9 @@ const CreditCardBill = props => {
           />
         </div>
         <p>
-          {creditCardBills.length === 0 && renderContinueBackButtons()}
-          {creditCardBills.length > 0 && renderAddCancelButtons()}
+          {creditCardBills.length > 0
+            ? renderAddCancelButtons()
+            : renderContinueBackButtons()}
         </p>
       </fieldset>
     </form>

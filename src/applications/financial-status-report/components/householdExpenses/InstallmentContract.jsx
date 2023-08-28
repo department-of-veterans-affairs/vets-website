@@ -332,8 +332,9 @@ const InstallmentContract = props => {
         </div>
       </fieldset>
       <div>
-        {installmentContracts.length === 0 && renderContinueBackButtons()}
-        {installmentContracts.length > 0 && renderAddCancelButtons()}
+        {installmentContracts.length > 0
+          ? renderAddCancelButtons()
+          : renderContinueBackButtons()}
       </div>
     </form>
   );

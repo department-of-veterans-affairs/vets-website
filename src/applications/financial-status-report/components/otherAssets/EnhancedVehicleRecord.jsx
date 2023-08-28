@@ -243,8 +243,9 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           </ul>
         </va-additional-info>
         <p>
-          {automobiles.length === 0 && renderContinueBackButtons()}
-          {automobiles.length > 0 && renderAddCancelButtons()}
+          {automobiles.length > 0
+            ? renderAddCancelButtons()
+            : renderContinueBackButtons()}
         </p>
       </fieldset>
     </form>
