@@ -1,14 +1,9 @@
 import React from 'react';
 import CollapsiblePanel from './CollapsiblePanel';
 
-const BehalfOfSomeoneElseContent = () => {
+const SupportingFilesOrAffidavitInfo = () => {
   return (
     <>
-      <p>
-        You’ll need a copy of their sponsor’s DD214 or other separation papers.
-        If the applicant is a service member or Veteran, you will need to
-        provide a copy of their DD214 or other separation papers.
-      </p>
       <p>
         You can also upload supporting files or an affidavit (a written
         statement of facts confirmed by an oath or affirmation) showing that
@@ -28,9 +23,22 @@ const BehalfOfSomeoneElseContent = () => {
         </li>
         <li>
           The manager or principal officer of an institution in which the
-          applicant is being cared for
+          applicant is being cared for{' '}
         </li>
       </ul>
+    </>
+  );
+};
+
+const BehalfOfSomeoneElseContent = () => {
+  return (
+    <>
+      <p>
+        You’ll need a copy of their sponsor’s DD214 or other separation papers.
+        If the applicant is a service member or Veteran, you will need to
+        provide a copy of their DD214 or other separation papers.
+      </p>
+      <SupportingFilesOrAffidavitInfo />
       <p>
         <strong>
           If you’re applying for an unmarried adult child of a Veteran or
