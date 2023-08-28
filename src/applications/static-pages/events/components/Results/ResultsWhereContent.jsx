@@ -32,8 +32,12 @@ const WhereContent = ({
           <a
             href={`https://maps.google.com?saddr=Current+Location&daddr=${locationAddress}`}
             rel="noopener noreferrer"
+            target="_blank"
           >
-            Get directions on Google Maps
+            Get directions on Google Maps{' '}
+            <span className="sr-only">
+              to {event?.fieldLocationHumanreadable}
+            </span>
           </a>
         </div>
       )}
@@ -76,6 +80,7 @@ ResultsWhereContent.propTypes = {
 };
 
 WhereContent.propTypes = {
+  event: PropTypes.object,
   derivedLocations: PropTypes.array,
   fieldLocation: PropTypes.object,
   fieldType: PropTypes.string,
