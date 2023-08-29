@@ -21,9 +21,6 @@ describe('helpers', () => {
         'edu-prior-facility-city': undefined,
         'edu-prior-facility-end-date': undefined,
         'preferred-contact-method': undefined,
-        married: undefined,
-        'dependent-children': undefined,
-        'dependent-parent': undefined,
         'direct-deposit-method': undefined,
         'direct-deposit-account-type': undefined,
       });
