@@ -37,7 +37,7 @@ describe('Avs container', () => {
   };
   const props = {
     params: {
-      id: 'foo',
+      id: '9A7AF40B2BC2471EA116891839113252',
     },
   };
 

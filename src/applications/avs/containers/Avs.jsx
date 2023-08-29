@@ -8,6 +8,28 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
 import { getAvs } from '../api/v0';
+import {
+  getFormattedAppointmentDate,
+  getFormattedGenerationDate,
+} from '../utils';
+
+import YourAppointment from '../components/YourAppointment';
+
+const generateAppointmentHeader = avs => {
+  const appointmentDate = getFormattedAppointmentDate(avs);
+  return `Your appointment on ${appointmentDate}`;
+};
+
+const generateFooter = avs => {
+  const generationDate = getFormattedGenerationDate(avs);
+  return (
+    <p>
+      Date and time generated
+      <br />
+      {generationDate}
+    </p>
+  );
+};
 
 const Avs = props => {
   const user = useSelector(selectUser);
@@ -62,6 +84,12 @@ const Avs = props => {
         serviceRequired={[backendServices.USER_PROFILE]}
       >
         <h1>After-visit Summary</h1>
+        <va-accordion>
+          <va-accordion-item header={generateAppointmentHeader(avs)}>
+            <YourAppointment avs={avs} />
+          </va-accordion-item>
+        </va-accordion>
+        {generateFooter(avs)}
       </RequiredLoginView>
     </div>
   );
