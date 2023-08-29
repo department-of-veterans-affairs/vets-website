@@ -34,7 +34,7 @@ export const validateDate = (errors, rawString = '', fullData) => {
     // when the value is blank
     errors.addError(errorMessages[dateType].missingDate);
     errorParts.other = true; // other part error
-  } else if (hasErrorParts(errorParts) || invalidDate) {
+  } else if (hasErrorParts(errorParts, invalidDate)) {
     errors.addError(errorMessages.invalidDate);
     errorParts.other = true; // other part error
   } else if (date.isSameOrAfter(maxDate)) {

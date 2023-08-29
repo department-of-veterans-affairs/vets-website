@@ -30,5 +30,5 @@ export const isInvalidDateString = (year, day, month, dateString) => {
   );
 };
 
-export const hasErrorParts = errorParts =>
-  errorParts.month || errorParts.day || errorParts.year;
+export const hasErrorParts = (errorParts, invalidDate) =>
+  errorParts.month || errorParts.day || errorParts.year || invalidDate;

@@ -42,12 +42,13 @@ export const validateDate = (
   const maxDays = year && month ? new Date(year, month, 0).getDate() : 31;
   const invalidDate = dateString?.length < FORMAT_YMD.length || !date.isValid();
   const errorParts = buildErrorParts(month, day, year, maxDays);
+
   if (isInvalidDateString(year, day, month, invalidDate)) {
     // The va-date component currently overrides the error message when the
     // value is blank
     errors.addError(issueErrorMessages.missingDecisionDate);
     errorParts.other = true; // other part error
-  } else if (hasErrorParts(errorParts) || invalidDate) {
+  } else if (hasErrorParts(errorParts, invalidDate)) {
     errors.addError(issueErrorMessages.invalidDate);
     errorParts.other = true; // other part error
   } else if (date.isSameOrAfter(maxDate)) {
