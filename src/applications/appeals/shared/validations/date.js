@@ -1,4 +1,8 @@
+import moment from 'moment';
+import { parseISODate } from 'platform/forms-system/src/js/helpers';
+
 import { FORMAT_YMD } from '../constants';
+import { fixDateFormat } from '../utils/replace';
 
 export const buildErrorParts = (month, day, year, maxDays) => {
   return {
@@ -30,5 +34,24 @@ export const isInvalidDateString = (year, day, month, dateString) => {
   );
 };
 
-export const hasErrorParts = (errorParts, invalidDate) =>
-  errorParts.month || errorParts.day || errorParts.year || invalidDate;
+export const hasErrorParts = errorParts =>
+  errorParts.month || errorParts.day || errorParts.year;
+
+export const foo = rawString => {
+  const dateString = fixDateFormat(rawString);
+  const { day, month, year } = parseISODate(dateString);
+  const date = moment(rawString, FORMAT_YMD);
+  // get last day of the month (month is zero based, so we're +1 month, day 0);
+  // new Date() will recalculate and go back to last day of the previous month
+  const maxDays = year && month ? new Date(year, month, 0).getDate() : 31;
+  const invalidDate = dateString?.length < FORMAT_YMD.length || !date.isValid();
+  const errorParts = buildErrorParts(month, day, year, maxDays);
+
+  return {
+    invalidDate,
+    errorParts,
+    isInvalidDateString: isInvalidDateString(year, day, month, invalidDate),
+    hasErrorDate: hasErrorParts(errorParts) || invalidDate,
+    date,
+  };
+};
