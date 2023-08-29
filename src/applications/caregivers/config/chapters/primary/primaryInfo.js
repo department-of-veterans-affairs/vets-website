@@ -3,7 +3,7 @@ import { primaryCaregiverFields } from '../../../definitions/constants';
 import {
   dateOfBirthUI,
   fullNameUI,
-  customFullNameUI,
+  customFieldSchemaUI,
   genderUI,
   ssnUI,
 } from '../../../definitions/UIDefinitions/sharedUI';
@@ -16,7 +16,7 @@ const primaryCaregiverProps = primaryCaregiver.properties;
 // Initialize fullNameUI with originalUI
 let extendedNameUI = fullNameUI(primaryInputLabel);
 // Add/replace whatever key/values needed
-extendedNameUI = customFullNameUI(
+extendedNameUI = customFieldSchemaUI(
   extendedNameUI,
   'first',
   'ui:description',

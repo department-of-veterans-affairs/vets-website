@@ -4,7 +4,7 @@ import { secondaryOnePageIntro } from '../../../definitions/content';
 import {
   dateOfBirthUI,
   fullNameUI,
-  customFullNameUI,
+  customFieldSchemaUI,
   genderUI,
   ssnUI,
 } from '../../../definitions/UIDefinitions/sharedUI';
@@ -17,7 +17,7 @@ const secondaryCaregiverOneProps = secondaryCaregiverOne.properties;
 // Initialize fullNameUI with originalUI
 let extendedNameUI = fullNameUI(secondaryOneInputLabel);
 // Add/replace whatever key/values needed
-extendedNameUI = customFullNameUI(
+extendedNameUI = customFieldSchemaUI(
   extendedNameUI,
   'first',
   'ui:description',

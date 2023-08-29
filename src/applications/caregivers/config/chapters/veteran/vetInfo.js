@@ -4,7 +4,7 @@ import { veteranFields } from '../../../definitions/constants';
 import {
   dateOfBirthUI,
   fullNameUI,
-  customFullNameUI,
+  customFieldSchemaUI,
   genderUI,
   ssnUI,
 } from '../../../definitions/UIDefinitions/sharedUI';
@@ -20,7 +20,7 @@ const veteranProps = veteran.properties;
 // Initialize fullNameUI with originalUI object
 let extendedNameUI = fullNameUI(vetInputLabel);
 // Add/replace whatever key/values needed
-extendedNameUI = customFullNameUI(
+extendedNameUI = customFieldSchemaUI(
   extendedNameUI,
   'first',
   'ui:description',

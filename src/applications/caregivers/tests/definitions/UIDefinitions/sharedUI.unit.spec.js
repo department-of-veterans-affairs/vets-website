@@ -1,15 +1,15 @@
 import { expect } from 'chai';
 
-import { customFullNameUI } from '../../../definitions/UIDefinitions/sharedUI';
+import { customFieldSchemaUI } from '../../../definitions/UIDefinitions/sharedUI';
 
-describe('customFullNameUI', () => {
+describe('customFieldSchemaUI', () => {
   it('should extend the specified field with the given UI key-value pair', () => {
     const originalUI = {
       first: { 'ui:title': 'First Name' },
       last: { 'ui:title': 'Last Name' },
     };
 
-    const extendedUI = customFullNameUI(
+    const extendedUI = customFieldSchemaUI(
       originalUI,
       'first',
       'ui:description',
@@ -29,7 +29,7 @@ describe('customFullNameUI', () => {
       first: { 'ui:title': 'First Name' },
     };
 
-    const extendedUI = customFullNameUI(
+    const extendedUI = customFieldSchemaUI(
       originalUI,
       'somethingElse',
       'ui:description',

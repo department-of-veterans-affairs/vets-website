@@ -6,10 +6,7 @@ import email from 'platform/forms-system/src/js/definitions/email';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import { validateSSNIsUnique } from '../../utils/helpers';
-import {
-  EmailEncouragementDescription,
-  VeteranHomeAddressDescription,
-} from '../../components/FormDescriptions';
+import { EmailEncouragementDescription } from '../../components/FormDescriptions';
 import AddressWithAutofill from '../../components/FormFields/AddressWithAutofill';
 
 const stateLabels = createUSAStateLabels(states);
@@ -66,10 +63,10 @@ export const fullNameUI = label => ({
  *
  * @example
  * const vetUI = { first: { 'ui:title': 'Veteran's legal first name' } };
- * const extendedNameUI = customUIField(vetUI, 'first', 'ui:description', 'Enter your first name');
+ * const extendedNameUI = customFieldSchemaUI(vetUI, 'first', 'ui:description', 'Enter your first name');
  * // extendedNameUI now is: { first: { 'ui:title': 'Veteran's legal first name', 'ui:description': 'Enter your first name' } }
  */
-export const customFullNameUI = (originalUI, fieldName, uiKey, uiValue) => {
+export const customFieldSchemaUI = (originalUI, fieldName, uiKey, uiValue) => {
   if (!originalUI[fieldName]) {
     // If the field name doesn't exist in the originalUI, we just return the original without changes
     return originalUI;
@@ -110,7 +107,6 @@ export const addressWithoutCountryUI = label => ({
   'ui:order': ['street', 'street2', 'city', 'state', 'postalCode'],
   street: {
     'ui:title': `${label} current home address`,
-    'ui:description': VeteranHomeAddressDescription,
     'ui:errorMessages': { required: 'Please enter a home address' },
   },
   street2: {

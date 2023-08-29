@@ -5,7 +5,7 @@ import {
   ssnUI,
   genderUI,
   fullNameUI,
-  customFullNameUI,
+  customFieldSchemaUI,
   dateOfBirthUI,
   addressWithoutCountryUI,
 } from '../../../definitions/UIDefinitions/sharedUI';
@@ -18,7 +18,7 @@ const secondaryCaregiverTwoProps = secondaryCaregiverTwo.properties;
 // Initialize fullNameUI with originalUI
 let extendedNameUI = fullNameUI(secondaryTwoInputLabel);
 // Add/replace whatever key/values needed
-extendedNameUI = customFullNameUI(
+extendedNameUI = customFieldSchemaUI(
   extendedNameUI,
   'first',
   'ui:description',
