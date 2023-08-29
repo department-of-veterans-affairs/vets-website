@@ -8,6 +8,7 @@ import {
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
 import CreateAccountLink from './CreateAccountLink';
+import LoginLink from './LoginLink';
 
 export default function LoginActions({ externalApplication }) {
   const [useOAuth, setOAuth] = useState();
@@ -35,11 +36,21 @@ export default function LoginActions({ externalApplication }) {
   return (
     <div className="row">
       <div className="columns small-12" id="sign-in-wrapper">
-        {reduceAllowedProviders(allowedSignInProviders, isRegisteredApp).map(
-          csp => (
+        {reduceAllowedProviders(allowedSignInProviders, isRegisteredApp)
+          .slice(0, 2)
+          .map(csp => (
             <LoginButton csp={csp} key={csp} useOAuth={useOAuth} />
-          ),
-        )}
+          ))}
+        <div id="create-account">
+          <h4> Other sign in options </h4>
+          <div className="vads-u-display--flex vads-u-flex-direction--column">
+            {reduceAllowedProviders(allowedSignInProviders, isRegisteredApp)
+              .slice(2, 4)
+              .map(csp => (
+                <LoginLink csp={csp} key={csp} useOAuth={useOAuth} />
+              ))}
+          </div>
+        </div>
         {externalApplication?.includes(EXTERNAL_APPS.VA_OCC_MOBILE) &&
         isRegisteredApp === OCC_MOBILE.REGISTERED_APPS ? null : (
           <div id="create-account">
