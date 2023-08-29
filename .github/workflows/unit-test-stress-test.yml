@@ -179,7 +179,7 @@ jobs:
     name: Update Unit Tests Allow List
     runs-on: ubuntu-latest
     needs: [unit-tests-stress-test, fetch-unit-tests-allow-list]
-    if: ${{ always() && needs.cypress-tests-prep.outputs.tests != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
+    if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure') }}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
