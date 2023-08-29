@@ -69,7 +69,7 @@ export const Notifications = ({
       )}
       {debtNotifications.map(n => (
         <Toggler
-          toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimental}
+          toggleName={Toggler.TOGGLE_NAMES.myVaEnableNotificationComponent}
           key={n.id}
         >
           <Toggler.Enabled>
