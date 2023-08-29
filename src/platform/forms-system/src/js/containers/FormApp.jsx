@@ -41,6 +41,7 @@ class FormApp extends React.Component {
       typeof formConfig.title === 'function'
         ? formConfig.title(this.props)
         : formConfig.title;
+    const { noTitle, noNav, fullWidth } = formConfig?.formOptions || {};
 
     let formTitle;
     let formNav;
@@ -78,14 +79,17 @@ class FormApp extends React.Component {
         <Footer formConfig={formConfig} currentLocation={currentLocation} />
       );
     }
+    const wrapperClass = fullWidth
+      ? ''
+      : 'usa-width-two-thirds medium-8 columns';
 
     return (
       <div>
-        <div className="row">
-          <div className="usa-width-two-thirds medium-8 columns">
+        <div className={fullWidth ? '' : 'row'}>
+          <div className={wrapperClass}>
             <Element name="topScrollElement" />
-            {formTitle}
-            {formNav}
+            {noTitle ? null : formTitle}
+            {noNav ? null : formNav}
             <Element name="topContentElement" />
             {renderedChildren}
           </div>

@@ -59,6 +59,11 @@ const formConfig = {
   },
   title: 'Request a Board Appeal',
   subTitle: 'VA Form 10182 (Notice of Disagreement)',
+  formOptions: {
+    noTitle: true,
+    noNav: true,
+    fullWidth: true,
+  },
 
   defaultDefinitions: {},
   // when true, initial focus on page to H3s by default, and enable page
