@@ -1,17 +1,18 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { render } from '@testing-library/react';
+import { replacementFunctions } from '@department-of-veterans-affairs/platform-utilities';
+
 import YourAppointment from '../../components/YourAppointment';
 
 import mockAvs from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
 
-const avs = mockAvs.data.attributes;
-const props = { avs };
+const avsData = mockAvs.data.attributes;
 
-describe('Avs', () => {
-  it('Your Appointment correctly renders', async () => {
-    mockApiRequest(mockAvs);
+describe('Avs: Your Appointment', () => {
+  it('correctly renders all data', async () => {
+    const avs = replacementFunctions.cloneDeep(avsData);
+    const props = { avs };
     const screen = render(<YourAppointment {...props} />);
     expect(screen.getByTestId('appointment-time')).to.have.text('8:30 a.m. PT');
     expect(screen.getByTestId('provider-list').firstChild).to.have.text(
@@ -29,5 +30,21 @@ describe('Avs', () => {
     expect(screen.getByTestId('clinic-medications').children[2].nodeName).to.eq(
       'VA-ADDITIONAL-INFO',
     );
+  });
+
+  it('sections without data are hidden', async () => {
+    const avs = replacementFunctions.cloneDeep(avsData);
+    delete avs.reasonForVisit;
+    delete avs.diagnoses;
+    delete avs.vitals;
+    delete avs.procedures;
+    delete avs.vaMedications;
+    const props = { avs };
+    const screen = render(<YourAppointment {...props} />);
+    expect(screen.queryByTestId('reason-for-appt-list')).to.not.exist;
+    expect(screen.queryByTestId('diagnoses-list')).to.not.exist;
+    expect(screen.queryByTestId('vitals')).to.not.exist;
+    expect(screen.queryByTestId('procedures')).to.not.exist;
+    expect(screen.queryByTestId('clinic-medications')).to.not.exist;
   });
 });

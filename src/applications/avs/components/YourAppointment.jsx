@@ -41,7 +41,7 @@ const providers = avs => {
 };
 
 const reasonForAppointment = avs => {
-  if (avs.reasonForVisit.length > 0) {
+  if (avs.reasonForVisit?.length > 0) {
     const reasonForVisitListItems = avs.reasonForVisit.map(reason => (
       <li key={reason.code}>{reason.diagnosis}</li>
     ));
@@ -58,7 +58,7 @@ const reasonForAppointment = avs => {
 };
 
 const youWereDiagnosedWith = avs => {
-  if (avs.diagnoses.length > 0) {
+  if (avs.diagnoses?.length > 0) {
     const diagnosisListItems = avs.diagnoses.map(diagnosis => (
       <li key={diagnosis.code}>{diagnosis.diagnosis}</li>
     ));
@@ -77,7 +77,7 @@ const youWereDiagnosedWith = avs => {
 };
 
 const vitalSigns = avs => {
-  if (avs.vitals.length > 0) {
+  if (avs.vitals?.length > 0) {
     const vitalSignItems = avs.vitals.map((vitalSign, idx) => (
       <div key={`vital-${idx}`}>
         <p>
@@ -103,7 +103,7 @@ const vitalSigns = avs => {
 
 const procedures = avs => {
   if (avs.procedures?.length > 0) {
-    // TODO: get procedures.
+    // TODO: get procedures and add test case.
 
     return (
       <div>
