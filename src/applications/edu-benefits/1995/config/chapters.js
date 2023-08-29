@@ -51,6 +51,7 @@ export const chapters = {
       },
       militaryHistory: {
         title: 'Military history',
+        depends: () => environment.isProduction(),
         path: 'military/history',
         uiSchema: militaryHistory.uiSchema,
         schema: militaryHistory.schema,
