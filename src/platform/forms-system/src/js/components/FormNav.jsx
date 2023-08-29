@@ -134,7 +134,6 @@ export default function FormNav(props) {
       current,
       formConfig.useCustomScrollAndFocus,
       index,
-      page.pageKey,
       page.chapterKey,
       page.scrollAndFocusTarget,
     ],
