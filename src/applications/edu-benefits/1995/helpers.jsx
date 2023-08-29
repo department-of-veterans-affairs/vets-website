@@ -26,7 +26,6 @@ export const buildSubmitEventData = formData => {
     'edu-prior-facility-end-date': formData.trainingEndDate,
     'preferred-contact-method': formData.preferredContactMethod,
     'direct-deposit-method': formData.bankAccountChange,
-    'direct-deposit-method-update': formData.bankAccountChangeUpdate,
     'direct-deposit-account-type': formData.bankAccount?.accountType,
   };
 };

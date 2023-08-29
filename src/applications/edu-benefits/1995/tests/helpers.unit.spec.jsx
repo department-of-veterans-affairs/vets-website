@@ -54,7 +54,6 @@ describe('helpers', () => {
         'edu-prior-facility-end-date': '2018-03-02',
         'preferred-contact-method': 'mail',
         'direct-deposit-method': 'startUpdate',
-        'direct-deposit-method-update': undefined,
         'direct-deposit-account-type': 'checking',
       });
     });
