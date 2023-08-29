@@ -44,3 +44,7 @@ export const generatePdfScaffold = (user, title, subject, preface) => {
     preface,
   };
 };
+
+export const updatePageTitle = newTitle => {
+  document.title = newTitle;
+};
