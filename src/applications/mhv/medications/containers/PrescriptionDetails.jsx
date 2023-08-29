@@ -11,6 +11,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import TrackingInfo from '../components/shared/TrackingInfo';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const PrescriptionDetails = () => {
   const currentDate = new Date();
@@ -45,6 +46,7 @@ const PrescriptionDetails = () => {
     () => {
       if (prescription) {
         focusElement(document.querySelector('h1'));
+        updatePageTitle(prescription.prescriptionName);
       }
     },
     [prescription],
