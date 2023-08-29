@@ -31,7 +31,7 @@ const PrimaryAddressWithAutofill = props => {
 
   // define our custom error messages
   const errorMessages = {
-    street: { required: 'Please enter a street address' },
+    street: { required: 'Please enter a home address' },
     city: { required: 'Please enter a city' },
     state: { required: 'Please enter a state' },
     postalCode: {
@@ -138,7 +138,8 @@ const PrimaryAddressWithAutofill = props => {
         id={idSchema.street.$id}
         name={idSchema.street.$id}
         value={formData.street}
-        label={`${inputLabelMap[props.name]} current street address`}
+        label={`${inputLabelMap[props.name]} current home address`}
+        hint="This is the address where the Caregiver lives"
         className="cg-address-input"
         error={showError('street') || null}
         required
@@ -150,7 +151,7 @@ const PrimaryAddressWithAutofill = props => {
         id={idSchema.street2.$id}
         name={idSchema.street2.$id}
         value={formData.street2}
-        label="Street address line 2"
+        label="Home address line 2"
         className="cg-address-input"
         onInput={handleChange}
         onBlur={handleBlur}

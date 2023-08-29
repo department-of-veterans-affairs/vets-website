@@ -16,7 +16,7 @@ import { getVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
-import { emptyField } from '../util/constants';
+import { EMPTY_FIELD } from '../util/constants';
 
 const VaccineDetails = () => {
   const vaccineDetails = useSelector(state => state.mr.vaccines.vaccineDetails);
@@ -73,7 +73,7 @@ const VaccineDetails = () => {
             items: [
               {
                 title: 'Location',
-                value: vaccineDetails.location || emptyField,
+                value: vaccineDetails.location || EMPTY_FIELD,
                 inline: true,
               },
               {
