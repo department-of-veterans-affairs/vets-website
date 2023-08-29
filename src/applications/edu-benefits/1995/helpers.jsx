@@ -16,9 +16,6 @@ export const buildSubmitEventData = formData => {
       'service-start-date': tour.dateRange.from,
       'service-end-date': tour.dateRange.to,
     })),
-    'service-before-1978': yesNoOrUndefined(
-      formData['view:hasServiceBefore1978'],
-    ),
     'edu-desired-facility-name': formData.newSchoolName,
     'edu-desired-type-of-education': formData.educationType,
     'edu-desired-facility-state': formData.newSchoolAddress?.state,
@@ -28,13 +25,6 @@ export const buildSubmitEventData = formData => {
     'edu-prior-facility-city': formData.oldSchool?.address.city,
     'edu-prior-facility-end-date': formData.trainingEndDate,
     'preferred-contact-method': formData.preferredContactMethod,
-    married: yesNoOrUndefined(formData.serviceBefore1977?.married),
-    'dependent-children': yesNoOrUndefined(
-      formData.serviceBefore1977?.haveDependents,
-    ),
-    'dependent-parent': yesNoOrUndefined(
-      formData.serviceBefore1977?.parentDependent,
-    ),
     'direct-deposit-method': formData.bankAccountChange,
     'direct-deposit-method-update': formData.bankAccountChangeUpdate,
     'direct-deposit-account-type': formData.bankAccount?.accountType,
