@@ -355,6 +355,8 @@ jobs:
       - name: Fetch allow list
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: e2e
       # exports app list and assigns to environmental variable at this step
 
       - name: Set Allow List Output

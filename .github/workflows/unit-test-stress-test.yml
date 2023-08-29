@@ -60,8 +60,10 @@ jobs:
         uses: ./.github/workflows/configure-bigquery
 
       - name: Fetch Unit Test allow list
-        run: yarn get-allow-list --test_type=unit_test
+        run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
       # exports app list and assigns to environmental variable at this step
 
       - name: Set Allow List Output
