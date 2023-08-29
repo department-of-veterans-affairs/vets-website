@@ -3,10 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
+import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
+import { isAuthenticatedWithSSOe } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
 // Relative imports.
-import { selectPatientFacilities } from 'platform/user/cerner-dsot/selectors';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import AuthContent from '../AuthContent';
 import UnauthContent from '../UnauthContent';
 import {
