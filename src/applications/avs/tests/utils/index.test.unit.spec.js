@@ -7,7 +7,7 @@ import {
   getFormattedAppointmentTime,
   getFormattedAppointmentDate,
   getFormattedGenerationDate,
-} from './index';
+} from '../../utils/index';
 
 describe('avs', () => {
   describe('utils', () => {
