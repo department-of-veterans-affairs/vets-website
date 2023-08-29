@@ -31,7 +31,6 @@ import seniorRotcUI from '../../definitions/seniorRotc';
 import createDirectDepositPage1990 from '../pages/DirectDeposit';
 
 import * as toursOfDuty from '../../definitions/toursOfDuty';
-import serviceBefore1977UI from '../../definitions/serviceBefore1977';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -51,8 +50,6 @@ import {
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
-
-import { hasServiceBefore1977 } from '../../utils/helpers.jsx';
 
 import { benefitsLabels } from '../../utils/labels';
 
@@ -79,7 +76,6 @@ const {
   year,
   currentlyActiveDuty,
   address,
-  serviceBefore1977,
   usaPhone,
 } = fullSchema1990.definitions;
 
@@ -118,7 +114,6 @@ const formConfig = {
     ssn,
     year,
     address,
-    serviceBefore1977,
     usaPhone,
   },
   title: 'Apply for education benefits',
@@ -567,21 +562,6 @@ const formConfig = {
             'ui:title': 'Contact information',
           },
         }),
-        dependents: {
-          title: 'Dependent information',
-          path: 'personal-information/dependents',
-          depends: hasServiceBefore1977,
-          uiSchema: {
-            'ui:title': 'Dependents',
-            serviceBefore1977: serviceBefore1977UI,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              serviceBefore1977,
-            },
-          },
-        },
         directDeposit: createDirectDepositPage1990(),
       },
     },
