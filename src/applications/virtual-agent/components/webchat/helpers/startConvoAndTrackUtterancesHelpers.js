@@ -102,16 +102,19 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   }
 
   const eventName = action?.payload?.activity?.name ?? '';
+  const eventValue = action?.payload?.activity?.value ?? '';
 
   // use event name for rxSkill
-  const rxSkillWasTriggered = eventName === 'RX_Skill_Entry';
+  const skillWasTriggered = eventName === 'Skill_Entry';
   // use event name for rxSkillExit
-  const rxSkillWasExited = eventName === 'RX_Skill_Exit';
-  if (rxSkillWasTriggered) {
+  const skillWasExited = eventName === 'Skill_Exit';
+  // confirm it is the rx skill
+  const rxSkill = eventValue === 'RX_Skill';
+  if (skillWasTriggered && rxSkill) {
     setSessionStorageAsString(IS_RX_SKILL, true);
     sendWindowEvent('rxSkill');
   }
-  if (rxSkillWasExited) {
+  if (skillWasExited && rxSkill) {
     setSessionStorageAsString(IS_RX_SKILL, false);
     sendWindowEvent('rxSkill');
   }
