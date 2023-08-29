@@ -86,7 +86,6 @@ const App = props => {
           ...formData,
           ...defaultViewFields,
           'view:isHouseholdV2Enabled': isHouseholdV2Enabled,
-          'view:isRemoveIdFieldsEnabled': isRemoveIdFieldsEnabled,
         });
       }
     },
