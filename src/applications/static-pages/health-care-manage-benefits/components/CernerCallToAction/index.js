@@ -207,7 +207,7 @@ export class CernerCallToAction extends Component {
                     cernerFacilities.length === 1
                       ? 'this facility'
                       : 'these facilities'
-                  }, go to My VA Health`}
+                  }, go to My VA Health:`}
                 </p>
                 <div className="vads-u-margin-y--1">
                   <ul className="vads-u-margin-left--1p5 vads-u-margin-bottom--1">
