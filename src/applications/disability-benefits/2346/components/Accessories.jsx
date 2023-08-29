@@ -1,4 +1,3 @@
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import classnames from 'classnames';
 import moment from 'moment';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -86,14 +85,8 @@ class Accessories extends Component {
                 <p>
                   If you need accessories like domes, wax guards, cleaning
                   supplies, or dessicant, call the DLC Customer Service Section
-                  at{' '}
-                  <a
-                    aria-label="3 0 3. 2 7 3. 6 2 0 0."
-                    href="tel:303-273-6200"
-                  >
-                    303-273-6200
-                  </a>{' '}
-                  or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+                  at <va-telephone contact="3032736200" /> or email{' '}
+                  <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
               </div>
             </va-alert>
@@ -172,9 +165,9 @@ class Accessories extends Component {
             </div>
           ))}
         {accessorySupplies.length > 0 && (
-          <AdditionalInfo
-            triggerText="What if the accessories I need aren’t listed here?"
-            className="vads-u-margin-bottom--2"
+          <va-additional-info
+            trigger="What if the accessories I need aren’t listed here?"
+            class="vads-u-margin-bottom--2"
           >
             <p>
               The accessories you need may not be listed here if you haven’t
@@ -205,7 +198,7 @@ class Accessories extends Component {
             >
               Find contact information for your local VA medical center.
             </a>
-          </AdditionalInfo>
+          </va-additional-info>
         )}
       </div>
     );
