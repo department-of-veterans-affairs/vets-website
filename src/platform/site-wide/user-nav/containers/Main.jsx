@@ -316,17 +316,14 @@ export default connect(
 )(Main);
 
 Main.propTypes = {
-  // From mapDispatchToProps.
   getBackendStatuses: PropTypes.func.isRequired,
   initializeProfile: PropTypes.func.isRequired,
-  showNavLogin: PropTypes.bool,
   toggleAccountTransitionModal: PropTypes.func.isRequired,
   toggleAccountTransitionSuccessModal: PropTypes.func.isRequired,
   toggleFormSignInModal: PropTypes.func.isRequired,
   toggleLoginModal: PropTypes.func.isRequired,
   toggleSearchHelpUserMenu: PropTypes.func.isRequired,
   updateLoggedInStatus: PropTypes.func.isRequired,
-  // From mapStateToProps.
   authenticatedWithOAuth: PropTypes.bool,
   canTransferMHVAccount: PropTypes.bool,
   currentlyLoggedIn: PropTypes.bool,
@@ -340,7 +337,12 @@ Main.propTypes = {
   showAccountTransitionSuccessModal: PropTypes.bool,
   showFormSignInModal: PropTypes.bool,
   showLoginModal: PropTypes.bool,
+  showNavLogin: PropTypes.bool,
   useSignInService: PropTypes.bool,
-  userGreeting: PropTypes.array,
+  userGreeting: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.object,
+    PropTypes.arrayOf(PropTypes.node),
+  ]),
   utilitiesMenuIsOpen: PropTypes.object,
 };
