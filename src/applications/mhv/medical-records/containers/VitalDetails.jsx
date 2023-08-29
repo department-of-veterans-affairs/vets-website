@@ -17,7 +17,7 @@ import {
   processList,
   sendErrorToSentry,
 } from '../util/helpers';
-import { emptyField, vitalTypeDisplayNames } from '../util/constants';
+import { EMPTY_FIELD, vitalTypeDisplayNames } from '../util/constants';
 
 const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = () => {
@@ -118,12 +118,12 @@ const VitalDetails = () => {
         items: [
           {
             title: 'Result',
-            value: item.measurement || emptyField,
+            value: item.measurement || EMPTY_FIELD,
             inline: true,
           },
           {
             title: 'Location',
-            value: item.location || emptyField,
+            value: item.location || EMPTY_FIELD,
             inline: true,
           },
           {

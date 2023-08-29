@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals } from '../actions/vitals';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { RecordType, vitalTypes } from '../util/constants';
+import { recordType, vitalTypes } from '../util/constants';
 
 const Vitals = () => {
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
@@ -46,7 +46,7 @@ const Vitals = () => {
       return (
         <RecordList
           records={cards}
-          type={RecordType.VITALS}
+          type={recordType.VITALS}
           perPage={7}
           hidePagination
         />

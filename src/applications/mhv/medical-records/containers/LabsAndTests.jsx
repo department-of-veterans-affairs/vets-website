@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList } from '../actions/labsAndTests';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { RecordType } from '../util/constants';
+import { recordType } from '../util/constants';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const LabsAndTests = () => {
   const content = () => {
     if (labsAndTests?.length > 0) {
       return (
-        <RecordList records={labsAndTests} type={RecordType.LABS_AND_TESTS} />
+        <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
       );
     }
     if (labsAndTests?.length === 0) {

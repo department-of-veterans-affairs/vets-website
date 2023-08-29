@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import omit from 'platform/utilities/data/omit';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -267,7 +266,6 @@ const SearchControls = props => {
   };
 
   const renderServiceTypeDropdown = () => {
-    const { searchCovid19Vaccine } = props;
     const { facilityType, serviceType, serviceTypeChanged } = currentQuery;
     const disabled = ![
       LocationType.HEALTH,
@@ -278,12 +276,8 @@ const SearchControls = props => {
     ].includes(facilityType);
 
     const showError = serviceTypeChanged && !disabled && !serviceType;
+    const filteredHealthServices = healthServices;
 
-    let filteredHealthServices = healthServices;
-
-    if (!searchCovid19Vaccine) {
-      filteredHealthServices = omit(['Covid19Vaccine'], healthServices);
-    }
     let services;
     // Determine what service types to display for the location type (if any).
     switch (facilityType) {
