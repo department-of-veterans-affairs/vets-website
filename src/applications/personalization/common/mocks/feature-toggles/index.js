@@ -22,11 +22,11 @@ const generateFeatureToggles = (toggles = {}) => {
           value: myVaUseExperimental,
         },
         {
-          name: 'my_va_experimental_fe',
+          name: 'my_va_experimental_frontend',
           value: myVaUseExperimentalFrontend,
         },
         {
-          name: 'my_va_experimental_fs',
+          name: 'my_va_experimental_fullstack',
           value: myVaUseExperimentalFullstack,
         },
         {
