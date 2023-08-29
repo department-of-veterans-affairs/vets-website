@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { LoincCodes, emptyField } from '../../util/constants';
+import { loincCodes, EMPTY_FIELD } from '../../util/constants';
 
 const CareSummariesAndNotesListItem = props => {
   const { record } = props;
-  const isDischargeSummary = record.type === LoincCodes.DISCHARGE_SUMMARY;
+  const isDischargeSummary = record.type === loincCodes.DISCHARGE_SUMMARY;
 
   const dateOrDates = () => {
     if (isDischargeSummary) {
@@ -22,7 +22,7 @@ const CareSummariesAndNotesListItem = props => {
       <h4>{record.name}</h4>
       <div className="fields">
         <div>{dateOrDates()}</div>
-        {record.location !== emptyField && <div>{record.location}</div>}
+        {record.location !== EMPTY_FIELD && <div>{record.location}</div>}
         <div>
           <span className="field-label">
             {record.isDischargeSummary ? 'Signed by ' : 'Admitted by '}
