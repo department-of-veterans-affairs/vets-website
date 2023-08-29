@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { fireEvent } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import FolderHeader from '../../../components/MessageList/FolderHeader';
 import { folderList } from '../../fixtures/folder-response.json';
@@ -53,6 +54,51 @@ describe('Folder Header component', () => {
     );
   };
 
+  describe('displays empty custom folder view', () => {
+    const emptyFolder = {
+      folderId: 9044447,
+      name: 'Empty Folder',
+      count: 0,
+      unreadCount: 0,
+      systemFolder: false,
+    };
+
+    const emptyFolderState = {
+      sm: {
+        folders: {
+          folder: emptyFolder,
+          folderList,
+        },
+      },
+    };
+
+    let screen = null;
+    beforeEach(() => {
+      screen = setup(emptyFolderState, `/folders/9044447`, 0, emptyFolder);
+    });
+
+    it('must display valid FOLDER name: EMPTY FOLDER', () => {
+      expect(
+        screen.getByText(emptyFolder.name, {
+          selector: 'h1',
+        }),
+      ).to.exist;
+      expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.exist;
+    });
+
+    it('must display `Edit Folder Name` and `Remove Folder` buttons', () => {
+      expect(screen.getByTestId('edit-folder-button')).to.exist;
+      expect(screen.getByTestId('remove-folder-button')).to.exist;
+    });
+
+    it('displays `Remove this folder?` modal if threadCount is zero.', async () => {
+      fireEvent.click(screen.getByTestId('remove-folder-button'));
+      expect(screen.getByTestId('remove-this-folder')).to.exist;
+      expect(screen.getByText(`If you remove a folder, you can't get it back.`))
+        .to.exist;
+    });
+  });
+
   describe('Folder Header component displays CUSTOM folder and children components', () => {
     it('must display valid CUSTOM FOLDER name and description: DEMO FOLDER 1', async () => {
       const screen = setup();
@@ -74,6 +120,7 @@ describe('Folder Header component', () => {
       expect(filterInputElement.getAttribute('label')).to.equal(
         'Enter information from one of these fields: to, from, message ID, or subject',
       );
+
       expect(filterInputElement.getAttribute('aria-label')).to.equal(
         `Filter messages in ${
           customFolder.name

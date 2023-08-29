@@ -147,6 +147,7 @@ const ManageFolderButtons = () => {
       {isEmptyWarning && (
         <VaModal
           className="modal"
+          data-testid="error-folder-not-empty"
           visible={isEmptyWarning}
           large="true"
           modalTitle={Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER}
@@ -168,6 +169,7 @@ const ManageFolderButtons = () => {
       {!isEmptyWarning && (
         <VaModal
           className="modal"
+          data-testid="remove-this-folder"
           visible={deleteModal}
           large="true"
           modalTitle={Alerts.Folder.DELETE_FOLDER_CONFIRM_HEADER}
