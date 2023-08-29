@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { isLoggedIn } from 'platform/user/selectors';
 
@@ -41,7 +42,8 @@ class FormApp extends React.Component {
       typeof formConfig.title === 'function'
         ? formConfig.title(this.props)
         : formConfig.title;
-    const { noTitle, noNav, fullWidth } = formConfig?.formOptions || {};
+    const { noTitle, noTopNav, fullWidth } = formConfig?.formOptions || {};
+    const notProd = !environment.isProduction();
 
     let formTitle;
     let formNav;
@@ -79,17 +81,16 @@ class FormApp extends React.Component {
         <Footer formConfig={formConfig} currentLocation={currentLocation} />
       );
     }
-    const wrapperClass = fullWidth
-      ? ''
-      : 'usa-width-two-thirds medium-8 columns';
+    const wrapperClass =
+      notProd && fullWidth ? '' : 'usa-width-two-thirds medium-8 columns';
 
     return (
       <div>
-        <div className={fullWidth ? '' : 'row'}>
+        <div className={notProd && fullWidth ? '' : 'row'}>
           <div className={wrapperClass}>
             <Element name="topScrollElement" />
-            {noTitle ? null : formTitle}
-            {noNav ? null : formNav}
+            {notProd && noTitle ? null : formTitle}
+            {notProd && noTopNav ? null : formNav}
             <Element name="topContentElement" />
             {renderedChildren}
           </div>

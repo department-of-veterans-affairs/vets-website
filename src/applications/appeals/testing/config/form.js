@@ -61,7 +61,8 @@ const formConfig = {
   subTitle: 'VA Form 10182 (Notice of Disagreement)',
   formOptions: {
     noTitle: true,
-    noNav: true,
+    noTopNav: true,
+    noBottomNav: true,
     fullWidth: true,
   },
 
