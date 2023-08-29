@@ -51,10 +51,6 @@ export function PersonalizationDropdown(props) {
     TOGGLE_NAMES.showAuthenticatedMenuEnhancements,
   );
 
-  const enhancedTopLinkClasses = showAuthenticatedMenuEnhancements
-    ? 'vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-padding-top--1'
-    : '';
-
   const createSignout = useCallback(
     () => (
       <a
@@ -79,7 +75,7 @@ export function PersonalizationDropdown(props) {
         isSSOe={isSSOe}
         showEnhancements={showAuthenticatedMenuEnhancements}
       />
-      <li className={enhancedTopLinkClasses}>
+      <li>
         <a href="/profile" onClick={recordProfileEvent}>
           Profile
         </a>
