@@ -196,105 +196,6 @@ const generateData = (type, formData) => {
       return {};
   }
 };
-//   return value[0].size
-//     ? value.map((name, index) => {
-//         return (
-//           <div
-//             key={index}
-//             className="vads-u-margin-top--4 vads-u-background-color--gray-lightest vads-u-padding--2"
-//           >
-//             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-//               <u>
-//                 <strong>{name.name}</strong>
-//               </u>
-//             </p>
-//             <p>{bytesToKB(name.size)}</p>
-//           </div>
-//         );
-//       })
-//     : value.map((name, index) => (
-//         <div key={index} className="vads-u-margin-top--4">
-//           <div className="vads-u-background-color--gray-lightest vads-u-padding--1p5">
-//             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-//               <strong>First: </strong>
-//               {name.first}
-//             </p>
-//             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-//               <strong>Middle: </strong>
-//               {name.middle ? name.middle : 'None'}
-//             </p>
-//             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-//               <strong>Last: </strong>
-//               {name.last}
-//             </p>
-//             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-//               <strong>Suffix: </strong>
-//               {name.suffix ? name.suffix : 'None'}
-//             </p>
-//           </div>
-//         </div>
-//       ));
-// };
-
-// const ArrayComponent = ({ value }) => {
-//   if (value[0].size) {
-//     value.map((name, index) => {
-//       return (
-//         <div
-//           key={index}
-//           className="vads-u-margin-top--4 vads-u-background-color--gray-lightest vads-u-padding--2"
-//         >
-//           <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-//             <u>
-//               <strong>{name.name}</strong>
-//             </u>
-//           </p>
-//           <p>{bytesToKB(name.size)}</p>
-//         </div>
-//       );
-//     });
-//   }
-//   if (value[0].disabilityStartDate) {
-//     value.map((name, index) => {
-//       return (
-//         <div
-//           key={index}
-//           className="vads-u-margin-top--4 vads-u-background-color--gray-lightest vads-u-padding--2"
-//         >
-//           <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-//             <u>
-//               <strong>{name.name}</strong>
-//             </u>
-//           </p>
-//           <p>{name.disabilityStartDate}</p>
-//         </div>
-//       );
-//     });
-//   } else {
-//     return value.map((name, index) => (
-//       <div key={index} className="vads-u-margin-top--4">
-//         <div className="vads-u-background-color--gray-lightest vads-u-padding--1p5">
-//           <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-//             <strong>First: </strong>
-//             {name.first}
-//           </p>
-//           <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-//             <strong>Middle: </strong>
-//             {name.middle ? name.middle : 'None'}
-//           </p>
-//           <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-//             <strong>Last: </strong>
-//             {name.last}
-//           </p>
-//           <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-//             <strong>Suffix: </strong>
-//             {name.suffix ? name.suffix : 'None'}
-//           </p>
-//         </div>
-//       </div>
-//     ));
-//   }
-// };
 
 const ArrayComponent = ({ value }) => {
   if (!value || value.length === 0) return null;
@@ -311,6 +212,16 @@ const ArrayComponent = ({ value }) => {
           </u>
         </p>
         <p>{bytesToKB(item.size)}</p>
+      </div>
+    ));
+  }
+
+  if (value[0].disabilityStartDate && value.length === 1) {
+    return value.map((item, index) => (
+      <div key={index}>
+        <p>{item.name}</p>
+        <p className="vads-u-color--gray">Disability start date</p>
+        <p>{convertDateFormat(item.disabilityStartDate)}</p>
       </div>
     ));
   }
