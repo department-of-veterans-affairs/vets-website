@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
-// import { formatSSN } from 'platform/utilities/ui';
+import { formatSSN } from 'platform/utilities/ui';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
-// const convertDateFormat = date => {
-//   date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
-// };
+const convertDateFormat = date => {
+  const [year, month, day] = date.split('-');
+  return `${month}/${day}/${year}`;
+};
 
 // const formatPhoneNumber = num =>
 //   `(${num.substr(0, 3)}) ${num.substr(3, 3)}-${num.substr(6)}`;
@@ -23,7 +24,7 @@ import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/select
 //     'Service-connected death (for a Veteran death related to, or resulting from, a service-connected disability)',
 // };
 
-// const formatCurrency = num => `$${num.toLocaleString()}`;
+const formatCurrency = num => `$${num.toLocaleString()}`;
 const bytesToKB = bytes => `${Math.round(bytes / 1024)} KB`;
 
 // const formatAddress = address => {
@@ -71,35 +72,63 @@ const generateData = (type, formData) => {
   switch (type) {
     case 'applicant-information':
       return {
-        'Your first name': 'First',
-        'Your middle name': 'None',
-        'Your last name': 'Last',
-        Suffix: 'None',
-        'Relationship to the deceased Veterans': 'XXX-XX-XXXX',
+        'Your first name': formData.veteranFullName.first
+          ? formData.veteranFullName.first
+          : '',
+        'Your middle name': formData.veteranFullName.middle
+          ? formData.veteranFullName.middle
+          : '',
+        'Your last name': formData.veteranFullName.last
+          ? formData.veteranFullName.last
+          : '',
+        Suffix: formData.veteranFullName.suffix
+          ? formData.veteranFullName.suffix
+          : '',
+        'Social Security number': formData.veteranSocialSecurityNumber
+          ? formatSSN(formData.veteranSocialSecurityNumber)
+          : '',
+        'VA file number': formData.vaFileNumber ? formData.vaFileNumber : '',
+        'Date of birth': formData.veteranDateOfBirth
+          ? convertDateFormat(formData.veteranDateOfBirth)
+          : '',
       };
     case 'military-history':
       return {
         'General history': {
-          'Did you serve under another name?': 'No',
+          'Did you serve under another name?':
+            formData.previousNames?.length > 0 ? formData.previousNames : 'No',
           'Place of last or anticipated separation (city and state or foreign country)':
-            'None',
+            formData.placeOfSeparation,
         },
         'Reserve and National Guard': {
-          'Are you currently on federal active duty in the National Guard?':
-            'No',
+          'Are you currently on federal active duty in the National Guard?': formData.nationalGuardActivation
+            ? 'Yes'
+            : 'No',
         },
         'POW status & severance pay': {
-          'Have you ever been a POW?': 'No',
-          'Have you received any type of severance or separation pay': 'No',
+          'Have you ever been a POW?': formData['view:powStatus']
+            ? `Yes\n${convertDateFormat(
+                formData.powDateRange.from,
+              )} - ${convertDateFormat(formData.powDateRange.to)}`
+            : 'No',
+          'Have you received any type of severance or separation pay': formData.severancePay
+            ? `${formData.severancePay.type}\n${formatCurrency(
+                formData.severancePay.amount,
+              )}`
+            : 'No',
         },
       };
     case 'work-history':
       return {
         'Disability history': {
-          'Have you been treated at a VA medical center for the above disability?':
-            'No',
-          Disability: 'Chronic back pain',
-          'Date disability began': '01/01/1966',
+          'Have you been treated at a VA medical center for this disability?': formData[
+            'view:hasVisitedVaMc'
+          ]
+            ? 'Yes'
+            : 'No',
+          Disability:
+            formData.disabilities?.length > 0 ? formData.disabilities : 'No',
+          // 'Date disability began': '01/01/1966',
         },
         'Employment history': {
           'Have you had a job (including being self-employed) from 1 year before you became disabled?':
@@ -159,53 +188,174 @@ const generateData = (type, formData) => {
           'Mobile phone': '(202) 111-1111',
         },
         'Document upload': {
-          Test: 'test',
+          'Review all your documentation to support your claim. \n If you’re claiming for Aid and Attendance or Household benefits, this includes:':
+            formData.files?.length > 0 ? formData.files : 'No',
         },
       };
     default:
       return {};
   }
 };
+//   return value[0].size
+//     ? value.map((name, index) => {
+//         return (
+//           <div
+//             key={index}
+//             className="vads-u-margin-top--4 vads-u-background-color--gray-lightest vads-u-padding--2"
+//           >
+//             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+//               <u>
+//                 <strong>{name.name}</strong>
+//               </u>
+//             </p>
+//             <p>{bytesToKB(name.size)}</p>
+//           </div>
+//         );
+//       })
+//     : value.map((name, index) => (
+//         <div key={index} className="vads-u-margin-top--4">
+//           <div className="vads-u-background-color--gray-lightest vads-u-padding--1p5">
+//             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+//               <strong>First: </strong>
+//               {name.first}
+//             </p>
+//             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+//               <strong>Middle: </strong>
+//               {name.middle ? name.middle : 'None'}
+//             </p>
+//             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+//               <strong>Last: </strong>
+//               {name.last}
+//             </p>
+//             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+//               <strong>Suffix: </strong>
+//               {name.suffix ? name.suffix : 'None'}
+//             </p>
+//           </div>
+//         </div>
+//       ));
+// };
+
+// const ArrayComponent = ({ value }) => {
+//   if (value[0].size) {
+//     value.map((name, index) => {
+//       return (
+//         <div
+//           key={index}
+//           className="vads-u-margin-top--4 vads-u-background-color--gray-lightest vads-u-padding--2"
+//         >
+//           <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+//             <u>
+//               <strong>{name.name}</strong>
+//             </u>
+//           </p>
+//           <p>{bytesToKB(name.size)}</p>
+//         </div>
+//       );
+//     });
+//   }
+//   if (value[0].disabilityStartDate) {
+//     value.map((name, index) => {
+//       return (
+//         <div
+//           key={index}
+//           className="vads-u-margin-top--4 vads-u-background-color--gray-lightest vads-u-padding--2"
+//         >
+//           <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+//             <u>
+//               <strong>{name.name}</strong>
+//             </u>
+//           </p>
+//           <p>{name.disabilityStartDate}</p>
+//         </div>
+//       );
+//     });
+//   } else {
+//     return value.map((name, index) => (
+//       <div key={index} className="vads-u-margin-top--4">
+//         <div className="vads-u-background-color--gray-lightest vads-u-padding--1p5">
+//           <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+//             <strong>First: </strong>
+//             {name.first}
+//           </p>
+//           <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+//             <strong>Middle: </strong>
+//             {name.middle ? name.middle : 'None'}
+//           </p>
+//           <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+//             <strong>Last: </strong>
+//             {name.last}
+//           </p>
+//           <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+//             <strong>Suffix: </strong>
+//             {name.suffix ? name.suffix : 'None'}
+//           </p>
+//         </div>
+//       </div>
+//     ));
+//   }
+// };
 
 const ArrayComponent = ({ value }) => {
-  return value[0].size
-    ? value.map((name, index) => {
-        return (
-          <div
-            key={index}
-            className="vads-u-margin-top--4 vads-u-background-color--gray-lightest vads-u-padding--2"
-          >
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-              <u>
-                <strong>{name.name}</strong>
-              </u>
-            </p>
-            <p>{bytesToKB(name.size)}</p>
-          </div>
-        );
-      })
-    : value.map((name, index) => (
-        <div key={index} className="vads-u-margin-top--4">
-          <div className="vads-u-background-color--gray-lightest vads-u-padding--1p5">
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-              <strong>First: </strong>
-              {name.first}
-            </p>
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-              <strong>Middle: </strong>
-              {name.middle ? name.middle : 'None'}
-            </p>
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-              <strong>Last: </strong>
-              {name.last}
-            </p>
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-              <strong>Suffix: </strong>
-              {name.suffix ? name.suffix : 'None'}
-            </p>
-          </div>
-        </div>
-      ));
+  if (!value || value.length === 0) return null;
+
+  if (value[0].size) {
+    return value.map((item, index) => (
+      <div
+        key={index}
+        className="vads-u-margin-top--4 vads-u-background-color--gray-lightest vads-u-padding--2"
+      >
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+          <u>
+            <strong>{item.name}</strong>
+          </u>
+        </p>
+        <p>{bytesToKB(item.size)}</p>
+      </div>
+    ));
+  }
+
+  if (value[0].disabilityStartDate) {
+    return value.map((item, index) => (
+      <div
+        key={index}
+        className="vads-u-margin-top--4 vads-u-background-color--gray-lightest vads-u-padding--2"
+      >
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+          <strong>{item.name}</strong>
+        </p>
+        <p className="vads-u-color--gray vads-u-margin-bottom--0">
+          Disability start date
+        </p>
+        <p className="vads-u-margin-bottom--1">
+          {convertDateFormat(item.disabilityStartDate)}
+        </p>
+      </div>
+    ));
+  }
+
+  return value.map((item, index) => (
+    <div key={index} className="vads-u-margin-top--4">
+      <div className="vads-u-background-color--gray-lightest vads-u-padding--1p5">
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+          <strong>First: </strong>
+          {item.first}
+        </p>
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+          <strong>Middle: </strong>
+          {item.middle ? item.middle : 'None'}
+        </p>
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+          <strong>Last: </strong>
+          {item.last}
+        </p>
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+          <strong>Suffix: </strong>
+          {item.suffix ? item.suffix : 'None'}
+        </p>
+      </div>
+    </div>
+  ));
 };
 
 const h3Subsections = [
@@ -276,7 +426,6 @@ const CreateSummarySections = ({
 
 export const NoFormPage = () => {
   const [data, setData] = useState({});
-  // const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const loggedIn = useSelector(isLoggedIn);
 
