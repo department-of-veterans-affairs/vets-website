@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
-import { buildSubmitEventData } from '../../1995/helpers';
+import { buildSubmitEventData } from '../helpers';
 
-import minimalData from '../tests/e2e/fixtures/data/minimal.json';
-import maximalData from '../tests/e2e/fixtures/data/maximal.json';
+import minimalData from './e2e/fixtures/data/minimal.json';
+import maximalData from './e2e/fixtures/data/maximal.json';
 
 describe('helpers', () => {
   describe('buildSubmitEventData', () => {
@@ -12,7 +12,6 @@ describe('helpers', () => {
         'benefits-used-recently': undefined,
         'new-service-periods-to-record': undefined,
         'service-details': [],
-        'service-before-1978': undefined,
         'edu-desired-facility-name': 'Test',
         'edu-desired-type-of-education': 'correspondence',
         'edu-desired-facility-state': undefined,
@@ -45,7 +44,6 @@ describe('helpers', () => {
             'service-end-date': undefined,
           },
         ],
-        'service-before-1978': 'Yes',
         'edu-desired-facility-name': 'Test',
         'edu-desired-type-of-education': 'correspondence',
         'edu-desired-facility-state': 'TN',

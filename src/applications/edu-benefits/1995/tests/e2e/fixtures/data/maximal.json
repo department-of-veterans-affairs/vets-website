@@ -14,7 +14,6 @@
       "state": "TN",
       "postalCode": "22312"
     },
-    "view:hasServiceBefore1978": true,
     "view:newService": true,
     "toursOfDuty": [
       {
@@ -69,11 +68,6 @@
       "suffix": "IV"
     },
     "veteranSocialSecurityNumber": "123333333",
-    "serviceBefore1977": {
-      "married": true,
-      "haveDependents": false,
-      "parentDependent": false
-    },
     "privacyAgreementAccepted": true
   }
 }
