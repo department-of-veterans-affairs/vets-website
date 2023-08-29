@@ -22,7 +22,6 @@ import {
 import {
   isFailedTransaction,
   isPendingTransaction,
-  isSuccessfulTransaction,
 } from '~/platform/user/profile/vap-svc/util/transactions';
 import VAPServiceEditModalErrorMessage from '~/platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import CopyMailingAddress from '~/platform/user/profile/vap-svc/containers/CopyMailingAddress';
@@ -94,13 +93,6 @@ export class ProfileInformationEditView extends Component {
       !isPendingTransaction(this.props.transaction)
     ) {
       window.clearInterval(this.interval);
-    }
-    // if a transaction was created that was immediately successful (for example
-    // when the transaction's status is `COMPLETED_NO_CHANGES_DETECTED`),
-    // immediately exit edit view and clear the transaction request so it can be triggered again
-    if (isSuccessfulTransaction(this.props.transaction)) {
-      this.props.openModal(null);
-      this.props.clearTransactionRequest(this.props.fieldName);
     }
   }
 
