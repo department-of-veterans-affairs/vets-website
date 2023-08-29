@@ -251,7 +251,7 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-      - name: Download Cypress E2E Mochawesome test results
+      - name: Download Unit Test results
         uses: actions/download-artifact@v3
         with:
           name: unit-test-report
@@ -260,47 +260,40 @@ jobs:
       - name: Copy test results to mochawesome directory
         run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
 
-      - name: Download Cypress E2E video artifacts
-        if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-stress-test-videos
-          path: qa-standards-dashboard-data/videos/${{ env.UUID }}
       - name: Update E2E Allow List
         run: yarn update-e2e-allow-list
         working-directory: qa-standards-dashboard-data
         env:
           ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
           TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
-      - name: Create Cypress E2E report and post results to BigQuery
-        run: yarn cypress-mochawesome-to-bigquery
-        working-directory: qa-standards-dashboard-data
-        env:
-          IS_MASTER_BUILD: false
-          TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
-          TEST_RESULTS_TABLE_NAME: cypress_test_results
-          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
-          TEST_RETRIES_TABLE_NAME: cypress_retry_records
-          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
-          IS_STRESS_TEST: true
-      - name: Upload Cypress E2E test videos to s3
-        if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
-        run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
-      - name: Upload Cypress E2E test report to s3
-        run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
-      - name: Publish E2E Stress Test Results
-        if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.2.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: E2E Stress Test Summary
-          conclusion: ${{ needs.stress-test-cypress-tests.result }}
-          output: |
-            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
-      - name: Create GitHub Issues for new flaky tests
-        if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
-        run: yarn create-github-issues-for-flaky-tests
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
-          GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          TEST_TYPE: unit
+      # - name: Create Cypress E2E report and post results to BigQuery
+      #   run: yarn cypress-mochawesome-to-bigquery
+      #   working-directory: qa-standards-dashboard-data
+      #   env:
+      #     IS_MASTER_BUILD: false
+      #     TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
+      #     TEST_RESULTS_TABLE_NAME: cypress_test_results
+      #     TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
+      #     TEST_RETRIES_TABLE_NAME: cypress_retry_records
+      #     NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+      #     IS_STRESS_TEST: true
+
+      # - name: Upload Cypress E2E test report to s3
+      #   run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
+      # - name: Publish E2E Stress Test Results
+      #   if: ${{ always() }}
+      #   uses: LouisBrunner/checks-action@v1.2.0
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     name: E2E Stress Test Summary
+      #     conclusion: ${{ needs.stress-test-cypress-tests.result }}
+      #     output: |
+      #       {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+      # - name: Create GitHub Issues for new flaky tests
+      #   if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
+      #   run: yarn create-github-issues-for-flaky-tests
+      #   working-directory: qa-standards-dashboard-data
+      #   env:
+      #     TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
+      #     GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
