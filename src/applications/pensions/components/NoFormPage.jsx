@@ -1,339 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
-import { formatSSN } from 'platform/utilities/ui';
+
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
-
-const convertDateFormat = date => {
-  const [year, month, day] = date.split('-');
-  return `${month}/${day}/${year}`;
-};
-
-// const formatPhoneNumber = num =>
-//   `(${num.substr(0, 3)}) ${num.substr(3, 3)}-${num.substr(6)}`;
-
-// const locationOfDeath = {
-//   nursingHome: 'Nursing home under VA contract',
-//   vaMedicalCenter: 'VA medical center',
-//   stateVeteransHome: 'State Veterans home',
-// };
-
-// const burialAllowanceRequest = {
-//   nonService: 'Non-Service connected death',
-//   vaMedicalCenter:
-//     'Service-connected death (for a Veteran death related to, or resulting from, a service-connected disability)',
-// };
-
-const formatCurrency = num => `$${num.toLocaleString()}`;
-const bytesToKB = bytes => `${Math.round(bytes / 1024)} KB`;
-
-// const formatAddress = address => {
-//   return `${Object.values(address)
-//     .filter(line => line !== undefined)
-//     .join('\n')}`;
-// };
-
-// const relationshipType = {
-//   spouse: 'Spouse',
-//   child: 'Child',
-//   parent: 'Parent',
-//   executor: 'Executor/Administrator of estate',
-// };
-
-const renderFields = [
-  {
-    title: 'Applicant information',
-    id: 'applicant-information',
-  },
-  {
-    title: 'Military history',
-    id: 'military-history',
-  },
-  {
-    title: 'Work history',
-    id: 'work-history',
-  },
-  {
-    title: 'Household information',
-    id: 'household-information',
-  },
-  {
-    title: 'Financial disclosure',
-    id: 'financial-disclosure',
-  },
-  {
-    title: 'Additional information',
-    id: 'additional-information',
-  },
-];
-
-const generateData = (type, formData) => {
-  // add formData back after type
-  switch (type) {
-    case 'applicant-information':
-      return {
-        'Your first name': formData.veteranFullName.first
-          ? formData.veteranFullName.first
-          : '',
-        'Your middle name': formData.veteranFullName.middle
-          ? formData.veteranFullName.middle
-          : '',
-        'Your last name': formData.veteranFullName.last
-          ? formData.veteranFullName.last
-          : '',
-        Suffix: formData.veteranFullName.suffix
-          ? formData.veteranFullName.suffix
-          : '',
-        'Social Security number': formData.veteranSocialSecurityNumber
-          ? formatSSN(formData.veteranSocialSecurityNumber)
-          : '',
-        'VA file number': formData.vaFileNumber ? formData.vaFileNumber : '',
-        'Date of birth': formData.veteranDateOfBirth
-          ? convertDateFormat(formData.veteranDateOfBirth)
-          : '',
-      };
-    case 'military-history':
-      return {
-        'General history': {
-          'Did you serve under another name?':
-            formData.previousNames?.length > 0 ? formData.previousNames : 'No',
-          'Place of last or anticipated separation (city and state or foreign country)':
-            formData.placeOfSeparation,
-        },
-        'Reserve and National Guard': {
-          'Are you currently on federal active duty in the National Guard?': formData.nationalGuardActivation
-            ? 'Yes'
-            : 'No',
-        },
-        'POW status & severance pay': {
-          'Have you ever been a POW?': formData['view:powStatus']
-            ? `Yes\n${convertDateFormat(
-                formData.powDateRange.from,
-              )} - ${convertDateFormat(formData.powDateRange.to)}`
-            : 'No',
-          'Have you received any type of severance or separation pay': formData.severancePay
-            ? `${formData.severancePay.type}\n${formatCurrency(
-                formData.severancePay.amount,
-              )}`
-            : 'No',
-        },
-      };
-    case 'work-history':
-      return {
-        'Disability history': {
-          'Have you been treated at a VA medical center for this disability?': formData[
-            'view:hasVisitedVaMc'
-          ]
-            ? 'Yes'
-            : 'No',
-          Disability:
-            formData.disabilities?.length > 0 ? formData.disabilities : 'No',
-          // 'Date disability began': '01/01/1966',
-        },
-        'Employment history': {
-          'Have you had a job (including being self-employed) from 1 year before you became disabled?':
-            'Yes',
-          'Name of employer': 'DreamJob Inc.',
-          Address: 'render address',
-          'Job title': 'Construction',
-          From: '01/01/1980',
-          To: '01/01/1989',
-          'How many days lost to disability': '300',
-          'Total annual earnings': '$30,000.00',
-        },
-      };
-    case 'household-information':
-      return {
-        'Marriage history': {
-          'What’s your marital status?': 'Never married',
-        },
-        'Dependent children': {
-          'Do you have any dependent children?': 'No',
-        },
-      };
-    case 'financial-disclosure':
-      return {
-        'Helen Garcia’s net worth': {
-          'Cash/Non-interest bearing accounts': '$0.00',
-          'Interest bearing accounts': '$0.00',
-          'IRAs, KEOGH Plans, etc.': '$0.00',
-          'Stocks, bonds,mutual funds, etc.': '$0.00',
-          'Real property (not your home, vehicle, furniture, or clothing)':
-            '$0.00',
-        },
-        'Helen Garcia’s monthly income': {
-          'Social Security': '$0.00',
-          'US Civil Service': '$0.00',
-          'US Railroad Retirement': '$0.00',
-          'Black Lung Benefits': '$0.00',
-          'Service Retirement': '$0.00',
-          'Supplemental Security Income (SSI) or Public Assistance': '$0.00',
-        },
-        'Helen Garcia’s expected income': {
-          'Gross wages and salary': '$0.00',
-          'Total dividends and interest': '$0.00',
-        },
-      };
-    case 'additional-information':
-      return {
-        'Direct deposit': {
-          'You did not select to use direct deposit': '',
-        },
-        'Contact information': {
-          'Mailing Address': 'render mailing address',
-          'Primary email': formData.email,
-          'Secondary email': 'None',
-          'Daytime phone': 'None',
-          'Evening phone': 'None',
-          'Mobile phone': '(202) 111-1111',
-        },
-        'Document upload': {
-          'Review all your documentation to support your claim. \n If you’re claiming for Aid and Attendance or Household benefits, this includes:':
-            formData.files?.length > 0 ? formData.files : 'No',
-        },
-      };
-    default:
-      return {};
-  }
-};
-
-const ArrayComponent = ({ value }) => {
-  if (!value || value.length === 0) return null;
-
-  if (value[0].size) {
-    return value.map((item, index) => (
-      <div
-        key={index}
-        className="vads-u-margin-top--4 vads-u-background-color--gray-lightest vads-u-padding--2"
-      >
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-          <u>
-            <strong>{item.name}</strong>
-          </u>
-        </p>
-        <p>{bytesToKB(item.size)}</p>
-      </div>
-    ));
-  }
-
-  if (value[0].disabilityStartDate && value.length === 1) {
-    return value.map((item, index) => (
-      <div key={index}>
-        <p>{item.name}</p>
-        <p className="vads-u-color--gray">Disability start date</p>
-        <p>{convertDateFormat(item.disabilityStartDate)}</p>
-      </div>
-    ));
-  }
-
-  if (value[0].disabilityStartDate) {
-    return value.map((item, index) => (
-      <div
-        key={index}
-        className="vads-u-margin-top--4 vads-u-background-color--gray-lightest vads-u-padding--2"
-      >
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-          <strong>{item.name}</strong>
-        </p>
-        <p className="vads-u-color--gray vads-u-margin-bottom--0">
-          Disability start date
-        </p>
-        <p className="vads-u-margin-bottom--1">
-          {convertDateFormat(item.disabilityStartDate)}
-        </p>
-      </div>
-    ));
-  }
-
-  return value.map((item, index) => (
-    <div key={index} className="vads-u-margin-top--4">
-      <div className="vads-u-background-color--gray-lightest vads-u-padding--1p5">
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-          <strong>First: </strong>
-          {item.first}
-        </p>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-          <strong>Middle: </strong>
-          {item.middle ? item.middle : 'None'}
-        </p>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-          <strong>Last: </strong>
-          {item.last}
-        </p>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-          <strong>Suffix: </strong>
-          {item.suffix ? item.suffix : 'None'}
-        </p>
-      </div>
-    </div>
-  ));
-};
-
-const h3Subsections = [
-  'General history',
-  'Reserve and National Guard',
-  'POW status & severance pay',
-  'Disability history',
-  'Employment history',
-  'Marriage history',
-  'Dependent children',
-  'Helen Garcia’s net worth',
-  'Helen Garcia’s monthly income',
-  'Helen Garcia’s expected income',
-  'Helen Garcia’s expenses',
-  'Direct deposit',
-  'Contact information',
-  'Document upload',
-];
-
-const CreateSummarySections = ({
-  title = '',
-  id = '',
-  formData = {},
-  bypassData = false,
-}) => {
-  const data = !bypassData ? generateData(id, formData) : formData;
-
-  return (
-    <>
-      {!bypassData ? (
-        <>
-          <h2 id={id}>{title}</h2>
-          <hr className="vads-u-border-color--primary-darker" />
-        </>
-      ) : null}
-      <div>
-        {Object.entries(data).map(([key, value]) => (
-          <React.Fragment key={key}>
-            {h3Subsections.includes(key) && typeof value !== 'string' ? (
-              <>
-                <h3>{key}</h3>
-                <CreateSummarySections formData={value} bypassData />
-              </>
-            ) : (
-              <>
-                <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
-                  {key}
-                </p>
-
-                {Array.isArray(value) ? (
-                  <ArrayComponent value={value} />
-                ) : (
-                  <p
-                    className="vads-u-margin-top--0"
-                    style={{ whiteSpace: 'pre-line' }}
-                  >
-                    {value}
-                  </p>
-                )}
-              </>
-            )}
-          </React.Fragment>
-        ))}
-      </div>
-    </>
-  );
-};
+import {
+  ApplicantInformation,
+  MilitaryHistory,
+  WorkHistory,
+  HouseholdInformation,
+  FinancialDisclosure,
+  AdditionalInformation,
+} from './SectionField';
 
 export const NoFormPage = () => {
   const [data, setData] = useState({});
@@ -420,13 +97,36 @@ export const NoFormPage = () => {
             </p>
             <article>
               <va-on-this-page />
-              {renderFields.map(props => (
-                <CreateSummarySections
-                  {...props}
-                  formData={formData}
-                  key={props.id}
-                />
-              ))}
+              <ApplicantInformation
+                title="Applicant information"
+                id="applicant-information"
+                formData={formData}
+              />
+              <MilitaryHistory
+                title="Military history"
+                id="military-history"
+                formData={formData}
+              />
+              <WorkHistory
+                title="Work history"
+                id="work-history"
+                formData={formData}
+              />
+              <HouseholdInformation
+                title="Household information"
+                id="household-information"
+                formData={formData}
+              />
+              <FinancialDisclosure
+                title="Financial disclosure"
+                id="financial-disclosure"
+                formData={formData}
+              />
+              <AdditionalInformation
+                title="Additional information"
+                id="additional-information"
+                formData={formData}
+              />
             </article>
             <p>
               <strong>Note:</strong> According to federal law, there are
