@@ -55,18 +55,20 @@ const IconCTALink = ({
             ) : null}
           </span>
         </span>
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaNotificationDotIndicator}>
-          <Toggler.Enabled>
-            {dotIndicator ? (
+        {dotIndicator && (
+          <Toggler
+            toggleName={Toggler.TOGGLE_NAMES.myVaNotificationDotIndicator}
+          >
+            <Toggler.Enabled>
               <span className="fa-stack fa-sm vads-u-height--full vads-u-margin-left--1">
                 <i
                   aria-label="Unread messages. Go to your inbox"
                   className="fas fa-xs fa-stack-1x vads-u-height--full fa-circle vads-u-color--secondary-dark"
                 />
               </span>
-            ) : null}
-          </Toggler.Enabled>
-        </Toggler>
+            </Toggler.Enabled>
+          </Toggler>
+        )}
       </span>
     </a>
   );
