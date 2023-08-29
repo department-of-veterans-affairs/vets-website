@@ -1,4 +1,4 @@
-const createSessionStorageKeys = ({ isPreCheckIn = true }) => {
+const createStorageKeys = ({ isPreCheckIn = true }) => {
   const namespace = isPreCheckIn
     ? 'health.care.pre.check.in'
     : 'health.care.check-in';
@@ -18,4 +18,4 @@ const createSessionStorageKeys = ({ isPreCheckIn = true }) => {
   return sessionStorageKeys;
 };
 
-export { createSessionStorageKeys };
+export { createStorageKeys };

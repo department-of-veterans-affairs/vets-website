@@ -224,7 +224,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('1500');
-          cy.findAllByText(/Add vehicle/i, { selector: 'button' })
+          cy.findAllByText(/Continue/i, { selector: 'button' })
             .first()
             .click({ waitForAnimations: true });
         });
@@ -370,7 +370,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('10');
-          cy.findAllByText(/Add a credit card bill/i, { selector: 'button' })
+          cy.findAllByText(/Continue/i, { selector: 'button' })
             .first()
             .click();
           // cy.get('.usa-button-primary').click();
@@ -433,7 +433,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('10');
-          cy.findAllByText(/Add an installment contract/i, {
+          cy.findAllByText(/Continue/i, {
             selector: 'button',
           })
             .first()

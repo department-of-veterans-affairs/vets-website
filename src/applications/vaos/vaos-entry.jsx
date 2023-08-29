@@ -8,7 +8,10 @@ import manifest from './manifest.json';
 import reducer from './redux/reducer';
 
 startApp({
-  url: environment.isProduction() ? manifest.rootUrl : manifest.newRootUrl,
+  url:
+    environment.isProduction() || (environment.isLocalhost() && window.Cypress)
+      ? manifest.rootUrl
+      : manifest.newRootUrl,
   createRoutesWithStore,
   reducer,
   entryName: manifest.entryName,

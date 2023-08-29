@@ -3,19 +3,30 @@ import { primaryCaregiverFields } from '../../../definitions/constants';
 import {
   dateOfBirthUI,
   fullNameUI,
+  customFieldSchemaUI,
   genderUI,
   ssnUI,
 } from '../../../definitions/UIDefinitions/sharedUI';
 import { primaryInputLabel } from '../../../definitions/UIDefinitions/caregiverUI';
+import { CaregiverFullNameDescription } from '../../../components/FormDescriptions';
 import PrimaryCaregiverDescription from '../../../components/FormDescriptions/PrimaryCaregiverDescription';
 
 const { primaryCaregiver } = fullSchema.properties;
 const primaryCaregiverProps = primaryCaregiver.properties;
+// Initialize fullNameUI with originalUI
+let extendedNameUI = fullNameUI(primaryInputLabel);
+// Add/replace whatever key/values needed
+extendedNameUI = customFieldSchemaUI(
+  extendedNameUI,
+  'first',
+  'ui:description',
+  CaregiverFullNameDescription,
+);
 
 const primaryInfoPage = {
   uiSchema: {
     'ui:description': PrimaryCaregiverDescription({ showPageIntro: true }),
-    [primaryCaregiverFields.fullName]: fullNameUI(primaryInputLabel),
+    [primaryCaregiverFields.fullName]: extendedNameUI,
     [primaryCaregiverFields.ssn]: ssnUI(primaryInputLabel),
     [primaryCaregiverFields.dateOfBirth]: dateOfBirthUI(primaryInputLabel),
     [primaryCaregiverFields.gender]: genderUI(primaryInputLabel),
