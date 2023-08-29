@@ -4,6 +4,7 @@ import {
   emptyObjectSchema,
 } from '../../../definitions/constants';
 import {
+  customFieldSchemaUI,
   emailUI,
   alternativePhoneNumberUI,
   primaryPhoneNumberUI,
@@ -11,11 +12,21 @@ import {
   emailEncouragementUI,
 } from '../../../definitions/UIDefinitions/sharedUI';
 import { vetInputLabel } from '../../../definitions/UIDefinitions/veteranUI';
+import { VeteranHomeAddressDescription } from '../../../components/FormDescriptions';
 import VeteranContactDescription from '../../../components/FormDescriptions/VeteranContactDescription';
 
 const { veteran } = fullSchema.properties;
 const veteranProps = veteran.properties;
 const { address, phone } = fullSchema.definitions;
+// Initialize fullNameUI with originalUI object
+let extendedAddressUI = addressWithoutCountryUI(vetInputLabel);
+// Add/replace whatever key/values needed
+extendedAddressUI = customFieldSchemaUI(
+  extendedAddressUI,
+  'street',
+  'ui:description',
+  VeteranHomeAddressDescription,
+);
 
 const vetContactInfoPage = {
   uiSchema: {
@@ -23,7 +34,7 @@ const vetContactInfoPage = {
       pageTitle: 'Veteran contact information',
       showPageIntro: true,
     }),
-    [veteranFields.address]: addressWithoutCountryUI(vetInputLabel),
+    [veteranFields.address]: extendedAddressUI,
     [veteranFields.primaryPhoneNumber]: primaryPhoneNumberUI(vetInputLabel),
     [veteranFields.alternativePhoneNumber]: alternativePhoneNumberUI(
       vetInputLabel,

@@ -35,7 +35,6 @@ const generateFooter = avs => {
 };
 
 const Avs = props => {
-  // TODO: boot folks out if the feature toggle is not enabled.
   const user = useSelector(selectUser);
   const { avsEnabled, featureTogglesLoading } = useSelector(
     state => {

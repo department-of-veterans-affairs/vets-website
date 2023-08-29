@@ -5,7 +5,7 @@ import { beforeEach } from 'mocha';
 import { waitFor } from '@testing-library/react';
 import RecordList from '../../components/RecordList/RecordList';
 import reducer from '../../reducers';
-import { RecordType } from '../../util/constants';
+import { recordType } from '../../util/constants';
 
 const vaccines = [
   {
@@ -40,7 +40,7 @@ describe('Record list component', () => {
   let screen = null;
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
-      <RecordList records={vaccines} type={RecordType.VACCINES} />,
+      <RecordList records={vaccines} type={recordType.VACCINES} />,
       {
         initialState,
         reducers: reducer,

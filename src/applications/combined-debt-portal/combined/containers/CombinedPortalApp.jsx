@@ -81,7 +81,11 @@ const CombinedPortalApp = ({ children }) => {
       <div className="vads-l-row">
         <DowntimeNotification
           appTitle="Debts and bills application"
-          dependencies={[externalServices.mvi, externalServices.vbs]}
+          dependencies={[
+            externalServices.mvi,
+            externalServices.vbs,
+            externalServices.dmc,
+          ]}
         >
           {children}
         </DowntimeNotification>

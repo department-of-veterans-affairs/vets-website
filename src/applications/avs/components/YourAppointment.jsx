@@ -10,7 +10,7 @@ const clinicsVisited = avs => {
   const clinics = avs.clinicsVisited.map(clinic => {
     return (
       <div key={clinic.clinicIen}>
-        <h3>
+        <h3 data-testid="appointment-time">
           {getFormattedAppointmentTime(clinic.time)} {shortTimezone}
         </h3>
         <h4 className="clinic-information" key="clinicSite">
@@ -35,13 +35,13 @@ const providers = avs => {
   return (
     <div>
       <h3>Providers</h3>
-      <ul>{providerListItems}</ul>
+      <ul data-testid="provider-list">{providerListItems}</ul>
     </div>
   );
 };
 
 const reasonForAppointment = avs => {
-  if (avs.reasonForVisit.length > 0) {
+  if (avs.reasonForVisit?.length > 0) {
     const reasonForVisitListItems = avs.reasonForVisit.map(reason => (
       <li key={reason.code}>{reason.diagnosis}</li>
     ));
@@ -49,7 +49,7 @@ const reasonForAppointment = avs => {
     return (
       <div>
         <h3>Reason for appointment</h3>
-        <ul>{reasonForVisitListItems}</ul>
+        <ul data-testid="reason-for-appt-list">{reasonForVisitListItems}</ul>
       </div>
     );
   }
@@ -58,7 +58,7 @@ const reasonForAppointment = avs => {
 };
 
 const youWereDiagnosedWith = avs => {
-  if (avs.diagnoses.length > 0) {
+  if (avs.diagnoses?.length > 0) {
     const diagnosisListItems = avs.diagnoses.map(diagnosis => (
       <li key={diagnosis.code}>{diagnosis.diagnosis}</li>
     ));
@@ -66,7 +66,9 @@ const youWereDiagnosedWith = avs => {
     return (
       <div>
         <h3>You were diagnosed with</h3>
-        <ul className="bulleted-list">{diagnosisListItems}</ul>
+        <ul className="bulleted-list" data-testid="diagnoses-list">
+          {diagnosisListItems}
+        </ul>
       </div>
     );
   }
@@ -75,7 +77,7 @@ const youWereDiagnosedWith = avs => {
 };
 
 const vitalSigns = avs => {
-  if (avs.vitals.length > 0) {
+  if (avs.vitals?.length > 0) {
     const vitalSignItems = avs.vitals.map((vitalSign, idx) => (
       <div key={`vital-${idx}`}>
         <p>
@@ -88,7 +90,7 @@ const vitalSigns = avs => {
     ));
 
     return (
-      <div>
+      <div data-testid="vitals">
         <h3>Vitals as of this appointment</h3>
         {/* TODO: Check semantics and spacing */}
         {vitalSignItems}
@@ -101,7 +103,7 @@ const vitalSigns = avs => {
 
 const procedures = avs => {
   if (avs.procedures?.length > 0) {
-    // TODO: get procedures.
+    // TODO: get procedures and add test case.
 
     return (
       <div>
@@ -119,7 +121,7 @@ const clinicMedications = avs => {
     // TODO: get clinic meds.
 
     return (
-      <div>
+      <div data-testid="clinic-medications">
         <h3>Medications ordered for administration in clinic</h3>
         <p>
           Medications ordered for administration during your visit to a VA

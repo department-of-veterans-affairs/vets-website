@@ -9,9 +9,6 @@ Before you get started check [this page](https://depo-platform-documentation.scr
   - start app `yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=avs`
   - visit the app: `http://localhost:3001/my-health/care-notes/avs/64aee349ceec8352f2403cb0`
 
-## Mock data
-Data is currently not checked into git to avoid PII/PHI concerns. Ask another developer for copies of the fixtures.
-
 ## Running tests
 Unit tests for can be run using this command: `yarn test:unit --app-folder avs`. To get detailed errors, run this command with `--log-level=error`. To get coverage reports run this command `yarn test:unit --app-folder avs --coverage --coverage-html`. View the report at `/coverage/index.html`
 
