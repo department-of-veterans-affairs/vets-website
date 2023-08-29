@@ -324,7 +324,7 @@ const ReplyForm = props => {
         <section>
           <h2 className="sr-only">Reply draft edit mode.</h2>
           <form
-            className="reply-form"
+            className="reply-form vads-u-padding-bottom--2"
             data-testid="reply-form"
             onSubmit={sendMessageHandler}
           >
@@ -355,7 +355,7 @@ const ReplyForm = props => {
               confirmButtonText={navigationError?.confirmButtonText}
               cancelButtonText={navigationError?.cancelButtonText}
             />
-            <EmergencyNote dropDownFlag />
+            {!cannotReply && <EmergencyNote dropDownFlag />}
             <div>
               <span
                 className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"

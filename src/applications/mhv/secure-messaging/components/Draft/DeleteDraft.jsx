@@ -50,7 +50,7 @@ const DeleteDraft = props => {
           cannotReply
             ? 'primary vads-u-padding-x--4'
             : 'secondary vads-u-flex--1'
-        } delete-draft-button vads-u-margin-top--0 vads-u-margin-right--0`}
+        } delete-draft-button vads-u-margin-top--0 vads-u-margin-right--0 vads-u-margin-bottom--0 vads-u-padding-x--0p5`}
         data-testid="delete-draft-button"
         onClick={() => {
           if (props.draftId) {
