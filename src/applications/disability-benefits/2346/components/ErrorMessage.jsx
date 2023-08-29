@@ -8,7 +8,7 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
   const toggleName = TOGGLE_NAMES.supplyReorderingSleepApneaEnabled;
   const isSupplyReorderingSleepApneaEnabled = useToggleValue(toggleName);
   const supplyDescription = isSupplyReorderingSleepApneaEnabled
-    ? 'hearing aid and sleep apnea supplies'
+    ? 'hearing aid and CPAP supplies'
     : 'hearing aid batteries and accessories';
 
   let content;

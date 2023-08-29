@@ -20,7 +20,7 @@ const ConfirmationPage = ({
   hasCompleteOrderFailed,
 }) => {
   const supplyDescription = featureToggles.supply_reordering_sleep_apnea_enabled
-    ? 'hearing aid and sleep apnea supplies'
+    ? 'hearing aid and CPAP supplies'
     : 'hearing aid batteries and accessories';
   const PrintDetails = () => (
     <div className="print-details">

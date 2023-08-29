@@ -23,7 +23,7 @@ class App extends Component {
     } = this.props;
     const showMainContent = !pending && !isError && !featureToggles.loading;
     const supplyDescription = featureToggles.supply_reordering_sleep_apnea_enabled
-      ? 'hearing aid and sleep apnea supplies'
+      ? 'hearing aid and CPAP supplies'
       : 'hearing aid batteries and accessories';
 
     // Update form config on the fly based on feature toggle.

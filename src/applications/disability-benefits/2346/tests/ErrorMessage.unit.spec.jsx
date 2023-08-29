@@ -109,7 +109,7 @@ describe('ErrorMessage', () => {
         .at(0)
         .text(),
     ).to.equal(
-      'You can’t order hearing aid or sleep apnea supplies at this time because we can’t find your records in our system or we’re missing some information needed for you to order.',
+      'You can’t order hearing aid or CPAP supplies at this time because we can’t find your records in our system or we’re missing some information needed for you to order.',
     );
     expect(
       errorMessage
@@ -144,7 +144,7 @@ describe('ErrorMessage', () => {
         .at(0)
         .text(),
     ).to.equal(
-      'You can’t order hearing aid or sleep apnea supplies online at this time because you haven’t placed an order within the past two years',
+      'You can’t order hearing aid or CPAP supplies online at this time because you haven’t placed an order within the past two years',
     );
     expect(
       errorMessage

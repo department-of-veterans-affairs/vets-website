@@ -7,7 +7,7 @@ import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const IntroductionPage = props => {
-  // Toggle from hearing aid supplies to hearing aid + sleep apnea supplies.
+  // Toggle from hearing aid supplies to hearing aid + CPAP supplies.
   const {
     TOGGLE_NAMES,
     useToggleValue,
@@ -17,7 +17,7 @@ const IntroductionPage = props => {
   const isSupplyReorderingSleepApneaEnabled = useToggleValue(toggleName);
   const isLoadingFeatureFlags = useToggleLoadingValue(toggleName);
   const supplyDescription = isSupplyReorderingSleepApneaEnabled
-    ? 'hearing aid and sleep apnea supplies'
+    ? 'hearing aid and CPAP supplies'
     : 'hearing aid batteries and accessories';
   if (isLoadingFeatureFlags)
     return <va-loading-indicator message="Loading your information..." />;
@@ -77,7 +77,7 @@ const IntroductionPage = props => {
                 <li>Select any hearing aids that need batteries</li>
                 <li>Select any hearing aid accessories you need</li>
                 {isSupplyReorderingSleepApneaEnabled && (
-                  <li>Select any sleep apnea supplies you need</li>
+                  <li>Select any CPAP supplies you need</li>
                 )}
                 <li>Review and submit order</li>
               </ul>
