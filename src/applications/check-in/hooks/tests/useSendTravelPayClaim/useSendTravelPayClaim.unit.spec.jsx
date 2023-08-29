@@ -2,15 +2,20 @@ import React from 'react';
 
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { render } from '@testing-library/react';
 
 import configureStore from 'redux-mock-store';
 import TestComponent from './TestComponent';
+import { api } from '../../../api';
 
 describe('check-in', () => {
   describe('useSendTravelPayClaim hook', () => {
+    const sandbox = sinon.createSandbox();
+    const { v2 } = api;
     let store;
     beforeEach(() => {
+      global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
       const middleware = [];
       const mockStore = configureStore(middleware);
       const initState = {
@@ -43,6 +48,10 @@ describe('check-in', () => {
         },
       };
       store = mockStore(initState);
+      sandbox.stub(v2, 'postDayOfTravelPayClaim').resolves({});
+    });
+    afterEach(() => {
+      sandbox.restore();
     });
     it('Loads test component with hook', () => {
       const screen = render(
@@ -51,6 +60,7 @@ describe('check-in', () => {
         </Provider>,
       );
       expect(screen.getByText(/TestComponent/i)).to.exist;
+      sandbox.assert.calledOnce(v2.postDayOfTravelPayClaim);
     });
   });
 });
