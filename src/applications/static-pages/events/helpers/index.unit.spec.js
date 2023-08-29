@@ -315,12 +315,6 @@ describe('deriveEventLocations', () => {
     expect(deriveEventLocations()).to.deep.equal([]);
   });
 
-  it('handles when fieldLocationHumanreadable is truthy', () => {
-    expect(
-      deriveEventLocations({ fieldLocationHumanreadable: 'foo' }),
-    ).to.deep.equal(['foo']);
-  });
-
   it('handles when fieldAddress?.addressLine1 is truthy', () => {
     expect(
       deriveEventLocations({ fieldAddress: { addressLine1: 'foo' } }),
