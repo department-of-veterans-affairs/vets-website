@@ -1,6 +1,6 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { emptyField } from '../util/constants';
+import { EMPTY_FIELD } from '../util/constants';
 import { getReactions, isArrayAndHasItems } from '../util/helpers';
 
 const initialState = {
@@ -20,18 +20,18 @@ export const convertAllergy = allergy => {
     id: allergy.id,
     type:
       (isArrayAndHasItems(allergy.category) && allergy.category[0]) ||
-      emptyField,
-    name: allergy?.code?.text || emptyField,
+      EMPTY_FIELD,
+    name: allergy?.code?.text || EMPTY_FIELD,
     date: formatDateLong(allergy.onsetDateTime),
     reaction: getReactions(allergy),
-    drugClass: allergy.drugClass || emptyField,
+    drugClass: allergy.drugClass || EMPTY_FIELD,
     location:
       (isArrayAndHasItems(allergy.context?.related) &&
         allergy.context.related[0].text) ||
-      emptyField,
-    observed: allergy.observed || emptyField,
+      EMPTY_FIELD,
+    observed: allergy.observed || EMPTY_FIELD,
     notes:
-      (isArrayAndHasItems(allergy.note) && allergy.note[0].text) || emptyField,
+      (isArrayAndHasItems(allergy.note) && allergy.note[0].text) || EMPTY_FIELD,
   };
 };
 

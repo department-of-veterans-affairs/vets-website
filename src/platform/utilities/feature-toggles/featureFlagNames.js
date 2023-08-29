@@ -1,6 +1,7 @@
 // prettier-ignore
 
 export default Object.freeze({
+  avsEnabled: 'avs_enabled',
   bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
@@ -56,8 +57,6 @@ export default Object.freeze({
     'facilities_ppms_suppress_community_care',
   facilitiesPpmsSuppressPharmacies: 'facilities_ppms_suppress_pharmacies',
   facilityLocatorLatLongOnly: 'facility_locator_lat_long_only',
-  facilityLocatorLighthouseCovidVaccineQuery:
-    'facility_locator_lighthouse_covid_vaccine_query',
   facilityLocatorShowHealthConnectNumber: 'facility_locator_show_health_connect_number',
   facilityLocatorPredictiveLocationSearch:
     'facility_locator_predictive_location_search',
@@ -119,6 +118,7 @@ export default Object.freeze({
   searchRepresentative: 'search_representative',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
   show526Wizard: 'show526_wizard',
+  showAuthenticatedMenuEnhancements: 'show_authenticated_menu_enhancements',
   showPaymentAndDebtSection: 'show_payment_and_debt_section',
   showContactChatbot: 'show_contact_chatbot',
   showDashboardNotifications: 'show_dashboard_notifications',
