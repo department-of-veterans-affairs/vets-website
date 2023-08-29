@@ -70,6 +70,11 @@ const TravelPage = ({
             {bodyText}
           </div>
         )}
+        {additionalInfo && (
+          <va-additional-info trigger="Additional Information">
+            <>{additionalInfo}</>
+          </va-additional-info>
+        )}
         {helpText && (
           <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
             <va-alert
@@ -81,11 +86,6 @@ const TravelPage = ({
               <div>{helpText}</div>
             </va-alert>
           </div>
-        )}
-        {additionalInfo && (
-          <va-additional-info trigger="Additional Information">
-            <div>{additionalInfo}</div>
-          </va-additional-info>
         )}
         <>
           <button
