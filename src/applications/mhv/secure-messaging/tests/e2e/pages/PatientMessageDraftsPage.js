@@ -2,6 +2,8 @@ import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json
 import mockDraftMessagesResponse from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
 import defaultMockThread from '../fixtures/single-draft-response.json';
+import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
+import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -287,6 +289,49 @@ class PatientMessageDraftsPage {
 
   verifyFocusOnConfirmationMessage = () => {
     cy.get('.last-save-time').should('have.focus');
+  };
+
+  inputFilterData = text => {
+    cy.get('#filter-input')
+      .shadow()
+      .find('#inputField')
+      .type(`${text}`, { force: true });
+  };
+
+  filterMessages = () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/folders/-1/search',
+      sentSearchResponse,
+    ).as('response');
+    cy.wait('@response');
+    cy.get('[data-testid="filter-messages-button"]').click({ force: true });
+  };
+
+  clearFilter = () => {
+    this.inputFilterData('any');
+    this.filterMessages();
+    cy.get('[text="Clear Filters"]').click({ force: true });
+  };
+
+  sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
+    cy.get('#sort-order-dropdown')
+      .shadow()
+      .find('#select')
+      .select(`${text}`, { force: true });
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-1/threads**',
+      sortedResponse,
+    );
+    cy.get('[data-testid="sort-button"]').click({ force: true });
+  };
+
+  verifyFilterFieldCleared = () => {
+    cy.get('#filter-input')
+      .shadow()
+      .find('#inputField')
+      .should('be.empty');
   };
 
   verifySorting = () => {
