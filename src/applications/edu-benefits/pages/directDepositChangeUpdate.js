@@ -8,7 +8,7 @@ import {
 } from '../utils/labels';
 
 function isStartUpdateUpdate(form) {
-  return get('bankAccountChangeUpdate', form) === 'startUpdate';
+  return get('bankAccountChange', form) === 'startUpdate';
 }
 
 export default function createDirectDepositChangePage(schema) {
@@ -19,7 +19,7 @@ export default function createDirectDepositChangePage(schema) {
     initialData: {},
     uiSchema: {
       'ui:title': 'Direct deposit',
-      bankAccountChangeUpdate: {
+      bankAccountChange: {
         'ui:title': 'Benefit payment method:',
         'ui:widget': 'radio',
         'ui:options': {
@@ -29,7 +29,7 @@ export default function createDirectDepositChangePage(schema) {
       bankAccount: merge({}, bankAccountUI, {
         'ui:options': {
           hideIf: formData => !isStartUpdateUpdate(formData),
-          expandUnder: 'bankAccountChangeUpdate',
+          expandUnder: 'bankAccountChange',
         },
         accountType: {
           'ui:required': isStartUpdateUpdate,
@@ -45,7 +45,7 @@ export default function createDirectDepositChangePage(schema) {
         'ui:description': directDepositWarning,
         'ui:options': {
           hideIf: formData => formData.bankAccountChangeUpdate !== 'stop',
-          expandUnder: 'bankAccountChangeUpdate',
+          expandUnder: 'bankAccountChange',
         },
       },
     },
