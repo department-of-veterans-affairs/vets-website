@@ -4,17 +4,17 @@ import { format } from 'date-fns';
 import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
 
-export const Payments = ({ lastPayment }) => {
+export const PaymentsCard = ({ lastPayment }) => {
   const paymentDate = new Date(lastPayment.payCheckDt);
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
       <div
         className="vads-u-background-color--gray-lightest vads-u-padding-y--2p5 vads-u-padding-x--2p5"
-        data-testid="payment-card-v2"
+        data-testid="payment-card"
       >
         <h3
           className="vads-u-margin-top--0"
-          data-testid="deposit-header-v2"
+          data-testid="deposit-header"
           aria-describedby="paycheck-type"
         >
           +{lastPayment.payCheckAmount}
@@ -34,7 +34,7 @@ export const Payments = ({ lastPayment }) => {
         <CTALink
           text="Review your payment history"
           href="/va-payment-history/payments/"
-          testId="payment-card-view-history-link-v2"
+          testId="payment-card-view-history-link"
           className="vads-u-font-weight--bold"
           showArrow
           onClick={() => {
@@ -50,7 +50,7 @@ export const Payments = ({ lastPayment }) => {
   );
 };
 
-Payments.propTypes = {
+PaymentsCard.propTypes = {
   lastPayment: PropTypes.shape({
     payCheckAmount: PropTypes.string.isRequired,
     payCheckDt: PropTypes.string.isRequired,
@@ -63,4 +63,4 @@ Payments.propTypes = {
   }),
 };
 
-export default Payments;
+export default PaymentsCard;

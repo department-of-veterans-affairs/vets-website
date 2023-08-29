@@ -1,5 +1,5 @@
 /**
- * [TestRail-integrated] Spec for My VA - Benefits Payments & Debt V2
+ * [TestRail-integrated] Spec for My VA - Benefits Payments & Debt
  * @testrailinfo projectId 4
  * @testrailinfo suiteId 5
  * @testrailinfo groupId 8235
@@ -50,14 +50,14 @@ describe('My VA - Benefit payments - error-states', () => {
       cy.wait(['@noDebts', '@noCopays', '@paymentsErrorA']);
       cy.findByTestId('dashboard-section-debts').should('exist');
 
-      cy.findByTestId('dashboard-section-payment-v2').should('exist');
+      cy.findByTestId('dashboard-section-payment').should('exist');
       cy.findByTestId('payments-v2-error').should('exist');
-      cy.findByTestId('payment-card-view-history-link-v2').should('not.exist');
-      cy.findByTestId('view-payment-history-link-v2').should('exist');
-      cy.findByTestId('manage-direct-deposit-link-v2').should('exist');
+      cy.findByTestId('payment-card-view-history-link').should('not.exist');
+      cy.findByTestId('view-payment-history-link').should('exist');
+      cy.findByTestId('manage-direct-deposit-link').should('exist');
 
       // make the a11y check
-      cy.injectAxeThenAxeCheck('[data-testid="dashboard-section-payment-v2"]');
+      cy.injectAxeThenAxeCheck('[data-testid="dashboard-section-payment"]');
     });
   });
 });

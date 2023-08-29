@@ -5,14 +5,14 @@ import { getLatestCopay } from '../../helpers';
 import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
 
-export const Copays = ({ copays }) => {
+export const CopaysCard = ({ copays }) => {
   const latestCopay = getLatestCopay(copays) ?? null;
   const copaysCount = copays?.length || 0;
   if (copaysCount < 1) {
     return (
       <p
         className="vads-u-margin-bottom--3 vads-u-margin-top--0"
-        data-testid="zero-debt-paragraph-v2"
+        data-testid="zero-debt-paragraph"
       >
         Your total VA copay balance is $0.
       </p>
@@ -23,9 +23,9 @@ export const Copays = ({ copays }) => {
     <div className="vads-u-display--flex vads-u-margin-bottom--3">
       <div
         className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-background-color--gray-lightest vads-u-padding--2p5"
-        data-testid="copay-card-v2"
+        data-testid="copay-card"
       >
-        <h3 className="vads-u-margin-top--0" data-testid="copay-due-header-v2">
+        <h3 className="vads-u-margin-top--0" data-testid="copay-due-header">
           {copaysCount} copay bill
           {copaysCount > 1 ? 's' : ''}
         </h3>
@@ -45,14 +45,14 @@ export const Copays = ({ copays }) => {
               'dashboard-product': 'view-manage-va-bills',
             })
           }
-          testId="manage-va-copays-link-v2"
+          testId="manage-va-copays-link"
         />
       </div>
     </div>
   );
 };
 
-Copays.propTypes = {
+CopaysCard.propTypes = {
   copays: PropTypes.arrayOf(
     PropTypes.shape({
       pHAmtDue: PropTypes.number.isRequired,
@@ -62,4 +62,4 @@ Copays.propTypes = {
   hasError: PropTypes.bool,
 };
 
-export default Copays;
+export default CopaysCard;

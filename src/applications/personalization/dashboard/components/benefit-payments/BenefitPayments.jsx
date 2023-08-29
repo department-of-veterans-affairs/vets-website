@@ -14,7 +14,7 @@ const NoRecentPaymentText = () => {
   return (
     <p
       className="vads-u-margin-bottom--3 vads-u-margin-top--0"
-      data-testid="no-recent-payments-paragraph-v2"
+      data-testid="no-recent-payments-paragraph"
     >
       You have no recent payments to show.
     </p>
@@ -39,7 +39,7 @@ const PopularActionsForPayments = ({ showPaymentHistoryLink = false }) => {
           });
         }}
         /* eslint-enable react/jsx-no-bind */
-        testId="manage-direct-deposit-link-v2"
+        testId="manage-direct-deposit-link"
       />
       {showPaymentHistoryLink && (
         <IconCTALink
@@ -55,7 +55,7 @@ const PopularActionsForPayments = ({ showPaymentHistoryLink = false }) => {
             });
           }}
           /* eslint-enable react/jsx-no-bind */
-          testId="view-payment-history-link-v2"
+          testId="view-payment-history-link"
         />
       )}
     </>
@@ -112,7 +112,7 @@ const BenefitPayments = ({
   return (
     <div
       className="health-care-wrapper vads-u-margin-y--6"
-      data-testid="dashboard-section-payment-v2"
+      data-testid="dashboard-section-payment"
     >
       <h2>Benefit payments</h2>
       <div className="vads-l-row">

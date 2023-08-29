@@ -13,7 +13,7 @@ const mockUser = makeUserObject({
   isPatient: true,
 });
 
-describe('MyVA Dashboard - Appointments - v2', () => {
+describe('MyVA Dashboard - Appointments', () => {
   beforeEach(() => {
     mockLocalStorage();
   });
@@ -45,7 +45,7 @@ describe('MyVA Dashboard - Appointments - v2', () => {
     cy.visit('my-va/');
 
     cy.findByTestId('dashboard-section-health-care').should('exist');
-    cy.findByTestId('no-upcoming-appointments-text-v2').should('exist');
+    cy.findByTestId('no-upcoming-appointments-text').should('exist');
 
     cy.injectAxeThenAxeCheck();
   });
@@ -61,7 +61,7 @@ describe('MyVA Dashboard - Appointments - v2', () => {
     cy.visit('my-va/');
 
     cy.findByTestId('dashboard-section-health-care').should('exist');
-    cy.findByTestId('no-upcoming-appointments-text-v2').should('exist');
+    cy.findByTestId('no-upcoming-appointments-text').should('exist');
 
     cy.injectAxeThenAxeCheck();
   });

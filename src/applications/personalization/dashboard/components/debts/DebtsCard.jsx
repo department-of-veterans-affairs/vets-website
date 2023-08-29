@@ -32,7 +32,7 @@ export const DebtsCard = ({ debts }) => {
     return (
       <p
         className="vads-u-margin-bottom--3 vads-u-margin-top--0"
-        data-testid="zero-debt-paragraph-v2"
+        data-testid="zero-debt-paragraph"
       >
         Your total VA debt balance is $0.
       </p>
@@ -43,9 +43,9 @@ export const DebtsCard = ({ debts }) => {
     <div className="vads-u-display--flex vads-u-margin-bottom--3">
       <div
         className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-background-color--gray-lightest vads-u-padding--2p5"
-        data-testid="debt-card-v2"
+        data-testid="debt-card"
       >
-        <h3 className="vads-u-margin-top--0" data-testid="debt-total-header-v2">
+        <h3 className="vads-u-margin-top--0" data-testid="debt-total-header">
           {debtsCount} overpayment debt
           {debtsCount > 1 ? 's' : ''}
         </h3>
@@ -64,7 +64,7 @@ export const DebtsCard = ({ debts }) => {
               'dashboard-product': 'view-manage-va-debt',
             })
           }
-          testId="manage-va-debt-link-v2"
+          testId="manage-va-debt-link"
         />
       </div>
     </div>

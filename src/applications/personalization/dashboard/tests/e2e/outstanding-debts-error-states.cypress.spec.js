@@ -1,5 +1,5 @@
 /**
- * [TestRail-integrated] Spec for My VA - Benefits Payments & Debt V2
+ * [TestRail-integrated] Spec for My VA - Benefits Payments & Debt
  * @testrailinfo projectId 4
  * @testrailinfo suiteId 5
  * @testrailinfo groupId 8201
@@ -61,11 +61,11 @@ describe('My VA - Outstanding debts error-states', () => {
       cy.findByTestId('dashboard-section-debts').should('exist');
 
       cy.findAllByTestId('outstanding-debts-error').should('exist');
-      cy.findByTestId('debt-card-v2').should('not.exist');
-      cy.findByTestId('copay-card-v2').should('exist');
-      cy.findByTestId('copay-due-header-v2').should('exist');
-      cy.findByTestId('manage-va-copays-link-v2').should('exist');
-      cy.findAllByTestId('learn-va-debt-link-v2').should('exist');
+      cy.findByTestId('debt-card').should('not.exist');
+      cy.findByTestId('copay-card').should('exist');
+      cy.findByTestId('copay-due-header').should('exist');
+      cy.findByTestId('manage-va-copays-link').should('exist');
+      cy.findAllByTestId('learn-va-debt-link').should('exist');
 
       // make the a11y check
       cy.injectAxeThenAxeCheck('[data-testid="dashboard-section-debts"]');
@@ -80,11 +80,11 @@ describe('My VA - Outstanding debts error-states', () => {
       cy.findByTestId('dashboard-section-debts').should('exist');
 
       cy.findByTestId('outstanding-debts-error').should('exist');
-      cy.findByTestId('debt-card-v2').should('not.exist');
-      cy.findByTestId('copay-card-v2').should('not.exist');
-      cy.findByTestId('copay-due-header-v2').should('not.exist');
-      cy.findByTestId('manage-va-copays-link-v2').should('not.exist');
-      cy.findByTestId('learn-va-debt-link-v2').should('exist');
+      cy.findByTestId('debt-card').should('not.exist');
+      cy.findByTestId('copay-card').should('not.exist');
+      cy.findByTestId('copay-due-header').should('not.exist');
+      cy.findByTestId('manage-va-copays-link').should('not.exist');
+      cy.findByTestId('learn-va-debt-link').should('exist');
 
       // skipping axe-check - already checked in previous test C30235
     });
@@ -103,11 +103,11 @@ describe('My VA - Outstanding debts error-states', () => {
       cy.findByTestId('dashboard-section-debts').should('exist');
 
       cy.findByTestId('outstanding-debts-error').should('exist');
-      cy.findByTestId('debt-card-v2').should('exist');
-      cy.findByTestId('copay-card-v2').should('not.exist');
-      cy.findByTestId('copay-due-header-v2').should('not.exist');
+      cy.findByTestId('debt-card').should('exist');
+      cy.findByTestId('copay-card').should('not.exist');
+      cy.findByTestId('copay-due-header').should('not.exist');
       cy.findByTestId('no-outstanding-debts-text').should('not.exist');
-      cy.findByTestId('learn-va-debt-link-v2').should('not.exist');
+      cy.findByTestId('learn-va-debt-link').should('not.exist');
 
       // make the a11y check
       cy.injectAxeThenAxeCheck('[data-testid="dashboard-section-debts"]');
@@ -122,11 +122,11 @@ describe('My VA - Outstanding debts error-states', () => {
       cy.findByTestId('dashboard-section-debts').should('exist');
 
       cy.findByTestId('outstanding-debts-error').should('exist');
-      cy.findByTestId('debt-card-v2').should('not.exist');
-      cy.findByTestId('copay-card-v2').should('not.exist');
-      cy.findByTestId('copay-due-header-v2').should('not.exist');
+      cy.findByTestId('debt-card').should('not.exist');
+      cy.findByTestId('copay-card').should('not.exist');
+      cy.findByTestId('copay-due-header').should('not.exist');
       cy.findByTestId('no-outstanding-debts-text').should('not.exist');
-      cy.findByTestId('learn-va-debt-link-v2').should('exist');
+      cy.findByTestId('learn-va-debt-link').should('exist');
 
       // skipping axe-check - already checked in previous test C30247
     });
@@ -145,11 +145,11 @@ describe('My VA - Outstanding debts error-states', () => {
       cy.findByTestId('dashboard-section-debts').should('exist');
 
       cy.findByTestId('outstanding-debts-error').should('exist');
-      cy.findByTestId('debt-card-v2').should('not.exist');
-      cy.findByTestId('copay-card-v2').should('not.exist');
-      cy.findByTestId('copay-due-header-v2').should('not.exist');
+      cy.findByTestId('debt-card').should('not.exist');
+      cy.findByTestId('copay-card').should('not.exist');
+      cy.findByTestId('copay-due-header').should('not.exist');
       cy.findByTestId('no-outstanding-debts-text').should('not.exist');
-      cy.findByTestId('learn-va-debt-link-v2').should('exist');
+      cy.findByTestId('learn-va-debt-link').should('exist');
 
       // skipping axe-check - already checked in previous tests
     });

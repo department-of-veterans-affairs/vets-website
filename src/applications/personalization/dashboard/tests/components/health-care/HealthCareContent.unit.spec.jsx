@@ -19,7 +19,7 @@ describe('<UnconnectedHealthCareContent />', () => {
       initialState,
     });
 
-    tree.getByTestId('no-healthcare-text-v2');
+    tree.getByTestId('no-healthcare-text');
     expect(tree.container.querySelector('va-loading-indicator')).to.not.exist;
     expect(tree.queryByTestId('cerner-widget')).to.be.null;
   });
@@ -53,7 +53,7 @@ describe('<UnconnectedHealthCareContent />', () => {
       <UnconnectedHealthCareContent hasAppointmentsError />,
       { initialErrorState },
     );
-    tree.getByTestId('healthcare-error-v2');
+    tree.getByTestId('healthcare-error');
   });
 
   it('should render the Next appointments card', () => {
@@ -63,7 +63,7 @@ describe('<UnconnectedHealthCareContent />', () => {
       { initialState },
     );
 
-    tree.getByTestId('health-care-appointments-card-v2');
+    tree.getByTestId('health-care-appointments-card');
   });
 
   it('should render the no upcoming appointments text', () => {
@@ -72,7 +72,7 @@ describe('<UnconnectedHealthCareContent />', () => {
       { initialState },
     );
 
-    tree.getByTestId('no-upcoming-appointments-text-v2');
+    tree.getByTestId('no-upcoming-appointments-text');
   });
 
   context('should render the HealthCareCTA', () => {

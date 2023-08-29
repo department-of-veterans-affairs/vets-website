@@ -45,10 +45,7 @@ const HealthCare = ({
       className="health-care-wrapper vads-u-margin-y--6"
       data-testid="dashboard-section-health-care"
     >
-      <h2
-        data-testid="health-care-section-header-v2"
-        className={headerClassNames}
-      >
+      <h2 data-testid="health-care-section-header" className={headerClassNames}>
         Health care
       </h2>
       <HealthCareContent

@@ -1,9 +1,9 @@
 /**
- * [TestRail-integrated] Spec for My VA - Benefit Payments V2
+ * [TestRail-integrated] Spec for My VA - Benefit Payments
  * @testrailinfo projectId 4
  * @testrailinfo suiteId 5
  * @testrailinfo groupId 8273
- * @testrailinfo runName MyVA-BenefitPmts-v2
+ * @testrailinfo runName MyVA-BenefitPmts
  */
 import { mockUser } from '@@profile/tests/fixtures/users/user';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
@@ -61,17 +61,15 @@ describe('The My VA Dashboard - Benefit Payments', () => {
 
           cy.visit('my-va/');
           cy.wait(['@noDebtsB', '@noCopaysB', '@recentPayments1']);
-          cy.findByTestId('dashboard-section-payment-v2').should('exist');
+          cy.findByTestId('dashboard-section-payment').should('exist');
 
           cy.findByText(/Deposited/i).should('exist');
-          cy.findByTestId('payment-card-view-history-link-v2').should('exist');
-          cy.findByTestId('manage-direct-deposit-link-v2').should('exist');
-          cy.findByTestId('view-payment-history-link-v2').should('not.exist');
+          cy.findByTestId('payment-card-view-history-link').should('exist');
+          cy.findByTestId('manage-direct-deposit-link').should('exist');
+          cy.findByTestId('view-payment-history-link').should('not.exist');
 
           // make the a11y check
-          cy.injectAxeThenAxeCheck(
-            '[data-testid="dashboard-section-payment-v2"]',
-          );
+          cy.injectAxeThenAxeCheck('[data-testid="dashboard-section-payment"]');
         });
       });
 
@@ -83,18 +81,16 @@ describe('The My VA Dashboard - Benefit Payments', () => {
           ).as('recentPayments2');
           cy.visit('my-va/');
           cy.wait(['@noDebtsB', '@noCopaysB', '@recentPayments2']);
-          cy.findByTestId('dashboard-section-payment-v2').should('exist');
+          cy.findByTestId('dashboard-section-payment').should('exist');
 
           cy.findByText(/Check mailed/i).should('exist');
-          cy.findByTestId('payment-card-view-history-link-v2').should('exist');
-          cy.findByTestId('view-payment-history-link-v2').should('not.exist');
-          cy.findByTestId('manage-direct-deposit-link-v2').should('exist');
-          cy.findByTestId('view-payment-history-link-v2').should('not.exist');
+          cy.findByTestId('payment-card-view-history-link').should('exist');
+          cy.findByTestId('view-payment-history-link').should('not.exist');
+          cy.findByTestId('manage-direct-deposit-link').should('exist');
+          cy.findByTestId('view-payment-history-link').should('not.exist');
 
           // make the a11y check
-          cy.injectAxeThenAxeCheck(
-            '[data-testid="dashboard-section-payment-v2"]',
-          );
+          cy.injectAxeThenAxeCheck('[data-testid="dashboard-section-payment"]');
         });
       });
     });
@@ -108,19 +104,15 @@ describe('The My VA Dashboard - Benefit Payments', () => {
         ).as('oldPayments1');
         cy.visit('my-va/');
         cy.wait(['@noDebtsB', '@noCopaysB', '@oldPayments1']);
-        cy.findByTestId('dashboard-section-payment-v2').should('exist');
+        cy.findByTestId('dashboard-section-payment').should('exist');
 
-        cy.findByTestId('no-recent-payments-paragraph-v2').should('exist');
-        cy.findByTestId('payment-card-view-history-link-v2').should(
-          'not.exist',
-        );
-        cy.findByTestId('view-payment-history-link-v2').should('exist');
-        cy.findByTestId('manage-direct-deposit-link-v2').should('exist');
+        cy.findByTestId('no-recent-payments-paragraph').should('exist');
+        cy.findByTestId('payment-card-view-history-link').should('not.exist');
+        cy.findByTestId('view-payment-history-link').should('exist');
+        cy.findByTestId('manage-direct-deposit-link').should('exist');
 
         // make the a11y check
-        cy.injectAxeThenAxeCheck(
-          '[data-testid="dashboard-section-payment-v2"]',
-        );
+        cy.injectAxeThenAxeCheck('[data-testid="dashboard-section-payment"]');
       });
     });
     // user never had a payment
@@ -133,19 +125,15 @@ describe('The My VA Dashboard - Benefit Payments', () => {
         ).as('emptyPayments1');
         cy.visit('my-va/');
         cy.wait(['@noDebtsB', '@noCopaysB', '@emptyPayments1']);
-        cy.findByTestId('dashboard-section-payment-v2').should('exist');
+        cy.findByTestId('dashboard-section-payment').should('exist');
 
-        cy.findByTestId('no-recent-payments-paragraph-v2').should('exist');
-        cy.findByTestId('payment-card-view-history-link-v2').should(
-          'not.exist',
-        );
-        cy.findByTestId('view-payment-history-link-v2').should('not.exist');
-        cy.findByTestId('manage-direct-deposit-link-v2').should('exist');
+        cy.findByTestId('no-recent-payments-paragraph').should('exist');
+        cy.findByTestId('payment-card-view-history-link').should('not.exist');
+        cy.findByTestId('view-payment-history-link').should('not.exist');
+        cy.findByTestId('manage-direct-deposit-link').should('exist');
 
         // make the a11y check
-        cy.injectAxeThenAxeCheck(
-          '[data-testid="dashboard-section-payment-v2"]',
-        );
+        cy.injectAxeThenAxeCheck('[data-testid="dashboard-section-payment"]');
       });
     });
   });
@@ -188,7 +176,7 @@ describe('when the payment history claims does not exist', () => {
       'noCopaysC',
     );
   });
-  it('the v2 dashboard shows up - C22832', () => {
+  it('the dashboard shows up - C22832', () => {
     cy.visit('my-va/');
     // should show a loading indicator
     cy.findByRole('progressbar').should('exist');
@@ -199,11 +187,11 @@ describe('when the payment history claims does not exist', () => {
     cy.findByText(/loading your information/i).should('not.exist');
 
     // make sure that the Benefit Payments & Outstanding Debts sections are shown
-    cy.findByTestId('dashboard-section-payment-v2').should('exist');
+    cy.findByTestId('dashboard-section-payment').should('exist');
     cy.findByTestId('dashboard-section-debts').should('exist');
 
     // make the a11y checks
-    cy.injectAxeThenAxeCheck('[data-testid="dashboard-section-payment-v2"]');
+    cy.injectAxeThenAxeCheck('[data-testid="dashboard-section-payment"]');
     cy.injectAxeThenAxeCheck('[data-testid="dashboard-section-debts"]');
   });
 });
@@ -247,7 +235,7 @@ describe('when the payment history claims is false', () => {
     );
   });
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-  it('the v2 dashboard should show up - C22831', () => {
+  it('the dashboard should show up - C22831', () => {
     cy.visit('my-va/');
     // should show a loading indicator
     cy.findByRole('progressbar').should('exist');
@@ -258,7 +246,7 @@ describe('when the payment history claims is false', () => {
     cy.findByText(/loading your information/i).should('not.exist');
 
     // make sure that the Benefit Payments & Outstanding Debts sections are shown
-    cy.findByTestId('dashboard-section-payment-v2').should('exist');
+    cy.findByTestId('dashboard-section-payment').should('exist');
     cy.findByTestId('dashboard-section-debts').should('exist');
 
     // A11y already checked in previous test C22832

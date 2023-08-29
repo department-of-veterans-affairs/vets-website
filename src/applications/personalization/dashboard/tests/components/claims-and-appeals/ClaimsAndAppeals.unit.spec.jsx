@@ -115,7 +115,7 @@ describe('ClaimsAndAppeals component', () => {
             claimsLoading: false,
             appeals: [],
             claims: [],
-            v2Availability: 'ERROR',
+            claimsAvailability: claimsAvailability.UNAVAILABLE,
           },
         };
         view = renderInReduxProvider(<ClaimsAndAppeals dataLoadingDisabled />, {
@@ -123,12 +123,14 @@ describe('ClaimsAndAppeals component', () => {
           reducers,
         });
       });
+
       it('should render an error alert', () => {
         expect(view.queryByRole('progressbar')).to.not.exist;
         expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
           .to.exist;
         loadingErrorAlertExists(view);
       });
+
       it('should not show a CTA', () => {
         expect(
           view.queryByRole('link', {
@@ -147,7 +149,6 @@ describe('ClaimsAndAppeals component', () => {
             claimsLoading: false,
             appeals: [],
             claims: [],
-            v2Availability: 'AVAILABLE',
             claimsAvailability: claimsAvailability.UNAVAILABLE,
           },
         };
@@ -156,12 +157,14 @@ describe('ClaimsAndAppeals component', () => {
           reducers,
         });
       });
+
       it('should render an error alert', () => {
         expect(view.queryByRole('progressbar')).to.not.exist;
         expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
           .to.exist;
         loadingErrorAlertExists(view);
       });
+
       it('should not show a CTA', () => {
         expect(
           view.queryByRole('link', {
@@ -189,12 +192,14 @@ describe('ClaimsAndAppeals component', () => {
           reducers,
         });
       });
+
       it('does not render anything except a headline', () => {
         expect(view.queryByRole('progressbar')).to.not.exist;
         expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
           .to.exist;
       });
     });
+
     context(
       'when the user has 3 claims that were all updated in the past 60 days',
       () => {
@@ -223,6 +228,7 @@ describe('ClaimsAndAppeals component', () => {
             },
           );
         });
+
         it('shows the CTA', () => {
           expect(view.queryByRole('progressbar')).to.not.exist;
           expect(view.getByRole('heading', { name: /^claims and appeals$/i }))
@@ -232,6 +238,7 @@ describe('ClaimsAndAppeals component', () => {
         });
       },
     );
+
     context(
       'when the user has 2 claims (1 closed) and 2 appeals (1 closed) that were all updated in the past 60 days',
       () => {
@@ -263,6 +270,7 @@ describe('ClaimsAndAppeals component', () => {
             },
           );
         });
+
         it('shows the CTA', () => {
           expect(view.queryByRole('progressbar')).to.not.exist;
           expect(view.getByRole('heading', { name: /^claims and appeals$/i }))
@@ -271,6 +279,7 @@ describe('ClaimsAndAppeals component', () => {
         });
       },
     );
+
     context(
       'when user has two open claims (one recently updated), one open appeal, and one closed claim',
       () => {
@@ -302,6 +311,7 @@ describe('ClaimsAndAppeals component', () => {
             },
           );
         });
+
         it('shows the CTA', () => {
           expect(view.queryByRole('progressbar')).to.not.exist;
           expect(view.getByRole('heading', { name: /^claims and appeals$/i }))
@@ -312,12 +322,14 @@ describe('ClaimsAndAppeals component', () => {
             }),
           ).to.exist;
         });
+
         it('shows details for the most recently updated claim', () => {
           expect(view.getByRole('link', { name: /^review claim received/i })).to
             .exist;
         });
       },
     );
+
     context(
       'when the user has no open claims or appeals, but does have an appeal that closed within the past 60 days',
       () => {
@@ -347,6 +359,7 @@ describe('ClaimsAndAppeals component', () => {
             },
           );
         });
+
         it('shows the CTA', () => {
           expect(
             view.getByRole('link', {
@@ -354,11 +367,13 @@ describe('ClaimsAndAppeals component', () => {
             }),
           ).to.exist;
         });
+
         it('shows details about the recently closed appeal', () => {
           expect(view.getByRole('heading', { name: /updated on/i })).to.exist;
         });
       },
     );
+
     context(
       'the user has one open appeal that was updated over 60 days ago',
       () => {
@@ -380,6 +395,7 @@ describe('ClaimsAndAppeals component', () => {
             },
           );
         });
+
         it('shows the CTA', () => {
           expect(view.getByRole('heading', { name: /^claims and appeals$/i }))
             .to.exist;
@@ -389,12 +405,14 @@ describe('ClaimsAndAppeals component', () => {
             }),
           ).to.exist;
         });
+
         it('does not show details about the open appeal', () => {
           expect(view.queryByRole('link', { name: /^view details of/i })).to.not
             .exist;
         });
       },
     );
+
     context(
       'the user only has claims and appeals that closed over 60 days ago',
       () => {
@@ -427,6 +445,7 @@ describe('ClaimsAndAppeals component', () => {
         });
       },
     );
+
     context(
       'the user has claims that closed over 60 days ago and got a 404 from the appeals endpoint because they have no appeals on file',
       () => {

@@ -93,7 +93,6 @@ const PopularActionsForClaimsAndAppeals = () => {
             'links-list-section-header': 'Claims and appeals',
           });
         }}
-        testId="manage-claims-and-appeals-link-v2"
       />
     </>
   );
@@ -188,11 +187,12 @@ const ClaimsAndAppeals = ({
             </>
           )}
         </DashboardWidgetWrapper>
-        {highlightedClaimOrAppeal && !hasAPIError ? (
-          <DashboardWidgetWrapper>
-            <PopularActionsForClaimsAndAppeals />
-          </DashboardWidgetWrapper>
-        ) : null}
+        {highlightedClaimOrAppeal &&
+          !hasAPIError && (
+            <DashboardWidgetWrapper>
+              <PopularActionsForClaimsAndAppeals />
+            </DashboardWidgetWrapper>
+          )}
       </div>
     </div>
   );

@@ -107,13 +107,6 @@ const Dashboard = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // TODO: remove this after My VA v2 is rolled out to 100% of users and My VA
-    // v1 is retired
-    recordEvent({
-      event: 'phased-roll-out-enabled',
-      'product-description': 'My VA v2',
-    });
-
     // use Drupal based Cerner facility data
     connectDrupalSourceOfTruthCerner(dispatch);
   }, []);

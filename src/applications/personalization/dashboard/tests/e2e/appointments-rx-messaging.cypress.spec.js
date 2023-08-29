@@ -24,7 +24,7 @@ const userWithoutRxMessaging = makeUserObject({
   isPatient: true,
 });
 
-describe('MyVA Dashboard - Rx Messaging - v2', () => {
+describe('MyVA Dashboard - Rx Messaging', () => {
   beforeEach(() => {
     mockLocalStorage();
     cy.intercept('GET', '/vaos/v2/appointments*', req => {

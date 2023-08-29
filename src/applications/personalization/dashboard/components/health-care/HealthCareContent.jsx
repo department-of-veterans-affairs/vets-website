@@ -20,7 +20,7 @@ import { selectAvailableServices } from '~/platform/user/selectors';
 import HealthCareCTA from './HealthCareCTA';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-import Appointments from './Appointments';
+import AppointmentsCard from './AppointmentsCard';
 import CTALink from '../CTALink';
 
 const HealthCareContent = ({
@@ -70,7 +70,7 @@ const HealthCareContent = ({
     return (
       <p
         className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
-        data-testid="no-upcoming-appointments-text-v2"
+        data-testid="no-upcoming-appointments-text"
       >
         You have no upcoming appointments to show.
       </p>
@@ -81,7 +81,7 @@ const HealthCareContent = ({
     return (
       <p
         className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
-        data-testid="no-healthcare-text-v2"
+        data-testid="no-healthcare-text"
       >
         You have no health care information to show.
       </p>
@@ -105,7 +105,7 @@ const HealthCareContent = ({
 
     return (
       <div className="vads-u-margin-bottom--2p5">
-        <va-alert status={status} show-icon data-testid="healthcare-error-v2">
+        <va-alert status={status} show-icon data-testid="healthcare-error">
           <h2 slot="headline">We can’t access your appointment information</h2>
           <div>
             We’re sorry. Something went wrong on our end and we can’t access
@@ -152,8 +152,7 @@ const HealthCareContent = ({
       <DashboardWidgetWrapper>
         {hasAppointmentsError && <HealthcareError />}
         {hasUpcomingAppointment && (
-          /* Appointments */
-          <Appointments appointments={appointments} />
+          <AppointmentsCard appointments={appointments} />
         )}
         {!isVAPatient && <NoHealthcareText />}
         {isVAPatient &&

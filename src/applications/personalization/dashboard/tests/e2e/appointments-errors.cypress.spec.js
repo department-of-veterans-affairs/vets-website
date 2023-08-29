@@ -13,7 +13,7 @@ import { makeUserObject } from './dashboard-e2e-helpers';
 
 const alertText = /We’re sorry. Something went wrong on our end and we can’t access your appointment information. Please try again later or go to the appointments tool/i;
 
-describe('MyVA Dashboard - Appointments v2 Error States', () => {
+describe('MyVA Dashboard - Appointments Error States', () => {
   beforeEach(() => {
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
@@ -95,7 +95,7 @@ describe('MyVA Dashboard - Appointments v2 Error States', () => {
     });
 
     describe('when the user does not have VA Healthcare', () => {
-      it('the v2 dashboard shows up and shows no healthcare text', () => {
+      it('the dashboard shows up and shows no healthcare text', () => {
         const mockUser4 = makeUserObject({
           isCerner: false,
           messaging: false,
@@ -108,7 +108,7 @@ describe('MyVA Dashboard - Appointments v2 Error States', () => {
 
         cy.findByTestId('dashboard-section-health-care').should('not.exist');
         cy.findByTestId('dashboard-section-health-care').should('exist');
-        cy.findByTestId('no-healthcare-text-v2').should('exist');
+        cy.findByTestId('no-healthcare-text').should('exist');
         cy.findByTestId('view-manage-appointments-link-from-error').should(
           'not.exist',
         );

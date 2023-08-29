@@ -67,7 +67,7 @@ describe('<HealthCareCTA />', () => {
 
       it('when user has unread messages', () => {
         const tree = renderWithStoreAndRouter(
-          <HealthCareCTAV2 isVAPatient unreadMessagesCount={3} />,
+          <HealthCareCTA isVAPatient unreadMessagesCount={3} />,
           { initialState },
         );
 

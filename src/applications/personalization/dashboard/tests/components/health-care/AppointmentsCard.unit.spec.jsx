@@ -5,7 +5,7 @@ import { getAppointmentTimezone } from '../../../utils/timezone';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
-import { AppointmentsCard } from '../../../components/health-care/Appointments';
+import { AppointmentsCard } from '../../../components/health-care/AppointmentsCard';
 
 describe('<AppointmentsCard />', () => {
   // delete instances of Toggler when new appts URL is launched
@@ -23,7 +23,7 @@ describe('<AppointmentsCard />', () => {
       initialState,
     });
 
-    tree.getByTestId('health-care-appointments-card-v2');
+    tree.getByTestId('health-care-appointments-card');
     tree.getByText('Next appointment');
     tree.getByText('Schedule and manage your appointments');
     expect(
@@ -58,7 +58,7 @@ describe('<AppointmentsCard />', () => {
       { initialState },
     );
 
-    tree.getByTestId('health-care-appointments-card-v2');
+    tree.getByTestId('health-care-appointments-card');
     tree.getByText('Next appointment');
     tree.getByText('Schedule and manage your appointments');
     expect(

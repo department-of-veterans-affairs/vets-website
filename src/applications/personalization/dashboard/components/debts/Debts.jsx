@@ -61,7 +61,7 @@ const PopularActionsForDebts = () => {
             'links-list-section-header': 'Learn about VA debt',
           });
         }}
-        testId="learn-va-debt-link-v2"
+        testId="learn-va-debt-link"
       />
     </>
   );
