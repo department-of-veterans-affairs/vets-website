@@ -1,6 +1,6 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { EmptyField } from '../util/constants';
+import { EMPTY_FIELD } from '../util/constants';
 import { isArrayAndHasItems } from '../util/helpers';
 
 const initialState = {
@@ -27,9 +27,9 @@ export const convertVaccine = vaccine => {
   return {
     id: vaccine.id,
     name: vaccine.vaccineCode?.text,
-    date: formatDateLong(vaccine.occurrenceDateTime) || EmptyField,
-    location: vaccine.location?.display || EmptyField,
-    manufacturer: vaccine.manufacturer || EmptyField,
+    date: formatDateLong(vaccine.occurrenceDateTime) || EMPTY_FIELD,
+    location: vaccine.location?.display || EMPTY_FIELD,
+    manufacturer: vaccine.manufacturer || EMPTY_FIELD,
     reactions: vaccine.reaction?.map(item => item.detail?.display) || [],
     notes:
       (isArrayAndHasItems(vaccine.note) &&

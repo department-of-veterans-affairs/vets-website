@@ -10,7 +10,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import { processList, sendErrorToSentry } from '../util/helpers';
-import { ALERT_TYPE_ERROR, EmptyField } from '../util/constants';
+import { ALERT_TYPE_ERROR, EMPTY_FIELD } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import { generatePdfScaffold } from '../../shared/util/helpers';
 
@@ -80,7 +80,7 @@ const AllergyDetails = () => {
       items: [
         {
           title: 'Date entered',
-          value: allergy.date || EmptyField,
+          value: allergy.date || EMPTY_FIELD,
           inline: true,
         },
         {
@@ -90,17 +90,17 @@ const AllergyDetails = () => {
         },
         {
           title: 'Type of allergy',
-          value: allergy.type || EmptyField,
+          value: allergy.type || EMPTY_FIELD,
           inline: true,
         },
         {
           title: 'VA drug class',
-          value: allergy.drugClass || EmptyField,
+          value: allergy.drugClass || EMPTY_FIELD,
           inline: true,
         },
         {
           title: 'Location',
-          value: allergy.location || EmptyField,
+          value: allergy.location || EMPTY_FIELD,
           inline: true,
         },
         {

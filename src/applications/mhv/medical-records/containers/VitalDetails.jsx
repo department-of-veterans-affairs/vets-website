@@ -17,7 +17,7 @@ import {
   processList,
   sendErrorToSentry,
 } from '../util/helpers';
-import { EmptyField, VitalTypeDisplayNames } from '../util/constants';
+import { EMPTY_FIELD, vitalTypeDisplayNames } from '../util/constants';
 
 const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = () => {
@@ -45,7 +45,7 @@ const VitalDetails = () => {
           ],
           {
             url: `/my-health/medical-records/vitals/${vitalType}`,
-            label: VitalTypeDisplayNames[macroCase(vitalType)],
+            label: vitalTypeDisplayNames[macroCase(vitalType)],
           },
         ),
       );
@@ -107,7 +107,7 @@ const VitalDetails = () => {
       preface:
         'This list includes vitals and other basic health numbers your providers check at your appointments.',
       results: {
-        header: VitalTypeDisplayNames[macroCase(vitalType)],
+        header: vitalTypeDisplayNames[macroCase(vitalType)],
         items: [],
       },
     };
@@ -118,12 +118,12 @@ const VitalDetails = () => {
         items: [
           {
             title: 'Result',
-            value: item.measurement || EmptyField,
+            value: item.measurement || EMPTY_FIELD,
             inline: true,
           },
           {
             title: 'Location',
-            value: item.location || EmptyField,
+            value: item.location || EMPTY_FIELD,
             inline: true,
           },
           {
@@ -146,7 +146,7 @@ const VitalDetails = () => {
     if (vitalDetails?.length) {
       return (
         <>
-          <h1>{VitalTypeDisplayNames[vitalDetails[0].type]}</h1>
+          <h1>{vitalTypeDisplayNames[vitalDetails[0].type]}</h1>
           <section className="set-width-486">
             <PrintDownload list download={generateVitalsPdf} />
             <div className="vads-u-padding-y--1 vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">

@@ -4,7 +4,7 @@ import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/export
 import moment from 'moment';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { RecordType, EmptyField, ALERT_TYPE_ERROR } from '../util/constants';
+import { recordType, EMPTY_FIELD, ALERT_TYPE_ERROR } from '../util/constants';
 import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -85,7 +85,7 @@ const Allergies = () => {
         items: [
           {
             title: 'Date entered',
-            value: item.date || EmptyField,
+            value: item.date || EMPTY_FIELD,
             inline: true,
           },
           {
@@ -95,17 +95,17 @@ const Allergies = () => {
           },
           {
             title: 'Type of allergy',
-            value: item.type || EmptyField,
+            value: item.type || EMPTY_FIELD,
             inline: true,
           },
           {
             title: 'VA drug class',
-            value: item.drugClass || EmptyField,
+            value: item.drugClass || EMPTY_FIELD,
             inline: true,
           },
           {
             title: 'Location',
-            value: item.location || EmptyField,
+            value: item.location || EMPTY_FIELD,
             inline: true,
           },
           {
@@ -136,7 +136,7 @@ const Allergies = () => {
       return <AccessTroubleAlertBox />;
     }
     if (allergies?.length > 0) {
-      return <RecordList records={allergies} type={RecordType.ALLERGIES} />;
+      return <RecordList records={allergies} type={recordType.ALLERGIES} />;
     }
     if (allergies?.length === 0) {
       return (

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import moment from 'moment';
-import { VitalTypeDisplayNames } from '../../util/constants';
+import { vitalTypeDisplayNames } from '../../util/constants';
 
 const VitalListItem = props => {
   const { record } = props;
@@ -15,7 +15,7 @@ const VitalListItem = props => {
           className="record-list-item vads-u-padding-y--2 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
           data-testid="record-list-item"
         >
-          <h4>{VitalTypeDisplayNames[record.type]}</h4>
+          <h4>{vitalTypeDisplayNames[record.type]}</h4>
           <div className="vads-u-line-height--3">
             Result: {record.measurement}
           </div>
@@ -31,7 +31,7 @@ const VitalListItem = props => {
             className="vads-u-margin-y--0p5 no-print"
           >
             <strong>
-              View {VitalTypeDisplayNames[record.type].toLowerCase()} over time
+              View {vitalTypeDisplayNames[record.type].toLowerCase()} over time
             </strong>
             <i
               className="fas fa-angle-right details-link-icon"

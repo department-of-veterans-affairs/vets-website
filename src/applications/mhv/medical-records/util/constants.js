@@ -1,4 +1,4 @@
-export const RecordType = {
+export const recordType = {
   HEALTH_CONDITIONS: 'health conditions',
   LABS_AND_TESTS: 'lab and test results',
   CARE_SUMMARIES_AND_NOTES: 'care summaries and notes',
@@ -7,7 +7,7 @@ export const RecordType = {
   ALLERGIES: 'allergies',
 };
 
-export const LabTypes = {
+export const labTypes = {
   CHEM_HEM: 'chemistry_hematology',
   MICROBIOLOGY: 'microbiology',
   PATHOLOGY: 'pathology',
@@ -16,7 +16,7 @@ export const LabTypes = {
   OTHER: 'other',
 };
 
-export const LoincCodes = {
+export const loincCodes = {
   // lab and test results
   MICROBIOLOGY: '79381-0',
   PATHOLOGY: '60567-5',
@@ -32,7 +32,7 @@ export const LoincCodes = {
   HEART_RATE: '8867-4',
 };
 
-export const FhirResourceTypes = {
+export const fhirResourceTypes = {
   BUNDLE: 'Bundle',
   DIAGNOSTIC_REPORT: 'DiagnosticReport',
   DOCUMENT_REFERENCE: 'DocumentReference',
@@ -41,7 +41,7 @@ export const FhirResourceTypes = {
 /**
  * Interpretation code map based on https://terminology.hl7.org/3.1.0/CodeSystem-v3-ObservationInterpretation.html
  */
-export const InterpretationMap = {
+export const interpretationMap = {
   CAR: 'Carrier',
   CARRIER: 'Carrier',
   '<': 'Off scale low',
@@ -95,11 +95,11 @@ export const InterpretationMap = {
   WR: 'Weakly reactive',
 };
 
-export const EmptyField = 'None noted';
+export const EMPTY_FIELD = 'None noted';
 
-export const Testing = false;
+export const IS_TESTING = false;
 
-export const VitalTypes = {
+export const vitalTypes = {
   BLOOD_PRESSURE: 'BLOOD_PRESSURE',
   BREATHING_RATE: 'BREATHING_RATE',
   PULSE: 'PULSE',
@@ -108,7 +108,7 @@ export const VitalTypes = {
   WEIGHT: 'WEIGHT',
 };
 
-export const VitalTypeDisplayNames = {
+export const vitalTypeDisplayNames = {
   BLOOD_PRESSURE: 'Blood pressure',
   BREATHING_RATE: 'Breathing rate',
   PULSE: 'Heart rate',

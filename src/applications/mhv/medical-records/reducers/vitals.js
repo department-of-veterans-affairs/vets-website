@@ -1,5 +1,5 @@
 import { Actions } from '../util/actionTypes';
-import { LoincCodes, EmptyField } from '../util/constants';
+import { loincCodes, EMPTY_FIELD } from '../util/constants';
 import { isArrayAndHasItems, macroCase } from '../util/helpers';
 
 const initialState = {
@@ -17,10 +17,10 @@ const initialState = {
 const getMeasurement = (record, type) => {
   if (type === 'BLOOD_PRESSURE') {
     const systolic = record.component.find(
-      item => item.code.coding[0].code === LoincCodes.SYSTOLIC,
+      item => item.code.coding[0].code === loincCodes.SYSTOLIC,
     );
     const diastolic = record.component.find(
-      item => item.code.coding[0].code === LoincCodes.DIASTOLIC,
+      item => item.code.coding[0].code === loincCodes.DIASTOLIC,
     );
     return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
   }
@@ -36,11 +36,11 @@ export const convertVital = record => {
         record.code?.coding[0].display),
     type,
     id: record.id,
-    measurement: getMeasurement(record, type) || EmptyField,
-    date: record.effectiveDateTime || EmptyField,
-    location: record.encounter || EmptyField,
+    measurement: getMeasurement(record, type) || EMPTY_FIELD,
+    date: record.effectiveDateTime || EMPTY_FIELD,
+    location: record.encounter || EMPTY_FIELD,
     notes:
-      (isArrayAndHasItems(record.note) && record.note[0].text) || EmptyField,
+      (isArrayAndHasItems(record.note) && record.note[0].text) || EMPTY_FIELD,
   };
 };
 

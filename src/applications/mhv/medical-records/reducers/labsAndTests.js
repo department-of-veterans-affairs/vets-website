@@ -7,10 +7,10 @@ import {
   isArrayAndHasItems,
 } from '../util/helpers';
 import {
-  LoincCodes,
-  FhirResourceTypes,
-  LabTypes,
-  EmptyField,
+  loincCodes,
+  fhirResourceTypes,
+  labTypes,
+  EMPTY_FIELD,
 } from '../util/constants';
 
 const initialState = {
@@ -34,11 +34,11 @@ const convertChemHemObservation = results => {
   return results.filter(obs => obs.valueQuantity).map(result => {
     return {
       name: result.code.text,
-      result: getObservationValueWithUnits(result) || EmptyField,
-      standardRange: result.referenceRange[0].text || EmptyField,
-      status: result.status || EmptyField,
-      labLocation: result.labLocation || EmptyField,
-      interpretation: concatObservationInterpretations(result) || EmptyField,
+      result: getObservationValueWithUnits(result) || EMPTY_FIELD,
+      standardRange: result.referenceRange[0].text || EMPTY_FIELD,
+      status: result.status || EMPTY_FIELD,
+      labLocation: result.labLocation || EMPTY_FIELD,
+      interpretation: concatObservationInterpretations(result) || EMPTY_FIELD,
     };
   });
 };
@@ -53,17 +53,17 @@ const convertChemHemRecord = record => {
   );
   return {
     id: record.id,
-    type: LabTypes.CHEM_HEM,
+    type: labTypes.CHEM_HEM,
     name: concatCategoryCodeText(record),
     category: concatCategoryCodeText(record),
-    orderedBy: record.physician || EmptyField,
-    requestedBy: record.physician || EmptyField,
+    orderedBy: record.physician || EMPTY_FIELD,
+    requestedBy: record.physician || EMPTY_FIELD,
     date: formatDateLong(record.effectiveDateTime),
-    orderingLocation: record.location || EmptyField,
-    collectingLocation: record.location || EmptyField,
+    orderingLocation: record.location || EMPTY_FIELD,
+    collectingLocation: record.location || EMPTY_FIELD,
     comments: [record.conclusion],
     results: convertChemHemObservation(results),
-    sampleTested: record.specimen?.text || EmptyField,
+    sampleTested: record.specimen?.text || EMPTY_FIELD,
   };
 };
 
@@ -74,19 +74,19 @@ const convertChemHemRecord = record => {
 const convertMicrobiologyRecord = record => {
   return {
     id: record.id,
-    type: LabTypes.MICROBIOLOGY,
+    type: labTypes.MICROBIOLOGY,
     name: 'Microbiology',
     category: '',
     orderedBy: 'Beth M. Smith',
     requestedBy: 'John J. Lydon',
-    date: record.effectiveDateTime || EmptyField,
-    sampleFrom: record.type?.text || EmptyField,
-    sampleTested: record.specimen?.text || EmptyField,
+    date: record.effectiveDateTime || EMPTY_FIELD,
+    sampleFrom: record.type?.text || EMPTY_FIELD,
+    sampleTested: record.specimen?.text || EMPTY_FIELD,
     orderingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    collectingLocation: record.performer?.text || EmptyField,
+    collectingLocation: record.performer?.text || EMPTY_FIELD,
     labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    results: record.conclusion || record.result || EmptyField,
+    results: record.conclusion || record.result || EMPTY_FIELD,
   };
 };
 
@@ -98,15 +98,15 @@ const convertPathologyRecord = record => {
   return {
     id: record.id,
     name: record.code?.text,
-    type: LabTypes.PATHOLOGY,
+    type: labTypes.PATHOLOGY,
     category: concatCategoryCodeText(record),
-    orderedBy: record.physician || EmptyField,
-    requestedBy: record.physician || EmptyField,
+    orderedBy: record.physician || EMPTY_FIELD,
+    requestedBy: record.physician || EMPTY_FIELD,
     date: formatDateLong(record.effectiveDateTime),
-    sampleTested: record.specimen?.text || EmptyField,
-    labLocation: record.labLocation || EmptyField,
-    collectingLocation: record.location || EmptyField,
-    results: record.conclusion || record.result || EmptyField,
+    sampleTested: record.specimen?.text || EMPTY_FIELD,
+    labLocation: record.labLocation || EMPTY_FIELD,
+    collectingLocation: record.location || EMPTY_FIELD,
+    results: record.conclusion || record.result || EMPTY_FIELD,
   };
 };
 
@@ -118,7 +118,7 @@ const convertEkgRecord = record => {
   return {
     id: record.id,
     name: 'Electrocardiogram (EKG)',
-    type: LabTypes.EKG,
+    type: labTypes.EKG,
     category: '',
     orderedBy: 'Beth M. Smith',
     requestedBy: 'John J. Lydon',
@@ -144,20 +144,20 @@ const convertRadiologyRecord = record => {
   return {
     id: record.id,
     name: typeCodingDisplay,
-    type: LabTypes.RADIOLOGY,
-    reason: record.reason || EmptyField,
-    category: record.category?.text || EmptyField,
+    type: labTypes.RADIOLOGY,
+    reason: record.reason || EMPTY_FIELD,
+    category: record.category?.text || EMPTY_FIELD,
     orderedBy:
       (isArrayAndHasItems(record.author) && record.author[0].display) ||
-      EmptyField,
+      EMPTY_FIELD,
     requestedBy:
       (isArrayAndHasItems(record.author) && record.author[0].display) ||
-      EmptyField,
-    clinicalHistory: record.clinicalHistory || EmptyField,
-    orderingLocation: record.location || EmptyField,
+      EMPTY_FIELD,
+    clinicalHistory: record.clinicalHistory || EMPTY_FIELD,
+    orderingLocation: record.location || EMPTY_FIELD,
     imagingLocation: authorDisplay,
     date: record.date,
-    imagingProvider: record.physician || EmptyField,
+    imagingProvider: record.physician || EMPTY_FIELD,
     results: Buffer.from(record.content[0].attachment.data, 'base64').toString(
       'utf-8',
     ),
@@ -170,34 +170,34 @@ const convertRadiologyRecord = record => {
  * @returns the type of lab/test that was passed
  */
 const getRecordType = record => {
-  if (record.resourceType === FhirResourceTypes.DIAGNOSTIC_REPORT) {
-    if (record.code.text === 'CH') return LabTypes.CHEM_HEM;
+  if (record.resourceType === fhirResourceTypes.DIAGNOSTIC_REPORT) {
+    if (record.code.text === 'CH') return labTypes.CHEM_HEM;
     if (
-      record.code.coding.some(coding => coding.code === LoincCodes.MICROBIOLOGY)
+      record.code.coding.some(coding => coding.code === loincCodes.MICROBIOLOGY)
     )
-      return LabTypes.MICROBIOLOGY;
-    if (record.code.coding.some(coding => coding.code === LoincCodes.PATHOLOGY))
-      return LabTypes.PATHOLOGY;
+      return labTypes.MICROBIOLOGY;
+    if (record.code.coding.some(coding => coding.code === loincCodes.PATHOLOGY))
+      return labTypes.PATHOLOGY;
   }
-  if (record.resourceType === FhirResourceTypes.DOCUMENT_REFERENCE) {
-    if (record.type.coding.some(coding => coding.code === LoincCodes.EKG))
-      return LabTypes.EKG;
-    if (record.type.coding.some(coding => coding.code === LoincCodes.RADIOLOGY))
-      return LabTypes.RADIOLOGY;
+  if (record.resourceType === fhirResourceTypes.DOCUMENT_REFERENCE) {
+    if (record.type.coding.some(coding => coding.code === loincCodes.EKG))
+      return labTypes.EKG;
+    if (record.type.coding.some(coding => coding.code === loincCodes.RADIOLOGY))
+      return labTypes.RADIOLOGY;
   }
-  return LabTypes.OTHER;
+  return labTypes.OTHER;
 };
 
 /**
  * Maps each record type to a converter function
  */
 const labsAndTestsConverterMap = {
-  [LabTypes.CHEM_HEM]: convertChemHemRecord,
-  [LabTypes.MICROBIOLOGY]: convertMicrobiologyRecord,
-  [LabTypes.PATHOLOGY]: convertPathologyRecord,
-  [LabTypes.EKG]: convertEkgRecord,
-  [LabTypes.RADIOLOGY]: convertRadiologyRecord,
-  [LabTypes.OTHER]: record => record,
+  [labTypes.CHEM_HEM]: convertChemHemRecord,
+  [labTypes.MICROBIOLOGY]: convertMicrobiologyRecord,
+  [labTypes.PATHOLOGY]: convertPathologyRecord,
+  [labTypes.EKG]: convertEkgRecord,
+  [labTypes.RADIOLOGY]: convertRadiologyRecord,
+  [labTypes.OTHER]: record => record,
 };
 
 /**
