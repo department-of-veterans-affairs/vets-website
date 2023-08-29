@@ -14,6 +14,7 @@ import {
 } from '../utils';
 
 import YourAppointment from '../components/YourAppointment';
+import YourTreatmentPlan from '../components/YourTreatmentPlan';
 
 const generateAppointmentHeader = avs => {
   const appointmentDate = getFormattedAppointmentDate(avs);
@@ -87,6 +88,9 @@ const Avs = props => {
         <va-accordion>
           <va-accordion-item header={generateAppointmentHeader(avs)}>
             <YourAppointment avs={avs} />
+          </va-accordion-item>
+          <va-accordion-item header="Your treatment plan from this appointment">
+            <YourTreatmentPlan avs={avs} />
           </va-accordion-item>
         </va-accordion>
         {generateFooter(avs)}
