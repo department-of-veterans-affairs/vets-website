@@ -1,5 +1,6 @@
 // .nav-header > h2 contains "Step {index} of {total}: {page title}"
-export const defaultFocusSelector = '.nav-header > h2';
+export const defaultFocusSelector =
+  '.nav-header > h2, va-segmented-progress-bar[uswds][heading-text][header-level="2"]';
 
 /**
  * Focus on element
