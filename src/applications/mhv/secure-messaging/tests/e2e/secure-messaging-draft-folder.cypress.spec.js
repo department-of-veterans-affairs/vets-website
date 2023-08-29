@@ -5,10 +5,10 @@ import PatientMessagesDraftsPage from './pages/PatientMessageDraftsPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 
 describe('Secure Messaging Draft Folder checks', () => {
+  const landingPage = new PatientInboxPage();
+  const site = new SecureMessagingSite();
+  const draftsPage = new PatientMessagesDraftsPage();
   beforeEach(() => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    const draftsPage = new PatientMessagesDraftsPage();
     site.login();
     landingPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
@@ -32,9 +32,9 @@ describe('Secure Messaging Draft Folder checks', () => {
         },
       },
     });
-    PatientMessagesDraftsPage.inputFilterData('test');
-    PatientMessagesDraftsPage.filterMessages();
-    PatientMessagesDraftsPage.verifyFilterResults('test');
+    draftsPage.inputFilterData('test');
+    draftsPage.filterMessages();
+    draftsPage.verifyFilterResults('test');
   });
 
   it('Verify clear filter btn works correctly', () => {
@@ -46,10 +46,10 @@ describe('Secure Messaging Draft Folder checks', () => {
         },
       },
     });
-    PatientMessagesDraftsPage.inputFilterData('any');
-    PatientMessagesDraftsPage.filterMessages();
-    PatientMessagesDraftsPage.clearFilter();
-    PatientMessagesDraftsPage.verifyFilterFieldCleared();
+    draftsPage.inputFilterData('any');
+    draftsPage.filterMessages();
+    draftsPage.clearFilter();
+    draftsPage.verifyFilterFieldCleared();
   });
 
   it('Check sorting works properly', () => {
@@ -61,6 +61,6 @@ describe('Secure Messaging Draft Folder checks', () => {
         },
       },
     });
-    PatientMessagesDraftsPage.verifySorting();
+    draftsPage.verifySorting();
   });
 });
