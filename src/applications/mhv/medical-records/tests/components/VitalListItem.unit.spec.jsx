@@ -4,7 +4,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
 import vitals from '../fixtures/vitals.json';
-import { RecordType } from '../../util/constants';
+import { recordType } from '../../util/constants';
 import { convertVital } from '../../reducers/vitals';
 
 describe('Vital list item component', () => {
@@ -20,7 +20,7 @@ describe('Vital list item component', () => {
     return renderWithStoreAndRouter(
       <RecordListItem
         record={convertVital(vitals.entry[1].resource)}
-        type={RecordType.VITALS}
+        type={recordType.VITALS}
       />,
       {
         initialState: state,
