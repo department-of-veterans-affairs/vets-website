@@ -6,40 +6,40 @@ on:
   push
 
 jobs:
-  # fetch-unit-tests-allow-list:
-  #   name: Fetch Unit Tests Allow List
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
+  fetch-unit-tests-allow-list:
+    name: Fetch Unit Tests Allow List
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: us-gov-west-1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
 
-  #     - name: Get va-vsp-bot token
-  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-  #       with:
-  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-  #     - name: Init Dashboard Data Repo
-  #       uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+      - name: Init Dashboard Data Repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
-  #     - name: Set Up BigQuery Creds
-  #       uses: ./.github/workflows/configure-bigquery
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
 
-  #     - name: Fetch E2E allow list
-  #       run: yarn get-allow-list
-  #       working-directory: qa-standards-dashboard-data
-  #     # exports app list and assigns to environmental variable at this step
+      - name: Fetch Unit Test allow list
+        run: yarn get-allow-list --test_type=unit_test
+        working-directory: qa-standards-dashboard-data
+      # exports app list and assigns to environmental variable at this step
 
-  #     - name: Set Allow List Output
-  #       id: allow-list-output
-  #       run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
+      - name: Set Allow List Output
+        id: allow-list-output
+        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
 
   unit-tests-stress-test:
     name: Unit Tests
