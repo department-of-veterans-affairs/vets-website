@@ -62,6 +62,11 @@ describe('avs', () => {
         shortTimeZone = 'PDT';
         expect(stripDst(timeZone, shortTimeZone)).to.equal('PT');
       });
+      it('does not attempt to strip out chars in non-us timezones', () => {
+        const timeZone = 'replacementFunctions';
+        const shortTimeZone = 'PHT';
+        expect(stripDst(timeZone, shortTimeZone)).to.equal('PHT');
+      });
     });
 
     describe('get timezone from AVS', () => {
@@ -108,6 +113,10 @@ describe('avs', () => {
           ],
         };
         expect(getFormattedAppointmentDate(avs)).to.equal('September 9, 2023');
+      });
+      it('returns an empty string when the datetime is not available', () => {
+        const avs = { appointments: [{ foo: 'bar' }] };
+        expect(getFormattedAppointmentDate(avs)).to.be.empty;
       });
     });
 
