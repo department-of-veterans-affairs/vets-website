@@ -99,6 +99,7 @@ export default Object.freeze({
   myVaUseExperimentalFrontend: 'my_va_experimental_frontend',
   myVaUseExperimentalFullstack: 'my_va_experimental_fullstack',
   myVaUseLighthouseClaims: 'my_va_lighthouse_claims',
+  myVaNotificationDotIndicator: 'my_va_notification_dot_indicator',
   myVaUpdateErrorsWarnings: 'my_va_update_errors_warnings',
   nodBrowserMonitoringEnabled: 'nod_browser_monitoring_enabled',
   nodPart3Update: 'nod_part3_update',
