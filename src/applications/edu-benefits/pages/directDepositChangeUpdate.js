@@ -3,31 +3,31 @@ import get from 'platform/utilities/data/get';
 
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 
-import { bankAccountChangeLabels, directDepositWarning } from '../utils/labels';
+import { bankAccountChangeLabelsUpdate } from '../utils/labels';
 
 function isStartUpdate(form) {
-  return get('bankAccountChange', form) === 'startUpdate';
+  return get('bankAccountChangeUpdate', form) === 'startUpdate';
 }
 
 export default function createDirectDepositChangePage(schema) {
-  const { bankAccountChange, bankAccount } = schema.definitions;
+  const { bankAccountChangeUpdate, bankAccount } = schema.definitions;
   return {
     title: 'Direct deposit',
     path: 'personal-information/direct-deposit',
     initialData: {},
     uiSchema: {
       'ui:title': 'Direct deposit',
-      bankAccountChange: {
+      bankAccountChangeUpdate: {
         'ui:title': 'Benefit payment method:',
         'ui:widget': 'radio',
         'ui:options': {
-          labels: bankAccountChangeLabels,
+          labels: bankAccountChangeLabelsUpdate,
         },
       },
       bankAccount: merge({}, bankAccountUI, {
         'ui:options': {
           hideIf: formData => !isStartUpdate(formData),
-          expandUnder: 'bankAccountChange',
+          expandUnder: 'bankAccountChangeUpdate',
         },
         accountType: {
           'ui:required': isStartUpdate,
@@ -39,18 +39,11 @@ export default function createDirectDepositChangePage(schema) {
           'ui:required': isStartUpdate,
         },
       }),
-      'view:stopWarning': {
-        'ui:description': directDepositWarning,
-        'ui:options': {
-          hideIf: formData => formData.bankAccountChange !== 'stop',
-          expandUnder: 'bankAccountChange',
-        },
-      },
     },
     schema: {
       type: 'object',
       properties: {
-        bankAccountChange,
+        bankAccountChangeUpdate,
         bankAccount,
         'view:stopWarning': {
           type: 'object',
