@@ -15,7 +15,21 @@ describe('Burials keyboard only navigation', () => {
         },
       },
     });
-    cy.visit('/burials-and-memorials/application/530');
+    cy.visit('/burials-and-memorials/application/530/introduction');
     cy.injectAxeThenAxeCheck();
+
+    cy.get('a').each($link => {
+      const href = $link.prop('href');
+
+      // Perform an HTTP HEAD request
+      cy.request({
+        url: href,
+        method: 'HEAD',
+        failOnStatusCode: false, // This ensures that Cypress doesn't fail the test on a non-2xx status code
+      }).then(response => {
+        // Assert that the link returns a non-4xx status code
+        expect(response.status).to.not.be.within(400, 499);
+      });
+    });
   });
 });

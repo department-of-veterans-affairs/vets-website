@@ -288,14 +288,13 @@ const CreateSummarySections = ({
 
 export const NoFormPage = () => {
   const [data, setData] = useState({});
+  // const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const loggedIn = useSelector(isLoggedIn);
 
   useEffect(() => {
-    // Example endpoint; update with the specific resource you want to fetch
     const resource = '/in_progress_forms/21P-530';
 
-    // Making the API request
     apiRequest(resource)
       .then(responseData => {
         setData(responseData);
@@ -333,8 +332,7 @@ export const NoFormPage = () => {
             </h2>
             <div>
               <p className="vads-u-margin-y--0">
-                You can still use the information here to fill out a paper form
-                for VA burial benefits.
+                You can still refer to the information here to apply by mail.
               </p>
             </div>
             <br />
@@ -343,8 +341,10 @@ export const NoFormPage = () => {
               text="Learn more about how to apply for VA burial benefits"
             />
           </va-alert>
-          <h3>Send application by mail</h3>
-          <p>Fill out an Application for Burial (VA Form 21P-530EZ).</p>
+          <h3>Apply by mail</h3>
+          <p>
+            Fill out an Application for Veterans Burial (VA Form 21P-530EZ).
+          </p>
           <div>
             <va-link
               download
@@ -354,20 +354,12 @@ export const NoFormPage = () => {
               text="Download VA form 21P-530EZ"
             />
             <p>
-              You’ll also need to send us an intent to file form. <br /> This
-              form will set the potential start date for your pension benefits
-              as the first date you saved the online form. We’ve pre-filled this
-              form for you.
+              We’ve captured your intent to file date of{' '}
+              <strong>XX/XX/XXXX</strong>. You have 12 months from that date to
+              submit a claim.
             </p>
-            <va-link
-              download
-              filetype="PDF"
-              href="http://www.vba.va.gov/pubs/forms/VBA-21-0966-ARE.pdf"
-              pages={8}
-              text="Download your Intent to File"
-            />
             <p className="vads-u-margin-bottom--4">
-              Mail the completed form to the pension management center (PMC)
+              Mail your burial form to the pension management center:
             </p>
             <p className="va-address-block">
               Department of Veterans Affairs <br />

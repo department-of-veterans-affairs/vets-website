@@ -4,7 +4,7 @@ import burialPost from './e2e/fixtures/mocks/burial-post.json';
 // This also works with maximal-test.json
 import testData from './schema/minimal-test.json';
 
-describe.skip('Burials keyboard only navigation', () => {
+describe('Burials keyboard only navigation', () => {
   it.skip('navigates through a selected form', () => {
     const { data } = testData;
     cy.intercept('PUT', 'v0/in_progress_forms/21P-530', {});
