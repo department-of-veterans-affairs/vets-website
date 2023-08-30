@@ -126,8 +126,12 @@ const patientInstructions = avs => {
     return (
       <div>
         <h4>Other instructions</h4>
-        {/* TODO: better way to do this */}
         {/* eslint-disable react/no-danger */}
+        {/*
+            We're choosing to trust the HTML coming from AVS since it is explicitly
+            added there and will give us the highest fidelity with the printed AVS.
+            cf. https://github.com/department-of-veterans-affairs/avs/blob/master/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/thread/DelimitedNoteContentThread.java
+        */}
         <p
           data-testid="patient-instructions"
           dangerouslySetInnerHTML={{ __html: avs.patientInstructions }}
