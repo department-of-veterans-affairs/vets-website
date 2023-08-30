@@ -53,7 +53,7 @@ const uiSchema = {
 const pageKey = 'preferredDate';
 const pageTitle = 'When do you want to schedule this appointment?';
 
-export default function PreferredDatePage(props = null) {
+export default function PreferredDatePage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -69,7 +69,7 @@ export default function PreferredDatePage(props = null) {
     scrollAndFocus();
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     if (featureBreadcrumbUrlUpdate) {
-      props.changeCrumb(pageTitle);
+      changeCrumb(pageTitle);
     }
   }, []);
 

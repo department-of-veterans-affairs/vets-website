@@ -96,7 +96,7 @@ const uiSchema = {
 
 const pageKey = 'reasonForAppointment';
 
-export default function ReasonForAppointmentPage(props = null) {
+export default function ReasonForAppointmentPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -131,7 +131,7 @@ export default function ReasonForAppointmentPage(props = null) {
       ),
     );
     if (featureBreadcrumbUrlUpdate) {
-      props.changeCrumb(pageTitle);
+      changeCrumb(pageTitle);
     }
   }, []);
 

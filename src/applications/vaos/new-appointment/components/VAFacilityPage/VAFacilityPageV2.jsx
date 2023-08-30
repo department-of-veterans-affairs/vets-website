@@ -47,7 +47,7 @@ const sortOptions = [
   { value: 'alphabetical', label: 'Alphabetically' },
 ];
 
-export default function VAFacilityPageV2(props = null) {
+export default function VAFacilityPageV2({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -106,7 +106,7 @@ export default function VAFacilityPageV2(props = null) {
       document.title = `${pageTitle} | Veterans Affairs`;
       scrollAndFocus();
       if (featureBreadcrumbUrlUpdate) {
-        props.changeCrumb(pageTitle);
+        changeCrumb(pageTitle);
       }
     },
     [isLoading],

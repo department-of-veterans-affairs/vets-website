@@ -101,7 +101,7 @@ function goForward({ dispatch, data, history, setSubmitted }) {
   }
 }
 
-export default function DateTimeSelectPage(props = null) {
+export default function DateTimeSelectPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -131,7 +131,7 @@ export default function DateTimeSelectPage(props = null) {
 
   useEffect(() => {
     if (featureBreadcrumbUrlUpdate) {
-      props.changeCrumb(pageTitle);
+      changeCrumb(pageTitle);
     }
   }, []);
 

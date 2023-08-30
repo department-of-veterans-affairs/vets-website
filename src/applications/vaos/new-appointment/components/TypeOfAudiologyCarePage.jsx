@@ -66,7 +66,7 @@ const uiSchema = {
 const pageKey = 'audiologyCareType';
 const pageTitle = 'Choose the type of audiology care you need';
 
-export default function TypeOfAudiologyCarePage(props = null) {
+export default function TypeOfAudiologyCarePage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -81,7 +81,7 @@ export default function TypeOfAudiologyCarePage(props = null) {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     scrollAndFocus();
     if (featureBreadcrumbUrlUpdate) {
-      props.changeCrumb(pageTitle);
+      changeCrumb(pageTitle);
     }
   }, []);
 

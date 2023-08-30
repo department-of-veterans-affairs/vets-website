@@ -61,7 +61,7 @@ const uiSchema = {
 const pageKey = 'typeOfFacility';
 const pageTitle = 'Choose where you want to receive your care';
 
-export default function TypeOfFacilityPage(props = null) {
+export default function TypeOfFacilityPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -77,7 +77,7 @@ export default function TypeOfFacilityPage(props = null) {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     if (featureBreadcrumbUrlUpdate) {
-      props.changeCrumb(pageTitle);
+      changeCrumb(pageTitle);
     }
   }, []);
 

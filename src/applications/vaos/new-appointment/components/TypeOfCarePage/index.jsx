@@ -27,7 +27,7 @@ import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
 
-export default function TypeOfCarePage(props = null) {
+export default function TypeOfCarePage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -64,7 +64,7 @@ export default function TypeOfCarePage(props = null) {
 
   useEffect(() => {
     if (featureBreadcrumbUrlUpdate) {
-      props.changeCrumb(pageTitle);
+      changeCrumb(pageTitle);
     }
   }, []);
 

@@ -66,7 +66,7 @@ const uiSchema = {
 const pageKey = 'typeOfEyeCare';
 const pageTitle = 'Choose the type of eye care you need';
 
-export default function TypeOfEyeCarePage(props = null) {
+export default function TypeOfEyeCarePage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -81,7 +81,7 @@ export default function TypeOfEyeCarePage(props = null) {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     if (featureBreadcrumbUrlUpdate) {
-      props.changeCrumb(pageTitle);
+      changeCrumb(pageTitle);
     }
   }, []);
 

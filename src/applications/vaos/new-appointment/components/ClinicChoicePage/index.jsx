@@ -39,7 +39,7 @@ function vowelCheck(givenString) {
 
 const pageKey = 'clinicChoice';
 const pageTitle = 'Choose a VA clinic';
-export default function ClinicChoicePage(props = null) {
+export default function ClinicChoicePage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -75,7 +75,7 @@ export default function ClinicChoicePage(props = null) {
     scrollAndFocus();
     document.title = `${pageTitle} | Veterans Affairs`;
     if (featureBreadcrumbUrlUpdate) {
-      props.changeCrumb(pageTitle);
+      changeCrumb(pageTitle);
     }
   }, []);
 

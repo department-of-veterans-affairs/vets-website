@@ -65,7 +65,7 @@ const uiSchema = {
 const pageKey = 'typeOfSleepCare';
 const pageTitle = 'Choose the type of sleep care you need';
 
-export default function TypeOfSleepCarePage(props = null) {
+export default function TypeOfSleepCarePage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -81,7 +81,7 @@ export default function TypeOfSleepCarePage(props = null) {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     if (featureBreadcrumbUrlUpdate) {
-      props.changeCrumb(pageTitle);
+      changeCrumb(pageTitle);
     }
   }, []);
 

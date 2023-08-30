@@ -15,7 +15,7 @@ import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 const pageTitle = 'Review your appointment details';
 
-export default function ReviewPage(props = null) {
+export default function ReviewPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -38,7 +38,7 @@ export default function ReviewPage(props = null) {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     if (featureBreadcrumbUrlUpdate) {
-      props.changeCrumb(pageTitle);
+      changeCrumb(pageTitle);
     }
   }, []);
 

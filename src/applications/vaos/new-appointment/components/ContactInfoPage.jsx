@@ -105,7 +105,7 @@ const phoneConfig = phoneUI('Your phone number');
 const pageKey = 'contactInfo';
 const pageTitle = 'Confirm your contact information';
 
-export default function ContactInfoPage(props = null) {
+export default function ContactInfoPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -127,7 +127,7 @@ export default function ContactInfoPage(props = null) {
     scrollAndFocus();
     recordPopulatedEvents(email, mobilePhone || homePhone);
     if (featureBreadcrumbUrlUpdate) {
-      props.changeCrumb(pageTitle);
+      changeCrumb(pageTitle);
     }
   }, []);
 
