@@ -52,6 +52,7 @@ const ReplyForm = props => {
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
 
   const draftDetails = useSelector(state => state.sm.draftDetails);
+  const folderId = useSelector(state => state.sm.folders.folder.folderId);
   const { isSaving } = draftDetails;
   const signature = useSelector(state => state.sm.preferences.signature);
 
@@ -142,7 +143,7 @@ const ReplyForm = props => {
               navigateToFolderByFolderId(
                 draftToEdit?.threadFolderId
                   ? draftToEdit?.threadFolderId
-                  : replyMessage.folderId,
+                  : folderId,
                 history,
               );
             })
@@ -158,7 +159,7 @@ const ReplyForm = props => {
               navigateToFolderByFolderId(
                 draftToEdit?.threadFolderId
                   ? draftToEdit?.threadFolderId
-                  : replyMessage.folderId,
+                  : folderId,
                 history,
               );
             })
