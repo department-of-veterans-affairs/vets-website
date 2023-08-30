@@ -72,7 +72,7 @@ describe('<HealthCareCTAV2 />', () => {
         );
 
         expect(
-          tree.getByLabelText('Unread messages. Go to your inbox', {
+          tree.getByLabelText('Unread messages. Go to your inbox.', {
             selector: 'i',
           }),
         ).to.exist;
