@@ -19,15 +19,17 @@ import VideoLocation from './VideoLocation';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 function formatHeader(appointment) {
-  const { patientHasMobileGfe } = appointment.extension;
+  const patientHasMobileGfe = appointment.extension?.patientHasMobileGfe;
   if (
-    appointment.videoData.kind === VIDEO_TYPES.mobile &&
+    (appointment.videoData.kind === VIDEO_TYPES.mobile ||
+      appointment.videoData.kind === VIDEO_TYPES.adhoc) &&
     patientHasMobileGfe
   ) {
     return 'VA Video Connect using VA device';
   }
   if (
-    appointment.videoData.kind === VIDEO_TYPES.mobile &&
+    (appointment.videoData.kind === VIDEO_TYPES.mobile ||
+      appointment.videoData.kind === VIDEO_TYPES.adhoc) &&
     !patientHasMobileGfe
   ) {
     return 'VA Video Connect at home';
