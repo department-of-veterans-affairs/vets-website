@@ -300,10 +300,10 @@ const ComposeForm = props => {
 
       const draftId = draft && draft.messageId;
       const newFieldsString = JSON.stringify({
-        rec: debouncedRecipient,
-        cat: debouncedCategory,
-        sub: debouncedSubject,
-        bod: debouncedMessageBody,
+        rec: parseInt(debouncedRecipient || selectedRecipient, 10),
+        cat: debouncedCategory || category,
+        sub: debouncedSubject || subject,
+        bod: debouncedMessageBody || messageBody,
       });
 
       if (type === 'auto' && newFieldsString === fieldsString) {

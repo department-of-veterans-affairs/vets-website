@@ -274,7 +274,7 @@ const ReplyForm = props => {
         rec: selectedRecipient,
         cat: category,
         sub: subject,
-        bod: debouncedMessageBody,
+        bod: debouncedMessageBody || messageBody,
       });
 
       if (type === 'auto' && newFieldsString === fieldsString) {
