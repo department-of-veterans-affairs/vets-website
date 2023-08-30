@@ -56,7 +56,7 @@ describe('Vaccines details container', () => {
     const screen = setup();
     const formattedDate = screen.getByText('August', {
       exact: false,
-      selector: 'p',
+      selector: 'span',
     });
     expect(formattedDate).to.exist;
   });

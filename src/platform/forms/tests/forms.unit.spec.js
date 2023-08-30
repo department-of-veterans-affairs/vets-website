@@ -80,6 +80,7 @@ const formConfigKeys = [
   'reviewErrors',
   'useCustomScrollAndFocus',
   'v3SegmentedProgressBar',
+  'formOptions',
 ];
 
 const validProperty = (
