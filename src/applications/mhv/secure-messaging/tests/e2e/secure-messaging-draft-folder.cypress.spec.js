@@ -3,6 +3,7 @@ import mockDraftResponse from './fixtures/message-draft-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessagesDraftsPage from './pages/PatientMessageDraftsPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
+import PatientMessagesSentPage from './pages/PatientMessageSentPage';
 
 describe('Secure Messaging Draft Folder checks', () => {
   const landingPage = new PatientInboxPage();
@@ -12,6 +13,7 @@ describe('Secure Messaging Draft Folder checks', () => {
     site.login();
     landingPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
+    PatientMessagesSentPage.loadMessages();
   });
   it('Axe Check Draft Folder', () => {
     cy.injectAxe();

@@ -303,8 +303,7 @@ class PatientMessageDraftsPage {
       'POST',
       '/my_health/v1/messaging/folders/-1/search',
       sentSearchResponse,
-    ).as('response');
-    cy.wait('@response');
+    );
     cy.get('[data-testid="filter-messages-button"]').click({ force: true });
   };
 
@@ -312,6 +311,21 @@ class PatientMessageDraftsPage {
     this.inputFilterData('any');
     this.filterMessages();
     cy.get('[text="Clear Filters"]').click({ force: true });
+  };
+
+  verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
+    cy.get('[data-testid="message-list-item"]').should(
+      'have.length',
+      `${responseData.data.length}`,
+    );
+    cy.get('[data-testid="highlighted-text"]').each(element => {
+      cy.wrap(element)
+        .invoke('text')
+        .then(text => {
+          const lowerCaseText = text.toLowerCase();
+          expect(lowerCaseText).to.contain(`${filterValue}`);
+        });
+    });
   };
 
   sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
