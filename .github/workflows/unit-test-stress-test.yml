@@ -68,7 +68,7 @@ jobs:
 
       - name: Set Allow List Output
         id: allow-list-output
-        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
+        run: echo allow_list=$ALLOW_LIST >> $GITHUB_OUTPUT
 
   unit-tests-stress-test:
     name: Unit Tests
