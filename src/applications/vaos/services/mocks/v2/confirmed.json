@@ -882,7 +882,7 @@
         "slot": null,
         "start": "2023-09-23T20:00:00Z",
         "status": "booked",
-        "extension": {"patientHasMobileGfe": true},
+        "extension": {"patientHasMobileGfe": false},
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
@@ -1018,7 +1018,7 @@
         "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "audiology",
-        "extension": {"patientHasMobileGfe": false},
+        "extension": {"patientHasMobileGfe": true},
         "slot": null,
         "start": "2023-11-09T20:30:00Z",
         "status": "booked",

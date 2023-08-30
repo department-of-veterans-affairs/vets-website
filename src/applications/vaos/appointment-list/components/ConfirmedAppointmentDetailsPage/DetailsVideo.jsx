@@ -19,7 +19,8 @@ import VideoLocation from './VideoLocation';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 function formatHeader(appointment) {
-  const patientHasMobileGfe = appointment.extension?.patientHasMobileGfe;
+  const patientHasMobileGfe =
+    appointment.videoData.extension?.patientHasMobileGfe;
   if (
     (appointment.videoData.kind === VIDEO_TYPES.mobile ||
       appointment.videoData.kind === VIDEO_TYPES.adhoc) &&

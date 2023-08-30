@@ -15,7 +15,8 @@ import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 function VideoAppointmentDescription({ appointment }) {
   const { isAtlas } = appointment.videoData;
   const videoKind = appointment.videoData.kind;
-  const patientHasMobileGfe = appointment.extension?.patientHasMobileGfe;
+  const patientHasMobileGfe =
+    appointment.videoData.extension?.patientHasMobileGfe;
   let desc = '';
   if (isAtlas) {
     desc = 'at an ATLAS location';
