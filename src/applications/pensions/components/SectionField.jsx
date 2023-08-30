@@ -142,10 +142,35 @@ export function MilitaryHistory({ title, id, formData }) {
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Did you serve under another name?
         </p>
-        <p className="vads-u-margin-top--0">
+        <div className="vads-u-margin-top--0">
           {/* add your mapping names here */}
-          {/* {formData.previousNames?.length > 0 ? formData.previousNames : 'No'} */}
-        </p>
+          {formData.previousNames
+            ? formData.previousNames.map((name, index) => {
+                return (
+                  <div key={index} className="vads-u-margin-top--4">
+                    <div className="vads-u-background-color--gray-lightest vads-u-padding--1p5">
+                      <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                        <strong>First: </strong>
+                        {name.first}
+                      </p>
+                      <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                        <strong>Middle: </strong>
+                        {name.middle ? name.middle : 'None'}
+                      </p>
+                      <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                        <strong>Last: </strong>
+                        {name.last}
+                      </p>
+                      <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                        <strong>Suffix: </strong>
+                        {name.suffix ? name.suffix : 'None'}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })
+            : 'None'}
+        </div>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Place of last or anticipated separation (city and state or foreign
           country)
@@ -164,10 +189,10 @@ export function MilitaryHistory({ title, id, formData }) {
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Have you ever been a POW?
         </p>
-        <p className="vads-u-margin-top--0">
+        <p className="vads-u-margin-top--0" style={{ whiteSpace: 'pre' }}>
           {formData['view:powStatus']
             ? `Yes
-            ${convertDateFormat(
+            \n${convertDateFormat(
               formData.powDateRange.from,
             )} - ${convertDateFormat(formData.powDateRange.to)}`
             : 'No'}
@@ -175,10 +200,10 @@ export function MilitaryHistory({ title, id, formData }) {
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Have you received any type of severance or separation pay
         </p>
-        <p className="vads-u-margin-top--0">
+        <p className="vads-u-margin-top--0" style={{ whiteSpace: 'pre' }}>
           {formData.severancePay
             ? `${formData.severancePay.type}
-            ${formatCurrency(formData.severancePay.amount)}`
+            \n${formatCurrency(formData.severancePay.amount)}`
             : 'No'}
         </p>
       </div>
@@ -202,17 +227,25 @@ export function WorkHistory({ title, id, formData }) {
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Disability
         </p>
-        <p className="vads-u-margin-top--0">
-          {/** do mapping here */}
-          {/* {formData.disabilities?.length > 0 ? formData.disabilities : 'No'} */}
-        </p>
-        <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
-          Date disability began
-        </p>
-        <p className="vads-u-margin-top--0">
-          {/** do mapping here */}
-          {'01/01/1966'}
-        </p>
+        <div className="vads-u-margin-top--0">
+          {formData.disabilities.length > 0
+            ? formData.disabilities.map(item => {
+                return (
+                  <div key={item.name}>
+                    <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                      {item.name}
+                    </p>
+                    <p className="vads-u-color--gray vads-u-margin-bottom--0">
+                      Date disability began
+                    </p>
+                    <p className="vads-u-margin-bottom--1">
+                      {convertDateFormat(item.disabilityStartDate)}
+                    </p>
+                  </div>
+                );
+              })
+            : 'None'}
+        </div>
         <h3>Employment history</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Have you had a job (including being self-employed) from 1 year before
@@ -265,7 +298,9 @@ export function HouseholdInformation({ title, id, formData }) {
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Do you have any dependent children?
         </p>
-        <p className="vads-u-margin-top--0">{formData['view:hasDependents']}</p>
+        <p className="vads-u-margin-top--0">
+          {formData['view:hasDependents'] ? 'Yes' : 'No'}
+        </p>
       </div>
     </>
   );
