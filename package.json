@@ -245,7 +245,7 @@
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@department-of-veterans-affairs/css-library": "^0.1.0-rc4",
-    "@department-of-veterans-affairs/component-library": "^19.1.0",
+    "@department-of-veterans-affairs/component-library": "^20.0.0",
     "@department-of-veterans-affairs/formation": "^7.0.8",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
