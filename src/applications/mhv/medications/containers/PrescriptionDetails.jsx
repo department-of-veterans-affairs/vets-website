@@ -300,7 +300,7 @@ const PrescriptionDetails = () => {
                   <h3 className="vads-u-font-size--lg vads-u-font-family--sans">
                     {i + 1 === refillHistory.length
                       ? 'Original Fill'
-                      : `Refill #${i + 1}`}
+                      : `Refill #${refillHistory.length - i - 1}`}
                   </h3>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                     Filled by pharmacy on
