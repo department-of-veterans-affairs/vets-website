@@ -231,3 +231,13 @@ color: $color-gray-dark !important;
 .omb_heading h2 {
   color: $color-gray-dark !important;
 }
+
+/* Unordered list styling for crisis header */
+.modal-live-form .ng-scope>div>div>div>p>ul {
+  padding: 0 0 0 1.5em !important;
+  list-style: square !important;
+}
+.modal-live-form .ng-scope>div>div>div>p>ul>li {
+  line-height: 1.5 !important;
+  margin-bottom: 0.5em !important;
+}
