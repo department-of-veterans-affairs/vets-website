@@ -1,7 +1,8 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import {
   inbox,
   sent,
@@ -10,10 +11,16 @@ import {
 } from '../fixtures/folder-inbox-response.json';
 import messageResponse from '../fixtures/message-response.json';
 import folderList from '../fixtures/folder-response.json';
-// import threadList from '../fixtures/thread-list-response.json';
-import { DefaultFolders, PageTitles, Paths } from '../../util/constants';
+import {
+  DefaultFolders,
+  PageTitles,
+  Paths,
+  threadSortingOptions,
+  Alerts,
+} from '../../util/constants';
 import reducer from '../../reducers';
 import FolderThreadListView from '../../containers/FolderThreadListView';
+import threadListResponse from '../fixtures/thread-list-response.json';
 
 describe('Folder Thread List View container', () => {
   const initialState = {
@@ -128,61 +135,29 @@ describe('Folder Thread List View container', () => {
     it('CUSTOM FOLDER', async () => {
       const initialStateCustomFolder = {
         sm: {
-          messageDetails: { message: messageResponse },
+          user: {
+            login: {
+              currentlyLoggedIn: true,
+            },
+            profile: {
+              services: [backendServices.MESSAGING],
+              session: {
+                ssoe: false,
+              },
+            },
+          },
           folders: { folder: customFolder },
           search: {
-            searchResults: [],
             awaitingResults: false,
             keyword: '',
-            searchSort: 'SENT_DATE_DESCENDING',
-            query: { category: '' },
+            searchSort: threadSortingOptions.SENT_DATE_DESCENDING.value,
             page: 1,
           },
           threads: {
-            threadList: [
-              {
-                threadId: 2653173,
-                folderId: 2628777,
-                messageId: 2756440,
-                threadPageSize: 3,
-                messageCount: 5,
-                category: 'OTHER',
-                subject: 't',
-                triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-                sentDate: '2023-04-17T19:02:51.000Z',
-                draftDate: null,
-                senderId: 12509,
-                senderName: 'GOPARAJU, BHANU ',
-                recipientName: 'FREEMAN, MELVIN  V',
-                recipientId: 523757,
-                proxySenderName: null,
-                hasAttachment: false,
-                unsentDrafts: false,
-                unreadMessages: false,
-              },
-              {
-                threadId: 2733445,
-                folderId: 2628777,
-                messageId: 2735073,
-                threadPageSize: 3,
-                messageCount: 4,
-                category: 'OTHER',
-                subject: 'test reply -rrr',
-                triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-                sentDate: '2023-04-04T15:46:34.000Z',
-                draftDate: null,
-                senderId: 257555,
-                senderName: 'ISLAM, MOHAMMAD  RAFIQ',
-                recipientName: 'FREEMAN, MELVIN  V',
-                recipientId: 523757,
-                proxySenderName: null,
-                hasAttachment: true,
-                unsentDrafts: true,
-                unreadMessages: false,
-              },
-            ],
+            isLoading: true,
+            threadList: threadListResponse,
             threadSort: {
-              value: 'SENT_DATE_DESCENDING',
+              value: threadSortingOptions.SENT_DATE_DESCENDING.value,
               folderId: 2628777,
               page: 1,
             },
@@ -190,14 +165,9 @@ describe('Folder Thread List View container', () => {
         },
       };
 
-      //   const threadCount = threadList?.length;
-      //   const folderId = customFolder?.folderId;
-      //   const searchResults =
-      //     initialStateCustomFolder.sm.search.searchResults?.length;
-
       const customSetup = (
         state = initialStateCustomFolder,
-        path = `/folders/${customFolder.folderId}`,
+        path = `/folders/${customFolder.folderId}/`,
       ) => {
         return renderWithStoreAndRouter(<FolderThreadListView testing />, {
           initialState: state,
@@ -206,34 +176,31 @@ describe('Folder Thread List View container', () => {
         });
       };
 
-      const screen = customSetup();
-
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `${customFolder.name} ${PageTitles.PAGE_TITLE_TAG}`,
-        );
-        const folderName = screen.getByRole('heading', { level: 1 });
-        expect(folderName).to.exist;
-        expect(folderName).to.have.text(customFolder.name);
-        const folderDescription = screen.getByTestId('folder-description');
-        expect(folderDescription).to.exist;
-        expect(folderDescription).to.have.text(
-          DefaultFolders.CUSTOM_FOLDER.desc,
-        );
-        expect(screen.queryByText('Start a new message')).to.not.exist;
-      });
-
-      //   console.log('threadCount: ', threadCount);
-      //   console.log('folderId: ', folderId);
-      //   console.log('search results: ', searchResults);
+      const screen = await customSetup();
+      const folderName = screen.getByRole('heading', { level: 1 });
+      expect(folderName).to.exist;
+      expect(folderName).to.have.text(customFolder.name);
+      const folderDescription = screen.getByTestId('folder-description');
+      expect(folderDescription).to.exist;
+      expect(folderDescription).to.have.text(DefaultFolders.CUSTOM_FOLDER.desc);
+      expect(screen.queryByText('Start a new message')).to.not.exist;
       expect(screen.getByTestId('remove-folder-button')).to.exist;
+      waitFor(() => {
+        fireEvent.click(screen.getByTestId('remove-folder-button'));
+      });
+      const folderNotEmptyModal = screen.getByTestId('error-folder-not-empty');
+      expect(folderNotEmptyModal).to.have.attribute(
+        'modal-title',
+        'Empty this folder',
+      );
+      expect(folderNotEmptyModal).to.have.attribute('visible', 'true');
+      expect(folderNotEmptyModal).to.have.attribute('status', 'warning');
 
-      // expect(screen.getByText('Empty this folder')).to.exist;
-      // expect(
-      //   screen.getByText(
-      //     `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
-      //   ),
-      // ).to.exist;
+      expect(global.document.title).to.equal(
+        `${customFolder.name} ${PageTitles.PAGE_TITLE_TAG}`,
+      );
+      expect(screen.getByText(Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_BODY))
+        .to.exist;
     });
   });
 });
