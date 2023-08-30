@@ -46,7 +46,7 @@ const AppointmentsPage = props => {
         );
       }
     },
-    [checkInDataError, updateError],
+    [checkInDataError, updateError, app],
   );
 
   if (isLoading) {
