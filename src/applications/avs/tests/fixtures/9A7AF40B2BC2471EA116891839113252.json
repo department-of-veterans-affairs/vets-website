@@ -182,6 +182,24 @@
           "type": "Other Orders",
           "date": "",
           "text": "PACT ALERT BRAVO\nConcern: FIT CLINICAL ALERT\nNOW\nReminder Date/Time: 14 DAYS FROM TODAY"
+        },
+        {
+          "T": "Order",
+          "type": "Consultations",
+          "date": "",
+          "text": "Test Consultation"
+        },
+        {
+          "T": "Order",
+          "type": "Imaging",
+          "date": "",
+          "text": "Test Imaging"
+        },
+        {
+          "T": "Order",
+          "type": "Medications",
+          "date": "",
+          "text": "Test Medication"
         }
       ],
       "immunizations": [
