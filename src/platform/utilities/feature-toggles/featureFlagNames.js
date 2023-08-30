@@ -1,6 +1,7 @@
 // prettier-ignore
 
 export default Object.freeze({
+  avsEnabled: 'avs_enabled',
   bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
@@ -42,7 +43,9 @@ export default Object.freeze({
   covidVolunteerIntakeBackendEnabled: 'covid_volunteer_intake_backend_enabled',
   covidVolunteerIntakeEnabled: 'covid_volunteer_intake_enabled',
   covidVolunteerUpdateEnabled: 'covid_volunteer_update_enabled',
-  cstUseLighthouse: 'cst_use_lighthouse',
+  'cstUseLighthouse#5103': 'cst_use_lighthouse_5103',
+  'cstUseLighthouse#index': 'cst_use_lighthouse_index',
+  'cstUseLighthouse#show': 'cst_use_lighthouse_show',
   cstIncludeDdlBoaLetters: 'cst_include_ddl_boa_letters',
   debtLettersShowLetters: 'debt_letters_show_letters',
   debtLettersShowLettersVBMS: 'debt_letters_show_letters_vbms',
@@ -56,8 +59,6 @@ export default Object.freeze({
     'facilities_ppms_suppress_community_care',
   facilitiesPpmsSuppressPharmacies: 'facilities_ppms_suppress_pharmacies',
   facilityLocatorLatLongOnly: 'facility_locator_lat_long_only',
-  facilityLocatorLighthouseCovidVaccineQuery:
-    'facility_locator_lighthouse_covid_vaccine_query',
   facilityLocatorShowHealthConnectNumber: 'facility_locator_show_health_connect_number',
   facilityLocatorPredictiveLocationSearch:
     'facility_locator_predictive_location_search',
@@ -115,9 +116,11 @@ export default Object.freeze({
   profileUseNotificationSettingsCheckboxes: 'profile_use_notification_settings_checkboxes',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
+  ratedDisabilitiesUseLighthouse: 'rated_disabilities_use_lighthouse',
   searchRepresentative: 'search_representative',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
   show526Wizard: 'show526_wizard',
+  showAuthenticatedMenuEnhancements: 'show_authenticated_menu_enhancements',
   showPaymentAndDebtSection: 'show_payment_and_debt_section',
   showContactChatbot: 'show_contact_chatbot',
   showDashboardNotifications: 'show_dashboard_notifications',

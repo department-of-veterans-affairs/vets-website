@@ -5,6 +5,13 @@ import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import { fixDateFormat } from '../../shared/utils/replace';
 import { errorMessages, FORMAT_YMD, MAX_YEARS_PAST } from '../constants';
 
+import {
+  buildErrorParts,
+  createPartsError,
+  isInvalidDateString,
+  hasErrorParts,
+} from '../../shared/validations/date';
+
 export const minDate = moment()
   .subtract(MAX_YEARS_PAST, 'year')
   .startOf('day');
@@ -20,34 +27,14 @@ export const validateDate = (errors, rawString = '', fullData) => {
   const maxDays = year && month ? new Date(year, month, 0).getDate() : 31;
   const dateType = fullData?.dateType || 'decisions';
   const invalidDate = dateString?.length < FORMAT_YMD.length || !date.isValid();
-  const errorParts = {
-    month: !month || month < 1 || month > 12,
-    day: !day || day < 1 || day > maxDays,
-    year: !year,
-    other: false, // catch all for partial & invalid dates
-  };
+  const errorParts = buildErrorParts(month, day, year, maxDays);
 
-  if (
-    !year ||
-    !day ||
-    isNaN(day) ||
-    day === '0' ||
-    !month ||
-    isNaN(month) ||
-    month === '0' ||
-    isNaN(year) ||
-    dateString?.length < FORMAT_YMD.length
-  ) {
+  if (isInvalidDateString(year, day, month, invalidDate)) {
     // The va-memorable-date component currently overrides the error message
     // when the value is blank
     errors.addError(errorMessages[dateType].missingDate);
     errorParts.other = true; // other part error
-  } else if (
-    errorParts.month ||
-    errorParts.day ||
-    errorParts.year ||
-    invalidDate
-  ) {
+  } else if (hasErrorParts(errorParts, invalidDate)) {
     errors.addError(errorMessages.invalidDate);
     errorParts.other = true; // other part error
   } else if (date.isSameOrAfter(maxDate)) {
@@ -61,10 +48,7 @@ export const validateDate = (errors, rawString = '', fullData) => {
 
   // add second error message containing the part of the date with an error;
   // used to add `aria-invalid` to the specific input
-  const partsError = Object.entries(errorParts).reduce(
-    (result, [partName, hasError]) => result + (hasError ? `${partName} ` : ''),
-    '',
-  );
+  const partsError = createPartsError(errorParts);
   if (partsError) {
     errors.addError(partsError);
   }

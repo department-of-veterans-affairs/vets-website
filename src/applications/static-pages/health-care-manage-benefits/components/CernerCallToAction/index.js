@@ -203,7 +203,11 @@ export class CernerCallToAction extends Component {
                   Choose the right health portal
                 </h3>
                 <p className="vads-u-font-weight--bold">
-                  {`To ${fillins.cta1} these facilities, go to My VA Health:`}
+                  {`To ${fillins.cta1} ${
+                    cernerFacilities.length === 1
+                      ? 'this facility'
+                      : 'these facilities'
+                  }, go to My VA Health:`}
                 </p>
                 <div className="vads-u-margin-y--1">
                   <ul className="vads-u-margin-left--1p5 vads-u-margin-bottom--1">
@@ -246,8 +250,6 @@ export class CernerCallToAction extends Component {
                   className="vads-c-action-link--blue"
                   href={myHealtheVetLink}
                   onClick={onCTALinkClick}
-                  rel="noreferrer noopener"
-                  target="_blank"
                 >
                   {`Go to ${fillins.cta2} on VA.gov`}
                 </a>

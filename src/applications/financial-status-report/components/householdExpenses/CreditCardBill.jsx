@@ -132,6 +132,54 @@ const CreditCardBill = props => {
     },
   };
 
+  const renderAddCancelButtons = () => {
+    return (
+      <>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handlers.onCancel}
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          id="submit"
+          className="vads-u-width--auto usa-button-primary"
+          onClick={handlers.onUpdate}
+        >
+          {`${
+            creditCardBills.length === index ? 'Add' : 'Update'
+          } a credit card bill`}
+        </button>
+      </>
+    );
+  };
+
+  const renderContinueBackButtons = () => {
+    return (
+      <>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handlers.onCancel}
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          id="submit"
+          className="vads-u-width--auto"
+          onClick={updateFormData}
+        >
+          Continue
+        </button>
+      </>
+    );
+  };
+
   return (
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
@@ -187,24 +235,9 @@ const CreditCardBill = props => {
           />
         </div>
         <p>
-          <button
-            type="button"
-            id="cancel"
-            className="usa-button-secondary vads-u-width--auto"
-            onClick={handlers.onCancel}
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            id="submit"
-            className="vads-u-width--auto usa-button-primary"
-            onClick={handlers.onUpdate}
-          >
-            {`${
-              creditCardBills.length === index ? 'Add' : 'Update'
-            } a credit card bill`}
-          </button>
+          {creditCardBills.length > 0
+            ? renderAddCancelButtons()
+            : renderContinueBackButtons()}
         </p>
       </fieldset>
     </form>
