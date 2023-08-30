@@ -36,7 +36,7 @@ describe('Confirmation page', () => {
   it('should render the confirmation page', () => {
     const tree = mount(<ConfirmationPage store={fakeStore} />);
     expect(tree).not.to.be.undefined;
-    expect(tree.text()).to.contain('Your application hassss been submitted');
+    expect(tree.text()).to.contain('Your application has been submitted');
     tree.unmount();
   });
 });
