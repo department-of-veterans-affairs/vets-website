@@ -46,7 +46,8 @@ export const generatePdfScaffold = (user, title, subject, preface) => {
 };
 
 /**
- * @param {String} newTitle title of the page, displayed on the browsers title bar, should not be the same across different pages
+ * Sets a page title of the document
+ * @param {String} newTitle title of the page, displayed on the browsers title bar
  */
 export const updatePageTitle = newTitle => {
   document.title = newTitle;
