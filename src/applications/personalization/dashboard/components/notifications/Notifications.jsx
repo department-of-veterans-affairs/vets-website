@@ -2,9 +2,13 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import environment from '~/platform/utilities/environment';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  useFeatureToggle,
+  Toggler,
+} from '~/platform/utilities/feature-toggles';
 import { fetchNotifications } from '../../../common/actions/notifications';
 import DebtNotificationAlert from './DebtNotificationAlert';
+import TestNotification from './TestNotification';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 
 const debtTemplateId = environment.isProduction()
@@ -64,11 +68,26 @@ export const Notifications = ({
         </DashboardWidgetWrapper>
       )}
       {debtNotifications.map(n => (
-        <DebtNotificationAlert
+        <Toggler
+          toggleName={Toggler.TOGGLE_NAMES.myVaEnableNotificationComponent}
           key={n.id}
-          hasError={notificationsError}
-          notification={n}
-        />
+        >
+          <Toggler.Enabled>
+            <TestNotification
+              key={n.id}
+              hasError={notificationsError}
+              notification={n}
+            />
+          </Toggler.Enabled>
+
+          <Toggler.Disabled>
+            <DebtNotificationAlert
+              key={n.id}
+              hasError={notificationsError}
+              notification={n}
+            />
+          </Toggler.Disabled>
+        </Toggler>
       ))}
     </div>
   );

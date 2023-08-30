@@ -2,15 +2,13 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import {
-  fillPrescription,
-  getPrescriptionDetails,
-} from '../actions/prescriptions';
+import { getPrescriptionDetails } from '../actions/prescriptions';
 import PrintHeader from './PrintHeader';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import TrackingInfo from '../components/shared/TrackingInfo';
+import FillRefillButton from '../components/shared/FillRefillButton';
 
 const PrescriptionDetails = () => {
   const currentDate = new Date();
@@ -199,37 +197,7 @@ const PrescriptionDetails = () => {
             <h2 className="vads-u-margin-y--2 no-print">
               About your prescription
             </h2>
-            <div className="no-print">
-              {prescription.error && (
-                <div>
-                  <va-alert status="error" visible>
-                    <p className="vads-u-margin-y--0">
-                      We didn’t get your refill request. Try again.
-                    </p>
-                    <p className="vads-u-margin-y--0">
-                      If it still doesn’t work, call your VA pharmacy
-                      {prescription?.phoneNumber ? (
-                        <>
-                          <span> at </span>
-                          <va-telephone contact={prescription.phoneNumber} />
-                          <span>
-                            (<va-telephone tty contact="711" />)
-                          </span>
-                        </>
-                      ) : (
-                        <>.</>
-                      )}
-                    </p>
-                  </va-alert>
-                </div>
-              )}
-              <va-button
-                text="Refill prescription"
-                onClick={() =>
-                  dispatch(fillPrescription(prescription.prescriptionId))
-                }
-              />
-            </div>
+            <FillRefillButton {...prescription} />
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescription number
             </h3>

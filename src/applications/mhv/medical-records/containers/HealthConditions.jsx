@@ -5,7 +5,7 @@ import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/export
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getConditionsList } from '../actions/conditions';
-import { RecordType } from '../util/constants';
+import { recordType } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import { processList } from '../util/helpers';
 
@@ -118,7 +118,7 @@ const HealthConditions = () => {
   const content = () => {
     if (conditions?.length > 0) {
       return (
-        <RecordList records={conditions} type={RecordType.HEALTH_CONDITIONS} />
+        <RecordList records={conditions} type={recordType.HEALTH_CONDITIONS} />
       );
     }
     if (conditions?.length === 0) {
