@@ -264,7 +264,7 @@ jobs:
         run: yarn update-e2e-allow-list
         working-directory: qa-standards-dashboard-data
         env:
-          ALLOW_LIST: ${{ needs.fetch-unit-test-allow-list.outputs.allow_list }}
+          ALLOW_LIST: ${{ needs.fetch-unit-tests-allow-list.outputs.allow_list }}
           # TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
           TEST_TYPE: unit
       # - name: Create Cypress E2E report and post results to BigQuery
