@@ -19,7 +19,7 @@ import Warnings from '../components/gpMinorComponents/Warnings';
 import { deriveIsAirForceAFRBAPortal } from '../helpers';
 import { applyAirForcePortalLink } from '../helpers/selectors';
 
-export const GuidancePage = ({ formValues, showNewAirForcePortal }) => {
+export const GuidancePage = ({ formValues, showNewAirForcePortal, router }) => {
   const airForceAFRBAPortal = deriveIsAirForceAFRBAPortal(formValues);
   const [accordionQuestionsState, setAccordionQuestionsState] = useState({
     q1: false,
@@ -29,7 +29,7 @@ export const GuidancePage = ({ formValues, showNewAirForcePortal }) => {
   useEffect(() => {
     // Redirect to the discharge wizard homepage if there isn't any form values in state.
     if (formValues?.questions?.length <= 1) {
-      window.location.replace('/discharge-upgrade-instructions/');
+      router.replace('');
     }
   }, []);
 
