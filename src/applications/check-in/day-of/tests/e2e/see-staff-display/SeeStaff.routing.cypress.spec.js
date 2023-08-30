@@ -41,14 +41,29 @@ describe('Check In Experience', () => {
     it('Navigation routing hitting no on every page', () => {
       cy.injectAxeThenAxeCheck();
       Demographics.attemptToGoToNextPage('no');
+
+      SeeStaff.validatePageLoaded();
       SeeStaff.selectBackButton();
+
+      Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
+
+      EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage('no');
+
+      SeeStaff.validatePageLoaded();
       SeeStaff.selectBackButton();
+
+      EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
+
+      NextOfKin.validatePage.dayOf();
       NextOfKin.attemptToGoToNextPage('no');
+
+      SeeStaff.validatePageLoaded();
       SeeStaff.selectBackButton();
-      NextOfKin.attemptToGoToNextPage();
+
+      NextOfKin.validatePage.dayOf();
     });
   });
 });

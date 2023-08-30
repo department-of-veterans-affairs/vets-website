@@ -54,6 +54,8 @@ describe('Check In Experience', () => {
     });
     it('Eligible appointment details page content loads', () => {
       Confirmation.validatePageLoaded();
+      // Cypress turfs out sometimes if it tries to click to soon. This should hopefully keep this from becoming flaky.
+      cy.wait(1000);
       Confirmation.clickDetails();
       AppointmentDetails.validatePageLoadedInPerson();
       AppointmentDetails.validateCheckedInMessage();
