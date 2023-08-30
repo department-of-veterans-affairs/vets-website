@@ -24,7 +24,9 @@ const LabsAndTestsListItem = props => {
       className="record-list-item vads-u-padding--3 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
       data-testid="record-list-item"
     >
-      <h4 className="vads-u-margin-bottom--0">{record.name}</h4>
+      <h3 className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4">
+        {record.name}
+      </h3>
       <div className="fields">
         <div>{formattedDate}</div>
         {record.type === labTypes.RADIOLOGY && (
