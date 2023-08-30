@@ -36,12 +36,14 @@ const AppointmentsPage = props => {
     [isComplete],
   );
 
-  // TODO: Remove this and the checkInDataError property from the useGetCheckInData hook
-  // We could call updateError in the hook
   useEffect(
     () => {
       if (checkInDataError) {
-        updateError('error-fromlocation-precheckin-introduction');
+        updateError(
+          `error-fromlocation-${
+            app === APP_NAMES.PRE_CHECK_IN ? 'precheckin' : 'dayof'
+          }-appointments`,
+        );
       }
     },
     [checkInDataError, updateError],
