@@ -358,3 +358,22 @@ export const getDiffInDays = date => {
   const dateToday = moment();
   return dateDischarge.diff(dateToday, 'days');
 };
+
+/**
+ * Generates a unique key based on the given data fields and an optional index.
+ * @example
+ * const keyFieldsForCreditCard = ['amountDueMonthly', 'amountPastDue', 'unpaidBalance'];
+ * key={generateUniqueKey(bills, keyFieldsForCreditCard, index)}
+ * Output: "200-50-1000-2"
+ */
+
+export const generateUniqueKey = (data, fields, index = null) => {
+  if (data === null || !fields.length) {
+    return `default-key-${index}`;
+  }
+  const keyParts = fields.map(field => data[field] ?? 'undefined');
+  if (index !== null) {
+    keyParts.push(index);
+  }
+  return keyParts.join('-');
+};

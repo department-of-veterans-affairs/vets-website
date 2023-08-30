@@ -244,6 +244,7 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.15.4",
+    "@department-of-veterans-affairs/css-library": "^0.1.0-rc4",
     "@department-of-veterans-affairs/component-library": "^19.1.0",
     "@department-of-veterans-affairs/formation": "^7.0.8",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
@@ -311,7 +312,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7ffea32595e37259a5a09174aa52d8edcbb2cb55"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#51b0a7b4e5a1c07f4f88cc386f2a7ab15c2fbb19"
   },
   "resolutions": {
     "**/lodash": "4.17.21",

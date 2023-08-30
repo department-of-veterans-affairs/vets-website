@@ -6,7 +6,7 @@ import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
-import { RecordType, emptyField } from '../util/constants';
+import { recordType, EMPTY_FIELD } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import {
   dateFormat,
@@ -64,12 +64,12 @@ const Vaccines = () => {
         items: [
           {
             title: 'Date received',
-            value: item.date || emptyField,
+            value: item.date || EMPTY_FIELD,
             inline: true,
           },
           {
             title: 'Location',
-            value: item.location || emptyField,
+            value: item.location || EMPTY_FIELD,
             inline: true,
           },
           {
@@ -95,7 +95,7 @@ const Vaccines = () => {
 
   const content = () => {
     if (vaccines?.length) {
-      return <RecordList records={vaccines} type={RecordType.VACCINES} />;
+      return <RecordList records={vaccines} type={recordType.VACCINES} />;
     }
     return (
       <va-loading-indicator

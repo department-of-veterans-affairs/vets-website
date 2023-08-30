@@ -100,6 +100,7 @@ const responses = {
             profileShowMhvNotificationSettings: true,
             profileShowPaymentsNotificationSetting: true,
             profileShowQuickSubmitNotificationSetting: true,
+            showAuthenticatedMenuEnhancements: true,
           }),
         ),
       secondsOfDelay,

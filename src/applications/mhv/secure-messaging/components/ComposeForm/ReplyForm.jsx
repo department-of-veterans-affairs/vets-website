@@ -54,6 +54,7 @@ const ReplyForm = props => {
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
 
   const draftDetails = useSelector(state => state.sm.draftDetails);
+  const folderId = useSelector(state => state.sm.folders.folder.folderId);
   const { isSaving } = draftDetails;
   const signature = useSelector(state => state.sm.preferences.signature);
 
@@ -140,7 +141,7 @@ const ReplyForm = props => {
               navigateToFolderByFolderId(
                 draftToEdit?.threadFolderId
                   ? draftToEdit?.threadFolderId
-                  : replyMessage.folderId,
+                  : folderId,
                 history,
               );
             })
@@ -156,7 +157,7 @@ const ReplyForm = props => {
               navigateToFolderByFolderId(
                 draftToEdit?.threadFolderId
                   ? draftToEdit?.threadFolderId
-                  : replyMessage.folderId,
+                  : folderId,
                 history,
               );
             })
@@ -355,7 +356,7 @@ const ReplyForm = props => {
         <section>
           <h2 className="sr-only">Reply draft edit mode.</h2>
           <form
-            className="reply-form"
+            className="reply-form vads-u-padding-bottom--2"
             data-testid="reply-form"
             onSubmit={sendMessageHandler}
           >
@@ -386,7 +387,7 @@ const ReplyForm = props => {
               confirmButtonText={navigationError?.confirmButtonText}
               cancelButtonText={navigationError?.cancelButtonText}
             />
-            <EmergencyNote dropDownFlag />
+            {!cannotReply && <EmergencyNote dropDownFlag />}
             <div>
               <span
                 className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
@@ -397,42 +398,60 @@ const ReplyForm = props => {
                   className="fas fa-reply vads-u-margin-right--0p5 vads-u-margin-top--0p25"
                   aria-hidden="true"
                 />
-                {`(Draft) To: ${draftToEdit?.replyToName ||
+                <span className="thread-list-draft reply-draft-label vads-u-padding-right--0p5">
+                  {`(Draft) `}
+                </span>
+                {`To: ${draftToEdit?.replyToName ||
                   replyMessage?.senderName}\n(Team: ${
                   replyMessage.triageGroupName
                 })`}
                 <br />
               </span>
-              <va-textarea
-                data-dd-privacy="mask"
-                label="Message"
-                required
-                id="reply-message-body"
-                name="reply-message-body"
-                className="message-body"
-                data-testid="message-body-field"
-                onInput={messageBodyHandler}
-                value={messageBody || formattededSignature} // populate with the signature, unless there is a saved draft
-                error={bodyError}
-                onFocus={e => {
-                  setCaretToPos(
-                    e.target.shadowRoot.querySelector('textarea'),
-                    0,
-                  );
-                }}
-              />
-              <section className="attachments-section vads-u-margin-top--2">
-                <AttachmentsList
-                  attachments={attachments}
-                  setAttachments={setAttachments}
-                  editingEnabled
-                />
 
-                <FileInput
-                  attachments={attachments}
-                  setAttachments={setAttachments}
+              {!cannotReply ? (
+                <va-textarea
+                  data-dd-privacy="mask"
+                  label="Message"
+                  required
+                  id="reply-message-body"
+                  name="reply-message-body"
+                  className="message-body"
+                  data-testid="message-body-field"
+                  onInput={messageBodyHandler}
+                  value={messageBody || formattededSignature} // populate with the signature, unless there is a saved draft
+                  error={bodyError}
+                  onFocus={e => {
+                    setCaretToPos(
+                      e.target.shadowRoot.querySelector('textarea'),
+                      0,
+                    );
+                  }}
                 />
-              </section>
+              ) : (
+                <section
+                  aria-label="Message body."
+                  className="vads-u-margin-top--1 old-reply-message-body"
+                >
+                  <h3 className="sr-only">Message body.</h3>
+                  <MessageThreadBody text={messageBody} />
+                </section>
+              )}
+
+              {!cannotReply && (
+                <section className="attachments-section vads-u-margin-top--2">
+                  <AttachmentsList
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    editingEnabled
+                  />
+
+                  <FileInput
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                  />
+                </section>
+              )}
+
               <DraftSavedInfo userSaved={userSaved} />
               <ComposeFormActionButtons
                 onSend={sendMessageHandler}
