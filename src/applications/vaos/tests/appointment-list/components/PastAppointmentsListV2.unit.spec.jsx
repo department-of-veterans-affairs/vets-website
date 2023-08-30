@@ -364,6 +364,9 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       locationId: '983',
       start: pastDate.format(),
       status: 'booked',
+      extention: {
+        patientHasMobileGfe: false,
+      },
       telehealth: {
         atlas: null,
         url:

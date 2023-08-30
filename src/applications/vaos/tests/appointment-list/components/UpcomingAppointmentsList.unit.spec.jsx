@@ -147,6 +147,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       status: 'booked',
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
+      telehealth: { vvsKind: 'MOBILE_ANY' },
     };
 
     mockVAOSAppointmentsFetch({
@@ -161,7 +162,6 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       initialState: myInitialState,
       reducers,
     });
-
     await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
     expect(screen.baseElement).to.contain.text('VA Video Connect at home');
   });

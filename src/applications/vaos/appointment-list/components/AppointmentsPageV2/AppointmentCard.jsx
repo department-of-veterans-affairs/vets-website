@@ -15,13 +15,22 @@ import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 function VideoAppointmentDescription({ appointment }) {
   const { isAtlas } = appointment.videoData;
   const videoKind = appointment.videoData.kind;
-  let desc = 'at home';
+  const patientHasMobileGfe = appointment.extension?.patientHasMobileGfe;
+  let desc = '';
   if (isAtlas) {
     desc = 'at an ATLAS location';
   } else if (isClinicVideoAppointment(appointment)) {
     desc = 'at a VA location';
-  } else if (videoKind === VIDEO_TYPES.gfe) {
+  } else if (
+    (videoKind === VIDEO_TYPES.mobile || videoKind === VIDEO_TYPES.adhoc) &&
+    patientHasMobileGfe
+  ) {
     desc = 'using a VA device';
+  } else if (
+    (videoKind === VIDEO_TYPES.mobile || videoKind === VIDEO_TYPES.adhoc) &&
+    !patientHasMobileGfe
+  ) {
+    desc = 'at home';
   }
   return (
     <>

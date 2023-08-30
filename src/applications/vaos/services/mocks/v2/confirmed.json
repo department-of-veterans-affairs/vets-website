@@ -880,7 +880,7 @@
         "requestedPeriods": null,
         "serviceType": "outpatientMentalHealth",
         "slot": null,
-        "start": "2023-06-23T20:00:00Z",
+        "start": "2023-09-23T20:00:00Z",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
