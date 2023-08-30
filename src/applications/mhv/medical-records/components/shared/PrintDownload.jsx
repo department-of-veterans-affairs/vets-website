@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const PrintDownload = props => {
   const { download, list } = props;
 
   const [menuOpen, setMenuOpen] = useState(false);
-  const [printIndex, setPrintIndex] = useState(1);
+  const [printIndex, setPrintIndex] = useState(0);
 
   let toggleMenuButtonClasses =
     'toggle-menu-button vads-u-justify-content--space-between';
@@ -21,7 +21,7 @@ const PrintDownload = props => {
   }
 
   const handleUserKeyPress = e => {
-    // 13=Enter 40=DownArrow 38=UpArrow 27=Escape 9=Tab
+    // 13=Enter 40=DownArrow 38=UpArrow 27=Escape 9=Tab 32=Spacebar
 
     e.preventDefault();
 
@@ -44,16 +44,23 @@ const PrintDownload = props => {
     if (e.keyCode === 27) {
       setMenuOpen(false);
     }
-    if (e.keyCode === 9) {
+    if (e.keyCode === 32) {
       setMenuOpen(true);
     }
   };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleUserKeyPress);
+    return () => {
+      document.removeEventListener('keydown', handleUserKeyPress);
+    };
+  });
 
   return (
     <div
       className="print-download vads-u-margin-y--2 no-print"
       aria-hidden="true"
-      onKeyDown={handleUserKeyPress}
+      selected
     >
       <button
         type="button"
