@@ -7,6 +7,7 @@ const profileToggles = {
   profileHideDirectDepositCompAndPen: false,
   profileShowPaymentsNotificationSetting: false,
   profileUseFieldEditingPage: false,
+  profileUseHubPage: false,
   profileShowMhvNotificationSettings: false,
   profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,

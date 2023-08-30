@@ -53,6 +53,26 @@ const genericErrors = {
 
 /* eslint-disable camelcase */
 const responses = {
+  'GET /v0/feature_toggles': (_req, res) => {
+    const secondsOfDelay = 0;
+    delaySingleResponse(
+      () =>
+        res.json(
+          generateFeatureToggles({
+            profileLighthouseDirectDeposit: true,
+            profileUseFieldEditingPage: true,
+            profileUseHubPage: true,
+            profileUseNotificationSettingsCheckboxes: true,
+            profileShowEmailNotificationSettings: true,
+            profileShowMhvNotificationSettings: true,
+            profileShowPaymentsNotificationSetting: true,
+            profileShowQuickSubmitNotificationSetting: true,
+            showAuthenticatedMenuEnhancements: true,
+          }),
+        ),
+      secondsOfDelay,
+    );
+  },
   'GET /v0/user': (_req, res) => {
     // example user data cases
     return res.json(user.loa3User72); // default user (success)
@@ -86,25 +106,6 @@ const responses = {
     // );
 
     return res.json(maintenanceWindows.noDowntime);
-  },
-  'GET /v0/feature_toggles': (_req, res) => {
-    const secondsOfDelay = 0;
-    delaySingleResponse(
-      () =>
-        res.json(
-          generateFeatureToggles({
-            profileUseFieldEditingPage: true,
-            profileLighthouseDirectDeposit: true,
-            profileUseNotificationSettingsCheckboxes: true,
-            profileShowEmailNotificationSettings: true,
-            profileShowMhvNotificationSettings: true,
-            profileShowPaymentsNotificationSetting: true,
-            profileShowQuickSubmitNotificationSetting: true,
-            showAuthenticatedMenuEnhancements: true,
-          }),
-        ),
-      secondsOfDelay,
-    );
   },
   'GET /v0/ppiu/payment_information': (_req, res) => {
     // 47841 - Below are the three cases where all of Profile should be gated off
