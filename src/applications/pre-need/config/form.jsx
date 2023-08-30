@@ -599,26 +599,7 @@ const formConfig = {
               path: 'applicant-military-name',
               depends: isVeteran,
               uiSchema: applicantMilitaryName.uiSchema,
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      veteran: {
-                        type: 'object',
-                        required: ['view:hasServiceName'],
-                        properties: {
-                          'view:hasServiceName': {
-                            type: 'boolean',
-                          },
-                          serviceName: nonRequiredFullName,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
+              schema: applicantMilitaryName.schema,
             },
             applicantMilitaryNameInformation: {
               title: 'Previous name',
@@ -638,26 +619,7 @@ const formConfig = {
               path: 'sponsor-military-name',
               depends: formData => !isVeteran(formData),
               uiSchema: sponsorMilitaryName.uiSchema,
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      veteran: {
-                        type: 'object',
-                        required: ['view:hasServiceName'],
-                        properties: {
-                          'view:hasServiceName': {
-                            type: 'boolean',
-                          },
-                          serviceName: nonRequiredFullName,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
+              schema: sponsorMilitaryName.schema,
             },
             sponsorMilitaryNameInformation: {
               title: 'Sponsor’s previous name',
