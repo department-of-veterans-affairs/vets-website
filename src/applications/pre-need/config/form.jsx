@@ -55,12 +55,13 @@ import {
   childRelationshipDescription,
   otherRelationshipDescription,
   sponsorMilitaryStatusDescription,
-  nonRequiredFullNameUI,
   isVeteranAndHasServiceName,
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
+  PreparerPhoneNumberDescription,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
+import PreparerDescription from '../components/PreparerDescription';
 
 const {
   claimant,
@@ -70,6 +71,7 @@ const {
 } = fullSchemaPreNeed.properties.application.properties;
 
 const {
+  firstLastName,
   fullName,
   ssn,
   date,
@@ -122,6 +124,7 @@ const formConfig = {
   errorText: ErrorText,
   submissionError: SubmissionError,
   defaultDefinitions: {
+    firstLastName,
     fullName,
     ssn,
     date,
@@ -778,7 +781,6 @@ const formConfig = {
           },
         },
         preparer: {
-          title: 'Preparer',
           path: 'preparer',
           uiSchema: {
             application: {
@@ -797,48 +799,18 @@ const formConfig = {
                         : null;
 
                       return {
-                        enumNames: [applicantName || 'Myself', 'Someone else'],
+                        enumNames: [
+                          applicantName || 'Myself',
+                          environment.isProduction()
+                            ? 'Someone else'
+                            : 'Someone else, such as a preparer',
+                        ],
                       };
-                    },
-                    nestedContent: {
-                      'Authorized Agent/Rep': authorizedAgentDescription,
                     },
                   },
                 },
-                'view:applicantInfo': {
-                  'ui:options': {
-                    expandUnder: 'applicantRelationshipToClaimant',
-                    expandUnderCondition: 'Authorized Agent/Rep',
-                  },
-                  name: merge({}, nonRequiredFullNameUI, {
-                    'ui:title': 'Preparer information',
-                    first: { 'ui:required': isAuthorizedAgent },
-                    last: { 'ui:required': isAuthorizedAgent },
-                  }),
-                  mailingAddress: environment.isProduction()
-                    ? merge({}, address.uiSchema('Mailing address'), {
-                        country: { 'ui:required': isAuthorizedAgent },
-                        street: { 'ui:required': isAuthorizedAgent },
-                        city: { 'ui:required': isAuthorizedAgent },
-                        postalCode: { 'ui:required': isAuthorizedAgent },
-                      })
-                    : merge({}, address.uiSchema('Mailing address'), {
-                        country: { 'ui:required': isAuthorizedAgent },
-                        street: { 'ui:required': isAuthorizedAgent },
-                        city: { 'ui:required': isAuthorizedAgent },
-                        state: { 'ui:required': isAuthorizedAgent },
-                        postalCode: { 'ui:required': isAuthorizedAgent },
-                      }),
-                  'view:contactInfo': {
-                    'ui:title': 'Contact information',
-                    applicantPhoneNumber: merge(
-                      {},
-                      phoneUI('Primary telephone number'),
-                      {
-                        'ui:required': isAuthorizedAgent,
-                      },
-                    ),
-                  },
+                'Authorized Agent/Rep': {
+                  'ui:description': authorizedAgentDescription,
                 },
               },
             },
@@ -855,19 +827,119 @@ const formConfig = {
                     properties: {
                       applicantRelationshipToClaimant:
                         applicant.properties.applicantRelationshipToClaimant,
+                      'Authorized Agent/Rep': {
+                        type: 'object',
+                        properties: {},
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        preparerDetails: {
+          'ui:title': 'Review Page Preparer details',
+          path: 'preparer-details',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: {
+            'ui:title': 'Preparer details',
+            'ui:description': PreparerDescription,
+            application: {
+              applicant: {
+                name: {
+                  first: {
+                    'ui:title': "Preparer's first name",
+                    'ui:required': isAuthorizedAgent,
+                  },
+                  last: {
+                    'ui:title': "Preparer's last name",
+                    'ui:required': isAuthorizedAgent,
+                  },
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  applicant: {
+                    type: 'object',
+                    properties: {
+                      name: applicant.properties.name,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        preparerContactDetails: {
+          path: 'preparer-contact-details',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: {
+            application: {
+              applicant: {
+                'view:applicantInfo': {
+                  mailingAddress: environment.isProduction()
+                    ? merge({}, address.uiSchema('Mailing address'), {
+                        country: { 'ui:required': isAuthorizedAgent },
+                        street: { 'ui:required': isAuthorizedAgent },
+                        city: { 'ui:required': isAuthorizedAgent },
+                        postalCode: { 'ui:required': isAuthorizedAgent },
+                      })
+                    : merge(
+                        {},
+                        address.uiSchema("Preparer's Mailing address"),
+                        {
+                          country: { 'ui:required': isAuthorizedAgent },
+                          street: { 'ui:required': isAuthorizedAgent },
+                          city: { 'ui:required': isAuthorizedAgent },
+                          state: { 'ui:required': isAuthorizedAgent },
+                          postalCode: { 'ui:required': isAuthorizedAgent },
+                        },
+                      ),
+                },
+                'view:contactInfo': {
+                  'ui:title': "Preparer's contact details",
+                  applicantPhoneNumber: merge({}, phoneUI('Phone number'), {
+                    'ui:required': isAuthorizedAgent,
+                  }),
+                },
+                'view:phoneNumberDescription': {
+                  'ui:description': PreparerPhoneNumberDescription,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  applicant: {
+                    type: 'object',
+                    properties: {
                       'view:applicantInfo': {
                         type: 'object',
                         properties: {
-                          name: nonRequiredFullName,
                           mailingAddress: address.schema(fullSchemaPreNeed),
-                          'view:contactInfo': {
-                            type: 'object',
-                            properties: {
-                              applicantPhoneNumber:
-                                applicant.properties.applicantPhoneNumber,
-                            },
-                          },
                         },
+                      },
+                      'view:contactInfo': {
+                        type: 'object',
+                        properties: {
+                          applicantPhoneNumber:
+                            applicant.properties.applicantPhoneNumber,
+                        },
+                      },
+                      'view:phoneNumberDescription': {
+                        type: 'object',
+                        properties: {},
                       },
                     },
                   },
