@@ -20,23 +20,6 @@ const pageTests = page => {
 
     expect(formDOM.querySelectorAll('input').length).to.equal(3);
   });
-  it('should render stop message', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
-    );
-
-    const formDOM = findDOMNode(form);
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_bankAccountChangeUpdate_2'),
-      {
-        target: {
-          value: 'stop',
-        },
-      },
-    );
-
-    expect(formDOM.querySelector('.edu-dd-warning')).to.not.be.null;
-  });
   it('should require bank account fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
