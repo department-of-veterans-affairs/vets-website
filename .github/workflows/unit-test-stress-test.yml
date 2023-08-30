@@ -268,7 +268,7 @@ jobs:
         env:
           ALLOW_LIST: ${{ needs.fetch-unit-tests-allow-list.outputs.allow_list }}
           # TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
-          TEST_TYPE: unit
+          TEST_TYPE: unit_test
       # - name: Create Cypress E2E report and post results to BigQuery
       #   run: yarn cypress-mochawesome-to-bigquery
       #   working-directory: qa-standards-dashboard-data
