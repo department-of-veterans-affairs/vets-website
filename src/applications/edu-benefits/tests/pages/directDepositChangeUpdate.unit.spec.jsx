@@ -7,7 +7,7 @@ import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig5495 from '../../5495/config/form';
+import formConfig1995 from '../../1995/config/form';
 
 const pageTests = page => {
   const { schema, uiSchema } = page;
@@ -27,7 +27,7 @@ const pageTests = page => {
 
     const formDOM = findDOMNode(form);
     ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_bankAccountChange_2'),
+      formDOM.querySelector('#root_bankAccountChangeUpdate_2'),
       {
         target: {
           value: 'stop',
@@ -44,7 +44,7 @@ const pageTests = page => {
 
     const formDOM = findDOMNode(form);
     ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_bankAccountChange_1'),
+      formDOM.querySelector('#root_bankAccountChangeUpdate_1'),
       {
         target: {
           value: 'startUpdate',
@@ -65,7 +65,7 @@ const pageTests = page => {
 
     const formDOM = findDOMNode(form);
     ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_bankAccountChange_1'),
+      formDOM.querySelector('#root_bankAccountChangeUpdate_1'),
       {
         target: {
           value: 'startUpdate',
@@ -91,6 +91,6 @@ const pageTests = page => {
 };
 
 describe('Edu directDepositChangePage', () => {
-  describe('5495', () =>
-    pageTests(formConfig5495.chapters.personalInformation.pages.directDeposit));
+  describe('1995', () =>
+    pageTests(formConfig1995.chapters.personalInformation.pages.directDeposit));
 });
