@@ -50,7 +50,7 @@ describe('EKG details component', () => {
 
     const dateElement = screen.getByText('April 13, 2022', {
       exact: true,
-      selector: 'p',
+      selector: 'span',
     });
     expect(dateElement).to.exist;
   });

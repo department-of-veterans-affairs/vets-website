@@ -11,6 +11,7 @@ import {
 } from 'date-fns';
 import { orderBy } from 'lodash';
 import PropTypes from 'prop-types';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -112,47 +113,36 @@ const getLinkText = claim => {
 export default function ClosedClaimMessage({ claims, onClose }) {
   const closedClaims = getRecentlyClosedClaims(claims);
 
-  if (!closedClaims.length) {
-    return null;
-  }
-
   return (
-    <div
-      className="usa-alert usa-alert-warning claims-alert claims-list-alert"
-      role="alert"
-    >
-      <button
-        className="va-alert-close notification-close"
-        onClick={onClose}
-        aria-label="Close notification"
-        type="button"
+    closedClaims.length !== 0 && (
+      <VaAlert
+        class="vads-u-margin-bottom--2"
+        status="warning"
+        closeable
+        onCloseEvent={onClose}
       >
-        <i
-          className="fas fa-times-circle va-alert-close-icon"
-          aria-hidden="true"
-        />
-      </button>
-      <div className="usa-alert-body">
-        <h4 className="usa-alert-heading">Recently closed:</h4>
-        {closedClaims.map(claim => (
-          <p className="usa-alert-text claims-closed-text" key={claim.id}>
-            <Link
-              to={
-                isAppeal(claim)
-                  ? `appeals/${claim.id}/status`
-                  : `your-claims/${claim.id}/status`
-              }
-              onClick={() => {
-                recordEvent({ event: 'claims-closed-alert-clicked' });
-              }}
-            >
-              {getLinkText(claim)}
-            </Link>{' '}
-            has been closed as of {formatDate(getCloseDate(claim))}
-          </p>
-        ))}
-      </div>
-    </div>
+        <h4 slot="headline">Recently closed:</h4>
+        <div>
+          {closedClaims.map(claim => (
+            <p key={claim.id}>
+              <Link
+                to={
+                  isAppeal(claim)
+                    ? `appeals/${claim.id}/status`
+                    : `your-claims/${claim.id}/status`
+                }
+                onClick={() => {
+                  recordEvent({ event: 'claims-closed-alert-clicked' });
+                }}
+              >
+                {getLinkText(claim)}
+              </Link>{' '}
+              has been closed as of {formatDate(getCloseDate(claim))}
+            </p>
+          ))}
+        </div>
+      </VaAlert>
+    )
   );
 }
 
