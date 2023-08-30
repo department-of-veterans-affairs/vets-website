@@ -24,9 +24,9 @@ import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import {
   draftAutoSaveTimeout,
   Categories,
+  DefaultFolders,
   Prompts,
   ErrorMessages,
-  DefaultFolders,
 } from '../../util/constants';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';

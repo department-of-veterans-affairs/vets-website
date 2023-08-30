@@ -1,7 +1,8 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import {
   inbox,
   sent,
@@ -9,10 +10,17 @@ import {
   customFolder,
 } from '../fixtures/folder-inbox-response.json';
 import messageResponse from '../fixtures/message-response.json';
-import { folderList } from '../fixtures/folder-response.json';
-import { DefaultFolders, PageTitles, Paths } from '../../util/constants';
+import folderList from '../fixtures/folder-response.json';
+import {
+  DefaultFolders,
+  PageTitles,
+  Paths,
+  threadSortingOptions,
+  Alerts,
+} from '../../util/constants';
 import reducer from '../../reducers';
 import FolderThreadListView from '../../containers/FolderThreadListView';
+import threadListResponse from '../fixtures/thread-list-response.json';
 
 describe('Folder Thread List View container', () => {
   const initialState = {
@@ -123,23 +131,52 @@ describe('Folder Thread List View container', () => {
     expect(screen.queryByText('Start a new message')).to.not.exist;
   });
 
-  it(`verifies page title tag for 'Custom Folder' FolderThreadListView page`, async () => {
-    const initialStateDrafts = {
-      sm: {
-        messageDetails: { message: messageResponse },
-        folders: { folder: customFolder, folderList },
-      },
-    };
+  describe(`verifies page title tag for 'Custom Folder' FolderThreadListView page`, () => {
+    it('CUSTOM FOLDER', async () => {
+      const initialStateCustomFolder = {
+        sm: {
+          user: {
+            login: {
+              currentlyLoggedIn: true,
+            },
+            profile: {
+              services: [backendServices.MESSAGING],
+              session: {
+                ssoe: false,
+              },
+            },
+          },
+          folders: { folder: customFolder },
+          search: {
+            awaitingResults: false,
+            keyword: '',
+            searchSort: threadSortingOptions.SENT_DATE_DESCENDING.value,
+            page: 1,
+          },
+          threads: {
+            isLoading: true,
+            threadList: threadListResponse,
+            threadSort: {
+              value: threadSortingOptions.SENT_DATE_DESCENDING.value,
+              folderId: 2628777,
+              page: 1,
+            },
+          },
+        },
+      };
 
-    const screen = setup(
-      initialStateDrafts,
-      `/folders/${customFolder.folderId}`,
-    );
+      const customSetup = (
+        state = initialStateCustomFolder,
+        path = `/folders/${customFolder.folderId}/`,
+      ) => {
+        return renderWithStoreAndRouter(<FolderThreadListView testing />, {
+          initialState: state,
+          reducers: reducer,
+          path,
+        });
+      };
 
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `${customFolder.name} ${PageTitles.PAGE_TITLE_TAG}`,
-      );
+      const screen = await customSetup();
       const folderName = screen.getByRole('heading', { level: 1 });
       expect(folderName).to.exist;
       expect(folderName).to.have.text(customFolder.name);
@@ -147,6 +184,23 @@ describe('Folder Thread List View container', () => {
       expect(folderDescription).to.exist;
       expect(folderDescription).to.have.text(DefaultFolders.CUSTOM_FOLDER.desc);
       expect(screen.queryByText('Start a new message')).to.not.exist;
+      expect(screen.getByTestId('remove-folder-button')).to.exist;
+      waitFor(() => {
+        fireEvent.click(screen.getByTestId('remove-folder-button'));
+      });
+      const folderNotEmptyModal = screen.getByTestId('error-folder-not-empty');
+      expect(folderNotEmptyModal).to.have.attribute(
+        'modal-title',
+        'Empty this folder',
+      );
+      expect(folderNotEmptyModal).to.have.attribute('visible', 'true');
+      expect(folderNotEmptyModal).to.have.attribute('status', 'warning');
+
+      expect(global.document.title).to.equal(
+        `${customFolder.name} ${PageTitles.PAGE_TITLE_TAG}`,
+      );
+      expect(screen.getByText(Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_BODY))
+        .to.exist;
     });
   });
 });

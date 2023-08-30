@@ -144,8 +144,13 @@ const AllergyDetails = () => {
               <div className="time-header">
                 <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                   Date entered:{' '}
+                  <span
+                    className="vads-u-font-weight--normal"
+                    data-dd-privacy="mask"
+                  >
+                    {allergy.date}
+                  </span>
                 </h2>
-                <p data-dd-privacy="mask">{allergy.date}</p>
               </div>
               <PrintDownload list download={generateAllergyPdf} />
               <va-additional-info
