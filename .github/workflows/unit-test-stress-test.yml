@@ -9,6 +9,8 @@ jobs:
   fetch-unit-tests-allow-list:
     name: Fetch Unit Tests Allow List
     runs-on: ubuntu-latest
+    outputs:
+      allow_list: ${{ steps.allow-list-output.outputs.list }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -68,7 +70,7 @@ jobs:
 
       - name: Set Allow List Output
         id: allow-list-output
-        run: echo allow_list=$ALLOW_LIST >> $GITHUB_OUTPUT
+        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
 
   unit-tests-stress-test:
     name: Unit Tests
