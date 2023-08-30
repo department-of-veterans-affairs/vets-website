@@ -8,6 +8,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import TrackingInfo from '../components/shared/TrackingInfo';
+import { updatePageTitle } from '../../shared/util/helpers';
 import FillRefillButton from '../components/shared/FillRefillButton';
 
 const PrescriptionDetails = () => {
@@ -43,6 +44,7 @@ const PrescriptionDetails = () => {
     () => {
       if (prescription) {
         focusElement(document.querySelector('h1'));
+        updatePageTitle(prescription.prescriptionName);
       }
     },
     [prescription],
@@ -298,14 +300,10 @@ const PrescriptionDetails = () => {
               refillHistory.map((entry, i) => (
                 <div key={entry.id}>
                   <h3 className="vads-u-font-size--lg vads-u-font-family--sans">
-                    {dateFormat(entry.dispensedDate, 'MMMM D, YYYY')}
+                    {i + 1 === refillHistory.length
+                      ? 'Original Fill'
+                      : `Refill #${refillHistory.length - i - 1}`}
                   </h3>
-                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
-                    Refill requested on
-                  </h4>
-                  <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.refillSubmitDate, 'MMMM D, YYYY')}
-                  </p>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                     Filled by pharmacy on
                   </h4>
@@ -326,7 +324,7 @@ const PrescriptionDetails = () => {
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                     {/* TODO: Not yet available */}
-                    Not noted
+                    None noted
                   </p>
                   <div className="no-print">
                     <va-additional-info trigger="Review image">
