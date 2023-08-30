@@ -38,6 +38,25 @@ export const VaFileNumberMissingAlert = (
   </>
 );
 
+export const VaFileNumberSSNMismatchAlert = (
+  <>
+    <h2
+      slot="headline"
+      className="vads-u-font-size--h3 vads-u-margin-y--0 vads-u-font-size--lg"
+    >
+      Your profile is missing some required information
+    </h2>
+    <p className="vads-u-font-size--base">
+      The SSN we have on file does not match your Valid File Number.
+    </p>
+    <p className="vads-u-font-size--base">
+      You’ll need to update your personal information. Please call Veterans
+      Benefits Assistance at <va-telephone contact="8008271000" /> between 8:00
+      a.m. and 9:00 p.m. ET Monday through Friday.
+    </p>
+  </>
+);
+
 export const ServerErrorAlert = (
   <>
     <h2
