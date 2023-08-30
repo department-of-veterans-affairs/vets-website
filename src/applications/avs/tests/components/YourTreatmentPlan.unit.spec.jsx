@@ -23,9 +23,9 @@ describe('Avs: Your Treatment Plan', () => {
     expect(screen.getByTestId('lab-tests').children[1]).to.have.text(
       'HEMOGLOBIN A1C (LAB) BLOOD-LAVENDER$',
     );
-    expect(
-      screen.getByTestId('medications-and-supplies').firstChild,
-    ).to.have.text('Test Medication');
+    expect(screen.getByTestId('medications').firstChild).to.have.text(
+      'Test Medication',
+    );
     expect(screen.getByTestId('other-orders').children[1]).to.contain.text(
       'PACT ALERT BRAVO\nConcern:',
     );
@@ -43,7 +43,7 @@ describe('Avs: Your Treatment Plan', () => {
     expect(screen.queryByTestId('consultations')).to.not.exist;
     expect(screen.queryByTestId('imaging')).to.not.exist;
     expect(screen.queryByTestId('lab-tests')).to.not.exist;
-    expect(screen.queryByTestId('medications-and-supplies')).to.not.exist;
+    expect(screen.queryByTestId('medications')).to.not.exist;
     expect(screen.queryByTestId('other-orders')).to.not.exist;
     expect(screen.queryByTestId('patient-instructions')).to.not.exist;
   });
