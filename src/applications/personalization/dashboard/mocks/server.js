@@ -20,7 +20,10 @@ const hasDebts = false;
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
+    myVaEnableNotificationComponent: true,
     myVaUseExperimental: true,
+    myVaUseExperimentalFrontend: true,
+    myVaUseExperimentalFullstack: true,
     myVaUseLighthouseClaims: true,
     myVaUpdateErrorsWarnings: true,
     vaOnlineSchedulingBreadcrumbUrlUpdate: true,

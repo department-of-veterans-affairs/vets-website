@@ -17,7 +17,8 @@ const AllergyListItem = props => {
 
           <div className="fields">
             <div>
-              <span className="field-label">Date entered:</span> {record.date}
+              <span className="field-label">Date entered:</span>{' '}
+              <span data-dd-privacy="mask">{record.date}</span>
             </div>
             <div className="print-only">
               <span className="field-label">Reaction:</span>{' '}
@@ -25,24 +26,27 @@ const AllergyListItem = props => {
             </div>
             <div className="print-only">
               <span className="field-label">Type of allergy:</span>{' '}
-              {record.type}
+              <span data-dd-privacy="mask">{record.type}</span>
             </div>
             <div className="print-only">
               <span className="field-label">VA drug class:</span>{' '}
-              {record.drugClass}
+              <span data-dd-privacy="mask">{record.drugClass}</span>
             </div>
             <div className="print-only">
-              <span className="field-label">Location:</span> {record.location}
+              <span className="field-label">Location:</span>{' '}
+              <span data-dd-privacy="mask">{record.location}</span>
             </div>
             <div className="print-only">
               <span className="field-label">Observed or reported:</span>{' '}
-              {record.observed
-                ? 'Observed (your provider observed the reaction in person)'
-                : 'Reported (you told your provider about the reaction)'}
+              <span data-dd-privacy="mask">
+                {record.observed
+                  ? 'Observed (your provider observed the reaction in person)'
+                  : 'Reported (you told your provider about the reaction)'}
+              </span>
             </div>
             <div className="print-only">
               <span className="field-label">Provider notes:</span>{' '}
-              {record.notes}
+              <span data-dd-privacy="mask">{record.notes}</span>
             </div>
           </div>
 

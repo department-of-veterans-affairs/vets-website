@@ -11,6 +11,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import {
   authorizationLabel,
   authorizationAlertContent,
+  authorizationHeader,
   authorizationInfo,
 } from '../content/evidencePrivateRecordsAuthorization';
 
@@ -84,7 +85,7 @@ const EvidencePrivateRecordsAuthorization = ({
         <va-alert status="error" visible={hasError}>
           {hasError && authorizationAlertContent(handlers.onAnchorClick)}
         </va-alert>
-        {authorizationInfo}
+        {authorizationHeader}
         <VaCheckbox
           id="privacy-agreement"
           label={authorizationLabel}
@@ -93,7 +94,9 @@ const EvidencePrivateRecordsAuthorization = ({
           aria-describedby="authorize-text"
           required
           enable-analytics
-        />
+        >
+          <div slot="description">{authorizationInfo}</div>
+        </VaCheckbox>
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}
           <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
