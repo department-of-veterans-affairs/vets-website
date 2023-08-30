@@ -1,6 +1,6 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { emptyField } from '../util/constants';
+import { EMPTY_FIELD } from '../util/constants';
 import { isArrayAndHasItems } from '../util/helpers';
 
 const initialState = {
@@ -42,21 +42,24 @@ export const convertNote = note => {
           .split('\r')
           .filter(i => i !== '\r')
           .join('')) ||
-      emptyField,
+      EMPTY_FIELD,
     location:
       (isArrayAndHasItems(note.context?.related) &&
         note.context.related[0].text) ||
-      emptyField,
+      EMPTY_FIELD,
     physician:
-      (isArrayAndHasItems(note.author) && note.author[0].display) || emptyField,
+      (isArrayAndHasItems(note.author) && note.author[0].display) ||
+      EMPTY_FIELD,
     admittingPhysician:
-      (isArrayAndHasItems(note.author) && note.author[0].display) || emptyField,
+      (isArrayAndHasItems(note.author) && note.author[0].display) ||
+      EMPTY_FIELD,
     dischargePhysician:
-      (isArrayAndHasItems(note.author) && note.author[0].display) || emptyField,
-    admissionDate: emptyField,
-    dischargeDate: emptyField,
-    admittedBy: emptyField,
-    dischargeBy: emptyField,
+      (isArrayAndHasItems(note.author) && note.author[0].display) ||
+      EMPTY_FIELD,
+    admissionDate: EMPTY_FIELD,
+    dischargeDate: EMPTY_FIELD,
+    admittedBy: EMPTY_FIELD,
+    dischargeBy: EMPTY_FIELD,
   };
 };
 

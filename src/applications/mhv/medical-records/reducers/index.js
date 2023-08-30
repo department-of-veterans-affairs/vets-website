@@ -8,6 +8,7 @@ import { vaccineReducer } from './vaccines';
 import { vitalReducer } from './vitals';
 import { allergyReducer } from './allergies';
 import { sharingReducer } from './sharing';
+import { alertsReducer } from './alerts';
 
 const rootReducer = {
   mr: combineReducers({
@@ -19,6 +20,7 @@ const rootReducer = {
     vitals: vitalReducer,
     conditions: conditionReducer,
     sharing: sharingReducer,
+    alerts: alertsReducer,
   }),
 };
 
