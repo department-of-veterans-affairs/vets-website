@@ -306,7 +306,7 @@ const ComposeForm = props => {
         bod: debouncedMessageBody,
       });
 
-      if (newFieldsString === fieldsString) {
+      if (type === 'auto' && newFieldsString === fieldsString) {
         return;
       }
 

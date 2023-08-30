@@ -277,7 +277,7 @@ const ReplyForm = props => {
         bod: debouncedMessageBody,
       });
 
-      if (newFieldsString === fieldsString) {
+      if (type === 'auto' && newFieldsString === fieldsString) {
         return;
       }
 
