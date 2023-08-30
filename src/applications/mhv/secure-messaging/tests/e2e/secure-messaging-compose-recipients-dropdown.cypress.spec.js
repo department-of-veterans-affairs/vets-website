@@ -69,7 +69,7 @@ describe('recipients dropdown box', () => {
     cy.get('[data-testid="compose-message-link"]').click();
     patientInterstitialPage.getContinueButton().click();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck('.secure-messaging-container', {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -97,7 +97,7 @@ describe('recipients dropdown box', () => {
     cy.get('[data-testid="compose-message-link"]').click();
     patientInterstitialPage.getContinueButton().click();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck('.secure-messaging-container', {
       rules: {
         'aria-required-children': {
           enabled: false,

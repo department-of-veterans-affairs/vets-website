@@ -112,8 +112,10 @@ const MicroDetails = props => {
             <div className="time-header">
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Date:{' '}
+                <span className="vads-u-font-weight--normal">
+                  {formattedDate}
+                </span>
               </h2>
-              <p>{formattedDate}</p>
             </div>
             <div className="no-print">
               <PrintDownload list download={generateMicrobiologyPdf} />
