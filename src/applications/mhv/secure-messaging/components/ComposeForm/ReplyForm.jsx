@@ -18,6 +18,7 @@ import {
   dateFormat,
   messageSignatureFormatter,
   navigateToFolderByFolderId,
+  setCaretToPos,
 } from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
@@ -413,6 +414,12 @@ const ReplyForm = props => {
                 onInput={messageBodyHandler}
                 value={messageBody || formattededSignature} // populate with the signature, unless there is a saved draft
                 error={bodyError}
+                onFocus={e => {
+                  setCaretToPos(
+                    e.target.shadowRoot.querySelector('textarea'),
+                    0,
+                  );
+                }}
               />
               <section className="attachments-section vads-u-margin-top--2">
                 <AttachmentsList

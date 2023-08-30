@@ -13,7 +13,11 @@ import AttachmentsList from '../AttachmentsList';
 import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
-import { messageSignatureFormatter, sortRecipients } from '../../util/helpers';
+import {
+  messageSignatureFormatter,
+  setCaretToPos,
+  sortRecipients,
+} from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
@@ -536,6 +540,9 @@ const ComposeForm = props => {
               onInput={messageBodyHandler}
               value={messageBody || formattededSignature} // populate with the signature, unless theee is a saved draft
               error={bodyError}
+              onFocus={e => {
+                setCaretToPos(e.target.shadowRoot.querySelector('textarea'), 0);
+              }}
               data-dd-privacy="mask"
             />
           </div>
