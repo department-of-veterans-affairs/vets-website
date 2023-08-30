@@ -37,25 +37,15 @@ export const contactInfoDescription = (
   </va-additional-info>
 );
 
-export const authorizedAgentDescription = (
-  // TODO va-additional-info component to be replaced with a more optimal solution
-  <va-additional-info trigger="Who can a preparer sign for?">
-    <p>A preparer may sign for an individual who’s:</p>
-    <ul>
-      <li>
-        Under 18 years of age, <strong>or</strong>
-      </li>
-      <li>
-        Is mentally incompetent, <strong>or</strong>
-      </li>
-      <li>Is physically unable to sign the application</li>
-    </ul>
+export const PreparerPhoneNumberDescription = (
+  <va-additional-info trigger="Why do we need your contact information?">
     <p>
-      If you’re the preparer of this application, you’ll need to provide your
-      contact information.
+      We may contact you by phone if we need more information about your
+      application.
     </p>
   </va-additional-info>
 );
+
 export const veteranRelationshipDescription = (
   <va-alert
     status="info"
