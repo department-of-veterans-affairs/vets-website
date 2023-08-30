@@ -15,7 +15,9 @@ const VitalListItem = props => {
           className="record-list-item vads-u-padding-y--2 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
           data-testid="record-list-item"
         >
-          <h4>{vitalTypeDisplayNames[record.type]}</h4>
+          <h3 className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4">
+            {vitalTypeDisplayNames[record.type]}
+          </h3>
           <div className="vads-u-line-height--3">
             Result: {record.measurement}
           </div>

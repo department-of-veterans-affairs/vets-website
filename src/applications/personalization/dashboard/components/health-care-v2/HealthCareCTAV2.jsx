@@ -6,12 +6,11 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import IconCTALink from '../IconCTALink';
 
 const HealthCareCTAV2 = ({
-  hasInboxError,
-  unreadMessagesCount,
   authenticatedWithSSOe,
   hasAppointmentsError,
   hasUpcomingAppointment,
   isVAPatient,
+  unreadMessagesCount,
 }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
@@ -42,21 +41,21 @@ const HealthCareCTAV2 = ({
       )}
       {isVAPatient && (
         <>
-          {(hasInboxError || unreadMessagesCount === 0) && (
-            <IconCTALink
-              text="Send a secure message to your health care team"
-              icon="comments"
-              href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-              testId="view-your-messages-link-from-cta"
-              onClick={() =>
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': 'View your messages',
-                  'links-list-section-header': 'Health care',
-                })
-              }
-            />
-          )}
+          <IconCTALink
+            text="Go to your inbox"
+            icon="comments"
+            dotIndicator={unreadMessagesCount > 0}
+            ariaLabel={unreadMessagesCount > 0 && 'Unread messages.'}
+            href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+            testId="view-your-messages-link-from-cta"
+            onClick={() =>
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'View your messages',
+                'links-list-section-header': 'Health care',
+              })
+            }
+          />
           {!hasUpcomingAppointment &&
             !hasAppointmentsError && (
               <IconCTALink

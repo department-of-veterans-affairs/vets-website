@@ -82,7 +82,7 @@ describe('Radiology Images List container', () => {
     const screen = setup();
     const formattedDate = screen.getByText('April 13, 2022', {
       exact: true,
-      selector: 'p',
+      selector: 'span',
     });
     expect(formattedDate).to.exist;
   });

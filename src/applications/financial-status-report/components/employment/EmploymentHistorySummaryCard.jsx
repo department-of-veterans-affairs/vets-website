@@ -129,9 +129,7 @@ const EmploymentHistorySummaryCard = ({
         class="vads-u-margin-y--3"
       >
         <div className="vads-u-display--flex vads-u-flex-direction--column">
-          <h3 className="vads-u-margin-y--0 vads-u-font-size--h4">
-            {employmentCardHeading}
-          </h3>
+          <h4 className="vads-u-margin-y--0">{employmentCardHeading}</h4>
           {cardBody}
         </div>
         <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-bottom--neg1">

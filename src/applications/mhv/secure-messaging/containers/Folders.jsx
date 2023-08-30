@@ -58,6 +58,7 @@ const Folders = () => {
   };
 
   const content = () => {
+    const folderCount = folders?.length;
     if (folders === undefined) {
       return (
         <va-loading-indicator
@@ -93,9 +94,12 @@ const Folders = () => {
             });
           }}
           text="Create new folder"
+          data-testid="create-new-folder"
         />
-        {folders && (
-          <FoldersList folders={folders.filter(folder => folder.id > 0)} />
+        {folderCount > 0 && (
+          <>
+            <FoldersList folders={folders.filter(folder => folder.id > 0)} />
+          </>
         )}
         <CreateFolderModal
           isModalVisible={isModalVisible}
