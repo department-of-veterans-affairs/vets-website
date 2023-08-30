@@ -209,7 +209,7 @@ class DocumentRequestPage extends React.Component {
 function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   const { claimDetail, uploads } = claimsState;
-  const useLighthouse = cstUseLighthouse(state);
+  const useLighthouse = cstUseLighthouse(state, 'show');
 
   let trackedItems = [];
   let trackedItem = null;
