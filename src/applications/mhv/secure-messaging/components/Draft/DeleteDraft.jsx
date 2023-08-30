@@ -16,6 +16,8 @@ const DeleteDraft = props => {
   const deleteDraftButtonRef = useRef();
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
+  const { cannotReply } = props;
+
   const handleDeleteDraftConfirm = () => {
     if (props.draftId) {
       props.setNavigationError(null);
@@ -44,7 +46,11 @@ const DeleteDraft = props => {
         type="button"
         id="delete-draft-button"
         ref={deleteDraftButtonRef}
-        className="usa-button usa-button-secondary delete-draft-button vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--0"
+        className={`usa-button usa-button-${
+          cannotReply
+            ? 'primary vads-u-padding-x--4'
+            : 'secondary vads-u-flex--1'
+        } delete-draft-button vads-u-margin-top--0 vads-u-margin-right--0 vads-u-margin-bottom--0 vads-u-padding-x--0p5`}
         data-testid="delete-draft-button"
         onClick={() => {
           if (props.draftId) {
@@ -65,6 +71,7 @@ const DeleteDraft = props => {
 };
 
 DeleteDraft.propTypes = {
+  cannotReply: PropType.bool,
   draft: PropType.object,
   draftId: PropType.number,
   setNavigationError: PropType.func,
