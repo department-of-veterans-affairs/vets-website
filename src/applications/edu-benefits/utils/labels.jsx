@@ -172,7 +172,7 @@ export const bankAccountChangeLabels = {
 
 export const bankAccountChangeLabelsUpdate = {
   startUpdate: 'Start or update direct deposit',
-  stop: 'Stop direct deposit',
+  noChange: 'No change to payment method',
   none: "I don't have a bank account",
 };
 
