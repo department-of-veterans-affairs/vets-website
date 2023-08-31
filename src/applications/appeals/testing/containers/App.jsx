@@ -7,18 +7,22 @@ import formConfig from '../config/form';
 export default function App(props) {
   const { location, children } = props;
 
-  const isIntroPage = true; // WIP! location.pathname === '/introduction';
+  const isIntroPage = location.pathname === '/introduction';
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {isIntroPage ? (
-        children
+        <div className="row">
+          <div className="usa-width-two-thirds medium-8 columns">
+            {children}
+          </div>
+        </div>
       ) : (
         <>
-          {/* <div className="vads-u-background-color--primary-alt-lightest">
+          <div className="vads-u-background-color--primary-alt-lightest vads-u-padding--4">
             {formConfig.title} (VA Form 10182)
           </div>
-          <div className="vads-u-background-color--primary-alt-lightest vads-u-display--flex">
+          {/* <div className="vads-u-background-color--primary-alt-lightest vads-u-display--flex">
             <div>
               <a href="#">Back</a>
               <span role="presentation">|</span>
@@ -27,7 +31,11 @@ export default function App(props) {
               <a href="#">Exit form</a>
             </div>
           </div> */}
-          {children}
+          <div className="row">
+            <div className="usa-width-two-thirds medium-8 columns">
+              {children}
+            </div>
+          </div>
         </>
       )}
     </RoutedSavableApp>

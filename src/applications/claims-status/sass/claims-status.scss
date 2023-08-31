@@ -213,7 +213,7 @@
 
   &.soc,
   &.ssoc {
-    background: $color-gibill-accent;
+    background: $color-gold-lightest;
     padding-left: 2.5em;
 
     &:before {
@@ -512,10 +512,6 @@ h1:focus {
     display: block;
     margin: 1.4rem 0;
   }
-}
-
-.claims-closed-text {
-  margin-top: 1em;
 }
 
 .claims-breadcrumbs {
