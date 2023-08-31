@@ -17,11 +17,6 @@ describe('Pre-Check In Experience ', () => {
     initializeSessionPost.withSuccess();
     initializePreCheckInDataGet.withAlreadyCompleted();
   });
-  afterEach(() => {
-    cy.window().then(window => {
-      window.sessionStorage.clear();
-    });
-  });
   it('Pre-checkin skipped when already completed', () => {
     cy.visitPreCheckInWithUUID();
 
