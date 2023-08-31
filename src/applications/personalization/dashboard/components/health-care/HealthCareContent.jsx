@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { differenceInDays } from 'date-fns';
 
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
+import { CernerWidget } from '~/applications/personalization/dashboard/components/CernerWidgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
 import {
   selectUnreadCount,

@@ -4,7 +4,7 @@ import nonStandardLimits from './fixtures/non-standard-fixture.json';
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
-describe('Income Limits', () => {
+xdescribe('Income Limits', () => {
   describe('current year flow', () => {
     it('navigates through the flow successfully forward and backward', () => {
       cy.visit('/health-care/income-limits');

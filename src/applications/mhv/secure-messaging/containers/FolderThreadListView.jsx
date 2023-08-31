@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -33,7 +33,9 @@ const FolderThreadListView = props => {
   const dispatch = useDispatch();
   const error = null;
   const threadsPerPage = 10;
-  const { threadList, threadSort } = useSelector(state => state.sm.threads);
+  const { threadList, threadSort, isLoading } = useSelector(
+    state => state.sm.threads,
+  );
   const folder = useSelector(state => state.sm.folders?.folder);
   const {
     searchFolder,
@@ -182,67 +184,81 @@ const FolderThreadListView = props => {
     );
   };
 
-  const content = () => {
-    if (
-      (threadList === undefined && searchResults === undefined) ||
-      awaitingResults
-    ) {
-      return <LoadingIndicator />;
-    }
+  const content = useMemo(
+    () => {
+      if (isLoading || awaitingResults) {
+        return <LoadingIndicator />;
+      }
 
-    if (threadList?.length === 0) {
-      return (
-        <>
-          <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
-            Showing 0 of 0 conversations
-          </div>
-          <div className="vads-u-margin-top--3">
-            <va-alert
-              background-only="true"
-              status="info"
-              className="vads-u-margin-bottom--1 va-alert"
-              data-testid="alert-no-messages"
-            >
-              <p className="vads-u-margin-y--0">{Alerts.Message.NO_MESSAGES}</p>
-            </va-alert>
-          </div>
-        </>
-      );
-    }
+      if (threadList?.length === 0) {
+        return (
+          <>
+            <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+              Showing 0 of 0 conversations
+            </div>
+            <div className="vads-u-margin-top--3">
+              <va-alert
+                background-only="true"
+                status="info"
+                className="vads-u-margin-bottom--1 va-alert"
+                data-testid="alert-no-messages"
+              >
+                <p className="vads-u-margin-y--0">
+                  {Alerts.Message.NO_MESSAGES}
+                </p>
+              </va-alert>
+            </div>
+          </>
+        );
+      }
 
-    if (error) {
-      return (
-        <va-alert status="error" visible>
-          <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
-          <p>
-            You can’t view your secure messages because something went wrong on
-            our end. Please check back soon.
-          </p>
-        </va-alert>
-      );
-    }
+      if (error) {
+        return (
+          <va-alert status="error" visible>
+            <h2 slot="headline">
+              We’re sorry. Something went wrong on our end
+            </h2>
+            <p>
+              You can’t view your secure messages because something went wrong
+              on our end. Please check back soon.
+            </p>
+          </va-alert>
+        );
+      }
 
-    if (searchResults !== undefined) {
-      return <SearchResults />;
-    }
+      if (searchResults !== undefined) {
+        return <SearchResults />;
+      }
 
-    if (threadList.length > 0) {
-      return (
-        <>
-          <ThreadsList
-            threadList={threadList}
-            folder={folder}
-            pageNum={threadSort.page}
-            paginationCallback={handlePagination}
-            threadsPerPage={threadsPerPage}
-            sortOrder={threadSort.value}
-            sortCallback={handleSortCallback}
-          />
-        </>
-      );
-    }
-    return null;
-  };
+      if (threadList?.length > 0) {
+        return (
+          <>
+            <ThreadsList
+              threadList={threadList}
+              folder={folder}
+              pageNum={threadSort.page}
+              paginationCallback={handlePagination}
+              threadsPerPage={threadsPerPage}
+              sortOrder={threadSort.value}
+              sortCallback={handleSortCallback}
+            />
+          </>
+        );
+      }
+      return null;
+    },
+    [
+      awaitingResults,
+      folder,
+      handlePagination,
+      handleSortCallback,
+      isLoading,
+      searchResults,
+      threadList,
+      threadSort.page,
+      threadSort.value,
+    ],
+  );
 
   return (
     <div className="vads-l-grid-container vads-u-padding--0">
@@ -253,10 +269,11 @@ const FolderThreadListView = props => {
           <>
             <FolderHeader
               folder={folder}
+              threadCount={threadList?.length}
               searchProps={{ searchResults, awaitingResults, keyword, query }}
             />
 
-            {content()}
+            {content}
           </>
         )}
       </div>

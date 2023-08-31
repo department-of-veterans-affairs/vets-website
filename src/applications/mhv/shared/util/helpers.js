@@ -44,3 +44,11 @@ export const generatePdfScaffold = (user, title, subject, preface) => {
     preface,
   };
 };
+
+/**
+ * Sets a page title of the document
+ * @param {String} newTitle title of the page, displayed on the browsers title bar
+ */
+export const updatePageTitle = newTitle => {
+  document.title = newTitle;
+};
