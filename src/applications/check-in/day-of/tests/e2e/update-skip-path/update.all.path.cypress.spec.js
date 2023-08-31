@@ -7,6 +7,7 @@ import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Appointments from '../pages/Appointments';
 import Arrived from '../pages/Arrived';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Check In Experience', () => {
   describe('update skip path', () => {
@@ -29,6 +30,7 @@ describe('Check In Experience', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      AppointmentsPage.attemptCheckIn();
       Arrived.validateArrivedPage();
       Arrived.attemptToGoToNextPage();
     });
