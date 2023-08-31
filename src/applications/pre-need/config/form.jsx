@@ -839,7 +839,7 @@ const formConfig = {
           },
         },
         preparerDetails: {
-          'ui:title': 'Review Page Preparer details',
+          title: 'Preparer details',
           path: 'preparer-details',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: {
@@ -878,6 +878,7 @@ const formConfig = {
           },
         },
         preparerContactDetails: {
+          title: "Preparer's contact details",
           path: 'preparer-contact-details',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: {
@@ -896,9 +897,18 @@ const formConfig = {
                         address.uiSchema("Preparer's Mailing address"),
                         {
                           country: { 'ui:required': isAuthorizedAgent },
-                          street: { 'ui:required': isAuthorizedAgent },
+                          street: {
+                            'ui:title': 'Street address',
+                            'ui:required': isAuthorizedAgent,
+                          },
+                          street2: {
+                            'ui:title': 'Street address line 2',
+                          },
                           city: { 'ui:required': isAuthorizedAgent },
-                          state: { 'ui:required': isAuthorizedAgent },
+                          state: {
+                            'ui:title': 'State or territory',
+                            'ui:required': isAuthorizedAgent,
+                          },
                           postalCode: { 'ui:required': isAuthorizedAgent },
                         },
                       ),
