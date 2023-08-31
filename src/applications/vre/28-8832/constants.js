@@ -1,6 +1,6 @@
 export const WIZARD_STATUS = 'wizardStatus36';
 export const PCPG_ROOT_URL =
-  '/careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832';
+  '/careers-employment/education-and-career-counseling/apply-career-guidance-form-25-8832';
 export const CHAPTER_31_ROOT_URL =
   '/careers-employment/vocational-rehabilitation/eligibility/';
 export const VRE_ROOT_URL =
