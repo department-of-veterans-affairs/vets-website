@@ -65,6 +65,8 @@ jobs:
         env:
           TEST_TYPE: unit_test
       # exports app list and assigns to environmental variable at this step
+      - name: List files
+        run: ls -a
 
       - name: Archive allow list
         if: ${{ always() }}
