@@ -2,10 +2,10 @@ import '../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import Introduction from '../pages/Introduction';
 import Confirmation from '../pages/Confirmation';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Pre Check In Experience', () => {
   describe('update skip path', () => {
@@ -38,8 +38,7 @@ describe('Pre Check In Experience', () => {
       ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-      Introduction.validatePageLoaded();
-      Introduction.attemptToGoToNextPage();
+      AppointmentsPage.attemptPreCheckIn();
     });
     afterEach(() => {
       cy.window().then(window => {

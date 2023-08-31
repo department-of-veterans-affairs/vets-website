@@ -2,12 +2,12 @@ import '../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import Introduction from '../pages/Introduction';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Confirmation from '../pages/Confirmation';
 import AppointmentDetails from '../../../../tests/e2e/pages/AppointmentDetails';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Pre-Check In Experience', () => {
   describe('Appointment details in person', () => {
@@ -30,8 +30,7 @@ describe('Pre-Check In Experience', () => {
       cy.visitPreCheckInWithUUID();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-      Introduction.validatePageLoaded();
-      Introduction.attemptToGoToNextPage();
+      AppointmentsPage.attemptPreCheckIn();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
@@ -82,8 +81,7 @@ describe('Pre-Check In Experience', () => {
       cy.visitPreCheckInWithUUID();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-      Introduction.validatePageLoaded();
-      Introduction.attemptToGoToNextPage();
+      AppointmentsPage.attemptPreCheckIn();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
@@ -129,8 +127,7 @@ describe('Pre-Check In Experience', () => {
       cy.visitPreCheckInWithUUID('258d753c-262a-4ab2-b618-64b645884daf');
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-      Introduction.validatePageLoaded();
-      Introduction.attemptToGoToNextPage();
+      AppointmentsPage.attemptPreCheckIn();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
