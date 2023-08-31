@@ -171,7 +171,6 @@ const PrescriptionDetails = () => {
           >
             Last filled on {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
           </p>
-          {/* </h1> */}
           <div className="no-print">
             <PrintDownload download={handleDownloadPDF} />
             <va-additional-info trigger="What to know about downloading records">
