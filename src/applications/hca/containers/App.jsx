@@ -30,7 +30,6 @@ const App = props => {
     isFacilitiesApiEnabled = false,
     isHouseholdV2Enabled = false,
     isSigiEnabled = false,
-    isRemoveIdFieldsEnabled = false,
   } = features;
 
   // Attempt to fetch disability rating for authenticated users
@@ -98,7 +97,6 @@ const App = props => {
       isSigiEnabled,
       isHouseholdV2Enabled,
       isFacilitiesApiEnabled,
-      isRemoveIdFieldsEnabled,
       totalDisabilityRating,
       formData.veteranFullName,
     ],
@@ -158,7 +156,6 @@ const mapStateToProps = state => ({
     isFacilitiesApiEnabled: state.featureToggles.hcaUseFacilitiesApi,
     isHouseholdV2Enabled: state.featureToggles.hcaHouseholdV2Enabled,
     isSigiEnabled: state.featureToggles.hcaSigiEnabled,
-    isRemoveIdFieldsEnabled: state.featureToggles.hcaRemoveIdFieldsEnabled,
   },
   formData: state.form.data,
   hasSavedForm: state.user.profile.savedForms.some(

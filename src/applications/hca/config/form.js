@@ -163,9 +163,6 @@ const formConfig = {
         veteranProfileInformation: {
           path: 'veteran-information/personal-information',
           title: 'Veteran\u2019s personal information',
-          depends: formData =>
-            formData['view:isLoggedIn'] ||
-            formData['view:isRemoveIdFieldsEnabled'],
           CustomPage: VeteranInformation,
           CustomPageReview: null,
           uiSchema: {},

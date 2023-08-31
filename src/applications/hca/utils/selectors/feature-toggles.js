@@ -17,9 +17,6 @@ const selectFeatureToggles = createSelector(
     isHouseholdV2Enabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.hcaHouseholdV2Enabled
     ],
-    isRemoveIdFieldsEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.hcaRemoveIdFieldsEnabled
-    ],
     isSigiEnabled: toggleValues(state)[FEATURE_FLAG_NAMES.hcaSigiEnabled],
   }),
   toggles => toggles,
