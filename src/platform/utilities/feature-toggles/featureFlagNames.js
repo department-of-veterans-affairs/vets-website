@@ -43,6 +43,7 @@ export default Object.freeze({
   covidVolunteerUpdateEnabled: 'covid_volunteer_update_enabled',
   cstUseLighthouse: 'cst_use_lighthouse',
   cstIncludeDdlBoaLetters: 'cst_include_ddl_boa_letters',
+  cstUseNewClaimCards: 'cst_use_new_claim_cards',
   debtLettersShowLetters: 'debt_letters_show_letters',
   debtLettersShowLettersVBMS: 'debt_letters_show_letters_vbms',
   dependencyVerification: 'dependency_verification',
