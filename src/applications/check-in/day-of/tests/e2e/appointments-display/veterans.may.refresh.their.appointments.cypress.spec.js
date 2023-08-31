@@ -9,6 +9,7 @@ import Appointments from '../pages/Appointments';
 import Arrived from '../pages/Arrived';
 
 import sharedData from '../../../../api/local-mock-api/mocks/v2/shared';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 // TODO: remove commment once this is not disallowed
 
@@ -54,6 +55,7 @@ describe('Check In Experience -- ', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      AppointmentsPage.attemptCheckIn();
       Arrived.validateArrivedPage();
       Arrived.attemptToGoToNextPage();
       Demographics.attemptToGoToNextPage();

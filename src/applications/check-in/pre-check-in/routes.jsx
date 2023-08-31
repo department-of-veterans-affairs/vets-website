@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import environment from 'platform/utilities/environment';
 import Validate from './pages/Validate';
-import Introduction from './pages/Introduction';
+import AppointmentsPage from '../components/pages/Appointments';
 import Demographics from './pages/Demographics';
 import NextOfKin from './pages/NextOfKin';
 import EmergencyContact from './pages/EmergencyContact';
@@ -35,6 +35,14 @@ const routes = [
     },
   },
   {
+    path: URLS.APPOINTMENTS,
+    component: AppointmentsPage,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
     path: URLS.DEMOGRAPHICS,
     component: Demographics,
     permissions: {
@@ -60,14 +68,6 @@ const routes = [
       requireAuthorization: true,
     },
     reloadable: true,
-  },
-  {
-    path: URLS.INTRODUCTION,
-    component: Introduction,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
   },
   {
     path: URLS.CONFIRMATION,

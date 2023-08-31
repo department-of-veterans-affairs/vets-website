@@ -7,6 +7,7 @@ import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import SeeStaff from '../pages/SeeStaff';
 import Arrived from '../pages/Arrived';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Check In Experience', () => {
   describe('Demographics Update Flags', () => {
@@ -37,8 +38,11 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      AppointmentsPage.attemptCheckIn();
       Arrived.validateArrivedPage();
       Arrived.attemptToGoToNextPage();
+
+
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Demographics.attemptToGoToNextPage('no');
@@ -62,8 +66,11 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      AppointmentsPage.attemptCheckIn();
       Arrived.validateArrivedPage();
       Arrived.attemptToGoToNextPage();
+
+
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Demographics.attemptToGoToNextPage('yes');
@@ -96,8 +103,11 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      AppointmentsPage.attemptCheckIn();
       Arrived.validateArrivedPage();
       Arrived.attemptToGoToNextPage();
+
+
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Demographics.attemptToGoToNextPage('yes');
@@ -161,8 +171,10 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      AppointmentsPage.attemptCheckIn();
       Arrived.validateArrivedPage();
       Arrived.attemptToGoToNextPage();
+
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Demographics.attemptToGoToNextPage('no');
