@@ -10,6 +10,7 @@ describe('<HealthCareCTAV2 />', () => {
   const initialState = {
     featureToggles: {
       [Toggler.TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate]: true,
+      [Toggler.TOGGLE_NAMES.myVaNotificationDotIndicator]: true,
     },
   };
 
@@ -46,7 +47,7 @@ describe('<HealthCareCTAV2 />', () => {
       tree.getByTestId('get-medical-records-link-from-cta');
     });
 
-    context('renders the send a secure message to your health team CTA', () => {
+    context('renders "Go to your inbox" CTA', () => {
       it('when the unread message count is 0', () => {
         const tree = renderWithStoreAndRouter(
           <HealthCareCTAV2 isVAPatient unreadMessagesCount={0} />,
@@ -60,6 +61,19 @@ describe('<HealthCareCTAV2 />', () => {
             value: {
               text: '/my-health/appointments',
             },
+          }),
+        ).to.exist;
+      });
+
+      it('when user has unread messages', () => {
+        const tree = renderWithStoreAndRouter(
+          <HealthCareCTAV2 isVAPatient unreadMessagesCount={3} />,
+          { initialState },
+        );
+
+        expect(
+          tree.getByLabelText('Unread messages. Go to your inbox.', {
+            selector: 'i',
           }),
         ).to.exist;
       });

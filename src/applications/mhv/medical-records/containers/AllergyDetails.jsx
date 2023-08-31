@@ -136,14 +136,21 @@ const AllergyDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0p5">Allergy: {allergy.name}</h1>
+          <h1 className="vads-u-margin-bottom--0p5">
+            Allergy: <span data-dd-privacy="mask">{allergy.name}</span>
+          </h1>
           <section className="set-width-486">
             <div className="condition-subheader vads-u-margin-bottom--3">
               <div className="time-header">
                 <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                   Date entered:{' '}
+                  <span
+                    className="vads-u-font-weight--normal"
+                    data-dd-privacy="mask"
+                  >
+                    {allergy.date}
+                  </span>
                 </h2>
-                <p>{allergy.date}</p>
               </div>
               <PrintDownload list download={generateAllergyPdf} />
               <va-additional-info
@@ -172,19 +179,19 @@ const AllergyDetails = () => {
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Type of allergy
               </h2>
-              <p>{allergy.type || 'None noted'}</p>
+              <p data-dd-privacy="mask">{allergy.type || 'None noted'}</p>
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 VA drug class
               </h2>
-              <p>{allergy.drugClass || 'None noted'}</p>
+              <p data-dd-privacy="mask">{allergy.drugClass || 'None noted'}</p>
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Location
               </h2>
-              <p>{allergy.location || 'None noted'}</p>
+              <p data-dd-privacy="mask">{allergy.location || 'None noted'}</p>
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Observed or reported
               </h2>
-              <p>
+              <p data-dd-privacy="mask">
                 {allergy.observed
                   ? 'Observed (your provider observed the reaction in person)'
                   : 'Reported (you told your provider about the reaction)'}
@@ -192,7 +199,7 @@ const AllergyDetails = () => {
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Provider notes
               </h2>
-              {allergy.notes}
+              <p data-dd-privacy="mask">{allergy.notes}</p>
             </div>
           </section>
         </>
