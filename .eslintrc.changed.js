@@ -26,11 +26,6 @@ module.exports = {
       },
       {
         name:
-          '@department-of-veterans-affairs/component-library/AdditionalInfo',
-        use: '<va-additional-info>',
-      },
-      {
-        name:
           '@department-of-veterans-affairs/component-library/LoadingIndicator',
         use: '<va-loading-indicator>',
       },
