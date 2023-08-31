@@ -26,12 +26,6 @@
     max-width: 480px;
   }
 }
-.breadcrumbs-container {
-  @media (max-width: $large-screen) {
-    margin-left: -16px;
-  }
-  padding: 0px;
-}
 .link-to-details {
   i {
     font-size: 16px;
