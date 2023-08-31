@@ -84,7 +84,6 @@ export default Object.freeze({
   hcaBrowserMonitoringEnabled: 'hca_browser_monitoring_enabled',
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
   hcaHouseholdV2Enabled: 'hca_household_v2_enabled',
-  hcaRemoveIdFieldsEnabled: 'hca_remove_id_fields_enabled',
   hcaSigiEnabled: 'hca_sigi_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
   loopPages: 'loop_pages',
