@@ -66,14 +66,16 @@ jobs:
           TEST_TYPE: unit_test
       # exports app list and assigns to environmental variable at this step
       - name: List files
-        run: ls -a
+        run: |
+          cd qa-standards-dashboard-data
+          ls -a
 
       - name: Archive allow list
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: unit-test-allow-list
-          path: ./unit_test_allow_list.json
+          path: qa-standards-dashboard-data/unit_test_allow_list.json
 
   unit-tests-stress-test:
     name: Unit Tests
