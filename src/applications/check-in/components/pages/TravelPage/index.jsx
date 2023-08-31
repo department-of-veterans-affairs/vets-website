@@ -19,6 +19,7 @@ const TravelPage = ({
   eyebrow,
   bodyText,
   helpText,
+  additionalInfo,
   pageType,
   router,
 }) => {
@@ -69,6 +70,11 @@ const TravelPage = ({
             {bodyText}
           </div>
         )}
+        {additionalInfo && (
+          <va-additional-info trigger="Travel reimbursement eligibility">
+            <>{additionalInfo}</>
+          </va-additional-info>
+        )}
         {helpText && (
           <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
             <va-alert
@@ -109,6 +115,7 @@ TravelPage.propTypes = {
   header: PropTypes.string.isRequired,
   pageType: PropTypes.string.isRequired,
   router: PropTypes.object.isRequired,
+  additionalInfo: PropTypes.string,
   bodyText: PropTypes.node,
   eyebrow: PropTypes.string,
   helpText: PropTypes.node,
