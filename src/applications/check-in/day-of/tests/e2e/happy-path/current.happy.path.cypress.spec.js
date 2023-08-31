@@ -8,6 +8,7 @@ import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Appointments from '../pages/Appointments';
 import Confirmation from '../pages/Confirmation';
 import Arrived from '../pages/Arrived';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Check In Experience', () => {
   describe('happy path', () => {
@@ -45,9 +46,14 @@ describe('Check In Experience', () => {
       cy.createScreenshots('Day-of-check-in--Validate');
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      AppointmentsPage.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--Appointments-page');
+      AppointmentsPage.attemptCheckIn();
       Arrived.validateArrivedPage();
       cy.createScreenshots('Day-of-check-in--Arrived');
       Arrived.attemptToGoToNextPage();
+
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--Contact-info');

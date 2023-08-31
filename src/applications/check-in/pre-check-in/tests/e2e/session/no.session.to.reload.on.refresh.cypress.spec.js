@@ -17,7 +17,7 @@ describe('Pre Check In Experience', () => {
     });
 
     it('Should show error page since there is no data to load locally', () => {
-      const featureRoute = '/health-care/appointment-pre-check-in/introduction';
+      const featureRoute = '/health-care/appointment-pre-check-in/appointments';
       cy.window().then(window => {
         window.sessionStorage.clear();
       });

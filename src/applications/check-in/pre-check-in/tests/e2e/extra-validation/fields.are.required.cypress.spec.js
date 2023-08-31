@@ -2,7 +2,7 @@ import '../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import Introduction from '../pages/Introduction';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 // TODO: remove commment once this is not disallowed
 
@@ -40,7 +40,7 @@ describe('Pre-Check In Experience', () => {
 
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-      Introduction.validatePageLoaded();
+      AppointmentsPage.attemptPreCheckIn();
     });
   });
 });
