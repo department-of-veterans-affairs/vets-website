@@ -71,7 +71,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: unit-test-allow-list
-          path: unit_test_allow_list.json
+          path: ./unit_test_allow_list.json
 
   unit-tests-stress-test:
     name: Unit Tests
