@@ -5,9 +5,9 @@ import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
-import Introduction from '../pages/Introduction';
 import Confirmation from '../pages/Confirmation';
 import Error from '../pages/Error';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Pre-Check In Experience', () => {
   describe('reload pages', () => {
@@ -33,8 +33,7 @@ describe('Pre-Check In Experience', () => {
       ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-      Introduction.validatePageLoaded();
-      Introduction.attemptToGoToNextPage();
+      AppointmentsPage.attemptPreCheckIn();
       Demographics.validatePageLoaded();
     });
     afterEach(() => {
