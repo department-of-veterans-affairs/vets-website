@@ -7,6 +7,7 @@ import Demographics from '../../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../../tests/e2e/pages/EmergencyContact';
 import Arrived from '../../pages/Arrived';
+import AppointmentsPage from '../../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Check In Experience ', () => {
   beforeEach(() => {
@@ -32,8 +33,12 @@ describe('Check In Experience ', () => {
     cy.visitWithUUID();
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();
+    AppointmentsPage.attemptCheckIn();
     Arrived.validateArrivedPage();
     Arrived.attemptToGoToNextPage();
+
+    Demographics.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
     Demographics.attemptToGoToNextPage();
     EmergencyContact.attemptToGoToNextPage();
     NextOfKin.attemptToGoToNextPage();
