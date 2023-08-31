@@ -11,7 +11,7 @@ import { DateRangeValues } from '../../util/inputContants';
 import { dateFormat } from '../../util/helpers';
 
 const SearchForm = props => {
-  const { folder, keyword, resultsCount, query } = props;
+  const { folder, keyword, resultsCount, query, threadCount } = props;
   const dispatch = useDispatch();
   const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
@@ -203,6 +203,7 @@ const SearchForm = props => {
   return (
     <>
       <form
+        data-testId="search-form"
         className="search-form"
         onSubmit={() => {
           handleSearch();
@@ -246,22 +247,22 @@ const SearchForm = props => {
             new message. These emails include the message ID.
           </va-additional-info>
         )}
-
-        <div>
-          <FilterBox
-            ref={filterBoxRef}
-            keyword={keyword}
-            category={category}
-            setCategory={setCategory}
-            dateRange={dateRange}
-            setDateRange={setDateRange}
-            fromDate={fromDate}
-            setFromDate={setFromDate}
-            toDate={toDate}
-            setToDate={setToDate}
-          />
-        </div>
-
+        {threadCount > 0 && (
+          <div>
+            <FilterBox
+              ref={filterBoxRef}
+              keyword={keyword}
+              category={category}
+              setCategory={setCategory}
+              dateRange={dateRange}
+              setDateRange={setDateRange}
+              fromDate={fromDate}
+              setFromDate={setFromDate}
+              toDate={toDate}
+              setToDate={setToDate}
+            />
+          </div>
+        )}
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           <va-button
             text="Filter"
@@ -298,6 +299,7 @@ SearchForm.propTypes = {
   keyword: PropTypes.string,
   query: PropTypes.object,
   resultsCount: PropTypes.number,
+  threadCount: PropTypes.number,
 };
 
 export default SearchForm;
