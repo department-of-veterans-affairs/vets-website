@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-unresolved
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import recordEvent from 'platform/monitoring/record-event';
@@ -21,11 +22,16 @@ import { resetDataLayer } from '../../../utils/events';
 import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
 import { getLongTermAppointmentHistoryV2 } from '../../../services/appointment';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
 
-export default function TypeOfCarePage() {
+export default function TypeOfCarePage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
   const dispatch = useDispatch();
   const {
     addressLine1,
@@ -55,6 +61,12 @@ export default function TypeOfCarePage() {
     },
     [showUpdateAddressAlert],
   );
+
+  useEffect(() => {
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
+  }, []);
 
   const { data, schema, setData, uiSchema } = useFormState({
     initialSchema: () => {
@@ -140,3 +152,7 @@ export default function TypeOfCarePage() {
     </div>
   );
 }
+
+TypeOfCarePage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

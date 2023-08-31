@@ -253,7 +253,7 @@ const cernerUser = {
         familyName: 'Jones',
         gender: 'M',
         givenNames: ['Travis', 'Null'],
-        isCernerPatient: false,
+        isCernerPatient: true,
         facilities: [
           { facilityId: '757', isCerner: true },
           { facilityId: '534', isCerner: false },
