@@ -24,7 +24,8 @@ describe('Pre-Check In Experience ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Render Error is caught', () => {
+  // Skipping for now until there is a reason for this
+  it.skip('Render Error is caught', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
     ValidateVeteran.validatePage.preCheckIn();

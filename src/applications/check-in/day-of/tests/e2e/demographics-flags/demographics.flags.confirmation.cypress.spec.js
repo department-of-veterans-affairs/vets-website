@@ -7,6 +7,7 @@ import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Appointments from '../pages/Appointments';
 import Confirmation from '../pages/Confirmation';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Check In Experience', () => {
   describe('check-in with demographics confirmation', () => {
@@ -57,6 +58,8 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+
+      AppointmentsPage.attemptCheckIn();
 
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
@@ -152,6 +155,8 @@ describe('Check In Experience', () => {
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
 
+      AppointmentsPage.attemptCheckIn();
+
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Demographics.attemptToGoToNextPage();
@@ -224,6 +229,7 @@ describe('Check In Experience', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      AppointmentsPage.attemptCheckIn();
     });
     afterEach(() => {
       cy.window().then(window => {
