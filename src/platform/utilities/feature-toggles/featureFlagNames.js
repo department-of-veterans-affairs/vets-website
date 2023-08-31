@@ -166,6 +166,7 @@ export default Object.freeze({
   stemSCOEmail: 'stem_sco_email',
   subform89404192: 'subform_8940_4192',
   supplementalClaim: 'supplemental_claim',
+  termsOfUse: 'terms_of_use',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
   vaOnlineScheduling: 'va_online_scheduling',
   vaOnlineSchedulingCancel: 'va_online_scheduling_cancel',
