@@ -55,7 +55,7 @@ const FolderHeader = props => {
 
   return (
     <>
-      <h1 data-testid="folder-header">
+      <h1 className="vads-u-margin-bottom--1" data-testid="folder-header">
         {handleHeader(folder.folderId, folder)}
       </h1>
       <>{handleFolderDescription()}</>
