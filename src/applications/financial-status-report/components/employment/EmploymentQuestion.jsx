@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { focusElement } from 'platform/utilities/ui';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
 import { clearJobIndex } from '../../utils/session';
@@ -19,12 +20,22 @@ const EmploymentQuestion = props => {
   } = props;
 
   const dispatch = useDispatch();
+  const headerRef = useRef(null);
   const [hasJobToAdd, setHasJobToAdd] = useState(
     data.questions?.vetIsEmployed ?? false,
   );
 
   const hasJobs =
     data.personalData?.employmentHistory?.veteran?.employmentRecords;
+
+  useEffect(
+    () => {
+      if (headerRef?.current) {
+        focusElement(headerRef?.current);
+      }
+    },
+    [headerRef],
+  );
 
   useEffect(() => {
     clearJobIndex();
@@ -94,7 +105,9 @@ const EmploymentQuestion = props => {
     <form>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          <h3 className="vads-u-margin--0">Your work history</h3>
+          <h3 className="vads-u-margin--0" ref={headerRef}>
+            Your work history
+          </h3>
         </legend>
         <VaRadio
           class="vads-u-margin-y--2"
