@@ -225,11 +225,12 @@ a {
 }
 
 .modal-live-form {
-color: $color-gray-dark !important;
+  color: $color-gray-dark !important;
 }
 
 .omb_heading h2 {
   color: $color-gray-dark !important;
+  font-weight: 700 !important;
 }
 
 /* Unordered list styling for crisis header */
@@ -237,7 +238,25 @@ color: $color-gray-dark !important;
   padding: 0 0 0 1.5em !important;
   list-style: square !important;
 }
+
 .omb_crises>div>p>ul>li {
   line-height: 1.5 !important;
   margin-bottom: 0.5em !important;
+}
+
+strong {
+  font-weight: bold !important;
+}
+
+/* temp styles until VSignals team can change */
+.omb_crises>div>p>ul>li:nth-child(1)>span>strong:nth-child(3) {
+  font-weight: 400 !important;
+}
+
+.omb_crises>div>p>ul>li:nth-child(1)>span>strong:nth-child(2)>a {
+  font-weight: 400 !important;
+}
+
+.omb_crises>div>p>ul>li:nth-child(2)>span>strong:nth-child(2) > a {
+  font-weight: 400 !important;
 }
