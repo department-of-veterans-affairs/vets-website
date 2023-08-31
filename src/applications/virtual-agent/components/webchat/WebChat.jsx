@@ -122,10 +122,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
 
   async function createPonyFill(webchat) {
     const region =
-      environment.BASE_URL ===
-      (environment.isDev() || environment.isLocalhost())
-        ? 'eastus'
-        : 'eastus2';
+      environment.isDev() || environment.isLocalhost() ? 'eastus' : 'eastus2';
 
     async function callVirtualAgentVoiceTokenApi() {
       return apiRequest('/virtual_agent_speech_token', {

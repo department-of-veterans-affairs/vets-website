@@ -15,12 +15,14 @@ describe('Check-in experience', () => {
               header="test header"
               eyebrow="Check-In"
               bodyText="test body"
+              additionalInfo="test additional info"
               helpText="test help text"
             />
           </CheckInProvider>,
         );
         expect(getByTestId('header')).to.contain.text('Check-In test header');
         expect(getByText('test body')).to.exist;
+        expect(getByText('test additional info')).to.exist;
         expect(getByText('test help text')).to.exist;
       });
       it('renders buttons', () => {
