@@ -158,6 +158,36 @@ export const isOutsideListLoopReturn = (
   };
 };
 
+export const hoursPerWeekUiSchema = {
+  'ui:title': 'Hours a week',
+  'ui:options': {
+    widgetClassNames: 'form-select-medium',
+  },
+  'ui:errorMessages': { required: 'Please enter a number' },
+  'ui:validations': [
+    (errors, fieldData) => {
+      if (fieldData > 168) {
+        errors.addError('Please enter a value between 0 and 168');
+      }
+    },
+  ],
+};
+
+export const classesPerWeekUiSchema = {
+  'ui:title': 'Number of classes a week',
+  'ui:options': {
+    widgetClassNames: 'form-select-medium',
+  },
+  'ui:errorMessages': { required: 'Please enter a number' },
+  'ui:validations': [
+    (errors, fieldData) => {
+      if (fieldData > 999) {
+        errors.addError('Please enter a value between 0 and 999');
+      }
+    },
+  ],
+};
+
 export const PensionIncomeRemovalQuestionTitle = (
   <p>
     Did this dependent earn an income in the last 365 days? Answer this question{' '}
