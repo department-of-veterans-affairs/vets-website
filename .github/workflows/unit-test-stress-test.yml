@@ -268,7 +268,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: unit-test-allow-list
-          path: .
+          path: qa-standards-dashboard-data
       - name: Copy test results to mochawesome directory
         run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
 
