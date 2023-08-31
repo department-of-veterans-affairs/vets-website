@@ -647,6 +647,7 @@ const responses = {
         { name: 'vaOnlineSchedulingPrintList', value: true },
         { name: 'va_online_scheduling_descriptive_back_link', value: true },
         { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
+        { name: 'vaOnlineSchedulingGA4EventsMigration', value: true },
         { name: 'vaOnlineSchedulingAfterVisitSummary', value: false },
         { name: 'selectFeaturePocTypeOfCare', value: true },
         { name: 'edu_section_103', value: true },

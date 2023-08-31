@@ -108,5 +108,8 @@ export const selectFeatureDescriptiveBackLink = state =>
 export const selectFeatureStaticLandingPage = state =>
   toggleValues(state).vaOnlineSchedulingStaticLandingPage;
 
+export const selectFeatureGA4EventsMigration = state =>
+  toggleValues(state).vaOnlineSchedulingGA4EventsMigration;
+
 export const selectFeatureAfterVisitSummary = state =>
   toggleValues(state).vaOnlineSchedulingAfterVisitSummary;
