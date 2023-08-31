@@ -510,13 +510,16 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         type === 'cc'
           ? featureVAOSServiceCCAppointments
           : featureVAOSServiceVAAppointments;
+
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
           ? APPOINTMENT_TYPES.ccAppointment
           : APPOINTMENT_TYPES.vaAppointment,
       ]);
+
       let facilityId = getVAAppointmentLocationId(appointment);
       let facility = state.appointments.facilityData?.[facilityId];
+
       if (!appointment || (facilityId && !facility)) {
         dispatch({
           type: FETCH_CONFIRMED_DETAILS,
@@ -545,6 +548,8 @@ export function fetchConfirmedAppointmentDetails(id, type) {
           });
           appointment.location.clinicName = clinic?.serviceName;
         } catch (e) {
+          console.log(`error: ${e}`);
+
           // We don't want to show an overall error on this page just
           // because we don't have a clinic name, so capture the error and continue
           captureError(e);
@@ -559,6 +564,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       // Similar to the clinic, we'd expect to have the facility data included, but if
       // we don't, fetch it
       if (facilityId && !facility) {
+        console.log('acilityId && !facility');
         try {
           facility = await getLocation({
             facilityId,
@@ -575,6 +581,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       });
     } catch (e) {
       captureError(e);
+      console.log(`error: ${e}`);
       dispatch({
         type: FETCH_CONFIRMED_DETAILS_FAILED,
       });
