@@ -20,12 +20,6 @@ const App = ({ formEnabled }) => {
         >
           Submit a request online to be a substitute for a deceased claimant
         </a>
-        <a
-          className="vads-c-action-link--green"
-          href="/find-forms/about-form-21p-0847/"
-        >
-          Get VA Form 21P-0847 to download
-        </a>
       </>
     );
   }
@@ -33,12 +27,6 @@ const App = ({ formEnabled }) => {
   return (
     <>
       <p>You can submit this form by mail.</p>
-      <a
-        className="vads-c-action-link--green"
-        href="/find-forms/about-form-21p-0847/"
-      >
-        Get VA Form 21P-0847 to download
-      </a>
     </>
   );
 };

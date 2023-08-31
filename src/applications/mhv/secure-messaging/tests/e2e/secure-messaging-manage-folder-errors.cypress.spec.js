@@ -39,7 +39,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     const folderID = MockFoldersResponse.data.at(4).attributes.folderId;
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderID}`,
+      `/my_health/v1/messaging/folders/${folderID}*`,
       MockCustomFolderResponse,
     ).as('customFolderID');
     cy.intercept(
@@ -53,10 +53,9 @@ describe('Secure Messaging Manage Folder Errors check', () => {
       forceNetworkError: true,
     }).as('deleteCustomMessage');
     cy.get('[data-testid="remove-folder-button"]').click();
-    cy.get('[text="Remove"]')
+    cy.get('[data-testid="error-folder-not-empty"]')
       .shadow()
-      .find('[type="button"]')
-      .click();
+      .contains('Empty this folder');
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

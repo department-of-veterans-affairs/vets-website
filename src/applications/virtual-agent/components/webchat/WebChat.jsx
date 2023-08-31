@@ -121,6 +121,9 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   };
 
   async function createPonyFill(webchat) {
+    const region =
+      environment.isDev() || environment.isLocalhost() ? 'eastus' : 'eastus2';
+
     async function callVirtualAgentVoiceTokenApi() {
       return apiRequest('/virtual_agent_speech_token', {
         method: 'POST',
@@ -129,7 +132,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     const speechToken = await callVirtualAgentVoiceTokenApi();
     return webchat.createCognitiveServicesSpeechServicesPonyfillFactory({
       credentials: {
-        region: 'eastus',
+        region,
         authorizationToken: speechToken.token,
       },
     });

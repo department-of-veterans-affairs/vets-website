@@ -11,7 +11,7 @@ export const getListOfThreads = (
   update = false,
 ) => async dispatch => {
   if (!update) {
-    dispatch({ type: Actions.Thread.CLEAR_LIST });
+    dispatch({ type: Actions.Thread.IS_LOADING, payload: true });
   }
   try {
     const response = await getThreadList(
@@ -32,6 +32,7 @@ export const getListOfThreads = (
       });
     }
   } catch (e) {
+    dispatch({ type: Actions.Thread.IS_LOADING, payload: false });
     if (e.errors[0].detail === 'No messages in the requested folder') {
       const noThreads = [];
       dispatch({

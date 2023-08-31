@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { differenceInDays } from 'date-fns';
 
-import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
+import { CernerWidget } from '~/applications/personalization/dashboard/components/CernerWidgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
 import {
   selectUnreadCount,
@@ -16,12 +15,10 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 
 import { selectAvailableServices } from '~/platform/user/selectors';
 
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import HealthCareCTA from './HealthCareCTA';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import Appointments from './Appointments';
-import CTALink from '../CTALink';
 
 const HealthCareContent = ({
   appointments,
@@ -61,13 +58,8 @@ const HealthCareContent = ({
     [shouldFetchUnreadMessages, fetchUnreadMessages, dataLoadingDisabled],
   );
 
-  const shouldShowUnreadMessageAlert =
-    shouldFetchUnreadMessages && !hasInboxError && unreadMessagesCount > 0;
-
   const shouldShowOnOneColumn =
-    !shouldShowUnreadMessageAlert &&
-    !hasUpcomingAppointment &&
-    !hasAppointmentsError;
+    !hasUpcomingAppointment && !hasAppointmentsError;
 
   if (shouldShowLoadingIndicator) {
     return <va-loading-indicator message="Loading health care..." />;
@@ -87,32 +79,6 @@ const HealthCareContent = ({
   return (
     <div className="vads-l-row">
       <DashboardWidgetWrapper>
-        {/* Messages */}
-        {shouldShowUnreadMessageAlert ? (
-          <div
-            className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
-            data-testid="unread-messages-alert"
-          >
-            <va-alert status="warning" show-icon>
-              <div className="vads-u-margin-top--0">
-                {`You have ${unreadMessagesCount} unread message${
-                  unreadMessagesCount === 1 ? '' : 's'
-                }. `}
-                <CTALink
-                  text="View your messages"
-                  href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-                  onClick={() =>
-                    recordEvent({
-                      event: 'nav-linkslist',
-                      'links-list-header': 'View your messages',
-                      'links-list-section-header': 'Health care',
-                    })
-                  }
-                />
-              </div>
-            </va-alert>
-          </div>
-        ) : null}
         {(hasUpcomingAppointment || hasAppointmentsError) && (
           /* Appointments */
           <Appointments

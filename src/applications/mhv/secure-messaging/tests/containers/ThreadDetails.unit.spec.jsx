@@ -6,6 +6,7 @@ import moment from 'moment';
 import ThreadDetails from '../../containers/ThreadDetails';
 import { PageTitles } from '../../util/constants';
 import reducer from '../../reducers';
+import { inbox } from '../fixtures/folder-inbox-response.json';
 import singleDraftThread from '../fixtures/threads/single-draft-thread-reducer.json';
 import replyDraftThread from '../fixtures/threads/reply-draft-thread-reducer.json';
 import recipients from '../fixtures/recipients.json';
@@ -185,6 +186,9 @@ describe('Thread Details container', () => {
 
     const state = {
       sm: {
+        folders: {
+          folder: inbox,
+        },
         triageTeams: {
           triageTeams: recipients,
         },
@@ -214,15 +218,13 @@ describe('Thread Details container', () => {
       PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG,
     );
 
+    expect(document.querySelector('va-textarea')).to.not.exist;
+
+    expect(document.querySelector('section.old-reply-message-body')).to.exist;
+
     expect(document.querySelector('span').textContent).to.equal(
       '(Draft) To: MORGUN, OLEKSII\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
     );
-
-    expect(
-      screen.getByText(
-        '(Draft) To: MORGUN, OLEKSII (Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
-      ),
-    ).to.exist;
 
     const messageRepliedTo = screen.getByTestId('message-replied-to');
     const from = getByBrokenText(
@@ -245,7 +247,7 @@ describe('Thread Details container', () => {
 
     expect(screen.getByText(olderMessage.body, { exact: false })).to.exist;
     expect(screen.queryByTestId('Send-Button')).to.be.null;
-    expect(screen.getByTestId('Save-Draft-Button')).to.exist;
+    expect(screen.queryByTestId('Save-Draft-Button')).to.be.null;
     expect(screen.getByTestId('delete-draft-button')).to.exist;
   });
 
@@ -268,6 +270,9 @@ describe('Thread Details container', () => {
 
     const state = {
       sm: {
+        folders: {
+          folder: inbox,
+        },
         triageTeams: {
           triageTeams: recipients,
         },
@@ -310,11 +315,16 @@ describe('Thread Details container', () => {
         'If you need help sooner, use one of these urgent communication options:',
       ),
     ).to.exist;
-    expect(
-      screen.getByText(
-        `(Draft) To: MORGUN, OLEKSII (Team: ${triageGroupName})`,
-      ),
-    ).to.exist;
+
+    expect(document.querySelector('va-textarea')).to.exist;
+
+    expect(document.querySelector('section.old-reply-message-body')).to.not
+      .exist;
+
+    expect(document.querySelector('span').textContent).to.equal(
+      `(Draft) To: MORGUN, OLEKSII\n(Team: ${triageGroupName})`,
+    );
+
     expect(screen.getByTestId('message-body-field')).to.exist;
 
     expect(screen.getByTestId('Send-Button')).to.exist;

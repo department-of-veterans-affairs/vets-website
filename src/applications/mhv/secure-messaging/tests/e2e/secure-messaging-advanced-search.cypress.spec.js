@@ -61,7 +61,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/-2',
+        '/my_health/v1/messaging/folders/-2*',
         mockDraftsFolder,
       );
       cy.intercept(
@@ -114,7 +114,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/-1',
+        '/my_health/v1/messaging/folders/-1*',
         mockSentFolder,
       ).as('basicSearchRequestDraftsMeta');
       cy.intercept(
@@ -167,7 +167,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/-3',
+        '/my_health/v1/messaging/folders/-3*',
         mockTrashFolder,
       );
       cy.intercept(
@@ -220,7 +220,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/7038175',
+        '/my_health/v1/messaging/folders/7038175*',
         mockCustomFolder,
       );
       cy.intercept(

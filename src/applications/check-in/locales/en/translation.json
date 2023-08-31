@@ -191,7 +191,6 @@
   "in-person-appointment": "In-person appointment",
   "you-can-still-check-in-with-your-phone-on-the-day-of-your-appointment": "You can still check-in with your phone on the day of your appointment.",
   "telephone-appointment": "Telephone appointment",
-  "would-you-like-to-file-a-travel-reimbursement-claim-now": "Would you like to file a travel reimbursement claim now?",
   "you-can-also-file-a-claim-online--help-text": "You can also file a claim online 24/7 through the Beneficiary Travel Self Service System (BTSSS). Or you can use VA Form 10-3542 to submit a claim by mail, fax, email, or in person. Be sure to file your claim on time. You must file within <0>30 days</0> of the appointment.",
   "your-provider-will-call-you-at-your-appointment-time": "Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.",
   "VA-appointment": "VA Appointment",
@@ -226,5 +225,17 @@
   "trying-to-check-in-for-an-appointment--info-message": "Trying to check in for an appointment? Text <0>check in</0> to <1></1>.",
   "were-sorry-cant-file-travel-file-later--info-message": "We’re sorry. We can’t file a travel reimbursement claim for you now. But you can still file within <0>30 days</0> of the appointment.",
   "processing-travel-claim": "<0>We’re processing your travel reimbursement claim.</0> We’ll send you a text to let you know the status of your claim.",
-  "check-in": "Check-In"
+  "check-in": "Check-In",
+  "we-encourage-you-to-file-travel-reimbursement-now": "We’ll ask you 3 additional questions that can help you file your claim faster. We encourage you to try filing your claim now-even if you’re not sure that you’re eligible.",
+  "would-you-like-to-file-a-travel-reimbursement-claim-now": "Would you like to file a travel reimbursement claim now?",
+  "you-are-eligible-for-travel-reimbursement-if-youre": "You are eligible for travel reimbursement if you're traveling for care at a VA health facility or for VA-approved care at a non-VA health facility in your community, and at least one of the following is true:",
+  "you-have-a-va-disability-rating-of": "You have a VA disability rating of 30% or higher.",
+  "youre-traveling-for-treatment-of-a-service-connected-condition": "You're traveling for treatment of a service-connected condition.",
+  "you-receive-va-pension-benefits": "You receive VA pension benefits.",
+  "you-have-an-annual-income-below-the-maximum": "You have an annual income below the maximum annual VA pension rate.",
+  "youre-traveling-in-relation-to-a-compensation-and-pension": "You're traveling to a Compensation and Pension, or C&P, exam.",
+  "how-to-update-next-of-kin": "How to update your next of kin information",
+  "confirm-who-youd-like-to-represent-your-wishes": "Confirm who you'd like to represent your wishes for care, medical documentation, and benefits if needed. Your next of kin is often your closest living relative, like your spouse, child, parent, or sibling.",
+  "if-this-isnt-your-correct-information-a-staff-member-can-help--dayOf": "If this isn’t your correct information, select <0>No</0> and a staff member can help you check in and update your information.",
+  "if-this-isnt-your-correct-information-a-staff-member-can-help--preCheckIn": "If this isn’t your correct information, select <0>No</0> and a staff member can help you update your information on the day of your appointment."
 }

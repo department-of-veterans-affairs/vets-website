@@ -7,7 +7,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import { recordAnswer } from '../../../actions/universal';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useStorage } from '../../../hooks/useStorage';
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { URLS } from '../../../utils/navigation';
 
@@ -19,6 +19,7 @@ const TravelPage = ({
   eyebrow,
   bodyText,
   helpText,
+  additionalInfo,
   pageType,
   router,
 }) => {
@@ -42,7 +43,7 @@ const TravelPage = ({
       goToNextPage();
     }
   };
-  const { getCheckinComplete } = useSessionStorage(false);
+  const { getCheckinComplete } = useStorage(false);
   useLayoutEffect(() => {
     if (getCheckinComplete(window)) {
       jumpToPage(URLS.DETAILS);
@@ -68,6 +69,11 @@ const TravelPage = ({
           >
             {bodyText}
           </div>
+        )}
+        {additionalInfo && (
+          <va-additional-info trigger="Travel reimbursement eligibility">
+            <>{additionalInfo}</>
+          </va-additional-info>
         )}
         {helpText && (
           <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
@@ -109,6 +115,7 @@ TravelPage.propTypes = {
   header: PropTypes.string.isRequired,
   pageType: PropTypes.string.isRequired,
   router: PropTypes.object.isRequired,
+  additionalInfo: PropTypes.string,
   bodyText: PropTypes.node,
   eyebrow: PropTypes.string,
   helpText: PropTypes.node,

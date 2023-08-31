@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearSearchResults, runAdvancedSearch } from '../../actions/search';
@@ -11,10 +11,9 @@ import { DateRangeValues } from '../../util/inputContants';
 import { dateFormat } from '../../util/helpers';
 
 const SearchForm = props => {
-  const { folder, keyword, resultsCount, query } = props;
+  const { folder, keyword, resultsCount, query, threadCount } = props;
   const dispatch = useDispatch();
   const location = useLocation();
-  const folders = useSelector(state => state.sm.folders.folderList);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTermError, setSearchTermError] = useState(null);
   const [category, setCategory] = useState('');
@@ -204,6 +203,7 @@ const SearchForm = props => {
   return (
     <>
       <form
+        data-testId="search-form"
         className="search-form"
         onSubmit={() => {
           handleSearch();
@@ -247,11 +247,10 @@ const SearchForm = props => {
             new message. These emails include the message ID.
           </va-additional-info>
         )}
-        {folders && (
+        {threadCount > 0 && (
           <div>
             <FilterBox
               ref={filterBoxRef}
-              folders={folders}
               keyword={keyword}
               category={category}
               setCategory={setCategory}
@@ -300,6 +299,7 @@ SearchForm.propTypes = {
   keyword: PropTypes.string,
   query: PropTypes.object,
   resultsCount: PropTypes.number,
+  threadCount: PropTypes.number,
 };
 
 export default SearchForm;

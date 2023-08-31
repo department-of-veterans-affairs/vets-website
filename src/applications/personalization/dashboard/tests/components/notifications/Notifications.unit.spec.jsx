@@ -34,7 +34,7 @@ describe('<Notifications />', () => {
     ];
     const initialState = {
       featureToggles: {
-        [Toggler.TOGGLE_NAMES.myVaUseExperimental]: false,
+        [Toggler.TOGGLE_NAMES.myVaEnableNotificationComponent]: false,
       },
     };
     const tree = renderWithStoreAndRouter(

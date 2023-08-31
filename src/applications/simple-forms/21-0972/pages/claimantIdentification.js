@@ -15,7 +15,7 @@ export default {
         labels: claimantIdentificationOptions,
       },
       'ui:errorMessages': {
-        enum: 'Please select who you will be signing for',
+        required: 'Please select who you will be signing for',
       },
     },
   },
