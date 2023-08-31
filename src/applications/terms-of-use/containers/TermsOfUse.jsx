@@ -1,21 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
-
-const pr = new Intl.PluralRules('en-US', { type: 'ordinal' });
-
-const suffixes = new Map([
-  ['one', 'st'],
-  ['two', 'nd'],
-  ['few', 'rd'],
-  ['other', 'th'],
-]);
-const formatOrdinals = n => {
-  const rule = pr.select(n);
-  const suffix = suffixes.get(rule);
-  return `${n}${suffix}`;
-};
+import { isLoggedIn } from 'platform/user/selectors';
+import touData from '../touData';
 
 export default function TermsOfUse() {
+  const touDate = `5/30/2023`;
+  const loggedIn = useSelector(isLoggedIn);
   return (
     <section className="vads-l-grid-container vads-u-padding-y--5 vads-u-padding-x--0">
       <div className="usa-content">
@@ -30,7 +21,7 @@ export default function TermsOfUse() {
           <div>
             <p>
               Version: 1<br />
-              Last updated: {new Date().toLocaleDateString()}
+              Last updated: {touDate}
             </p>
             <p>
               If you want to save or print the terms, you can download a copy
@@ -56,16 +47,9 @@ export default function TermsOfUse() {
           </p>
           <div>
             <va-accordion bordered>
-              {Array.from({
-                length: 7,
-              }).map((_, i) => (
-                <va-accordion-item
-                  header={`${formatOrdinals(i + 1)}`}
-                  level={3}
-                  key={i}
-                >
-                  This is some long summary that needs to see some information
-                  for {formatOrdinals(i + 1)} one
+              {touData.map(({ header, content }) => (
+                <va-accordion-item header={header} level={3} key={header}>
+                  {content}
                 </va-accordion-item>
               ))}
             </va-accordion>
@@ -106,20 +90,24 @@ export default function TermsOfUse() {
               <li>Update your personal information</li>
             </ul>
           </va-alert>
-          <h2 id="do-you-accept-of-terms-of-use">
-            Do you accept these terms of use?
-          </h2>
-          <va-button
-            text="Accept"
-            onClick={() => {}}
-            ariaLabel="I accept to VA online serivices terms of use"
-          />
-          <va-button
-            text="Decline"
-            secondary
-            ariaLabel="I decline to VA online serivices terms of use"
-            onClick={() => {}}
-          />
+          {loggedIn && (
+            <>
+              <h2 id="do-you-accept-of-terms-of-use">
+                Do you accept these terms of use?
+              </h2>
+              <va-button
+                text="Accept"
+                onClick={() => {}}
+                ariaLabel="I Accept to VA online serivices terms of use"
+              />
+              <va-button
+                text="Decline"
+                secondary
+                ariaLabel="I Decline to VA online serivices terms of use"
+                onClick={() => {}}
+              />
+            </>
+          )}
         </article>
       </div>
     </section>
