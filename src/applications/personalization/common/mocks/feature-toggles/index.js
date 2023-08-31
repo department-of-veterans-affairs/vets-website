@@ -8,6 +8,7 @@ const generateFeatureToggles = (toggles = {}) => {
     myVaNotificationDotIndicator = true,
     myVaUpdateErrorsWarnings = true,
     vaOnlineSchedulingBreadcrumbUrlUpdate = true,
+    vaOnlineSchedulingStaticLandingPage = true,
   } = toggles;
 
   return {
@@ -45,6 +46,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'va_online_scheduling_breadcrumb_url_update',
           value: vaOnlineSchedulingBreadcrumbUrlUpdate,
+        },
+        {
+          name: 'va_online_scheduling_static_landing_page',
+          value: vaOnlineSchedulingStaticLandingPage,
         },
       ],
     },
