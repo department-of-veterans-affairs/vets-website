@@ -31,21 +31,22 @@ const PrintDownload = props => {
       setPrintIndex(printIndex + 1);
     }
 
-    if (e.keyCode === 13) {
-      if (printIndex === 0) {
-        window.print();
-      } else if (printIndex === 1) {
-        download();
-      } else if (printIndex === 2) {
-        // download text function will go here
+    if (e.keyCode === 32 || e.keyCode === 13) {
+      if (menuOpen === true) {
+        if (printIndex === 0) {
+          window.print();
+        } else if (printIndex === 1) {
+          download();
+        } else if (printIndex === 2) {
+          // download text function will go here
+        }
+      } else if (menuOpen === false) {
+        setMenuOpen(true);
       }
     }
 
     if (e.keyCode === 27) {
       setMenuOpen(false);
-    }
-    if (e.keyCode === 32) {
-      setMenuOpen(true);
     }
   };
 
@@ -127,9 +128,9 @@ const PrintDownload = props => {
             padding: '8px',
           }}
         >
-          <i>You can use the arrow keys to make a selection.</i>
+          <i>You can use the arrow keys to select an option.</i>
           <br />
-          <i>Press "enter" to go select.</i>
+          <i>Press "enter" or "spacebar" to choose.</i>
           <br />
           <i>Press "esc" to go close.</i>
         </div>
