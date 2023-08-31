@@ -187,8 +187,9 @@ export function transform(formConfig, form) {
             dateOfBirth: application.claimant.dateOfBirth,
             ssn: application.claimant.ssn,
             isDeceased: 'no',
-            serviceName:
-              application.veteran.serviceName || application.claimant.name,
+            serviceName: get('application.veteran.view:hasServiceName', form)
+              ? application.veteran.serviceName || application.claimant.name
+              : application.claimant.name,
           },
         })
       : application;
@@ -208,8 +209,9 @@ export function transform(formConfig, form) {
   const populateVeteranData = application =>
     merge({}, application, {
       veteran: {
-        serviceName:
-          application.veteran.serviceName || application.veteran.currentName,
+        serviceName: get('application.veteran.view:hasServiceName', form)
+          ? application.veteran.serviceName || application.veteran.currentName
+          : application.veteran.currentName,
       },
       applicant: {
         applicantEmail: application.claimant.email,
