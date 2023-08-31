@@ -9,8 +9,6 @@ jobs:
   fetch-unit-tests-allow-list:
     name: Fetch Unit Tests Allow List
     runs-on: ubuntu-latest
-    outputs:
-      allow_list: ${{ steps.allow-list-output.outputs.list }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -68,9 +66,15 @@ jobs:
           TEST_TYPE: unit_test
       # exports app list and assigns to environmental variable at this step
 
-      - name: Set Allow List Output
-        id: allow-list-output
-        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
+      - name: Write allow list to file
+        run: echo "$ALLOW_LIST" > unit_test_allow_list.json
+
+      - name: Archive allow list
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: unit_test_allow_list.json
 
   unit-tests-stress-test:
     name: Unit Tests
@@ -259,6 +263,11 @@ jobs:
           name: unit-test-report
           path: qa-standards-dashboard-data/src/allow-list/data
 
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: .
       - name: Copy test results to mochawesome directory
         run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
 
