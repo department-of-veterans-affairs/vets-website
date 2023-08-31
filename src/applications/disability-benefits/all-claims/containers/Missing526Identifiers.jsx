@@ -38,17 +38,17 @@ const formatMissingIdentifiers = missingIdentifiers => {
   return formatList(readableIdentifiers);
 };
 
-const Alert = ({ content, title }) => (
+const Alert = ({ children, title }) => (
   <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
     <div className="usa-content">
       <h1>{title}</h1>
-      <va-alert status="error">{content}</va-alert>
+      <va-alert status="error">{children}</va-alert>
     </div>
   </div>
 );
 
 Alert.propTypes = {
-  content: PropTypes.node,
+  children: PropTypes.node,
   title: PropTypes.string,
 };
 
@@ -91,7 +91,7 @@ const displayContent = (title, form526RequiredIdentifers) => {
 export const Missing526Identifiers = ({ title, form526RequiredIdentifers }) => {
   const alertContent = displayContent(title, form526RequiredIdentifers);
 
-  return <Alert title={title} content={alertContent} />;
+  return <Alert title={title}>{alertContent}</Alert>;
 };
 
 Missing526Identifiers.propTypes = {
