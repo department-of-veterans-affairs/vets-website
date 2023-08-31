@@ -20,7 +20,7 @@ import '../../shared/definitions';
  *  issues
  * @return {ContestableIssues} - Array of eligible contestable issues
  */
-export const getEligibleContestableIssues = (issues, { showPart3 } = {}) => {
+export const getEligibleContestableIssues = issues => {
   const today = moment().startOf('day');
   const result = (issues || []).filter(issue => {
     const {
@@ -36,7 +36,7 @@ export const getEligibleContestableIssues = (issues, { showPart3 } = {}) => {
     if (isDeferred || !date.isValid() || !ratingIssueSubjectText) {
       return false;
     }
-    return showPart3 || date.add(1, 'years').isAfter(today);
+    return date.add(1, 'year').isAfter(today);
   });
   return processContestableIssues(result);
 };

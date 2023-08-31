@@ -4,6 +4,9 @@ import {
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../actions';
 
+import { getEligibleContestableIssues } from '../utils/submit';
+import { processContestableIssues } from '../../shared/utils/issues';
+
 const initialState = {
   issues: [],
   status: '',
@@ -21,7 +24,12 @@ export default function contestableIssues(state = initialState, action) {
     case FETCH_CONTESTABLE_ISSUES_SUCCEEDED: {
       return {
         ...state,
-        issues: action.response?.data,
+        // getEligibleContestableIssues removes issues that are deferred,
+        // missing a title, or have an invalid date, while
+        // processContestableIssues sorts the issues
+        issues: processContestableIssues(
+          getEligibleContestableIssues(action.response?.data),
+        ),
         status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
         error: '',
       };

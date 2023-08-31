@@ -9,7 +9,6 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import formConfig from '../config/form';
 import { nodPart3UpdateFeature } from '../utils/helpers';
-import { getEligibleContestableIssues } from '../utils/submit';
 
 import { SHOW_PART3 } from '../constants';
 
@@ -20,7 +19,6 @@ import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagree
 import {
   getSelected,
   getIssueNameAndDate,
-  processContestableIssues,
   issuesNeedUpdating,
 } from '../../shared/utils/issues';
 
@@ -50,14 +48,7 @@ export const FormApp = ({
         ) {
           setFormData({
             ...formData,
-            // getEligibleContestableIssues removes issues that are deferred,
-            // missing a title, or have an invalid date, while
-            // processContestableIssues sorts the issues
-            contestedIssues: processContestableIssues(
-              getEligibleContestableIssues(contestableIssues?.issues, {
-                showPart3,
-              }),
-            ),
+            contestedIssues: contestableIssues?.issues,
           });
         } else if (
           areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
@@ -93,7 +84,6 @@ export const FormApp = ({
       showPart3,
     ],
   );
-
   const content = isLoading ? (
     <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
       <va-loading-indicator set-focus message="Loading application..." />
