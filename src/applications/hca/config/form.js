@@ -26,7 +26,7 @@ import GetHelp from '../components/GetHelp';
 
 // chapter 1 Veteran Information
 import VeteranInformation from '../components/FormPages/VeteranInformation';
-import personalInformationDOB from './chapters/veteranInformation/veteranDateOfBirth';
+import veteranDateOfBirth from './chapters/veteranInformation/veteranDateOfBirth';
 import birthInformation from './chapters/veteranInformation/birthInformation';
 import maidenNameInformation from './chapters/veteranInformation/maidenNameInformation';
 import birthSex from './chapters/veteranInformation/birthSex';
@@ -174,8 +174,8 @@ const formConfig = {
           initialData: {},
           depends: formData =>
             formData['view:isLoggedIn'] && !formData['view:userDob'],
-          uiSchema: personalInformationDOB.uiSchema,
-          schema: personalInformationDOB.schema,
+          uiSchema: veteranDateOfBirth.uiSchema,
+          schema: veteranDateOfBirth.schema,
         },
         birthInformation: {
           path: 'veteran-information/birth-information',
