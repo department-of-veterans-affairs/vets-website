@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Switch,
@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 // import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 import { selectIsNewAppointmentStarted } from './redux/selectors';
 import newAppointmentReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
@@ -39,9 +40,12 @@ import useVariantSortMethodTracking from './hooks/useVariantSortMethodTracking';
 export function NewAppointment() {
   const isCernerOnlyPatient = useSelector(selectIsCernerOnlyPatient);
   const isNewAppointmentStarted = useSelector(selectIsNewAppointmentStarted);
-
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
   const match = useRouteMatch();
   const location = useLocation();
+  const [crumb, setCrumb] = useState('New appointment');
 
   useManualScrollRestoration();
 
@@ -63,8 +67,94 @@ export function NewAppointment() {
     return <Redirect to="/" />;
   }
 
+  if (featureBreadcrumbUrlUpdate) {
+    return (
+      <FormLayout
+        isReviewPage={location.pathname.includes('review')}
+        pageTitle={crumb}
+      >
+        <Switch>
+          <Route path={`${match.url}/contact-info`}>
+            <ContactInfoPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+
+          <Route path={`${match.url}/choose-facility-type`}>
+            <TypeOfFacilityPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route
+            path={`${match.url}/choose-visit-type`}
+            component={TypeOfVisitPage}
+          />
+          <Route path={`${match.url}/choose-sleep-care`}>
+            <TypeOfSleepCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+
+          <Route path={`${match.url}/choose-eye-care`}>
+            <TypeOfEyeCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route path={`${match.url}/audiology`}>
+            <TypeOfAudiologyCarePage
+              changeCrumb={newTitle => setCrumb(newTitle)}
+            />
+          </Route>
+          <Route path={`${match.url}/preferred-date`}>
+            <PreferredDatePage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+
+          <Route
+            path={`${match.url}/request-date`}
+            component={DateTimeRequestPage}
+          />
+          <Route path={`${match.url}/select-date`}>
+            <DateTimeSelectPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+
+          <Route path={`${match.url}/va-facility-2`}>
+            <VAFacilityPageV2 changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route
+            path={`${match.url}/how-to-schedule`}
+            component={ScheduleCernerPage}
+          />
+          <Route
+            path={`${match.url}/community-care-preferences`}
+            component={CommunityCareProviderSelectionPage}
+          />
+          <Route
+            path={`${match.url}/community-care-language`}
+            component={CommunityCareLanguagePage}
+          />
+          <Route
+            path={`${match.url}/choose-closest-city`}
+            component={ClosestCityStatePage}
+          />
+          <Route path={`${match.url}/clinics`}>
+            <ClinicChoicePage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route path={`${match.url}/reason-appointment`}>
+            <ReasonForAppointmentPage
+              changeCrumb={newTitle => setCrumb(newTitle)}
+            />
+          </Route>
+          <Route path={`${match.url}/review`}>
+            <ReviewPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route
+            path={`${match.url}/confirmation`}
+            component={ConfirmationPage}
+          />
+          <Route path="/">
+            <TypeOfCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+        </Switch>
+      </FormLayout>
+    );
+  }
   return (
-    <FormLayout isReviewPage={location.pathname.includes('review')}>
+    <FormLayout
+      isReviewPage={location.pathname.includes('review')}
+      pageTitle={crumb}
+    >
       <Switch>
         <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />
         <Route
