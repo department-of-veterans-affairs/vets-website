@@ -6,6 +6,7 @@ import Appointments from '../pages/Appointments';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Check In Experience -- ', () => {
   describe('Appointment display -- ', () => {
@@ -37,6 +38,7 @@ describe('Check In Experience -- ', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      AppointmentsPage.attemptCheckIn();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.attemptToGoToNextPage();
       NextOfKin.attemptToGoToNextPage();

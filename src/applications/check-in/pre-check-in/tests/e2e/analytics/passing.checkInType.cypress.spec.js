@@ -2,7 +2,7 @@ import '../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import Introduction from '../pages/Introduction';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
@@ -10,7 +10,6 @@ import Confirmation from '../pages/Confirmation';
 
 describe('Pre-Check In Experience ', () => {
   describe('analytics', () => {
-    let apiData = {};
     beforeEach(() => {
       const {
         initializeFeatureToggle,
@@ -30,7 +29,7 @@ describe('Pre-Check In Experience ', () => {
         expect(req.body.session.checkInType).to.equal('preCheckIn');
       });
 
-      apiData = initializePreCheckInDataGet.withSuccess({
+      initializePreCheckInDataGet.withSuccess({
         extraValidation: req => {
           expect(req.query.checkInType).to.equal('preCheckIn');
         },
@@ -53,12 +52,9 @@ describe('Pre-Check In Experience ', () => {
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.attemptToGoToNextPage();
 
-      // page: Introduction
-      Introduction.validatePageLoaded();
-      Introduction.countAppointmentList(apiData.payload.appointments.length);
-      cy.injectAxeThenAxeCheck();
-
-      Introduction.attemptToGoToNextPage();
+      // page: Appointments
+      AppointmentsPage.validatePageLoaded();
+      AppointmentsPage.attemptPreCheckIn();
 
       // page: Demographics
       Demographics.validatePageLoaded();

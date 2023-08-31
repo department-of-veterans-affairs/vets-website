@@ -7,6 +7,7 @@ import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Appointments from '../pages/Appointments';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 import Confirmation from '../pages/Confirmation';
 import AppointmentDetails from '../../../../tests/e2e/pages/AppointmentDetails';
 
@@ -38,6 +39,7 @@ describe('Check In Experience', () => {
       cy.visitWithUUID();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      AppointmentsPage.attemptCheckIn();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();

@@ -6,6 +6,7 @@ import Error from '../../pages/Error';
 import Demographics from '../../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../../tests/e2e/pages/EmergencyContact';
+import AppointmentsPage from '../../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Check In Experience ', () => {
   beforeEach(() => {
@@ -31,6 +32,14 @@ describe('Check In Experience ', () => {
     cy.visitWithUUID();
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();
+<<<<<<< HEAD
+=======
+
+    AppointmentsPage.attemptCheckIn();
+
+    Demographics.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+>>>>>>> bc6d647102 (Check in/62101/add unified landing page (#25240))
     Demographics.attemptToGoToNextPage();
     EmergencyContact.attemptToGoToNextPage();
     NextOfKin.attemptToGoToNextPage();

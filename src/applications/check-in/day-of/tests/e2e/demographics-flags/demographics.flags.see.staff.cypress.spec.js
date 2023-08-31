@@ -6,6 +6,7 @@ import Demographics from '../../../../tests/e2e/pages/Demographics';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import SeeStaff from '../pages/SeeStaff';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Check In Experience', () => {
   describe('Demographics Update Flags', () => {
@@ -37,6 +38,8 @@ describe('Check In Experience', () => {
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
 
+      AppointmentsPage.attemptCheckIn();
+
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Demographics.attemptToGoToNextPage('no');
@@ -60,6 +63,8 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+
+      AppointmentsPage.attemptCheckIn();
 
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
@@ -93,6 +98,8 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+
+      AppointmentsPage.attemptCheckIn();
 
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
@@ -157,6 +164,8 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+
+      AppointmentsPage.attemptCheckIn();
 
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
