@@ -32,7 +32,7 @@ describe('Pre Check In Experience', () => {
       });
     });
     it('On page reload, the data should be pull from session storage and redirected to landing screen with data loaded', () => {
-      const featureRoute = '/health-care/appointment-pre-check-in/introduction';
+      const featureRoute = '/health-care/appointment-pre-check-in/appointments';
       cy.visit(featureRoute);
       // redirected back to landing page to reload the data
       ValidateVeteran.validatePage.preCheckIn();

@@ -5,6 +5,7 @@ import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Check In Experience', () => {
   describe('Next of kin Page', () => {
@@ -25,7 +26,7 @@ describe('Check In Experience', () => {
       cy.visitWithUUID();
       validateVeteran.validateVeteran();
       validateVeteran.attemptToGoToNextPage();
-      Demographics.validatePageLoaded();
+      AppointmentsPage.attemptCheckIn();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.attemptToGoToNextPage();
     });
