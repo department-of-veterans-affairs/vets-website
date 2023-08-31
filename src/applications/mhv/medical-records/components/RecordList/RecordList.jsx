@@ -58,15 +58,15 @@ const RecordList = props => {
 
   return (
     <div className="record-list vads-l-row vads-u-flex-direction--column">
-      <div
-        className="pagination vads-u-padding-y--1 vads-u-margin-bottom--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
+      <h2
+        className="pagination vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--0 vads-u-font-weight--normal vads-u-padding-y--1 vads-u-margin-bottom--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
         hidden={hidePagination}
         id="showingRecords"
       >
         Showing {displayNums[0]}
         &#8211;
         {displayNums[1]} of {totalEntries} records from newest to oldest
-      </div>
+      </h2>
       <div className="no-print">
         {currentRecords?.length > 0 &&
           currentRecords.map((record, idx) => (

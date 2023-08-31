@@ -6,7 +6,7 @@ import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import recordEvent from '~/platform/monitoring/record-event';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
+import { CernerWidget } from '~/applications/personalization/dashboard/components/CernerWidgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
 import {
   selectUnreadCount,
@@ -146,6 +146,7 @@ const HealthCareContentV2 = ({
       </div>
     );
   }
+
   return (
     <div className="vads-l-row">
       <DashboardWidgetWrapper>

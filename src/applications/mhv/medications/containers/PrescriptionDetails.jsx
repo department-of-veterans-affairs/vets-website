@@ -2,15 +2,14 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import {
-  fillPrescription,
-  getPrescriptionDetails,
-} from '../actions/prescriptions';
+import { getPrescriptionDetails } from '../actions/prescriptions';
 import PrintHeader from './PrintHeader';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import TrackingInfo from '../components/shared/TrackingInfo';
+import { updatePageTitle } from '../../shared/util/helpers';
+import FillRefillButton from '../components/shared/FillRefillButton';
 
 const PrescriptionDetails = () => {
   const currentDate = new Date();
@@ -45,6 +44,7 @@ const PrescriptionDetails = () => {
     () => {
       if (prescription) {
         focusElement(document.querySelector('h1'));
+        updatePageTitle(prescription.prescriptionName);
       }
     },
     [prescription],
@@ -199,37 +199,7 @@ const PrescriptionDetails = () => {
             <h2 className="vads-u-margin-y--2 no-print">
               About your prescription
             </h2>
-            <div className="no-print">
-              {prescription.error && (
-                <div>
-                  <va-alert status="error" visible>
-                    <p className="vads-u-margin-y--0">
-                      We didn’t get your refill request. Try again.
-                    </p>
-                    <p className="vads-u-margin-y--0">
-                      If it still doesn’t work, call your VA pharmacy
-                      {prescription?.phoneNumber ? (
-                        <>
-                          <span> at </span>
-                          <va-telephone contact={prescription.phoneNumber} />
-                          <span>
-                            (<va-telephone tty contact="711" />)
-                          </span>
-                        </>
-                      ) : (
-                        <>.</>
-                      )}
-                    </p>
-                  </va-alert>
-                </div>
-              )}
-              <va-button
-                text="Refill prescription"
-                onClick={() =>
-                  dispatch(fillPrescription(prescription.prescriptionId))
-                }
-              />
-            </div>
+            <FillRefillButton {...prescription} />
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescription number
             </h3>
@@ -330,14 +300,10 @@ const PrescriptionDetails = () => {
               refillHistory.map((entry, i) => (
                 <div key={entry.id}>
                   <h3 className="vads-u-font-size--lg vads-u-font-family--sans">
-                    {dateFormat(entry.dispensedDate, 'MMMM D, YYYY')}
+                    {i + 1 === refillHistory.length
+                      ? 'Original Fill'
+                      : `Refill #${refillHistory.length - i - 1}`}
                   </h3>
-                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
-                    Refill requested on
-                  </h4>
-                  <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.refillSubmitDate, 'MMMM D, YYYY')}
-                  </p>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                     Filled by pharmacy on
                   </h4>
@@ -358,7 +324,7 @@ const PrescriptionDetails = () => {
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                     {/* TODO: Not yet available */}
-                    Not noted
+                    None noted
                   </p>
                   <div className="no-print">
                     <va-additional-info trigger="Review image">
