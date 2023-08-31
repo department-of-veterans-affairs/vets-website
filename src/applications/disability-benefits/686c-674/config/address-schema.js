@@ -247,7 +247,7 @@ export const addressUISchema = (
         'ui:title': 'Street address line 2',
         'ui:autocomplete': 'address-line2',
         'ui:errorMessages': {
-          pattern: 'Street address must be 35 characters or less',
+          pattern: 'Street address lines 2 must be 35 characters or less',
         },
         'ui:options': {
           hideEmptyValueInReview: true,
@@ -262,7 +262,7 @@ export const addressUISchema = (
         'ui:title': 'Street address line 3',
         'ui:autocomplete': 'address-line3',
         'ui:errorMessages': {
-          pattern: 'Street address must be 35 characters or less',
+          pattern: 'Street address line 3 must be 35 characters or less',
         },
         'ui:options': {
           hideEmptyValueInReview: true,
