@@ -1,5 +1,8 @@
+import prescriptions from '../fixtures/prescriptions.json';
+
 class MedicationsListPage {
   clickGotoMedicationsLink = () => {
+    cy.intercept('GET', '/my-health/medications', prescriptions);
     cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
   };
 
