@@ -8,6 +8,7 @@ import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import Appointments from '../pages/Appointments';
 
 import sharedData from '../../../../api/local-mock-api/mocks/v2/shared';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 // TODO: remove commment once this is not disallowed
 
@@ -53,6 +54,7 @@ describe('Check In Experience -- ', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      AppointmentsPage.attemptCheckIn();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.attemptToGoToNextPage();
       NextOfKin.attemptToGoToNextPage();
