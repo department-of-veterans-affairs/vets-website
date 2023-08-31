@@ -451,19 +451,10 @@ const ComposeForm = props => {
                     setEditListModal(false);
                   }}
                 >
-                  Edit your contact list on the My HealtheVet website
+                  Edit your contact list or signature on the My HealtheVet
+                  website (opens in new tab)
                 </a>
               </VaModal>
-
-              <va-button
-                id="edit-list-button"
-                text="Edit list"
-                label="Edit list"
-                secondary=""
-                class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1 hydrated"
-                data-testid="Edit-List-Button"
-                onClick={() => setEditListModal(true)}
-              />
             </>
           )}
           <div className="compose-form-div">
@@ -490,7 +481,7 @@ const ComposeForm = props => {
               data-dd-privacy="mask"
             />
           </div>
-          <div className="compose-form-div">
+          <div className="compose-form-div vads-u-margin-bottom--0">
             <va-textarea
               label="Message"
               required
@@ -503,6 +494,17 @@ const ComposeForm = props => {
               error={bodyError}
               data-dd-privacy="mask"
             />
+            <div className="edit-contact-list-or-signature">
+              <va-button
+                id="edit-contact-list-or-signature-button"
+                text="Edit contact list or signature"
+                label="Edit contact list or signature"
+                secondary=""
+                class="vads-u-flex--1 edit-contact-list-or-signature-button vads-u-margin-bottom--1 hydrated"
+                data-testid="Edit-List-Button"
+                onClick={() => setEditListModal(true)}
+              />
+            </div>
           </div>
           <section className="attachments-section">
             <AttachmentsList
