@@ -66,9 +66,6 @@ jobs:
           TEST_TYPE: unit_test
       # exports app list and assigns to environmental variable at this step
 
-      - name: Write allow list to file
-        run: echo "$ALLOW_LIST" > unit_test_allow_list.json
-
       - name: Archive allow list
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
