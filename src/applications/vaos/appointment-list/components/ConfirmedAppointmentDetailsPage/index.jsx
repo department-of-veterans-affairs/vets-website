@@ -67,7 +67,7 @@ export default function ConfirmedAppointmentDetailsPage() {
         scrollAndFocus();
       }
     },
-    [appointment, appointmentDate, isCommunityCare],
+    [appointment, appointmentDate, isCommunityCare, featureBreadcrumbUrlUpdate],
   );
 
   useEffect(
