@@ -36,7 +36,7 @@ const primaryCareProvider = avs => {
     return (
       <div>
         <h3>Primary care provider</h3>
-        <ul>
+        <ul data-testid="primary-care-provider">
           {/* TODO: Confirm that this is correct. */}
           {avs.primaryCareProviders.length && (
             <li>{avs.primaryCareProviders[0]}</li>
@@ -51,7 +51,7 @@ const primaryCareProvider = avs => {
 };
 
 const primaryCareTeam = avs => {
-  if (avs.primaryCareTeamMembers.length > 0) {
+  if (avs.primaryCareTeamMembers?.length > 0) {
     const teamMembers = avs.primaryCareTeamMembers.map((member, idx) => (
       <li key={idx}>
         {member.name} - {member.title}
@@ -61,7 +61,9 @@ const primaryCareTeam = avs => {
     return (
       <div>
         <h3>Primary care team</h3>
-        <ul className="bulleted-list">{teamMembers}</ul>
+        <ul className="bulleted-list" data-testid="primary-care-team">
+          {teamMembers}
+        </ul>
       </div>
     );
   }
@@ -86,7 +88,9 @@ const appointments = avs => {
           <div>
             <h4>Scheduled appointments</h4>
             <p>Appointments in the next 13 months:</p>
-            <ul>{scheduledAppointments}</ul>
+            <ul data-testid="scheduled-appointments">
+              {scheduledAppointments}
+            </ul>
           </div>
         )}
         {recallAppointments && (
@@ -99,7 +103,7 @@ const appointments = avs => {
               you call, you will be assigned a confirmed appointment date and
               time.
             </p>
-            <ul>{recallAppointments}</ul>
+            <ul data-testid="recall-appointments">{recallAppointments}</ul>
           </div>
         )}
       </div>
@@ -115,7 +119,7 @@ const appointmentNotes = avs => {
       <div>
         <h3>Appointment notes</h3>
         {/* TODO: test with sample data when available. */}
-        <p>{avs.comments}</p>
+        <p data-testid="appointment-notes">{avs.comments}</p>
       </div>
     );
   }
@@ -128,7 +132,7 @@ const smokingStatus = avs => {
     return (
       <div>
         <h3>Smoking status</h3>
-        <p>{avs.patientInfo.smokingStatus}</p>
+        <p data-testid="smoking-status">{avs.patientInfo.smokingStatus}</p>
       </div>
     );
   }
@@ -152,7 +156,7 @@ const immunizations = avs => {
     ));
 
     return (
-      <div>
+      <div data-testid="immunizations">
         <h3>Immunizations</h3>
         {immunizationItems}
       </div>
@@ -184,7 +188,7 @@ const allergiesAndReactions = avs => {
     ));
 
     return (
-      <div>
+      <div data-testid="allergies-reactions">
         <h3>Allergies and adverse drug reactions (signs / symptoms)</h3>
         {allergyItems}
       </div>
@@ -230,7 +234,7 @@ const labResults = avs => {
     ));
 
     return (
-      <div className="lab-results">
+      <div className="lab-results" data-testid="lab-results">
         <h3>Recent lab results</h3>
         <p>
           Note: If your results are outside the reference range, this doesn’t
