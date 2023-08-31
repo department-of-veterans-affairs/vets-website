@@ -13,6 +13,8 @@ const { createHealthCareStatusSuccess } = require('./health-care');
 const { createUnreadMessagesSuccess } = require('./messaging');
 const { user81Copays } = require('./medical-copays');
 const { v2 } = require('./appointments');
+const mockLocalDSOT = require('../../common/mocks/script/drupal-vamc-data/mockLocalDSOT');
+const { boot } = require('../../common/mocks/script/utils');
 
 // set to true to simulate a user with debts for /v0/debts endpoint
 const hasDebts = false;
@@ -28,6 +30,7 @@ const responses = {
     myVaNotificationDotIndicator: true,
     myVaUpdateErrorsWarnings: true,
     vaOnlineSchedulingBreadcrumbUrlUpdate: true,
+    vaOnlineSchedulingStaticLandingPage: true,
   }),
   'GET /v0/user': user.simpleUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
@@ -91,4 +94,17 @@ const responses = {
   },
 };
 
-module.exports = delay(responses, 100);
+// here we can run anything that needs to happen before the mock server starts up
+// this runs every time a file is mocked
+// but the single boot function will only run once
+const generateMockResponses = () => {
+  boot(mockLocalDSOT);
+
+  // set DELAY=1000 when running mock server script
+  // to add 1 sec delay to all responses
+  const responseDelay = process?.env?.DELAY || 0;
+
+  return responseDelay > 0 ? delay(responses, responseDelay) : responses;
+};
+
+module.exports = generateMockResponses();

@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import { FACILITY_TYPES } from '../../utils/constants';
 import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
   openFormPage,
   routeToNextAppointmentPage,
@@ -59,7 +61,11 @@ const uiSchema = {
 const pageKey = 'typeOfFacility';
 const pageTitle = 'Choose where you want to receive your care';
 
-export default function TypeOfFacilityPage() {
+export default function TypeOfFacilityPage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
     state => getFormPageInfo(state, pageKey),
@@ -70,6 +76,9 @@ export default function TypeOfFacilityPage() {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   return (
@@ -101,3 +110,7 @@ export default function TypeOfFacilityPage() {
     </div>
   );
 }
+
+TypeOfFacilityPage.propTypes = {
+  changeCrumb: PropTypes.func,
+};
