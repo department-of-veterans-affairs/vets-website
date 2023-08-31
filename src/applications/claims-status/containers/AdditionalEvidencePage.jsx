@@ -157,7 +157,7 @@ function mapStateToProps(state) {
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.additionalEvidenceMessage,
     // START lighthouse_migration
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse: cstUseLighthouse(state, 'show'),
     // END lighthouse_migration
   };
 }
