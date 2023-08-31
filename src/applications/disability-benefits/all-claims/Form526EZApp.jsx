@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
-import backendServices from 'platform/user/profile/constants/backendServices';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import {
   WIZARD_STATUS_COMPLETE,
   WIZARD_STATUS_RESTARTING,
@@ -14,6 +14,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import { setData } from 'platform/forms-system/src/js/actions';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
@@ -25,23 +26,25 @@ import {
 
 import { MVI_ADD_SUCCEEDED } from './actions';
 import {
-  WIZARD_STATUS,
-  SHOW_8940_4192,
-  PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
+  PAGE_TITLE_SUFFIX,
+  SHOW_8940_4192,
+  SHOW_TOXIC_EXPOSURE,
+  WIZARD_STATUS,
 } from './constants';
 import {
-  show526Wizard,
   isBDD,
   getPageTitle,
+  getShowToxicExposure,
+  isExpired,
+  show526Wizard,
   showSubform8940And4192,
   wrapWithBreadcrumb,
-  isExpired,
 } from './utils';
 import {
-  getBranches,
-  fetchBranches,
   clearBranches,
+  fetchBranches,
+  getBranches,
 } from './utils/serviceBranches';
 
 export const serviceRequired = [
@@ -69,6 +72,7 @@ export const isIntroPage = ({ pathname = '' } = {}) =>
 
 export const Form526Entry = ({
   children,
+  formData,
   inProgressFormId,
   isBDDForm,
   location,
@@ -76,7 +80,9 @@ export const Form526Entry = ({
   mvi,
   router,
   savedForms,
+  setFormData,
   showSubforms,
+  showToxicExposurePages,
   showWizard,
   user,
 }) => {
@@ -124,8 +130,27 @@ export const Form526Entry = ({
         Sentry.setTag('account_uuid', profile.accountUuid);
         Sentry.setTag('in_progress_form_id', inProgressFormId);
       }
+
+      if (
+        showToxicExposurePages &&
+        typeof formData[SHOW_TOXIC_EXPOSURE] === 'undefined'
+      ) {
+        setFormData({
+          ...formData,
+          [SHOW_TOXIC_EXPOSURE]: showToxicExposurePages,
+        });
+      }
     },
-    [showSubforms, wizardStatus, inProgressFormId, profile, location],
+    [
+      formData,
+      inProgressFormId,
+      location,
+      profile,
+      setFormData,
+      showSubforms,
+      showToxicExposurePages,
+      wizardStatus,
+    ],
   );
 
   useEffect(
@@ -221,6 +246,7 @@ export const Form526Entry = ({
 Form526Entry.propTypes = {
   accountUuid: PropTypes.string,
   children: PropTypes.any,
+  formData: PropTypes.object,
   inProgressFormId: PropTypes.number,
   isBDDForm: PropTypes.bool,
   isStartingOver: PropTypes.bool,
@@ -235,7 +261,9 @@ Form526Entry.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
+  setFormData: PropTypes.func,
   showSubforms: PropTypes.bool,
+  showToxicExposurePages: PropTypes.bool,
   showWizard: PropTypes.bool,
   user: PropTypes.shape({
     profile: PropTypes.shape({}),
@@ -250,9 +278,18 @@ const mapStateToProps = state => ({
   loggedIn: isLoggedIn(state),
   mvi: state.mvi,
   savedForms: state?.user?.profile?.savedForms || [],
+  formData: state?.form?.data,
   showSubforms: showSubform8940And4192(state),
+  showToxicExposurePages: getShowToxicExposure(state),
   showWizard: show526Wizard(state),
   user: state.user,
 });
 
-export default connect(mapStateToProps)(Form526Entry);
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Form526Entry);

@@ -98,6 +98,8 @@ import {
   summaryOfDisabilities,
   summaryOfEvidence,
   terminallyIll,
+  toxicExposureConfirm,
+  toxicExposureIntro,
   trainingPay,
   trainingPayWaiver,
   uploadPersonalPtsdDocuments,
@@ -296,6 +298,20 @@ const formConfig = {
     disabilities: {
       title: 'Disabilities', // this probably needs to change
       pages: {
+        toxicExposureIntro: {
+          title: 'Toxic Exposure',
+          path: 'toxic-exposure-intro',
+          /* depends: TODO add toggle */
+          uiSchema: toxicExposureIntro.uiSchema,
+          schema: toxicExposureIntro.schema,
+        },
+        toxicExposureConfirm: {
+          title: 'Toxic Exposure Confirmation',
+          path: 'toxic-exposure-confirm',
+          /* depends: TODO add toggle */
+          uiSchema: toxicExposureConfirm.uiSchema,
+          schema: toxicExposureConfirm.schema,
+        },
         claimType: {
           title: 'Claim type',
           path: 'claim-type',
