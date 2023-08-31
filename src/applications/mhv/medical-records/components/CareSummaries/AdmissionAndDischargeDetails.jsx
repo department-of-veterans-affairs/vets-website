@@ -80,10 +80,10 @@ const AdmissionAndDischargeDetails = props => {
           <div className="time-header">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Dates:{' '}
+              <span className="vads-u-font-weight--normal">
+                {record.startDate} to {record.endDate}
+              </span>
             </h2>
-            <p>
-              {record.startDate} to {record.endDate}
-            </p>
           </div>
 
           <section className="set-width-486">

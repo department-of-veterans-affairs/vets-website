@@ -8,7 +8,7 @@ import { medicationsUrls } from '../util/constants';
 const LandingPage = () => {
   const fullState = useSelector(state => state);
   const medicationsUrl = fullState.user.login.currentlyLoggedIn
-    ? medicationsUrls.prescriptionsUrl
+    ? medicationsUrls.medicationsUrl
     : medicationsUrls.medicationsLogin;
 
   const content = () => {
