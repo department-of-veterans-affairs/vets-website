@@ -47,7 +47,7 @@ describe('Form 526 Missing Identifiers Error Message', () => {
       },
     };
 
-    it("should render a message noting the missing identifiers with 'and' between them", () => {
+    it("returns the missing identifiers separated with 'and'", () => {
       const tree = render(<Missing526Identifiers {...props} />);
       const messageParagraph = tree.container.querySelector('p');
 
@@ -79,7 +79,7 @@ describe('Form 526 Missing Identifiers Error Message', () => {
       },
     };
 
-    it("should render a message noting the missing identifiers with 'and' between them", () => {
+    it('returns the missing identifiers in a comma separated list', () => {
       const tree = render(<Missing526Identifiers {...props} />);
       const messageParagraph = tree.container.querySelector('p');
 
