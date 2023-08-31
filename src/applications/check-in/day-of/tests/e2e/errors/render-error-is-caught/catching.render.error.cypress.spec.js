@@ -6,6 +6,7 @@ import Error from '../../pages/Error';
 import Demographics from '../../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../../tests/e2e/pages/EmergencyContact';
+import AppointmentsPage from '../../../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Check In Experience ', () => {
   beforeEach(() => {
@@ -34,6 +35,8 @@ describe('Check In Experience ', () => {
     cy.injectAxeThenAxeCheck();
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();
+
+    AppointmentsPage.attemptCheckIn();
 
     Demographics.validatePageLoaded();
     cy.injectAxeThenAxeCheck();

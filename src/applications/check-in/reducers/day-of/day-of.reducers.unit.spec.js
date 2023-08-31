@@ -239,7 +239,7 @@ describe('check in', () => {
           expect(state.form).haveOwnProperty('pages');
           expect(state.form.pages).to.deep.equal([
             'verify',
-            'loading-appointments',
+            'appointments',
             'contact-information',
             'emergency-contact',
             'next-of-kin',

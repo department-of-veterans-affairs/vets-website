@@ -2,6 +2,7 @@ import '../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import Appointments from '../pages/Appointments';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 import Confirmation from '../pages/Confirmation';
 
 describe('Check In Experience', () => {
@@ -33,6 +34,7 @@ describe('Check In Experience', () => {
   });
   it('Returning user', () => {
     cy.visitWithUUID();
+    AppointmentsPage.attemptCheckIn();
     Appointments.validatePageLoaded();
     Appointments.validateAppointmentLength(1);
     cy.injectAxe();
