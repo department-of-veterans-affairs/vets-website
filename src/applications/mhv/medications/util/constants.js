@@ -68,6 +68,14 @@ export const rxListSortingOptions = [
 ];
 
 export const medicationsUrls = {
-  medicationsUrl: '/my-health/medications',
-  medicationsLogin: '/my-health/medications?next=loginModal&oauth=true',
+  MEDICATIONS_URL: '/my-health/medications',
+  MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
+};
+
+export const screenBreakpoints = {
+  XSMALL: 320,
+  SMALL: 481,
+  MEDIUM: 768,
+  SMALL_DESKTOP: 1008,
+  LARGE: 1201,
 };
