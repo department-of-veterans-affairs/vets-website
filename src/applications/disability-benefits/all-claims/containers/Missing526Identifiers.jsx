@@ -8,8 +8,12 @@ import { formatList } from '../utils';
 // Downcases the first char in the capitalized form title passed to this component
 // This is needed because we reference it within a sentance
 const titleLowerCase = (title = '') => {
-  const [firstChar, ...rest] = title;
-  return `${firstChar.toLowerCase()}${rest.join('')}`;
+  if (title.length > 0) {
+    const [firstChar, ...rest] = title;
+    return `${firstChar.toLowerCase()}${rest.join('')}`;
+  }
+
+  return title;
 };
 
 const filterMissingIdentifiers = form526RequiredIdentifers => {
