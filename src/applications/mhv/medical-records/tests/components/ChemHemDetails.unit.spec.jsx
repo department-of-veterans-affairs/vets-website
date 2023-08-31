@@ -57,7 +57,7 @@ describe('Chem Hem details component', () => {
   it('should display the formatted date', () => {
     const dateElement = screen.getByText('January', {
       exact: false,
-      selector: 'p',
+      selector: 'span',
     });
     expect(dateElement).to.exist;
   });

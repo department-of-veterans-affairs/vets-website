@@ -12,12 +12,12 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
 
-import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useStorage } from '../../../hooks/useStorage';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import { validateLogin } from '../../../utils/validateVeteran';
 
 const Index = ({ router }) => {
-  const { setPermissions } = useSessionStorage(true);
+  const { setPermissions } = useStorage(true);
   const { goToNextPage } = useFormRouting(router);
   const { t } = useTranslation();
   const dispatch = useDispatch();

@@ -287,11 +287,9 @@ export default class ArrayField extends React.Component {
 
       if (wrapper) {
         const focusableElements = getFocusableElements(wrapper);
-        const firstFocusableElement = wrapper.querySelector(
-          focusableElements[0].tagName,
-        );
-
-        firstFocusableElement.focus();
+        if (focusableElements.length) {
+          focusableElements[0].focus();
+        }
       }
     }, 0);
   }

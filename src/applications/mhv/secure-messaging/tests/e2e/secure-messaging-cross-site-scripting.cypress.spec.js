@@ -38,7 +38,7 @@ describe('Secure Messaging - Cross Site Scripting', () => {
       .should('contain', {
         category: `${requestBodyUpdated.category}`,
         body:
-          '\n\n\nName\nTitleTest message body - >\x3Cscript>alert(1);\x3C/script>',
+          '\n\n\nName\nTitleTestTest message body - >\x3Cscript>alert(1);\x3C/script>',
         subject: 'Test Cross Scripting - >\x3Cscript>alert(1);\x3C/script>',
       });
     composePage.verifySendMessageConfirmationMessage();

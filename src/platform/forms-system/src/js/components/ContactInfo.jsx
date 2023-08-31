@@ -223,7 +223,7 @@ const ContactInfo = ({
           {content.homePhone}
         </Headers>
         {showSuccessAlert('home-phone', content.homePhone)}
-        <span className="dd-privacy-hidden">
+        <span className="dd-privacy-hidden" data-dd-action-name="home phone">
           <va-telephone contact={homePhoneString} not-clickable />
         </span>
         {loggedIn && (
@@ -244,7 +244,7 @@ const ContactInfo = ({
       <React.Fragment key="mobile">
         <Headers className={headerClassNames}>{content.mobilePhone}</Headers>
         {showSuccessAlert('mobile-phone', content.mobilePhone)}
-        <span className="dd-privacy-hidden">
+        <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
           <va-telephone contact={mobilePhoneString} not-clickable />
         </span>
         {loggedIn && (
@@ -265,7 +265,9 @@ const ContactInfo = ({
       <React.Fragment key="email">
         <Headers className={headerClassNames}>{content.email}</Headers>
         {showSuccessAlert('email', content.email)}
-        <span className="dd-privacy-hidden">{dataWrap[keys.email] || ''}</span>
+        <span className="dd-privacy-hidden" data-dd-action-name="email">
+          {dataWrap[keys.email] || ''}
+        </span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
             <Link

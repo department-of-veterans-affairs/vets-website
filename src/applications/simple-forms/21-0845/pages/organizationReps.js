@@ -42,6 +42,7 @@ export default {
       organizationRepresentatives: {
         type: 'array',
         minItems: 1,
+        maxItems: 2, // PDF only has 2 lines for reps
         items: {
           type: 'object',
           properties: {

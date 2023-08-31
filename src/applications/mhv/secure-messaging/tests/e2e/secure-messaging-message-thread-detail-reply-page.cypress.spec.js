@@ -35,7 +35,7 @@ describe('Secure Messaging Reply Message Details Thread', () => {
     messageDetailsPage.verifyExpandedMessageToDisplay(testMessage);
     messageDetailsPage.verifyUnexpandedMessageFromDisplay(testMessage);
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck('.secure-messaging-container', {
       rules: {
         'aria-required-children': {
           enabled: false,

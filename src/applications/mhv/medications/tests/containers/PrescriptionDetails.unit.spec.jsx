@@ -88,4 +88,15 @@ describe('Prescription details container', () => {
     );
     expect(shippedOn).to.exist;
   });
+
+  it('displays the tracking number within Tracking Info', () => {
+    const screen = setup();
+
+    const trackingNumber = screen.getByTestId('tracking-number');
+
+    expect(trackingNumber).to.exist;
+    expect(trackingNumber).to.have.text(
+      rxDetailsResponse.data.attributes.trackingList[0][1][0].trackingNumber,
+    );
+  });
 });

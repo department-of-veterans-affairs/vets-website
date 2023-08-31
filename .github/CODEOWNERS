@@ -89,9 +89,10 @@ src/applications/static-pages/tests/facilities @department-of-veterans-affairs/v
 
 src/applications/caregivers @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 
-# Health Care Application
+# Health Care Applications
 
 src/applications/hca @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/benefits-team-1-frontend
+src/applications/ezr @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 
 # Healthcare Experience
 
