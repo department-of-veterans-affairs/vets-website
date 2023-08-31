@@ -1,10 +1,10 @@
 import '../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
-import Demographics from '../../../../tests/e2e/pages/Demographics';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 
 import sharedData from '../../../../api/local-mock-api/mocks/v2/shared';
+import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
 
 import Arrived from '../pages/Arrived';
 
@@ -35,16 +35,14 @@ describe('Check In Experience -- ', () => {
     ValidateVeteran.validatePage.dayOf('es');
     cy.get('[data-testid="translate-button-en"]').click();
     ValidateVeteran.validatePage.dayOf('en');
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
   it('Page language may be switched from spanish to tagalog', () => {
     // App is translated.
     ValidateVeteran.validatePage.dayOf('es');
     cy.get('[data-testid="translate-button-tl"]').click();
     ValidateVeteran.validatePage.dayOf('tl');
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
   it('Language preference persists when navigating', () => {
     // App is translated.
@@ -53,9 +51,10 @@ describe('Check In Experience -- ', () => {
     ValidateVeteran.validatePage.dayOf('en');
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();
+    AppointmentsPage.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
     Arrived.validateArrivedPage();
     Arrived.attemptToGoToNextPage();
-    Demographics.validatePageLoaded();
     cy.injectAxe();
     cy.axeCheck();
   });
