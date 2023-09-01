@@ -71,3 +71,10 @@ export const medicationsUrls = {
   medicationsUrl: '/my-health/medications',
   medicationsLogin: '/my-health/medications?next=loginModal&oauth=true',
 };
+
+export const refillStatus = [
+  'active',
+  'activeParked',
+  'hold',
+  'refillinprocess',
+];

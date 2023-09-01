@@ -22,7 +22,10 @@ const ExtraDetails = rx => {
       )}
       {refillStatus === 'refillinprocess' && (
         <div>
-          <div className="refillProcessIcon">
+          <div
+            className="refillProcessIcon"
+            data-testid="rx-refillinprocess-info"
+          >
             Refill in process. We expect to fill it on{' '}
             {dateFormat(rx.refillDate, 'MMMM D, YYYY')}
           </div>
