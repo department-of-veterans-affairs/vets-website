@@ -1,7 +1,6 @@
 import {
   focusElement,
   scrollTo,
-  scrollToTop,
   waitForRenderThenFocus,
 } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
@@ -28,7 +27,7 @@ export const focusIssue = (_index, root, value) => {
         focusElement('.edit-issue-link', null, card);
       }
     } else {
-      scrollToTop('h3');
+      scrollTo('h3');
       focusElement('h3');
     }
   });
