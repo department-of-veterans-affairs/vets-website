@@ -71,7 +71,6 @@ const {
 } = fullSchemaPreNeed.properties.application.properties;
 
 const {
-  firstLastName,
   fullName,
   ssn,
   date,
@@ -124,7 +123,6 @@ const formConfig = {
   errorText: ErrorText,
   submissionError: SubmissionError,
   defaultDefinitions: {
-    firstLastName,
     fullName,
     ssn,
     date,
@@ -852,9 +850,19 @@ const formConfig = {
                     'ui:title': "Preparer's first name",
                     'ui:required': isAuthorizedAgent,
                   },
+                  middle: {
+                    'ui:options': {
+                      hideIf: () => true,
+                    },
+                  },
                   last: {
                     'ui:title': "Preparer's last name",
                     'ui:required': isAuthorizedAgent,
+                  },
+                  suffix: {
+                    'ui:options': {
+                      hideIf: () => true,
+                    },
                   },
                 },
               },
