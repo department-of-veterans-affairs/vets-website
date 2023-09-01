@@ -1,31 +1,31 @@
 import React from 'react';
-import { suffixes } from '@department-of-veterans-affairs/platform-static-data';
-import { countries, states } from 'vets-json-schema/dist/constants.json';
+import PersonalDetails from '../components/PersonalDetails';
 
 const App = () => {
   return (
-    <div>
-      <va-text-input label="First name" name="givenName" />
-      <va-text-input label="Middle name" name="middleName" />
-      <va-text-input label="Last name" name="familyName" />
-      <va-select label="Suffix" name="suffix">
-        <option value=""></option>
-        {suffixes.map(suffix => <option value={suffix}>{suffix}</option>)}
-      </va-select>
-      {/*
-      <va-select label="Country" name="country">
-        {countries.map(({ label, value }) => <option value={value}>{label}</option>)}
-      </va-select>
-       */}
-      <va-text-input label="Street address" name="addressLine1" />
-      <va-text-input label="Street address (line 2)" name="addressLine2" />
-      <va-text-input label="Street address (line 3)" name="addressLine3" />
-      <va-text-input label="City" name="city" />
-      <va-select label="State" name="state">
-        {states.USA.map(({ label, value }) => <option value={value}>{label}</option>)}
-      </va-select>
-      <va-text-input label="Zip code" name="zipCode" />
-      <va-text-input label="Phone number" name="primaryPhone" />
+    <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--4">
+      <div className="vads-l-row">
+        <div className="vads-l-col--3">
+          <nav className="va-subnav">
+            <div>
+              <h2 id="subnav-header" className="vads-u-font-size--h4">
+                Profile
+              </h2>
+              <ul>
+                <li>
+                  <a href="/profile/accoutn/security">Account Security</a>
+                </li>
+                <li>
+                  <a href="/associated-persons">Next-of-Kin</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+        <div className="vads-l-col--9">
+          <PersonalDetails variant="nextOfKinPrimary" />
+        </div>
+      </div>
     </div>
   )
 };
