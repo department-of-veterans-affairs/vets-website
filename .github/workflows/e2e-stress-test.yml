@@ -160,7 +160,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: e2e-allow-list
-          path: qa-standards-dashboard-data/unit_test_allow_list.json
+          path: qa-standards-dashboard-data/e2e_allow_list.json
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
