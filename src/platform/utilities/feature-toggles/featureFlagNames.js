@@ -3,6 +3,7 @@
 export default Object.freeze({
   avsEnabled: 'avs_enabled',
   bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
+  burialFormEnabled: 'burial_form_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
@@ -105,6 +106,7 @@ export default Object.freeze({
   nodPart3Update: 'nod_part3_update',
   omniChannelLink: 'omni_channel_link',
   pdfWarningBanner: 'pdf_warning_banner',
+  pensionFormEnabled: 'burial_form_enabled',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileDoNotRequireInternationalZipCode: 'profile_do_not_require_international_zip_code',
   profileHideDirectDepositCompAndPen: 'profile_hide_direct_deposit_comp_and_pen',
