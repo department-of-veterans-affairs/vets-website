@@ -1,6 +1,5 @@
 // import the toggleValues helper
 import { SELECTED, REGEXP } from '../constants';
-import { getEligibleContestableIssues } from '../../10182/utils/submit';
 
 import { replaceDescriptionContent } from './replace';
 import '../definitions';
@@ -121,15 +120,9 @@ export const processContestableIssues = contestableIssues => {
 export const calculateIndexOffset = (index, contestableIssuesLength) =>
   index - contestableIssuesLength;
 
-export const issuesNeedUpdating = (
-  loaded = [],
-  formIssues = [],
-  { showPart3 = {} },
-) => {
-  const loadedIssues = getEligibleContestableIssues(loaded, { showPart3 });
-  const existingIssues = getEligibleContestableIssues(formIssues, {
-    showPart3,
-  });
+export const issuesNeedUpdating = (loaded = [], formIssues = []) => {
+  const loadedIssues = processContestableIssues(loaded);
+  const existingIssues = processContestableIssues(formIssues);
   return loadedIssues.length !== existingIssues.length
     ? true
     : !loadedIssues.every(({ attributes }, index) => {

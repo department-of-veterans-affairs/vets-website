@@ -17,11 +17,9 @@ import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 
-import {
-  getSelected,
-  getIssueNameAndDate,
-  issuesNeedUpdating,
-} from '../../shared/utils/issues';
+import { getSelected, getIssueNameAndDate } from '../../shared/utils/issues';
+
+import { issuesNeedUpdating } from '../utils/issues';
 
 export const FormApp = ({
   isLoading,
@@ -87,16 +85,17 @@ export const FormApp = ({
           { showPart3 },
         )
       ) {
+        const contestedIssues = getEligibleContestableIssues(
+          contestableIssues?.issues,
+          {
+            showPart3,
+          },
+        );
         setFormData({
           ...formData,
           // Filters and normalizes the issues. See function definition for more
           // details.
-          contestedIssues: getEligibleContestableIssues(
-            contestableIssues?.issues,
-            {
-              showPart3,
-            },
-          ),
+          contestedIssues,
         });
       }
     },
