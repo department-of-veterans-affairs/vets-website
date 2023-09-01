@@ -15,6 +15,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
@@ -35,7 +36,6 @@ import {
 import {
   isBDD,
   getPageTitle,
-  getShowToxicExposure,
   isExpired,
   show526Wizard,
   showSubform8940And4192,
@@ -82,12 +82,15 @@ export const Form526Entry = ({
   savedForms,
   setFormData,
   showSubforms,
-  showToxicExposurePages,
   showWizard,
   user,
 }) => {
   const { profile = {} } = user;
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showToxicExposurePages = useToggleValue(
+    TOGGLE_NAMES.disability526ToxicExposure,
+  );
 
   const hasSavedForm = savedForms.some(
     form =>
@@ -148,7 +151,6 @@ export const Form526Entry = ({
       profile,
       setFormData,
       showSubforms,
-      showToxicExposurePages,
       wizardStatus,
     ],
   );
@@ -263,7 +265,6 @@ Form526Entry.propTypes = {
   savedForms: PropTypes.array,
   setFormData: PropTypes.func,
   showSubforms: PropTypes.bool,
-  showToxicExposurePages: PropTypes.bool,
   showWizard: PropTypes.bool,
   user: PropTypes.shape({
     profile: PropTypes.shape({}),
@@ -280,7 +281,6 @@ const mapStateToProps = state => ({
   savedForms: state?.user?.profile?.savedForms || [],
   formData: state?.form?.data,
   showSubforms: showSubform8940And4192(state),
-  showToxicExposurePages: getShowToxicExposure(state),
   showWizard: show526Wizard(state),
   user: state.user,
 });
