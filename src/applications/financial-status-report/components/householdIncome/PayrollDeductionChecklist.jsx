@@ -136,6 +136,70 @@ const PayrollDeductionChecklist = props => {
         onChange={event => onChange(event)}
         isBoxChecked={isBoxChecked}
       />
+      <va-additional-info
+        trigger="Where can I find my payroll deductions?"
+        uswds
+      >
+        <p className="vads-u-padding-bottom--1">
+          View your most recent pay stub to see which payroll deductions apply
+          to you. It will look similar to the sample table below.
+        </p>
+        <va-table
+          title="Sample payroll deductions"
+          class="usa-table usa-table--borderless vads-u-margin-top--2"
+          uswds
+          aria-label="A sample two-column table from a pay stub showing common deductions and their amounts, including Federal Tax, State Tax, Health Insurance, FICA, and Retirement Accounts."
+        >
+          <va-table-row slot="headers">
+            <span className="vads-u-padding-y--1 vads-u-border--0 vads-u-border-bottom--1px vads-u-background-color--white vads-u-border-color--gray-medium vads-u-padding-left--0">
+              Deduction
+            </span>
+            <span className="vads-u-padding-y--1 vads-u-border--0 vads-u-border-bottom--1px vads-u-background-color--white vads-u-border-color--gray-medium vads-u-padding-right--0 vads-u-text-align--right">
+              Amount
+            </span>
+          </va-table-row>
+          <va-table-row>
+            <span className="vads-u-padding-y--1 vads-u-border-color--gray-light vads-u-padding-left--0">
+              Federal tax
+            </span>
+            <span className="vads-u-padding-y--1 vads-u-border-color--gray-light vads-u-padding-right--0 vads-u-text-align--right">
+              $128.92
+            </span>
+          </va-table-row>
+          <va-table-row>
+            <span className="vads-u-padding-y--1 vads-u-border-color--gray-light vads-u-padding-left--0">
+              State tax
+            </span>
+            <span className="vads-u-padding-y--1 vads-u-border-color--gray-light vads-u-padding-right--0 vads-u-text-align--right">
+              $28.94
+            </span>
+          </va-table-row>
+          <va-table-row>
+            <span className="vads-u-padding-y--1 vads-u-border-color--gray-light vads-u-padding-left--0">
+              Health Insurance
+            </span>
+            <span className="vads-u-padding-y--1 vads-u-border-color--gray-light vads-u-padding-right--0 vads-u-text-align--right">
+              $28.25
+            </span>
+          </va-table-row>
+          <va-table-row>
+            <span className="vads-u-padding-y--1 vads-u-border-color--gray-light vads-u-padding-left--0">
+              FICA
+            </span>
+            <span className="vads-u-padding-y--1 vads-u-border-color--gray-light vads-u-padding-right--0 vads-u-text-align--right">
+              $68.36
+            </span>
+          </va-table-row>
+          <va-table-row>
+            <span className="vads-u-padding-y--1 vads-u-border-color--gray-light vads-u-padding-left--0">
+              Retirement acccount
+            </span>
+            <span className="vads-u-padding-y--1 vads-u-border-color--gray-light vads-u-padding-right--0 vads-u-text-align--right">
+              $82.45
+            </span>
+          </va-table-row>
+        </va-table>
+      </va-additional-info>
       {onReviewPage ? updateButton : navButtons}
     </form>
   );

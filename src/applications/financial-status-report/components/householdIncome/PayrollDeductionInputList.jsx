@@ -151,6 +151,32 @@ const PayrollDeductionInputList = props => {
             />
           </div>
         ))}
+        <va-additional-info
+          trigger="How do I calculate my monthly deductions?"
+          class="vads-u-margin-top--2"
+          uswds
+        >
+          <ol className="vads-u-margin--0 vads-u-padding-left--2">
+            <li>
+              <strong>If you are paid weekly,</strong> multiply your deduction
+              amount by 4 to get your monthly amount.
+            </li>
+            <li>
+              <strong>If you are paid every other week,</strong> multiply your
+              deduction amount by 26. Then divide the total by 12 to get your
+              monthly amount.
+            </li>
+            <li>
+              <strong>If you are paid twice a month,</strong> multiply your
+              deduction amount by 2 to get your monthly amount.
+            </li>
+            <li>
+              <strong>If you are paid monthly,</strong> the amount you see on
+              your pay stub is monthly and can be entered without any
+              calculations.
+            </li>
+          </ol>
+        </va-additional-info>
       </fieldset>
       {onReviewPage ? updateButton : navButtons}
     </form>
