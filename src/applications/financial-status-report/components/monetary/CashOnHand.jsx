@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { focusElement } from 'platform/utilities/ui';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { isValidCurrency } from '../../utils/validations';
 import { currency as currencyFormatter } from '../../utils/helpers';
 import { safeNumber } from '../../utils/calculateIncome';
+import ReviewPageHeader from '../shared/ReviewPageHeader';
 
 const CASH_ON_HAND = 'Cash on hand (not in bank)';
 
@@ -16,8 +19,18 @@ const CashOnHand = ({
   goForward,
   setFormData,
 }) => {
+  const headerRef = useRef(null);
   const { assets, gmtData } = data;
   const { cashOnHand, monetaryAssets = [] } = assets;
+
+  useEffect(
+    () => {
+      if (headerRef?.current) {
+        focusElement(headerRef?.current);
+      }
+    },
+    [headerRef],
+  );
 
   const cashOnHandTotal = monetaryAssets.find(f => f.name === CASH_ON_HAND) ?? {
     amount: '',
@@ -89,7 +102,9 @@ const CashOnHand = ({
     <form onSubmit={onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          <h3 className="vads-u-margin--0">Cash on hand</h3>
+          <h3 className="vads-u-margin--0" ref={headerRef}>
+            Cash on hand
+          </h3>
         </legend>
         <VaNumberInput
           currency
@@ -148,13 +163,7 @@ const CashOnHandReview = ({ data }) => {
           Cash on hand
         </h4>
       </div>
-      <dl className="review">
-        <div className="review-row">
-          <dt>Available cash (not in a bank)</dt>
-          <dd>{currencyFormatter(cashOnHand)}</dd>
-        </div>
-      </dl>
-    </div>
+    </>
   );
 };
 
@@ -165,6 +174,7 @@ CashOnHandReview.propTypes = {
     }),
     'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
   }),
+  goToPath: PropTypes.func,
 };
 
 export { CashOnHand, CashOnHandReview };

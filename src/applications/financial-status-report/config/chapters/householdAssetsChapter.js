@@ -19,7 +19,8 @@ import AddAsset from '../../components/otherAssets/AddAsset';
 import OtherAssetsChecklist from '../../components/otherAssets/OtherAssetsChecklist';
 import OtherAssetsSummary from '../../components/otherAssets/OtherAssetsSummary';
 import OtherAssetsSummaryReview from '../../components/otherAssets/OtherAssetsSummaryReview';
-import RealEstateReview from '../../components/otherAssets/RealEstateReview';
+import RealEstateValueReview from '../../components/otherAssets/RealEstateValueReview';
+import RealEstateQuestionReview from '../../components/otherAssets/RealEstateQuestionReview';
 import EnhancedVehicleRecord from '../../components/otherAssets/EnhancedVehicleRecord';
 import VehicleSummaryWidget from '../../components/otherAssets/VehicleSummaryWidget';
 import MonetaryAssetsSummaryReview from '../../components/monetary/MonetaryAssetsSummaryReview';
@@ -158,6 +159,7 @@ export default {
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: false,
+        CustomPageReview: RealEstateQuestionReview,
       },
       enhancedRealEstateRecords: {
         path: 'enhanced-real-estate-asset-records',
@@ -169,7 +171,7 @@ export default {
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
-        CustomPageReview: RealEstateReview,
+        CustomPageReview: RealEstateValueReview,
       },
       vehicles: {
         path: 'vehicles',

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { currency as currencyFormatter } from '../../utils/helpers';
 
-const RealEstateReview = ({ data, title }) => {
+const RealEstateValueReview = ({ data, title }) => {
   const { assets } = data;
   const { realEstateValue } = assets;
 
@@ -23,7 +23,7 @@ const RealEstateReview = ({ data, title }) => {
   );
 };
 
-RealEstateReview.propTypes = {
+RealEstateValueReview.propTypes = {
   data: PropTypes.shape({
     assets: PropTypes.shape({
       realEstateValue: PropTypes.string,
@@ -32,4 +32,4 @@ RealEstateReview.propTypes = {
   title: PropTypes.string,
 };
 
-export default RealEstateReview;
+export default RealEstateValueReview;
