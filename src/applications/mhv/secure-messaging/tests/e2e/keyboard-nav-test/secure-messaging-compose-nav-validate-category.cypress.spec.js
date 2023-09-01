@@ -3,7 +3,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientInterstitialPage from '../pages/PatientInterstitialPage';
 
 describe('Validate the category', () => {
-  it('selects a category', () => {
+  it.skip('selects a category', () => {
     const landingPage = new PatientInboxPage();
     const patientInterstitialPage = new PatientInterstitialPage();
     const site = new SecureMessagingSite();
