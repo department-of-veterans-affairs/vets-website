@@ -1,4 +1,5 @@
 import React from 'react';
+import { apiRequest } from 'platform/utilities/api';
 import { useSelector } from 'react-redux';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { isLoggedIn } from 'platform/user/selectors';
@@ -7,6 +8,18 @@ import touData from '../touData';
 export default function TermsOfUse() {
   const touDate = `5/30/2023`;
   const loggedIn = useSelector(isLoggedIn);
+
+  const handleTouClick = async type => {
+    try {
+      await apiRequest(`/terms_of_use_agreements/v1/${type}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+      });
+    } catch (err) {
+      // console.error('error in tou', err);
+    }
+  };
   return (
     <section className="vads-l-grid-container vads-u-padding-y--5 vads-u-padding-x--0">
       <div className="usa-content">
@@ -97,14 +110,14 @@ export default function TermsOfUse() {
               </h2>
               <va-button
                 text="Accept"
-                onClick={() => {}}
+                onClick={() => handleTouClick('accept')}
                 ariaLabel="I Accept to VA online serivices terms of use"
               />
               <va-button
                 text="Decline"
                 secondary
                 ariaLabel="I Decline to VA online serivices terms of use"
-                onClick={() => {}}
+                onClick={() => handleTouClick('decline')}
               />
             </>
           )}

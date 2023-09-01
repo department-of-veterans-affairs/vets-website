@@ -398,7 +398,7 @@ export default [
     ),
   },
   {
-    header: `Surveys and Polls`,
+    header: `Changes to this Document`,
     content: (
       <p>
         These Terms of Use may be revised. When you log in, you will be prompted
