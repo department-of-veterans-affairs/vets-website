@@ -119,7 +119,7 @@ const childContent = (
         </ul>
       </va-accordion-item>
       <va-accordion-item
-        header="Compensation and/or Pension"
+        header="Compensation or Pension"
         id="sixth"
         uswds={{ value: 'true' }}
       >
@@ -184,7 +184,7 @@ const childContent = (
       <va-accordion-item header="Pension" id="tenth" uswds={{ value: 'true' }}>
         <ul>
           <li>
-            Application for Pension (VA Form 21P-527EZ)
+            Application for Veterans Pension (VA Form 21P-527EZ)
             <br />
             <a href="/find-forms/about-form-21p-527ez">
               Learn more about VA Form 21P-527EZ
@@ -237,14 +237,14 @@ const childContent = (
           <li>
             All forms known as Eligibility Verification Reports
             <br />
-            <a href="find-forms/?q=Eligibility+Verification+Reports">
+            <a href="/find-forms/?q=Eligibility+Verification+Reports">
               Learn more about Eligibility Verification Reports
             </a>
           </li>
         </ul>
       </va-accordion-item>
       <va-accordion-item
-        header="Posttramatic stress disorder"
+        header="Posttraumatic stress disorder"
         id="twelfth"
         uswds={{ value: 'true' }}
       >
@@ -270,12 +270,12 @@ const childContent = (
         <p>
           <strong>Note:</strong> If you want to fill out these forms online,
           you’ll need to go to our disability compensation form,{' '}
-          <a href="/find-forms/about-form-21-526ez">VA Form 526EZ</a>. These
-          forms are in included within the online version of VA Form 526EZ.
+          <a href="/find-forms/about-form-21-526ez">VA Form 21-526EZ</a>. These
+          forms are included within the online version of VA Form 21-526EZ.
         </p>
       </va-accordion-item>
       <va-accordion-item
-        header="School Age Child(ren) (Aged 18-23 Years and in School)"
+        header="School-age children (ages 18 to 23 and in school)"
         id="thirteenth"
         uswds={{ value: 'true' }}
       >
@@ -312,15 +312,15 @@ const childContent = (
       >
         <ul>
           <li>
-            Application for DIC, Death Pension, and/or Accrued Benefit (VA Form
-            21P-534EZ)
+            Application for DIC, Survivors Pension, and/or Accrued Benefit (VA
+            Form 21P-534EZ)
             <br />
             <a href="/find-forms/about-form-21p-534ez">
               Learn more about VA Form 21P-534EZ
             </a>
           </li>
           <li>
-            Application for Dependency and Indemnity Compensation, Death
+            Application for Dependency and Indemnity Compensation, Survivors
             Pension, and Accrued Benefits by Surviving Spouse or Child (VA Form
             21P-534)
             <br />
