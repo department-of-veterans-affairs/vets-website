@@ -19,8 +19,21 @@ import VideoLocation from './VideoLocation';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 function formatHeader(appointment) {
-  if (appointment.videoData.kind === VIDEO_TYPES.gfe) {
+  const patientHasMobileGfe =
+    appointment.videoData.extension?.patientHasMobileGfe;
+  if (
+    (appointment.videoData.kind === VIDEO_TYPES.mobile ||
+      appointment.videoData.kind === VIDEO_TYPES.adhoc) &&
+    patientHasMobileGfe
+  ) {
     return 'VA Video Connect using VA device';
+  }
+  if (
+    (appointment.videoData.kind === VIDEO_TYPES.mobile ||
+      appointment.videoData.kind === VIDEO_TYPES.adhoc) &&
+    !patientHasMobileGfe
+  ) {
+    return 'VA Video Connect at home';
   }
   if (isClinicVideoAppointment(appointment)) {
     return 'VA Video Connect at VA location';
@@ -28,7 +41,7 @@ function formatHeader(appointment) {
   if (appointment.videoData.isAtlas) {
     return 'VA Video Connect at an ATLAS location';
   }
-  return 'VA Video Connect at home';
+  return null;
 }
 
 export default function DetailsVideo({ appointment, facilityData }) {
