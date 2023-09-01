@@ -1,5 +1,11 @@
 import React from 'react';
 
+export const introQuestion =
+  'Are you filing a claim for a condition related to a toxic exposure?';
+
+export const confirmQuestion =
+  'Do you think your condition could be connected to a toxic exposure?';
+
 export const confirmDescription = () => {
   return (
     <>

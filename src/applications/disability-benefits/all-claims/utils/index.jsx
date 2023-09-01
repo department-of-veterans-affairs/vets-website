@@ -27,6 +27,7 @@ import {
   START_TEXT,
   FORM_STATUS_BDD,
   CHAR_LIMITS,
+  SHOW_TOXIC_EXPOSURE,
 } from '../constants';
 import { getBranches } from './serviceBranches';
 
@@ -316,6 +317,8 @@ export const isDisabilityPtsd = disability => {
 
 export const hasRatedDisabilities = formData =>
   formData?.ratedDisabilities?.length > 0;
+
+export const showToxicExposurePages = formData => formData[SHOW_TOXIC_EXPOSURE];
 
 export const isClaimingNew = formData =>
   _.get(

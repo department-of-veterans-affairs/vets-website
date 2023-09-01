@@ -43,6 +43,7 @@ import {
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
+  showToxicExposurePages,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -301,14 +302,16 @@ const formConfig = {
         toxicExposureIntro: {
           title: 'Toxic Exposure',
           path: 'toxic-exposure-intro',
-          /* depends: TODO add toggle */
+          depends: showToxicExposurePages,
           uiSchema: toxicExposureIntro.uiSchema,
           schema: toxicExposureIntro.schema,
         },
         toxicExposureConfirm: {
           title: 'Toxic Exposure Confirmation',
           path: 'toxic-exposure-confirm',
-          /* depends: TODO add toggle */
+          depends: formData =>
+            showToxicExposurePages &&
+            ['no', 'notSure'].includes(formData['view:toxicExposureStatus']),
           uiSchema: toxicExposureConfirm.uiSchema,
           schema: toxicExposureConfirm.schema,
         },

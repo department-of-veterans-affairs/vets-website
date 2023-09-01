@@ -1,5 +1,8 @@
 import React from 'react';
-import { confirmDescription } from '../../content/toxicExposure';
+import {
+  confirmDescription,
+  confirmQuestion,
+} from '../../content/toxicExposure';
 
 export const uiSchema = {
   'ui:title': (
@@ -9,8 +12,7 @@ export const uiSchema = {
   ),
   'ui:description': confirmDescription,
   'view:exposureStatus': {
-    'ui:title':
-      'Do you think your condition could be connected to a toxic exposure?',
+    'ui:title': confirmQuestion,
     'ui:widget': 'yesNo',
   },
 };
