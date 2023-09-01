@@ -5,56 +5,55 @@ import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Introduction from '../pages/Introduction';
 
 // TODO: remove commment once this is not disallowed
-for (let i = 0; i < 20; i++) {
-  describe('Pre-Check In Experience', () => {
-    describe('Validate Page', () => {
-      beforeEach(() => {
-        const {
-          initializeFeatureToggle,
-          initializeSessionGet,
-          initializeSessionPost,
-          initializePreCheckInDataGet,
-          initializePreCheckInDataPost,
-        } = ApiInitializer;
 
-        initializeFeatureToggle.withCurrentFeatures();
-        initializeSessionGet.withSuccessfulNewSession();
-        initializePreCheckInDataGet.withSuccess();
+describe('Pre-Check In Experience', () => {
+  describe('Validate Page', () => {
+    beforeEach(() => {
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializePreCheckInDataGet,
+        initializePreCheckInDataPost,
+      } = ApiInitializer;
 
-        initializeSessionPost.withValidation();
-        initializePreCheckInDataPost.withSuccess();
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializePreCheckInDataGet.withSuccess();
 
-        cy.visitPreCheckInWithUUID();
-      });
-      afterEach(() => {
-        cy.window().then(window => {
-          window.sessionStorage.clear();
-        });
-      });
-      it('validation failed with failed response from server', () => {
-        cy.injectAxeThenAxeCheck();
-        // First Attempt
-        ValidateVeteran.validateVeteranDobWithFailure();
-        ValidateVeteran.attemptToGoToNextPage();
-        ValidateVeteran.validateErrorAlert();
+      initializeSessionPost.withValidation();
+      initializePreCheckInDataPost.withSuccess();
 
-        // Second Attempt
-        ValidateVeteran.validateVeteranDobWithFailure();
-        ValidateVeteran.attemptToGoToNextPage();
-        ValidateVeteran.validateErrorAlert();
-      });
-      it('fails validation once and then succeeds on the second attempt', () => {
-        cy.injectAxeThenAxeCheck();
-        // First Attempt
-        ValidateVeteran.validateVeteranDobWithFailure();
-        ValidateVeteran.attemptToGoToNextPage();
-        ValidateVeteran.validateErrorAlert();
-
-        // Second Attempt
-        ValidateVeteran.validateVeteran();
-        ValidateVeteran.attemptToGoToNextPage();
-        Introduction.validatePageLoaded();
+      cy.visitPreCheckInWithUUID();
+    });
+    afterEach(() => {
+      cy.window().then(window => {
+        window.sessionStorage.clear();
       });
     });
+    it('validation failed with failed response from server', () => {
+      cy.injectAxeThenAxeCheck();
+      // First Attempt
+      ValidateVeteran.validateVeteranDobWithFailure();
+      ValidateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.validateErrorAlert();
+
+      // Second Attempt
+      ValidateVeteran.validateVeteranDobWithFailure();
+      ValidateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.validateErrorAlert();
+    });
+    it('fails validation once and then succeeds on the second attempt', () => {
+      cy.injectAxeThenAxeCheck();
+      // First Attempt
+      ValidateVeteran.validateVeteranDobWithFailure();
+      ValidateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.validateErrorAlert();
+
+      // Second Attempt
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      Introduction.validatePageLoaded();
+    });
   });
-}
+});
