@@ -281,6 +281,7 @@ export function transformVAOSAppointment(appt) {
       isAtlas,
       atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
       atlasConfirmationCode: appt.telehealth?.atlas?.confirmationCode,
+      extension: appt.extension,
     };
   }
 
