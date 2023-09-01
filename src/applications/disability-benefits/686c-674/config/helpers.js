@@ -27,7 +27,7 @@ export const VaFileNumberMissingAlert = (
       Your profile is missing some required information
     </h2>
     <p className="vads-u-font-size--base">
-      The personal information we have on file for your is missing your VA file
+      The personal information we have on file for you is missing your VA file
       number.
     </p>
     <p className="vads-u-font-size--base">

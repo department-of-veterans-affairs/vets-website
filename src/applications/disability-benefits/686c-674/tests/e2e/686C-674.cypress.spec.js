@@ -138,7 +138,7 @@ describe('Invalid File Number Tests', () => {
       .get('h2')
       .contains('Your profile is missing some required information');
     cy.get('va-alert').contains(
-      'The personal information we have on file for your is missing your VA file number.',
+      'The personal information we have on file for you is missing your VA file number.',
     );
     cy.get('va-telephone:first')
       .contains('800-827-1000')
