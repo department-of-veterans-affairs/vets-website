@@ -11,7 +11,7 @@ const TravelQuestion = props => {
   const additionalInfoText = (
     <div>
       <Trans
-        i18nKey="you-are-eligible-for-travel-reimbursement-if-youre"
+        i18nKey="this-must-be-true-youre-traveling-for-care"
         components={[<span key="bold" className="vads-u-font-weight--bold" />]}
       />
       <ul>
@@ -49,11 +49,27 @@ const TravelQuestion = props => {
         </li>
         <li>
           <Trans
-            i18nKey="youre-traveling-in-relation-to-a-compensation-and-pension"
+            i18nKey="you-cant-afford-to-pay-for-your-travel"
             components={[
               <span key="bold" className="vads-u-font-weight--bold" />,
             ]}
           />
+        </li>
+        <li>
+          <Trans
+            i18nKey="youre-traveling-for-one-of-these-reasons"
+            components={[
+              <span key="bold" className="vads-u-font-weight--bold" />,
+            ]}
+          />
+          <p>
+            <Trans
+              i18nKey="youre-traveling-in-relation-to-a-compensation-and-pension"
+              components={[
+                <span key="bold" className="vads-u-font-weight--bold" />,
+              ]}
+            />
+          </p>
         </li>
       </ul>
     </div>
