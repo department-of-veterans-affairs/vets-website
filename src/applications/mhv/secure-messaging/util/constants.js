@@ -140,17 +140,14 @@ export const Alerts = {
       'Folder name can only contain letters, numbers, and spaces.',
     CREATE_FOLDER_ERROR_EXSISTING_NAME:
       'Folder name already in use. Please use another name.',
-    DELETE_FOLDER_CONFIRM_HEADER:
-      'Are you sure you want to remove this folder?',
+    DELETE_FOLDER_CONFIRM_HEADER: 'Remove this folder?',
     DELETE_FOLDER_CONFIRM_BODY:
       "If you remove a folder, you can't get it back.",
     DELETE_FOLDER_SUCCESS: 'Folder was successfully removed.',
     DELETE_FOLDER_ERROR:
       'Folder could not be removed. Try again later. If this problem persists, contact the help desk.',
-    DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER:
-      'Empty this folder before removing it from the list.',
-    DELETE_FOLDER_ERROR_NOT_EMPTY_BODY:
-      'Before this folder can be removed, all of the messages in it must be moved to another folder, such as Trash, Inbox, or a different custom folder.',
+    DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER: 'Empty this folder',
+    DELETE_FOLDER_ERROR_NOT_EMPTY_BODY: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
     RENAME_FOLDER_SUCCESS: 'Folder was successfully renamed.',
     RENAME_FOLDER_ERROR:
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',

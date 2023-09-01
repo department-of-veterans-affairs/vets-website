@@ -130,8 +130,10 @@ const ConditionDetails = () => {
               <div className="time-header">
                 <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                   Date and time entered:{' '}
+                  <span className="vads-u-font-weight--normal">
+                    {formattedDate}
+                  </span>
                 </h2>
-                <p>{formattedDate}</p>
               </div>
               <PrintDownload list download={download} />
             </div>
