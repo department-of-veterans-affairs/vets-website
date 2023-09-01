@@ -1,17 +1,34 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
+import { format, parseISO } from 'date-fns';
 
 import ClaimComplete from '../../components/ClaimComplete';
 
-describe('<ClaimComplete>', () => {
-  it('should render message', () => {
-    const date = '2010-09-01';
-    const tree = SkinDeep.shallowRender(<ClaimComplete completedDate={date} />);
+const formatString = 'MMMM d, yyyy';
 
-    expect(tree.text()).to.contain(
-      'We decided your claim on September 1, 2010',
-    );
-    expect(tree.everySubTree('CompleteDetails')).to.not.be.false;
+describe('<ClaimComplete>', () => {
+  it('should render message with formatted date', () => {
+    const date = '2010-09-01';
+    const screen = render(<ClaimComplete completedDate={date} />);
+
+    const closeDateText = format(parseISO(date), formatString);
+    expect(screen.getByText(`We decided your claim on ${closeDateText}`)).to
+      .exist;
+  });
+
+  it('should render message with invalid date', () => {
+    const date = 'asdfasdf';
+    const screen = render(<ClaimComplete completedDate={date} />);
+
+    expect(screen.getByText('We decided your claim on Invalid date')).to.exist;
+  });
+
+  it('should render message without date', () => {
+    const date = null;
+    const screen = render(<ClaimComplete completedDate={date} />);
+
+    expect(screen.getByText('We decided your claim')).to.exist;
+    expect(screen.queryByText('We decided your claim on')).to.not.exist;
   });
 });
