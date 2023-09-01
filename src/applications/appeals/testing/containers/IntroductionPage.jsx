@@ -26,7 +26,11 @@ const IntroductionPage = ({ route }) => {
 
   return (
     <div className="schemaform-intro vads-u-margin-left--1">
-      <va-breadcrumbs label="Breadcrumbs" class="vads-u-margin-left--neg1">
+      <va-breadcrumbs
+        label="Breadcrumbs"
+        class="vads-u-margin-left--neg1"
+        uswds
+      >
         <a href="/decision-reviews">Decision review and appeals</a>
         <a href="/decision-reviews/board-appeal">Board Appeals</a>
         <a href="/decision-reviews/appeals-testing">Request a Board Appeal</a>
@@ -40,11 +44,11 @@ const IntroductionPage = ({ route }) => {
       </p>
       <p>
         If you want to have additional evidence reviewed by a VA rater, submit a{' '}
-        <a href={`/${SC_BASE_URL}`}>Supplemental Claim</a>.
+        <a href={SC_BASE_URL}>Supplemental Claim</a>.
       </p>
       <p>
         If you want to have your claim reviewed by a VA senior reviewer, submit
-        a <a href={`/${HLR_BASE_URL}`}>Higher Level Review</a>.
+        a <a href={HLR_BASE_URL}>Higher Level Review</a>.
       </p>
       <p>
         <strong>Note:</strong> You can only apply to one decision review at a
@@ -54,13 +58,13 @@ const IntroductionPage = ({ route }) => {
       <p className="vads-u-margin-top--4">
         <a
           className="vads-c-action-link--green"
-          href="/decision-reviews/appeals-testing/veteran-details"
+          href="/decision-reviews/appeals-testing/task-list"
         >
           Start the Board Appeal request
         </a>
       </p>
 
-      <va-featured-content>
+      <va-featured-content uswds>
         <h2 slot="headline">Can I request a Board Appeal?</h2>
         <p>
           You can submit this online form (VA Form 10182) to appeal a VA
@@ -146,7 +150,7 @@ const IntroductionPage = ({ route }) => {
           <p>
             Review the information you’ve entered, and submit the form online.
           </p>
-          <va-additional-info trigger="What happens after I apply?">
+          <va-additional-info trigger="What happens after I apply?" uswds>
             <p>
               After you submit your request for a Board Appeal, you’ll get a
               confirmation message. You can print this for your records.
@@ -166,7 +170,7 @@ const IntroductionPage = ({ route }) => {
       <div>
         <a
           className="vads-c-action-link--green"
-          href="/decision-reviews/appeals-testing/veteran-details"
+          href="/decision-reviews/appeals-testing/task-list"
         >
           Start the Board Appeal request
         </a>
@@ -194,6 +198,7 @@ const IntroductionPage = ({ route }) => {
           res-burden={30}
           omb-number="2900-0674"
           exp-date="2/28/2022"
+          uswds
         />
       </div>
     </div>
