@@ -418,7 +418,7 @@ const ReplyForm = props => {
                   className="message-body"
                   data-testid="message-body-field"
                   onInput={messageBodyHandler}
-                  value={messageBody || formattededSignature} // populate with the signature, unless there is a saved draft
+                  value={messageBody || formattededSignature} //  populate with the signature, unless there is a saved draft
                   error={bodyError}
                   onFocus={e => {
                     setCaretToPos(
