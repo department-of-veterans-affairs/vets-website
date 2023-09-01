@@ -32,10 +32,7 @@ class TrackClaimsPage {
         'be.visible',
       );
     } else {
-      cy.get('.claims-alert').should(
-        'contain',
-        'You do not have any submitted claims',
-      );
+      this.verifyNoClaims();
     }
     cy.get('.va-nav-breadcrumbs').should('be.visible');
     cy.get('.va-nav-breadcrumbs-list').should('be.visible');
@@ -75,10 +72,7 @@ class TrackClaimsPage {
   }
 
   verifyNoClaims() {
-    cy.get('.claims-alert').should(
-      'contain',
-      'You do not have any submitted claims',
-    );
+    cy.findByText('You do not have any submitted claims').should('exist');
   }
 
   checkClaimsContent() {
@@ -246,12 +240,8 @@ class TrackClaimsPage {
   }
 
   askForClaimDecision() {
-    cy.get('.claims-alert-status')
-      .should('be.visible')
-      .then(status => {
-        cy.wrap(status).should('contain', 'Ask for your Claim Decision');
-      });
-    cy.get('.claims-alert-status a')
+    cy.findByText('Ask for your Claim Decision').should('exist');
+    cy.get('.inset a')
       .click()
       .then(() => {
         cy.get('.usa-button-secondary');

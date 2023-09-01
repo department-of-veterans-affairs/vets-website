@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 export default function AskVAToDecide({ id }) {
   return (
     <div className="inset with-details">
-      <div className="item-title-container">
+      <div>
         <h4>Ask for your Claim Decision</h4>
         <p>
           You can ask us to start evaluating your claim if you don’t have any
