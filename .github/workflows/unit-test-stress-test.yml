@@ -64,11 +64,6 @@ jobs:
         working-directory: qa-standards-dashboard-data
         env:
           TEST_TYPE: unit_test
-      # exports app list and assigns to environmental variable at this step
-      - name: List files
-        run: |
-          cd qa-standards-dashboard-data
-          ls -a
 
       - name: Archive allow list
         if: ${{ always() }}
@@ -269,6 +264,7 @@ jobs:
         with:
           name: unit-test-allow-list
           path: qa-standards-dashboard-data
+
       - name: Copy test results to mochawesome directory
         run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
 

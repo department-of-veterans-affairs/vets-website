@@ -1,8 +1,9 @@
 name: E2E Stress Test
 
 on:
-  schedule:
-    - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
+  # schedule:
+  #   - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
+  push
 
 env:
   BUILDTYPE: vagovprod
@@ -14,9 +15,6 @@ jobs:
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-
-    strategy:
-      fail-fast: false
 
     steps:
       - name: Checkout
@@ -157,9 +155,12 @@ jobs:
           TEST_TYPE: e2e
       # exports app list and assigns to environmental variable at this step
 
-      - name: Set Allow List Output
-        id: allow-list-output
-        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
+      - name: Archive allow list
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data/unit_test_allow_list.json
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
@@ -381,6 +382,12 @@ jobs:
           name: cypress-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
 
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data
+
       - name: Copy test results to mochawesome directory
         run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
 
@@ -395,8 +402,8 @@ jobs:
         run: yarn update-e2e-allow-list
         working-directory: qa-standards-dashboard-data
         env:
-          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
           TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
+          TEST_TYPE: e2e
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
