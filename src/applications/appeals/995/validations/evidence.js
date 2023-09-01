@@ -5,6 +5,7 @@ import { validateDate } from './date';
 
 import { fixDateFormat } from '../../shared/utils/replace';
 import {
+  validateAddressParts,
   validateIssues,
   validateToDate,
   validateUniqueLocationOrFacility,
@@ -93,29 +94,18 @@ export const validatePrivateName = (errors, data) => {
 };
 
 export const validateCountry = (errors, data) => {
-  const { country } = data?.providerFacilityAddress || {};
-  if (!country) {
-    errors.addError(errorMessages.evidence.country);
-  }
+  validateAddressParts(errors, data, 'country');
 };
 export const validateStreet = (errors, data) => {
-  const { street } = data?.providerFacilityAddress || {};
-  if (!street) {
-    errors.addError(errorMessages.evidence.street);
-  }
+  validateAddressParts(errors, data, 'street');
 };
 export const validateCity = (errors, data) => {
-  const { city } = data?.providerFacilityAddress || {};
-  if (!city) {
-    errors.addError(errorMessages.evidence.city);
-  }
+  validateAddressParts(errors, data, 'city');
 };
 export const validateState = (errors, data) => {
-  const { state } = data?.providerFacilityAddress || {};
-  if (!state) {
-    errors.addError(errorMessages.evidence.state);
-  }
+  validateAddressParts(errors, data, 'state');
 };
+
 export const validatePostal = (errors, data) => {
   const { postalCode } = data?.providerFacilityAddress || {};
   if (!postalCode) {

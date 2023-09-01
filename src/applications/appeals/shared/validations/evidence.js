@@ -61,3 +61,11 @@ export const validateUniqueLocationOrFacility = (
     }
   }
 };
+
+export const validateAddressParts = (errors, data, addressPart) => {
+  const addressData = data.providerFacilityAddress || {};
+  const addPart = addressData[addressPart];
+  if (!addPart) {
+    errors.addError(errorMessages.evidence[addressPart]);
+  }
+};
