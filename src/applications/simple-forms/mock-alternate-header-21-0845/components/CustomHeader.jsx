@@ -66,9 +66,9 @@ const CustomHeader = ({ formData, formConfig, currentLocation }) => {
                 Back
               </Link>
             </span>
-            <Link to="/" className="va-button-link">
+            <a href={formConfig.rootUrl} className="va-button-link">
               Exit form
-            </Link>
+            </a>
           </div>
         </div>
       </div>
