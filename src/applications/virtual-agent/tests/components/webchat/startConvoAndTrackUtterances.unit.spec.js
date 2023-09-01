@@ -254,7 +254,8 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
       const activity = {
         type: 'event',
-        name: 'RX_Skill_Entry',
+        name: 'Skill_Entry',
+        value: 'RX_Skill',
         from: { role: 'bot' },
       };
       const rxActivity = {
@@ -283,7 +284,8 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
       const activity = {
         type: 'event',
-        name: 'RX_Skill_Exit',
+        name: 'Skill_Exit',
+        value: 'RX_Skill',
         from: { role: 'bot' },
       };
       const rxActivity = {

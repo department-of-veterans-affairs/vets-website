@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { api } from '../api';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
-import { useSessionStorage } from './useSessionStorage';
+import { useStorage } from './useStorage';
 import { useTravelPayFlags } from './useTravelPayFlags';
 
 const useSendTravelPayClaim = appointment => {
@@ -13,7 +13,7 @@ const useSendTravelPayClaim = appointment => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
   const { isTravelReimbursementEnabled } = featureToggles;
-  const { getShouldSendTravelPayClaim } = useSessionStorage(false);
+  const { getShouldSendTravelPayClaim } = useStorage(false);
   const {
     travelPayData,
     travelPayClaimSent,

@@ -10,9 +10,9 @@ const VetPersInfoUiTitle = props => {
     if (formData.claimOwnership === CLAIM_OWNERSHIPS.SELF) {
       // Flow 3: self-claim
       return (
-        <span className="vads-u-font-family--serif vads-u-font-size--h5 vads-u-font-weight--bold">
+        <legend className="vads-u-font-family--serif vads-u-font-size--h5 vads-u-font-weight--bold">
           Tell us about the Veteran you’re connected to
-        </span>
+        </legend>
       );
     }
     // Flow 4: third-party claim

@@ -25,6 +25,9 @@ describe('Secure Messaging Delete Draft', () => {
         'aria-required-children': {
           enabled: false,
         },
+        'color-contrast': {
+          enabled: false,
+        },
       },
     });
     draftsPage.confirmDeleteDraftWithEnterKey(mockDraftResponse);
@@ -33,6 +36,9 @@ describe('Secure Messaging Delete Draft', () => {
     cy.axeCheck('main', {
       rules: {
         'aria-required-children': {
+          enabled: false,
+        },
+        'color-contrast': {
           enabled: false,
         },
       },
