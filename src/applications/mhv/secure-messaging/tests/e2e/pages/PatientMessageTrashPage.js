@@ -93,7 +93,7 @@ class PatientMessageTrashPage {
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
             expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
-            cy.log(listAfter);
+            cy.log(` ###  ${listAfter}`);
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });
