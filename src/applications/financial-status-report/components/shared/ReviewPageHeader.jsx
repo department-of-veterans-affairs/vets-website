@@ -18,12 +18,12 @@ const ReviewPageHeader = ({ title, goToPath }) => {
         </h4>
         <VaButton onClick={goToPath} secondary text="Edit section" />
       </div>
-      <dl className="review vads-u-border-top--0">
+      <div className="review-header">
         <p>
           Review {title ? `your ${title}` : `this section`} to ensure the
           accuracy of your request.
         </p>
-      </dl>
+      </div>
     </div>
   );
 };
