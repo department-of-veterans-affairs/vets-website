@@ -39,10 +39,17 @@ export const contactInfoDescription = (
 
 export const PreparerPhoneNumberDescription = (
   <va-additional-info trigger="Why do we need your contact information?">
-    <p>
-      We may contact you by phone if we need more information about your
-      application.
-    </p>
+    {environment.isProduction() ? (
+      <p>
+        If you’re the preparer of this application, you’ll need to provide your
+        contact information.
+      </p>
+    ) : (
+      <p>
+        We may contact you by phone if we need more information about your
+        application.
+      </p>
+    )}
   </va-additional-info>
 );
 
