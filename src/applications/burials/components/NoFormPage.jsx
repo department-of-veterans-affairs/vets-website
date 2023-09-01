@@ -288,7 +288,6 @@ const CreateSummarySections = ({
 
 export const NoFormPage = () => {
   const [data, setData] = useState({});
-  // const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const loggedIn = useSelector(isLoggedIn);
 
@@ -354,7 +353,7 @@ export const NoFormPage = () => {
               text="Download VA form 21P-530EZ"
             />
             <p>
-              We’ve captured your intent to file date of{' '}
+              We’ve captured your intent to file date of
               <strong>XX/XX/XXXX</strong>. You have 12 months from that date to
               submit a claim.
             </p>
