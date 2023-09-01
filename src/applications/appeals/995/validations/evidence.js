@@ -10,7 +10,7 @@ import {
 } from '../constants';
 import { getSelected, getIssueName } from '../utils/helpers';
 import { validateDate } from './date';
-import { fixDateFormat } from '../utils/replace';
+import { fixDateFormat } from '../../shared/utils/replace';
 
 // Needed for uniqueness string comparison
 const sortIssues = issues =>

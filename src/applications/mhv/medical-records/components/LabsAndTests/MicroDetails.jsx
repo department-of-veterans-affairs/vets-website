@@ -32,9 +32,8 @@ const MicroDetails = props => {
         'LL',
       )}`,
       footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-      title: `Lab and test results: Microbiology on ${dateFormat(
+      title: `Lab and test results: Microbiology on ${formatDateLong(
         record.date,
-        'LLL',
       )}`,
       subject: 'VA Medical Record',
       preface:
@@ -77,7 +76,7 @@ const MicroDetails = props => {
               },
               {
                 title: 'Date completed',
-                value: record.date,
+                value: formatDateLong(record.date),
                 inline: true,
               },
             ],
@@ -113,8 +112,10 @@ const MicroDetails = props => {
             <div className="time-header">
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Date:{' '}
+                <span className="vads-u-font-weight--normal">
+                  {formattedDate}
+                </span>
               </h2>
-              <p>{formattedDate}</p>
             </div>
             <div className="no-print">
               <PrintDownload list download={generateMicrobiologyPdf} />

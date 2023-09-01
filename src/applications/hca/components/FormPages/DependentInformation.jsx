@@ -24,7 +24,7 @@ const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
 const SUB_PAGES = [
   {
     id: 'basic',
-    title: '%s\u2019s basic information',
+    title: '%s\u2019s personal information',
   },
   {
     id: 'education',

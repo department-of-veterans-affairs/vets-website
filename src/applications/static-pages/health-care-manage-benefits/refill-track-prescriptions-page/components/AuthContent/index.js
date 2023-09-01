@@ -1,5 +1,6 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 // Relative imports.
 import { getCernerURL } from 'platform/utilities/cerner';
@@ -20,6 +21,7 @@ export const AuthContent = ({
   otherFacilities,
   ehrDataByVhaId,
   useSingleLogout,
+  widgetType,
 }) => (
   <>
     <CernerCallToAction
@@ -35,6 +37,7 @@ export const AuthContent = ({
         '/pages/medications/current',
         useSingleLogout,
       )}
+      widgetType={widgetType}
     />
     <div>
       <div itemScope itemType="http://schema.org/Question">
@@ -393,6 +396,7 @@ export const AuthContent = ({
 );
 
 AuthContent.propTypes = {
+  widgetType: PropTypes.string.isRequired,
   authenticatedWithSSOe: authenticatedWithSSOePropType,
   cernerFacilities: cernerFacilitiesPropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,

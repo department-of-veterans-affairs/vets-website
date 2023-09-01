@@ -7,10 +7,7 @@ import RequestedAppointmentsListGroup from '../../../appointment-list/components
 import { getVAOSRequestMock } from '../../mocks/v2';
 import reducers from '../../../redux/reducer';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
-import {
-  getTimezoneTestDate,
-  renderWithStoreAndRouter,
-} from '../../mocks/setup';
+import { getTestDate, renderWithStoreAndRouter } from '../../mocks/setup';
 
 const initialStateVAOSService = {
   featureToggles: {
@@ -23,7 +20,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
   describe('Given vaOnlineSchedulingStatusImprovement feature is on', () => {
     beforeEach(() => {
       mockFetch();
-      MockDate.set(getTimezoneTestDate());
+      MockDate.set(getTestDate());
     });
 
     afterEach(() => {

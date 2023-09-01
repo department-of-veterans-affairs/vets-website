@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 
 import { makeSelectForm } from '../selectors';
 
-import { useSessionStorage } from '../hooks/useSessionStorage';
+import { useStorage } from '../hooks/useStorage';
 import { useFormRouting } from '../hooks/useFormRouting';
 import { useUpdateError } from '../hooks/useUpdateError';
 
@@ -17,7 +17,7 @@ const withForm = (Component, options = {}) => {
     const selectForm = useMemo(makeSelectForm, []);
     const form = useSelector(selectForm);
     const { jumpToPage } = useFormRouting(router);
-    const { getCurrentToken } = useSessionStorage(isPreCheckIn);
+    const { getCurrentToken } = useStorage(isPreCheckIn);
     const { updateError } = useUpdateError();
 
     useEffect(

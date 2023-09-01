@@ -13,7 +13,10 @@ export const issueErrorMessages = {
   missingDecisionDate: 'Enter a decision date',
   invalidDateRange: (min, max) => `Enter a year between ${min} and ${max}`,
   pastDate: 'Add a past decision date',
+  // date must be < 1 year old
   newerDate: 'Add an issue with a decision date less than a year old',
+  // date must be more recent (set to 100 years max)
+  recentDate: 'You must add a more recent decision date',
 };
 
 export const content = {

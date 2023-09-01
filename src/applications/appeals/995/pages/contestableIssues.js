@@ -1,8 +1,12 @@
 import ContestableIssuesWidget from '../components/ContestableIssuesWidget';
 
-import { ContestableIssuesAdditionalInfo } from '../content/contestableIssues';
+import { ContestableIssuesAdditionalInfo } from '../../shared/content/contestableIssues';
 
-import { selectionRequired, maxIssues } from '../validations/issues';
+import {
+  checkIssues,
+  selectionRequired,
+  maxIssues,
+} from '../validations/issues';
 import { hasSomeSelected } from '../utils/helpers';
 import { SELECTED } from '../constants';
 
@@ -26,7 +30,7 @@ const contestableIssues = {
         keepInPageOnReview: true,
         customTitle: 'Issues', // override DL wrapper
       },
-      'ui:validations': [selectionRequired, maxIssues],
+      'ui:validations': [checkIssues, selectionRequired, maxIssues],
     },
     'view:issueNotListed': {
       'ui:description': ContestableIssuesAdditionalInfo,

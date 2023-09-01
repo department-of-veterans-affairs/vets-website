@@ -181,6 +181,7 @@ class ObjectField extends React.Component {
     const fieldsetClassNames = classNames(
       uiOptions.classNames,
       'vads-u-margin-y--2',
+      'rjsf-object-field',
     );
 
     const forceDivWrapper = !!uiOptions.forceDivWrapper;

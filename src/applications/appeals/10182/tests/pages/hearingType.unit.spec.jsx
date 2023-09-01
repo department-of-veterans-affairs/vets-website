@@ -1,14 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import { fireEvent, render } from '@testing-library/react';
 import sinon from 'sinon';
 
-import {
-  DefinitionTester,
-  selectRadio,
-} from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
+
+import { HearingTypeReviewField } from '../../content/hearingType';
 
 describe('NOD board review page', () => {
   const {
@@ -18,7 +18,7 @@ describe('NOD board review page', () => {
   const data = { boardReviewOption: 'hearing' };
 
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={{}}
         schema={schema}
@@ -28,13 +28,12 @@ describe('NOD board review page', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(3);
-    form.unmount();
+    expect($$('input', container).length).to.equal(3);
   });
 
   it('should allow submit', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={{}}
         schema={schema}
@@ -45,17 +44,16 @@ describe('NOD board review page', () => {
       />,
     );
 
-    selectRadio(form, 'root_hearingTypePreference', 'video_conference');
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    fireEvent.click($('input[value="video_conference"]', container));
+    fireEvent.submit($('form', container));
+    expect($$('.usa-input-error-message', container).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
-    form.unmount();
   });
 
   // board option is required
   it('should prevent continuing', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={{}}
         schema={schema}
@@ -66,9 +64,42 @@ describe('NOD board review page', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    fireEvent.submit($('form', container));
+    expect($$('.usa-input-error-message', container).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
-    form.unmount();
+  });
+});
+
+describe('HearingTypeReviewField', () => {
+  it('should render the value', () => {
+    const { container } = render(
+      <HearingTypeReviewField>
+        {React.createElement(
+          'div',
+          { formData: 'video_conference' },
+          'video_conference',
+        )}
+      </HearingTypeReviewField>,
+    );
+
+    expect($('dt', container).textContent).to.equal(
+      'What type of hearing would you like to request?',
+    );
+    expect($('dd', container).textContent).to.equal('video_conference');
+  });
+
+  it('should render the missing value error', () => {
+    const { container } = render(
+      <HearingTypeReviewField>
+        {React.createElement('div', { formData: null })}
+      </HearingTypeReviewField>,
+    );
+
+    expect($('dt', container).textContent).to.equal(
+      'What type of hearing would you like to request?',
+    );
+    expect($('dd .usa-input-error-message', container).textContent).to.equal(
+      'Missing hearing option',
+    );
   });
 });

@@ -21,7 +21,7 @@ describe('Admission and discharge summary details component', () => {
       {
         initialState: state,
         reducers: reducer,
-        path: '/health-history/care-summaries-and-notes/954',
+        path: '/care-summaries-and-notes/954',
       },
     );
   };

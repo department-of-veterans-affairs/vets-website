@@ -26,6 +26,8 @@ const ThreadsList = props => {
   }); // [from, to]
   const totalThreads = threadList[0]?.threadPageSize;
 
+  const [atEndOfThreads, setAtEndOfThreads] = useState(false);
+
   const fromToNums = useMemo(
     () => {
       const from = (pageNum - 1) * threadsPerPage + 1;
@@ -43,6 +45,12 @@ const ThreadsList = props => {
           fromToNums.to
         } of ${totalThreads} conversations`;
         setDisplayNums({ ...fromToNums, label });
+      }
+
+      if (totalThreads === fromToNums.to) {
+        setAtEndOfThreads(true);
+      } else {
+        setAtEndOfThreads(false);
       }
     },
     [fromToNums, totalThreads],
@@ -72,6 +80,11 @@ const ThreadsList = props => {
               thread={thread}
             />
           ))}
+        {atEndOfThreads && (
+          <div className="endOfThreads vads-u-padding-y--2">
+            <span>End of conversations in this folder</span>
+          </div>
+        )}
 
         {threadList?.length > 1 && (
           <VaPagination

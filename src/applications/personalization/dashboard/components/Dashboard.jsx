@@ -94,7 +94,6 @@ const Dashboard = ({
   getPayments,
   isLOA3,
   payments,
-  shouldShowV2Dashboard,
   showLoader,
   showMPIConnectionError,
   showNameTag,
@@ -170,7 +169,7 @@ const Dashboard = ({
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}
       user={props.user}
-      showProfileErrorMessage={shouldShowV2Dashboard}
+      showProfileErrorMessage
     >
       <DowntimeNotification
         appTitle="user dashboard"
@@ -221,7 +220,7 @@ const Dashboard = ({
                 </div>
               ) : null}
 
-              {props.showClaimsAndAppeals && shouldShowV2Dashboard ? (
+              {props.showClaimsAndAppeals && (
                 <DowntimeNotification
                   dependencies={[
                     externalServices.mhv,
@@ -233,30 +232,21 @@ const Dashboard = ({
                     useLighthouseClaims={useLighthouseClaims}
                   />
                 </DowntimeNotification>
-              ) : null}
-
-              {isLOA3 && shouldShowV2Dashboard ? (
-                <HealthCareV2 isVAPatient={isVAPatient} />
-              ) : null}
-
-              {isLOA3 &&
-                shouldShowV2Dashboard && (
-                  <>
-                    <DebtsV2 />
-                    <BenefitPaymentsV2
-                      payments={payments}
-                      showNotifications={showNotifications}
-                    />
-                  </>
-                )}
-              {isLOA3 && shouldShowV2Dashboard ? (
-                <EducationAndTraining />
-              ) : null}
-              {isLOA3 && shouldShowV2Dashboard ? (
-                <SavedApplications />
-              ) : (
-                <ApplyForBenefits />
               )}
+
+              {isLOA3 && <HealthCareV2 isVAPatient={isVAPatient} />}
+
+              {isLOA3 && (
+                <>
+                  <DebtsV2 />
+                  <BenefitPaymentsV2
+                    payments={payments}
+                    showNotifications={showNotifications}
+                  />
+                </>
+              )}
+              {isLOA3 && <EducationAndTraining />}
+              {isLOA3 ? <SavedApplications /> : <ApplyForBenefits />}
             </div>
           </div>
         )}
@@ -329,10 +319,6 @@ const mapStateToProps = state => {
     isLOA3 &&
     isVAPatient;
 
-  const shouldShowV2Dashboard = toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMyVADashboardV2
-  ];
-
   const useLighthouseClaims = toggleValues(state)[
     FEATURE_FLAG_NAMES.myVaUseLighthouseClaims
   ];
@@ -356,7 +342,6 @@ const mapStateToProps = state => {
     totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     useLighthouseClaims,
     user: state.user,
-    shouldShowV2Dashboard,
     showMPIConnectionError,
     showNotInMPIError,
     showNotifications,
@@ -386,7 +371,6 @@ Dashboard.propTypes = {
       accountNumber: PropTypes.string.isRequired,
     }),
   ),
-  shouldShowV2Dashboard: PropTypes.bool,
   showClaimsAndAppeals: PropTypes.bool,
   showHealthCare: PropTypes.bool,
   showLoader: PropTypes.bool,

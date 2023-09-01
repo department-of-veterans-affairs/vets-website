@@ -76,13 +76,14 @@ const pageTests = page => {
     const routingNumber = formDOM.querySelector(
       '#root_bankAccount_routingNumber',
     );
-    ReactTestUtils.Simulate.blur(routingNumber);
 
     ReactTestUtils.Simulate.change(routingNumber, {
       target: {
         value: '01234567',
       },
     });
+
+    ReactTestUtils.Simulate.blur(routingNumber);
 
     expect(
       formDOM.querySelector('.usa-input-error #root_bankAccount_routingNumber'),

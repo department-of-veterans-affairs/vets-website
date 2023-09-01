@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { IssueCardContent, IssueCard } from '../../components/IssueCard';
-import { SELECTED } from '../../constants';
+import { SELECTED, errorMessages } from '../../constants';
 
 const getContestableIssue = (id, selected) => ({
   ratingIssueSubjectText: `issue-${id}`,
@@ -42,6 +42,7 @@ describe('<IssueCard>', () => {
     expect($('h4', container)).to.exist;
     expect($('input[type="checkbox"]', container)).to.exist;
     expect($('.widget-title', container).textContent).to.eq('issue-10');
+    expect($('.widget-title.dd-privacy-hidden', container)).to.exist;
     expect($('.widget-content', container).textContent).to.contain('blah');
     expect($('.widget-content', container).textContent).to.contain(
       'Current rating: 10%',
@@ -117,6 +118,27 @@ describe('<IssueCardContent>', () => {
     const { container } = render(<IssueCardContent {...issue} />);
     expect($('.widget-content-wrap', container).textContent).to.contain(
       'Decision date: February 21, 2021',
+    );
+  });
+  it('should render API loaded issue with invalid date message', () => {
+    const issue = {
+      ...getContestableIssue('20'),
+      approxDecisionDate: '2020-?-?',
+    };
+    const { container } = render(<IssueCardContent {...issue} />);
+
+    expect($('.widget-content-wrap', container).textContent).to.contain(
+      `Decision date: ${errorMessages.cardInvalidDate}`,
+    );
+  });
+  it('should render AdditionalIssue invalid date message', () => {
+    const issue = {
+      ...getAdditionalIssue('21'),
+      decisionDate: '2021-?-?',
+    };
+    const { container } = render(<IssueCardContent {...issue} />);
+    expect($('.widget-content-wrap', container).textContent).to.contain(
+      `Decision date: ${errorMessages.cardInvalidDate}`,
     );
   });
 });

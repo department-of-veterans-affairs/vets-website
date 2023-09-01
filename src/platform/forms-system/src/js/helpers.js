@@ -9,6 +9,7 @@ import set from '../../../utilities/data/set';
 import unset from '../../../utilities/data/unset';
 
 export const minYear = 1900;
+export const currentYear = moment().year();
 // maxYear was previously set to 3000
 export const maxYear = moment()
   .add(100, 'year')

@@ -8,15 +8,16 @@ export default {
   uiSchema: {
     authorizerType: {
       'ui:title': (
-        <span
-          className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold"
-          role="heading"
-          aria-level={2}
-        >
-          Who is submitting this authorization?
-        </span>
+        <>
+          <h2 className="custom-header authorizer-type vads-u-font-size--h3">
+            Who is submitting this authorization?{' '}
+            <span className="custom-required-span">(*Required)</span>
+          </h2>
+          <p className="custom-description">
+            Select the description that fits you.
+          </p>
+        </>
       ),
-      'ui:description': 'Select the description that fits you.',
       'ui:widget': 'radio',
       'ui:options': {
         labels: getLabelsFromConstants(AUTHORIZER_TYPE_ITEMS),
@@ -35,6 +36,12 @@ export default {
             rel="noopener noreferrer"
           >
             download the PDF version of this form
+            <i
+              className="fas fa-arrow-up-right-from-square"
+              aria-hidden="true"
+              role="img"
+            />
+            <span className="sr-only">[ opens in a new browser-tab ]</span>
           </a>
           . Then submit it in person or by mail.
         </p>

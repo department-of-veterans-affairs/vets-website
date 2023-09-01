@@ -40,9 +40,15 @@ describe('transform', () => {
     result.data.attributes.veteran.address.countryCodeISO2 = 'US';
     delete result.data.attributes.veteran.address.countryName;
 
+    // add part III, box 11 data
     result.data.attributes.requestingExtension = true;
     result.data.attributes.extensionReason = 'Lorem ipsum';
     result.data.attributes.appealingVhaDenial = false;
+
+    // switch emailAddressText to email for v1
+    result.data.attributes.veteran.email =
+      result.data.attributes.veteran.emailAddressText;
+    delete result.data.attributes.veteran.emailAddressText;
 
     expect(transformedResult).to.deep.equal(result);
   });

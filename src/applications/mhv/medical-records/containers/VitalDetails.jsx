@@ -17,7 +17,7 @@ import {
   processList,
   sendErrorToSentry,
 } from '../util/helpers';
-import { emptyField, vitalTypeDisplayNames } from '../util/constants';
+import { EMPTY_FIELD, vitalTypeDisplayNames } from '../util/constants';
 
 const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = () => {
@@ -38,18 +38,13 @@ const VitalDetails = () => {
       dispatch(
         setBreadcrumbs(
           [
-            { url: '/my-health/medical-records/', label: 'Dashboard' },
             {
-              url: '/my-health/medical-records/health-history',
-              label: 'Health history',
-            },
-            {
-              url: '/my-health/medical-records/health-history/vitals',
-              label: 'VA vitals',
+              url: '/my-health/medical-records/vitals',
+              label: 'Vitals',
             },
           ],
           {
-            url: `/my-health/medical-records/health-history/vitals/${vitalType}`,
+            url: `/my-health/medical-records/vitals/${vitalType}`,
             label: vitalTypeDisplayNames[macroCase(vitalType)],
           },
         ),
@@ -123,12 +118,12 @@ const VitalDetails = () => {
         items: [
           {
             title: 'Result',
-            value: item.measurement || emptyField,
+            value: item.measurement || EMPTY_FIELD,
             inline: true,
           },
           {
             title: 'Location',
-            value: item.location || emptyField,
+            value: item.location || EMPTY_FIELD,
             inline: true,
           },
           {
@@ -174,15 +169,9 @@ const VitalDetails = () => {
                       {vital.location}
                     </p>
                     <h3>Provider notes:</h3>
-                    {vital?.notes?.length > 0 ? (
-                      <ul className="comment-list">
-                        {vital.notes.map((comment, commentIdx) => (
-                          <li key={commentIdx}>{comment}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="vads-u-margin--0">None noted</p>
-                    )}
+                    <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                      {vital.notes}
+                    </p>
                   </li>
                 ))}
             </ul>
@@ -198,15 +187,9 @@ const VitalDetails = () => {
                     <h3>Location:</h3>
                     <p>{vital.location}</p>
                     <h3>Provider notes:</h3>
-                    {vital?.notes?.length > 0 ? (
-                      <ul className="comment-list">
-                        {vital.notes.map((comment, commentIdx) => (
-                          <li key={commentIdx}>{comment}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <span className="vads-u-margin--0">None noted</span>
-                    )}
+                    <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                      {vital.notes}
+                    </p>
                   </li>
                 ))}
             </ul>
@@ -230,6 +213,7 @@ const VitalDetails = () => {
         message="Loading..."
         setFocus
         data-testid="loading-indicator"
+        class="loading-indicator"
       />
     );
   };

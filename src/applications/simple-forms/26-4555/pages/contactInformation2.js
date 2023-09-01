@@ -36,16 +36,32 @@ export default {
         ...phoneUI('Home phone number'),
         'ui:errorMessages': {
           ...phoneUI()['ui:errorMessages'],
+          pattern:
+            'Please enter a 10-digit phone number (with or without dashes)',
           required:
             'Please enter a 10-digit phone number (with or without dashes)',
+        },
+        'ui:options': {
+          updateSchema: () => ({
+            type: 'string',
+            pattern: '^\\d{3}-?\\d{3}-?\\d{4}$',
+          }),
         },
       },
       [veteranFields.mobilePhone]: {
         ...phoneUI('Mobile phone number'),
         'ui:errorMessages': {
           ...phoneUI()['ui:errorMessages'],
+          pattern:
+            'Please enter a 10-digit phone number (with or without dashes)',
           required:
             'Please enter a 10-digit phone number (with or without dashes)',
+        },
+        'ui:options': {
+          updateSchema: () => ({
+            type: 'string',
+            pattern: '^\\d{3}-?\\d{3}-?\\d{4}$',
+          }),
         },
       },
       [veteranFields.email]: {

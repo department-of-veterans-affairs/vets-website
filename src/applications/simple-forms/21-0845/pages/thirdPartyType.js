@@ -7,14 +7,10 @@ export default {
   uiSchema: {
     thirdPartyType: {
       'ui:title': (
-        <span
-          className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold"
-          role="heading"
-          aria-level={3}
-        >
+        <h3 className="custom-header">
           Do you authorize us to release your information to a specific person
           or to an organization?
-        </span>
+        </h3>
       ),
       'ui:widget': 'radio',
       'ui:options': {

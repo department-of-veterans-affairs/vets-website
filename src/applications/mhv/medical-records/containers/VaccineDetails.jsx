@@ -16,7 +16,7 @@ import { getVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
-import { emptyField } from '../util/constants';
+import { EMPTY_FIELD } from '../util/constants';
 
 const VaccineDetails = () => {
   const vaccineDetails = useSelector(state => state.mr.vaccines.vaccineDetails);
@@ -39,18 +39,13 @@ const VaccineDetails = () => {
       dispatch(
         setBreadcrumbs(
           [
-            { url: '/my-health/medical-records/', label: 'Dashboard' },
             {
-              url: '/my-health/medical-records/health-history',
-              label: 'Health history',
-            },
-            {
-              url: '/my-health/medical-records/health-history/vaccines',
-              label: 'VA vaccines',
+              url: '/my-health/medical-records/vaccines',
+              label: 'Vaccines',
             },
           ],
           {
-            url: `/my-health/medical-records/health-history/vaccines/${vaccineId}`,
+            url: `/my-health/medical-records/vaccines/${vaccineId}`,
             label: vaccineDetails?.name,
           },
         ),
@@ -78,7 +73,7 @@ const VaccineDetails = () => {
             items: [
               {
                 title: 'Location',
-                value: vaccineDetails.location || emptyField,
+                value: vaccineDetails.location || EMPTY_FIELD,
                 inline: true,
               },
               {
@@ -109,14 +104,18 @@ const VaccineDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vaccine-header">{vaccineDetails.name}</h1>
+          <h1 className="vads-u-margin-bottom--0p5">{vaccineDetails.name}</h1>
+          <div className="time-header">
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Date:{' '}
+              <span className="vads-u-font-weight--normal">
+                {formattedDate}
+              </span>
+            </h2>
+          </div>
           <section className="set-width-480">
             <PrintDownload list download={generateVaccinePdf} />
             <div className="detail-block max-80">
-              <h2 className="vads-u-margin-top--0">Date received</h2>
-              <p>{formattedDate}</p>
-              <h2>Manufacturer</h2>
-              <p>{vaccineDetails.manufacturer}</p>
               <h2>Location</h2>
               <p>{vaccineDetails.location}</p>
               <h2 className="vads-u-margin-bottom--0">
@@ -135,6 +134,7 @@ const VaccineDetails = () => {
         message="Loading..."
         setFocus
         data-testid="loading-indicator"
+        class="loading-indicator"
       />
     );
   };

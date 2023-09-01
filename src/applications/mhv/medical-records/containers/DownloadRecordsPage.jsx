@@ -8,10 +8,13 @@ const DownloadRecordsPage = () => {
   useEffect(
     () => {
       dispatch(
-        setBreadcrumbs([{ url: '/my-health', label: 'Dashboard' }], {
-          url: '/my-health/medical-records/download-your-medical-records',
-          label: 'Download all medical records',
-        }),
+        setBreadcrumbs(
+          [{ url: '/my-health/medical-records', label: 'Medical records' }],
+          {
+            url: '/my-health/medical-records/download-your-medical-records',
+            label: 'Download all medical records',
+          },
+        ),
       );
     },
     [dispatch],

@@ -123,7 +123,7 @@ function mapStateToProps(state) {
     claim: claimsState.claimDetail.detail,
     lastPage: claimsState.routing.lastPage,
     synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse: cstUseLighthouse(state, 'show'),
   };
 }
 

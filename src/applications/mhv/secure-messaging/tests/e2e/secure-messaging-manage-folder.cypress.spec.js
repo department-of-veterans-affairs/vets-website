@@ -43,14 +43,14 @@ describe('Secure Messaging Manage Folder AXE check', () => {
     cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderId}`, {
       statusCode: 204,
     }).as('deleteFolder');
-    folderPage.clickAndLoadCustumFolder(
+    folderPage.clickAndLoadCustomFolder(
       folderName,
       folderId,
       MockCustomFolderResponse,
       mockCustomFolderNoMessages,
     );
     cy.get('[data-testid="remove-folder-button"]').click();
-    cy.get('[text="Remove"]')
+    cy.get('[text="Yes, remove this folder"]')
       .shadow()
       .find('[type="button"]')
       .click();

@@ -75,6 +75,8 @@ export const ConfirmationPage = () => {
   return (
     <ConfirmationPageView
       submitterName={fullName}
+      submitterHeader="Who submitted this form"
+      formType="submission"
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       content={content}

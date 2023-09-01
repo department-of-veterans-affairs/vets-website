@@ -2,7 +2,6 @@ import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system
 
 import { v2 } from '../../mocks/appointments';
 import { mockFolderResponse } from '../../utils/mocks/messaging/folder';
-import { generateFeatureToggles } from '../../../common/mocks/feature-toggles';
 
 import {
   makeUserObject,
@@ -28,12 +27,6 @@ const userWithoutRxMessaging = makeUserObject({
 describe('MyVA Dashboard - Rx Messaging - v2', () => {
   beforeEach(() => {
     mockLocalStorage();
-    cy.intercept(
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        showMyVADashboardV2: true,
-      }),
-    );
     cy.intercept('GET', '/vaos/v2/appointments*', req => {
       const rv = v2.createAppointmentSuccess({ startsInDays: [] });
       req.reply(rv);
@@ -47,11 +40,10 @@ describe('MyVA Dashboard - Rx Messaging - v2', () => {
   });
 
   context('when user has messaging and rx features', () => {
-    it('should show the rx CTA and unread messages alert', () => {
+    it('should show the view messages and rx CTAs', () => {
       cy.login(userWithRxMessaging);
       cy.visit('my-va/');
-
-      cy.findByTestId('unread-messages-alert-v2').should('exist');
+      cy.findByTestId('view-your-messages-link-from-cta').should('exist');
       cy.injectAxeThenAxeCheck();
     });
   });

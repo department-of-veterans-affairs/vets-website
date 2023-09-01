@@ -166,7 +166,7 @@
     margin: 16px 0px 24px 0;
     width: 100%;
 
-    @media (min-width: $medium-screen) {
+    @media (min-width: $small-screen) {
       width: 32.5%;
     }
   }
@@ -176,7 +176,7 @@
     height: 36px;
     width: 100%;
 
-    @media (min-width: $medium-screen) {
+    @media (min-width: $small-screen) {
       width: auto;
     }
   }
@@ -198,13 +198,10 @@
     display: block;
     height: 36px;
     padding: 0;
-    width: 100%;
   }
 
   button {
-    padding-left: 4px;
-    padding-right: 4px;
-    margin-bottom: 16px;
+    height: 36px;
   }
 
   @media (min-width: $medium-screen) {

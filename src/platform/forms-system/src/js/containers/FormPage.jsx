@@ -173,6 +173,8 @@ class FormPage extends React.Component {
 
     const showNavLinks =
       environment.isLocalhost() && route.formConfig?.dev?.showNavLinks;
+    const hideNavButtons =
+      !environment.isProduction() && route.formConfig?.formOptions?.noBottomNav;
 
     // Bypass the SchemaForm and render the custom component
     // NOTE: I don't think FormPage is rendered on the review page, so I believe
@@ -188,9 +190,14 @@ class FormPage extends React.Component {
             onReviewPage={formContext?.onReviewPage}
             trackingPrefix={this.props.form.trackingPrefix}
             uploadFile={this.props.uploadFile}
+            schema={schema}
+            uiSchema={uiSchema}
             goBack={this.goBack}
             goForward={this.onSubmit}
             goToPath={this.goToPath}
+            callOnContinue={callOnContinue}
+            onChange={this.onChange}
+            onSubmit={this.onSubmit}
             setFormData={this.props.setData}
             contentBeforeButtons={contentBeforeButtons}
             contentAfterButtons={contentAfterButtons}
@@ -216,13 +223,19 @@ class FormPage extends React.Component {
           onChange={this.onChange}
           onSubmit={this.onSubmit}
         >
-          {contentBeforeButtons}
-          <FormNavButtons
-            goBack={!isFirstRoutePage && this.goBack}
-            goForward={callOnContinue}
-            submitToContinue
-          />
-          {contentAfterButtons}
+          {hideNavButtons ? (
+            <div />
+          ) : (
+            <>
+              {contentBeforeButtons}
+              <FormNavButtons
+                goBack={!isFirstRoutePage && this.goBack}
+                goForward={callOnContinue}
+                submitToContinue
+              />
+              {contentAfterButtons}
+            </>
+          )}
         </SchemaForm>
       </div>
     );
@@ -283,6 +296,9 @@ FormPage.propTypes = {
     formConfig: PropTypes.shape({
       dev: PropTypes.shape({
         showNavLinks: PropTypes.bool,
+      }),
+      formOptions: PropTypes.shape({
+        noBottomNav: PropTypes.bool,
       }),
     }),
     pageList: PropTypes.arrayOf(

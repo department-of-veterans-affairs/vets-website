@@ -2,11 +2,10 @@ import commonFieldMapping from './commonFieldMapping';
 
 /** @param {WebComponentFieldProps} props */
 export default function vaSelectFieldMapping(props) {
-  const { uiOptions, childrenProps } = props;
+  const { childrenProps } = props;
 
   return {
     ...commonFieldMapping(props),
-    labels: uiOptions?.labels || {},
     value:
       typeof childrenProps.formData === 'undefined'
         ? ''

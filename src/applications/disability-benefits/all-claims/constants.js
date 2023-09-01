@@ -105,7 +105,7 @@ export const VA_FORM4192_URL =
 export const MAX_FILE_SIZE_MB = 50;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
-export const MAX_PDF_FILE_SIZE_MB = 150;
+export const MAX_PDF_FILE_SIZE_MB = 99;
 // binary based
 export const MAX_PDF_FILE_SIZE_BYTES = MAX_PDF_FILE_SIZE_MB * 1024 ** 2;
 
@@ -337,3 +337,5 @@ export const CHAR_LIMITS = [
 
 // migration max string length
 export const MAX_HOUSING_STRING_LENGTH = 500;
+
+export const OMB_CONTROL = '2900-0747';

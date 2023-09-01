@@ -8,11 +8,7 @@
 
 import { getCommunityCareFacilities, getCommunityCareFacility } from '../var';
 import { mapToFHIRErrors } from '../utils';
-import {
-  setSupportedSchedulingMethods,
-  transformCommunityProvider,
-  transformCommunityProviders,
-} from './transformers';
+
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
 import {
@@ -25,7 +21,10 @@ import {
   transformFacilitiesV2,
   transformSettingsV2,
   transformFacilityV2,
-} from './transformers.v2';
+  setSupportedSchedulingMethods,
+  transformCommunityProvider,
+  transformCommunityProviders,
+} from './transformers';
 import { getRealFacilityId } from '../../utils/appointment';
 
 /**

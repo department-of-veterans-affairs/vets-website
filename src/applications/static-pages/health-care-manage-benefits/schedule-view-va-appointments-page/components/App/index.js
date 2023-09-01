@@ -1,5 +1,6 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 // Relative imports.
@@ -13,7 +14,12 @@ import {
   useSingleLogoutPropType,
 } from '../../../propTypes';
 
-export const App = ({ ehrDataByVhaId, facilities, useSingleLogout }) => {
+export const App = ({
+  ehrDataByVhaId,
+  facilities,
+  useSingleLogout,
+  widgetType,
+}) => {
   const cernerFacilities = facilities?.filter(f => f.usesCernerAppointments);
   const otherFacilities = facilities?.filter(f => !f.usesCernerAppointments);
   if (!isEmpty(cernerFacilities)) {
@@ -23,6 +29,7 @@ export const App = ({ ehrDataByVhaId, facilities, useSingleLogout }) => {
         otherFacilities={otherFacilities}
         ehrDataByVhaId={ehrDataByVhaId}
         useSingleLogout={useSingleLogout}
+        widgetType={widgetType}
       />
     );
   }
@@ -32,6 +39,7 @@ export const App = ({ ehrDataByVhaId, facilities, useSingleLogout }) => {
 
 App.propTypes = {
   // From mapStateToProps.
+  widgetType: PropTypes.string.isRequired,
   ehrDataByVhaId: ehrDataByVhaIdPropType,
   facilities: facilitiesPropType,
   useSingleLogout: useSingleLogoutPropType,

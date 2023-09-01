@@ -21,13 +21,13 @@ export default function Disclaimer() {
       <p>
         <b>
           If you have questions about VA benefits and services that our chatbot
-          can’t answer right now,
+          can’t answer right now,{' '}
         </b>
-         you can get the information in any of these ways:
+        you can get the information in any of these ways:
         <ul>
           <li>
             <a href="/resources/helpful-va-phone-numbers/">
-              Call us at one of our helpful VA phone numbers
+              Call us at one of our helpful VA phone numbers
             </a>
           </li>
           <li>
@@ -42,9 +42,9 @@ export default function Disclaimer() {
       <h2>Before you start</h2>
 
       <p>
-        <b>If you think your life or health is in danger,</b>
-         go to the nearest emergency room or call 911. If you’re not sure if
-        your condition is an emergency, contact your primary care provider.
+        <b>If you think your life or health is in danger, </b>
+        go to the nearest emergency room or call 911. If you’re not sure if your
+        condition is an emergency, contact your primary care provider.
         <br />{' '}
         <a href="/find-locations">Find your nearest VA health facility</a>
         <br />{' '}
@@ -129,7 +129,7 @@ export default function Disclaimer() {
           <p>
             &ensp;
             <a href="/resources/helpful-va-phone-numbers/">
-              Call us at one of our helpful VA phone numbers to speak to a
+              Call us at one of our helpful VA phone numbers to speak to a
               representative
             </a>
             <br />

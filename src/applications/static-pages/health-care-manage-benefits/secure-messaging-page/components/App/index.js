@@ -1,5 +1,6 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 // Relative imports.
@@ -20,6 +21,7 @@ export const App = ({
   ehrDataByVhaId,
   facilities,
   useSingleLogout,
+  widgetType,
 }) => {
   const cernerFacilities = facilities?.filter(f => f.usesCernerMessaging);
   const otherFacilities = facilities?.filter(f => !f.usesCernerMessaging);
@@ -31,6 +33,7 @@ export const App = ({
         ehrDataByVhaId={ehrDataByVhaId}
         authenticatedWithSSOe={authenticatedWithSSOe}
         useSingleLogout={useSingleLogout}
+        widgetType={widgetType}
       />
     );
   }
@@ -39,6 +42,7 @@ export const App = ({
 };
 
 App.propTypes = {
+  widgetType: PropTypes.string.isRequired,
   authenticatedWithSSOe: authenticatedWithSSOePropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,
   facilities: facilitiesPropType,

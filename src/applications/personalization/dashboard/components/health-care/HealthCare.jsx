@@ -88,7 +88,6 @@ const mapDispatchToProps = {
 
 HealthCare.propTypes = {
   authenticatedWithSSOe: PropTypes.bool.isRequired,
-  canAccessRx: PropTypes.bool.isRequired,
   appointments: PropTypes.arrayOf(
     PropTypes.shape({
       additionalInfo: PropTypes.string,

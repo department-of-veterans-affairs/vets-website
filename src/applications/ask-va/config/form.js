@@ -16,6 +16,7 @@ const formConfig = {
   trackingPrefix: 'ask-the-va-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
   formId: '0873',
   saveInProgress: {
     // messages: {
@@ -34,12 +35,13 @@ const formConfig = {
   title: 'Ask VA',
   defaultDefinitions: {},
   chapters: {
-    chapter1: {
+    veteranDetails: {
       title: 'Your Info',
       pages: {
         page1: {
           path: 'first-page',
           title: 'First Page',
+          subTitle: 'First Test page',
           uiSchema: {
             fieldOnAnotherPage: {
               'ui:title': 'Field on Another Page',
@@ -123,75 +125,94 @@ const formConfig = {
               },
             },
           },
-          page2: {
-            path: 'second-page',
-            title: 'Second Page',
-            depends: form => form.fieldOnAnotherPage !== 'test',
-            uiSchema: {
-              myFieldPage2: {
-                'ui:title': 'My field',
-                'ui:widget': 'yesNo',
-                'ui:options': {
-                  labels: {
-                    Y: 'Yes, this is what I want',
-                    N: 'No, I do not want this',
-                  },
-                  widgetProps: {
-                    Y: { 'data-info': 'yes' },
-                    N: { 'data-info': 'no' },
-                  },
-                  // Only added to the radio when it is selected
-                  // a11y requirement: aria-describedby ID's *must* exist on the page;
-                  // and we conditionally add content based on the selection
-                  selectedProps: {
-                    Y: { 'aria-describedby': 'some_id' },
-                    N: { 'aria-describedby': 'different_id' },
-                  },
+        },
+        page2: {
+          path: 'second-page',
+          title: 'Second Page',
+          depends: form => form.fieldOnAnotherPage !== 'test',
+          uiSchema: {
+            myFieldPage2: {
+              'ui:title': 'My field',
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                labels: {
+                  Y: 'Yes, this is what I want',
+                  N: 'No, I do not want this',
                 },
-              },
-              email: {
-                'ui:title': 'Email',
-              },
-              'view:confirmEmail': {
-                'ui:title': 'Confirm email',
+                widgetProps: {
+                  Y: { 'data-info': 'yes' },
+                  N: { 'data-info': 'no' },
+                },
+                // Only added to the radio when it is selected
+                // a11y requirement: aria-describedby ID's *must* exist on the page;
+                // and we conditionally add content based on the selection
+                selectedProps: {
+                  Y: { 'aria-describedby': 'some_id' },
+                  N: { 'aria-describedby': 'different_id' },
+                },
               },
             },
-            schema: {
-              type: 'object',
-              properties: {
-                myFieldPage2: {
-                  type: 'boolean',
-                },
-                email: {
-                  type: 'string',
-                },
-                'view:confirmEmail': {
-                  type: 'string',
-                },
+            email: {
+              'ui:title': 'Email',
+            },
+            'view:confirmEmail': {
+              'ui:title': 'Confirm email',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              myFieldPage2: {
+                type: 'boolean',
+              },
+              email: {
+                type: 'string',
+              },
+              'view:confirmEmail': {
+                type: 'string',
               },
             },
           },
         },
       },
-      chapter2: {
-        title: 'Your Question',
-        pages: {
-          page3: {
-            path: 'your-question-page',
-            title: 'The Questions Page',
-            uiSchema: {
+    },
+    veteranQuestions: {
+      title: 'Your Question',
+      pages: {
+        page3: {
+          path: 'your-question-page',
+          title: 'The Questions Page',
+          subTitle: 'test question',
+          uiSchema: {
+            question: {
+              'ui:title': 'Type your question below:',
+              'ui:widget': 'textarea',
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['question'],
+            properties: {
               question: {
-                'ui:title': 'Type your question below:',
-                'ui:widget': 'textarea',
+                type: 'string',
               },
             },
-            schema: {
-              type: 'object',
-              required: ['question'],
-              properties: {
-                question: {
-                  type: 'string',
-                },
+          },
+        },
+        page4: {
+          path: 'your-question-page-2',
+          title: 'The 2nd Questions Page',
+          uiSchema: {
+            question2: {
+              'ui:title': 'Type your 2nd question below:',
+              'ui:widget': 'textarea',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              question2: {
+                type: 'string',
               },
             },
           },

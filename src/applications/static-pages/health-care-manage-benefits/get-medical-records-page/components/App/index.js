@@ -20,6 +20,7 @@ export const App = ({
   ehrDataByVhaId,
   facilities,
   useSingleLogout,
+  widgetType,
 }) => {
   const cernerFacilities = facilities?.filter(f => f.usesCernerMedicalRecords);
   const otherFacilities = facilities?.filter(f => !f.usesCernerMedicalRecords);
@@ -31,6 +32,7 @@ export const App = ({
         ehrDataByVhaId={ehrDataByVhaId}
         authenticatedWithSSOe={authenticatedWithSSOe}
         useSingleLogout={useSingleLogout}
+        widgetType={widgetType}
       />
     );
   }
@@ -39,6 +41,7 @@ export const App = ({
 };
 
 App.propTypes = {
+  widgetType: PropTypes.string.isRequired,
   authenticatedWithSSOe: authenticatedWithSSOePropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,
   facilities: facilitiesPropType,

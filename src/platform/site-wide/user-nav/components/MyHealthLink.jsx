@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { isLandingPageEnabledForUser } from 'applications/mhv/landing-page/utilities/feature-toggles';
-import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import MY_HEALTH_LINK from 'platform/site-wide/mega-menu/constants/MY_HEALTH_LINK';
+import { isLandingPageEnabled } from 'applications/mhv/landing-page/selectors';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import MY_HEALTH_LINK from '~/platform/site-wide/mega-menu/constants/MY_HEALTH_LINK';
 
 const MyHealthLink = ({ isSSOe, onClick }) => {
   const state = useSelector(s => s);
-  const newLandingPageEnabled = isLandingPageEnabledForUser(state);
+  const newLandingPageEnabled = isLandingPageEnabled(state);
   if (newLandingPageEnabled) {
     return (
       <li>
@@ -27,6 +28,11 @@ const MyHealthLink = ({ isSSOe, onClick }) => {
       </a>
     </li>
   );
+};
+
+MyHealthLink.propTypes = {
+  isSSOe: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 export default MyHealthLink;
