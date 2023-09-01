@@ -46,6 +46,7 @@ export const FormApp = ({
           issuesNeedUpdating(
             contestableIssues?.issues,
             formData.contestedIssues,
+            { showPart3 },
           )
         ) {
           setFormData({
@@ -93,7 +94,6 @@ export const FormApp = ({
       showPart3,
     ],
   );
-
   const content = isLoading ? (
     <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
       <va-loading-indicator set-focus message="Loading application..." />
