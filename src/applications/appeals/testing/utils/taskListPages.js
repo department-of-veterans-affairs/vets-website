@@ -20,8 +20,7 @@ export const setupPages = formConfig => {
         taskListHide,
         title: taskListTitle || title,
         review,
-        // prototype is only going to support first page of array
-        path: `/${path.replace(':index', '0')}`,
+        path: `/${path}`,
         depends, // not currently used
       };
     });
@@ -36,7 +35,12 @@ export const setupPages = formConfig => {
   );
 
   const findPageFromPath = path =>
-    allPages.find(page => page.path === path) || { chapterIndex: 0 };
+    allPages.find(page => {
+      const pagePath = page.path.includes('/:index')
+        ? page.path.replace('/:index', '/')
+        : page.path;
+      return path.includes(pagePath);
+    }) || { chapterIndex: 0 };
 
   return {
     chapterKeys,

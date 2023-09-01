@@ -3,11 +3,7 @@ import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-// import { getPreviousPagePath } from 'platform/forms-system/src/js/routing';
-// import {
-//   createFormPageList,
-//   createPageList,
-// } from 'platform/forms-system/src/js/helpers';
+
 import formConfig from '../config/form';
 
 import { setupPages } from '../utils/taskListPages';
