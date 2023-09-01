@@ -1,8 +1,8 @@
 import { getEligibleContestableIssues } from './submit';
 
-// This function checks whether contestable issue data loaded from the API (`loaded`)
+// This function checks whether contestable issue data loaded from the API (`loadedIssues`)
 // is different from the contestable issue data already present in `formData`
-// (`formIssues`). We use it to determine whether we need to update `formData`.
+// (`existingIssues`). We use it to determine whether we need to update `formData`.
 // with contestable issue data from the API. This function is adapted from the
 // `issuesNeedUpdating` function defined in `src/applications/appeals/shared/utils/issues.js`.
 // The only difference (other than variable naming) is that we are calling
