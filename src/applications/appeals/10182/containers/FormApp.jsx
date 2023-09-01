@@ -20,7 +20,6 @@ import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagree
 import {
   getSelected,
   getIssueNameAndDate,
-  processContestableIssues,
   issuesNeedUpdating,
 } from '../../shared/utils/issues';
 
@@ -40,27 +39,7 @@ export const FormApp = ({
     () => {
       if (loggedIn) {
         const areaOfDisagreement = getSelected(formData);
-        if (!contestableIssues?.status) {
-          getContestableIssues();
-        } else if (
-          issuesNeedUpdating(
-            contestableIssues?.issues,
-            formData.contestedIssues,
-            { showPart3 },
-          )
-        ) {
-          setFormData({
-            ...formData,
-            // getEligibleContestableIssues removes issues that are deferred,
-            // missing a title, or have an invalid date, while
-            // processContestableIssues sorts the issues
-            contestedIssues: processContestableIssues(
-              getEligibleContestableIssues(contestableIssues?.issues, {
-                showPart3,
-              }),
-            ),
-          });
-        } else if (
+        if (
           areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
           !areaOfDisagreement.every(
             (entry, index) =>
@@ -85,15 +64,52 @@ export const FormApp = ({
         }
       }
     },
-    [
-      loggedIn,
-      formData,
-      setFormData,
-      contestableIssues,
-      getContestableIssues,
-      showPart3,
-    ],
+    [loggedIn, formData, setFormData, showPart3],
   );
+
+  // This useEffect is responsible for 1) loading contestable issues from the API,
+  // 2) filtering and normalizing that data, and 3) updating `formData` with that
+  // filtered and normalized data, if it is not already reflected in `formData`.
+  useEffect(
+    () => {
+      if (!loggedIn) {
+        return;
+      }
+
+      if (!contestableIssues?.status) {
+        getContestableIssues();
+      } else if (
+        // Checks if the API has returned contestable issues not already reflected
+        // in `formData`.
+        issuesNeedUpdating(
+          contestableIssues?.issues,
+          formData.contestedIssues,
+          { showPart3 },
+        )
+      ) {
+        setFormData({
+          ...formData,
+          // Filters and normalizes the issues. See function definition for more
+          // details.
+          contestedIssues: getEligibleContestableIssues(
+            contestableIssues?.issues,
+            {
+              showPart3,
+            },
+          ),
+        });
+      }
+    },
+    // Disabling because we don't want this to run when `formData` changes. This
+    // `useEffect` is all about filtering and normalizing new API-loaded contestable
+    // issues. It would be needlessly inefficient to be doing this every single
+    // time that the form data changes. Additionally, the functions used in this
+    // `useEffect` (e.g. `setFormData`) never change, so we don't need to include
+    // them in the dependency array.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [loggedIn, contestableIssues, showPart3],
+  );
+
   const content = isLoading ? (
     <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
       <va-loading-indicator set-focus message="Loading application..." />
