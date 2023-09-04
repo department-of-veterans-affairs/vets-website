@@ -101,7 +101,6 @@ export function parseApiListWithErrors(resp) {
  * @returns {Object} The data.attributes object from resp, but with the id included
  */
 export function parseApiObject(resp) {
-  console.log(`resp: ${response}`);
   return {
     ...resp.data.attributes,
     id: resp.data.id,
