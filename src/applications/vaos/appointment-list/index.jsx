@@ -36,9 +36,10 @@ function AppointmentListSection() {
       {featureBreadcrumbUrlUpdate && (
         <Switch>
           <Route
-            path="/:pastOrPending?/:id"
+            path="/pending/:id"
             component={ConfirmedAppointmentDetailsPage}
           />
+          <Route path="/past/:id" component={ConfirmedAppointmentDetailsPage} />
           <Route
             path="/:pastOrPending?/requests/:id"
             component={RequestedAppointmentDetailsPage}
