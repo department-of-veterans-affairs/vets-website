@@ -8,6 +8,7 @@ import {
   isStreamlinedShortForm,
   isStreamlinedLongForm,
 } from '../../utils/streamlinedDepends';
+import BankruptcyQuestionReview from '../../components/shared/BankruptcyQuestionReview';
 
 export default {
   bankruptcyAttestationChapter: {
@@ -22,6 +23,7 @@ export default {
         schema: bankruptcyHistory.schema,
         depends: formData =>
           !isStreamlinedShortForm(formData) && !isStreamlinedLongForm(formData),
+        CustomPageReview: BankruptcyQuestionReview,
       },
       bankruptcyHistoryRecords: {
         path: 'bankruptcy-history-records',
