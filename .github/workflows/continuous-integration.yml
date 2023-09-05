@@ -771,6 +771,7 @@ jobs:
         env:
           ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
           TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
+          TEST_TYPE: e2e
 
       - name: Create Cypress E2E report
         run: yarn cypress-mochawesome-to-bigquery
