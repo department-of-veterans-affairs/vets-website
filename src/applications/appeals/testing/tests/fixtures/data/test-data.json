@@ -91,7 +91,8 @@
         "attributes": {
           "ratingIssueSubjectText": "tinnitus",
           "description": "Service connection for tinnitus is granted with an evaluation of 10% effective January 15, 2020.",
-          "approxDecisionDate": "2023-1-15"
+          "approxDecisionDate": "2023-1-15",
+          "ratingIssuePercentNumber": "10"
         },
         "disagreementOptions": {
           "serviceConnection": true,
@@ -105,7 +106,8 @@
         "attributes": {
           "ratingIssueSubjectText": "left knee",
           "description": "Service connection for left knee granted with an evaluation of 10% effective March 10, 2022.",
-          "approxDecisionDate": "2023-6-2"
+          "approxDecisionDate": "2023-6-2",
+          "ratingIssuePercentNumber": "10"
         },
         "disagreementOptions": {
           "serviceConnection": false,
