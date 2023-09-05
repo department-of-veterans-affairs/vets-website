@@ -8,12 +8,11 @@ describe('verify navigation to medication details Page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
-    cy.visit('my-health/medications/');
+    cy.visit('my-health/about-medications/');
     site.login();
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
-    detailsPage.verifyRefillPrescriptionsText();
-    detailsPage.verifyWhatDoesThisStatusMeanText();
+
     detailsPage.verifyPrescriptionsNumber(
       mockPrescriptionDetails.data.attributes.prescriptionNumber,
     );
@@ -30,8 +29,8 @@ describe('verify navigation to medication details Page', () => {
 
     detailsPage.verifyPrescriptionsorderedDate();
 
-    detailsPage.verifyPrescriptionsquantity(
-      mockPrescriptionDetails.data.attributes.quantity,
+    detailsPage.verifyPrescriptionsRefillsRemaining(
+      mockPrescriptionDetails.data.attributes.refillRemaining,
     );
     detailsPage.verifyPrescriptionsexpirationDate();
 

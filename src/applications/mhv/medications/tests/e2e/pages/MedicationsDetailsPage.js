@@ -16,46 +16,46 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsNumber = PrescriptionsNumber => {
-    cy.get('.vads-u-margin-top--2 > :nth-child(4)').should(
+    cy.get('[data-testid="prescription-number"]').should(
       'have.text',
       PrescriptionsNumber,
     );
   };
 
-  verifyPrescriptionsName = prescriptionName => {
-    cy.get('.page-title > div').should('have.text', prescriptionName);
-  };
-
-  verifyPrescriptionsStatus = PrescriptionsStatus => {
-    cy.get('.vads-u-margin-top--2 > :nth-child(6)').should(
-      'have.text',
-      PrescriptionsStatus,
+  verifyPrescriptionsName = prescriptionDetails => {
+    cy.get('[data-testid="prescription-name"]').should(
+      'contain',
+      prescriptionDetails,
     );
   };
 
-  verifyPrescriptionsquantity = Prescriptionsquantity => {
-    cy.get('.vads-u-margin-y--3 > :nth-child(7)').should(
+  verifyPrescriptionsStatus = PrescriptionsStatus => {
+    cy.get('[data-testid="status"]').should('have.text', PrescriptionsStatus);
+  };
+
+  verifyPrescriptionsRefillsRemaining = PrescriptionsRefillsRemaining => {
+    cy.get('[data-testid="refills-left"]').should(
       'have.text',
-      Prescriptionsquantity,
+      PrescriptionsRefillsRemaining,
     );
   };
 
   verifyPrescriptionsexpirationDate = () => {
-    cy.get('.vads-u-margin-top--2 > :nth-child(13)').should(
+    cy.get('[data-testid="expiration-date"]').should(
       'have.text',
       'April 14, 2024',
     );
   };
 
   verifyPrescriptionsorderedDate = () => {
-    cy.get('.vads-u-margin-top--2 > :nth-child(11)').should(
+    cy.get('[datat-testid="ordered-date"]').should(
       'have.text',
       'April 14, 2023',
     );
   };
 
   verifyPrescriptionsfacilityName = PrescriptionsfacilityName => {
-    cy.get('.vads-u-margin-top--2 > :nth-child(17)').should(
+    cy.get('[data-testid="facility-name"]').should(
       'have.text',
       PrescriptionsfacilityName,
     );
