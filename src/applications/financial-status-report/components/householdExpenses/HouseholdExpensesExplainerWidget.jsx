@@ -1,10 +1,21 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useRef } from 'react';
+import { focusElement } from 'platform/utilities/ui';
 
 const HouseholdExpensesExplainerWidget = () => {
+  // Always setting focus on the header
+  const headerRef = useRef(null);
+  useEffect(
+    () => {
+      if (headerRef?.current) {
+        focusElement(headerRef?.current);
+      }
+    },
+    [headerRef],
+  );
+
   return (
     <div className="vads-u-margin-top--neg4 vads-u-padding-top--0p25">
-      <h3 className="schemaform-block-title">
+      <h3 className="schemaform-block-title" ref={headerRef}>
         Your monthly household expenses
       </h3>
       <p>
@@ -43,10 +54,4 @@ const HouseholdExpensesExplainerWidget = () => {
   );
 };
 
-const mapStateToProps = ({ form }) => {
-  return {
-    formData: form.data,
-  };
-};
-
-export default connect(mapStateToProps)(HouseholdExpensesExplainerWidget);
+export default HouseholdExpensesExplainerWidget;

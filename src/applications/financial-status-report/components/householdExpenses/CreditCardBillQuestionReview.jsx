@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import { currency as currencyFormatter } from '../../utils/helpers';
 import ReviewPageHeader from '../shared/ReviewPageHeader';
 
-const UtilityBillSummaryReview = ({ data, goToPath, title }) => {
-  const { expenses, utilityRecords = [] } = data;
+const CreditCardBillQuestionReview = ({ data, goToPath, title }) => {
+  const { expenses, questions, utilityRecords = [] } = data;
   const { expenseRecords = [] } = expenses;
 
   return (
     <>
-      {expenseRecords.length > 0 ? null : (
+      {expenseRecords.length > 0 || utilityRecords.length > 0 ? null : (
         <ReviewPageHeader
           title="household expenses"
           goToPath={() => goToPath('/expenses-explainer')}
@@ -23,30 +21,28 @@ const UtilityBillSummaryReview = ({ data, goToPath, title }) => {
           </h4>
         </div>
         <dl className="review">
-          {utilityRecords.map((utility, index) => {
-            return (
-              <div
-                className="review-row"
-                key={utility.name + utility.amount + index}
-              >
-                <dt>{utility.name}</dt>
-                <dd>{currencyFormatter(utility.amount)}</dd>
-              </div>
-            );
-          })}
+          <div className="review-row">
+            <dt>Do you have any past-due credit card bills?</dt>
+            <dd>{questions?.hasCreditCardBills ? 'Yes' : 'No'}</dd>
+          </div>
         </dl>
       </div>
     </>
   );
 };
 
-UtilityBillSummaryReview.propTypes = {
+CreditCardBillQuestionReview.propTypes = {
   data: PropTypes.shape({
-    expenses: PropTypes.shape({ expenseRecords: PropTypes.array }),
+    expenses: PropTypes.shape({
+      expenseRecords: PropTypes.array,
+    }),
+    questions: PropTypes.shape({
+      hasCreditCardBills: PropTypes.bool,
+    }),
     utilityRecords: PropTypes.array,
   }),
   goToPath: PropTypes.func,
   title: PropTypes.string,
 };
 
-export default UtilityBillSummaryReview;
+export default CreditCardBillQuestionReview;
