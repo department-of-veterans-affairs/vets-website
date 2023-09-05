@@ -170,6 +170,12 @@ export const bankAccountChangeLabels = {
   noChange: 'No change to payment method',
 };
 
+export const bankAccountChangeLabelsUpdate = {
+  startUpdate: 'Start or update direct deposit',
+  noChange: 'No change to payment method',
+  none: "I don't have a bank account",
+};
+
 export const directDepositWarning = (
   <div className="edu-dd-warning">
     <p>
