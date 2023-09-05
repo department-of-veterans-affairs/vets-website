@@ -368,9 +368,16 @@ export function createRelinquishedBenefit(submissionForm) {
     };
   }
 
+  if (submissionForm?.showMebEnhancements09) {
+    return submissionForm?.showMebDgi42Features
+      ? {
+          relinquishedBenefit: 'NotEligible',
+        }
+      : {};
+  }
   return submissionForm?.showMebDgi42Features
     ? {
-        relinquishedBenefit: 'NotEligible',
+        relinquishedBenefit: 'CannotRelinquish',
       }
     : {};
 }
