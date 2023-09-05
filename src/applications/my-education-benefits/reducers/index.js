@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import formConfig from '../config/form';
 
@@ -98,7 +99,6 @@ export default {
             eligibility: ['Chapter30', 'Chapter1606', 'NotEligible'],
           };
         }
-        // eslint-disable-next-line complexity
         return {
           ...state,
           eligibilityFetchComplete: true,
