@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../../components/FormButtons';
 import RequestEligibilityMessage from './RequestEligibilityMessage';
@@ -19,7 +20,10 @@ import {
 } from '../../redux/selectors';
 import useClinicFormState from './useClinicFormState';
 import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
-import { selectFeatureClinicFilter } from '../../../redux/selectors';
+import {
+  selectFeatureClinicFilter,
+  selectFeatureBreadcrumbUrlUpdate,
+} from '../../../redux/selectors';
 
 function formatTypeOfCare(careLabel) {
   if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
@@ -33,19 +37,13 @@ function vowelCheck(givenString) {
   return /^[aeiou]$/i.test(givenString.charAt(0));
 }
 
-function getPageTitle(schema, typeOfCare, usingPastClinics) {
-  const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
-  let pageTitle = 'Choose a VA clinic';
-  if (schema?.properties.clinicId.enum.length === 2 && usingPastClinics) {
-    pageTitle = `Make ${
-      vowelCheck(typeOfCareLabel) ? 'an' : 'a'
-    } ${typeOfCareLabel} appointment at your last clinic`;
-  }
-  return pageTitle;
-}
-
 const pageKey = 'clinicChoice';
-export default function ClinicChoicePage() {
+const pageTitle = 'Choose a VA clinic';
+export default function ClinicChoicePage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
   const featureClinicFilter = useSelector(state =>
     selectFeatureClinicFilter(state),
   );
@@ -75,20 +73,17 @@ export default function ClinicChoicePage() {
 
   useEffect(() => {
     scrollAndFocus();
-    document.title = `${getPageTitle(
-      schema,
-      typeOfCare,
-      usingPastClinics,
-    )} | Veterans Affairs`;
+    document.title = `${pageTitle} | Veterans Affairs`;
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   return (
     <div>
       {schema.properties.clinicId.enum.length === 2 && (
         <>
-          <h1 className="vads-u-font-size--h2">
-            {getPageTitle(schema, typeOfCare)}
-          </h1>
+          <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
           {usingPastClinics && (
             <>Your last {typeOfCareLabel} appointment was at </>
           )}
@@ -107,9 +102,7 @@ export default function ClinicChoicePage() {
       )}
       {schema.properties.clinicId.enum.length > 2 && (
         <>
-          <h1 className="vads-u-font-size--h2">
-            {getPageTitle(schema, typeOfCare)}
-          </h1>
+          <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
           {usingPastClinics && (
             <p>
               In the last {pastMonths} months you’ve had{' '}
@@ -158,3 +151,7 @@ export default function ClinicChoicePage() {
     </div>
   );
 }
+
+ClinicChoicePage.propTypes = {
+  changeCrumb: PropTypes.func,
+};
