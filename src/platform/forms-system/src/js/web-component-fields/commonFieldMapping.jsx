@@ -3,7 +3,9 @@ export default function commonFieldMapping(props) {
   const { label, required, error, uiOptions, childrenProps } = props;
 
   return {
-    class: uiOptions?.classNames || '',
+    class: `rjsf-web-component-field${
+      uiOptions?.classNames ? ` ${uiOptions.classNames}` : ''
+    }`,
     enableAnalytics: uiOptions?.enableAnalytics,
     error,
     hint: uiOptions?.hint,
