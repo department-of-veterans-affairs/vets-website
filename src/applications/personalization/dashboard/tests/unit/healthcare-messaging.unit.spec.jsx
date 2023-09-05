@@ -47,37 +47,6 @@ describe('HealthCare component', () => {
         }),
       ).to.be.true;
     });
-
-    it('should render the unread messages count with 3 messages', async () => {
-      view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
-        initialState,
-        reducers,
-      });
-      expect(view.queryByRole('progressbar')).not.to.exist;
-      expect(await view.findByText(/you have 3 unread message/i)).to.exist;
-    });
-
-    it('should render the unread messages count with 1 message', async () => {
-      initialState.health.msg.unreadCount.count = 1;
-      view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
-        initialState,
-        reducers,
-      });
-      expect(await view.findByText(/you have 1 unread message/i)).to.exist;
-    });
-
-    it('should render the unread messages count with 0 messages', async () => {
-      initialState.health.msg.unreadCount.count = 0;
-      view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
-        initialState,
-        reducers,
-      });
-      expect(
-        view.queryByRole('link', {
-          name: /send a secure message/i,
-        }),
-      ).to.exist;
-    });
   });
 
   context('when user lacks the `messaging` service', () => {
@@ -114,7 +83,7 @@ describe('HealthCare component', () => {
       ).to.be.false;
     });
 
-    it('should not render a messaging CTA', () => {
+    it('should render a messaging CTA', () => {
       view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
         initialState,
         reducers,

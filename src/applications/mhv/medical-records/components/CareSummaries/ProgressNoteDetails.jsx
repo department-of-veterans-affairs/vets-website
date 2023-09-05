@@ -78,8 +78,10 @@ const ProgressNoteDetails = props => {
             <div className="time-header">
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Date:{' '}
+                <span className="vads-u-font-weight--normal">
+                  {record.dateSigned}
+                </span>
               </h2>
-              <p>{record.dateSigned}</p>
             </div>
 
             <div className="no-print">

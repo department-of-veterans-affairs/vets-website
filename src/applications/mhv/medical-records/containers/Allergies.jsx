@@ -1,14 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { RecordType, emptyField } from '../util/constants';
+import { recordType, EMPTY_FIELD, ALERT_TYPE_ERROR } from '../util/constants';
 import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../components/shared/PrintDownload';
 import {
   dateFormat,
@@ -16,6 +14,7 @@ import {
   processList,
   sendErrorToSentry,
 } from '../util/helpers';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 
 const Allergies = () => {
   const dispatch = useDispatch();
@@ -23,11 +22,30 @@ const Allergies = () => {
   const user = useSelector(state => state.user.profile);
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
-  const fullState = useSelector(state => state);
+  const alertList = useSelector(state => state.mr.alerts?.alertList);
+  const [activeAlert, setActiveAlert] = useState();
 
   useEffect(() => {
     dispatch(getAllergiesList());
   }, []);
+
+  useEffect(
+    () => {
+      if (alertList?.length) {
+        const filteredSortedAlerts = alertList
+          .filter(alert => alert.isActive)
+          .sort((a, b) => {
+            // Sort chronologically descending.
+            return b.datestamp - a.datestamp;
+          });
+        if (filteredSortedAlerts.length > 0) {
+          // The activeAlert is the most recent alert marked as active.
+          setActiveAlert(filteredSortedAlerts[0]);
+        }
+      }
+    },
+    [alertList],
+  );
 
   useEffect(
     () => {
@@ -67,7 +85,7 @@ const Allergies = () => {
         items: [
           {
             title: 'Date entered',
-            value: item.date || emptyField,
+            value: item.date || EMPTY_FIELD,
             inline: true,
           },
           {
@@ -77,17 +95,17 @@ const Allergies = () => {
           },
           {
             title: 'Type of allergy',
-            value: item.type || emptyField,
+            value: item.type || EMPTY_FIELD,
             inline: true,
           },
           {
             title: 'VA drug class',
-            value: item.drugClass || emptyField,
+            value: item.drugClass || EMPTY_FIELD,
             inline: true,
           },
           {
             title: 'Location',
-            value: item.location || emptyField,
+            value: item.location || EMPTY_FIELD,
             inline: true,
           },
           {
@@ -111,9 +129,14 @@ const Allergies = () => {
     }
   };
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return <AccessTroubleAlertBox />;
+    }
     if (allergies?.length > 0) {
-      return <RecordList records={allergies} type={RecordType.ALLERGIES} />;
+      return <RecordList records={allergies} type={recordType.ALLERGIES} />;
     }
     if (allergies?.length === 0) {
       return (
@@ -142,65 +165,29 @@ const Allergies = () => {
         <p className="vads-u-margin-top--1">
           Review allergies and reactions in your VA medical records.
         </p>
-        <va-additional-info
-          trigger="What to know about allergy records"
-          class="no-print"
-        >
-          <ul>
-            <li className="vads-u-margin-bottom--2">
-              <p className="vads-u-margin--0">
-                If you have allergies that are missing from this list, send a
-                secure message to your care team. You can also send a message to
-                ask questions about your allergy records.
-              </p>
-              <a
-                href={mhvUrl(
-                  isAuthenticatedWithSSOe(fullState),
-                  'secure-messaging',
-                )}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Compose a new message
-              </a>
-            </li>
-            <li>
-              <p className="vads-u-margin--0">
-                This list doesn’t include information you entered yourself. To
-                find information you entered, go back to your records on the My
-                HealtheVet website.
-              </p>
-              <a
-                href={mhvUrl(
-                  isAuthenticatedWithSSOe(fullState),
-                  'download-my-data',
-                )}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Go back to medical records on the My HealtheVet website
-              </a>
-            </li>
-          </ul>
-        </va-additional-info>
-        <PrintDownload list download={generateAllergiesPdf} />
-        <va-additional-info
-          trigger="What to know about downloading records"
-          class="no-print"
-        >
-          <ul>
-            <li>
-              <strong>If you’re on a public or shared computer,</strong> print
-              your records instead of downloading. Downloading will save a copy
-              of your records to the public computer.
-            </li>
-            <li>
-              <strong>If you use assistive technology,</strong> a Text file
-              (.txt) may work better for technology such as screen reader,
-              screen enlargers, or Braille displays.
-            </li>
-          </ul>
-        </va-additional-info>
+
+        {!accessAlert && (
+          <>
+            <PrintDownload list download={generateAllergiesPdf} />
+            <va-additional-info
+              trigger="What to know about downloading records"
+              class="no-print"
+            >
+              <ul>
+                <li>
+                  <strong>If you’re on a public or shared computer,</strong>{' '}
+                  print your records instead of downloading. Downloading will
+                  save a copy of your records to the public computer.
+                </li>
+                <li>
+                  <strong>If you use assistive technology,</strong> a Text file
+                  (.txt) may work better for technology such as screen reader,
+                  screen enlargers, or Braille displays.
+                </li>
+              </ul>
+            </va-additional-info>
+          </>
+        )}
       </section>
       {content()}
     </div>
