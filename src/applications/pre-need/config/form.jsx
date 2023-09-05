@@ -903,7 +903,7 @@ const formConfig = {
                           })
                         : merge(
                             {},
-                            address.uiSchema("Preparer's Mailing address"),
+                            address.uiSchema("Preparer's mailing address"),
                             {
                               country: { 'ui:required': isAuthorizedAgent },
                               street: {
