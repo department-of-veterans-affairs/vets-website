@@ -11,7 +11,7 @@ export const submissionForm = {
   selectedReserveKicker: 'No',
   'view:post911Notice': {},
   'view:benefitSelection': {
-    benefitRelinquished: 'NotEligible',
+    benefitRelinquished: 'CannotRelinquish',
   },
   'view:activeDutyNotice': {},
   benefitEffectiveDate: '2021-02-02',

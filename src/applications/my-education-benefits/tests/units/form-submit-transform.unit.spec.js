@@ -65,7 +65,7 @@ describe('form submit transform', () => {
       // Check the relinquishments section
       expect(
         createdSubmissionForm.relinquishedBenefit.relinquishedBenefit,
-      ).to.eql('NotEligible');
+      ).to.eql('CannotRelinquish');
       expect(
         createdSubmissionForm.relinquishedBenefit.effRelinquishDate,
       ).to.eql('2021-02-02');
@@ -224,7 +224,9 @@ describe('form submit transform', () => {
   describe('has a createRelinquishedBenefit method', () => {
     it('should return a relinquished benefit object if relinquishment present', () => {
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
-      expect(relinquishedBenefit.relinquishedBenefit).to.eql('NotEligible');
+      expect(relinquishedBenefit.relinquishedBenefit).to.eql(
+        'CannotRelinquish',
+      );
       expect(relinquishedBenefit.effRelinquishDate).to.eql('2021-02-02');
     });
 
@@ -238,13 +240,15 @@ describe('form submit transform', () => {
       expect(objectIsEmpty).to.eql(true);
     });
 
-    it('should return NotEligible if no relinquishment AND feature flag is true', () => {
+    it('should return CannotRelinquish if no relinquishment AND feature flag is true', () => {
       mockSubmissionForm[
         'view:benefitSelection'
       ].benefitRelinquished = undefined;
       mockSubmissionForm.showMebDgi42Features = true;
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
-      expect(relinquishedBenefit.relinquishedBenefit).to.eql('NotEligible');
+      expect(relinquishedBenefit.relinquishedBenefit).to.eql(
+        'CannotRelinquish',
+      );
     });
   });
 
