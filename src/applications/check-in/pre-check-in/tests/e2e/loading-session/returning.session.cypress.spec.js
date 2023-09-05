@@ -3,6 +3,8 @@ import '../../../../tests/e2e/commands';
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import Introduction from '../pages/Introduction';
 
+// TODO: remove commment once this is not disallowed
+
 describe('Pre-Check In Experience ', () => {
   beforeEach(() => {
     const {
