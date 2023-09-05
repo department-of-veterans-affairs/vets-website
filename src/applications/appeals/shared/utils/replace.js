@@ -2,6 +2,18 @@ import { parseISODate } from 'platform/forms-system/src/js/helpers';
 
 import { REGEXP } from '../constants';
 
+/**
+ * Detect non-string & return empty string if it isn't
+ * @param {*} value
+ * @return {string}
+ */
+const coerceStringValue = value => {
+  if (typeof value === 'string') {
+    return value;
+  }
+  return '';
+};
+
 /** Replace "percent" with "%" - see va.gov-team/issues/34810
  * Include spacing in regexp so:
  *  "10 percent " => "10% "
@@ -29,16 +41,17 @@ const replaceWhitespace = text => text.replace(REGEXP.WHITESPACE, ' ').trim();
 
 /**
  * Add leading zero to numbers < 10
+ * using slice since we have some Veterans using older Safari versions that
+ * don't support padStart or Intl.NumberFormat
  * @param {String} part - date part (month or day) to add leading zeros to
  * @returns {String}
  */
-// Add leading zero to date month or day; but use slice since we have some
-// Veterans using older Safari versions that don't support padStart
 const addLeadingZero = part => `00${part || ''}`.slice(-2);
 
 /** ***************** */
 
 const descriptionTransformers = [
+  coerceStringValue, // should be first
   // add more here
   replaceWhitespace,
   replacePercent,
@@ -56,6 +69,7 @@ export const replaceDescriptionContent = text =>
   );
 
 const submitTransformers = [
+  coerceStringValue, // should be first
   // add more here
   replaceWhitespace,
   replaceApostrophe,
@@ -79,8 +93,8 @@ export const replaceSubmittedData = text =>
  * @returns {String} YYYY-MM-DD date string
  */
 export const fixDateFormat = date => {
-  const dateString = (date || '').replace(REGEXP.WHITESPACE, '');
-  if (dateString.length === 10) {
+  const dateString = coerceStringValue(date).replace(REGEXP.WHITESPACE, '');
+  if (dateString.length === 10 || dateString === '') {
     return dateString;
   }
   const { day, month, year } = parseISODate(dateString);

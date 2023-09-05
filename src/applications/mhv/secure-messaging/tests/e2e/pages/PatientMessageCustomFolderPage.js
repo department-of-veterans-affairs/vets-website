@@ -12,7 +12,7 @@ class PatientMessageCustomFolderPage {
   ) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderNumber}`,
+      `/my_health/v1/messaging/folders/${folderNumber}*`,
       mockCustomFolderMetaResponse,
     ).as('customFolder');
     cy.intercept(

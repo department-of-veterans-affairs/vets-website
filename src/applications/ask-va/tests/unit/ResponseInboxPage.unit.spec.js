@@ -49,7 +49,7 @@ describe('<ResponseInboxPage>', () => {
       server.close();
     });
 
-    it('should render a select element with options to select', async () => {
+    it('should render user Response Inbox', async () => {
       const mockStore = {
         getState: () => ({
           form: {

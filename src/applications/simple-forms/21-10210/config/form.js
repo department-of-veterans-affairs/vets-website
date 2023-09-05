@@ -34,9 +34,9 @@ import transformForSubmit from './submit-transformer';
 // import the appropriate file [flow?.json] for the flow you're working on, or
 // noStmtInfo.json for all flows [manually select claimOwnership, claimantType,
 // & witnessRelationshipWithClaimant via UI]
-// import testData from '../tests/e2e/fixtures/data/noStmtInfo.json';
+import testData from '../tests/e2e/fixtures/data/noStmtInfo.json';
 
-// const mockData = testData.data;
+const mockData = testData.data;
 
 const pageScrollAndFocus = () => {
   return () => {
@@ -81,7 +81,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'lay-witness-10210-',
   dev: {
-    // showNavLinks: true,
+    showNavLinks: true,
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -149,7 +149,7 @@ const formConfig = {
       pages: {
         claimOwnershipPage: {
           path: 'claim-ownership',
-          title: '',
+          title: 'Original claimant',
           // needs form-level useCustomScrollAndFocus: true to work.
           // chapter's hideFormNavProgress interferes with scrollAndFocusTarget
           // so using a function here to ensure correct focusSelector is used
@@ -157,16 +157,16 @@ const formConfig = {
           scrollAndFocusTarget: pageScrollAndFocus(),
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          // initialData:
-          // !!mockData && environment.isLocalhost() && !window.Cypress
-          // ? mockData
-          // : undefined,
+          initialData:
+            !!mockData && environment.isLocalhost() && !window.Cypress
+              ? mockData
+              : undefined,
           uiSchema: claimOwnershipPg.uiSchema,
           schema: claimOwnershipPg.schema,
         },
         claimantTypePage: {
           path: 'claimant-type',
-          title: '',
+          title: 'Veteran status',
           // see comment for scrollAndFocusTarget in claimOwnershipPage above
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: claimantType.uiSchema,
@@ -181,7 +181,7 @@ const formConfig = {
         witnessPersInfoPageA: {
           // for Flow 2: 3rd-party claim, vet claimant
           path: 'witness-personal-information-a',
-          title: 'Your personal information',
+          title: 'Name and relationship',
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
             claimantType: CLAIMANT_TYPES.VETERAN,
@@ -193,7 +193,7 @@ const formConfig = {
         witnessPersInfoPageB: {
           // for Flow 2: 3rd-party claim, non-vet claimant
           path: 'witness-personal-information-b',
-          title: 'Your personal information',
+          title: 'Name and relationship',
           depends: {
             claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
@@ -204,7 +204,7 @@ const formConfig = {
         },
         witnessOtherRelationshipPage: {
           path: 'witness-other-relationship',
-          title: 'Your other relationship',
+          title: 'Relationship description',
           depends: witnessHasOtherRelationship,
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: witnessOtherRelationship.uiSchema,
@@ -274,7 +274,7 @@ const formConfig = {
       pages: {
         claimantPersInfoPage: {
           path: 'claimant-personal-information',
-          title: 'Claimant personal information',
+          title: 'Personal information',
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
@@ -293,7 +293,7 @@ const formConfig = {
       pages: {
         claimantIdInfoPage: {
           path: 'claimant-identification-information',
-          title: 'Claimant’s identification information',
+          title: 'Identification information',
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
@@ -312,7 +312,7 @@ const formConfig = {
       pages: {
         claimantAddrInfoPage: {
           path: 'claimant-address-information',
-          title: 'Claimant’s mailing address',
+          title: 'Mailing address',
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
@@ -331,7 +331,7 @@ const formConfig = {
       pages: {
         claimantContInfoPage: {
           path: 'claimant-contact-information',
-          title: 'Claimant’s contact information',
+          title: 'Contact information',
           depends: {
             claimantType: CLAIMANT_TYPES.NON_VETERAN,
           },
@@ -369,7 +369,7 @@ const formConfig = {
       pages: {
         vetPersInfoPage: {
           path: 'veteran-personal-information',
-          title: 'Veteran personal information',
+          title: 'Personal information',
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: vetPersInfo.uiSchema,
           schema: vetPersInfo.schema,
@@ -386,7 +386,7 @@ const formConfig = {
       pages: {
         veteranIdentificationInfo1: {
           path: 'veteran-identification-information',
-          title: 'Veteran identification information',
+          title: 'Identification information',
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: vetIdInfo.uiSchema,
           schema: vetIdInfo.schema,
@@ -403,7 +403,7 @@ const formConfig = {
       pages: {
         veteranMailingAddressInfo1: {
           path: 'veteran-mailing-address',
-          title: 'Veteran mailing address',
+          title: 'Mailing address',
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: vetAddrInfo.uiSchema,
           schema: vetAddrInfo.schema,
@@ -420,7 +420,7 @@ const formConfig = {
       pages: {
         veteranContactInfo1: {
           path: 'veteran-contact-information',
-          title: 'Veteran contact information',
+          title: 'Contact information',
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: vetContInfo.uiSchema,
           schema: vetContInfo.schema,
@@ -438,7 +438,7 @@ const formConfig = {
             claimantType: CLAIMANT_TYPES.VETERAN,
           },
           path: 'statement-d',
-          title: 'Provide your supporting statement',
+          title: 'Provide your statement',
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: statement.uiSchema,
           schema: statement.schema,

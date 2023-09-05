@@ -5,3 +5,13 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+
+
+.dashboard-card {
+    background-color: $color-gray-lightest;
+    border: none;
+}
+
+.card-heading {
+    font-weight: 600;
+}

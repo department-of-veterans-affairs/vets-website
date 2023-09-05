@@ -6,7 +6,7 @@ import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import recordEvent from '~/platform/monitoring/record-event';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
+import { CernerWidget } from '~/applications/personalization/dashboard/components/CernerWidgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
 import {
   selectUnreadCount,
@@ -17,7 +17,6 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 
 import { selectAvailableServices } from '~/platform/user/selectors';
 
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import HealthCareCTA from './HealthCareCTAV2';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
@@ -65,11 +64,7 @@ const HealthCareContentV2 = ({
     ],
   );
 
-  const shouldShowUnreadMessageAlert =
-    shouldFetchUnreadMessages && !hasInboxError && unreadMessagesCount > 0;
-
-  const shouldShowOnOneColumn =
-    !isVAPatient || (!shouldShowUnreadMessageAlert && !hasUpcomingAppointment);
+  const shouldShowOnOneColumn = !isVAPatient || !hasUpcomingAppointment;
 
   const NoUpcomingAppointmentsText = () => {
     return (
@@ -101,6 +96,13 @@ const HealthCareContentV2 = ({
       ? 'warning'
       : 'error';
 
+    // appt link will be /my-health/appointments if toggle is on
+    const apptLink = useToggleValue(
+      TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate,
+    )
+      ? '/my-health/appointments'
+      : '/health-care/schedule-view-va-appointments/appointments';
+
     return (
       <div className="vads-u-margin-bottom--2p5">
         <va-alert status={status} show-icon data-testid="healthcare-error-v2">
@@ -112,7 +114,7 @@ const HealthCareContentV2 = ({
           </div>
           <CTALink
             text="Schedule and manage your appointments"
-            href="/health-care/schedule-view-va-appointments/appointments"
+            href={apptLink}
             showArrow
             className="vads-u-font-weight--bold"
             onClick={() =>
@@ -144,35 +146,10 @@ const HealthCareContentV2 = ({
       </div>
     );
   }
+
   return (
     <div className="vads-l-row">
       <DashboardWidgetWrapper>
-        {/* Messages */}
-        {shouldShowUnreadMessageAlert ? (
-          <div
-            className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
-            data-testid="unread-messages-alert-v2"
-          >
-            <va-alert status="warning" show-icon>
-              <div className="vads-u-margin-top--0">
-                {`You have ${unreadMessagesCount} unread message${
-                  unreadMessagesCount === 1 ? '' : 's'
-                }. `}
-                <CTALink
-                  text="Review your messages"
-                  href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-                  onClick={() =>
-                    recordEvent({
-                      event: 'nav-linkslist',
-                      'links-list-header': 'View your messages',
-                      'links-list-section-header': 'Health care',
-                    })
-                  }
-                />
-              </div>
-            </va-alert>
-          </div>
-        ) : null}
         {hasAppointmentsError && <HealthcareError />}
         {hasUpcomingAppointment && (
           /* Appointments */

@@ -4,12 +4,15 @@ import PropTypes from 'prop-types';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Navigation from '../components/Navigation';
+import { useDatadogRum } from '../hooks/useDatadogRum';
 
 const App = ({ children }) => {
   const [isHidden, setIsHidden] = useState(true);
   const [height, setHeight] = useState(0);
   const location = useLocation();
   const measuredRef = useRef();
+
+  useDatadogRum();
 
   useEffect(
     () => {

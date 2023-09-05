@@ -47,7 +47,9 @@ describe('<ContactInfoReview>', () => {
     expect($('button.edit-page', container)).to.exist;
     expect($('h4', container).textContent).to.eq(content.title);
     expect($$('dt', container).length).to.eq(9);
-    expect($$('dd.dd-privacy-hidden', container).length).to.eq(9);
+    expect(
+      $$('dd.dd-privacy-hidden[data-dd-action-name]', container).length,
+    ).to.eq(9);
     expect(container.innerHTML).to.contain('Home phone');
   });
   it('should render all contact data, except home phone on review page', () => {

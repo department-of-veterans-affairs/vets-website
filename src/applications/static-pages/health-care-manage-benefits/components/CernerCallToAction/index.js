@@ -189,7 +189,9 @@ export class CernerCallToAction extends Component {
     return (
       <div
         className={classNames('usa-alert', 'usa-alert-warning', {
-          'vads-u-padding-right--0': featureStaticLandingPage,
+          'vads-u-padding-right--0':
+            featureStaticLandingPage &&
+            widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE === widgetType,
         })}
         data-testid="cerner-cta-widget"
       >
@@ -201,7 +203,11 @@ export class CernerCallToAction extends Component {
                   Choose the right health portal
                 </h3>
                 <p className="vads-u-font-weight--bold">
-                  {`To ${fillins.cta1} these facilities, go to My VA Health:`}
+                  {`To ${fillins.cta1} ${
+                    cernerFacilities.length === 1
+                      ? 'this facility'
+                      : 'these facilities'
+                  }, go to My VA Health:`}
                 </p>
                 <div className="vads-u-margin-y--1">
                   <ul className="vads-u-margin-left--1p5 vads-u-margin-bottom--1">
@@ -213,7 +219,12 @@ export class CernerCallToAction extends Component {
                   <a
                     className="vads-c-action-link--blue"
                     href={myVAHealthLink}
-                    onClick={onCTALinkClick}
+                    onClick={() => {
+                      recordEvent({
+                        event: `vaos-cerner-redirect-static-landing-page`,
+                      });
+                      onCTALinkClick();
+                    }}
                     rel="noreferrer noopener"
                     target="_blank"
                   >
@@ -239,8 +250,6 @@ export class CernerCallToAction extends Component {
                   className="vads-c-action-link--blue"
                   href={myHealtheVetLink}
                   onClick={onCTALinkClick}
-                  rel="noreferrer noopener"
-                  target="_blank"
                 >
                   {`Go to ${fillins.cta2} on VA.gov`}
                 </a>

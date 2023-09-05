@@ -16,7 +16,7 @@ import { getVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
-import { emptyField } from '../util/constants';
+import { EMPTY_FIELD } from '../util/constants';
 
 const VaccineDetails = () => {
   const vaccineDetails = useSelector(state => state.mr.vaccines.vaccineDetails);
@@ -73,7 +73,7 @@ const VaccineDetails = () => {
             items: [
               {
                 title: 'Location',
-                value: vaccineDetails.location || emptyField,
+                value: vaccineDetails.location || EMPTY_FIELD,
                 inline: true,
               },
               {
@@ -108,8 +108,10 @@ const VaccineDetails = () => {
           <div className="time-header">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Date:{' '}
+              <span className="vads-u-font-weight--normal">
+                {formattedDate}
+              </span>
             </h2>
-            <p>{formattedDate}</p>
           </div>
           <section className="set-width-480">
             <PrintDownload list download={generateVaccinePdf} />
