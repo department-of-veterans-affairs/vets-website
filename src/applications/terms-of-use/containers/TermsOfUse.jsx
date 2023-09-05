@@ -1,13 +1,20 @@
-import React from 'react';
-import { apiRequest } from 'platform/utilities/api';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
-import { isLoggedIn } from 'platform/user/selectors';
+import {
+  isLoggedIn,
+  termsOfUseEnabled,
+} from '@department-of-veterans-affairs/platform-user/exports';
+
 import touData from '../touData';
 
+const touDate = `5/30/2023`;
+
 export default function TermsOfUse() {
-  const touDate = `5/30/2023`;
   const loggedIn = useSelector(isLoggedIn);
+  const termsOfUseAuthorized = useSelector(termsOfUseEnabled);
+  const [error, setError] = useState({ isError: false, message: '' });
 
   const handleTouClick = async type => {
     try {
@@ -17,7 +24,11 @@ export default function TermsOfUse() {
         headers: { 'Content-Type': 'application/json' },
       });
     } catch (err) {
-      // console.error('error in tou', err);
+      setError({
+        isError: true,
+        message: `Something went wrong on our end. Please try again in a few
+              minutes.`,
+      });
     }
   };
   return (
@@ -103,24 +114,32 @@ export default function TermsOfUse() {
               <li>Update your personal information</li>
             </ul>
           </va-alert>
-          {loggedIn && (
-            <>
-              <h2 id="do-you-accept-of-terms-of-use">
-                Do you accept these terms of use?
-              </h2>
-              <va-button
-                text="Accept"
-                onClick={() => handleTouClick('accept')}
-                ariaLabel="I Accept to VA online serivices terms of use"
-              />
-              <va-button
-                text="Decline"
-                secondary
-                ariaLabel="I Decline to VA online serivices terms of use"
-                onClick={() => handleTouClick('decline')}
-              />
-            </>
+          <h2 id="do-you-accept-of-terms-of-use">
+            Do you accept these terms of use?
+          </h2>
+          {!loggedIn && (
+            <p>
+              Once you’re signed in, you can either accept or decline to our
+              terms of use.
+            </p>
           )}
+          {loggedIn &&
+            termsOfUseAuthorized && (
+              <>
+                <va-button
+                  text="Accept"
+                  onClick={() => handleTouClick('accept')}
+                  ariaLabel="I Accept to VA online serivices terms of use"
+                />
+                <va-button
+                  text="Decline"
+                  secondary
+                  ariaLabel="I Decline to VA online serivices terms of use"
+                  onClick={() => handleTouClick('decline')}
+                />
+              </>
+            )}
+          {error.isError && <p>{error.message}</p>}
         </article>
       </div>
     </section>
