@@ -141,8 +141,8 @@ const SpousePayrollDeductionChecklist = props => {
       >
         <p className="vads-u-padding-bottom--1">
           View your spouse’s most recent pay stub to see which payroll
-          deductions apply to you. It will look similar to the sample table
-          below.
+          deductions apply to your spouse. It will look similar to the sample
+          table below.
         </p>
         <DeductionSampleTable />
       </va-additional-info>
