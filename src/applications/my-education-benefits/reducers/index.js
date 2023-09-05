@@ -98,6 +98,7 @@ export default {
             eligibility: ['Chapter30', 'Chapter1606', 'NotEligible'],
           };
         }
+        // eslint-disable-next-line complexity
         return {
           ...state,
           eligibilityFetchComplete: true,

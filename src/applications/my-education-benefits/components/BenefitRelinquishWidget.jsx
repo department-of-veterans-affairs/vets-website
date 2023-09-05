@@ -3,6 +3,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { connect } from 'react-redux';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+// eslint-disable-next-line complexity
 const BenefitRelinquishWidget = ({ formData, setFormData }) => {
   const { eligibility } = formData;
 
