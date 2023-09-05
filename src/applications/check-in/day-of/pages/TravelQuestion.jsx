@@ -14,7 +14,7 @@ const TravelQuestion = props => {
         i18nKey="this-must-be-true-youre-traveling-for-care"
         components={[<span key="bold" className="vads-u-font-weight--bold" />]}
       />
-      <ul>
+      <ul className="vads-u-margin-bottom--0">
         <li>
           <Trans
             i18nKey="you-have-a-va-disability-rating-of"
@@ -62,7 +62,7 @@ const TravelQuestion = props => {
               <span key="bold" className="vads-u-font-weight--bold" />,
             ]}
           />
-          <p>
+          <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
             <Trans
               i18nKey="youre-traveling-in-relation-to-a-compensation-and-pension"
               components={[
