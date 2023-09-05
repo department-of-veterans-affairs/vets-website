@@ -11,7 +11,10 @@ import React from 'react';
 export const titleH1UI = (title, description) => {
   return {
     'ui:title': (
-      <h1 className="vads-u-color--gray-dark vads-u-font-size--h3 medium-screen:vads-u-font-size--h1 vads-u-margin-y--neg2">
+      <h1
+        aria-describedby="alternate-header-stepper"
+        className="vads-u-color--gray-dark vads-u-font-size--h3 medium-screen:vads-u-font-size--h1 vads-u-margin-y--neg2"
+      >
         {title}
       </h1>
     ),
