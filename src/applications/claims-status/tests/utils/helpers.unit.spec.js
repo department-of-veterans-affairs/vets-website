@@ -48,6 +48,7 @@ describe('Disability benefits helpers: ', () => {
         attributes: {
           claimPhaseDates: { phaseChangeDate: '2010-01-01' },
           documentsNeeded: true,
+          phase: 3,
         },
       },
       {
@@ -56,6 +57,7 @@ describe('Disability benefits helpers: ', () => {
         attributes: {
           claimPhaseDates: { phaseChangeDate: '2015-01-01' },
           documentsNeeded: false,
+          status: 'evidence_gathering_review_decision',
         },
       },
       {
@@ -64,16 +66,28 @@ describe('Disability benefits helpers: ', () => {
         attributes: {
           claimPhaseDates: { phaseChangeDate: '2020-01-01' },
           documentsNeeded: true,
+          phase: 3,
+        },
+      },
+      {
+        claimId: 4,
+        type: 'claim',
+        attributes: {
+          claimPhaseDates: { phaseChangeDate: '2021-01-01' },
+          documentsNeeded: true,
+          status: 'complete',
         },
       },
     ];
 
     it('should always raise the grouped claims to the top', () => {
-      const groupedClaims = groupClaimsByDocsNeeded(claims);
+      const sortedClaims = claims.sort(sortByLastUpdated);
+      const groupedClaims = groupClaimsByDocsNeeded(sortedClaims);
 
       expect(groupedClaims[0].attributes.documentsNeeded).to.be.true;
       expect(groupedClaims[1].attributes.documentsNeeded).to.be.true;
-      expect(groupedClaims[2].attributes.documentsNeeded).to.be.false;
+      expect(groupedClaims[2].attributes.documentsNeeded).to.be.true;
+      expect(groupedClaims[3].attributes.documentsNeeded).to.be.false;
     });
 
     it('should preserve the order within the group and outside it', () => {
@@ -82,7 +96,17 @@ describe('Disability benefits helpers: ', () => {
 
       expect(groupedClaims[0].claimId).to.equal(3);
       expect(groupedClaims[1].claimId).to.equal(1);
-      expect(groupedClaims[2].claimId).to.equal(2);
+      expect(groupedClaims[2].claimId).to.equal(4);
+      expect(groupedClaims[3].claimId).to.equal(2);
+    });
+
+    it('should not include non-evidence-gathering phased items in the group', () => {
+      const sortedClaims = claims.sort(sortByLastUpdated);
+      const groupedClaims = groupClaimsByDocsNeeded(sortedClaims);
+
+      expect(groupedClaims[0].claimId).to.equal(3);
+      expect(groupedClaims[1].claimId).to.equal(1);
+      expect(groupedClaims[2].claimId).to.equal(4);
     });
   });
 
