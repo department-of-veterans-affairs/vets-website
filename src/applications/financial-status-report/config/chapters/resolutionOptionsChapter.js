@@ -11,6 +11,8 @@ import {
   isStreamlinedShortForm,
 } from '../../utils/streamlinedDepends';
 
+import ResolutionExplainerReview from '../../components/resolution/ResolutionExplainerReview';
+
 export default {
   resolutionOptionsChapter: {
     title: 'Repayment or relief options',
@@ -24,6 +26,7 @@ export default {
         schema: resolutionExplainer.schema,
         depends: formData =>
           !isStreamlinedShortForm(formData) && !isStreamlinedLongForm(formData),
+        CustomPageReview: ResolutionExplainerReview,
       },
       resolutionOption: {
         title: 'Resolution Option',
