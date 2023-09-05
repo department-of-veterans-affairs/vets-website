@@ -215,6 +215,12 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: vets-website
+
       - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
         run: node script/github-actions/select-cypress-tests.js
         env:
