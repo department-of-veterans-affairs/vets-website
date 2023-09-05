@@ -219,7 +219,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: e2e-allow-list
-          path: vets-website
+          path: .
 
       - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
         run: node script/github-actions/select-cypress-tests.js
