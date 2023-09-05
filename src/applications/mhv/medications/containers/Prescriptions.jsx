@@ -24,6 +24,44 @@ const Prescriptions = () => {
   const dispatch = useDispatch();
   const [pdfList, setPdfList] = useState([]);
   const [sortOption, setSortOption] = useState('');
+  const [isAlertVisible, setAlertVisible] = useState('false');
+  const [isLoading, setLoading] = useState(true);
+
+  const topAlert = () => {
+    return (
+      <div
+        visible={isAlertVisible}
+        className="vads-l-col--12 medium-screen:vads-l-col--9 no-print"
+      >
+        {!prescriptions && (
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="warning"
+            visible={isAlertVisible}
+          >
+            <h2 slot="headline">No medications found</h2>
+            <div>
+              <p>
+                There are no medications found in your profile. If you believe
+                this is incorrect, please refresh the page or call your care
+                team if the problem persists.
+              </p>
+            </div>
+          </va-alert>
+        )}
+        {prescriptions?.length <= 0 && (
+          <va-alert status="info" background-only>
+            <div>
+              <p className="vads-u-margin--0">
+                You don’t have any medications in your VA medical records.
+              </p>
+            </div>
+          </va-alert>
+        )}
+        <div className="vads-u-margin-bottom--4" />
+      </div>
+    );
+  };
 
   const sortRxList = useCallback(
     () => {
@@ -135,10 +173,16 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      dispatch(getPrescriptionsList());
+      dispatch(getPrescriptionsList()).then(() => setLoading(false));
     },
     [dispatch],
   );
+
+  useEffect(() => {
+    if (!isLoading && (!prescriptions || prescriptions?.length <= 0)) {
+      setAlertVisible('true');
+    }
+  });
 
   useEffect(
     () => {
@@ -171,16 +215,17 @@ const Prescriptions = () => {
   };
 
   const content = () => {
-    if (prescriptions) {
+    if (!isLoading) {
       return (
         <div className="landing-page">
           <PrintHeader />
-          <h1 className="page-title" data-testId="List-Page-Title">
+          {topAlert()}
+          <h1 className="page-title" data-testid="List-Page-Title">
             Medications
           </h1>
           <div
             className="vads-u-margin-bottom--2 no-print"
-            datat-testId="Title-Notes"
+            data-testid="Title-Notes"
           >
             Review your prescription medications from VA, and providers outside
             of our network.
@@ -213,11 +258,7 @@ const Prescriptions = () => {
             {prescriptions ? (
               <MedicationsList rxList={prescriptions} />
             ) : (
-              <va-loading-indicator
-                message="Loading..."
-                setFocus
-                data-testid="loading-indicator"
-              />
+              <MedicationsList rxList={[]} />
             )}
           </div>
         </div>
@@ -232,7 +273,7 @@ const Prescriptions = () => {
     );
   };
 
-  return <div className="vads-u-margin-top--3">{content()}</div>;
+  return <div>{content()}</div>;
 };
 
 export default Prescriptions;

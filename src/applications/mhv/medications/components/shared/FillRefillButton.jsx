@@ -10,17 +10,19 @@ const FillRefillButton = rx => {
   const {
     cmopDivisionPhone,
     dispensedDate,
-    isRefillable,
     prescriptionId,
+    refillRemaining,
     refillStatus,
   } = rx;
 
-  // TODO: This is what the logic used to be before. Needs to be updated
-  if (refillStatus === 'expired' || refillStatus === 'refillinprocess') {
+  if (
+    refillStatus === 'expired' ||
+    refillStatus === 'refillinprocess' ||
+    refillRemaining === 0
+  ) {
     return null;
   }
-
-  if (isRefillable || (dispensedDate && !isRefillable)) {
+  if (refillStatus === 'active' || refillStatus === 'activeParked') {
     return (
       <div className="no-print">
         {/* TODO: Confirmation Message goes here */}
@@ -45,12 +47,14 @@ const FillRefillButton = rx => {
             </p>
           </va-alert>
         </div>
-        <va-button
-          text={`Request ${isRefillable ? 'a refill' : 'the first fill'}`}
+        <button
+          className="vads-u-width--responsive"
           onClick={() => {
             setAlertVisible(dispatch(fillPrescription(prescriptionId)));
           }}
-        />
+        >
+          {`Request ${dispensedDate ? 'a refill' : 'the first fill'}`}
+        </button>
       </div>
     );
   }
