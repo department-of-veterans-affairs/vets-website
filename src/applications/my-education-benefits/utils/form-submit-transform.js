@@ -370,7 +370,7 @@ export function createRelinquishedBenefit(submissionForm) {
 
   return submissionForm?.showMebDgi42Features
     ? {
-        relinquishedBenefit: 'CannotRelinquish',
+        relinquishedBenefit: 'NotEligible',
       }
     : {};
 }

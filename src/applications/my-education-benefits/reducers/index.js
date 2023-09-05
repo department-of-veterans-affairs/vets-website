@@ -82,6 +82,13 @@ export default {
         };
       case FETCH_ELIGIBILITY_SUCCESS:
       case FETCH_ELIGIBILITY_FAILURE:
+        if (action?.errors) {
+          return {
+            ...state,
+            eligibilityFetchComplete: true,
+            eligibility: ['Chapter30', 'Chapter1606', 'NotEligible'],
+          };
+        }
         return {
           ...state,
           eligibilityFetchComplete: true,
@@ -93,8 +100,14 @@ export default {
                     benefit.veteranIsEligible === null) &&
                   benefit.chapter !== ELIGIBILITY.CHAPTER33,
               )
-              .map(benefit => benefit.chapter) || [],
+              .map(
+                benefit =>
+                  benefit.veteranIsEligible === null
+                    ? `${benefit.chapter}null`
+                    : benefit.chapter,
+              ) || [],
         };
+
       case FETCH_DUPLICATE_CONTACT_INFO_SUCCESS:
         return {
           ...state,
