@@ -250,11 +250,13 @@ export class ProfileInformationEditView extends Component {
       // Showing the edit view on its own page, so let the app handle focus
       return;
     }
+
     const focusableElement = this.editForm?.querySelector(
       'button, input, select, a, textarea',
     );
+
     if (focusableElement) {
-      focusableElement.focus();
+      setTimeout(() => focusElement(focusableElement), 50);
     }
   }
 
