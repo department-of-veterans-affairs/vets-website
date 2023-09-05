@@ -43,7 +43,6 @@ import {
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
-  showToxicExposurePages,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -99,8 +98,6 @@ import {
   summaryOfDisabilities,
   summaryOfEvidence,
   terminallyIll,
-  toxicExposureConfirm,
-  toxicExposureIntro,
   trainingPay,
   trainingPayWaiver,
   uploadPersonalPtsdDocuments,
@@ -110,6 +107,7 @@ import {
   veteranInfo,
   workBehaviorChanges,
 } from '../pages';
+import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
@@ -121,8 +119,8 @@ import { createFormConfig781, createFormConfig781a } from './781';
 import createformConfig8940 from './8940';
 
 import {
-  PTSD_INCIDENT_ITERATION,
   NULL_CONDITION_STRING,
+  PTSD_INCIDENT_ITERATION,
   WIZARD_STATUS,
 } from '../constants';
 
@@ -299,22 +297,7 @@ const formConfig = {
     disabilities: {
       title: 'Disabilities', // this probably needs to change
       pages: {
-        toxicExposureIntro: {
-          title: 'Toxic Exposure',
-          path: 'toxic-exposure-intro',
-          depends: showToxicExposurePages,
-          uiSchema: toxicExposureIntro.uiSchema,
-          schema: toxicExposureIntro.schema,
-        },
-        toxicExposureConfirm: {
-          title: 'Toxic Exposure Confirmation',
-          path: 'toxic-exposure-confirm',
-          depends: formData =>
-            showToxicExposurePages &&
-            ['no', 'notSure'].includes(formData['view:toxicExposureStatus']),
-          uiSchema: toxicExposureConfirm.uiSchema,
-          schema: toxicExposureConfirm.schema,
-        },
+        ...toxicExposurePages,
         claimType: {
           title: 'Claim type',
           path: 'claim-type',
