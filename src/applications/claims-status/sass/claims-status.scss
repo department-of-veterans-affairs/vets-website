@@ -1399,7 +1399,7 @@ $marker-text-width: 9rem;
     @include media($medium-large-screen) {
       flex-direction: row;
 
-      &> :first-child {
+      &> :last-child {
         margin-left: 2rem;
         flex-shrink: 0;
       }
