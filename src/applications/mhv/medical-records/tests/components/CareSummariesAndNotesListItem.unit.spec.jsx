@@ -33,15 +33,22 @@ describe('CareSummariesAndNotesListItem', () => {
 
   it('renders without errors', () => {
     const screen = setup();
-    expect(screen.getByText('Physician procedure note', { exact: true })).to
-      .exist;
+    expect(
+      screen.getByText(
+        'Physician procedure note with a date of August 5, 2022',
+        { exact: true },
+      ),
+    ).to.exist;
   });
 
   it('should contain the name of the record', () => {
     const screen = setup();
-    const recordName = screen.getByText('Physician procedure note', {
-      exact: true,
-    });
+    const recordName = screen.getByText(
+      'Physician procedure note with a date of August 5, 2022',
+      {
+        exact: true,
+      },
+    );
     expect(recordName).to.exist;
   });
 
