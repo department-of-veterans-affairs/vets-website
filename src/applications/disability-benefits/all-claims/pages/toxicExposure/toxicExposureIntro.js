@@ -5,7 +5,7 @@ export const uiSchema = {
   'ui:title': (
     <h3 className="vads-u-font-size--h4 vads-u-margin--0">Toxic Exposure</h3>
   ),
-  'view:toxicExposureStatus': {
+  'view:exposureStatus': {
     'ui:title': introQuestion,
     'ui:description':
       'Toxic exposures include exposures to substances like Agent Orange, burn pits, radiation, asbestos, or contaminated water.',
@@ -22,9 +22,9 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['view:toxicExposureStatus'],
+  required: ['view:exposureStatus'],
   properties: {
-    'view:toxicExposureStatus': {
+    'view:exposureStatus': {
       type: 'string',
       enum: ['yes', 'no', 'notSure'],
     },

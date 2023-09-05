@@ -11,7 +11,7 @@ export const uiSchema = {
     </h3>
   ),
   'ui:description': confirmDescription,
-  'view:exposureStatus': {
+  'view:confirmExposureStatus': {
     'ui:title': confirmQuestion,
     'ui:widget': 'yesNo',
   },
@@ -19,9 +19,9 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['view:exposureStatus'],
+  required: ['view:confirmExposureStatus'],
   properties: {
-    'view:exposureStatus': {
+    'view:confirmExposureStatus': {
       type: 'boolean',
     },
   },
