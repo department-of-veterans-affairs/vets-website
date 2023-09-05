@@ -1,4 +1,5 @@
 import merge from 'lodash/merge';
+import { format, isValid, parseISO } from 'date-fns';
 // import * as Sentry from '@sentry/browser';
 
 import environment from 'platform/utilities/environment';
@@ -910,3 +911,19 @@ export const mockData = {
 export function roundToNearest({ interval, value }) {
   return Math.round(value / interval) * interval;
 }
+
+export const setDocumentTitle = title => {
+  document.title = `${title} | Veterans Affairs`;
+};
+
+// Takes a format string and returns a function that formats the given date
+// `date` must be in ISO format ex. 2020-01-28
+export const buildDateFormatter = formatString => {
+  return date => {
+    const parsedDate = parseISO(date);
+
+    return isValid(parsedDate)
+      ? format(parsedDate, formatString)
+      : 'Invalid date';
+  };
+};
