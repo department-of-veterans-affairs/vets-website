@@ -2,6 +2,6 @@
   "appName": "21-0845 Authorization to Disclose Personal Information to a Third Party",
   "entryFile": "./app-entry.jsx",
   "entryName": "0845-auth-disclose",
-  "rootUrl": "/authorization-to-disclose",
+  "rootUrl": "/supporting-forms-for-claims/third-party-authorization-form-21-0845",
   "productId": "08a7da80-f48a-4677-9b74-0dcb642b97a1"
 }
