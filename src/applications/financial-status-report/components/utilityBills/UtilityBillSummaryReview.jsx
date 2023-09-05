@@ -1,51 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { currency as currencyFormatter } from '../../utils/helpers';
-import ReviewPageHeader from '../shared/ReviewPageHeader';
 
-const UtilityBillSummaryReview = ({ data, goToPath, title }) => {
-  const { expenses, utilityRecords = [] } = data;
-  const { expenseRecords = [] } = expenses;
+const UtilityBillSummaryReview = ({ data, title }) => {
+  const { utilityRecords = [] } = data;
 
   return (
-    <>
-      {expenseRecords.length > 0 ? null : (
-        <ReviewPageHeader
-          title="household expenses"
-          goToPath={() => goToPath('/expenses-explainer')}
-        />
-      )}
-      <div className="form-review-panel-page">
-        <div className="form-review-panel-page-header-row">
-          <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-            {title}
-          </h4>
-        </div>
-        <dl className="review">
-          {utilityRecords.map((utility, index) => {
-            return (
-              <div
-                className="review-row"
-                key={utility.name + utility.amount + index}
-              >
-                <dt>{utility.name}</dt>
-                <dd>{currencyFormatter(utility.amount)}</dd>
-              </div>
-            );
-          })}
-        </dl>
+    <div className="form-review-panel-page">
+      <div className="form-review-panel-page-header-row">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+          {title}
+        </h4>
       </div>
-    </>
+      <dl className="review">
+        {utilityRecords.map((utility, index) => {
+          return (
+            <div
+              className="review-row"
+              key={utility.name + utility.amount + index}
+            >
+              <dt>{utility.name}</dt>
+              <dd>{currencyFormatter(utility.amount)}</dd>
+            </div>
+          );
+        })}
+      </dl>
+    </div>
   );
 };
 
 UtilityBillSummaryReview.propTypes = {
   data: PropTypes.shape({
-    expenses: PropTypes.shape({ expenseRecords: PropTypes.array }),
     utilityRecords: PropTypes.array,
   }),
-  goToPath: PropTypes.func,
   title: PropTypes.string,
 };
 

@@ -5,9 +5,6 @@ export const uiSchema = {
   expensesExplainer: {
     'ui:title': ' ',
     'ui:widget': HouseholdExpensesExplainerWidget,
-    'ui:options': {
-      hideOnReview: true,
-    },
   },
 };
 
