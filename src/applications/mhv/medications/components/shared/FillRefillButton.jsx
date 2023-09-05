@@ -1,31 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { fillPrescription } from '../../actions/prescriptions';
 
 const FillRefillButton = rx => {
   const dispatch = useDispatch();
-  const [isAlertVisible, setAlertVisible] = useState(false);
 
   const {
     cmopDivisionPhone,
     dispensedDate,
-    isRefillable,
+    error,
     prescriptionId,
+    refillRemaining,
     refillStatus,
+    success,
   } = rx;
 
-  // TODO: This is what the logic used to be before. Needs to be updated
-  if (refillStatus === 'expired' || refillStatus === 'refillinprocess') {
+  if (
+    refillStatus === 'expired' ||
+    refillStatus === 'refillinprocess' ||
+    refillRemaining === 0
+  ) {
     return null;
   }
-
-  if (isRefillable || (dispensedDate && !isRefillable)) {
+  if (refillStatus === 'active' || refillStatus === 'activeParked') {
     return (
       <div className="no-print">
-        {/* TODO: Confirmation Message goes here */}
-        <div hidden={!isAlertVisible}>
-          <va-alert status="error" visible={isAlertVisible}>
+        {success && (
+          <va-alert status="success">
+            <p className="vads-u-margin-y--0">
+              The fill request has been submitted successfully
+            </p>
+          </va-alert>
+        )}
+        {error && (
+          <va-alert status="error">
             <p className="vads-u-margin-y--0">
               We didn’t get your refill request. Try again.
             </p>
@@ -44,13 +53,16 @@ const FillRefillButton = rx => {
               )}
             </p>
           </va-alert>
-        </div>
-        <va-button
-          text={`Request ${isRefillable ? 'a refill' : 'the first fill'}`}
+        )}
+        <button
+          className="vads-u-width--responsive"
+          disabled={success}
           onClick={() => {
-            setAlertVisible(dispatch(fillPrescription(prescriptionId)));
+            dispatch(fillPrescription(prescriptionId));
           }}
-        />
+        >
+          {`Request ${dispensedDate ? 'a refill' : 'the first fill'}`}
+        </button>
       </div>
     );
   }
@@ -62,9 +74,11 @@ FillRefillButton.propTypes = {
   rx: PropTypes.shape({
     cmopDivisionPhone: PropTypes.string,
     dispensedDate: PropTypes.string,
-    isRefillable: PropTypes.bool,
+    error: PropTypes.object,
     prescriptionId: PropTypes.number,
+    refillRemaining: PropTypes.number,
     refillStatus: PropTypes.string,
+    success: PropTypes.bool,
   }),
 };
 

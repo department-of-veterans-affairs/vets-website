@@ -10,7 +10,6 @@ describe('hca FeatureToggles selector', () => {
       hca_enrollment_status_override_enabled: false,
       hca_household_v2_enabled: false,
       hca_use_facilities_API: false,
-      hca_remove_id_fields_enabled: true,
       loading: false,
     },
   };
@@ -25,7 +24,6 @@ describe('hca FeatureToggles selector', () => {
         isFacilitiesApiEnabled: false,
         isHouseholdV2Enabled: false,
         isSigiEnabled: false,
-        isRemoveIdFieldsEnabled: true,
       });
     });
   });

@@ -161,16 +161,16 @@ const PrescriptionDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="page-title">
-            <div>{prescription.prescriptionName}</div>
-            <p
-              className="title-last-filled-on vads-u-font-family--sans"
-              data-testid="rx-last-filled-date"
-            >
-              Last filled on{' '}
-              {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
-            </p>
+          <h1 aria-describedby="last-filled">
+            {prescription.prescriptionName}
           </h1>
+          <p
+            id="last-filled"
+            className="title-last-filled-on vads-u-font-family--sans"
+            data-testid="rx-last-filled-date"
+          >
+            Last filled on {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
+          </p>
           <div className="no-print">
             <PrintDownload download={handleDownloadPDF} />
             <va-additional-info trigger="What to know about downloading records">
