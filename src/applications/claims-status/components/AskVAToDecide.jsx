@@ -6,6 +6,13 @@ export default function AskVAToDecide({ id }) {
   return (
     <div className="inset with-details">
       <div>
+        <h4>Ask for your Claim Decision</h4>
+        <p>
+          You can ask us to start evaluating your claim if you don’t have any
+          more documents or evidence to file.
+        </p>
+      </div>
+      <div>
         <Link
           aria-label="View details about asking VA for a claim decision"
           className="usa-button usa-button-secondary view-details-button"
@@ -14,13 +21,6 @@ export default function AskVAToDecide({ id }) {
         >
           View Details
         </Link>
-      </div>
-      <div>
-        <h4>Ask for your Claim Decision</h4>
-        <p>
-          You can ask us to start evaluating your claim if you don’t have any
-          more documents or evidence to file.
-        </p>
       </div>
     </div>
   );

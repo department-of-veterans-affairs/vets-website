@@ -1395,28 +1395,13 @@ $marker-text-width: 9rem;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    transform: rotate(180deg);
-
-    &> :last-child {
-      overflow: hidden;
-    }
-
-    &> div {
-      transform: rotate(180deg);
-    }
 
     @include media($medium-large-screen) {
-      flex-direction: row-reverse;
-      transform: rotate(0deg);
+      flex-direction: row;
 
       &> :first-child {
-        float: right;
         margin-left: 2rem;
         flex-shrink: 0;
-      }
-
-      &> div {
-        transform: rotate(0deg);
       }
     }
   }
