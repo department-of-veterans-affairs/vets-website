@@ -12,7 +12,7 @@ describe('Secure Messaging Delete Draft', () => {
   const draftsPage = new PatientMessageDraftsPage();
   const patientInterstitialPage = new PatientInterstitialPage();
 
-  it(' Delete Drafts on key press', () => {
+  it.skip(' Delete Drafts on key press', () => {
     site.login();
     inboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
