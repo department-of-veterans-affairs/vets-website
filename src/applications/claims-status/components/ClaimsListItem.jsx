@@ -59,7 +59,7 @@ export default function ClaimsListItem({ claim }) {
   const humanStatus = getStatusDescription(status);
 
   return (
-    <div className="claim-list-item-container">
+    <div className="claim-list-item-container-old">
       <h3 className="claim-list-item-header-v2">{getTitle(claim)}</h3>
       {humanStatus && (
         <div className="card-status">

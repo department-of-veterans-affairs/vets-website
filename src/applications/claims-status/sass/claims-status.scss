@@ -82,8 +82,14 @@
   }
 }
 
-.claim-list-item-container {
+.claim-list-item-container-old {
   background-color: $color-gray-lightest;
+  padding: 2em 1em 1em;
+  margin-bottom: 1em;
+  position: relative;
+}
+
+.claim-list-item-container {
   padding: 2em 1em 1em;
   margin-bottom: 1em;
   position: relative;
@@ -97,18 +103,27 @@
   margin: 0;
 }
 
-.communications {
+.communications-old {
   list-style: none;
   padding: 0;
 }
 
-.communications,
-.status {
+.communications-old,
+.status-old {
   margin: 0 0 0.5em;
 }
 
+.communications,
+.status {
+  margin: 0;
+}
+
+.communications li {
+  line-height: 2;
+}
+
 // Index page V2
-.claim-list-item-container .card-status {
+.claim-list-item-container-old .card-status {
   margin: 0 0 0.5em;
   display: flex;
 
@@ -132,6 +147,42 @@
   p {
     margin-top: 0;
     margin-bottom: 0;
+  }
+}
+
+.submitted-on,
+h3 .usa-label {
+  display: block;
+  width: fit-content;
+  font-size: 1.6rem;
+  font-family: var(--font-source-sans);
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.5;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+}
+
+.submitted-on {
+  line-height: 1.5;
+  font-size: 16px;
+  margin: 0;
+}
+
+h3 .usa-label {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+// Index page V3
+.claim-list-item-container .card-status {
+  margin: 0 0 1em;
+  // display: flex;
+
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 1.5;
   }
 }
 
@@ -160,7 +211,7 @@
   }
 }
 
-.claim-list-item-header {
+.claim-list-item-header-old {
   color: $color-primary;
   margin-top: 0;
 }
@@ -168,6 +219,13 @@
 .claim-list-item-header-v2 {
   margin-top: -2rem;
   white-space: pre-line;
+}
+
+.claim-list-item-header {
+  margin-top: 0;
+  margin-top: -1.5rem;
+  white-space: pre-line;
+  line-height: 1.44;
 }
 
 .claim-list-item:hover .claim-list-item-header {
