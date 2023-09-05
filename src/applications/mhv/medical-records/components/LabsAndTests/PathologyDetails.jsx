@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PrintHeader from '../shared/PrintHeader';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
 import { nameFormat, dateFormat, sendErrorToSentry } from '../../util/helpers';
+import { updatePageTitle } from '../../../shared/util/helpers';
+import { pageTitles } from '../../util/constants';
 
 const PathologyDetails = props => {
   const { record, fullState } = props;
@@ -16,6 +19,15 @@ const PathologyDetails = props => {
   const user = useSelector(state => state.user.profile);
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
+
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(
+      `${formattedDate} - ${record.name} - ${
+        pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
+      }`,
+    );
+  }, []);
 
   const generatePathologyPdf = async () => {
     const pdfData = {

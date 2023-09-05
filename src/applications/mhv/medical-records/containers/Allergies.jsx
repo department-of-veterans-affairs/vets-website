@@ -2,9 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { recordType, EMPTY_FIELD, ALERT_TYPE_ERROR } from '../util/constants';
+import {
+  recordType,
+  EMPTY_FIELD,
+  ALERT_TYPE_ERROR,
+  pageTitles,
+} from '../util/constants';
 import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -15,6 +21,7 @@ import {
   sendErrorToSentry,
 } from '../util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const Allergies = () => {
   const dispatch = useDispatch();
@@ -47,20 +54,19 @@ const Allergies = () => {
     [alertList],
   );
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-          {
-            url: '/my-health/medical-records/allergies',
-            label: 'Allergies',
-          },
-        ),
-      );
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs(
+        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
+        {
+          url: '/my-health/medical-records/allergies',
+          label: 'Allergies',
+        },
+      ),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
+  }, []);
 
   const generateAllergiesPdf = async () => {
     const pdfData = {

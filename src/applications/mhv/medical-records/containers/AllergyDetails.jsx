@@ -4,15 +4,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import ItemList from '../components/shared/ItemList';
 import { getAllergyDetails } from '../actions/allergies';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import { processList, sendErrorToSentry } from '../util/helpers';
-import { ALERT_TYPE_ERROR, EMPTY_FIELD } from '../util/constants';
+import { ALERT_TYPE_ERROR, EMPTY_FIELD, pageTitles } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import { generatePdfScaffold } from '../../shared/util/helpers';
+import {
+  generatePdfScaffold,
+  updatePageTitle,
+} from '../../shared/util/helpers';
 
 const AllergyDetails = () => {
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
@@ -45,6 +49,12 @@ const AllergyDetails = () => {
               label: allergy.name,
             },
           ),
+        );
+        focusElement(document.querySelector('h1'));
+        updatePageTitle(
+          `${allergy.date} - ${allergy.name} - ${
+            pageTitles.ALLERGIES_PAGE_TITLE
+          }`,
         );
       }
     },
