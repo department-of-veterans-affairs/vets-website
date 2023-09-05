@@ -93,7 +93,7 @@ const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 const getLinkText = claim => {
   const claimType = isAppeal(claim)
     ? 'Compensation Appeal'
-    : getClaimType(claim);
+    : getClaimType(claim).toLowerCase();
   return `Your ${claimType} Received ${formatDate(getClaimDate(claim))}`;
 };
 
