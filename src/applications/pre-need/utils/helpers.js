@@ -212,8 +212,9 @@ export function transform(formConfig, form) {
       veteran: {
         serviceName:
           application.veteran.serviceName.first === undefined
-            ? application.claimant.name
-            : application.veteran.serviceName || application.claimant.name,
+            ? application.veteran.currentName
+            : application.veteran.serviceName ||
+              application.veteran.currentName,
       },
       applicant: {
         applicantEmail: application.claimant.email,
