@@ -240,6 +240,9 @@ jobs:
         id: matrix
         run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
 
+      - name: Echo CI_NODE_INDEX
+        run: echo ${{ env.CI_NODE_INDEX }}
+
   stress-test-cypress-tests:
     name: Stress Test Cypress Tests
     runs-on: self-hosted
@@ -357,7 +360,7 @@ jobs:
         stress-test-cypress-tests,
         fetch-e2e-allow-list,
       ]
-    if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
+    if: ${{ always() && needs.cypress-tests-prep.outputs.tests != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
