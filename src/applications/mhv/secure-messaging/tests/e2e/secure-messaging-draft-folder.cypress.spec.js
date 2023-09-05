@@ -39,6 +39,18 @@ describe('Secure Messaging Draft Folder checks', () => {
     draftsPage.verifyFilterResults('test');
   });
 
+  it('Verify filter works with Date', () => {
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    draftsPage.inputFilterData('Last 3 Months');
+    draftsPage.filterMessages();
+  });
   it('Verify clear filter btn works correctly', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
