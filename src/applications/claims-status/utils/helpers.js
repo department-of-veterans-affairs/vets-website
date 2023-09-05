@@ -327,9 +327,7 @@ export function getCompletedDate(claim) {
 }
 
 export function getClaimType(claim) {
-  return (
-    claim?.attributes?.claimType || 'disability compensation'
-  ).toLowerCase();
+  return claim?.attributes?.claimType || 'Disability Compensation';
 }
 
 export const mockData = {
@@ -910,3 +908,7 @@ export const mockData = {
 export function roundToNearest({ interval, value }) {
   return Math.round(value / interval) * interval;
 }
+
+export const setDocumentTitle = title => {
+  document.title = `${title} | Veterans Affairs`;
+};

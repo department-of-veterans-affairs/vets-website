@@ -104,9 +104,11 @@ const formatDate = date => {
 };
 
 const getLinkText = claim => {
+  // TODO: Should claimType be lowercased since 'Compensation Appeal' isn't?
   const claimType = isAppeal(claim)
     ? 'Compensation Appeal'
-    : getClaimType(claim);
+    : getClaimType(claim).toLowerCase();
+
   return `Your ${claimType} Received ${formatDate(getClaimDate(claim))}`;
 };
 

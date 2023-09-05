@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { format, isValid, parseISO } from 'date-fns';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
@@ -18,9 +19,10 @@ import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 
 import { clearNotification } from '../actions';
 import { cstUseLighthouse } from '../selectors';
-import { getClaimType } from '../utils/helpers';
+import { getClaimType, setDocumentTitle } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
+// CONSTANTS
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
 
@@ -41,6 +43,22 @@ const getStatusMap = () => {
 };
 
 const STATUSES = getStatusMap();
+
+// START lighthouse_migration
+const getClaimDate = claim => {
+  const { claimDate, dateFiled } = claim.attributes;
+
+  return claimDate || dateFiled || null;
+};
+// END lighthouse_migration
+
+const formatDate = date => {
+  const parsedDate = parseISO(date);
+
+  return isValid(parsedDate)
+    ? format(parsedDate, 'MMMM d, yyyy')
+    : 'Invalid date';
+};
 
 class FilesPage extends React.Component {
   componentDidMount() {
@@ -139,9 +157,16 @@ class FilesPage extends React.Component {
   }
 
   setTitle() {
-    document.title = this.props.loading
-      ? 'Files - Your claim'
-      : `Files - Your ${getClaimType(this.props.claim)} claim`;
+    const { claim } = this.props;
+
+    if (claim) {
+      const claimDate = formatDate(getClaimDate(claim));
+      const claimType = getClaimType(claim);
+      const title = `Files For ${claimDate} ${claimType} Claim`;
+      setDocumentTitle(title);
+    } else {
+      setDocumentTitle('Files For Your Claim');
+    }
   }
 
   render() {

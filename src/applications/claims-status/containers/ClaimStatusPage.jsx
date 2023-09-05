@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { format, isValid, parseISO } from 'date-fns';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
@@ -21,8 +22,26 @@ import {
   getTrackedItemDate,
   getUserPhase,
   itemsNeedingAttentionFromVet,
+  setDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
+
+// HELPERS
+// START lighthouse_migration
+const getClaimDate = claim => {
+  const { claimDate, dateFiled } = claim.attributes;
+
+  return claimDate || dateFiled || null;
+};
+// END lighthouse_migration
+
+const formatDate = date => {
+  const parsedDate = parseISO(date);
+
+  return isValid(parsedDate)
+    ? format(parsedDate, 'MMMM d, yyyy')
+    : 'Invalid date';
+};
 
 // Using a Map instead of the typical Object because
 // we want to guarantee that the key insertion order
@@ -240,9 +259,16 @@ class ClaimStatusPage extends React.Component {
   }
 
   setTitle() {
-    document.title = this.props.loading
-      ? 'Status - Your Claim'
-      : `Status - Your ${getClaimType(this.props.claim)} Claim`;
+    const { claim } = this.props;
+
+    if (claim) {
+      const claimDate = formatDate(getClaimDate(claim));
+      const claimType = getClaimType(claim);
+      const title = `Status Of ${claimDate} ${claimType} Claim`;
+      setDocumentTitle(title);
+    } else {
+      setDocumentTitle('Status Of Your Claim');
+    }
   }
 
   render() {
