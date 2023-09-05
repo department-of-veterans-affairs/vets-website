@@ -157,6 +157,32 @@ const SpousePayrollDeductionInputList = props => {
             />
           </div>
         ))}
+        <va-additional-info
+          trigger="How do I calculate my spouse's monthly deductions?"
+          class="vads-u-margin-top--2"
+          uswds
+        >
+          <ol className="vads-u-margin--0 vads-u-padding-left--2">
+            <li>
+              <strong>If your spouse is paid weekly,</strong> multiply your
+              spouse’s deduction amount by 4 to get your monthly amount.
+            </li>
+            <li>
+              <strong>If your spouse is paid every other week,</strong> multiply
+              spouse’s your deduction amount by 26. Then divide the total by 12
+              to get your monthly amount.
+            </li>
+            <li>
+              <strong>If your spouse is paid twice a month,</strong> multiply
+              your spouse’s deduction amount by 2 to get your monthly amount.
+            </li>
+            <li>
+              <strong>If your spouse is paid monthly,</strong> the amount you
+              see on your spouse’s pay stub is monthly and can be entered
+              without any calculations.
+            </li>
+          </ol>
+        </va-additional-info>
       </fieldset>
       {onReviewPage ? updateButton : navButtons}
     </form>
