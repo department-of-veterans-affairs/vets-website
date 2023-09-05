@@ -1,19 +1,15 @@
 import React from 'react';
-import { format, isValid, parseISO } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
 
+import { DATE_FORMATS } from '../constants';
+import { buildDateFormatter } from '../utils/helpers';
+
 const downloadUrl = id => `${environment.API_URL}/v0/claim_letters/${id}`;
 
-const formatDate = date => {
-  const parsedDate = parseISO(date);
-
-  return isValid(parsedDate)
-    ? format(parsedDate, 'MMMM dd, yyyy')
-    : 'Invalid date';
-};
+const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
 const docTypeToDescription = {
   184: 'Notification Letter',
