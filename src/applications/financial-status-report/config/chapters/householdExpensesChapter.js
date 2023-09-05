@@ -15,9 +15,9 @@ import {
   otherExpensesPages,
 } from '../../pages';
 
+import ExpenseExplainerReview from '../../components/householdExpenses/ExpenseExplainerReview';
 import CreditCardBill from '../../components/householdExpenses/CreditCardBill';
 import CreditCardBillSummary from '../../components/householdExpenses/CreditCardBillSummary';
-import CreditCardBillQuestionReview from '../../components/householdExpenses/CreditCardBillQuestionReview';
 import AddUtilityBill from '../../components/utilityBills/AddUtilityBill';
 import UtilityBillSummary from '../../components/utilityBills/UtilityBillSummary';
 import UtilityBillSummaryReview from '../../components/utilityBills/UtilityBillSummaryReview';
@@ -50,6 +50,7 @@ export default {
         depends: formData =>
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
+        CustomPageReview: ExpenseExplainerReview,
       },
       expenses: {
         path: 'expenses',
@@ -170,7 +171,6 @@ export default {
         depends: formData =>
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
-        CustomPageReview: CreditCardBillQuestionReview,
       },
       addEditCreditCardBills: {
         path: 'your-credit-card-bills',
