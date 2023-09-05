@@ -122,9 +122,6 @@ jobs:
   fetch-e2e-allow-list:
     name: Fetch E2E Allow List
     runs-on: ubuntu-latest
-    outputs:
-      allow_list: ${{ steps.allow-list-output.outputs.list }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -180,7 +177,6 @@ jobs:
         working-directory: qa-standards-dashboard-data
         env:
           TEST_TYPE: e2e
-      # exports app list and assigns to environmental variable at this step
 
       - name: Archive allow list
         if: ${{ always() }}
@@ -227,7 +223,6 @@ jobs:
           RUN_FULL_SUITE: false
           CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
-          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
           IS_STRESS_TEST: true
           TEST_TYPE: e2e
 
