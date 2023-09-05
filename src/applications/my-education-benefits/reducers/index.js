@@ -45,6 +45,15 @@ const handleDirectDepositApi = action => {
   };
 };
 
+const filterEligibility = eligibility => {
+  return eligibility?.filter(
+    benefit =>
+      (benefit.veteranIsEligible === true ||
+        benefit.veteranIsEligible === null) &&
+      benefit.chapter !== ELIGIBILITY.CHAPTER33,
+  );
+};
+
 export default {
   form: createSaveInProgressFormReducer(formConfig),
   data: (state = initialState, action) => {
@@ -93,19 +102,14 @@ export default {
           ...state,
           eligibilityFetchComplete: true,
           eligibility:
-            action?.response?.data?.attributes?.eligibility
-              ?.filter(
-                benefit =>
-                  (benefit.veteranIsEligible === true ||
-                    benefit.veteranIsEligible === null) &&
-                  benefit.chapter !== ELIGIBILITY.CHAPTER33,
-              )
-              .map(
-                benefit =>
-                  benefit.veteranIsEligible === null
-                    ? `${benefit.chapter}null`
-                    : benefit.chapter,
-              ) || [],
+            filterEligibility(
+              action?.response?.data?.attributes?.eligibility,
+            ).map(
+              benefit =>
+                benefit.veteranIsEligible === null
+                  ? `${benefit.chapter}null`
+                  : benefit.chapter,
+            ) || [],
         };
 
       case FETCH_DUPLICATE_CONTACT_INFO_SUCCESS:
