@@ -118,7 +118,7 @@ describe('<AskVAPage>', () => {
       // Reset sinon spies / set up props
       props.getClaimEVSS = sinon.spy();
       props.getClaimLighthouse = sinon.spy();
-      props.useLighthouse = true;
+      props.useLighthouseShow = true;
 
       const { rerender } = render(
         <Provider store={store}>
@@ -142,7 +142,7 @@ describe('<AskVAPage>', () => {
       // Reset sinon spies / set up props
       props.getClaimEVSS = sinon.spy();
       props.getClaimLighthouse = sinon.spy();
-      props.useLighthouse = false;
+      props.useLighthouseShow = false;
 
       const { rerender } = render(
         <Provider store={store}>
@@ -165,7 +165,7 @@ describe('<AskVAPage>', () => {
     it('calls submitRequest when disabled', () => {
       props.submitRequest = sinon.spy();
       props.submit5103 = sinon.spy();
-      props.useLighthouse = false;
+      props.useLighthouse5103 = false;
 
       const screen = render(
         <Provider store={store}>
@@ -183,7 +183,7 @@ describe('<AskVAPage>', () => {
     it('calls submit5103 when enabled', () => {
       props.submitRequest = sinon.spy();
       props.submit5103 = sinon.spy();
-      props.useLighthouse = true;
+      props.useLighthouse5103 = true;
 
       const screen = render(
         <Provider store={store}>

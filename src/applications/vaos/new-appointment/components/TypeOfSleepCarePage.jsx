@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import {
@@ -12,6 +13,7 @@ import {
 import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { TYPES_OF_SLEEP_CARE } from '../../utils/constants';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -63,7 +65,11 @@ const uiSchema = {
 const pageKey = 'typeOfSleepCare';
 const pageTitle = 'Choose the type of sleep care you need';
 
-export default function TypeOfSleepCarePage() {
+export default function TypeOfSleepCarePage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
   const history = useHistory();
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
@@ -74,6 +80,9 @@ export default function TypeOfSleepCarePage() {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   return (
@@ -105,3 +114,7 @@ export default function TypeOfSleepCarePage() {
     </div>
   );
 }
+
+TypeOfSleepCarePage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

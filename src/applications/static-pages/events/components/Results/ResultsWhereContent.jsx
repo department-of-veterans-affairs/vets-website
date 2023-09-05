@@ -2,13 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { deriveEventLocations } from '../../helpers';
 
-const WhereContent = ({ fieldLocation, fieldType, derivedLocations }) => {
+const WhereContent = ({
+  event,
+  fieldLocation,
+  fieldType,
+  derivedLocations,
+}) => {
   if (fieldType === 'online') return 'This is an online event.';
+  const locationAddress = derivedLocations?.length
+    ? derivedLocations.join(' ')
+    : '';
   return (
     <>
       <a href={fieldLocation?.entity?.entityUrl.path}>
         {fieldLocation?.entity?.title}
       </a>
+      {event?.fieldLocationHumanreadable && (
+        <p className="vads-u-margin--0" key={location}>
+          {event?.fieldLocationHumanreadable}
+        </p>
+      )}
       {derivedLocations?.length > 0 && (
         <div>
           {derivedLocations?.map(location => (
@@ -16,6 +29,16 @@ const WhereContent = ({ fieldLocation, fieldType, derivedLocations }) => {
               {location}
             </p>
           ))}
+          <a
+            href={`https://maps.google.com?saddr=Current+Location&daddr=${locationAddress}`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Get directions on Google Maps{' '}
+            <span className="sr-only">
+              to {event?.fieldLocationHumanreadable}
+            </span>
+          </a>
         </div>
       )}
     </>
@@ -39,13 +62,14 @@ export const ResultsWhereContent = ({ event }) => {
         <strong>Where:</strong>
       </p>
       <div className="vads-u-display--flex vads-u-flex-direction--column">
-        <p className="vads-u-margin--0">
+        <div className="vads-u-margin--0">
           <WhereContent
+            event={event}
             fieldLocation={fieldFacilityLocation}
             fieldType={fieldLocationType}
             derivedLocations={locations}
           />
-        </p>
+        </div>
       </div>
     </div>
   );
@@ -56,9 +80,10 @@ ResultsWhereContent.propTypes = {
 };
 
 WhereContent.propTypes = {
-  derivedLocations: PropTypes.object,
+  event: PropTypes.object,
+  derivedLocations: PropTypes.array,
   fieldLocation: PropTypes.object,
-  fieldType: PropTypes.object,
+  fieldType: PropTypes.string,
 };
 
 export default ResultsWhereContent;

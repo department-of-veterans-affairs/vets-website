@@ -46,6 +46,7 @@ describe('HCA-Remove-PII-Fields-UnAuthenticated', () => {
       testData.veteranSocialSecurityNumber,
     );
 
+    goToNextPage('/veteran-information/personal-information');
     goToNextPage('/veteran-information/birth-information');
 
     cy.injectAxe();
