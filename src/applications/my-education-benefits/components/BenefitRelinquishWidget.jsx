@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import React, { useState, useEffect } from 'react';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { connect } from 'react-redux';
@@ -9,20 +8,19 @@ const BenefitRelinquishWidget = ({ formData, setFormData }) => {
 
   const [selected, setSelected] = useState('');
 
-  const chapter30Eligible =
-    eligibility?.includes('Chapter30') ||
-    eligibility?.includes('Chapter30null');
-  const chapter1606Eligible =
-    eligibility?.includes('Chapter1606') ||
-    eligibility?.includes('Chapter1606null');
+  const chapter30 = eligibility?.includes('Chapter30');
+  const chapter30Null = eligibility?.includes('Chapter30null');
+  const chapter1606 = eligibility?.includes('Chapter1606');
+  const chapter1606Null = eligibility?.includes('Chapter1606null');
+
+  const chapter30Eligible = chapter30 || chapter30Null;
+  const chapter1606Eligible = chapter1606 || chapter1606Null;
+
   const notEligible =
     eligibility?.includes('NotEligible') ||
-    (eligibility?.includes('Chapter1606null') &&
-      eligibility?.includes('Chapter30null')) ||
-    (eligibility?.includes('Chapter1606null') &&
-      !eligibility?.includes('Chapter30')) ||
-    (eligibility?.includes('Chapter30null') &&
-      !eligibility?.includes('Chapter1606'));
+    (chapter1606Null && chapter30Null) ||
+    (chapter1606Null && !chapter30) ||
+    (chapter30Null && !chapter1606);
 
   useEffect(
     () => {
