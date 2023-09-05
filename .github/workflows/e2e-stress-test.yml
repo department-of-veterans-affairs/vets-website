@@ -229,6 +229,7 @@ jobs:
           APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
           ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
           IS_STRESS_TEST: true
+          TEST_TYPE: e2e
 
       - name: Set output of TESTS_TO_STRESS_TEST
         id: tests
