@@ -100,20 +100,21 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   if (JSON.parse(sessionStorage.getItem(IS_TRACKING_UTTERANCES))) {
     sendWindowEvent('webchat-message-activity');
   }
-  const payload = action.payload || {};
-  const dataorEmpty = payload.activity || {};
-  const text = dataorEmpty.text || '';
-  const rxSkillWasTriggered = text.includes(
-    'You are now in the Prescriptions Bot.',
-  );
-  const rxSkillWasExited = text.includes('Returning to the main chatbot...');
 
-  if (rxSkillWasTriggered) {
+  const eventName = action?.payload?.activity?.name ?? '';
+  const eventValue = action?.payload?.activity?.value ?? '';
+
+  // use event name for rxSkill
+  const skillWasTriggered = eventName === 'Skill_Entry';
+  // use event name for rxSkillExit
+  const skillWasExited = eventName === 'Skill_Exit';
+  // confirm it is the rx skill
+  const rxSkill = eventValue === 'RX_Skill';
+  if (skillWasTriggered && rxSkill) {
     setSessionStorageAsString(IS_RX_SKILL, true);
     sendWindowEvent('rxSkill');
-    // window.dispatchEvent(new Event('rxSkill'));
   }
-  if (rxSkillWasExited) {
+  if (skillWasExited && rxSkill) {
     setSessionStorageAsString(IS_RX_SKILL, false);
     sendWindowEvent('rxSkill');
   }

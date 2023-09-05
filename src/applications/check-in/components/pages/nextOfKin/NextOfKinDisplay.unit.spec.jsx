@@ -95,6 +95,14 @@ describe('pre-check-in experience', () => {
         expect(getByText(', Ste 234')).to.exist;
         expect(getByText('Los Angeles, CA 90089')).to.exist;
       });
+      it('renders additional info', () => {
+        const { getByTestId } = render(
+          <CheckInProvider>
+            <NextOfKinDisplay />
+          </CheckInProvider>,
+        );
+        expect(getByTestId('additional-info')).to.exist;
+      });
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
         const screen = render(

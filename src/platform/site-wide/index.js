@@ -56,8 +56,6 @@ export default function startSitewideComponents(commonStore) {
   startHeader(commonStore, window.VetsGov.headerFooter.megaMenuData);
 
   // Start Veteran Crisis Line modal functionality.
-  document.addEventListener('DOMContentLoaded', () => {
-    addFocusBehaviorToCrisisLineModal();
-    addOverlayTriggers();
-  });
+  addFocusBehaviorToCrisisLineModal();
+  addOverlayTriggers();
 }

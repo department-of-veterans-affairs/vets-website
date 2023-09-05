@@ -27,11 +27,15 @@ export const accordions = {
             <li>Reproductive cancer of any type</li>
             <li>Respiratory (breathing-related) cancer of any type</li>
           </ul>
-          <va-link
-            class="vads-u-margin-top--3 vads-u-margin-bottom--3 vads-u-display--block"
+          <a
+            className="vads-u-margin-top--3 vads-u-margin-bottom--3 vads-u-display--block"
             href="/resources/presumptive-cancers-related-to-burn-pit-exposure"
-            text="Learn more about presumptive cancers related to burn pits"
-          />
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn more about presumptive cancers related to burn pits (opens in
+            a new tab)
+          </a>
           <p>
             <strong>These illnesses are now presumptive:</strong>
           </p>
@@ -72,10 +76,14 @@ export const accordions = {
               virus)
             </li>
           </ul>
-          <va-link
+          <a
             href="/disability/eligibility/hazardous-materials-exposure/gulf-war-illness-afghanistan/"
-            text="Learn more about Gulf War illnesses and VA disability compensation"
-          />
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn more about Gulf War illnesses and VA disability compensation
+            (opens in a new tab)
+          </a>
         </>
       ),
     },

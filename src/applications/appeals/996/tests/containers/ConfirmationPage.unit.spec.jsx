@@ -56,6 +56,7 @@ describe('Confirmation page', () => {
   it('should render the confirmation page', () => {
     const tree = mount(<ConfirmationPage store={fakeStore} />);
     expect(tree).not.to.be.undefined;
+    expect(tree.find('.vads-c-action-link--green').length).to.eq(1);
     tree.unmount();
   });
   it('should render the user name', () => {

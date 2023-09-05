@@ -5,8 +5,6 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import IconCTALink from '../IconCTALink';
 
 const HealthCareCTA = ({
-  hasInboxError,
-  unreadMessagesCount,
   authenticatedWithSSOe,
   hasUpcomingAppointment,
   hasAppointmentsError,
@@ -15,21 +13,18 @@ const HealthCareCTA = ({
   return (
     <>
       <h3 className="sr-only">Popular actions for Health Care</h3>
-      {hasInboxError ||
-        (unreadMessagesCount === 0 && (
-          <IconCTALink
-            text="Send a secure message to your health care team"
-            icon="comments"
-            href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-            onClick={() =>
-              recordEvent({
-                event: 'nav-linkslist',
-                'links-list-header': 'View your messages',
-                'links-list-section-header': 'Health care',
-              })
-            }
-          />
-        ))}
+      <IconCTALink
+        text="Send a secure message to your health care team"
+        icon="comments"
+        href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+        onClick={() =>
+          recordEvent({
+            event: 'nav-linkslist',
+            'links-list-header': 'View your messages',
+            'links-list-section-header': 'Health care',
+          })
+        }
+      />
       {!hasUpcomingAppointment &&
         !hasAppointmentsError && (
           <IconCTALink
@@ -99,10 +94,8 @@ const HealthCareCTA = ({
 HealthCareCTA.propTypes = {
   authenticatedWithSSOe: PropTypes.bool,
   hasAppointmentsError: PropTypes.bool,
-  hasInboxError: PropTypes.bool,
   hasUpcomingAppointment: PropTypes.bool,
   shouldShowPrescriptions: PropTypes.bool,
-  unreadMessagesCount: PropTypes.number,
 };
 
 export default HealthCareCTA;

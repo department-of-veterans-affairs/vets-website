@@ -1,6 +1,9 @@
 export const Actions = {
+  Alerts: {
+    ADD_ALERT: 'MR_ALERT_ADD_ALERT',
+  },
   Breadcrumbs: {
-    SET_BREAD_CRUMBS: 'SM_SET_BREAD_CRUMBS',
+    SET_BREAD_CRUMBS: 'MR_SET_BREAD_CRUMBS',
   },
   LabsAndTests: {
     GET: 'MR_LABS_AND_TESTS_GET',
