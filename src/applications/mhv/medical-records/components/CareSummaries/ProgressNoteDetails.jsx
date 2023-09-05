@@ -19,8 +19,9 @@ const ProgressNoteDetails = props => {
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
+    const titleDate = record.dateSigned ? `${record.dateSigned} - ` : '';
     updatePageTitle(
-      `${record.dateSigned} - ${record.name} - ${
+      `${titleDate}${record.name} - ${
         pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE
       }`,
     );

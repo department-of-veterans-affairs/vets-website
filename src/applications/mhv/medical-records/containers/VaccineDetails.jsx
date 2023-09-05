@@ -55,10 +55,9 @@ const VaccineDetails = () => {
         );
 
         focusElement(document.querySelector('h1'));
+        const titleDate = formattedDate ? `${formattedDate} - ` : '';
         updatePageTitle(
-          `${formattedDate} - ${record.name} - ${
-            pageTitles.VACCINES_PAGE_TITLE
-          }`,
+          `${titleDate}${record.name} - ${pageTitles.VACCINES_PAGE_TITLE}`,
         );
       }
     },
@@ -115,9 +114,17 @@ const VaccineDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0p5">{record.name}</h1>
+          <h1
+            className="vads-u-margin-bottom--0p5"
+            aria-describedby="vaccine-date"
+          >
+            {record.name}
+          </h1>
           <div className="time-header">
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h2
+              className="vads-u-font-size--base vads-u-font-family--sans"
+              id="vaccine-date"
+            >
               Date:{' '}
               <span className="vads-u-font-weight--normal">
                 {formattedDate}

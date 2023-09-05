@@ -51,10 +51,9 @@ const AllergyDetails = () => {
           ),
         );
         focusElement(document.querySelector('h1'));
+        const titleDate = allergy.date ? `${allergy.date} - ` : '';
         updatePageTitle(
-          `${allergy.date} - ${allergy.name} - ${
-            pageTitles.ALLERGIES_PAGE_TITLE
-          }`,
+          `${titleDate}${allergy.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`,
         );
       }
     },
@@ -146,13 +145,19 @@ const AllergyDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0p5">
+          <h1
+            className="vads-u-margin-bottom--0p5"
+            aria-describedby="allergy-date"
+          >
             Allergy: <span data-dd-privacy="mask">{allergy.name}</span>
           </h1>
           <section className="set-width-486">
             <div className="condition-subheader vads-u-margin-bottom--3">
               <div className="time-header">
-                <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h2
+                  className="vads-u-font-size--base vads-u-font-family--sans"
+                  id="allergy-date"
+                >
                   Date entered:{' '}
                   <span
                     className="vads-u-font-weight--normal"

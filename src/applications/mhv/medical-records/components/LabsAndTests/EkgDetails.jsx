@@ -16,8 +16,9 @@ const EkgDetails = props => {
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
+    const titleDate = formattedDate ? `${formattedDate} - ` : '';
     updatePageTitle(
-      `${formattedDate} - ${record.name} - ${
+      `${titleDate}${record.name} - ${
         pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
       }`,
     );

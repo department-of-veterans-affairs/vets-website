@@ -45,8 +45,9 @@ const ConditionDetails = () => {
           ),
         );
         focusElement(document.querySelector('h1'));
+        const titleDate = formattedDate ? `${formattedDate} - ` : '';
         updatePageTitle(
-          `${formattedDate} - ${condition.name} - ${
+          `${titleDate}${condition.name} - ${
             pageTitles.HEALTH_CONDITIONS_PAGE_TITLE
           }`,
         );
@@ -125,13 +126,19 @@ const ConditionDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">
+          <h1
+            className="vads-u-margin-bottom--0"
+            aria-describedby="condition-date"
+          >
             {condition.name.split(' (')[0]}
           </h1>
           <section className="set-width-486">
             <div className="condition-subheader vads-u-margin-bottom--3">
               <div className="time-header">
-                <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h2
+                  className="vads-u-font-size--base vads-u-font-family--sans"
+                  id="condition-date"
+                >
                   Date and time entered:{' '}
                   <span className="vads-u-font-weight--normal">
                     {formattedDate}

@@ -20,8 +20,12 @@ const AdmissionAndDischargeDetails = props => {
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
+    const titleDate =
+      record.startDate && record.endDate
+        ? `${record.startDate} to ${record.endDate} - `
+        : '';
     updatePageTitle(
-      `${record.startDate} to ${record.endDate} - ${record.name} - ${
+      `${titleDate}${record.name} - ${
         pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE
       }`,
     );

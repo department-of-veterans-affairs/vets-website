@@ -16,8 +16,9 @@ const RadiologyDetails = props => {
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
+    const titleDate = formattedDate ? `${formattedDate} - ` : '';
     updatePageTitle(
-      `${formattedDate} - ${record.name} - ${
+      `${titleDate}${record.name} - ${
         pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
       }`,
     );
@@ -32,10 +33,18 @@ const RadiologyDetails = props => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">{record.name}</h1>
+          <h1
+            className="vads-u-margin-bottom--0"
+            aria-describedby="radiology-date"
+          >
+            {record.name}
+          </h1>
           <section className="set-width-486">
             <div className="time-header">
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              <h2
+                className="vads-u-font-size--base vads-u-font-family--sans"
+                id="radiology-date"
+              >
                 Date:{' '}
                 <span className="vads-u-font-weight--normal">
                   {formattedDate}
