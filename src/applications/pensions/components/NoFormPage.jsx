@@ -168,25 +168,20 @@ export const NoFormPage = () => {
         </>
       ) : (
         <>
+          <h1>Review Pension Benefits Application</h1>
+          <p>VA Form 21P-527EZ</p>
           <va-alert
             close-btn-aria-label="Close notification"
             status="info"
             visible
           >
             <h2 id="track-your-status-on-mobile" slot="headline">
-              You don’t have any saved online burial forms.
+              You don’t have any saved online pension forms.
             </h2>
-            <div>
-              <p className="vads-u-margin-y--0">
-                You can apply for VA burial benefits by mail, in person at a VA
-                regional office, or with the help of a VSO or other accredited
-                representative.
-              </p>
-            </div>
             <br />
             <va-link
               href="https://www.va.gov/burials-memorials/veterans-burial-allowance/"
-              text="Learn more about how to apply for VA burial benefits"
+              text="Learn more about how to apply for VA pension benefits"
             />
           </va-alert>
           <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
@@ -203,21 +198,16 @@ export const NoFormPage = () => {
     </div>
   ) : (
     <div className="row vads-u-margin-bottom--4">
+      <h1>Review Pension Benefits Application</h1>
+      <p>VA Form 21P-527EZ</p>
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <h2 id="track-your-status-on-mobile" slot="headline">
-          You don’t have any saved online burial forms.
+          You don’t have any saved online pension forms.
         </h2>
-        <div>
-          <p className="vads-u-margin-y--0">
-            You can apply for VA burial benefits by mail, in person at a VA
-            regional office, or with the help of a VSO or other accredited
-            representative.
-          </p>
-        </div>
         <br />
         <va-link
           href="https://www.va.gov/burials-memorials/veterans-burial-allowance/"
-          text="Learn more about how to apply for VA burial benefits"
+          text="Learn more about how to apply for VA pension benefits"
         />
       </va-alert>
       <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
