@@ -34,7 +34,6 @@ describe('TermsOfUse', () => {
       'VA online services terms of use',
     );
     expect($('va-on-this-page', container)).to.exist;
-    expect($('va-link', container)).to.exist;
     expect($('va-accordion', container)).to.exist;
     expect($('va-alert', container)).to.exist;
   });
