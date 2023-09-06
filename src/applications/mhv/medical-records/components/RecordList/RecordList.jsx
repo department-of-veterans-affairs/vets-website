@@ -62,6 +62,9 @@ const RecordList = props => {
         className="pagination vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--0 vads-u-font-weight--normal vads-u-padding-y--1 vads-u-margin-bottom--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
         hidden={hidePagination}
         id="showingRecords"
+        aria-label={`Showing ${displayNums[0]} to ${
+          displayNums[1]
+        } of ${totalEntries} records from newest to oldest`}
       >
         Showing {displayNums[0]}
         &#8211;
