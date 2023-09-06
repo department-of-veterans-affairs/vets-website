@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import * as Sentry from '@sentry/browser';
 
-import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import { apiRequest } from 'platform/utilities/api';
 import SearchDropdownComponent from 'applications/search/components/SearchDropdown/SearchDropdownComponent';
 import DropDownPanel from './DropDownPanel/DropDownPanel';
@@ -247,7 +246,7 @@ export class SearchMenu extends React.Component {
               data-e2e-id="sitewide-search-submit-button"
               className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
             >
-              <IconSearch color="#fff" />
+              <i className="fas fa-solid fa-sm fa-search vads-u-margin-top--0p5 " />
               <span className="usa-sr-only">Search</span>
             </button>
           </div>
@@ -291,8 +290,9 @@ export class SearchMenu extends React.Component {
       'va-dropdown-trigger',
     );
 
-    const icon = <IconSearch color="#fff" role="presentation" />;
-
+    const icon = (
+      <i className="fas fa-solid fa-xs fa-search vads-u-margin-right--0p5" />
+    );
     return (
       <DropDownPanel
         buttonText="Search"
