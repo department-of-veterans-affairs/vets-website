@@ -1,5 +1,7 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { setData } from 'platform/forms-system/src/js/actions';
 import ReviewPageHeader from '../shared/ReviewPageHeader';
 
 const formatTrueFalse = value => {
@@ -27,15 +29,27 @@ const renderEmploymentSelection = (questions, isSpouse) => {
 };
 
 const EmploymentQuestionReview = ({ data, goToPath, name }) => {
+  const dispatch = useDispatch();
   const { questions = [] } = data;
 
   const isSpouse = name.toLowerCase().includes('spouse');
+
+  // set reviewNavigation to true to show the review page alert
+  const onReviewClick = () => {
+    dispatch(
+      setData({
+        ...data,
+        reviewNavigation: true,
+      }),
+    );
+    goToPath('/employment-question');
+  };
 
   return (
     <>
       <ReviewPageHeader
         title="household income"
-        goToPath={() => goToPath('/employment-question')}
+        goToPath={() => onReviewClick()}
       />
       <div
         className="form-review-panel-page"

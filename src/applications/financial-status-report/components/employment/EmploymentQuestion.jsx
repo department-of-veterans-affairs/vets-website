@@ -8,6 +8,7 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 
 import { clearJobIndex } from '../../utils/session';
 import { getGMT } from '../../actions/geographicMeansThreshold';
+import ReviewPageNavigationAlert from '../alerts/ReviewPageNavigationAlert';
 
 const EmploymentQuestion = props => {
   const {
@@ -24,6 +25,7 @@ const EmploymentQuestion = props => {
   const [hasJobToAdd, setHasJobToAdd] = useState(
     data.questions?.vetIsEmployed ?? false,
   );
+  const { reviewNavigation = false } = data;
 
   const hasJobs =
     data.personalData?.employmentHistory?.veteran?.employmentRecords;
@@ -51,6 +53,7 @@ const EmploymentQuestion = props => {
         },
       });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [hasJobToAdd],
   );
 
@@ -101,9 +104,26 @@ const EmploymentQuestion = props => {
     setHasJobToAdd(value === 'true');
   };
 
+  const handleBackNavigation = () => {
+    if (reviewNavigation) {
+      dispatch(
+        setData({
+          ...data,
+          reviewNavigation: false,
+        }),
+      );
+      goToPath('/review-and-submit');
+    } else {
+      goBack();
+    }
+  };
+
   return (
     <form>
       <fieldset className="vads-u-margin-y--2">
+        {reviewNavigation ? (
+          <ReviewPageNavigationAlert data={data} title="household income" />
+        ) : null}
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0" ref={headerRef}>
             Your work history
@@ -131,14 +151,37 @@ const EmploymentQuestion = props => {
         </VaRadio>
       </fieldset>
       {contentBeforeButtons}
-      <FormNavButtons goBack={goBack} goForward={goForward} />
+      <FormNavButtons
+        goBack={handleBackNavigation}
+        goForward={goForward}
+        submitToContinue
+      />
       {contentAfterButtons}
     </form>
   );
 };
 
 EmploymentQuestion.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.shape({
+    'view:streamlinedWaiver': PropTypes.bool,
+    gmtData: PropTypes.object,
+    personalData: PropTypes.shape({
+      veteranContactInformation: PropTypes.shape({
+        address: PropTypes.shape({
+          zipCode: PropTypes.string,
+        }),
+      }),
+      employmentHistory: PropTypes.shape({
+        veteran: PropTypes.shape({
+          employmentRecords: PropTypes.array,
+        }),
+      }),
+    }),
+    questions: PropTypes.shape({
+      vetIsEmployed: PropTypes.bool,
+    }),
+    reviewNavigation: PropTypes.bool,
+  }).isRequired,
   goBack: PropTypes.func.isRequired,
   goToPath: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
