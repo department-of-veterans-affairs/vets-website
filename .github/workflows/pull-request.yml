@@ -28,6 +28,8 @@ jobs:
 
       - name: Check for cross app imports in allowlist apps
         run: yarn check-app-imports --check-allowlist --fail-on-cross-app-import
+        env:
+          TEST_TYPE: unit_test
 
   eslint-disable-check:
     name: ESLint Disable Check
