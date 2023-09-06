@@ -463,7 +463,7 @@ jobs:
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
       - name: Update E2E Allow List
-        run: yarn update-e2e-allow-list
+        run: yarn update-allow-list
         working-directory: qa-standards-dashboard-data
         env:
           TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
@@ -497,11 +497,10 @@ jobs:
           conclusion: ${{ needs.stress-test-cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
-
-      - name: Create GitHub Issues for new flaky tests
-        if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
-        run: yarn create-github-issues-for-flaky-tests
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
-          GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+      # - name: Create GitHub Issues for new flaky tests
+      #   if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
+      #   run: yarn create-github-issues-for-flaky-tests
+      #   working-directory: qa-standards-dashboard-data
+      #   env:
+      #     TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
+      #     GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
