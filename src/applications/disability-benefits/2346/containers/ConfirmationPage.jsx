@@ -19,6 +19,7 @@ const ConfirmationPage = ({
   isPartiallySubmittedOrder,
   hasCompleteOrderFailed,
 }) => {
+  // TODO: move to util or custom hook.
   const supplyDescription = featureToggles.supply_reordering_sleep_apnea_enabled
     ? 'hearing aid and CPAP supplies'
     : 'hearing aid batteries and accessories';
