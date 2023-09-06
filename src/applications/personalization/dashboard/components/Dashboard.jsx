@@ -40,11 +40,11 @@ import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
 
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
-import ClaimsAndAppealsV2 from './claims-and-appeals-v2/ClaimsAndAppealsV2';
-import HealthCareV2 from './health-care-v2/HealthCareV2';
+import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
+import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
-import BenefitPaymentsV2 from './benefit-payments-v2/BenefitPaymentsV2';
-import DebtsV2 from './debts-v2/DebtsV2';
+import BenefitPayments from './benefit-payments/BenefitPayments';
+import Debts from './debts/Debts';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../../common/selectors';
@@ -107,13 +107,6 @@ const Dashboard = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // TODO: remove this after My VA v2 is rolled out to 100% of users and My VA
-    // v1 is retired
-    recordEvent({
-      event: 'phased-roll-out-enabled',
-      'product-description': 'My VA v2',
-    });
-
     // use Drupal based Cerner facility data
     connectDrupalSourceOfTruthCerner(dispatch);
   }, []);
@@ -228,18 +221,16 @@ const Dashboard = ({
                   ]}
                   render={RenderClaimsWidgetDowntimeNotification}
                 >
-                  <ClaimsAndAppealsV2
-                    useLighthouseClaims={useLighthouseClaims}
-                  />
+                  <ClaimsAndAppeals useLighthouseClaims={useLighthouseClaims} />
                 </DowntimeNotification>
               )}
 
-              {isLOA3 && <HealthCareV2 isVAPatient={isVAPatient} />}
+              {isLOA3 && <HealthCare isVAPatient={isVAPatient} />}
 
               {isLOA3 && (
                 <>
-                  <DebtsV2 />
-                  <BenefitPaymentsV2
+                  <Debts />
+                  <BenefitPayments
                     payments={payments}
                     showNotifications={showNotifications}
                   />
