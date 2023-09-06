@@ -71,7 +71,7 @@ const command = `LOG_LEVEL=${options[
   .map(p => `'${p}'`)
   .join(' ')}`;
 
-const runTestsInLoopUpTo = isStressTest ? 2 : 1;
+const runTestsInLoopUpTo = isStressTest ? 20 : 1;
 
 for (let i = 0; i < runTestsInLoopUpTo; i += 1) {
   runCommand(command);

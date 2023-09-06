@@ -1,9 +1,8 @@
 name: E2E Stress Test
 
 on:
-  # schedule:
-  #   - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
-  push
+  schedule:
+    - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
 
 env:
   BUILDTYPE: vagovprod
@@ -215,9 +214,6 @@ jobs:
         id: matrix
         run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
 
-      - name: Echo CI_NODE_INDEX
-        run: echo ${{ env.CI_NODE_INDEX }}
-
   stress-test-cypress-tests:
     name: Stress Test Cypress Tests
     runs-on: self-hosted
@@ -395,11 +391,6 @@ jobs:
 
       - name: Copy test results to mochawesome directory
         run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
-
-      - name: List qa-standards-dashboard-directory
-        run: |
-          cd qa-standards-dashboard-data
-          ls -a
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
