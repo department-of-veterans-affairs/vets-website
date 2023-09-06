@@ -49,7 +49,7 @@ describe('LabsAndTestsListItem component', () => {
         exact: true,
       },
     )[0];
-    const recordDate = screen.getByText('January', { exact: false });
+    const recordDate = screen.getAllByText('January', { exact: false });
     expect(recordName).to.exist;
     expect(recordDate).to.exist;
   });
@@ -57,7 +57,7 @@ describe('LabsAndTestsListItem component', () => {
   it('should contain a link to view record details', () => {
     const screen = setup();
     const recordDetailsLink = screen.getByRole('link', {
-      name: 'Details',
+      name: /Details/,
     });
     expect(recordDetailsLink).to.exist;
   });

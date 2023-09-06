@@ -161,7 +161,7 @@ const PrescriptionDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 aria-describedby="last-filled">
+          <h1 aria-describedby="last-filled" data-testid="prescription-name">
             {prescription.prescriptionName}
           </h1>
           <p
@@ -203,12 +203,14 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescription number
             </h3>
-            <p>{prescription.prescriptionNumber}</p>
+            <p data-testid="prescription-number">
+              {prescription.prescriptionNumber}
+            </p>
 
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Status
             </h3>
-            <div>
+            <div data-testid="status">
               {prescription.refillStatus === 'refillinprocess'
                 ? 'Refill in process'
                 : prescription.refillStatus}
@@ -231,15 +233,19 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Refills left
             </h3>
-            <p>{prescription.refillRemaining}</p>
+            <p data-testid="refills-left">{prescription.refillRemaining}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed on
             </h3>
-            <p>{dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}</p>
+            <p datat-testid="ordered-date">
+              {dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Order refills by this expiration date
             </h3>
-            <p>{dateFormat(prescription.expirationDate, 'MMMM D, YYYY')}</p>
+            <p data-testid="expiration-date">
+              {dateFormat(prescription.expirationDate, 'MMMM D, YYYY')}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed by
             </h3>
@@ -253,7 +259,7 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
             </h3>
-            <p>{prescription.facilityName}</p>
+            <p data-testid="facility-name">{prescription.facilityName}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Phone number
             </h3>
