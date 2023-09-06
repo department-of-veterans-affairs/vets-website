@@ -79,7 +79,7 @@ class Introduction {
       .shadow()
       .find('h2 button[aria-controls="content"]')
       .eq(accordionIndex)
-      .click();
+      .click({ waitForAnimations: true });
     if (open) {
       cy.get('[data-testid="intro-accordion-item"]')
         .shadow()
