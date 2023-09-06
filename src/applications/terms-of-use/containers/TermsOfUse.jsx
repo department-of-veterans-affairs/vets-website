@@ -47,17 +47,6 @@ export default function TermsOfUse() {
               Version: 1<br />
               Last updated: {touDate}
             </p>
-            <p>
-              If you want to save or print the terms, you can download a copy
-              now.
-            </p>
-            <va-link
-              href="#download"
-              download
-              fileType="PDF"
-              pages={6}
-              text="Download VA online services terms of use"
-            />
           </div>
           <h2 id="terms-of-use">Terms of use</h2>
           <p>
