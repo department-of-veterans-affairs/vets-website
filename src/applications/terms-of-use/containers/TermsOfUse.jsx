@@ -9,7 +9,7 @@ import {
 
 import touData from '../touData';
 
-const touDate = `5/30/2023`;
+const touUpdatedDate = `March 2023`;
 
 export default function TermsOfUse() {
   const loggedIn = useSelector(isLoggedIn);
@@ -45,7 +45,7 @@ export default function TermsOfUse() {
           <div>
             <p>
               Version: 1<br />
-              Last updated: {touDate}
+              Last updated: {touUpdatedDate}
             </p>
           </div>
           <h2 id="terms-of-use">Terms of use</h2>
