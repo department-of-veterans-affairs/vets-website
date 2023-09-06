@@ -84,10 +84,6 @@ module.exports = {
         use: '<va-omb-info>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/Pagination',
-        use: '<va-pagination>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/Telephone',
         use: '<va-telephone>',
       },
