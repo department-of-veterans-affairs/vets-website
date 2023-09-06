@@ -62,7 +62,7 @@ const ClaimsAndAppealsError = () => {
   );
 };
 
-const PopularActionsForClaimsAndAppeals = () => {
+const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
   return (
     <>
       <h3 className="sr-only">Popular actions for Claims and Appeals</h3>
@@ -79,19 +79,21 @@ const PopularActionsForClaimsAndAppeals = () => {
         }}
         testId="file-claims-and-appeals-link-v2"
       />
-      <IconCTALink
-        text="Manage all claims and appeals"
-        href="/claim-or-appeal-status/"
-        icon="clipboard-check"
-        onClick={() => {
-          recordEvent({
-            event: 'nav-linkslist',
-            'links-list-header': 'Manage all claims and appeals',
-            'links-list-section-header': 'Claims and appeals',
-          });
-        }}
-        testId="manage-claims-and-appeals-link-v2"
-      />
+      {!isLOA1 && (
+        <IconCTALink
+          text="Manage all claims and appeals"
+          href="/claim-or-appeal-status/"
+          icon="clipboard-check"
+          onClick={() => {
+            recordEvent({
+              event: 'nav-linkslist',
+              'links-list-header': 'Manage all claims and appeals',
+              'links-list-section-header': 'Claims and appeals',
+            });
+          }}
+          testId="manage-claims-and-appeals-link-v2"
+        />
+      )}
     </>
   );
 };
@@ -104,6 +106,7 @@ const ClaimsAndAppealsV2 = ({
   // component always showing a loading spinner. I do not like this approach.
   dataLoadingDisabled = false,
   hasAPIError,
+  isLOA1,
   loadAppeals,
   loadClaims,
   loadLighthouseClaims,
@@ -171,33 +174,35 @@ const ClaimsAndAppealsV2 = ({
           {hasAPIError && <ClaimsAndAppealsError />}
           {!hasAPIError && (
             <>
-              {highlightedClaimOrAppeal ? (
+              {highlightedClaimOrAppeal && !isLOA1 ? (
                 <HighlightedClaimAppealV2
                   claimOrAppeal={highlightedClaimOrAppeal}
                   useLighthouseClaims={useLighthouseClaims}
                 />
               ) : (
                 <>
-                  <NoClaimsOrAppealsText />
-                  <PopularActionsForClaimsAndAppeals />
+                  {!isLOA1 && <NoClaimsOrAppealsText />}
+                  <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
                 </>
               )}
             </>
           )}
         </DashboardWidgetWrapper>
-        {highlightedClaimOrAppeal && !hasAPIError ? (
-          <DashboardWidgetWrapper>
-            <PopularActionsForClaimsAndAppeals />
-          </DashboardWidgetWrapper>
-        ) : null}
+        {highlightedClaimOrAppeal &&
+          !hasAPIError &&
+          !isLOA1 && (
+            <DashboardWidgetWrapper>
+              <PopularActionsForClaimsAndAppeals />
+            </DashboardWidgetWrapper>
+          )}
       </div>
     </div>
   );
 };
 
 ClaimsAndAppealsV2.propTypes = {
-  dataLoadingDisabled: PropTypes.bool,
   hasAPIError: PropTypes.bool.isRequired,
+  isLOA1: PropTypes.bool.isRequired,
   loadAppeals: PropTypes.func.isRequired,
   loadClaims: PropTypes.func.isRequired,
   loadLighthouseClaims: PropTypes.func.isRequired,
@@ -208,6 +213,11 @@ ClaimsAndAppealsV2.propTypes = {
   userFullName: PropTypes.object.isRequired,
   appealsData: PropTypes.arrayOf(PropTypes.object),
   claimsData: PropTypes.arrayOf(PropTypes.object),
+  dataLoadingDisabled: PropTypes.bool,
+};
+
+PopularActionsForClaimsAndAppeals.propTypes = {
+  isLOA1: PropTypes.bool.isRequired,
 };
 
 const isClaimsAvailableSelector = createIsServiceAvailableSelector(

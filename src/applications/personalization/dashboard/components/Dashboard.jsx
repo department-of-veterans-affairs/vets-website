@@ -13,7 +13,6 @@ import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/ds
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
 import {
-  createIsServiceAvailableSelector,
   isLOA3 as isLOA3Selector,
   isLOA1 as isLOA1Selector,
   isVAPatient as isVAPatientSelector,
@@ -230,6 +229,7 @@ const Dashboard = ({
                 >
                   <ClaimsAndAppealsV2
                     useLighthouseClaims={useLighthouseClaims}
+                    isLOA1={isLOA1}
                   />
                 </DowntimeNotification>
               )}
@@ -254,28 +254,12 @@ const Dashboard = ({
   );
 };
 
-const isClaimsAvailableSelector = createIsServiceAvailableSelector(
-  backendServices.EVSS_CLAIMS,
-);
-
-const isLighthouseClaimsAvailableSelector = createIsServiceAvailableSelector(
-  backendServices.LIGHTHOUSE,
-);
-
-const isAppealsAvailableSelector = createIsServiceAvailableSelector(
-  backendServices.APPEALS_STATUS,
-);
-
 const mapStateToProps = state => {
   const { isReady: hasLoadedScheduledDowntime } = state.scheduledDowntime;
   const isLOA3 = isLOA3Selector(state);
   const isLOA1 = isLOA1Selector(state);
   const isVAPatient = isVAPatientSelector(state);
   const hero = state.vaProfile?.hero;
-  const hasClaimsOrAppealsService =
-    isAppealsAvailableSelector(state) ||
-    isClaimsAvailableSelector(state) ||
-    isLighthouseClaimsAvailableSelector(state);
 
   const hasMHVAccount = ['OK', 'MULTIPLE'].includes(
     state.user?.profile?.mhvAccountState,
@@ -306,11 +290,7 @@ const mapStateToProps = state => {
   const showNameTag = isLOA3 && isEmpty(hero?.errors);
   const showMPIConnectionError = hasMPIConnectionError(state);
   const showNotInMPIError = isNotInMPI(state);
-  const showClaimsAndAppeals =
-    !showMPIConnectionError &&
-    !showNotInMPIError &&
-    isLOA3 &&
-    hasClaimsOrAppealsService;
+  const showClaimsAndAppeals = !showMPIConnectionError && !showNotInMPIError;
   const showHealthCare =
     hasMHVAccount &&
     !showMPIConnectionError &&
