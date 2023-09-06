@@ -1,7 +1,5 @@
 import moment from 'moment';
 
-import { parseISODate } from 'platform/forms-system/src/js/helpers';
-
 import { SHOW_PART3 } from '../constants';
 import { issueErrorMessages } from '../content/addIssue';
 
