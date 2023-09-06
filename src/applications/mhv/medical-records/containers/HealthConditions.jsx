@@ -2,12 +2,14 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getConditionsList } from '../actions/conditions';
-import { recordType } from '../util/constants';
+import { recordType, pageTitles } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import { processList } from '../util/helpers';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const HealthConditions = () => {
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
@@ -17,20 +19,19 @@ const HealthConditions = () => {
     dispatch(getConditionsList());
   });
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-          {
-            url: '/my-health/medical-records/health-conditions',
-            label: 'VA health conditions',
-          },
-        ),
-      );
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs(
+        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
+        {
+          url: '/my-health/medical-records/health-conditions',
+          label: 'VA health conditions',
+        },
+      ),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
+  }, []);
 
   const generateHealthConditions = async () => {
     const pdfData = {

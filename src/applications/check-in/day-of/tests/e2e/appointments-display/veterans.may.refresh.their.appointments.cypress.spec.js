@@ -9,6 +9,8 @@ import Appointments from '../pages/Appointments';
 
 import sharedData from '../../../../api/local-mock-api/mocks/v2/shared';
 
+// TODO: remove commment once this is not disallowed
+
 describe('Check In Experience -- ', () => {
   describe('Appointment display -- ', () => {
     beforeEach(() => {
