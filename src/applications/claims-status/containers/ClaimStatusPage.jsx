@@ -285,7 +285,7 @@ function mapStateToProps(state) {
     lastPage: claimsState.routing.lastPage,
     showClaimLettersLink: showClaimLettersFeature(state),
     synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse: cstUseLighthouse(state, 'show'),
   };
 }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import {
@@ -102,13 +103,19 @@ const Appeal = ({ appeal, name }) => {
         </div>
       </div>
       <CTALink
-        ariaLabel={`View details of ${appealTitle} `}
-        className="vads-u-margin-top--2"
-        text="View details"
+        ariaLabel={`Review details of ${appealTitle} `}
+        className="vads-u-margin-top--2 vads-u-font-weight--bold"
+        text="Review details"
         href={`/track-claims/appeals/${appeal.id}/status`}
+        showArrow
       />
     </div>
   );
+};
+
+Appeal.propTypes = {
+  appeal: PropTypes.object.isRequired,
+  name: PropTypes.string,
 };
 
 export default Appeal;

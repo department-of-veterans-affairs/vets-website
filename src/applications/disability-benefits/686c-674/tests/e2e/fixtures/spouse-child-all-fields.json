@@ -28,6 +28,7 @@
           "biological": false,
           "adopted": false,
           "stepchild": true,
+          "biologicalStepchild": true,
           "dateBecameDependent": "2009-06-09",
           "stepchildParent": {
             "first": "betty",

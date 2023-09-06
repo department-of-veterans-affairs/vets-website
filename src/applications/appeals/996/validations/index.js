@@ -1,12 +1,8 @@
 import { errorMessages } from '../constants';
-import { SELECTED } from '../../shared/constants';
+import { validateRequireRatedDisability } from '../../shared/validations';
 
-export const requireRatedDisability = (err, fieldData) => {
-  if (!fieldData.some(entry => entry[SELECTED])) {
-    // The actual validation error is displayed as an alert field. The message
-    // here will be shown on the review page
-    err.addError?.(errorMessages.contestedIssue);
-  }
+export const requireRatedDisability = (err = {}, fieldData) => {
+  validateRequireRatedDisability(err, fieldData, errorMessages);
 };
 
 export const isFirstConferenceTimeEmpty = formData =>
