@@ -4,6 +4,8 @@ import get from 'platform/utilities/data/get';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
+import environment from 'platform/utilities/environment';
+
 import fullNameUI from 'platform/forms/definitions/fullName';
 
 const { fullName } = fullSchemaPreNeed.definitions;
@@ -16,24 +18,43 @@ export const uiSchema = {
           <h3 className="vads-u-font-size--h5">Sponsor’s previous name</h3>
         );
       },
-      serviceName: merge({}, fullNameUI, {
-        first: {
-          'ui:title': 'Sponsor’s previous first name',
-          'ui:required': form =>
-            get('application.veteran.view:hasServiceName', form) === true,
-        },
-        last: {
-          'ui:title': 'Sponsor’s previous last name',
-          'ui:required': form =>
-            get('application.veteran.view:hasServiceName', form) === true,
-        },
-        middle: {
-          'ui:title': 'Sponsor’s previous middle name',
-        },
-        suffix: {
-          'ui:title': 'Sponsor’s previous suffix',
-        },
-      }),
+      serviceName: environment.isProduction()
+        ? merge({}, fullNameUI, {
+            first: {
+              'ui:title': 'Sponsor’s first name',
+              'ui:required': form =>
+                get('application.veteran.view:hasServiceName', form) === true,
+            },
+            last: {
+              'ui:title': 'Sponsor’s last name',
+              'ui:required': form =>
+                get('application.veteran.view:hasServiceName', form) === true,
+            },
+            middle: {
+              'ui:title': 'Sponsor’s middle name',
+            },
+            suffix: {
+              'ui:title': 'Sponsor’s suffix',
+            },
+          })
+        : merge({}, fullNameUI, {
+            first: {
+              'ui:title': 'Sponsor’s previous first name',
+              'ui:required': form =>
+                get('application.veteran.view:hasServiceName', form) === true,
+            },
+            last: {
+              'ui:title': 'Sponsor’s previous last name',
+              'ui:required': form =>
+                get('application.veteran.view:hasServiceName', form) === true,
+            },
+            middle: {
+              'ui:title': 'Sponsor’s previous middle name',
+            },
+            suffix: {
+              'ui:title': 'Sponsor’s previous suffix',
+            },
+          }),
     },
   },
 };

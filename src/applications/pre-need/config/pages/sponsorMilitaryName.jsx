@@ -1,12 +1,16 @@
 import { merge } from 'lodash';
 
+import environment from 'platform/utilities/environment';
+
 import { militaryNameUI } from '../../utils/helpers';
 
 export const uiSchema = merge({}, militaryNameUI, {
   application: {
     veteran: {
       'view:hasServiceName': {
-        'ui:title': 'Did the sponsor serve under another name?',
+        'ui:title': environment.isProduction()
+          ? 'Did your sponsor serve under another name?'
+          : 'Did the sponsor serve under another name?',
       },
     },
   },
