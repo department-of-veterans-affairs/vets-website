@@ -7,7 +7,7 @@ export const RenderClaimsWidgetDowntimeNotification = (downtime, children) => {
     return (
       <div
         className="vads-u-margin-y--6"
-        data-testid="dashboard-section-claims-and-appeals-loader-v2"
+        data-testid="dashboard-section-claims-and-appeals-loader"
       >
         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
           Claims and appeals

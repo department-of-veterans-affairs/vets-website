@@ -134,7 +134,7 @@ const AreaOfDisagreement = ({
                 name={key}
                 label={label}
                 checked={options[key]}
-                checkbox-description={DISAGREEMENT_DETAILS[key]}
+                checkbox-description={DISAGREEMENT_DETAILS[key](disagreements)}
                 message-aria-describedby={titlePlainText}
                 uswds
               />

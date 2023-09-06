@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, withRouter } from 'react-router';
 import {
   createPageList,
@@ -11,7 +11,9 @@ import { getPreviousPagePath } from 'platform/forms-system/src/js/routing';
  * A light blue bar across the top of each page of the form.
  * Contains the form title with form id, a back link, and an exit form link.
  */
-const CustomHeader = ({ formData, formConfig, router, currentLocation }) => {
+const CustomHeader = ({ formData, formConfig, currentLocation }) => {
+  const [previousPage, setPreviousPage] = useState('/');
+
   const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
   const { additionalRoutes } = formConfig;
   let nonFormPages = [];
@@ -23,18 +25,21 @@ const CustomHeader = ({ formData, formConfig, router, currentLocation }) => {
   const isNonFormPage = nonFormPages.includes(lastPathComponent);
   const isReviewPage = trimmedPathname.endsWith('review-and-submit');
 
-  function goBack() {
-    const formPages = createFormPageList(formConfig);
-    const pageList = createPageList(formConfig, formPages);
+  useEffect(
+    () => {
+      const formPages = createFormPageList(formConfig);
+      const pageList = createPageList(formConfig, formPages);
 
-    const path = getPreviousPagePath(
-      pageList,
-      formData,
-      currentLocation.pathname,
-    );
+      const newPreviousPage =
+        isIntroductionPage || isNonFormPage
+          ? ''
+          : getPreviousPagePath(pageList, formData, currentLocation?.pathname);
 
-    router.push(path);
-  }
+      setPreviousPage(newPreviousPage);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [currentLocation],
+  );
 
   return !isIntroductionPage && !isNonFormPage && !isReviewPage ? (
     <div className="vads-u-background-color--primary-alt-lightest vads-u-padding-y--2 vads-u-margin-bottom--2">
@@ -54,12 +59,16 @@ const CustomHeader = ({ formData, formConfig, router, currentLocation }) => {
                 aria-hidden="true"
                 className="fas fa-arrow-left va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--0p5 vads-u-color--gray-medium"
               />
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <Link onClick={goBack} className="vads-u-margin-right--4">
+              <Link
+                to={previousPage}
+                className="va-button-link vads-u-margin-right--4"
+              >
                 Back
               </Link>
             </span>
-            <Link to="/">Exit form</Link>
+            <a href={formConfig.rootUrl} className="va-button-link">
+              Exit form
+            </a>
           </div>
         </div>
       </div>
