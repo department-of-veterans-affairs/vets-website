@@ -52,6 +52,7 @@ jobs:
 
   check-cross-app-imports:
     name: Check Cross App Imports
+    needs: [fetch-unit-tests-allow-list]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
