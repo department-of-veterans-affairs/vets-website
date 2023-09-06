@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { selectReviewPage } from '../../redux/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../../../utils/constants';
@@ -10,10 +11,15 @@ import ReviewRequestInfo from './ReviewRequestInfo';
 import { submitAppointmentOrRequest } from '../../redux/actions';
 import FacilityAddress from '../../../components/FacilityAddress';
 import InfoAlert from '../../../components/InfoAlert';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 const pageTitle = 'Review your appointment details';
 
-export default function ReviewPage() {
+export default function ReviewPage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
   const dispatch = useDispatch();
   const {
     clinic,
@@ -31,6 +37,9 @@ export default function ReviewPage() {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   useEffect(
@@ -127,3 +136,7 @@ export default function ReviewPage() {
     </div>
   );
 }
+
+ReviewPage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

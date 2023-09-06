@@ -1,6 +1,6 @@
 import { errorMessages, PRIMARY_PHONE } from '../constants';
 
-import { SELECTED } from '../../shared/constants';
+import { validateRequireRatedDisability } from '../../shared/validations';
 
 /**
  * Check validations for Custom pages
@@ -25,11 +25,7 @@ export const checkValidations = (
 };
 
 export const requireRatedDisability = (errors = {}, fieldData) => {
-  if (!fieldData.some(entry => entry[SELECTED])) {
-    // The actual validation error is displayed as an alert field. The message
-    // here will be shown on the review page
-    errors.addError?.(errorMessages.contestedIssue);
-  }
+  validateRequireRatedDisability(errors, fieldData, errorMessages);
 };
 
 /* Contact info */

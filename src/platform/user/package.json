@@ -8,6 +8,7 @@
     "./authentication/constants": "./authentication/constants.js",
     "./authentication/selectors": "./authentication/selectors.js",
     "./authentication/utilities": "./authentication/utilities.js",
+    "./cerner-dsot/selectors": "./cerner-dsot/selectors.js",
     "./transitionModal": "./authentication/components/account-transition/TransitionModal.jsx",
     "./transitionSuccessModal": "./authentication/components/account-transition/TransitionSuccessModal.jsx",
     "./CreateAccountLink": "./authentication/components/CreateAccountLink.jsx",

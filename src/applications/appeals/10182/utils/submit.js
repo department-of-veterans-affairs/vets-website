@@ -38,6 +38,8 @@ export const getEligibleContestableIssues = (issues, { showPart3 } = {}) => {
     }
     return showPart3 || date.add(1, 'years').isAfter(today);
   });
+  // This normalizes the contestable issues data. See function definition for
+  // more detail.
   return processContestableIssues(result);
 };
 
