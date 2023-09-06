@@ -6,6 +6,9 @@ export const convertDateFormat = date => {
   return `${month}/${day}/${year}`;
 };
 
+const formatPhoneNumber = num =>
+  `(${num.substr(0, 3)}) ${num.substr(3, 3)}-${num.substr(6)}`;
+
 export const formatCurrency = num => {
   const rounded = Math.round(num);
   return `$${rounded.toLocaleString('en-US', {
@@ -471,7 +474,7 @@ export function AdditionalInformation({ title, id, formData }) {
           Mailing Address
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.veteranAddress.street ? formData.veteranAddress.street : ''}{' '}
+          {formData.veteranAddress.street ? formData.veteranAddress.street : ''}
           <br />
           {`${
             formData.veteranAddress.city ? formData.veteranAddress.city : ''
@@ -481,7 +484,7 @@ export function AdditionalInformation({ title, id, formData }) {
           <br />
           {formData.veteranAddress.postalCode
             ? formData.veteranAddress.postalCode
-            : ''}{' '}
+            : ''}
           <br />
           {formData.veteranAddress.country
             ? formData.veteranAddress.country
@@ -503,19 +506,19 @@ export function AdditionalInformation({ title, id, formData }) {
           Daytime phone
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.dayPhone ? formData.dayPhone : ''}
+          {formData.dayPhone ? formatPhoneNumber(formData.dayPhone) : ''}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Evening phone
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.nightPhone ? formData.nightPhone : ''}
+          {formData.nightPhone ? formatPhoneNumber(formData.nightPhone) : ''}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Mobile phone
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.mobilePhone ? formData.mobilePhone : ''}
+          {formData.mobilePhone ? formatPhoneNumber(formData.mobilePhone) : ''}
         </p>
         <h3>Document upload</h3>
         <p>Review all your uploaded documentation to support your claim.</p>
@@ -563,6 +566,7 @@ export function AdditionalInformation({ title, id, formData }) {
               );
             })
           : null}
+        {/* The below sections data is not captured by the original form */}
         <h3>Fully Developed Claim program</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Do you want to apply using the Fully Developed Claim program?

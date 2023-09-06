@@ -80,7 +80,7 @@ export const NoFormPage = () => {
             />
             <p>
               We’ve captured your intent to file date of
-              <strong>XX/XX/XXXX</strong>. You have 12 months from that date to
+              <strong> XX/XX/XXXX</strong>. You have 12 months from that date to
               submit a claim.
             </p>
             <p className="vads-u-margin-bottom--4">
