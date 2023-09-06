@@ -40,11 +40,11 @@ function loa1DashboardTest(mobile, stubs) {
   cy.findByTestId('name-tag').should('not.exist');
 
   // make sure the claims and appeals section is visible
-  cy.findByTestId('dashboard-section-claims-and-appeals-v2').should('exist');
+  cy.findByTestId('dashboard-section-claims-and-appeals').should('exist');
   cy.findByRole('link', { name: /file a.*claim/i }).should('exist');
 
   // make sure that the health care section is visible
-  cy.findByTestId('dashboard-section-health-care-v2').should('exist');
+  cy.findByTestId('dashboard-section-health-care').should('exist');
   cy.findByRole('link', { name: /apply for va health care/i }).should('exist');
 
   // make sure that the Benefit application drafts section is visible
