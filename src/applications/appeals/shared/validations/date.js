@@ -54,7 +54,7 @@ export const dateFunctions = rawString => {
   return {
     invalidDate,
     datePartErrors,
-    isInvalidDateString: validateDateString(year, day, month, invalidDate),
+    isInvalidDateString: validateDateString(year, day, month, dateString),
     hasErrorDate: hasdatePartErrors(datePartErrors, invalidDate),
     date,
     todayOrFutureDate,
