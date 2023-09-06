@@ -33,34 +33,28 @@ describe('VaccineListItem', () => {
   it('renders without errors', () => {
     const screen = setup();
     expect(
-      screen.getByText(
-        'INFLUENZA, INJECTABLE, QUADRIVALENT with a date of August 5, 2022',
-        { exact: true },
-      ),
+      screen.getByText('INFLUENZA, INJECTABLE, QUADRIVALENT', { exact: true }),
     ).to.exist;
   });
 
   it('should contain the name of the record', () => {
     const screen = setup();
-    const recordName = screen.getByText(
-      'INFLUENZA, INJECTABLE, QUADRIVALENT with a date of August 5, 2022',
-      {
-        exact: true,
-      },
-    );
+    const recordName = screen.getByText('INFLUENZA, INJECTABLE, QUADRIVALENT', {
+      exact: true,
+    });
     expect(recordName).to.exist;
   });
 
   it('should contain the date of the record', () => {
     const screen = setup();
-    const recordDate = screen.getByText('August', { exact: false });
-    expect(recordDate).to.exist;
+    const recordDate = screen.getAllByText('August', { exact: false });
+    expect(recordDate.length).to.eq(2);
   });
 
   it('should contain a link to view record details', () => {
     const screen = setup();
     const recordDetailsLink = screen.getByRole('link', {
-      name: 'Details',
+      name: /Details/,
     });
     expect(recordDetailsLink).to.exist;
   });
