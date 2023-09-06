@@ -18,20 +18,20 @@ export const uiSchema = {
       },
       serviceName: merge({}, fullNameUI, {
         first: {
-          'ui:title': 'Sponsor’s first name',
+          'ui:title': 'Sponsor’s previous first name',
           'ui:required': form =>
             get('application.veteran.view:hasServiceName', form) === true,
         },
         last: {
-          'ui:title': 'Sponsor’s last name',
+          'ui:title': 'Sponsor’s previous last name',
           'ui:required': form =>
             get('application.veteran.view:hasServiceName', form) === true,
         },
         middle: {
-          'ui:title': 'Sponsor’s middle name',
+          'ui:title': 'Sponsor’s previous middle name',
         },
         suffix: {
-          'ui:title': 'Sponsor’s suffix',
+          'ui:title': 'Sponsor’s previous suffix',
         },
       }),
     },

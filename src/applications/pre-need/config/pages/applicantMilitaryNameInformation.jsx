@@ -16,12 +16,20 @@ export const uiSchema = {
       },
       serviceName: merge({}, fullNameUI, {
         first: {
+          'ui:title': 'Your previous first name',
           'ui:required': form =>
             get('application.veteran.view:hasServiceName', form) === true,
         },
         last: {
+          'ui:title': 'Your previous last name',
           'ui:required': form =>
             get('application.veteran.view:hasServiceName', form) === true,
+        },
+        middle: {
+          'ui:title': 'Your previous middle name',
+        },
+        suffix: {
+          'ui:title': 'Your previous suffix',
         },
       }),
     },
