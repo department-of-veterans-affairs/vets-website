@@ -256,7 +256,7 @@ export class ProfileInformationEditView extends Component {
     );
 
     if (focusableElement) {
-      setTimeout(() => focusElement(focusableElement), 50);
+      setTimeout(() => focusElement(focusableElement), 100);
     }
   }
 
