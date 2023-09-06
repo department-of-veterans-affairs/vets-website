@@ -10,7 +10,16 @@ import {
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
 
-import { currency as currencyFormatter } from '../../utils/helpers';
+import {
+  currency as currencyFormatter,
+  generateUniqueKey,
+} from '../../utils/helpers';
+
+export const keyFieldsForCreditCard = [
+  'amountDueMonthly',
+  'amountPastDue',
+  'unpaidBalance',
+];
 
 const CreditCardBillSummary = ({
   goToPath,
@@ -91,7 +100,7 @@ const CreditCardBillSummary = ({
                   search: `?index=${index}`,
                 }}
                 heading="Credit card bill"
-                key={bill.minPaymentAmount + bill.unpaidBalance}
+                key={generateUniqueKey(bill, keyFieldsForCreditCard, index)}
                 onDelete={() => onDelete(index)}
                 showDelete
                 body={billBody(bill)}

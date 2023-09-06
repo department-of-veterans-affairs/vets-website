@@ -374,7 +374,7 @@ function mapStateToProps(state) {
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
     synced: claimsState.claimSync.synced,
     // START lighthouse_migration
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse: cstUseLighthouse(state, 'index'),
     // END lighthouse_migration
   };
 }

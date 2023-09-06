@@ -33,7 +33,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
 import SubmissionError from '../components/SubmissionError';
-import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 import phoneUI from '../components/Phone';
 import { validateSponsorDeathDate } from '../validation';
 
@@ -61,6 +60,7 @@ import {
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
 } from '../utils/helpers';
+import SupportingFilesDescription from '../components/SupportingFilesDescription';
 
 const {
   claimant,
@@ -648,16 +648,22 @@ const formConfig = {
       },
     },
     supportingDocuments: {
-      title: 'Supporting documents',
+      title: environment.isProduction()
+        ? 'Supporting documents'
+        : 'Supporting files',
       pages: {
         supportingDocuments: {
+          title: environment.isProduction() ? '' : 'Upload supporting files',
           path: 'supporting-documents',
-          editModeOnReviewPage: true,
+          editModeOnReviewPage: !!environment.isProduction(),
           uiSchema: {
-            'ui:description': SupportingDocumentsDescription,
+            'ui:description': SupportingFilesDescription,
             application: {
               preneedAttachments: fileUploadUI('Select files to upload', {
-                addAnotherLabel: 'Add another',
+                buttonText: environment.isProduction() ? '' : 'Upload file',
+                addAnotherLabel: environment.isProduction()
+                  ? 'Add another'
+                  : 'Upload another file',
                 fileUploadUrl: `${
                   environment.API_URL
                 }/v0/preneeds/preneed_attachments`,
@@ -675,10 +681,14 @@ const formConfig = {
                   confirmationCode: response.data.attributes.guid,
                 }),
                 attachmentSchema: {
-                  'ui:title': 'What kind of document is this?',
+                  'ui:title': environment.isProduction()
+                    ? 'What kind of document is this?'
+                    : 'What kind of file is this?',
                 },
                 attachmentName: {
-                  'ui:title': 'Document name',
+                  'ui:title': environment.isProduction()
+                    ? 'Document name'
+                    : 'File name',
                 },
               }),
             },

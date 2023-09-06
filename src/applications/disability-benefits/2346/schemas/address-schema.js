@@ -19,7 +19,6 @@
  * 1. State/Province/Region - shows up if the country is NOT the US, but NOT required.
  */
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import { countries } from 'platform/forms/address';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
@@ -56,15 +55,12 @@ const USA = {
 
 const MilitaryBaseInfo = () => (
   <div className="vads-u-padding-x--2p5">
-    <AdditionalInfo
-      status="info"
-      triggerText="Learn more about military base addresses"
-    >
+    <va-additional-info trigger="Learn more about military base addresses">
       <span>
         The United States is automatically chosen as your country if you live on
         a military base outside of the country.
       </span>
-    </AdditionalInfo>
+    </va-additional-info>
   </div>
 );
 
