@@ -28,6 +28,7 @@
 				"[json]": {
 					"editor.defaultFormatter": "esbenp.prettier-vscode"
 				},
+				"gitlens.showWelcomeOnInstall": false,
 				"workbench.startupEditor": "readme"
 			},
 			"terminal.integrated.profiles.linux": {
