@@ -4,6 +4,7 @@ import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Confirmation from '../pages/Confirmation';
 
+// TODO: remove commment once this is not disallowed
 describe('Pre-Check In Experience ', () => {
   beforeEach(() => {
     const {

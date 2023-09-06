@@ -15,9 +15,6 @@ export default {
           N: 'No, the Veteran has never filed a VA claim.',
         },
       },
-      'ui:errorMessages': {
-        required: 'Please select if the Veteran has ever filed a claim with VA',
-      },
     },
   },
   schema: {
@@ -25,6 +22,5 @@ export default {
     properties: {
       veteranHasFiledClaim: yesNoSchema,
     },
-    required: ['veteranHasFiledClaim'],
   },
 };

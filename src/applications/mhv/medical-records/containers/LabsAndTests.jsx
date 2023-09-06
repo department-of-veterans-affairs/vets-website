@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList } from '../actions/labsAndTests';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { RecordType } from '../util/constants';
+import { pageTitles, recordType } from '../util/constants';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -15,25 +17,24 @@ const LabsAndTests = () => {
     dispatch(getLabsAndTestsList());
   }, []);
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-          {
-            url: '/my-health/medical-records/labs-and-tests',
-            label: 'Lab and test results',
-          },
-        ),
-      );
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs(
+        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
+        {
+          url: '/my-health/medical-records/labs-and-tests',
+          label: 'Lab and test results',
+        },
+      ),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
+  }, []);
 
   const content = () => {
     if (labsAndTests?.length > 0) {
       return (
-        <RecordList records={labsAndTests} type={RecordType.LABS_AND_TESTS} />
+        <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
       );
     }
     if (labsAndTests?.length === 0) {

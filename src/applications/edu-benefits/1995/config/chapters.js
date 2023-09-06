@@ -1,8 +1,10 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
+import environment from 'platform/utilities/environment';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
+import createDirectDepositChangePageUpdate from '../../pages/directDepositChangeUpdate';
 
 import {
   benefitSelection,
@@ -50,6 +52,7 @@ export const chapters = {
       },
       militaryHistory: {
         title: 'Military history',
+        depends: () => environment.isProduction(),
         path: 'military/history',
         uiSchema: militaryHistory.uiSchema,
         schema: militaryHistory.schema,
@@ -80,12 +83,17 @@ export const chapters = {
         title: 'Dependents',
         path: 'personal-information/dependents',
         depends: form => {
-          return form['view:hasServiceBefore1978'] === true;
+          return (
+            environment.isProduction() &&
+            form['view:hasServiceBefore1978'] === true
+          );
         },
         uiSchema: dependents.uiSchema,
         schema: dependents.schema,
       },
-      directDeposit: createDirectDepositChangePage(fullSchema1995),
+      directDeposit: environment.isProduction()
+        ? createDirectDepositChangePage(fullSchema1995)
+        : createDirectDepositChangePageUpdate(fullSchema1995),
     },
   },
 };
