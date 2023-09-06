@@ -10,7 +10,7 @@ const EducationAndTraining = ({ isLOA3 }) => {
       className="health-care-wrapper vads-u-margin-y--6"
       data-testid="dashboard-section-education-and-training"
     >
-      <h2 data-testid="education-and-training-section-header-v2">
+      <h2 data-testid="education-and-training-section-header">
         Education and training
       </h2>
       <div className="vads-l-row">

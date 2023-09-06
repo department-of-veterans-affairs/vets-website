@@ -1,5 +1,6 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Compose Form Keyboard Nav', () => {
   const landingPage = new PatientInboxPage();
@@ -11,7 +12,7 @@ describe('Secure Messaging Compose Form Keyboard Nav', () => {
   it('Tab to Message Body', () => {
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -23,7 +24,7 @@ describe('Secure Messaging Compose Form Keyboard Nav', () => {
   it('Tab to Save Draft Button', () => {
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

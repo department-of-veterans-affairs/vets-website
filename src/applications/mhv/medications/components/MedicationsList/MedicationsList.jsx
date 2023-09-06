@@ -23,6 +23,9 @@ const MedicationsList = props => {
   };
 
   const fromToNumbs = (page, total) => {
+    if (rxList?.length < 1) {
+      return [0, 0];
+    }
     const from = (page - 1) * perPage + 1;
     const to = Math.min(page * perPage, total);
     return [from, to];
