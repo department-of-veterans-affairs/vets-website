@@ -144,7 +144,7 @@ class Accessories extends Component {
                 <div className="vads-u-max-width--293">
                   <input
                     id={accessorySupply.productId}
-                    className="vads-u-margin-left--0 vads-u-max-width--300"
+                    className="vads-u-margin-left--0 vads-u-max-width--293"
                     type="checkbox"
                     onChange={e =>
                       this.handleChecked(e.target.checked, accessorySupply)
