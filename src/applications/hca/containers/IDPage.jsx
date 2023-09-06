@@ -75,9 +75,6 @@ const IDPage = props => {
     };
     setFormData({
       ...form.data,
-      veteranFullName: fullName,
-      veteranDateOfBirth: idFormData.dob,
-      veteranSocialSecurityNumber: idFormData.ssn,
       'view:isUserInMvi': isUserInMVI,
       'view:veteranInformation': {
         veteranFullName: fullName,
