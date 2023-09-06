@@ -37,6 +37,7 @@ const HealthCareContentV2 = ({
   hasInboxError,
   hasAppointmentsError,
   isVAPatient,
+  isLOA1,
 }) => {
   const nextAppointment = appointments?.[0];
   const hasUpcomingAppointment = !!nextAppointment;
@@ -154,10 +155,11 @@ const HealthCareContentV2 = ({
           /* Appointments */
           <Appointments appointments={appointments} />
         )}
-        {!isVAPatient && <NoHealthcareText />}
+        {!isVAPatient && !isLOA1 && <NoHealthcareText />}
         {isVAPatient &&
           !hasUpcomingAppointment &&
-          !hasAppointmentsError && <NoUpcomingAppointmentsText />}
+          !hasAppointmentsError &&
+          !isLOA1 && <NoUpcomingAppointmentsText />}
         {shouldShowOnOneColumn ? (
           <HealthCareCTA
             hasInboxError={hasInboxError}
@@ -165,6 +167,7 @@ const HealthCareContentV2 = ({
             hasUpcomingAppointment={hasUpcomingAppointment}
             unreadMessagesCount={unreadMessagesCount}
             isVAPatient={isVAPatient}
+            isLOA1={isLOA1}
             hasAppointmentsError={hasAppointmentsError}
           />
         ) : null}
@@ -247,6 +250,7 @@ HealthCareContentV2.propTypes = {
   hasInboxError: PropTypes.bool,
   isCernerPatient: PropTypes.bool,
   isVAPatient: PropTypes.bool,
+  isLOA1: PropTypes.bool,
   shouldFetchUnreadMessages: PropTypes.bool,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
   shouldShowLoadingIndicator: PropTypes.bool,

@@ -17,6 +17,7 @@ const HealthCareV2 = ({
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
   isVAPatient,
+  isLOA1,
 }) => {
   useEffect(
     () => {
@@ -54,6 +55,7 @@ const HealthCareV2 = ({
       <HealthCareContentV2
         dataLoadingDisabled={dataLoadingDisabled}
         isVAPatient={isVAPatient}
+        isLOA1={isLOA1}
       />
     </div>
   );
@@ -121,6 +123,7 @@ HealthCareV2.propTypes = {
   fetchUnreadMessages: PropTypes.func,
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
+  isLOA1: PropTypes.bool,
   isVAPatient: PropTypes.bool,
   shouldFetchUnreadMessages: PropTypes.bool,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests

@@ -92,6 +92,7 @@ const Dashboard = ({
   fetchTotalDisabilityRating,
   getPayments,
   isLOA3,
+  isLOA1,
   payments,
   showLoader,
   showMPIConnectionError,
@@ -232,8 +233,7 @@ const Dashboard = ({
                   />
                 </DowntimeNotification>
               )}
-
-              {isLOA3 && <HealthCareV2 isVAPatient={isVAPatient} />}
+              <HealthCareV2 isVAPatient={isVAPatient} isLOA1={isLOA1} />
 
               {isLOA3 && (
                 <>
@@ -330,6 +330,7 @@ const mapStateToProps = state => {
     canAccessPaymentHistory,
     canAccessRatingInfo,
     isLOA3,
+    isLOA1,
     showLoader,
     showValidateIdentityAlert,
     showClaimsAndAppeals,
@@ -356,6 +357,7 @@ Dashboard.propTypes = {
   fetchMilitaryInformation: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
   getPayments: PropTypes.func,
+  isLOA1: PropTypes.bool,
   isLOA3: PropTypes.bool,
   isVAPatient: PropTypes.bool,
   payments: PropTypes.arrayOf(
