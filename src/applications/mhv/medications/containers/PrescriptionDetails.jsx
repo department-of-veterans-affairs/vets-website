@@ -159,7 +159,7 @@ const PrescriptionDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 aria-describedby="last-filled">
+          <h1 aria-describedby="last-filled" data-testid="prescription-name">
             {prescription.prescriptionName}
           </h1>
           <p

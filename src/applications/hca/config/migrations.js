@@ -78,6 +78,7 @@ export default [
 
     return { formData, metadata: newMetadata };
   },
+  // 3 -> 4, we need to ensure the correct compensation type is selected
   ({ formData, metadata }) => {
     const {
       compensableVaServiceConnected = null,
@@ -158,7 +159,7 @@ export default [
         : set('returnUrl', '/va-benefits/basic-information', metadata),
     };
   },
-  // required strings can not pass validation with only spaces
+  // 4 -> 5, we need to ensure required strings cannot pass validation with only spaces
   ({ formData, metadata }) => {
     let newFormData = formData;
     let newMetaData = metadata || {};
@@ -173,14 +174,6 @@ export default [
         selector: 'veteranAddress.street',
         returnUrl: 'veteran-information/veteran-address',
       },
-      {
-        selector: 'veteranFullName.last',
-        returnUrl: 'veteran-information/personal-information',
-      },
-      {
-        selector: 'veteranFullName.first',
-        returnUrl: 'veteran-information/personal-information',
-      },
     ].forEach(({ selector, returnUrl }) => {
       if (!notBlankStringPattern.test(get(selector, newFormData))) {
         newFormData = unset(selector, newFormData);
@@ -193,7 +186,7 @@ export default [
       metadata: newMetaData,
     };
   },
-  // 5 > 6, move user back to fields with only spaces
+  // 5 -> 6, send user back to fields with only spaces
   ({ formData, metadata }) => {
     let newFormData = formData;
     let newMetaData = metadata || {};
