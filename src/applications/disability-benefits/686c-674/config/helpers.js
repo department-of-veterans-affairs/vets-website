@@ -167,7 +167,7 @@ export const hoursPerWeekUiSchema = {
   'ui:validations': [
     (errors, fieldData) => {
       if (fieldData > 168) {
-        errors.addError('Please enter a value between 0 and 168');
+        errors.addError('Please enter a number between 0 and 168');
       }
     },
   ],
@@ -182,7 +182,7 @@ export const classesPerWeekUiSchema = {
   'ui:validations': [
     (errors, fieldData) => {
       if (fieldData > 999) {
-        errors.addError('Please enter a value between 0 and 999');
+        errors.addError('Please enter a number between 0 and 999');
       }
     },
   ],
