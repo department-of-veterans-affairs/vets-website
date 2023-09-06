@@ -14,6 +14,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 11,
     sourceType: 'module',
+    requireConfigFile: false,
   },
   extends: ['plugin:@department-of-veterans-affairs/recommended'],
   globals: {
