@@ -181,6 +181,8 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
           onInput={handlers.onIssueNameChange}
           onBlur={handlers.onInputBlur}
           error={((submitted || inputDirty) && showIssueNameError) || null}
+          message-aria-describedby={content.name.hintText}
+          messageAriaDescribedby={content.name.hintText}
         >
           {content.name.hint}
         </VaTextInput>
