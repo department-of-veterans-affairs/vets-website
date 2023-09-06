@@ -16,7 +16,7 @@ const AuthorizedRoutes = () => {
     <div
       className="vads-l-col--12
       medium-screen:vads-l-col--9"
-      data-testid="secure-messaing"
+      data-testid="secure-messaging"
     >
       <ScrollToTop />
       <Switch>
