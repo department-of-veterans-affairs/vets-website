@@ -1,13 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { setData } from 'platform/forms-system/src/js/actions';
 import { isValidCurrency } from '../../utils/validations';
 import { currency as currencyFormatter } from '../../utils/helpers';
 import { safeNumber } from '../../utils/calculateIncome';
+
 import ReviewPageHeader from '../shared/ReviewPageHeader';
+import ReviewPageNavigationAlert from '../alerts/ReviewPageNavigationAlert';
 
 const CASH_ON_HAND = 'Cash on hand (not in bank)';
 
@@ -17,10 +21,12 @@ const CashOnHand = ({
   data,
   goBack,
   goForward,
+  goToPath,
   setFormData,
 }) => {
   const headerRef = useRef(null);
   const { assets, gmtData } = data;
+  const { reviewNavigation = false } = data;
   const { cashOnHand, monetaryAssets = [] } = assets;
 
   useEffect(
@@ -98,9 +104,24 @@ const CashOnHand = ({
     }
   };
 
+  const handleBackNavigation = () => {
+    if (reviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      goToPath('/review-and-submit');
+    } else {
+      goBack();
+    }
+  };
+
   return (
     <form onSubmit={onSubmit}>
       <fieldset className="vads-u-margin-y--2">
+        {reviewNavigation ? (
+          <ReviewPageNavigationAlert data={data} title="household income" />
+        ) : null}
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0" ref={headerRef}>
             Cash on hand
@@ -122,7 +143,7 @@ const CashOnHand = ({
         />
         {contentBeforeButtons}
         <FormNavButtons
-          goBack={goBack}
+          goBack={handleBackNavigation}
           goForward={updateFormData}
           submitToContinue
         />
@@ -144,24 +165,50 @@ CashOnHand.propTypes = {
     gmtData: PropTypes.shape({
       assetThreshold: PropTypes.number,
     }),
+    reviewNavigation: PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };
 
 // Cash on hand review component won't be necessary after feature flag is disabled
 //  because cash on hand will be added to monetary assets array
-const CashOnHandReview = ({ data }) => {
+const CashOnHandReview = ({ data, goToPath }) => {
+  const dispatch = useDispatch();
   const { assets } = data;
   const { cashOnHand } = assets;
 
+  // set reviewNavigation to true to show the review page alert
+  const onReviewClick = () => {
+    dispatch(
+      setData({
+        ...data,
+        reviewNavigation: true,
+      }),
+    );
+    goToPath('/cash-on-hand');
+  };
+
   return data['view:streamlinedWaiverAssetUpdate'] ? null : (
-    <div className="form-review-panel-page">
-      <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          Cash on hand
-        </h4>
+    <>
+      <ReviewPageHeader
+        title="household assets"
+        goToPath={() => onReviewClick()}
+      />
+      <div className="form-review-panel-page">
+        <div className="form-review-panel-page-header-row">
+          <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+            Cash on hand
+          </h4>
+        </div>
+        <dl className="review">
+          <div className="review-row">
+            <dt>Available cash (not in a bank)</dt>
+            <dd>{currencyFormatter(cashOnHand)}</dd>
+          </div>
+        </dl>
       </div>
     </>
   );
