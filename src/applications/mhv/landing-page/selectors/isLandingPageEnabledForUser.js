@@ -1,7 +1,10 @@
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
-import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
-import { isLoggedIn, selectPatientFacilities } from '~/platform/user/selectors';
+import {
+  selectIsCernerPatient,
+  selectPatientFacilities,
+} from '~/platform/user/cerner-dsot/selectors';
+import { isLoggedIn } from '~/platform/user/selectors';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 
