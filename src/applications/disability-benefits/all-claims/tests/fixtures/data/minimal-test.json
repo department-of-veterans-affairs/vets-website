@@ -144,8 +144,6 @@
       "view:bankAccountNumber": "*********1234",
       "view:bankRoutingNumber": "*****2115",
       "view:bankName": "Comerica"
-    },
-    "view:exposureStatus": "no",
-    "view:confirmExposureStatus": "no"
+    }
   }
 }

@@ -14,7 +14,7 @@ export const toxicExposurePages = {
     path: 'toxic-exposure-confirm',
     depends: formData =>
       showToxicExposurePages &&
-      ['no', 'notSure'].includes(formData['view:toxicExposureStatus']),
+      ['no', 'notSure'].includes(formData['view:exposureStatus']),
     uiSchema: toxicExposureConfirm.uiSchema,
     schema: toxicExposureConfirm.schema,
   },
