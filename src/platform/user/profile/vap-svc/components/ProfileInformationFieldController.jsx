@@ -560,11 +560,11 @@ export const mapStateToProps = (state, ownProps) => {
     title,
   } = getProfileInfoFieldAttributes(fieldName);
 
-  const { hasUnsavedEdits } = state.vapService;
+  const hasUnsavedEdits = state.vapService?.hasUnsavedEdits;
   return {
     hasUnsavedEdits,
     analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
-    blockEditMode: !!activeEditView && hasUnsavedEdits,
+    blockEditMode: !!(activeEditView && hasUnsavedEdits),
     /*
     This ternary is to deal with an edge case: if the user is currently viewing
     the address validation view we need to handle things differently or text in
