@@ -39,7 +39,6 @@ import { hasTotalDisabilityServerError } from '~/applications/personalization/ra
 import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
 
-import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppealsV2 from './claims-and-appeals-v2/ClaimsAndAppealsV2';
 import HealthCareV2 from './health-care-v2/HealthCareV2';
 import CTALink from './CTALink';
@@ -245,8 +244,8 @@ const Dashboard = ({
                   />
                 </>
               )}
-              {isLOA3 && <EducationAndTraining />}
-              {isLOA3 ? <SavedApplications /> : <ApplyForBenefits />}
+              <EducationAndTraining isLOA3={isLOA3} />
+              <SavedApplications />
             </div>
           </div>
         )}
