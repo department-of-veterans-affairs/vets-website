@@ -65,7 +65,8 @@ const HealthCareContent = ({
     ],
   );
 
-  const shouldShowOnOneColumn = !isVAPatient || !hasUpcomingAppointment;
+  const shouldShowOnOneColumn =
+    !isVAPatient || !hasUpcomingAppointment || isLOA1;
 
   const NoUpcomingAppointmentsText = () => {
     return (
@@ -152,27 +153,14 @@ const HealthCareContent = ({
     <div className="vads-l-row">
       <DashboardWidgetWrapper>
         {hasAppointmentsError && <HealthcareError />}
-        {hasUpcomingAppointment && (
-          <AppointmentsCard appointments={appointments} />
-        )}
+        {hasUpcomingAppointment &&
+          !isLOA1 && <AppointmentsCard appointments={appointments} />}
         {!isVAPatient && !isLOA1 && <NoHealthcareText />}
         {isVAPatient &&
           !hasUpcomingAppointment &&
           !hasAppointmentsError &&
           !isLOA1 && <NoUpcomingAppointmentsText />}
-        {shouldShowOnOneColumn ? (
-          <HealthCareCTA
-            hasInboxError={hasInboxError}
-            authenticatedWithSSOe={authenticatedWithSSOe}
-            hasUpcomingAppointment={hasUpcomingAppointment}
-            unreadMessagesCount={unreadMessagesCount}
-            isVAPatient={isVAPatient}
-            hasAppointmentsError={hasAppointmentsError}
-          />
-        ) : null}
-      </DashboardWidgetWrapper>
-      {!shouldShowOnOneColumn ? (
-        <DashboardWidgetWrapper>
+        {shouldShowOnOneColumn && (
           <HealthCareCTA
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
@@ -182,8 +170,20 @@ const HealthCareContent = ({
             isLOA1={isLOA1}
             hasAppointmentsError={hasAppointmentsError}
           />
+        )}
+      </DashboardWidgetWrapper>
+      {!shouldShowOnOneColumn && (
+        <DashboardWidgetWrapper>
+          <HealthCareCTA
+            hasInboxError={hasInboxError}
+            authenticatedWithSSOe={authenticatedWithSSOe}
+            hasUpcomingAppointment={hasUpcomingAppointment}
+            unreadMessagesCount={unreadMessagesCount}
+            isVAPatient={isVAPatient}
+            hasAppointmentsError={hasAppointmentsError}
+          />
         </DashboardWidgetWrapper>
-      ) : null}
+      )}
     </div>
   );
 };
