@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dateFormat } from '../../util/helpers';
+import { validateField } from '../../util/helpers';
 
 const NonVaPrescription = ({ prescription }) => {
   const content = () => {
@@ -48,46 +48,43 @@ const NonVaPrescription = ({ prescription }) => {
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Instructions
           </h3>
-          <p>{prescription?.sig || 'None noted'}</p>
+          <p>{validateField(prescription.sig)}</p>
         </section>
         <section>
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Reason for use
           </h3>
-          <p>{prescription?.reason || 'None noted'}</p>
+          <p>{validateField(prescription.reason)}</p>
         </section>
         <section>
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             When you started taking this medication
           </h3>
-          <p>
-            {dateFormat(prescription?.dispensedDate, 'MMMM D, YYYY') ||
-              'None noted'}
-          </p>
+          <p>{validateField(prescription.dispensedDate, 'date')}</p>
         </section>
         <section>
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Information entered by
           </h3>
           <p>
-            {prescription.providerFirstName
-              ? `${prescription.providerLastName}, ${
-                  prescription.providerFirstName
-                }`
-              : 'None noted'}
+            {validateField(
+              `${prescription.providerLastName}, ${
+                prescription.providerFirstName
+              }`,
+            )}
           </p>
         </section>
         <section>
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Information entered at this facility
           </h3>
-          <p>{prescription.facilityName}</p>
+          <p>{validateField(prescription.facilityName)}</p>
         </section>
         <section>
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Provider notes
           </h3>
-          <p>{prescription.remarks}</p>
+          <p>{validateField(prescription.remarks)}</p>
         </section>
       </div>
     );
