@@ -10,6 +10,8 @@ import Appointments from '../pages/Appointments';
 import Confirmation from '../pages/Confirmation';
 import AppointmentDetails from '../../../../tests/e2e/pages/AppointmentDetails';
 
+// TODO: remove commment once this is not disallowed
+
 describe('Check In Experience', () => {
   describe('Appointment details day-of', () => {
     beforeEach(() => {

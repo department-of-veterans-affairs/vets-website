@@ -7,12 +7,14 @@ const profileToggles = {
   profileHideDirectDepositCompAndPen: false,
   profileShowPaymentsNotificationSetting: false,
   profileUseFieldEditingPage: false,
+  profileUseHubPage: false,
   profileShowMhvNotificationSettings: false,
   profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileUseNotificationSettingsCheckboxes: false,
   profileShowEmailNotificationSettings: false,
+  showAuthenticatedMenuEnhancements: false,
 };
 
 const makeAllTogglesTrue = toggles => {

@@ -436,7 +436,7 @@ export function getDependentPageList(pages, formData = {}) {
 export function normalizeFullName(name = {}, outputMiddle = false) {
   const { first = '', middle = '', last = '', suffix = '' } = name;
   const nameToReturn = outputMiddle
-    ? `${first} ${middle} ${last} ${suffix}`
+    ? `${first} ${middle !== null ? middle : ''} ${last} ${suffix}`
     : `${first} ${last} ${suffix}`;
   return nameToReturn.replace(/ +(?= )/g, '').trim();
 }
