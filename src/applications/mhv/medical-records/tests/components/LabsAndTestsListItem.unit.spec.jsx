@@ -35,7 +35,7 @@ describe('LabsAndTestsListItem component', () => {
     const screen = setup();
     expect(
       screen.getAllByText(
-        'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN: with a date of January 21, 2021',
+        'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
         { exact: true },
       )[0],
     ).to.exist;
@@ -44,7 +44,7 @@ describe('LabsAndTestsListItem component', () => {
   it('should contain the name and date of the record', () => {
     const screen = setup();
     const recordName = screen.getAllByText(
-      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN: with a date of January 21, 2021"',
+      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
       {
         exact: true,
       },
