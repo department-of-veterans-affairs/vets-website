@@ -141,7 +141,7 @@ class Accessories extends Component {
                   </div>
                 </div>
               ) : (
-                <div className="vads-u-max-width--300">
+                <div className="vads-u-max-width--293">
                   <input
                     id={accessorySupply.productId}
                     className="vads-u-margin-left--0 vads-u-max-width--300"
