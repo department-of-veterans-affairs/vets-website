@@ -35,10 +35,6 @@ module.exports = {
         use: '<va-loading-indicator>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/Select',
-        use: '<va-select>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/FileInput',
         use: '<va-file-input>',
       },

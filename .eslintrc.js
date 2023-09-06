@@ -14,6 +14,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 11,
     sourceType: 'module',
+    requireConfigFile: false,
   },
   extends: ['plugin:@department-of-veterans-affairs/recommended'],
   globals: {
@@ -86,10 +87,6 @@ module.exports = {
       {
         name: '@department-of-veterans-affairs/component-library/Telephone',
         use: '<va-telephone>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Select',
-        use: '<va-select>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/FileInput',

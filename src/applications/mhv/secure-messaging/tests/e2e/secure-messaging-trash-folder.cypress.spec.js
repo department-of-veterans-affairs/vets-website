@@ -1,6 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageTrashPage from './pages/PatientMessageTrashPage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Trash Folder checks', () => {
   beforeEach(() => {
@@ -12,7 +13,7 @@ describe('Secure Messaging Trash Folder checks', () => {
   });
   it('Axe Check Trash Folder', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -23,7 +24,7 @@ describe('Secure Messaging Trash Folder checks', () => {
 
   it('Verify folder header', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -36,7 +37,7 @@ describe('Secure Messaging Trash Folder checks', () => {
 
   it('Verify filter works correctly', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -50,7 +51,7 @@ describe('Secure Messaging Trash Folder checks', () => {
 
   it('Verify clear filter btn works correctly', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -65,7 +66,7 @@ describe('Secure Messaging Trash Folder checks', () => {
 
   it('Check sorting works properly', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -77,7 +78,7 @@ describe('Secure Messaging Trash Folder checks', () => {
 
   it('Checks for "End of conversations in this folder" text', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
