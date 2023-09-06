@@ -13,7 +13,10 @@ const AllergyListItem = props => {
           className="record-list-item vads-u-padding--3 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
           data-testid="record-list-item"
         >
-          <h3 className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4">
+          <h3
+            className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4"
+            aria-label={`${record.name} with a date of ${record.date}`}
+          >
             {record.name}
           </h3>
 
@@ -55,12 +58,19 @@ const AllergyListItem = props => {
           <Link
             to={`/allergies/${record.id}`}
             className="vads-u-margin--0 no-print"
+            aria-describedby={`details-button-description-${record.id}`}
           >
             <strong>Details</strong>
             <i
               className="fas fa-angle-right details-link-icon"
               aria-hidden="true"
             />
+            <span
+              id={`details-button-description-${record.id}`}
+              className="sr-only"
+            >
+              '{record.name}' with a date of '{record.date}'
+            </span>
           </Link>
         </div>
       );
