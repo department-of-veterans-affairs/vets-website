@@ -92,10 +92,6 @@ module.exports = {
         use: '<va-telephone>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/Select',
-        use: '<va-select>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/FileInput',
         use: '<va-file-input>',
       },
