@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+// import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -89,11 +91,12 @@ const SearchRepresentativeWidget = ({
             />
           );
         })}
-        <Pagination
+        <VaPagination
           onPageSelect={handleDataPagination}
           page={currentPage}
           pages={pages}
         />
+
         <h2>If the accredited representative you want isn’t listed here</h2>
         <p>
           You can go back to try your search again. Try entering a different
