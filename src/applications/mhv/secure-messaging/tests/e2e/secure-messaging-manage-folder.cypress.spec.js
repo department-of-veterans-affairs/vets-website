@@ -4,6 +4,7 @@ import FolderManagementPage from './pages/FolderManagementPage';
 import MockFoldersResponse from './fixtures/folder-response.json';
 import MockCustomFolderResponse from './fixtures/folder-custom-metadata.json';
 import mockCustomFolderNoMessages from './fixtures/empty-thread-response.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Manage Folder AXE check', () => {
   const folderPage = new FolderManagementPage();
@@ -27,7 +28,7 @@ describe('Secure Messaging Manage Folder AXE check', () => {
     cy.wait('@createFolder');
     folderPage.verifyCreateFolderSuccessMessage();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -56,7 +57,7 @@ describe('Secure Messaging Manage Folder AXE check', () => {
       .click();
     folderPage.verifyDeleteSuccessMessage();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
