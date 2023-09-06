@@ -37,17 +37,32 @@ export const prescriptionsReducer = (state = initialState, action) => {
     case Actions.Prescriptions.FILL: {
       return {
         ...state,
+        prescriptionsList: state.prescriptionsList?.map(
+          rx =>
+            rx.prescriptionId === action.response.id
+              ? { ...rx, error: undefined, success: true }
+              : rx,
+        ),
+        prescriptionDetails: {
+          ...state.prescriptionDetails,
+          error: undefined,
+          success: true,
+        },
       };
     }
     case Actions.Prescriptions.FILL_ERROR: {
       return {
         ...state,
         prescriptionsList: state.prescriptionsList?.map(
-          rx => (rx.id === action.err.id ? { ...rx, error: action.err } : rx),
+          rx =>
+            rx.prescriptionId === action.err.id
+              ? { ...rx, error: action.err, success: undefined }
+              : rx,
         ),
         prescriptionDetails: {
           ...state.prescriptionDetails,
           error: action.err,
+          success: undefined,
         },
       };
     }
