@@ -39,19 +39,22 @@ function loa1DashboardTest(mobile, stubs) {
   // make sure that the name tag is not visible
   cy.findByTestId('name-tag').should('not.exist');
 
-  // make sure the claims and appeals section is hidden
-  cy.findByTestId('dashboard-section-claims-and-appeals').should('not.exist');
-
-  // make sure that the health care section is hidden
-  cy.findByTestId('dashboard-section-health-care').should('not.exist');
-
-  // make sure that the apply for benefits section is visible
-  cy.findByTestId('dashboard-section-apply-for-benefits').should('exist');
-
-  // make sure all three benefits links are shown in the Apply For Benefits section
-  cy.findByRole('link', { name: /apply for va health care/i }).should('exist');
+  // make sure the claims and appeals section is visible
+  cy.findByTestId('dashboard-section-claims-and-appeals-v2').should('exist');
   cy.findByRole('link', { name: /file a.*claim/i }).should('exist');
-  cy.findByTestId('benefit-of-interest-education-text').should('exist');
+
+  // make sure that the health care section is visible
+  cy.findByTestId('dashboard-section-health-care-v2').should('exist');
+  cy.findByRole('link', { name: /apply for va health care/i }).should('exist');
+
+  // make sure that the Benefit application drafts section is visible
+  cy.findByTestId('dashboard-section-saved-applications').should('exist');
+
+  // make sure that the Education and training section is visible
+  cy.findByTestId('dashboard-section-education-and-training').should('exist');
+  cy.findByRole('link', {
+    name: /learn how to apply for va education benefits/i,
+  }).should('exist');
 }
 
 describe('The My VA Dashboard', () => {
@@ -82,7 +85,7 @@ describe('The My VA Dashboard', () => {
     cy.intercept('/v0/appeals', () => {
       getAppealsStub();
     });
-    cy.intercept('/v0/evss_claims_async', () => {
+    cy.intercept('/v0/benefits_claims', () => {
       getClaimsStub();
     });
     cy.intercept('/v0/profile/service_history', () => {
