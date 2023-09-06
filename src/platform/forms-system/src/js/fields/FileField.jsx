@@ -12,7 +12,6 @@ import unset from '../../../../utilities/data/unset';
 import {
   displayFileSize,
   focusElement,
-  scrollTo,
   scrollToFirstError,
 } from '../../../../utilities/ui';
 
@@ -469,16 +468,7 @@ const FileField = props => {
                   focusElement('.usa-input-error, .input-error-date, [error]');
                 }
               }, 250);
-            } else if (showPasswordInput) {
-              setTimeout(() => {
-                const passwordInput = $(`[name="get_password_${index}"]`);
-                if (passwordInput) {
-                  focusElement('input', {}, passwordInput?.shadowRoot);
-                  scrollTo(`get_password_${index}"]`);
-                }
-              }, 100);
             }
-
             const allowRetry = errors[0] === FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
 
             const retryButtonText =
