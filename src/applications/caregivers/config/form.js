@@ -192,7 +192,6 @@ const formConfig = {
     },
     secondaryCaregiversTwoChapter: {
       title: secondaryTwoChapterTitle,
-      depends: formData => hasSecondaryCaregiverTwo(formData),
       pages: {
         secondaryCaregiverTwo: {
           path: 'secondary-two-1',
