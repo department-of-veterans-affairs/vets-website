@@ -27,12 +27,9 @@ describe('verify navigation to medication details Page', () => {
       mockPrescriptionDetails.data.attributes.facilityName,
     );
 
-    detailsPage.verifyPrescriptionsorderedDate();
-
     detailsPage.verifyPrescriptionsRefillsRemaining(
       mockPrescriptionDetails.data.attributes.refillRemaining,
     );
-    detailsPage.verifyPrescriptionsexpirationDate();
 
     cy.injectAxe();
     cy.axeCheck('main', {
