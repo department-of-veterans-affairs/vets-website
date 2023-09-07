@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import environment from 'platform/utilities/environment';
 import { DEBT_TYPES } from '../../constants';
 
 const AlertCard = ({ debtType }) => {
@@ -29,6 +30,12 @@ const AlertCard = ({ debtType }) => {
           <a href="mailto:dmcops.vbaspl@va.gov">dmcops.vbaspl@va.gov</a>.
         </p>
       </va-alert>
+      <a
+        className="vads-c-action-link--green vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
+        href={`${environment.BASE_URL}`}
+      >
+        Go back to VA.gov
+      </a>
     </>
   );
 };

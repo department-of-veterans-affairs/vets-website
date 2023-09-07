@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   fetchSharingStatus,
@@ -8,6 +9,8 @@ import {
 } from '../actions/sharing';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { updatePageTitle } from '../../shared/util/helpers';
+import { pageTitles } from '../util/constants';
 
 const SettingsPage = () => {
   const dispatch = useDispatch();
@@ -18,17 +21,19 @@ const SettingsPage = () => {
 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs([{ url: '/my-health', label: 'Dashboard' }], {
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs(
+        [{ url: '/my-health/medical-records', label: 'Medical records' }],
+        {
           url: '/my-health/medical-records/settings',
-          label: 'Settings',
-        }),
-      );
-    },
-    [dispatch],
-  );
+          label: 'Medical records settings',
+        },
+      ),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.SETTINGS_PAGE_TITLE);
+  }, []);
 
   useEffect(
     () => {
@@ -149,7 +154,7 @@ const SettingsPage = () => {
   return (
     <div className="settings vads-u-margin-bottom--5">
       <section>
-        <h1>Share your medical record</h1>
+        <h1>Medical records settings</h1>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 va-introtext">
           Review and update your medical records sharing and notification
           settings.

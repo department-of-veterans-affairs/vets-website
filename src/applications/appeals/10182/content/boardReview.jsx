@@ -49,9 +49,17 @@ export const boardReviewContent = {
 };
 /* eslint-enable camelcase */
 
-export const boardReviewReviewField = ({ children }) => (
+export const BoardReviewReviewField = ({ children }) => (
   <div className="review-row">
     <dt>{title}</dt>
-    <dd>{children}</dd>
+    <dd>
+      {children?.props?.formData ? (
+        children
+      ) : (
+        <span className="usa-input-error-message">
+          Missing Board review option
+        </span>
+      )}
+    </dd>
   </div>
 );

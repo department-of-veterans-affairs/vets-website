@@ -1,5 +1,5 @@
 {
-  "appName": "Sign for benefits on behalf of another person",
+  "appName": "Sign VA claim forms as an alternate signer",
   "entryFile": "./app-entry.jsx",
   "entryName": "21-0972-alternate-signer",
   "rootUrl": "/supporting-forms-for-claims/alternate-signer-form-21-0972",

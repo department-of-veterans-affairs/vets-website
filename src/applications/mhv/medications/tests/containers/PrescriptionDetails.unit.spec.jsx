@@ -3,14 +3,14 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducer from '../../reducers';
 import PrescriptionDetails from '../../containers/PrescriptionDetails';
-import prescriptions from '../fixtures/presciptions.json';
+import rxDetailsResponse from '../fixtures/prescriptionDetails.json';
 import { dateFormat } from '../../util/helpers';
 
 describe('Prescription details container', () => {
   const initialState = {
     rx: {
       prescriptions: {
-        prescriptionDetails: prescriptions[0],
+        prescriptionDetails: rxDetailsResponse.data.attributes,
       },
     },
   };
@@ -34,17 +34,20 @@ describe('Prescription details container', () => {
     expect(printButton).to.exist;
   });
 
-  it('displays the prescription name', () => {
+  it('displays the prescription name and filled by date', () => {
     const screen = setup();
 
-    const prescriptionName = screen.getByText(
-      initialState.rx.prescriptions.prescriptionDetails.prescriptionName,
-      {
-        exact: true,
-        selector: 'h1',
-      },
+    const rxName = screen.findByText(
+      rxDetailsResponse.data.attributes.prescriptionName,
     );
-    expect(prescriptionName).to.exist;
+
+    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
+      `Last filled on ${dateFormat(
+        rxDetailsResponse.data.attributes.refillDate,
+        'MMMM D, YYYY',
+      )}`,
+    );
+    expect(rxName).to.exist;
   });
 
   it('displays the formatted ordered date', () => {
@@ -65,12 +68,35 @@ describe('Prescription details container', () => {
   it('displays the facility', () => {
     const screen = setup();
     const location = screen.getAllByText(
-      initialState.rx.prescriptions.prescriptionDetails.facilityName,
+      rxDetailsResponse.data.attributes.facilityName,
+    );
+    expect(location).to.exist;
+  });
+
+  it('displays Shipped on in Refill History', () => {
+    const screen = setup();
+    const shippedOn = screen.getAllByText(
+      dateFormat(
+        initialState.rx.prescriptions.prescriptionDetails.trackingList[0][1][0]
+          .completeDateTime,
+        'MMMM D, YYYY [at] h:mm z',
+      ),
       {
         exact: true,
         selector: 'p',
       },
     );
-    expect(location).to.exist;
+    expect(shippedOn).to.exist;
+  });
+
+  it('displays the tracking number within Tracking Info', () => {
+    const screen = setup();
+
+    const trackingNumber = screen.getByTestId('tracking-number');
+
+    expect(trackingNumber).to.exist;
+    expect(trackingNumber).to.have.text(
+      rxDetailsResponse.data.attributes.trackingList[0][1][0].trackingNumber,
+    );
   });
 });

@@ -72,7 +72,7 @@ function validateAddress(errors, address, formData, currentSchema) {
   }
 
   validatePostalCodes(errors, address);
-  if (!environment.isProduction() && currentSchema.required.length) {
+  if (currentSchema.required.length) {
     const requiredArray = currentSchema.required;
     validateNotAllWhiteSpaces(
       errors.street,
@@ -203,10 +203,20 @@ export function uiSchema(
           if (
             !ignoreRequired &&
             required &&
-            !addressSchema.required.some(field => field === 'state')
+            !addressSchema.required.some(field => field === 'state') &&
+            environment.isProduction()
           ) {
             schemaUpdate.required = addressSchema.required.concat('state');
           }
+        }
+
+        if (
+          !ignoreRequired &&
+          required &&
+          !addressSchema.required.some(field => field === 'state') &&
+          !environment.isProduction()
+        ) {
+          schemaUpdate.required = addressSchema.required.concat('state');
         }
         // We don’t have a state list for the current country, but there’s an enum in the schema
         // so we need to update it
@@ -218,6 +228,10 @@ export function uiSchema(
             field => field !== 'state',
           );
         }
+      } else if (!ignoreRequired && required && !environment.isProduction()) {
+        schemaUpdate.required = addressSchema.required.filter(
+          field => field !== 'state',
+        );
       }
 
       // Canada has a different title than others, so set that when necessary

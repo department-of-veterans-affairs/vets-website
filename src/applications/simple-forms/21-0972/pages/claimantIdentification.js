@@ -8,11 +8,14 @@ import {
 export default {
   uiSchema: {
     claimantIdentification: {
-      'ui:title': 'Who will you be acting as an alternate signer for?',
+      'ui:title': 'Who will you be signing for?',
       'ui:webComponentField': VaRadioField,
       'ui:widget': 'radio',
       'ui:options': {
         labels: claimantIdentificationOptions,
+      },
+      'ui:errorMessages': {
+        required: 'Please select who you will be signing for',
       },
     },
   },

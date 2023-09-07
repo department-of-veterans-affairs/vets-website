@@ -12,7 +12,7 @@ const GetHelp = () => (
     </p>
     <p>
       <strong>
-        If you need help to gather your information or fill out your form or
+        If you need help to gather your information or fill out your
         application,{' '}
       </strong>
       <va-link

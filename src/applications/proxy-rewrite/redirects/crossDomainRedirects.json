@@ -1307,5 +1307,10 @@
     "domain": "www.benefits.va.gov",
     "src": "/GIBILL/comparison_chart.asp",
     "dest": "/resources/compare-va-education-benefits/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/resources/benefits_resources/rate_tables.asp",
+    "dest": "/education/benefit-rates/"
   }
 ]

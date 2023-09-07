@@ -9,7 +9,7 @@ import userEvent from '@testing-library/user-event';
 import {
   createTestStore,
   renderWithStoreAndRouter,
-  getTimezoneTestDate,
+  getTestDate,
 } from '../../../mocks/setup';
 import AppointmentsPageV2 from '../../../../appointment-list/components/AppointmentsPageV2';
 import {
@@ -34,7 +34,7 @@ const initialState = {
 describe('VAOS <AppointmentsPageV2>', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTimezoneTestDate());
+    MockDate.set(getTestDate());
     mockAppointmentInfo({});
   });
   afterEach(() => {

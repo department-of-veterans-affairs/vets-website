@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -9,6 +10,7 @@ import {
   itfSuccess,
   itfActive,
 } from '../content/itfWrapper';
+import { DISABILITY_526_V2_ROOT_URL } from '../constants';
 
 export default class ITFBanner extends React.Component {
   constructor(props) {
@@ -65,6 +67,12 @@ export default class ITFBanner extends React.Component {
         <div className="usa-content">
           <h1>{this.props.title}</h1>
           {message}
+          <Link
+            className="vads-u-margin-right--2"
+            to={DISABILITY_526_V2_ROOT_URL}
+          >
+            Back
+          </Link>
           {this.props.status !== 'error' && (
             <button
               type="button"

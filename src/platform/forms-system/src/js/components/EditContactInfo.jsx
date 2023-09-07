@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 // import {
 //   ProfileInformationFieldController,
@@ -18,9 +19,13 @@ import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { REVIEW_CONTACT, setReturnState } from '../utilities/data/profile';
+import { usePrevious } from '../../../../utilities/react-hooks';
 
 export const BuildPage = ({ title, field, id, goToPath, contactPath }) => {
   const headerRef = useRef(null);
+
+  const modalState = useSelector(state => state?.vapService.modal);
+  const prevModalState = usePrevious(modalState);
 
   useEffect(
     () => {
@@ -29,6 +34,22 @@ export const BuildPage = ({ title, field, id, goToPath, contactPath }) => {
       }
     },
     [headerRef],
+  );
+
+  useEffect(
+    () => {
+      const shouldFocusOnHeaderRef =
+        prevModalState === 'addressValidation' &&
+        modalState === 'mailingAddress';
+
+      // we do this to make sure focus is set when cancelling out of address validation UI
+      if (shouldFocusOnHeaderRef) {
+        setTimeout(() => {
+          focusElement(headerRef?.current);
+        }, 250);
+      }
+    },
+    [modalState, prevModalState],
   );
 
   const onReviewPage = window.sessionStorage.getItem(REVIEW_CONTACT) === 'true';

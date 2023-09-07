@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import {
   VaModal,
   VaPagination,
+  VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
-import Select from '@department-of-veterans-affairs/component-library/Select';
 
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
@@ -238,15 +238,20 @@ export const SearchResults = ({
         </h2>
 
         {/* SORT WIDGET */}
-        <Select
-          additionalClass="find-forms-search--sort-select"
+        <VaSelect
           label="Sort By"
-          includeBlankOption={false}
           name="findFormsSortBySelect"
-          onValueChange={setSortByPropertyNameState(formMetaInfo)}
-          options={FAF_SORT_OPTIONS}
-          value={{ value: sortByPropertyName }}
-        />
+          onVaSelect={({ detail: value }) => {
+            setSortByPropertyNameState(formMetaInfo)(value);
+          }}
+          value={sortByPropertyName}
+        >
+          {FAF_SORT_OPTIONS.map(opt => (
+            <option key={opt} value={opt}>
+              {opt}
+            </option>
+          ))}
+        </VaSelect>
       </div>
 
       <ul className="vads-l-grid-container--full usa-unstyled-list vads-u-margin-top--2">

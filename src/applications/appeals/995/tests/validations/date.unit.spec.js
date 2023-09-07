@@ -37,6 +37,24 @@ describe('validateDate & isValidDate', () => {
     expect(errorMessage[1]).to.contain('other');
     expect(isValidDate('200')).to.be.false;
   });
+  it('should throw a missing date error when month is a symbol', () => {
+    validateDate(errors, '2023-?-05'); // "?" for month
+    expect(errorMessage[0]).to.eq(errorMessages.decisions.missingDate);
+    expect(errorMessage[1]).to.not.contain('month');
+    expect(errorMessage[1]).to.not.contain('day');
+    expect(errorMessage[1]).to.not.contain('year');
+    expect(errorMessage[1]).to.contain('other');
+    expect(isValidDate('2023-?-05')).to.be.false;
+  });
+  it('should throw a missing date error when day is a symbol', () => {
+    validateDate(errors, '2023-02-?'); // "?" for day
+    expect(errorMessage[0]).to.eq(errorMessages.decisions.missingDate);
+    expect(errorMessage[1]).to.not.contain('month');
+    expect(errorMessage[1]).to.not.contain('day');
+    expect(errorMessage[1]).to.not.contain('year');
+    expect(errorMessage[1]).to.contain('other');
+    expect(isValidDate('2023-02-?')).to.be.false;
+  });
   it('should throw a invalid date error', () => {
     validateDate(errors, '2023-02-29'); // max 28 days
     expect(errorMessage[0]).to.eq(errorMessages.invalidDate);

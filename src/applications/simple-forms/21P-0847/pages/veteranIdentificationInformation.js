@@ -14,7 +14,7 @@ export default {
   uiSchema: {
     'view:veteranInfoTitle': titleUI(
       'Veteran’s information',
-      'We need to know information about the original Veteran claimant. In some cases, this Veteran may also be the deceased claimant.',
+      'We need to know information about the Veteran whose benefits you’re connected to. In some cases, this Veteran may also be the deceased claimant.',
     ),
     veteranSsn: ssnUI(),
     veteranDateOfBirth: dateOfBirthUI(),

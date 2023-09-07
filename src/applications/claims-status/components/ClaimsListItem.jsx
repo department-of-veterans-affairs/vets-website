@@ -21,11 +21,12 @@ function getStatusDescription(status) {
 const formatDate = date => moment(date).format('MMMM D, YYYY');
 
 const getTitle = claim => {
+  const claimType = getClaimType(claim).toLowerCase();
   const updatedOn = formatDate(
     claim.attributes.claimPhaseDates?.phaseChangeDate,
   );
 
-  return `Claim for ${getClaimType(claim)}\n updated on ${updatedOn}`;
+  return `Claim for ${claimType}\n updated on ${updatedOn}`;
 };
 
 const isClaimComplete = claim => {

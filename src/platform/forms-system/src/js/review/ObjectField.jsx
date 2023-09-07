@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { flow, groupBy } from 'lodash';
-import get from '../../../../utilities/data/get';
-import set from '../../../../utilities/data/set';
 
 import {
   getDefaultFormState,
@@ -12,7 +10,9 @@ import {
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import { showReviewField } from '../helpers';
-import { isReactComponent } from 'platform/utilities/ui';
+import { isReactComponent } from '../../../../utilities/ui';
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
 
 /*
  * This is largely copied from the react-jsonschema-form library,
@@ -20,16 +20,6 @@ import { isReactComponent } from 'platform/utilities/ui';
  */
 
 class ObjectField extends React.Component {
-  static defaultProps = {
-    uiSchema: {},
-    errorSchema: {},
-    idSchema: {},
-    registry: getDefaultRegistry(),
-    required: false,
-    disabled: false,
-    readonly: false,
-  };
-
   constructor() {
     super();
     this.isRequired = this.isRequired.bind(this);
@@ -76,13 +66,13 @@ class ObjectField extends React.Component {
     };
   }
 
-  getStateFromProps(props) {
-    const { schema, formData, registry } = props;
+  getStateFromProps() {
+    const { schema, formData, registry } = this.props;
     return getDefaultFormState(schema, formData, registry.definitions) || {};
   }
 
   isRequired(name) {
-    const schema = this.props.schema;
+    const { schema } = this.props;
     return (
       Array.isArray(schema.required) && schema.required.indexOf(name) !== -1
     );
@@ -90,7 +80,7 @@ class ObjectField extends React.Component {
 
   render() {
     const { uiSchema, errorSchema, idSchema, schema, formContext } = this.props;
-    const SchemaField = this.props.registry.fields.SchemaField;
+    const { SchemaField } = this.props.registry.fields || {};
 
     const properties = Object.keys(schema.properties);
     const isRoot = idSchema.$id === 'root';
@@ -193,11 +183,12 @@ class ObjectField extends React.Component {
       );
     }
 
+    const titleString = typeof title === 'string';
     return isRoot ? (
       <>
         {!formContext?.hideHeaderRow && (
           <div className="form-review-panel-page-header-row">
-            {title?.trim() &&
+            {((titleString && title.trim()) || !titleString) &&
               !formContext?.hideTitle && (
                 <h4 className="form-review-panel-page-header vads-u-font-size--h5">
                   {title}
@@ -214,23 +205,41 @@ class ObjectField extends React.Component {
   }
 }
 
+ObjectField.defaultProps = {
+  uiSchema: {},
+  errorSchema: {},
+  idSchema: {},
+  registry: getDefaultRegistry(),
+  required: false,
+  disabled: false,
+  readonly: false,
+};
+
 ObjectField.propTypes = {
   schema: PropTypes.object.isRequired,
-  uiSchema: PropTypes.object,
-  errorSchema: PropTypes.object,
-  idSchema: PropTypes.object,
-  formData: PropTypes.object,
-  required: PropTypes.bool,
   disabled: PropTypes.bool,
+  errorSchema: PropTypes.object,
+  formContext: PropTypes.shape({
+    hideHeaderRow: PropTypes.bool,
+    hideTitle: PropTypes.bool,
+    onEdit: PropTypes.func,
+    pageTitle: PropTypes.string,
+    reviewMode: PropTypes.bool,
+  }),
+  formData: PropTypes.object,
+  idSchema: PropTypes.object,
   readonly: PropTypes.bool,
   registry: PropTypes.shape({
+    definitions: PropTypes.object.isRequired,
+    fields: PropTypes.objectOf(PropTypes.func).isRequired,
+    formContext: PropTypes.shape({}).isRequired,
     widgets: PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     ).isRequired,
-    fields: PropTypes.objectOf(PropTypes.func).isRequired,
-    definitions: PropTypes.object.isRequired,
-    formContext: PropTypes.object.isRequired,
   }),
+  required: PropTypes.bool,
+  uiSchema: PropTypes.object,
+  onChange: PropTypes.func,
 };
 
 export default ObjectField;

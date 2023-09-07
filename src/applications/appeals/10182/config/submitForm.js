@@ -9,10 +9,9 @@ export const buildEventData = () => {};
 
 const submitForm = (form, formConfig) => {
   const { trackingPrefix } = formConfig;
-  // update once v2 (add part III data) is available
-  const submitUrl = form.data[SHOW_PART3]
-    ? `${environment.API_URL}/v0/notice_of_disagreements`
-    : formConfig.submitUrl;
+  // v1 (add part III data)
+  const apiVer = form.data[SHOW_PART3] ? 'v1' : 'v0';
+  const submitUrl = `${environment.API_URL}/${apiVer}/${formConfig.submitUrl}`;
   const body = formConfig.transformForSubmit
     ? formConfig.transformForSubmit(formConfig, form)
     : transformForSubmit(formConfig, form);

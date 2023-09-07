@@ -1,13 +1,15 @@
 import mockCommunicationPreferences from '@@profile/tests/fixtures/communication-preferences/get-200-maximal.json';
 import { makeMockUser } from '@@profile/tests/fixtures/users/user';
 import mockProfileEnhancementsToggles from '@@profile/tests/fixtures/personal-information-feature-toggles.json';
-
 import { PROFILE_PATHS } from '@@profile/constants';
+
+import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 
 import {
   mockNotificationSettingsAPIs,
   registerCypressHelpers,
 } from '../helpers';
+import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 
 registerCypressHelpers();
 
@@ -25,9 +27,7 @@ describe('Notification Settings For Mobile Phone', () => {
     });
     cy.injectAxe();
   });
-  // TODO: Re-enable these tests when the COVID-19 alerts are a supported
-  // notification item. Or whenever a notification item supports email as a
-  // notification channel
+
   context('mobile phone link correct', () => {
     context('when user is missing mobile phone', () => {
       it('should show the correct mobile phone link', () => {
@@ -48,20 +48,68 @@ describe('Notification Settings For Mobile Phone', () => {
 
         cy.findByTestId('missing-contact-info-alert')
           .should('exist')
-          .and('contain.text', 'mobile phone')
+          .and('contain.text', 'mobile phone');
+
+        cy.findAllByTestId('add-mobile-phone-link')
+          .shadow()
           .within(() => {
-            cy.findByRole('link', { name: /add.*mobile.*profile/i }).should(
-              'exist',
-            );
+            cy.findByRole('link', {
+              name: 'Add a phone number to your profile',
+            }).should('exist');
           });
 
-        cy.findAllByTestId('add-contact-info-link')
-          .should('have.attr', 'href')
-          .and('include', PROFILE_PATHS.CONTACT_INFORMATION);
-
-        cy.findByRole('link', { name: /add your email/i }).should('not.exist');
+        cy.findByTestId('add-email-address-link').should('not.exist');
         cy.axeCheck();
       });
     });
   });
+
+  context(
+    'when user is missing mobile phone, email and the profileShowEmailNotificationSettings toggle is true',
+    () => {
+      it('should show the correct mobile phone and email link in alert', () => {
+        cy.intercept(
+          'v0/feature_toggles*',
+          generateFeatureToggles({
+            profileShowEmailNotificationSettings: true,
+          }),
+        );
+        const user = makeMockUser();
+        user.data.attributes.vet360ContactInformation.mobilePhone = null;
+        user.data.attributes.vet360ContactInformation.email = null;
+        cy.login(user);
+        cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
+        cy.injectAxeThenAxeCheck();
+
+        checkForLegacyLoadingIndicator();
+
+        cy.findByRole('heading', {
+          name: 'Notification settings',
+          level: 1,
+        }).should('exist');
+
+        cy.findByTestId('missing-contact-info-alert').should('exist');
+
+        cy.findByText(`We don’t have your contact information`).should('exist');
+
+        cy.findByTestId('add-mobile-phone-link')
+          .shadow()
+          .within(() => {
+            cy.findByRole('link', {
+              name: 'Add a phone number to your profile',
+            }).should('exist');
+          });
+
+        cy.findByTestId('add-email-address-link')
+          .shadow()
+          .within(() => {
+            cy.findByRole('link', {
+              name: 'Add an email address to your profile',
+            }).should('exist');
+          });
+
+        cy.axeCheck();
+      });
+    },
+  );
 });

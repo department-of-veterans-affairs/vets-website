@@ -32,7 +32,7 @@ export const ConfirmationPage = () => {
   const { submission, data } = form;
   const issues = getSelected(data || []).map((issue, index) => (
     <li key={index} className="vads-u-margin-bottom--0">
-      {getIssueName(issue)}
+      <span className="dd-privacy-hidden">{getIssueName(issue)}</span>
     </li>
   ));
   const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
@@ -62,7 +62,7 @@ export const ConfirmationPage = () => {
         </h3>
         <h4>Your name</h4>
         {fullName ? (
-          <div>
+          <div className="dd-privacy-hidden">
             {name.first} {name.middle} {name.last}
             {name.suffix ? `, ${name.suffix}` : null}
           </div>

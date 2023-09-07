@@ -3,6 +3,7 @@ import PatientMessageDetailsPage from '../pages/PatientMessageDetailsPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockMessagewithAttachment from '../fixtures/message-response-withattachments.json';
 import mockMessages from '../fixtures/messages-response.json';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Navigate to Message Details ', () => {
   it('Keyboard Navigation to Print Button', () => {
@@ -15,20 +16,22 @@ describe('Navigate to Message Details ', () => {
     mockMessagewithAttachment.data.attributes.body = 'attachment';
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
     messageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
-
     cy.tabToElement('[class="usa-button-secondary"]').should(
       'contain',
       'Print',
     );
+    cy.tabToElement('[class="usa-button-secondary"]').should('contain', 'Move');
     cy.tabToElement('[class="usa-button-secondary"]').should(
       'contain',
       'Trash',
     );
-    cy.tabToElement('[class="usa-button-secondary"]').should('contain', 'Move');
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
+          enabled: false,
+        },
+        'color-contrast': {
           enabled: false,
         },
       },

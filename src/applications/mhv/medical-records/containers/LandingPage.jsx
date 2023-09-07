@@ -1,25 +1,27 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { updatePageTitle } from '../../shared/util/helpers';
+import { pageTitles } from '../util/constants';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
   const fullState = useSelector(state => state);
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs([{ url: '/my-health', label: 'Dashboard' }], {
-          url: '/my-health/medical-records',
-          label: 'Medical records',
-        }),
-      );
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs([], {
+        url: '/my-health/medical-records',
+        label: 'Medical records',
+      }),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
+  }, []);
 
   return (
     <div className="landing-page">
@@ -55,7 +57,7 @@ const LandingPage = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/health-history/care-summaries-and-notes"
+            href="/my-health/medical-records/care-summaries-and-notes"
             text="Go to your care summaries and notes"
             data-testid="section-link"
           />
@@ -85,7 +87,7 @@ const LandingPage = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/health-history/vaccines"
+            href="/my-health/medical-records/vaccines"
             text="Go to your vaccines"
             data-testid="section-link"
           />
@@ -101,7 +103,7 @@ const LandingPage = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/health-history/allergies"
+            href="/my-health/medical-records/allergies"
             text="Go to your allergies"
             data-testid="section-link"
           />
@@ -117,7 +119,7 @@ const LandingPage = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/health-history/health-conditions"
+            href="/my-health/medical-records/health-conditions"
             text="Go to your health conditions"
             data-testid="section-link"
           />
@@ -141,7 +143,7 @@ const LandingPage = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/health-history/vitals"
+            href="/my-health/medical-records/vitals"
             text="Go to your vitals"
             data-testid="section-link"
           />

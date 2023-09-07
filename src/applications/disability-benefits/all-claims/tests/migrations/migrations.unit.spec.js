@@ -279,9 +279,8 @@ describe('526 v2 migrations', () => {
 
       const migratedData = reorderHousingIllnessRemoveFdc(savedData);
 
-      // TODO: #59003 Rename for prod launch
       expect(migratedData.metadata.returnUrl).to.deep.equal(
-        '/housing-situation-1',
+        '/housing-situation',
       );
     });
 
@@ -298,10 +297,7 @@ describe('526 v2 migrations', () => {
 
       const migratedData = reorderHousingIllnessRemoveFdc(savedData);
 
-      // TODO: #59003 Rename for prod launch
-      expect(migratedData.metadata.returnUrl).to.deep.equal(
-        '/terminally-ill-1',
-      );
+      expect(migratedData.metadata.returnUrl).to.deep.equal('/terminally-ill');
     });
 
     it('should change returnUrl to review and submit if on the fdc page', () => {

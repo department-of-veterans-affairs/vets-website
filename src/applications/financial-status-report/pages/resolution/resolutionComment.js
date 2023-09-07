@@ -1,16 +1,12 @@
-import {
-  CurrentDebtTitle,
-  CurrentDebtDescription,
-} from '../../components/CurrentDebtTitle';
-import ResolutionAmount from '../../components/ResolutionAmount';
-import CustomResolutionReview from '../../components/CustomResolutionReview';
+import { CurrentDebtTitle } from '../../components/shared/CurrentDebtTitle';
+import ResolutionAmount from '../../components/resolution/ResolutionAmount';
+import CustomResolutionReview from '../../components/shared/CustomResolutionReview';
 import { validateResolutionAmount } from '../../utils/validations';
 
 export const uiSchema = {
   selectedDebtsAndCopays: {
     items: {
       'ui:title': CurrentDebtTitle,
-      'ui:description': CurrentDebtDescription,
       'ui:validations': [validateResolutionAmount],
       resolutionComment: {
         'ui:title': ' ',

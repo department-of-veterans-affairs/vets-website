@@ -1,14 +1,15 @@
-import 'platform/polyfills';
+import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/mhv-landing-page.scss';
-
-import startApp from 'platform/startup';
+import '../medications/sass/medications.scss'; // neccessary for medications landing page
+import { startAppFromRouter as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
 
 import routes from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
 
 startApp({
-  url: manifest.rootUrl,
+  entryName: manifest.entryName,
   reducer,
   routes,
+  url: manifest.rootUrl,
 });

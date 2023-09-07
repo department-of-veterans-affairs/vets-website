@@ -19,8 +19,8 @@ const missingMobilePhoneContent = (
 const missingAllContactInfoContent = (
   <>
     <p>
-      We don’t have your contact email address or mobile phone number. To manage
-      your notification settings, first update your contact information.{' '}
+      To get started managing your notification settings, add an email address
+      or phone number to your profile.{' '}
     </p>
 
     <p>

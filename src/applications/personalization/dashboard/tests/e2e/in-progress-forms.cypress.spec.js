@@ -2,7 +2,6 @@ import { mockUser } from '@@profile/tests/fixtures/users/user';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
-import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import manifest from 'applications/personalization/dashboard/manifest.json';
 
 describe('The My VA Dashboard', () => {
@@ -16,17 +15,6 @@ describe('The My VA Dashboard', () => {
       '/v0/disability_compensation_form/rating_info',
       disabilityRating,
     );
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: featureFlagNames.showMyVADashboardV2,
-            value: true,
-          },
-        ],
-      },
-    }).as('featuresB');
   });
   describe('when there are in-progress forms', () => {
     beforeEach(() => {

@@ -1,5 +1,6 @@
 import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
+import mockSignature from '../fixtures/signature-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
@@ -9,6 +10,9 @@ import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
+import { AXE_CONTEXT } from '../utils/constants';
+import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
+import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -91,13 +95,19 @@ class PatientInboxPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       this.mockRecipients,
     ).as('recipients');
+
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/signature',
+      mockSignature,
+    ).as('signature');
+
     cy.visit('my-health/secure-messages/inbox/', {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
       },
     });
 
-    cy.wait('@folders');
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     cy.wait('@inboxMessages');
@@ -220,6 +230,11 @@ class PatientInboxPage {
     mockMessages.data.at(
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/signature',
+      mockSignature,
+    ).as('signature');
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
@@ -272,11 +287,11 @@ class PatientInboxPage {
       cy.injectAxe();
     }
 
-    cy.wait('@folders');
+    // cy.wait('@folders');
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     if (doAxeCheck) {
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,
@@ -294,7 +309,13 @@ class PatientInboxPage {
 
   clickDraftsSideBar = () => {};
 
-  clickMyFoldersSideBar = () => {};
+  clickMyFoldersSideBar = () => {
+    cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
+      'folders',
+    );
+    cy.get('[data-testid ="my-folders-sidebar"]').click();
+    cy.wait('@folders');
+  };
 
   getLoadedMessages = () => {
     return this.loadedMessagesData;
@@ -315,7 +336,13 @@ class PatientInboxPage {
   };
 
   navigateToComposePage = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/signature',
+      mockSignature,
+    ).as('signature');
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
+    cy.wait('@signature');
     const interstitialPage = new PatientInterstitialPage();
     interstitialPage.getContinueButton().click({ force: true });
   };
@@ -376,13 +403,14 @@ class PatientInboxPage {
       .contains('Add filters')
       .click({
         waitForAnimations: true,
+        force: true,
       });
   };
 
   selectAdvancedSearchCategory = () => {
     cy.get('#category-dropdown')
       .find('#select')
-      .select('COVID');
+      .select('COVID', { force: true });
   };
 
   selectAdvancedSearchCategoryCustomFolder = () => {
@@ -394,6 +422,7 @@ class PatientInboxPage {
   submitSearchButton = () => {
     cy.get('[data-testid="filter-messages-button"]').click({
       waitForAnimations: true,
+      force: true,
     });
   };
 
@@ -444,6 +473,92 @@ class PatientInboxPage {
     cy.wait('@draft_message').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });
+  };
+
+  verifySorting = () => {
+    let listBefore;
+    let listAfter;
+    cy.get('.thread-list-item')
+      .find('.received-date')
+      .then(list => {
+        listBefore = Cypress._.map(list, el => el.innerText);
+        cy.log(listBefore);
+      })
+      .then(() => {
+        this.sortMessagesByDate('Oldest to newest');
+        cy.get('.thread-list-item')
+          .find('.received-date')
+          .then(list2 => {
+            listAfter = Cypress._.map(list2, el => el.innerText);
+            cy.log(listAfter);
+            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
+            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
+          });
+      });
+  };
+
+  verifySignature = () => {
+    cy.get('[data-testid="message-body-field"]')
+      .should('have.attr', 'value')
+      .and('not.be.empty');
+  };
+
+  inputFilterData = text => {
+    cy.get('#filter-input')
+      .shadow()
+      .find('#inputField')
+      .type(`${text}`, { force: true });
+  };
+
+  filterMessages = () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/folders/-1/search',
+      sentSearchResponse,
+    );
+    cy.get('[data-testid="filter-messages-button"]').click({ force: true });
+  };
+
+  verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
+    cy.get('[data-testid="message-list-item"]').should(
+      'have.length',
+      `${responseData.data.length}`,
+    );
+
+    cy.get('[data-testid="highlighted-text"]').each(element => {
+      cy.wrap(element)
+        .invoke('text')
+        .then(text => {
+          const lowerCaseText = text.toLowerCase();
+          expect(lowerCaseText).to.contain(`${filterValue}`);
+        });
+    });
+  };
+
+  clearFilter = () => {
+    this.inputFilterData('any');
+    this.filterMessages();
+    cy.get('[text="Clear Filters"]').click({ force: true });
+  };
+
+  verifyFilterFieldCleared = () => {
+    cy.get('#filter-input')
+      .shadow()
+      .find('#inputField')
+      .should('be.empty');
+  };
+
+  sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
+    cy.get('#sort-order-dropdown')
+      .shadow()
+      .find('#select')
+      .select(`${text}`, { force: true });
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-1/threads**',
+      sortedResponse,
+    );
+    cy.get('[data-testid="sort-button"]').click({ force: true });
   };
 }
 

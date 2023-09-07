@@ -141,7 +141,7 @@ const ContactInfo = ({
         Home phone number
       </Headers>
       {showSuccessAlert('home-phone', 'Home phone number')}
-      <span>{getFormattedPhone(homePhone)}</span>
+      <span className="dd-privacy-hidden">{getFormattedPhone(homePhone)}</span>
       <p className="vads-u-margin-top--0p5">
         <Link
           id="edit-home-phone"
@@ -154,7 +154,9 @@ const ContactInfo = ({
 
       <Headers className={headerClassNames}>Mobile phone number</Headers>
       {showSuccessAlert('mobile-phone', 'Mobile phone number')}
-      <span>{getFormattedPhone(mobilePhone)}</span>
+      <span className="dd-privacy-hidden">
+        {getFormattedPhone(mobilePhone)}
+      </span>
       <p className="vads-u-margin-top--0p5">
         <Link
           id="edit-mobile-phone"
@@ -167,7 +169,7 @@ const ContactInfo = ({
 
       <Headers className={headerClassNames}>Email address</Headers>
       {showSuccessAlert('email', 'Email address')}
-      <span>{email || ''}</span>
+      <span className="dd-privacy-hidden">{email || ''}</span>
       <p className="vads-u-margin-top--0p5">
         <Link
           id="edit-email"
@@ -180,9 +182,7 @@ const ContactInfo = ({
 
       <Headers className={headerClassNames}>Mailing address</Headers>
       {showSuccessAlert('address', 'Mailing address')}
-      <div className="vads-u-display--flex">
-        <AddressView data={address} />
-      </div>
+      <AddressView data={address} />
       <p className="vads-u-margin-top--0p5">
         <Link
           id="edit-address"

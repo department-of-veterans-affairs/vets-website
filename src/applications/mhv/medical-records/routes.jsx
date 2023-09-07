@@ -33,14 +33,14 @@ const routes = (
       </Route>
       <Route
         exact
-        path="/labs-and-tests/radiology-images/:labId"
+        path="/labs-and-tests/:labId/images"
         key="RadiologyImagesList"
       >
         <RadiologyImagesList />
       </Route>
       <Route
         exact
-        path="/labs-and-tests/radiology-images/:labId/:imageId"
+        path="/labs-and-tests/:labId/images/:imageId"
         key="RadiologySingleImage"
       >
         <RadiologySingleImage />
@@ -51,53 +51,38 @@ const routes = (
       <Route path="/settings" key="Settings">
         <SettingsPage />
       </Route>
-      <Route exact path="/health-history/allergies" key="Allergies">
+      <Route exact path="/allergies" key="Allergies">
         <Allergies />
       </Route>
-      <Route
-        exact
-        path="/health-history/allergies/:allergyId"
-        key="AllergyDetails"
-      >
+      <Route exact path="/allergies/:allergyId" key="AllergyDetails">
         <AllergyDetails />
       </Route>
-      <Route
-        exact
-        path="/health-history/care-summaries-and-notes"
-        key="CareSummariesAndNotes"
-      >
+      <Route exact path="/care-summaries-and-notes" key="CareSummariesAndNotes">
         <CareSummariesAndNotes />
       </Route>
       <Route
         exact
-        path="/health-history/care-summaries-and-notes/:summaryId"
+        path="/care-summaries-and-notes/:summaryId"
         key="CareSummaryAndNotesDetails"
       >
         <CareSummariesDetails />
       </Route>
-      <Route exact path="/health-history/vaccines" key="Vaccines">
+      <Route exact path="/vaccines" key="Vaccines">
         <Vaccines />
       </Route>
-      <Route path="/health-history/vaccines/:vaccineId" key="Vaccine">
+      <Route path="/vaccines/:vaccineId" key="Vaccine">
         <VaccineDetails />
       </Route>
-      <Route exact path="/health-history/vitals" key="Vitals">
+      <Route exact path="/vitals" key="Vitals">
         <Vitals />
       </Route>
-      <Route path="/health-history/vitals/:vitalType" key="VitalDetails">
+      <Route path="/vitals/:vitalType" key="VitalDetails">
         <VitalDetails />
       </Route>
-      <Route
-        exact
-        path="/health-history/health-conditions"
-        key="Health Conditions"
-      >
+      <Route exact path="/health-conditions" key="Health Conditions">
         <HealthConditions />
       </Route>
-      <Route
-        path="/health-history/health-conditions/:conditionId"
-        key="Condition Details"
-      >
+      <Route path="/health-conditions/:conditionId" key="Condition Details">
         <ConditionDetails />
       </Route>
     </Switch>

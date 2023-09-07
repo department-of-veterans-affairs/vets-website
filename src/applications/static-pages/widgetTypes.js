@@ -33,6 +33,7 @@ export default {
   FORM_686_CTA: 'form-686-CTA',
   FORM_2110210_CTA: 'form2110210',
   FORM_214142_CTA: 'form214142',
+  FORM_21P0847_CTA: 'form21p-0847',
   FORM_264555_CTA: 'form264555',
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
   HEALTH_CARE_APP_STATUS: 'health-care-app-status',

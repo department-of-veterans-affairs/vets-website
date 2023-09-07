@@ -4,7 +4,6 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
@@ -353,7 +352,7 @@ class SearchApp extends React.Component {
                 onChange={this.handleInputChange}
               />
               <button type="submit">
-                <IconSearch color="#fff" />
+                <i className="fas fa-solid fa-sm fa-search vads-u-margin-right--0p5" />
                 <span className="button-text">Search</span>
               </button>
             </form>

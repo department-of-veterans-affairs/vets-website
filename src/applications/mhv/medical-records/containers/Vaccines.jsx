@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
-import { RecordType, emptyField } from '../util/constants';
+import { recordType, EMPTY_FIELD, pageTitles } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import {
   dateFormat,
@@ -14,6 +15,7 @@ import {
   processList,
   sendErrorToSentry,
 } from '../util/helpers';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const Vaccines = () => {
   const dispatch = useDispatch();
@@ -26,26 +28,19 @@ const Vaccines = () => {
     dispatch(getVaccinesList());
   }, []);
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs(
-          [
-            { url: '/my-health/medical-records/', label: 'Dashboard' },
-            {
-              url: '/my-health/medical-records/health-history',
-              label: 'Health history',
-            },
-          ],
-          {
-            url: '/my-health/medical-records/health-history/vaccines',
-            label: 'VA vaccines',
-          },
-        ),
-      );
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs(
+        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
+        {
+          url: '/my-health/medical-records/vaccines',
+          label: 'VA vaccines',
+        },
+      ),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
+  }, []);
 
   const generateVaccinesPdf = async () => {
     const pdfData = {
@@ -70,12 +65,12 @@ const Vaccines = () => {
         items: [
           {
             title: 'Date received',
-            value: item.date || emptyField,
+            value: item.date || EMPTY_FIELD,
             inline: true,
           },
           {
             title: 'Location',
-            value: item.location || emptyField,
+            value: item.location || EMPTY_FIELD,
             inline: true,
           },
           {
@@ -101,13 +96,14 @@ const Vaccines = () => {
 
   const content = () => {
     if (vaccines?.length) {
-      return <RecordList records={vaccines} type={RecordType.VACCINES} />;
+      return <RecordList records={vaccines} type={recordType.VACCINES} />;
     }
     return (
       <va-loading-indicator
         message="Loading..."
         setFocus
         data-testid="loading-indicator"
+        class="loading-indicator"
       />
     );
   };

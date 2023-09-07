@@ -1,4 +1,3 @@
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import redirectToClaimTypePage from './01-require-claim-type';
 import convertCountryCode from './02-convert-country-code';
 import upgradeHasSeparationPay from './03-upgrade-hasSeparationPay';
@@ -22,11 +21,7 @@ const migrations = [
   truncateOtherAtRiskHousing,
   fixTreatedDisabilityNamesKey,
   mapServiceBranches,
+  reorderHousingIllnessRemoveFdc,
 ];
-
-// TODO: #59003 Remove for prod launch
-if (!environment.isProduction()) {
-  migrations.push(reorderHousingIllnessRemoveFdc);
-}
 
 export default migrations;

@@ -14,11 +14,13 @@
     },
     "authorizerPhone": "5555555555",
     "authorizerEmail": "jack.authorizer@example.com",
+    "authorizerEmailConsent": true,
     "veteranFullName": {
       "first": "John",
       "middle": "",
       "last": "Veteran"
     },
+    "veteranDateOfBirth": "2000-01-01",
     "veteranSSN": "111223333",
     "thirdPartyType": "organization",
     "personFullName": {
@@ -42,6 +44,7 @@
     },
     "informationScope": "limited",
     "limitedInformationItems": "Status of pending claim or appeal",
+    "limitedInformationOther": "My favorite color",
     "releaseDuration": "untilDate",
     "releaseEndDate": "2033-06-16",
     "securityQuestion": "motherBirthplace",

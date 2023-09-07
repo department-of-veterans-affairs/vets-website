@@ -19,6 +19,9 @@ import {
   selectYesNoWebComponent,
 } from '../../../shared/tests/e2e/helpers';
 
+import { preparerQualificationsQuestionLabels } from '../../config/helpers';
+import { claimantIdentificationDisplayOptions } from '../../definitions/constants';
+
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
@@ -147,11 +150,28 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.preparerQualifications1]: ({ afterHook }) => {
+      [pagePaths.preparerQualifications1A]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            selectGroupCheckboxWidget(data.preparerQualifications);
+            const label = preparerQualificationsQuestionLabels(
+              claimantIdentificationDisplayOptions[data.claimantIdentification],
+            )[1];
+            selectGroupCheckboxWidget(label);
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [pagePaths.preparerQualifications1B]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const label = preparerQualificationsQuestionLabels(
+              claimantIdentificationDisplayOptions[data.claimantIdentification],
+            )[1];
+            selectGroupCheckboxWidget(label);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -238,7 +258,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const signerName = data.preparerFullName;
-            reviewAndSubmitPageFlow(signerName);
+            reviewAndSubmitPageFlow(signerName, 'Submit form');
           });
         });
       },
@@ -247,8 +267,6 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', testFormConfig.submitUrl, mockSubmit);
     },
-
-    skip: Cypress.env('CI'),
   },
   manifest,
   testFormConfig,

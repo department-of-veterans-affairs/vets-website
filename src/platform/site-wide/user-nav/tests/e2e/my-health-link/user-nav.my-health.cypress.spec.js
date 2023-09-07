@@ -1,8 +1,8 @@
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import manifest from 'applications/mhv/landing-page/manifest.json';
 
-import ApiInitializer from 'applications/mhv/landing-page/tests/utilities/ApiInitializer';
-import LandingPage from 'applications/mhv/landing-page/tests/pages/LandingPage';
+import ApiInitializer from 'applications/mhv/landing-page/tests/e2e/utilities/ApiInitializer';
+import LandingPage from 'applications/mhv/landing-page/tests/e2e/pages/LandingPage';
 
 describe(manifest.appName, () => {
   it('shows the new link when enabled', () => {

@@ -138,11 +138,10 @@ export function transform(formConfig, form) {
   ];
   veteranFields.forEach(field => {
     if (!withoutViewFields[field]) {
-      withoutViewFields = set(
-        field,
-        form.loadedData.formData[field],
-        withoutViewFields,
-      );
+      const fieldData =
+        form.loadedData.formData[field] ||
+        form['view:veteranInformation'][field];
+      withoutViewFields = set(field, fieldData, withoutViewFields);
     }
   });
 
@@ -437,7 +436,7 @@ export function getDependentPageList(pages, formData = {}) {
 export function normalizeFullName(name = {}, outputMiddle = false) {
   const { first = '', middle = '', last = '', suffix = '' } = name;
   const nameToReturn = outputMiddle
-    ? `${first} ${middle} ${last} ${suffix}`
+    ? `${first} ${middle !== null ? middle : ''} ${last} ${suffix}`
     : `${first} ${last} ${suffix}`;
   return nameToReturn.replace(/ +(?= )/g, '').trim();
 }

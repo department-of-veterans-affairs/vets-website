@@ -5,7 +5,7 @@ describe('hca FeatureToggles selector', () => {
   const state = {
     featureToggles: {
       /* eslint-disable camelcase */
-      caregiver_sigi_enabled: false,
+      hca_sigi_enabled: false,
       hca_browser_monitoring_enabled: true,
       hca_enrollment_status_override_enabled: false,
       hca_household_v2_enabled: false,

@@ -19,6 +19,7 @@ export default function vaRadioFieldMapping(props) {
       typeof childrenProps.formData === 'undefined'
         ? false
         : childrenProps.formData,
+    labelHeaderLevel: uiOptions?.labelHeaderLevel,
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
     children: (
       <div slot="description">

@@ -1,6 +1,8 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
+// eslint-disable-next-line deprecate/import
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import ProfileInfoTable from '../../../src/applications/personalization/profile/components/ProfileInfoTable';
+import ProfileInfoCard from '../../../src/applications/personalization/profile/components/ProfileInfoCard';
 
 export const Sample = () => (
   <AdditionalInfo
@@ -57,7 +59,7 @@ export const Sample3 = ({ className = 'sample' }) => (
         </a>
       </AdditionalInfo>
     </div>
-    <ProfileInfoTable
+    <ProfileInfoCard
       title="Personal information"
       data={[
         { title: 'Date of birth', value: 'N/A' },
@@ -71,9 +73,7 @@ export const Sample3 = ({ className = 'sample' }) => (
 
 export const Sample4 = () => (
   <div className="vads-u-margin-y--3 available-connected-apps">
-    <AdditionalInfo
-      triggerText={`What other third-party apps can I connect to my profile?`}
-    >
+    <AdditionalInfo triggerText="What other third-party apps can I connect to my profile?">
       To find out what other third-party apps are available to connect to your
       profile,{' '}
       <a href="/resources/find-apps-you-can-use" onClick={null}>
