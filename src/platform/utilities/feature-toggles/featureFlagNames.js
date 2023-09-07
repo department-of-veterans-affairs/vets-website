@@ -4,6 +4,7 @@ export default Object.freeze({
   avsEnabled: 'avs_enabled',
   bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
+  pensionFormEnabled: 'pension_form_enabled',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
   cernerOverride648: 'cerner_override_648',
