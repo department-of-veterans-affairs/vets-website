@@ -152,7 +152,7 @@ export default function FieldTemplate(props) {
 
       {errorSpan}
 
-      {<div className={inputWrapperClassNames}>{children}</div>}
+      <div className={inputWrapperClassNames}>{children}</div>
       {help}
     </>
   );
