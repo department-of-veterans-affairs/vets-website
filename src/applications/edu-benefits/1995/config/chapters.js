@@ -4,6 +4,7 @@ import environment from 'platform/utilities/environment';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
+import createDirectDepositChangePageUpdate from '../../pages/directDepositChangeUpdate';
 
 import {
   benefitSelection,
@@ -90,7 +91,9 @@ export const chapters = {
         uiSchema: dependents.uiSchema,
         schema: dependents.schema,
       },
-      directDeposit: createDirectDepositChangePage(fullSchema1995),
+      directDeposit: environment.isProduction()
+        ? createDirectDepositChangePage(fullSchema1995)
+        : createDirectDepositChangePageUpdate(fullSchema1995),
     },
   },
 };
