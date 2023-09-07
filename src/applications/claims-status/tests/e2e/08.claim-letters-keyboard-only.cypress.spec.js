@@ -43,6 +43,7 @@ describe('Claim Letters Page', () => {
 
   it('Downloads a file successfully when link is focused and enter key is pressed', () => {
     const filename = 'ClaimLetter-2022-9-22.txt';
+
     // Normally it would make sense to simulate downloading a PDF,
     // but Cypress doesn't handle PDF files very well. When I attempted
     // to use a PDF file as the fixture, the resulting file's contents

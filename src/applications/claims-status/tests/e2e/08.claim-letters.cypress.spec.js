@@ -130,6 +130,8 @@ describe('Claim Letters Page', () => {
     });
 
     it('Downloads a file successfully when link is clicked', () => {
+      const filename = 'ClaimLetter-2022-9-22.txt';
+
       // Normally it would make sense to simulate downloading a PDF,
       // but Cypress doesn't handle PDF files very well. When I attempted
       // to use a PDF file as the fixture, the resulting file's contents
@@ -137,8 +139,7 @@ describe('Claim Letters Page', () => {
       cy.intercept('GET', '/v0/claim_letters/**', {
         statusCode: 200,
         headers: {
-          'Content-disposition':
-            'attachment; filename=ClaimLetter-2022-9-22.txt',
+          'Content-disposition': `attachment; filename=${filename}`,
         },
         fixture:
           'applications/claims-status/tests/e2e/fixtures/mocks/claim-letters/letter.txt',
@@ -153,9 +154,10 @@ describe('Claim Letters Page', () => {
         .its('response.statusCode')
         .should('eq', 200);
 
-      cy.readFile(
-        `${Cypress.config('downloadsFolder')}/ClaimLetter-2022-9-22.txt`,
-      ).should('contain', 'Test claim letter');
+      cy.readFile(`${Cypress.config('downloadsFolder')}/${filename}`).should(
+        'contain',
+        'Test claim letter',
+      );
 
       cy.injectAxeThenAxeCheck();
     });
