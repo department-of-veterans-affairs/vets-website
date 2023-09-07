@@ -4,6 +4,7 @@ import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Introduction from '../pages/Introduction';
 
+// TODO: remove commment once this is not disallowed
 describe('Pre Check In Experience', () => {
   describe('session', () => {
     beforeEach(() => {
@@ -41,7 +42,7 @@ describe('Pre Check In Experience', () => {
         expect(data).to.equal(sample);
         cy.reload();
         // redirected back to landing page to reload the data
-        cy.url().should('match', /id=46bebc0a-b99c-464f-a5c5-560bc9eae287/);
+        cy.url().should('include', 'id=46bebc0a-b99c-464f-a5c5-560bc9eae287');
 
         ValidateVeteran.validatePage.preCheckIn();
         cy.injectAxeThenAxeCheck();

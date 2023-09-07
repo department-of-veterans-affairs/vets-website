@@ -28,6 +28,7 @@ export const fillPrescription = prescriptionId => async dispatch => {
     return null;
   } catch (error) {
     const err = error.errors[0];
+    err.id = prescriptionId;
     dispatch({
       type: Actions.Prescriptions.FILL_ERROR,
       err,
