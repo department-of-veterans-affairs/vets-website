@@ -5,10 +5,6 @@ import defaultMockThread from '../fixtures/single-draft-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
-import mockDraftsMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
-import mockDraftsFolderMetaResponse from '../fixtures/draftsResponse/folder-drafts-metadata.json';
-import mockSingleMessageThreadResponse from '../fixtures/draftsResponse/drafts-single-thread-response.json';
-import mockSingleMessageResponse from '../fixtures/draftsResponse/drafts-single-message-response.json';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -16,35 +12,6 @@ class PatientMessageDraftsPage {
   mockDetailedMessage = mockDraftResponse;
 
   currentThread = defaultMockThread;
-
-  loadMessages = (mockMessagesResponse = mockDraftsMessages) => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/-2*',
-      mockDraftsFolderMetaResponse,
-    ).as('draftFolder');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/-2/threads**',
-      mockMessagesResponse,
-    ).as('draftFolderMessages');
-    cy.get('[data-testid="drafts-sidebar"]').click();
-  };
-
-  loadDetailedMessage = () => {
-    cy.intercept(
-      'GET',
-      `/my_health/v1/messaging/messages/2848711/thread`,
-      mockSingleMessageThreadResponse,
-    ).as('recipients');
-    cy.intercept(
-      'GET',
-      `/my_health/v1/messaging/messages/2848711`,
-      mockSingleMessageResponse,
-    ).as('recipients');
-
-    cy.get(`#message-link-2848711`).click();
-  };
 
   loadDraftMessages = (
     draftMessages = mockDraftMessagesResponse,
@@ -196,6 +163,13 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="delete-draft-button"]').click({ force: true });
   };
 
+  clickSendButton = draftMessage => {
+    cy.intercept('POST', `/my_health/v1/messaging/messages}`, draftMessage).as(
+      'sentDraftResponse',
+    );
+    cy.get('[data-testid="Send-Button"]').click({ force: true });
+  };
+
   confirmDeleteDraft = draftMessage => {
     cy.intercept(
       'DELETE',
@@ -212,6 +186,12 @@ class PatientMessageDraftsPage {
       .should('contain', 'Delete')
       .click({ force: true });
     cy.wait('@deletedDraftResponse');
+  };
+
+  verifyDeleteConfirmMessage = () => {
+    cy.contains('successfully deleted')
+      .focused()
+      .should('have.text', 'Draft was successfully deleted.');
   };
 
   confirmDeleteDraftWithEnterKey = draftMessage => {
