@@ -566,13 +566,14 @@ export function AdditionalInformation({ title, id, formData }) {
               );
             })
           : null}
-        {/* The below sections data is not captured by the original form */}
         <h3>Fully Developed Claim program</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Do you want to apply using the Fully Developed Claim program?
         </p>
         <p className="vads-u-margin-top--0">
-          No, I have some extra information that I will submit to VA later.
+          {formData.noRapidProcessing
+            ? 'No, I have some extra information that I will submit to VA later.'
+            : 'Yes, I have uploaded all my documentation'}
         </p>
       </div>
     </>
