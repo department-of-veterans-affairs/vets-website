@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
-// import { apiRequest } from 'platform/utilities/api';
 
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import {
