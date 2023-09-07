@@ -1,6 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import inboxMessages from './fixtures/messages-response.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Message Details AXE Check', () => {
   it('Axe Check Message Details Page', () => {
@@ -16,7 +17,7 @@ describe('Secure Messaging Message Details AXE Check', () => {
       );
     });
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
