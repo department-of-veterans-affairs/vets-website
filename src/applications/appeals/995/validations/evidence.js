@@ -1,7 +1,6 @@
 import { isValidUSZipCode } from 'platform/forms/address';
 
 import { errorMessages, REGEX_EMPTY_DATE } from '../constants';
-import { getSelected, getIssueName } from '../utils/helpers';
 import { validateDate } from './date';
 
 import { MAX_LENGTH } from '../../shared/constants';
