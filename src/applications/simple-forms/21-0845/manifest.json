@@ -1,5 +1,5 @@
 {
-  "appName": "21-0845 Authorization to Disclose Personal Information to a Third Party",
+  "appName": "Authorize VA to release your information to a third-party source",
   "entryFile": "./app-entry.jsx",
   "entryName": "0845-auth-disclose",
   "rootUrl": "/supporting-forms-for-claims/third-party-authorization-form-21-0845",
