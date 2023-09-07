@@ -27,7 +27,7 @@ const CareSummariesAndNotes = () => {
           },
         ],
         {
-          url: '/my-health/medical-records/care-summaries-and-notes',
+          url: '/my-health/medical-records/summaries-and-notes',
           label: 'VA care summaries and notes',
         },
       ),

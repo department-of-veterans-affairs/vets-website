@@ -57,7 +57,7 @@ const LandingPage = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/care-summaries-and-notes"
+            href="/my-health/medical-records/summaries-and-notes"
             text="Go to your care summaries and notes"
             data-testid="section-link"
           />
@@ -119,7 +119,7 @@ const LandingPage = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/health-conditions"
+            href="/my-health/medical-records/conditions"
             text="Go to your health conditions"
             data-testid="section-link"
           />

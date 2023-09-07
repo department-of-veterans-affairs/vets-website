@@ -11,7 +11,7 @@ describe('Allergy details container', () => {
     return renderWithStoreAndRouter(<DownloadRecordsPage />, {
       initialState: state,
       reducers: reducer,
-      path: '/download-your-medical-records',
+      path: '/download-all',
     });
   };
 
