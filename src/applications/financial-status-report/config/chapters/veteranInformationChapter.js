@@ -1,5 +1,4 @@
 import {
-  veteranInfo,
   combinedDebts,
   contactInfo,
   contactInformation,
@@ -8,6 +7,8 @@ import {
   dependents,
   dependentRecords,
 } from '../../pages';
+import VeteranInformation from '../../components/veteranInformation/VeteranInformation';
+import VeteranInfoBoxReview from '../../components/veteranInformation/VeteranInfoBoxReview';
 import ContactInfo, {
   customContactFocus,
 } from '../../components/contactInfo/ContactInfo';
@@ -27,9 +28,8 @@ export default {
       veteranInfo: {
         path: 'veteran-information',
         title: 'Veteran information',
-        uiSchema: veteranInfo.uiSchema,
-        schema: veteranInfo.schema,
-        editModeOnReviewPage: true,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
         initialData: {
           personalData: {
             veteranFullName: {
@@ -44,6 +44,8 @@ export default {
             fileNumber: '',
           },
         },
+        CustomPage: VeteranInformation,
+        CustomPageReview: VeteranInfoBoxReview,
       },
       availableDebts: {
         initialData: {

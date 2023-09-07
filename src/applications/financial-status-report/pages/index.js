@@ -1,4 +1,3 @@
-import * as veteranInfo from './veteran/veteranInfo';
 import * as contactInfo from './veteran/contact';
 import contactInformation from './veteran/contactInformation';
 import * as combinedDebts from './veteran/combinedDebts';
@@ -70,7 +69,6 @@ import * as creditCardBills from './expenses/creditCardBills';
 import * as installmentContracts from './expenses/repayments/installmentContracts';
 
 export {
-  veteranInfo,
   combinedDebts,
   employment,
   employmentRecords,
