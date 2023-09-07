@@ -5,6 +5,8 @@ import defaultMockThread from '../fixtures/single-draft-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
+import mockDraftsMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
+import mockDraftsFolderMetaResponse from '../fixtures/draftsResponse/folder-drafts-metadata.json';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -12,6 +14,20 @@ class PatientMessageDraftsPage {
   mockDetailedMessage = mockDraftResponse;
 
   currentThread = defaultMockThread;
+
+  loadMessages = (mockMessagesResponse = mockDraftsMessages) => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-2*',
+      mockDraftsFolderMetaResponse,
+    ).as('draftFolder');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-2/threads**',
+      mockMessagesResponse,
+    ).as('draftFolderMessages');
+    cy.get('[data-testid="drafts-sidebar"]').click();
+  };
 
   loadDraftMessages = (
     draftMessages = mockDraftMessagesResponse,

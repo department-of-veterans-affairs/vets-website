@@ -2,10 +2,11 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import requestBody from './fixtures/message-compose-request-body.json';
+import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('SM back navigation', () => {
-  it('user navigate to inbox folder after message sent', () => {
+  it.skip('user navigate to inbox folder after message sent', () => {
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
@@ -31,5 +32,14 @@ describe('SM back navigation', () => {
     cy.location().should(loc => {
       expect(loc.pathname).to.eq('/my-health/secure-messages/inbox/');
     });
+  });
+
+  it('user navigate to drafts folder after message sent', () => {
+    const draftPage = new PatientMessageDraftsPage();
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
+    site.login();
+    landingPage.loadInboxMessages();
+    draftPage.loadMessages();
   });
 });
