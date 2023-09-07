@@ -1,5 +1,4 @@
 import {
-  expensesExplainer,
   expenses,
   householdExpensesChecklist,
   householdExpensesInputList,
@@ -27,6 +26,7 @@ import OtherExpensesSummary from '../../components/otherExpenses/OtherExpensesSu
 import OtherExpensesSummaryReview from '../../components/otherExpenses/OtherExpensesSummaryReview';
 import InstallmentContract from '../../components/householdExpenses/InstallmentContract';
 import InstallmentContractSummary from '../../components/householdExpenses/InstallmentContractSummary';
+import HouseholdExpensesExplainerWidget from '../../components/householdExpenses/HouseholdExpensesExplainerWidget';
 import HouseholdExpensesSummaryReview from '../../components/householdExpenses/HouseholdExpensesSummaryReview';
 import CreditCardBillsSummaryReview from '../../components/householdExpenses/CreditCardBillsSummaryReview';
 import InstallmentContractsSummaryReview from '../../components/householdExpenses/InstallmentContractsSummaryReview';
@@ -45,11 +45,12 @@ export default {
       expensesExplainer: {
         path: 'expenses-explainer',
         title: 'Household expenses explainer',
-        uiSchema: expensesExplainer.uiSchema,
-        schema: expensesExplainer.schema,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
         depends: formData =>
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
+        CustomPage: HouseholdExpensesExplainerWidget,
         CustomPageReview: ExpenseExplainerReview,
       },
       expenses: {
