@@ -1,5 +1,6 @@
 import { SELECTED, MAX_LENGTH } from '../../shared/constants';
 
+/** @type {PageSchema} */
 /**
  * A CustomPage only needs/uses minimal uiSchema/schema
  */

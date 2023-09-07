@@ -242,7 +242,7 @@ const ContestableIssuesWidget = props => {
             className="add-new-issue vads-c-action-link--green"
             to={{
               pathname: '/add-issue',
-              search: `?index=${items.length},new=true`,
+              search: `?index=${items.length}`,
             }}
           >
             Add a new issue
