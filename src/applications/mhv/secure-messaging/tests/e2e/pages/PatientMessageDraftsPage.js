@@ -163,11 +163,12 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="delete-draft-button"]').click({ force: true });
   };
 
-  clickSendButton = draftMessage => {
-    cy.intercept('POST', `/my_health/v1/messaging/messages}`, draftMessage).as(
+  sendDraftMessage = draftMessage => {
+    cy.intercept('POST', '/my_health/v1/messaging/messages', draftMessage).as(
       'sentDraftResponse',
     );
     cy.get('[data-testid="Send-Button"]').click({ force: true });
+    cy.wait('@sentDraftResponse');
   };
 
   confirmDeleteDraft = draftMessage => {
