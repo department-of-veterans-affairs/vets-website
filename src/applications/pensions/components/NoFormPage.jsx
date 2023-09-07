@@ -62,7 +62,7 @@ export const NoFormPage = () => {
             </div>
             <br />
             <va-link
-              href="https://www.va.gov/burials-memorials/veterans-burial-allowance/"
+              href="https://www.va.gov/pension/survivors-pension/"
               text="Learn more about how to apply for VA pension benefits"
             />
           </va-alert>
@@ -74,7 +74,7 @@ export const NoFormPage = () => {
             <va-link
               download
               filetype="PDF"
-              href="https://www.vba.va.gov/pubs/forms/VBA-21P-530EZ-ARE.pdf"
+              href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf"
               pages={8}
               text="Download VA form 21P-527EZ"
             />
@@ -168,8 +168,6 @@ export const NoFormPage = () => {
         </>
       ) : (
         <>
-          <h1>Review Pension Benefits Application</h1>
-          <p>VA Form 21P-527EZ</p>
           <va-alert
             close-btn-aria-label="Close notification"
             status="info"
@@ -180,7 +178,7 @@ export const NoFormPage = () => {
             </h2>
             <br />
             <va-link
-              href="https://www.va.gov/burials-memorials/veterans-burial-allowance/"
+              href="https://www.va.gov/pension/survivors-pension/"
               text="Learn more about how to apply for VA pension benefits"
             />
           </va-alert>
@@ -206,7 +204,7 @@ export const NoFormPage = () => {
         </h2>
         <br />
         <va-link
-          href="https://www.va.gov/burials-memorials/veterans-burial-allowance/"
+          href="https://www.va.gov/pension/survivors-pension/"
           text="Learn more about how to apply for VA pension benefits"
         />
       </va-alert>
