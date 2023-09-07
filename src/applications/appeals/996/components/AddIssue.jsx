@@ -181,7 +181,7 @@ const AddIssue = props => {
           onInput={handlers.onIssueNameChange}
           onBlur={handlers.onInputBlur}
           error={((submitted || inputDirty) && showIssueNameError) || null}
-          messageAriaDescribedby={content.name.hintText}
+          message-aria-describedby={content.name.hintText}
         >
           {content.name.hint}
         </VaTextInput>
