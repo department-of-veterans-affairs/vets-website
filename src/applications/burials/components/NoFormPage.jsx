@@ -419,8 +419,6 @@ export const NoFormPage = () => {
         </>
       ) : (
         <>
-          <h1>Review Burial Benefits Application</h1>
-          <p>VA Form 21P-530</p>
           <va-alert
             close-btn-aria-label="Close notification"
             status="info"

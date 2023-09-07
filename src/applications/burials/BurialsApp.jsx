@@ -14,7 +14,7 @@ function BurialsEntry({ location, children, isLoadingFeatures }) {
   const redirectToHowToPage =
     burialFormEnabled === false && location.pathname !== '/introduction';
   if (redirectToHowToPage === true) {
-    window.location.href = '/whatever/the/how-to/page/is';
+    window.location.href = '/burials-memorials/veterans-burial-allowance/';
   }
 
   if (isLoadingFeatures !== false || redirectToHowToPage) {
