@@ -1,5 +1,4 @@
 import {
-  bankruptcyHistory,
   bankruptcyHistoryRecords,
   enhancedBankruptcyHistoryRecords,
 } from '../../pages';
@@ -8,6 +7,7 @@ import {
   isStreamlinedShortForm,
   isStreamlinedLongForm,
 } from '../../utils/streamlinedDepends';
+import BankruptcyQuestion from '../../components/shared/BankruptcyQuestion';
 import BankruptcyQuestionReview from '../../components/shared/BankruptcyQuestionReview';
 
 export default {
@@ -19,10 +19,11 @@ export default {
       bankruptcyHistory: {
         path: 'bankruptcy-history',
         title: 'Bankruptcy history',
-        uiSchema: bankruptcyHistory.uiSchema,
-        schema: bankruptcyHistory.schema,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
         depends: formData =>
           !isStreamlinedShortForm(formData) && !isStreamlinedLongForm(formData),
+        CustomPage: BankruptcyQuestion,
         CustomPageReview: BankruptcyQuestionReview,
       },
       bankruptcyHistoryRecords: {
