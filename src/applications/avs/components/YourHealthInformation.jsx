@@ -10,6 +10,8 @@ import {
 } from '../utils';
 import { APPOINTMENT_TYPES } from '../utils/constants';
 
+import ParagraphBlock from './ParagraphBlock';
+
 const getAppointments = (type, appointments) => {
   return appointments.filter(appointment => appointment.type === type.label);
 };
@@ -106,33 +108,6 @@ const appointments = avs => {
             <ul data-testid="recall-appointments">{recallAppointments}</ul>
           </div>
         )}
-      </div>
-    );
-  }
-
-  return null;
-};
-
-const appointmentNotes = avs => {
-  if (avs.comments) {
-    return (
-      <div>
-        <h3>Appointment notes</h3>
-        {/* TODO: test with sample data when available. */}
-        <p data-testid="appointment-notes">{avs.comments}</p>
-      </div>
-    );
-  }
-
-  return null;
-};
-
-const smokingStatus = avs => {
-  if (avs.patientInfo?.smokingStatus) {
-    return (
-      <div>
-        <h3>Smoking status</h3>
-        <p data-testid="smoking-status">{avs.patientInfo.smokingStatus}</p>
       </div>
     );
   }
@@ -264,9 +239,12 @@ const YourHealthInformation = props => {
       {primaryCareProvider(avs)}
       {primaryCareTeam(avs)}
       {appointments(avs)}
-      {appointmentNotes(avs)}
+      <ParagraphBlock heading="Appointment notes" content={avs.comments} />
       {/* TODO: add problem list */}
-      {smokingStatus(avs)}
+      <ParagraphBlock
+        heading="Smoking status"
+        content={avs.patientInfo?.smokingStatus}
+      />
       {immunizations(avs)}
       {allergiesAndReactions(avs)}
       {labResults(avs)}

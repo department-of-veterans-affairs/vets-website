@@ -2,6 +2,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import recipientsList from '../fixtures/recipients-response.json';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Check confirmation message after save draft', () => {
   const site = new SecureMessagingSite();
@@ -18,7 +19,7 @@ describe('Check confirmation message after save draft', () => {
     draftPage.addMessageSubject('testSubject');
     draftPage.addMessageBody('testMessage');
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
