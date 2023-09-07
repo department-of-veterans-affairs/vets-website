@@ -86,7 +86,7 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
 
       {months?.length > 0 && (
         <VaPagination
-          onPageSelect={onPageSelect}
+          onPageSelect={e => onPageSelect(e.detail.page)}
           page={currentPage}
           pages={numPages}
         />
