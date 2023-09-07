@@ -44,7 +44,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   const isVA = !isVideo && !isCommunityCare;
 
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
-  console.log(`appointmentTypePrefix: ${appointmentTypePrefix}`);
+
   useEffect(
     () => {
       dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
