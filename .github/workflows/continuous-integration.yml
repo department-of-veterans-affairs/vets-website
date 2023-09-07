@@ -802,14 +802,11 @@ jobs:
         working-directory: qa-standards-dashboard-data
         env:
           TEST_TYPE: e2e
-      # exports app list and assigns to environmental variable at this step
-
-      - name: Set Allow List Output
-        id: allow-list-output
-        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
 
       - name: Check if code can be merged
         run: node script/github-actions/check-e2e-status.js
+        env:
+          TEST_TYPE: e2e
 
   testing-reports-unit-tests:
     name: Testing Reports - Unit Tests
