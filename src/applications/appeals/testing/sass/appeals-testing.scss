@@ -5,8 +5,57 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+@import "../../10182/sass/10182-nod";
 
 #main .progress-box {
   margin: 0;
   padding: 0;
+}
+
+@media screen and (min-width: 768px) {
+  #main .form-panel,
+  #main .schemaform-label {
+    max-width: 40em;
+  }
+}
+
+.task-list,
+.issue-summary-list,
+.review-pages {
+  list-style: none;
+}
+
+article[data-location="task-list"] {
+  li .task-list-link-wrap:first-of-type {
+    border-top: 1px solid;
+  }
+
+  .help-footer-box {
+    display: none;
+  }
+}
+
+article[data-location="review-then-submit"] {
+  .page-title {
+    margin-top: 1rem;
+  }
+}
+
+.form-progress-buttons {
+  /* hide back button */
+  .usa-button-secondary {
+    display: none;
+  }
+  /* widen continue button */
+  .small-6 {
+    width: 50% !important;
+  }
+}
+
+.issue-title {
+  text-transform: capitalize;
+}
+
+.issues .widget-wrapper .widget-checkbox-wrap {
+  padding-top: 1rem;
 }

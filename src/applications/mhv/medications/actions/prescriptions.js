@@ -6,8 +6,13 @@ export const setSortedRxList = rxList => async dispatch => {
 };
 
 export const getPrescriptionsList = () => async dispatch => {
-  const response = await getPrescriptionList();
-  dispatch({ type: Actions.Prescriptions.GET_LIST, response });
+  try {
+    const response = await getPrescriptionList();
+    dispatch({ type: Actions.Prescriptions.GET_LIST, response });
+    return null;
+  } catch (error) {
+    return error;
+  }
 };
 
 export const getPrescriptionDetails = prescriptionId => async dispatch => {
@@ -23,6 +28,7 @@ export const fillPrescription = prescriptionId => async dispatch => {
     return null;
   } catch (error) {
     const err = error.errors[0];
+    err.id = prescriptionId;
     dispatch({
       type: Actions.Prescriptions.FILL_ERROR,
       err,

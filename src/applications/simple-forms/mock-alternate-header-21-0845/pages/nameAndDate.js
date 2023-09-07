@@ -1,5 +1,6 @@
-import definitions from 'vets-json-schema/dist/definitions.json';
 import {
+  dateOfBirthUI,
+  dateOfBirthSchema,
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -10,10 +11,7 @@ export default {
   uiSchema: {
     'view:title': titleH1UI('Your name and date of birth'),
     veteranFullName: fullNameNoSuffixUI(),
-    veteranDateOfBirth: {
-      'ui:title': 'Date of birth',
-      'ui:widget': 'date',
-    },
+    veteranDateOfBirth: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
@@ -21,7 +19,7 @@ export default {
     properties: {
       'view:title': titleH1Schema,
       veteranFullName: fullNameNoSuffixSchema,
-      veteranDateOfBirth: definitions.date,
+      veteranDateOfBirth: dateOfBirthSchema,
     },
   },
 };

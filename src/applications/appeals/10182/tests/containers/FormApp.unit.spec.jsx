@@ -167,7 +167,10 @@ describe('FormApp', () => {
     );
 
     await waitFor(() => {
-      const action = store.getActions()[0];
+      // Here, we are checking the second action, which is dispatched within the
+      // second `useEffect` in `FormApp`. This second `useEffect` is the one that
+      // manages contestable issues.
+      const action = store.getActions()[1];
       expect(action.type).to.eq(SET_DATA);
       expect(action.data.contestedIssues.length).to.eq(1);
     });

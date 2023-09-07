@@ -8,27 +8,17 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
 import { getAvs } from '../api/v0';
-import {
-  getFormattedAppointmentDate,
-  getFormattedGenerationDate,
-} from '../utils';
+import { getFormattedAppointmentDate } from '../utils';
 
 import YourAppointment from '../components/YourAppointment';
+import YourTreatmentPlan from '../components/YourTreatmentPlan';
+import YourHealthInformation from '../components/YourHealthInformation';
+import MoreInformation from '../components/MoreInformation';
+import Footer from '../components/Footer';
 
 const generateAppointmentHeader = avs => {
   const appointmentDate = getFormattedAppointmentDate(avs);
   return `Your appointment on ${appointmentDate}`;
-};
-
-const generateFooter = avs => {
-  const generationDate = getFormattedGenerationDate(avs);
-  return (
-    <p>
-      Date and time generated
-      <br />
-      {generationDate}
-    </p>
-  );
 };
 
 const Avs = props => {
@@ -88,8 +78,18 @@ const Avs = props => {
           <va-accordion-item header={generateAppointmentHeader(avs)}>
             <YourAppointment avs={avs} />
           </va-accordion-item>
+          <va-accordion-item header="Your treatment plan from this appointment">
+            <YourTreatmentPlan avs={avs} />
+          </va-accordion-item>
+          <va-accordion-item header="Your health information as of this appointment">
+            <YourHealthInformation avs={avs} />
+          </va-accordion-item>
+          <va-accordion-item header="More information">
+            <MoreInformation avs={avs} />
+          </va-accordion-item>
         </va-accordion>
-        {generateFooter(avs)}
+
+        <Footer avs={avs} />
       </RequiredLoginView>
     </div>
   );

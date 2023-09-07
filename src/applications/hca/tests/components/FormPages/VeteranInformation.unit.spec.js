@@ -35,22 +35,18 @@ describe('hca VeteranInformation', () => {
   };
   const formData = {
     'view:isLoggedIn': false,
-    veteranFullName: {
-      first: 'John',
-      middle: 'Marjorie',
-      last: 'Smith',
-      suffix: 'Sr.',
+    'view:veteranInformation': {
+      veteranFullName: {
+        first: 'John',
+        middle: 'Marjorie',
+        last: 'Smith',
+        suffix: 'Sr.',
+      },
+      veteranDateOfBirth: '1986-01-01',
+      veteranSocialSecurityNumber: '211557777',
     },
-    veteranDateOfBirth: '1986-01-01',
-    veteranSocialSecurityNumber: '211557777',
   };
   const defaultProps = {
-    data: {
-      'view:isLoggedIn': false,
-      veteranDateOfBirth: null,
-      veteranSocialSecurityNumber: null,
-      veteranFullName: {},
-    },
     goBack: sinon.spy(),
     goForward: sinon.spy(),
   };
