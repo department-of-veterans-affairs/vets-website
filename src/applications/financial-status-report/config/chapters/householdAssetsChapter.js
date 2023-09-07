@@ -1,6 +1,5 @@
 import {
   monetary,
-  monetaryChecklist,
   monetaryValues,
   realEstate,
   realEstateRecords,
@@ -23,6 +22,7 @@ import RealEstateValueReview from '../../components/otherAssets/RealEstateValueR
 import RealEstateQuestionReview from '../../components/otherAssets/RealEstateQuestionReview';
 import EnhancedVehicleRecord from '../../components/otherAssets/EnhancedVehicleRecord';
 import VehicleSummaryWidget from '../../components/otherAssets/VehicleSummaryWidget';
+import MonetaryCheckList from '../../components/monetary/MonetaryCheckList';
 import MonetaryAssetsSummaryReview from '../../components/monetary/MonetaryAssetsSummaryReview';
 import VehicleSummaryReview from '../../components/otherAssets/VehicleSummaryReview';
 import {
@@ -101,8 +101,12 @@ export default {
       monetaryChecklist: {
         path: 'monetary-asset-checklist',
         title: 'Monetary asset options',
-        uiSchema: monetaryChecklist.uiSchema,
-        schema: monetaryChecklist.schema,
+        // uiSchema: monetaryChecklist.uiSchema,
+        // schema: monetaryChecklist.schema,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
+        CustomPage: MonetaryCheckList,
+        CustomPageReview: null,
         depends: formData =>
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
