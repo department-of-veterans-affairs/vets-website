@@ -66,117 +66,121 @@ const generateData = (type, formData) => {
   switch (type) {
     case 'claimant-information':
       return {
-        'Claimant’s first name': formData.claimantFullName.first
-          ? formData.claimantFullName.first
+        'Claimant’s first name': formData?.claimantFullName?.first
+          ? formData?.claimantFullName?.first
           : '',
-        'Claimant’s middle name': formData.claimantFullName?.middle ?? 'None',
-        'Claimant’s last name': formData.claimantFullName.last
-          ? formData.claimantFullName.last
+        'Claimant’s middle name': formData?.claimantFullName?.middle ?? 'None',
+        'Claimant’s last name': formData?.claimantFullName?.last
+          ? formData?.claimantFullName?.last
           : '',
-        Suffix: formData.claimantFullName?.suffix ?? 'None',
-        'Relationship to the deceased Veterans': formData.relationship.type
+        Suffix: formData?.claimantFullName?.suffix ?? 'None',
+        'Relationship to the deceased Veterans': formData?.relationship?.type
           ?.other
-          ? formData.relationship.other
-          : relationshipType[formData.relationship.type],
+          ? formData?.relationship?.other
+          : relationshipType[(formData?.relationship.type)],
       };
     case 'deceased-veteran-information':
       return {
-        'Veteran’s first name': formData.veteranFullName.first
-          ? formData.veteranFullName.first
+        'Veteran’s first name': formData?.veteranFullName?.first
+          ? formData?.veteranFullName?.first
           : '',
-        'Veteran’s middle name': formData.veteranFullName?.middle ?? 'None',
-        'Veteran’s last name': formData.veteranFullName.last
-          ? formData.veteranFullName.last
+        'Veteran’s middle name': formData?.veteranFullName?.middle ?? 'None',
+        'Veteran’s last name': formData?.veteranFullName?.last
+          ? formData?.veteranFullName?.last
           : '',
-        Suffix: formData.veteranFullName?.suffix ?? 'None',
-        'Social Security number': formData.veteranSocialSecurityNumber
-          ? formatSSN(formData.veteranSocialSecurityNumber)
+        Suffix: formData?.veteranFullName?.suffix ?? 'None',
+        'Social Security number': formData?.veteranSocialSecurityNumber
+          ? formatSSN(formData?.veteranSocialSecurityNumber)
           : '',
-        'VA file number': formData.vaFileNumber ? formData.vaFileNumber : '',
-        'Date of birth': formData.veteranDateOfBirth
-          ? convertDateFormat(formData.veteranDateOfBirth)
+        'VA file number': formData?.vaFileNumber ? formData?.vaFileNumber : '',
+        'Date of birth': formData?.veteranDateOfBirth
+          ? convertDateFormat(formData?.veteranDateOfBirth)
           : '',
         'Place of birth (city and state or foreign country)':
           formData?.placeOfBirth ?? 'None',
         'Burial information': {
-          'Date of death': formData.deathDate
-            ? convertDateFormat(formData.deathDate)
+          'Date of death': formData?.deathDate
+            ? convertDateFormat(formData?.deathDate)
             : '',
-          'Date of burial (includes cremation or interment)': formData.burialDate
-            ? convertDateFormat(formData.burialDate)
+          'Date of burial (includes cremation or interment)': formData?.burialDate
+            ? convertDateFormat(formData?.burialDate)
             : '',
-          'Where did the Veteran’s death occur?': formData.locationOfDeath
+          'Where did the Veteran’s death occur?': formData?.locationOfDeath
             ?.other
-            ? formData.locationOfDeath.other
-            : locationOfDeath[formData.locationOfDeath.location],
+            ? formData?.locationOfDeath?.other
+            : locationOfDeath[(formData?.locationOfDeath?.location)],
         },
       };
     case 'military-history':
       return {
         'Previous names': {
           'Did the Veteran serve under another name?':
-            formData.previousNames?.length > 0 ? formData.previousNames : 'No',
+            formData?.previousNames?.length > 0
+              ? formData?.previousNames
+              : 'No',
         },
       };
     case 'benefits-selection':
       return {
         'General selection': {
-          'Burial allowance': formData['view:claimedBenefits'].burialAllowance
+          'Burial allowance': formData['view:claimedBenefits']?.burialAllowance
             ? 'Selected'
             : 'Not selected',
           'Plot or interment allowance (Check this box if you incurred expensed for the plot to bury the Veteran’s remains.)': formData[
             'view:claimedBenefits'
-          ].plotAllowance
+          ]?.plotAllowance
             ? 'Selected'
             : 'Not selected',
           'Transportation expenses (Transportation of the Veteran’s remains from the place of death to the final resting place)': formData[
             'view:claimedBenefits'
-          ].transportation
-            ? formatCurrency(formData['view:claimedBenefits'].amountIncurred)
+          ]?.transportation
+            ? formatCurrency(formData['view:claimedBenefits']?.amountIncurred)
             : 'None',
         },
         'Burial allowance': {
           'Type of burial allowance':
-            burialAllowanceRequest[formData.burialAllowanceRequested],
+            burialAllowanceRequest[(formData?.burialAllowanceRequested)],
           'Did you previously receive a VA burial allowance?': formData[
             'view:claimedBenefits'
-          ].burialAllowance
+          ]?.burialAllowance
             ? 'Yes'
             : 'No',
         },
         'Plot or interment allowance': {
-          'Place of burial or location of deceased Veteran’s remains': formData.placeOfRemains
-            ? formData.placeOfRemains
+          'Place of burial or location of deceased Veteran’s remains': formData?.placeOfRemains
+            ? formData?.placeOfRemains
             : '',
-          'Was the Veteran buried in a state Veterans cemetary?': formData.stateCemetary
+          'Was the Veteran buried in a state Veterans cemetary?': formData?.stateCemetary
             ? 'Yes'
             : 'No',
-          'Did a federal/state government or the Veteran’s employer contribute to the burial? (Not including employer life insurance)': formData.govtContributions
-            ? formatCurrency(formData.amountGovtContribution)
+          'Did a federal/state government or the Veteran’s employer contribute to the burial? (Not including employer life insurance)': formData?.govtContributions
+            ? formatCurrency(formData?.amountGovtContribution)
             : 'No',
         },
       };
     case 'additional-information':
       return {
         'Claimant contact information': {
-          Address: formData.claimantAddress
-            ? formatAddress(formData.claimantAddress)
+          Address: formData?.claimantAddress
+            ? formatAddress(formData?.claimantAddress)
             : '',
-          'Email address': formData.claimantEmail ? formData.claimantEmail : '',
-          'Phone number': formData.claimantPhone
-            ? formatPhoneNumber(formData.claimantPhone)
+          'Email address': formData?.claimantEmail
+            ? formData?.claimantEmail
+            : '',
+          'Phone number': formData?.claimantPhone
+            ? formatPhoneNumber(formData?.claimantPhone)
             : '',
         },
         'Document upload': {
           'Veterans death certificate':
-            formData.transportationReceipts.length > 0
-              ? formData.transportationReceipts.slice(0, 1)
+            formData?.transportationReceipts?.length > 0
+              ? formData?.transportationReceipts?.slice(0, 1)
               : '',
           'Documentation for transportation of the Veteran’s remains or other supporting evidence':
-            formData.transportationReceipts.length > 0
-              ? formData.transportationReceipts.slice(
+            formData?.transportationReceipts?.length > 0
+              ? formData?.transportationReceipts?.slice(
                   1,
-                  formData.transportationReceipts.length,
+                  formData?.transportationReceipts?.length,
                 )
               : '',
         },
