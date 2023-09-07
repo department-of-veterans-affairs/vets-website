@@ -13,7 +13,7 @@ class MedicationsListPage {
   };
 
   clickWhatToKnowAboutMedicationsDropDown = () => {
-    cy.contains('What to know before you download').click({
+    cy.contains('What to know about downloading records').click({
       force: true,
     });
   };
