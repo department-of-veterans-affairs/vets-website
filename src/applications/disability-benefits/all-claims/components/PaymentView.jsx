@@ -69,7 +69,7 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
       {!dataChanged && (
         <p>We’re currently paying your compensation to this account</p>
       )}
-      <div className="blue-bar-block">
+      <div className="blue-bar-block dd-privacy-mask">
         <p>
           <strong>
             {accountTitleLabels[(bankAccountType || '').toUpperCase()]}

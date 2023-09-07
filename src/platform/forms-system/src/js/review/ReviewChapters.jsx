@@ -21,7 +21,7 @@ import {
   uploadFile,
 } from '../actions';
 
-const scroller = Scroll.scroller;
+const { scroller } = Scroll;
 class ReviewChapters extends React.Component {
   componentDidMount() {
     const { formData, pageList } = this.props;
@@ -76,7 +76,7 @@ class ReviewChapters extends React.Component {
     } = this.props;
 
     return (
-      <div className="input-section">
+      <div className="input-section dd-privacy-mask">
         <div>
           {chapters.map(chapter => (
             <ReviewCollapsibleChapter
@@ -110,7 +110,7 @@ export function mapStateToProps(state, ownProps) {
   const { formConfig, formContext, pageList } = ownProps;
 
   // from redux state
-  const form = state.form;
+  const { form } = state;
   const formData = state.form.data;
   const openChapters = getReviewPageOpenChapters(state);
   const viewedPages = getViewedPages(state);
