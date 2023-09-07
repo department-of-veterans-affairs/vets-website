@@ -5,17 +5,17 @@ import { mount } from 'enzyme';
 
 import {
   DefinitionTester,
-  selectRadio,
+  fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe('Pre-need preparer info', () => {
+describe('Pre-need preparer Details info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.contactInformation.pages.preparer;
+  } = formConfig.chapters.contactInformation.pages.preparerDetails;
 
-  it('should render', () => {
+  it('should render name input field', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -30,6 +30,9 @@ describe('Pre-need preparer info', () => {
 
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
+    uiSchema.application.applicant.name.first['ui:required'] = () => true;
+    uiSchema.application.applicant.name.last['ui:required'] = () => true;
+
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -40,8 +43,7 @@ describe('Pre-need preparer info', () => {
     );
 
     form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(form.find('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -56,11 +58,18 @@ describe('Pre-need preparer info', () => {
         uiSchema={uiSchema}
       />,
     );
+    uiSchema.application.applicant.name.first['ui:required'] = () => true;
+    uiSchema.application.applicant.name.last['ui:required'] = () => true;
 
-    selectRadio(
+    fillData(
       form,
-      'root_application_applicant_applicantRelationshipToClaimant',
-      'Self',
+      'input[name="root_application_applicant_name_first"]',
+      'Jane',
+    );
+    fillData(
+      form,
+      'input[name="root_application_applicant_name_last"]',
+      'Smith',
     );
     form.find('form').simulate('submit');
 
