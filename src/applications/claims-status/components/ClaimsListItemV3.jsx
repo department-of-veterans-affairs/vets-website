@@ -60,6 +60,7 @@ export default function ClaimsListItemV3({ claim }) {
   const inProgress = !isClaimComplete(claim);
   const formattedReceiptDate = formatDate(claimDate);
   const humanStatus = getStatusDescription(status);
+  const showAlert = inProgress && documentsNeeded;
 
   return (
     <va-card class="claim-list-item">
@@ -90,29 +91,17 @@ export default function ClaimsListItemV3({ claim }) {
         {humanStatus && <p>{humanStatus}</p>}
         <p>{getLastUpdated(claim)}</p>
       </div>
-      {inProgress && documentsNeeded ? (
-        <va-alert
-          close-btn-aria-label="Close notification"
-          disable-analytics="false"
-          full-width="false"
-          status="warning"
-          visible="true"
-          slim
-          uswds
-        >
-          <div className="vads-u-margin--0">
-            <p className="vads-u-margin--0">
-              An item in the claim needs your attention
-            </p>
-          </div>
+      {showAlert && (
+        <va-alert status="warning" slim uswds>
+          An item in the claim needs your attention
         </va-alert>
-      ) : null}
+      )}
       <va-link
         active
         aria-label={`View details for claim submitted on ${formattedReceiptDate}`}
+        class="vads-u-margin-top--2 vads-u-display--block"
         href={`your-claims/${claim.id}/status`}
         text="View details"
-        class="vads-u-margin-top--3 vads-u-display--block"
       />
     </va-card>
   );

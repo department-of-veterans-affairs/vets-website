@@ -29,11 +29,14 @@ export default function StemClaimListItemV3({ claim }) {
   };
 
   return (
-    <va-card class="claim-list-item-container">
+    <va-card class="claim-list-item">
       <h3 className="claim-list-item-header vads-u-margin-bottom--2">
-        Edith Nourse Rogers STEM Scholarship application
-        <span className="submitted-on">
-          Submitted on {formattedReceiptDate}
+        {/* eslint-disable-next-line jsx-a11y/aria-role */}
+        <span role="text">
+          Edith Nourse Rogers STEM Scholarship application
+          <span className="submitted-on">
+            Submitted on {formattedReceiptDate}
+          </span>
         </span>
       </h3>
       <div className="card-status">
@@ -45,7 +48,7 @@ export default function StemClaimListItemV3({ claim }) {
         aria-label={`View details for claim submitted on ${formattedReceiptDate}`}
         href={`your-stem-claims/${claim.id}/status`}
         text="View details"
-        class="vads-u-margin-top--3 vads-u-display--block"
+        class="vads-u-margin-top--2 vads-u-display--block"
         onClick={handlers.openClaimClick}
       />
     </va-card>

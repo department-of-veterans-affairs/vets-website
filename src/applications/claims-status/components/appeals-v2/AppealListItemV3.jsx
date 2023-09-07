@@ -78,7 +78,7 @@ export default function AppealListItemV3({ appeal, name, external = false }) {
   updatedOn = moment(updatedEventDateString).format('MMMM D, YYYY');
 
   return (
-    <va-card class="claim-list-item-container">
+    <va-card class="claim-list-item">
       <h3 className="claim-list-item-header vads-u-margin-bottom--2">
         {/* eslint-disable-next-line jsx-a11y/aria-role */}
         <span role="text">
@@ -106,7 +106,7 @@ export default function AppealListItemV3({ appeal, name, external = false }) {
           aria-label={`View details for ${appealTitle}`}
           href={`appeals/${appeal.id}/status`}
           text="View details"
-          class="vads-u-margin-top--3 vads-u-display--block"
+          class="vads-u-margin-top--2 vads-u-display--block"
         />
       )}
       {external && (
@@ -115,7 +115,7 @@ export default function AppealListItemV3({ appeal, name, external = false }) {
           aria-label={`View details for ${appealTitle}`}
           href={`/track-claims/appeals/${appeal.id}/status`}
           text="View details"
-          class="vads-u-margin-top--3 vads-u-display--block"
+          class="vads-u-margin-top--2 vads-u-display--block"
         />
       )}
     </va-card>
