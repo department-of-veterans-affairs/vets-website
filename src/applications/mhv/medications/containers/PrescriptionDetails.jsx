@@ -8,6 +8,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import TrackingInfo from '../components/shared/TrackingInfo';
+import { updatePageTitle } from '../../shared/util/helpers';
 import FillRefillButton from '../components/shared/FillRefillButton';
 
 const PrescriptionDetails = () => {
@@ -43,6 +44,7 @@ const PrescriptionDetails = () => {
     () => {
       if (prescription) {
         focusElement(document.querySelector('h1'));
+        updatePageTitle(prescription.prescriptionName);
       }
     },
     [prescription],
@@ -159,16 +161,16 @@ const PrescriptionDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="page-title">
-            <div>{prescription.prescriptionName}</div>
-            <p
-              className="title-last-filled-on vads-u-font-family--sans"
-              data-testid="rx-last-filled-date"
-            >
-              Last filled on{' '}
-              {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
-            </p>
+          <h1 aria-describedby="last-filled" data-testid="prescription-name">
+            {prescription.prescriptionName}
           </h1>
+          <p
+            id="last-filled"
+            className="title-last-filled-on vads-u-font-family--sans"
+            data-testid="rx-last-filled-date"
+          >
+            Last filled on {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
+          </p>
           <div className="no-print">
             <PrintDownload download={handleDownloadPDF} />
             <va-additional-info trigger="What to know about downloading records">
@@ -201,12 +203,14 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescription number
             </h3>
-            <p>{prescription.prescriptionNumber}</p>
+            <p data-testid="prescription-number">
+              {prescription.prescriptionNumber}
+            </p>
 
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Status
             </h3>
-            <div>
+            <div data-testid="status">
               {prescription.refillStatus === 'refillinprocess'
                 ? 'Refill in process'
                 : prescription.refillStatus}
@@ -229,15 +233,19 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Refills left
             </h3>
-            <p>{prescription.refillRemaining}</p>
+            <p data-testid="refills-left">{prescription.refillRemaining}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed on
             </h3>
-            <p>{dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}</p>
+            <p datat-testid="ordered-date">
+              {dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Order refills by this expiration date
             </h3>
-            <p>{dateFormat(prescription.expirationDate, 'MMMM D, YYYY')}</p>
+            <p data-testid="expiration-date">
+              {dateFormat(prescription.expirationDate, 'MMMM D, YYYY')}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed by
             </h3>
@@ -251,7 +259,7 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
             </h3>
-            <p>{prescription.facilityName}</p>
+            <p data-testid="facility-name">{prescription.facilityName}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Phone number
             </h3>
@@ -298,14 +306,10 @@ const PrescriptionDetails = () => {
               refillHistory.map((entry, i) => (
                 <div key={entry.id}>
                   <h3 className="vads-u-font-size--lg vads-u-font-family--sans">
-                    {dateFormat(entry.dispensedDate, 'MMMM D, YYYY')}
+                    {i + 1 === refillHistory.length
+                      ? 'Original Fill'
+                      : `Refill #${refillHistory.length - i - 1}`}
                   </h3>
-                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
-                    Refill requested on
-                  </h4>
-                  <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.refillSubmitDate, 'MMMM D, YYYY')}
-                  </p>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                     Filled by pharmacy on
                   </h4>
@@ -326,7 +330,7 @@ const PrescriptionDetails = () => {
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                     {/* TODO: Not yet available */}
-                    Not noted
+                    None noted
                   </p>
                   <div className="no-print">
                     <va-additional-info trigger="Review image">

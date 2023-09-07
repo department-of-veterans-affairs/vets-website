@@ -72,7 +72,7 @@ class IntroductionPage extends React.Component {
           <Link
             onClick={this.handleClick}
             to={this.getStartPage}
-            className="schemaform-start-button"
+            className="vads-c-action-link--green schemaform-start-button"
           >
             Start your application without signing in
           </Link>

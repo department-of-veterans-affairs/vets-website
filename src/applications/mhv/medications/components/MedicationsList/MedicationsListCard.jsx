@@ -3,38 +3,23 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { dateFormat } from '../../util/helpers';
 import FillRefillButton from '../shared/FillRefillButton';
+import ExtraDetails from '../shared/ExtraDetails';
+import { refillStatus } from '../../util/constants';
 
 const MedicationsListCard = props => {
   const { rx } = props;
-  let history = false;
-  let isExpired = false;
-  if (rx.refillStatus === 'expired') {
-    isExpired = true;
+  let noRefillRemaining = false;
+  let showRefillRemaining = false;
+
+  if (refillStatus.includes(rx.refillStatus)) {
+    showRefillRemaining = true;
   }
-  if (rx.refillStatus === 'refillinprocess') {
-    history = true;
+  if (
+    rx.refillRemaining === 0 &&
+    (rx.refillStatus === 'active' || rx.refillStatus === 'activeParked')
+  ) {
+    noRefillRemaining = true;
   }
-  const extraDetails = () => {
-    return (
-      <>
-        <div className="shipping-info vads-u-background-color--gray-light no-print">
-          <div className="shipping-icon" />
-          <div className="shipping-body">
-            {/* TODO: dont have a way to diferentiate if a refill has been submitted vs is in process vs shipped. change logic once that has been sorted out by backend */}
-            <div>Refill in process.</div>
-            <div>
-              {/* TODO: dont have an 'expected' value coming in from backend, add expected date once that value starts coming in.  */}
-              {/* Expected delivery date is{' '}
-              <span className="vads-u-font-weight--bold">
-                {dateFormat(rx.orderedDate, 'MMMM D, YYYY')}
-              </span> */}
-            </div>
-          </div>
-        </div>
-        <div className="print-only">Refill in process.</div>
-      </>
-    );
-  };
 
   return (
     <div className="rx-card-container vads-u-background-color--white vads-u-margin-y--1 vads-u-border--1px vads-u-border-color--gray-medium no-break">
@@ -48,24 +33,26 @@ const MedicationsListCard = props => {
             {rx.prescriptionName}
           </Link>
         </h3>
-        {rx.dispensedDate ? (
+        {rx.dispensedDate && rx.refillStatus !== 'transferred' ? (
           <div>
-            Last filled on {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}
+            {rx.refillStatus === 'non-va' ? 'Documented' : 'Last filled'} on{' '}
+            {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}
           </div>
         ) : (
-          <div>You haven’t filled this prescription yet.</div>
+          <div>Not filled yet</div>
         )}
-        <div>Refills left: {rx.refillRemaining}</div>
-        <div className="link-to-details vads-u-font-weight--bold no-print" />
-        {history === true && extraDetails()}
+        {showRefillRemaining && <div>{rx.refillRemaining} refills left</div>}
+        {rx && <ExtraDetails {...rx} />}
         {rx && <FillRefillButton {...rx} />}
-        {isExpired && (
+
+        {noRefillRemaining && (
           <>
             <div className="no-print">
-              <p className="vads-u-margin-y--0">this medication is expired.</p>
-              <va-link href="/" text="Learn how to renew medications." />
+              <p className="vads-u-margin-y--0">
+                You have no refills left. If you need more, request a renewal.
+              </p>
+              <va-link href="/" text="Learn how to renew prescriptions." />
             </div>
-            <div className="print-only">this medication is expired.</div>
           </>
         )}
       </div>

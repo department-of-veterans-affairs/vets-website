@@ -24,15 +24,8 @@ const childContent = (
       section-heading={{
         value: 'null',
       }}
-      uswds={{
-        value: 'true',
-      }}
     >
-      <va-accordion-item
-        header="Accrued benefits"
-        id="first"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Accrued benefits" id="first">
         <ul>
           <li>
             Application for Accrued Amounts Due a Deceased Beneficiary (VA Form
@@ -44,7 +37,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Appeals" id="second" uswds={{ value: 'true' }}>
+      <va-accordion-item header="Appeals" id="second">
         <ul>
           <li>
             Decision Review Request: Supplemental Claim (VA Form 20-0995)
@@ -70,11 +63,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Auto allowance"
-        id="third"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Auto allowance" id="third">
         <ul>
           <li>
             Application for Automobile or Other Conveyance and Adaptive
@@ -89,7 +78,6 @@ const childContent = (
       <va-accordion-item
         header="Benefits for certain children with disabilities"
         id="fourth"
-        uswds={{ value: 'true' }}
       >
         <ul>
           <li>
@@ -102,11 +90,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Compensation"
-        id="fifth"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Compensation" id="fifth">
         <ul>
           <li>
             Application for Disability Compensation and Related Compensation
@@ -118,11 +102,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Compensation and/or Pension"
-        id="sixth"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Compensation or Pension" id="sixth">
         <ul>
           <li>
             Intent to File a Claim for Compensation and/or Pension, or Survivors
@@ -134,11 +114,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Dependents"
-        id="seventh"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Dependents" id="seventh">
         <ul>
           <li>
             Application Request to Add and/or Remove Dependents (VA Form
@@ -150,11 +126,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Dependent parent(s)"
-        id="eighth"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Dependent parent(s)" id="eighth">
         <ul>
           <li>
             Statement of Dependency of Parent(s) (VA Form 21P-509)
@@ -165,11 +137,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Individual unemployability"
-        id="ninth"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Individual unemployability" id="ninth">
         <ul>
           <li>
             Veteran’s Application for Increased Compensation Based on
@@ -181,10 +149,10 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Pension" id="tenth" uswds={{ value: 'true' }}>
+      <va-accordion-item header="Pension" id="tenth">
         <ul>
           <li>
-            Application for Pension (VA Form 21P-527EZ)
+            Application for Veterans Pension (VA Form 21P-527EZ)
             <br />
             <a href="/find-forms/about-form-21p-527ez">
               Learn more about VA Form 21P-527EZ
@@ -237,17 +205,13 @@ const childContent = (
           <li>
             All forms known as Eligibility Verification Reports
             <br />
-            <a href="find-forms/?q=Eligibility+Verification+Reports">
+            <a href="/find-forms/?q=Eligibility+Verification+Reports">
               Learn more about Eligibility Verification Reports
             </a>
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Posttramatic stress disorder"
-        id="twelfth"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Posttraumatic stress disorder" id="twelfth">
         <ul>
           <li>
             Statement in Support of Claim for Service Connection for
@@ -270,14 +234,13 @@ const childContent = (
         <p>
           <strong>Note:</strong> If you want to fill out these forms online,
           you’ll need to go to our disability compensation form,{' '}
-          <a href="/find-forms/about-form-21-526ez">VA Form 526EZ</a>. These
-          forms are in included within the online version of VA Form 526EZ.
+          <a href="/find-forms/about-form-21-526ez">VA Form 21-526EZ</a>. These
+          forms are included within the online version of VA Form 21-526EZ.
         </p>
       </va-accordion-item>
       <va-accordion-item
-        header="School Age Child(ren) (Aged 18-23 Years and in School)"
+        header="School-age children (ages 18 to 23 and in school)"
         id="thirteenth"
-        uswds={{ value: 'true' }}
       >
         <ul>
           <li>
@@ -292,7 +255,6 @@ const childContent = (
       <va-accordion-item
         header="Specially adapted housing or special home adaptation"
         id="fourteenth"
-        uswds={{ value: 'true' }}
       >
         <ul>
           <li>
@@ -305,22 +267,18 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Survivor benefits"
-        id="fifteenth"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Survivor benefits" id="fifteenth">
         <ul>
           <li>
-            Application for DIC, Death Pension, and/or Accrued Benefit (VA Form
-            21P-534EZ)
+            Application for DIC, Survivors Pension, and/or Accrued Benefit (VA
+            Form 21P-534EZ)
             <br />
             <a href="/find-forms/about-form-21p-534ez">
               Learn more about VA Form 21P-534EZ
             </a>
           </li>
           <li>
-            Application for Dependency and Indemnity Compensation, Death
+            Application for Dependency and Indemnity Compensation, Survivors
             Pension, and Accrued Benefits by Surviving Spouse or Child (VA Form
             21P-534)
             <br />
