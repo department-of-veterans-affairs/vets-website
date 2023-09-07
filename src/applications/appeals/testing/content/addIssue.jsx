@@ -6,7 +6,7 @@ export const issueErrorMessages = {
   missingIssue: 'Add the name of an issue',
   uniqueIssue: 'Enter a unique condition name',
   maxLength: `Enter less than ${
-    MAX_LENGTH.ISSUE_NAME
+    MAX_LENGTH.NOD_ISSUE_NAME
   } characters for this issue name`,
 
   invalidDate: 'Provide a valid date',

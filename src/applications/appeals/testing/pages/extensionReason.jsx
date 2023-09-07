@@ -33,7 +33,7 @@ const requestExtension = {
     properties: {
       extensionReason: {
         type: 'string',
-        maxLength: MAX_LENGTH.EXTENSION_REASON,
+        maxLength: MAX_LENGTH.NOD_EXTENSION_REASON,
       },
     },
   },
