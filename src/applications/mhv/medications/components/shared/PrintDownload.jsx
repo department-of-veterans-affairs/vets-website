@@ -46,12 +46,6 @@ const PrintDownload = props => {
             as PDF
           </button>
         </li>
-        <li>
-          <button type="button">
-            Download {list && 'list '}
-            as a text file
-          </button>
-        </li>
       </ul>
     </div>
   );
