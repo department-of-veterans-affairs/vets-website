@@ -5,7 +5,7 @@ describe('Medications Landing Page', () => {
   it('visits Medications landing Page', () => {
     const site = new MedicationsSite();
     const landingPage = new MedicationsLandingPage();
-    cy.visit('my-health/medications/');
+    cy.visit('my-health/about-medications/');
     site.login();
     landingPage.clickExpandAllAccordionButton();
     landingPage.verifyListMedicationsAndSuppliesAccordionDropDown();

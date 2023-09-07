@@ -35,9 +35,9 @@ export const genderUI = label => ({
 
 export const fullNameUI = label => ({
   first: {
-    'ui:title': `${label} first name`,
+    'ui:title': `${label} legal first name`,
     'ui:errorMessages': {
-      required: `Please enter ${label}  first name`,
+      required: `Please enter ${label} legal first name`,
     },
   },
   last: {
@@ -50,6 +50,36 @@ export const fullNameUI = label => ({
     'ui:title': `${label} middle name`,
   },
 });
+
+/**
+ * Extend a specific field within a UI schema object with additional properties.
+ *
+ * @param {Object} originalUI - The original UI schema object that you want to extend.
+ * @param {string} fieldName - The name of the field within the UI schema that you want to extend (e.g., 'first', 'last', 'middle').
+ * @param {string} uiKey - The UI property key you want to add or modify (e.g., 'ui:description', 'ui:options').
+ * @param {*} uiValue - The value for the UI property key you're adding or modifying.
+ *
+ * @returns {Object} A new UI schema object with the specified field extended with the given UI key-value pair.
+ *
+ * @example
+ * const vetUI = { first: { 'ui:title': 'Veteran's legal first name' } };
+ * const extendedNameUI = customFieldSchemaUI(vetUI, 'first', 'ui:description', 'Enter your first name');
+ * // extendedNameUI now is: { first: { 'ui:title': 'Veteran's legal first name', 'ui:description': 'Enter your first name' } }
+ */
+export const customFieldSchemaUI = (originalUI, fieldName, uiKey, uiValue) => {
+  if (!originalUI[fieldName]) {
+    // If the field name doesn't exist in the originalUI, we just return the original without changes
+    return originalUI;
+  }
+
+  return {
+    ...originalUI,
+    [fieldName]: {
+      ...originalUI[fieldName],
+      [uiKey]: uiValue,
+    },
+  };
+};
 
 export const ssnUI = label => ({
   ...platformSsnUI,
@@ -76,11 +106,11 @@ export const addressWithoutCountryUI = label => ({
   'ui:title': ' ',
   'ui:order': ['street', 'street2', 'city', 'state', 'postalCode'],
   street: {
-    'ui:title': `${label} current street address`,
-    'ui:errorMessages': { required: 'Please enter a street address' },
+    'ui:title': `${label} current home address`,
+    'ui:errorMessages': { required: 'Please enter a home address' },
   },
   street2: {
-    'ui:title': `Street address line 2`,
+    'ui:title': `Home address line 2`,
   },
   city: {
     'ui:title': `City`,

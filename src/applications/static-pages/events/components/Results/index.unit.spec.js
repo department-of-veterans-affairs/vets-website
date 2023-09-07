@@ -60,4 +60,24 @@ describe('Events <ResultsWhereContent>', () => {
     );
     expect(component.getByText('test location')).to.exist;
   });
+
+  it('renders directions to google maps link', () => {
+    const fieldLocationExample = {
+      entity: {
+        title: 'test location',
+        entityUrl: {},
+        fieldAddress: {
+          locality: 'Los Angeles',
+          administrativeArea: 'CA',
+          postalCode: '90012-3328',
+          addressLine1: '351 East Temple Street',
+        },
+      },
+    };
+    const locationObjectEvent = getProps(fieldLocationExample, '', null);
+    const component = render(
+      <ResultsWhereContent event={locationObjectEvent} />,
+    );
+    expect(component.getByText('Get directions on Google Maps')).to.exist;
+  });
 });

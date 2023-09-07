@@ -7,7 +7,7 @@ import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 import { makeSelectVeteranData } from '../../selectors';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useStorage } from '../../hooks/useStorage';
 import { URLS } from '../../utils/navigation';
 
 const Demographics = props => {
@@ -17,7 +17,7 @@ const Demographics = props => {
   const { demographics } = useSelector(selectVeteranData);
   const { router } = props;
   const { goToNextPage, jumpToPage } = useFormRouting(router);
-  const { setShouldSendDemographicsFlags } = useSessionStorage(false);
+  const { setShouldSendDemographicsFlags } = useStorage(false);
 
   const updateSeeStaffMessage = useCallback(
     seeStaffMessage => {

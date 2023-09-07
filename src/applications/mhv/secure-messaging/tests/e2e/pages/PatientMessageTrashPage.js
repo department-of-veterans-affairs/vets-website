@@ -92,8 +92,8 @@ class PatientMessageTrashPage {
           .find('.received-date')
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(listAfter);
             expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
+            cy.log(` ###  ${listAfter}`);
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });

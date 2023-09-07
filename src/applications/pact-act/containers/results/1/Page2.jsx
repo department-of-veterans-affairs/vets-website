@@ -110,11 +110,14 @@ const ResultsSet1Page2 = ({ viewedResultsPage1, router }) => {
           Apply for VA health care
         </a>
         <p>
-          <va-link
-            class="vads-u-margin-top--3 vads-u-display--block"
+          <a
+            className="vads-u-margin-top--3 vads-u-display--block"
             href="/health-care/eligibility/"
-            text="Learn more about health care eligibility"
-          />
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn more about health care eligibility (opens in a new tab)
+          </a>
         </p>
       </article>
     </>

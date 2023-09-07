@@ -18,7 +18,9 @@ describe('getIssueTitle', () => {
     expect($('div', container).textContent).to.eq(
       'Disagreement with left arm decision on February 2, 2022',
     );
-    expect($$('.dd-privacy-hidden', container).length).to.eq(2);
+    expect(
+      $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
+    ).to.eq(2);
   });
   it('should return a plain string', () => {
     const result = getIssueTitle(data, { plainText: true });
@@ -97,7 +99,9 @@ describe('AreaOfDisagreementReviewField', () => {
     );
     expect($('dt', container).textContent).to.equal(title);
     expect($('dd', container).textContent).to.equal('Bar');
-    expect($$('dd.dd-privacy-hidden', container).length).to.equal(0);
+    expect(
+      $$('dd.dd-privacy-hidden[data-dd-action-name]', container).length,
+    ).to.equal(0);
   });
 
   it('should render AreaOfDisagreementReviewField with hidden Datadog class', () => {
@@ -116,6 +120,8 @@ describe('AreaOfDisagreementReviewField', () => {
       </AreaOfDisagreementReviewField>,
     );
     expect($('dt', container).textContent).to.equal(title);
-    expect($('dd.dd-privacy-hidden', container).textContent).to.equal('Bar');
+    expect(
+      $('dd.dd-privacy-hidden[data-dd-action-name]', container).textContent,
+    ).to.equal('Bar');
   });
 });

@@ -5,14 +5,25 @@ import {
   ssnUI,
   genderUI,
   fullNameUI,
+  customFieldSchemaUI,
   dateOfBirthUI,
   addressWithoutCountryUI,
 } from '../../../definitions/UIDefinitions/sharedUI';
 import { secondaryTwoInputLabel } from '../../../definitions/UIDefinitions/caregiverUI';
+import { CaregiverFullNameDescription } from '../../../components/FormDescriptions';
 import SecondaryCaregiverDescription from '../../../components/FormDescriptions/SecondaryCaregiverDescription';
 
 const { secondaryCaregiverTwo } = fullSchema.properties;
 const secondaryCaregiverTwoProps = secondaryCaregiverTwo.properties;
+// Initialize fullNameUI with originalUI
+let extendedNameUI = fullNameUI(secondaryTwoInputLabel);
+// Add/replace whatever key/values needed
+extendedNameUI = customFieldSchemaUI(
+  extendedNameUI,
+  'first',
+  'ui:description',
+  CaregiverFullNameDescription,
+);
 
 const secondaryTwoInfoPage = {
   uiSchema: {
@@ -21,7 +32,7 @@ const secondaryTwoInfoPage = {
       showPageIntro: true,
     }),
     // secondaryTwo UI
-    [secondaryTwoFields.fullName]: fullNameUI(secondaryTwoInputLabel),
+    [secondaryTwoFields.fullName]: extendedNameUI,
     [secondaryTwoFields.ssn]: ssnUI(secondaryTwoInputLabel),
     [secondaryTwoFields.dateOfBirth]: dateOfBirthUI(secondaryTwoInputLabel),
     [secondaryTwoFields.gender]: genderUI(secondaryTwoInputLabel),

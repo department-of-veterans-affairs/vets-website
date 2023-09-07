@@ -1,16 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import { sendErrorToSentry } from '../../util/helpers';
-import { generatePdfScaffold } from '../../../shared/util/helpers';
+import {
+  generatePdfScaffold,
+  updatePageTitle,
+} from '../../../shared/util/helpers';
+import { pageTitles } from '../../util/constants';
 
 const ProgressNoteDetails = props => {
   const { record } = props;
   const user = useSelector(state => state.user.profile);
+
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    const titleDate = record.dateSigned ? `${record.dateSigned} - ` : '';
+    updatePageTitle(
+      `${titleDate}${record.name} - ${
+        pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE
+      }`,
+    );
+  }, []);
 
   const generateCareNotesPDF = async () => {
     const title = `Care summaries and notes on ${formatDateLong(record.date)}`;
@@ -73,13 +88,23 @@ const ProgressNoteDetails = props => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">{record.name}</h1>
+          <h1
+            className="vads-u-margin-bottom--0"
+            aria-describedby="progress-note-date"
+          >
+            {record.name}
+          </h1>
           <section className="set-width-486">
             <div className="time-header">
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              <h2
+                className="vads-u-font-size--base vads-u-font-family--sans"
+                id="progress-note-date"
+              >
                 Date:{' '}
+                <span className="vads-u-font-weight--normal">
+                  {record.dateSigned}
+                </span>
               </h2>
-              <p>{record.dateSigned}</p>
             </div>
 
             <div className="no-print">

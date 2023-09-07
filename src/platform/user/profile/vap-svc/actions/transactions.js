@@ -10,6 +10,7 @@ import {
   inferAddressType,
 } from 'platform/user/profile/vap-svc/util';
 import { apiRequest } from 'platform/utilities/api';
+import { hasBadAddress } from 'applications/personalization/profile/selectors';
 import { refreshProfile } from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -159,16 +160,21 @@ export function refreshTransaction(
 
 const handleNoChangesDetected = async ({
   dispatch,
+  getState,
   fieldName,
   transaction,
 }) => {
+  const state = getState();
+
   const noChangesDetected =
     transaction?.data?.attributes?.transactionStatus ===
     TRANSACTION_STATUS.COMPLETED_NO_CHANGES_DETECTED;
 
   if (noChangesDetected) {
-    const forceCacheClear = true;
-    await dispatch(refreshProfile(forceCacheClear));
+    if (hasBadAddress(state) && fieldName === FIELD_NAMES.MAILING_ADDRESS) {
+      const forceCacheClear = true;
+      await dispatch(refreshProfile(forceCacheClear));
+    }
 
     dispatch({
       type: VAP_SERVICE_NO_CHANGES_DETECTED,

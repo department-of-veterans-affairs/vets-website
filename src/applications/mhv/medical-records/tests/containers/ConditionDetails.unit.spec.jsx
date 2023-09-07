@@ -69,7 +69,7 @@ describe('Condition details container', () => {
       ),
       {
         exact: true,
-        selector: 'p',
+        selector: 'span',
       },
     );
     expect(formattedDate).to.exist;
