@@ -28,6 +28,10 @@ const PrescriptionDetails = () => {
         setBreadcrumbs(
           [
             {
+              url: '/my-health/about-medications',
+              label: 'About Medications',
+            },
+            {
               url: '/my-health/medications/',
               label: 'Medications',
             },
@@ -159,12 +163,17 @@ const PrescriptionDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 aria-describedby="last-filled" data-testid="prescription-name">
+          <h1
+            aria-describedby="last-filled"
+            data-testid="prescription-name"
+            className="vads-u-margin-bottom--0"
+            id="prescription-name"
+          >
             {prescription.prescriptionName}
           </h1>
           <p
             id="last-filled"
-            className="title-last-filled-on vads-u-font-family--sans"
+            className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--0p5"
             data-testid="rx-last-filled-date"
           >
             {nonVaPrescription ? (
@@ -181,17 +190,16 @@ const PrescriptionDetails = () => {
           </p>
           <div className="no-print">
             <PrintDownload download={handleDownloadPDF} />
-            <va-additional-info trigger="What to know about downloading records">
+            <va-additional-info trigger="What to know before you download">
               <ul>
                 <li>
-                  <strong>If you’re on a public or shared computer,</strong>{' '}
-                  print your records instead of downloading. Downloading will
-                  save a copy of your records to the public computer.
+                  When you print or download medication records, we’ll include a
+                  list of allergies and reactions in your VA medical records.
                 </li>
                 <li>
-                  <strong>If you use assistive technology,</strong> a Text file
-                  (.txt) may work better for technology such as screen reader,
-                  screen enlargers, or Braille displays.
+                  <strong>If you’re on a public or shared computer,</strong>{' '}
+                  remember that downloading saves a copy of your records to the
+                  computer you are using.
                 </li>
               </ul>
             </va-additional-info>
@@ -213,7 +221,7 @@ const PrescriptionDetails = () => {
     );
   };
 
-  return <div>{content()}</div>;
+  return <div className="medium-screen:vads-l-col--8">{content()}</div>;
 };
 
 export default PrescriptionDetails;

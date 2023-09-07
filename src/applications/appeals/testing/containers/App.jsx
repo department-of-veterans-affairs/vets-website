@@ -26,6 +26,7 @@ export default function App(props) {
     <article
       id="appeals-testing"
       data-location={`${location?.pathname?.slice(1)}`}
+      className="vads-u-padding--0"
     >
       {!noHeader.includes(currentPath) && (
         <>
@@ -39,23 +40,16 @@ export default function App(props) {
           <div className="vads-u-background-color--primary-alt-lightest vads-u-padding--2">
             <div className="row">
               <div className="usa-width-two-thirds medium-8 columns">
-                <div className="vads-u-display--flex">
+                <div className="vads-u-display--flex top-nav">
                   <div>&#x2190;&#x00a0;</div>
                   {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                  <a
-                    href="#"
-                    className="vads-u-padding-right--1p5"
-                    onClick={goBack}
-                  >
+                  <a href="#" className="back-link" onClick={goBack}>
                     Back
                   </a>
                   <span role="presentation" className="vads-u-padding-x--1p5">
                     |
                   </span>
-                  <Link
-                    to={{ pathname: '/task-list', search: '?redirect' }}
-                    className="vads-u-padding-x--1p5"
-                  >
+                  <Link to="/task-list" className="task-list-link">
                     Task List
                   </Link>
                   <span role="presentation" className="vads-u-padding-x--1p5">
@@ -63,7 +57,7 @@ export default function App(props) {
                   </span>
                   <a
                     href="/decision-reviews/appeals-testing/"
-                    className="vads-u-padding-x--1p5"
+                    className="exit-link"
                   >
                     Exit form
                   </a>
