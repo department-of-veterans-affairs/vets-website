@@ -37,7 +37,7 @@ const CareSummariesAndNotesListItem = props => {
         </div>
       </div>
       <Link
-        to={`/care-summaries-and-notes/${record.id}`}
+        to={`/summaries-and-notes/${record.id}`}
         className="vads-u-margin-y--0p5 no-print"
         aria-describedby={`details-button-description-${record.id}`}
       >
