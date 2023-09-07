@@ -62,7 +62,11 @@ import {
   nonRequiredFullNameUI,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
-import PreparerDescription from '../components/PreparerDescription';
+import {
+  ContactDetailsTitle,
+  PreparerDescription,
+  PreparerDetailsTitle,
+} from '../components/PreparerHelpers';
 
 const {
   claimant,
@@ -842,7 +846,7 @@ const formConfig = {
               path: 'preparer-details',
               depends: formData => isAuthorizedAgent(formData),
               uiSchema: {
-                'ui:title': 'Preparer details',
+                'ui:title': PreparerDetailsTitle,
                 'ui:description': PreparerDescription,
                 application: {
                   applicant: {
@@ -923,7 +927,7 @@ const formConfig = {
                           ),
                     },
                     'view:contactInfo': {
-                      'ui:title': "Preparer's contact details",
+                      'ui:title': ContactDetailsTitle,
                       applicantPhoneNumber: merge({}, phoneUI('Phone number'), {
                         'ui:required': isAuthorizedAgent,
                       }),
