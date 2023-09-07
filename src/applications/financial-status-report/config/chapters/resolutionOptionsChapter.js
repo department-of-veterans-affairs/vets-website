@@ -1,5 +1,4 @@
 import {
-  resolutionExplainer,
   resolutionOption,
   resolutionComment,
   resolutionWaiverAgreement,
@@ -11,6 +10,7 @@ import {
   isStreamlinedShortForm,
 } from '../../utils/streamlinedDepends';
 
+import ResolutionExplainerWidget from '../../components/resolution/ResolutionExplainerWidget';
 import ResolutionExplainerReview from '../../components/resolution/ResolutionExplainerReview';
 
 export default {
@@ -22,10 +22,11 @@ export default {
       optionExplainer: {
         path: 'option-explainer',
         title: 'Resolution Option Explainer',
-        uiSchema: resolutionExplainer.uiSchema,
-        schema: resolutionExplainer.schema,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
         depends: formData =>
           !isStreamlinedShortForm(formData) && !isStreamlinedLongForm(formData),
+        CustomPage: ResolutionExplainerWidget,
         CustomPageReview: ResolutionExplainerReview,
       },
       resolutionOption: {

@@ -65,7 +65,6 @@ import * as payrollDeductionChecklist from './income/employmentEnhanced/payrollD
 import * as payrollDeductionInputList from './income/employmentEnhanced/payrollDeductionInputList';
 import * as grossMonthlyIncome from './income/employmentEnhanced/grossMonthlyIncome';
 import * as enhancedEmploymentRecords from './income/employmentEnhanced/enhancedRecords';
-import * as resolutionExplainer from './resolution/resolutionExplainer';
 import * as householdExpensesChecklist from './expenses/householdExpensesChecklist';
 import * as householdExpensesInputList from './expenses/householdExpensesValues';
 import * as creditCardBills from './expenses/creditCardBills';
@@ -138,7 +137,6 @@ export {
   payrollDeductionInputList,
   grossMonthlyIncome,
   enhancedEmploymentRecords,
-  resolutionExplainer,
   householdExpensesChecklist,
   householdExpensesInputList,
   enhancedBankruptcyHistoryRecords,
