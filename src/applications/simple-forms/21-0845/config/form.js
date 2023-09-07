@@ -84,7 +84,7 @@ const formConfig = {
   },
   formId: '21-0845',
   dev: {
-    showNavLinks: true,
+    showNavLinks: !window.Cypress,
   },
   saveInProgress: {
     messages: {
