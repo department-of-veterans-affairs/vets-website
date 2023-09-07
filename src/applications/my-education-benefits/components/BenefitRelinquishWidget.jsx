@@ -19,7 +19,8 @@ const BenefitRelinquishWidget = ({ formData, setFormData }) => {
     eligibility?.includes('NotEligible') ||
     (chapter1606Null && chapter30Null) ||
     (chapter1606Null && !chapter30) ||
-    (chapter30Null && !chapter1606);
+    (chapter30Null && !chapter1606) ||
+    (!chapter1606 && !chapter30);
 
   const notEligibleText = formData?.showMebEnhancements09
     ? 'NotEligible'
