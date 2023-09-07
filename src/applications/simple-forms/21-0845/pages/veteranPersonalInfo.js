@@ -20,10 +20,12 @@ export default {
         <div className="vads-u-font-weight--normal vads-u-font-size--base vads-u-margin-bottom--2">
           <span>
             Date of birth{' '}
-            <span className="vads-u-color--secondary-dark">(*Required)</span>
+            <span className="custom-required-span hide-on-review-page">
+              (*Required)
+            </span>
           </span>
           <br />
-          <span className="vads-u-color--gray-medium">
+          <span className="vads-u-color--gray-medium hide-on-review-page">
             For example: January 19 2000
           </span>
         </div>

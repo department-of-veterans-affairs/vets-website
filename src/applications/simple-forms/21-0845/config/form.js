@@ -185,7 +185,7 @@ const formConfig = {
       title: ({ formData }) =>
         formData?.authorizerType === AUTHORIZER_TYPES.VETERAN
           ? 'Your personal information'
-          : 'Veteran’s information',
+          : 'Veteran’s personal information',
       pages: {
         vetPersInfoPage: {
           path: 'veteran-personal-information',
