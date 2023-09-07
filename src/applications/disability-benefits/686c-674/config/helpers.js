@@ -167,14 +167,14 @@ export const hoursPerWeekUiSchema = {
   'ui:validations': [
     (errors, fieldData) => {
       if (fieldData > 168) {
-        errors.addError('Please enter a number between 0 and 168');
+        errors.addError('Enter a number less than 169');
       }
     },
   ],
 };
 
 export const classesPerWeekUiSchema = {
-  'ui:title': 'Number of classes a week',
+  'ui:title': 'Number of sessions a week',
   'ui:options': {
     widgetClassNames: 'form-select-medium',
   },
@@ -182,7 +182,7 @@ export const classesPerWeekUiSchema = {
   'ui:validations': [
     (errors, fieldData) => {
       if (fieldData > 999) {
-        errors.addError('Please enter a number between 0 and 999');
+        errors.addError('Enter a number less than 999');
       }
     },
   ],
