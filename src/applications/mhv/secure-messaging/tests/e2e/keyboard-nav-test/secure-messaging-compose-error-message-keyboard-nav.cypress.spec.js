@@ -1,6 +1,7 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Compose Errors Keyboard Nav', () => {
   const landingPage = new PatientInboxPage();
@@ -20,7 +21,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifyFocusOnErrorMessageToSelectRecipient();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -36,7 +37,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifyFocusOnErrorMessageToSelectCategory();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -51,7 +52,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifyFocusOnErrorEmptyMessageSubject();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -66,7 +67,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifyFocusOnErrorEmptyMessageBody();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
