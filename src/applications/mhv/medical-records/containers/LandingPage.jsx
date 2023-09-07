@@ -1,25 +1,27 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { updatePageTitle } from '../../shared/util/helpers';
+import { pageTitles } from '../util/constants';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
   const fullState = useSelector(state => state);
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs([], {
-          url: '/my-health/medical-records',
-          label: 'Medical records',
-        }),
-      );
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs([], {
+        url: '/my-health/medical-records',
+        label: 'Medical records',
+      }),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
+  }, []);
 
   return (
     <div className="landing-page">

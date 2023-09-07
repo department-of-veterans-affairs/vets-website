@@ -6,6 +6,7 @@ import inboxMessages from './fixtures/messages-response.json';
 import mockMessageDetails from './fixtures/message-response.json';
 import defaultMockThread from './fixtures/thread-response.json';
 import PatientReplyPage from './pages/PatientReplyPage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Message Details Buttons Check', () => {
   it('Message Details Buttons Check', () => {
@@ -28,7 +29,7 @@ describe('Secure Messaging Message Details Buttons Check', () => {
       .getContinueButton()
       .click({ waitforanimations: true });
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

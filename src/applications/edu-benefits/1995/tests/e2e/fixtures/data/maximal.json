@@ -1,6 +1,6 @@
 {
   "data": {
-    "bankAccountChange": "startUpdate",
+    "bankAccountChangeUpdate": "startUpdate",
     "bankAccount": {
       "accountType": "checking",
       "routingNumber": "021000021",

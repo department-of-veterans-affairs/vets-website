@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   fetchSharingStatus,
@@ -8,6 +9,8 @@ import {
 } from '../actions/sharing';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { updatePageTitle } from '../../shared/util/helpers';
+import { pageTitles } from '../util/constants';
 
 const SettingsPage = () => {
   const dispatch = useDispatch();
@@ -18,20 +21,19 @@ const SettingsPage = () => {
 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records', label: 'Medical records' }],
-          {
-            url: '/my-health/medical-records/settings',
-            label: 'Medical records settings',
-          },
-        ),
-      );
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs(
+        [{ url: '/my-health/medical-records', label: 'Medical records' }],
+        {
+          url: '/my-health/medical-records/settings',
+          label: 'Medical records settings',
+        },
+      ),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.SETTINGS_PAGE_TITLE);
+  }, []);
 
   useEffect(
     () => {
