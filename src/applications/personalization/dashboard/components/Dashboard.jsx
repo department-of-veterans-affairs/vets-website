@@ -12,7 +12,9 @@ import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlag
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import {
+  createIsServiceAvailableSelector,
   isLOA3 as isLOA3Selector,
   isLOA1 as isLOA1Selector,
   isVAPatient as isVAPatientSelector,
@@ -37,6 +39,7 @@ import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '
 import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
 import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
+import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
@@ -77,8 +80,49 @@ const DashboardHeader = ({ showNotifications }) => {
   );
 };
 
+const LOA1Content = ({ isLOA1, isLOA3, isVAPatient, useLighthouseClaims }) => {
+  return (
+    <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend}>
+      <Toggler.Enabled>
+        <>
+          <div className="vads-l-row">
+            <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+              <IdentityNotVerified headline="Verify your identity to access more VA.gov tools and features" />
+            </div>
+          </div>
+
+          <ClaimsAndAppeals
+            useLighthouseClaims={useLighthouseClaims}
+            isLOA1={isLOA1}
+          />
+
+          <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
+          <EducationAndTraining isLOA3={isLOA3} />
+          <SavedApplications />
+        </>
+      </Toggler.Enabled>
+
+      <Toggler.Disabled>
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+            <IdentityNotVerified headline="Verify your identity to access more VA.gov tools and features" />
+          </div>
+        </div>
+        <ApplyForBenefits />
+      </Toggler.Disabled>
+    </Toggler>
+  );
+};
+
 DashboardHeader.propTypes = {
   showNotifications: PropTypes.bool,
+};
+
+LOA1Content.propTypes = {
+  isLOA1: PropTypes.bool,
+  isLOA3: PropTypes.bool,
+  isVAPatient: PropTypes.bool,
+  useLighthouseClaims: PropTypes.bool,
 };
 
 const Dashboard = ({
@@ -203,14 +247,17 @@ const Dashboard = ({
                 </div>
               ) : null}
 
-              {props.showValidateIdentityAlert ? (
-                <div className="vads-l-row">
-                  <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-                    <IdentityNotVerified headline="Verify your identity to access more VA.gov tools and features" />
-                  </div>
-                </div>
-              ) : null}
+              {/* LOA1 user experience */}
+              {isLOA1 && (
+                <LOA1Content
+                  isLOA1={isLOA1}
+                  isLOA3={isLOA3}
+                  isVAPatient={isVAPatient}
+                  useLighthouseClaims={useLighthouseClaims}
+                />
+              )}
 
+              {/* LOA3 user experience */}
               {props.showClaimsAndAppeals && (
                 <DowntimeNotification
                   dependencies={[
@@ -219,25 +266,21 @@ const Dashboard = ({
                   ]}
                   render={RenderClaimsWidgetDowntimeNotification}
                 >
-                  <ClaimsAndAppeals
-                    useLighthouseClaims={useLighthouseClaims}
-                    isLOA1={isLOA1}
-                  />
+                  <ClaimsAndAppeals useLighthouseClaims={useLighthouseClaims} />
                 </DowntimeNotification>
               )}
-              <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
-
               {isLOA3 && (
                 <>
+                  <HealthCare isVAPatient={isVAPatient} />
                   <Debts />
                   <BenefitPayments
                     payments={payments}
                     showNotifications={showNotifications}
                   />
+                  <EducationAndTraining />
+                  <SavedApplications />
                 </>
               )}
-              <EducationAndTraining isLOA3={isLOA3} />
-              <SavedApplications />
             </div>
           </div>
         )}
@@ -246,13 +289,28 @@ const Dashboard = ({
   );
 };
 
+const isClaimsAvailableSelector = createIsServiceAvailableSelector(
+  backendServices.EVSS_CLAIMS,
+);
+
+const isLighthouseClaimsAvailableSelector = createIsServiceAvailableSelector(
+  backendServices.LIGHTHOUSE,
+);
+
+const isAppealsAvailableSelector = createIsServiceAvailableSelector(
+  backendServices.APPEALS_STATUS,
+);
+
 const mapStateToProps = state => {
   const { isReady: hasLoadedScheduledDowntime } = state.scheduledDowntime;
   const isLOA3 = isLOA3Selector(state);
   const isLOA1 = isLOA1Selector(state);
   const isVAPatient = isVAPatientSelector(state);
   const hero = state.vaProfile?.hero;
-
+  const hasClaimsOrAppealsService =
+    isAppealsAvailableSelector(state) ||
+    isClaimsAvailableSelector(state) ||
+    isLighthouseClaimsAvailableSelector(state);
   const hasMHVAccount = ['OK', 'MULTIPLE'].includes(
     state.user?.profile?.mhvAccountState,
   );
@@ -282,7 +340,11 @@ const mapStateToProps = state => {
   const showNameTag = isLOA3 && isEmpty(hero?.errors);
   const showMPIConnectionError = hasMPIConnectionError(state);
   const showNotInMPIError = isNotInMPI(state);
-  const showClaimsAndAppeals = !showMPIConnectionError && !showNotInMPIError;
+  const showClaimsAndAppeals =
+    !showMPIConnectionError &&
+    !showNotInMPIError &&
+    isLOA3 &&
+    hasClaimsOrAppealsService;
   const showHealthCare =
     hasMHVAccount &&
     !showMPIConnectionError &&
