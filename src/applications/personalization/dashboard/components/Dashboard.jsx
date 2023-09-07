@@ -80,7 +80,7 @@ const DashboardHeader = ({ showNotifications }) => {
   );
 };
 
-const LOA1Content = ({ isLOA1, isLOA3, isVAPatient, useLighthouseClaims }) => {
+const LOA1Content = ({ isLOA1, isVAPatient, useLighthouseClaims }) => {
   return (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend}>
       <Toggler.Enabled>
@@ -97,7 +97,7 @@ const LOA1Content = ({ isLOA1, isLOA3, isVAPatient, useLighthouseClaims }) => {
           />
 
           <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
-          <EducationAndTraining isLOA3={isLOA3} />
+          <EducationAndTraining isLOA1={isLOA1} />
           <SavedApplications />
         </>
       </Toggler.Enabled>
@@ -120,7 +120,6 @@ DashboardHeader.propTypes = {
 
 LOA1Content.propTypes = {
   isLOA1: PropTypes.bool,
-  isLOA3: PropTypes.bool,
   isVAPatient: PropTypes.bool,
   useLighthouseClaims: PropTypes.bool,
 };
@@ -232,26 +231,25 @@ const Dashboard = ({
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
               <DashboardHeader showNotifications={showNotifications} />
 
-              {showMPIConnectionError ? (
+              {showMPIConnectionError && (
                 <div className="vads-l-row">
                   <MPIConnectionError className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3 vads-u-margin-top--3" />
                 </div>
-              ) : null}
+              )}
 
-              {showNotInMPIError ? (
+              {showNotInMPIError && (
                 <div className="vads-l-row">
                   <NotInMPIError
                     className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3 vads-u-margin-top--3"
                     level={2}
                   />
                 </div>
-              ) : null}
+              )}
 
               {/* LOA1 user experience */}
               {isLOA1 && (
                 <LOA1Content
                   isLOA1={isLOA1}
-                  isLOA3={isLOA3}
                   isVAPatient={isVAPatient}
                   useLighthouseClaims={useLighthouseClaims}
                 />

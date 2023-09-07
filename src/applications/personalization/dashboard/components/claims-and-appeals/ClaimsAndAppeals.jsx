@@ -204,7 +204,6 @@ const ClaimsAndAppeals = ({
 
 ClaimsAndAppeals.propTypes = {
   hasAPIError: PropTypes.bool.isRequired,
-  isLOA1: PropTypes.bool.isRequired,
   loadAppeals: PropTypes.func.isRequired,
   loadClaims: PropTypes.func.isRequired,
   loadLighthouseClaims: PropTypes.func.isRequired,
@@ -216,10 +215,11 @@ ClaimsAndAppeals.propTypes = {
   appealsData: PropTypes.arrayOf(PropTypes.object),
   claimsData: PropTypes.arrayOf(PropTypes.object),
   dataLoadingDisabled: PropTypes.bool,
+  isLOA1: PropTypes.bool,
 };
 
 PopularActionsForClaimsAndAppeals.propTypes = {
-  isLOA1: PropTypes.bool.isRequired,
+  isLOA1: PropTypes.bool,
 };
 
 const isClaimsAvailableSelector = createIsServiceAvailableSelector(
@@ -247,7 +247,7 @@ const mapStateToProps = state => {
   const hasClaimsError =
     claimsState.claimsAvailability === claimsAvailability.UNAVAILABLE;
   const hasAPIError = !!hasAppealsError || !!hasClaimsError;
-  const canAccessAppeals = canAccess(state)[API_NAMES.APPEALS];
+  const canAccessAppeals = canAccess(state)[API_NAMES.APPEALS] !== undefined;
 
   return {
     appealsData: claimsState.appeals,

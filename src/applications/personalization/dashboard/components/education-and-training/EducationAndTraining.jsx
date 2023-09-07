@@ -4,7 +4,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 import IconCTALink from '../IconCTALink';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 
-const EducationAndTraining = ({ isLOA3 }) => {
+const EducationAndTraining = ({ isLOA1 }) => {
   return (
     <div
       className="health-care-wrapper vads-u-margin-y--6"
@@ -32,7 +32,7 @@ const EducationAndTraining = ({ isLOA3 }) => {
               })
             }
           />
-          {isLOA3 && (
+          {!isLOA1 && (
             <>
               <IconCTALink
                 text="Compare GI Bill benefits by school"
@@ -70,7 +70,7 @@ const EducationAndTraining = ({ isLOA3 }) => {
 };
 
 EducationAndTraining.propTypes = {
-  isLOA3: PropTypes.bool,
+  isLOA1: PropTypes.bool,
 };
 
 export default EducationAndTraining;
