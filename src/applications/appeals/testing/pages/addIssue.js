@@ -1,6 +1,7 @@
 import { MAX_LENGTH as NOD_MAX_LENGTH } from '../../10182/constants';
 import { SELECTED, MAX_LENGTH } from '../../shared/constants';
 
+/** @type {PageSchema} */
 /**
  * A CustomPage only needs/uses minimal uiSchema/schema
  */
