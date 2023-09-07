@@ -77,11 +77,11 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
       </InfoAlert>
     );
   }
-
   let paragraphText =
     'Below is your list of appointment requests that haven’t been scheduled yet.';
   if (featureAppointmentList) {
-    paragraphText = 'These appointment requests haven’t been scheduled yet.';
+    paragraphText =
+      'Appointments that you request will show here until staff review and schedule them.';
   } else if (featureStatusImprovement) {
     paragraphText =
       'Your appointment requests that haven’t been scheduled yet.';
