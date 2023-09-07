@@ -7,6 +7,8 @@ import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.js
 import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
 import mockDraftsMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
 import mockDraftsFolderMetaResponse from '../fixtures/draftsResponse/folder-drafts-metadata.json';
+import mockSingleMessageThreadResponse from '../fixtures/draftsResponse/drafts-single-thread-response.json';
+import mockSingleMessageResponse from '../fixtures/draftsResponse/drafts-single-message-response.json';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -27,6 +29,21 @@ class PatientMessageDraftsPage {
       mockMessagesResponse,
     ).as('draftFolderMessages');
     cy.get('[data-testid="drafts-sidebar"]').click();
+  };
+
+  loadDetailedMessage = () => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/2848711/thread`,
+      mockSingleMessageThreadResponse,
+    ).as('recipients');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/2848711`,
+      mockSingleMessageResponse,
+    ).as('recipients');
+
+    cy.get(`#message-link-2848711`).click();
   };
 
   loadDraftMessages = (
