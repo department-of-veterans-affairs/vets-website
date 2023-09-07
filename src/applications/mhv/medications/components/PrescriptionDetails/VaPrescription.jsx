@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dateFormat } from '../../util/helpers';
+import { validateField } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 
-const VaPrescription = ({ prescription }) => {
+const VaPrescription = prescription => {
   const refillHistory = prescription?.rxRfRecords?.[0]?.[1];
   const shippedOn = prescription?.trackingList?.[0]?.[1];
   const content = () => {
@@ -25,15 +25,17 @@ const VaPrescription = ({ prescription }) => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescription number
             </h3>
-            <p>{prescription.prescriptionNumber}</p>
+            <p data-testid="prescription-number">
+              {validateField(prescription.prescriptionNumber)}
+            </p>
 
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Status
             </h3>
-            <div>
+            <div data-testid="status">
               {prescription.refillStatus === 'refillinprocess'
                 ? 'Refill in process'
-                : prescription.refillStatus}
+                : validateField(prescription.refillStatus)}
             </div>
             <div className="no-print">
               <va-additional-info trigger="What does this status mean?">
@@ -53,29 +55,35 @@ const VaPrescription = ({ prescription }) => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Refills left
             </h3>
-            <p>{prescription.refillRemaining}</p>
+            <p data-testid="refills-left">
+              {validateField(prescription.refillRemaining)}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed on
             </h3>
-            <p>{dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}</p>
+            <p datat-testid="ordered-date">
+              {validateField(prescription.orderedDate, 'date')}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Order refills by this expiration date
             </h3>
-            <p>{dateFormat(prescription.expirationDate, 'MMMM D, YYYY')}</p>
+            <p data-testid="expiration-date">
+              {validateField(prescription.expirationDate, 'date')}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed by
             </h3>
             <p>
-              {prescription.providerFirstName
-                ? `${prescription.providerLastName}, ${
-                    prescription.providerFirstName
-                  }`
-                : 'None noted'}
+              {validateField(
+                `${prescription.providerLastName}, ${
+                  prescription.providerFirstName
+                }`,
+              )}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
             </h3>
-            <p>{prescription.facilityName}</p>
+            <p data-testid="facility-name">{prescription.facilityName}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Phone number
             </h3>
@@ -98,15 +106,15 @@ const VaPrescription = ({ prescription }) => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Instructions
             </h3>
-            <p>{prescription?.sig || 'None noted'}</p>
+            <p>{validateField(prescription?.sig)}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Reason for use
             </h3>
-            <p>{prescription?.reason || 'None noted'}</p>
+            <p>{validateField(prescription?.reason)}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Quantity
             </h3>
-            <p>{prescription.quantity}</p>
+            <p>{validateField(prescription.quantity)}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               What it looks like
             </h3>
@@ -130,16 +138,13 @@ const VaPrescription = ({ prescription }) => {
                     Filled by pharmacy on
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.dispensedDate, 'MMMM D, YYYY')}
+                    {validateField(entry.dispensedDate, 'date')}
                   </p>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                     Shipped on
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(
-                      shippedOn?.[i]?.completeDateTime,
-                      'MMMM D, YYYY [at] h:mm z',
-                    )}
+                    {validateField(shippedOn?.[i]?.completeDateTime, 'date')}
                   </p>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                     Description of the medication or supply

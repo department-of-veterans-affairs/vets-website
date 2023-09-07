@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { validateField } from '../../util/helpers';
 
-const NonVaPrescription = ({ prescription }) => {
+const NonVaPrescription = prescription => {
   const content = () => {
     return (
       <div className="medication-details-div vads-u-margin-top--2 vads-u-margin-bottom--3">
@@ -14,7 +14,7 @@ const NonVaPrescription = ({ prescription }) => {
           <div>
             {prescription.refillStatus === 'refillinprocess'
               ? 'Refill in process'
-              : prescription.refillStatus}
+              : validateField(prescription?.refillStatus)}
           </div>
           <div className="no-print">
             <va-additional-info trigger="What does this status mean?">

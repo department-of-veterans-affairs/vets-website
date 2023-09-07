@@ -14,7 +14,7 @@ import VaPrescription from '../components/PrescriptionDetails/VaPrescription';
 const PrescriptionDetails = () => {
   const currentDate = new Date();
   const prescription = useSelector(
-    state => state.rx.prescriptions.prescriptionDetails,
+    state => state.rx.prescriptions?.prescriptionDetails,
   );
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
   const userName = useSelector(state => state.user.profile.userFullName);
@@ -197,9 +197,9 @@ const PrescriptionDetails = () => {
             </va-additional-info>
           </div>
           {nonVaPrescription ? (
-            <NonVaPrescription prescription={prescription} />
+            <NonVaPrescription {...prescription} />
           ) : (
-            <VaPrescription prescription={prescription} />
+            <VaPrescription {...prescription} />
           )}
         </>
       );
