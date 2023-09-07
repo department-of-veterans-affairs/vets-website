@@ -5,7 +5,6 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 
 const BenefitRelinquishWidget = ({ formData, setFormData }) => {
   const { eligibility } = formData;
-
   const [selected, setSelected] = useState('');
 
   const chapter30 = eligibility?.includes('Chapter30');
@@ -21,6 +20,10 @@ const BenefitRelinquishWidget = ({ formData, setFormData }) => {
     (chapter1606Null && chapter30Null) ||
     (chapter1606Null && !chapter30) ||
     (chapter30Null && !chapter1606);
+
+  const notEligibleText = formData?.showMebEnhancements09
+    ? 'NotEligible'
+    : 'CannotRelinquish';
 
   useEffect(
     () => {
@@ -70,9 +73,9 @@ const BenefitRelinquishWidget = ({ formData, setFormData }) => {
         {notEligible && (
           <va-radio-option
             label="I'm not eligible for Chapter 30 or Chapter 1606 benefits"
-            name="NotEligible"
-            value="NotEligible"
-            checked={selected === 'NotEligible'}
+            name={notEligibleText}
+            value={notEligibleText}
+            checked={selected === notEligibleText}
           />
         )}
       </VaRadio>
