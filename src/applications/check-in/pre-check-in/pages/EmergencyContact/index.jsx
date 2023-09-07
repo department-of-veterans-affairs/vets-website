@@ -59,6 +59,7 @@ const EmergencyContact = props => {
         yesAction={yesClick}
         noAction={noClick}
         jumpToPage={jumpToPage}
+        router={router}
       />
     </>
   );

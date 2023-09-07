@@ -6,7 +6,7 @@ export const ShowIssuesList = ({ issues }) => (
   <ul>
     {issues.map((issue, index) => (
       <li key={index}>
-        <strong className="capitalize">
+        <strong className="capitalize dd-privacy-hidden">
           {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}
         </strong>
         <div>

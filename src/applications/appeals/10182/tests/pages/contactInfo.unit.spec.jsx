@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 
 import formConfig from '../../config/form';
 
@@ -10,7 +10,7 @@ describe('NOD contact information page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.infoPages.pages.confirmContactInformation;
+  } = formConfig.chapters.infoPages.pages.confirmContactInfo;
 
   it('should render', () => {
     const form = shallow(

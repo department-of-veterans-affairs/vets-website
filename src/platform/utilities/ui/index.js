@@ -96,7 +96,7 @@ export function customScrollAndFocus(scrollAndFocusTarget, pageIndex) {
   } else if (typeof scrollAndFocusTarget === 'function') {
     scrollAndFocusTarget(pageIndex);
   } else {
-    scrollToTop('topScrollElement', getScrollOptions());
+    scrollTo('topContentElement', getScrollOptions());
     // h3 should be a unique header on the page
     focusByOrder(['#main h3', defaultFocusSelector]);
   }

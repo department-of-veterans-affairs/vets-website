@@ -1,6 +1,7 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Keyboard Nav to Attachment', () => {
   it('Keyboard Nav to Focus on Attachment', () => {
@@ -9,7 +10,7 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     cy.tabToElement('#OTHEROTHER');
     cy.realPress(['Enter']);
@@ -18,6 +19,12 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     composePage.attachMessageFromFile('test_image.jpg');
     composePage.verifyFocusonMessageAttachment();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

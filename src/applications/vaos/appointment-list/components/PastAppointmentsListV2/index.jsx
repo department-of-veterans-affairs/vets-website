@@ -244,10 +244,12 @@ export default function PastAppointmentsListNew() {
       <BackendAppointmentServiceAlert />
       {dropdown}
       <div aria-live="assertive" className="sr-only">
-        {(hasTypeChanged || !isInitialMount) &&
-          `Showing appointments for ${
-            dateRangeOptions[pastSelectedIndex]?.label
-          }`}
+        {`Showing appointments for ${
+          dateRangeOptions[pastSelectedIndex]?.label
+        }`}
+      </div>
+      <div className="vaos-print-only vads-u-margin-top--neg2 vads-u-margin-bottom--2">
+        {dateRangeOptions[pastSelectedIndex]?.label}
       </div>
 
       {keys.map(key => {
@@ -276,6 +278,7 @@ export default function PastAppointmentsListNew() {
               className={classNames(
                 'usa-unstyled-list',
                 'vads-u-padding-left--0',
+                'vads-u-margin-bottom--4',
                 {
                   'vads-u-border-bottom--1px': featureAppointmentList,
                   'vads-u-border-color--gray-medium': featureAppointmentList,

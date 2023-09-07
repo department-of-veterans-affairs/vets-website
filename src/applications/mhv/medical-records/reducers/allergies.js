@@ -1,5 +1,7 @@
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { dateFormat, getNames, getReactions } from '../util/helpers';
+import { EMPTY_FIELD } from '../util/constants';
+import { getReactions, isArrayAndHasItems } from '../util/helpers';
 
 const initialState = {
   /**
@@ -13,17 +15,23 @@ const initialState = {
   allergyDetails: undefined,
 };
 
-const convertAllergy = allergy => {
+export const convertAllergy = allergy => {
   return {
     id: allergy.id,
-    type: allergy.type,
-    name: getNames(allergy),
+    type:
+      (isArrayAndHasItems(allergy.category) && allergy.category[0]) ||
+      EMPTY_FIELD,
+    name: allergy?.code?.text || EMPTY_FIELD,
+    date: formatDateLong(allergy.onsetDateTime),
     reaction: getReactions(allergy),
-    date: dateFormat(allergy.meta?.lastUpdated, 'MMMM D, YYYY'),
-    // drugClass: allergy.drugClass,
-    // location: allergy.location,
-    // observed: allergy.observed,
-    // notes: allergy.notes,
+    drugClass: allergy.drugClass || EMPTY_FIELD,
+    location:
+      (isArrayAndHasItems(allergy.context?.related) &&
+        allergy.context.related[0].text) ||
+      EMPTY_FIELD,
+    observed: allergy.observed || EMPTY_FIELD,
+    notes:
+      (isArrayAndHasItems(allergy.note) && allergy.note[0].text) || EMPTY_FIELD,
   };
 };
 
@@ -38,9 +46,10 @@ export const allergyReducer = (state = initialState, action) => {
     case Actions.Allergies.GET_LIST: {
       return {
         ...state,
-        allergiesList: action.response.entry.map(allergy => {
-          return convertAllergy(allergy.resource);
-        }),
+        allergiesList:
+          action.response.entry?.map(allergy => {
+            return convertAllergy(allergy.resource);
+          }) || [],
       };
     }
     default:

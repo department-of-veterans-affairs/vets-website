@@ -3,152 +3,153 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/dom';
 import reducers from '../../../reducers';
-import inbox from '../../fixtures/folder-inbox-response.json';
+import {
+  inbox,
+  sent,
+  drafts,
+  customFolder,
+} from '../../fixtures/folder-inbox-response.json';
 import MessageList from '../../../components/MessageList/MessageList';
+import { Paths, threadSortingOptions } from '../../../util/constants';
 
-const mockMessages = {
-  data: [
-    {
-      id: '7181007',
-      type: 'messages',
-      attributes: {
-        messageId: 7181007,
-        category: 'TEST_RESULTS',
-        subject: 'Test Inquiry',
-        body: null,
-        attachment: false,
-        sentDate: '2022-09-13T16:09:26.000Z',
-        senderId: 20029,
-        senderName: 'bbbbbbbbbbbbbbbbbbbb',
-        recipientId: 6820911,
-        recipientName: 'ddddddddddd, ',
-        readReceipt: 'READ',
-      },
-      links: {
-        self: 'http://127.0.0.1:3000/my_health/v1/messaging/messages/7181007',
-      },
-    },
-    {
-      id: '7180407',
-      type: 'messages',
-      attributes: {
-        messageId: 7180407,
-        category: 'COVID',
-        subject: 'Covid-Inquiry-17',
-        body: null,
-        attachment: false,
-        sentDate: '2022-09-13T12:53:37.000Z',
-        senderId: 6177,
-        senderName: 'cccccccccccccccccc',
-        recipientId: 6820911,
-        recipientName: 'bbbbbbbbbbbbbb ',
-        readReceipt: 'READ',
-      },
-      links: {
-        self: 'http://127.0.0.1:3000/my_health/v1/messaging/messages/7180407',
-      },
-    },
-  ],
-  links: {
-    self: 'http://127.0.0.1:3000/my_health/v1/messaging/folders/0/messages?',
-    first:
-      'http://127.0.0.1:3000/my_health/v1/messaging/folders/0/messages?page=1&per_page=10',
-    prev: null,
-    next:
-      'http://127.0.0.1:3000/my_health/v1/messaging/folders/0/messages?page=2&per_page=10',
-    last:
-      'http://127.0.0.1:3000/my_health/v1/messaging/folders/0/messages?page=5&per_page=10',
+const mockMessages = [
+  {
+    messageId: 2817226,
+    category: 'TEST_RESULTS',
+    subject: 'test',
+    body: null,
+    attachment: true,
+    sentDate: '2023-05-17T16:11:26.000Z',
+    senderId: 2708253,
+    senderName: 'TESTER, TEST ',
+    recipientId: 251391,
+    recipientName: 'MHVDAYMARK, MARK ',
+    readReceipt: 'READ',
+    triageGroupName: null,
+    proxySenderName: null,
   },
-  meta: {
-    sort: {
-      sentDate: 'DESC',
-    },
-    pagination: {
-      currentPage: 1,
-      perPage: 10,
-      totalPages: 5,
-      totalEntries: 46,
-    },
+  {
+    messageId: 2817221,
+    category: 'TEST_RESULTS',
+    subject: 'test',
+    body: null,
+    attachment: false,
+    sentDate: '2023-05-17T16:11:00.000Z',
+    senderId: 2708253,
+    senderName: 'TESTER, TEST ',
+    recipientId: 251391,
+    recipientName: 'MHVDAYMARK, MARK ',
+    readReceipt: 'READ',
+    triageGroupName: null,
+    proxySenderName: null,
   },
-};
+  {
+    messageId: 2817217,
+    category: 'TEST_RESULTS',
+    subject: 'test',
+    body: null,
+    attachment: true,
+    sentDate: '2023-05-17T16:10:24.000Z',
+    senderId: 2708253,
+    senderName: 'TESTER, TEST ',
+    recipientId: 251391,
+    recipientName: 'MHVDAYMARK, MARK ',
+    readReceipt: 'READ',
+    triageGroupName: null,
+    proxySenderName: null,
+  },
+  {
+    messageId: 2817178,
+    category: 'TEST_RESULTS',
+    subject: 'test',
+    body: null,
+    attachment: false,
+    sentDate: '2023-05-17T16:05:27.000Z',
+    senderId: 2708253,
+    senderName: 'TESTER, TEST ',
+    recipientId: 251391,
+    recipientName: 'MHVDAYMARK, MARK ',
+    readReceipt: 'READ',
+    triageGroupName: null,
+    proxySenderName: null,
+  },
+];
 const initialState = {
   sm: {
     folders: { folder: inbox },
     messages: [],
   },
 };
+
+const setup = (folder, sortOrder, path, messages = mockMessages) => {
+  return renderWithStoreAndRouter(
+    <MessageList
+      messages={messages}
+      folder={folder}
+      keyword="test"
+      sortOrder={sortOrder}
+    />,
+    {
+      path,
+      initialState,
+      reducers,
+    },
+  );
+};
 describe('Message List component', () => {
-  let screen;
   it('renders without errors', () => {
-    screen = renderWithStoreAndRouter(
-      <MessageList messages={mockMessages} folder={inbox} />,
-      {
-        path: '/',
-        initialState,
-        reducers,
-      },
+    const screen = setup(
+      inbox,
+      threadSortingOptions.SENT_DATE_DESCENDING.value,
+      Paths.INBOX,
     );
     expect(screen);
   });
+
   it('sorting list is present', () => {
-    screen = renderWithStoreAndRouter(
-      <MessageList messages={mockMessages} folder={inbox} />,
-      {
-        path: '/',
-        initialState,
-        reducers,
-      },
+    const screen = setup(
+      inbox,
+      threadSortingOptions.SENT_DATE_DESCENDING.value,
+      Paths.INBOX,
     );
     const dropDownListItem = screen.getByText('Newest to oldest');
     expect(dropDownListItem).to.exist;
   });
   it('sorting list doesnt display recipient sorting option when the url path is "/" only displays sender sorting options', () => {
-    screen = renderWithStoreAndRouter(
-      <MessageList messages={mockMessages} folder={inbox} />,
-      {
-        path: '/',
-        initialState,
-        reducers,
-      },
+    const screen = setup(
+      inbox,
+      threadSortingOptions.SENT_DATE_DESCENDING.value,
+      Paths.INBOX,
     );
     fireEvent.click(screen.getByText('Newest to oldest'));
     expect(screen.queryByText('A to Z - Recipient’s name')).not.to.exist;
     expect(screen.getByText('A to Z - Sender’s name')).to.exist;
   });
   it('sorting list doesnt display sender sorting option only recipient when the url path is "/drafts"', () => {
-    screen = renderWithStoreAndRouter(
-      <MessageList messages={mockMessages} folder={inbox} />,
-      {
-        path: '/drafts',
-        initialState,
-        reducers,
-      },
+    const screen = setup(
+      drafts,
+      threadSortingOptions.DRAFT_DATE_DESCENDING.value,
+      Paths.DRAFTS,
     );
     fireEvent.click(screen.getByText('Newest to oldest'));
     expect(screen.queryByText('A to Z - Sender’s name')).not.to.exist;
     expect(screen.getByText('A to Z - Recipient’s name')).to.exist;
   });
   it('sorting list doesnt display sender sorting option only recipient when the url path is "/sent"', () => {
-    screen = renderWithStoreAndRouter(
-      <MessageList messages={mockMessages} folder={inbox} />,
-      {
-        path: '/sent',
-        initialState,
-        reducers,
-      },
+    const screen = setup(
+      sent,
+      threadSortingOptions.SENT_DATE_DESCENDING.value,
+      Paths.SENT,
     );
     fireEvent.click(screen.getByText('Newest to oldest'));
     expect(screen.queryByText('A to Z - Sender’s name')).not.to.exist;
     expect(screen.getByText('A to Z - Recipient’s name')).to.exist;
   });
   it('sorting list doesnt display sender sorting option only recipient on a custom folder', () => {
-    screen = renderWithStoreAndRouter(
-      <MessageList messages={mockMessages} folder={inbox} />,
-      {
-        path: '/folder/12345',
-        initialState,
-        reducers,
-      },
+    const screen = setup(
+      customFolder,
+      threadSortingOptions.SENT_DATE_DESCENDING.value,
+      `${Paths.FOLDERS}12345`,
     );
     fireEvent.click(screen.getByText('Newest to oldest'));
     expect(screen.queryByText('A to Z - Sender’s name')).to.exist;

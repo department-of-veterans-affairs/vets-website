@@ -133,6 +133,40 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       expect(authEvent.type).to.equal('webchat-auth-activity');
     });
 
+    it('Stops tracking utterances when about to redirect to sign-in', async () => {
+      // setup
+      const activity = {
+        type: 'message',
+        text: 'Alright. Sending you to the sign-in page...',
+        from: { role: 'bot' },
+      };
+      const aboutToSignInActivity = {
+        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+        payload: { activity },
+      };
+      const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
+
+      // fire
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+      )(store)(fakeNext)(aboutToSignInActivity);
+      // tests
+      const isTrackingUtterances = await sessionStorage.getItem(
+        IS_TRACKING_UTTERANCES,
+      );
+      const authEvent = spyDispatchEvent.firstCall.args[0];
+      expect(sessionStorage.length).to.equal(1);
+      expect(isTrackingUtterances).to.equal('false');
+      expect(spyDispatchEvent.callCount).to.equal(1);
+      expect(authEvent.data).to.equal(activity);
+      expect(authEvent.type).to.equal('webchat-auth-activity');
+    });
+
     it('Sends message activity when utterances are tracked', async () => {
       const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
       const activity = {
@@ -239,5 +273,99 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
     expect(stubDispatchEvent.firstCall.args[0].type).to.equal(
       'bot-outgoing-activity',
     );
+  });
+  describe('Checking the bot entered and exited the Rx skill', () => {
+    const IS_RX_SKILL = 'va-bot.isRxSkill';
+    beforeEach(() => {
+      sessionStorage.clear();
+    });
+    afterEach(() => {
+      sessionStorage.clear();
+    });
+    it('should update the session storage RX key to true upon entering the RX skill and dispatch an RxSkill event', async () => {
+      // setup
+      // fire/execute
+      const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
+      const activity = {
+        type: 'event',
+        name: 'Skill_Entry',
+        value: 'RX_Skill',
+        from: { role: 'bot' },
+      };
+      const rxActivity = {
+        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+        payload: { activity },
+      };
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+      )(store)(fakeNext)(rxActivity);
+      // tests
+      const isRxSkillSessionStorageSet = await sessionStorage.getItem(
+        IS_RX_SKILL,
+      );
+      // second call is for skill entry
+      const entrySkillEvent = spyDispatchEvent.secondCall.args[0];
+      expect(isRxSkillSessionStorageSet).to.equal('true');
+      expect(entrySkillEvent.type).to.equal('rxSkill');
+    });
+
+    it('should update the session storage RX key to false upon exiting the RX skill and dispatch an RxSkill event ', async () => {
+      const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
+      const activity = {
+        type: 'event',
+        name: 'Skill_Exit',
+        value: 'RX_Skill',
+        from: { role: 'bot' },
+      };
+      const rxActivity = {
+        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+        payload: { activity },
+      };
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+      )(store)(fakeNext)(rxActivity);
+      // tests
+      const isRxSkillSessionStorageSet = await sessionStorage.getItem(
+        IS_RX_SKILL,
+      );
+      // second call is for skill entry
+      const entrySkillEvent = spyDispatchEvent.secondCall.args[0];
+      expect(isRxSkillSessionStorageSet).to.equal('false');
+      expect(entrySkillEvent.type).to.equal('rxSkill');
+    });
+    it('should not trigger rx skill session storage due to null event', async () => {
+      const activity = {
+        type: 'event',
+        name: null,
+        from: { role: 'bot' },
+      };
+      const rxActivity = {
+        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+        payload: { activity },
+      };
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+      )(store)(fakeNext)(rxActivity);
+      // tests
+      const isRxSkillSessionStorageSet = await sessionStorage.getItem(
+        IS_RX_SKILL,
+      );
+      expect(isRxSkillSessionStorageSet).to.equal(null);
+    });
   });
 });

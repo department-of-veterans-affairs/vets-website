@@ -90,6 +90,7 @@ export const ConfirmationPage = ({
 const mapStateToProps = state => ({
   claimStatus: state.data?.claimStatus,
   userFullName:
+    state.user?.profile?.userFullName ||
     state.form?.data[formFields.viewUserFullName][formFields.userFullName],
 });
 

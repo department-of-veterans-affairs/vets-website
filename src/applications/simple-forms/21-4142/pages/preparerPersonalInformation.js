@@ -34,12 +34,18 @@ export default {
         'ui:options': {
           hideIf: isNotThirdParty,
         },
+        'ui:errorMessages': {
+          required: 'Enter your title',
+        },
         'ui:required': formData => isThirdParty(formData),
       },
       [preparerIdentificationFields.preparerOrganization]: {
         'ui:title': 'Organization',
         'ui:options': {
           hideIf: isNotThirdParty,
+        },
+        'ui:errorMessages': {
+          required: 'Enter the name of the organization you represent',
         },
         'ui:required': formData => isThirdParty(formData),
       },

@@ -24,7 +24,7 @@
 }
 
 legend {
-  color: $color-primary-darkest;
+  color: $color-gray-dark;
   font-size: 1.35em;
   font-weight: 700;
   line-height: 1.5;
@@ -341,7 +341,7 @@ fieldset.schemaform-field-template {
   list-style: none;
   padding-left: 0;
   overflow-wrap: break-word;
-  word-break: break-all;
+  word-break: break-word;
   > li {
     list-style: none;
   }
@@ -442,7 +442,7 @@ legend.schemaform-label.schemaform-file-label {
   outline: none;
 }
 
-.schemaform-review-array-warning {
+.schemaform-review-array-error {
   margin: -1em -0.8em 0;
   border: 2px solid $color-gold-lightest;
   > .form-review-panel-page-header-row {
@@ -454,33 +454,29 @@ legend.schemaform-label.schemaform-file-label {
   }
 }
 
-.schemaform-review-array-warning-icon {
-  background-image: url("~uswds/dist/img/alerts/warning.png");
-  background-image: url("~uswds/dist/img/alerts/warning.svg");
+.schemaform-review-array-error-icon {
+  background-image: url("~uswds/dist/img/alerts/error.png");
+  background-image: url("~uswds/dist/img/alerts/error.svg");
   width: 2em;
   height: 1.4em;
   background-size: 2em;
   margin-right: 1em;
 }
 
-.schemaform-review-page-warning {
+.schemaform-review-page-error {
   margin: -1em -1em 5rem;
   .form-review-panel-page-header-row {
     padding: 1em 1em;
-    background-color: $color-gold-lightest;
-    &:after {
+    background-color: var(--color-secondary-lightest);
+    &:before {
       display: block;
-      order: 2;
       content: " ";
-      background-image: url("~uswds/dist/img/alerts/warning.png");
-      background-image: url("~uswds/dist/img/alerts/warning.svg");
+      background-image: url("~uswds/dist/img/alerts/error.png");
+      background-image: url("~uswds/dist/img/alerts/error.svg");
       width: 2em;
       height: 1.3em;
       background-size: 2em;
-      margin-right: 1em;
-    }
-    .edit-btn {
-      order: 3;
+      margin-right: 0.5em;
     }
   }
   dl.review {
@@ -488,6 +484,10 @@ legend.schemaform-label.schemaform-file-label {
     margin-top: 0;
     margin-bottom: 0;
     border-bottom: none;
+
+    .review-row {
+      border-top: none;
+    }
   }
 }
 
@@ -701,4 +701,27 @@ textarea:focus {
 
 select:disabled {
   background-color: $color-gray-lighter;
+}
+
+// To be removed after SoT is added to DS
+i.fa-arrow-up-right-from-square {
+  display: inline-block;
+  color: var(--color-link-default);
+  font-size: 1.2rem;
+  margin: 0.5rem;
+}
+
+i.fa-arrow-up-right-from-square::before {
+  content: "\f35d";
+}
+
+// To be removed after button pair is added
+i.fa-angles-left::before {
+  content: "\F100";
+  margin-right: 8px;
+}
+
+i.fa-angles-right::before {
+  content: "\F101";
+  margin-left: 8px;
 }

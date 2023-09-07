@@ -31,9 +31,9 @@ const directDepositDescription = formData => {
   return (
     <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
       <p>
-        We make payments only through direct deposit, also called electronic
-        funds transfer (EFT). Please provide your direct deposit information
-        below. We’ll send your housing payment to this account.
+        Direct deposit information is not required to determine eligibility.
+        However, benefits cannot be paid without this information per U.S.
+        Treasury regulation 31 C.F.R. § 208.3.
       </p>
       <img
         src="/img/direct-deposit-check-guide.svg"

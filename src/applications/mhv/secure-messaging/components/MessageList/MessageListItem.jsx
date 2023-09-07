@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
-import { DefaultFolders, Categories } from '../../util/constants';
+import { DefaultFolders, Categories, Paths } from '../../util/constants';
 import { dateFormat } from '../../util/helpers';
 
 const unreadMessageClassList = 'vads-u-margin-y--0p5 vads-u-font-weight--bold';
@@ -71,26 +71,31 @@ const MessageListItem = props => {
         {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
           (readReceipt !== 'READ' && (
             <i
-              aria-hidden="true"
+              role="img"
+              aria-label="Unread message"
               className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
+              alt="Unread message icon"
             />
           ))}
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
         <div className={getClassNames()}>
-          {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
-            <span>From: {getHighlightedText(senderName)}</span>
+          {location.pathname !== Paths.SENT &&
+          location.pathname !== Paths.DRAFTS ? (
+            <span data-dd-privacy="mask">
+              From: {getHighlightedText(senderName)}
+            </span>
           ) : (
             <div>
-              <div>
-                {location.pathname === '/drafts' && (
+              <div data-dd-privacy="mask">
+                {location.pathname === Paths.DRAFTS && (
                   <>
                     <span className="thread-list-draft">(Draft)</span> -{' '}
                   </>
                 )}
                 To: {recipientName}
               </div>
-              <div>From: {senderName}</div>
+              <div data-dd-privacy="mask">From: {senderName}</div>
             </div>
           )}
         </div>
@@ -100,12 +105,13 @@ const MessageListItem = props => {
             subject,
           )}, ${formattedDate}`}
           to={`/thread/${messageId}`}
+          data-dd-privacy="mask"
         >
           {categoryLabel}: {getHighlightedText(subject)}
         </Link>
         <p className="received-date vads-u-margin-y--0p5">
           {attachment && <i className={attachmentClasses} aria-hidden />}
-          <span>{formattedDate}</span>
+          <span data-dd-privacy="mask">{formattedDate}</span>
         </p>
       </div>
     </div>

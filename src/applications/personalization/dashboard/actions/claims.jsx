@@ -1,7 +1,9 @@
 import * as Sentry from '@sentry/browser';
-import recordEvent from 'platform/monitoring/record-event';
-import { apiRequest } from 'platform/utilities/api';
-import get from 'platform/utilities/data/get';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import {
+  apiRequest,
+  replacementFunctions as dataUtils,
+} from '@department-of-veterans-affairs/platform-utilities/exports';
 
 import {
   getErrorStatus,
@@ -28,6 +30,8 @@ export const FETCH_STEM_CLAIMS_SUCCESS = 'FETCH_STEM_CLAIMS_SUCCESS';
 export const FETCH_STEM_CLAIMS_ERROR = 'FETCH_STEM_CLAIMS_ERROR';
 export const FILTER_CLAIMS = 'FILTER_CLAIMS';
 export const SORT_CLAIMS = 'SORT_CLAIMS';
+
+const { get } = dataUtils;
 
 export function fetchAppealsSuccess(response) {
   const appeals = response.data;
@@ -120,10 +124,15 @@ export function getSyncStatus(claimsAsyncResponse) {
   return get('meta.syncStatus', claimsAsyncResponse, null);
 }
 
-const recordClaimsAPIEvent = ({ startTime, success, error }) => {
+const recordClaimsAPIEvent = ({
+  startTime,
+  success,
+  error,
+  apiName = 'GET EVSS claims /v0/evss_claims_async',
+}) => {
   const event = {
     event: 'api_call',
-    'api-name': 'GET claims',
+    'api-name': apiName,
     'api-status': success ? 'successful' : 'failed',
   };
   if (error) {
@@ -142,6 +151,15 @@ const recordClaimsAPIEvent = ({ startTime, success, error }) => {
       'error-key': undefined,
     });
   }
+};
+
+const recordLighthouseClaimsAPIEvent = ({ startTime, success, error }) => {
+  recordClaimsAPIEvent({
+    startTime,
+    success,
+    error,
+    apiName: 'GET Lighthouse claims /v0/benefits_claims',
+  });
 };
 
 export function getClaimsV2(options = {}) {
@@ -203,5 +221,37 @@ export function getClaimsV2(options = {}) {
       shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
       target: '/evss_claims_async',
     });
+  };
+}
+
+export function getLighthouseClaims() {
+  const startTimestampMs = Date.now();
+
+  return dispatch => {
+    dispatch({ type: FETCH_CLAIMS_PENDING });
+
+    return apiRequest('/benefits_claims')
+      .then(response => {
+        recordLighthouseClaimsAPIEvent({
+          startTime: startTimestampMs,
+          success: true,
+        });
+        dispatch(fetchClaimsSuccess(response));
+      })
+      .catch(response => {
+        const errorCode = getErrorStatus(response);
+        Sentry.withScope(scope => {
+          scope.setFingerprint(['{{default}}', errorCode]);
+          Sentry.captureException(
+            `va-dashboard_claims_v2_err_get_lighthouse_claims ${errorCode}`,
+          );
+        });
+        recordLighthouseClaimsAPIEvent({
+          startTime: startTimestampMs,
+          success: false,
+          error: errorCode,
+        });
+        return dispatch({ type: FETCH_CLAIMS_ERROR });
+      });
   };
 }

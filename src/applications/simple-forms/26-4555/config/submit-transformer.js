@@ -16,7 +16,7 @@ export default function transformForSubmit(formConfig, form) {
       remarkString +=
         remarksFormData[remarkKey] === true
           ? `${remarksUiSchema[remarkKey]['ui:title']}; `
-          : `${remarksFormData[remarkKey].replaceAll('\n', '; ')}; `;
+          : `${remarksFormData[remarkKey]}; `;
     }
   });
 

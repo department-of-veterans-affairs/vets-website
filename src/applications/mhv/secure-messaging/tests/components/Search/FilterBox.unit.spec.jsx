@@ -41,7 +41,7 @@ describe('Filter box', () => {
 
   it('displays a filter button', () => {
     const screen = setup();
-    const filterButton = screen.getByTestId('filter-messages-button');
-    expect(filterButton).to.exist;
+    const filterButton = screen.queryByTestId('filter-messages-button');
+    expect(filterButton).to.be.null;
   });
 });

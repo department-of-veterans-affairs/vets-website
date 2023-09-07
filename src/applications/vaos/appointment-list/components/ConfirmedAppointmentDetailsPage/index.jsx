@@ -11,7 +11,10 @@ import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import { fetchConfirmedAppointmentDetails } from '../../redux/actions';
 import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
-import { selectFeatureVaosV2Next } from '../../../redux/selectors';
+import {
+  selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureVaosV2Next,
+} from '../../../redux/selectors';
 import DetailsVA from './DetailsVA';
 import DetailsCC from './DetailsCC';
 import DetailsVideo from './DetailsVideo';
@@ -28,6 +31,9 @@ export default function ConfirmedAppointmentDetailsPage() {
   } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
+  );
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
   );
   const featureVaosV2Next = useSelector(state =>
     selectFeatureVaosV2Next(state),
@@ -51,10 +57,13 @@ export default function ConfirmedAppointmentDetailsPage() {
   useEffect(
     () => {
       const pageTitle = isCommunityCare ? 'Community care' : 'VA';
+      const pageTitleSuffix = featureBreadcrumbUrlUpdate
+        ? ' | Veterans Affairs'
+        : '';
       if (appointment && appointmentDate) {
         document.title = `${pageTitle} appointment on ${appointmentDate.format(
           'dddd, MMMM D, YYYY',
-        )}`;
+        )}${pageTitleSuffix}`;
         scrollAndFocus();
       }
     },

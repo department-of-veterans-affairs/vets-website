@@ -9,9 +9,8 @@ import {
   createFeatureTogglesState,
   renderWithProfileReducers,
 } from '../../unit-test-helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
-const testContactInfo = toggleValue => {
+const testContactInfo = () => {
   const ui = (
     <MemoryRouter>
       <ContactInformation />
@@ -19,9 +18,7 @@ const testContactInfo = toggleValue => {
   );
   const initialState = {
     ...createBasicInitialState(),
-    ...createFeatureTogglesState({
-      [Toggler.TOGGLE_NAMES.profileUseInfoCard]: toggleValue || false,
-    }),
+    ...createFeatureTogglesState(),
   };
   initialState.user.profile.vapContactInfo.email.emailAddress =
     'alongusername@gmail.com';
@@ -68,12 +65,8 @@ describe('ContactInformation', () => {
   context(
     'correct contact info based on what exists in the Redux state',
     () => {
-      it('renders when profileUseInfoCard toggle is off', () => {
-        testContactInfo(false);
-      });
-
-      it('renders when profileUseInfoCard toggle is on', () => {
-        testContactInfo(true);
+      it('renders in ProfileInfoCard', () => {
+        testContactInfo();
       });
     },
   );

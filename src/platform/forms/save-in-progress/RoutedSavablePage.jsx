@@ -31,11 +31,11 @@ class RoutedSavablePage extends React.Component {
   };
 
   autoSave() {
-    const { form, user } = this.props;
+    const { form, user, route } = this.props;
     if (user.login.currentlyLoggedIn) {
-      const data = form.data;
-      const { formId, version, submission } = form;
-      const returnUrl = this.props.location.pathname;
+      const { data, formId, version, submission } = form;
+      const returnUrl =
+        route.pageConfig?.returnUrl || this.props.location.pathname;
       this.props.autoSaveForm(formId, data, version, returnUrl, submission);
     }
   }
@@ -104,6 +104,15 @@ const mapDispatchToProps = {
 
 RoutedSavablePage.propTypes = {
   form: PropTypes.object.isRequired,
+  autoSaveForm: PropTypes.func,
+  formConfig: PropTypes.shape({
+    customText: PropTypes.shape({
+      finishAppLaterMessage: PropTypes.string,
+    }),
+  }),
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
   route: PropTypes.shape({
     pageConfig: PropTypes.shape({
       pageKey: PropTypes.string.isRequired,
@@ -116,12 +125,11 @@ RoutedSavablePage.propTypes = {
       }),
     ),
   }),
+  saveAndRedirectToReturnUrl: PropTypes.func,
   setData: PropTypes.func,
-  formConfig: PropTypes.shape({
-    customText: PropTypes.shape({
-      finishAppLaterMessage: PropTypes.string,
-    }),
-  }),
+  showLoginModal: PropTypes.bool,
+  toggleLoginModal: PropTypes.func,
+  user: PropTypes.object,
 };
 
 export default withRouter(

@@ -6,7 +6,7 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import {
   // focusRadioH3,
-  focusAlertH3,
+  focusH3,
   focusIssue,
   focusEvidence,
   focusUploads,
@@ -24,7 +24,7 @@ import { LAST_SC_ITEM } from '../../constants';
      });
   }); */
 
-describe('focusAlertH3', () => {
+describe('focusH3', () => {
   it('should focus on H3 inside alert', async () => {
     const { container } = render(
       <div>
@@ -34,7 +34,7 @@ describe('focusAlertH3', () => {
       </div>,
     );
 
-    focusAlertH3();
+    focusH3();
 
     await waitFor(() => {
       const h3 = $('h3', container);

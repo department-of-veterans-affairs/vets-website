@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import {
   SAVED_SEPARATION_DATE,
@@ -27,7 +26,6 @@ import {
   needsToEnter781a,
   needsToEnterUnemployability,
   newConditionsOnly,
-  queryForFacilities,
   ReservesGuardDescription,
   servedAfter911,
   viewifyFields,
@@ -179,56 +177,6 @@ describe('526 helpers', () => {
     });
     it('should return null when name is not a string', () => {
       expect(capitalizeEachWord(249481)).to.equal(null);
-    });
-  });
-
-  describe('queryForFacilities', () => {
-    beforeEach(() => {
-      mockFetch();
-      const response = [
-        { id: 0, attributes: { name: 'first' } },
-        { id: 1, attributes: { name: 'second' } },
-      ];
-      setFetchJSONResponse(global.fetch.onCall(0), response);
-    });
-
-    /* un-skip these once we get a new enpoint in place; see #14028 */
-    it.skip('should not call the api if the input length is < 3', () => {
-      queryForFacilities('12');
-      expect(global.fetch.called).to.be.false;
-    });
-
-    it.skip('should call the api if the input length is >= 3', () => {
-      queryForFacilities('123');
-      expect(global.fetch.called).to.be.true;
-    });
-
-    it.skip('should call the api with the input', () => {
-      queryForFacilities('asdf');
-      expect(global.fetch.firstCall.args[0]).to.contain(
-        '/facilities/suggested?type%5B%5D=health&type%5B%5D=dod_health&name_part=asdf',
-      );
-    });
-
-    it.skip('should return the mapped data for autosuggest if successful', () => {
-      // Doesn't matter what we call this with since our stub will always return the same thing
-      const requestPromise = queryForFacilities('asdf');
-      return requestPromise.then(result => {
-        expect(result).to.eql([
-          { id: 0, label: 'first' },
-          { id: 1, label: 'second' },
-        ]);
-      });
-    });
-
-    it('should return an empty array if unsuccessful', () => {
-      global.fetch.resolves({ ok: false });
-      // Doesn't matter what we call this with since our stub will always return the same thing
-      const requestPromise = queryForFacilities('asdf');
-      return requestPromise.then(result => {
-        // This .then() fires after the apiRequest failure callback returns []
-        expect(result).to.eql([]);
-      });
     });
   });
 

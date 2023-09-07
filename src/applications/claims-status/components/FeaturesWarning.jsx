@@ -16,7 +16,7 @@ export default function FeaturesWarning() {
       </p>
       <p>
         <a href="/disability/get-help-filing-claim/">
-          Get help filing your VA claim or appeal
+          Get help filing your VA claim, decision review, or appeal
         </a>
       </p>
     </div>

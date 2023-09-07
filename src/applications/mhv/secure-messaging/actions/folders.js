@@ -31,19 +31,28 @@ export const getFolders = () => async dispatch => {
 };
 
 export const retrieveFolder = folderId => async dispatch => {
-  // dispatch({ type: Actions.Folder.CLEAR });
-  const response = await getFolder(folderId);
-  if (response.errors) {
-    dispatch({
-      type: Actions.Alert.ADD_ALERT,
-      payload: response.errors[0],
+  await getFolder(folderId)
+    .then(response => {
+      if (
+        response.data.attributes.folderId ===
+        Constants.DefaultFolders.DELETED.id
+      ) {
+        response.data.attributes.name = Constants.DefaultFolders.DELETED.header;
+      }
+      dispatch({
+        type: Actions.Folder.GET,
+        response,
+      });
+    })
+    .catch(error => {
+      dispatch({
+        type: Actions.Folder.GET,
+        response: null,
+      });
+      dispatch(
+        addAlert(Constants.ALERT_TYPE_ERROR, '', error.errors[0].detail),
+      );
     });
-  } else {
-    dispatch({
-      type: Actions.Folder.GET,
-      response,
-    });
-  }
 };
 
 export const clearFolder = () => async dispatch => {

@@ -59,9 +59,21 @@ describe('hca SpouseAnnualIncome config', () => {
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(formDOM, '#root_spouseGrossIncome', '100000');
-    simulateInputChange(formDOM, '#root_spouseNetIncome', '76000');
-    simulateInputChange(formDOM, '#root_spouseOtherIncome', '0');
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A spouseGrossIncome_spouseGrossIncome',
+      '100000',
+    );
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A spouseNetIncome_spouseNetIncome',
+      '76000',
+    );
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A spouseOtherIncome_spouseOtherIncome',
+      '0',
+    );
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);

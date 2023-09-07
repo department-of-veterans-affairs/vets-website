@@ -207,8 +207,8 @@ const SearchBenefits = ({
         }
         name="enlistmentService"
         options={[
-          { optionValue: '3', optionLabel: '3 or more years' },
-          { optionValue: '2', optionLabel: '2 or more years' },
+          { optionValue: '3', optionLabel: '3+ years of enlistment' },
+          { optionValue: '2', optionLabel: '2 years of enlistment' },
         ]}
         value={enlistmentService}
         alt="Completed an enlistment of:"

@@ -43,74 +43,50 @@ describe('check-in', () => {
         /([\d]|[\d][\d]):[\d][\d]/,
       );
     });
-    describe('back button visibility based on update page', () => {
-      it('shows the back button if update page is enabled', () => {
-        const token = 'token-123';
-        const appointments = [
-          {
-            clinicPhone: '555-867-5309',
-            startTime: '2021-07-19T13:56:31',
-            facilityName: 'Acme VA',
-            clinicName: 'Green Team Clinic1',
-          },
-        ];
+    it('shows the back button by default', () => {
+      const token = 'token-123';
+      const appointments = [
+        {
+          clinicPhone: '555-867-5309',
+          startTime: '2021-07-19T13:56:31',
+          facilityName: 'Acme VA',
+          clinicName: 'Green Team Clinic1',
+        },
+      ];
 
-        const checkIn = render(
-          <CheckInProvider>
-            <DisplayMultipleAppointments
-              token={token}
-              appointments={appointments}
-            />
-          </CheckInProvider>,
-        );
-        expect(checkIn.getByTestId('back-button')).to.exist;
-      });
-      it('shows the back button if demographics page is enabled', () => {
-        const token = 'token-123';
-        const appointments = [
-          {
-            clinicPhone: '555-867-5309',
-            startTime: '2021-07-19T13:56:31',
-            facilityName: 'Acme VA',
-            clinicName: 'Green Team Clinic1',
-          },
-        ];
+      const checkIn = render(
+        <CheckInProvider>
+          <DisplayMultipleAppointments
+            token={token}
+            appointments={appointments}
+          />
+        </CheckInProvider>,
+      );
+      expect(checkIn.getByTestId('back-button')).to.exist;
+    });
+    it('shows the date & time the appointments were loaded & a refresh link', () => {
+      const token = 'token-123';
+      const appointments = [
+        {
+          clinicPhone: '555-867-5309',
+          startTime: '2021-07-19T13:56:31',
+          facilityName: 'Acme VA',
+          clinicName: 'Green Team Clinic1',
+        },
+      ];
 
-        const checkIn = render(
-          <CheckInProvider>
-            <DisplayMultipleAppointments
-              token={token}
-              appointments={appointments}
-            />
-          </CheckInProvider>,
-        );
-        expect(checkIn.getByTestId('back-button')).to.exist;
-      });
-
-      it('shows the date & time the appointments were loaded & a refresh link', () => {
-        const token = 'token-123';
-        const appointments = [
-          {
-            clinicPhone: '555-867-5309',
-            startTime: '2021-07-19T13:56:31',
-            facilityName: 'Acme VA',
-            clinicName: 'Green Team Clinic1',
-          },
-        ];
-
-        const checkIn = render(
-          <CheckInProvider>
-            <DisplayMultipleAppointments
-              token={token}
-              appointments={appointments}
-            />
-          </CheckInProvider>,
-        );
-        expect(checkIn.getByTestId('update-text')).to.have.text(
-          `Latest update: ${format(new Date(), "MMMM d, yyyy 'at' h:mm aaaa")}`,
-        );
-        expect(checkIn.queryByTestId('refresh-appointments-button')).to.exist;
-      });
+      const checkIn = render(
+        <CheckInProvider>
+          <DisplayMultipleAppointments
+            token={token}
+            appointments={appointments}
+          />
+        </CheckInProvider>,
+      );
+      expect(checkIn.getByTestId('update-text')).to.have.text(
+        `Latest update: ${format(new Date(), "MMMM d, yyyy 'at' h:mm aaaa")}`,
+      );
+      expect(checkIn.queryByTestId('refresh-appointments-button')).to.exist;
     });
   });
 });

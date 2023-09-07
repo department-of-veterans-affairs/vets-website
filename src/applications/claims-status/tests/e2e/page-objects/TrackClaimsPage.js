@@ -25,7 +25,7 @@ class TrackClaimsPage {
     cy.visit('/track-claims');
     cy.title().should(
       'eq',
-      'Check your claim or appeal status | Veterans Affairs',
+      'Check your claim, decision review, or appeal status | Veterans Affairs',
     );
     if (claimsList.data.length) {
       cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
@@ -84,7 +84,7 @@ class TrackClaimsPage {
   checkClaimsContent() {
     cy.get('.claims-container-title').should(
       'contain',
-      'Check your claim or appeal status',
+      'Check your claim, decision review, or appeal status',
     );
     cy.get('.claim-list-item-header-v2')
       .first()
@@ -111,7 +111,7 @@ class TrackClaimsPage {
     cy.get('.main va-alert')
       .should('be.visible')
       .then(alertElem => {
-        cy.wrap(alertElem).should('contain', 'We closed your claim on');
+        cy.wrap(alertElem).should('contain', 'We decided your claim on');
       });
 
     cy.get('.disability-benefits-timeline').should('not.exist');

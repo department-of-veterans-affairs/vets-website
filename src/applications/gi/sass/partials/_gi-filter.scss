@@ -20,11 +20,47 @@
     }
   }
 
+  .vads-l-grid-container{
+    padding-right: 0%;
+    padding-left: 0%;
+  }
+
   .expanding-group-children {
     padding-left: 28px;
 
     .gi-checkbox-label {
       margin-top: 24px;
     }
+  }
+
+  .apply-filter-button{
+    margin-left: 0% !important;
+  }
+
+  .clear-filters-button{
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    margin-top: 1em;
+    margin-left: 1.5em;
+    margin-bottom: 0.5em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    color: $color-blue;
+    background-color: transparent;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
+      "Arial", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 1rem 2rem;
+    text-align: center;
+    text-decoration: underline;
+  }
+
+  .mobile-clear-filter-button{
+    margin-left: 0% !important;
   }
 }

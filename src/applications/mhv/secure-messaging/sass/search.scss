@@ -34,27 +34,29 @@
   .basic-filter-button-container {
     margin-top: -5px;
   }
-  .filter-button {
-    position: absolute;
-    bottom: 0;
-    width: 109px;
-    @media (max-width: $small-screen) {
-      width: 100px;
-    }
-    padding: 13px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-left: 0;
-    margin-bottom: 3.2px;
-    border-radius: 0 5px 5px 0;
+  va-button {
+    min-width: 90px;
+    min-height: 40px;
   }
+
+  @media (max-width: $small-screen) {
+    va-button::part(button) {
+      width: 100%;
+    }
+  }
+
   .filter-text-input {
-    width: 70%;
     margin: 0px;
   }
 
   .filter-input-box {
     margin: 0px;
+  }
+
+  @media (min-width: $small-screen) {
+    #additional-filter-accordion::part(accordion-header) {
+      width: 150px;
+    }
   }
 
   .custom-filter-button {
@@ -64,10 +66,6 @@
   }
 
   .advanced-search-field {
-    margin-left: 11px;
-  }
-
-  va-button {
     margin-left: 11px;
   }
 

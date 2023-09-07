@@ -1,8 +1,5 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const isChapterFieldRequired = (formData, option) =>
   formData[`view:selectable686Options`][option];
@@ -35,11 +32,8 @@ export const VaFileNumberMissingAlert = (
     </p>
     <p className="vads-u-font-size--base">
       You’ll need to update your personal information. Please call Veterans
-      Benefits Assistance at{' '}
-      <a href="tel: 800-827-1000" aria-label="800. 8 2 7. 1000.">
-        800-827-1000
-      </a>{' '}
-      between 8:00 a.m. and 9:00 p.m. ET Monday through Friday.
+      Benefits Assistance at <va-telephone contact="8008271000" /> between 8:00
+      a.m. and 9:00 p.m. ET Monday through Friday.
     </p>
   </>
 );
@@ -58,8 +52,8 @@ export const ServerErrorAlert = (
     </p>
     <p className="vads-u-font-size--base">
       If you get this error again, please call the VA.gov help desk at{' '}
-      <Telephone contact={CONTACTS.VA_311} /> (TTY:{' '}
-      <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />
+      <va-telephone contact={CONTACTS.VA_311} /> (
+      <va-telephone contact={CONTACTS[711]} tty />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </>

@@ -5,6 +5,7 @@
       "addressType": "DOMESTIC",
       "city": "Emeryville",
       "countryName": "United States",
+      "countryCodeISO2": "US",
       "countryCodeIso3": "USA",
       "countyCode": "06001",
       "countyName": "Alameda",

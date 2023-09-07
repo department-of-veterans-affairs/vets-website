@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { merge, once } from 'lodash';
-import set from '../../../../utilities/data/set';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import set from '../../../../utilities/data/set';
 
 import { uiSchemaValidate, transformErrors } from '../validation';
 import FieldTemplate from './FieldTemplate';
@@ -18,6 +18,7 @@ import BasicArrayField from '../fields/BasicArrayField';
 import TitleField from '../fields/TitleField';
 import ReviewObjectField from '../review/ObjectField';
 import { scrollToFirstError } from '../utilities/ui';
+import getFormDataFromSchemaId from '../utilities/data/getFormDataFromSchemaId';
 
 /*
  * Each page uses this component and passes in config. This is where most of the page level
@@ -48,6 +49,7 @@ class SchemaForm extends React.Component {
       StringField,
     };
   }
+
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(newProps) {
     if (
@@ -101,8 +103,17 @@ class SchemaForm extends React.Component {
 
   onBlur(id) {
     if (!this.state.formContext.touched[id]) {
-      const formContext = set(['touched', id], true, this.state.formContext);
-      this.setState({ formContext });
+      const data = getFormDataFromSchemaId(id, this.props.data);
+      const isEmpty = data === undefined || data === null || data === '';
+      // - Prefer to only set as touched if the field is NOT empty,
+      //   so that we won't show an error message prematurely.
+      // - If data is not found for some reason (e.g. schema uses snake case
+      //   properties which can't be parsed in a 'root_' string) then go
+      //   ahead and mark as touched which will show a potential error message.
+      if (!isEmpty || data === 'FORM_DATA_NOT_FOUND') {
+        const formContext = set(['touched', id], true, this.state.formContext);
+        this.setState({ formContext });
+      }
     }
   }
 
@@ -120,24 +131,22 @@ class SchemaForm extends React.Component {
       trackingPrefix,
     } = props;
     return {
-      formContext: Object.assign(
-        {
-          touched: {},
-          submitted: false,
-          onEdit,
-          hideTitle,
-          setTouched: this.setTouched,
-          reviewTitle,
-          pageTitle: title,
-          pagePerItemIndex,
-          reviewMode,
-          hideHeaderRow,
-          uploadFile,
-          onError: this.onError,
-          trackingPrefix,
-        },
-        formContext,
-      ),
+      formContext: {
+        touched: {},
+        submitted: false,
+        onEdit,
+        hideTitle,
+        setTouched: this.setTouched,
+        reviewTitle,
+        pageTitle: title,
+        pagePerItemIndex,
+        reviewMode,
+        hideHeaderRow,
+        uploadFile,
+        onError: this.onError,
+        trackingPrefix,
+        ...formContext,
+      },
     };
   }
 

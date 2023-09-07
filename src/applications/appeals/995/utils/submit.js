@@ -12,7 +12,16 @@ import {
   hasHomePhone,
   hasMobilePhone,
 } from './contactInfo';
-import { replaceSubmittedData, fixDateFormat } from './replace';
+import {
+  replaceSubmittedData,
+  fixDateFormat,
+} from '../../shared/utils/replace';
+import {
+  buildVaLocationString,
+  buildPrivateString,
+} from '../validations/evidence';
+import { returnUniqueIssues } from '../../shared/utils/issues';
+import '../../shared/definitions';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -61,7 +70,7 @@ export const getClaimantData = ({
 
 /**
  * Combine issues values into one field
- * @param {ContestableIssue~Attributes} attributes
+ * @param {ContestableIssueAttributes} attributes
  * @returns {String} Issue name - rating % - description combined
  */
 export const createIssueName = ({ attributes } = {}) => {
@@ -76,9 +85,8 @@ export const createIssueName = ({ attributes } = {}) => {
     description,
   ]
     .filter(part => part)
-    .join(' - ')
-    .substring(0, MAX_LENGTH.ISSUE_NAME);
-  return replaceSubmittedData(result);
+    .join(' - ');
+  return replaceSubmittedData(result).substring(0, MAX_LENGTH.ISSUE_NAME);
 };
 
 /* submitted contested issue format
@@ -94,8 +102,8 @@ export const createIssueName = ({ attributes } = {}) => {
   }
 }]
 */
-export const getContestedIssues = ({ contestedIssues = [] }) =>
-  contestedIssues.filter(issue => issue[SELECTED]).map(issue => {
+export const getContestedIssues = ({ contestedIssues } = {}) =>
+  (contestedIssues || []).filter(issue => issue[SELECTED]).map(issue => {
     const attr = issue.attributes;
     const attributes = [
       'decisionIssueId',
@@ -124,31 +132,14 @@ export const getContestedIssues = ({ contestedIssues = [] }) =>
   });
 
 /**
- * @typedef AdditionalIssues
- * @type {Array<Object>}
- * @property {AdditionalIssue~Item}
- */
-/**
- * @typedef AdditionalIssue~Item - user-added issues
- * @type {Object}
- * @property {String} issue - user entered issue name
- * @property {String} decisionDate - user entered decision date
- * @property {Boolean} 'view:selected' - user selected issue
- * @returns {ContestableIssue~Submittable}
- * @example
- *  [{
-      "issue": "right shoulder",
-      "decisionDate": "2010-01-06"
-    }]
- */
-/**
  * Combine included issues and additional issues
  * @param {FormData}
- * @returns {ContestableIssue~Submittable}
+ * @returns {ContestableIssueSubmittable}
  */
 export const addIncludedIssues = formData => {
   const issues = getContestedIssues(formData);
-  return issues.concat(
+
+  const result = issues.concat(
     (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
       if (issue[SELECTED] && issue.issue && issue.decisionDate) {
         // match contested issue pattern
@@ -163,34 +154,10 @@ export const addIncludedIssues = formData => {
       return issuesToAdd;
     }, []),
   );
+  // Ensure only unique entries are submitted
+  return returnUniqueIssues(result);
 };
 
-/**
- * Veteran~submittable
- * @property {Address~submittable} address
- * @property {Phone~submittable} phone
- * @property {String} emailAddressText
- */
-/**
- * Address~submittableV2
- * @typedef {Object}
- * @property {String} addressLine1
- * @property {String} addressLine2
- * @property {String} addressLine3
- * @property {String} city
- * @property {String} stateCode
- * @property {String} zipCode5
- * @property {String} countryCodeISO2
- * @property {String} internationalPostalCode
- */
-/**
- * Phone~submittable
- * @typedef {Object}
- * @property {String} countryCode
- * @property {String} areaCode
- * @property {String} phoneNumber
- * @property {String} phoneNumberExt
- */
 /**
  * FormData
  * @typedef {Object}
@@ -199,7 +166,7 @@ export const addIncludedIssues = formData => {
 /**
  * Strip out extra profile home address data & rename zipCode to zipCode5
  * @param {FormData} formData
- * @returns {Address~submittableV2}
+ * @returns {AddressSubmittableV2}
  */
 export const getAddress = formData => {
   const { veteran = {} } = formData || {};
@@ -259,13 +226,24 @@ export const getPhone = formData => {
     : {};
 };
 
-export const hasDuplicateLocation = (list, locationAndName, evidenceDates) =>
-  !!list.find(
-    ({ attributes }) =>
-      attributes.locationAndName === locationAndName &&
-      attributes.evidenceDates[0].startDate === evidenceDates.from &&
-      attributes.evidenceDates[0].endDate === evidenceDates.to,
-  );
+export const hasDuplicateLocation = (list, currentLocation) =>
+  !!list.find(location => {
+    const { locationAndName, evidenceDates } = location.attributes;
+    return (
+      buildVaLocationString(
+        {
+          locationAndName,
+          evidenceDates: {
+            from: evidenceDates[0].startDate,
+            to: evidenceDates[0].endDate,
+          },
+        },
+        ',',
+        { includeIssues: false },
+      ) ===
+      buildVaLocationString(currentLocation, ',', { includeIssues: false })
+    );
+  });
 
 /**
  * Truncate long email addresses
@@ -280,32 +258,32 @@ export const getEmail = formData => {
 /**
  * @typedef EvidenceSubmission
  * @type {Array<Object>}
- * @property {EvidenceSubmission~upload|EvidenceSubmission~retrieval}
+ * @property {EvidenceSubmissionUpload|EvidenceSubmissionRetrieval}
  */
 /**
- * @typedef EvidenceSubmission~upload - uploaded evidence
+ * @typedef EvidenceSubmissionUpload - uploaded evidence
  * @type {Object}
  * @property {String} evidenceType - enum: 'upload'
  * @example [{ "evidenceType": "upload" }]
  */
 /**
- * @typedef EvidenceSubmission~none - No evidence
+ * @typedef EvidenceSubmissionNone - No evidence
  * @type {Object}
  * @property {String} evidenceType - enum: 'none'
  * @example [{ "evidenceType": "none" }]
  */
 /**
- * @typedef EvidenceSubmission~evidenceDates
+ * @typedef EvidenceSubmissionEvidenceDates
  * @type {Array<Object>}
  * @property {string} startDate (YYYY-MM-DD)
  * @property {string} endDate (YYYY-MM-DD)
  */
 /**
- * @typedef EvidenceSubmission~retrieval - retrieve evidence
+ * @typedef EvidenceSubmissionRetrieval - retrieve evidence
  * @type {Object}
  * @property {String} evidenceType - enum: 'retrieval'
  * @property {String} locationAndName - VA or private medical records name
- * @property {EvidenceSubmission~evidenceDates} - date range
+ * @property {EvidenceSubmissionEvidenceDates} - date range
  * @example
   "evidenceSubmission": [{
     "evidenceType": ["retrieval", "upload"],
@@ -339,23 +317,23 @@ export const getEvidence = formData => {
     evidenceType: [],
   };
   // Add VA evidence data
-  if (formData[EVIDENCE_VA] && formData.locations.length) {
+  if (formData[EVIDENCE_VA] && formData.locations?.length) {
     evidenceSubmission.evidenceType.push('retrieval');
     evidenceSubmission.retrieveFrom = formData.locations.reduce(
-      (list, { locationAndName, evidenceDates }) => {
-        if (!hasDuplicateLocation(list, locationAndName, evidenceDates)) {
+      (list, location) => {
+        if (!hasDuplicateLocation(list, location)) {
           list.push({
             type: 'retrievalEvidence',
             attributes: {
               // we're not including the issues here - it's only in the form to make
               // the UX consistent with the private records location pages
-              locationAndName,
+              locationAndName: location.locationAndName,
               // Lighthouse wants between 1 and 4 evidenceDates, but we're only
               // providing one
               evidenceDates: [
                 {
-                  startDate: fixDateFormat(evidenceDates.from),
-                  endDate: fixDateFormat(evidenceDates.to),
+                  startDate: fixDateFormat(location.evidenceDates.from),
+                  endDate: fixDateFormat(location.evidenceDates.to),
                 },
               ],
             },
@@ -381,6 +359,18 @@ export const getEvidence = formData => {
   };
 };
 
+// Backend still works if we pass along duplicate issues
+export const hasDuplicateFacility = (list, currentFacility) => {
+  const current = buildPrivateString(currentFacility, ',');
+  return !!list.find(
+    facility =>
+      buildPrivateString(
+        { ...facility, treatmentDateRange: facility.treatmentDateRange[0] },
+        ',',
+      ) === current,
+  );
+};
+
 /**
  * The backend is filling out form 4142/4142a (March 2021) which doesn't include
  * the conditions (issues) that were treated. These are asked for in the newer
@@ -388,16 +378,24 @@ export const getEvidence = formData => {
  */
 export const getForm4142 = formData => {
   const { privacyAgreementAccepted = true, limitedConsent = '' } = formData;
-  const providerFacility = (formData?.providerFacility || []).map(facility => ({
-    ...facility,
-    // 4142 is expecting an array
-    treatmentDateRange: [
-      {
-        from: fixDateFormat(facility.treatmentDateRange?.from),
-        to: fixDateFormat(facility.treatmentDateRange?.to),
-      },
-    ],
-  }));
+  const providerFacility = (formData?.providerFacility || []).reduce(
+    (list, facility) => {
+      if (!hasDuplicateFacility(list, facility)) {
+        list.push({
+          ...facility,
+          // 4142 is expecting an array
+          treatmentDateRange: [
+            {
+              from: fixDateFormat(facility.treatmentDateRange?.from),
+              to: fixDateFormat(facility.treatmentDateRange?.to),
+            },
+          ],
+        });
+      }
+      return list;
+    },
+    [],
+  );
   return formData[EVIDENCE_PRIVATE]
     ? {
         privacyAgreementAccepted,

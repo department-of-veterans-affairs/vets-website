@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { normalizeFullName } from '../../utils/helpers';
 
 const DependentsReviewPage = ({ data, editPage }) => {
   const { dependents } = data;
   const reviewRows = dependents.map((item, index) => {
     const { fullName, dependentRelation } = item;
-    const normalizedFullName = `${fullName.first} ${
-      fullName.last
-    } ${fullName.suffix || ''}`.replace(/ +(?= )/g, '');
+    const dependentName = normalizeFullName(fullName);
     return (
       <div key={index} className="review-row">
         <dt>
-          <strong>{normalizedFullName}</strong>, {dependentRelation}
+          <strong>{dependentName}</strong>, {dependentRelation}
         </dt>
         <dd>&nbsp;</dd>
       </div>

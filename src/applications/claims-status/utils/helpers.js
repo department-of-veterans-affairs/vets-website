@@ -1,4 +1,5 @@
 import merge from 'lodash/merge';
+import { format, isValid, parseISO } from 'date-fns';
 // import * as Sentry from '@sentry/browser';
 
 import environment from 'platform/utilities/environment';
@@ -54,6 +55,10 @@ export function getUserPhase(phase) {
 // START lighthouse_migration
 export const getTrackedItemId = trackedItem =>
   trackedItem.trackedItemId || trackedItem.id;
+
+export const getTrackedItemDate = item => {
+  return item.closedDate || item.receivedDate || item.requestedDate;
+};
 // END lighthouse_migration
 
 export function getItemDate(item) {
@@ -140,6 +145,18 @@ export function displayFileSize(size) {
 
   const mbSize = kbSize / 1024;
   return `${Math.round(mbSize)}MB`;
+}
+
+export function groupClaimsByDocsNeeded(list) {
+  const claimsWithOpenRequests = list.filter(
+    claim => claim.attributes.documentsNeeded,
+  );
+
+  const claimsWithoutOpenRequests = list.filter(
+    claim => !claim.attributes.documentsNeeded,
+  );
+
+  return claimsWithOpenRequests.concat(claimsWithoutOpenRequests);
 }
 
 export const DOC_TYPES = [
@@ -237,28 +254,33 @@ export function getTopPosition(elem) {
   return Math.round(box.top + scrollTop - clientTop);
 }
 
+export function stripEscapedChars(text) {
+  return text && text.replace(/\\(n|r|t)/gm, '');
+}
+
+// strip escaped html entities that have made its way into the desc
+export function stripHtml(text) {
+  return text && text.replace(/[<>]|&\w+;/g, '');
+}
+
+export function scrubDescription(text) {
+  return stripEscapedChars(stripHtml(text));
+}
+
 export function truncateDescription(text) {
   const maxLength = 120;
   if (text && text.length > maxLength) {
     return `${text.substr(0, maxLength)}…`;
   }
-  return text;
-}
-
-// strip escaped html entities that have made its way into the desc
-export function stripHtml(text) {
-  return text && text.replace(/&\w+;/g, '');
+  return scrubDescription(text);
 }
 
 export function isClaimComplete(claim) {
   return claim.attributes.decisionLetterSent || claim.attributes.phase === 8;
 }
 
-export function itemsNeedingAttentionFromVet(events) {
-  return events?.filter(
-    event =>
-      event.status === 'NEEDED' && event.type === 'still_need_from_you_list',
-  ).length;
+export function itemsNeedingAttentionFromVet(items) {
+  return items?.filter(item => item.status === 'NEEDED_FROM_YOU').length;
 }
 
 export function makeAuthRequest(
@@ -306,9 +328,7 @@ export function getCompletedDate(claim) {
 }
 
 export function getClaimType(claim) {
-  return (
-    claim?.attributes?.claimType || 'disability compensation'
-  ).toLowerCase();
+  return claim?.attributes?.claimType || 'Disability Compensation';
 }
 
 export const mockData = {
@@ -889,3 +909,19 @@ export const mockData = {
 export function roundToNearest({ interval, value }) {
   return Math.round(value / interval) * interval;
 }
+
+export const setDocumentTitle = title => {
+  document.title = `${title} | Veterans Affairs`;
+};
+
+// Takes a format string and returns a function that formats the given date
+// `date` must be in ISO format ex. 2020-01-28
+export const buildDateFormatter = formatString => {
+  return date => {
+    const parsedDate = parseISO(date);
+
+    return isValid(parsedDate)
+      ? format(parsedDate, formatString)
+      : 'Invalid date';
+  };
+};

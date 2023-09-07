@@ -31,13 +31,13 @@ import uploadPOADocument from './chapters/signAsRepresentative/uploadPOADocument
 // primary pages
 import hasPrimaryCaregiverPage from './chapters/primary/hasPrimaryCaregiver';
 import primaryInfoPage from './chapters/primary/primaryInfo';
-import primaryContactInfoPage from './chapters/primary/primaryContact';
-import primaryMedicalPage from './chapters/primary/primaryHealthCoverage';
+import primaryContactInfoPage from './chapters/primary/primaryContactInfo';
+import primaryMedicalPage from './chapters/primary/primaryHealthCareCoverage';
 
 // secondary pages
 import hasSecondaryCaregiverPage from './chapters/secondaryOne/hasSecondaryCaregiver';
-import secondaryCaregiverInfoPage from './chapters/secondaryOne/secondaryInfo';
-import secondaryCaregiverContactPage from './chapters/secondaryOne/secondaryCaregiverContact';
+import secondaryOneInfoPage from './chapters/secondaryOne/secondaryOneInfo';
+import secondaryOneContactPage from './chapters/secondaryOne/secondaryOneContactInfo';
 import secondaryTwoInfoPage from './chapters/secondaryTwo/secondaryTwoInfo';
 import secondaryTwoContactPage from './chapters/secondaryTwo/secondaryTwoContactInfo';
 
@@ -178,15 +178,15 @@ const formConfig = {
           path: 'secondary-one-2',
           title: 'Secondary Family Caregiver information',
           depends: formData => hasSecondaryCaregiverOne(formData),
-          uiSchema: secondaryCaregiverInfoPage.uiSchema,
-          schema: secondaryCaregiverInfoPage.schema,
+          uiSchema: secondaryOneInfoPage.uiSchema,
+          schema: secondaryOneInfoPage.schema,
         },
         secondaryCaregiverOneThree: {
           path: 'secondary-one-3',
           title: 'Secondary Family Caregiver information',
           depends: formData => hasSecondaryCaregiverOne(formData),
-          uiSchema: secondaryCaregiverContactPage.uiSchema,
-          schema: secondaryCaregiverContactPage.schema,
+          uiSchema: secondaryOneContactPage.uiSchema,
+          schema: secondaryOneContactPage.schema,
         },
       },
     },

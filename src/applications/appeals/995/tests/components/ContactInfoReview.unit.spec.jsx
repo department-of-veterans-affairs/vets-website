@@ -34,7 +34,7 @@ describe('<ContactInfoReview>', () => {
     const data = getData();
     const { container } = render(<ContactInfoReview {...data} />);
 
-    expect($('button.edit-page', container)).to.exist;
+    expect($('va-button', container)).to.exist;
     expect($('h4', container).textContent).to.eq(content.title);
     expect($$('dt', container).length).to.eq(9);
     expect(container.innerHTML).to.contain('Home phone');
@@ -63,7 +63,7 @@ describe('<ContactInfoReview>', () => {
     const data = getData({ editPage: editPageSpy });
     const { container } = render(<ContactInfoReview {...data} />);
 
-    fireEvent.click($('button.edit-page', container));
+    fireEvent.click($('va-button', container));
 
     expect(editPageSpy.called).to.be.true;
   });

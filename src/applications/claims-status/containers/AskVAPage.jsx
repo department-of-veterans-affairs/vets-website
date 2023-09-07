@@ -4,8 +4,9 @@ import { withRouter, Link } from 'react-router';
 import PropTypes from 'prop-types';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import {
-  submitRequest,
   // START ligthouse_migration
+  submit5103 as submit5103Action,
+  submitRequest as submitRequestAction,
   getClaim as getClaimAction,
   getClaimDetail as getClaimEVSSAction,
   // END lighthouse_migration
@@ -34,7 +35,7 @@ class AskVAPage extends React.Component {
   UNSAFE_componentWillReceiveProps(props) {
     if (props.decisionRequested) {
       // START lighthouse_migration
-      if (this.props.useLighthouse) {
+      if (this.props.useLighthouseShow) {
         props.getClaimLighthouse(this.props.params.id);
       } else {
         props.getClaimEVSS(this.props.params.id);
@@ -53,7 +54,15 @@ class AskVAPage extends React.Component {
   }
 
   render() {
-    const { loadingDecisionRequest, decisionRequestError } = this.props;
+    const {
+      loadingDecisionRequest,
+      decisionRequestError,
+      submit5103,
+      submitRequest,
+      useLighthouse5103,
+    } = this.props;
+
+    const submitFunc = useLighthouse5103 ? submit5103 : submitRequest;
     const submitDisabled =
       !this.state.submittedDocs ||
       loadingDecisionRequest ||
@@ -116,7 +125,7 @@ class AskVAPage extends React.Component {
                     ? 'usa-button-primary usa-button-disabled'
                     : 'usa-button-primary'
                 }
-                onClick={() => this.props.submitRequest(this.props.params.id)}
+                onClick={() => submitFunc(this.props.params.id)}
               >
                 {buttonMsg}
               </button>
@@ -147,14 +156,16 @@ function mapStateToProps(state) {
     decisionRequested: claimsState.claimAsk.decisionRequested,
     decisionRequestError: claimsState.claimAsk.decisionRequestError,
     // START lighthouse_migration
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse5103: cstUseLighthouse(state, '5103'),
+    useLighthouseShow: cstUseLighthouse(state, 'show'),
     // END lighthouse_migration
   };
 }
 
 const mapDispatchToProps = {
-  submitRequest,
   // START lighthouse_migration
+  submit5103: submit5103Action,
+  submitRequest: submitRequestAction,
   getClaimEVSS: getClaimEVSSAction,
   getClaimLighthouse: getClaimAction,
   // END lighthouse_migration
@@ -177,9 +188,11 @@ AskVAPage.propTypes = {
   loadingDecisionRequest: PropTypes.bool,
   params: PropTypes.object,
   router: PropTypes.object,
-  submitRequest: PropTypes.func,
   // START lighthouse_migration
-  useLighthouse: PropTypes.bool,
+  submit5103: PropTypes.func,
+  submitRequest: PropTypes.func,
+  useLighthouse5103: PropTypes.bool,
+  useLighthouseShow: PropTypes.bool,
   // END lighthouse_migration
 };
 

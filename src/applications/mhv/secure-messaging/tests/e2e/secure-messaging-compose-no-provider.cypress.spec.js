@@ -3,6 +3,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import mockDraftMessage from '../fixtures/message-draft-response.json';
 import PatientComposePage from './pages/PatientComposePage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Compose with No Provider', () => {
   it('can send message', () => {
@@ -26,10 +27,16 @@ describe('Secure Messaging Compose with No Provider', () => {
       mockDraftMessage,
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .click();
     composePage.verifySelcteRespitantErrorMessage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

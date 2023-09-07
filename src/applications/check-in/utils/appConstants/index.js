@@ -238,10 +238,16 @@ const travelAllowList = {
   },
   '500': {},
   '530': {},
+  '693B4': {},
+  '693GA': {},
+  '693GB': {},
+  '693': {},
 };
 
 const isInAllowList = appointment => {
-  const { clinicIen, stationNo } = appointment;
+  let { clinicIen, stationNo } = appointment;
+  clinicIen = String(clinicIen);
+  stationNo = String(stationNo);
   const passesClinic = () => {
     const hasClinic = 'clinics' in travelAllowList[stationNo];
     if (!hasClinic) {

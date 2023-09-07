@@ -189,4 +189,61 @@ describe('Schemaform <RoutedSavablePage>', () => {
     expect(setData.called).to.be.true;
     tree.unmount();
   });
+
+  it('should auto save and include returnUrl from page config on change', () => {
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: '',
+        returnUrl: '/testing2',
+      },
+      pageList: [
+        {
+          path: 'testing',
+        },
+      ],
+    };
+    const form = {
+      disableSave: false,
+      pages: {
+        testPage: {
+          schema: {},
+          uiSchema: {},
+        },
+      },
+      data: {},
+    };
+    const user = {
+      profile: {
+        savedForms: [],
+      },
+      login: {
+        currentlyLoggedIn: true,
+      },
+    };
+    const autoSaveForm = sinon.spy();
+    const setData = sinon.spy();
+
+    const tree = shallow(
+      <RoutedSavablePage
+        setData={setData}
+        form={form}
+        route={route}
+        user={user}
+        location={location}
+        autoSaveForm={autoSaveForm}
+        formConfig={formConfigDefaultData}
+      />,
+    );
+    tree.instance().debouncedAutoSave = tree.instance().autoSave;
+
+    tree.instance().onChange({ tests: 1 });
+    expect(autoSaveForm.called).to.be.true;
+    expect(autoSaveForm.args[0][3]).to.eq('/testing2');
+    expect(setData.called).to.be.true;
+    tree.unmount();
+  });
 });

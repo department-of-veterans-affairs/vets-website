@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function CallToActionAlert({
   heading,
-  headerLevel,
+  headerLevel = 3,
   alertText,
   primaryButtonText,
   primaryButtonHandler,

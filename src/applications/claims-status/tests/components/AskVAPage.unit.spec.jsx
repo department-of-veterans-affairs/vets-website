@@ -109,6 +109,7 @@ describe('<AskVAPage>', () => {
     const params = { id: 1 };
 
     const props = {
+      decisionRequestError: null,
       params,
       router: getRouter(),
     };
@@ -117,7 +118,7 @@ describe('<AskVAPage>', () => {
       // Reset sinon spies / set up props
       props.getClaimEVSS = sinon.spy();
       props.getClaimLighthouse = sinon.spy();
-      props.useLighthouse = true;
+      props.useLighthouseShow = true;
 
       const { rerender } = render(
         <Provider store={store}>
@@ -141,7 +142,7 @@ describe('<AskVAPage>', () => {
       // Reset sinon spies / set up props
       props.getClaimEVSS = sinon.spy();
       props.getClaimLighthouse = sinon.spy();
-      props.useLighthouse = false;
+      props.useLighthouseShow = false;
 
       const { rerender } = render(
         <Provider store={store}>
@@ -159,6 +160,42 @@ describe('<AskVAPage>', () => {
 
       expect(props.getClaimEVSS.called).to.be.true;
       expect(props.getClaimLighthouse.called).to.be.false;
+    });
+
+    it('calls submitRequest when disabled', () => {
+      props.submitRequest = sinon.spy();
+      props.submit5103 = sinon.spy();
+      props.useLighthouse5103 = false;
+
+      const screen = render(
+        <Provider store={store}>
+          <AskVAPage {...props} />
+        </Provider>,
+      );
+
+      screen.getByRole('checkbox').click();
+      screen.getByText('Submit').click();
+
+      expect(props.submitRequest.called).to.be.true;
+      expect(props.submit5103.called).to.be.false;
+    });
+
+    it('calls submit5103 when enabled', () => {
+      props.submitRequest = sinon.spy();
+      props.submit5103 = sinon.spy();
+      props.useLighthouse5103 = true;
+
+      const screen = render(
+        <Provider store={store}>
+          <AskVAPage {...props} />
+        </Provider>,
+      );
+
+      screen.getByRole('checkbox').click();
+      screen.getByText('Submit').click();
+
+      expect(props.submitRequest.called).to.be.false;
+      expect(props.submit5103.called).to.be.true;
     });
   });
   // END lighthouse_migration

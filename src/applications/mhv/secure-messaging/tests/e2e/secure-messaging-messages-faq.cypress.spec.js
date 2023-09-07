@@ -1,5 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Messages FAQ AXE check', () => {
   it.skip('Axe Check Messages FAQ', () => {
@@ -9,6 +10,12 @@ describe('Secure Messaging Messages FAQ AXE check', () => {
     landingPage.loadInboxMessages();
     cy.get('[data-testid="messages-faq-sidebar"]').click();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

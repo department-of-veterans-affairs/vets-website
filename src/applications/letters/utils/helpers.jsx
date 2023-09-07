@@ -38,7 +38,6 @@ export function LH_MIGRATION__getOptions(shouldUseLighthouse) {
   if (shouldUseLighthouse) {
     migrationOptions.listEndpoint.path = '/v0/letters_generator';
     migrationOptions.summaryEndpoint.path = '/v0/letters_generator/beneficiary';
-    migrationOptions.downloadEndpoint.method = 'GET';
     migrationOptions.downloadEndpoint.path = '/v0/letters_generator/download';
     migrationOptions.dataEntryPoint = [];
   }

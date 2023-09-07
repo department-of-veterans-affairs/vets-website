@@ -8,7 +8,8 @@ import {
   validatePhone,
   contactInfoValidation,
 } from '../../validations';
-import { errorMessages, SELECTED } from '../../constants';
+import { errorMessages } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 
 describe('requireRatedDisability', () => {
   it('should show an error if no disabilities are selected', () => {
@@ -145,5 +146,13 @@ describe('contactInfoValidation', () => {
       getData({ address: false, homeless: true }),
     );
     expect(addError.called).to.be.false;
+  });
+  it('should not throw an error when addError function is missing', () => {
+    try {
+      contactInfoValidation();
+      expect(true).to.be.true;
+    } catch (error) {
+      expect(error).to.be.null;
+    }
   });
 });

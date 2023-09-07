@@ -23,6 +23,11 @@ h1:focus {
   word-break: break-word;
 }
 
+.backLinkContainer {
+  display: flex;
+  flex-direction: row;
+
+}
 .vaos__loading-overlay {
   background: $vaos-loading-overlay;
   content: " ";

@@ -10,6 +10,7 @@ export default function AccordionItem({
   headerClass,
   onClick,
   section = false,
+  expandedWidth = false,
 }) {
   const id = `${createId(button)}-accordion`;
   const [stateExpanded, setStateExpanded] = useState(expanded || section);
@@ -28,6 +29,10 @@ export default function AccordionItem({
       'accordion-header': button,
     });
   };
+
+  const expandedSectionClass = section
+    ? 'section-content'
+    : 'usa-accordion-content';
 
   return (
     <li className={section ? 'section-item' : 'accordion-item'} id={id}>
@@ -63,7 +68,11 @@ export default function AccordionItem({
       )}
       <div
         id={`${id}-content`}
-        className={section ? 'section-content' : 'usa-accordion-content'}
+        className={
+          expandedWidth
+            ? 'section-content-expanded-width'
+            : expandedSectionClass
+        }
         aria-hidden={!displayExpanded}
         hidden={!displayExpanded}
       >

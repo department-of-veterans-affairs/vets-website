@@ -1,12 +1,9 @@
 /**
  * @module services/HealthcareService
  */
-import { getAvailableClinics } from '../var';
-import { transformAvailableClinics } from './transformers';
 import { mapToFHIRErrors } from '../utils';
-import { getSupportedLocationsByTypeOfCare } from '../location';
 import { getClinics } from '../vaos';
-import { transformClinicsV2 } from './transformers.v2';
+import { transformClinicsV2 } from './transformers';
 
 /**
  * Method to get available HealthcareService objects.
@@ -21,29 +18,14 @@ import { transformClinicsV2 } from './transformers.v2';
 export async function getAvailableHealthcareServices({
   facilityId,
   typeOfCare,
-  systemId,
-  useV2 = false,
 }) {
   try {
     let clinics = null;
-    if (useV2) {
-      const clinicData = await getClinics({
-        locationId: facilityId,
-        typeOfCareId: typeOfCare.idV2,
-      });
-      clinics = transformClinicsV2(clinicData);
-    } else {
-      const clinicData = await getAvailableClinics(
-        facilityId,
-        typeOfCare.id,
-        systemId,
-      );
-      clinics = transformAvailableClinics(
-        facilityId,
-        typeOfCare.id,
-        clinicData,
-      );
-    }
+    const clinicData = await getClinics({
+      locationId: facilityId,
+      typeOfCareId: typeOfCare.idV2,
+    });
+    clinics = transformClinicsV2(clinicData);
 
     return clinics.sort(
       (a, b) =>
@@ -58,30 +40,6 @@ export async function getAvailableHealthcareServices({
   }
 }
 
-/**
- * Fetch facility information for the facilities in the given site, based on type of care
- *
- * @export
- * @async
- * @param {Object} locationParams Parameters needed for fetching locations
- * @param {string} locationParams.siteId The VistA site id of the services being pulled
- * @param {string} locationParams.parentId An id for the parent organization of the facilities being pulled
- * @param {string} locationParams.typeOfCareId An id for the type of care to check for the chosen organization
- * @returns {Array<Location>} An array of Location resources
- */
-export async function getSupportedHealthcareServicesAndLocations({
-  siteId,
-  parentId,
-  typeOfCareId,
-}) {
-  const results = await getSupportedLocationsByTypeOfCare({
-    siteId,
-    parentId,
-    typeOfCareId,
-  });
-
-  return results.filter(item => item.resourceType === 'Location');
-}
 /**
  * Fetches a single clinic based on the id provided from the v2 endpoints
  *

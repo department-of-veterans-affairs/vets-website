@@ -82,7 +82,7 @@ export const AccountSecurityTables = ({
     <>
       {/* legacy toble view for email address table */}
       <ProfileInfoCard
-        title="Sign in information"
+        title="Sign-in information"
         level={2}
         data={
           <EmailAddressNotification signInServiceName={signInServiceName} />

@@ -3,11 +3,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
+import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 // Relative imports.
 import { getFindFormsAppState } from '../helpers/selectors';
 import { fetchFormsThunk } from '../actions';
 
-export const SearchForm = ({ fetchForms, fetching }) => {
+export const SearchForm = ({ fetchForms }) => {
   // Derive the current query params.
   const queryParams = new URLSearchParams(window.location.search);
   // Derive the query.
@@ -76,80 +78,47 @@ export const SearchForm = ({ fetchForms, fetching }) => {
   };
 
   return (
-    <form
+    <div
+      role="search"
+      aria-label="Search VA Forms"
+      className={`vads-l-grid-container vads-u-padding--3 vads-u-background-color--gray-lightest vads-u-margin-bottom--4 ${
+        showQueryError ? 'usa-input-error' : ''
+      }`}
       data-e2e-id="find-form-search-form"
-      className="vads-l-grid-container vads-u-padding--3 vads-u-background-color--gray-lightest vads-u-margin-bottom--4"
-      name="find-va-form"
-      onSubmit={onSubmitHandler}
     >
-      <div
-        className={`vads-u-margin--0 vads-u-padding-y-0 ${
-          showQueryError ? 'usa-input-error' : ''
-        }`}
-        data-e2e-id="find-form-error-body"
+      <p
+        data-e2e-id={showQueryError ? "'find-form-error-body'" : ''}
+        className="vads-u-margin--0"
       >
-        <label
-          htmlFor="va-form-query"
-          className={`vads-u-margin--0 ${
-            !showQueryError ? 'vads-u-margin-bottom--1' : ''
-          }`}
-        >
-          Enter a keyword, form name, or number
-          {showQueryError && (
-            <span
-              className="form-required-span"
-              data-e2e-id="find-form-required"
-            >
-              (*Required)
-            </span>
-          )}
-        </label>
+        Enter a keyword, form name, or number
         {showQueryError && (
-          <span
-            className="usa-input-error-message vads-u-margin-bottom--0p5"
-            role="alert"
-            data-e2e-id="find-form-error-message"
-          >
-            <span className="sr-only">Error</span>
-            Please fill in a keyword, form name, or number.
+          <span className="form-required-span" data-e2e-id="find-form-required">
+            (*Required)
           </span>
         )}
-        <div className="vads-l-row">
-          <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
-            <input
-              className="usa-input vads-u-margin--0 vads-u-margin-bottom--2 vads-u-max-width--100 vads-u-width--full vads-u-color--gray-dark medium-screen:vads-u-margin-bottom--0"
-              ref={findFormInputFieldRef}
-              id="va-form-query"
-              onChange={handleQueryChange}
-              type="text"
-              value={queryState}
-              data-e2e-id="find-form-input"
-            />
-          </div>
-          <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto">
-            <button
-              className="usa-button vads-u-margin--0 vads-u-width--full vads-u-height--full medium-screen:vads-u-width--auto medium-screen-va-border-left-radius--0"
-              type="submit"
-              disabled={fetching}
-              data-e2e-id="find-form-search"
-            >
-              <i
-                aria-hidden="true"
-                className="fa fa-search vads-u-margin-right--0p5"
-                role="presentation"
-              />
-              Search
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
+      </p>
+      {showQueryError && (
+        <span
+          className="usa-input-error-message vads-u-margin-bottom--0p5"
+          role="alert"
+          data-e2e-id="find-form-error-message"
+        >
+          <span className="sr-only">Error</span>
+          Please fill in a keyword, form name, or number.
+        </span>
+      )}
+      <VaSearchInput
+        value={queryState}
+        label="Search for a VA form by keyword, form name, or form number"
+        onInput={handleQueryChange}
+        onSubmit={onSubmitHandler}
+        buttonText="Search"
+      />
+    </div>
   );
 };
 
 SearchForm.propTypes = {
-  // From mapStateToProps.
-  fetching: PropTypes.bool.isRequired,
   // From mapDispatchToProps.
   fetchForms: PropTypes.func.isRequired,
 };

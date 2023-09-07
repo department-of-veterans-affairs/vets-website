@@ -11,6 +11,7 @@ import {
   mockContestableIssuesWithLegacyAppeals,
   getPastItf,
   fetchItf,
+  getRandomDate,
 } from './995.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
@@ -22,6 +23,7 @@ import {
   CONTESTABLE_ISSUES_API,
   EVIDENCE_UPLOAD_API,
   PRIMARY_PHONE,
+  SELECTED,
   BASE_URL,
   CONTESTABLE_ISSUES_PATH,
   EVIDENCE_VA_PATH,
@@ -68,21 +70,41 @@ const testConfig = createTestConfig(
         });
       },
       [CONTESTABLE_ISSUES_PATH]: ({ afterHook }) => {
-        cy.fillPage();
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(testData => {
-            testData.additionalIssues?.forEach(({ issue, decisionDate }) => {
-              if (issue) {
+            cy.findByText('Continue', { selector: 'button' }).click();
+            // prevent continuing without any issues selected
+            cy.location('pathname').should(
+              'eq',
+              `${BASE_URL}/${CONTESTABLE_ISSUES_PATH}`,
+            );
+            cy.get('va-alert[status="error"] h3').should(
+              'contain',
+              'You’ll need to select an issue',
+            );
+
+            testData.additionalIssues?.forEach(additionalIssue => {
+              if (additionalIssue.issue && additionalIssue[SELECTED]) {
                 cy.get('.add-new-issue').click();
                 cy.url().should('include', `${BASE_URL}/add-issue?index=`);
                 cy.axeCheck();
-                cy.get('#add-sc-issue')
+                cy.get('#issue-name')
                   .shadow()
                   .find('input')
-                  .type(issue);
-                cy.fillDate('decision-date', decisionDate);
+                  .type(additionalIssue.issue);
+                cy.fillDate('decision-date', getRandomDate());
                 cy.get('#submit').click();
+              }
+            });
+            testData.contestedIssues.forEach(issue => {
+              if (issue[SELECTED]) {
+                cy.get(
+                  `h4:contains("${issue.attributes.ratingIssueSubjectText}")`,
+                )
+                  .closest('li')
+                  .find('input[type="checkbox"]')
+                  .click();
               }
             });
             cy.findByText('Continue', { selector: 'button' }).click();

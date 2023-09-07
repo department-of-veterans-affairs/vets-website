@@ -20,13 +20,13 @@ export const FirstFAQSection = () => {
           aria-controls="dhp-faq-first-section-first-question"
           data-testid="faq-first-section-first-question"
         >
-          The VA Digital Health Platform Fitbit Pilot (i.e., the Pilot) is an
+          The VA Digital Health Pathway Fitbit Pilot (i.e., the Pilot) is an
           effort designed to evaluate how VA can provide you with an opportunity
           to share your patient-generated data (PGD) with your VA care team.
           This pilot is not meant to replace normal care activities between you
           and your VA care team. The estimated duration of this pilot is 6-12
           months, after which your ability to connect and share data through the
-          Digital Health Platform may be discontinued.
+          Digital Health Pathway may be discontinued.
         </va-accordion-item>
         <va-accordion-item
           header="What can I expect if I participate in this pilot?"
@@ -309,7 +309,9 @@ export const ThirdFAQSection = () => {
             </li>
             <li>
               <strong>ID.me</strong> - Go to the ID.me help center at{' '}
-              <va-telephone contact="8559274363" international />
+              <a href="https://help.id.me/" target="_blank" rel="noreferrer">
+                https://help.id.me
+              </a>
             </li>
             <li>
               <strong>DS Logon</strong> - Call the DMDC Support Office at{' '}

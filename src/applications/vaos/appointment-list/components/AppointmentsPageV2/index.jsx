@@ -4,11 +4,13 @@ import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import DowntimeNotification, {
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
 import {
   selectFeatureStatusImprovement,
   selectFeatureAppointmentList,
+  selectFeaturePrintList,
+  selectFeatureBreadcrumbUrlUpdate,
 } from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
@@ -23,6 +25,7 @@ import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import AppointmentListNavigation from '../AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
+import CernerAlert from '../../../components/CernerAlert';
 
 const DROPDOWN_VALUES = {
   upcoming: 'upcoming',
@@ -94,6 +97,25 @@ function renderWarningNotification() {
   };
 }
 
+function getSpacing({ isPrintList, isPast, isPending }) {
+  let names = classNames(
+    `xsmall-screen:vads-u-margin-bottom--2 small-screen:${
+      isPending ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--4'
+    }`,
+  );
+  if (isPrintList) {
+    names = classNames(
+      `xsmall-screen:vads-u-margin-bottom--3 small-screen:${
+        isPast || isPending
+          ? 'vads-u-margin-bottom--3'
+          : 'vads-u-margin-bottom--4'
+      }`,
+    );
+    return `${names}`;
+  }
+  return `${names}`;
+}
+
 export default function AppointmentsPageV2() {
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
@@ -108,6 +130,10 @@ export default function AppointmentsPageV2() {
 
   const pendingAppointments = useSelector(state =>
     selectPendingAppointments(state),
+  );
+  const isPrintList = useSelector(state => selectFeaturePrintList(state));
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
   );
   const {
     dropdownValue,
@@ -132,8 +158,11 @@ export default function AppointmentsPageV2() {
   }
   useEffect(
     () => {
-      if (featureStatusImprovement) {
+      if (featureStatusImprovement && !featureBreadcrumbUrlUpdate) {
         document.title = `${pageTitle} | VA online scheduling | Veterans Affairs`;
+        scrollAndFocus('h1');
+      } else if (featureStatusImprovement && featureBreadcrumbUrlUpdate) {
+        document.title = `${pageTitle} | Veterans Affairs`;
         scrollAndFocus('h1');
       } else {
         document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
@@ -146,29 +175,8 @@ export default function AppointmentsPageV2() {
       location.pathname,
       prefix,
       pageTitle,
+      featureBreadcrumbUrlUpdate,
     ],
-  );
-
-  const [documentTitle, setDocumentTitle] = useState();
-  useEffect(
-    () => {
-      function handleBeforePrint(_event) {
-        document.title = `Appointments | VA online scheduling | Veterans Affairs`;
-      }
-
-      function handleAfterPrint(_event) {
-        document.title = documentTitle;
-      }
-      setDocumentTitle(document.title);
-
-      window.addEventListener('beforeprint', handleBeforePrint);
-      window.addEventListener('afterprint', handleAfterPrint);
-      return () => {
-        window.removeEventListener('beforeprint', handleBeforePrint);
-        window.removeEventListener('afterprint', handleAfterPrint);
-      };
-    },
-    [documentTitle, subPageTitle],
   );
 
   const [count, setCount] = useState(0);
@@ -199,23 +207,17 @@ export default function AppointmentsPageV2() {
   }
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
-      <h1
-        className={classNames(
-          `xsmall-screen:${
-            isPending ? 'vads-u-margin-bottom--1' : 'vads-u-margin-bottom--2'
-          } vads-u-flex--1 vaos-hide-for-print small-screen:${
-            isPending ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--4'
-          }`,
-        )}
-      >
+      <h1 className={getSpacing({ isPrintList, isPast, isPending })}>
         {pageTitle}
       </h1>
-      {/* change the order where message shows in pending list before nav menu */}
-      {pageTitle === 'Pending appointments' && (
-        <p className="xsmall-screen:vads-u-margin-top--0 vads-u-margin-bottom--2 vaos-hide-for-print small-screen:vads-u-margin-bottom--4">
-          {paragraphText}
-        </p>
-      )}
+      {/* display paragraphText on RequestedAppointmentsListGroup page when print list flag is on */}
+      {pageTitle === 'Pending appointments' &&
+        !isPrintList && (
+          <p className="xsmall-screen:vads-u-margin-top--0 vads-u-margin-bottom--2 vaos-hide-for-print small-screen:vads-u-margin-bottom--4">
+            {paragraphText}
+          </p>
+        )}
+      <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
       <DowntimeNotification
         appTitle="VA online scheduling tool"
         isReady

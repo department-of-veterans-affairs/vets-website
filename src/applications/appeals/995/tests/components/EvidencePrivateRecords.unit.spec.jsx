@@ -198,6 +198,11 @@ describe('<EvidencePrivateRecords>', () => {
         .filter(Boolean)
         .forEach((error, index) => {
           expect(errorEls[index].error).to.eq(error);
+          if (error === errors.missingDate) {
+            expect(errorEls[index].invalidMonth).to.be.true;
+            expect(errorEls[index].invalidDay).to.be.true;
+            expect(errorEls[index].invalidYear).to.be.true;
+          }
         });
     };
 
@@ -464,6 +469,9 @@ describe('<EvidencePrivateRecords>', () => {
 
       await waitFor(() => {
         expect(dateFrom.error).to.contain(errorMessages.evidence.pastDate);
+        expect(dateFrom.invalidMonth).to.be.false;
+        expect(dateFrom.invalidDay).to.be.false;
+        expect(dateFrom.invalidYear).to.be.true;
       });
     });
 
@@ -482,6 +490,9 @@ describe('<EvidencePrivateRecords>', () => {
       await waitFor(() => {
         const dateTo = $$('va-memorable-date', container)[1];
         expect(dateTo.error).to.contain(errorMessages.evidence.pastDate);
+        expect(dateTo.invalidMonth).to.be.false;
+        expect(dateTo.invalidDay).to.be.false;
+        expect(dateTo.invalidYear).to.be.true;
       });
     });
 
@@ -500,6 +511,9 @@ describe('<EvidencePrivateRecords>', () => {
       await waitFor(() => {
         const dateFrom = $('va-memorable-date', container);
         expect(dateFrom.error).to.contain(errorMessages.evidence.newerDate);
+        expect(dateFrom.invalidMonth).to.be.false;
+        expect(dateFrom.invalidDay).to.be.false;
+        expect(dateFrom.invalidYear).to.be.true;
       });
     });
 
@@ -518,6 +532,9 @@ describe('<EvidencePrivateRecords>', () => {
       await waitFor(() => {
         const dateTo = $$('va-memorable-date', container)[1];
         expect(dateTo.error).to.contain(errorMessages.evidence.newerDate);
+        expect(dateTo.invalidMonth).to.be.false;
+        expect(dateTo.invalidDay).to.be.false;
+        expect(dateTo.invalidYear).to.be.true;
       });
     });
 
@@ -537,6 +554,9 @@ describe('<EvidencePrivateRecords>', () => {
       await waitFor(() => {
         const dateTo = $$('va-memorable-date', container)[1];
         expect(dateTo.error).to.contain(errorMessages.endDateBeforeStart);
+        expect(dateTo.invalidMonth).to.be.true;
+        expect(dateTo.invalidDay).to.be.true;
+        expect(dateTo.invalidYear).to.be.true;
       });
     });
 

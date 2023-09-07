@@ -129,4 +129,38 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     ).to.equal('Current rating: 0%');
     form.unmount();
   });
+
+  it('renders maximum rating education when available and relevant', () => {
+    window.sessionStorage.setItem('showDisability526MaximumRating', true);
+    const form = mount(
+      <Provider store={store}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={initialData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
+    );
+
+    const labels = form.find('input[type="checkbox"] + label');
+    expect(
+      labels
+        .at(0)
+        .find('p')
+        .last()
+        .text(),
+    ).to.equal(
+      'You’re already at the maximum rating for post traumatic stress disorder.',
+    );
+    expect(
+      labels
+        .at(1)
+        .find('p')
+        .last()
+        .text(),
+    ).to.equal('Current rating: 0%');
+    form.unmount();
+    window.sessionStorage.removeItem('showDisability526MaximumRating');
+  });
 });

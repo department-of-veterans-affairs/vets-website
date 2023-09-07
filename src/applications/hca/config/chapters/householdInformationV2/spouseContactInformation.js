@@ -24,8 +24,14 @@ export default {
           pattern: 'Please provide a valid city. Must be at least 1 character.',
         },
       },
+      state: {
+        'ui:title': 'State/Province/Region',
+        'ui:errorMessages': {
+          required: 'Please enter a state/province/region',
+        },
+      },
     }),
-    spousePhone: phoneUI(),
+    spousePhone: phoneUI('Phone number'),
   },
   schema: {
     type: 'object',

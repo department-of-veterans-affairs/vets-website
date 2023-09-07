@@ -25,8 +25,15 @@ const encryptedMockFile = [
 describe('readAndCheckFile', () => {
   let oldFileReader;
 
-  const setup = async (ext = 'pdf', isEncrypted) => {
+  before(() => {
     oldFileReader = global.FileReader;
+  });
+
+  after(() => {
+    global.FileReader = oldFileReader;
+  });
+
+  const setup = async (ext = 'pdf', isEncrypted) => {
     const fileType = fileTypeSignatures[ext] || {};
 
     const result = [
@@ -61,10 +68,6 @@ describe('readAndCheckFile', () => {
       slice: () => result,
     };
   };
-
-  after(() => {
-    global.FileReader = oldFileReader;
-  });
 
   it('should resolve if no checks are included', async () => {
     const file = await setup('pdf');

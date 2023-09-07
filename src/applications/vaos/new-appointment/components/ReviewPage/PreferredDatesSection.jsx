@@ -38,5 +38,5 @@ export default function PreferredDatesSection(props) {
 }
 
 PreferredDatesSection.propTypes = {
-  props: PropTypes.object.isRequired,
+  props: PropTypes.object,
 };

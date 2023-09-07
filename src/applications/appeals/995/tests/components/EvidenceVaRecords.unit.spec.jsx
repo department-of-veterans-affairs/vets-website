@@ -196,8 +196,16 @@ describe('<EvidenceVaRecords>', () => {
       const errorEls = getErrorElements(container);
       expect(errorEls[0].error).to.eq(errors.locationMissing);
       expect(errorEls[1].error).to.eq(errors.issuesMissing);
+
       expect(errorEls[2].error).to.eq(errorMessages.evidence.missingDate);
+      expect(errorEls[2].invalidMonth).to.be.true;
+      expect(errorEls[2].invalidDay).to.be.true;
+      expect(errorEls[2].invalidYear).to.be.true;
+
       expect(errorEls[3].error).to.eq(errorMessages.evidence.missingDate);
+      expect(errorEls[3].invalidMonth).to.be.true;
+      expect(errorEls[3].invalidDay).to.be.true;
+      expect(errorEls[3].invalidYear).to.be.true;
     };
 
     it('should show & focus on error messages after going forward on an empty first page', async () => {
@@ -463,6 +471,9 @@ describe('<EvidenceVaRecords>', () => {
       await waitFor(() => {
         const dateFrom = $('va-memorable-date', container);
         expect(dateFrom.error).to.contain(errorMessages.evidence.pastDate);
+        expect(dateFrom.invalidMonth).to.be.false;
+        expect(dateFrom.invalidDay).to.be.false;
+        expect(dateFrom.invalidYear).to.be.true;
       });
     });
 
@@ -481,6 +492,9 @@ describe('<EvidenceVaRecords>', () => {
       await waitFor(() => {
         const dateTo = $$('va-memorable-date', container)[1];
         expect(dateTo.error).to.contain(errorMessages.evidence.pastDate);
+        expect(dateTo.invalidMonth).to.be.false;
+        expect(dateTo.invalidDay).to.be.false;
+        expect(dateTo.invalidYear).to.be.true;
       });
     });
 
@@ -499,6 +513,9 @@ describe('<EvidenceVaRecords>', () => {
       await waitFor(() => {
         const dateFrom = $('va-memorable-date', container);
         expect(dateFrom.error).to.contain(errorMessages.evidence.newerDate);
+        expect(dateFrom.invalidMonth).to.be.false;
+        expect(dateFrom.invalidDay).to.be.false;
+        expect(dateFrom.invalidYear).to.be.true;
       });
     });
 
@@ -517,6 +534,9 @@ describe('<EvidenceVaRecords>', () => {
       await waitFor(() => {
         const dateTo = $$('va-memorable-date', container)[1];
         expect(dateTo.error).to.contain(errorMessages.evidence.newerDate);
+        expect(dateTo.invalidMonth).to.be.false;
+        expect(dateTo.invalidDay).to.be.false;
+        expect(dateTo.invalidYear).to.be.true;
       });
     });
 

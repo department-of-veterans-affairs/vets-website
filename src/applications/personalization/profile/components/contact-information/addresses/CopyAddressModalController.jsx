@@ -4,18 +4,21 @@ import { connect } from 'react-redux';
 import set from 'lodash/set';
 
 // vap-svc deps
-import { updateCopyAddressModal, createTransaction } from '@@vap-svc/actions';
-import * as VAP_SERVICE from '@@vap-svc/constants';
-import { areAddressesEqual } from '@@vap-svc/util';
+import * as VAP_SERVICE from 'platform/user/profile/vap-svc/constants';
+import {
+  updateCopyAddressModal,
+  createTransaction,
+} from '~/platform/user/profile/vap-svc/actions';
+import { areAddressesEqual } from '~/platform/user/profile/vap-svc/util';
 import {
   selectCopyAddressModal,
   selectVAPContactInfoField,
   selectVAPServiceTransaction,
-} from '@@vap-svc/selectors';
-import { isPendingTransaction } from '@@vap-svc/util/transactions';
+} from '~/platform/user/profile/vap-svc/selectors';
+import { isPendingTransaction } from '~/platform/user/profile/vap-svc/util/transactions';
 
 // profile deps
-import { getProfileInfoFieldAttributes } from '@@profile/util/getProfileInfoFieldAttributes';
+import { getProfileInfoFieldAttributes } from '../../../util/getProfileInfoFieldAttributes';
 
 // platform deps
 import { focusElement } from '~/platform/utilities/ui';

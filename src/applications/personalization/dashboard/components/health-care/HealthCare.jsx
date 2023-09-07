@@ -4,28 +4,29 @@ import PropTypes from 'prop-types';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import HealthCareContent from './HealthCareContent';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
-import {
-  selectUnreadCount,
-  selectUseVaosV2APi,
-} from '~/applications/personalization/dashboard/selectors';
-import {
-  fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction,
-  fetchConfirmedFutureAppointmentsV2 as fetchConfirmedFutureAppointmentsV2Action,
-} from '~/applications/personalization/appointments/actions';
+import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
+import { fetchConfirmedFutureAppointmentsV2 as fetchConfirmedFutureAppointmentsV2Action } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 import { selectAvailableServices } from '~/platform/user/selectors';
 
-import HealthCareHeader from './HealthCareHeader';
-
 const HealthCare = ({
   shouldFetchUnreadMessages,
-
+  fetchConfirmedFutureAppointmentsV2,
   fetchUnreadMessages,
-  // TODO: possibly remove this prop in favor of mocking the API in our unit tests
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
+  isVAPatient,
 }) => {
+  useEffect(
+    () => {
+      if (!dataLoadingDisabled && isVAPatient) {
+        fetchConfirmedFutureAppointmentsV2();
+      }
+    },
+    [dataLoadingDisabled, fetchConfirmedFutureAppointmentsV2, isVAPatient],
+  );
+
   useEffect(
     () => {
       if (shouldFetchUnreadMessages && !dataLoadingDisabled) {
@@ -44,8 +45,13 @@ const HealthCare = ({
       className="health-care-wrapper vads-u-margin-y--6"
       data-testid="dashboard-section-health-care"
     >
-      <HealthCareHeader className={headerClassNames} />
-      <HealthCareContent dataLoadingDisabled={dataLoadingDisabled} />
+      <h2 data-testid="health-care-section-header" className={headerClassNames}>
+        Health care
+      </h2>
+      <HealthCareContent
+        dataLoadingDisabled={dataLoadingDisabled}
+        isVAPatient={isVAPatient}
+      />
     </div>
   );
 };
@@ -84,19 +90,16 @@ const mapStateToProps = state => {
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
     shouldShowPrescriptions,
     unreadMessagesCount: selectUnreadCount(state).count || 0,
-    useVaosV2Api: selectUseVaosV2APi(state),
   };
 };
 
 const mapDispatchToProps = {
   fetchUnreadMessages: fetchUnreadMessageCountAction,
-  fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
   fetchConfirmedFutureAppointmentsV2: fetchConfirmedFutureAppointmentsV2Action,
 };
 
 HealthCare.propTypes = {
   authenticatedWithSSOe: PropTypes.bool.isRequired,
-  canAccessRx: PropTypes.bool.isRequired,
   appointments: PropTypes.arrayOf(
     PropTypes.shape({
       additionalInfo: PropTypes.string,
@@ -110,18 +113,20 @@ HealthCare.propTypes = {
     }),
   ),
   dataLoadingDisabled: PropTypes.bool,
-  fetchConfirmedFutureAppointments: PropTypes.func,
+  facilityLocations: PropTypes.arrayOf(PropTypes.string),
   fetchConfirmedFutureAppointmentsV2: PropTypes.func,
-  fetchUnreadMessages: PropTypes.bool,
+  fetchUnreadMessages: PropTypes.func,
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
+  isVAPatient: PropTypes.bool,
   shouldFetchUnreadMessages: PropTypes.bool,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
   shouldShowLoadingIndicator: PropTypes.bool,
   shouldShowPrescriptions: PropTypes.bool,
   unreadMessagesCount: PropTypes.number,
-  useVaosV2Api: PropTypes.bool,
 };
+
+export const UnconnectedHealthCare = HealthCare;
 
 export default connect(
   mapStateToProps,

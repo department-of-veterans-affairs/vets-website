@@ -5,102 +5,39 @@ import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
-import environment from 'platform/utilities/environment';
 
-// **** temporary code ****
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-// **** end temporary code ****
-
-import user from '../tests/fixtures/mocks/user.json';
-
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import formConfig from '../config/form';
-import {
-  noticeOfDisagreementFeature,
-  issuesNeedUpdating,
-  getSelected,
-  getIssueNameAndDate,
-  processContestableIssues,
-} from '../utils/helpers';
+import { nodPart3UpdateFeature } from '../utils/helpers';
+import { getEligibleContestableIssues } from '../utils/submit';
 
-import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
-
-import { showWorkInProgress } from '../content/WorkInProgressMessage';
+import { SHOW_PART3 } from '../constants';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
+
+import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
+
+import { getSelected, getIssueNameAndDate } from '../../shared/utils/issues';
+
+import { issuesNeedUpdating } from '../utils/issues';
 
 export const FormApp = ({
   isLoading,
   loggedIn,
-  showNod,
+  showPart3,
   location,
   children,
-  profile,
   formData,
   setFormData,
   getContestableIssues,
   contestableIssues = {},
-  // **** temporary code ****
-  disableSubmit,
-  // **** end temporary code ****
 }) => {
-  // vapContactInfo is an empty object locally, so mock it
-  const data = environment.isLocalhost()
-    ? user.data.attributes.vet360ContactInformation
-    : profile?.vapContactInfo || {};
-
-  const { email = {}, mobilePhone = {}, mailingAddress = {} } = data;
-
-  // **** temporary code ****
-  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/58229
-  useEffect(
-    () => {
-      if (loggedIn && location?.pathname === '/review-and-submit') {
-        const timer = setInterval(() => {
-          const submit = document.querySelector(
-            '.form-progress-buttons .usa-button-primary',
-          );
-          if (submit) {
-            submit.disabled = true;
-            clearInterval(timer);
-          }
-        }, 50);
-      }
-    },
-    [loggedIn, disableSubmit, location?.pathname],
-  );
-  // **** end temporary code ****
-
   // Update profile data changes in the form data dynamically
   useEffect(
     () => {
-      if (showNod && loggedIn) {
-        const { veteran = {} } = formData || {};
+      if (loggedIn) {
         const areaOfDisagreement = getSelected(formData);
-        if (!contestableIssues?.status) {
-          getContestableIssues();
-        } else if (
-          email?.emailAddress !== veteran.email ||
-          mobilePhone?.updatedAt !== veteran.phone?.updatedAt ||
-          mailingAddress?.updatedAt !== veteran.address?.updatedAt ||
-          issuesNeedUpdating(
-            contestableIssues?.issues,
-            formData.contestableIssues,
-          )
-        ) {
-          setFormData({
-            ...formData,
-            veteran: {
-              ...veteran,
-              address: mailingAddress,
-              phone: mobilePhone,
-              email: email?.emailAddress,
-            },
-            contestableIssues: processContestableIssues(
-              contestableIssues?.issues,
-            ),
-          });
-        } else if (
+        if (
           areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
           !areaOfDisagreement.every(
             (entry, index) =>
@@ -117,27 +54,63 @@ export const FormApp = ({
             ),
           });
         }
+        if (showPart3 && typeof formData[SHOW_PART3] === 'undefined') {
+          setFormData({
+            ...formData,
+            [SHOW_PART3]: showPart3,
+          });
+        }
       }
     },
-    [
-      showNod,
-      loggedIn,
-      email,
-      mobilePhone,
-      mailingAddress,
-      formData,
-      setFormData,
-      contestableIssues,
-      getContestableIssues,
-    ],
+    [loggedIn, formData, setFormData, showPart3],
   );
 
-  let content = isLoading ? (
+  // This useEffect is responsible for 1) loading contestable issues from the API,
+  // 2) filtering and normalizing that data, and 3) updating `formData` with that
+  // filtered and normalized data, if it is not already reflected in `formData`.
+  useEffect(
+    () => {
+      if (!loggedIn) {
+        return;
+      }
+
+      if (!contestableIssues?.status) {
+        getContestableIssues();
+      } else if (
+        // Checks if the API has returned contestable issues not already reflected
+        // in `formData`.
+        issuesNeedUpdating(
+          contestableIssues?.issues,
+          formData.contestedIssues,
+          { showPart3 },
+        )
+      ) {
+        setFormData({
+          ...formData,
+          // Filters and normalizes the issues. See function definition for more
+          // details.
+          contestedIssues: getEligibleContestableIssues(
+            contestableIssues?.issues,
+            {
+              showPart3,
+            },
+          ),
+        });
+      }
+    },
+    // Disabling because we don't want this to run when `formData` changes. This
+    // `useEffect` is all about filtering and normalizing new API-loaded contestable
+    // issues. It would be needlessly inefficient to be doing this every single
+    // time that the form data changes. Additionally, the functions used in this
+    // `useEffect` (e.g. `setFormData`) never change, so we don't need to include
+    // them in the dependency array.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [loggedIn, contestableIssues, showPart3],
+  );
+
+  const content = isLoading ? (
     <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-      <va-loading-indicator
-        set-focus
-        message="Loading your previous decisions..."
-      />
+      <va-loading-indicator set-focus message="Loading application..." />
     </h1>
   ) : (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -145,9 +118,8 @@ export const FormApp = ({
     </RoutedSavableApp>
   );
 
-  if (showNod === false) {
-    content = showWorkInProgress(formConfig);
-  }
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring();
 
   return (
     <article id="form-10182" data-location={`${location?.pathname?.slice(1)}`}>
@@ -162,12 +134,10 @@ FormApp.propTypes = {
     issues: PropTypes.array,
     status: PropTypes.string,
   }),
-  // **** temporary code ****
-  disableSubmit: PropTypes.bool,
-  // **** end temporary code ****
   formData: PropTypes.shape({
     areaOfDisagreement: PropTypes.array,
-    contestableIssues: PropTypes.array,
+    contestedIssues: PropTypes.array,
+    [SHOW_PART3]: PropTypes.bool,
   }),
   getContestableIssues: PropTypes.func,
   isLoading: PropTypes.bool,
@@ -179,32 +149,17 @@ FormApp.propTypes = {
     vapContactInfo: PropTypes.shape({}),
   }),
   setFormData: PropTypes.func,
-  showNod: PropTypes.bool,
+  showPart3: PropTypes.bool,
 };
 
-const mapStateToProps = state => {
-  const profile = selectProfile(state);
-  const formData = state.form?.data || {};
-  const showNod = noticeOfDisagreementFeature(state);
-  const isLoading = state.featureToggles?.loading;
-  const loggedIn = isLoggedIn(state);
-  const { contestableIssues } = state;
-  // **** temporary code ****
-  // accidently named the feature flag with HLR instead of NOD
-  const disableSubmit =
-    toggleValues(state)[FEATURE_FLAG_NAMES.hlrDisableSubmit] || false;
-  return {
-    disableSubmit,
-    profile,
-    formData,
-    showNod,
-    contestableIssues,
-    isLoading,
-    loggedIn,
-  };
-  // **** end temporary code ****
-  // return { profile, formData, showNod, contestableIssues, isLoading, loggedIn };
-};
+const mapStateToProps = state => ({
+  profile: selectProfile(state),
+  formData: state.form?.data || {},
+  showPart3: nodPart3UpdateFeature(state),
+  contestableIssues: state.contestableIssues,
+  isLoading: state.featureToggles?.loading,
+  loggedIn: isLoggedIn(state),
+});
 
 const mapDispatchToProps = {
   setFormData: setData,

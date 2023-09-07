@@ -132,6 +132,68 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     tree.unmount();
   });
 
+  it('should auto save and include returnUrl from page config after change', () => {
+    const location = {
+      pathname: '/testing',
+    };
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: '',
+        returnUrl: '/testing2',
+      },
+      pageList: [
+        {
+          path: 'testing',
+        },
+      ],
+    };
+    const form = {
+      disableSave: false,
+      pages: {
+        testPage: {
+          schema: {},
+          uiSchema: {},
+        },
+      },
+      data: {},
+    };
+    const user = {
+      profile: {
+        savedForms: [],
+      },
+      login: {
+        currentlyLoggedIn: true,
+      },
+    };
+
+    const autoSaveForm = sinon.spy();
+
+    const tree = shallow(
+      <RoutedSavableReviewPage
+        form={form}
+        user={user}
+        formConfig={{}}
+        route={route}
+        autoSaveForm={autoSaveForm}
+        location={location}
+        setPrivacyAgreement={f => f}
+      />,
+    );
+
+    const instance = tree.instance();
+    instance.debouncedAutoSave = instance.autoSave;
+
+    instance.debouncedAutoSave();
+
+    expect(autoSaveForm.called).to.be.true;
+    expect(autoSaveForm.args[0][3]).to.eq('/testing2');
+    tree.unmount();
+  });
+
   describe('downtime banner', () => {
     const setData = sinon.spy();
     const onSubmit = sinon.spy();

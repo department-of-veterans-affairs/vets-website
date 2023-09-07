@@ -7,7 +7,7 @@ import ServiceProvidersList from 'platform/user/authentication/components/Servic
 
 export const UnauthContent = () => (
   <>
-    <CallToActionWidget appId="rx" setFocus={false} />
+    <CallToActionWidget appId="rx" setFocus={false} headerLevel={2} />
     <h2>How can VA’s prescription tool help me manage my health care?</h2>
     <p>
       This web- and mobile-based service helps you manage your VA prescriptions

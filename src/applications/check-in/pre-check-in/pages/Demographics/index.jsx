@@ -60,6 +60,7 @@ const Demographics = props => {
         noAction={noClick}
         subtitle={subtitle}
         demographics={demographics}
+        router={router}
       />
     </>
   );

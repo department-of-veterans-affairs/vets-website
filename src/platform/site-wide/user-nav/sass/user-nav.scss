@@ -1,7 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 
-#loginGovExperimentModal{
+#loginGovExperimentModal {
   ul {
     list-style: unset;
     margin: unset;
@@ -165,14 +165,6 @@ span.sidelines {
 
       &:hover {
         background: $color-primary-darker;
-      }
-    }
-
-    &.mauth-button {
-      background: $color-gray;
-
-      &:hover {
-        background: $color-gray-dark;
       }
     }
 
@@ -360,7 +352,7 @@ span.sidelines {
   line-height: 100%;
 
   &:before {
-    transform: translateY(0);
+    top: unset !important;
   }
 
   &.logingov {

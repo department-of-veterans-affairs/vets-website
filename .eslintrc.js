@@ -1,9 +1,20 @@
+const babbleConfig = require('./babel.config.json');
+
+const moduleResolverAlias =
+  babbleConfig.plugins.find(plug => plug[0] === 'module-resolver')[1].alias ||
+  {};
+const aliasMap = Object.keys(moduleResolverAlias).map(alias => [
+  alias,
+  moduleResolverAlias[alias],
+]);
+
 module.exports = {
   // All rules should be disabled or they should produce errors. No warnings.
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaVersion: 11,
     sourceType: 'module',
+    requireConfigFile: false,
   },
   extends: ['plugin:@department-of-veterans-affairs/recommended'],
   globals: {
@@ -16,6 +27,10 @@ module.exports = {
     'import/resolver': {
       node: {
         moduleDirectory: ['node_modules', 'src/'],
+      },
+      alias: {
+        map: aliasMap,
+        extensions: ['.js', '.ts', '.tsx', '.jsx', '.json'],
       },
       'babel-module': {},
     },
@@ -41,10 +56,6 @@ module.exports = {
       {
         name: '@department-of-veterans-affairs/component-library/AlertBox',
         use: '<va-alert>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/CheckboxGroup',
-        use: '<va-checkbox-group>',
       },
       {
         name:
@@ -78,16 +89,8 @@ module.exports = {
         use: '<va-pagination>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/Table',
-        use: '<va-table>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/Telephone',
         use: '<va-telephone>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Select',
-        use: '<va-select>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/FileInput',
@@ -107,6 +110,12 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['*'],
+      rules: {
+        'cypress/unsafe-to-chain-command': 'warn',
+      },
+    },
+    {
       files: [
         '**/*.spec.jsx',
         '**/*.spec.js',
@@ -114,6 +123,7 @@ module.exports = {
         'src/platform/testing/**/*.jsx',
       ],
       rules: {
+        'cypress/unsafe-to-chain-command': 'warn',
         'no-restricted-imports': ['error', 'raven'],
         'no-unused-expressions': 0,
         'react/no-find-dom-node': 0,
@@ -124,6 +134,7 @@ module.exports = {
     {
       files: ['**/*.cypress.spec.js'],
       rules: {
+        'cypress/unsafe-to-chain-command': 'warn',
         '@department-of-veterans-affairs/axe-check-required': 1,
         '@department-of-veterans-affairs/cypress-viewport-deprecated': 1,
       },

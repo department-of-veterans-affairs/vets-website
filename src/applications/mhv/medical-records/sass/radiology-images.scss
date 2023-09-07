@@ -20,3 +20,34 @@
         width: 50%;
     }
 }
+
+.secondary-button {
+    background-color: $color-white;
+    border: 2px solid $color-primary;
+    color: $color-primary;
+    max-width: 210px
+
+}
+.secondary-button:hover {
+    border: 2px solid $color-primary-darker;
+    color: $color-primary-darker;
+    background-color: $color-gray-cool-light;
+}
+.secondary-button:visited {
+    color: $color-primary;
+}
+.secondary-button:visited:hover {
+    color: $color-primary-darker;
+}
+
+.primary-button {
+    border: 2px solid $color-primary;
+    max-width: 210;
+}
+.primary-button:visited {
+    color: $color-white;
+    border: 2px solid $color-primary;
+}
+.primary-button:hover {
+    border: 2px solid $color-primary-darker;
+}

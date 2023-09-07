@@ -1,6 +1,8 @@
 import constants from 'vets-json-schema/dist/constants.json';
 // import schema from './config/form-0995-schema.json';
 
+export const APP_NAME = 'Supplemental Claim';
+
 // *** URLS ***
 export const DECISION_REVIEWS_URL = '/decision-reviews';
 export const SC_INFO_URL = `${DECISION_REVIEWS_URL}/supplemental-claim`;
@@ -89,6 +91,7 @@ export const errorMessages = {
   // startDateInPast: 'The start date must be in the future',
   // endDateInPast: 'The end date must be in the future',
   endDateBeforeStart: 'The end date must be after the start date',
+  cardInvalidDate: 'Invalid decision date',
 
   decisions: {
     missingDate: 'You must enter a decision date',

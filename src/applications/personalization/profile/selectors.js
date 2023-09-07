@@ -57,7 +57,14 @@ export const eduDirectDepositLoadError = state => {
 export const cnpDirectDepositAddressInformation = state =>
   cnpDirectDepositInformation(state)?.paymentAddress;
 
-export const cnpDirectDepositAddressIsSetUp = state => {
+export const cnpDirectDepositIsEligible = (
+  state,
+  useLighthouseFormat = false,
+) => {
+  if (useLighthouseFormat) {
+    return !!cnpDirectDepositInformation(state)?.controlInformation
+      ?.canUpdateDirectDeposit;
+  }
   return isEligibleForCNPDirectDeposit(cnpDirectDepositInformation(state));
 };
 

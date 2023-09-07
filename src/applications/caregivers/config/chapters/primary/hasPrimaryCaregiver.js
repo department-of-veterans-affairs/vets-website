@@ -1,7 +1,7 @@
 import { primaryCaregiverFields } from '../../../definitions/constants';
 import PrimaryCaregiverDescription from '../../../components/FormDescriptions/PrimaryCaregiverDescription';
 
-const hasSecondaryCaregiverPage = {
+const hasPrimaryCaregiverPage = {
   uiSchema: {
     [primaryCaregiverFields.hasPrimaryCaregiver]: {
       'ui:title':
@@ -23,4 +23,4 @@ const hasSecondaryCaregiverPage = {
   },
 };
 
-export default hasSecondaryCaregiverPage;
+export default hasPrimaryCaregiverPage;

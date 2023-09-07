@@ -32,12 +32,12 @@ const InterstitialPage = props => {
   );
 
   return (
-    <main className="interstitial-page">
+    <div className="interstitial-page">
       <h1>
         Only use messages for <span className="no-word-wrap">non-urgent</span>{' '}
         needs
       </h1>
-      <div role="heading" aria-level="2">
+      <div>
         <p>
           Your care team may take up to <strong>3 business days</strong> to
           reply.
@@ -85,7 +85,7 @@ const InterstitialPage = props => {
           </a>
         }
       </div>
-    </main>
+    </div>
   );
 };
 

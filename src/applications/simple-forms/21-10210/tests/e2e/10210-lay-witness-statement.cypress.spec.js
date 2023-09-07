@@ -8,6 +8,7 @@ import manifest from '../../manifest.json';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import { getSignerFullName } from './helpers';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
+import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
 
 const testConfig = createTestConfig(
   {
@@ -15,32 +16,68 @@ const testConfig = createTestConfig(
 
     dataDir: path.join(__dirname, 'fixtures', 'data'),
 
-    // Rename and modify the test data as needed.
     dataSets: ['flow1', 'flow2', 'flow3', 'flow4'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.findByText(/start/i, { selector: 'button' });
-          cy.get('.usa-alert-text .schemaform-start-button').click({
-            force: true,
+          cy.findByText(/without signing in/i).click({ force: true });
+        });
+      },
+      'witness-personal-information-a': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { first, last } = data.witnessFullName;
+            const label = data.witnessRelationshipToClaimant;
+            cy.get('#root_witnessFullName_first')
+              .clear()
+              .type(first);
+            cy.get('#root_witnessFullName_last')
+              .clear()
+              .type(last);
+            cy.get(`va-checkbox[label="${label}"]`)
+              .shadow()
+              .get('#checkbox-element')
+              .first()
+              .click()
+              .then(() => {
+                cy.findByText('Continue')
+                  .first()
+                  .click();
+              });
+          });
+        });
+      },
+      'witness-personal-information-b': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { first, last } = data.witnessFullName;
+            const label = data.witnessRelationshipToClaimant;
+            cy.get('#root_witnessFullName_first')
+              .clear()
+              .type(first);
+            cy.get('#root_witnessFullName_last')
+              .clear()
+              .type(last);
+            cy.get(`va-checkbox[label="${label}"]`)
+              .shadow()
+              .get('#checkbox-element')
+              .first()
+              .click()
+              .then(() => {
+                cy.findByText('Continue')
+                  .first()
+                  .click();
+              });
           });
         });
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const signerFullName = getSignerFullName(data);
-
-            cy.get('#veteran-signature')
-              .shadow()
-              .find('input')
-              .first()
-              .type(signerFullName);
-            cy.get(`input[name="veteran-certify"]`).check();
-            cy.findAllByText(/Submit application/i, {
-              selector: 'button',
-            }).click();
+            const signerName = getSignerFullName(data);
+            reviewAndSubmitPageFlow(signerName, 'Submit statement');
           });
         });
       },
@@ -50,10 +87,6 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     },
-
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

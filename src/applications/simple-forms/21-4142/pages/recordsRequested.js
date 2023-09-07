@@ -18,7 +18,8 @@ export default {
     'ui:description': (
       <div className="vads-u-margin-bottom--2">
         Let us know where the person you're requesting medical records for
-        received treatment. You may add up to 5 medical record requests.
+        received treatment. You may add up to 5 medical record or information
+        requests.
       </div>
     ),
     'ui:options': {
@@ -45,6 +46,12 @@ export default {
         keepInPageOnReview: true,
         useDlWrap: true,
         customTitle: ' ',
+        confirmRemove: true,
+        confirmRemoveDescription:
+          'This will remove the facility and all of the treatment records associated from your authorization request.',
+        itemAriaLabel: formData =>
+          `${formData[providerFacilityFields.providerFacilityName]}` ||
+          'facility',
       },
       items: {
         'ui:options': {
@@ -76,6 +83,13 @@ export default {
           'ui:required': () => true,
           'ui:errorMessages': {
             required: 'Please list at least one condition',
+            maxLength: 'Please limit your answer to no more than 75 characters',
+          },
+          'ui:options': {
+            updateSchema: () => ({
+              type: 'string',
+              maxLength: 75,
+            }),
           },
         },
         [providerFacilityFields.treatmentDateRange]: {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,13 +7,22 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import { recordAnswer } from '../../../actions/universal';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import { useStorage } from '../../../hooks/useStorage';
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { URLS } from '../../../utils/navigation';
 
 import BackButton from '../../BackButton';
 import Wrapper from '../../layout/Wrapper';
 
-const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
+const TravelPage = ({
+  header,
+  eyebrow,
+  bodyText,
+  helpText,
+  additionalInfo,
+  pageType,
+  router,
+}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const {
@@ -34,6 +43,12 @@ const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
       goToNextPage();
     }
   };
+  const { getCheckinComplete } = useStorage(false);
+  useLayoutEffect(() => {
+    if (getCheckinComplete(window)) {
+      jumpToPage(URLS.DETAILS);
+    }
+  });
   return (
     <>
       <BackButton
@@ -41,7 +56,12 @@ const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
         action={goToPreviousPage}
         prevUrl={getPreviousPageFromRouter()}
       />
-      <Wrapper pageTitle={header} classNames="travel-page" withBackButton>
+      <Wrapper
+        pageTitle={header}
+        classNames="travel-page"
+        eyebrow={eyebrow}
+        withBackButton
+      >
         {bodyText && (
           <div
             data-testid="body-text"
@@ -49,6 +69,11 @@ const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
           >
             {bodyText}
           </div>
+        )}
+        {additionalInfo && (
+          <va-additional-info trigger="Travel reimbursement eligibility">
+            <>{additionalInfo}</>
+          </va-additional-info>
         )}
         {helpText && (
           <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
@@ -90,7 +115,9 @@ TravelPage.propTypes = {
   header: PropTypes.string.isRequired,
   pageType: PropTypes.string.isRequired,
   router: PropTypes.object.isRequired,
+  additionalInfo: PropTypes.node,
   bodyText: PropTypes.node,
+  eyebrow: PropTypes.string,
   helpText: PropTypes.node,
 };
 export default TravelPage;

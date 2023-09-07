@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  getCompletedDate,
-  itemsNeedingAttentionFromVet,
-} from '../../utils/helpers';
+import { getCompletedDate } from '../../utils/helpers';
 import ClaimComplete from '../ClaimComplete';
 import ClaimsDecision from '../ClaimsDecision';
 import ClaimsTimeline from '../ClaimsTimeline';
 import NeedFilesFromYou from '../NeedFilesFromYou';
+
+const itemsNeedingAttentionFromVet = events => {
+  return events?.filter(
+    event =>
+      event.status === 'NEEDED' && event.type === 'still_need_from_you_list',
+  ).length;
+};
 
 export default function ClaimStatusPageContent({
   claim,
@@ -52,6 +56,6 @@ export default function ClaimStatusPageContent({
 }
 
 ClaimStatusPageContent.propTypes = {
+  showClaimLettersLink: PropTypes.bool.isRequired,
   claim: PropTypes.object,
-  showClaimLettersLink: PropTypes.bool,
 };

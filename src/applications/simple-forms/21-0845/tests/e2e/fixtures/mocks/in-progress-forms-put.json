@@ -1,0 +1,26 @@
+{
+  "data": {
+    "id": "1234567890",
+    "type": "in_progress_forms",
+    "attributes": {
+      "formId": "21-0845",
+      "createdAt": "2023-06-22T00:09:26.543Z",
+      "updatedAt": "2023-06-22T00:09:26.698Z",
+      "metadata": {
+        "version": 0,
+        "returnUrl": "/authorizer-type",
+        "savedAt": 1687392566385,
+        "submission": {
+          "status": false,
+          "errorMessage": false,
+          "id": false,
+          "timestamp": false,
+          "hasAttemptedSubmit": false
+        },
+        "expiresAt": 1692576566,
+        "lastUpdated": 1687392566,
+        "inProgressFormId": 12345
+      }
+    }
+  }
+}

@@ -22,7 +22,10 @@ export function transform(formConfig, form) {
   const fryScholarshipTransform = formData => {
     const clonedData = _.cloneDeep(formData);
     if (clonedData.benefit === 'fryScholarship') {
-      clonedData.benefit = 'chapter33';
+      clonedData.benefit = 'chapter33FryScholarship';
+    }
+    if (clonedData.benefit === 'chapter33') {
+      clonedData.benefit = 'chapter33Post911';
     }
     return clonedData;
   };

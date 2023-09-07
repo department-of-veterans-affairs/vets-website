@@ -155,7 +155,7 @@ const mapStateToProps = state => ({
   features: {
     isFacilitiesApiEnabled: state.featureToggles.hcaUseFacilitiesApi,
     isHouseholdV2Enabled: state.featureToggles.hcaHouseholdV2Enabled,
-    isSigiEnabled: state.featureToggles.caregiverSigiEnabled,
+    isSigiEnabled: state.featureToggles.hcaSigiEnabled,
   },
   formData: state.form.data,
   hasSavedForm: state.user.profile.savedForms.some(

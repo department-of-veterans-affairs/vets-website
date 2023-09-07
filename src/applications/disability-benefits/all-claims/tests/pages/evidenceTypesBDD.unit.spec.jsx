@@ -5,13 +5,9 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import {
-  EVIDENCE_LABEL,
-  HasEvidenceLabel,
-} from '../../content/evidenceTypesBDD';
+import { HasEvidenceLabel } from '../../content/evidenceTypesBDD';
 import formConfig from '../../config/form';
 
 describe('evidenceTypes', () => {
@@ -107,11 +103,9 @@ describe('evidenceTypes', () => {
   it('should display default evidence label when BDD SHA is not enabled', () => {
     const screen = render(<HasEvidenceLabel />);
 
-    if (environment.isProduction()) {
-      screen.getByText(EVIDENCE_LABEL.default);
-    } else {
-      screen.getByText(EVIDENCE_LABEL.bddSha);
-    }
+    screen.getByText(
+      'Do you want to upload any other documents or evidence at this time?',
+    );
   });
 
   it('should display alert when BDD SHA enabled and user selects no, submit info later', () => {
@@ -131,14 +125,12 @@ describe('evidenceTypes', () => {
       </Provider>,
     );
 
-    if (!environment.isProduction()) {
-      userEvent.click(
-        screen.getByLabelText('No, I will submit more information later'),
-      );
+    userEvent.click(
+      screen.getByLabelText('No, I will submit more information later'),
+    );
 
-      screen.getByText(
-        'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
-      );
-    }
+    screen.getByText(
+      'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
+    );
   });
 });

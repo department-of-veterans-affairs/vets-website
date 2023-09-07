@@ -19,6 +19,7 @@ const Wrapper = props => {
   const {
     children,
     pageTitle,
+    eyebrow,
     classNames = '',
     withBackButton = false,
     testID,
@@ -48,6 +49,11 @@ const Wrapper = props => {
         <LanguagePicker withTopMargin={!withBackButton} />
         {pageTitle && (
           <h1 tabIndex="-1" data-testid="header">
+            {eyebrow && (
+              <span className="check-in-eyebrow vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+                {`${eyebrow} `}
+              </span>
+            )}
             {pageTitle}
           </h1>
         )}
@@ -66,6 +72,7 @@ const Wrapper = props => {
 Wrapper.propTypes = {
   children: PropTypes.node,
   classNames: PropTypes.string,
+  eyebrow: PropTypes.string,
   pageTitle: PropTypes.string,
   testID: PropTypes.string,
   withBackButton: PropTypes.bool,

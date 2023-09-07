@@ -1,27 +1,16 @@
+/* eslint-disable camelcase */
 /**
  * Functions related to fetching Apppointment data and pulling information from that data
  * @module services/Appointment
  */
 import moment from 'moment-timezone';
-import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
-import {
-  getCancelReasons,
-  getPendingAppointment,
-  getPendingAppointments,
-  updateAppointment,
-  updateRequest,
-} from '../var';
 import {
   getAppointment,
   getAppointments,
   postAppointment,
   putAppointment,
 } from '../vaos';
-import {
-  transformPendingAppointment,
-  transformPendingAppointments,
-} from './transformers';
 import { mapToFHIRErrors } from '../utils';
 import {
   APPOINTMENT_TYPES,
@@ -33,8 +22,8 @@ import { formatFacilityAddress, getFacilityPhone } from '../location';
 import {
   transformVAOSAppointment,
   transformVAOSAppointments,
-} from './transformers.v2';
-import { captureError, has400LevelError } from '../../utils/error';
+} from './transformers';
+import { captureError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
 import {
   getTimezoneAbbrByFacilityId,
@@ -135,38 +124,31 @@ export async function fetchAppointments({
 export async function getAppointmentRequests({
   startDate,
   endDate,
-  useV2 = false,
   useAcheron = false,
 }) {
   try {
-    if (useV2) {
-      const appointments = await getAppointments(
-        startDate,
-        endDate,
-        ['proposed', 'cancelled'],
-        useAcheron,
-      );
+    const appointments = await getAppointments(
+      startDate,
+      endDate,
+      ['proposed', 'cancelled'],
+      useAcheron,
+    );
 
-      const requestsWithoutAppointments = appointments.data.filter(
-        appt => !!appt.requestedPeriods,
-      );
+    const requestsWithoutAppointments = appointments.data.filter(
+      appt => !!appt.requestedPeriods,
+    );
 
-      requestsWithoutAppointments.sort(apptRequestSort);
+    requestsWithoutAppointments.sort(apptRequestSort);
 
-      const transformRequests = transformVAOSAppointments(
-        requestsWithoutAppointments,
-      );
+    const transformRequests = transformVAOSAppointments(
+      requestsWithoutAppointments,
+    );
 
-      transformRequests.push({
-        meta: appointments.backendSystemFailures,
-      });
+    transformRequests.push({
+      meta: appointments.backendSystemFailures,
+    });
 
-      return transformRequests;
-    }
-
-    const appointments = await getPendingAppointments(startDate, endDate);
-
-    return transformPendingAppointments(appointments);
+    return transformRequests;
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -184,17 +166,11 @@ export async function getAppointmentRequests({
  * @param {string} id Appointment request id
  * @returns {Appointment} An Appointment object for the given request id
  */
-export async function fetchRequestById({ id, useV2, useAcheron }) {
+export async function fetchRequestById({ id, useAcheron }) {
   try {
-    if (useV2) {
-      const appointment = await getAppointment(id, useAcheron);
+    const appointment = await getAppointment(id, useAcheron);
 
-      return transformVAOSAppointment(appointment);
-    }
-
-    const appointment = await getPendingAppointment(id);
-
-    return transformPendingAppointment(appointment);
+    return transformVAOSAppointment(appointment);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -578,56 +554,29 @@ export async function createAppointment({ appointment, useAcheron = false }) {
 }
 
 const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
-const CANCELLED_REQUEST = 'Cancelled';
-async function cancelRequestedAppointment(request) {
+
+/**
+ * Cancels an appointment or request
+ *
+ * @export
+ * @param {Object} params
+ * @param {Appointment} params.appointment The appointment to cancel
+ * @returns {?Appointment} Returns either null or the updated appointment data
+ */
+export async function cancelAppointment({ appointment, useAcheron = false }) {
   const additionalEventData = {
-    appointmentType: 'pending',
-    facilityType: request.vaos?.isCommunityCare ? 'cc' : 'va',
+    custom_string_1:
+      appointment.status === APPOINTMENT_STATUS.proposed
+        ? 'appointmentType: pending'
+        : 'appointmentType: confirmed',
+    custom_string_2: appointment.vaos?.isCommunityCare
+      ? 'facilityType: cc'
+      : 'facilityType: va',
   };
 
   recordEvent({
     event: 'interaction',
     action: eventPrefix,
-    ...additionalEventData,
-  });
-
-  try {
-    const updatedRequest = await updateRequest({
-      ...request.vaos.apiData,
-      status: CANCELLED_REQUEST,
-      appointmentRequestDetailCode: ['DETCODE8'],
-    });
-
-    recordEvent({
-      event: `${eventPrefix}-successful`,
-      ...additionalEventData,
-    });
-    resetDataLayer();
-
-    return transformPendingAppointment(updatedRequest);
-  } catch (e) {
-    captureError(e, true);
-    recordEvent({
-      event: `${eventPrefix}-failed`,
-      ...additionalEventData,
-    });
-    resetDataLayer();
-
-    throw e;
-  }
-}
-
-async function cancelV2Appointment(appointment, useAcheron) {
-  const additionalEventData = {
-    appointmentType:
-      appointment.status === APPOINTMENT_STATUS.proposed
-        ? 'pending'
-        : 'confirmed',
-    facilityType: appointment.vaos?.isCommunityCare ? 'cc' : 'va',
-  };
-
-  recordEvent({
-    event: eventPrefix,
     ...additionalEventData,
   });
 
@@ -657,110 +606,6 @@ async function cancelV2Appointment(appointment, useAcheron) {
 
     throw e;
   }
-}
-
-const UNABLE_TO_KEEP_APPT = '5';
-const VALID_CANCEL_CODES = new Set(['4', '5', '6']);
-async function cancelBookedAppointment(appointment) {
-  const additionalEventData = {
-    appointmentType: 'confirmed',
-    facilityType: 'va',
-  };
-
-  recordEvent({
-    event: eventPrefix,
-    ...additionalEventData,
-  });
-  let cancelReasons;
-  let cancelReason;
-
-  try {
-    const cancelData = {
-      appointmentTime: moment
-        .parseZone(appointment.start)
-        .format('MM/DD/YYYY HH:mm:ss'),
-      clinicId: appointment.location.clinicId,
-      facilityId: appointment.location.vistaId,
-      remarks: '',
-      // Grabbing this from the api data because it's not clear if
-      // we have to send the real name or if the friendly name is ok
-      clinicName: appointment.vaos.apiData.vdsAppointments[0].clinic.name,
-      cancelCode: 'PC',
-    };
-
-    cancelReasons = await getCancelReasons(appointment.location.vistaId);
-
-    if (cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)) {
-      cancelReason = UNABLE_TO_KEEP_APPT;
-      await updateAppointment({
-        ...cancelData,
-        cancelReason,
-      });
-    } else if (
-      cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason.number))
-    ) {
-      cancelReason = cancelReasons.find(reason =>
-        VALID_CANCEL_CODES.has(reason.number),
-      );
-      await updateAppointment({
-        ...cancelData,
-        cancelReason: cancelReason.number,
-      });
-    } else {
-      throw new Error('Unable to find valid cancel reason');
-    }
-
-    recordEvent({
-      event: `${eventPrefix}-successful`,
-      ...additionalEventData,
-    });
-    resetDataLayer();
-  } catch (e) {
-    const isVaos400Error = has400LevelError(e);
-    if (isVaos400Error) {
-      Sentry.withScope(scope => {
-        scope.setExtra('error', e);
-        scope.setExtra('cancelReasons', cancelReasons);
-        scope.setExtra('cancelReason', cancelReason);
-        Sentry.captureMessage('Cancel failed due to bad request');
-      });
-    } else {
-      captureError(e, true);
-    }
-
-    recordEvent({
-      event: `${eventPrefix}-failed`,
-      ...additionalEventData,
-    });
-    resetDataLayer();
-
-    throw e;
-  }
-}
-/**
- * Cancels an appointment or request
- *
- * @export
- * @param {Object} params
- * @param {Appointment} params.appointment The appointment to cancel
- * @param {boolean} params.useV2 Use the vaos/v2 endpoint to cancel the appointment
- * @returns {?Appointment} Returns either null or the updated appointment data
- */
-export async function cancelAppointment({
-  appointment,
-  useV2 = false,
-  useAcheron = false,
-}) {
-  const isConfirmedAppointment =
-    appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment;
-
-  if (useV2) {
-    return cancelV2Appointment(appointment, useAcheron);
-  }
-  if (isConfirmedAppointment) {
-    return cancelBookedAppointment(appointment);
-  }
-  return cancelRequestedAppointment(appointment);
 }
 
 export function isInPersonVAAppointment(appointment) {

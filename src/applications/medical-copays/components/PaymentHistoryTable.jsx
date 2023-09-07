@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
-import Table from '@department-of-veterans-affairs/component-library/Table';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { formatTableData } from '../utils/helpers';
 
 const MAX_ROWS_PER_PAGE = 3;
@@ -65,17 +64,26 @@ const PaymentHistoryTable = () => {
         </div>
       </div>
       <div className="vads-u-margin-bottom--2">
-        <Table
-          data={formattedData}
-          fields={fields}
-          ariaLabelledBy="payment-history-table"
-        />
-        <Pagination
+        <va-table>
+          <va-table-row slot="headers">
+            {fields.map(field => (
+              <span key={field.value}>{field.label}</span>
+            ))}
+          </va-table-row>
+          {formattedData.map((row, index) => (
+            <va-table-row key={`payment-history-${index}`}>
+              {fields.map(field => (
+                <span key={`${field.value}-${index}`}>{row[field.value]}</span>
+              ))}
+            </va-table-row>
+          ))}
+        </va-table>
+        <VaPagination
           page={page}
           pages={pages}
           showLastPage
           maxPageListLength={MAX_ROWS_PER_PAGE}
-          onPageSelect={onPageSelect}
+          onPageSelect={e => onPageSelect(e.detail.page)}
         />
       </div>
     </article>

@@ -2,14 +2,14 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('Terminally Ill', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.terminallyIll;
+  } = formConfig.chapters.veteranDetails.pages.terminallyIll;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {

@@ -7,10 +7,11 @@ import {
 import { isValidCurrency } from '../../utils/validations';
 import { MAX_UTILITY_NAME_LENGTH } from '../../constants/checkboxSelections';
 
+const SUMMARY_PATH = '/utility-bill-summary';
+const CHECKLIST_PATH = '/utility-bill-checklist';
+
 const AddUtilityBill = ({ data, goToPath, setFormData }) => {
   const { utilityRecords = [] } = data;
-
-  const RETURN_PATH = '/utility-bill-summary';
 
   // Borrowed from 995 AddIssue
   // get index from url '/add-issue?index={index}'
@@ -37,30 +38,16 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
   // shared fun
   const [submitted, setSubmitted] = useState(false);
 
-  // submit issue with validation
-  const addOrUpdateUtility = () => {
-    setSubmitted(true);
-
-    // Check for errors
-    if (!nameError && !amountError) {
-      // Update form data
-      const newUtility = [...utilityRecords];
-      // update new or existing index
-      newUtility[index] = {
-        name: utilityName,
-        amount: utilityAmount,
-      };
-
-      setFormData({
-        ...data,
-        utilityRecords: newUtility,
-      });
-      goToPath(RETURN_PATH);
-    }
-  };
-
   const handlers = {
-    onSubmit: event => event.preventDefault(),
+    onSubmit: event => {
+      // handle page navigation
+      // goToPath needs to be encapsulated separately from setFormData
+      // or data updates won't be reflected when page navigation occurs
+      event.preventDefault();
+      if (!nameError && !amountError) {
+        goToPath(SUMMARY_PATH);
+      }
+    },
     onUtilityNameChange: ({ target }) => {
       setUtilityName(target.value);
     },
@@ -69,11 +56,31 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
     },
     onCancel: event => {
       event.preventDefault();
-      goToPath(RETURN_PATH);
+
+      if (utilityRecords.length) {
+        return goToPath(SUMMARY_PATH);
+      }
+      return goToPath(CHECKLIST_PATH);
     },
-    onUpdate: event => {
-      event.preventDefault();
-      addOrUpdateUtility();
+    onUpdate: () => {
+      // handle validation, update form data
+      setSubmitted(true);
+
+      // Check for errors
+      if (!nameError && !amountError) {
+        // Update form data
+        const newUtility = [...utilityRecords];
+        // update new or existing index
+        newUtility[index] = {
+          name: utilityName,
+          amount: utilityAmount,
+        };
+
+        setFormData({
+          ...data,
+          utilityRecords: newUtility,
+        });
+      }
     },
   };
 
@@ -128,7 +135,7 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
               Cancel
             </button>
             <button
-              type="button"
+              type="submit"
               id="submit"
               className="vads-u-width--auto"
               onClick={handlers.onUpdate}

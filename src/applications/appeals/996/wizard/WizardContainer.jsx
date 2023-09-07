@@ -22,7 +22,7 @@ export const WizardContainer = ({ setWizardStatus }) => {
   const { title, subTitle } = formConfig;
 
   useEffect(() => {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('h2');
     scrollToTop();
   });
 

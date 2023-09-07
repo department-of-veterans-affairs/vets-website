@@ -105,6 +105,11 @@ export const NOTIFICATION_CHANNEL_IDS = Object.freeze({
   EMAIL: '2',
 });
 
+export const NOTIFICATION_CHANNEL_LABELS = Object.freeze({
+  [NOTIFICATION_CHANNEL_IDS.TEXT]: 'text',
+  [NOTIFICATION_CHANNEL_IDS.EMAIL]: 'email',
+});
+
 /**
  * These notification item IDs are not currently supported by the VA Profile
  * they are blocked via feature toggle 'profile_show_mhv_notification_settings'
@@ -115,13 +120,20 @@ export const NOTIFICATION_CHANNEL_IDS = Object.freeze({
  * 10 - Medical images and reports available
  * 11 - Biweekly MHV newsletter
  *
- * These are email notifications and will be added once support for that notification type is added
+ * These are all email based notifications
  *
  */
-export const BLOCKED_NOTIFICATION_IDS = [
+export const BLOCKED_MHV_NOTIFICATION_IDS = [
   'item7',
   'item8',
   'item9',
   'item10',
   'item11',
 ];
+
+// used for api status GA events
+export const API_STATUS = Object.freeze({
+  STARTED: 'started',
+  SUCCESSFUL: 'successful',
+  FAILED: 'failed',
+});

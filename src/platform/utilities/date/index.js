@@ -9,11 +9,11 @@ export function dateToMoment(dateField) {
 }
 
 export function formatDateLong(date) {
-  return moment(date).format('MMMM DD, YYYY');
+  return moment(date).format('MMMM D, YYYY');
 }
 
 export function formatDateParsedZoneLong(date) {
-  return moment.parseZone(date).format('MMMM DD, YYYY');
+  return moment.parseZone(date).format('MMMM D, YYYY');
 }
 
 export function formatDateShort(date) {

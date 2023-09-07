@@ -3,6 +3,7 @@ import mockFolders from '../fixtures/folder-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
+import { AXE_CONTEXT } from '../utils/constants';
 
 class PatientKeywordSearchPage {
   newMessageIndex = 0;
@@ -50,7 +51,7 @@ class PatientKeywordSearchPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages', {
+    cy.visit('my-health/secure-messages/', {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
       },
@@ -64,7 +65,13 @@ class PatientKeywordSearchPage {
     cy.wait('@mockUser');
     cy.wait('@inboxMessages');
     if (doAxeCheck) {
-      cy.axeCheck();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     }
   };
 

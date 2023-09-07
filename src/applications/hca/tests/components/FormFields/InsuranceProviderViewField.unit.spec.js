@@ -5,15 +5,11 @@ import { expect } from 'chai';
 import InsuranceProviderViewField from '../../../components/FormFields/InsuranceProviderViewField';
 
 describe('hca <InsuranceProviderViewField>', () => {
-  it('should render insurance provider name', () => {
-    const formData = {
-      insuranceName: 'Aetna',
-    };
-
-    const { getByText } = render(
-      <InsuranceProviderViewField formData={formData} />,
-    );
-
-    expect(getByText(/aetna/i)).to.exist;
+  describe('when the component renders', () => {
+    it('should render first name, last name and relationship', () => {
+      const props = { formData: { insuranceName: 'Aetna' } };
+      const { getByText } = render(<InsuranceProviderViewField {...props} />);
+      expect(getByText(/aetna/i)).to.exist;
+    });
   });
 });

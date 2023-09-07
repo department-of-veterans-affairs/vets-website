@@ -2,13 +2,13 @@ import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 import { displayConfirmEligibility, isChapter33 } from '../helpers';
 import captureEvents from '../analytics-functions';
+import createDirectDepositPage10203 from '../pages/DirectDeposit';
 
 import {
   activeDuty,
   applicantInformation,
   benefitSelection,
   confirmEligibility,
-  directDeposit,
   initialConfirmEligibility,
   stemEligibility,
   personalInformation,
@@ -96,12 +96,7 @@ export const chapters = {
         uiSchema: personalInformation.uiSchema,
         schema: personalInformation.schema,
       },
-      directDeposit: {
-        title: 'Direct deposit',
-        path: 'personal-information/direct-deposit',
-        uiSchema: directDeposit.uiSchema,
-        schema: directDeposit.schema,
-      },
+      directDeposit: createDirectDepositPage10203(),
     },
   },
 };

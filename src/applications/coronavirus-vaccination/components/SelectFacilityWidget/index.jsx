@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as userSelectors from 'platform/user/selectors';
+import { isLoggedIn } from 'platform/user/selectors';
+import { selectPatientFacilities } from 'platform/user/cerner-dsot/selectors';
 
 import PatientFacilities from './PatientFacilities';
 
@@ -20,10 +21,8 @@ function SelectFacilityWidget({ patientFacilityIds, value, onChange }) {
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: userSelectors.isLoggedIn(state),
-    patientFacilityIds: userSelectors
-      .selectPatientFacilities(state)
-      ?.map(f => f.facilityId),
+    isLoggedIn: isLoggedIn(state),
+    patientFacilityIds: selectPatientFacilities(state)?.map(f => f.facilityId),
     formState: state.coronavirusVaccinationApp.formState,
   };
 };

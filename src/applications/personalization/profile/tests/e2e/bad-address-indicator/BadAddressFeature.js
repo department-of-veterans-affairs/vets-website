@@ -1,5 +1,5 @@
 import { PROFILE_PATHS } from '@@profile/constants';
-import { DEFAULT_ERROR_MESSAGE } from '~/platform/user/profile/vap-svc/constants';
+import { DEFAULT_ERROR_MESSAGE } from 'platform/user/profile/vap-svc/constants';
 
 class BadAddressFeature {
   PROFILE_ALERT_TEST_ID = 'bad-address-profile-alert';

@@ -1,18 +1,30 @@
 import mockDraftMessage from '../fixtures/message-draft-response.json';
 import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
+import mockSignature from '../fixtures/signature-response.json';
 
 class PatientComposePage {
-  sendMessage = () => {
+  sendMessage = mockRequest => {
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/messages',
       mockDraftMessage,
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .click({ force: true });
-    cy.wait('@message');
+    cy.wait('@message')
+      .its('request.body')
+      .then(request => {
+        if (mockRequest) {
+          expect(request.body).to.eq(
+            `\n\n\nName\nTitleTest${mockRequest.body}`,
+          );
+          expect(request.category).to.eq(mockRequest.category);
+          expect(request.recipient_id).to.eq(mockRequest.recipientId);
+          expect(request.subject).to.eq(mockRequest.subject);
+        }
+      });
   };
 
   getCategory = category => {
@@ -26,7 +38,7 @@ class PatientComposePage {
       mockDraftMessage,
     ).as('message');
     cy.tabToElement('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .realPress(['Enter']);
     // cy.wait('@message');
   };
@@ -39,7 +51,7 @@ class PatientComposePage {
   };
 
   verifySendMessageConfirmationMessageHasFocus = () => {
-    cy.get('.vads-u-margin-bottom--1').should('be.focused');
+    cy.get('.vads-u-margin-bottom--1', { timeout: 5000 }).should('be.focused');
   };
 
   //* Refactor*  Need to get rid of this method and split out
@@ -50,7 +62,7 @@ class PatientComposePage {
       .find('label')
       .contains(category)
       .click({ force: true });
-    this.attachMessageFromFile('test_image.jpg');
+    // this.attachMessageFromFile('test_image.jpg');
     this.getMessageSubjectField().type('Test Subject');
     this.getMessageBodyField().type('Test message body');
   };
@@ -113,7 +125,7 @@ class PatientComposePage {
       mockDraftMessage,
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
-      .get('[text="Send"]')
+      .contains('Send')
       .click();
   };
 
@@ -176,7 +188,7 @@ class PatientComposePage {
   };
 
   attachMessageFromFile = filename => {
-    const filepath = `src/applications/mhv/secure-messaging/tests/e2e/fixtures/${filename}`;
+    const filepath = `src/applications/mhv/secure-messaging/tests/e2e/fixtures/mock-attachments/${filename}`;
     cy.get('[data-testid="attach-file-input"]').selectFile(filepath, {
       force: true,
     });
@@ -184,6 +196,7 @@ class PatientComposePage {
 
   removeAttachMessageFromFile = () => {
     cy.get('.remove-attachment-button').click();
+    cy.contains('Remove').click();
   };
 
   //* Refactor*Remove and consolidate
@@ -240,7 +253,7 @@ class PatientComposePage {
       .and('have.attr', 'checked');
     cy.get('[id="compose-message-body"]').should(
       'have.value',
-      'Test message body',
+      '\n\n\nName\nTitleTestTest message body',
     );
   };
 
@@ -257,10 +270,17 @@ class PatientComposePage {
   };
 
   verifyClickableURLinMessageBody = url => {
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[id = "textarea"]')
-      .should('have.value', url);
+    const {
+      signatureName,
+      signatureTitle,
+      includeSignature,
+    } = mockSignature.data;
+    cy.get('[data-testid="message-body-field"]').should(
+      'have.attr',
+      'value',
+      `${includeSignature &&
+        `\n\n\n${signatureName}\n${signatureTitle}`}${url}`,
+    );
   };
 
   clickTrashButton = () => {
@@ -309,7 +329,7 @@ class PatientComposePage {
   verifyBodyErrorMessage = () => {
     cy.get('[data-testid="message-body-field"]')
       .shadow()
-      .find('[id=error-message]')
+      .find('[id=input-error-message]')
       .should('be.visible');
   };
 
@@ -320,4 +340,5 @@ class PatientComposePage {
       .should('be.visible');
   };
 }
+
 export default PatientComposePage;

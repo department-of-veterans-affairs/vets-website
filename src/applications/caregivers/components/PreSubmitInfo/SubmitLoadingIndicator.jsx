@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 const SubmitLoadingIndicator = ({ submission }) => {
   const [isLoading, setLoading] = useState(false);
 
-  const { hasAttemptedSubmit } = submission;
-  const isSubmitPending = submission.status === 'submitPending';
+  const { hasAttemptedSubmit, status } = submission;
+  const isSubmitPending = status === 'submitPending';
 
   // set loading to true if user has attempted to submit and submit is pending
   useEffect(

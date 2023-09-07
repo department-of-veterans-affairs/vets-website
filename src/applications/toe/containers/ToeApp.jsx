@@ -10,12 +10,14 @@ import formConfig from '../config/form';
 import { fetchPersonalInformation, fetchDirectDeposit } from '../actions';
 import { mapFormSponsors } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
+import { getAppData } from '../selectors';
 
 function ToeApp({
   children,
   formData,
   getDirectDeposit,
   getPersonalInformation,
+  isLOA3,
   location,
   setFormData,
   sponsors,
@@ -24,6 +26,7 @@ function ToeApp({
   user,
   showMebEnhancements,
   showMebEnhancements06,
+  showMebEnhancements08,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -61,6 +64,18 @@ function ToeApp({
 
   useEffect(
     () => {
+      if (isLOA3 !== formData.isLOA3) {
+        setFormData({
+          ...formData,
+          isLOA3, // ES6 Syntax
+        });
+      }
+    },
+    [formData, setFormData, isLOA3],
+  );
+
+  useEffect(
+    () => {
       if (showMebEnhancements !== formData.showMebEnhancements) {
         setFormData({
           ...formData,
@@ -73,7 +88,7 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (showMebEnhancements06 !== formData.showMebEnhancements) {
+      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
         setFormData({
           ...formData,
           showMebEnhancements06,
@@ -81,6 +96,18 @@ function ToeApp({
       }
     },
     [formData, setFormData, showMebEnhancements06],
+  );
+
+  useEffect(
+    () => {
+      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
+        setFormData({
+          ...formData,
+          showMebEnhancements08,
+        });
+      }
+    },
+    [formData, setFormData, showMebEnhancements08],
   );
 
   useEffect(
@@ -120,6 +147,7 @@ ToeApp.propTypes = {
   formData: PropTypes.object,
   getDirectDeposit: PropTypes.func,
   getPersonalInformation: PropTypes.func,
+  isLOA3: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showMebEnhancements: PropTypes.bool,
@@ -132,6 +160,7 @@ ToeApp.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  ...getAppData(state),
   formData: state.form?.data || {},
   claimant: state.data?.formData?.data?.attributes?.claimant,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,

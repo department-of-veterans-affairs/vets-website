@@ -3,11 +3,11 @@ import { merge, omit } from 'lodash';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import _ from 'platform/utilities/data';
-import environment from 'platform/utilities/environment';
-import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
-import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import ReviewCardField from '@department-of-veterans-affairs/platform-forms-system/ReviewCardField';
+import AddressViewField from '@department-of-veterans-affairs/platform-forms-system/AddressViewField';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {
   validateMilitaryCity,
@@ -260,6 +260,7 @@ export const ancillaryFormUploadUi = (
     widgetType = 'select',
     customClasses = '',
     isDisabled = false,
+    buttonText = '',
     addAnotherLabel = 'Add Another',
   } = {},
 ) => {
@@ -276,6 +277,7 @@ export const ancillaryFormUploadUi = (
     itemDescription,
     hideLabelText: !label,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
+    buttonText,
     addAnotherLabel,
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
     // not sure what to do here... we need to differentiate pdf vs everything
@@ -302,7 +304,7 @@ export const ancillaryFormUploadUi = (
       };
     },
     attachmentSchema: ({ fileId }) => ({
-      'ui:title': 'Document type',
+      'ui:title': 'File type',
       'ui:disabled': isDisabled,
       'ui:widget': widgetType,
       'ui:options': {

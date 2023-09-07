@@ -26,7 +26,6 @@ import {
   facilitiesPpmsSuppressCommunityCare,
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
-  facilityLocatorLighthouseCovidVaccineQuery,
 } from '../utils/featureFlagSelectors';
 import ResultsList from '../components/ResultsList';
 import PaginationWrapper from '../components/PaginationWrapper';
@@ -45,7 +44,7 @@ import {
 import { distBetween } from '../utils/facilityDistance';
 import SearchResult from '../components/SearchResult';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
-import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
+import { otherToolsLink } from '../utils/mapLinks';
 import SearchAreaControl from '../components/SearchAreaControl';
 import Covid19Result from '../components/search-results-items/Covid19Result';
 import Alert from '../components/Alert';
@@ -433,7 +432,6 @@ const FacilitiesMap = props => {
           suppressPPMS={props.suppressPPMS}
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
-          searchCovid19Vaccine={props.searchCovid19Vaccine}
           clearSearchText={props.clearSearchText}
         />
         {(isEmergencyCareType || isCppEmergencyCareTypes) && (
@@ -650,9 +648,6 @@ const FacilitiesMap = props => {
             same-day care for minor illnesses or injuries, select Urgent care
             for facility type.
           </p>
-          <p>
-            <strong>Coronavirus update:</strong> {coronavirusUpdate}
-          </p>
         </div>
         {renderView()}
       </div>
@@ -667,7 +662,6 @@ const mapStateToProps = state => ({
   suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
   suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
-  searchCovid19Vaccine: facilityLocatorLighthouseCovidVaccineQuery(state),
   results: state.searchResult.results,
   searchError: state.searchResult.error,
   resultTime: state.searchResult.resultTime,

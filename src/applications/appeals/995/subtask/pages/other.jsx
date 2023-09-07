@@ -50,7 +50,7 @@ const DecisionReviewPage = () => {
         Find the address for mailing your form
       </a>{' '}
       <p className="vads-u-margin-bottom--0">
-        <DownloadLink content="Download VA Form 20-0995" />
+        <DownloadLink />
       </p>
       <p>
         If you don’t think this is the right form for you, find out about other

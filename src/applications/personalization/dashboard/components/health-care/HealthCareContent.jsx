@@ -1,88 +1,135 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { differenceInDays } from 'date-fns';
 
+import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import recordEvent from '~/platform/monitoring/record-event';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
+import { CernerWidget } from '~/applications/personalization/dashboard/components/CernerWidgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
 import {
   selectUnreadCount,
   selectUserCernerFacilityNames,
-  selectUseVaosV2APi,
 } from '~/applications/personalization/dashboard/selectors';
-import {
-  fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction,
-  fetchConfirmedFutureAppointmentsV2 as fetchConfirmedFutureAppointmentsV2Action,
-} from '~/applications/personalization/appointments/actions';
+import { fetchConfirmedFutureAppointmentsV2 as fetchConfirmedFutureAppointmentsV2Action } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 import { selectAvailableServices } from '~/platform/user/selectors';
 
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import HealthCareCTA from './HealthCareCTA';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-import Appointments from './Appointments';
+import AppointmentsCard from './AppointmentsCard';
 import CTALink from '../CTALink';
 
 const HealthCareContent = ({
   appointments,
   authenticatedWithSSOe,
   shouldFetchUnreadMessages,
-  fetchConfirmedFutureAppointments,
   fetchConfirmedFutureAppointmentsV2,
+  facilityNames,
   fetchUnreadMessages,
   unreadMessagesCount,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
-  shouldShowPrescriptions,
   hasInboxError,
   hasAppointmentsError,
-  useVaosV2Api,
-  facilityNames,
+  isVAPatient,
 }) => {
   const nextAppointment = appointments?.[0];
-  const start = new Date(nextAppointment?.startsAt);
-  const today = new Date();
-  const hasUpcomingAppointment = differenceInDays(start, today) < 30;
+  const hasUpcomingAppointment = !!nextAppointment;
 
   useEffect(
     () => {
-      if (!dataLoadingDisabled) {
-        if (useVaosV2Api) {
-          fetchConfirmedFutureAppointmentsV2();
-        } else {
-          fetchConfirmedFutureAppointments();
-        }
+      if (!dataLoadingDisabled && isVAPatient) {
+        fetchConfirmedFutureAppointmentsV2();
       }
     },
-    [
-      fetchConfirmedFutureAppointments,
-      dataLoadingDisabled,
-      useVaosV2Api,
-      fetchConfirmedFutureAppointmentsV2,
-    ],
+    [dataLoadingDisabled, fetchConfirmedFutureAppointmentsV2, isVAPatient],
   );
 
   useEffect(
     () => {
-      if (shouldFetchUnreadMessages && !dataLoadingDisabled) {
+      if (shouldFetchUnreadMessages && !dataLoadingDisabled && isVAPatient) {
         fetchUnreadMessages();
       }
     },
-    [shouldFetchUnreadMessages, fetchUnreadMessages, dataLoadingDisabled],
+    [
+      shouldFetchUnreadMessages,
+      fetchUnreadMessages,
+      dataLoadingDisabled,
+      isVAPatient,
+    ],
   );
 
-  const shouldShowUnreadMessageAlert =
-    shouldFetchUnreadMessages && !hasInboxError && unreadMessagesCount > 0;
+  const shouldShowOnOneColumn = !isVAPatient || !hasUpcomingAppointment;
 
-  const shouldShowOnOneColumn =
-    !shouldShowUnreadMessageAlert &&
-    !hasUpcomingAppointment &&
-    !hasAppointmentsError;
+  const NoUpcomingAppointmentsText = () => {
+    return (
+      <p
+        className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
+        data-testid="no-upcoming-appointments-text"
+      >
+        You have no upcoming appointments to show.
+      </p>
+    );
+  };
+
+  const NoHealthcareText = () => {
+    return (
+      <p
+        className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
+        data-testid="no-healthcare-text"
+      >
+        You have no health care information to show.
+      </p>
+    );
+  };
+
+  const HealthcareError = () => {
+    const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+    // status will be 'warning' if toggle is on
+    const status = useToggleValue(TOGGLE_NAMES.myVaUpdateErrorsWarnings)
+      ? 'warning'
+      : 'error';
+
+    // appt link will be /my-health/appointments if toggle is on
+    const apptLink = useToggleValue(
+      TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate,
+    )
+      ? '/my-health/appointments'
+      : '/health-care/schedule-view-va-appointments/appointments';
+
+    return (
+      <div className="vads-u-margin-bottom--2p5">
+        <va-alert status={status} show-icon data-testid="healthcare-error">
+          <h2 slot="headline">We can’t access your appointment information</h2>
+          <div>
+            We’re sorry. Something went wrong on our end and we can’t access
+            your appointment information. Please try again later or go to the
+            appointments tool:
+          </div>
+          <CTALink
+            text="Schedule and manage your appointments"
+            href={apptLink}
+            showArrow
+            className="vads-u-font-weight--bold"
+            onClick={() =>
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'Schedule and manage your appointments',
+                'links-list-section-header': 'Health care',
+              })
+            }
+            testId="view-manage-appointments-link-from-error"
+          />
+        </va-alert>
+      </div>
+    );
+  };
 
   if (shouldShowLoadingIndicator) {
     return <va-loading-indicator message="Loading health care..." />;
@@ -99,68 +146,38 @@ const HealthCareContent = ({
       </div>
     );
   }
+
   return (
     <div className="vads-l-row">
       <DashboardWidgetWrapper>
-        {/* Messages */}
-        {shouldShowUnreadMessageAlert ? (
-          <div
-            className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
-            data-testid="unread-messages-alert"
-          >
-            <va-alert status="warning" show-icon>
-              <div className="vads-u-margin-top--0">
-                {`You have ${unreadMessagesCount} unread message${
-                  unreadMessagesCount === 1 ? '' : 's'
-                }. `}
-                <CTALink
-                  text="View your messages"
-                  href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-                  onClick={() =>
-                    recordEvent({
-                      event: 'nav-linkslist',
-                      'links-list-header': 'View your messages',
-                      'links-list-section-header': 'Health care',
-                    })
-                  }
-                />
-              </div>
-            </va-alert>
-          </div>
-        ) : null}
-        {(hasUpcomingAppointment || hasAppointmentsError) && (
-          /* Appointments */
-          <Appointments
-            appointments={appointments}
-            hasError={hasAppointmentsError}
-          />
+        {hasAppointmentsError && <HealthcareError />}
+        {hasUpcomingAppointment && (
+          <AppointmentsCard appointments={appointments} />
         )}
-        {!hasUpcomingAppointment &&
-          !hasAppointmentsError && (
-            <p data-testid="no-appointment-message">
-              You have no appointments scheduled in the next 30 days.
-            </p>
-          )}
+        {!isVAPatient && <NoHealthcareText />}
+        {isVAPatient &&
+          !hasUpcomingAppointment &&
+          !hasAppointmentsError && <NoUpcomingAppointmentsText />}
         {shouldShowOnOneColumn ? (
           <HealthCareCTA
-            hasAppointmentsError={hasAppointmentsError}
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
             hasUpcomingAppointment={hasUpcomingAppointment}
-            shouldShowPrescriptions={shouldShowPrescriptions}
             unreadMessagesCount={unreadMessagesCount}
+            isVAPatient={isVAPatient}
+            hasAppointmentsError={hasAppointmentsError}
           />
         ) : null}
       </DashboardWidgetWrapper>
       {!shouldShowOnOneColumn ? (
         <DashboardWidgetWrapper>
           <HealthCareCTA
-            hasAppointmentsError={hasAppointmentsError}
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
             hasUpcomingAppointment={hasUpcomingAppointment}
-            shouldShowPrescriptions={shouldShowPrescriptions}
             unreadMessagesCount={unreadMessagesCount}
+            isVAPatient={isVAPatient}
+            hasAppointmentsError={hasAppointmentsError}
           />
         </DashboardWidgetWrapper>
       ) : null}
@@ -171,9 +188,6 @@ const HealthCareContent = ({
 const mapStateToProps = state => {
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
-  );
-  const shouldShowPrescriptions = selectAvailableServices(state).includes(
-    backendServices.RX,
   );
 
   const fetchingAppointments = state.health?.appointments?.fetching;
@@ -190,6 +204,7 @@ const mapStateToProps = state => {
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     hasInboxError: hasUnreadMessagesCountError,
     hasAppointmentsError,
+    isCernerPatient: selectIsCernerPatient(state),
     shouldFetchUnreadMessages,
     // TODO: We might want to rewrite this component so that we default to
     // showing the loading indicator until all required API calls have either
@@ -200,22 +215,17 @@ const mapStateToProps = state => {
     // to showing the loading indicator _after_ the useEffect hooks have run and
     // API requests have started.
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
-    shouldShowPrescriptions,
-    unreadMessagesCount: selectUnreadCount(state).count || 0,
-    useVaosV2Api: selectUseVaosV2APi(state),
+    unreadMessagesCount: selectUnreadCount(state)?.count || 0,
     facilityNames: selectUserCernerFacilityNames(state),
   };
 };
 
 const mapDispatchToProps = {
   fetchUnreadMessages: fetchUnreadMessageCountAction,
-  fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
   fetchConfirmedFutureAppointmentsV2: fetchConfirmedFutureAppointmentsV2Action,
 };
 
 HealthCareContent.propTypes = {
-  authenticatedWithSSOe: PropTypes.bool.isRequired,
-  canAccessRx: PropTypes.bool.isRequired,
   appointments: PropTypes.arrayOf(
     PropTypes.shape({
       additionalInfo: PropTypes.string,
@@ -228,20 +238,22 @@ HealthCareContent.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ),
+  authenticatedWithSSOe: PropTypes.bool,
   dataLoadingDisabled: PropTypes.bool,
   facilityNames: PropTypes.arrayOf(PropTypes.string),
-  fetchConfirmedFutureAppointments: PropTypes.func,
   fetchConfirmedFutureAppointmentsV2: PropTypes.func,
-  fetchUnreadMessages: PropTypes.bool,
+  fetchUnreadMessages: PropTypes.func,
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
+  isCernerPatient: PropTypes.bool,
+  isVAPatient: PropTypes.bool,
   shouldFetchUnreadMessages: PropTypes.bool,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
   shouldShowLoadingIndicator: PropTypes.bool,
-  shouldShowPrescriptions: PropTypes.bool,
   unreadMessagesCount: PropTypes.number,
-  useVaosV2Api: PropTypes.bool,
 };
+
+export const UnconnectedHealthCareContent = HealthCareContent;
 
 export default connect(
   mapStateToProps,

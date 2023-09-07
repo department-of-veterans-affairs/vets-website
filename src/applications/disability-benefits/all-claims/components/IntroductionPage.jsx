@@ -1,20 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { isLoggedIn } from 'platform/user/selectors';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { itfNotice } from '../content/introductionPage';
-import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
+import {
+  show526Wizard,
+  show526MaxRating,
+  isBDD,
+  getPageTitle,
+  getStartText,
+} from '../utils';
 import {
   BDD_INFO_URL,
   DISABILITY_526_V2_ROOT_URL,
@@ -22,12 +26,17 @@ import {
   PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
   DBQ_URL,
+  OMB_CONTROL,
 } from '../constants';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('h1');
     scrollToTop();
+    window.sessionStorage.setItem(
+      'showDisability526MaximumRating',
+      this.props.showMaxRating,
+    );
   }
 
   render() {
@@ -62,7 +71,6 @@ class IntroductionPage extends React.Component {
       retentionPeriod: '1 year',
       ariaDescribedby: 'main-content',
     };
-    const isShowBDDSHA = isBDDForm && !environment.isProduction();
 
     return (
       <div className="schemaform-intro">
@@ -115,20 +123,21 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <h3 className="vads-u-font-size--h4">Prepare</h3>
-              {!isShowBDDSHA && (
+              {!isBDDForm && (
                 <p data-testid="process-step1-prepare">
                   When you file a disability claim, you’ll have a chance to
                   provide evidence to support your claim. Evidence could
                   include:
                 </p>
               )}
-              {isShowBDDSHA && (
+              {isBDDForm && (
                 <>
                   <p data-testid="process-step1-prepare">
                     When you file a BDD claim online, we’ll ask you to upload
                     this required form:{' '}
                     <a href={DBQ_URL} target="_blank" rel="noreferrer">
                       Separation Health Assessment - Part A Self-Assessment
+                      (opens in a new tab)
                     </a>
                     . We recommend you download and fill out this form on a
                     desktop computer or laptop. Then return to this page to
@@ -276,9 +285,11 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro buttonOnly {...sipProps} />
         {itfNotice}
-        <div className="omb-info--container">
-          <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="03/31/2021" />
-        </div>
+        <va-omb-info
+          res-burden={25}
+          omb-number={OMB_CONTROL}
+          exp-date="03/31/2021"
+        />
       </div>
     );
   }
@@ -289,6 +300,7 @@ const mapStateToProps = state => ({
   isBDDForm: isBDD(state?.form?.data),
   loggedIn: isLoggedIn(state),
   showWizard: show526Wizard(state),
+  showMaxRating: show526MaxRating(state),
 });
 
 IntroductionPage.propTypes = {
@@ -306,6 +318,7 @@ IntroductionPage.propTypes = {
   isBDDForm: PropTypes.bool,
   loggedIn: PropTypes.bool,
   showWizard: PropTypes.bool,
+  showMaxRating: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(IntroductionPage);

@@ -33,7 +33,7 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'medical-release-4142-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -74,7 +74,7 @@ const formConfig = {
   },
   title: 'Authorize the release of non-VA medical information to VA',
   subTitle:
-    'Authorization to disclose information to the Department of Veterans Affairs (VA Form 21-4142 and 21-4142a)',
+    'Authorization to disclose information to the Department of Veterans Affairs (VA Forms 21-4142 and 21-4142a)',
   defaultDefinitions: fullSchema.definitions,
   chapters: {
     personalInformation1Chapter: {

@@ -13,18 +13,18 @@ export default {
 
           switch (claimOwnership) {
             case CLAIM_OWNERSHIPS.SELF:
-              title = 'Which of these descriptions best describes you?';
+              title = 'Are you a Veteran?';
               labels = {
-                veteran: 'I’m a Veteran',
-                'non-veteran': 'I’m a non-Veteran claimant',
+                veteran: 'Yes',
+                'non-veteran': 'No',
               };
               break;
             case CLAIM_OWNERSHIPS.THIRD_PARTY:
               title =
-                'Which of these individuals are you submitting a statement for?';
+                'Is the person you’re submitting this statement for a Veteran?';
               labels = {
-                veteran: 'A Veteran',
-                'non-veteran': 'A non-Veteran claimant',
+                veteran: 'Yes',
+                'non-veteran': 'No',
               };
               break;
             default:

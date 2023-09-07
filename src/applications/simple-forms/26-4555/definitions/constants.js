@@ -30,3 +30,10 @@ export const livingSituationFields = {
   careFacilityName: 'careFacilityName',
   careFacilityAddress: 'careFacilityAddress',
 };
+
+export const workInProgressContent = {
+  description:
+    'We’re rolling out the Adapted Housing Form (26-4555) in stages. It’s not quite ready yet. Please check back again soon.',
+  redirectLink: '/housing-assistance/disability-housing-grants',
+  redirectText: 'Return to housing assistance information page',
+};

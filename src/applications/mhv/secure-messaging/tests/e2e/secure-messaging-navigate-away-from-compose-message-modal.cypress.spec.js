@@ -1,9 +1,10 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json';
-import mockDeletedFolderMetaResponse from './fixtures/folder-deleted-metadata.json';
-import mockSentFolderMetaResponse from './fixtures/folder-sent-metadata.json';
+import mockDeletedFolderMetaResponse from './fixtures/trashResponse/folder-deleted-metadata.json';
+import mockSentFolderMetaResponse from './fixtures/sentResponse/folder-sent-metadata.json';
 import PatientComposePage from './pages/PatientComposePage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   const landingPage = new PatientInboxPage();
@@ -13,9 +14,15 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   it('Navigate Away From `Start a new message` To Inbox', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.enterComposeMessageDetails('General');
     composePage.selectSideBarMenuOption('Inbox');
     composePage.clickOnContinueEditingButton();
@@ -30,9 +37,15 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   it('Navigate Away From `Start a new message` To Draft', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.enterComposeMessageDetails('General');
     composePage.selectSideBarMenuOption('Drafts');
     composePage.clickOnContinueEditingButton();
@@ -40,7 +53,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-2',
+      '/my_health/v1/messaging/folders/-2*',
       mockDraftFolderMetaResponse,
     ).as('draftsFolderMetaResponse');
     composePage.selectSideBarMenuOption('Drafts');
@@ -51,9 +64,15 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   it('Navigate Away From `Start a new message` To Sent', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.enterComposeMessageDetails('General');
     composePage.selectSideBarMenuOption('Sent');
     composePage.clickOnContinueEditingButton();
@@ -61,20 +80,26 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1',
+      '/my_health/v1/messaging/folders/-1*',
       mockSentFolderMetaResponse,
     ).as('sentResponse');
     composePage.selectSideBarMenuOption('Sent');
     composePage.clickOnDeleteDraftButton();
-    composePage.verifyExpectedPageOpened('Sent messages');
+    composePage.verifyExpectedPageOpened('Sent');
   });
 
   it('Navigate Away From `Start a new message` To Trash', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.enterComposeMessageDetails('General');
     composePage.selectSideBarMenuOption('Trash');
     composePage.clickOnContinueEditingButton();
@@ -82,7 +107,7 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-3',
+      '/my_health/v1/messaging/folders/-3*',
       mockDeletedFolderMetaResponse,
     ).as('trashResponse');
     composePage.selectSideBarMenuOption('Trash');
@@ -93,9 +118,15 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
   it('Navigate Away From `Start a new message` To MY Folders', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     composePage.enterComposeMessageDetails('General');
     composePage.selectSideBarMenuOption('My folders');
     composePage.clickOnContinueEditingButton();

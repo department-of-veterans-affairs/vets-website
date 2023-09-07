@@ -1,14 +1,18 @@
 import {
-  // testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmit,
   testNumberOfFields,
 } from '../../../shared/tests/pages/pageTests.spec';
-import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../../definitions/constants';
+import {
+  CLAIM_OWNERSHIPS,
+  CLAIMANT_TYPES,
+  SERVED_WITH_VETERAN,
+} from '../../definitions/constants';
 import formConfig from '../../config/form';
 
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.witnessPersonalInfoChapter.pages.witnessPersonalInfoPage;
+} = formConfig.chapters.witnessPersonalInfoChapter.pages.witnessPersInfoPageA;
 const pageTitle = 'Witness’ personal information';
 const mockData = {
   claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
@@ -17,14 +21,13 @@ const mockData = {
     first: 'Jack',
     last: 'Witness',
   },
-  witnessRelationshipToClaimant: {
-    'served-with': true,
-    'family-or-friend': false,
-    'coworker-or-supervisor': false,
-  },
+  witnessRelationshipToClaimant: SERVED_WITH_VETERAN,
 };
 
-const expectedNumberOfFields = 7;
+// Expect 4 fields instead of 7 fields.
+// witnessRelationshipToClaimant GroupCheckboxWidget's 3 fields are
+// in shadow-DOM and thus unselectable by test.
+const expectedNumberOfFields = 3;
 testNumberOfFields(
   formConfig,
   schema,
@@ -34,6 +37,18 @@ testNumberOfFields(
   mockData,
 );
 
-// TODO: Once Relationship checkboxes validation error-messaging is fixed,
-// add testNumberOfErrorsOnSubmit().
-// GitHub bug: https://github.com/department-of-veterans-affairs/va.gov-team-forms/issues/255
+// Expect 3 instead of 7 errors.
+// witnessRelationshipToClaimant GroupCheckboxWidget displays
+// only 1 error-message for its 3 shadow-DOM fields.
+const expectedNumberOfErrors = 3;
+testNumberOfErrorsOnSubmit(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfErrors,
+  pageTitle,
+  {
+    claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+    claimantType: CLAIMANT_TYPES.VETERAN,
+  },
+);

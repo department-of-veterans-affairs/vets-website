@@ -1,4 +1,5 @@
-import SpouseEmploymentHistoryWidget from './SpouseEmploymentHistoryWidget';
+// schema no longer used
+import SpouseEmploymentHistoryWidget from '../../../components/employment/SpouseEmploymentHistoryWidget';
 
 export const uiSchema = {
   'ui:title': 'Employment history',

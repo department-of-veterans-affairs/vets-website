@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import { SESSION_ITEM_NAME, SHARED_PATHS } from '../../utils/constants';
+import { normalizeFullName } from '../../utils/helpers';
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
 
 // declare shared routes from the form & default states
@@ -83,32 +84,36 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
   // create dependent list items
   const listItems = dependents.map((item, index) => {
     const { fullName, dependentRelation } = item;
-    const normalizedFullName = `${fullName.first} ${
-      fullName.last
-    } ${fullName.suffix || ''}`.replace(/ +(?= )/g, '');
+    const dependentName = normalizeFullName(fullName);
 
     return (
       <li
         key={index}
         id={`hca-dependent-item--${index}`}
         ref={el => listItemsRef.current.push(el)}
-        className="hca-dependent-list--tile vads-u-display--flex vads-u-align-items--center vads-u-border--2px vads-u-border-color--gray-light"
+        className="hca-dependent-list--card vads-u-border--1px vads-u-border-color--gray-medium"
       >
         <span
-          className="vads-u-flex--1 vads-u-padding-right--2"
+          className="vads-u-display--block vads-u-line-height--2 vads-u-font-weight--bold"
           data-testid="hca-dependent-tile-name"
         >
-          <strong>{normalizedFullName}</strong>, {dependentRelation}
+          {dependentName}
         </span>
-        <span className="vads-u-flex--auto">
+        <span
+          className="vads-u-display--block vads-u-line-height--2"
+          data-testid="hca-dependent-tile-relationship"
+        >
+          {dependentRelation}
+        </span>
+        <span className="vads-l-row vads-u-justify-content--space-between vads-u-margin-top--2">
           <Link
-            className="va-button-link hca-button-link vads-u-margin-left--2p5 vads-u-font-weight--bold"
+            className="va-button-link hca-button-link vads-u-font-weight--bold"
             to={{
               pathname: DEPENDENT_PATHS.info,
               search: `?index=${index}&action=${mode}`,
             }}
           >
-            Edit <span className="sr-only">{normalizedFullName}</span>{' '}
+            Edit <span className="sr-only">{dependentName}</span>{' '}
             <i
               role="presentation"
               className="fas fa-chevron-right vads-u-margin-left--0p5"
@@ -116,16 +121,14 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
           </Link>
           <button
             type="button"
-            className="va-button-link hca-button-action vads-u-color--secondary-dark vads-u-margin-left--2p5 vads-u-font-weight--bold"
-            onClick={() =>
-              handlers.showConfirm({ index, name: normalizedFullName })
-            }
+            className="va-button-link hca-button-remove"
+            onClick={() => handlers.showConfirm({ index, name: dependentName })}
           >
             <i
               role="presentation"
               className="fas fa-times vads-u-margin-right--0p5"
             />{' '}
-            Remove <span className="sr-only">{normalizedFullName}</span>
+            Remove <span className="sr-only">{dependentName}</span>
           </button>
         </span>
       </li>
@@ -139,7 +142,7 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
       </ul>
 
       <VaModal
-        modalTitle="Remove this dependent"
+        modalTitle="Remove this dependent?"
         primaryButtonText="Yes, remove dependent"
         secondaryButtonText="No, cancel"
         onPrimaryButtonClick={handlers.onConfirm}

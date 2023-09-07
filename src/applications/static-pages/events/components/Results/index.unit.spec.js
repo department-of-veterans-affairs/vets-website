@@ -6,14 +6,18 @@ import { render } from '@testing-library/react';
 // Relative imports.
 import { Results } from '.';
 import { ResultsWhereContent } from './ResultsWhereContent';
+import { generateTestEvents } from '../../helpers/event-generator';
 
 describe('Events <Results>', () => {
   it('renders what we expect', () => {
+    const props = {
+      results: generateTestEvents(),
+    };
     // Set up.
-    const wrapper = shallow(<Results />);
+    const wrapper = shallow(<Results {...props} />);
 
     // Assertions.
-    expect(wrapper.text()).includes('No results found');
+    expect(wrapper.text()).not.includes('No results found');
 
     // Clean up.
     wrapper.unmount();
@@ -55,5 +59,25 @@ describe('Events <ResultsWhereContent>', () => {
       <ResultsWhereContent event={locationObjectEvent} />,
     );
     expect(component.getByText('test location')).to.exist;
+  });
+
+  it('renders directions to google maps link', () => {
+    const fieldLocationExample = {
+      entity: {
+        title: 'test location',
+        entityUrl: {},
+        fieldAddress: {
+          locality: 'Los Angeles',
+          administrativeArea: 'CA',
+          postalCode: '90012-3328',
+          addressLine1: '351 East Temple Street',
+        },
+      },
+    };
+    const locationObjectEvent = getProps(fieldLocationExample, '', null);
+    const component = render(
+      <ResultsWhereContent event={locationObjectEvent} />,
+    );
+    expect(component.getByText('Get directions on Google Maps')).to.exist;
   });
 });

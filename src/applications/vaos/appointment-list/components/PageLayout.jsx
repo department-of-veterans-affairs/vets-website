@@ -20,7 +20,7 @@ export default function PageLayout({
       {showBreadcrumbs && <Breadcrumbs />}
       <div className="vads-l-row">
         <div
-          className={classNames('vads-l-col--12', 'vads-u-margin-bottom--2', {
+          className={classNames('vads-l-col--12', 'vads-u-margin-y--2', {
             'medium-screen:vads-l-col--8': !featureAppointmentList,
           })}
         >
@@ -36,4 +36,5 @@ PageLayout.propTypes = {
   children: PropTypes.array,
   showBreadcrumbs: PropTypes.bool,
   showNeedHelp: PropTypes.bool,
+  style: PropTypes.object,
 };

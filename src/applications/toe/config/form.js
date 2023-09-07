@@ -26,6 +26,8 @@ import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 
+import ApplicantIdentityView from '../components/ApplicantIdentityView';
+import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
 import DirectDepositViewField from '../components/DirectDepositViewField';
 import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
@@ -120,6 +122,7 @@ const formConfig = {
           title: 'Your information',
           path: 'applicant-information',
           subTitle: 'Your information',
+          CustomPageReview: ApplicantInformationReviewPage,
           instructions:
             'This is the personal information we have on file for you.',
           uiSchema: {
@@ -143,12 +146,39 @@ const formConfig = {
                   </p>
                 </>
               ),
+              'ui:options': {
+                hideIf: formData =>
+                  formData.showMebEnhancements06 && formData.isLOA3,
+              },
+            },
+            'view:applicantInformation': {
+              'ui:options': {
+                hideIf: formData =>
+                  !formData.showMebEnhancements06 || !formData.isLOA3,
+              },
+              'ui:description': (
+                <>
+                  <ApplicantIdentityView />
+                </>
+              ),
             },
             [formFields.viewUserFullName]: {
+              'ui:options': {
+                hideIf: formData =>
+                  formData.showMebEnhancements06 && formData.isLOA3,
+              },
               [formFields.userFullName]: {
+                'ui:options': {
+                  hideIf: formData => formData.showMebEnhancements06,
+                },
+                'ui:required': formData => !formData?.showMebEnhancements06,
                 ...fullNameUI,
                 first: {
                   ...fullNameUI.first,
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:title': 'Your first name',
                   'ui:validations': [
                     (errors, field) => {
@@ -160,6 +190,10 @@ const formConfig = {
                 },
                 middle: {
                   ...fullNameUI.middle,
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:title': 'Your middle name',
                   'ui:validations': [
                     (errors, field) => {
@@ -171,6 +205,10 @@ const formConfig = {
                 },
                 last: {
                   ...fullNameUI.last,
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:title': 'Your last name',
                   'ui:validations': [
                     (errors, field) => {
@@ -183,6 +221,11 @@ const formConfig = {
               },
             },
             [formFields.dateOfBirth]: {
+              'ui:options': {
+                hideIf: formData =>
+                  formData.showMebEnhancements06 && formData.isLOA3,
+              },
+              'ui:required': formData => !formData?.showMebEnhancements06,
               ...currentOrPastDateUI('Your date of birth'),
             },
             'view:dateOfBirthUnder18Alert': {
@@ -282,6 +325,10 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
+              'view:applicantInformation': {
+                type: 'object',
+                properties: {},
+              },
               [formFields.parentGuardianSponsor]: {
                 type: 'string',
               },
@@ -362,8 +409,10 @@ const formConfig = {
           title: 'Enter your sponsor’s information',
           path: 'sponsor-information',
           depends: formData =>
-            !formData.sponsors?.sponsors?.length ||
-            formData.sponsors?.someoneNotListed,
+            formData.showMebEnhancements08
+              ? false
+              : !formData.sponsors?.sponsors?.length ||
+                formData.sponsors?.someoneNotListed,
           uiSchema: {
             'view:noSponsorWarning': {
               'ui:description': (
@@ -1105,7 +1154,7 @@ const formConfig = {
               },
               [formFields.receiveTextMessages]: {
                 'ui:title':
-                  'Would you like to receive text message notifications on your education benefits?',
+                  'Would you like to receive text message notifications about your education benefits?',
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {

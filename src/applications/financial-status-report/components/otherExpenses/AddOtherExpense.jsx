@@ -7,10 +7,11 @@ import {
 import { isValidCurrency } from '../../utils/validations';
 import { MAX_OTHER_LIVING_NAME_LENGTH } from '../../constants/checkboxSelections';
 
+const SUMMARY_PATH = '/other-expenses-summary';
+const CHECKLIST_PATH = '/other-expenses-checklist';
+
 const AddOtherExpense = ({ data, goToPath, setFormData }) => {
   const { otherExpenses = [] } = data;
-
-  const RETURN_PATH = '/other-expenses-summary';
 
   // Borrowed from 995 AddIssue
   // get index from url '/add-issue?index={index}'
@@ -37,30 +38,17 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
   // shared fun
   const [submitted, setSubmitted] = useState(false);
 
-  // submit issue with validation
-  const addOrUpdateExpense = () => {
-    setSubmitted(true);
-
-    // Check for errors
-    if (!nameError && !amountError) {
-      // Update form data
-      const newExpenses = [...otherExpenses];
-      // update new or existing index
-      newExpenses[index] = {
-        name: expenseName,
-        amount: expenseAmount,
-      };
-
-      setFormData({
-        ...data,
-        otherExpenses: newExpenses,
-      });
-      goToPath(RETURN_PATH);
-    }
-  };
-
   const handlers = {
-    onSubmit: event => event.preventDefault(),
+    onSubmit: event => {
+      // handle page navigation
+      // goToPath needs to be encapsulated separately from setFormData
+      // or data updates won't be reflected when page navigation occurs
+      event.preventDefault();
+
+      if (!nameError && !amountError) {
+        goToPath(SUMMARY_PATH);
+      }
+    },
     onExpenseNameChange: ({ target }) => {
       setExpenseName(target.value);
     },
@@ -69,11 +57,32 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
     },
     onCancel: event => {
       event.preventDefault();
-      goToPath(RETURN_PATH);
+
+      if (otherExpenses.length) {
+        return goToPath(SUMMARY_PATH);
+      }
+
+      return goToPath(CHECKLIST_PATH);
     },
-    onUpdate: event => {
-      event.preventDefault();
-      addOrUpdateExpense();
+    onUpdate: () => {
+      // handle validation, update form data
+      setSubmitted(true);
+
+      // Check for errors
+      if (!nameError && !amountError) {
+        // Update form data
+        const newExpenses = [...otherExpenses];
+        // update new or existing index
+        newExpenses[index] = {
+          name: expenseName,
+          amount: expenseAmount,
+        };
+
+        setFormData({
+          ...data,
+          otherExpenses: newExpenses,
+        });
+      }
     },
   };
 

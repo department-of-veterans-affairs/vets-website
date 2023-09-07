@@ -1,0 +1,1 @@
+export { generatePdf } from './index';

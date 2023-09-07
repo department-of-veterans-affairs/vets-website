@@ -184,6 +184,32 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.getByRole('heading')).to.contain.text('A function title');
   });
 
+  it('should render title JSX without throwing an error', () => {
+    const schema = {
+      properties: {
+        test: {
+          type: 'string',
+        },
+      },
+    };
+
+    const tree = render(
+      <ObjectField
+        uiSchema={{}}
+        schema={schema}
+        formContext={{ pageTitle: () => <span>A title</span> }}
+        requiredSchema={{}}
+        idSchema={{ $id: 'root' }}
+        formData={{}}
+        onChange={f => f}
+        onBlur={f => f}
+      />,
+    );
+
+    expect(tree.getByRole('textbox')).to.exist;
+    expect(tree.getByRole('heading')).to.contain.text('A title');
+  });
+
   it('should hide title', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();

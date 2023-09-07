@@ -177,7 +177,7 @@ describe('Schemaform FormNav', () => {
       />,
     );
     expect(
-      tree.getByText('Your application will be saved on every change', {
+      tree.getByText('We’ll save your application on every change.', {
         exact: false,
       }),
     ).to.not.be.null;
@@ -227,5 +227,14 @@ describe('Schemaform FormNav', () => {
     await waitFor(() => {
       expect(document.activeElement.tagName).to.eq('H3');
     });
+  });
+
+  it('should render current chapter stepText', () => {
+    const currentPath = 'testing4';
+    const formConfigDefaultData = getDefaultData();
+    const tree = render(
+      <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />,
+    );
+    expect(tree.getByTestId('navFormDiv').textContent).to.eq('');
   });
 });
