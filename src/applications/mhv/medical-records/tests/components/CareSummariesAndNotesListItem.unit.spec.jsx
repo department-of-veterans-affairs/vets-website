@@ -26,7 +26,7 @@ describe('CareSummariesAndNotesListItem', () => {
       {
         initialState: state,
         reducers: reducer,
-        path: '/care-summaries-and-notes',
+        path: '/summaries-and-notes',
       },
     );
   };
