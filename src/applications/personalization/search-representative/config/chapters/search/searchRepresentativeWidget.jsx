@@ -92,7 +92,7 @@ const SearchRepresentativeWidget = ({
           );
         })}
         <VaPagination
-          onPageSelect={handleDataPagination}
+          onPageSelect={e => handleDataPagination(e.detail.page)}
           page={currentPage}
           pages={pages}
         />
