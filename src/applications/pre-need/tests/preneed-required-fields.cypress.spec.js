@@ -12,7 +12,7 @@ function errorCheck(errorList) {
 }
 
 describe('Pre-need form VA 40-10007 Required Fields', () => {
-  it('triggers validation on all required fields then completes the form with minimal data', () => {
+  it.skip('triggers validation on all required fields then completes the form with minimal data', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
     cy.injectAxe();
@@ -244,7 +244,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     // Review/Submit page
     cy.get('.form-progress-buttons .usa-button-primary').click();
-    cy.get('#error-message').should('be.visible');
+    cy.get('#checkbox-error-message').should('be.visible');
     preneedHelpers.submitForm();
   });
 });

@@ -14,11 +14,12 @@ const listPhase = phase =>
   phase === 8 ? 'Closed' : getPhaseDescription(phase);
 
 const getTitle = claim => {
+  const claimType = getClaimType(claim).toLowerCase();
   const updatedOn = moment(claim.attributes.phaseChangeDate).format(
     'MMMM D, YYYY',
   );
 
-  return `Claim for ${getClaimType(claim)}\n updated on ${updatedOn}`;
+  return `Claim for ${claimType}\n updated on ${updatedOn}`;
 };
 
 export default function ClaimsListItem({ claim }) {
