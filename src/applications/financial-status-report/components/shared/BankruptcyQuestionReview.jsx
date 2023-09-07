@@ -1,16 +1,27 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { setData } from 'platform/forms-system/src/js/actions';
 import ReviewPageHeader from './ReviewPageHeader';
 
 const BankruptcyQuestionReview = ({ data, goToPath, title }) => {
+  const dispatch = useDispatch();
   const { questions } = data;
+
+  // set reviewNavigation to true to show the review page alert
+  const onReviewClick = () => {
+    dispatch(
+      setData({
+        ...data,
+        reviewNavigation: true,
+      }),
+    );
+    goToPath('/bankruptcy-history');
+  };
 
   return (
     <>
-      <ReviewPageHeader
-        title="bankruptcy history"
-        goToPath={() => goToPath('/bankruptcy-history')}
-      />
+      <ReviewPageHeader title="bankruptcy history" goToPath={onReviewClick} />
       <div className="form-review-panel-page">
         <div className="form-review-panel-page-header-row">
           <h4 className="form-review-panel-page-header vads-u-font-size--h5">
