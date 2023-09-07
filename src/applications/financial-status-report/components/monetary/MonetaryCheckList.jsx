@@ -1,39 +1,54 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import PropTypes from 'prop-types';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { monetaryAssets as monetaryAssetList } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
+import ReviewPageNavigationAlert from '../alerts/ReviewPageNavigationAlert';
 
-const MonetaryCheckList = () => {
-  const dispatch = useDispatch();
-  const formData = useSelector(state => state.form.data);
-
-  const { assets, gmtData } = formData;
+const MonetaryCheckList = ({
+  data,
+  goBack,
+  goForward,
+  goToPath,
+  setFormData,
+  contentBeforeButtons,
+  contentAfterButtons,
+}) => {
+  const { assets, gmtData } = data;
+  const { reviewNavigation = false } = data;
   const { monetaryAssets = [] } = assets;
 
   const onChange = ({ target }) => {
     const { value } = target;
     return monetaryAssets.some(source => source.name === value)
-      ? dispatch(
-          setData({
-            ...formData,
-            assets: {
-              ...assets,
-              monetaryAssets: monetaryAssets.filter(
-                source => source.name !== value,
-              ),
-            },
-          }),
-        )
-      : dispatch(
-          setData({
-            ...formData,
-            assets: {
-              ...assets,
-              monetaryAssets: [...monetaryAssets, { name: value, amount: '' }],
-            },
-          }),
-        );
+      ? setFormData({
+          ...data,
+          assets: {
+            ...assets,
+            monetaryAssets: monetaryAssets.filter(
+              source => source.name !== value,
+            ),
+          },
+        })
+      : setFormData({
+          ...data,
+          assets: {
+            ...assets,
+            monetaryAssets: [...monetaryAssets, { name: value, amount: '' }],
+          },
+        });
+  };
+
+  const handleBackNavigation = () => {
+    if (reviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      goToPath('/review-and-submit');
+    } else {
+      goBack();
+    }
   };
 
   const isBoxChecked = option => {
@@ -72,14 +87,57 @@ const MonetaryCheckList = () => {
     : monetaryAssetList;
 
   return (
-    <Checklist
-      title={title}
-      prompt={prompt}
-      options={adjustedAssetList}
-      onChange={event => onChange(event)}
-      isBoxChecked={isBoxChecked}
-    />
+    <form
+      onSubmit={event => {
+        event.preventDefault();
+        goForward(data);
+      }}
+    >
+      <fieldset>
+        {reviewNavigation ? (
+          <ReviewPageNavigationAlert data={data} title="household income" />
+        ) : null}
+        <div className="vads-l-grid-container--full">
+          <Checklist
+            title={title}
+            prompt={prompt}
+            options={adjustedAssetList}
+            onChange={event => onChange(event)}
+            isBoxChecked={isBoxChecked}
+          />
+          {contentBeforeButtons}
+          <FormNavButtons
+            goBack={handleBackNavigation}
+            goForward={goForward}
+            submitToContinue
+          />
+          {contentAfterButtons}
+        </div>
+      </fieldset>
+    </form>
   );
+};
+
+MonetaryCheckList.propTypes = {
+  contentAfterButtons: PropTypes.object,
+  contentBeforeButtons: PropTypes.object,
+  data: PropTypes.shape({
+    assets: PropTypes.shape({
+      monetaryAssets: PropTypes.array,
+    }),
+    gmtData: PropTypes.shape({
+      incomeBelowGmt: PropTypes.bool,
+      isEligibleForStreamlined: PropTypes.bool,
+    }),
+    reviewNavigation: PropTypes.bool,
+    questions: PropTypes.shape({
+      isMarried: PropTypes.bool,
+    }),
+  }),
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
+  setFormData: PropTypes.func,
 };
 
 export default MonetaryCheckList;

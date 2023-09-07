@@ -1,18 +1,29 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { setData } from 'platform/forms-system/src/js/actions';
 import ReviewPageHeader from '../shared/ReviewPageHeader';
 
 const RealEstateQuestionReview = ({ data, goToPath, title }) => {
+  const dispatch = useDispatch();
   const { assets, questions } = data;
   const { monetaryAssets = [] } = assets;
+
+  // set reviewNavigation to true to show the review page alert
+  const onReviewClick = () => {
+    dispatch(
+      setData({
+        ...data,
+        reviewNavigation: true,
+      }),
+    );
+    goToPath('/monetary-asset-checklist');
+  };
 
   return (
     <>
       {monetaryAssets.length > 0 ? null : (
-        <ReviewPageHeader
-          title="household assets"
-          goToPath={() => goToPath('/monetary-asset-checklist')}
-        />
+        <ReviewPageHeader title="household assets" goToPath={onReviewClick} />
       )}
       <div className="form-review-panel-page">
         <div className="form-review-panel-page-header-row">
