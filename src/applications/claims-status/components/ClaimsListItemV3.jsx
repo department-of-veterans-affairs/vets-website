@@ -62,13 +62,13 @@ export default function ClaimsListItemV3({ claim }) {
   const humanStatus = getStatusDescription(status);
 
   return (
-    <va-card class="claim-list-item-container">
+    <va-card class="claim-list-item">
       <h3 className="claim-list-item-header vads-u-margin-bottom--2">
         {/* eslint-disable-next-line jsx-a11y/aria-role */}
         <span role="text">
           {inProgress ? <span className="usa-label">In Progress</span> : ''}
           {getTitle(claim)}
-          <span className="submitted-on">
+          <span className="vads-u-margin-top--0p5">
             Submitted on {formattedReceiptDate}
           </span>
         </span>
