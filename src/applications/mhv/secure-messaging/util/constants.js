@@ -1,5 +1,5 @@
 /** time to wait (in ms) after the user stops typing before initiating draft auto-save */
-export const draftAutoSaveTimeout = 5000;
+export const draftAutoSaveTimeout = 10000;
 
 export const Paths = {
   INBOX: '/inbox/',
