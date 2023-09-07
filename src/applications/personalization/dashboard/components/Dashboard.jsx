@@ -40,11 +40,11 @@ import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
 
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
-import ClaimsAndAppealsV2 from './claims-and-appeals-v2/ClaimsAndAppealsV2';
-import HealthCareV2 from './health-care-v2/HealthCareV2';
+import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
+import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
-import BenefitPaymentsV2 from './benefit-payments-v2/BenefitPaymentsV2';
-import DebtsV2 from './debts-v2/DebtsV2';
+import BenefitPayments from './benefit-payments/BenefitPayments';
+import Debts from './debts/Debts';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../../common/selectors';
@@ -94,7 +94,6 @@ const Dashboard = ({
   getPayments,
   isLOA3,
   payments,
-  shouldShowV2Dashboard,
   showLoader,
   showMPIConnectionError,
   showNameTag,
@@ -108,13 +107,6 @@ const Dashboard = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // TODO: remove this after My VA v2 is rolled out to 100% of users and My VA
-    // v1 is retired
-    recordEvent({
-      event: 'phased-roll-out-enabled',
-      'product-description': 'My VA v2',
-    });
-
     // use Drupal based Cerner facility data
     connectDrupalSourceOfTruthCerner(dispatch);
   }, []);
@@ -170,7 +162,7 @@ const Dashboard = ({
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}
       user={props.user}
-      showProfileErrorMessage={shouldShowV2Dashboard}
+      showProfileErrorMessage
     >
       <DowntimeNotification
         appTitle="user dashboard"
@@ -221,7 +213,7 @@ const Dashboard = ({
                 </div>
               ) : null}
 
-              {props.showClaimsAndAppeals && shouldShowV2Dashboard ? (
+              {props.showClaimsAndAppeals && (
                 <DowntimeNotification
                   dependencies={[
                     externalServices.mhv,
@@ -229,34 +221,23 @@ const Dashboard = ({
                   ]}
                   render={RenderClaimsWidgetDowntimeNotification}
                 >
-                  <ClaimsAndAppealsV2
-                    useLighthouseClaims={useLighthouseClaims}
-                  />
+                  <ClaimsAndAppeals useLighthouseClaims={useLighthouseClaims} />
                 </DowntimeNotification>
-              ) : null}
-
-              {isLOA3 && shouldShowV2Dashboard ? (
-                <HealthCareV2 isVAPatient={isVAPatient} />
-              ) : null}
-
-              {isLOA3 &&
-                shouldShowV2Dashboard && (
-                  <>
-                    <DebtsV2 />
-                    <BenefitPaymentsV2
-                      payments={payments}
-                      showNotifications={showNotifications}
-                    />
-                  </>
-                )}
-              {isLOA3 && shouldShowV2Dashboard ? (
-                <EducationAndTraining />
-              ) : null}
-              {isLOA3 && shouldShowV2Dashboard ? (
-                <SavedApplications />
-              ) : (
-                <ApplyForBenefits />
               )}
+
+              {isLOA3 && <HealthCare isVAPatient={isVAPatient} />}
+
+              {isLOA3 && (
+                <>
+                  <Debts />
+                  <BenefitPayments
+                    payments={payments}
+                    showNotifications={showNotifications}
+                  />
+                </>
+              )}
+              {isLOA3 && <EducationAndTraining />}
+              {isLOA3 ? <SavedApplications /> : <ApplyForBenefits />}
             </div>
           </div>
         )}
@@ -329,10 +310,6 @@ const mapStateToProps = state => {
     isLOA3 &&
     isVAPatient;
 
-  const shouldShowV2Dashboard = toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMyVADashboardV2
-  ];
-
   const useLighthouseClaims = toggleValues(state)[
     FEATURE_FLAG_NAMES.myVaUseLighthouseClaims
   ];
@@ -356,7 +333,6 @@ const mapStateToProps = state => {
     totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     useLighthouseClaims,
     user: state.user,
-    shouldShowV2Dashboard,
     showMPIConnectionError,
     showNotInMPIError,
     showNotifications,
@@ -386,7 +362,6 @@ Dashboard.propTypes = {
       accountNumber: PropTypes.string.isRequired,
     }),
   ),
-  shouldShowV2Dashboard: PropTypes.bool,
   showClaimsAndAppeals: PropTypes.bool,
   showHealthCare: PropTypes.bool,
   showLoader: PropTypes.bool,

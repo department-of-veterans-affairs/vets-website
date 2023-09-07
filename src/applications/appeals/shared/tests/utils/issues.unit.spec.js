@@ -230,6 +230,11 @@ describe('processContestableIssues', () => {
       '2020-12-01',
     ]);
   });
+  it('should filter out duplicate issues', () => {
+    const issues = getIssues(['2020-02-01', '2020-03-01', '2020-02-01']);
+    const result = processContestableIssues(issues);
+    expect(getDates(result)).to.deep.equal(['2020-03-01', '2020-02-01']);
+  });
 });
 
 describe('calculateIndexOffset', () => {
@@ -241,37 +246,179 @@ describe('calculateIndexOffset', () => {
 });
 
 describe('issuesNeedUpdating', () => {
-  const createEntry = (ratingIssueSubjectText, approxDecisionDate) => ({
+  const createEntry = (
+    ratingIssueSubjectText = '',
+    approxDecisionDate = '2000-01-01',
+  ) => ({
     attributes: {
       ratingIssueSubjectText,
       approxDecisionDate,
     },
   });
   it('should return true if array lengths are different', () => {
-    expect(issuesNeedUpdating([], [''])).to.be.true;
-    expect(issuesNeedUpdating([''], ['', ''])).to.be.true;
+    expect(issuesNeedUpdating([createEntry()], [createEntry('a')])).to.be.true;
+    expect(
+      issuesNeedUpdating(
+        [createEntry('a')],
+        [createEntry('a'), createEntry('b')],
+      ),
+    ).to.be.true;
+    expect(
+      issuesNeedUpdating(
+        [createEntry('a'), createEntry('b')],
+        [createEntry('a')],
+      ),
+    ).to.be.true;
   });
   it('should return true if content is different', () => {
     expect(
       issuesNeedUpdating(
-        [createEntry('test', '123'), createEntry('test2', '345')],
-        [createEntry('test', '123'), createEntry('test2', '346')],
+        [createEntry('test'), createEntry('test2')],
+        [createEntry('test'), createEntry('test2', '2001-01-01')],
       ),
     ).to.be.true;
     expect(
       issuesNeedUpdating(
-        [createEntry('test', '123'), createEntry('test3', '345')],
-        [createEntry('test', '123'), createEntry('test', '345')],
+        [createEntry('test'), createEntry('test3')],
+        [createEntry('test'), createEntry('test', '2001-01-01')],
       ),
     ).to.be.true;
   });
-  it('should return true if arrays are the same', () => {
+  it('should return false if arrays are the same, or same after removing duplicates', () => {
     expect(
       issuesNeedUpdating(
-        [createEntry('test', '123'), createEntry('test2', '345')],
-        [createEntry('test', '123'), createEntry('test2', '345')],
+        [createEntry('test'), createEntry('test2')],
+        [createEntry('test'), createEntry('test2')],
       ),
     ).to.be.false;
+    expect(
+      issuesNeedUpdating(
+        [
+          createEntry('test'),
+          createEntry('test'),
+          createEntry('test2'),
+          createEntry('test2'),
+        ],
+        [createEntry('test'), createEntry('test2')],
+      ),
+    ).to.be.false;
+  });
+
+  it('should sort full data and return false', () => {
+    const existing = [
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 5',
+          approxDecisionDate: '2023-05-05',
+          decisionIssueId: 5,
+          ratingIssueReferenceId: '5',
+          ratingDecisionReferenceId: '5',
+          ratingIssuePercentNumber: '50',
+        },
+        'view:selected': false,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 4',
+          approxDecisionDate: '2023-04-04',
+          decisionIssueId: 4,
+          ratingIssueReferenceId: '4',
+        },
+        'view:selected': false,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 3',
+          approxDecisionDate: '2023-03-03',
+          ratingIssueReferenceId: '3',
+          ratingDecisionReferenceId: '3',
+        },
+        'view:selected': false,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 2',
+          approxDecisionDate: '2023-02-02',
+          decisionIssueId: 2,
+          ratingDecisionReferenceId: '2',
+        },
+        'view:selected': false,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 1',
+          approxDecisionDate: '2023-01-01',
+          decisionIssueId: 1,
+          ratingIssuePercentNumber: '1',
+        },
+        'view:selected': false,
+      },
+    ];
+    const loaded = [
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 3',
+          approxDecisionDate: '2023-03-03',
+          ratingIssueReferenceId: '3',
+          ratingDecisionReferenceId: '3',
+          description: '',
+        },
+        'view:selected': false,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 2',
+          approxDecisionDate: '2023-02-02',
+          decisionIssueId: 2,
+          ratingIssueReferenceId: '2',
+          description: '',
+        },
+        'view:selected': false,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 5',
+          approxDecisionDate: '2023-05-05',
+          decisionIssueId: 50,
+          ratingIssuePercentNumber: '5',
+          description: '',
+        },
+        'view:selected': true,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 1',
+          approxDecisionDate: '2023-01-01',
+          decisionIssueId: 1,
+          ratingIssueReferenceId: '1',
+          ratingDecisionReferenceId: '1',
+          ratingIssuePercentNumber: '10',
+          description: '',
+        },
+        'view:selected': false,
+      },
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'issue 4',
+          approxDecisionDate: '2023-04-04',
+          decisionIssueId: 4,
+          ratingDecisionReferenceId: '4',
+          description: '',
+        },
+        'view:selected': false,
+      },
+    ];
+    expect(issuesNeedUpdating(loaded, existing)).to.be.false;
   });
 });
 

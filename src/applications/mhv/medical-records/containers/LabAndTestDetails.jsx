@@ -78,6 +78,7 @@ const LabAndTestDetails = () => {
         message="Loading..."
         setFocus
         data-testid="loading-indicator"
+        class="loading-indicator"
       />
     );
   }

@@ -7,7 +7,7 @@ import vapService from '~/platform/user/profile/vap-svc/reducers';
 import { Edit } from '../../../components/edit/Edit';
 
 describe('<Edit>', () => {
-  it('renders form with toggle `profileUseFieldEditingPage` turned ON and valid fieldName query present', () => {
+  it('renders form with toggle `profileUseFieldEditingPage` turned ON and valid fieldName query present', async () => {
     const view = renderWithStoreAndRouter(<Edit />, {
       initialState: {
         featureToggles: {
@@ -19,12 +19,14 @@ describe('<Edit>', () => {
         '/profile/edit?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications',
     });
 
-    expect(view.getByText('Add or update your mobile phone number')).to.exist;
+    expect(await view.findByText('Add or update your mobile phone number')).to
+      .exist;
 
-    expect(view.getByText('Mobile phone number (U.S. numbers only)')).to.exist;
+    expect(await view.findByText('Mobile phone number (U.S. numbers only)')).to
+      .exist;
   });
 
-  it('renders fallback with toggle `profileUseFieldEditingPage` turned ON and invalid fieldName query present', () => {
+  it('renders fallback with toggle `profileUseFieldEditingPage` turned ON and invalid fieldName query present', async () => {
     const view = renderWithStoreAndRouter(<Edit />, {
       initialState: {
         featureToggles: {
@@ -36,12 +38,12 @@ describe('<Edit>', () => {
         '/profile/edit?fieldName=someFakeField&returnPath=%2Fprofile%2Fnotifications',
     });
 
-    expect(view.queryByText(/Edit your profile information/i)).to.exist;
-    expect(view.getByText(/Choose a section to get started/i)).to.exist;
+    expect(await view.findByText(/Edit your profile information/i)).to.exist;
+    expect(await view.findByText(/Choose a section to get started/i)).to.exist;
   });
 
   // this should never happen, but just in case, we want to have some fallback behavior
-  it('renders fallback with toggle `profileUseFieldEditingPage` turned OFF', () => {
+  it('renders fallback with toggle `profileUseFieldEditingPage` turned OFF', async () => {
     const view = renderWithStoreAndRouter(<Edit />, {
       initialState: {
         featureToggles: {
@@ -53,11 +55,11 @@ describe('<Edit>', () => {
         '/profile/edit?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications',
     });
 
-    expect(view.queryByText(/Edit your profile information/i)).to.exist;
-    expect(view.getByText(/Choose a section to get started/i)).to.exist;
+    expect(await view.findByText(/Edit your profile information/i)).to.exist;
+    expect(await view.findByText(/Choose a section to get started/i)).to.exist;
   });
 
-  it('renders fallback with toggle `profileUseFieldEditingPage` turned ON and invalid returnPath in query params', () => {
+  it('renders fallback with toggle `profileUseFieldEditingPage` turned ON and invalid returnPath in query params', async () => {
     const view = renderWithStoreAndRouter(<Edit />, {
       initialState: {
         featureToggles: {
@@ -69,9 +71,10 @@ describe('<Edit>', () => {
     });
 
     // breadcrumb should fall back to profile root
-    expect(view.queryByText(/Back to profile/i)).to.exist;
+    expect(await view.findByText(/Back to profile/i)).to.exist;
 
     // since the fieldName is valid, we should still render the correct form
-    expect(view.getByText('Add or update your mobile phone number')).to.exist;
+    expect(await view.findByText('Add or update your mobile phone number')).to
+      .exist;
   });
 });

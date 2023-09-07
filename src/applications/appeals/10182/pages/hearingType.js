@@ -1,6 +1,6 @@
 import {
   hearingTypeTitle,
-  hearingTypeReviewField,
+  HearingTypeReviewField,
   hearingTypeContent,
   missingHearingTypeErrorMessage,
 } from '../content/hearingType';
@@ -10,7 +10,7 @@ const hearingType = {
   uiSchema: {
     hearingTypePreference: {
       'ui:title': hearingTypeTitle,
-      'ui:reviewField': hearingTypeReviewField,
+      'ui:reviewField': HearingTypeReviewField,
       'ui:widget': 'radio',
       'ui:required': needsHearingType,
       'ui:options': {

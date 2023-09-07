@@ -622,10 +622,17 @@ describe('hca helpers', () => {
           });
         });
 
-        describe('when `outputMiddle` is set to `false`', () => {
+        describe('when `outputMiddle` is set to `true`', () => {
           it('should return first name, middle name, last name and suffix', () => {
             expect(normalizeFullName(fullName, true)).to.equal(
               'John William Smith Jr.',
+            );
+          });
+
+          it('should return first name, last name and suffix when middle name is `null`', () => {
+            const fullNameWithoutMiddle = { ...fullName, middle: null };
+            expect(normalizeFullName(fullNameWithoutMiddle, true)).to.equal(
+              'John Smith Jr.',
             );
           });
         });

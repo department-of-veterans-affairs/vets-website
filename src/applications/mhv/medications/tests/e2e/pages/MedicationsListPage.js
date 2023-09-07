@@ -1,5 +1,8 @@
+import prescriptions from '../fixtures/prescriptions.json';
+
 class MedicationsListPage {
   clickGotoMedicationsLink = () => {
+    cy.intercept('GET', '/my-health/medications', prescriptions);
     cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
   };
 
@@ -27,6 +30,12 @@ class MedicationsListPage {
       'Print list',
     );
     cy.contains('Print list').should('be.enabled');
+  };
+
+  verifyNavigationToListPageAfterClickingBreadcrumbMedications = () => {
+    cy.get('[data-testid="List-Page-Title"]')
+      .should('have.text', 'Medications')
+      .should('be.visible');
   };
 }
 export default MedicationsListPage;

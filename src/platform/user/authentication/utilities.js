@@ -268,7 +268,10 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
   // Do not overwite an existing returnUrl for VERIFY attempts
-  if (!(existingReturnUrl && clickedEvent === AUTH_EVENTS.VERIFY)) {
+  if (
+    !(existingReturnUrl && clickedEvent === AUTH_EVENTS.VERIFY) &&
+    application !== CSP_IDS.MHV
+  ) {
     createAndStoreReturnUrl();
   }
 

@@ -5,7 +5,8 @@ export default function GenderIdentityAdditionalInfo() {
     <>
       <p className="vads-u-color--gray-medium vads-u-display--block vads-u-font-weight--normal vads-u-margin--0 vads-u-width--full">
         You can change your selection at any time. If you decide you no longer
-        want to share your gender identity, select Prefer not to answer.
+        want to share your gender identity, select{' '}
+        <strong>Prefer not to answer</strong>.
       </p>
       <va-additional-info
         class="vads-u-margin-top--2"

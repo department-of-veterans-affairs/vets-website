@@ -127,13 +127,12 @@ const PayrollDeductionInputList = props => {
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0">Your job at {employerName}</h3>
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+            How much do you pay monthly for each of your payroll deductions?
+          </p>
         </legend>
-        <p>How much do you pay monthly for each of your payroll deductions?</p>
         {selectedDeductions?.map((deduction, key) => (
-          <div
-            key={deduction.name + key}
-            className="input-size-3 vads-u-margin-y--2"
-          >
+          <div key={deduction.name + key}>
             <va-number-input
               label={deduction.name}
               name={deduction.name}
@@ -143,6 +142,7 @@ const PayrollDeductionInputList = props => {
               onInput={onChange}
               required
               currency
+              width="md"
               error={
                 errors.includes(deduction.name)
                   ? 'Enter a valid dollar amount.'

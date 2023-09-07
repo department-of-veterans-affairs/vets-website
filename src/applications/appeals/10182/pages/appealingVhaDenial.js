@@ -3,7 +3,7 @@ import { content } from '../content/appealingVhaDenial';
 const appealingVhaDenial = {
   uiSchema: {
     'ui:title': content.title,
-    appealingVhaDenial: {
+    appealingVHADenial: {
       'ui:title': content.label,
       'ui:widget': 'yesNo',
       'ui:options': {
@@ -15,7 +15,7 @@ const appealingVhaDenial = {
   schema: {
     type: 'object',
     properties: {
-      appealingVhaDenial: {
+      appealingVHADenial: {
         type: 'boolean',
       },
     },

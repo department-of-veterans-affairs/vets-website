@@ -11,6 +11,60 @@ class MedicationsDetailsPage {
     });
   };
 
+  verifyRefillPrescriptionsText = () => {
+    cy.contains('Refill prescription');
+  };
+
+  verifyPrescriptionsNumber = PrescriptionsNumber => {
+    cy.get('[data-testid="prescription-number"]').should(
+      'have.text',
+      PrescriptionsNumber,
+    );
+  };
+
+  verifyPrescriptionsName = prescriptionDetails => {
+    cy.get('[data-testid="prescription-name"]').should(
+      'contain',
+      prescriptionDetails,
+    );
+  };
+
+  verifyPrescriptionsStatus = PrescriptionsStatus => {
+    cy.get('[data-testid="status"]').should('have.text', PrescriptionsStatus);
+  };
+
+  verifyPrescriptionsRefillsRemaining = PrescriptionsRefillsRemaining => {
+    cy.get('[data-testid="refills-left"]').should(
+      'have.text',
+      PrescriptionsRefillsRemaining,
+    );
+  };
+
+  verifyPrescriptionsexpirationDate = () => {
+    cy.get('[data-testid="expiration-date"]').should(
+      'have.text',
+      'April 14, 2024',
+    );
+  };
+
+  verifyPrescriptionsorderedDate = () => {
+    cy.get('[datat-testid="ordered-date"]').should(
+      'have.text',
+      'April 14, 2023',
+    );
+  };
+
+  verifyPrescriptionsfacilityName = PrescriptionsfacilityName => {
+    cy.get('[data-testid="facility-name"]').should(
+      'have.text',
+      PrescriptionsfacilityName,
+    );
+  };
+
+  verifyWhatDoesThisStatusMeanText = () => {
+    cy.contains('What does this status mean?');
+  };
+
   clickMedicationHistoryAndDetailsLink = prescriptionDetails => {
     cy.intercept(
       'GET',
@@ -22,6 +76,12 @@ class MedicationsDetailsPage {
     cy.get('[data-testid ="medications-history-details-link"]')
       .first()
       .click({ force: true });
+  };
+
+  clickMedicationsBreadcrumbsOnDetailsPage = () => {
+    cy.get('#va-breadcrumbs-list-2 > li:nth-child(1) > a').click({
+      force: true,
+    });
   };
 }
 export default MedicationsDetailsPage;

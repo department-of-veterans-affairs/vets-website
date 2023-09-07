@@ -1,13 +1,19 @@
 import React from 'react';
 import moment from 'moment';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+
 import { recordEventOnce } from 'platform/monitoring/record-event';
 
 // EVSS returns dates like '2014-07-28T19:53:45.810+0000'
 const evssDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
-const outputDateFormat = 'MMMM DD, YYYY';
+const outputDateFormat = 'dddd MMMM Do[,] Y [at] h[:]mm a';
+// Adding 1 hour to the displayDate output will display the time in the ET timezone as the returned time and date
+// is in the central timezone
 const displayDate = dateString =>
-  moment(dateString, evssDateFormat).format(outputDateFormat);
+  moment(dateString, evssDateFormat)
+    .add(1, 'hours')
+    .format(outputDateFormat);
 
 export const itfMessage = (headline, content, status) => (
   // Inline style to match .full-page-alert bottom margin because usa-grid > :last-child has a
@@ -44,11 +50,11 @@ const expander = (
 export const claimsIntakeAddress = (
   <p className="va-address-block vads-u-font-size--base">
     Department of Veterans Affairs
-    <br />
+    <br role="presentation" />
     Claims Intake Center
-    <br />
+    <br role="presentation" />
     PO Box 4444
-    <br />
+    <br role="presentation" />
     Janesville, WI 53547-4444
   </p>
 );
@@ -57,27 +63,15 @@ export const itfError = (
   <div>
     <div className="vads-u-margin-bottom--2">
       <p className="vads-u-font-size--base">
-        Due to the high volume of submissions we are receiving, you can’t
-        continue with this claim form at this time - but we have received your
-        intent to file and saved your effective date for benefits.
+        We’re sorry. Your Intent to File request didn’t go through because
+        something went wrong on our end. For help creating an Intent to File a
+        Claim for Compensation, please call Veterans Benefits Assistance at{' '}
+        <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
+        8:00 a.m. to 9:00 p.m. ET. Or, you can fill out VA Form 21-0966 and
+        submit it to:
       </p>
-      Here’s what this means for you:
-      <ul>
-        <li>You have 1 year from today to complete your claim.</li>
-        <li>
-          If we determine that you’re eligible for disability compensation,
-          we’ll use today to determine the effective date of your benefits.
-        </li>
-        <li>
-          If you’re filing a claim based on the PACT Act, you may still be
-          eligible to receive benefits backdated to August 10, 2022.
-        </li>
-      </ul>
-      <strong>Note:</strong> If you come back to this form in the next few days
-      and continue to get this message, don’t worry. Your intent to file date is
-      set for today.
+      {claimsIntakeAddress}
     </div>
-    {expander}
   </div>
 );
 
@@ -90,15 +84,15 @@ export const itfSuccess = (
     <p className="vads-u-font-size--base">
       Thank you for submitting your Intent to File request for disability
       compensation. Your Intent to File will expire on{' '}
-      {displayDate(expirationDate)}.
+      <strong>{displayDate(expirationDate)} ET</strong>.
     </p>
     {hasPreviousItf && (
       <p className="vads-u-font-size--base">
         <strong>Please note:</strong> We found a previous Intent to File request
-        in our records that expired on {displayDate(prevExpirationDate)}. This
-        ITF might have been from an application you started, but didn’t finish
-        before the ITF expired. Or, it could have been from a claim you already
-        submitted.
+        in our records that expired on{' '}
+        <strong>{displayDate(prevExpirationDate)} ET</strong>. This ITF might
+        have been from an application you started, but didn’t finish before the
+        ITF expired. Or, it could have been from a claim you already submitted.
       </p>
     )}
     {expander}
@@ -110,8 +104,9 @@ export const itfActive = expirationDate => (
     <p className="vads-u-font-size--base">
       Our records show that you already have an Intent to File for disability
       compensation. Your Intent to File will expire on{' '}
-      {displayDate(expirationDate)}. You’ll need to submit your claim by this
-      date in order to receive payments starting from your effective date.
+      <strong>{displayDate(expirationDate)} ET</strong>. You’ll need to submit
+      your claim by this date in order to receive payments starting from your
+      effective date.
     </p>
     {expander}
   </div>

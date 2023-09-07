@@ -8,7 +8,7 @@ import {
 import {
   noneSelected,
   maxSelectedErrorMessage,
-} from '../content/contestableIssues';
+} from '../../shared/content/contestableIssues';
 import { errorMessages, MAX_LENGTH } from '../constants';
 import { validateDate } from './date';
 

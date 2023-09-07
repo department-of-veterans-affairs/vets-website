@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PrintHeader from '../shared/PrintHeader';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
 import { nameFormat, dateFormat, sendErrorToSentry } from '../../util/helpers';
+import { updatePageTitle } from '../../../shared/util/helpers';
+import { pageTitles } from '../../util/constants';
 
 const PathologyDetails = props => {
   const { record, fullState } = props;
@@ -16,6 +19,16 @@ const PathologyDetails = props => {
   const user = useSelector(state => state.user.profile);
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
+
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    const titleDate = formattedDate ? `${formattedDate} - ` : '';
+    updatePageTitle(
+      `${titleDate}${record.name} - ${
+        pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
+      }`,
+    );
+  }, []);
 
   const generatePathologyPdf = async () => {
     const pdfData = {
@@ -87,13 +100,23 @@ const PathologyDetails = props => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">{record.name}</h1>
+          <h1
+            className="vads-u-margin-bottom--0"
+            aria-describedby="pathology-date"
+          >
+            {record.name}
+          </h1>
           <section className="set-width-486">
             <div className="time-header">
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              <h2
+                className="vads-u-font-size--base vads-u-font-family--sans"
+                id="pathology-date"
+              >
                 Date:{' '}
+                <span className="vads-u-font-weight--normal">
+                  {formattedDate}
+                </span>
               </h2>
-              <p>{formattedDate}</p>
             </div>
             <div className="no-print">
               <PrintDownload list download={generatePathologyPdf} />

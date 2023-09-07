@@ -13,6 +13,7 @@ const initialState = {
     folderId: undefined,
     page: 1,
   },
+  isLoading: false,
 };
 
 export const threadsReducer = (state = initialState, action) => {
@@ -24,11 +25,13 @@ export const threadsReducer = (state = initialState, action) => {
           const thrdAttr = thread.attributes;
           return { ...thrdAttr };
         }),
+        isLoading: false,
       };
     case Actions.Thread.GET_EMPTY_LIST:
       return {
         ...state,
         threadList: action.response,
+        isLoading: false,
       };
     case Actions.Thread.CLEAR_LIST:
       return {
@@ -52,6 +55,11 @@ export const threadsReducer = (state = initialState, action) => {
       return {
         ...state,
         threadSort: initialState.threadSort,
+      };
+    case Actions.Thread.IS_LOADING:
+      return {
+        ...state,
+        isLoading: action.payload,
       };
     default:
       return state;

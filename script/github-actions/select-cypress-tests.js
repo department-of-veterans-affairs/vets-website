@@ -14,9 +14,9 @@ const {
 const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ')
   : [];
-const ALLOW_LIST = process.env.ALLOW_LIST
-  ? JSON.parse(process.env.ALLOW_LIST)
-  : [];
+const ALLOW_LIST = JSON.parse(
+  fs.readFileSync(path.resolve(`${process.env.TEST_TYPE}_allow_list.json`)),
+);
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
@@ -32,14 +32,6 @@ function getImports(filePath) {
 
 function getAppNameFromFilePath(filePath) {
   return filePath.split('/')[2];
-}
-
-function getDaysSinceDate(diff) {
-  const daysSinceDate =
-    (new Date().getTime() - new Date(diff).getTime()) / (1000 * 3600 * 24);
-  return daysSinceDate < 1
-    ? Math.ceil(daysSinceDate)
-    : Math.round(daysSinceDate);
 }
 
 /* Function takes an import reference and returns the path
@@ -272,10 +264,6 @@ function main() {
   const allDisallowedTestPaths = ALLOW_LIST.filter(
     spec => spec.allowed === false,
   ).map(spec => spec.spec_path);
-  const allDisallowedTestsWithWarnings = ALLOW_LIST.filter(
-    spec => spec.allowed === false && getDaysSinceDate(spec.warned_at) > 60,
-  ).map(spec => spec.spec_path);
-  console.log(allDisallowedTestsWithWarnings);
   // groups of tests based on test selection and filtering the groups from the allow list
   const testsSelectedByTestSelection = selectTests(graph, CHANGED_FILE_PATHS);
   const newTests = testsSelectedByTestSelection.filter(
@@ -289,20 +277,6 @@ function main() {
     test =>
       CHANGED_FILE_PATHS.includes(test.substring(test.indexOf('src/'))) &&
       !newTests.includes(test),
-  );
-  const appsAdjusted = CHANGED_FILE_PATHS.map(specPath =>
-    specPath
-      .split('/')
-      .slice(specPath.indexOf('src'), 3)
-      .join('/'),
-  );
-  const blockedPathsWithCodeChanges = allDisallowedTestsWithWarnings.filter(
-    entry => appsAdjusted.some(appPath => entry.includes(appPath)),
-  );
-
-  core.exportVariable(
-    'E2E_BLOCKED_PATHS',
-    JSON.stringify(blockedPathsWithCodeChanges),
   );
 
   const testsToRunNormally = testsSelectedByTestSelection.filter(

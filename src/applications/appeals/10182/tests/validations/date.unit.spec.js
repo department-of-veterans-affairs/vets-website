@@ -1,9 +1,10 @@
 import { expect } from 'chai';
 
-import { getDate } from '../../utils/dates';
 import { validateDate, isValidDate } from '../../validations/date';
 import { issueErrorMessages } from '../../content/addIssue';
 import { SHOW_PART3 } from '../../constants';
+
+import { getDate } from '../../../shared/utils/dates';
 
 describe('validateDate & isValidDate', () => {
   let errorMessage = [];

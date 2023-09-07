@@ -82,6 +82,7 @@ import createEnrollmentVerificationLoginWidget from './view-enrollment-verificat
 import createEducationLettersLoginWidget from './view-education-letters-login/createEducationLettersLoginWidget';
 import create2110210Access from './simple-forms/21-10210/entry';
 import create214142Access from './simple-forms/21-4142/entry';
+import create21P0847Access from './simple-forms/21P-0847/entry';
 import create264555Access from './simple-forms/26-4555/entry';
 
 // Set the app name header when using the apiRequest helper
@@ -218,6 +219,7 @@ createEducationLettersLoginWidget(
 );
 create2110210Access(store, widgetTypes.FORM_2110210_CTA);
 create214142Access(store, widgetTypes.FORM_214142_CTA);
+create21P0847Access(store, widgetTypes.FORM_21P0847_CTA);
 create264555Access(store, widgetTypes.FORM_264555_CTA);
 
 // Create the My VA Login widget only on the homepage.

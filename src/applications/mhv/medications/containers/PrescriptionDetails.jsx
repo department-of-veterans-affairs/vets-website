@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import {
-  fillPrescription,
-  getPrescriptionDetails,
-} from '../actions/prescriptions';
+import { getPrescriptionDetails } from '../actions/prescriptions';
 import PrintHeader from './PrintHeader';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
+import TrackingInfo from '../components/shared/TrackingInfo';
+import { updatePageTitle } from '../../shared/util/helpers';
+import FillRefillButton from '../components/shared/FillRefillButton';
 
 const PrescriptionDetails = () => {
   const currentDate = new Date();
@@ -27,14 +27,12 @@ const PrescriptionDetails = () => {
         setBreadcrumbs(
           [
             {
-              url: '/my-health/medications/prescriptions/',
+              url: '/my-health/medications/',
               label: 'Medications',
             },
           ],
           {
-            url: `/my-health/medications/prescriptions/${
-              prescription.prescriptionId
-            }`,
+            url: `/my-health/medications/${prescription.prescriptionId}`,
             label: prescription.prescriptionName,
           },
         ),
@@ -46,6 +44,7 @@ const PrescriptionDetails = () => {
     () => {
       if (prescription) {
         focusElement(document.querySelector('h1'));
+        updatePageTitle(prescription.prescriptionName);
       }
     },
     [prescription],
@@ -147,6 +146,9 @@ const PrescriptionDetails = () => {
     );
   };
 
+  const refillHistory = prescription?.rxRfRecords?.[0]?.[1];
+  const shippedOn = prescription?.trackingList?.[0]?.[1];
+
   useEffect(
     () => {
       if (prescriptionId) dispatch(getPrescriptionDetails(prescriptionId));
@@ -159,11 +161,16 @@ const PrescriptionDetails = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="page-title">{prescription.prescriptionName}</h1>
-          <p>
+          <h1 aria-describedby="last-filled" data-testid="prescription-name">
+            {prescription.prescriptionName}
+          </h1>
+          <p
+            id="last-filled"
+            className="title-last-filled-on vads-u-font-family--sans"
+            data-testid="rx-last-filled-date"
+          >
             Last filled on {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
           </p>
-
           <div className="no-print">
             <PrintDownload download={handleDownloadPDF} />
             <va-additional-info trigger="What to know about downloading records">
@@ -183,49 +190,27 @@ const PrescriptionDetails = () => {
           </div>
 
           <div className="medication-details-div vads-u-margin-top--2 vads-u-margin-bottom--3">
+            {shippedOn?.[0] && (
+              <TrackingInfo
+                {...shippedOn[0]}
+                prescriptionName={prescription.prescriptionName}
+              />
+            )}
             <h2 className="vads-u-margin-y--2 no-print">
               About your prescription
             </h2>
-            <div className="no-print">
-              {prescription.error && (
-                <div>
-                  <va-alert status="error" visible>
-                    <p className="vads-u-margin-y--0">
-                      We didn’t get your refill request. Try again.
-                    </p>
-                    <p className="vads-u-margin-y--0">
-                      If it still doesn’t work, call your VA pharmacy
-                      {prescription?.phoneNumber ? (
-                        <>
-                          <span> at </span>
-                          <va-telephone contact={prescription.phoneNumber} />
-                          <span>
-                            (<va-telephone tty contact="711" />)
-                          </span>
-                        </>
-                      ) : (
-                        <>.</>
-                      )}
-                    </p>
-                  </va-alert>
-                </div>
-              )}
-              <va-button
-                text="Refill prescription"
-                onClick={() =>
-                  dispatch(fillPrescription(prescription.prescriptionId))
-                }
-              />
-            </div>
+            <FillRefillButton {...prescription} />
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescription number
             </h3>
-            <p>{prescription.prescriptionNumber}</p>
+            <p data-testid="prescription-number">
+              {prescription.prescriptionNumber}
+            </p>
 
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Status
             </h3>
-            <div>
+            <div data-testid="status">
               {prescription.refillStatus === 'refillinprocess'
                 ? 'Refill in process'
                 : prescription.refillStatus}
@@ -248,15 +233,19 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Refills left
             </h3>
-            <p>{prescription.refillRemaining}</p>
+            <p data-testid="refills-left">{prescription.refillRemaining}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed on
             </h3>
-            <p>{dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}</p>
+            <p datat-testid="ordered-date">
+              {dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Order refills by this expiration date
             </h3>
-            <p>{dateFormat(prescription.expirationDate, 'MMMM D, YYYY')}</p>
+            <p data-testid="expiration-date">
+              {dateFormat(prescription.expirationDate, 'MMMM D, YYYY')}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed by
             </h3>
@@ -270,7 +259,7 @@ const PrescriptionDetails = () => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
             </h3>
-            <p>{prescription.facilityName}</p>
+            <p data-testid="facility-name">{prescription.facilityName}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Phone number
             </h3>
@@ -313,35 +302,35 @@ const PrescriptionDetails = () => {
 
           <div className="medication-details-div vads-u-margin-bottom--8">
             <h2 className="vads-u-margin-top--3">Refill history</h2>
-            {prescription.rxRfRecords && prescription.rxRfRecords.length > 0 ? (
-              prescription.rxRfRecords.map(entry => (
-                <div key={entry.requestDate}>
+            {refillHistory && refillHistory.length > 0 ? (
+              refillHistory.map((entry, i) => (
+                <div key={entry.id}>
                   <h3 className="vads-u-font-size--lg vads-u-font-family--sans">
-                    {dateFormat(entry.requestDate, 'MMMM YYYY')}
+                    {i + 1 === refillHistory.length
+                      ? 'Original Fill'
+                      : `Refill #${refillHistory.length - i - 1}`}
                   </h3>
-                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
-                    Requested on
-                  </h4>
-                  <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.requestDate, 'MMMM D, YYYY [at] h:mm z')}
-                  </p>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                     Filled by pharmacy on
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.dispenseDate, 'MMMM D, YYYY [at] h:mm z')}
+                    {dateFormat(entry.dispensedDate, 'MMMM D, YYYY')}
                   </p>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                     Shipped on
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.shippedDate, 'MMMM D, YYYY [at] h:mm z')}
+                    {dateFormat(
+                      shippedOn?.[i]?.completeDateTime,
+                      'MMMM D, YYYY [at] h:mm z',
+                    )}
                   </p>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                     Description of the medication or supply
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {dateFormat(entry.description, 'MMMM D, YYYY [at] h:mm z')}
+                    {/* TODO: Not yet available */}
+                    None noted
                   </p>
                   <div className="no-print">
                     <va-additional-info trigger="Review image">

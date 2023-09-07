@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
@@ -25,7 +26,10 @@ import {
 import NewTabAnchor from '../../components/NewTabAnchor';
 import useFormState from '../../hooks/useFormState';
 import { FACILITY_TYPES, FLOW_TYPES, GA_PREFIX } from '../../utils/constants';
-import { selectFeatureAcheronService } from '../../redux/selectors';
+import {
+  selectFeatureAcheronService,
+  selectFeatureBreadcrumbUrlUpdate,
+} from '../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -101,7 +105,11 @@ const phoneConfig = phoneUI('Your phone number');
 const pageKey = 'contactInfo';
 const pageTitle = 'Confirm your contact information';
 
-export default function ContactInfoPage() {
+export default function ContactInfoPage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
   const history = useHistory();
   const dispatch = useDispatch();
   const pageChangeInProgress = useSelector(selectPageChangeInProgress);
@@ -118,6 +126,9 @@ export default function ContactInfoPage() {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     recordPopulatedEvents(email, mobilePhone || homePhone);
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   const uiSchema = {
@@ -224,3 +235,7 @@ export default function ContactInfoPage() {
     </div>
   );
 }
+
+ContactInfoPage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

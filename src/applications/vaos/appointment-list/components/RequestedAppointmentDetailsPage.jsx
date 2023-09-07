@@ -22,6 +22,7 @@ import {
   getVAAppointmentLocationId,
 } from '../../services/appointment';
 import { selectRequestedAppointmentDetails } from '../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
@@ -63,6 +64,9 @@ export default function RequestedAppointmentDetailsPage() {
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
   );
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const showBackLink = useToggleValue(
     TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink,
@@ -81,9 +85,13 @@ export default function RequestedAppointmentDetailsPage() {
         const typeOfCareText = lowerCase(
           appointment?.type?.coding?.[0]?.display,
         );
-        const title = `${isCanceled ? 'Canceled' : 'Pending'} ${
+        let title = `${isCanceled ? 'Canceled' : 'Pending'} ${
           isCC ? 'Community care' : 'VA'
         } ${typeOfCareText} appointment`;
+
+        if (featureBreadcrumbUrlUpdate) {
+          title = title.concat(` | Veterans Affairs`);
+        }
 
         document.title = title;
       }

@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { waitFor } from '@testing-library/react';
+import { beforeEach } from 'mocha';
 import LabsAndTests from '../../containers/LabsAndTests';
 import reducer from '../../reducers';
 import labsAndTests from '../fixtures/labsAndTests.json';
@@ -17,37 +19,35 @@ describe('LabsAndTests list container', () => {
     },
   };
 
-  const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<LabsAndTests />, {
-      initialState: state,
+  let screen = null;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
       reducers: reducer,
       path: '/labs-and-tests',
     });
-  };
+  });
 
   it('renders without errors', () => {
-    const screen = setup();
     expect(screen.getByText('Lab and test results', { exact: true })).to.exist;
   });
 
   it('displays a subheading', () => {
-    const screen = setup();
     expect(
-      screen.getByText(
-        'Review lab and test results in your VA medical records.',
-        { exact: false },
-      ),
+      screen.getByText('Most lab and test results are available', {
+        exact: false,
+      }),
     ).to.exist;
   });
 
   it('displays a count of the records', () => {
-    const screen = setup();
     expect(screen.getByText('Showing 1–10 of 13 records', { exact: false })).to
       .exist;
   });
 
-  it('displays a list of records', () => {
-    const screen = setup();
-    expect(screen.getAllByTestId('record-list-item').length).to.eq(10);
+  it('displays a list of records', async () => {
+    await waitFor(() => {
+      expect(screen.getAllByTestId('record-list-item').length).to.eq(10);
+    });
   });
 });

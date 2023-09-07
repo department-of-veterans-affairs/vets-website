@@ -33,14 +33,14 @@ const routes = (
       </Route>
       <Route
         exact
-        path="/labs-and-tests/radiology-images/:labId"
+        path="/labs-and-tests/:labId/images"
         key="RadiologyImagesList"
       >
         <RadiologyImagesList />
       </Route>
       <Route
         exact
-        path="/labs-and-tests/radiology-images/:labId/:imageId"
+        path="/labs-and-tests/:labId/images/:imageId"
         key="RadiologySingleImage"
       >
         <RadiologySingleImage />

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
-import { openModal } from '@@vap-svc/actions';
+import { openModal, updateFormFieldWithSchema } from '@@vap-svc/actions';
 
 import InitializeVAPServiceIDContainer from '~/platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
 import ProfileInformationFieldController from '~/platform/user/profile/vap-svc/components/ProfileInformationFieldController';
@@ -16,6 +16,8 @@ import { EditFallbackContent } from './EditFallbackContent';
 import { EditContext } from './EditContext';
 import { EditConfirmCancelModal } from './EditConfirmCancelModal';
 import { EditBreadcrumb } from './EditBreadcrumb';
+import getProfileInfoFieldAttributes from '../../util/getProfileInfoFieldAttributes';
+import { getInitialFormValues } from '../../util/contact-information/formValues';
 
 const useQuery = () => {
   const { search } = useLocation();
@@ -78,22 +80,49 @@ export const Edit = () => {
     hasVAPServiceConnectionError(state),
   );
 
-  const fieldData = useSelector(state =>
-    selectVAPContactInfoField(state, fieldInfo?.fieldName),
-  );
-
   const hasUnsavedEdits = useSelector(
     state => state.vapService.hasUnsavedEdits,
   );
 
+  const fieldData = useSelector(state =>
+    selectVAPContactInfoField(state, fieldInfo?.fieldName),
+  );
+
   useEffect(() => {
     if (fieldInfo?.fieldName && !hasVAPServiceError) {
-      dispatch(openModal(fieldInfo.fieldName, fieldData));
+      const { uiSchema, formSchema } = getProfileInfoFieldAttributes(
+        fieldInfo.fieldName,
+      );
+
+      const initialFormData = getInitialFormValues({
+        fieldName: fieldInfo.fieldName,
+        data: fieldData,
+        modalData: null,
+      });
+
+      // update modal state with initial form data for the field being edited
+      // this needs to be done before the form data is updated
+      // so that initialFormFields are looked up correctly
+      dispatch(openModal(fieldInfo.fieldName, initialFormData));
+
+      // update form state with initial form data for the field being edited, so that
+      // the form is pre-populated with the current value for the field
+      // and changes to the form are tracked
+      dispatch(
+        updateFormFieldWithSchema(
+          fieldInfo.fieldName,
+          initialFormData,
+          formSchema,
+          uiSchema,
+        ),
+      );
     }
   }, []);
 
   useEffect(
     () => {
+      // this is where we track the state of the beforeunload listener
+      // and add/remove it as needed when the form has unsaved edits
       if (hasUnsavedEdits && !hasBeforeUnloadListener) {
         window.addEventListener('beforeunload', beforeUnloadHandler);
         setHasBeforeUnloadListener(true);
@@ -120,6 +149,7 @@ export const Edit = () => {
     },
     success: () => {
       clearBeforeUnloadListener();
+
       history.push(returnPath, {
         fieldInfo,
       });

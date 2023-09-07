@@ -301,7 +301,7 @@ export default {
       // End Other Living Expenses
       streamlinedLongTransitionPage: {
         // Transition page - streamlined long form only
-        path: 'transition-page',
+        path: 'skip-questions-explainer',
         title: ' ',
         CustomPage: StreamlinedExplainer,
         CustomPageReview: null,

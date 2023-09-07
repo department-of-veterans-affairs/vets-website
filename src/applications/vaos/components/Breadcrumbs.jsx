@@ -90,7 +90,7 @@ export default function VAOSBreadcrumbs({ children }) {
       {isPending && (
         <li className="va-breadcrumbs-li">
           <NavLink to="/pending" id="pending">
-            Pending
+            {featureBreadcrumbUrlUpdate ? 'Pending appointments' : 'Pending'}
           </NavLink>
         </li>
       )}

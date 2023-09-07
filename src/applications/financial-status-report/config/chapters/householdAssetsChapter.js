@@ -19,7 +19,8 @@ import AddAsset from '../../components/otherAssets/AddAsset';
 import OtherAssetsChecklist from '../../components/otherAssets/OtherAssetsChecklist';
 import OtherAssetsSummary from '../../components/otherAssets/OtherAssetsSummary';
 import OtherAssetsSummaryReview from '../../components/otherAssets/OtherAssetsSummaryReview';
-import EnhancedVehicleRecord from '../../components/household/EnhancedVehicleRecord';
+import RealEstateReview from '../../components/otherAssets/RealEstateReview';
+import EnhancedVehicleRecord from '../../components/otherAssets/EnhancedVehicleRecord';
 import VehicleSummaryWidget from '../../components/otherAssets/VehicleSummaryWidget';
 import MonetaryAssetsSummaryReview from '../../components/monetary/MonetaryAssetsSummaryReview';
 import VehicleSummaryReview from '../../components/otherAssets/VehicleSummaryReview';
@@ -27,6 +28,7 @@ import {
   CashOnHand,
   CashOnHandReview,
 } from '../../components/monetary/CashOnHand';
+import RecreationalVehiclesReview from '../../components/otherAssets/RecreationalVehcilesReview';
 import StreamlinedExplainer from '../../components/shared/StreamlinedExplainer';
 import { isStreamlinedShortForm } from '../../utils/streamlinedDepends';
 
@@ -47,7 +49,7 @@ export default {
       },
       streamlinedShortTransitionPage: {
         // Transition page - streamlined short form only
-        path: 'transition-page',
+        path: 'skip-questions-explainer',
         title: ' ',
         CustomPage: StreamlinedExplainer,
         CustomPageReview: null,
@@ -125,7 +127,8 @@ export default {
           formData.questions.hasRealEstate &&
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
-        editModeOnReviewPage: false,
+        editModeOnReviewPage: true,
+        CustomPageReview: RealEstateReview,
       },
       vehicles: {
         path: 'vehicles',
@@ -188,7 +191,8 @@ export default {
         depends: formData =>
           formData.questions.hasRecreationalVehicle &&
           !isStreamlinedShortForm(formData),
-        editModeOnReviewPage: false,
+        editModeOnReviewPage: true,
+        CustomPageReview: RecreationalVehiclesReview,
       },
       otherAssets: {
         path: 'other-assets',

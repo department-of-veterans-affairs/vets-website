@@ -313,8 +313,10 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
+      # - name: Init Dashboard Data Repo
+      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -326,9 +328,6 @@ jobs:
   fetch-e2e-allow-list:
     name: Fetch E2E Allow List
     runs-on: ubuntu-latest
-    outputs:
-      allow_list: ${{ steps.allow-list-output.outputs.list }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -346,8 +345,10 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
+      # - name: Init Dashboard Data Repo
+      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -355,11 +356,15 @@ jobs:
       - name: Fetch allow list
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
-      # exports app list and assigns to environmental variable at this step
+        env:
+          TEST_TYPE: e2e
 
-      - name: Set Allow List Output
-        id: allow-list-output
-        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
+      - name: Archive allow list
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data/e2e_allow_list.json
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
@@ -372,7 +377,7 @@ jobs:
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       test_selection_disallowed_tests: ${{ steps.test_selection_disallowed_tests.outputs.test_selection_disallowed_tests }}
-      e2e_blocked_paths: ${{ steps.e2e-blocked-paths.outputs.e2e_blocked_paths }}
+      changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -396,6 +401,12 @@ jobs:
           delimiter: ','
           output-type: 'entry_name, url'
 
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: .
+
       - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
         run: node script/github-actions/select-cypress-tests.js
         env:
@@ -403,7 +414,7 @@ jobs:
           CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
           APP_ENTRIES: ${{ steps.get-changed-apps.outputs.entry_names }}
-          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
+          TEST_TYPE: e2e
 
       - name: Set output of TESTS
         id: tests
@@ -424,10 +435,6 @@ jobs:
       - name: Set output of CI_NODE_INDEX
         id: matrix
         run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
-
-      - name: Set output of E2E_BLOCKED_PATHS
-        id: e2e-blocked-paths
-        run: echo e2e_blocked_paths=$E2E_BLOCKED_PATHS >> $GITHUB_OUTPUT
 
   cypress-tests:
     name: Cypress E2E Tests
@@ -661,8 +668,10 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
+      # - name: Init Dashboard Data Repo
+      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -702,12 +711,18 @@ jobs:
           name: cypress-stress-test-videos
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data
+
       - name: Update E2E Allow List
-        run: yarn update-e2e-allow-list
+        run: yarn update-allow-list
         working-directory: qa-standards-dashboard-data
         env:
-          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
           TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
+          TEST_TYPE: e2e
 
       - name: Create Cypress E2E report
         run: yarn cypress-mochawesome-to-bigquery
@@ -738,31 +753,38 @@ jobs:
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
-      - name: Create GitHub Issues for new flaky tests
-        if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
-        run: yarn create-github-issues-for-flaky-tests
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
-          GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-
-      - name: Fetch allow list
-        run: yarn get-allow-list
-        working-directory: qa-standards-dashboard-data
-      # exports app list and assigns to environmental variable at this step
+      # - name: Create GitHub Issues for new flaky tests
+      #   if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
+      #   run: yarn create-github-issues-for-flaky-tests
+      #   working-directory: qa-standards-dashboard-data
+      #   env:
+      #     TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
+      #     GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
 
   allow-list-merge-status:
     name: E2E Allow List Merge Status Check
     runs-on: ubuntu-latest
-    needs: [cypress-tests-prep, update-e2e-allow-list, fetch-e2e-allow-list]
+    needs: [cypress-tests-prep, update-e2e-allow-list]
     if: ${{ always() }}
     continue-on-error: true
     env:
-      E2E_BLOCKED_PATHS: ${{ needs.cypress-tests-prep.outputs.e2e_blocked_paths }}
-      ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
+      CHANGED_FILE_PATHS: ${{ needs.cypress-tests-prep.outputs.changed_file_paths }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -774,6 +796,25 @@ jobs:
             .cache/yarn
             /github/home/.cache/Cypress
             node_modules
+
+      # - name: Init Dashboard Data Repo
+      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch allow list
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: e2e
+      # exports app list and assigns to environmental variable at this step
+
+      - name: Set Allow List Output
+        id: allow-list-output
+        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
 
       - name: Check if code can be merged
         run: node script/github-actions/check-e2e-status.js
@@ -802,7 +843,7 @@ jobs:
       # ----------------
 
       - name: Notify Slack about Unit test failures
-        if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.result == 'failure' }}
+        if: ${{ github.ref != 'refs/heads/main' }}
         uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         env:
@@ -830,8 +871,10 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
+      # - name: Init Dashboard Data Repo
+      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -927,8 +970,10 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
+      # - name: Init Dashboard Data Repo
+      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -1007,8 +1052,10 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
+      # - name: Init Dashboard Data Repo
+      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery

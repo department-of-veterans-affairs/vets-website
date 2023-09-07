@@ -149,6 +149,7 @@ export default function FormNav(props) {
           current={currentChapterDisplay}
           uswds={v3SegmentedProgressBar}
           heading-text={chapterName ?? ''} // functionality only available for v3
+          {...(v3SegmentedProgressBar ? { 'header-level': '2' } : {})}
         />
       )}
       {!v3SegmentedProgressBar &&

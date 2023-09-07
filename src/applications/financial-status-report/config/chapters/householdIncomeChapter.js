@@ -34,6 +34,7 @@ import PayrollDeductionChecklist from '../../components/householdIncome/PayrollD
 import PayrollDeductionInputList from '../../components/householdIncome/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../../components/employment/EmploymentHistoryWidget';
 import EnhancedBenefitsEdit from '../../components/debtsAndCopays/EnhancedBenefitsEdit';
+import SpouseBenefitRecordsReview from '../../components/householdIncome/SpouseBenefitRecordsReview';
 import SpouseEmploymentHistoryWidget from '../../components/employment/SpouseEmploymentHistoryWidget';
 import SpouseEmploymentQuestion from '../../components/employment/SpouseEmploymentQuestion';
 import EmploymentQuestion from '../../components/employment/EmploymentQuestion';
@@ -425,6 +426,8 @@ export default {
         schema: spouseBenefitRecords.schema,
         depends: formData =>
           formData.questions.isMarried && formData.questions.spouseHasBenefits,
+        editModeOnReviewPage: true,
+        CustomPageReview: SpouseBenefitRecordsReview,
       },
       spouseSocialSecurity: {
         path: 'spouse-social-security',
