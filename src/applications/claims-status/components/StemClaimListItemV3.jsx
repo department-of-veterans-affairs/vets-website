@@ -32,12 +32,10 @@ export default function StemClaimListItemV3({ claim }) {
     <va-card class="claim-list-item">
       <h3 className="claim-list-item-header vads-u-margin-bottom--2">
         {/* eslint-disable-next-line jsx-a11y/aria-role */}
-        <span role="text">
+        <div role="text">
           Edith Nourse Rogers STEM Scholarship application
-          <span className="submitted-on">
-            Submitted on {formattedReceiptDate}
-          </span>
-        </span>
+          <span>Submitted on {formattedReceiptDate}</span>
+        </div>
       </h3>
       <div className="card-status">
         <p>Status: Denied</p>

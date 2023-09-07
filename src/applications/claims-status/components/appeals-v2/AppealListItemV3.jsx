@@ -81,14 +81,14 @@ export default function AppealListItemV3({ appeal, name, external = false }) {
     <va-card class="claim-list-item">
       <h3 className="claim-list-item-header vads-u-margin-bottom--2">
         {/* eslint-disable-next-line jsx-a11y/aria-role */}
-        <span role="text">
+        <div role="text">
           {appealTitle}
           {requestEvent && (
-            <span className="submitted-on">
+            <span>
               Submitted on {moment(requestEvent.date).format('MMMM D, YYYY')}
             </span>
           )}
-        </span>
+        </div>
       </h3>
       <div className="card-status">
         {appeal.attributes.description && (

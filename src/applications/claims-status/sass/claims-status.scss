@@ -78,7 +78,7 @@
   }
 }
 
-.claim-list-item-container-old {
+.claim-list-item-container {
   background-color: $color-gray-lightest;
   padding: 2em 1em 1em;
   margin-bottom: 1em;
@@ -110,7 +110,7 @@
 }
 
 // Index page V2
-.claim-list-item-container-old .card-status {
+.claim-list-item-container .card-status {
   margin: 0 0 0.5em;
   display: flex;
 
@@ -155,12 +155,11 @@
 .claim-list-item-header {
   margin-top: 0;
 
-  span > span {
+  span {
     display: block;
     width: fit-content;
     font-size: 1.6rem;
     font-family: var(--font-source-sans);
-    font-style: normal;
     font-weight: normal;
     line-height: 1.5;
   }
