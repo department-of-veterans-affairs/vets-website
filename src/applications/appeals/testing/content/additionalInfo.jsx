@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MAX_LENGTH } from '../../10182/constants';
+import { MAX_LENGTH } from '../../shared/constants';
 
 const title = 'What else do you want to tell us about your disagreement?';
 
