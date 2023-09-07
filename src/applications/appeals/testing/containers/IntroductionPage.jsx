@@ -197,7 +197,7 @@ const IntroductionPage = ({ route }) => {
         <va-omb-info
           res-burden={30}
           omb-number="2900-0674"
-          exp-date="2/28/2022"
+          exp-date="3/31/2025"
           uswds
         />
       </div>

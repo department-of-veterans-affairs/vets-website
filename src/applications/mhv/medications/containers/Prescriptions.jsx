@@ -220,7 +220,7 @@ const Prescriptions = () => {
         <div className="landing-page">
           <PrintHeader />
           {topAlert()}
-          <h1 className="page-title" data-testid="List-Page-Title">
+          <h1 className="page-title" data-testid="list-page-title">
             Medications
           </h1>
           <div
