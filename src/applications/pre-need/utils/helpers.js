@@ -187,10 +187,8 @@ export function transform(formConfig, form) {
             dateOfBirth: application.claimant.dateOfBirth,
             ssn: application.claimant.ssn,
             isDeceased: 'no',
-            // eslint-disable-next-line no-nested-ternary
-            serviceName: environment.isProduction()
-              ? application.veteran.serviceName || application.claimant.name
-              : application.veteran.serviceName.first === undefined
+            serviceName:
+              application.veteran.serviceName.first === undefined
                 ? application.claimant.name
                 : application.veteran.serviceName || application.claimant.name,
           },
@@ -212,10 +210,8 @@ export function transform(formConfig, form) {
   const populateVeteranData = application =>
     merge({}, application, {
       veteran: {
-        // eslint-disable-next-line no-nested-ternary
-        serviceName: environment.isProduction()
-          ? application.veteran.serviceName || application.veteran.currentName
-          : application.veteran.serviceName.first === undefined
+        serviceName:
+          application.veteran.serviceName.first === undefined
             ? application.veteran.currentName
             : application.veteran.serviceName ||
               application.veteran.currentName,
