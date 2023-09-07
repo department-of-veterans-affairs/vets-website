@@ -145,7 +145,7 @@ const HealthConditions = () => {
     <div>
       <h1>Health conditions</h1>
       <section className="set-width-486">
-        <p>Review health conditions in your VA medical records</p>
+        <p>Review health conditions in your VA medical records.</p>
         <va-additional-info trigger="What to know about health conditions">
           This is some additional info about health conditions, though we are
           waiting on the Content Team to tell us what should be here...
