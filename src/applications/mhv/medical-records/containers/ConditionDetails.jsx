@@ -4,17 +4,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { dateFormat, processList } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getConditionDetails } from '../actions/conditions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
+import { updatePageTitle } from '../../shared/util/helpers';
+import { pageTitles } from '../util/constants';
 
 const ConditionDetails = () => {
-  const conditionDetails = useSelector(
-    state => state.mr.conditions.conditionDetails,
-  );
+  const condition = useSelector(state => state.mr.conditions.conditionDetails);
   const { conditionId } = useParams();
   const dispatch = useDispatch();
 
@@ -24,31 +25,35 @@ const ConditionDetails = () => {
     },
     [conditionId, dispatch],
   );
-  const formattedDate = dateFormat(
-    conditionDetails?.date,
-    'MMMM D, YYYY [at] h:mm z',
-  );
+  const formattedDate = dateFormat(condition?.date, 'MMMM D, YYYY [at] h:mm z');
 
   useEffect(
     () => {
-      if (conditionDetails?.name) {
+      if (condition?.name) {
         dispatch(
           setBreadcrumbs(
             [
               {
-                url: '/my-health/medical-records/health-conditions',
+                url: '/my-health/medical-records/conditions',
                 label: 'Conditions',
               },
             ],
             {
-              url: `/my-health/medical-records/health-conditions/${conditionId}`,
-              label: conditionDetails?.name,
+              url: `/my-health/medical-records/conditions/${conditionId}`,
+              label: condition?.name,
             },
           ),
         );
+        focusElement(document.querySelector('h1'));
+        const titleDate = formattedDate ? `${formattedDate} - ` : '';
+        updatePageTitle(
+          `${titleDate}${condition.name} - ${
+            pageTitles.HEALTH_CONDITIONS_PAGE_TITLE
+          }`,
+        );
       }
     },
-    [conditionDetails, dispatch],
+    [condition],
   );
 
   const generateConditionDetails = async () => {
@@ -59,7 +64,7 @@ const ConditionDetails = () => {
         'LL',
       )}`,
       footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-      title: `Conditions: ${conditionDetails.name} on ${formattedDate}`,
+      title: `Conditions: ${condition.name} on ${formattedDate}`,
       subject: 'VA Medical Record',
       preface:
         'Your VA conditions list may not be complete. If you have any questions about your information, visit the FAQs or contact your VA Health care team.',
@@ -69,35 +74,34 @@ const ConditionDetails = () => {
             items: [
               {
                 title: 'Date',
-                value:
-                  moment(conditionDetails.date).format('MMMM Do YYYY') || ' ',
+                value: moment(condition.date).format('MMMM Do YYYY') || ' ',
                 inline: true,
               },
               {
                 title: 'Provider',
-                value: conditionDetails.provider || ' ',
+                value: condition.provider || ' ',
                 inline: true,
               },
               {
                 title: 'Provider Notes',
-                value: conditionDetails.comments.length
-                  ? processList(conditionDetails.comments)
+                value: condition.comments.length
+                  ? processList(condition.comments)
                   : 'none noted',
-                inline: !conditionDetails.comments.length,
+                inline: !condition.comments.length,
               },
               {
                 title: 'Status of health condition',
-                value: conditionDetails.active ? 'active' : 'inactive',
+                value: condition.active ? 'active' : 'inactive',
                 inline: true,
               },
               {
                 title: 'Location',
-                value: conditionDetails.facility || ' ',
+                value: condition.facility || ' ',
                 inline: true,
               },
               {
                 title: 'SNOMED Clinical term',
-                value: conditionDetails.name || ' ',
+                value: condition.name || ' ',
                 inline: true,
               },
             ],
@@ -118,20 +122,28 @@ const ConditionDetails = () => {
   };
 
   const content = () => {
-    if (conditionDetails) {
+    if (condition) {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">
-            {conditionDetails.name.split(' (')[0]}
+          <h1
+            className="vads-u-margin-bottom--0"
+            aria-describedby="condition-date"
+          >
+            {condition.name.split(' (')[0]}
           </h1>
           <section className="set-width-486">
             <div className="condition-subheader vads-u-margin-bottom--3">
               <div className="time-header">
-                <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h2
+                  className="vads-u-font-size--base vads-u-font-family--sans"
+                  id="condition-date"
+                >
                   Date and time entered:{' '}
+                  <span className="vads-u-font-weight--normal">
+                    {formattedDate}
+                  </span>
                 </h2>
-                <p>{formattedDate}</p>
               </div>
               <PrintDownload list download={download} />
             </div>
@@ -139,24 +151,24 @@ const ConditionDetails = () => {
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Status of health condition
               </h2>
-              <p>{conditionDetails.active ? 'Active' : 'Inactive'}</p>
+              <p>{condition.active ? 'Active' : 'Inactive'}</p>
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Provider
               </h2>
-              <p>{conditionDetails.provider}</p>
+              <p>{condition.provider}</p>
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Location
               </h2>
               <p>
-                {conditionDetails.facility ||
+                {condition.facility ||
                   'There is no facility reported at this time'}
               </p>
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 SNOMED Clinical term
               </h2>
-              <p>{conditionDetails.name}</p>
+              <p>{condition.name}</p>
               <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
-              <ItemList list={conditionDetails.comments} />
+              <ItemList list={condition.comments} />
             </div>
           </section>
         </>

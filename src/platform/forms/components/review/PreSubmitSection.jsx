@@ -44,8 +44,22 @@ export function statementOfTruthFullName(formData, fullNamePath) {
   return fullNameString;
 }
 
-function fullNameReducer(fullNameString) {
+export function fullNameReducer(fullNameString) {
   return fullNameString?.replaceAll(' ', '').toLowerCase();
+}
+
+function statementOfTruthBodyElement(formData, statementOfTruthBody) {
+  switch (typeof statementOfTruthBody) {
+    case 'function':
+      if (typeof statementOfTruthBody(formData) === 'string') {
+        return <p>{statementOfTruthBody(formData)}</p>;
+      }
+      return statementOfTruthBody(formData);
+    case 'string':
+      return <p>{statementOfTruthBody}</p>;
+    default:
+      return statementOfTruthBody;
+  }
 }
 
 /*
@@ -124,11 +138,7 @@ export function PreSubmitSection(props) {
           </p>
           <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--3 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--3">
             <h3>{statementOfTruth.heading || 'Statement of truth'}</h3>
-            {typeof statementOfTruth.body === 'string' ? (
-              <p>{statementOfTruth.body}</p>
-            ) : (
-              statementOfTruth.body
-            )}
+            {statementOfTruthBodyElement(form?.data, statementOfTruth.body)}
             <p>
               I have read and accept the{' '}
               <a href="/privacy-policy/" target="_blank">

@@ -29,7 +29,7 @@ export default function ClaimsListItem({ claim }) {
 
   return (
     <div className="claim-list-item-container">
-      <h3 className="claim-list-item-header-v2">
+      <h3 className="claim-list-item-header">
         {getClaimType(claim)} Claim – Received {dateRecd}
       </h3>
       <p className="status">

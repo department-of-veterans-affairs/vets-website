@@ -27,7 +27,7 @@ describe('Condition details container', () => {
     return renderWithStoreAndRouter(<ConditionDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/health-conditions/SCT161891005',
+      path: '/conditions/SCT161891005',
     });
   };
 
@@ -69,7 +69,7 @@ describe('Condition details container', () => {
       ),
       {
         exact: true,
-        selector: 'p',
+        selector: 'span',
       },
     );
     expect(formattedDate).to.exist;

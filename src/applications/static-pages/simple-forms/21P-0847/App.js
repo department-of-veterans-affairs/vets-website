@@ -7,7 +7,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 
 const App = ({ formEnabled }) => {
   if (formEnabled === undefined) {
-    return <va-loading-indicator set-focus message="Loading..." />;
+    return <va-loading-indicator message="Loading..." />;
   }
 
   if (formEnabled) {
