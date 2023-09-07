@@ -128,7 +128,7 @@ const SearchForm = props => {
     if (query.fromDate && query.toDate) {
       return queryItem(
         null,
-        `${moment(query.fromDate).format('MMMM Do YYYY')} to ${moment(
+        `${moment.utc(query.fromDate).format('MMMM Do YYYY')} to ${moment(
           query.toDate,
         ).format('MMMM Do YYYY')}`,
       );
