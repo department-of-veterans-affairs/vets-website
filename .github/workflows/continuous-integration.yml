@@ -94,8 +94,61 @@ jobs:
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
 
+  fetch-allow-lists:
+    name: Fetch Allow Lists
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch allow list
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: e2e
+
+      - name: Fetch allow list
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
+
+      - name: Archive e2e allow list
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data/e2e_allow_list.json
+
+      - name: Archive unit test allow list
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: qa-standards-dashboard-data/unit_test_allow_list.json
+
   unit-tests:
     name: Unit Tests
+    needs: [fetch-allow-lists]
     runs-on: self-hosted
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
@@ -128,6 +181,12 @@ jobs:
         with:
           delimiter: ','
           output-type: 'folder'
+
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: .
 
       - name: Run unit tests
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
@@ -323,48 +382,9 @@ jobs:
         run: yarn generate-app-list
         working-directory: qa-standards-dashboard-data
 
-  fetch-e2e-allow-list:
-    name: Fetch E2E Allow List
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-
-      - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
-
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
-
-      - name: Fetch allow list
-        run: yarn get-allow-list
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_TYPE: e2e
-
-      - name: Archive allow list
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: e2e-allow-list
-          path: qa-standards-dashboard-data/e2e_allow_list.json
-
   cypress-tests-prep:
     name: Prep for Cypress Tests
-    needs: [fetch-e2e-allow-list]
+    needs: [fetch-allow-lists]
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.tests.outputs.selected }}
@@ -641,7 +661,7 @@ jobs:
         testing-reports-prep,
         cypress-tests-prep,
         stress-test-cypress-tests,
-        fetch-e2e-allow-list,
+        fetch-allow-lists,
       ]
     if: ${{ always() && needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     continue-on-error: true

@@ -1,11 +1,17 @@
 /* eslint-disable no-console */
 const commandLineArgs = require('command-line-args');
 const glob = require('glob');
+const fs = require('fs');
+const path = require('path');
 const printUnitTestHelp = require('./run-unit-test-help');
 const { runCommand } = require('./utils');
-
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
+const ALLOW_LIST = JSON.parse(
+  fs.readFileSync(path.resolve(`unit_test_allow_list.json`)),
+);
+const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false);
 
+console.log('DISALLOWED SPECS: ', DISALLOWED_SPECS);
 const specDirs = '{src,script}';
 const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
 
