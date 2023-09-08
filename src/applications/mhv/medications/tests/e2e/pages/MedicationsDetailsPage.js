@@ -30,10 +30,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsStatus = PrescriptionsStatus => {
-    cy.get('[data-testid="status"]').should(
-      'have.text',
-      PrescriptionsStatus.toString().toUpperCase(),
-    );
+    cy.get('[data-testid="status"]').should('have.text', PrescriptionsStatus);
   };
 
   verifyPrescriptionsRefillsRemaining = PrescriptionsRefillsRemaining => {
