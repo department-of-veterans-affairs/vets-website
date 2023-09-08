@@ -526,7 +526,7 @@ const ComposeForm = props => {
                 id="edit-contact-list-or-signature-button"
                 text="Edit contact list or signature"
                 label="Edit contact list or signature"
-                secondary=""
+                secondary
                 class="vads-u-flex--1 edit-contact-list-or-signature-button vads-u-margin-bottom--1 vads-u-width--full hydrated"
                 data-testid="edit-list-button"
                 onClick={() => setEditListModal(true)}
