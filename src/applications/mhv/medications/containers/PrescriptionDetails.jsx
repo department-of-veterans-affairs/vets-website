@@ -162,6 +162,7 @@ const PrescriptionDetails = () => {
 
   const content = () => {
     if (prescription) {
+      const refillStatus = prescription.refillStatus?.toString();
       return (
         <>
           <PrintHeader />
@@ -213,8 +214,9 @@ const PrescriptionDetails = () => {
             </h3>
             <div data-testid="status">
               {prescription.refillStatus === 'refillinprocess'
-                ? 'REFILL IN PROCESS'
-                : prescription.refillStatus.toString().toUpperCase()}
+                ? 'Refill in process'
+                : refillStatus?.charAt(0).toUpperCase() +
+                  refillStatus?.slice(1)}
             </div>
             <div className="no-print">
               <va-additional-info trigger="What does this status mean?">
