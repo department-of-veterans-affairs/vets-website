@@ -63,11 +63,6 @@ module.exports = {
         use: 'a custom solution',
       },
       {
-        name:
-          '@department-of-veterans-affairs/component-library/AdditionalInfo',
-        use: '<va-additional-info>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/Breadcrumbs',
         use: '<va-breadcrumbs>',
       },
