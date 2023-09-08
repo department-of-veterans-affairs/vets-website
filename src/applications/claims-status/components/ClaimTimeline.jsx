@@ -75,6 +75,6 @@ ClaimTimeline.propTypes = {
   id: PropTypes.string.isRequired,
   phase: PropTypes.number.isRequired,
   currentPhaseBack: PropTypes.bool,
-  events: PropTypes.array,
+  events: PropTypes.object,
   everPhaseBack: PropTypes.bool,
 };
