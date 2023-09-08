@@ -5,11 +5,14 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import {
   claimantAddressTitle,
   claimantContactInformationTitle,
+  claimantIsVeteran,
+  claimantIsSpouse,
+  claimantIsParent,
+  claimantIsChild,
   claimantIsNotVeteran,
   claimantPersonalInformationTitle,
   claimantSsnTitle,
 } from './helpers';
-import { claimantIdentificationDisplayOptions } from '../definitions/constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -129,11 +132,11 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     preparerPersonalInformationChapter: {
-      title: 'Your personal information',
+      title: 'Alternate signer’s personal information',
       pages: {
         preparerPersonalInformation: {
           path: 'preparer-personal-information',
-          title: 'Your personal information',
+          title: 'Alternate signer’s personal information',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
@@ -146,33 +149,33 @@ const formConfig = {
       },
     },
     preparerAddressChapter: {
-      title: 'Your mailing address',
+      title: 'Alternate signer’s mailing address',
       pages: {
         preparerAddress: {
           path: 'preparer-address',
-          title: 'Your mailing address',
+          title: 'Alternate signer’s mailing address',
           uiSchema: preparerAddress.uiSchema,
           schema: preparerAddress.schema,
         },
       },
     },
     preparerContactInformationChapter: {
-      title: 'Your contact information',
+      title: 'Alternate signer’s contact information',
       pages: {
         preparerContactInformation: {
           path: 'preparer-contact-information',
-          title: 'Your contact information',
+          title: 'Alternate signer’s contact information',
           uiSchema: preparerContactInformation.uiSchema,
           schema: preparerContactInformation.schema,
         },
       },
     },
     claimantIdentificationChapter: {
-      title: 'Who you’ll be signing for',
+      title: 'Who the alternate signer will be signing for',
       pages: {
         claimantIdentification: {
           path: 'claimant-identification',
-          title: 'Who you’ll be signing for',
+          title: 'Who the alternate signer will be signing for',
           uiSchema: claimantIdentification.uiSchema,
           schema: claimantIdentification.schema,
         },
@@ -183,7 +186,6 @@ const formConfig = {
       pages: {
         claimantPersonalInformation: {
           path: 'claimant-personal-information',
-          title: 'Claimant personal information',
           // skip if claimant is the veteran
           depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantPersonalInformation.uiSchema,
@@ -196,7 +198,6 @@ const formConfig = {
       pages: {
         claimantSsn: {
           path: 'claimant-identification-information',
-          title: 'Claimant identification information',
           // skip if claimant is the veteran
           depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantSsn.uiSchema,
@@ -209,7 +210,6 @@ const formConfig = {
       pages: {
         claimantAddress: {
           path: 'claimant-address',
-          title: 'Claimant mailing address',
           // skip if claimant is the veteran
           depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantAddress.uiSchema,
@@ -222,7 +222,6 @@ const formConfig = {
       pages: {
         claimantContactInformation: {
           path: 'claimant-contact-information',
-          title: 'Claimant contact information',
           // skip if claimant is the veteran
           depends: formData => claimantIsNotVeteran({ formData }),
           uiSchema: claimantContactInformation.uiSchema,
@@ -236,43 +235,34 @@ const formConfig = {
         preparerQualifications1A: {
           // for veteran claimant
           path: 'preparer-qualifications-1a',
-          title: 'Qualifications',
-          depends: {
-            claimantIdentification:
-              claimantIdentificationDisplayOptions.VETERAN,
-          },
+          title: 'Qualifying relationship',
+          depends: formData => claimantIsVeteran({ formData }),
           ...preparerQualificationsSchema1A,
         },
         preparerQualifications1B: {
           // for spouse claimant
           path: 'preparer-qualifications-1b',
-          title: 'Qualifications',
-          depends: {
-            claimantIdentification: claimantIdentificationDisplayOptions.SPOUSE,
-          },
+          title: 'Qualifying relationship',
+          depends: formData => claimantIsSpouse({ formData }),
           ...preparerQualificationsSchema1B,
         },
         preparerQualifications1C: {
           // for parent claimant
           path: 'preparer-qualifications-1c',
-          title: 'Qualifications',
-          depends: {
-            claimantIdentification: claimantIdentificationDisplayOptions.PARENT,
-          },
+          title: 'Qualifying relationship',
+          depends: formData => claimantIsParent({ formData }),
           ...preparerQualificationsSchema1C,
         },
         preparerQualifications1D: {
           // for child claimant
           path: 'preparer-qualifications-1d',
-          title: 'Qualifications',
-          depends: {
-            claimantIdentification: claimantIdentificationDisplayOptions.CHILD,
-          },
+          title: 'Qualifying relationship',
+          depends: formData => claimantIsChild({ formData }),
           ...preparerQualificationsSchema1D,
         },
         preparerQualifications2: {
           path: 'preparer-qualifications-2',
-          title: 'Qualifications',
+          title: 'Qualifying reasons',
           uiSchema: preparerQualifications2.uiSchema,
           schema: preparerQualifications2.schema,
         },
@@ -294,13 +284,13 @@ const formConfig = {
       pages: {
         veteranIdentificationInformation1: {
           path: 'veteran-identification-information-1',
-          title: 'Veteran’s identification information',
+          title: 'VA claim status',
           uiSchema: veteranIdentificationInformation1.uiSchema,
           schema: veteranIdentificationInformation1.schema,
         },
         veteranIdentificationInformation2: {
           path: 'veteran-identification-information-2',
-          title: 'Veteran’s identification information',
+          title: 'Identity verification',
           uiSchema: veteranIdentificationInformation2.uiSchema,
           schema: veteranIdentificationInformation2.schema,
         },

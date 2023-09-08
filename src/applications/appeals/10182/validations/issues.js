@@ -3,7 +3,7 @@ import { issueErrorMessages } from '../content/addIssue';
 import {
   noneSelected,
   maxSelectedErrorMessage,
-} from '../content/contestableIssues';
+} from '../../shared/content/contestableIssues';
 import { content as extensionReasonContent } from '../content/extensionReason';
 import { MAX_LENGTH as NOD_MAX_LENGTH } from '../constants';
 

@@ -8,12 +8,18 @@ const ShowIssuesList = ({ issues }) => (
   <ul>
     {issues.map((issue, index) => (
       <li key={index}>
-        <strong className="capitalize dd-privacy-hidden">
+        <strong
+          className="capitalize dd-privacy-hidden"
+          data-dd-action-name="issue name"
+        >
           {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}
         </strong>
         <div>
           Decision date:{' '}
-          <span className="dd-privacy-hidden">
+          <span
+            className="dd-privacy-hidden"
+            data-dd-action-name="issue decision date"
+          >
             {getDate({
               date:
                 issue.attributes?.approxDecisionDate ||

@@ -3,7 +3,10 @@ import { VaMemorableDate } from '@department-of-veterans-affairs/component-libra
 import vaMemorableDateFieldMapping from './vaMemorableDateFieldMapping';
 import { formatISOPartialDate, parseISODate } from '../helpers';
 
-/** @param {WebComponentFieldProps} props */
+/**
+ * Likely should use a datePattern instead of this. See `currentOrPastDateUI()` for example.
+ *
+ * @param {WebComponentFieldProps} props */
 export default function VaMemorableDateField(props) {
   const mappedProps = vaMemorableDateFieldMapping(props);
   const [values, setValues] = useState(parseISODate(mappedProps.value));

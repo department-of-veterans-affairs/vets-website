@@ -9,7 +9,26 @@ function optionsList(schema) {
   });
 }
 
-/** @param {WebComponentFieldProps} props */
+/**
+ * Use radio pattern instead.
+ *
+ * Usage uiSchema:
+ * ```js
+ * exampleRadio: radioUI({
+ *  title: 'Select animal',
+ *  labels: {
+ *      dog: 'Dog',
+ *      cat: 'Cat',
+ *      octopus: 'Octopus',
+ *  }
+ * })
+ * ```
+ *
+ * Usage schema:
+ * ```js
+ * exampleRadio: radioSchema(['cat', 'dog', 'octopus'])
+ * ```
+ * @param {WebComponentFieldProps} props */
 export default function VaRadioField(props) {
   const mappedProps = vaRadioFieldMapping(props);
   const enumOptions =

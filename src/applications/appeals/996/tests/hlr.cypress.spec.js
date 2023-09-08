@@ -17,10 +17,10 @@ import mockUserAvail from './fixtures/mocks/user_transition_availabilities.json'
 import {
   CONTESTABLE_ISSUES_API,
   WIZARD_STATUS,
-  SELECTED,
   BASE_URL,
   CONTESTABLE_ISSUES_PATH,
 } from '../constants';
+import { SELECTED } from '../../shared/constants';
 
 const testConfig = createTestConfig(
   {

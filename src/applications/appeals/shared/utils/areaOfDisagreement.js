@@ -2,22 +2,22 @@ import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../constants';
 import { getIssueName } from './issues';
 
 /**
- * @typedef AreaOfDisagreement~Options
+ * @typedef AreaOfDisagreementOptions
  * @type {object}
  * @property {boolean} serviceConnection
  * @property {boolean} effectiveDate
  * @property {boolean} evaluation
  */
 /**
- * @typedef AreaOfDisagreement~Page
+ * @typedef AreaOfDisagreementPage
  * @type {object}
  * @property {object} attributes - Attributes of issue
- * @property {AreaOfDisagreement~Options} disagreementOptions
+ * @property {AreaOfDisagreementOptions} disagreementOptions
  * @property {string} otherEntry - Free text input
  */
 /**
- * @typedef FormData~AreaOfDisagreement
- * @type {AreaOfDisagreement~Page[]}
+ * @typedef FormDataAreaOfDisagreement
+ * @type {AreaOfDisagreementPage[]}
  */
 
 /**
@@ -25,7 +25,7 @@ import { getIssueName } from './issues';
  * over the area of disagreement selections if the issue persists
  * @param {array} newIssues - currently selected issues
  * @param {array} existingIssues - previously selected issues
- * @returns {FormData~AreaOfDisagreement}
+ * @returns {FormDataAreaOfDisagreement}
  */
 export const copyAreaOfDisagreementOptions = (newIssues, existingIssues) => {
   return newIssues.map(issue => {
@@ -47,7 +47,7 @@ export const copyAreaOfDisagreementOptions = (newIssues, existingIssues) => {
 /**
  * Calculate schema max length of area of disagreement "other" free text input
  * for a specific page
- * @param {AreaOfDisagreement~Page} areaOfDisagreement
+ * @param {AreaOfDisagreementPage} areaOfDisagreement
  * @returns {number}
  */
 export const calculateOtherMaxLength = areaOfDisagreement => {

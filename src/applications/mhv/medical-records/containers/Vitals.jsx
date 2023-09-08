@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals } from '../actions/vitals';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { RecordType, vitalTypes } from '../util/constants';
+import { recordType, vitalTypes, pageTitles } from '../util/constants';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const Vitals = () => {
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
@@ -13,17 +15,16 @@ const Vitals = () => {
     dispatch(getVitals());
   }, []);
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-          { url: '/my-health/medical-records/vitals', label: 'VA vitals' },
-        ),
-      );
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs(
+        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
+        { url: '/my-health/medical-records/vitals', label: 'VA vitals' },
+      ),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
+  }, []);
 
   useEffect(
     () => {
@@ -46,7 +47,7 @@ const Vitals = () => {
       return (
         <RecordList
           records={cards}
-          type={RecordType.VITALS}
+          type={recordType.VITALS}
           perPage={7}
           hidePagination
         />

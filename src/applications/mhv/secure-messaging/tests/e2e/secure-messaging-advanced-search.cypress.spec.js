@@ -9,6 +9,7 @@ import mockSearchMessages from './fixtures/search-COVID-results.json';
 import mockSearchCustomMessages from './fixtures/search-MEDICATION-results.json';
 import mockTrashFolder from './fixtures/trashResponse/folder-deleted-metadata.json';
 import mockCustomFolder from './fixtures/folder-custom-metadata.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe(manifest.appName, () => {
   describe('Advanced search in Inbox', () => {
@@ -31,7 +32,7 @@ describe(manifest.appName, () => {
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,
@@ -44,7 +45,7 @@ describe(manifest.appName, () => {
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,
@@ -61,7 +62,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/-2',
+        '/my_health/v1/messaging/folders/-2*',
         mockDraftsFolder,
       );
       cy.intercept(
@@ -84,7 +85,7 @@ describe(manifest.appName, () => {
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,
@@ -97,7 +98,7 @@ describe(manifest.appName, () => {
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,
@@ -114,7 +115,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/-1',
+        '/my_health/v1/messaging/folders/-1*',
         mockSentFolder,
       ).as('basicSearchRequestDraftsMeta');
       cy.intercept(
@@ -137,7 +138,7 @@ describe(manifest.appName, () => {
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,
@@ -150,7 +151,7 @@ describe(manifest.appName, () => {
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,
@@ -167,7 +168,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/-3',
+        '/my_health/v1/messaging/folders/-3*',
         mockTrashFolder,
       );
       cy.intercept(
@@ -190,7 +191,7 @@ describe(manifest.appName, () => {
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,
@@ -203,7 +204,7 @@ describe(manifest.appName, () => {
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,
@@ -220,7 +221,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/7038175',
+        '/my_health/v1/messaging/folders/7038175*',
         mockCustomFolder,
       );
       cy.intercept(
@@ -244,7 +245,7 @@ describe(manifest.appName, () => {
         .should('contain', 'test')
         .and('have.length', mockSearchCustomMessages.data.length);
       cy.injectAxe();
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,
@@ -260,7 +261,7 @@ describe(manifest.appName, () => {
         .should('contain', '2')
         .and('contain', 'Category: "medication"');
       cy.injectAxe();
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,

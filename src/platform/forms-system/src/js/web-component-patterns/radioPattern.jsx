@@ -3,6 +3,7 @@ import VaRadioField from '../web-component-fields/VaRadioField';
 /**
  * Web component uiSchema for generic radio field
  *
+ * Usage uiSchema:
  * ```js
  * exampleRadio: radioUI({
  *  title: 'Select animal',
@@ -12,6 +13,11 @@ import VaRadioField from '../web-component-fields/VaRadioField';
  *      octopus: 'Octopus',
  *  }
  * })
+ * ```
+ *
+ * Usage schema:
+ * ```js
+ * exampleRadio: radioSchema(['cat', 'dog', 'octopus'])
  * ```
  * @param {UIOptions & {
  *  title?: UISchemaOptions['ui:title'],

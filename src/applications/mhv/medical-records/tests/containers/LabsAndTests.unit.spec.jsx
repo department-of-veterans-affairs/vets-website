@@ -34,16 +34,15 @@ describe('LabsAndTests list container', () => {
 
   it('displays a subheading', () => {
     expect(
-      screen.getByText(
-        'Review lab and test results in your VA medical records.',
-        { exact: false },
-      ),
+      screen.getByText('Most lab and test results are available', {
+        exact: false,
+      }),
     ).to.exist;
   });
 
   it('displays a count of the records', () => {
-    expect(screen.getByText('Showing 1–10 of 13 records', { exact: false })).to
-      .exist;
+    expect(screen.getByText('Showing 1 – 10 of 13 records', { exact: false }))
+      .to.exist;
   });
 
   it('displays a list of records', async () => {

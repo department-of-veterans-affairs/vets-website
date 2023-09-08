@@ -121,6 +121,8 @@ function fillMilitaryHistory(serviceRecord) {
 function fillPreviousName(serviceName) {
   cy.get('label[for$="hasServiceNameYes"]').should('be.visible');
   cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
+  cy.axeCheck();
+  clickContinue();
   cy.fillName('root_application_veteran_serviceName', serviceName);
   cy.axeCheck();
   clickContinue();

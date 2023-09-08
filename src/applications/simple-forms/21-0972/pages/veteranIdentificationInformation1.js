@@ -22,6 +22,5 @@ export default {
     properties: {
       veteranHasFiledClaim: yesNoSchema,
     },
-    required: ['veteranHasFiledClaim'],
   },
 };

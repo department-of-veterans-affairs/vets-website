@@ -154,7 +154,9 @@ export const validateCurrencyArray = (errors, fieldData) => {
   }
 };
 
-export const validateIsNumber = value => {
-  const pattern = /^\d*\.?\d*$/;
-  return pattern.test(value);
+export const validateIsNumber = (errors, value) => {
+  const pattern = /^\d*$/; // This pattern ensures only whole numbers
+  if (!pattern.test(value)) {
+    errors.addError('Please enter a valid number.');
+  }
 };

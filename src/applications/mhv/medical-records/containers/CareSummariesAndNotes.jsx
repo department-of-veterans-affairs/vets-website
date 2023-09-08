@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import RecordList from '../components/RecordList/RecordList';
 import { getCareSummariesAndNotesList } from '../actions/careSummariesAndNotes';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
+import { updatePageTitle } from '../../shared/util/helpers';
+import { pageTitles } from '../util/constants';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -14,25 +17,24 @@ const CareSummariesAndNotes = () => {
     dispatch(getCareSummariesAndNotesList());
   }, []);
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs(
-          [
-            {
-              url: '/my-health/medical-records',
-              label: 'Medical records',
-            },
-          ],
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs(
+        [
           {
-            url: '/my-health/medical-records/care-summaries-and-notes',
-            label: 'VA care summaries and notes',
+            url: '/my-health/medical-records',
+            label: 'Medical records',
           },
-        ),
-      );
-    },
-    [dispatch],
-  );
+        ],
+        {
+          url: '/my-health/medical-records/summaries-and-notes',
+          label: 'VA care summaries and notes',
+        },
+      ),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE);
+  }, []);
 
   const content = () => {
     if (careSummariesAndNotes?.length) {

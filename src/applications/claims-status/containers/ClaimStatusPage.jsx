@@ -14,15 +14,29 @@ import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
+import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
 import {
+  buildDateFormatter,
   getClaimType,
   getItemDate,
   getTrackedItemDate,
   getUserPhase,
   itemsNeedingAttentionFromVet,
+  setDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
+
+// HELPERS
+// START lighthouse_migration
+const getClaimDate = claim => {
+  const { claimDate, dateFiled } = claim.attributes;
+
+  return claimDate || dateFiled || null;
+};
+// END lighthouse_migration
+
+const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
 // Using a Map instead of the typical Object because
 // we want to guarantee that the key insertion order
@@ -240,9 +254,16 @@ class ClaimStatusPage extends React.Component {
   }
 
   setTitle() {
-    document.title = this.props.loading
-      ? 'Status - Your Claim'
-      : `Status - Your ${getClaimType(this.props.claim)} Claim`;
+    const { claim } = this.props;
+
+    if (claim) {
+      const claimDate = formatDate(getClaimDate(claim));
+      const claimType = getClaimType(claim);
+      const title = `Status Of ${claimDate} ${claimType} Claim`;
+      setDocumentTitle(title);
+    } else {
+      setDocumentTitle('Status Of Your Claim');
+    }
   }
 
   render() {
@@ -285,7 +306,7 @@ function mapStateToProps(state) {
     lastPage: claimsState.routing.lastPage,
     showClaimLettersLink: showClaimLettersFeature(state),
     synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse: cstUseLighthouse(state, 'show'),
   };
 }
 

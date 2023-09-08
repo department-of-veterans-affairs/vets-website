@@ -7,7 +7,8 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { AddIssue } from '../../components/AddIssue';
 import { issueErrorMessages } from '../../content/addIssue';
-import { MAX_LENGTH, LAST_ISSUE } from '../../constants';
+import { MAX_LENGTH } from '../../constants';
+import { LAST_ISSUE } from '../../../shared/constants';
 import { getDate } from '../../../shared/utils/dates';
 
 describe('<AddIssue>', () => {

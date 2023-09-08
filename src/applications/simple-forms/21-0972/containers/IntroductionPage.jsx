@@ -21,7 +21,6 @@ const ombInfo = {
 
 const childContent = (
   <>
-    <h2>When to use this form</h2>
     <p>
       Use this form if you’re signing a VA benefits application or related form
       on behalf of someone else. This form certifies you as an alternate signer

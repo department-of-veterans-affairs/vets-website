@@ -52,7 +52,7 @@ const testConfig = createTestConfig(
               'contain',
               testData.contestedIssues?.length
                 ? 'You’ll need to select an issue'
-                : 'Sorry, we couldn’t find any eligible issues',
+                : 'We can’t load your issues right now',
             );
 
             testData.additionalIssues?.forEach(additionalIssue => {
@@ -110,6 +110,15 @@ const testConfig = createTestConfig(
       },
       'area-of-disagreement/2': ({ afterHook }) => {
         areaOfDisagreementPageHook({ afterHook, index: 2 });
+      },
+
+      'area-of-disagreement/:index': ({ afterHook /* , index */ }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.fillPage(); // temporary until page is updated with web components
+          // console.log('testing :index pageHooks', index);
+          cy.findByText('Continue', { selector: 'button' }).click();
+        });
       },
 
       'evidence-submission/upload': () => {

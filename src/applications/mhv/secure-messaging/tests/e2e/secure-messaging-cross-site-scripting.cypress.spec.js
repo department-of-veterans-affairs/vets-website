@@ -2,6 +2,7 @@ import PatientComposePage from './pages/PatientComposePage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import requestBody from './fixtures/message-compose-request-body.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging - Cross Site Scripting', () => {
   const landingPage = new PatientInboxPage();
@@ -12,7 +13,7 @@ describe('Secure Messaging - Cross Site Scripting', () => {
     site.login();
     landingPage.loadInboxMessages();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -38,7 +39,7 @@ describe('Secure Messaging - Cross Site Scripting', () => {
       .should('contain', {
         category: `${requestBodyUpdated.category}`,
         body:
-          '\n\n\nName\nTitleTest message body - >\x3Cscript>alert(1);\x3C/script>',
+          '\n\n\nName\nTitleTestTest message body - >\x3Cscript>alert(1);\x3C/script>',
         subject: 'Test Cross Scripting - >\x3Cscript>alert(1);\x3C/script>',
       });
     composePage.verifySendMessageConfirmationMessage();

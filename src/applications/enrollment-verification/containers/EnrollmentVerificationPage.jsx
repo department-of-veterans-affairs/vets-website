@@ -94,9 +94,9 @@ export const EnrollmentVerificationPage = ({
 
       <div className="ev-highlighted-content-container vads-u-margin-top--3">
         <header className="ev-highlighted-content-container_header">
-          <h1 className="ev-highlighted-content-container_title vads-u-font-size--h3">
+          <h3 className="ev-highlighted-content-container_title vads-u-font-size--h3">
             Related pages
-          </h1>
+          </h3>
         </header>
         <div className="ev-highlighted-content-container_content">
           <nav className="ev-related-pages-nav">

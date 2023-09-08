@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { SHOW_PART3 } from '../../constants';
-import { getDate } from '../../../shared/utils/dates';
 
 import {
   getEligibleContestableIssues,
@@ -16,10 +15,23 @@ import {
 } from '../../utils/submit';
 
 import { SELECTED } from '../../../shared/constants';
+import { getDate } from '../../../shared/utils/dates';
 
 const validDate1 = getDate({ offset: { months: -2 } });
 const issue1 = {
   raw: {
+    type: 'contestableIssue',
+    attributes: {
+      ratingIssueSubjectText: '  tinnitus ',
+      description: 'both   ears ',
+      approxDecisionDate: validDate1,
+      decisionIssueId: 1,
+      ratingIssueReferenceId: '2',
+      ratingDecisionReferenceId: '3',
+      ratingIssuePercentNumber: '10',
+    },
+  },
+  rawCleaned: {
     type: 'contestableIssue',
     attributes: {
       ratingIssueSubjectText: 'tinnitus',
@@ -48,7 +60,17 @@ const issue2 = {
   raw: {
     type: 'contestableIssue',
     attributes: {
+      ratingIssueSubjectText: 'left   knee ',
+      approxDecisionDate: validDate2,
+      decisionIssueId: 4,
+      ratingIssueReferenceId: '5',
+    },
+  },
+  rawCleaned: {
+    type: 'contestableIssue',
+    attributes: {
       ratingIssueSubjectText: 'left knee',
+      description: '',
       approxDecisionDate: validDate2,
       decisionIssueId: 4,
       ratingIssueReferenceId: '5',
@@ -95,7 +117,7 @@ describe('getEligibleContestableIssues', () => {
       },
     };
     expect(getEligibleContestableIssues([issue, issue2.raw])).to.deep.equal([
-      issue2.raw,
+      issue2.rawCleaned,
     ]);
   });
   it('should keep older decision dates when show part 3 feature is enabled', () => {
@@ -104,7 +126,7 @@ describe('getEligibleContestableIssues', () => {
       getEligibleContestableIssues([issue1.raw, issue2.raw], {
         showPart3: true,
       }),
-    ).to.deep.equal([issue1.raw, issue2.raw]);
+    ).to.deep.equal([issue1.rawCleaned, issue2.rawCleaned]);
   });
 });
 
@@ -193,6 +215,21 @@ describe('addIncludedIssues', () => {
     expect(
       addIncludedIssues({ ...formData, additionalIssues: [] }),
     ).to.deep.equal([issue2.result]);
+  });
+  it('should remove duplicate items', () => {
+    const formData = {
+      contestedIssues: [
+        { ...issue1.raw, [SELECTED]: true },
+        { ...issue2.raw, [SELECTED]: true },
+        { ...issue1.raw, [SELECTED]: true },
+        { ...issue2.raw, [SELECTED]: true },
+      ],
+      additionalIssues: [],
+    };
+    expect(addIncludedIssues(formData)).to.deep.equal([
+      issue1.result,
+      issue2.result,
+    ]);
   });
 });
 
