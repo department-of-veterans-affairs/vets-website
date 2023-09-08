@@ -191,7 +191,7 @@ class PatientMessageDraftsPage {
   };
 
   verifyDeleteConfirmationMessage = () => {
-    cy.contains('successfully deleted')
+    cy.get('[close-btn-aria-label="Close notification"]>div>p')
       .focused()
       .should('have.text', `${Alerts.Message.DELETE_DRAFT_SUCCESS}`);
   };
@@ -242,10 +242,9 @@ class PatientMessageDraftsPage {
   };
 
   verifySendConfirmationMessage = () => {
-    cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
-      'have.text',
-      `${Alerts.Message.SEND_MESSAGE_SUCCESS}`,
-    );
+    cy.get('[close-btn-aria-label="Close notification"]>div>p')
+      .focused()
+      .should('have.text', `${Alerts.Message.SEND_MESSAGE_SUCCESS}`);
   };
 
   openAdvancedSearch = () => {
