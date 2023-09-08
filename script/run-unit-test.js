@@ -11,7 +11,8 @@ const ALLOW_LIST = JSON.parse(
 );
 const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false)
   .map(spec => spec.spec_path.split('/').pop())
-  .join('|');
+  .join('|')
+  .replace(/\./g, '\\.');
 
 console.log('DISALLOWED SPECS: ', DISALLOWED_SPECS);
 const specDirs = '{src,script}';
@@ -77,7 +78,7 @@ const command = `LOG_LEVEL=${options[
   'log-level'
 ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} --recursive ${options.path
   .map(p => `'${p}'`)
-  .join(' ')}`;
+  .join(' ')} --grep ${DISALLOWED_SPECS} --invert`;
 
 const runTestsInLoopUpTo = isStressTest ? 20 : 1;
 
