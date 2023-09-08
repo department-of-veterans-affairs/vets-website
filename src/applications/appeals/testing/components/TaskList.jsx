@@ -17,7 +17,7 @@ export const TaskList = () => {
         <a href="/decision-reviews/appeals-testing">Board Appeals</a>
       </p>
       <h1>Request a Board Appeal (Form 10182)</h1>
-      <ol className="task-list">
+      <ol className="task-list vads-u-margin-bottom--8">
         {chapterTitles.map((title, index) => (
           <li key={index}>
             <h2>
