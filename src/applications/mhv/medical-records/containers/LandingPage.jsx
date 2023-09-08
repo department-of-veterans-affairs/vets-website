@@ -223,7 +223,7 @@ const LandingPage = () => {
               <p>
                 <strong>To find recent records, </strong>
                 check back later. It may take <strong>36 hours</strong> for some
-                reecord to become available online.
+                record to become available online.
               </p>
               <p>
                 <strong>To find medication records,</strong> go to your
