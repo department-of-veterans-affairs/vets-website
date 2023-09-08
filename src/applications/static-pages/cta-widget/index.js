@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
-import { fetchMHVAccount } from 'platform/user/profile/actions';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import sessionStorage from 'platform/utilities/storage/sessionStorage';
 
@@ -79,16 +78,6 @@ export class CallToActionWidget extends Component {
     this._toolDetails = ctaWidget?.deriveToolUrlDetails() || {};
     this._toolUrl = null;
     this._gaPrefix = 'register-mhv';
-  }
-
-  componentDidMount() {
-    if (
-      !this.props.featureToggles.loading &&
-      this.props.isLoggedIn &&
-      this.isHealthTool()
-    ) {
-      this.props.fetchMHVAccount();
-    }
   }
 
   componentDidUpdate() {
@@ -547,7 +536,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  fetchMHVAccount,
   toggleLoginModal,
 };
 
