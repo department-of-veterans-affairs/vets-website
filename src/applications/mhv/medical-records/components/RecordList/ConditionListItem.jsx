@@ -23,7 +23,7 @@ const ConditionListItem = props => {
 
           <p className="vads-u-margin--0">Date entered: {formattedDate}</p>
           <Link
-            to={`/health-conditions/${record.id}`}
+            to={`/conditions/${record.id}`}
             className="vads-u-margin--0 no-print"
             aria-describedby={`details-button-description-${record.id}`}
           >

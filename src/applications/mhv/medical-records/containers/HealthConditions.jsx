@@ -27,7 +27,7 @@ const HealthConditions = () => {
       setBreadcrumbs(
         [{ url: '/my-health/medical-records/', label: 'Medical records' }],
         {
-          url: '/my-health/medical-records/health-conditions',
+          url: '/my-health/medical-records/conditions',
           label: 'VA health conditions',
         },
       ),
