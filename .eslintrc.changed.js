@@ -26,21 +26,12 @@ module.exports = {
       },
       {
         name:
-          '@department-of-veterans-affairs/component-library/AdditionalInfo',
-        use: '<va-additional-info>',
-      },
-      {
-        name:
           '@department-of-veterans-affairs/component-library/LoadingIndicator',
         use: '<va-loading-indicator>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/Pagination',
         use: '<va-pagination>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Select',
-        use: '<va-select>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/FileInput',
