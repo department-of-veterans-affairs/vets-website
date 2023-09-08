@@ -1,5 +1,6 @@
 import constants from 'vets-json-schema/dist/constants.json';
 // import schema from './config/form-0995-schema.json';
+import { MAX_LENGTH } from '../shared/constants';
 
 export const APP_NAME = 'Supplemental Claim';
 
@@ -36,9 +37,6 @@ export const EVIDENCE_UPLOAD_API = '/v0/decision_review_evidence';
 
 export const SUBMIT_URL = '/v1/supplemental_claims';
 
-// key for contestedIssues to indicate that the user selected the issue
-export const SELECTED = 'view:selected';
-
 export const PRIMARY_PHONE = 'view:primaryPhone';
 export const PRIMARY_PHONE_TYPES = ['home', 'mobile'];
 
@@ -50,32 +48,6 @@ export const EVIDENCE_OTHER = 'view:hasOtherEvidence';
 // the application after using the "Finish this application later" link
 // See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
 export const DEFAULT_BENEFIT_TYPE = 'compensation';
-
-// Supplemental Claim allows for past decision dates, but we should limit them.
-// Picking 100 years until told otherwise
-export const MAX_YEARS_PAST = 100;
-
-// Values from Lighthouse maintained schema
-// see ./config/form-0995-schema.json
-export const MAX_LENGTH = {
-  SELECTIONS: 100, // submitted issues
-  EVIDENCE_DATES: 4, // items
-  ISSUE_NAME: 140,
-  EMAIL: 255,
-  PHONE_COUNTRY_CODE: 3,
-  PHONE_AREA_CODE: 4,
-  PHONE_NUMBER: 14,
-  PHONE_NUMBER_EXT: 10,
-  ADDRESS_COUNTRY: 2,
-  ADDRESS_LINE1: 60,
-  ADDRESS_LINE2: 30,
-  ADDRESS_LINE3: 10,
-  CITY: 60,
-  ZIP_CODE5: 5,
-  POSTAL_CODE: 16,
-  CLAIMANT_OTHER: 25,
-  EVIDENCE_LOCATION_AND_NAME: 255,
-};
 
 export const REGEX_COMMA = /[, ]/g;
 export const REGEX_EMPTY_DATE = /(--|-00-00)/;
@@ -136,15 +108,9 @@ export const NULL_CONDITION_STRING = 'Unknown Condition';
 export const NO_ISSUES_SELECTED = 'No issues were selected';
 
 // contested issue dates
-export const FORMAT_YMD = 'YYYY-MM-DD';
-export const FORMAT_READABLE = 'LL';
-export const FORMAT_COMPACT = 'MMM DD, YYYY';
-
-export const LAST_SC_ITEM = 'lastScItem'; // focus management across pages
 export const CONTACT_EDIT = 'edit-contact-info'; // contact info focusing
 export const SUMMARY_EDIT = 'edit-evidence-summary'; // evidence summary focus
 export const REVIEW_CONTACT = 'onReviewPageContact';
-export const REVIEW_ISSUES = 'onReviewPageIssues';
 export const LIMITATION_KEY = 'limitation';
 
 // Values from benefitTypes in Lighthouse 0995 schema
@@ -236,7 +202,6 @@ export const ATTACHMENTS_OTHER = {
 };
 
 export const CONTACT_INFO_PATH = 'contact-information';
-export const CONTESTABLE_ISSUES_PATH = 'contestable-issues';
 export const ADD_ISSUE_PATH = 'add-issue';
 export const EVIDENCE_VA_REQUEST =
   'supporting-evidence/request-va-medical-records';
