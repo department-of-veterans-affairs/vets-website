@@ -23,8 +23,6 @@ import {
   showExtensionReason,
 } from '../utils/helpers';
 
-import { CONTESTABLE_ISSUES_PATH } from '../constants';
-
 // Pages
 import veteranInfo from '../pages/veteranInfo';
 import homeless from '../pages/homeless';
@@ -51,6 +49,7 @@ import {
 
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
+import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 
 // import initialData from '../tests/schema/initialData';
 
