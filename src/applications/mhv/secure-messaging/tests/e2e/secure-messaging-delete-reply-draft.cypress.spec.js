@@ -44,7 +44,7 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.ReplyToMessageBody(messageDetailsBody);
     draftsPage.clickDeleteButton();
     draftsPage.confirmDeleteReplyDraftWithEnterKey(messageDetails);
-    draftsPage.verifyDeleteConfirmMessage();
+    draftsPage.verifyDeleteConfirmationMessage();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

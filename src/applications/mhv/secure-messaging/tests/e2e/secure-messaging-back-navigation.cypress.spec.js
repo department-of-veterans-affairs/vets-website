@@ -6,14 +6,17 @@ import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import { AXE_CONTEXT } from './utils/constants';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 import mockThreadResponse from './fixtures/single-draft-response.json';
+import { DefaultFolders, Paths, Locators } from '../../util/constants';
 
 describe('SM back navigation', () => {
-  it('user navigate to inbox folder after message sent', () => {
-    const landingPage = new PatientInboxPage();
-    const composePage = new PatientComposePage();
-    const site = new SecureMessagingSite();
+  const site = new SecureMessagingSite();
+  const landingPage = new PatientInboxPage();
+  beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
+  });
+  it('user navigate to inbox folder after message sent', () => {
+    const composePage = new PatientComposePage();
     landingPage.navigateToComposePage();
     composePage.selectRecipient(requestBody.recipientId);
     composePage.getCategory(requestBody.category).click();
@@ -31,21 +34,21 @@ describe('SM back navigation', () => {
       },
     });
 
-    cy.get('h1').should('have.text', 'Inbox');
+    cy.get(`${Locators.HEADER}`).should(
+      'have.text',
+      `${DefaultFolders.INBOX.header}`,
+    );
     cy.location().should(loc => {
-      expect(loc.pathname).to.eq('/my-health/secure-messages/inbox/');
+      expect(loc.pathname).to.eq(`${Paths.UI_MAIN + Paths.INBOX}`);
     });
   });
 
   it('user navigate to drafts folder after message sent', () => {
     const draftPage = new PatientMessageDraftsPage();
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
     draftPage.loadDraftMessages();
     draftPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     draftPage.sendDraftMessage(mockDraftResponse);
+    draftPage.verifySendConfirmationMessage();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -56,9 +59,12 @@ describe('SM back navigation', () => {
       },
     });
 
-    cy.get('h1').should('have.text', 'Drafts');
+    cy.get(`${Locators.HEADER}`).should(
+      'have.text',
+      `${DefaultFolders.DRAFTS.header}`,
+    );
     cy.location().should(loc => {
-      expect(loc.pathname).to.eq('/my-health/secure-messages/drafts/');
+      expect(loc.pathname).to.eq(`${Paths.UI_MAIN + Paths.DRAFTS}`);
     });
   });
 });

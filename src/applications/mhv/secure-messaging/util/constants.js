@@ -2,6 +2,8 @@
 export const draftAutoSaveTimeout = 10000;
 
 export const Paths = {
+  UI_MAIN: '/my-health/secure-messages',
+  API_MAIN: '/my_health/v1/messaging',
   INBOX: '/inbox/',
   SENT: '/sent/',
   DRAFTS: '/drafts/',
@@ -321,4 +323,8 @@ export const PageTitles = {
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
   MY_FOLDERS_PAGE_TITLE_TAG:
     'My folders - MHV Secure Messaging | Veterans Affairs',
+};
+
+export const Locators = {
+  HEADER: 'h1',
 };

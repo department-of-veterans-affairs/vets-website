@@ -5,6 +5,7 @@ import defaultMockThread from '../fixtures/single-draft-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
+import { Paths, Alerts } from '../../../util/constants';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -164,7 +165,7 @@ class PatientMessageDraftsPage {
   };
 
   sendDraftMessage = draftMessage => {
-    cy.intercept('POST', '/my_health/v1/messaging/messages', draftMessage).as(
+    cy.intercept('POST', `${Paths.API_MAIN}/messages`, draftMessage).as(
       'sentDraftResponse',
     );
     cy.get('[data-testid="Send-Button"]').click({ force: true });
@@ -189,10 +190,10 @@ class PatientMessageDraftsPage {
     cy.wait('@deletedDraftResponse');
   };
 
-  verifyDeleteConfirmMessage = () => {
+  verifyDeleteConfirmationMessage = () => {
     cy.contains('successfully deleted')
       .focused()
-      .should('have.text', 'Draft was successfully deleted.');
+      .should('have.text', `${Alerts.Message.DELETE_DRAFT_SUCCESS}`);
   };
 
   confirmDeleteDraftWithEnterKey = draftMessage => {
@@ -240,10 +241,10 @@ class PatientMessageDraftsPage {
       .find('[name="compose-message-body"]');
   };
 
-  verifySendMessageConfirmationMessage = () => {
-    cy.get('.vads-u-margin-bottom--1').should(
+  verifySendConfirmationMessage = () => {
+    cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
       'have.text',
-      'Secure message was successfully sent.',
+      `${Alerts.Message.SEND_MESSAGE_SUCCESS}`,
     );
   };
 
