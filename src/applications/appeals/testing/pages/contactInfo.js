@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ContactInformation from '../components/ContactInformation';
+import { getFormattedPhone } from '../utils/contactInfo';
 
 const contactInfo = {
   uiSchema: {
@@ -11,14 +12,17 @@ const contactInfo = {
     properties: {},
   },
   review: data => ({
-    'Mobile phone number': '+1 (123) 456-7890',
-    'Home phone number': '+1 (098) 765-4321',
-    'Email address': 'allesandra.baker@gmail.com',
+    'Mobile phone number': getFormattedPhone(data.veteran.mobilePhone),
+    'Home phone number': getFormattedPhone(data.veteran.homePhone),
+    'Email address': data.veteran.email,
     'Mailing address': (
       <>
-        <div>123 Charlesgate Rd</div>
-        <div>Providence, Rhode Island</div>
-        <div>02903</div>
+        <div>{data.veteran.address.addressLine1}</div>
+        <div>
+          {`${data.veteran.address.city}, ${data.veteran.address.stateCode}`}
+        </div>
+        <div>{data.veteran.address.zipCode}</div>
+        <div>{data.veteran.address.countryName || ''}</div>
       </>
     ),
     'Primary number': data.primaryPhone,
