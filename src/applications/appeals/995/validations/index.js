@@ -1,4 +1,5 @@
 import { errorMessages, PRIMARY_PHONE } from '../constants';
+
 import { validateRequireRatedDisability } from '../../shared/validations';
 
 /**
