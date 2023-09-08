@@ -29,14 +29,11 @@ import informalConferenceRepV2 from '../pages/informalConferenceRep';
 import informalConferenceTime from '../pages/informalConferenceTime';
 import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
-import {
-  errorMessages,
-  WIZARD_STATUS,
-  CONTESTABLE_ISSUES_PATH,
-  ADD_ISSUE_PATH,
-} from '../constants';
+import { errorMessages, WIZARD_STATUS, ADD_ISSUE_PATH } from '../constants';
 import { appStateSelector, mayHaveLegacyAppeals } from '../utils/helpers';
 import { getIssueTitle } from '../content/areaOfDisagreement';
+
+import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 
 // import initialData from '../tests/schema/initialData';
 

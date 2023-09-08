@@ -13,11 +13,15 @@ import {
 } from '../../10182/actions';
 
 import { IssueCard } from './IssueCard';
-import { REVIEW_ISSUES, APP_NAME } from '../../10182/constants';
+import { APP_NAME } from '../../10182/constants';
 import { ContestableIssuesLegend } from '../content/contestableIssues';
 
-import { SELECTED, MAX_LENGTH, LAST_ISSUE } from '../../shared/constants';
-
+import {
+  LAST_ISSUE,
+  MAX_LENGTH,
+  REVIEW_ISSUES,
+  SELECTED,
+} from '../../shared/constants';
 import {
   NoIssuesLoadedAlert,
   NoneSelectedAlert,
