@@ -17,7 +17,7 @@ describe('CareSummariesAndNotes list container', () => {
     return renderWithStoreAndRouter(<CareSummariesAndNotes />, {
       initialState: state,
       reducers: reducer,
-      path: '/care-summaries-and-notes',
+      path: '/summaries-and-notes',
     });
   };
 

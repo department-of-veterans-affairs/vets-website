@@ -3,6 +3,7 @@
 export default Object.freeze({
   avsEnabled: 'avs_enabled',
   bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
+  burialFormEnabled: 'burial_form_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
@@ -199,6 +200,7 @@ export default Object.freeze({
   vaOnlineSchedulingPrintList: 'va_online_scheduling_print_list',
   vaOnlineSchedulingDescriptiveBackLink: 'va_online_scheduling_descriptive_back_link',
   vaOnlineSchedulingStaticLandingPage: 'va_online_scheduling_static_landing_page',
+  vaOnlineSchedulingGA4Migration: 'va_online_scheduling_GA4_migration',
   vaOnlineSchedulingAfterVisitSummary: 'va_online_scheduling_after_visit_summary',
   vaViewDependentsAccess: 'va_view_dependents_access',
   virtualAgentShowFloatingChatbot: 'virtual_agent_show_floating_chatbot',

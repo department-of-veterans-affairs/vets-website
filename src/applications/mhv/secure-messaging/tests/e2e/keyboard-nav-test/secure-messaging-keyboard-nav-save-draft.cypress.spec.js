@@ -1,5 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Check confirmation message after save draft', () => {
   const site = new SecureMessagingSite();
@@ -11,7 +12,7 @@ describe('Check confirmation message after save draft', () => {
     inboxPage.composeDraftByKeyboard();
 
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
