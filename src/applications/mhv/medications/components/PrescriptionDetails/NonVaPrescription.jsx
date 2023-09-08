@@ -15,7 +15,10 @@ const NonVaPrescription = prescription => {
           <div>
             {prescription?.refillStatus === 'refillinprocess'
               ? 'Refill in process'
-              : refillStatus?.charAt(0).toUpperCase() + refillStatus?.slice(1)}
+              : validateField(
+                  refillStatus?.charAt(0).toUpperCase() +
+                    refillStatus?.slice(1),
+                )}
           </div>
           <div className="no-print">
             <va-additional-info trigger="What does this status mean?">
