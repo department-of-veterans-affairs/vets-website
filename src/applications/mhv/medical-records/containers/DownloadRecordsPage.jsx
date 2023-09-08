@@ -13,7 +13,7 @@ const DownloadRecordsPage = () => {
       setBreadcrumbs(
         [{ url: '/my-health/medical-records', label: 'Medical records' }],
         {
-          url: '/my-health/medical-records/download-your-medical-records',
+          url: '/my-health/medical-records/download-all',
           label: 'Download all medical records',
         },
       ),
