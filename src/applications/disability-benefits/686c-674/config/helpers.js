@@ -182,7 +182,7 @@ export const classesPerWeekUiSchema = {
   'ui:validations': [
     (errors, fieldData) => {
       if (fieldData > 999) {
-        errors.addError('Enter a number less than 999');
+        errors.addError('Enter a number less than 1000');
       }
     },
   ],
