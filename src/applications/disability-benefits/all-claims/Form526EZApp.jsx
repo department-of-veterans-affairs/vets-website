@@ -9,10 +9,10 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import {
   WIZARD_STATUS_COMPLETE,
   WIZARD_STATUS_RESTARTING,
-} from 'platform/site-wide/wizard';
+} from '@department-of-veterans-affairs/platform-site-wide/wizard';
 import { isLoggedIn } from 'platform/user/selectors';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
@@ -151,6 +151,7 @@ export const Form526Entry = ({
       profile,
       setFormData,
       showSubforms,
+      showToxicExposurePages,
       wizardStatus,
     ],
   );
