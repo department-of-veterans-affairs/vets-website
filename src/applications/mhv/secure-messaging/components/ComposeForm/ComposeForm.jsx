@@ -204,7 +204,7 @@ const ComposeForm = props => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
   };
 
-  // Populates form fields with recipients and categories
+  //  Populates form fields with recipients and categories
   const populateForm = () => {
     if (!recipientExists(draft.recipientId)) {
       const newRecipient = {
