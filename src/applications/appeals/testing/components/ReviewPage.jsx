@@ -54,20 +54,18 @@ const ReviewPage = props => {
             <ul className="review-pages vads-u-padding--0">
               {pages.map(
                 page =>
-                  page.review ? (
-                    <li key={page.path}>
-                      {Object.entries(page.review(props.data)).map(
+                  page.review
+                    ? Object.entries(page.review(props.data)).map(
                         ([label, value]) => (
-                          <div key={label}>
+                          <li key={label}>
                             <div className="page-title vads-u-margin-top--1 vads-u-color--gray">
                               {label}
                             </div>
                             <div className="page-value">{value}</div>
-                          </div>
+                          </li>
                         ),
-                      )}
-                    </li>
-                  ) : null,
+                      )
+                    : null,
               )}
             </ul>
           </div>
