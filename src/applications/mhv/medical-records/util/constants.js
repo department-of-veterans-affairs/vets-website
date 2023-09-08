@@ -118,3 +118,20 @@ export const vitalTypeDisplayNames = {
 };
 
 export const ALERT_TYPE_ERROR = 'error';
+
+export const pageTitles = {
+  MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',
+  LAB_AND_TEST_RESULTS_PAGE_TITLE:
+    'Lab And Test Results - Medical Records | Veterans Affairs',
+  CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
+    'Care Summaries And Notes - Medical Records | Veterans Affairs',
+  VACCINES_PAGE_TITLE: 'Vaccines - Medical Records | Veterans Affairs',
+  ALLERGIES_PAGE_TITLE: 'Allergies - Medical Records | Veterans Affairs',
+  HEALTH_CONDITIONS_PAGE_TITLE:
+    'Health Conditions - Medical Records | Veterans Affairs',
+  VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
+  DOWNLOAD_PAGE_TITLE:
+    'Download All Medical Records - Medical Records | Veterans Affairs',
+  SETTINGS_PAGE_TITLE:
+    'Medical Records Settings - Medical Records | Veterans Affairs',
+};

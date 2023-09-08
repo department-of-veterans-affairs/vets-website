@@ -5,7 +5,7 @@ import { formatSSN } from 'platform/utilities/ui';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
 const convertDateFormat = date => {
-  date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
+  return date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
 };
 
 const formatPhoneNumber = num =>

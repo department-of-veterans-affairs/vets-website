@@ -11,6 +11,9 @@
         "generatedDate": "2023-07-12T07:45:11Z",
         "timeZone": "US/Pacific"
       },
+      "patientInfo": {
+        "smokingStatus": "Current smoker"
+      },
       "clinicsVisited": [
         {
           "T": "ClinicVisited",
@@ -364,8 +367,19 @@
           "fmDatetime": 3230909.143,
           "type": "Scheduled",
           "physicalLocation": "VETERANS LOCATION VIDEO "
+        },
+        {
+          "T": "Appointment",
+          "site": "LOMA LINDA VA CLINIC",
+          "stationNo": "605",
+          "location": "TEST CLINIC",
+          "datetime": "03/15/2024@10:00",
+          "fmDatetime": 3230909.143,
+          "type": "Recall",
+          "physicalLocation": "VETERANS LOCATION VIDEO "
         }
       ],
+      "comments": "Test appointment notes.",
       "patientInstructions": "Recommend acetaminophen 500 mg, take 1000 mg 3 times daily not to exceed<br>3000 mg per day.<br>Recommend acetaminophen 500 mg, take 1000 mg 3 times daily not to exceed<br>3000 mg per day.<br>",
       "patientEducation": "None",
       "primaryCareProviders": [
