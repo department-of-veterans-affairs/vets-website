@@ -178,8 +178,8 @@ const PrescriptionDetails = () => {
           >
             {nonVaPrescription ? (
               <>
-                Information entered on June 1, 2023{' '}
-                {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
+                Information entered on{' '}
+                {dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
               </>
             ) : (
               <>
