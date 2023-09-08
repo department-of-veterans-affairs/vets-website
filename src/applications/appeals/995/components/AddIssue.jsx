@@ -11,12 +11,12 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { getSelected, calculateIndexOffset } from '../utils/helpers';
 import {
-  SELECTED,
-  MAX_LENGTH,
-  LAST_SC_ITEM,
   CONTESTABLE_ISSUES_PATH,
+  LAST_ISSUE,
+  MAX_LENGTH,
   REVIEW_ISSUES,
-} from '../constants';
+  SELECTED,
+} from '../../shared/constants';
 
 import { checkValidations } from '../validations';
 import {
@@ -44,7 +44,7 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
     // set session storage of edited item. This enables focusing on the item
     // upon return to the eligible issues page (a11y); when -1 is set, the add
     // a new issue action link will be focused
-    window.sessionStorage.setItem(LAST_SC_ITEM, value || `${index},${type}`);
+    window.sessionStorage.setItem(LAST_ISSUE, value || `${index},${type}`);
     window.sessionStorage.removeItem(REVIEW_ISSUES);
   };
   const offsetIndex = calculateIndexOffset(index, contestedIssues.length);
@@ -181,6 +181,7 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
           onInput={handlers.onIssueNameChange}
           onBlur={handlers.onInputBlur}
           error={((submitted || inputDirty) && showIssueNameError) || null}
+          message-aria-describedby={content.name.hintText}
         >
           {content.name.hint}
         </VaTextInput>

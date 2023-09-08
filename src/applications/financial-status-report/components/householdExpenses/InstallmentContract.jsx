@@ -54,9 +54,9 @@ const InstallmentContract = props => {
     contractRecord.creditorName || null,
   );
 
+  // if valid returns true, if invalid returns false
   const validateLoanBegan = monthYear => {
-    if (!monthYear || typeof monthYear !== 'string')
-      return 'Please enter a valid date.';
+    if (!monthYear || typeof monthYear !== 'string') return false;
 
     const [year] = monthYear.split('-');
     const todayYear = new Date().getFullYear();
@@ -68,15 +68,12 @@ const InstallmentContract = props => {
     );
   };
 
-  const fromDateError = validateLoanBegan(contractRecord.dateStarted)
-    ? null
-    : 'Please enter the loan start date';
-
   const { dateStarted } = contractRecord;
 
   const { month: fromMonth, year: fromYear } = parseISODate(dateStarted);
 
   const [submitted, setSubmitted] = useState(false);
+  const [fromDateError, setFromDateError] = useState(null);
 
   const amountDueMonthlyError = !isValidCurrency(
     contractRecord.amountDueMonthly,
@@ -123,7 +120,16 @@ const InstallmentContract = props => {
     setSubmitted(true);
     e.preventDefault();
 
-    if (fromDateError || typeError || amountDueMonthlyError) {
+    const loanBeganContainsGoodValue = validateLoanBegan(
+      contractRecord.dateStarted,
+    );
+
+    if (!loanBeganContainsGoodValue) {
+      setFromDateError('Please enter a valid date.');
+      return;
+    }
+
+    if (typeError || amountDueMonthlyError) {
       return;
     }
 
@@ -313,8 +319,14 @@ const InstallmentContract = props => {
             onDateChange={e =>
               handlers.handleDateChange('dateStarted', e.target.value)
             }
-            onDateBlur={e => validateLoanBegan(e.target.value)}
-            required={!!contractRecord.amountDueMonthly}
+            onDateBlur={e =>
+              setFromDateError(
+                validateLoanBegan(e.target.value)
+                  ? null
+                  : 'Please enter a valid date',
+              )
+            }
+            required
             error={(submitted && fromDateError) || null}
           />
         </div>

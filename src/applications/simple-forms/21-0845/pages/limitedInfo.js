@@ -7,27 +7,23 @@ import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
 export default {
   uiSchema: {
     limitedInformationItems: {
-      'ui:description':
-        'Select the items we can share with your third-party source. You can select more than one.',
+      'ui:title': (
+        <>
+          <span className="custom-header vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--h3">
+            Which specific information do you authorize us to release?{' '}
+            <span className="custom-required-span hide-on-review-page">
+              (*Required)
+            </span>
+          </span>
+          <p className="custom-description hide-on-review-page">
+            Select the items we can share with your third-party source. You can
+            select more than one.
+          </p>
+        </>
+      ),
       'ui:widget': GroupCheckboxWidget,
       'ui:required': formData => !formData.limitedInformationOther,
       'ui:options': {
-        updateSchema: formData => {
-          const { authorizerType } = formData;
-          const titleString =
-            authorizerType === 'veteran'
-              ? 'Which specific information do you authorize us to release?'
-              : 'Which information should be limited from this disclosure?';
-
-          return {
-            title: (
-              <h3 className="custom-header disclosure-information-limited-information">
-                {titleString}{' '}
-                <span className="custom-required-span">(*Required)</span>
-              </h3>
-            ),
-          };
-        },
         forceDivWrapper: true,
         labels: Object.values(LIMITED_INFORMATION_ITEMS),
         showFieldLabel: true,

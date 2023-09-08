@@ -8,7 +8,8 @@ const alignToLeft = `xsmall-screen:vads-u-margin-left--neg1
 small-screen:vads-u-margin-left--neg1 
 medium-screen:vads-u-margin-left--neg2
 small-desktop-screen:vads-u-margin-left--neg2
-large-screen:vads-u-margin-left--0`;
+large-screen:vads-u-margin-left--0 vads-u-padding-bottom--0
+vads-u-padding-top--0 vads-u-margin-bottom--neg1p5`;
 
 const RxBreadcrumbs = () => {
   const crumbs = useSelector(state => state.rx.breadcrumbs.list);
