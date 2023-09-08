@@ -21,12 +21,12 @@ const CareSummariesDetails = () => {
           setBreadcrumbs(
             [
               {
-                url: '/my-health/medical-records/care-summaries-and-notes',
+                url: '/my-health/medical-records/summaries-and-notes',
                 label: 'Care summaries and notes',
               },
             ],
             {
-              url: `/my-health/medical-records/care-summaries-and-notes/${summaryId}`,
+              url: `/my-health/medical-records/summaries-and-notes/${summaryId}`,
               label: careSummary?.name,
             },
           ),

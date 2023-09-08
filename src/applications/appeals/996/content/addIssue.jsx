@@ -2,6 +2,9 @@ import React from 'react';
 
 import { MAX_LENGTH } from '../../shared/constants';
 
+const hintText =
+  'You can only add an issue that you’ve received a VA decision notice for.';
+
 export const issueErrorMessages = {
   missingIssue: 'Please add the name of an issue',
   uniqueIssue: 'Please enter a unique condition name',
@@ -30,10 +33,9 @@ export const content = {
   },
   name: {
     label: 'Name of issue',
+    hintText,
     hint: (
-      <div>
-        You can only add an issue that you’ve received a VA decision notice for.
-      </div>
+      <p className="vads-u-font-weight--normal label-description">{hintText}</p>
     ),
   },
   date: {
