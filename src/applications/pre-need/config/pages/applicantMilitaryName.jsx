@@ -1,13 +1,6 @@
-export const uiSchema = {
-  application: {
-    veteran: {
-      'view:hasServiceName': {
-        'ui:title': 'Did you serve under another name?',
-        'ui:widget': 'yesNo',
-      },
-    },
-  },
-};
+import { militaryNameUI } from '../../utils/helpers';
+
+export const uiSchema = militaryNameUI;
 export const schema = {
   type: 'object',
   properties: {

@@ -1,10 +1,47 @@
+import { merge } from 'lodash';
+
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
+
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+
+import { serviceRecordsUI } from '../../utils/helpers';
+
+const { veteran } = fullSchemaPreNeed.properties.application.properties;
+
 export const uiSchema = {
   application: {
     veteran: {
-      'view:hasServiceName': {
-        'ui:title': 'Did your sponsor serve under another name?',
-        'ui:widget': 'yesNo',
-      },
+      serviceRecords: merge({}, serviceRecordsUI, {
+        'ui:title': 'Sponsor’s service period(s)',
+        'ui:description':
+          'Please provide all your sponsor’s service periods. If you need to add another service period, please click the Add Another Service Period button.',
+        items: {
+          'ui:order': [
+            'serviceBranch',
+            'dateRange',
+            'dischargeType',
+            'highestRank',
+            'nationalGuardState',
+          ],
+          serviceBranch: {
+            'ui:title': 'Sponsor’s branch of service',
+          },
+          dateRange: dateRangeUI(
+            'Sponsor’s service start date',
+            'Sponsor’s service end date',
+            'Service start date must be before end date',
+          ),
+          dischargeType: {
+            'ui:title': 'Sponsor’s discharge character of service',
+          },
+          highestRank: {
+            'ui:title': 'Sponsor’s highest rank attained',
+          },
+          nationalGuardState: {
+            'ui:title': 'Sponsor’s state (for National Guard Service only)',
+          },
+        },
+      }),
     },
   },
 };
@@ -16,11 +53,8 @@ export const schema = {
       properties: {
         veteran: {
           type: 'object',
-          required: ['view:hasServiceName'],
           properties: {
-            'view:hasServiceName': {
-              type: 'boolean',
-            },
+            serviceRecords: veteran.properties.serviceRecords,
           },
         },
       },
