@@ -9,6 +9,7 @@ const VaPrescription = prescription => {
   const shippedOn = prescription?.trackingList?.[0]?.[1];
   const content = () => {
     if (prescription) {
+      const refillStatus = prescription.refillStatus?.toString();
       return (
         <>
           <div className="medication-details-div vads-u-margin-top--2 vads-u-margin-bottom--3">
@@ -35,7 +36,10 @@ const VaPrescription = prescription => {
             <div data-testid="status">
               {prescription.refillStatus === 'refillinprocess'
                 ? 'Refill in process'
-                : validateField(prescription.refillStatus)}
+                : validateField(
+                    refillStatus?.charAt(0).toUpperCase() +
+                      refillStatus?.slice(1),
+                  )}
             </div>
             <div className="no-print">
               <va-additional-info trigger="What does this status mean?">
