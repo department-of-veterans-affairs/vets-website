@@ -39,6 +39,12 @@ const contactInfo = {
       },
     },
   },
+
+  review: data => ({
+    'Evidence submission': data['view:additionalEvidence']
+      ? 'Yes'
+      : 'No, I’ll submit it later',
+  }),
 };
 
 export default contactInfo;

@@ -1,5 +1,8 @@
 import React from 'react';
 
+const title =
+  'Do you want to write or upload additional information about your disagreements?';
+
 const additionalInfoRequest = {
   uiSchema: {
     'ui:title': ' ',
@@ -27,11 +30,7 @@ const additionalInfoRequest = {
   },
 
   review: data => ({
-    'Do you want to write or upload additional information about your disagreements?': data[
-      'view:additionalInfo'
-    ]
-      ? 'Yes'
-      : 'No',
+    [title]: data['view:additionalInfo'] ? 'Yes' : 'No',
   }),
 };
 
