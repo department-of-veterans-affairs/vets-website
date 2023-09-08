@@ -77,7 +77,7 @@ const checkModals = options => {
 };
 
 const checkRemovalWhileEditingModal = options => {
-  const { editSectionName, removalSectionName } = options;
+  const { editSectionName, editLineId, removalSectionName } = options;
 
   // Open edit view
   cy.findByRole('button', {
@@ -85,6 +85,8 @@ const checkRemovalWhileEditingModal = options => {
   }).click({
     force: true,
   });
+
+  cy.get(`#${editLineId}`).type('{selectAll}{backspace}1234', { force: true });
 
   // Attempt to remove a different field
   cy.findByRole('button', {
@@ -104,6 +106,11 @@ const checkRemovalWhileEditingModal = options => {
     .click();
 
   cy.findByTestId('cancel-edit-button').click();
+
+  cy.findByTestId('confirm-cancel-modal')
+    .shadow()
+    .findByRole('button', { name: /Yes, cancel my changes/i })
+    .click();
 };
 
 describe('Modals for removal of field', () => {
@@ -112,16 +119,19 @@ describe('Modals for removal of field', () => {
 
     checkRemovalWhileEditingModal({
       editSectionName: 'mailing address',
+      editLineId: 'root_addressLine1',
       removalSectionName: 'home address',
     });
 
     checkRemovalWhileEditingModal({
       editSectionName: 'home phone number',
+      editLineId: 'root_inputPhoneNumber',
       removalSectionName: 'mobile phone number',
     });
 
     checkRemovalWhileEditingModal({
       editSectionName: 'mailing address',
+      editLineId: 'root_addressLine1',
       removalSectionName: 'contact email address',
     });
 
