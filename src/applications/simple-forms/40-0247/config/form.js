@@ -29,7 +29,7 @@ const formConfig = {
     }),
   trackingPrefix: '0247-pmc',
   dev: {
-    showNavLinks: true,
+    showNavLinks: !window.Cypress,
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
