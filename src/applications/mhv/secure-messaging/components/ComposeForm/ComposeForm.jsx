@@ -154,8 +154,8 @@ const ComposeForm = props => {
           category,
           body: messageBody,
           subject,
-          draftId: draft?.messageId,
         };
+        messageData[`${'draft_id'}`] = draft?.messageId;
         messageData[`${'recipient_id'}`] = selectedRecipient;
         if (attachments.length) {
           const sendData = new FormData();
