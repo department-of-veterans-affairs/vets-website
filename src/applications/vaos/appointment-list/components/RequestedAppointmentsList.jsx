@@ -20,6 +20,8 @@ import {
 } from '../../redux/selectors';
 import RequestAppointmentLayout from './AppointmentsPageV2/RequestAppointmentLayout';
 
+const showText = true;
+
 export default function RequestedAppointmentsList({ hasTypeChanged }) {
   const {
     facilityData,
@@ -123,6 +125,7 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
         <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
             description="appointment requests"
+            additionalDescription={showText}
             showScheduleButton={showScheduleButton}
             startNewAppointmentFlow={() => {
               recordEvent({
