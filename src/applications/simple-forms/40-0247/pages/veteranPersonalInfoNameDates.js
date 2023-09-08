@@ -1,7 +1,7 @@
 import {
   dateOfBirthSchema,
   dateOfDeathSchema,
-  currentOrPastDateDigitsUI,
+  currentOrPastDateUI,
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -10,22 +10,13 @@ import {
 export default {
   uiSchema: {
     veteranFullName: fullNameNoSuffixUI(),
-    // TODO: Check if month text-input can be styled narrower
-    veteranDateOfBirth: currentOrPastDateDigitsUI('Date of birth'),
-    veteranDateOfDeath: currentOrPastDateDigitsUI('Date of death'),
+    veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
+    veteranDateOfDeath: currentOrPastDateUI('Date of death'),
   },
   schema: {
     type: 'object',
     properties: {
-      veteranFullName: {
-        ...fullNameNoSuffixSchema,
-        properties: {
-          ...fullNameNoSuffixSchema.properties,
-          first: { ...fullNameNoSuffixSchema.properties.first, maxLength: 12 },
-          // TODO: Check if middle should also have maxLength: 1 set for PDF
-          last: { ...fullNameNoSuffixSchema.properties.last, maxLength: 18 },
-        },
-      },
+      veteranFullName: fullNameNoSuffixSchema,
       veteranDateOfBirth: dateOfBirthSchema,
       veteranDateOfDeath: dateOfDeathSchema,
     },
