@@ -188,9 +188,7 @@ export function transform(formConfig, form) {
             ssn: application.claimant.ssn,
             isDeceased: 'no',
             serviceName:
-              application.veteran.serviceName.first === undefined
-                ? application.claimant.name
-                : application.veteran.serviceName || application.claimant.name,
+              application.veteran.serviceName || application.claimant.name,
           },
         })
       : application;
@@ -211,10 +209,7 @@ export function transform(formConfig, form) {
     merge({}, application, {
       veteran: {
         serviceName:
-          application.veteran.serviceName.first === undefined
-            ? application.veteran.currentName
-            : application.veteran.serviceName ||
-              application.veteran.currentName,
+          application.veteran.serviceName || application.veteran.currentName,
       },
       applicant: {
         applicantEmail: application.claimant.email,
