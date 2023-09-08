@@ -133,6 +133,40 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       expect(authEvent.type).to.equal('webchat-auth-activity');
     });
 
+    it('Stops tracking utterances when about to redirect to sign-in', async () => {
+      // setup
+      const activity = {
+        type: 'message',
+        text: 'Alright. Sending you to the sign-in page...',
+        from: { role: 'bot' },
+      };
+      const aboutToSignInActivity = {
+        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+        payload: { activity },
+      };
+      const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
+
+      // fire
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+      )(store)(fakeNext)(aboutToSignInActivity);
+      // tests
+      const isTrackingUtterances = await sessionStorage.getItem(
+        IS_TRACKING_UTTERANCES,
+      );
+      const authEvent = spyDispatchEvent.firstCall.args[0];
+      expect(sessionStorage.length).to.equal(1);
+      expect(isTrackingUtterances).to.equal('false');
+      expect(spyDispatchEvent.callCount).to.equal(1);
+      expect(authEvent.data).to.equal(activity);
+      expect(authEvent.type).to.equal('webchat-auth-activity');
+    });
+
     it('Sends message activity when utterances are tracked', async () => {
       const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
       const activity = {

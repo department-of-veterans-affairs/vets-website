@@ -1,5 +1,6 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
   it('Tab to Links and Buttons on the Landing Page', () => {
@@ -17,7 +18,7 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
     );
     cy.tabToElement('va-back-to-top').should('have.focus');
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
