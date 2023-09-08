@@ -23,13 +23,22 @@ const LandingPage = () => {
             </p>
           </section>
           <section>
-            <a
-              className="vads-c-action-link--green"
-              href={medicationsUrl}
-              data-testid="prescriptions-nav-link"
-            >
-              Go to your medications
-            </a>
+            <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--4 vads-u-border-left--7px vads-u-border-color vads-u-border-color--primary-alt-dark">
+              <h2 className="vads-u-margin--0 vads-u-font-size--h3">
+                Manage your medications now
+              </h2>
+              <p className="vads-u-margin-y--3">
+                Refill and track your VA prescriptions. And review all
+                medications in your VA medical records.
+              </p>
+              <a
+                className="vads-c-action-link--green vads-u-margin--0"
+                href={medicationsUrl}
+                data-testid="prescriptions-nav-link"
+              >
+                Go to your medications
+              </a>
+            </div>
           </section>
           <section>
             <h2>What to know as you try out this tool</h2>
@@ -42,9 +51,9 @@ const LandingPage = () => {
               Email your feedback and questions to us at <FeedbackEmail />.
             </p>
             <p>
-              <strong>Note:</strong>
-              You still have access to the pharmacy tool on the My HealtheVet
-              website. You can go back to that site at any time.{' '}
+              <strong>Note:</strong> You still have access to the pharmacy tool
+              on the My HealtheVet website. You can go back to that site at any
+              time.{' '}
               <a
                 href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'pharmacy')}
                 target="_blank"
@@ -105,7 +114,7 @@ const LandingPage = () => {
                   <li>
                     <strong>
                       Certain supplies you order through our Denver Logistics
-                      Center,{' '}
+                      Center,
                     </strong>{' '}
                     instead of through a VA pharmacy. This includes prosthetic
                     socks and hearing aid batteries.
@@ -298,6 +307,30 @@ const LandingPage = () => {
                 >
                   Go to your allergy and reaction records on the My HealtheVet
                   website
+                </a>
+              </va-accordion-item>
+              <va-accordion-item>
+                <h3 className="vads-u-font-size--h6" slot="headline">
+                  How to manage notifications for prescription shipments
+                </h3>
+                <p>
+                  You can sign up to get email notifications when we ship your
+                  prescriptions. You can also opt out of notifications at any
+                  time.
+                </p>
+                <p>
+                  To review or update your notification settings, go to your
+                  profile page on the My HealtheVet website.
+                </p>
+                <a
+                  href={mhvUrl(
+                    isAuthenticatedWithSSOe(fullState),
+                    'preferences',
+                  )}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Go to your profile on the My HealtheVet website
                 </a>
               </va-accordion-item>
             </va-accordion>

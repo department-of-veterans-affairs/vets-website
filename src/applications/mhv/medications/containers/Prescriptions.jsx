@@ -233,17 +233,24 @@ const Prescriptions = () => {
           <div className="landing-page-content">
             <div className="no-print">
               <PrintDownload download={handleDownloadPDF} list />
-              <va-additional-info trigger="What to know about downloading records">
+              <va-additional-info trigger="What to know before you download">
                 <ul>
                   <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
+                    When you print or download medication records, we’ll include
+                    a list of allergies and reactions in your VA medical
+                    records.
                   </li>
                   <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
+                    <strong>If you’re on a public or shared computer,</strong>{' '}
+                    remember that downloading saves a copy of your records to
+                    the computer you’re using.
+                  </li>
+                  <li>
+                    <strong>
+                      If you use assistive technology like a screen reader or
+                      braille display
+                    </strong>{' '}
+                    a text file (.txt) may work better for you.
                   </li>
                 </ul>
               </va-additional-info>
