@@ -73,7 +73,6 @@ class ApneaSupplies extends Component {
       <div className="accessory-page">
         {accessorySupplies.length > 0 && (
           <h3 className="vads-u-font-size--h4 vads-u-margin-top--5">
-
             Select the CPAP supplies you need
           </h3>
         )}
@@ -81,7 +80,6 @@ class ApneaSupplies extends Component {
           !areAccessorySuppliesEligible && (
             <va-alert status="info" visible>
               <h3 slot="headline">
-
                 You can’t add CPAP supplies to your order at this time
               </h3>
               <div className="accessories-two-year-alert-content">
@@ -135,7 +133,6 @@ class ApneaSupplies extends Component {
                 <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
                   <div className="usa-alert-body">
                     <h3 className="usa-alert-heading vads-u-font-family--sans">
-
                       You can't order this CPAP supply online until{' '}
                       {moment(accessorySupply.nextAvailabilityDate).format(
                         'MMMM D, YYYY',
@@ -144,7 +141,6 @@ class ApneaSupplies extends Component {
                   </div>
                 </div>
               ) : (
-
                 <div className="vads-u-max-width--226">
                   <input
                     id={accessorySupply.productId}
@@ -167,7 +163,6 @@ class ApneaSupplies extends Component {
                       ),
                     })}
                   >
-
                     Order this CPAP supply
                   </label>
                 </div>
@@ -197,7 +192,6 @@ class ApneaSupplies extends Component {
               </a>
               .
             </p>
-
           </va-additional-info>
         )}
       </div>
