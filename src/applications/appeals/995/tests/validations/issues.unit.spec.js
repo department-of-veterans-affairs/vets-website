@@ -2,8 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getDate } from '../../utils/dates';
-import { SELECTED, MAX_LENGTH } from '../../constants';
-
 import {
   checkIssues,
   uniqueIssue,
@@ -12,6 +10,8 @@ import {
   missingIssueName,
   maxNameLength,
 } from '../../validations/issues';
+
+import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 
 describe('checkIssues', () => {
   const _ = null;

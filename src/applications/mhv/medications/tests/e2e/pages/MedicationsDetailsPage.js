@@ -1,12 +1,12 @@
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
     cy.contains(
-      'print your records instead of downloading. Downloading will save a copy of your records to the public computer.',
+      'When you print or download medication records, we’ll include a list of allergies and reactions in your VA medical records.',
     );
   };
 
   clickWhatToKnowAboutMedicationsDropDown = () => {
-    cy.contains('What to know about downloading records').click({
+    cy.contains('What to know before you download').click({
       force: true,
     });
   };
