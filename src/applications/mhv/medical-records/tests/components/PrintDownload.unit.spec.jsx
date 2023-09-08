@@ -45,7 +45,7 @@ describe('Print download menu component', () => {
     expect(printButton).to.exist;
   });
 
-  it('should display a download pdf file button', () => {
+  it('should display a download pdf file button.', () => {
     const screen = render(<PrintDownload list />);
 
     const downloadButton = screen.getByText('Download list as PDF', {
