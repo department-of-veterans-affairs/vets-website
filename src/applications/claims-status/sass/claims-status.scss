@@ -141,6 +141,10 @@
 .claim-list-item {
   margin-bottom: 2rem;
 
+  &.in-progress {
+    box-shadow: 1px 1px 5px rgba(0,0,0, 0.32);
+  }
+
   .card-status {
     margin: 0 0 1em;
     // display: flex;

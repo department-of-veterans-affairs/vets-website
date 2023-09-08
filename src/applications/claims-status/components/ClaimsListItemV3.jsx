@@ -31,11 +31,13 @@ const getLastUpdated = claim => {
   return `Last updated: ${updatedOn}`;
 };
 
-const isClaimComplete = claim => {
+const showPreDecisionCommunications = claim => {
   const { decisionLetterSent, status } = claim.attributes;
 
-  return decisionLetterSent || status === 'COMPLETE';
+  return !decisionLetterSent && status !== 'COMPLETE';
 };
+
+const isClaimComplete = claim => claim.attributes.status === 'COMPLETE';
 
 const CommunicationsItem = ({ children, icon }) => {
   return (
@@ -58,12 +60,17 @@ export default function ClaimsListItemV3({ claim }) {
     status,
   } = claim.attributes;
   const inProgress = !isClaimComplete(claim);
+  const showPrecomms = showPreDecisionCommunications(claim);
   const formattedReceiptDate = formatDate(claimDate);
   const humanStatus = getStatusDescription(status);
-  const showAlert = inProgress && documentsNeeded;
+  const showAlert = showPrecomms && documentsNeeded;
+
+  const cardClasses = ['claim-list-item', inProgress && 'in-progress'].join(
+    ' ',
+  );
 
   return (
-    <va-card class="claim-list-item">
+    <va-card class={cardClasses}>
       <h3 className="claim-list-item-header vads-u-margin-bottom--2">
         {/* eslint-disable-next-line jsx-a11y/aria-role */}
         <div role="text">
@@ -76,7 +83,7 @@ export default function ClaimsListItemV3({ claim }) {
       </h3>
 
       <ul className="communications">
-        {inProgress && developmentLetterSent ? (
+        {showPrecomms && developmentLetterSent ? (
           <CommunicationsItem icon="envelope">
             We sent you a development letter
           </CommunicationsItem>
