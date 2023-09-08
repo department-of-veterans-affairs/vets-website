@@ -323,10 +323,7 @@ const LandingPage = () => {
                   profile page on the My HealtheVet website.
                 </p>
                 <a
-                  href={mhvUrl(
-                    isAuthenticatedWithSSOe(fullState),
-                    'preferences',
-                  )}
+                  href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
                   target="_blank"
                   rel="noreferrer"
                 >

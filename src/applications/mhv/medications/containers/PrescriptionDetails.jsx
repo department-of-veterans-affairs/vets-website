@@ -193,13 +193,13 @@ const PrescriptionDetails = () => {
                   remember that downloading saves a copy of your records to the
                   computer you’re using.
                 </li>
-                <li>
+                {/* <li>
                   <strong>
                     If you use assistive technology like a screen reader or
                     braille display
                   </strong>{' '}
                   a text file (.txt) may work better for you.
-                </li>
+                </li>     WILL SHOW WHEN TEXT FILES ARE DOWNLOADABLE     */}
               </ul>
             </va-additional-info>
           </div>
