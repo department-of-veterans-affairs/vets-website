@@ -178,11 +178,14 @@ const Prescriptions = () => {
     [dispatch],
   );
 
-  useEffect(() => {
-    if (!isLoading && (!prescriptions || prescriptions?.length <= 0)) {
-      setAlertVisible('true');
-    }
-  });
+  useEffect(
+    () => {
+      if (!isLoading && (!prescriptions || prescriptions?.length <= 0)) {
+        setAlertVisible('true');
+      }
+    },
+    [isLoading, prescriptions],
+  );
 
   useEffect(
     () => {
