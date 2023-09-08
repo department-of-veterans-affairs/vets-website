@@ -40,16 +40,19 @@ const ReviewPage = props => {
       <h1>Select a Board review option:</h1>
       <va-on-this-page />
       {chapterTitles.filter(title => title !== 'Apply').map((title, index) => {
+        const pages = getChapterPagesFromChapterIndex(index);
+        const editLink =
+          pages.find(page => !page.taskListHide)?.path || '/task-list';
         return (
           <div key={index}>
             <div className={chapterClasses}>
               <h2 id={index} className="vads-u-margin--0">
                 {title}
               </h2>
-              <Link to="/">Edit</Link>
+              <Link to={editLink}>Edit</Link>
             </div>
             <ul className="review-pages vads-u-padding--0">
-              {getChapterPagesFromChapterIndex(index).map(
+              {pages.map(
                 page =>
                   page.review ? (
                     <li key={page.path}>

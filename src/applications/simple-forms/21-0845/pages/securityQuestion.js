@@ -14,19 +14,6 @@ import {
 export default {
   uiSchema: {
     securityQuestion: {
-      'ui:description': (
-        <div className="custom-description">
-          <p>
-            Select a security question. We’ll ask you to enter the answer on the
-            next screen. You’ll then need to give the answer to your designated
-            third-party source.
-          </p>
-          <p>
-            We’ll ask this question each time your designated third-party source
-            contacts us.
-          </p>
-        </div>
-      ),
       'ui:widget': 'radio',
       'ui:errorMessages': {
         required: 'Please select a question.',
@@ -51,11 +38,26 @@ export default {
 
           return {
             title: (
-              <h3 className="custom-header">
-                What security question should we ask {thirdPartyName} to verify
-                their identity?
-                <span className="custom-required-span"> (*Required)</span>
-              </h3>
+              <>
+                <h3 className="custom-header">
+                  What security question should we ask {thirdPartyName} to
+                  verify their identity?{' '}
+                  <span className="custom-required-span hide-on-review-page">
+                    (*Required)
+                  </span>
+                </h3>
+                <div className="hide-on-review-page">
+                  <p>
+                    Select a security question. We’ll ask you to enter the
+                    answer on the next screen. You’ll then need to give the
+                    answer to your designated third-party source.
+                  </p>
+                  <p>
+                    We’ll ask this question each time your designated
+                    third-party source contacts us.
+                  </p>
+                </div>
+              </>
             ),
           };
         },
