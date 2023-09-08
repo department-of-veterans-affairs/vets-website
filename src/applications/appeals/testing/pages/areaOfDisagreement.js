@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 import {
   issueTitle,
@@ -13,6 +14,8 @@ import {
   MAX_LENGTH,
   DISAGREEMENT_TYPES,
   SUBMITTED_DISAGREEMENTS,
+  FORMAT_READABLE,
+  FORMAT_YMD,
 } from '../../shared/constants';
 import { getIssueName, getIssueDate } from '../../shared/utils/issues';
 
@@ -101,7 +104,12 @@ export default {
         {data.areaOfDisagreement.map((disagreement, index) => (
           <li key={index}>
             <div className="issue-title">{getIssueName(disagreement)}</div>
-            <div>Decision date: {getIssueDate(disagreement)}</div>
+            <div>
+              Decision date:{' '}
+              {moment(getIssueDate(disagreement), FORMAT_YMD).format(
+                FORMAT_READABLE,
+              )}
+            </div>
             <div>{disagreeWith(disagreement)}</div>
           </li>
         ))}

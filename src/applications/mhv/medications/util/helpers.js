@@ -33,3 +33,18 @@ export const generateMedicationsPDF = async (
     // Error logging/presentation goes here...
   }
 };
+
+/**
+ * @param {String} fieldValue value that is being validated
+ * @param {string} date if the value needs to be returend as a date, this param should be passed as the string "date",
+ * otherwise it is set to false by default
+ */
+export const validateField = (fieldValue, date = false) => {
+  if (fieldValue) {
+    if (date === 'date') {
+      return dateFormat(fieldValue);
+    }
+    return fieldValue;
+  }
+  return 'None noted';
+};

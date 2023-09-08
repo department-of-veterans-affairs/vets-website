@@ -71,7 +71,6 @@
               "@department-of-veterans-affairs/component-library/Pagination": "@department-of-veterans-affairs/react-components/Pagination",
               "@department-of-veterans-affairs/component-library/Checkbox": "@department-of-veterans-affairs/react-components/Checkbox",
               "@department-of-veterans-affairs/component-library/DropDownPanel": "@department-of-veterans-affairs/react-components/DropDownPanel",
-              "@department-of-veterans-affairs/component-library/AdditionalInfo": "@department-of-veterans-affairs/react-components/AdditionalInfo"
             }
           }
         ]
