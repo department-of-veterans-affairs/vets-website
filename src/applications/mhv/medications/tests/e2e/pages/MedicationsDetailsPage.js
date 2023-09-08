@@ -86,5 +86,17 @@ class MedicationsDetailsPage {
       force: true,
     });
   };
+
+  clickPrintOrDownloadThisPageDropDownOnDetailsPage = () => {
+    cy.get('[data-testid="print-records-button"] > span').click({
+      force: true,
+    });
+  };
+
+  verifyPrintButtonEnabledOnDetailsPage = () => {
+    cy.get('[data-testid="print-button"]')
+      .should('contain', 'Print')
+      .and('be.enabled');
+  };
 }
 export default MedicationsDetailsPage;
