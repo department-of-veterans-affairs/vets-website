@@ -33,8 +33,14 @@ class MedicationsListPage {
   };
 
   verifyNavigationToListPageAfterClickingBreadcrumbMedications = () => {
-    cy.get('[data-testid="List-Page-Title"]')
+    cy.get('[data-testid="list-page-title"]')
       .should('have.text', 'Medications')
+      .should('be.visible');
+  };
+
+  verifyDownloadListAsPDFButtonOnListPage = () => {
+    cy.get('[data-testid="download-pdf-button"]')
+      .should('contain', 'Download list as PDF')
       .should('be.visible');
   };
 }

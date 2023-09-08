@@ -51,7 +51,7 @@ const VitalDetails = () => {
               },
             ],
             {
-              url: `/my-health/medical-records/vitals/${vitalType}`,
+              url: `/my-health/medical-records/vitals/${vitalType}-history`,
               label: vitalTypeDisplayNames[macroCase(vitalType)],
             },
           ),

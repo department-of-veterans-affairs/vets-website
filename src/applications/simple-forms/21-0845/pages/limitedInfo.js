@@ -7,8 +7,6 @@ import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
 export default {
   uiSchema: {
     limitedInformationItems: {
-      'ui:description':
-        'Select the items we can share with your third-party source. You can select more than one.',
       'ui:widget': GroupCheckboxWidget,
       'ui:required': formData => !formData.limitedInformationOther,
       'ui:options': {
@@ -21,10 +19,18 @@ export default {
 
           return {
             title: (
-              <h3 className="custom-header disclosure-information-limited-information">
-                {titleString}{' '}
-                <span className="custom-required-span">(*Required)</span>
-              </h3>
+              <>
+                <h3 className="custom-header">
+                  {titleString}{' '}
+                  <span className="custom-required-span hide-on-review-page">
+                    (*Required)
+                  </span>
+                </h3>
+                <p className="custom-description hide-on-review-page">
+                  Select the items we can share with your third-party source.
+                  You can select more than one.
+                </p>
+              </>
             ),
           };
         },
