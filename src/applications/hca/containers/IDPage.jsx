@@ -75,9 +75,6 @@ const IDPage = props => {
     };
     setFormData({
       ...form.data,
-      veteranFullName: fullName,
-      veteranDateOfBirth: idFormData.dob,
-      veteranSocialSecurityNumber: idFormData.ssn,
       'view:isUserInMvi': isUserInMVI,
       'view:veteranInformation': {
         veteranFullName: fullName,
@@ -119,7 +116,7 @@ const IDPage = props => {
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title="We need some information before you can start your application" />
+      <FormTitle title="Before you start your application" />
       {showLoadingIndicator ? (
         <va-loading-indicator
           label="Loading"
@@ -128,12 +125,14 @@ const IDPage = props => {
       ) : (
         <>
           <p>
-            This will help us fit the application to your specific needs. Please
-            fill out the form below. Then we’ll take you to the VA health care
-            application (10-10EZ).
+            We need some information before you can start your application. This
+            will help us fit your application to your specific needs.
           </p>
+          <p>Then you can fill out the VA health care application (10-10EZ).</p>
+          <p className="vads-u-font-weight--bold">Sign in and save time</p>
           <p>
-            <strong>Want to skip this step?</strong>
+            You can sign in and confirm that the information we have for you is
+            up to date and then fill out the VA health care application.
           </p>
           <button
             type="button"

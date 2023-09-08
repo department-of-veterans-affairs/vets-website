@@ -1,6 +1,7 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import manifest from '../manifest.json';
@@ -32,6 +33,14 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_5655,
   version: 0,
   prefillEnabled: true,
+  downtime: {
+    dependencies: [
+      externalServices.mvi,
+      externalServices.vbs,
+      externalServices.dmc,
+      externalServices.vaProfile,
+    ],
+  },
   defaultDefinitions: {},
   savedFormMessages: {
     notFound:

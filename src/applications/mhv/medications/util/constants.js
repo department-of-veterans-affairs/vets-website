@@ -68,7 +68,13 @@ export const rxListSortingOptions = [
 ];
 
 export const medicationsUrls = {
-  prescriptionsUrl: '/my-health/medications/prescriptions',
-  medicationsLogin:
-    '/my-health/medications/my-health/medications/?next=loginModal&oauth=true',
+  MEDICATIONS_URL: '/my-health/medications',
+  MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
 };
+
+export const refillStatus = [
+  'active',
+  'activeParked',
+  'hold',
+  'refillinprocess',
+];

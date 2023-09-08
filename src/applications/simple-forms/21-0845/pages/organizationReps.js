@@ -6,11 +6,15 @@ import OrgRepsViewField from '../components/OrgRepsViewField';
 export default {
   uiSchema: {
     'ui:title': (
-      <h3 className="custom-header">Organization’s representatives</h3>
+      <>
+        <p className="vads-u-font-size--lg">Organization’s representatives</p>
+        <p className="vads-u-margin-top--4 vads-u-margin-bottom--2 vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-color--gray-dark">
+          List one or more people from the organization who we can share your
+          information with.
+        </p>
+      </>
     ),
     organizationRepresentatives: {
-      'ui:description':
-        'List one or more people from the organization who we can share your information with.',
       'ui:field': ArrayField,
       'ui:options': {
         itemName: 'representative',
@@ -42,6 +46,7 @@ export default {
       organizationRepresentatives: {
         type: 'array',
         minItems: 1,
+        maxItems: 2, // PDF only has 2 lines for reps
         items: {
           type: 'object',
           properties: {

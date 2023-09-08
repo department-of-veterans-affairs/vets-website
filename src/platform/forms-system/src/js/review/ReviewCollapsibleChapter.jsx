@@ -412,12 +412,6 @@ class ReviewCollapsibleChapter extends React.Component {
         <ul className="usa-unstyled-list" role="list">
           <li>
             <h3 className={headerClasses}>
-              {this.props.hasUnviewedPages && (
-                <span
-                  aria-describedby={`collapsibleButton${this.id}`}
-                  className="schemaform-review-chapter-error-icon"
-                />
-              )}
               <button
                 className="usa-button-unstyled"
                 aria-expanded={this.props.open ? 'true' : 'false'}

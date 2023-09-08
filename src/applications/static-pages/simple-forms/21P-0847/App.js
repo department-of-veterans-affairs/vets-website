@@ -7,12 +7,13 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 
 const App = ({ formEnabled }) => {
   if (formEnabled === undefined) {
-    return <va-loading-indicator set-focus message="Loading..." />;
+    return <va-loading-indicator message="Loading..." />;
   }
 
   if (formEnabled) {
     return (
       <>
+        <p>You can submit this form online or by mail.</p>
         <a
           className="vads-c-action-link--blue"
           href="/supporting-forms-for-claims/substitute-claimant-form-21P-0847"
