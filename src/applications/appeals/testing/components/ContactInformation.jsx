@@ -26,7 +26,6 @@ const ContactInformation = ({ formData }) => {
           <strong>Note:</strong> Any updates you make here will be reflected in
           your VA.gov profile.
         </p>
-        <div />
         <div className="blue-bar-block vads-u-margin-top--4">
           <div className="va-profile-wrapper">
             <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0p5 vads-u-width--auto">

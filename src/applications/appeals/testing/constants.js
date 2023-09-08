@@ -29,12 +29,12 @@ export const DISAGREEMENT_DETAILS = {
   },
   effectiveDate: data => {
     const description = data.attributes?.description || '';
-    const grated =
+    const granted =
       description.includes('Service connection for') &&
       description.includes('is granted');
     const date = moment(data.attributes?.approxDecisionDate || null);
     return `Currently ${
-      date.isValid() && grated ? date.format(FORMAT_READABLE) : 'N/A'
+      date.isValid() && granted ? date.format(FORMAT_READABLE) : 'N/A'
     }`;
   },
   evaluation: data => {

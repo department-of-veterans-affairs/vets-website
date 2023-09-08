@@ -31,15 +31,18 @@ export const evidenceUpload = {
   },
 
   review: data => ({
-    'Evidence to be reviewed by the Board': (
-      <ul>
-        {data.evidence.map(file => (
-          <li key={file.name}>
-            {file.name} ({displayFileSize(file.size)})
-          </li>
-        ))}
-      </ul>
-    ),
+    'Evidence to be reviewed by the Board':
+      data.evidence?.length > 0 ? (
+        <ul>
+          {data.evidence.map(file => (
+            <li key={file.name}>
+              {file.name} ({displayFileSize(file.size)})
+            </li>
+          ))}
+        </ul>
+      ) : (
+        'No files were uploaded'
+      ),
   }),
 };
 
