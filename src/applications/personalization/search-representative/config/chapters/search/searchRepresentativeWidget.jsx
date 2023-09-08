@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-// import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { chunk } from 'lodash';
