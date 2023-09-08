@@ -41,7 +41,7 @@ const Prescriptions = () => {
           >
             <h2 slot="headline">We can’t access your medications right now</h2>
             <div>
-              <p>
+              <p className="vads-u-margin-bottom--0">
                 We’re sorry. There’s a problem with our system. Check back
                 later.
                 <br />
