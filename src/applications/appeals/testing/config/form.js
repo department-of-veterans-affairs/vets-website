@@ -48,7 +48,7 @@ import {
 } from '../../10182/utils/helpers';
 import { scrollAndFocusTarget } from '../utils/focus';
 
-import { CONTESTABLE_ISSUES_PATH } from '../../10182/constants';
+import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
