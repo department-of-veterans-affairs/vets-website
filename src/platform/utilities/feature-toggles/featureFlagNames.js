@@ -3,6 +3,7 @@
 export default Object.freeze({
   avsEnabled: 'avs_enabled',
   bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
+  burialFormEnabled: 'burial_form_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
@@ -165,6 +166,7 @@ export default Object.freeze({
   stemSCOEmail: 'stem_sco_email',
   subform89404192: 'subform_8940_4192',
   supplementalClaim: 'supplemental_claim',
+  supplyReorderingSleepApneaEnabled: 'supply_reordering_sleep_apnea_enabled',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
   vaOnlineScheduling: 'va_online_scheduling',
   vaOnlineSchedulingCancel: 'va_online_scheduling_cancel',

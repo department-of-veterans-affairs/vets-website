@@ -84,7 +84,7 @@ const formConfig = {
   },
   formId: '21-0845',
   dev: {
-    showNavLinks: true,
+    showNavLinks: !window.Cypress,
   },
   saveInProgress: {
     messages: {
@@ -185,7 +185,7 @@ const formConfig = {
       title: ({ formData }) =>
         formData?.authorizerType === AUTHORIZER_TYPES.VETERAN
           ? 'Your personal information'
-          : 'Veteran’s information',
+          : 'Veteran’s personal information',
       pages: {
         vetPersInfoPage: {
           path: 'veteran-personal-information',

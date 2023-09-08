@@ -31,6 +31,8 @@ export default function ClaimDetailLayout(props) {
   const tabs = ['Status', 'Files', 'Details'];
   const claimsPath = `your-claims/${id}`;
 
+  const claimType = getClaimType(claim).toLowerCase();
+
   let bodyContent;
   let headingContent;
   if (loading) {
@@ -41,7 +43,7 @@ export default function ClaimDetailLayout(props) {
       />
     );
   } else if (claim !== null) {
-    const claimTitle = `Your ${getClaimType(claim)} claim`;
+    const claimTitle = `Your ${claimType} claim`;
 
     headingContent = (
       <>
