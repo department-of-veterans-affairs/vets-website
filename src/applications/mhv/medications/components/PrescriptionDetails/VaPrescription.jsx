@@ -24,18 +24,11 @@ const VaPrescription = prescription => {
             </h2>
             <FillRefillButton {...prescription} />
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Prescription number
-            </h3>
-            <p data-testid="prescription-number">
-              {validateField(prescription.prescriptionNumber)}
-            </p>
-
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Status
             </h3>
             <div data-testid="status">
               {prescription.refillStatus === 'refillinprocess'
-                ? 'Refill in process'
+                ? 'REFILL IN PROCESS'
                 : validateField(
                     refillStatus?.charAt(0).toUpperCase() +
                       refillStatus?.slice(1),
@@ -63,16 +56,22 @@ const VaPrescription = prescription => {
               {validateField(prescription.refillRemaining)}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Request refills by this prescription expiration date
+            </h3>
+            <p data-testid="expiration-date">
+              {validateField(prescription.expirationDate, 'date')}
+            </p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Prescription number
+            </h3>
+            <p data-testid="prescription-number">
+              {prescription.prescriptionNumber}
+            </p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed on
             </h3>
             <p datat-testid="ordered-date">
               {validateField(prescription.orderedDate, 'date')}
-            </p>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Order refills by this expiration date
-            </h3>
-            <p data-testid="expiration-date">
-              {validateField(prescription.expirationDate, 'date')}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed by
@@ -89,7 +88,7 @@ const VaPrescription = prescription => {
             </h3>
             <p data-testid="facility-name">{prescription.facilityName}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Phone number
+              Pharmacy phone number
             </h3>
             <div className="no-print">
               {prescription?.phoneNumber ? (
@@ -128,35 +127,43 @@ const VaPrescription = prescription => {
             </p>
           </div>
 
-          <div className="medication-details-div vads-u-margin-bottom--8">
+          <div className="medication-details-div">
             <h2 className="vads-u-margin-top--3">Refill history</h2>
             {refillHistory && refillHistory.length > 0 ? (
               refillHistory.map((entry, i) => (
-                <div key={entry.id}>
-                  <h3 className="vads-u-font-size--lg vads-u-font-family--sans">
+                <div
+                  key={entry.id}
+                  className={
+                    i + 1 < refillHistory.length && 'vads-u-margin-bottom--3'
+                  }
+                >
+                  <h3 className="vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2">
                     {i + 1 === refillHistory.length
                       ? 'Original Fill'
                       : `Refill #${refillHistory.length - i - 1}`}
                   </h3>
-                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
+                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
                     Filled by pharmacy on
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                     {validateField(entry.dispensedDate, 'date')}
                   </p>
-                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
+                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
                     Shipped on
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                     {validateField(shippedOn?.[i]?.completeDateTime, 'date')}
                   </p>
-                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
+                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
                     Description of the medication or supply
                   </h4>
                   <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                     {/* TODO: Not yet available */}
                     None noted
                   </p>
+                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
+                    Image of the medication or supply
+                  </h4>
                   <div className="no-print">
                     <va-additional-info trigger="Review image">
                       <p>This is where the image goes</p>
