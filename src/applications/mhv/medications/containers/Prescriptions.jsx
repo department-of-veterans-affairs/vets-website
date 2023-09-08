@@ -39,12 +39,13 @@ const Prescriptions = () => {
             status="warning"
             visible={isAlertVisible}
           >
-            <h2 slot="headline">No medications found</h2>
+            <h2 slot="headline">We can’t access your medications right now</h2>
             <div>
-              <p>
-                There are no medications found in your profile. If you believe
-                this is incorrect, please refresh the page or call your care
-                team if the problem persists.
+              <p className="vads-u-margin-bottom--0">
+                We’re sorry. There’s a problem with our system. Check back
+                later.
+                <br />
+                If you need help now, call your VA pharmacy.
               </p>
             </div>
           </va-alert>
