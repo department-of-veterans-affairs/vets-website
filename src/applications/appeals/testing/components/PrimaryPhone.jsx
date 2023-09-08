@@ -5,8 +5,6 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { checkValidations, missingPrimaryPhone } from '../../995/validations';
-import { errorMessages } from '../../995/constants';
 import { content } from '../../995/content/primaryPhone';
 
 export const PrimaryPhone = ({
@@ -20,20 +18,21 @@ export const PrimaryPhone = ({
   contentAfterButtons,
 }) => {
   const [primary, setPrimary] = useState(data?.['view:primaryPhone'] || '');
-  const [hasError, setHasError] = useState(null);
+  // const [hasError, setHasError] = useState(null);
 
-  const checkErrors = (formData = data) => {
-    const error = checkValidations([missingPrimaryPhone], primary, formData);
-    setHasError(error?.[0] || null);
-  };
+  // const checkErrors = (formData = data) => {
+  //   const error = checkValidations([missingPrimaryPhone], primary, formData);
+  //   setHasError(error?.[0] || null);
+  // };
 
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      checkErrors();
-      if (primary && !hasError) {
-        goForward(data);
-      }
+      // checkErrors();
+      // if (primary && !hasError) {
+      //   goForward(data);
+      // }
+      goForward(data);
     },
     onSelection: event => {
       const { value } = event?.detail || {};
@@ -45,7 +44,7 @@ export const PrimaryPhone = ({
         };
         setFormData(formData);
         // setFormData lags a little, so check updated data
-        checkErrors(formData);
+        // checkErrors(formData);
         recordEvent({
           event: 'int-radio-button-option-click',
           'radio-button-label': content.label,
@@ -76,14 +75,14 @@ export const PrimaryPhone = ({
           class="vads-u-margin-y--2"
           label="Which is your primary phone number?"
           label-header-level="1"
-          error={hasError && errorMessages.missingPrimaryPhone}
+          // error={hasError && errorMessages.missingPrimaryPhone}
           onVaValueChange={handlers.onSelection}
-          required
+          // required
           uswds
         >
           <va-radio-option
             id="mobile-phone"
-            label="Mobile 123-456-7890"
+            label="Mobile: 123-456-7890"
             value="mobile"
             name="primary"
             checked={primary === 'mobile'}
@@ -91,7 +90,7 @@ export const PrimaryPhone = ({
           />
           <va-radio-option
             id="home-phone"
-            label="Home 098-765-4321"
+            label="Home: 098-765-4321"
             value="home"
             name="primary"
             checked={primary === 'home'}

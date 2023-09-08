@@ -6,6 +6,9 @@ const title =
 const additionalInfoRequest = {
   uiSchema: {
     'ui:title': ' ',
+    'ui:options': {
+      forceDivWrapper: true,
+    },
     'view:additionalInfo': yesNoUI({
       title,
       enableAnalytics: true,

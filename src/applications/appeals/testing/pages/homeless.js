@@ -5,6 +5,9 @@ import { content } from '../content/homeless';
 export default {
   uiSchema: {
     'ui:title': ' ',
+    'ui:options': {
+      forceDivWrapper: true,
+    },
     homeless: yesNoUI({
       title: content.title,
       enableAnalytics: true,

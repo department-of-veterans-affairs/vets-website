@@ -5,6 +5,9 @@ import { content } from '../content/extensionRequest';
 const requestExtension = {
   uiSchema: {
     'ui:title': ' ',
+    'ui:options': {
+      forceDivWrapper: true,
+    },
     requestingExtension: yesNoUI({
       title: content.title,
       hint: content.description,

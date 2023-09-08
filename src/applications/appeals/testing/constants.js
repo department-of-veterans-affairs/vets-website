@@ -28,8 +28,14 @@ export const DISAGREEMENT_DETAILS = {
     }service connected`;
   },
   effectiveDate: data => {
+    const description = data.attributes?.description || '';
+    const grated =
+      description.includes('Service connection for') &&
+      description.includes('is granted');
     const date = moment(data.attributes?.approxDecisionDate || null);
-    return `Current ${date.isValid() ? date.format(FORMAT_READABLE) : 'N/A'}`;
+    return `Currently ${
+      date.isValid() && grated ? date.format(FORMAT_READABLE) : 'N/A'
+    }`;
   },
   evaluation: data => {
     const percent = data.attributes?.ratingIssuePercentNumber;

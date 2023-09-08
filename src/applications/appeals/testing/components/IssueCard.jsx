@@ -27,7 +27,8 @@ export const IssueCardContent = ({
 }) => {
   // May need to throw an error to Sentry if any of these don't exist
   // A valid rated disability *can* have a rating percentage of 0%
-  const showPercentNumber = (ratingIssuePercentNumber || '') !== '';
+  const showPercentNumber =
+    (ratingIssuePercentNumber || approxDecisionDate || '') !== '';
   const date = approxDecisionDate || decisionDate;
 
   return (
@@ -47,7 +48,9 @@ export const IssueCardContent = ({
             className="dd-privacy-hidden"
             data-dd-action-name="rated issue percentage"
           >
-            {`${ratingIssuePercentNumber}%`}
+            {`${
+              ratingIssuePercentNumber ? `${ratingIssuePercentNumber}%` : 'N/A'
+            }`}
           </strong>
         </p>
       )}

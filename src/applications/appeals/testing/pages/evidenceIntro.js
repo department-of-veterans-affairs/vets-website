@@ -12,13 +12,11 @@ const contactInfo = {
     'ui:description': evidenceUploadIntroDescription,
     'ui:options': {
       forceDivWrapper: true,
-      showFieldLabel: 'no-wrap', // new option
-      hideDuplicateDescription: true, // new option
     },
     'view:additionalEvidence': yesNoUI({
       title: evidenceUploadIntroLabel,
       enableAnalytics: true,
-      labelHeaderLevel: '1',
+      labelHeaderLevel: '2',
       uswds: true,
       labels: {
         N: 'No, I’ll submit it later.',
