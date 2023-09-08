@@ -4,6 +4,7 @@ import { validateField } from '../../util/helpers';
 
 const NonVaPrescription = prescription => {
   const content = () => {
+    const refillStatus = prescription?.refillStatus?.toString();
     return (
       <div className="medication-details-div vads-u-margin-top--2 vads-u-margin-bottom--3">
         <h2 className="vads-u-margin-y--2 no-print">About your prescription</h2>
@@ -12,9 +13,9 @@ const NonVaPrescription = prescription => {
             Status
           </h3>
           <div>
-            {prescription.refillStatus === 'refillinprocess'
+            {prescription?.refillStatus === 'refillinprocess'
               ? 'Refill in process'
-              : validateField(prescription?.refillStatus)}
+              : refillStatus?.charAt(0).toUpperCase() + refillStatus?.slice(1)}
           </div>
           <div className="no-print">
             <va-additional-info trigger="What does this status mean?">
