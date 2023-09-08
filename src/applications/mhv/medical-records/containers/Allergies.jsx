@@ -105,18 +105,13 @@ const Allergies = () => {
             inline: true,
           },
           {
-            title: 'VA drug class',
-            value: item.drugClass || EMPTY_FIELD,
-            inline: true,
-          },
-          {
             title: 'Location',
             value: item.location || EMPTY_FIELD,
             inline: true,
           },
           {
             title: 'Observed or reported',
-            value: item.observed ? 'Observed' : 'Reported',
+            value: item.observedOrReported,
             inline: true,
           },
           {
