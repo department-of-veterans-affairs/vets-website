@@ -891,7 +891,7 @@ const formConfig = {
               },
             },
             preparerContactDetails: {
-              title: "Preparer's contact details",
+              title: 'Preparer contact details',
               path: 'preparer-contact-details',
               depends: formData => isAuthorizedAgent(formData),
               uiSchema: {
