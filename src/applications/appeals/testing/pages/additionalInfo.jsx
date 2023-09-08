@@ -3,7 +3,7 @@ import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/V
 import { content } from '../content/additionalInfo';
 import { extensionReason } from '../../10182/validations/issues';
 
-import { MAX_LENGTH } from '../../10182/constants';
+import { MAX_LENGTH } from '../../shared/constants';
 
 const additionalInfo = {
   uiSchema: {
@@ -28,7 +28,7 @@ const additionalInfo = {
     properties: {
       additionalInfo: {
         type: 'string',
-        maxLength: MAX_LENGTH.EXTENSION_REASON,
+        maxLength: MAX_LENGTH.NOD_EXTENSION_REASON,
       },
     },
   },
