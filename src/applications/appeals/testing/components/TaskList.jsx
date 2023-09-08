@@ -28,15 +28,10 @@ export const TaskList = () => {
                 page.taskListHide ? null : (
                   <div
                     key={page.path}
-                    data-path={page.path}
+                    data-path={page?.path.replace(':index', '0')}
                     className="task-list-link-wrap vads-u-padding-y--1 vads-u-border-color--gray-light vads-u-border-bottom--1px"
                   >
-                    <Link
-                      to={{
-                        pathname: page.path,
-                        search: '?redirect',
-                      }}
-                    >
+                    <Link to={page.path.replace(':index', '0')}>
                       {page.title}
                     </Link>
                   </div>
