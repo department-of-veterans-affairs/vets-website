@@ -1,4 +1,4 @@
-import { states } from 'platform/forms/address';
+import { states } from '@department-of-veterans-affairs/platform-forms/address';
 
 export const MDOT_API_ERROR = 'MDOT_API_ERROR';
 export const MDOT_RESET_ERRORS = 'MDOT_RESET_ERRORS';
