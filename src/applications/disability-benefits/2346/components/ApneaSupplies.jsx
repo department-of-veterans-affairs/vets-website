@@ -5,15 +5,12 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import moment from 'moment';
 
-import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-// import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-// FIXME: figure out why cypress doesn't like this import.
-// eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
-import recordEvent from 'platform/monitoring/record-event';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/exports';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
-import { ACCESSORY, DLC_PHONE } from '../constants';
+import { APNEA, DLC_PHONE } from '../constants';
 
-class Accessories extends Component {
+class ApneaSupplies extends Component {
   componentDidMount() {
     const areAccessorySuppliesEligible = this.props.eligibility?.accessories;
     if (!areAccessorySuppliesEligible) {
@@ -54,7 +51,7 @@ class Accessories extends Component {
     const { supplies, order, eligibility } = this.props;
     const currentDate = moment();
     const accessorySupplies = supplies.filter(
-      supply => supply.productGroup === ACCESSORY,
+      supply => supply.productGroup === APNEA,
     );
     const areAccessorySuppliesEligible = eligibility.accessories;
     const haveAccessoriesBeenOrderedInLastTwoYears =
@@ -141,10 +138,10 @@ class Accessories extends Component {
                   </div>
                 </div>
               ) : (
-                <div className="vads-u-max-width--293">
+                <div className="vads-u-max-width--226">
                   <input
                     id={accessorySupply.productId}
-                    className="vads-u-margin-left--0 vads-u-max-width--293"
+                    className="vads-u-margin-left--0 vads-u-max-width--226"
                     type="checkbox"
                     onChange={e =>
                       this.handleChecked(e.target.checked, accessorySupply)
@@ -163,7 +160,7 @@ class Accessories extends Component {
                       ),
                     })}
                   >
-                    Order this hearing aid accessory
+                    Order this accessory
                   </label>
                 </div>
               )}
@@ -171,7 +168,7 @@ class Accessories extends Component {
           ))}
         {accessorySupplies.length > 0 && (
           <va-additional-info
-            trigger="What if the accessories I need aren’t listed here?"
+            triggerText="What if the accessories I need aren’t listed here?"
             className="vads-u-margin-bottom--2"
           >
             <p>
@@ -210,14 +207,14 @@ class Accessories extends Component {
   }
 }
 
-Accessories.defaultProps = {
+ApneaSupplies.defaultProps = {
   formData: {},
   supplies: [],
   order: [],
   eligibility: {},
 };
 
-Accessories.propTypes = {
+ApneaSupplies.propTypes = {
   eligibility: PropTypes.object,
   formData: PropTypes.object,
   order: PropTypes.arrayOf(
@@ -242,10 +239,10 @@ Accessories.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  eligibility: state.form?.data?.eligibility,
+  supplies: state.form?.data?.supplies,
   formData: state.form?.data,
   order: state.form?.data?.order,
-  supplies: state.form?.data?.supplies,
+  eligibility: state.form?.data?.eligibility,
 });
 
 const mapDispatchToProps = {
@@ -255,4 +252,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Accessories);
+)(ApneaSupplies);
