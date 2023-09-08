@@ -8,20 +8,7 @@ import {
   COWORKER_OR_SUPERVISOR_OF_CLAIMANT,
 } from '../definitions/constants';
 
-function jsonPreParse(str) {
-  // Replace double-quotes and backslashes with single-quotes and forward-slashes
-  let preParseStr = str;
-
-  preParseStr = preParseStr.replace(/"/g, "'");
-  preParseStr = preParseStr.replace(/\\/g, '/');
-
-  return preParseStr;
-}
-
 export default function transformForSubmit(formConfig, form) {
-  // eslint-disable-next-line no-param-reassign
-  form.data.statement = jsonPreParse(form.data.statement);
-
   let transformedData = JSON.parse(sharedTransformForSubmit(formConfig, form));
 
   const witnessRelationshipToClaimantAnswers =

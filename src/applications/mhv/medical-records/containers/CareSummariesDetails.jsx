@@ -5,7 +5,7 @@ import { getCareSummaryAndNotesDetails } from '../actions/careSummariesAndNotes'
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import AdmissionAndDischargeDetails from '../components/CareSummaries/AdmissionAndDischargeDetails';
 import ProgressNoteDetails from '../components/CareSummaries/ProgressNoteDetails';
-import { LoincCodes } from '../util/constants';
+import { loincCodes } from '../util/constants';
 
 const CareSummariesDetails = () => {
   const dispatch = useDispatch();
@@ -20,16 +20,13 @@ const CareSummariesDetails = () => {
         dispatch(
           setBreadcrumbs(
             [
-              { url: '/my-health/medical-records/', label: 'Dashboard' },
-              { url: '/my-health/health-history', label: 'Health history' },
               {
-                url:
-                  '/my-health/medical-records/health-history/care-summaries-and-notes',
-                label: 'VA care summaries and notes',
+                url: '/my-health/medical-records/summaries-and-notes',
+                label: 'Care summaries and notes',
               },
             ],
             {
-              url: `/my-health/medical-records/health-history/care-summaries-and-notes/${summaryId}`,
+              url: `/my-health/medical-records/summaries-and-notes/${summaryId}`,
               label: careSummary?.name,
             },
           ),
@@ -50,9 +47,9 @@ const CareSummariesDetails = () => {
 
   if (careSummary?.name) {
     switch (careSummary.type) {
-      case LoincCodes.DISCHARGE_SUMMARY:
+      case loincCodes.DISCHARGE_SUMMARY:
         return <AdmissionAndDischargeDetails record={careSummary} />;
-      case LoincCodes.PHYSICIAN_PROCEDURE_NOTE:
+      case loincCodes.PHYSICIAN_PROCEDURE_NOTE:
         return <ProgressNoteDetails record={careSummary} />;
       default:
         return <p>Something else</p>;
@@ -63,6 +60,7 @@ const CareSummariesDetails = () => {
         message="Loading..."
         setFocus
         data-testid="loading-indicator"
+        class="loading-indicator"
       />
     );
   }

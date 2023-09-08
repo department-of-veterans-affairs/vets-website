@@ -56,6 +56,6 @@ export default function ClaimStatusPageContent({
 }
 
 ClaimStatusPageContent.propTypes = {
+  showClaimLettersLink: PropTypes.bool.isRequired,
   claim: PropTypes.object,
-  showClaimLettersLink: PropTypes.bool,
 };

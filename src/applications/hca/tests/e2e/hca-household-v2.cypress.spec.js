@@ -48,7 +48,7 @@ describe('HCA-Household-V2-Non-Disclosure', () => {
     }).as('mockSubmit');
   });
 
-  it('works without disclosing household information', () => {
+  it('works without sharing household information', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
 
@@ -58,10 +58,12 @@ describe('HCA-Household-V2-Non-Disclosure', () => {
 
     advanceToHouseholdV2();
 
-    goToNextPage('/household-information-v2/financial-disclosure');
+    goToNextPage('/household-information-v2/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('N');
 
-    goToNextPage('/household-information-v2/confirm-financial-disclosure');
+    goToNextPage(
+      '/household-information-v2/share-financial-information-confirm',
+    );
     cy.findByText(
       /confirm that you don\u2019t want to provide your household financial information/i,
     )
@@ -109,10 +111,10 @@ describe('HCA-Household-V2-Non-Disclosure', () => {
 
     advanceToHouseholdV2();
 
-    goToNextPage('/household-information-v2/financial-disclosure');
+    goToNextPage('/household-information-v2/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/financial-information-needed');
     goToNextPage('/household-information-v2/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
@@ -211,14 +213,14 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
 
     advanceToHouseholdV2();
 
-    goToNextPage('/household-information-v2/financial-disclosure');
+    goToNextPage('/household-information-v2/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/financial-information-needed');
     goToNextPage('/household-information-v2/marital-status');
     cy.get('#root_maritalStatus').select(testData.maritalStatus);
 
-    goToNextPage('/household-information-v2/spouse-basic-information');
+    goToNextPage('/household-information-v2/spouse-personal-information');
     fillSpousalBasicInformation();
 
     goToNextPage('/household-information-v2/spouse-additional-information');
@@ -297,14 +299,14 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
 
     advanceToHouseholdV2();
 
-    goToNextPage('/household-information-v2/financial-disclosure');
+    goToNextPage('/household-information-v2/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/financial-information-needed');
     goToNextPage('/household-information-v2/marital-status');
     cy.get('#root_maritalStatus').select(testData.maritalStatus);
 
-    goToNextPage('/household-information-v2/spouse-basic-information');
+    goToNextPage('/household-information-v2/spouse-personal-information');
     fillSpousalBasicInformation();
 
     goToNextPage('/household-information-v2/spouse-additional-information');
@@ -435,10 +437,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
 
     advanceToHouseholdV2();
 
-    goToNextPage('/household-information-v2/financial-disclosure');
+    goToNextPage('/household-information-v2/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/financial-information-needed');
     goToNextPage('/household-information-v2/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
@@ -518,10 +520,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
 
     advanceToHouseholdV2();
 
-    goToNextPage('/household-information-v2/financial-disclosure');
+    goToNextPage('/household-information-v2/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/financial-information-needed');
     goToNextPage('/household-information-v2/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
@@ -606,10 +608,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
 
     advanceToHouseholdV2();
 
-    goToNextPage('/household-information-v2/financial-disclosure');
+    goToNextPage('/household-information-v2/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/financial-information-needed');
     goToNextPage('/household-information-v2/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
@@ -692,10 +694,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
 
     advanceToHouseholdV2();
 
-    goToNextPage('/household-information-v2/financial-disclosure');
+    goToNextPage('/household-information-v2/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/financial-information-needed');
     goToNextPage('/household-information-v2/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
@@ -783,10 +785,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
 
     advanceToHouseholdV2();
 
-    goToNextPage('/household-information-v2/financial-disclosure');
+    goToNextPage('/household-information-v2/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/financial-information-needed');
     goToNextPage('/household-information-v2/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
@@ -863,10 +865,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
 
     advanceToHouseholdV2();
 
-    goToNextPage('/household-information-v2/financial-disclosure');
+    goToNextPage('/household-information-v2/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/financial-information-needed');
     goToNextPage('/household-information-v2/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
@@ -948,10 +950,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
 
     advanceToHouseholdV2();
 
-    goToNextPage('/household-information-v2/financial-disclosure');
+    goToNextPage('/household-information-v2/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/financial-information-needed');
     goToNextPage('/household-information-v2/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
@@ -1031,10 +1033,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
 
     advanceToHouseholdV2();
 
-    goToNextPage('/household-information-v2/financial-disclosure');
+    goToNextPage('/household-information-v2/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/financial-information-needed');
     goToNextPage('/household-information-v2/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
@@ -1153,14 +1155,14 @@ describe('HCA-Household-V2-Full-Disclosure', () => {
 
     advanceToHouseholdV2();
 
-    goToNextPage('/household-information-v2/financial-disclosure');
+    goToNextPage('/household-information-v2/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information');
+    goToNextPage('/household-information-v2/financial-information-needed');
     goToNextPage('/household-information-v2/marital-status');
     cy.get('#root_maritalStatus').select('Married');
 
-    goToNextPage('/household-information-v2/spouse-basic-information');
+    goToNextPage('/household-information-v2/spouse-personal-information');
     fillSpousalBasicInformation();
 
     goToNextPage('/household-information-v2/spouse-additional-information');

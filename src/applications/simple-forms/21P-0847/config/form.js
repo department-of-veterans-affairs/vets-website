@@ -72,7 +72,9 @@ const formConfig = {
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
-            !!mockData && environment.isLocalhost() ? mockData : undefined,
+            !!mockData && environment.isLocalhost() && !window.Cypress
+              ? mockData
+              : undefined,
           uiSchema: preparerPersonalInformation.uiSchema,
           schema: preparerPersonalInformation.schema,
         },
@@ -123,7 +125,7 @@ const formConfig = {
       },
     },
     relationshipToDeceasedClaimantChapter: {
-      title: 'Your relationship',
+      title: 'Your relationship to the deceased claimant',
       pages: {
         relationshipToDeceasedClaimant: {
           path: 'relationship-to-deceased-claimant',

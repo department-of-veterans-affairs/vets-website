@@ -26,7 +26,7 @@ describe('CareSummariesAndNotesListItem', () => {
       {
         initialState: state,
         reducers: reducer,
-        path: '/care-summaries-and-notes',
+        path: '/summaries-and-notes',
       },
     );
   };
@@ -45,22 +45,16 @@ describe('CareSummariesAndNotesListItem', () => {
     expect(recordName).to.exist;
   });
 
-  it('should contain the start date of the record', () => {
+  it('should contain the date of the record', () => {
     const screen = setup();
-    const recordDate = screen.getByText('August', { exact: false });
-    expect(recordDate).to.exist;
-  });
-
-  it('should contain the end date of the record', () => {
-    const screen = setup();
-    const recordDate = screen.getByText('June', { exact: false });
+    const recordDate = screen.getAllByText('August', { exact: false });
     expect(recordDate).to.exist;
   });
 
   it('should contain a link to view record details', () => {
     const screen = setup();
     const recordDetailsLink = screen.getByRole('link', {
-      name: 'Details',
+      name: /Details/,
     });
     expect(recordDetailsLink).to.exist;
   });

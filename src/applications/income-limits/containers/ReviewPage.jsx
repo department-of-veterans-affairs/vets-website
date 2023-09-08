@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import { scrollToTop } from '../utilities/scroll-to-top';
 import { redirectIfFormIncomplete } from '../utilities/utils';
 import { getLimits } from '../api';
 import { ROUTES } from '../constants';
@@ -14,6 +13,7 @@ import {
   updateResultsValidationErrorText,
   updateResultsValidationServiceError,
 } from '../actions';
+import { customizeTitle } from '../utilities/customize-title';
 
 const ReviewPage = ({
   dependentsInput,
@@ -28,6 +28,11 @@ const ReviewPage = ({
   zipCodeInput,
 }) => {
   const [submitting, setSubmitting] = useState(false);
+  const H1 = 'Review your information';
+
+  useEffect(() => {
+    document.title = customizeTitle(H1);
+  });
 
   useEffect(() => {
     if (editMode) {
@@ -45,8 +50,8 @@ const ReviewPage = ({
         zipCodeInput,
       );
 
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       waitForRenderThenFocus('h1');
-      scrollToTop();
     },
     [dependentsInput, pastMode, router, yearInput, zipCodeInput],
   );
@@ -108,7 +113,7 @@ const ReviewPage = ({
 
   return (
     <>
-      <h1>Review your information</h1>
+      <h1>{H1}</h1>
       <p className="il-review">
         Make any edits that you may need to. Then select{' '}
         <strong>Continue</strong>.

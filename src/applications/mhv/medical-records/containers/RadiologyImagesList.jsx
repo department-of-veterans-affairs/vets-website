@@ -58,18 +58,13 @@ const RadiologyImagesList = () => {
         dispatch(
           setBreadcrumbs(
             [
-              { url: '/my-health/medical-records/', label: 'Dashboard' },
-              {
-                url: '/my-health/medical-records/labs-and-tests',
-                label: 'Lab and test results',
-              },
               {
                 url: `/my-health/medical-records/labs-and-tests/${labId}`,
                 label: labAndTestDetails?.name,
               },
             ],
             {
-              url: `/my-health/medical-records/labs-and-tests/radiology-images/${labId}`,
+              url: `/my-health/medical-records/labs-and-tests/${labId}/images`,
               label: `Images: ${labAndTestDetails?.name}`,
             },
           ),
@@ -93,14 +88,22 @@ const RadiologyImagesList = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">
+          <h1
+            className="vads-u-margin-bottom--0"
+            aria-describedby="radiology-date"
+          >
             Images: {labAndTestDetails.name}
           </h1>
           <div className="time-header">
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h2
+              className="vads-u-font-size--base vads-u-font-family--sans"
+              id="radiology-date"
+            >
               Date:{' '}
+              <span className="vads-u-font-weight--normal">
+                {formattedDate}
+              </span>
             </h2>
-            <p>{formattedDate}</p>
           </div>
 
           <div className="no-print">
@@ -141,7 +144,7 @@ const RadiologyImagesList = () => {
                   <va-link
                     className="vads-u-margin-top--1"
                     active
-                    href={`/my-health/medical-records/labs-and-tests/radiology-images/${labId}/${idx +
+                    href={`/my-health/medical-records/labs-and-tests/${labId}/images/${idx +
                       1}`}
                     text="Review full image"
                   />

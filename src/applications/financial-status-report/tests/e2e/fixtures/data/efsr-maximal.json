@@ -1,6 +1,6 @@
 {
-  "view:combinedFinancialStatusReport": true,
   "view:enhancedFinancialStatusReport": true,
+  "view:streamlinedWaiver": true,
   "otherExpenses": [
     {
       "name": "Clothing",
@@ -347,7 +347,6 @@
     "ssn": "1234",
     "fileNumber": "5678"
   },
-  "selectedDebts": [],
   "selectedDebtsAndCopays": [
     {
       "fileNumber": "796121200",

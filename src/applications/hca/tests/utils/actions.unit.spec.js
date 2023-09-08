@@ -11,16 +11,21 @@ import {
   getDismissedHCANotification,
   setDismissedHCANotification,
   getEnrollmentStatus,
-  FETCH_ENROLLMENT_STATUS_STARTED,
-  FETCH_ENROLLMENT_STATUS_SUCCEEDED,
-  FETCH_ENROLLMENT_STATUS_FAILED,
-  FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
-  FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
-  FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
-  SET_DISMISSED_HCA_NOTIFICATION,
+  resetEnrollmentStatus,
 } from '../../utils/actions';
+import { ENROLLMENT_STATUS_ACTIONS } from '../../utils/constants';
 
 describe('hca actions', () => {
+  const {
+    FETCH_ENROLLMENT_STATUS_STARTED,
+    FETCH_ENROLLMENT_STATUS_SUCCEEDED,
+    FETCH_ENROLLMENT_STATUS_FAILED,
+    RESET_ENROLLMENT_STATUS,
+    FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
+    FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
+    FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
+    SET_DISMISSED_HCA_NOTIFICATION,
+  } = ENROLLMENT_STATUS_ACTIONS;
   let dispatch;
 
   describe('when `getEnrollmentStatus` executes', () => {
@@ -115,6 +120,17 @@ describe('hca actions', () => {
           );
         });
       });
+    });
+  });
+
+  describe('when `resetEnrollmentStatus` executes', () => {
+    beforeEach(() => {
+      dispatch = sinon.spy();
+    });
+
+    it('should dispatch a reset enrollment status action', () => {
+      resetEnrollmentStatus()(dispatch);
+      expect(dispatch.firstCall.args[0].type).to.equal(RESET_ENROLLMENT_STATUS);
     });
   });
 

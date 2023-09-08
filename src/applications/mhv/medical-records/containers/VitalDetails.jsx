@@ -6,6 +6,7 @@ import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -17,11 +18,16 @@ import {
   processList,
   sendErrorToSentry,
 } from '../util/helpers';
-import { emptyField, vitalTypeDisplayNames } from '../util/constants';
+import {
+  EMPTY_FIELD,
+  vitalTypeDisplayNames,
+  pageTitles,
+} from '../util/constants';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = () => {
-  const vitalDetails = useSelector(state => state.mr.vitals.vitalDetails);
+  const records = useSelector(state => state.mr.vitals.vitalDetails);
   const user = useSelector(state => state.user.profile);
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
@@ -33,29 +39,33 @@ const VitalDetails = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
 
-  useEffect(() => {
-    if (vitalDetails?.length) {
-      dispatch(
-        setBreadcrumbs(
-          [
-            { url: '/my-health/medical-records/', label: 'Dashboard' },
+  useEffect(
+    () => {
+      if (records?.length) {
+        dispatch(
+          setBreadcrumbs(
+            [
+              {
+                url: '/my-health/medical-records/vitals',
+                label: 'Vitals',
+              },
+            ],
             {
-              url: '/my-health/medical-records/health-history',
-              label: 'Health history',
+              url: `/my-health/medical-records/vitals/${vitalType}-history`,
+              label: vitalTypeDisplayNames[macroCase(vitalType)],
             },
-            {
-              url: '/my-health/medical-records/health-history/vitals',
-              label: 'VA vitals',
-            },
-          ],
-          {
-            url: `/my-health/medical-records/health-history/vitals/${vitalType}`,
-            label: vitalTypeDisplayNames[macroCase(vitalType)],
-          },
-        ),
-      );
-    }
-  });
+          ),
+        );
+        focusElement(document.querySelector('h1'));
+        updatePageTitle(
+          `${vitalTypeDisplayNames[records[0].type]} - ${
+            pageTitles.VITALS_PAGE_TITLE
+          }`,
+        );
+      }
+    },
+    [records],
+  );
 
   const paginateData = data => {
     return chunk(data, perPage);
@@ -74,15 +84,15 @@ const VitalDetails = () => {
 
   useEffect(
     () => {
-      if (vitalDetails?.length) {
-        paginatedVitals.current = paginateData(vitalDetails);
+      if (records?.length) {
+        paginatedVitals.current = paginateData(records);
         setCurrentVitals(paginatedVitals.current[currentPage - 1]);
       }
     },
-    [currentPage, vitalDetails],
+    [currentPage, records],
   );
 
-  const displayNums = fromToNums(currentPage, vitalDetails?.length);
+  const displayNums = fromToNums(currentPage, records?.length);
 
   useEffect(
     () => {
@@ -117,18 +127,18 @@ const VitalDetails = () => {
       },
     };
 
-    vitalDetails.forEach(item => {
+    records.forEach(item => {
       pdfData.results.items.push({
         header: moment(item.date).format('LLL'),
         items: [
           {
             title: 'Result',
-            value: item.measurement || emptyField,
+            value: item.measurement || EMPTY_FIELD,
             inline: true,
           },
           {
             title: 'Location',
-            value: item.location || emptyField,
+            value: item.location || EMPTY_FIELD,
             inline: true,
           },
           {
@@ -148,16 +158,16 @@ const VitalDetails = () => {
   };
 
   const content = () => {
-    if (vitalDetails?.length) {
+    if (records?.length) {
       return (
         <>
-          <h1>{vitalTypeDisplayNames[vitalDetails[0].type]}</h1>
+          <h1>{vitalTypeDisplayNames[records[0].type]}</h1>
           <section className="set-width-486">
             <PrintDownload list download={generateVitalsPdf} />
             <div className="vads-u-padding-y--1 vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
               Displaying {displayNums[0]}
               &#8211;
-              {displayNums[1]} of {vitalDetails.length} vitals
+              {displayNums[1]} of {records.length} vitals
             </div>
 
             <ul className="vital-details no-print">
@@ -174,23 +184,17 @@ const VitalDetails = () => {
                       {vital.location}
                     </p>
                     <h3>Provider notes:</h3>
-                    {vital?.notes?.length > 0 ? (
-                      <ul className="comment-list">
-                        {vital.notes.map((comment, commentIdx) => (
-                          <li key={commentIdx}>{comment}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="vads-u-margin--0">None noted</p>
-                    )}
+                    <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                      {vital.notes}
+                    </p>
                   </li>
                 ))}
             </ul>
 
             {/* print view start */}
             <ul className="vital-details print-only">
-              {vitalDetails?.length > 0 &&
-                vitalDetails?.map((vital, idx) => (
+              {records?.length > 0 &&
+                records?.map((vital, idx) => (
                   <li key={idx}>
                     <h2>{moment(vital.date).format('LLL')}</h2>
                     <h3>Result:</h3>
@@ -198,15 +202,9 @@ const VitalDetails = () => {
                     <h3>Location:</h3>
                     <p>{vital.location}</p>
                     <h3>Provider notes:</h3>
-                    {vital?.notes?.length > 0 ? (
-                      <ul className="comment-list">
-                        {vital.notes.map((comment, commentIdx) => (
-                          <li key={commentIdx}>{comment}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <span className="vads-u-margin--0">None noted</span>
-                    )}
+                    <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                      {vital.notes}
+                    </p>
                   </li>
                 ))}
             </ul>
@@ -230,6 +228,7 @@ const VitalDetails = () => {
         message="Loading..."
         setFocus
         data-testid="loading-indicator"
+        class="loading-indicator"
       />
     );
   };

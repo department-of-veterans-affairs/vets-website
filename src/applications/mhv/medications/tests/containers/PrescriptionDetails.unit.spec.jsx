@@ -3,14 +3,15 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducer from '../../reducers';
 import PrescriptionDetails from '../../containers/PrescriptionDetails';
-import prescriptions from '../fixtures/presciptions.json';
+import rxDetailsResponse from '../fixtures/prescriptionDetails.json';
+import nonVaRxResponse from '../fixtures/nonVaPrescription.json';
 import { dateFormat } from '../../util/helpers';
 
 describe('Prescription details container', () => {
   const initialState = {
     rx: {
       prescriptions: {
-        prescriptionDetails: prescriptions[0],
+        prescriptionDetails: rxDetailsResponse.data.attributes,
       },
     },
   };
@@ -34,43 +35,36 @@ describe('Prescription details container', () => {
     expect(printButton).to.exist;
   });
 
-  it('displays the prescription name', () => {
+  it('displays the prescription name and filled by date', () => {
     const screen = setup();
 
-    const prescriptionName = screen.getByText(
-      initialState.rx.prescriptions.prescriptionDetails.prescriptionName,
-      {
-        exact: true,
-        selector: 'h1',
-      },
+    const rxName = screen.findByText(
+      rxDetailsResponse.data.attributes.prescriptionName,
     );
-    expect(prescriptionName).to.exist;
-  });
 
-  it('displays the formatted ordered date', () => {
-    const screen = setup();
-    const formattedDate = screen.getAllByText(
-      dateFormat(
-        initialState.rx.prescriptions.prescriptionDetails?.orderedDate,
+    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
+      `Last filled on ${dateFormat(
+        rxDetailsResponse.data.attributes.refillDate,
         'MMMM D, YYYY',
-      ),
-      {
-        exact: true,
-        selector: 'p',
-      },
+      )}`,
     );
-    expect(formattedDate).to.exist;
+    expect(rxName).to.exist;
   });
-
-  it('displays the facility', () => {
-    const screen = setup();
-    const location = screen.getAllByText(
-      initialState.rx.prescriptions.prescriptionDetails.facilityName,
-      {
-        exact: true,
-        selector: 'p',
+  it('displays "Information entered on" instead of "filled by" date, when med is non VA', () => {
+    const nonVaRxState = {
+      rx: {
+        prescriptions: {
+          prescriptionDetails: nonVaRxResponse.data.attributes,
+        },
       },
+    };
+    const screen = setup(nonVaRxState);
+
+    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
+      `Information entered on ${dateFormat(
+        nonVaRxResponse.data.attributes.orderedDate,
+        'MMMM D, YYYY',
+      )}`,
     );
-    expect(location).to.exist;
   });
 });

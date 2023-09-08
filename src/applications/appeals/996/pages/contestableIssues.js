@@ -4,7 +4,7 @@ import { disabilitiesExplanation } from '../content/contestableIssues';
 
 import { selectionRequired, maxIssues } from '../validations/issues';
 import { hasSomeSelected } from '../utils/helpers';
-import { SELECTED } from '../constants';
+import { SELECTED } from '../../shared/constants';
 
 /**
  * contestable issues with add issue link (list loop)

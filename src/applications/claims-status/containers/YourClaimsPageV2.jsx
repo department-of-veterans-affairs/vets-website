@@ -49,6 +49,7 @@ import {
   sortByLastUpdated,
 } from '../utils/appeals-v2-helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
+import { groupClaimsByDocsNeeded } from '../utils/helpers';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -369,11 +370,11 @@ function mapStateToProps(state) {
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
     fullName: state.user.profile.userFullName,
-    list: sortedList,
+    list: groupClaimsByDocsNeeded(sortedList),
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
     synced: claimsState.claimSync.synced,
     // START lighthouse_migration
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse: cstUseLighthouse(state, 'index'),
     // END lighthouse_migration
   };
 }

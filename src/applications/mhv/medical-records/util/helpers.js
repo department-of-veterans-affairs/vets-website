@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
-import { emptyField, interpretationMap } from './constants';
+import { EMPTY_FIELD, interpretationMap } from './constants';
 
 /**
  * @param {*} timestamp
@@ -48,9 +48,9 @@ export const downloadFile = (name, base64Str) => {
 export const getReactions = record => {
   const reactions = [];
   if (!record || !record.reaction) return reactions;
-  record.reaction.forEach(rea => {
-    rea.manifestation.forEach(man => {
-      man.coding.forEach(cod => reactions.push(cod.display));
+  record.reaction.forEach(reaction => {
+    reaction.manifestation.forEach(manifestation => {
+      reactions.push(manifestation.text);
     });
   });
   return reactions;
@@ -117,7 +117,7 @@ export const getObservationValueWithUnits = observation => {
 export const processList = list => {
   if (list?.length > 1) return list.join('. ');
   if (list?.length === 1) return list.toString();
-  return emptyField;
+  return EMPTY_FIELD;
 };
 
 /**

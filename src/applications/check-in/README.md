@@ -48,9 +48,11 @@ There are several different mock UUIDs that can be used as a value for the `id` 
 
 When adding features, use components from the design system as much as possible. For general spacing, layout, typography, borders, etc... use the utility classes rather than adding to the style sheet.
 
-## Try to be generic
+## Code style
+### Try to be generic
 The check-in and pre-check-in apps are very similar, so when possible use and add to the common reducer, selector, and utils found in the root of the two apps.
-
+### Function parameters
+If you have more than two parameters, structure the parameters in an object to increase readability and ease of use.
 ## Page routing
 Internal page routing is defined in `utils\navigation`. Within this directory there are sub-directories for `day-of` and `pre-check-in`. The index file in each sub-directory contains an object that determines the order of the pages. Within the hooks there is a `useFormRouting` hook that is used to route to the next page, previous page, error page, or any specific page in the app.
 
@@ -118,3 +120,12 @@ Errors only PCI: `yarn cy:run --env with_screenshots=true --spec src/application
 
 ### Adding additional screenshots
 There is a cypress command that gets imported in our local commands named `createScreenshots`. It is best used after an axe check on the page you wish to capture. Add cy.createScreenshots([filename]) and also make sure that the test is imported in one of the screenshot scripts listed above. Filename syntax should be `application--page-name` example: `Pre-check-in--Validate-with-DOB`. The command will automatically get screenshots for translated versions of the page.
+
+## Adding Feature Toggles
+
+To add a feature toggle follow the steps oulined in the VA Platform Documentation on [Feature Toggles](https://depo-platform-documentation.scrollhelp.site/developer-docs/feature-toggles-guide). Additionally add the feature toggle to selectors, mocks and the readme for Pre-check-in and/or Check-in apps.
+
+- src/applications/check-in/utils/selectors/feature-toggles.js
+- src/applications/check-in/utils/selectors/tests/feature-toggles.unit.spec.js
+- src/applications/check-in/api/local-mock-api/mocks/v2/feature-toggles/index.js
+- src/applications/check-in/day-of/README.md

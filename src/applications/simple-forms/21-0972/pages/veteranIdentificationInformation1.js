@@ -8,11 +8,11 @@ export default {
   uiSchema: {
     // TODO: customize labels
     veteranHasFiledClaim: {
-      ...yesNoUI('Has the Veteran ever filed a VA claim?'),
+      ...yesNoUI('Has the Veteran ever filed a claim with VA?'),
       'ui:options': {
         labels: {
-          Y: 'Yes, the Veteran has filed a VA claim before',
-          N: 'No, the Veteran has never filed a VA claim',
+          Y: 'Yes, the Veteran has filed a VA claim before.',
+          N: 'No, the Veteran has never filed a VA claim.',
         },
       },
     },
@@ -22,6 +22,5 @@ export default {
     properties: {
       veteranHasFiledClaim: yesNoSchema,
     },
-    required: ['veteranHasFiledClaim'],
   },
 };

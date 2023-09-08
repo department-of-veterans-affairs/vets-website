@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import DashboardCards from './DashboardCards';
 
 const IntroductionPage = props => {
-  const { route } = props;
+  const { route, loggedIn, profile } = props;
   const { formConfig, pageList } = route;
 
   useEffect(
@@ -27,8 +31,10 @@ const IntroductionPage = props => {
       >
         Please complete the XX-230 form to apply for ask the va test.
       </SaveInProgressIntro>
+      <DashboardCards />
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for ask the va test.
+        {loggedIn ? profile.userFullName.first : 'Hello'}, follow the steps
+        below to apply for ask the va test.
       </h2>
       <va-process-list>
         <li>
@@ -83,6 +89,25 @@ const IntroductionPage = props => {
     </article>
   );
 };
-// }
 
-export default IntroductionPage;
+IntroductionPage.propTypes = {
+  profile: PropTypes.shape({
+    userFullName: PropTypes.shape({
+      first: PropTypes.string,
+      middle: PropTypes.string,
+      last: PropTypes.string,
+    }),
+    dob: PropTypes.string,
+    gender: PropTypes.string,
+  }),
+  loggedIn: PropTypes.bool,
+};
+
+function mapStateToProps(state) {
+  return {
+    loggedIn: isLoggedIn(state),
+    profile: selectProfile(state),
+  };
+}
+
+export default connect(mapStateToProps)(IntroductionPage);

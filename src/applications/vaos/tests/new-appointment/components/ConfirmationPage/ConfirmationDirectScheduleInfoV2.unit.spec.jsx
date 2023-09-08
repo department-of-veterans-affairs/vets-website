@@ -6,7 +6,7 @@ import { getICSTokens } from '../../../../utils/calendar';
 import { FETCH_STATUS, FLOW_TYPES } from '../../../../utils/constants';
 import {
   createTestStore,
-  // getTimezoneTestDate,
+  // getTestDate,
   renderWithStoreAndRouter,
 } from '../../../mocks/setup';
 

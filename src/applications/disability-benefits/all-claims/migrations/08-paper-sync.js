@@ -21,7 +21,7 @@ export default function reorderHousingIllnessRemoveFdc(savedData) {
       ...savedData,
       metadata: {
         ...savedData.metadata,
-        returnUrl: '/housing-situation-1', // TODO: #59003 Rename for prod launch
+        returnUrl: '/housing-situation',
       },
     };
   }
@@ -31,7 +31,7 @@ export default function reorderHousingIllnessRemoveFdc(savedData) {
       ...savedData,
       metadata: {
         ...savedData.metadata,
-        returnUrl: '/terminally-ill-1', // TODO: #59003 Rename for prod launch
+        returnUrl: '/terminally-ill',
       },
     };
   }

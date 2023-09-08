@@ -12,12 +12,10 @@ export default {
   uiSchema: {
     // required span needs to be in page header here, per mockup
     'ui:title': (
-      <span className="vads-u-font-size--h3">
+      <h3 className="custom-header authorizer-type">
         How long do you authorize us to release your information for?{' '}
-        <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-          (*Required)
-        </span>
-      </span>
+        <span className="custom-required-span">(*Required)</span>
+      </h3>
     ),
     releaseDuration: {
       'ui:widget': 'radio',

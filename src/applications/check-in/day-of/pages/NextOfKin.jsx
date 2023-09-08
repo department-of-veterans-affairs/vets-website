@@ -9,7 +9,7 @@ import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
 import { makeSelectVeteranData } from '../../selectors';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useStorage } from '../../hooks/useStorage';
 import { URLS } from '../../utils/navigation';
 
 const NextOfKin = props => {
@@ -24,7 +24,7 @@ const NextOfKin = props => {
     goToPreviousPage,
     getPreviousPageFromRouter,
   } = useFormRouting(router);
-  const { setShouldSendDemographicsFlags } = useSessionStorage(false);
+  const { setShouldSendDemographicsFlags } = useStorage(false);
 
   const seeStaffMessage = t(
     'our-staff-can-help-you-update-your-next-of-kin-information',

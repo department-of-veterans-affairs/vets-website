@@ -34,6 +34,9 @@ export default {
         ...commonUiSchema.witnessRelationshipToClaimant['ui:options'],
         labels: RELATIONSHIP_TO_VETERAN_OPTIONS,
       },
+      'ui:errorMessages': {
+        required: 'Please select at least one relationship',
+      },
     },
   },
   uiSchemaB: {
@@ -46,6 +49,9 @@ export default {
       'ui:options': {
         ...commonUiSchema.witnessRelationshipToClaimant['ui:options'],
         labels: RELATIONSHIP_TO_CLAIMANT_OPTIONS,
+      },
+      'ui:errorMessages': {
+        required: 'Please select at least one relationship',
       },
     },
   },

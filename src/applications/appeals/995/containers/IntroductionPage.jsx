@@ -9,7 +9,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import environment from 'platform/utilities/environment';
 
-import NeedsToVerify from '../components/NeedsToVerify';
+import NeedsToVerify from '../../shared/components/NeedsToVerify';
 import MissingInfo from '../components/MissingInfo';
 import { clearReturnState } from '../utils/contactInfo';
 
@@ -61,9 +61,8 @@ class IntroductionPage extends React.Component {
           If you disagree with our decision on your claim, a Supplemental Claim
           may be an option for you.
         </p>
-        {loggedIn && showVerifyLink && <NeedsToVerify pathname={pathname} />}
-        {loggedIn &&
-          showMissingInfo &&
+        {showVerifyLink && <NeedsToVerify pathname={pathname} />}
+        {showMissingInfo &&
           !showVerifyLink && <MissingInfo hasSsn={canApply} hasDob={hasDob} />}
         {loggedIn &&
           !showVerifyLink &&
@@ -294,6 +293,7 @@ const mapStateToProps = state => ({
     // vets-api/app/policies/appeals_policy.rb - We need to use this because
     // the SSN is available from prefill, but is not obtained until the form is
     // started :(
+    // enable profile.claims by turning on `profile_user_claims` feature
     selectProfile(state).claims?.appeals || environment.isLocalhost(),
   hasDob: !!(selectProfile(state)?.dob || ''),
 });

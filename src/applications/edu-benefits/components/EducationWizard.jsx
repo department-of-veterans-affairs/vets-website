@@ -61,7 +61,7 @@ class EducationWizard extends React.Component {
         url = `/education/apply-for-benefits-form-22-1990`;
         break;
       case '1990E':
-        if (this?.props['showMebDgi40Feature']) {
+        if (this?.props.showMebDgi40Feature) {
           url = `/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e`;
           break;
         }

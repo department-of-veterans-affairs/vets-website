@@ -15,6 +15,7 @@ export default function SearchAccordion({
   const [isExpanded, setExpanded] = useState(expanded || false);
   const [id] = useState(`${createId(button)}-accordion`);
   const [buttonId] = useState(`update-${createId(button)}-button`);
+
   useEffect(
     () => {
       setExpanded(expanded);

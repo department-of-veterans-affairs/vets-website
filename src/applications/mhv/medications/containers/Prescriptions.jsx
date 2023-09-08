@@ -24,16 +24,56 @@ const Prescriptions = () => {
   const dispatch = useDispatch();
   const [pdfList, setPdfList] = useState([]);
   const [sortOption, setSortOption] = useState('');
+  const [isAlertVisible, setAlertVisible] = useState('false');
+  const [isLoading, setLoading] = useState(true);
+
+  const topAlert = () => {
+    return (
+      <div
+        visible={isAlertVisible}
+        className="vads-l-col--12 medium-screen:vads-l-col--9 no-print"
+      >
+        {!prescriptions && (
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="warning"
+            visible={isAlertVisible}
+          >
+            <h2 slot="headline">No medications found</h2>
+            <div>
+              <p>
+                There are no medications found in your profile. If you believe
+                this is incorrect, please refresh the page or call your care
+                team if the problem persists.
+              </p>
+            </div>
+          </va-alert>
+        )}
+        {prescriptions?.length <= 0 && (
+          <va-alert status="info" background-only>
+            <div>
+              <p className="vads-u-margin--0">
+                You don’t have any medications in your VA medical records.
+              </p>
+            </div>
+          </va-alert>
+        )}
+        <div className="vads-u-margin-bottom--4" />
+      </div>
+    );
+  };
 
   const sortRxList = useCallback(
     () => {
-      const newList = [...prescriptions];
-      newList.sort(a => {
-        return a.refillStatus.toLowerCase() === sortOption.toLowerCase()
-          ? -1
-          : 0;
-      });
-      dispatch(setSortedRxList(newList));
+      if (sortOption) {
+        const newList = [...prescriptions];
+        newList.sort(a => {
+          return a.refillStatus?.toLowerCase() === sortOption.toLowerCase()
+            ? -1
+            : 0;
+        });
+        dispatch(setSortedRxList(newList));
+      }
     },
     [dispatch, prescriptions, sortOption],
   );
@@ -111,23 +151,38 @@ const Prescriptions = () => {
     [prescriptions],
   );
 
-  useEffect(() => {
-    if (prescriptions) {
-      dispatch(
-        setBreadcrumbs([], {
-          url: '/my-health/medications/prescriptions/',
-          label: 'Medications',
-        }),
-      );
-    }
-  });
-
   useEffect(
     () => {
-      dispatch(getPrescriptionsList());
+      dispatch(
+        setBreadcrumbs(
+          [
+            {
+              url: '/my-health/about-medications',
+              label: 'About Medications',
+            },
+          ],
+          {
+            url: '/my-health/medications',
+            label: 'Medications',
+          },
+        ),
+      );
     },
     [dispatch],
   );
+
+  useEffect(
+    () => {
+      dispatch(getPrescriptionsList()).then(() => setLoading(false));
+    },
+    [dispatch],
+  );
+
+  useEffect(() => {
+    if (!isLoading && (!prescriptions || prescriptions?.length <= 0)) {
+      setAlertVisible('true');
+    }
+  });
 
   useEffect(
     () => {
@@ -136,15 +191,6 @@ const Prescriptions = () => {
       }
     },
     [buildPrescriptionPDFList, prescriptions],
-  );
-
-  useEffect(
-    () => {
-      if (sortOption) {
-        sortRxList();
-      }
-    },
-    [sortOption, sortRxList],
   );
 
   const pdfData = {
@@ -169,13 +215,19 @@ const Prescriptions = () => {
   };
 
   const content = () => {
-    if (prescriptions) {
+    if (!isLoading) {
       return (
         <div className="landing-page">
           <PrintHeader />
-          <h1 className="page-title">Medications</h1>
-          <div className="vads-u-margin-bottom--2 no-print">
-            Review your prescription medicaitons from VA, and providers outside
+          {topAlert()}
+          <h1 className="page-title" data-testid="list-page-title">
+            Medications
+          </h1>
+          <div
+            className="vads-u-margin-bottom--2 no-print"
+            data-testid="Title-Notes"
+          >
+            Review your prescription medications from VA, and providers outside
             of our network.
           </div>
           <div className="landing-page-content">
@@ -199,35 +251,15 @@ const Prescriptions = () => {
                 setSortOption={setSortOption}
                 sortOption={sortOption}
                 defaultSortOption={defaultSortOption}
+                sortRxList={sortRxList}
               />
-              <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
+              <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
             </div>
             {prescriptions ? (
               <MedicationsList rxList={prescriptions} />
             ) : (
-              <va-loading-indicator
-                message="Loading..."
-                setFocus
-                data-testid="loading-indicator"
-              />
+              <MedicationsList rxList={[]} />
             )}
-          </div>
-          <div className="rx-landing-page-footer no-print">
-            <div className="footer-header vads-u-font-size--h2 vads-u-font-weight--bold vads-u-padding-y--1 vads-u-border-bottom--1px vads-u-border-color--gray-light">
-              Resources related to medications
-            </div>
-            <div className="footer-links">
-              <a href="nolink">Allergies and Adverse Reactions</a>
-              <p>
-                This is a description of why the user may need to navigate to
-                medical records to see their allergies.
-              </p>
-              <a href="nolink">Resources and Support</a>
-              <p>
-                This is a description of what the user might find in resources
-                and support.
-              </p>
-            </div>
           </div>
         </div>
       );
@@ -241,7 +273,7 @@ const Prescriptions = () => {
     );
   };
 
-  return <div className="vads-u-margin-top--3">{content()}</div>;
+  return <div>{content()}</div>;
 };
 
 export default Prescriptions;

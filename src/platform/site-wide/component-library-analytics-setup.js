@@ -17,18 +17,6 @@ const analyticsEvents = {
       prefix: 'accordion',
     },
   ],
-  AdditionalInfo: [
-    {
-      action: 'expand',
-      event: 'int-additional-info-expand',
-      prefix: 'additional-info',
-    },
-    {
-      action: 'collapse',
-      event: 'int-additional-info-collapse',
-      prefix: 'additional-info',
-    },
-  ],
   AlertBox: [
     {
       action: 'linkClick',
@@ -48,13 +36,6 @@ const analyticsEvents = {
       action: 'change',
       event: 'int-checkbox-option-click',
       prefix: 'checkbox',
-    },
-  ],
-  CheckboxGroup: [
-    {
-      action: 'click',
-      event: 'int-checkbox-group-option-click',
-      prefix: 'checkbox-group',
     },
   ],
   LoadingIndicator: [

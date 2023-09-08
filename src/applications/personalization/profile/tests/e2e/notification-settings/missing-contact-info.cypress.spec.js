@@ -35,7 +35,7 @@ describe('Notification Settings', () => {
   });
 
   context(
-    'when both mobile phone and email are supported communication channels',
+    'when both mobile phone and email are enabled communication channels',
     () => {
       context('when user is missing mobile phone', () => {
         it('should show available email notifications and show expandable alert for mobile notifications - C9503', () => {
@@ -46,6 +46,7 @@ describe('Notification Settings', () => {
               profileShowEmailNotificationSettings: true,
               profileUseNotificationSettingsCheckboxes: true,
               profileShowMhvNotificationSettings: true,
+              profileShowPaymentsNotificationSetting: true,
             }),
           );
           const user = makeMockUser();
@@ -98,6 +99,7 @@ describe('Notification Settings', () => {
               profileShowEmailNotificationSettings: true,
               profileUseNotificationSettingsCheckboxes: true,
               profileShowMhvNotificationSettings: true,
+              profileShowPaymentsNotificationSetting: true,
             }),
           );
           const user = makeMockUser();
@@ -179,22 +181,35 @@ describe('Notification Settings', () => {
             );
             cy.injectAxeThenAxeCheck();
 
+            cy.findByText('We don’t have your contact information').should(
+              'exist',
+            );
+
             cy.findByTestId('missing-contact-info-alert')
               .should('exist')
-              .and('contain.text', 'mobile phone')
-              .and('contain.text', 'email address')
-              .invoke('text')
-              .should('match', /we don’t have your contact info/i)
-              .and('match', /update.*contact info/i);
+              .and('contain.text', 'phone number')
+              .and('contain.text', 'email address');
+
             cy.should(() => {
               expect(getCommPrefsStub).not.to.be.called;
             });
-            cy.findByRole('link', { name: /add an email address/i }).should(
-              'exist',
-            );
-            cy.findByRole('link', {
-              name: /add a mobile phone number/i,
-            }).should('exist');
+
+            cy.findByTestId('add-mobile-phone-link')
+              .shadow()
+              .within(() => {
+                cy.findByRole('link', {
+                  name: 'Add a phone number to your profile',
+                }).should('exist');
+              });
+
+            cy.findByTestId('add-email-address-link')
+              .shadow()
+              .within(() => {
+                cy.findByRole('link', {
+                  name: 'Add an email address to your profile',
+                }).should('exist');
+              });
+
             cy.findAllByTestId('notification-group').should('not.exist');
           });
         },
@@ -224,14 +239,14 @@ describe('Notification Settings', () => {
           );
           cy.injectAxeThenAxeCheck();
 
-          cy.findByTestId('missing-contact-info-alert')
-            .should('exist')
-            .and('contain.text', 'mobile phone')
+          cy.findAllByTestId('add-mobile-phone-link')
+            .shadow()
             .within(() => {
-              cy.findByRole('link', { name: /add.*mobile.*profile/i }).should(
-                'exist',
-              );
+              cy.findByRole('link', {
+                name: 'Add a phone number to your profile',
+              }).should('exist');
             });
+
           cy.findAllByTestId('notification-group').should('not.exist');
           cy.should(() => {
             expect(getCommPrefsStub).not.to.be.called;
@@ -264,9 +279,8 @@ describe('Notification Settings', () => {
             .should('exist');
           cy.findByTestId('missing-contact-info-alert').should('not.exist');
           cy.findAllByTestId('notification-group').should('exist');
-          cy.findByRole('link', { name: /add your mobile/i }).should(
-            'not.exist',
-          );
+
+          cy.findAllByTestId('add-mobile-phone-link').should('not.exist');
           cy.injectAxeThenAxeCheck();
         });
       });

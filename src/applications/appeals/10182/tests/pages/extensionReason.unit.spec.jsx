@@ -9,6 +9,8 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 import { SHOW_PART3 } from '../../constants';
 
+import { ExtensionReasonReviewField } from '../../content/extensionReason';
+
 const {
   schema,
   uiSchema,
@@ -72,5 +74,33 @@ describe('extension request page', () => {
     );
     expect($('va-textarea[error]', container)).to.not.exist;
     expect(onSubmit.called).to.be.true;
+  });
+});
+
+describe('ExtensionReasonReviewField', () => {
+  it('should render the value', () => {
+    const { container } = render(
+      <ExtensionReasonReviewField>
+        {React.createElement('div', { formData: 'value' })}
+      </ExtensionReasonReviewField>,
+    );
+
+    expect($('dt', container).textContent).to.equal('Reason for extension');
+    expect($('dd', container).textContent).to.equal(
+      'Added reason for extension',
+    );
+  });
+
+  it('should render the missing value error', () => {
+    const { container } = render(
+      <ExtensionReasonReviewField>
+        {React.createElement('div', { formData: null })}
+      </ExtensionReasonReviewField>,
+    );
+
+    expect($('dt', container).textContent).to.equal('Reason for extension');
+    expect($('dd .usa-input-error-message', container).textContent).to.equal(
+      'Missing reason for extension',
+    );
   });
 });

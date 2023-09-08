@@ -7,7 +7,9 @@ import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import Dropdown from '../../components/Dropdown';
+import FilterBeforeResults from './FilterBeforeResults';
 import {
   fetchLocationAutocompleteSuggestions,
   fetchSearchByLocationCoords,
@@ -35,6 +37,7 @@ export function LocationSearchForm({
   dispatchGeolocateUser,
   dispatchClearGeocodeError,
   dispatchMapChanged,
+  smallScreen,
 }) {
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
@@ -296,6 +299,12 @@ export function LocationSearchForm({
           </div>
         </div>
       </form>
+      {!smallScreen &&
+        !environment.isProduction() && (
+          <div>
+            <FilterBeforeResults />
+          </div>
+        )}
     </div>
   );
 }

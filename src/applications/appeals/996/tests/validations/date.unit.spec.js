@@ -27,7 +27,7 @@ describe('validateDate & isValidDate', () => {
     const year = today.getFullYear();
     // getMonth => zero based month; we're trying to process a single digit
     // month and day here
-    const date = today.getMonth() > 9 ? `${year}-1-1` : `${year - 1}-8-1`;
+    const date = today.getMonth() > 9 ? `${year}-1-1` : `${year - 1}-12-31`;
     validateDate(errors, date);
     expect(errorMessage[0]).to.be.undefined;
     expect(isValidDate(date)).to.be.true;

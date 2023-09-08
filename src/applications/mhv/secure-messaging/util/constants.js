@@ -1,5 +1,5 @@
 /** time to wait (in ms) after the user stops typing before initiating draft auto-save */
-export const draftAutoSaveTimeout = 5000;
+export const draftAutoSaveTimeout = 10000;
 
 export const Paths = {
   INBOX: '/inbox/',
@@ -24,7 +24,7 @@ export const DefaultFolders = {
   },
   SENT: {
     id: -1,
-    header: 'Sent messages',
+    header: 'Sent',
     desc: '',
   },
   DRAFTS: { id: -2, header: 'Drafts', desc: '' },
@@ -38,7 +38,15 @@ export const DefaultFolders = {
   },
 };
 
+export const MessageReadStatus = {
+  READ: 'READ',
+  UNREAD: null,
+};
+
 export const ErrorMessages = {
+  LandingPage: {
+    GET_INBOX_ERROR: 'Unable to retrieve messages at this moment',
+  },
   ComposeForm: {
     RECIPIENT_REQUIRED: 'Please select a recipient.',
     CATEGORY_REQUIRED: 'Please select a category.',
@@ -132,22 +140,20 @@ export const Alerts = {
       'Folder name can only contain letters, numbers, and spaces.',
     CREATE_FOLDER_ERROR_EXSISTING_NAME:
       'Folder name already in use. Please use another name.',
-    DELETE_FOLDER_CONFIRM_HEADER:
-      'Are you sure you want to remove this folder?',
+    DELETE_FOLDER_CONFIRM_HEADER: 'Remove this folder?',
     DELETE_FOLDER_CONFIRM_BODY:
       "If you remove a folder, you can't get it back.",
     DELETE_FOLDER_SUCCESS: 'Folder was successfully removed.',
     DELETE_FOLDER_ERROR:
       'Folder could not be removed. Try again later. If this problem persists, contact the help desk.',
-    DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER:
-      'Empty this folder before removing it from the list.',
-    DELETE_FOLDER_ERROR_NOT_EMPTY_BODY:
-      'Before this folder can be removed, all of the messages in it must be moved to another folder, such as Trash, Inbox, or a different custom folder.',
+    DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER: 'Empty this folder',
+    DELETE_FOLDER_ERROR_NOT_EMPTY_BODY: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
     RENAME_FOLDER_SUCCESS: 'Folder was successfully renamed.',
     RENAME_FOLDER_ERROR:
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',
     FOLDER_NAME_TAKEN:
       'That folder name is already in use. Please use another name.',
+    GET_FOLDER_ERROR: 'We’re sorry. Something went wrong on our end.',
   },
   Thread: {
     GET_THREAD_ERROR: 'We’re sorry. Something went wrong on our end.',
@@ -179,9 +185,11 @@ export const Prompts = {
       'If you remove an attachment, you will have to attach it again.',
   },
   Compose: {
-    EDIT_LIST_TITLE: 'Edit your contact list',
+    EDIT_LIST_TITLE: 'Edit your contact list or signature',
     EDIT_LIST_CONTENT:
-      'You can edit your contact list on the My HealtheVet website. Then refresh this page to review your updated list.',
+      'You can edit your contact list or signature on the My HealtheVet website. Then refresh this page to review your updated contacts and signature.',
+    EDIT_LIST_LINK: `Edit your contact list or signature on the My HealtheVet website (opens
+        in new tab)`,
   },
   Message: {
     DELETE_MESSAGE_CONFIRM:
@@ -206,7 +214,7 @@ export const Breadcrumbs = {
   DRAFTS: { path: Paths.DRAFTS, label: 'Drafts' },
   DRAFT: { path: Paths.DRAFT, label: 'Drafts' },
   FOLDERS: { path: Paths.FOLDERS, label: 'Back to my folders' },
-  SENT: { path: Paths.SENT, label: 'Sent messages' },
+  SENT: { path: Paths.SENT, label: 'Sent' },
   TRASH: { path: Paths.DELETED, label: 'Trash' },
 };
 

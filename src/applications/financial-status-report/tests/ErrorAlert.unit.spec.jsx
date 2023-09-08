@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
-import { ErrorAlert } from '../components/Alerts';
+import { ErrorAlert } from '../components/alerts/Alerts';
 
 describe('ErrorAlert', () => {
   it('should render va-alert', async () => {

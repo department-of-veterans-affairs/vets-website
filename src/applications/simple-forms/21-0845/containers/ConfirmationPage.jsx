@@ -1,3 +1,5 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
+// va-telephone doesn't display 1-800 numbers correctly
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
@@ -7,11 +9,31 @@ import { ConfirmationPageView } from '../../shared/components/ConfirmationPageVi
 const content = {
   headlineText: 'Thank you for submitting your authorization',
   nextStepsText: (
-    <span>
-      If you change your mind and want to cancel your authorization, tell us
-      online through <a href="https://ask.va.gov/">Ask VA</a>. Or call us at{' '}
-      <va-telephone contact="8008271000" />.
-    </span>
+    <>
+      <p>
+        If you change your mind and do not want VA to give out your personal
+        benefit or claim information, you may notify us in writing, or by
+        telephone at{' '}
+        <a href="tel:+18008271000" aria-label="1. 8 0 0. 8 2 7. 1 0 0 0.">
+          1-800-827-1000
+        </a>{' '}
+        or contact VA online at{' '}
+        <a href="https://ask.va.gov" target="_blank" rel="noopener noreferrer">
+          Ask VA
+          <i
+            className="fas fa-arrow-up-right-from-square"
+            aria-hidden="true"
+            role="img"
+          />
+        </a>
+        .
+      </p>
+      <p>
+        Upon notification from you VA will no longer give out benefit or claim
+        information (except for the information VA has already given out based
+        on your permission).
+      </p>
+    </>
   ),
 };
 
