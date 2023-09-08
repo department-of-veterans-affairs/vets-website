@@ -51,7 +51,7 @@ const MedicationsList = props => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       }
     },
-    [currentPage],
+    [currentPage, isInitialPage],
   );
 
   const displayNums = fromToNumbs(currentPage, rxList?.length);
