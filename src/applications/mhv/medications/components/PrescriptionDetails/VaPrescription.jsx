@@ -28,7 +28,7 @@ const VaPrescription = prescription => {
             </h3>
             <div data-testid="status">
               {prescription.refillStatus === 'refillinprocess'
-                ? 'REFILL IN PROCESS'
+                ? 'Refill in process'
                 : validateField(
                     refillStatus?.charAt(0).toUpperCase() +
                       refillStatus?.slice(1),
