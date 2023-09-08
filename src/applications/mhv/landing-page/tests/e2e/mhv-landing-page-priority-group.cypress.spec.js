@@ -23,7 +23,7 @@ describe(`${appName} -- Priority Group`, () => {
       cy.injectAxeThenAxeCheck();
       cy.get('[data-testid=mhv-priority-group')
         .should('be.visible')
-        .and('include.text', 'Your healthcare priority group: 3');
+        .and('include.text', 'Your health care priority group: 3');
     });
   });
 
