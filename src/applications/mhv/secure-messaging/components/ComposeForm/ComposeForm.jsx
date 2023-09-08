@@ -25,14 +25,14 @@ import {
   draftAutoSaveTimeout,
   Categories,
   DefaultFolders,
-  Prompts,
   ErrorMessages,
 } from '../../util/constants';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+// import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+// import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
+import EditContentListOrSignatureModal from '../Modals/EditContentListOrSignatureModal';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -63,7 +63,7 @@ const ComposeForm = props => {
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
-  const fullState = useSelector(state => state);
+  // const fullState = useSelector(state => state);
   const currentFolder = useSelector(state => state.sm.folders?.folder);
   const signature = useSelector(state => state.sm.preferences.signature);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
@@ -430,31 +430,10 @@ const ComposeForm = props => {
                 ))}
               </VaSelect>
 
-              <VaModal
-                id="edit-list"
-                modalTitle={Prompts.Compose.EDIT_LIST_TITLE}
-                name="edit-list"
-                visible={editListModal}
-                onCloseEvent={() => setEditListModal(false)}
-                status="warning"
-              >
-                <p>{Prompts.Compose.EDIT_LIST_CONTENT}</p>
-                <a
-                  className="vads-c-action-link--green"
-                  href={mhvUrl(
-                    isAuthenticatedWithSSOe(fullState),
-                    'preferences',
-                  )}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => {
-                    setEditListModal(false);
-                  }}
-                >
-                  Edit your contact list or signature on the My HealtheVet
-                  website (opens in new tab)
-                </a>
-              </VaModal>
+              <EditContentListOrSignatureModal
+                editListModal={editListModal}
+                setEditListModal={setEditListModal}
+              />
             </>
           )}
           <div className="compose-form-div">
@@ -500,8 +479,8 @@ const ComposeForm = props => {
                 text="Edit contact list or signature"
                 label="Edit contact list or signature"
                 secondary=""
-                class="vads-u-flex--1 edit-contact-list-or-signature-button vads-u-margin-bottom--1 hydrated"
-                data-testid="Edit-List-Button"
+                class="vads-u-flex--1 edit-contact-list-or-signature-button vads-u-margin-bottom--1 vads-u-width--full hydrated"
+                data-testid="edit-list-button"
                 onClick={() => setEditListModal(true)}
               />
             </div>
