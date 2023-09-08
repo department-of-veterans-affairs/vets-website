@@ -313,10 +313,8 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # - name: Init Dashboard Data Repo
-      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -345,10 +343,8 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # - name: Init Dashboard Data Repo
-      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -668,10 +664,8 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # - name: Init Dashboard Data Repo
-      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -797,27 +791,16 @@ jobs:
             /github/home/.cache/Cypress
             node_modules
 
-      # - name: Init Dashboard Data Repo
-      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
-      - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
-
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
-
-      - name: Fetch allow list
-        run: yarn get-allow-list
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_TYPE: e2e
-      # exports app list and assigns to environmental variable at this step
-
-      - name: Set Allow List Output
-        id: allow-list-output
-        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: .
 
       - name: Check if code can be merged
         run: node script/github-actions/check-e2e-status.js
+        env:
+          TEST_TYPE: e2e
 
   testing-reports-unit-tests:
     name: Testing Reports - Unit Tests
@@ -871,10 +854,8 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # - name: Init Dashboard Data Repo
-      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -970,10 +951,8 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # - name: Init Dashboard Data Repo
-      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -1052,10 +1031,8 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # - name: Init Dashboard Data Repo
-      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
