@@ -27,7 +27,7 @@ export const PriorityGroup = ({ enabled, fetchHcaEnrollmentStatus, value }) => {
           priority group
         </a>
         <span aria-hidden="true">:</span>
-        <span className="vads-u-visibility--screen-reader">is</span>
+        <span className="vads-u-visibility--screen-reader">is</span>{' '}
         {priorityGroup}
       </div>
     </div>

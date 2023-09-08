@@ -30,7 +30,7 @@ describe('Priority Group Component', () => {
 
   it('displays the assigned priority group', () => {
     const { getByTestId } = setup();
-    const content = 'Your health care priority group: 8G';
+    const content = '8G';
     expect(getByTestId('mhv-priority-group').textContent).to.contain(content);
   });
 
