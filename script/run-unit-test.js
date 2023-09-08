@@ -9,7 +9,9 @@ const { runCommand } = require('./utils');
 const ALLOW_LIST = JSON.parse(
   fs.readFileSync(path.resolve(`unit_test_allow_list.json`)),
 );
-const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false);
+const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false)
+  .map(spec => spec.spec_path.split('/').pop())
+  .join('|');
 
 console.log('DISALLOWED SPECS: ', DISALLOWED_SPECS);
 const specDirs = '{src,script}';
