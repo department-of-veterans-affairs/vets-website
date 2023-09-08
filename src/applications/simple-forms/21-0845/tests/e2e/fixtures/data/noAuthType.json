@@ -13,7 +13,6 @@
     },
     "authorizerPhone": "5555555555",
     "authorizerEmail": "jack.authorizer@example.com",
-    "authorizerEmailConsent": true,
     "veteranFullName": {
       "first": "John",
       "middle": "",
