@@ -142,16 +142,16 @@ class YourClaimsPageV2 extends React.Component {
     // END lighthouse_migration
     if (appealTypes.includes(claim.type)) {
       const { fullName } = this.props;
-      const AppealListItem = useNewClaimCards
-        ? AppealListItemV3
-        : AppealListItemV2;
+      const AppealListItem =
+        useNewClaimCards && useLighthouse ? AppealListItemV3 : AppealListItemV2;
       return <AppealListItem key={claim.id} appeal={claim} name={fullName} />;
     }
 
     if (claim.type === 'education_benefits_claims') {
-      const StemClaimListItem = useNewClaimCards
-        ? StemClaimListItemV3
-        : StemClaimListItemV2;
+      const StemClaimListItem =
+        useNewClaimCards && useLighthouse
+          ? StemClaimListItemV3
+          : StemClaimListItemV2;
       return <StemClaimListItem key={claim.id} claim={claim} />;
     }
 
