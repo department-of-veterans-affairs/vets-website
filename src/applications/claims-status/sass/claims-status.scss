@@ -139,8 +139,9 @@
 
 // Index page V3
 .claim-list-item {
-  margin-bottom: 2rem;
+  margin-bottom: 1em;
 
+  // TODO: We may or may not use this
   &.in-progress {
     box-shadow: 1px 1px 5px rgba(0,0,0, 0.32);
   }

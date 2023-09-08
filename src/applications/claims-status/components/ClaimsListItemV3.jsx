@@ -65,12 +65,8 @@ export default function ClaimsListItemV3({ claim }) {
   const humanStatus = getStatusDescription(status);
   const showAlert = showPrecomms && documentsNeeded;
 
-  const cardClasses = ['claim-list-item', inProgress && 'in-progress'].join(
-    ' ',
-  );
-
   return (
-    <va-card class={cardClasses}>
+    <va-card class="claim-list-item">
       <h3 className="claim-list-item-header vads-u-margin-bottom--2">
         {/* eslint-disable-next-line jsx-a11y/aria-role */}
         <div role="text">
