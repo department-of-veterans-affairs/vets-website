@@ -29,6 +29,7 @@ export const PROFILE_PATHS = Object.freeze({
 });
 
 export const PROFILE_PATH_NAMES = Object.freeze({
+  PROFILE_ROOT: 'Profile Hub',
   DIRECT_DEPOSIT: 'Direct deposit information',
   PERSONAL_INFORMATION: 'Personal information',
   CONTACT_INFORMATION: 'Contact information',
