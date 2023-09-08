@@ -19,7 +19,7 @@ export const PrimaryPhone = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const [primary, setPrimary] = useState(data?.primaryPhone || '');
+  const [primary, setPrimary] = useState(data?.['view:primaryPhone'] || '');
   const [hasError, setHasError] = useState(null);
 
   const checkErrors = (formData = data) => {
@@ -39,7 +39,10 @@ export const PrimaryPhone = ({
       const { value } = event?.detail || {};
       if (value) {
         setPrimary(value);
-        const formData = { ...data, primaryPhone: event.detail?.value };
+        const formData = {
+          ...data,
+          'view:primaryPhone': event.detail?.value,
+        };
         setFormData(formData);
         // setFormData lags a little, so check updated data
         checkErrors(formData);
@@ -105,6 +108,7 @@ PrimaryPhone.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   data: PropTypes.shape({
+    'view:primaryPhone': PropTypes.string,
     veteran: PropTypes.shape({
       homePhone: PropTypes.shape({
         countryCode: PropTypes.string,
