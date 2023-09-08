@@ -1,24 +1,26 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
+import { updatePageTitle } from '../../shared/util/helpers';
+import { pageTitles } from '../util/constants';
 
 const DownloadRecordsPage = () => {
   const dispatch = useDispatch();
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records', label: 'Medical records' }],
-          {
-            url: '/my-health/medical-records/download-your-medical-records',
-            label: 'Download all medical records',
-          },
-        ),
-      );
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs(
+        [{ url: '/my-health/medical-records', label: 'Medical records' }],
+        {
+          url: '/my-health/medical-records/download-all',
+          label: 'Download all medical records',
+        },
+      ),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+  }, []);
 
   return (
     <div className="vads-u-margin-bottom--5">

@@ -17,10 +17,7 @@ export const SummaryTitle = ({ formData }) => {
       <p>
         <Link
           aria-label="go back and add any missing issues for review"
-          to={{
-            pathname: CONTESTABLE_ISSUES_PATH,
-            search: '?redirect',
-          }}
+          to={`/${CONTESTABLE_ISSUES_PATH}`}
         >
           Add an issue
         </Link>

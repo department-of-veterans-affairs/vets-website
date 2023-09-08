@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { fillPrescription } from '../../actions/prescriptions';
 
 const FillRefillButton = rx => {
   const dispatch = useDispatch();
-  const [isAlertVisible, setAlertVisible] = useState(false);
 
   const {
     cmopDivisionPhone,
     dispensedDate,
+    error,
     prescriptionId,
     refillRemaining,
     refillStatus,
+    success,
   } = rx;
 
   if (
@@ -25,9 +26,15 @@ const FillRefillButton = rx => {
   if (refillStatus === 'active' || refillStatus === 'activeParked') {
     return (
       <div className="no-print">
-        {/* TODO: Confirmation Message goes here */}
-        <div hidden={!isAlertVisible}>
-          <va-alert status="error" visible={isAlertVisible}>
+        {success && (
+          <va-alert status="success">
+            <p className="vads-u-margin-y--0">
+              The fill request has been submitted successfully
+            </p>
+          </va-alert>
+        )}
+        {error && (
+          <va-alert status="error">
             <p className="vads-u-margin-y--0">
               We didn’t get your refill request. Try again.
             </p>
@@ -46,11 +53,12 @@ const FillRefillButton = rx => {
               )}
             </p>
           </va-alert>
-        </div>
+        )}
         <button
           className="vads-u-width--responsive"
+          disabled={success}
           onClick={() => {
-            setAlertVisible(dispatch(fillPrescription(prescriptionId)));
+            dispatch(fillPrescription(prescriptionId));
           }}
         >
           {`Request ${dispensedDate ? 'a refill' : 'the first fill'}`}
@@ -66,9 +74,11 @@ FillRefillButton.propTypes = {
   rx: PropTypes.shape({
     cmopDivisionPhone: PropTypes.string,
     dispensedDate: PropTypes.string,
-    isRefillable: PropTypes.bool,
+    error: PropTypes.object,
     prescriptionId: PropTypes.number,
+    refillRemaining: PropTypes.number,
     refillStatus: PropTypes.string,
+    success: PropTypes.bool,
   }),
 };
 
