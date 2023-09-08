@@ -229,18 +229,30 @@ const LandingPage = () => {
                 <h3 className="vads-u-font-size--h6" slot="headline">
                   How to renew prescriptions
                 </h3>
-                <p data-testid="renew-information-button">
+                <p
+                  data-testid="renew-information-button"
+                  className="vads-u-margin--0"
+                >
                   If your prescription is too old to refill or has no refills
                   left, you’ll need to request a renewal. The fastest way to
                   renew is by calling the phone number on your prescription
                   label. You can also send a secure message to your care team.
                 </p>
-                <h3>By phone</h3>
+                <h4 className="vads-u-margin-top--2 vads-u-margin-bottom--1">
+                  By phone
+                </h4>
                 <p>
                   Call your VA pharmacy’s automated refill line. Find the
                   pharmacy phone number on your prescription label or in your
                   prescription details in this tool. Follow the prompts to
                   select the automated refill line.
+                  <br />
+                  You’ll need the prescription number and your Social Security
+                  number.
+                  <br />
+                  If our automated system can’t renew your prescription, the
+                  system will direct your call to a pharmacy representative for
+                  help.
                 </p>
                 <p>
                   You’ll need the prescription number and your Social Security
@@ -251,11 +263,11 @@ const LandingPage = () => {
                   system will direct your call to a pharmacy representative for
                   help.
                 </p>
-                <h3>By secure messsage</h3>
-                <p>
-                  Send a secure message to your VA care team. Include the
-                  medication name, provide who prescribed it, and number of
-                  refills left in your message.
+                <h4 className="vads-u-margin-top--2 vads-u-margin-bottom--1">
+                  By secure messsage
+                </h4>
+                <p className="vads-u-margin-y--1">
+                  Send a secure message to your VA care team.
                 </p>
                 <a
                   href={mhvUrl(
@@ -267,6 +279,25 @@ const LandingPage = () => {
                 >
                   Compose a message on My HealtheVet
                 </a>
+                <p className="vads-u-margin-bottom--0">
+                  <strong>
+                    Include as much of this information as you can:
+                  </strong>
+                  <ul className="vads-u-margin-y--1">
+                    <li>
+                      Medication name, strength, and form (like LOSARTAN 50 MG
+                      TAB)
+                    </li>
+                    <li>Prescription number</li>
+                    <li>Provider who prescribed it</li>
+                    <li>Number of refills left</li>
+                    <li>Prescription expiration date</li>
+                    <li>Reason for use</li>
+                    <li>Quantity</li>
+                  </ul>
+                  You can find this information in your medication details in
+                  this tool.
+                </p>
               </va-accordion-item>
               <va-accordion-item>
                 <h3 className="vads-u-font-size--h6" slot="headline">
