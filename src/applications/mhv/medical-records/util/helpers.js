@@ -50,7 +50,7 @@ export const getReactions = record => {
   if (!record || !record.reaction) return reactions;
   record.reaction.forEach(reaction => {
     reaction.manifestation.forEach(manifestation => {
-      manifestation.coding.forEach(coding => reactions.push(coding.display));
+      reactions.push(manifestation.text);
     });
   });
   return reactions;

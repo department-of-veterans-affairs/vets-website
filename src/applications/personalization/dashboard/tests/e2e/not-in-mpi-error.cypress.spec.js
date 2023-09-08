@@ -28,7 +28,7 @@ describe('MyVA Dashboard', () => {
         name: /We can’t match your information with our Veteran records/i,
       }).should('exist');
       cy.findByText(/Try again soon/i).should('exist');
-      cy.findByTestId('dashboard-section-health-care').should('not.exist');
+      cy.findByTestId('dashboard-section-health-care').should('exist');
       cy.findByTestId('dashboard-section-claims-and-appeals').should(
         'not.exist',
       );

@@ -648,22 +648,17 @@ const formConfig = {
       },
     },
     supportingDocuments: {
-      title: environment.isProduction()
-        ? 'Supporting documents'
-        : 'Supporting files',
+      title: 'Supporting files',
       pages: {
         supportingDocuments: {
-          title: environment.isProduction() ? '' : 'Upload supporting files',
           path: 'supporting-documents',
-          editModeOnReviewPage: !!environment.isProduction(),
+          editModeOnReviewPage: false,
           uiSchema: {
             'ui:description': SupportingFilesDescription,
             application: {
               preneedAttachments: fileUploadUI('Select files to upload', {
-                buttonText: environment.isProduction() ? '' : 'Upload file',
-                addAnotherLabel: environment.isProduction()
-                  ? 'Add another'
-                  : 'Upload another file',
+                buttonText: 'Upload file',
+                addAnotherLabel: 'Upload another file',
                 fileUploadUrl: `${
                   environment.API_URL
                 }/v0/preneeds/preneed_attachments`,
@@ -681,14 +676,10 @@ const formConfig = {
                   confirmationCode: response.data.attributes.guid,
                 }),
                 attachmentSchema: {
-                  'ui:title': environment.isProduction()
-                    ? 'What kind of document is this?'
-                    : 'What kind of file is this?',
+                  'ui:title': 'What kind of file is this?',
                 },
                 attachmentName: {
-                  'ui:title': environment.isProduction()
-                    ? 'Document name'
-                    : 'File name',
+                  'ui:title': 'File name',
                 },
               }),
             },
