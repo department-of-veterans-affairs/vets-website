@@ -13,6 +13,7 @@ import vetPersInfoGenderIdPg from '../pages/veteranPersonalInfoGenderIdentity';
 import vetIdInfoPg from '../pages/veteranIdInfo';
 import vetSupportDocsPg from '../pages/veteranSupportDocs';
 import requestTypePg from '../pages/requestType';
+import appPersInfoPg from '../pages/applicantPersonalInfo';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
@@ -122,6 +123,18 @@ const formConfig = {
           uiSchema: requestTypePg.uiSchema,
           schema: requestTypePg.schema,
           pageClass: 'request-type',
+        },
+      },
+    },
+    applicantPersonalInfoChapter: {
+      title: 'Applicant’s personal information',
+      pages: {
+        applicantPersonalInfoPage: {
+          path: 'applicant-personal-information',
+          title: '',
+          uiSchema: appPersInfoPg.uiSchema,
+          schema: appPersInfoPg.schema,
+          pageClass: 'applicant-personal-information',
         },
       },
     },

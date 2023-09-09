@@ -7,6 +7,10 @@
     "veteranDemographics": "Prefer not to answer",
     "veteranGenderIdentity": "Prefer not to answer",
     "veteranSSN": "333221111",
-    "requestType": "first"
+    "requestType": "first",
+    "applicantFullName": {
+      "first": "Joe",
+      "last": "Applicant"
+    }
   }
 }
