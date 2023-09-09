@@ -1,10 +1,12 @@
 import React from 'react';
 
+const labelString = 'Name of representative';
+
 export default {
   uiSchema: {
     'ui:title': (
       <>
-        <p className="vads-u-font-size--lg">Organization’s representatives</p>
+        <h3>Organization’s representatives</h3>
         <p className="vads-u-margin-top--4 vads-u-margin-bottom--2 vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-color--gray-dark">
           List at least one person from the organization who we can release your
           information to.
@@ -13,17 +15,23 @@ export default {
     ),
     organizationRepresentative: {
       'ui:title': (
-        <div className="vads-u-font-weight--normal vads-u-font-size--base vads-u-margin-bottom--2">
-          <span>
-            Name of representative{' '}
-            <span className="custom-required-span hide-on-review-page">
-              (*Required)
-            </span>
+        <>
+          <span>{labelString}</span>{' '}
+          <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-color--secondary-dark">
+            (*Required)
           </span>
           <br />
-          <span className="vads-u-color--gray-medium hide-on-review-page">
+          <span className="vads-u-color--gray-medium">
             At least one representative is required
           </span>
+        </>
+      ),
+      'ui:reviewField': ({ children }) => (
+        // remove custom required-span & description from
+        // review-field label.
+        <div className="review-row">
+          <dt>{labelString}</dt>
+          <dd>{children}</dd>
         </div>
       ),
       'ui:errorMessages': {
