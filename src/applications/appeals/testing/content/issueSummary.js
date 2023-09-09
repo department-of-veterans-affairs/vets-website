@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-import { CONTESTABLE_ISSUES_PATH } from '../../10182/constants';
+import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { ShowIssuesList } from '../components/ShowIssuesList';
 
 export const SummaryTitle = ({ formData }) => {
