@@ -11,6 +11,14 @@
     "applicantFullName": {
       "first": "Joe",
       "last": "Applicant"
-    }
+    },
+    "applicantAddress": {
+      "country": "USA",
+      "street": "123 Any St",
+      "city": "Anytown",
+      "state": "NY",
+      "postalCode": "12345"
+    },
+    "applicantPhone": "5555555555"
   }
 }

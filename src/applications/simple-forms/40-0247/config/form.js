@@ -14,6 +14,8 @@ import vetIdInfoPg from '../pages/veteranIdInfo';
 import vetSupportDocsPg from '../pages/veteranSupportDocs';
 import requestTypePg from '../pages/requestType';
 import appPersInfoPg from '../pages/applicantPersonalInfo';
+import appAddrPg from '../pages/applicantAddress';
+import appContactInfoPg from '../pages/applicantContactInfo';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
@@ -135,6 +137,29 @@ const formConfig = {
           uiSchema: appPersInfoPg.uiSchema,
           schema: appPersInfoPg.schema,
           pageClass: 'applicant-personal-information',
+        },
+      },
+    },
+    applicantAddressChapter: {
+      title: 'Applicant’s address',
+      pages: {
+        applicantAddressPage: {
+          path: 'applicant-address',
+          title: '',
+          uiSchema: appAddrPg.uiSchema,
+          schema: appAddrPg.schema,
+          pageClass: 'applicant-address',
+        },
+      },
+    },
+    applicantContactInfoChapter: {
+      title: 'Applicant’s contact information',
+      pages: {
+        applicantContactInfoPage: {
+          path: 'applicant-contact-information',
+          title: '',
+          uiSchema: appContactInfoPg.uiSchema,
+          schema: appContactInfoPg.schema,
         },
       },
     },
