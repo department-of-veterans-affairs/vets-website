@@ -5,13 +5,15 @@ import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': <h3>What is the Veteran’s race, ethnicity, or origin?</h3>,
-    'ui:description': (
-      <p>
-        (Please check all that apply)
-        <br />
-        Information is gathered for statistical purposes only.
-      </p>
+    'ui:title': (
+      <>
+        <h3>What is the Veteran’s race, ethnicity, or origin?</h3>
+        <p className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+          (Please check all that apply)
+          <br />
+          Information is gathered for statistical purposes only.
+        </p>
+      </>
     ),
     veteranDemographics: {
       'ui:title': 'Race, ethnicity, or origin',
