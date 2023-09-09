@@ -6,6 +6,7 @@
     },
     "veteranDemographics": "Prefer not to answer",
     "veteranGenderIdentity": "no_answer",
-    "veteranSSN": "333221111"
+    "veteranSSN": "333221111",
+    "requestType": "first"
   }
 }

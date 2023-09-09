@@ -6,6 +6,24 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
+.custom-label-h3 {
+  font-family: "Bitter", serif;
+  font-size: 2rem;
+  font-weight: bold;
+
+  .review-row & {
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 1.6rem;
+    font-weight: normal;
+  }
+}
+
+.custom-required-span {
+  color: $color-secondary-dark;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
 .form-panel.veteran-personal-information-demographics {
   #root_veteranDemographics-label {
     display: none !important;
@@ -21,5 +39,11 @@
 .form-panel.veteran-supporting-documentation {
   #root_veteranSupportingDocuments_add_label {
     margin-top: 0;
+  }
+}
+
+.form-panel.request-type {
+  va-radio[name="root_requestType"]::part(legend) {
+    font-family: "Source Sans Pro", serif !important;
   }
 }
