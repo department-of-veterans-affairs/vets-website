@@ -1,20 +1,13 @@
 import React from 'react';
 
-// import {
-//   radioSchema,
-//   radioUI,
-// } from 'platform/forms-system/src/js/web-component-patterns/radioPattern.jsx';
+const labelText =
+  'Is this your first time requesting a Presidential Memorial Certificate?';
 
 /* @type {PageSchema} */
 export default {
   uiSchema: {
     requestType: {
-      'ui:title': (
-        <span className="custom-label-h3">
-          Is this your first time requesting a Presidential Memorial
-          Certificate?
-        </span>
-      ),
+      'ui:title': <h3 style={{ display: 'inline' }}>{labelText}</h3>,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
@@ -29,6 +22,13 @@ export default {
       'ui:errorMessages': {
         required: 'Please select a request type',
       },
+      // eslint-disable-next-line react/prop-types
+      'ui:reviewField': ({ children }) => (
+        <div className="review-row">
+          <dt>{labelText}</dt>
+          <dd>{children}</dd>
+        </div>
+      ),
     },
   },
   schema: {
@@ -41,25 +41,4 @@ export default {
       },
     },
   },
-
-  // TODO: Find out how label can be custom-styled as H3
-  // uiSchema: {
-  //   requestType: radioUI({
-  //     title: 'Do you receive VA disability compensation?',
-  //     description: null,
-  //     labels: {
-  //       first: 'Yes, for a service-connected disability rating of up to 40%',
-  //       replacement:
-  //         'Yes, for a service-connected disability rating of 50% or higher',
-  //       copies: 'No',
-  //     },
-  //   }),
-  // },
-  // schema: {
-  //   type: 'object',
-  //   required: ['requestType'],
-  //   properties: {
-  //     requestType: radioSchema(['first', 'replacement', 'copies']),
-  //   },
-  // },
 };

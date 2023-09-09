@@ -6,24 +6,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
-.custom-label-h3 {
-  font-family: "Bitter", serif;
-  font-size: 2rem;
-  font-weight: bold;
-
-  .review-row & {
-    font-family: "Source Sans Pro", sans-serif;
-    font-size: 1.6rem;
-    font-weight: normal;
-  }
-}
-
-.custom-required-span {
-  color: $color-secondary-dark;
-  font-size: 1.6rem;
-  font-weight: bold;
-}
-
 .form-panel.veteran-personal-information-demographics {
   #root_veteranDemographics-label {
     display: none !important;
