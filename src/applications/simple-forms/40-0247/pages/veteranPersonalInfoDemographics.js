@@ -2,8 +2,6 @@ import React from 'react';
 
 import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
 
-import { DEMOGRAPHICS_ITEMS } from '../definitions/constants';
-
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -21,7 +19,15 @@ export default {
       'ui:options': {
         // TODO: Normalize data w/ submit-transformer, as
         // one value has commas in it.
-        labels: Object.values(DEMOGRAPHICS_ITEMS),
+        labels: [
+          'American Indian or Alaskan Native',
+          'Asian',
+          'Black or African American',
+          'Hispanic, Latino, or Spanish',
+          'Native Hawaiian or Other Pacific Islander',
+          'White',
+          'Prefer not to answer',
+        ],
         forceDivWrapper: true,
       },
     },

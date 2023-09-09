@@ -1,8 +1,5 @@
 import React from 'react';
 
-import { GENDER_IDENTITIES } from '../definitions/constants';
-import { lowercaseKeys } from '../form-helpers';
-
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -11,9 +8,6 @@ export default {
     veteranGenderIdentity: {
       'ui:title': 'Gender identity',
       'ui:widget': 'radio',
-      'ui:options': {
-        labels: lowercaseKeys(GENDER_IDENTITIES),
-      },
     },
   },
   schema: {
@@ -21,7 +15,15 @@ export default {
     properties: {
       veteranGenderIdentity: {
         type: 'string',
-        enum: Object.keys(GENDER_IDENTITIES).map(key => key.toLowerCase()),
+        enum: [
+          'Man',
+          'Non-binary',
+          'Transgender man',
+          'Transgender woman',
+          'Woman',
+          'Prefer not to answer',
+          'A gender not listed here',
+        ],
       },
     },
   },
