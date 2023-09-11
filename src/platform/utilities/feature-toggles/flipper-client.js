@@ -18,27 +18,31 @@ function FlipperClient({
   const csrfTokenStored = localStorage.getItem('csrfToken');
 
   const _fetchToggleValues = async () => {
-    const response = await fetch(`${host}${toggleValuesPath}`, {
-      credentials: 'include',
-      headers: {
-        'X-CSRF-Token': csrfTokenStored,
-      },
-    });
-    if (!response.ok) {
-      const errorMessage = `Failed to fetch toggle values with status ${
-        response.status
-      } ${response.statusText}`;
-      throw new Error(errorMessage);
+    try {
+      const response = await fetch(`${host}${toggleValuesPath}`, {
+        credentials: 'include',
+        headers: {
+          'X-CSRF-Token': csrfTokenStored,
+        },
+      });
+      if (!response.ok) {
+        const errorMessage = `Failed to fetch toggle values with status ${
+          response.status
+        } ${response.statusText}`;
+        return { error: errorMessage };
+      }
+
+      // Get CSRF Token from API header
+      const csrfToken = response.headers.get('X-CSRF-Token');
+
+      if (csrfToken && csrfToken !== csrfTokenStored) {
+        localStorage.setItem('csrfToken', csrfToken);
+      }
+
+      return response.json();
+    } catch (error) {
+      return { error: error.message };
     }
-
-    // Get CSRF Token from API header
-    const csrfToken = response.headers.get('X-CSRF-Token');
-
-    if (csrfToken && csrfToken !== csrfTokenStored) {
-      localStorage.setItem('csrfToken', csrfToken);
-    }
-
-    return response.json();
   };
 
   const addSubscriberCallback = subscriberCallback =>
@@ -71,11 +75,16 @@ function FlipperClient({
       }
     }
     */
-    const { data } = await _fetchToggleValues();
+    const result = await _fetchToggleValues();
+
+    if (result.error) {
+      return {};
+    }
+
+    const { data } = result;
     const { features = [] } = data;
     return features.reduce((acc, toggle) => {
       acc[toggle.name] = toggle.value;
-
       return acc;
     }, {});
   };

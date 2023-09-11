@@ -1,4 +1,6 @@
-import { homelessTitle, homelessReviewField } from '../content/homeless';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
+
+import { content } from '../content/homeless';
 
 export default {
   uiSchema: {
@@ -6,14 +8,12 @@ export default {
     'ui:options': {
       forceDivWrapper: true,
     },
-    homeless: {
-      'ui:title': homelessTitle,
-      'ui:reviewField': homelessReviewField,
-      'ui:widget': 'yesNo',
-      'ui:options': {
-        enableAnalytics: true,
-      },
-    },
+    homeless: yesNoUI({
+      title: content.title,
+      enableAnalytics: true,
+      labelHeaderLevel: '1',
+      uswds: true,
+    }),
   },
   schema: {
     type: 'object',
@@ -24,6 +24,6 @@ export default {
     },
   },
   review: data => ({
-    'Are you experiencing homlessless?': data.homeless ? 'Yes' : 'No',
+    [content.title]: data.homeless ? 'Yes' : 'No',
   }),
 };
