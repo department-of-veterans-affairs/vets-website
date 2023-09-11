@@ -190,9 +190,13 @@ export function transform(formConfig, form) {
             // eslint-disable-next-line no-nested-ternary
             serviceName: environment.isProduction()
               ? application.veteran.serviceName || application.claimant.name
-              : application.veteran.serviceName.first === undefined
+              : // eslint-disable-next-line no-nested-ternary
+                application.veteran.serviceName === undefined
                 ? application.claimant.name
-                : application.veteran.serviceName || application.claimant.name,
+                : application.veteran.serviceName.first === undefined
+                  ? application.claimant.name
+                  : application.veteran.serviceName ||
+                    application.claimant.name,
           },
         })
       : application;
@@ -215,10 +219,13 @@ export function transform(formConfig, form) {
         // eslint-disable-next-line no-nested-ternary
         serviceName: environment.isProduction()
           ? application.veteran.serviceName || application.veteran.currentName
-          : application.veteran.serviceName.first === undefined
+          : // eslint-disable-next-line no-nested-ternary
+            application.veteran.serviceName === undefined
             ? application.veteran.currentName
-            : application.veteran.serviceName ||
-              application.veteran.currentName,
+            : application.veteran.serviceName.first === undefined
+              ? application.veteran.currentName
+              : application.veteran.serviceName ||
+                application.veteran.currentName,
       },
       applicant: {
         applicantEmail: application.claimant.email,
