@@ -38,7 +38,8 @@ Cypress.Commands.add('selectRadio', (fieldName, value) => {
   }
 });
 /**
- * Works with Date widget. And va-date and va-memorable-date web components
+ * Works with Date widget. And va-date and va-memorable-date web components;
+ * expects dateString in YYYY-MM-DD format
  */
 Cypress.Commands.add('fillDate', (fieldName, dateString) => {
   // Split the date & remove leading zeros
@@ -48,6 +49,10 @@ Cypress.Commands.add('fillDate', (fieldName, dateString) => {
   cy.document().then(doc => {
     const vaMemorableDate = doc.querySelector(
       `va-memorable-date[name="${fieldName}"]`,
+    );
+    // USWDS v3 only
+    const vaMemorableDateMonthSelect = doc.querySelector(
+      `va-memorable-date[name="${fieldName}"][monthselect]`,
     );
     const vaDate = doc.querySelector(`va-date[name="${fieldName}"]`);
     const monthYearOnly = doc.querySelector(
@@ -78,21 +83,37 @@ Cypress.Commands.add('fillDate', (fieldName, dateString) => {
       cy.wrap(vaMemorableDate)
         .shadow()
         .then(el => {
+          if (vaMemorableDateMonthSelect) {
+            cy.wrap(el)
+              .find('va-select.usa-form-group--month-select')
+              .shadow()
+              .find('select')
+              .select(date[1]);
+          } else {
+            cy.wrap(el)
+              .find(
+                'va-text-input.input-month, va-text-input.usa-form-group--month-input',
+              )
+              .shadow()
+              .find('input')
+              .type(date[1]);
+          }
           cy.wrap(el)
-            .find('va-text-input.input-month')
+            .find(
+              'va-text-input.input-day, va-text-input.usa-form-group--day-input',
+            )
             .shadow()
             .find('input')
-            .type(date[1]);
+            // increasing the timeout since this is a flaky action (#62239)
+            .type(date[2], { timeout: 5000 }); // default = 4000
           cy.wrap(el)
-            .find('va-text-input.input-day')
+            .find(
+              'va-text-input.input-year, va-text-input.usa-form-group--year-input',
+            )
             .shadow()
             .find('input')
-            .type(date[2]);
-          cy.wrap(el)
-            .find('va-text-input.input-year')
-            .shadow()
-            .find('input')
-            .type(date[0]);
+            // increasing the timeout since this is a flaky action (#62239)
+            .type(date[0], { timeout: 5000 }); // default = 4000
         });
     } else {
       cy.get(`#${fieldName}Month`).select(date[1]);
