@@ -116,7 +116,10 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(({ form5103Acknowledged }) => {
             if (form5103Acknowledged) {
-              cy.get('va-checkbox').click();
+              cy.get('va-checkbox')
+                .shadow()
+                .find('input')
+                .click();
             }
             cy.findByText('Continue', { selector: 'button' }).click();
           });
@@ -134,7 +137,8 @@ const testConfig = createTestConfig(
                 cy.get('#add-location-name')
                   .shadow()
                   .find('input')
-                  .type(location.locationAndName);
+                  // increasing the timeout since this is a flaky action (#62239)
+                  .type(location.locationAndName, { timeout: 5000 }); // default = 4000
                 location?.issues.forEach(issue => {
                   cy.get(`va-checkbox[value="${issue}"]`)
                     .shadow()
@@ -177,7 +181,10 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             if (data.privacyAgreementAccepted) {
-              cy.get('va-checkbox').click();
+              cy.get('va-checkbox')
+                .shadow()
+                .find('input')
+                .click();
             }
             cy.findByText('Continue', { selector: 'button' }).click();
           });
