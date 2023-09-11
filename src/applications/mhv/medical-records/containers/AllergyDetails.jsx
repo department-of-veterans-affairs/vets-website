@@ -103,18 +103,13 @@ const AllergyDetails = () => {
           inline: true,
         },
         {
-          title: 'VA drug class',
-          value: allergy.drugClass || EMPTY_FIELD,
-          inline: true,
-        },
-        {
           title: 'Location',
           value: allergy.location || EMPTY_FIELD,
           inline: true,
         },
         {
           title: 'Observed or reported',
-          value: allergy.observed ? 'Observed' : 'Reported',
+          value: allergy.observedOrReported,
           inline: true,
         },
         {
@@ -196,21 +191,13 @@ const AllergyDetails = () => {
               </h2>
               <p data-dd-privacy="mask">{allergy.type || 'None noted'}</p>
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                VA drug class
-              </h2>
-              <p data-dd-privacy="mask">{allergy.drugClass || 'None noted'}</p>
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Location
               </h2>
               <p data-dd-privacy="mask">{allergy.location || 'None noted'}</p>
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Observed or reported
               </h2>
-              <p data-dd-privacy="mask">
-                {allergy.observed
-                  ? 'Observed (your provider observed the reaction in person)'
-                  : 'Reported (you told your provider about the reaction)'}
-              </p>
+              <p data-dd-privacy="mask">{allergy.observedOrReported}</p>
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
                 Provider notes
               </h2>

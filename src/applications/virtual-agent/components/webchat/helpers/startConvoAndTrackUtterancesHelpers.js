@@ -69,9 +69,9 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   }
 
   if (dataIsMessageWithTextFromBot) {
-    const botWantsToSignInUser = data.text.includes(
-      'Alright. Sending you to the sign in page...',
-    );
+    const botWantsToSignInUser =
+      data.text.includes('Alright. Sending you to the sign in page...') ||
+      data.text.includes('Alright. Sending you to the sign-in page...');
     const isNewAuthedConversation =
       data.text.includes('To get started') &&
       sessionStorage.getItem(IN_AUTH_EXP) === 'true';

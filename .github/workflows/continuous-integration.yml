@@ -326,9 +326,6 @@ jobs:
   fetch-e2e-allow-list:
     name: Fetch E2E Allow List
     runs-on: ubuntu-latest
-    outputs:
-      allow_list: ${{ steps.allow-list-output.outputs.list }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -355,11 +352,15 @@ jobs:
       - name: Fetch allow list
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
-      # exports app list and assigns to environmental variable at this step
+        env:
+          TEST_TYPE: e2e
 
-      - name: Set Allow List Output
-        id: allow-list-output
-        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
+      - name: Archive allow list
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data/e2e_allow_list.json
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
@@ -396,6 +397,12 @@ jobs:
           delimiter: ','
           output-type: 'entry_name, url'
 
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: .
+
       - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
         run: node script/github-actions/select-cypress-tests.js
         env:
@@ -403,7 +410,7 @@ jobs:
           CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
           APP_ENTRIES: ${{ steps.get-changed-apps.outputs.entry_names }}
-          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
+          TEST_TYPE: e2e
 
       - name: Set output of TESTS
         id: tests
@@ -638,8 +645,6 @@ jobs:
       ]
     if: ${{ always() && needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     continue-on-error: true
-    outputs:
-      allow_list: ${{ steps.allow-list-output.outputs.list }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
@@ -700,12 +705,18 @@ jobs:
           name: cypress-stress-test-videos
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data
+
       - name: Update E2E Allow List
-        run: yarn update-e2e-allow-list
+        run: yarn update-allow-list
         working-directory: qa-standards-dashboard-data
         env:
-          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
           TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
+          TEST_TYPE: e2e
 
       - name: Create Cypress E2E report
         run: yarn cypress-mochawesome-to-bigquery
@@ -736,13 +747,13 @@ jobs:
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
-      - name: Create GitHub Issues for new flaky tests
-        if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
-        run: yarn create-github-issues-for-flaky-tests
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
-          GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+      # - name: Create GitHub Issues for new flaky tests
+      #   if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
+      #   run: yarn create-github-issues-for-flaky-tests
+      #   working-directory: qa-standards-dashboard-data
+      #   env:
+      #     TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
+      #     GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
 
   allow-list-merge-status:
     name: E2E Allow List Merge Status Check
@@ -780,23 +791,16 @@ jobs:
             /github/home/.cache/Cypress
             node_modules
 
-      - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
-
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
-
-      - name: Fetch allow list
-        run: yarn get-allow-list
-        working-directory: qa-standards-dashboard-data
-      # exports app list and assigns to environmental variable at this step
-
-      - name: Set Allow List Output
-        id: allow-list-output
-        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: .
 
       - name: Check if code can be merged
         run: node script/github-actions/check-e2e-status.js
+        env:
+          TEST_TYPE: e2e
 
   testing-reports-unit-tests:
     name: Testing Reports - Unit Tests
