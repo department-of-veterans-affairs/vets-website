@@ -211,7 +211,7 @@ export function transform(formConfig, form) {
         serviceName:
           // eslint-disable-next-line no-nested-ternary
           application.veteran.serviceName === undefined
-            ? ''
+            ? application.veteran.currentName
             : application.veteran.serviceName.first === undefined
               ? application.veteran.currentName
               : application.veteran.serviceName ||
