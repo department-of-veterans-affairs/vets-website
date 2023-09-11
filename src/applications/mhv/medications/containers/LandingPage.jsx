@@ -8,6 +8,10 @@ import { medicationsUrls } from '../util/constants';
 const LandingPage = () => {
   const fullState = useSelector(state => state);
 
+  const medicationsUrl = fullState.user.login.currentlyLoggedIn
+    ? medicationsUrls.MEDICATIONS_URL
+    : medicationsUrls.MEDICATIONS_LOGIN;
+
   const content = () => {
     return (
       <div className="vads-l-col--12 medium-screen:vads-l-col--8">
@@ -30,7 +34,7 @@ const LandingPage = () => {
               </p>
               <a
                 className="vads-c-action-link--green vads-u-margin--0"
-                href={medicationsUrls.MEDICATIONS_URL}
+                href={medicationsUrl}
                 data-testid="prescriptions-nav-link"
               >
                 Go to your medications
