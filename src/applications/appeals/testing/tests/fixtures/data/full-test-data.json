@@ -28,14 +28,17 @@
       "email": "allesandra.baker@gmail.com"
     },
     "view:showPart3": true,
-
-    "view:primaryPhone": null,
-    "additionalInfo": null,
-    "boardReviewOption": null,
-    "hearingTypePreference": null,
+    "homeless": false,
+    "view:primaryPhone": "home",
+    "view:additionalInfo": true,
+    "additionalInfo": "Lorem ipsum",
+    "boardReviewOption": "evidence_submission",
+    "hearingTypePreference": "central_office",
     "socOptIn": false,
-    "view:additionalEvidence": null,
-    "extensionReason": "",
+    "view:additionalEvidence": true,
+    "requestingExtension": true,
+    "extensionReason": "Lorem ipsum",
+    "appealingVHADenial": false,
 
     "contestedIssues": [
       {
@@ -49,7 +52,7 @@
           "ratingDecisionReferenceId": "3",
           "ratingIssuePercentNumber": ""
         },
-        "view:selected": false
+        "view:selected": true
       },
       {
         "type": "contestableIssue",
@@ -61,11 +64,49 @@
           "ratingIssueReferenceId": "5",
           "ratingIssuePercentNumber": "10"
         },
-        "view:selected": false
+        "view:selected": true
       }
     ],
     "additionalIssues": [],
-    "areaOfDisagreement": [],
+    "areaOfDisagreement": [
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "Tinnitus",
+          "description": "Service connection for tinnitus is not granted.",
+          "approxDecisionDate": "2023-1-15",
+          "decisionIssueId": 1,
+          "ratingIssueReferenceId": "2",
+          "ratingDecisionReferenceId": "3",
+          "ratingIssuePercentNumber": ""
+        },
+        "disagreementOptions": {
+          "serviceConnection": true,
+          "effectiveDate": true,
+          "evaluation": true
+        },
+        "otherEntry": "",
+        "view:selected": true
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "Headaches",
+          "description": "Service connection for headaches is granted with an evaluation of 10% effective January 15, 2023.",
+          "approxDecisionDate": "2023-1-15",
+          "decisionIssueId": 4,
+          "ratingIssueReferenceId": "5",
+          "ratingIssuePercentNumber": "10"
+        },
+        "disagreementOptions": {
+          "serviceConnection": true,
+          "effectiveDate": false,
+          "evaluation": true
+        },
+        "otherEntry": "Something else",
+        "view:selected": true
+      }
+    ],
     "additionalInfoUpload": [
       {
         "name": "file-1.pdf",
