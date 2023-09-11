@@ -76,7 +76,7 @@ export const authorizedAgentDescription = (
     }
   >
     <p>
-      A preparer may sign for an{' '}
+      A preparer can sign for an{' '}
       {environment.isProduction() ? 'individual' : 'applicant'} who’s:
     </p>
     <ul>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 export function PreparerDetailsTitle() {
-  return <h3 className="vads-u-font-size--h5">Preparer details</h3>;
+  return <h4 className="vads-u-font-size--h5">Preparer details</h4>;
 }
 
 export function ContactDetailsTitle() {
