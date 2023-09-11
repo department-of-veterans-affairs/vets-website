@@ -74,8 +74,8 @@ export const chapters = {
           ? newSchool.uiSchema
           : newSchoolUpdate.uiSchema,
         schema: environment.isProduction()
-          ? newSchool.uiSchema
-          : newSchoolUpdate.uiSchema,
+          ? newSchool.schema
+          : newSchoolUpdate.schema,
       },
       oldSchool: createOldSchoolPage(fullSchema1995),
     },
