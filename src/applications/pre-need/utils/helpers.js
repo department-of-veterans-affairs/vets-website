@@ -209,7 +209,10 @@ export function transform(formConfig, form) {
     merge({}, application, {
       veteran: {
         serviceName:
-          application.veteran.serviceName || application.veteran.currentName,
+          application.veteran.serviceName.first === undefined
+            ? application.veteran.currentName
+            : application.veteran.serviceName ||
+              application.veteran.currentName,
       },
       applicant: {
         applicantEmail: application.claimant.email,
