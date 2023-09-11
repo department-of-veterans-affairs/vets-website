@@ -15,7 +15,7 @@ const AllergyListItem = props => {
         >
           <h3
             className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4"
-            aria-label={`${record.name} with a date of ${record.date}`}
+            aria-label={`${record.name} ${record.date}`}
           >
             {record.name}
           </h3>
@@ -66,7 +66,7 @@ const AllergyListItem = props => {
               id={`details-button-description-${record.id}`}
               className="sr-only"
             >
-              '{record.name}' with a date of '{record.date}'
+              {record.name} {record.date}
             </span>
           </Link>
         </div>
