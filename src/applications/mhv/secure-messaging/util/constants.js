@@ -2,8 +2,6 @@
 export const draftAutoSaveTimeout = 10000;
 
 export const Paths = {
-  UI_MAIN: '/my-health/secure-messages',
-  API_MAIN: '/my_health/v1/messaging',
   INBOX: '/inbox/',
   SENT: '/sent/',
   DRAFTS: '/drafts/',
@@ -187,9 +185,11 @@ export const Prompts = {
       'If you remove an attachment, you will have to attach it again.',
   },
   Compose: {
-    EDIT_LIST_TITLE: 'Edit your contact list',
+    EDIT_LIST_TITLE: 'Edit your contact list or signature',
     EDIT_LIST_CONTENT:
-      'You can edit your contact list on the My HealtheVet website. Then refresh this page to review your updated list.',
+      'You can edit your contact list or signature on the My HealtheVet website. Then refresh this page to review your updated contacts and signature.',
+    EDIT_LIST_LINK: `Edit your contact list or signature on the My HealtheVet website (opens
+        in new tab)`,
   },
   Message: {
     DELETE_MESSAGE_CONFIRM:
@@ -323,8 +323,4 @@ export const PageTitles = {
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
   MY_FOLDERS_PAGE_TITLE_TAG:
     'My folders - MHV Secure Messaging | Veterans Affairs',
-};
-
-export const Locators = {
-  HEADER: 'h1',
 };
