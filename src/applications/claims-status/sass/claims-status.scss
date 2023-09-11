@@ -48,10 +48,6 @@
   }
 }
 
-.claim-list-item-container a {
-  position: relative;
-}
-
 @media (max-width: $medium-screen) {
   .claims-status-content .help-sidebar {
     margin-top: 0px;
@@ -82,14 +78,8 @@
   }
 }
 
-.claim-list-item-container-old {
-  background-color: $color-gray-lightest;
-  padding: 2em 1em 1em;
-  margin-bottom: 1em;
-  position: relative;
-}
-
 .claim-list-item-container {
+  background-color: $color-gray-lightest;
   padding: 2em 1em 1em;
   margin-bottom: 1em;
   position: relative;
@@ -119,12 +109,8 @@
   margin: 0;
 }
 
-.communications li {
-  line-height: 2;
-}
-
 // Index page V2
-.claim-list-item-container-old .card-status {
+.claim-list-item-container .card-status {
   margin: 0 0 0.5em;
   display: flex;
 
@@ -151,39 +137,40 @@
   }
 }
 
-.submitted-on,
-h3 .usa-label {
-  display: block;
-  width: fit-content;
-  font-size: 1.6rem;
-  font-family: var(--font-source-sans);
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1.5;
-  margin-bottom: 0.5em;
-  margin-top: 0.5em;
-}
-
-.submitted-on {
-  line-height: 1.5;
-  font-size: 16px;
-  margin: 0;
-}
-
-h3 .usa-label {
-  margin-top: 0;
-  margin-bottom: 1em;
-}
-
 // Index page V3
-.claim-list-item-container .card-status {
-  margin: 0 0 1em;
-  // display: flex;
+.claim-list-item {
+  margin-bottom: 1em;
 
-  p {
-    margin-top: 0;
-    margin-bottom: 0;
+  // TODO: We may or may not use this
+  &.in-progress {
+    box-shadow: 1px 1px 5px rgba(0,0,0, 0.32);
+  }
+
+  .card-status {
+    margin: 0 0 1em;
+    // display: flex;
+
+    p {
+      margin-top: 0.25em;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.claim-list-item-header {
+  margin-top: 0;
+
+  span {
+    display: block;
+    width: fit-content;
+    font-size: 1.6rem;
+    font-family: var(--font-source-sans);
+    font-weight: normal;
     line-height: 1.5;
+  }
+
+  .usa-label {
+    margin-bottom: 1em;
   }
 }
 
@@ -198,20 +185,6 @@ h3 .usa-label {
   border-radius: 0 0 0.5em 0.5em;
 }
 
-.claim-list-item {
-  text-decoration: none;
-  display: block;
-  color: inherit;
-
-  &:visited,
-  &:hover,
-  &:active {
-    color: inherit;
-    text-decoration: none;
-    background-color: inherit;
-  }
-}
-
 .claim-list-item-header-old {
   color: $color-primary;
   margin-top: 0;
@@ -220,17 +193,6 @@ h3 .usa-label {
 .claim-list-item-header-v2 {
   margin-top: -2rem;
   white-space: pre-line;
-}
-
-.claim-list-item-header {
-  margin-top: 0;
-  margin-top: -1.5rem;
-  white-space: pre-line;
-  line-height: 1.44;
-}
-
-.claim-list-item:hover .claim-list-item-header {
-  color: $color-primary-darker;
 }
 
 .claims-status {

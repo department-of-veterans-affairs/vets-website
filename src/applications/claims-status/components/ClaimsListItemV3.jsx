@@ -31,11 +31,13 @@ const getLastUpdated = claim => {
   return `Last updated: ${updatedOn}`;
 };
 
-const isClaimComplete = claim => {
+const showPreDecisionCommunications = claim => {
   const { decisionLetterSent, status } = claim.attributes;
 
-  return decisionLetterSent || status === 'COMPLETE';
+  return !decisionLetterSent && status !== 'COMPLETE';
 };
+
+const isClaimComplete = claim => claim.attributes.status === 'COMPLETE';
 
 const CommunicationsItem = ({ children, icon }) => {
   return (
@@ -58,24 +60,26 @@ export default function ClaimsListItemV3({ claim }) {
     status,
   } = claim.attributes;
   const inProgress = !isClaimComplete(claim);
+  const showPrecomms = showPreDecisionCommunications(claim);
   const formattedReceiptDate = formatDate(claimDate);
   const humanStatus = getStatusDescription(status);
+  const showAlert = showPrecomms && documentsNeeded;
 
   return (
-    <va-card class="claim-list-item-container">
+    <va-card class="claim-list-item">
       <h3 className="claim-list-item-header vads-u-margin-bottom--2">
         {/* eslint-disable-next-line jsx-a11y/aria-role */}
-        <span role="text">
+        <div role="text">
           {inProgress ? <span className="usa-label">In Progress</span> : ''}
           {getTitle(claim)}
-          <span className="submitted-on">
+          <span className="vads-u-margin-top--0p5">
             Submitted on {formattedReceiptDate}
           </span>
-        </span>
+        </div>
       </h3>
 
       <ul className="communications">
-        {inProgress && developmentLetterSent ? (
+        {showPrecomms && developmentLetterSent ? (
           <CommunicationsItem icon="envelope">
             We sent you a development letter
           </CommunicationsItem>
@@ -90,29 +94,17 @@ export default function ClaimsListItemV3({ claim }) {
         {humanStatus && <p>{humanStatus}</p>}
         <p>{getLastUpdated(claim)}</p>
       </div>
-      {inProgress && documentsNeeded ? (
-        <va-alert
-          close-btn-aria-label="Close notification"
-          disable-analytics="false"
-          full-width="false"
-          status="warning"
-          visible="true"
-          slim
-          uswds
-        >
-          <div className="vads-u-margin--0">
-            <p className="vads-u-margin--0">
-              An item in the claim needs your attention
-            </p>
-          </div>
+      {showAlert && (
+        <va-alert status="warning" slim uswds>
+          An item in the claim needs your attention
         </va-alert>
-      ) : null}
+      )}
       <va-link
         active
         aria-label={`View details for claim submitted on ${formattedReceiptDate}`}
+        class="vads-u-margin-top--2 vads-u-display--block"
         href={`your-claims/${claim.id}/status`}
         text="View details"
-        class="vads-u-margin-top--3 vads-u-display--block"
       />
     </va-card>
   );

@@ -80,7 +80,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
   appealTitle = capitalizeWord(appealTitle);
 
   return (
-    <div className="claim-list-item-container-old">
+    <div className="claim-list-item-container">
       <h3 className="claim-list-item-header-v2">{appealTitle}</h3>
       <div className="card-status">
         {!external && (
