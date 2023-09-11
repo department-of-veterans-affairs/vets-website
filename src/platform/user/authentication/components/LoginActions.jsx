@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { signInPageAndModalExperimentLga } from 'platform/user/authentication/selectors';
+import { useSelector } from 'react-redux';
 import { externalApplicationsConfig } from '../usip-config';
 import {
   EXTERNAL_APPS,
@@ -14,15 +12,15 @@ import LoginButton from './LoginButton';
 import CreateAccountLink from './CreateAccountLink';
 import SignInAlertBox from './SignInAlertBox';
 
-export const LoginActions = ({
-  showsignInPageAndModalExperiment,
-  externalApplication,
-}) => {
+export default function LoginActions({ externalApplication }) {
   const [useOAuth, setOAuth] = useState();
   const { OAuth, redirectUri } = getQueryParams();
   const { allowedSignInProviders, allowedSignUpProviders, OAuthEnabled } =
     externalApplicationsConfig[externalApplication] ??
     externalApplicationsConfig.default;
+  const showsignInPageAndModalExperiment = useSelector(state =>
+    signInPageAndModalExperimentLga(state),
+  );
 
   useEffect(
     () => {
@@ -42,7 +40,8 @@ export const LoginActions = ({
 
   return (
     <div className="row">
-      {showsignInPageAndModalExperiment && <SignInAlertBox />}
+      {externalApplication == null &&
+        showsignInPageAndModalExperiment && <SignInAlertBox />}
       <div className="columns small-12" id="sign-in-wrapper">
         {reduceAllowedProviders(allowedSignInProviders, isRegisteredApp).map(
           csp => (
@@ -73,16 +72,4 @@ export const LoginActions = ({
       </div>
     </div>
   );
-};
-
-LoginActions.propTypes = {
-  showsignInPageAndModalExperiment: PropTypes.bool,
-};
-
-const mapStateToProps = state => ({
-  showsignInPageAndModalExperiment: toggleValues(state)[
-    FEATURE_FLAG_NAMES.signInPageAndModalExperimentLga
-  ],
-});
-
-export default connect(mapStateToProps)(LoginActions);
+}
