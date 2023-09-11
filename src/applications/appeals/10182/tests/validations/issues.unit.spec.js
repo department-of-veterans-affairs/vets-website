@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getDate } from '../../../shared/utils/dates';
-import { MAX_LENGTH as NOD_MAX_LENGTH } from '../../constants';
-import { SELECTED, MAX_LENGTH } from '../../../shared/constants';
+
+import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 
 import {
   selectionRequired,
@@ -140,7 +140,7 @@ describe('missingIssueName', () => {
 describe('maxNameLength', () => {
   it('should show an error when a name is too long', () => {
     const errors = { addError: sinon.spy() };
-    maxNameLength(errors, 'ab '.repeat(NOD_MAX_LENGTH.ISSUE_NAME / 2));
+    maxNameLength(errors, 'ab '.repeat(MAX_LENGTH.NOD_ISSUE_NAME / 2));
     expect(errors.addError.called).to.be.true;
   });
   it('should show an error when a name is not too long', () => {

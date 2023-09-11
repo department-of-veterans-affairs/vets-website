@@ -34,12 +34,12 @@ const ConditionDetails = () => {
           setBreadcrumbs(
             [
               {
-                url: '/my-health/medical-records/health-conditions',
+                url: '/my-health/medical-records/conditions',
                 label: 'Conditions',
               },
             ],
             {
-              url: `/my-health/medical-records/health-conditions/${conditionId}`,
+              url: `/my-health/medical-records/conditions/${conditionId}`,
               label: condition?.name,
             },
           ),

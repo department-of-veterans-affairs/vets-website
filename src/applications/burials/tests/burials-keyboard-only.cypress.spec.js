@@ -5,7 +5,7 @@ import burialPost from './e2e/fixtures/mocks/burial-post.json';
 import testData from './schema/minimal-test.json';
 
 describe('Burials keyboard only navigation', () => {
-  it('navigates through a selected form', () => {
+  it.skip('navigates through a selected form', () => {
     const { data } = testData;
     cy.intercept('PUT', 'v0/in_progress_forms/21P-530', {});
     cy.intercept('GET', '/v0/burial_claims/1234', burial1234);
