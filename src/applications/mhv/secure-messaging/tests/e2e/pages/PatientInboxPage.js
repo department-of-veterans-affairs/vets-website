@@ -560,6 +560,10 @@ class PatientInboxPage {
     );
     cy.get('[data-testid="sort-button"]').click({ force: true });
   };
+
+  getInboxHeader = text => {
+    cy.get('[data-testid="folder-header"]').should('have.text', `${text}`);
+  };
 }
 
 export default PatientInboxPage;
