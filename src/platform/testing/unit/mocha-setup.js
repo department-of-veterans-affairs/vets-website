@@ -12,10 +12,10 @@ import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
+import { configure } from '@testing-library/dom';
 import chaiAxe from './axe-plugin';
 
 import { sentryTransport } from './sentry';
-import { configure } from '@testing-library/dom';
 
 Sentry.init({
   autoSessionTracking: false,
@@ -164,9 +164,12 @@ function setupJSDom() {
     writable: true,
   });
 }
+/* eslint-disable no-console */
 
 setupJSDom();
-
+const checkAllowList = testContext => {
+  console.log(JSON.stringify(testContext));
+};
 // This needs to be after JSDom has been setup, otherwise
 // axe has strange issues with globals not being set up
 chai.use(chaiAxe);
@@ -175,6 +178,7 @@ export const mochaHooks = {
   beforeEach() {
     setupJSDom();
     resetFetch();
+    checkAllowList(this);
   },
   afterEach() {
     localStorage.clear();
