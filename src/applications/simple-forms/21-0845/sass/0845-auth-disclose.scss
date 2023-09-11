@@ -70,20 +70,6 @@ div:has(.schemaform-sip-alert) {
   margin: 0 0 !important;
 }
 
-.review-row {
-  .custom-header {
-    font-family: $font-family-sans-serif !important;
-    font-size: 1.6rem !important;
-    font-weight: normal !important;
-    margin-top: 0 !important;
-  }
-}
-
-.form-review-panel[data-chapter="veteranPersonalInfoChapter"]
-  .form-review-panel-page-header {
-  display: none;
-}
-
 .form-review-panel[data-chapter="authorizerTypeChapter"] .review-row dt > span,
 .form-review-panel[data-chapter="disclosureInfoChapter"] .review-row dt > span,
 .form-review-panel[data-chapter="authorizerTypeChapter"] .review-row dt > span,
