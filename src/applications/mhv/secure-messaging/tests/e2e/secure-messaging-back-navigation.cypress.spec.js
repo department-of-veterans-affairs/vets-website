@@ -3,10 +3,10 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import requestBody from './fixtures/message-compose-request-body.json';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 import mockThreadResponse from './fixtures/single-draft-response.json';
-import { DefaultFolders, Paths } from '../../util/constants';
+import { DefaultFolders } from '../../util/constants';
 
 describe('SM back navigation', () => {
   const site = new SecureMessagingSite();

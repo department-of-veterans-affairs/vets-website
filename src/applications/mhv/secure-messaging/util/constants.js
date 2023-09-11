@@ -2,8 +2,6 @@
 export const draftAutoSaveTimeout = 10000;
 
 export const Paths = {
-  UI_MAIN: '/my-health/secure-messages',
-  SM_API_BASE: '/my_health/v1/messaging',
   INBOX: '/inbox/',
   SENT: '/sent/',
   DRAFTS: '/drafts/',
