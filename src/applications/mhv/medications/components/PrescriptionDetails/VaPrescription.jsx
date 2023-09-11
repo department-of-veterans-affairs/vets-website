@@ -56,11 +56,13 @@ const VaPrescription = prescription => {
               Prescribed by
             </h3>
             <p>
-              {validateField(
-                `${prescription.providerLastName}, ${
-                  prescription.providerFirstName
-                }`,
-              )}
+              {prescription?.providerFirstName && prescription?.providerLastName
+                ? validateField(
+                    `${prescription.providerLastName}, ${
+                      prescription.providerFirstName
+                    }`,
+                  )
+                : 'None noted'}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
