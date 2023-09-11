@@ -102,7 +102,7 @@ export const interpretationMap = {
 
 export const EMPTY_FIELD = 'None noted';
 
-export const IS_TESTING = true;
+export const IS_TESTING = false;
 
 export const vitalTypes = {
   BLOOD_PRESSURE: 'BLOOD_PRESSURE',
