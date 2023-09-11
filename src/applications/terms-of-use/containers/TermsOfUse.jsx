@@ -1,34 +1,76 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  apiRequest,
+  environment,
+} from '@department-of-veterans-affairs/platform-utilities/exports';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import {
-  isLoggedIn,
   termsOfUseEnabled,
+  logout as IAMLogout,
 } from '@department-of-veterans-affairs/platform-user/exports';
-
 import touData from '../touData';
 
 const touUpdatedDate = `March 2023`;
+const defaultErrorMessage = `Something went wrong on our end. Please try again in a few
+              minutes.`;
 
 export default function TermsOfUse() {
-  const loggedIn = useSelector(isLoggedIn);
   const termsOfUseAuthorized = useSelector(termsOfUseEnabled);
   const [error, setError] = useState({ isError: false, message: '' });
 
   const handleTouClick = async type => {
-    try {
-      await apiRequest(`/terms_of_use_agreements/v1/${type}`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-      });
-    } catch (err) {
-      setError({
-        isError: true,
-        message: `Something went wrong on our end. Please try again in a few
-              minutes.`,
-      });
+    let isAware;
+    if (type === 'decline') {
+      // eslint-disable-next-line no-alert
+      isAware = confirm(
+        `We’ll automatically sign you out and take you back to the VA.gov homepage. And you won’t be able to sign in to use these tools: VA.gov, My HealtheVet, My VA Health, or the Mobile app.\n\nAre you sure you want to decline?`,
+      );
+    }
+    const url = new URL(window.location);
+    const redirectUrl = url.searchParams.get('redirect_url') ?? '';
+    if (type === 'accept' || (type === 'decline' && isAware)) {
+      try {
+        const response = await apiRequest(
+          `/terms_of_use_agreements/v1/${type}`,
+          {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+          },
+        );
+
+        if (response.errors) {
+          setError({
+            isError: true,
+            message: defaultErrorMessage,
+          });
+        }
+
+        if (Object.keys(response?.termsOfUseAgreement).length) {
+          // if the type was accept
+          if (type === 'accept') {
+            window.location = !redirectUrl
+              ? `${environment.BASE_URL}`
+              : redirectUrl;
+          }
+
+          if (type === 'decline') {
+            IAMLogout({
+              queryParams: {
+                [`redirect_url`]: `${
+                  environment.BASE_URL
+                }/terms-of-use/declined`,
+              },
+            });
+          }
+        }
+      } catch (err) {
+        setError({
+          isError: true,
+          message: defaultErrorMessage,
+        });
+      }
     }
   };
   return (
@@ -106,28 +148,21 @@ export default function TermsOfUse() {
           <h2 id="do-you-accept-of-terms-of-use">
             Do you accept these terms of use?
           </h2>
-          {!loggedIn && (
-            <p>
-              Once you’re signed in, you can either accept or decline to our
-              terms of use.
-            </p>
+          {termsOfUseAuthorized && (
+            <>
+              <va-button
+                text="Accept"
+                onClick={() => handleTouClick('accept')}
+                ariaLabel="I Accept to VA online serivices terms of use"
+              />
+              <va-button
+                text="Decline"
+                secondary
+                ariaLabel="I Decline to VA online serivices terms of use"
+                onClick={() => handleTouClick('decline')}
+              />
+            </>
           )}
-          {loggedIn &&
-            termsOfUseAuthorized && (
-              <>
-                <va-button
-                  text="Accept"
-                  onClick={() => handleTouClick('accept')}
-                  ariaLabel="I Accept to VA online serivices terms of use"
-                />
-                <va-button
-                  text="Decline"
-                  secondary
-                  ariaLabel="I Decline to VA online serivices terms of use"
-                  onClick={() => handleTouClick('decline')}
-                />
-              </>
-            )}
           {error.isError && <p>{error.message}</p>}
         </article>
       </div>
