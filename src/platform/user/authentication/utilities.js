@@ -347,11 +347,11 @@ export async function verify({
   return isLink ? url : redirect(url, `${type}-${clickedEvent}`);
 }
 
-export function logout(
+export function logout({
   version = API_VERSION,
   clickedEvent = AUTH_EVENTS.LOGOUT,
   queryParams = {},
-) {
+} = {}) {
   clearSentryLoginType();
   return redirect(
     sessionTypeUrl({ type: POLICY_TYPES.SLO, version, queryParams }),
