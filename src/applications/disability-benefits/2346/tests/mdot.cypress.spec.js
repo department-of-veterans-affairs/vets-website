@@ -144,6 +144,13 @@ const testConfig = createTestConfig(
       cy.get('@testKey').then(() => {
         cy.intercept('POST', '/v0/mdot/supplies', postData);
       });
+      cy.intercept('GET', '/v0/feature_toggles?*', {
+        data: {
+          features: [
+            { name: 'supply_reordering_sleep_apnea_enabled', value: true },
+          ],
+        },
+      });
     },
     skip: false,
   },
