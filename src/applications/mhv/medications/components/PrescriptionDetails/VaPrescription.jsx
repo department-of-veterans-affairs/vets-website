@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { validateField } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
+import StatusDropdown from '../shared/StatusDropdown';
 
 const VaPrescription = prescription => {
   const refillHistory = prescription?.rxRfRecords?.[0]?.[1];
@@ -26,29 +27,7 @@ const VaPrescription = prescription => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Status
             </h3>
-            <div data-testid="status">
-              {prescription.refillStatus === 'refillinprocess'
-                ? 'Refill in process'
-                : validateField(
-                    refillStatus?.charAt(0).toUpperCase() +
-                      refillStatus?.slice(1),
-                  )}
-            </div>
-            <div className="no-print">
-              <va-additional-info trigger="What does this status mean?">
-                <ul>
-                  <li>
-                    An active medication is a prescription still in use and
-                    available for refill.
-                  </li>
-                  <li>
-                    An inactive medication is a past prescription that should no
-                    longer be refilled without first talking with your care
-                    provider.
-                  </li>
-                </ul>
-              </va-additional-info>
-            </div>
+            <StatusDropdown status={refillStatus} />
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Refills left
             </h3>
@@ -140,7 +119,7 @@ const VaPrescription = prescription => {
                   <h3 className="vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2">
                     {i + 1 === refillHistory.length
                       ? 'Original Fill'
-                      : `Refill #${refillHistory.length - i - 1}`}
+                      : `Refill ${refillHistory.length - i - 1}`}
                   </h3>
                   <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
                     Filled by pharmacy on
