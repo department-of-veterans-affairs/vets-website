@@ -107,23 +107,16 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
             What happened to my settings from My HealtheVet secure messaging?
           </h3>
           <p>
-            Your notification settings and your list of care teams will stay the
-            same as they were on the My HealtheVet website.
-          </p>
-          <p>
-            If you want to change your notification setting or your list of care
-            teams, you’ll need to go to the My HealtheVet website to make
-            changes.
+            Your notification settings, contact list, and signature are the same
+            as they were on the My HealtheVet website. To update them, you’ll
+            need to go back to your preferences page on that site.
           </p>
           <p>
             <a href={prefLink} target="_blank" rel="noreferrer">
-              Go to the My HealtheVet website
+              Go to your settings on the My HealtheVet website
             </a>
           </p>
-          <p>
-            Signature settings aren’t available in this new messaging tool. If
-            you have questions about your settings, you can send us an email.
-          </p>
+          <p>If you have questions, you can send us an email.</p>
           <p>
             Email us at <FeedbackEmail />
           </p>

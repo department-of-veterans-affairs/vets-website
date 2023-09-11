@@ -4,6 +4,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import reducer from '../../reducers';
 import PrescriptionDetails from '../../containers/PrescriptionDetails';
 import rxDetailsResponse from '../fixtures/prescriptionDetails.json';
+import nonVaRxResponse from '../fixtures/nonVaPrescription.json';
 import { dateFormat } from '../../util/helpers';
 
 describe('Prescription details container', () => {
@@ -49,54 +50,21 @@ describe('Prescription details container', () => {
     );
     expect(rxName).to.exist;
   });
+  it('displays "Information entered on" instead of "filled by" date, when med is non VA', () => {
+    const nonVaRxState = {
+      rx: {
+        prescriptions: {
+          prescriptionDetails: nonVaRxResponse.data.attributes,
+        },
+      },
+    };
+    const screen = setup(nonVaRxState);
 
-  it('displays the formatted ordered date', () => {
-    const screen = setup();
-    const formattedDate = screen.getAllByText(
-      dateFormat(
-        initialState.rx.prescriptions.prescriptionDetails?.orderedDate,
+    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
+      `Information entered on ${dateFormat(
+        nonVaRxResponse.data.attributes.orderedDate,
         'MMMM D, YYYY',
-      ),
-      {
-        exact: true,
-        selector: 'p',
-      },
-    );
-    expect(formattedDate).to.exist;
-  });
-
-  it('displays the facility', () => {
-    const screen = setup();
-    const location = screen.getAllByText(
-      rxDetailsResponse.data.attributes.facilityName,
-    );
-    expect(location).to.exist;
-  });
-
-  it('displays Shipped on in Refill History', () => {
-    const screen = setup();
-    const shippedOn = screen.getAllByText(
-      dateFormat(
-        initialState.rx.prescriptions.prescriptionDetails.trackingList[0][1][0]
-          .completeDateTime,
-        'MMMM D, YYYY [at] h:mm z',
-      ),
-      {
-        exact: true,
-        selector: 'p',
-      },
-    );
-    expect(shippedOn).to.exist;
-  });
-
-  it('displays the tracking number within Tracking Info', () => {
-    const screen = setup();
-
-    const trackingNumber = screen.getByTestId('tracking-number');
-
-    expect(trackingNumber).to.exist;
-    expect(trackingNumber).to.have.text(
-      rxDetailsResponse.data.attributes.trackingList[0][1][0].trackingNumber,
+      )}`,
     );
   });
 });

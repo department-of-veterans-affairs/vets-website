@@ -10,6 +10,9 @@ import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
+import { AXE_CONTEXT } from '../utils/constants';
+import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
+import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -288,7 +291,7 @@ class PatientInboxPage {
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     if (doAxeCheck) {
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,
@@ -378,12 +381,6 @@ class PatientInboxPage {
   navigateReply = () => {
     cy.tabToElement('[data-testid="reply-button-body"]');
     cy.realPress(['Enter']);
-  };
-
-  verifyDeleteConfirmMessage = () => {
-    cy.contains('successfully deleted')
-      .focused()
-      .should('have.text', 'Draft was successfully deleted.');
   };
 
   loadLandingPageByTabbingAndEnterKey = () => {
@@ -498,6 +495,64 @@ class PatientInboxPage {
     cy.get('[data-testid="message-body-field"]')
       .should('have.attr', 'value')
       .and('not.be.empty');
+  };
+
+  inputFilterData = text => {
+    cy.get('#filter-input')
+      .shadow()
+      .find('#inputField')
+      .type(`${text}`, { force: true });
+  };
+
+  filterMessages = () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/folders/-1/search',
+      sentSearchResponse,
+    );
+    cy.get('[data-testid="filter-messages-button"]').click({ force: true });
+  };
+
+  verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
+    cy.get('[data-testid="message-list-item"]').should(
+      'have.length',
+      `${responseData.data.length}`,
+    );
+
+    cy.get('[data-testid="highlighted-text"]').each(element => {
+      cy.wrap(element)
+        .invoke('text')
+        .then(text => {
+          const lowerCaseText = text.toLowerCase();
+          expect(lowerCaseText).to.contain(`${filterValue}`);
+        });
+    });
+  };
+
+  clearFilter = () => {
+    this.inputFilterData('any');
+    this.filterMessages();
+    cy.get('[text="Clear Filters"]').click({ force: true });
+  };
+
+  verifyFilterFieldCleared = () => {
+    cy.get('#filter-input')
+      .shadow()
+      .find('#inputField')
+      .should('be.empty');
+  };
+
+  sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
+    cy.get('#sort-order-dropdown')
+      .shadow()
+      .find('#select')
+      .select(`${text}`, { force: true });
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-1/threads**',
+      sortedResponse,
+    );
+    cy.get('[data-testid="sort-button"]').click({ force: true });
   };
 }
 

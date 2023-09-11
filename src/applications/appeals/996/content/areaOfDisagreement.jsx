@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 import { getIssueName, getIssueDate } from '../utils/helpers';
-import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
+import { FORMAT_YMD, FORMAT_READABLE } from '../../shared/constants';
 
 export const missingAreaOfDisagreementErrorMessage =
   'Please choose or enter a reason for disagreement';

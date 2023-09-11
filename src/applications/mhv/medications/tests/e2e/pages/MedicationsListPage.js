@@ -8,7 +8,7 @@ class MedicationsListPage {
 
   verifyTextInsideDropDownOnListPage = () => {
     cy.contains(
-      'print your records instead of downloading. Downloading will save a copy of your records to the public computer.',
+      'When you print or download medication records, we’ll include a list of allergies and reactions in your VA medical records.',
     );
   };
 
@@ -33,8 +33,14 @@ class MedicationsListPage {
   };
 
   verifyNavigationToListPageAfterClickingBreadcrumbMedications = () => {
-    cy.get('[data-testid="List-Page-Title"]')
+    cy.get('[data-testid="list-page-title"]')
       .should('have.text', 'Medications')
+      .should('be.visible');
+  };
+
+  verifyDownloadListAsPDFButtonOnListPage = () => {
+    cy.get('[data-testid="download-pdf-button"]')
+      .should('contain', 'Download list as PDF')
       .should('be.visible');
   };
 }
