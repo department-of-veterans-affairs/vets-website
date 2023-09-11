@@ -80,6 +80,7 @@ const command = `LOG_LEVEL=${options[
   .map(p => `'${p}'`)
   .join(' ')} --grep ${DISALLOWED_SPECS} --invert`;
 
+console.log('command: ', command);
 const runTestsInLoopUpTo = isStressTest ? 20 : 1;
 
 for (let i = 0; i < runTestsInLoopUpTo; i += 1) {
