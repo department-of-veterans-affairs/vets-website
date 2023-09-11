@@ -99,7 +99,8 @@ export default {
   },
 
   review: data => ({
-    'The issues you’re asking the Board to review:': (
+    'The issues you’re asking the Board to review:': data.areaOfDisagreement
+      ?.length ? (
       <ul className="vads-u-margin-top--1">
         {data.areaOfDisagreement.map((disagreement, index) => (
           <li key={index}>
@@ -114,6 +115,8 @@ export default {
           </li>
         ))}
       </ul>
+    ) : (
+      <span className="usa-input-error-message">No issues selected</span>
     ),
   }),
 };
