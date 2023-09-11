@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
@@ -11,7 +11,8 @@ import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
 import { EditContainer } from './edit/EditContainer';
-import { routesForNav } from '../routesForNav';
+import { getRoutesForNav } from '../routesForNav';
+import { selectProfileToggles } from '../selectors';
 
 // default layout includes the subnavs
 // edit layout is a full-width layout
@@ -39,6 +40,11 @@ const ProfileWrapper = ({
 }) => {
   const location = useLocation();
   const layout = getLayout(location.pathname);
+
+  const toggles = useSelector(selectProfileToggles);
+  const routesForNav = getRoutesForNav({
+    profileUseHubPage: toggles.profileUseHubPage,
+  });
 
   return (
     <>

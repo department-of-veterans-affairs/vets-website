@@ -12,7 +12,7 @@ import {
 import {
   cnpDirectDepositInformation,
   profileUseLighthouseDirectDepositEndpoint,
-  selectAppToggles,
+  selectProfileToggles,
   selectIsBlocked,
   togglesAreLoaded,
 } from '@@profile/selectors';
@@ -170,6 +170,7 @@ class Profile extends Component {
 
     const routes = getRoutes({
       useFieldEditingPage: toggles.profileUseFieldEditingPage,
+      profileUseHubPage: toggles.profileUseHubPage,
     });
     return (
       <BrowserRouter>
@@ -363,7 +364,7 @@ const mapStateToProps = state => {
       state,
     ),
     togglesLoaded,
-    appToggles: selectAppToggles(state),
+    appToggles: selectProfileToggles(state),
   };
 };
 
