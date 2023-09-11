@@ -168,7 +168,7 @@ function setupJSDom() {
 
 setupJSDom();
 const checkAllowList = testContext => {
-  console.log('file: ', testContext.file.split('/').pop);
+  console.log('file: ', testContext);
 };
 // This needs to be after JSDom has been setup, otherwise
 // axe has strange issues with globals not being set up
