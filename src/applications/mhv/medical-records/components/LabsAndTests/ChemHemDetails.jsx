@@ -10,6 +10,7 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
+import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import { processList, sendErrorToSentry } from '../../util/helpers';
 import {
   generatePdfScaffold,
@@ -144,20 +145,7 @@ const ChemHemDetails = props => {
             </div>
             <div className="no-print">
               <PrintDownload list download={generateChemHemPdf} />
-              <va-additional-info trigger="What to know about downloading records">
-                <ul>
-                  <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
-                  </li>
-                  <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
-                  </li>
-                </ul>
-              </va-additional-info>
+              <DownloadingRecordsInfo />
             </div>
             {/*                   TEST DETAILS                          */}
             <div className="test-details-container max-80">

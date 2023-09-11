@@ -6,6 +6,7 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
+import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import { sendErrorToSentry } from '../../util/helpers';
 import {
   generatePdfScaffold,
@@ -120,20 +121,7 @@ const AdmissionAndDischargeDetails = props => {
             </p>
             <div className="no-print">
               <PrintDownload download={generateCareNotesPDF} />
-              <va-additional-info trigger="What to know about downloading records">
-                <ul>
-                  <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
-                  </li>
-                  <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
-                  </li>
-                </ul>
-              </va-additional-info>
+              <DownloadingRecordsInfo />
             </div>
           </section>
 
