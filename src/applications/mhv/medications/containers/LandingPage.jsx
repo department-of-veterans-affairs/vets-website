@@ -17,9 +17,9 @@ const LandingPage = () => {
         <div className="main-content">
           <section>
             <h1>About medications</h1>
-            <p className="vads-u-font-size--h3">
-              Refill and track your VA prescriptions. And review all medications
-              in your VA medical records.
+            <p>
+              Learn how to manage your VA prescriptions and review all
+              medications in your VA medical records.
             </p>
           </section>
           <section>
