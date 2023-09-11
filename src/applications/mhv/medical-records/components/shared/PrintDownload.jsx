@@ -58,11 +58,7 @@ const PrintDownload = props => {
   });
 
   return (
-    <div
-      className="print-download vads-u-margin-y--2 no-print"
-      aria-hidden="true"
-      selected
-    >
+    <div className="print-download vads-u-margin-y--2 no-print">
       <button
         type="button"
         className={toggleMenuButtonClasses}
