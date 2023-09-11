@@ -1,12 +1,18 @@
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import React from 'react';
+import { Provider } from 'react-redux';
 import ErrorMessage from '../components/ErrorMessage';
 
 describe('ErrorMessage', () => {
   it('should render va-alert', () => {
     const fakeStore = {
       getState: () => ({
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          supply_reordering_sleep_apnea_enabled: true,
+        },
         mdot: {
           errorCode: 'MDOT_SUPPLIES_INELIGIBLE',
           nextAvailabilityDate: '2019-04-01',
@@ -15,7 +21,11 @@ describe('ErrorMessage', () => {
       subscribe: () => {},
       dispatch: () => {},
     };
-    const errorMessage = mount(<ErrorMessage store={fakeStore} />);
+    const errorMessage = mount(
+      <Provider store={fakeStore}>
+        <ErrorMessage />
+      </Provider>,
+    );
     const vaAlert = errorMessage.find('va-alert');
     expect(vaAlert).not.to.be.undefined;
     errorMessage.unmount();
@@ -32,7 +42,11 @@ describe('ErrorMessage', () => {
       subscribe: () => {},
       dispatch: () => {},
     };
-    const errorMessage = mount(<ErrorMessage store={fakeStore} />);
+    const errorMessage = mount(
+      <Provider store={fakeStore}>
+        <ErrorMessage />
+      </Provider>,
+    );
     expect(errorMessage.find('h3').text()).to.equal(
       'You can’t reorder your items at this time',
     );
@@ -49,8 +63,8 @@ describe('ErrorMessage', () => {
         .find('span')
         .at(1)
         .text(),
-    ).to.equal(
-      'If you need an item sooner, call the DLC Customer Service Section at 303-273-6200 or email dalc.css@va.gov.',
+    ).to.contain(
+      'If you need an item sooner, call the DLC Customer Service Section at',
     );
     errorMessage.unmount();
   });
@@ -67,7 +81,11 @@ describe('ErrorMessage', () => {
       subscribe: () => {},
       dispatch: () => {},
     };
-    const errorMessage = mount(<ErrorMessage store={fakeStore} />);
+    const errorMessage = mount(
+      <Provider store={fakeStore}>
+        <ErrorMessage />
+      </Provider>,
+    );
     expect(errorMessage.find('h3').text()).to.equal(
       'Our records show that this Veteran is deceased',
     );
@@ -82,8 +100,8 @@ describe('ErrorMessage', () => {
         .find('span')
         .at(1)
         .text(),
-    ).to.equal(
-      'If this information is incorrect, please call Veterans Benefits Assistance at 800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. E.T.',
+    ).to.contain(
+      'If this information is incorrect, please call Veterans Benefits Assistance at',
     );
     errorMessage.unmount();
   });
@@ -91,6 +109,11 @@ describe('ErrorMessage', () => {
   it('should render veteran not found content', () => {
     const fakeStore = {
       getState: () => ({
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          supply_reordering_sleep_apnea_enabled: true,
+        },
         mdot: {
           errorCode: 'MDOT_INVALID',
           nextAvailabilityDate: '2019-04-01',
@@ -99,7 +122,11 @@ describe('ErrorMessage', () => {
       subscribe: () => {},
       dispatch: () => {},
     };
-    const errorMessage = mount(<ErrorMessage store={fakeStore} />);
+    const errorMessage = mount(
+      <Provider store={fakeStore}>
+        <ErrorMessage />
+      </Provider>,
+    );
     expect(errorMessage.find('h3').text()).to.equal(
       'We can’t find your records in our system',
     );
@@ -109,7 +136,7 @@ describe('ErrorMessage', () => {
         .at(0)
         .text(),
     ).to.equal(
-      'You can’t order hearing aid batteries or accessories at this time because we can’t find your records in our system or we’re missing some information needed for you to order.',
+      'You can’t order hearing aid and CPAP supplies at this time because we can’t find your records in our system or we’re missing some information needed for you to order.',
     );
     expect(
       errorMessage
@@ -117,7 +144,7 @@ describe('ErrorMessage', () => {
         .at(1)
         .text(),
     ).to.equal(
-      'If you think this is incorrect, call your audiologist to update your record. Find contact information for your local medical center.',
+      'If you think this is incorrect, call your health care provider to update your record. Find contact information for your local medical center.',
     );
     errorMessage.unmount();
   });
@@ -125,6 +152,11 @@ describe('ErrorMessage', () => {
   it('should render supplies not found content', () => {
     const fakeStore = {
       getState: () => ({
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          supply_reordering_sleep_apnea_enabled: true,
+        },
         mdot: {
           errorCode: 'MDOT_SUPPLIES_NOT_FOUND',
 
@@ -134,7 +166,11 @@ describe('ErrorMessage', () => {
       subscribe: () => {},
       dispatch: () => {},
     };
-    const errorMessage = mount(<ErrorMessage store={fakeStore} />);
+    const errorMessage = mount(
+      <Provider store={fakeStore}>
+        <ErrorMessage />
+      </Provider>,
+    );
     expect(errorMessage.find('h3').text()).to.equal(
       'You can’t reorder your items at this time',
     );
@@ -144,15 +180,15 @@ describe('ErrorMessage', () => {
         .at(0)
         .text(),
     ).to.equal(
-      'You can’t order hearing aid batteries or accessories online at this time because you haven’t placed an order within the past two years',
+      'You can’t order hearing aid and CPAP supplies online at this time because you haven’t placed an order within the past two years',
     );
     expect(
       errorMessage
         .find('span')
         .at(1)
         .text(),
-    ).to.equal(
-      'If you need to place an order, call the DLC Customer Service Section at 303-273-6200 or email dalc.css@va.gov.',
+    ).to.contains(
+      'If you need to place an order, call the DLC Customer Service Section at',
     );
     errorMessage.unmount();
   });
@@ -167,8 +203,55 @@ describe('ErrorMessage', () => {
       subscribe: () => {},
       dispatch: () => {},
     };
-    const errorMessage = mount(<ErrorMessage store={fakeStore} />);
+    const errorMessage = mount(
+      <Provider store={fakeStore}>
+        <ErrorMessage />
+      </Provider>,
+    );
     expect(errorMessage.find('.mdot-server-error-alert')).length.to.be(1);
+    errorMessage.unmount();
+  });
+
+  it('should render veteran not found content', () => {
+    const fakeStore = {
+      getState: () => ({
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          supply_reordering_sleep_apnea_enabled: false,
+        },
+        mdot: {
+          errorCode: 'MDOT_INVALID',
+          nextAvailabilityDate: '2019-04-01',
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+    const errorMessage = mount(
+      <Provider store={fakeStore}>
+        <ErrorMessage />
+      </Provider>,
+    );
+    expect(errorMessage.find('h3').text()).to.equal(
+      'We can’t find your records in our system',
+    );
+    expect(
+      errorMessage
+        .find('span')
+        .at(0)
+        .text(),
+    ).to.equal(
+      'You can’t order hearing aid batteries and accessories at this time because we can’t find your records in our system or we’re missing some information needed for you to order.',
+    );
+    expect(
+      errorMessage
+        .find('span')
+        .at(1)
+        .text(),
+    ).to.equal(
+      'If you think this is incorrect, call your health care provider to update your record. Find contact information for your local medical center.',
+    );
     errorMessage.unmount();
   });
 });

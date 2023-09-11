@@ -1,5 +1,9 @@
 import { validateDate } from 'platform/forms-system/src/js/validation';
-import { isChapterFieldRequired } from '../../../helpers';
+import {
+  isChapterFieldRequired,
+  classesPerWeekUiSchema,
+  hoursPerWeekUiSchema,
+} from '../../../helpers';
 import { report674 } from '../../../utilities';
 
 export const schema = report674.properties.studentTermDates;
@@ -59,6 +63,7 @@ export const uiSchema = {
       'ui:errorMessages': { required: 'Please enter a course or program name' },
     },
     classesPerWeek: {
+      ...classesPerWeekUiSchema,
       'ui:required': formData =>
         !formData?.programInformation?.studentIsEnrolledFullTime,
       'ui:options': {
@@ -66,10 +71,9 @@ export const uiSchema = {
         expandUnderCondition: false,
         widgetClassNames: 'form-select-medium',
       },
-      'ui:title': 'Number of session a week',
-      'ui:errorMessages': { required: 'Please enter a number' },
     },
     hoursPerWeek: {
+      ...hoursPerWeekUiSchema,
       'ui:required': formData =>
         !formData?.programInformation?.studentIsEnrolledFullTime,
       'ui:options': {
@@ -77,8 +81,6 @@ export const uiSchema = {
         expandUnderCondition: false,
         widgetClassNames: 'form-select-medium',
       },
-      'ui:title': 'Hours a week',
-      'ui:errorMessages': { required: 'Please enter a number' },
     },
   },
 };

@@ -4,7 +4,6 @@ const primaryPhone = {
   uiSchema: {},
   schema: {
     type: 'object',
-    required: [PRIMARY_PHONE],
     properties: {
       [PRIMARY_PHONE]: {
         type: 'string',
