@@ -7,11 +7,11 @@ import {
   waitForRenderThenFocus,
 } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { LAST_SC_ITEM } from '../constants';
+import { LAST_ISSUE } from '../../shared/constants';
 
 export const focusIssue = (_index, root) => {
-  const item = window.sessionStorage.getItem(LAST_SC_ITEM);
-  window.sessionStorage.removeItem(LAST_SC_ITEM);
+  const item = window.sessionStorage.getItem(LAST_ISSUE);
+  window.sessionStorage.removeItem(LAST_ISSUE);
 
   if (item < 0) {
     // focus on add new issue after removing or cancelling adding a new issue
