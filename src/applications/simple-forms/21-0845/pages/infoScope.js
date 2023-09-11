@@ -54,7 +54,6 @@ export default {
             uiSchema,
           };
         },
-        widgetClassNames: 'vads-u-margin-top--3',
       },
     },
   },
