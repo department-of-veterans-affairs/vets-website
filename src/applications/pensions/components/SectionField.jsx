@@ -28,28 +28,30 @@ export function ApplicantInformation({ title, id, formData }) {
           Your first name
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.veteranFullName?.first}
+          {formData?.veteranFullName?.first}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Your middle name
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.veteranFullName?.middle}
+          {formData?.veteranFullName?.middle}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Your last name
         </p>
-        <p className="vads-u-margin-top--0">{formData.veteranFullName?.last}</p>
+        <p className="vads-u-margin-top--0">
+          {formData?.veteranFullName?.last}
+        </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">Suffix</p>
         <p className="vads-u-margin-top--0">
-          {formData.veteranFullName?.suffix}
+          {formData?.veteranFullName?.suffix}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Social Security number
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.veteranSocialSecurityNumber
-            ? formatSSN(formData.veteranSocialSecurityNumber)
+          {formData?.veteranSocialSecurityNumber
+            ? formatSSN(formData?.veteranSocialSecurityNumber)
             : ''}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
@@ -60,8 +62,8 @@ export function ApplicantInformation({ title, id, formData }) {
           Date of birth
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.veteranDateOfBirth
-            ? convertDateFormat(formData.veteranDateOfBirth)
+          {formData?.veteranDateOfBirth
+            ? convertDateFormat(formData?.veteranDateOfBirth)
             : ''}
         </p>
       </div>
@@ -80,26 +82,26 @@ export function MilitaryHistory({ title, id, formData }) {
           Did you serve under another name?
         </p>
         <div className="vads-u-margin-top--0">
-          {formData.previousNames
-            ? formData.previousNames.map((name, index) => {
+          {formData?.previousNames
+            ? formData?.previousNames.map((name, index) => {
                 return (
                   <div key={index} className="vads-u-margin-top--4">
                     <div className="vads-u-background-color--gray-lightest vads-u-padding--1p5">
                       <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                         <strong>First: </strong>
-                        {name.first ? name.first : ''}
+                        {name?.first ? name?.first : ''}
                       </p>
                       <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                         <strong>Middle: </strong>
-                        {name.middle ? name.middle : ''}
+                        {name?.middle ? name?.middle : ''}
                       </p>
                       <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                         <strong>Last: </strong>
-                        {name.last ? name.last : ''}
+                        {name?.last ? name?.last : ''}
                       </p>
                       <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                         <strong>Suffix: </strong>
-                        {name.suffix ? name.suffix : 'None'}
+                        {name?.suffix ? name?.suffix : 'None'}
                       </p>
                     </div>
                   </div>
@@ -112,7 +114,7 @@ export function MilitaryHistory({ title, id, formData }) {
           country)
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.placeOfSeparation ? formData.placeOfSeparation : ''}
+          {formData?.placeOfSeparation ? formData?.placeOfSeparation : ''}
         </p>
 
         <h3>Reserve and National Guard</h3>
@@ -120,7 +122,7 @@ export function MilitaryHistory({ title, id, formData }) {
           Are you currently on federal active duty in the National Guard?
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.nationalGuardActivation ? 'Yes' : 'No'}
+          {formData?.nationalGuardActivation ? 'Yes' : 'No'}
         </p>
 
         <h3>POW status &amp; severance pay</h3>
@@ -131,8 +133,8 @@ export function MilitaryHistory({ title, id, formData }) {
           {formData['view:powStatus']
             ? `Yes
             \n${convertDateFormat(
-              formData.powDateRange.from,
-            )} - ${convertDateFormat(formData.powDateRange.to)}`
+              formData?.powDateRange?.from,
+            )} - ${convertDateFormat(formData?.powDateRange?.to)}`
             : 'No'}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
@@ -140,8 +142,8 @@ export function MilitaryHistory({ title, id, formData }) {
         </p>
         <p className="vads-u-margin-top--0" style={{ whiteSpace: 'pre-wrap' }}>
           {formData.severancePay
-            ? `${formData.severancePay.type}
-            \n${formatCurrency(formData.severancePay.amount)}`
+            ? `${formData?.severancePay?.type}
+            \n${formatCurrency(formData?.severancePay?.amount)}`
             : 'No'}
         </p>
       </div>
@@ -166,19 +168,19 @@ export function WorkHistory({ title, id, formData }) {
           Disability
         </p>
         <div className="vads-u-margin-top--0">
-          {formData.disabilities.length > 0
-            ? formData.disabilities.map(item => {
+          {formData?.disabilities?.length > 0
+            ? formData?.disabilities?.map(item => {
                 return (
-                  <div key={item.name}>
+                  <div key={item?.name}>
                     <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                      {item.name ? item.name : ''}
+                      {item?.name ? item?.name : ''}
                     </p>
                     <p className="vads-u-color--gray vads-u-margin-bottom--0">
                       Date disability began
                     </p>
                     <p className="vads-u-margin-bottom--1">
-                      {item.disabilityStartDate
-                        ? convertDateFormat(item.disabilityStartDate)
+                      {item?.disabilityStartDate
+                        ? convertDateFormat(item?.disabilityStartDate)
                         : ''}
                     </p>
                   </div>
@@ -194,36 +196,37 @@ export function WorkHistory({ title, id, formData }) {
         <p className="vads-u-margin-top--0">
           {formData['view:workedBeforeDisabled'] ? 'Yes' : 'No'}
         </p>
-        {formData['view:history'].jobs.length > 0
-          ? formData['view:history'].jobs.map((item, index) => {
+        {formData['view:history']?.jobs?.length > 0
+          ? formData['view:history']?.jobs?.map((item, index) => {
               return (
                 <div key={index}>
                   <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
                     Address
                   </p>
                   <p className="vads-u-margin-top--0">
-                    {item.address.street ? item.address.street : ''} <br />
-                    {item.address.street2 ? item.address.street2 : ''} <br />
-                    {item.address.city && item.address.state
-                      ? `${item.address.city}, ${item.address.state}`
+                    {item?.address?.street ? item?.address?.street : ''} <br />
+                    {item?.address?.street2 ? item?.address?.street2 : ''}{' '}
+                    <br />
+                    {item?.address?.city && item?.address?.state
+                      ? `${item?.address?.city}, ${item?.address?.state}`
                       : ''}
                     <br />
-                    {item.address.postalCode ? item.address.postalCode : ''}
+                    {item?.address?.postalCode ? item?.address?.postalCode : ''}
                     <br />
-                    {item.address.country ? item.address.country : ''}
+                    {item?.address?.country ? item?.address?.country : ''}
                   </p>
                   <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
                     Job title
                   </p>
                   <p className="vads-u-margin-top--0">
-                    {item.jobTitle ? item.jobTitle : ''}
+                    {item?.jobTitle ? item?.jobTitle : ''}
                   </p>
                   <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
                     From
                   </p>
                   <p className="vads-u-margin-top--0">
                     {convertDateFormat(
-                      item.dateRange.from ? item.dateRange.from : '',
+                      item?.dateRange?.from ? item?.dateRange?.from : '',
                     )}
                   </p>
                   <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
@@ -231,21 +234,21 @@ export function WorkHistory({ title, id, formData }) {
                   </p>
                   <p className="vads-u-margin-top--0">
                     {convertDateFormat(
-                      item.dateRange.to ? item.dateRange.to : '',
+                      item?.dateRange?.to ? item?.dateRange?.to : '',
                     )}
                   </p>
                   <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
                     How many days lost to disability
                   </p>
                   <p className="vads-u-margin-top--0">
-                    {item.daysMissed ? item.daysMissed : ''}
+                    {item?.daysMissed ? item?.daysMissed : ''}
                   </p>
                   <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
                     Total annual earnings
                   </p>
                   <p className="vads-u-margin-top--0">
-                    {item.annualEarnings
-                      ? formatCurrency(item.annualEarnings)
+                    {item?.annualEarnings
+                      ? formatCurrency(item?.annualEarnings)
                       : ''}
                   </p>
                 </div>
@@ -268,7 +271,7 @@ export function HouseholdInformation({ title, id, formData }) {
           What's your marital status?
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.maritalStatus ? formData.maritalStatus : ''}
+          {formData?.maritalStatus ? formData?.maritalStatus : ''}
         </p>
         <h3>Dependent children</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
@@ -283,8 +286,8 @@ export function HouseholdInformation({ title, id, formData }) {
 }
 
 export function FinancialDisclosure({ title, id, formData }) {
-  const veteranName = `${formData.veteranFullName.first} ${
-    formData.veteranFullName.last
+  const veteranName = `${formData?.veteranFullName?.first} ${
+    formData?.veteranFullName?.last
   }'s`;
   return (
     <>
@@ -296,40 +299,40 @@ export function FinancialDisclosure({ title, id, formData }) {
           Cash/Non-interest bearing accounts
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.netWorth.bank
-            ? formatCurrency(formData.netWorth.bank)
+          {formData?.netWorth?.bank
+            ? formatCurrency(formData?.netWorth?.bank)
             : '$0.00'}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Interest bearing accounts
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.netWorth.interestBank
-            ? formatCurrency(formData.netWorth.interestBank)
+          {formData?.netWorth?.interestBank
+            ? formatCurrency(formData?.netWorth?.interestBank)
             : '$0.00'}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           IRAs, KEOGH Plans, etc.
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.netWorth.ira
-            ? formatCurrency(formData.netWorth.ira)
+          {formData?.netWorth?.ira
+            ? formatCurrency(formData?.netWorth?.ira)
             : '$0.00'}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Stocks, bonds,mutual funds, etc.
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.netWorth.stocks
-            ? formatCurrency(formData.netWorth.stocks)
+          {formData?.netWorth?.stocks
+            ? formatCurrency(formData?.netWorth?.stocks)
             : '$0.00'}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Real property (not your home, vehicle, furniture, or clothing)
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.netWorth.realProperty
-            ? formatCurrency(formData.netWorth.realProperty)
+          {formData?.netWorth?.realProperty
+            ? formatCurrency(formData?.netWorth?.realProperty)
             : '$0.00'}
         </p>
         <h3>{veteranName} monthly income</h3>
@@ -337,48 +340,48 @@ export function FinancialDisclosure({ title, id, formData }) {
           Social Security
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.monthlyIncome.socialSecurity
-            ? formatCurrency(formData.monthlyIncome.socialSecurity)
+          {formData?.monthlyIncome?.socialSecurity
+            ? formatCurrency(formData?.monthlyIncome?.socialSecurity)
             : '$0.00'}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           US Civil Service
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.monthlyIncome.civilService
-            ? formatCurrency(formData.monthlyIncome.civilService)
+          {formData?.monthlyIncome?.civilService
+            ? formatCurrency(formData?.monthlyIncome?.civilService)
             : '$0.00'}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           US Railroad Retirement
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.monthlyIncome.railroad
-            ? formatCurrency(formData.monthlyIncome.railroad)
+          {formData?.monthlyIncome?.railroad
+            ? formatCurrency(formData?.monthlyIncome?.railroad)
             : '$0.00'}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Black Lung Benefits
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.monthlyIncome.blackLung
-            ? formatCurrency(formData.monthlyIncome.blackLung)
+          {formData?.monthlyIncome?.blackLung
+            ? formatCurrency(formData?.monthlyIncome?.blackLung)
             : '$0.00'}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Service Retirement
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.monthlyIncome.serviceRetirement
-            ? formatCurrency(formData.monthlyIncome.serviceRetirement)
+          {formData?.monthlyIncome?.serviceRetirement
+            ? formatCurrency(formData?.monthlyIncome?.serviceRetirement)
             : '$0.00'}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Supplemental Security Income (SSI) or Public Assistance
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.monthlyIncome.ssi
-            ? formatCurrency(formData.monthlyIncome.ssi)
+          {formData?.monthlyIncome?.ssi
+            ? formatCurrency(formData?.monthlyIncome?.ssi)
             : '$0.00'}
         </p>
 
@@ -387,16 +390,16 @@ export function FinancialDisclosure({ title, id, formData }) {
           Gross wages and salary
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.expectedIncome.salary
-            ? formatCurrency(formData.expectedIncome.salary)
+          {formData?.expectedIncome?.salary
+            ? formatCurrency(formData?.expectedIncome?.salary)
             : '$0.00'}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Total dividends and interest
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.expectedIncome.interest
-            ? formatCurrency(formData.expectedIncome.interest)
+          {formData?.expectedIncome?.interest
+            ? formatCurrency(formData?.expectedIncome?.interest)
             : '$0.00'}
         </p>
 
@@ -404,33 +407,33 @@ export function FinancialDisclosure({ title, id, formData }) {
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Do you have any medical,legal or other unreimbursed
         </p>
-        {formData.otherExpenses.length > 0
-          ? formData.otherExpenses.map((item, index) => {
+        {formData?.otherExpenses?.length > 0
+          ? formData?.otherExpenses?.map((item, index) => {
               return (
                 <div key={[index]}>
                   <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
                     Paid to
                   </p>
                   <p className="vads-u-margin-top--0">
-                    {item.paidTo ? item.paidTo : ''}
+                    {item?.paidTo ? item?.paidTo : ''}
                   </p>
                   <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
                     Purpose
                   </p>
                   <p className="vads-u-margin-top--0">
-                    {item.purpose ? item.purpose : ''}
+                    {item?.purpose ? item?.purpose : ''}
                   </p>
                   <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
                     Amount
                   </p>
                   <p className="vads-u-margin-top--0">
-                    {item.amount ? formatCurrency(item.amount) : ''}
+                    {item?.amount ? formatCurrency(item?.amount) : ''}
                   </p>
                   <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
                     Date
                   </p>
                   <p className="vads-u-margin-top--0">
-                    {item.date ? convertDateFormat(item.date) : ''}
+                    {item?.date ? convertDateFormat(item?.date) : ''}
                   </p>
                 </div>
               );
@@ -451,20 +454,20 @@ export function AdditionalInformation({ title, id, formData }) {
         <p style={{ whiteSpace: 'pre-wrap' }}>
           {formData['view:noDirectDeposit']
             ? 'You did not select to use direct deposit'
-            : `${formData.bankAccount.bankName}
+            : `${formData?.bankAccount?.bankName}
             \n Account type: ${
-              formData.bankAccount.accountType === 'checking'
+              formData?.bankAccount?.accountType === 'checking'
                 ? 'Checking'
                 : 'Savings'
             }
             \n Account number: ${
-              formData.bankAccount.accountNumber
-                ? formData.bankAccount.accountNumber
+              formData?.bankAccount?.accountNumber
+                ? formData?.bankAccount?.accountNumber
                 : ''
             }
             \n Routing number: ${
-              formData.bankAccount.routingNumber
-                ? formData.bankAccount.routingNumber
+              formData?.bankAccount?.routingNumber
+                ? formData?.bankAccount?.routingNumber
                 : ''
             }`}
         </p>
@@ -474,51 +477,57 @@ export function AdditionalInformation({ title, id, formData }) {
           Mailing Address
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.veteranAddress.street ? formData.veteranAddress.street : ''}
-          <br />
-          {`${
-            formData.veteranAddress.city ? formData.veteranAddress.city : ''
-          }, ${
-            formData.veteranAddress.state ? formData.veteranAddress.state : ''
-          }`}
-          <br />
-          {formData.veteranAddress.postalCode
-            ? formData.veteranAddress.postalCode
+          {formData?.veteranAddress?.street
+            ? formData?.veteranAddress?.street
             : ''}
           <br />
-          {formData.veteranAddress.country
-            ? formData.veteranAddress.country
+          {`${
+            formData?.veteranAddress?.city ? formData?.veteranAddress?.city : ''
+          }, ${
+            formData?.veteranAddress?.state
+              ? formData?.veteranAddress?.state
+              : ''
+          }`}
+          <br />
+          {formData?.veteranAddress?.postalCode
+            ? formData?.veteranAddress?.postalCode
+            : ''}
+          <br />
+          {formData?.veteranAddress?.country
+            ? formData?.veteranAddress?.country
             : ''}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Primary email
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.email ? formData.email : ''}
+          {formData?.email ? formData?.email : ''}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Secondary email
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.altEmail ? formData.altEmail : ''}
+          {formData?.altEmail ? formData?.altEmail : ''}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Daytime phone
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.dayPhone ? formatPhoneNumber(formData.dayPhone) : ''}
+          {formData?.dayPhone ? formatPhoneNumber(formData?.dayPhone) : ''}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Evening phone
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.nightPhone ? formatPhoneNumber(formData.nightPhone) : ''}
+          {formData?.nightPhone ? formatPhoneNumber(formData?.nightPhone) : ''}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Mobile phone
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.mobilePhone ? formatPhoneNumber(formData.mobilePhone) : ''}
+          {formData?.mobilePhone
+            ? formatPhoneNumber(formData?.mobilePhone)
+            : ''}
         </p>
         <h3>Document upload</h3>
         <p>Review all your uploaded documentation to support your claim.</p>
@@ -552,15 +561,15 @@ export function AdditionalInformation({ title, id, formData }) {
             )
           </li>
         </ul>
-        {formData.files
-          ? formData.files.map((item, index) => {
+        {formData?.files
+          ? formData?.files?.map((item, index) => {
               return (
                 <div key={index} className="vads-u-margin-top--4">
                   <div className="vads-u-background-color--gray-lightest vads-u-padding--1p5">
                     <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                      <strong>{item.name}</strong>
+                      <strong>{item?.name}</strong>
                     </p>
-                    <p>{bytesToKB(item.size)}</p>
+                    <p>{bytesToKB(item?.size)}</p>
                   </div>
                 </div>
               );
@@ -571,7 +580,7 @@ export function AdditionalInformation({ title, id, formData }) {
           Do you want to apply using the Fully Developed Claim program?
         </p>
         <p className="vads-u-margin-top--0">
-          {formData.noRapidProcessing
+          {formData?.noRapidProcessing
             ? 'No, I have some extra information that I will submit to VA later.'
             : 'Yes, I have uploaded all my documentation'}
         </p>
