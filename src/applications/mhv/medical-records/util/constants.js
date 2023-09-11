@@ -1,3 +1,8 @@
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+
+export const mhvMedicalRecordsDisplayDomains = state =>
+  toggleValues(state).mhvMedicalRecordsDisplayDomains;
+
 export const recordType = {
   HEALTH_CONDITIONS: 'health conditions',
   LABS_AND_TESTS: 'lab and test results',
@@ -97,7 +102,7 @@ export const interpretationMap = {
 
 export const EMPTY_FIELD = 'None noted';
 
-export const IS_TESTING = false;
+export const IS_TESTING = true;
 
 export const vitalTypes = {
   BLOOD_PRESSURE: 'BLOOD_PRESSURE',

@@ -22,19 +22,26 @@ import {
 } from '../util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import { updatePageTitle } from '../../shared/util/helpers';
+import { mhvMedicalRecordsDisplayDomains } from '../util/constants';
 
 const Allergies = () => {
   const dispatch = useDispatch();
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
   const user = useSelector(state => state.user.profile);
+  const displayDomain = useSelector(state =>
+    mhvMedicalRecordsDisplayDomains(state),
+  );
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
   const alertList = useSelector(state => state.mr.alerts?.alertList);
   const [activeAlert, setActiveAlert] = useState();
 
-  useEffect(() => {
-    dispatch(getAllergiesList());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getAllergiesList(displayDomain));
+    },
+    [displayDomain],
+  );
 
   useEffect(
     () => {

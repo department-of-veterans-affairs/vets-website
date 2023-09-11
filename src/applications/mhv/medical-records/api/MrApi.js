@@ -109,8 +109,8 @@ export const getCondition = id => {
   });
 };
 
-export const getAllergies = () => {
-  if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
+export const getAllergies = useLiveData => {
+  if (useLiveData && IS_TESTING) {
     return apiRequest(`${apiBasePath}/medical_records/allergies`, {
       headers,
     });
@@ -122,8 +122,8 @@ export const getAllergies = () => {
   });
 };
 
-export const getAllergy = id => {
-  if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
+export const getAllergy = (id, useLiveData) => {
+  if (useLiveData && IS_TESTING) {
     return apiRequest(`${apiBasePath}/medical_records/allergies/${id}`, {
       headers,
     });

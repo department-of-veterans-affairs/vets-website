@@ -17,10 +17,14 @@ import {
   generatePdfScaffold,
   updatePageTitle,
 } from '../../shared/util/helpers';
+import { mhvMedicalRecordsDisplayDomains } from '../util/constants';
 
 const AllergyDetails = () => {
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
   const user = useSelector(state => state.user.profile);
+  const displayDomain = useSelector(state =>
+    mhvMedicalRecordsDisplayDomains(state),
+  );
   const { allergyId } = useParams();
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.mr.alerts?.alertList);
@@ -28,7 +32,7 @@ const AllergyDetails = () => {
 
   useEffect(
     () => {
-      if (allergyId) dispatch(getAllergyDetails(allergyId));
+      if (allergyId) dispatch(getAllergyDetails(allergyId, displayDomain));
     },
     [allergyId, dispatch],
   );
