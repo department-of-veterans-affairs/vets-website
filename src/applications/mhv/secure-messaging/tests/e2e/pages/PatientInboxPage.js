@@ -383,12 +383,6 @@ class PatientInboxPage {
     cy.realPress(['Enter']);
   };
 
-  verifyDeleteConfirmMessage = () => {
-    cy.contains('successfully deleted')
-      .focused()
-      .should('have.text', 'Draft was successfully deleted.');
-  };
-
   loadLandingPageByTabbingAndEnterKey = () => {
     cy.intercept(
       'GET',

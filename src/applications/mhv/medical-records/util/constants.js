@@ -135,3 +135,8 @@ export const pageTitles = {
   SETTINGS_PAGE_TITLE:
     'Medical Records Settings - Medical Records | Veterans Affairs',
 };
+
+export const allergyTypes = {
+  OBSERVED: 'Observed (your provider observed the reaction in person)',
+  REPORTED: 'Reported (you told your provider about the reaction)',
+};

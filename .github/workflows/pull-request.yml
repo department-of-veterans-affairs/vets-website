@@ -29,10 +29,8 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # - name: Init Dashboard Data Repo
-      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery

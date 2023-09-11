@@ -1,6 +1,6 @@
-import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../../shared/constants';
 import { getIssueName } from './helpers';
 
+import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../../shared/constants';
 /**
  * @typedef AreaOfDisagreementOptions
  * @type {object}
