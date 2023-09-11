@@ -39,12 +39,13 @@ const Prescriptions = () => {
             status="warning"
             visible={isAlertVisible}
           >
-            <h2 slot="headline">No medications found</h2>
+            <h2 slot="headline">We can’t access your medications right now</h2>
             <div>
-              <p>
-                There are no medications found in your profile. If you believe
-                this is incorrect, please refresh the page or call your care
-                team if the problem persists.
+              <p className="vads-u-margin-bottom--0">
+                We’re sorry. There’s a problem with our system. Check back
+                later.
+                <br />
+                If you need help now, call your VA pharmacy.
               </p>
             </div>
           </va-alert>
@@ -178,11 +179,14 @@ const Prescriptions = () => {
     [dispatch],
   );
 
-  useEffect(() => {
-    if (!isLoading && (!prescriptions || prescriptions?.length <= 0)) {
-      setAlertVisible('true');
-    }
-  });
+  useEffect(
+    () => {
+      if (!isLoading && (!prescriptions || prescriptions?.length <= 0)) {
+        setAlertVisible('true');
+      }
+    },
+    [isLoading, prescriptions],
+  );
 
   useEffect(
     () => {
@@ -220,15 +224,18 @@ const Prescriptions = () => {
         <div className="landing-page">
           <PrintHeader />
           {topAlert()}
-          <h1 className="page-title" data-testid="List-Page-Title">
+          <h1
+            className="page-title vads-u-margin-top--neg4"
+            data-testid="list-page-title"
+          >
             Medications
           </h1>
           <div
-            className="vads-u-margin-bottom--2 no-print"
+            className="vads-u-margin-top--1 vads-u-margin-bottom--3 no-print"
             data-testid="Title-Notes"
           >
-            Review your prescription medications from VA, and providers outside
-            of our network.
+            Refill and track your VA prescriptions. And review all medications
+            in your VA medical records.
           </div>
           <div className="landing-page-content">
             <div className="no-print">
@@ -236,14 +243,14 @@ const Prescriptions = () => {
               <va-additional-info trigger="What to know about downloading records">
                 <ul>
                   <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
+                    When you print or download medication records, we’ll include
+                    a list of allergies and reactions in your VA medical
+                    records.
                   </li>
                   <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
+                    <strong>If you’re on a public or shared computer,</strong> a
+                    remember that downloading saves a copy of your records to
+                    the computer you are using.
                   </li>
                 </ul>
               </va-additional-info>

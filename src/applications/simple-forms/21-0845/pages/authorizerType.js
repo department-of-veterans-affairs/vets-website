@@ -9,11 +9,13 @@ export default {
     authorizerType: {
       'ui:title': (
         <>
-          <h2 className="custom-header authorizer-type vads-u-font-size--h3">
+          <span className="custom-header authorizer-type vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--h3">
             Who is submitting this authorization?{' '}
-            <span className="custom-required-span">(*Required)</span>
-          </h2>
-          <p className="custom-description">
+            <span className="custom-required-span hide-on-review-page">
+              (*Required)
+            </span>
+          </span>
+          <p className="custom-description hide-on-review-page">
             Select the description that fits you.
           </p>
         </>

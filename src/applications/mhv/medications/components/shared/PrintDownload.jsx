@@ -37,15 +37,13 @@ const PrintDownload = props => {
           </button>
         </li>
         <li>
-          <button type="button" onClick={download}>
+          <button
+            type="button"
+            data-testid="download-pdf-button"
+            onClick={download}
+          >
             Download {list && 'list '}
             as PDF
-          </button>
-        </li>
-        <li>
-          <button type="button">
-            Download {list && 'list '}
-            as a text file
           </button>
         </li>
       </ul>

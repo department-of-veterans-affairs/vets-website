@@ -39,9 +39,9 @@ export const titleUI = (title, description) => {
  * exampleText: descriptionUI(<p>A block of text goes here</p>)
  * exampleText: descriptionUI(<p className="vads-u-margin-bottom--0">
     Tell us more.
-        <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
+        <va-additional-info trigger="What if my expenses are higher than my annual income?">
           We understand ...
-        </AdditionalInfo>
+        </va-additional-info>
     </p>)
  * exampleText: descriptionUI('A block of text goes here', {
  *    hideOnReview: true
@@ -69,11 +69,11 @@ export const descriptionUI = (text, uiOptions = {}) => {
  * exampleTitle: titleUI('Your contact information', 'We’ll send any important information to this address.')
  * exampleTitle: titleUI('Previous deductible expenses', (<p>
     Tell us more.
-        <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
+        <va-additional-info trigger="What if my expenses are higher than my annual income?">
           We understand in some cases your expenses might be higher than your
           income. If your expenses exceed your income, we’ll adjust them to be
           equal to your income. This won’t affect your application or benefits.
-        </AdditionalInfo>
+        </va-additional-info>
     </p>))
  * ```
  * @param {string | JSX.Element} [title] 'ui:title'
