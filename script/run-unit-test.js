@@ -10,7 +10,7 @@ const ALLOW_LIST = JSON.parse(
   fs.readFileSync(path.resolve(`unit_test_allow_list.json`)),
 );
 const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false)
-  .map(spec => spec.spec_path.split('/').pop())
+  .map(spec => spec.spec_path)
   .join('|')
   .replace(/\./g, '\\.');
 
