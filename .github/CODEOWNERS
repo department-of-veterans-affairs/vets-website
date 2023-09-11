@@ -66,6 +66,7 @@ src/applications/burials @department-of-veterans-affairs/vsa-debt-frontend @depa
 src/applications/financial-status-report @department-of-veterans-affairs/vsa-debt-frontend
 src/applications/medical-copays @department-of-veterans-affairs/vsa-debt-frontend
 src/applications/combined-debt-portal @department-of-veterans-affairs/vsa-debt-frontend
+src/applications/static-pages/burial-how-do-i-apply-widget @department-of-veterans-affairs/benefits-ce-nondisability
 
 # Public Websites
 
