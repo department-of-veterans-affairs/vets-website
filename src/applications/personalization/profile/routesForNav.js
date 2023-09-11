@@ -11,7 +11,7 @@ import { Hub } from './components/hub/Hub';
 // the routesForNav array is used in the routes file to build the routes
 // the edit route is not present in the routesForNav array because
 // it is never used within the nav UI itself
-export const baseRoutesForNav = [
+export const routesForNav = [
   {
     component: PersonalInformation,
     name: PROFILE_PATH_NAMES.PERSONAL_INFORMATION,
@@ -69,7 +69,7 @@ export const getRoutesForNav = (
   },
 ) => {
   return [
-    ...baseRoutesForNav,
+    ...routesForNav,
     ...(profileUseHubPage
       ? [
           {

@@ -124,6 +124,36 @@ export const togglesAreLoaded = state => {
   return !toggleValues(state)?.loading;
 };
 
+export const selectAppToggles = state => {
+  const profileToggles = [
+    'profileShowPronounsAndSexualOrientation',
+    'profileHideDirectDepositCompAndPen',
+    'profileShowPaymentsNotificationSetting',
+    'profileUseFieldEditingPage',
+    'profileUseHubPage',
+    'profileShowMhvNotificationSettings',
+    'profileLighthouseDirectDeposit',
+    'profileUseExperimental',
+    'profileShowQuickSubmitNotificationSetting',
+    'profileUseNotificationSettingsCheckboxes',
+    'profileShowEmailNotificationSettings',
+    'showAuthenticatedMenuEnhancements',
+  ];
+
+  const values = toggleValues(state);
+
+  const { loading } = values;
+
+  return profileToggles.reduce(
+    (acc, toggle) => {
+      const key = FEATURE_FLAG_NAMES[toggle];
+      acc[key] = values[key];
+      return acc;
+    },
+    { loading },
+  );
+};
+
 export function selectVAProfilePersonalInformation(state, fieldName) {
   const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
 
