@@ -7,9 +7,6 @@ import {
   dateErrorMsgs,
 } from '../../shared/validations/date';
 
-import { fixDateFormat } from '../../shared/utils/replace';
-import { FORMAT_YMD } from '../../shared/constants';
-
 const minDate = moment()
   .subtract(1, 'year')
   .startOf('day');
@@ -23,11 +20,6 @@ export const validateDate = (errors, rawString = '') => {
     todayOrFutureDate,
   } = dateFunctions(rawString);
 
-  // if (isInvalidDateString) {
-  //   // The va-date component currently overrides the error message when the
-  //   // value is blank
-  //   errors.addError(issueErrorMessages.missingDecisionDate);
-  //   datePartErrors.other = true; // other part error
   const hasMessages = dateErrorMsgs(
     errors,
     issueErrorMessages,
