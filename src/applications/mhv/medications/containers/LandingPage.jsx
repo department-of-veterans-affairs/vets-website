@@ -23,13 +23,22 @@ const LandingPage = () => {
             </p>
           </section>
           <section>
-            <a
-              className="vads-c-action-link--green"
-              href={medicationsUrl}
-              data-testid="prescriptions-nav-link"
-            >
-              Go to your medications
-            </a>
+            <div className="vads-u-border-left--7px vads-u-border-color--primary-alt-dark vads-u-background-color--gray-lightest vads-u-padding--3 medium-screen:vads-l-col--10">
+              <h3 className="vads-u-margin-top--0">
+                Manage your medications now
+              </h3>
+              <p>
+                Refill and track your VA prescriptions. And review all
+                medications in your VA medical records.
+              </p>
+              <a
+                className="vads-c-action-link--green"
+                href={medicationsUrl}
+                data-testid="prescriptions-nav-link"
+              >
+                Go to your medications
+              </a>
+            </div>
           </section>
           <section>
             <h2>What to know as you try out this tool</h2>
