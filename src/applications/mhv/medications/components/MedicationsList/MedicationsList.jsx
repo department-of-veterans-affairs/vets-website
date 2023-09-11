@@ -2,10 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  focusElement,
-  waitForRenderThenFocus,
-} from '@department-of-veterans-affairs/platform-utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import MedicationsListCard from './MedicationsListCard';
 
 const MAX_PAGE_LIST_LENGTH = 5;
@@ -15,7 +12,6 @@ const MedicationsList = props => {
 
   const [currentRx, setCurrentRx] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isInitialPage, setInitialPage] = useState(true);
   const paginatedRx = useRef([]);
 
   const paginateData = data => {
@@ -26,7 +22,6 @@ const MedicationsList = props => {
     "[data-testid='page-total-info']";
 
   const onPageChange = page => {
-    setInitialPage(false);
     setCurrentRx(paginatedRx.current[page - 1]);
     setCurrentPage(page);
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
@@ -49,16 +44,6 @@ const MedicationsList = props => {
       }
     },
     [currentPage, rxList],
-  );
-
-  useEffect(
-    () => {
-      if (!isInitialPage) {
-        focusElement(document.querySelector('#showingRx'));
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      }
-    },
-    [currentPage, isInitialPage],
   );
 
   const displayNums = fromToNumbs(currentPage, rxList?.length);
