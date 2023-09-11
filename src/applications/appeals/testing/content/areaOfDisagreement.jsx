@@ -2,11 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 import { getIssueName, getIssueDate } from '../../shared/utils/issues';
-import {
-  FORMAT_YMD,
-  FORMAT_READABLE,
-  DISAGREEMENT_TYPES,
-} from '../../shared/constants';
+import { FORMAT_YMD, FORMAT_READABLE } from '../../shared/constants';
 
 export const errorMessages = {
   maxOtherEntry: max => `This field should be less than ${max} characters`,
@@ -79,21 +75,4 @@ export const issueTitle = (props = {}) => {
       {getIssueTitle(props.data)}
     </Header>
   );
-};
-
-// Only show set values (ignore false & undefined)
-export const AreaOfDisagreementReviewField = ({ children }) => {
-  const { formData, name } = children?.props || {};
-  const hidden = name === 'otherEntry';
-  return formData ? (
-    <div className="review-row">
-      <dt>{DISAGREEMENT_TYPES[name]}</dt>
-      <dd
-        className={hidden ? 'dd-privacy-hidden' : ''}
-        data-dd-action-name={hidden ? 'something else' : ''}
-      >
-        {children}
-      </dd>
-    </div>
-  ) : null;
 };
