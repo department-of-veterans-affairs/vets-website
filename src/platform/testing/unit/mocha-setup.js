@@ -13,10 +13,17 @@ import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
 import { configure } from '@testing-library/dom';
+import fs from 'fs';
+import path from 'path';
 import chaiAxe from './axe-plugin';
-
 import { sentryTransport } from './sentry';
 
+const ALLOW_LIST = JSON.parse(
+  fs.readFileSync(path.resolve(`unit_test_allow_list.json`)),
+);
+const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false).map(
+  spec => spec.spec_path.split('/').pop(),
+);
 Sentry.init({
   autoSessionTracking: false,
   dsn: 'http://one@fake/dsn/0',
@@ -168,7 +175,11 @@ function setupJSDom() {
 
 setupJSDom();
 const checkAllowList = testContext => {
-  console.log('file: ', testContext.currentTest.file);
+  const file = testContext.currentTest.file.split.pop();
+  if (DISALLOWED_SPECS.indexOf(file) > -1) {
+    console.log('skipping test: ', file);
+    this.skip();
+  }
 };
 // This needs to be after JSDom has been setup, otherwise
 // axe has strange issues with globals not being set up
