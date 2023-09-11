@@ -36,7 +36,7 @@ describe('SM back navigation', () => {
 
     cy.get(Locators.HEADER).should('have.text', DefaultFolders.INBOX.header);
     cy.location().should(loc => {
-      expect(loc.pathname).to.eq(`${Paths.UI_MAIN + Paths.INBOX}`);
+      expect(loc.pathname).to.eq(Paths.UI_MAIN + Paths.INBOX);
     });
   });
 
@@ -58,7 +58,7 @@ describe('SM back navigation', () => {
 
     cy.get(Locators.HEADER).should('have.text', DefaultFolders.DRAFTS.header);
     cy.location().should(loc => {
-      expect(loc.pathname).to.eq(`${Paths.UI_MAIN + Paths.DRAFTS}`);
+      expect(loc.pathname).to.eq(Paths.UI_MAIN + Paths.DRAFTS);
     });
   });
 });

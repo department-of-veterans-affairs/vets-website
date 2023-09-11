@@ -2,10 +2,10 @@ import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json
 import mockDraftMessagesResponse from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
 import defaultMockThread from '../fixtures/single-draft-response.json';
-import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
-import { Alerts } from '../../../util/constants';
+import { Alerts, Paths } from '../../../util/constants';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -245,7 +245,7 @@ class PatientMessageDraftsPage {
   verifySendConfirmationMessage = () => {
     cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
       'have.text',
-      `${Alerts.Message.SEND_MESSAGE_SUCCESS}`,
+      Alerts.Message.SEND_MESSAGE_SUCCESS,
     );
   };
 
