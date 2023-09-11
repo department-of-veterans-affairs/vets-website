@@ -6,6 +6,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
+  mhvMedicalRecordsDisplayDomains,
   recordType,
   EMPTY_FIELD,
   ALERT_TYPE_ERROR,
@@ -22,7 +23,6 @@ import {
 } from '../util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import { updatePageTitle } from '../../shared/util/helpers';
-import { mhvMedicalRecordsDisplayDomains } from '../util/constants';
 
 const Allergies = () => {
   const dispatch = useDispatch();

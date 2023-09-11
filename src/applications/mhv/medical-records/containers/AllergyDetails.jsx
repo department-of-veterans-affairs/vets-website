@@ -11,13 +11,17 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import { processList, sendErrorToSentry } from '../util/helpers';
-import { ALERT_TYPE_ERROR, EMPTY_FIELD, pageTitles } from '../util/constants';
+import {
+  mhvMedicalRecordsDisplayDomains,
+  ALERT_TYPE_ERROR,
+  EMPTY_FIELD,
+  pageTitles,
+} from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   generatePdfScaffold,
   updatePageTitle,
 } from '../../shared/util/helpers';
-import { mhvMedicalRecordsDisplayDomains } from '../util/constants';
 
 const AllergyDetails = () => {
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
@@ -34,7 +38,7 @@ const AllergyDetails = () => {
     () => {
       if (allergyId) dispatch(getAllergyDetails(allergyId, displayDomain));
     },
-    [allergyId, dispatch],
+    [allergyId, dispatch, displayDomain],
   );
 
   useEffect(

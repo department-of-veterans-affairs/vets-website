@@ -110,7 +110,7 @@ export const getCondition = id => {
 };
 
 export const getAllergies = useLiveData => {
-  if (useLiveData && IS_TESTING) {
+  if (useLiveData) {
     return apiRequest(`${apiBasePath}/medical_records/allergies`, {
       headers,
     });
@@ -123,7 +123,7 @@ export const getAllergies = useLiveData => {
 };
 
 export const getAllergy = (id, useLiveData) => {
-  if (useLiveData && IS_TESTING) {
+  if (useLiveData) {
     return apiRequest(`${apiBasePath}/medical_records/allergies/${id}`, {
       headers,
     });
