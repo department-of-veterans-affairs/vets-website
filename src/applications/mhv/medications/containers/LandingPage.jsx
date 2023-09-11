@@ -247,13 +247,6 @@ const LandingPage = () => {
                   pharmacy phone number on your prescription label or in your
                   prescription details in this tool. Follow the prompts to
                   select the automated refill line.
-                  <br />
-                  You’ll need the prescription number and your Social Security
-                  number.
-                  <br />
-                  If our automated system can’t renew your prescription, the
-                  system will direct your call to a pharmacy representative for
-                  help.
                 </p>
                 <p>
                   You’ll need the prescription number and your Social Security
