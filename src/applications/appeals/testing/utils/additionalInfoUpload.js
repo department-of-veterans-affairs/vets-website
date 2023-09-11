@@ -44,6 +44,7 @@ export const additionalInfoUploadUI = {
     },
     classNames: '',
     attachmentName: false,
+    uswds: true,
   }),
   'ui:description': AdditionalInfoUploadDescription,
 };
