@@ -1,10 +1,8 @@
 import moment from 'moment';
 import { expect } from 'chai';
 
-import { SELECTED, LEGACY_TYPE } from '../../constants';
-
+import { LEGACY_TYPE } from '../../constants';
 import { getDate } from '../../utils/dates';
-
 import {
   getEligibleContestableIssues,
   getLegacyAppealsLength,
@@ -23,6 +21,8 @@ import {
   readableList,
   calculateIndexOffset,
 } from '../../utils/helpers';
+
+import { SELECTED } from '../../../shared/constants';
 
 describe('getEligibleContestableIssues', () => {
   const date = moment().startOf('day');

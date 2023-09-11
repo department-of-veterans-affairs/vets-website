@@ -66,9 +66,8 @@ const RecordList = props => {
           displayNums[1]
         } of ${totalEntries} records from newest to oldest`}
       >
-        Showing {displayNums[0]}
-        &#8211;
-        {displayNums[1]} of {totalEntries} records from newest to oldest
+        Showing {displayNums[0]} &#8211; {displayNums[1]} of {totalEntries}{' '}
+        records from newest to oldest
       </h2>
       <div className="no-print">
         {currentRecords?.length > 0 &&

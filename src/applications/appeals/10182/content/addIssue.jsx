@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MAX_LENGTH } from '../constants';
+import { MAX_LENGTH } from '../../shared/constants';
 
 const hintText =
   'You can only add an issue that you’ve received a VA decision notice for.';
@@ -9,7 +9,7 @@ export const issueErrorMessages = {
   missingIssue: 'Add the name of an issue',
   uniqueIssue: 'Enter a unique condition name',
   maxLength: `Enter less than ${
-    MAX_LENGTH.ISSUE_NAME
+    MAX_LENGTH.NOD_ISSUE_NAME
   } characters for this issue name`,
 
   invalidDate: 'Provide a valid date',

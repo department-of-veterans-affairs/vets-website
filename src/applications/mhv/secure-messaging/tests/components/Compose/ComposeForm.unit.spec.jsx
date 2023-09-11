@@ -74,7 +74,7 @@ describe('Compose form component', () => {
       },
     );
 
-    const editListLink = await screen.getByTestId('Edit-List-Button', {
+    const editListLink = await screen.getByTestId('edit-list-button', {
       selector: 'va-button',
       exact: true,
     });
