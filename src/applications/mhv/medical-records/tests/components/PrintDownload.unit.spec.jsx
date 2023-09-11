@@ -55,16 +55,18 @@ describe('Print download menu component', () => {
     expect(downloadButton).to.exist;
   });
 
-  it('should display a download text file button', () => {
-    const screen = render(<PrintDownload list />);
+  // When we uncomment the TXT download, re-enabe this test.
 
-    const downloadTextButton = screen.getByText(
-      'Download list as a text file',
-      {
-        exact: true,
-        selector: 'button',
-      },
-    );
-    expect(downloadTextButton).to.exist;
-  });
+  // it('should display a download text file button', () => {
+  //   const screen = render(<PrintDownload list />);
+
+  //   const downloadTextButton = screen.getByText(
+  //     'Download list as a text file',
+  //     {
+  //       exact: true,
+  //       selector: 'button',
+  //     },
+  //   );
+  //   expect(downloadTextButton).to.exist;
+  // });
 });

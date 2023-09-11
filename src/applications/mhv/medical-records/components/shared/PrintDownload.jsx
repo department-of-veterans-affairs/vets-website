@@ -102,7 +102,7 @@ const PrintDownload = props => {
             </button>
           )}
         </li>
-        <li>
+        {/* <li>
           {printIndex === 2 ? (
             <button type="button" style={{ backgroundColor: 'lightBlue' }}>
               Download {list && 'list '}
@@ -114,7 +114,7 @@ const PrintDownload = props => {
               as a text file
             </button>
           )}
-        </li>
+        </li> */}
         <div
           style={{
             backgroundColor: 'white',
