@@ -188,7 +188,13 @@ export function transform(formConfig, form) {
             ssn: application.claimant.ssn,
             isDeceased: 'no',
             serviceName:
-              application.veteran.serviceName || application.claimant.name,
+              // eslint-disable-next-line no-nested-ternary
+              application.veteran.serviceName === undefined
+                ? application.claimant.name
+                : application.veteran.serviceName.first === undefined
+                  ? application.claimant.name
+                  : application.veteran.serviceName ||
+                    application.claimant.name,
           },
         })
       : application;
