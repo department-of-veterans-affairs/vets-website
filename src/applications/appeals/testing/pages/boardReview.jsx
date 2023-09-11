@@ -1,8 +1,9 @@
+import React from 'react';
+
 import {
   boardReviewTitle,
   boardReviewContent,
   boardReviewErrorMessage,
-  BoardReviewReviewField,
   radioTitles,
 } from '../content/boardReview';
 
@@ -10,7 +11,6 @@ const boardReview = {
   uiSchema: {
     boardReviewOption: {
       'ui:title': boardReviewTitle,
-      'ui:reviewField': BoardReviewReviewField,
       'ui:widget': 'radio',
       'ui:options': {
         labels: boardReviewContent,
@@ -33,9 +33,16 @@ const boardReview = {
     },
   },
 
-  review: data => ({
-    'Select a Board review option': radioTitles[data.boardReviewOption],
-  }),
+  review: data => {
+    const option = radioTitles[data.boardReviewOption];
+    return {
+      'Selected Board review option': option || (
+        <span className="usa-input-error-message">
+          Missing Board review option
+        </span>
+      ),
+    };
+  },
 };
 
 export default boardReview;

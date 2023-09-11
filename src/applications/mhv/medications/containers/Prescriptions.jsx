@@ -224,15 +224,18 @@ const Prescriptions = () => {
         <div className="landing-page">
           <PrintHeader />
           {topAlert()}
-          <h1 className="page-title" data-testid="list-page-title">
+          <h1
+            className="page-title vads-u-margin-top--neg4"
+            data-testid="list-page-title"
+          >
             Medications
           </h1>
           <div
-            className="vads-u-margin-bottom--2 no-print"
+            className="vads-u-margin-top--1 vads-u-margin-bottom--3 no-print"
             data-testid="Title-Notes"
           >
-            Review your prescription medications from VA, and providers outside
-            of our network.
+            Refill and track your VA prescriptions. And review all medications
+            in your VA medical records.
           </div>
           <div className="landing-page-content">
             <div className="no-print">
@@ -240,14 +243,14 @@ const Prescriptions = () => {
               <va-additional-info trigger="What to know about downloading records">
                 <ul>
                   <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
+                    When you print or download medication records, we’ll include
+                    a list of allergies and reactions in your VA medical
+                    records.
                   </li>
                   <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
+                    <strong>If you’re on a public or shared computer,</strong> a
+                    remember that downloading saves a copy of your records to
+                    the computer you are using.
                   </li>
                 </ul>
               </va-additional-info>
