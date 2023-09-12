@@ -128,43 +128,58 @@ class ApneaSupplies extends Component {
                   </p>
                 </div>
               </div>
-              {currentDate.diff(apneaSupply.nextAvailabilityDate, 'days') <
-              0 ? (
-                <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
-                  <div className="usa-alert-body">
-                    <h3 className="usa-alert-heading vads-u-font-family--sans">
-                      You can't order this CPAP supply online until{' '}
-                      {moment(apneaSupply.nextAvailabilityDate).format(
-                        'MMMM D, YYYY',
-                      )}
-                    </h3>
-                  </div>
+              {apneaSupply.availableForReorder ? (
+                <div>
+                  {currentDate.diff(apneaSupply.nextAvailabilityDate, 'days') <
+                    0 && apneaSupply.availableForReorder ? (
+                    <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
+                      <div className="usa-alert-body">
+                        <h3 className="usa-alert-heading vads-u-font-family--sans">
+                          You can't order this CPAP supply online until{' '}
+                          {moment(apneaSupply.nextAvailabilityDate).format(
+                            'MMMM D, YYYY',
+                          )}
+                        </h3>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <input
+                        id={apneaSupply.productId}
+                        className="vads-u-margin-left--0"
+                        type="checkbox"
+                        onChange={e =>
+                          this.handleChecked(e.target.checked, apneaSupply)
+                        }
+                        checked={isApneaSupplySelected(apneaSupply.productId)}
+                      />
+                      <label
+                        htmlFor={apneaSupply.productId}
+                        className={classnames({
+                          'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-text-align--left vads-u-padding-x--2': true,
+                          'vads-u-color--white': isApneaSupplySelected(
+                            apneaSupply.productId,
+                          ),
+                          'vads-u-background-color--white vads-u-color--primary': !isApneaSupplySelected(
+                            apneaSupply.productId,
+                          ),
+                        })}
+                      >
+                        Order this CPAP supply
+                      </label>
+                    </div>
+                  )}
                 </div>
               ) : (
-                <div className="vads-u-max-width--226">
-                  <input
-                    id={apneaSupply.productId}
-                    className="vads-u-margin-left--0 vads-u-max-width--226"
-                    type="checkbox"
-                    onChange={e =>
-                      this.handleChecked(e.target.checked, apneaSupply)
-                    }
-                    checked={isApneaSupplySelected(apneaSupply.productId)}
-                  />
-                  <label
-                    htmlFor={apneaSupply.productId}
-                    className={classnames({
-                      'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-text-align--left vads-u-padding-x--2': true,
-                      'vads-u-color--white': isApneaSupplySelected(
-                        apneaSupply.productId,
-                      ),
-                      'vads-u-background-color--white vads-u-color--primary': !isApneaSupplySelected(
-                        apneaSupply.productId,
-                      ),
-                    })}
-                  >
-                    Order this CPAP supply
-                  </label>
+                <div>
+                  <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
+                    <div className="usa-alert-body">
+                      <h3 className="usa-alert-heading vads-u-font-family--sans">
+                        This item is not available for online reordering. To
+                        reorder, please contact your VA health care provider.
+                      </h3>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
