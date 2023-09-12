@@ -20,7 +20,7 @@ const defaultErrorMessage = `Something went wrong on our end. Please try again i
 
 export const parseRedirectUrl = url => {
   if (url === null) {
-    return '';
+    return `${environment.BASE_URL}`;
   }
 
   const parsedUrl = decodeURIComponent(url);
