@@ -9,7 +9,7 @@ import {
   PERSONAL_INFO_FIELD_NAMES,
   ANALYTICS_FIELD_MAP,
   API_ROUTES,
-} from 'platform/user/profile/vap-svc/constants';
+} from '~/platform/user/profile/vap-svc/constants';
 import {
   createTransaction,
   refreshTransaction,
