@@ -196,7 +196,11 @@ const HealthConditions = () => {
             </li>
           </ul>
         </va-additional-info>
-        <PrintDownload list download={download} />
+        <PrintDownload
+          list
+          download={download}
+          allowTxtDownloads={allowTxtDownloads}
+        />
       </section>
       {content()}
     </div>

@@ -7,6 +7,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { sendErrorToSentry } from '../../util/helpers';
 import {
   generatePdfScaffold,
@@ -18,6 +19,12 @@ import { pageTitles } from '../../util/constants';
 const AdmissionAndDischargeDetails = props => {
   const { record } = props;
   const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
@@ -120,8 +127,11 @@ const AdmissionAndDischargeDetails = props => {
               facility (called an admission and discharge summary).
             </p>
             <div className="no-print">
-              <PrintDownload download={generateCareNotesPDF} />
-              <DownloadingRecordsInfo />
+              <PrintDownload
+                download={generateCareNotesPDF}
+                allowTxtDownloads={allowTxtDownloads}
+              />
+              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
             </div>
           </section>
 

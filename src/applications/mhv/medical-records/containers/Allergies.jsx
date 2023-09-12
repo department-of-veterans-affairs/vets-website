@@ -15,6 +15,7 @@ import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   dateFormat,
   nameFormat,
@@ -27,6 +28,12 @@ import { updatePageTitle } from '../../shared/util/helpers';
 const Allergies = () => {
   const dispatch = useDispatch();
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const user = useSelector(state => state.user.profile);
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
@@ -170,8 +177,12 @@ const Allergies = () => {
 
         {!accessAlert && (
           <>
-            <PrintDownload list download={generateAllergiesPdf} />
-            <DownloadingRecordsInfo />
+            <PrintDownload
+              list
+              download={generateAllergiesPdf}
+              allowTxtDownloads={allowTxtDownloads}
+            />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </>
         )}
       </section>

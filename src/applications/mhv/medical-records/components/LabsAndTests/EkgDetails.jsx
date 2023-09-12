@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
@@ -7,12 +8,19 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { sendErrorToSentry } from '../../util/helpers';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
 
 const EkgDetails = props => {
   const { record } = props;
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const formattedDate = formatDateLong(record?.date);
 
   useEffect(() => {
@@ -109,8 +117,11 @@ const EkgDetails = props => {
               </h2>
             </div>
             <div className="electrocardiogram-buttons no-print">
-              <PrintDownload download={download} />
-              <DownloadingRecordsInfo />
+              <PrintDownload
+                download={download}
+                allowTxtDownloads={allowTxtDownloads}
+              />
+              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
             </div>
             <div className="electrocardiogram-details max-80">
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">

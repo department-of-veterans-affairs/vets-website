@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -8,10 +8,17 @@ import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintDownload from '../components/shared/PrintDownload';
 import PrintHeader from '../components/shared/PrintHeader';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import GenerateRadiologyPdf from '../components/LabsAndTests/GenerateRadiologyPdf';
 
 const RadiologyImagesList = () => {
   const dispatch = useDispatch();
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const { labId } = useParams();
   const [currentImageCount, setCurrentImageCount] = useState(5);
   // const labAndTestDetails = useSelector(
@@ -108,8 +115,11 @@ const RadiologyImagesList = () => {
           </div>
 
           <div className="no-print">
-            <PrintDownload download={download} />
-            <DownloadingRecordsInfo />
+            <PrintDownload
+              download={download}
+              allowTxtDownloads={allowTxtDownloads}
+            />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>
 
           <div className="vads-u-padding--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-l-grid-container vads-l-row vads-u-margin-bottom--2">

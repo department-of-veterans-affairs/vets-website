@@ -9,6 +9,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import { recordType, EMPTY_FIELD, pageTitles } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   dateFormat,
   nameFormat,
@@ -21,6 +22,12 @@ const Vaccines = () => {
   const dispatch = useDispatch();
   const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
   const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
 
@@ -121,7 +128,11 @@ const Vaccines = () => {
           about your information, visit the FAQs or contact your VA Health care
           team.
         </p>
-        <PrintDownload list download={generateVaccinesPdf} />
+        <PrintDownload
+          list
+          download={generateVaccinesPdf}
+          allowTxtDownloads={allowTxtDownloads}
+        />
       </section>
       {content()}
     </div>

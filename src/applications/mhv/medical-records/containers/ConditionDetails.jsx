@@ -145,7 +145,11 @@ const ConditionDetails = () => {
                   </span>
                 </h2>
               </div>
-              <PrintDownload list download={download} />
+              <PrintDownload
+                list
+                download={download}
+                allowTxtDownloads={allowTxtDownloads}
+              />
             </div>
             <div className="condition-details max-80">
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">

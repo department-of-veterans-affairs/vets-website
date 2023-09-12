@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -7,12 +8,19 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import GenerateRadiologyPdf from './GenerateRadiologyPdf';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
 
 const RadiologyDetails = props => {
   const { record, fullState } = props;
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const formattedDate = formatDateLong(record?.date);
 
   useEffect(() => {
@@ -53,8 +61,11 @@ const RadiologyDetails = props => {
               </h2>
             </div>
             <div className="no-print">
-              <PrintDownload download={download} />
-              <DownloadingRecordsInfo />
+              <PrintDownload
+                download={download}
+                allowTxtDownloads={allowTxtDownloads}
+              />
+              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
             </div>
             <div className="test-details-container max-80">
               <h2>Details about this test</h2>

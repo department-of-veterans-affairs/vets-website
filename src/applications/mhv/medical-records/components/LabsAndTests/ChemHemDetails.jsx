@@ -11,6 +11,7 @@ import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { processList, sendErrorToSentry } from '../../util/helpers';
 import {
   generatePdfScaffold,
@@ -21,6 +22,12 @@ import { pageTitles } from '../../util/constants';
 const ChemHemDetails = props => {
   const { record, fullState } = props;
   const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const formattedDate = formatDateLong(record?.date);
 
   useEffect(() => {
@@ -144,8 +151,12 @@ const ChemHemDetails = props => {
               </p>
             </div>
             <div className="no-print">
-              <PrintDownload list download={generateChemHemPdf} />
-              <DownloadingRecordsInfo />
+              <PrintDownload
+                list
+                download={generateChemHemPdf}
+                allowTxtDownloads={allowTxtDownloads}
+              />
+              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
             </div>
             {/*                   TEST DETAILS                          */}
             <div className="test-details-container max-80">

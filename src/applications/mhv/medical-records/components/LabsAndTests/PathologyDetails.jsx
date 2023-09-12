@@ -10,6 +10,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { nameFormat, dateFormat, sendErrorToSentry } from '../../util/helpers';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
@@ -18,6 +19,12 @@ const PathologyDetails = props => {
   const { record, fullState } = props;
   const formattedDate = formatDateLong(record?.date);
   const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
 
@@ -120,8 +127,12 @@ const PathologyDetails = props => {
               </h2>
             </div>
             <div className="no-print">
-              <PrintDownload list download={generatePathologyPdf} />
-              <DownloadingRecordsInfo />
+              <PrintDownload
+                list
+                download={generatePathologyPdf}
+                allowTxtDownloads={allowTxtDownloads}
+              />
+              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
             </div>
             <div className="test-details-container max-80">
               <h4>Details about this test</h4>
