@@ -166,12 +166,13 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const toggles = this.props.appToggles;
+    const toggles = this.props.profileToggles;
 
     const routes = getRoutes({
       useFieldEditingPage: toggles.profileUseFieldEditingPage,
       profileUseHubPage: toggles.profileUseHubPage,
     });
+
     return (
       <BrowserRouter>
         <LastLocationProvider>
@@ -179,6 +180,7 @@ class Profile extends Component {
             isInMVI={this.props.isInMVI}
             isLOA3={this.props.isLOA3}
             isBlocked={this.props.isBlocked}
+            profileUseHubPage={toggles.profileUseHubPage}
           >
             <Switch>
               {/* Redirect users to Account Security to upgrade their account if they need to */}
@@ -263,7 +265,6 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
-  appToggles: PropTypes.object.isRequired,
   connectDrupalSourceOfTruthCerner: PropTypes.func.isRequired,
   dismissDowntimeWarning: PropTypes.func.isRequired,
   fetchCNPPaymentInformation: PropTypes.func.isRequired,
@@ -277,6 +278,7 @@ Profile.propTypes = {
   isDowntimeWarningDismissed: PropTypes.bool.isRequired,
   isInMVI: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
+  profileToggles: PropTypes.object.isRequired,
   shouldFetchCNPDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchEDUDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
@@ -364,7 +366,7 @@ const mapStateToProps = state => {
       state,
     ),
     togglesLoaded,
-    appToggles: selectProfileToggles(state),
+    profileToggles: selectProfileToggles(state),
   };
 };
 

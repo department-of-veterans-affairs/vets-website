@@ -1,5 +1,5 @@
 import React from 'react';
 
 export const Hub = () => {
-  return <div>Hub</div>;
+  return <div>Profile Hub Page Here</div>;
 };
