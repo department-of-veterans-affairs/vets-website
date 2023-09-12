@@ -71,7 +71,7 @@ const determineDeathCertificate = formData => {
   }
   return formData?.deathCertificate?.length > 0
     ? formData?.deathCertificate
-    : [];
+    : '';
 };
 
 const determineReceipts = formData => {
@@ -85,7 +85,7 @@ const determineReceipts = formData => {
   }
   return formData?.transportationReceipts?.length > 0
     ? formData?.transportationReceipts
-    : [];
+    : '';
 };
 
 const generateData = (type, formData) => {
