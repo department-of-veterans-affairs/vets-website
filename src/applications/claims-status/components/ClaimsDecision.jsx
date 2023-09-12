@@ -39,11 +39,7 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
       <va-alert
         background-only
         class="vads-u-margin-bottom--1"
-        close-btn-aria-label="Close notification"
-        disable-analytics="false"
-        full-width="false"
         status="warning"
-        visible="true"
       >
         <div>
           <p className="vads-u-margin-y--0">
