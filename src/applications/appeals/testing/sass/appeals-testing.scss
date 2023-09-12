@@ -53,6 +53,13 @@ article[data-location="review-then-submit"] {
   }
 }
 
+article[data-location="review-then-submit"] {
+  /* Hide back/continue b/c rendering submit button */
+  .form-progress-buttons {
+    display: none;
+  }
+}
+
 .issue-title {
   text-transform: capitalize;
 }
