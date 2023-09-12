@@ -107,6 +107,7 @@ import {
   veteranInfo,
   workBehaviorChanges,
 } from '../pages';
+import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
@@ -118,8 +119,8 @@ import { createFormConfig781, createFormConfig781a } from './781';
 import createformConfig8940 from './8940';
 
 import {
-  PTSD_INCIDENT_ITERATION,
   NULL_CONDITION_STRING,
+  PTSD_INCIDENT_ITERATION,
   WIZARD_STATUS,
 } from '../constants';
 
@@ -296,6 +297,7 @@ const formConfig = {
     disabilities: {
       title: 'Disabilities', // this probably needs to change
       pages: {
+        ...toxicExposurePages,
         claimType: {
           title: 'Claim type',
           path: 'claim-type',
