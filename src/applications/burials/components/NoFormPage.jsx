@@ -191,7 +191,7 @@ const generateData = (type, formData) => {
 };
 
 const ArrayComponent = ({ value }) => {
-  return value[0].size
+  return value[0]?.size
     ? value.map((name, index) => {
         return (
           <div
@@ -200,10 +200,10 @@ const ArrayComponent = ({ value }) => {
           >
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
               <u>
-                <strong>{name.name}</strong>
+                <strong>{name?.name ? name?.name : ''}</strong>
               </u>
             </p>
-            <p>{bytesToKB(name.size)}</p>
+            <p>{name?.size ? bytesToKB(name?.size) : ''}</p>
           </div>
         );
       })
@@ -212,19 +212,19 @@ const ArrayComponent = ({ value }) => {
           <div className="vads-u-background-color--gray-lightest vads-u-padding--1p5">
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
               <strong>First: </strong>
-              {name.first}
+              {name?.first ? name?.first : ''}
             </p>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
               <strong>Middle: </strong>
-              {name.middle ? name.middle : 'None'}
+              {name?.middle ? name?.middle : 'None'}
             </p>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
               <strong>Last: </strong>
-              {name.last}
+              {name?.last ? name?.last : ''}
             </p>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
               <strong>Suffix: </strong>
-              {name.suffix ? name.suffix : 'None'}
+              {name?.suffix ? name?.suffix : 'None'}
             </p>
           </div>
         </div>
