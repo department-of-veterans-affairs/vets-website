@@ -40,7 +40,6 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
         background-only
         class="vads-u-margin-bottom--1"
         status="warning"
-        close-btn-aria-label="Close notification"
         uswds
       >
         <h2 slot="headline">
