@@ -21,7 +21,7 @@ describe('Progress Note details component', () => {
       {
         initialState: state,
         reducers: reducer,
-        path: '/care-summaries-and-notes/954',
+        path: '/summaries-and-notes/954',
       },
     );
   };

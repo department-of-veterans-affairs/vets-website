@@ -3,6 +3,7 @@
 export default Object.freeze({
   avsEnabled: 'avs_enabled',
   bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
+  burialFormEnabled: 'burial_form_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
@@ -90,6 +91,7 @@ export default Object.freeze({
   manageDependents: 'dependents_management',
   medicalCopaysHtmlMedicalStatementsViewEnabled: 'medical_copays_html_medical_statements_view_enabled',
   mhvLandingPageEnabled: 'mhv_landing_page_enabled',
+  mhvMedicalRecordsDisplayDomains: 'mhv_medical_records_display_domains',
   mhvSecureMessagingToVaGovRelease: 'mhv_secure_messaging_to_va_gov_release',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
   mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
@@ -165,6 +167,7 @@ export default Object.freeze({
   stemSCOEmail: 'stem_sco_email',
   subform89404192: 'subform_8940_4192',
   supplementalClaim: 'supplemental_claim',
+  supplyReorderingSleepApneaEnabled: 'supply_reordering_sleep_apnea_enabled',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
   vaOnlineScheduling: 'va_online_scheduling',
   vaOnlineSchedulingCancel: 'va_online_scheduling_cancel',
