@@ -16,6 +16,7 @@ import requestTypePg from '../pages/requestType';
 import appPersInfoPg from '../pages/applicantPersonalInfo';
 import appAddrPg from '../pages/applicantAddress';
 import appContactInfoPg from '../pages/applicantContactInfo';
+import certsPg from '../pages/certificates';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
@@ -160,6 +161,17 @@ const formConfig = {
           title: '',
           uiSchema: appContactInfoPg.uiSchema,
           schema: appContactInfoPg.schema,
+        },
+      },
+    },
+    certificatesChapter: {
+      title: 'Certificates',
+      pages: {
+        certificatesPage: {
+          path: 'certificates',
+          title: '',
+          uiSchema: certsPg.uiSchema,
+          schema: certsPg.schema,
         },
       },
     },

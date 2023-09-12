@@ -19,6 +19,7 @@
       "state": "NY",
       "postalCode": "12345"
     },
-    "applicantPhone": "5555555555"
+    "applicantPhone": "5555555555",
+    "certificates": 3
   }
 }

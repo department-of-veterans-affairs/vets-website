@@ -6,6 +6,34 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
+// Custom-style 'ui:title's as h3s, without using <h3> tags.
+// A11y best-practices say <label>s should not contain <h> tags.
+.custom-label {
+  // style label as H3
+  font-family: "Bitter", serif !important;
+  font-size: 2rem !important;
+  font-weight: bold !important;
+}
+.custom-required,
+.custom-description,
+.custom-hint {
+  font-family: "Source Sans Pro", sans-serif !important;
+  font-size: 1.6rem !important;
+  font-weight: normal !important;
+}
+.custom-required {
+  // manually-injected required span.
+  color: $color-secondary-dark !important;
+}
+.custom-hint {
+  color: $color-gray-medium !important;
+}
+.hide-following-required-span + .schemaform-required-span {
+  // if manually injecting custom-required-span, hide forms-library's
+  // auto-injected [but misplaced] required span.
+  display: none !important;
+}
+
 .form-panel.veteran-personal-information-demographics {
   #root_veteranDemographics-label {
     display: none !important;
