@@ -241,7 +241,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
             at{' '}
             <va-telephone
               className="vads-u-color--base "
-              contact="888-826-3127"
+              contact="8888263127"
             />
             , 8:30 a.m. to 6:30 p.m. ET. Don’t send us a payment directly. This
             will delay posting the payment to your account and the Treasury
@@ -476,7 +476,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
             Treasury’s Debt. Management Services at{' '}
             <va-telephone
               className="vads-u-color--base "
-              contact="888-826-3127"
+              contact="8888263127"
             />
             , 8:30 a.m. to 6:30 p.m. ET. Don’t send us a payment directly. This
             will delay posting the payment to your account and the Treasury
