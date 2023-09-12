@@ -58,7 +58,7 @@ describe('Print download menu component', () => {
   // When we uncomment the TXT download, re-enabe this test.
 
   it('should display a download text file button', () => {
-    const screen = render(<PrintDownload list allowTxtDownloads={true} />);
+    const screen = render(<PrintDownload list allowTxtDownloads />);
 
     const downloadTextButton = screen.getByText(
       'Download list as a text file',

@@ -11,11 +11,18 @@ import { getConditionDetails } from '../actions/conditions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { updatePageTitle } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
 
 const ConditionDetails = () => {
   const condition = useSelector(state => state.mr.conditions.conditionDetails);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const { conditionId } = useParams();
   const dispatch = useDispatch();
 

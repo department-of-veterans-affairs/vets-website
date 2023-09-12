@@ -8,6 +8,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getConditionsList } from '../actions/conditions';
 import { recordType, pageTitles } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { processList } from '../util/helpers';
 import { updatePageTitle } from '../../shared/util/helpers';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -16,6 +17,12 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 const HealthConditions = () => {
   const fullState = useSelector(state => state);
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   // const conditions = []; // used to test use cases with no vitals on record
   const dispatch = useDispatch();
   useEffect(() => {
