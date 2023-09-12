@@ -20,6 +20,12 @@ const MedicationsListCard = props => {
   ) {
     noRefillRemaining = true;
   }
+  const refillsRemaining = () => {
+    if (rx.refillRemaining === 1) {
+      return <div>{rx.refillRemaining} refill left</div>;
+    }
+    return <div>{rx.refillRemaining} refills left</div>;
+  };
 
   return (
     <div className="rx-card-container vads-u-background-color--white vads-u-margin-y--1 vads-u-border--1px vads-u-border-color--gray-medium no-break">
@@ -41,7 +47,7 @@ const MedicationsListCard = props => {
         ) : (
           <div>Not filled yet</div>
         )}
-        {showRefillRemaining && <div>{rx.refillRemaining} refills left</div>}
+        {showRefillRemaining && refillsRemaining()}
         {rx && <ExtraDetails {...rx} />}
         {rx && <FillRefillButton {...rx} />}
 

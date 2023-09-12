@@ -11,7 +11,7 @@ const {
 
 const pageTitle = 'Organization’s representatives';
 
-const expectedNumberOfFields = 1;
+const expectedNumberOfFields = 2;
 testNumberOfFields(
   formConfig,
   schema,

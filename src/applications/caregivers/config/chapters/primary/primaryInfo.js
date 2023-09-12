@@ -1,7 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { primaryCaregiverFields } from '../../../definitions/constants';
 import {
-  dateOfBirthUI,
+  dobUI,
   fullNameUI,
   customFieldSchemaUI,
   genderUI,
@@ -28,7 +28,7 @@ const primaryInfoPage = {
     'ui:description': PrimaryCaregiverDescription({ showPageIntro: true }),
     [primaryCaregiverFields.fullName]: extendedNameUI,
     [primaryCaregiverFields.ssn]: ssnUI(primaryInputLabel),
-    [primaryCaregiverFields.dateOfBirth]: dateOfBirthUI(primaryInputLabel),
+    [primaryCaregiverFields.dateOfBirth]: dobUI(primaryInputLabel),
     [primaryCaregiverFields.gender]: genderUI(primaryInputLabel),
   },
   schema: {
