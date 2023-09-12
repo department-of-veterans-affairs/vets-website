@@ -25,7 +25,7 @@ export const parseRedirectUrl = url => {
 
   const parsedUrl = decodeURIComponent(url);
   const allowedDomains = [
-    `${environment.BASE_URL}`, // va.gov
+    `${new URL(environment.BASE_URL).hostname}`, // va.gov
     `${eauthEnvironmentPrefixes[environment.BUILDTYPE]}eauth.va.gov`, // eauth
     `${cernerEnvPrefixes[environment.BUILDTYPE]}patientportal.myhealth.va.gov`, // cerner
     `${eauthEnvironmentPrefixes[environment.BUILDTYPE]}fed.eauth.va.gov`, // mobile
@@ -33,7 +33,7 @@ export const parseRedirectUrl = url => {
 
   const domain = new URL(parsedUrl).hostname;
 
-  if (domain.endsWith('va.gov') || allowedDomains.includes(domain)) {
+  if (allowedDomains.includes(domain)) {
     return parsedUrl;
   }
   return `${environment.BASE_URL}`;

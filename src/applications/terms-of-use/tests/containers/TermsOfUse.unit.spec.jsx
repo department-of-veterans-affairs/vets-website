@@ -62,9 +62,9 @@ describe('parseRedirectUrl', () => {
   it('should return the proper url', () => {
     expect(
       parseRedirectUrl(
-        'http%3A%2F%2Fdev.va.gov%2Fauth%2Flogin%2Fcallback%2F%3Ftype%3Didme',
+        'https%3A%2F%2Fdev.va.gov%2Fauth%2Flogin%2Fcallback%2F%3Ftype%3Didme',
       ),
-    ).to.eql('http://dev.va.gov/auth/login/callback/?type=idme');
+    ).to.eql('https://dev.va.gov/auth/login/callback/?type=idme');
     expect(
       parseRedirectUrl('https://staging-patientportal.myhealth.va.gov'),
     ).to.eql('https://staging-patientportal.myhealth.va.gov');
