@@ -309,7 +309,7 @@ const ComposeForm = props => {
   };
 
   const sendMessageHandler = async e => {
-    // TODO add GA event
+    //  TODO add GA event
     await setMessageInvalid(false);
     await setSendMessageFlag(false);
     if (checkMessageValidity()) {
