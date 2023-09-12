@@ -15,6 +15,7 @@ const DeleteDraft = props => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const deleteDraftButtonRef = useRef();
   const activeFolder = useSelector(state => state.sm.folders.folder);
+  const path = useSelector(state => state.sm.breadcrumbs.list?.path);
 
   const { cannotReply } = props;
 
@@ -55,6 +56,12 @@ const DeleteDraft = props => {
         onClick={() => {
           if (props.draftId) {
             setIsModalVisible(true);
+          }
+          if (props.draftId === undefined) {
+            history.push(path);
+          }
+          if (props.draftId === null) {
+            navigateToFolderByFolderId(activeFolder.folderId, history);
           }
         }}
       >
