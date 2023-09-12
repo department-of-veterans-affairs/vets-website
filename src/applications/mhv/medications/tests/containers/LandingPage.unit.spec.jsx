@@ -29,7 +29,7 @@ describe('Medicaitons Landing page container', () => {
 
   it('renders without errors', () => {
     expect(
-      screen.getByText('About Medications', {
+      screen.getByText('About medications', {
         exact: true,
       }),
     ).to.exist;

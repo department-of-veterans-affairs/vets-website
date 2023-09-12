@@ -20,6 +20,7 @@
 }
 
 .task-list,
+.chapter-list,
 .issue-summary-list,
 .review-pages {
   list-style: none;
@@ -58,4 +59,25 @@ article[data-location="review-then-submit"] {
 
 .issues .widget-wrapper .widget-checkbox-wrap {
   padding-top: 1rem;
+}
+
+/* Fix spacing */
+va-radio,
+va-radio::part(legend),
+#root_additionalInfoUpload_add_label {
+  margin-top: 0 !important;
+}
+
+.rjsf-web-component-field::part(legend) {
+  margin-bottom: 2rem;
+}
+
+article[data-location="evidence-submission"] {
+  .rjsf-web-component-field::part(legend) {
+    margin-bottom: 0;
+  }
+}
+
+.rjsf-object-field.vads-u-margin-y--2 {
+  margin-top: 0 !important;
 }

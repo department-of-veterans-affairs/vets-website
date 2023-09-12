@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 import {
   issueTitle,
@@ -13,6 +14,8 @@ import {
   MAX_LENGTH,
   DISAGREEMENT_TYPES,
   SUBMITTED_DISAGREEMENTS,
+  FORMAT_READABLE,
+  FORMAT_YMD,
 } from '../../shared/constants';
 import { getIssueName, getIssueDate } from '../../shared/utils/issues';
 
@@ -96,16 +99,24 @@ export default {
   },
 
   review: data => ({
-    'The issues you’re asking the Board to review:': (
+    'The issues you’re asking the Board to review:': data.areaOfDisagreement
+      ?.length ? (
       <ul className="vads-u-margin-top--1">
         {data.areaOfDisagreement.map((disagreement, index) => (
           <li key={index}>
             <div className="issue-title">{getIssueName(disagreement)}</div>
-            <div>Decision date: {getIssueDate(disagreement)}</div>
+            <div>
+              Decision date:{' '}
+              {moment(getIssueDate(disagreement), FORMAT_YMD).format(
+                FORMAT_READABLE,
+              )}
+            </div>
             <div>{disagreeWith(disagreement)}</div>
           </li>
         ))}
       </ul>
+    ) : (
+      <span className="usa-input-error-message">No issues selected</span>
     ),
   }),
 };
