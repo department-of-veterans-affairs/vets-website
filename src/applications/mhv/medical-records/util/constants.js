@@ -1,3 +1,8 @@
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+
+export const mhvMedicalRecordsDisplayDomains = state =>
+  toggleValues(state).mhvMedicalRecordsDisplayDomains;
+
 export const recordType = {
   HEALTH_CONDITIONS: 'health conditions',
   LABS_AND_TESTS: 'lab and test results',
@@ -118,3 +123,25 @@ export const vitalTypeDisplayNames = {
 };
 
 export const ALERT_TYPE_ERROR = 'error';
+
+export const pageTitles = {
+  MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',
+  LAB_AND_TEST_RESULTS_PAGE_TITLE:
+    'Lab And Test Results - Medical Records | Veterans Affairs',
+  CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
+    'Care Summaries And Notes - Medical Records | Veterans Affairs',
+  VACCINES_PAGE_TITLE: 'Vaccines - Medical Records | Veterans Affairs',
+  ALLERGIES_PAGE_TITLE: 'Allergies - Medical Records | Veterans Affairs',
+  HEALTH_CONDITIONS_PAGE_TITLE:
+    'Health Conditions - Medical Records | Veterans Affairs',
+  VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
+  DOWNLOAD_PAGE_TITLE:
+    'Download All Medical Records - Medical Records | Veterans Affairs',
+  SETTINGS_PAGE_TITLE:
+    'Medical Records Settings - Medical Records | Veterans Affairs',
+};
+
+export const allergyTypes = {
+  OBSERVED: 'Observed (your provider observed the reaction in person)',
+  REPORTED: 'Reported (you told your provider about the reaction)',
+};

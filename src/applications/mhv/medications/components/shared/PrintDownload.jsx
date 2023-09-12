@@ -32,20 +32,22 @@ const PrintDownload = props => {
       </button>
       <ul className={menuOptionsClasses}>
         <li>
-          <button type="button" onClick={window.print}>
+          <button
+            type="button"
+            data-testid="print-button"
+            onClick={window.print}
+          >
             Print {list && 'list'}
           </button>
         </li>
         <li>
-          <button type="button" onClick={download}>
+          <button
+            type="button"
+            data-testid="download-pdf-button"
+            onClick={download}
+          >
             Download {list && 'list '}
             as PDF
-          </button>
-        </li>
-        <li>
-          <button type="button">
-            Download {list && 'list '}
-            as a text file
           </button>
         </li>
       </ul>

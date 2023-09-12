@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import MedicationsListCard from './MedicationsListCard';
 
 const MAX_PAGE_LIST_LENGTH = 5;
@@ -17,12 +18,19 @@ const MedicationsList = props => {
     return chunk(data, perPage);
   };
 
+  const displaynumberOfPrescriptionsSelector =
+    "[data-testid='page-total-info']";
+
   const onPageChange = page => {
     setCurrentRx(paginatedRx.current[page - 1]);
     setCurrentPage(page);
+    waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
 
   const fromToNumbs = (page, total) => {
+    if (rxList?.length < 1) {
+      return [0, 0];
+    }
     const from = (page - 1) * perPage + 1;
     const to = Math.min(page * perPage, total);
     return [from, to];
@@ -45,6 +53,7 @@ const MedicationsList = props => {
       <h2
         className="rx-page-total-info no-print vads-u-font-family--sans"
         data-testid="page-total-info"
+        id="showingRx"
       >
         Showing {displayNums[0]} - {displayNums[1]} of {rxList.length}{' '}
         medications

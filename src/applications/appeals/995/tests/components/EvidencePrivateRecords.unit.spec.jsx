@@ -4,14 +4,11 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import EvidencePrivateRecords from '../../components/EvidencePrivateRecords';
-import {
-  errorMessages,
-  SELECTED,
-  EVIDENCE_PRIVATE_PATH,
-} from '../../constants';
+import { errorMessages, EVIDENCE_PRIVATE_PATH } from '../../constants';
 import { getDate } from '../../utils/dates';
 import { $, $$ } from '../../utils/ui';
 
+import { SELECTED } from '../../../shared/constants';
 /*
 | Data     | Forward     | Back               | Add another      |
 |----------|-------------|--------------------|------------------|

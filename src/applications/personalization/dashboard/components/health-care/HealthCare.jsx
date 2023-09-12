@@ -10,16 +10,24 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 
 import { selectAvailableServices } from '~/platform/user/selectors';
 
-import HealthCareHeader from './HealthCareHeader';
-
 const HealthCare = ({
   shouldFetchUnreadMessages,
-
+  fetchConfirmedFutureAppointmentsV2,
   fetchUnreadMessages,
-  // TODO: possibly remove this prop in favor of mocking the API in our unit tests
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
+  isVAPatient,
+  isLOA1,
 }) => {
+  useEffect(
+    () => {
+      if (!dataLoadingDisabled && isVAPatient) {
+        fetchConfirmedFutureAppointmentsV2();
+      }
+    },
+    [dataLoadingDisabled, fetchConfirmedFutureAppointmentsV2, isVAPatient],
+  );
+
   useEffect(
     () => {
       if (shouldFetchUnreadMessages && !dataLoadingDisabled) {
@@ -38,8 +46,14 @@ const HealthCare = ({
       className="health-care-wrapper vads-u-margin-y--6"
       data-testid="dashboard-section-health-care"
     >
-      <HealthCareHeader className={headerClassNames} />
-      <HealthCareContent dataLoadingDisabled={dataLoadingDisabled} />
+      <h2 data-testid="health-care-section-header" className={headerClassNames}>
+        Health care
+      </h2>
+      <HealthCareContent
+        dataLoadingDisabled={dataLoadingDisabled}
+        isVAPatient={isVAPatient}
+        isLOA1={isLOA1}
+      />
     </div>
   );
 };
@@ -101,16 +115,21 @@ HealthCare.propTypes = {
     }),
   ),
   dataLoadingDisabled: PropTypes.bool,
+  facilityLocations: PropTypes.arrayOf(PropTypes.string),
   fetchConfirmedFutureAppointmentsV2: PropTypes.func,
-  fetchUnreadMessages: PropTypes.bool,
+  fetchUnreadMessages: PropTypes.func,
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
+  isLOA1: PropTypes.bool,
+  isVAPatient: PropTypes.bool,
   shouldFetchUnreadMessages: PropTypes.bool,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
   shouldShowLoadingIndicator: PropTypes.bool,
   shouldShowPrescriptions: PropTypes.bool,
   unreadMessagesCount: PropTypes.number,
 };
+
+export const UnconnectedHealthCare = HealthCare;
 
 export default connect(
   mapStateToProps,

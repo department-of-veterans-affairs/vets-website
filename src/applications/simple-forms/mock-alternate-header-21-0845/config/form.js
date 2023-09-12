@@ -1,4 +1,5 @@
 import footerContent from 'platform/forms/components/FormFooter';
+import { focusElement, scrollTo } from 'platform/utilities/ui';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -19,6 +20,21 @@ import { CustomPage } from '../components/CustomPage';
  * Check 21-0845 for the actual form
  */
 
+const pageScrollAndFocus = () => {
+  return () => {
+    const header = document.querySelector('h1');
+    // reenable if using web component radio
+    // if (!header) {
+    //   header = document.querySelector('va-radio');
+    //   if (header?.shadowRoot) {
+    //     header = header.shadowRoot.querySelector('h1');
+    //   }
+    // }
+    focusElement(header);
+    scrollTo('topScrollElement');
+  };
+};
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -31,6 +47,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   CustomHeader,
+  useCustomScrollAndFocus: true,
   preSubmitInfo: {},
   formId: 'FORM_MOCK_ALT_HEADER',
   saveInProgress: {
@@ -66,6 +83,7 @@ const formConfig = {
           uiSchema: authorizerType.uiSchema,
           schema: authorizerType.schema,
           CustomPage,
+          scrollAndFocusTarget: pageScrollAndFocus(),
         },
       },
     },
@@ -78,6 +96,7 @@ const formConfig = {
           uiSchema: nameAndDate.uiSchema,
           schema: nameAndDate.schema,
           CustomPage,
+          scrollAndFocusTarget: pageScrollAndFocus(),
         },
         identificationInfoPage: {
           path: 'identification-information',
@@ -85,6 +104,7 @@ const formConfig = {
           uiSchema: identificationInformation.uiSchema,
           schema: identificationInformation.schema,
           CustomPage,
+          scrollAndFocusTarget: pageScrollAndFocus(),
         },
         mailingAddressPage: {
           path: 'mailing-address',
@@ -92,6 +112,7 @@ const formConfig = {
           uiSchema: address.uiSchema,
           schema: address.schema,
           CustomPage,
+          scrollAndFocusTarget: pageScrollAndFocus(),
         },
         phoneAndEmailPage: {
           path: 'phone-and-email',
@@ -99,6 +120,7 @@ const formConfig = {
           uiSchema: phoneAndEmail.uiSchema,
           schema: phoneAndEmail.schema,
           CustomPage,
+          scrollAndFocusTarget: pageScrollAndFocus(),
         },
       },
     },
@@ -112,6 +134,7 @@ const formConfig = {
           uiSchema: thirdPartyType.uiSchema,
           schema: thirdPartyType.schema,
           CustomPage,
+          scrollAndFocusTarget: pageScrollAndFocus(),
         },
         organizationInfoPage: {
           path: 'organization-information',
@@ -119,6 +142,7 @@ const formConfig = {
           uiSchema: organizationInfo.uiSchema,
           schema: organizationInfo.schema,
           CustomPage,
+          scrollAndFocusTarget: pageScrollAndFocus(),
         },
       },
     },

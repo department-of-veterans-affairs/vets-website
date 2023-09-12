@@ -77,18 +77,15 @@ export function NewAppointment() {
           <Route path={`${match.url}/contact-info`}>
             <ContactInfoPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-
           <Route path={`${match.url}/choose-facility-type`}>
             <TypeOfFacilityPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route
-            path={`${match.url}/choose-visit-type`}
-            component={TypeOfVisitPage}
-          />
+          <Route path={`${match.url}/choose-visit-type`}>
+            <TypeOfVisitPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
           <Route path={`${match.url}/choose-sleep-care`}>
             <TypeOfSleepCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-
           <Route path={`${match.url}/choose-eye-care`}>
             <TypeOfEyeCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
@@ -100,15 +97,12 @@ export function NewAppointment() {
           <Route path={`${match.url}/preferred-date`}>
             <PreferredDatePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-
-          <Route
-            path={`${match.url}/request-date`}
-            component={DateTimeRequestPage}
-          />
+          <Route path={`${match.url}/request-date`}>
+            <DateTimeRequestPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
           <Route path={`${match.url}/select-date`}>
             <DateTimeSelectPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-
           <Route path={`${match.url}/va-facility-2`}>
             <VAFacilityPageV2 changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
@@ -116,18 +110,21 @@ export function NewAppointment() {
             path={`${match.url}/how-to-schedule`}
             component={ScheduleCernerPage}
           />
-          <Route
-            path={`${match.url}/community-care-preferences`}
-            component={CommunityCareProviderSelectionPage}
-          />
-          <Route
-            path={`${match.url}/community-care-language`}
-            component={CommunityCareLanguagePage}
-          />
-          <Route
-            path={`${match.url}/choose-closest-city`}
-            component={ClosestCityStatePage}
-          />
+          <Route path={`${match.url}/community-care-preferences`}>
+            <CommunityCareProviderSelectionPage
+              changeCrumb={newTitle => setCrumb(newTitle)}
+            />
+          </Route>
+          <Route path={`${match.url}/community-care-language`}>
+            <CommunityCareLanguagePage
+              changeCrumb={newTitle => setCrumb(newTitle)}
+            />
+          </Route>
+          <Route path={`${match.url}/choose-closest-city`}>
+            <ClosestCityStatePage
+              changeCrumb={newTitle => setCrumb(newTitle)}
+            />
+          </Route>
           <Route path={`${match.url}/clinics`}>
             <ClinicChoicePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>

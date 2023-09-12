@@ -45,7 +45,7 @@ const routes = (
       >
         <RadiologySingleImage />
       </Route>
-      <Route path="/download-your-medical-records" key="DownloadRecords">
+      <Route path="/download-all" key="DownloadRecords">
         <DownloadRecordsPage />
       </Route>
       <Route path="/settings" key="Settings">
@@ -57,12 +57,12 @@ const routes = (
       <Route exact path="/allergies/:allergyId" key="AllergyDetails">
         <AllergyDetails />
       </Route>
-      <Route exact path="/care-summaries-and-notes" key="CareSummariesAndNotes">
+      <Route exact path="/summaries-and-notes" key="CareSummariesAndNotes">
         <CareSummariesAndNotes />
       </Route>
       <Route
         exact
-        path="/care-summaries-and-notes/:summaryId"
+        path="/summaries-and-notes/:summaryId"
         key="CareSummaryAndNotesDetails"
       >
         <CareSummariesDetails />
@@ -76,13 +76,13 @@ const routes = (
       <Route exact path="/vitals" key="Vitals">
         <Vitals />
       </Route>
-      <Route path="/vitals/:vitalType" key="VitalDetails">
+      <Route path="/vitals/:vitalType-history" key="VitalDetails">
         <VitalDetails />
       </Route>
-      <Route exact path="/health-conditions" key="Health Conditions">
+      <Route exact path="/conditions" key="Health Conditions">
         <HealthConditions />
       </Route>
-      <Route path="/health-conditions/:conditionId" key="Condition Details">
+      <Route path="/conditions/:conditionId" key="Condition Details">
         <ConditionDetails />
       </Route>
     </Switch>

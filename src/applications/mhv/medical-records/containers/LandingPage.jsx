@@ -1,25 +1,27 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { updatePageTitle } from '../../shared/util/helpers';
+import { pageTitles } from '../util/constants';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
   const fullState = useSelector(state => state);
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs([], {
-          url: '/my-health/medical-records',
-          label: 'Medical records',
-        }),
-      );
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs([], {
+        url: '/my-health/medical-records',
+        label: 'Medical records',
+      }),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
+  }, []);
 
   return (
     <div className="landing-page">
@@ -55,7 +57,7 @@ const LandingPage = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/care-summaries-and-notes"
+            href="/my-health/medical-records/summaries-and-notes"
             text="Go to your care summaries and notes"
             data-testid="section-link"
           />
@@ -117,7 +119,7 @@ const LandingPage = () => {
           <va-link
             className="section-link"
             active
-            href="/my-health/medical-records/health-conditions"
+            href="/my-health/medical-records/conditions"
             text="Go to your health conditions"
             data-testid="section-link"
           />
@@ -221,7 +223,7 @@ const LandingPage = () => {
               <p>
                 <strong>To find recent records, </strong>
                 check back later. It may take <strong>36 hours</strong> for some
-                reecord to become available online.
+                record to become available online.
               </p>
               <p>
                 <strong>To find medication records,</strong> go to your

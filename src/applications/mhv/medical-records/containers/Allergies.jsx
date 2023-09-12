@@ -2,9 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { recordType, EMPTY_FIELD, ALERT_TYPE_ERROR } from '../util/constants';
+import {
+  mhvMedicalRecordsDisplayDomains,
+  recordType,
+  EMPTY_FIELD,
+  ALERT_TYPE_ERROR,
+  pageTitles,
+} from '../util/constants';
 import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -15,19 +22,26 @@ import {
   sendErrorToSentry,
 } from '../util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const Allergies = () => {
   const dispatch = useDispatch();
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
   const user = useSelector(state => state.user.profile);
+  const displayDomain = useSelector(state =>
+    mhvMedicalRecordsDisplayDomains(state),
+  );
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
   const alertList = useSelector(state => state.mr.alerts?.alertList);
   const [activeAlert, setActiveAlert] = useState();
 
-  useEffect(() => {
-    dispatch(getAllergiesList());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getAllergiesList(displayDomain));
+    },
+    [displayDomain],
+  );
 
   useEffect(
     () => {
@@ -47,20 +61,19 @@ const Allergies = () => {
     [alertList],
   );
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-          {
-            url: '/my-health/medical-records/allergies',
-            label: 'Allergies',
-          },
-        ),
-      );
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs(
+        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
+        {
+          url: '/my-health/medical-records/allergies',
+          label: 'Allergies',
+        },
+      ),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
+  }, []);
 
   const generateAllergiesPdf = async () => {
     const pdfData = {
@@ -99,18 +112,13 @@ const Allergies = () => {
             inline: true,
           },
           {
-            title: 'VA drug class',
-            value: item.drugClass || EMPTY_FIELD,
-            inline: true,
-          },
-          {
             title: 'Location',
             value: item.location || EMPTY_FIELD,
             inline: true,
           },
           {
             title: 'Observed or reported',
-            value: item.observed ? 'Observed' : 'Reported',
+            value: item.observedOrReported,
             inline: true,
           },
           {
