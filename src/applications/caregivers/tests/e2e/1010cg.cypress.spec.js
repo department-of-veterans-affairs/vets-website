@@ -14,6 +14,16 @@ import {
   representativeLabel,
   representativeSignatureContent,
 } from '../../definitions/content';
+import {
+  veteranFields,
+  primaryCaregiverFields,
+  secondaryOneFields,
+  secondaryTwoFields,
+} from '../../definitions/constants';
+import {
+  fillAddressWithoutAutofill,
+  fillDateWebComponentPattern,
+} from '../helpers';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUpload from './fixtures/mocks/mock-upload.json';
 import mockFacilities from './fixtures/mocks/mock-facilities.json';
@@ -98,6 +108,18 @@ const testSecondaryTwo = createTestConfig(
             .click();
         });
       },
+      'vet-1': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            fillDateWebComponentPattern(
+              veteranFields.dateOfBirth,
+              data.veteranDateOfBirth,
+            );
+            cy.get('.usa-button-primary').click();
+          });
+        });
+      },
       'vet-3-api': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
@@ -107,6 +129,18 @@ const testSecondaryTwo = createTestConfig(
             .find('select')
             .select('675');
           cy.get('.usa-button-primary').click();
+        });
+      },
+      'primary-2': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            fillDateWebComponentPattern(
+              primaryCaregiverFields.dateOfBirth,
+              data.primaryDateOfBirth,
+            );
+            cy.get('.usa-button-primary').click();
+          });
         });
       },
       'primary-3': ({ afterHook }) => {
@@ -119,56 +153,52 @@ const testSecondaryTwo = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'secondary-one-2': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            fillDateWebComponentPattern(
+              secondaryOneFields.dateOfBirth,
+              data.secondaryOneDateOfBirth,
+            );
+            cy.get('.usa-button-primary').click();
+          });
+        });
+      },
       'secondary-one-3': ({ afterHook }) => {
         afterHook(() => {
-          cy.fillPage();
-          cy.get('#root_secondaryOneAddress_street')
-            .shadow()
-            .find('input')
-            .type('1375 E Buena Vista Dr');
-          cy.get('#root_secondaryOneAddress_street2')
-            .shadow()
-            .find('input')
-            .type('Apt 1');
-          cy.get('#root_secondaryOneAddress_city')
-            .shadow()
-            .find('input')
-            .type('Orlando');
-          cy.get('#root_secondaryOneAddress_state')
-            .shadow()
-            .find('select')
-            .select('Florida');
-          cy.get('#root_secondaryOneAddress_postalCode')
-            .shadow()
-            .find('input')
-            .type('32830');
-          cy.get('.usa-button-primary').click();
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            fillAddressWithoutAutofill(
+              secondaryOneFields.address,
+              data.secondaryOneAddress,
+            );
+            cy.get('.usa-button-primary').click();
+          });
+        });
+      },
+      'secondary-two-1': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            fillDateWebComponentPattern(
+              secondaryTwoFields.dateOfBirth,
+              data.secondaryTwoDateOfBirth,
+            );
+            cy.get('.usa-button-primary').click();
+          });
         });
       },
       'secondary-two-2': ({ afterHook }) => {
         afterHook(() => {
-          cy.fillPage();
-          cy.get('#root_secondaryTwoAddress_street')
-            .shadow()
-            .find('input')
-            .type('1375 E Buena Vista Dr');
-          cy.get('#root_secondaryTwoAddress_street2')
-            .shadow()
-            .find('input')
-            .type('Apt 1');
-          cy.get('#root_secondaryTwoAddress_city')
-            .shadow()
-            .find('input')
-            .type('Orlando');
-          cy.get('#root_secondaryTwoAddress_state')
-            .shadow()
-            .find('select')
-            .select('Florida');
-          cy.get('#root_secondaryTwoAddress_postalCode')
-            .shadow()
-            .find('input')
-            .type('32830');
-          cy.get('.usa-button-primary').click();
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            fillAddressWithoutAutofill(
+              secondaryTwoFields.address,
+              data.secondaryTwoAddress,
+            );
+            cy.get('.usa-button-primary').click();
+          });
         });
       },
       'review-and-submit': () => {
