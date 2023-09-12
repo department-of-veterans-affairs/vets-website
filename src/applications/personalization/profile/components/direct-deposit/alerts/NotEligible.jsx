@@ -23,9 +23,7 @@ const NotEligible = props => {
       <p className="vads-u-margin-top--0">
         {contactMessage}, call us at{' '}
         <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
-        <a href="tel:711" aria-label="TTY: 7 1 1.">
-          TTY: 711
-        </a>
+        <va-telephone contact={711} tty />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
       <p>

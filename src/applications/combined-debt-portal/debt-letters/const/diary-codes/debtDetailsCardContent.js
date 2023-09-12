@@ -5,9 +5,9 @@ import { formatDate } from '../../../combined/utils/helpers';
 
 const ContactDMC = () => (
   <span className="vads-u-margin-x--0p5">
-    <va-telephone contact={CONTACTS.DMC || '800-827-0648'} /> (or{' '}
+    <va-telephone contact={CONTACTS.DMC || '8008270648'} /> (or{' '}
     <va-telephone
-      contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
+      contact={CONTACTS.DMC_OVERSEAS || '6127136415'}
       international
     />{' '}
     from overseas)

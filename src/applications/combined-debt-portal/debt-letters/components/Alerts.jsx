@@ -15,10 +15,10 @@ export const DownloadLettersAlert = () => (
     </p>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
       If you have any questions, call us at{' '}
-      <va-telephone contact="800-827-0648" /> (or{' '}
-      <va-telephone contact="1-612-713-6415" international /> from overseas).
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If you have
-      hearing loss, call TTY: <va-telephone contact={CONTACTS[711]} />.
+      <va-telephone contact="8008270648" /> (or{' '}
+      <va-telephone contact="6127136415" international /> from overseas). We’re
+      here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If you have hearing
+      loss, call TTY: <va-telephone contact={CONTACTS[711]} />.
     </p>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
       We’re working to fix this problem as fast as we can. Check back soon for
