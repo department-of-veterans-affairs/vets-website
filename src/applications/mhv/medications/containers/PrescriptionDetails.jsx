@@ -97,7 +97,7 @@ const PrescriptionDetails = () => {
             },
             {
               title: 'Prescribed on',
-              value: 'not in vets api data',
+              value: 'None noted',
               inline: true,
             },
             {
@@ -107,7 +107,7 @@ const PrescriptionDetails = () => {
             },
             {
               title: 'Prescribed by',
-              value: 'not in vets api data',
+              value: 'None noted',
               inline: true,
             },
             {
@@ -117,22 +117,22 @@ const PrescriptionDetails = () => {
             },
             {
               title: 'Phone number',
-              value: 'not in vets api data',
+              value: 'None noted',
               inline: true,
             },
             {
               title: 'Category',
-              value: 'not in vets api data',
+              value: 'None noted',
               inline: true,
             },
             {
               title: 'Source',
-              value: 'not in vets api data',
+              value: 'None noted',
               inline: true,
             },
             {
               title: 'Image',
-              value: 'not in vets api data',
+              value: 'None noted',
               inline: true,
             },
           ],
