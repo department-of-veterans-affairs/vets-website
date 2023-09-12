@@ -260,7 +260,7 @@ describe('Modals on the contact information and content page after editing', () 
   });
 });
 
-describe('when moving to other profile sections', () => {
+describe('when moving to other profile pages', () => {
   it('should exit edit mode if opened', () => {
     setup();
 
@@ -281,8 +281,6 @@ describe('when moving to other profile sections', () => {
     cy.findByRole('link', {
       name: /military information/i,
     }).click({
-      // using force: true since there are times when the click does not
-      // register and the form does not open
       force: true,
     });
     cy.findByRole('link', {
@@ -292,6 +290,42 @@ describe('when moving to other profile sections', () => {
     });
     cy.findByRole('button', {
       name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).should('exist');
+
+    cy.axeCheck();
+  });
+});
+
+describe('when editing other profile fields on the same page', () => {
+  it('should exit edit mode if no changes have been made', () => {
+    setup();
+
+    // Open edit view for email address
+    cy.findByRole('button', {
+      name: new RegExp(`edit contact email address`, 'i'),
+    }).click({
+      force: true,
+    });
+
+    // Open another field in edit view
+    cy.findByRole('button', {
+      name: new RegExp(`edit mobile phone number`, 'i'),
+    }).click({
+      force: true,
+    });
+
+    cy.get('#root_inputPhoneNumber').should('exist');
+
+    // Cancel edit should also exist the edit mode with no modal
+    cy.findByRole('button', {
+      name: /Cancel/i,
+    }).click({
+      force: true,
+    });
+
+    // edit button should reappear once edit mode is exited
+    cy.findByRole('button', {
+      name: new RegExp(`edit mobile phone number`, 'i'),
     }).should('exist');
 
     cy.axeCheck();
