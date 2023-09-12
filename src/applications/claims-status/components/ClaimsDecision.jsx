@@ -40,8 +40,9 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
         background-only
         class="vads-u-margin-bottom--1"
         status="warning"
+        uswds
       >
-        <div>
+        <React.Fragment key=".1">
           <p className="vads-u-margin-y--0">
             <strong>
               Decision letters aren’t available to download right now.{' '}
@@ -51,7 +52,7 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
             <va-telephone contact="8008271000" /> (TTY: 711). We’re here Monday
             through Friday, 8:00 a.m. to 9:00 p.m. ET.
           </p>
-        </div>
+        </React.Fragment>
       </va-alert>
     )}
     <h4 className="claims-paragraph-header vads-u-font-size--h3">Next steps</h4>
