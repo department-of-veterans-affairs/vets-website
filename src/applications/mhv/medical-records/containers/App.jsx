@@ -46,7 +46,7 @@ const App = ({ children }) => {
     <div ref={measuredRef} className="vads-l-grid-container">
       <MrBreadcrumbs />
       <div className="medical-records-container">
-        <Navigation />
+        {/* <Navigation /> */}
         <div className="vads-l-grid-container main-content">
           <ScrollToTop />
           {children}
