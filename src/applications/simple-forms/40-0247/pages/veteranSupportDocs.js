@@ -7,7 +7,9 @@ import { FileField } from 'platform/forms-system/src/js/fields/FileField';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': <h3>Military/Discharge Documents</h3>,
+    'ui:title': (
+      <span className="custom-label">Military/Discharge Documents</span>
+    ),
     'ui:description': (
       <>
         <p>

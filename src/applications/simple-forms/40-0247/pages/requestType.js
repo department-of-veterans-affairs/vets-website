@@ -7,7 +7,7 @@ const labelText =
 export default {
   uiSchema: {
     requestType: {
-      'ui:title': <h3 style={{ display: 'inline' }}>{labelText}</h3>,
+      'ui:title': <span className="custom-label">{labelText}</span>,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {

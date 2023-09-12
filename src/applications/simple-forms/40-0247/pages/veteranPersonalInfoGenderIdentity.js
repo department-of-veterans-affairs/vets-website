@@ -3,17 +3,22 @@ import React from 'react';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': (
-      <>
-        <h3>Select the Veteran’s gender identity</h3>
-        <p className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
-          Information is gathered for statistical purposes only.
-        </p>
-      </>
-    ),
     veteranGenderIdentity: {
-      'ui:title': 'Gender identity',
+      'ui:title': (
+        <>
+          <p className="custom-label">Select the Veteran’s gender identity</p>
+          <p className="custom-description">
+            Information is gathered for statistical purposes only.
+          </p>
+        </>
+      ),
       'ui:widget': 'radio',
+      'ui:reviewField': ({ children }) => (
+        <div className="review-row">
+          <dt />
+          <dd>{children}</dd>
+        </div>
+      ),
     },
   },
   schema: {
