@@ -51,7 +51,7 @@ const VeteranInformation = ({
     <form>
       <fieldset className="vads-u-margin-y--2">
         {reviewNavigation ? (
-          <ReviewPageNavigationAlert data={data} title="household income" />
+          <ReviewPageNavigationAlert data={data} title="veteran information" />
         ) : null}
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0" ref={headerRef}>

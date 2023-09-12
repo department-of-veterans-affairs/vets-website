@@ -20,6 +20,7 @@ const ReviewPageNavigationAlert = ({ data, title }) => {
       class="vads-u-margin-y--1"
       status="info"
       data-testid="review-page-navigation-alert"
+      uswds
     >
       <h4 slot="headline">Editing {title}</h4>
       <p className="vads-u-font-size--base vads-u-font-family--sans">
