@@ -245,7 +245,7 @@ class PatientMessageDraftsPage {
   verifySendConfirmationMessage = () => {
     cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
       'have.text',
-      `${Alerts.Message.SEND_MESSAGE_SUCCESS}`,
+      Alerts.Message.SEND_MESSAGE_SUCCESS,
     );
   };
 
