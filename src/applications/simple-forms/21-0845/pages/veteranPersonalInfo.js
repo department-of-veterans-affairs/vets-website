@@ -8,6 +8,7 @@ import { validateDateOfBirth } from 'platform/forms/validations';
 import { schema } from '../../shared/definitions/pdfFullNameNoSuffix';
 
 const veteranFullNameUI = cloneDeep(fullNameUI);
+const dobLabelString = 'Date of birth';
 
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
 
@@ -19,18 +20,25 @@ export default {
       'ui:title': (
         <div className="vads-u-font-weight--normal vads-u-font-size--base vads-u-margin-bottom--2">
           <span>
-            Date of birth{' '}
-            <span className="custom-required-span hide-on-review-page">
+            {dobLabelString}{' '}
+            <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-color--secondary-dark">
               (*Required)
             </span>
           </span>
           <br />
-          <span className="vads-u-color--gray-medium hide-on-review-page">
+          <span className="vads-u-color--gray-medium">
             For example: January 19 2000
           </span>
         </div>
       ),
       'ui:widget': 'date',
+      'ui:reviewField': ({ children }) => (
+        // remove custom required-span & hint-text from review-field's <dt>
+        <div className="review-row">
+          <dt>{dobLabelString}</dt>
+          <dd>{children}</dd>
+        </div>
+      ),
       'ui:validations': [validateDateOfBirth],
       'ui:errorMessages': {
         required: 'Please provide a date of birth',

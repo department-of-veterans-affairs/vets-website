@@ -28,6 +28,7 @@ const suppliesResponse = {
     eligibility: {
       accessories: true,
       apneas: true,
+      batteries: true,
     },
     supplies: [
       {
