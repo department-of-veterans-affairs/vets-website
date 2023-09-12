@@ -1,3 +1,8 @@
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+
+export const mhvMedicalRecordsDisplayDomains = state =>
+  toggleValues(state).mhvMedicalRecordsDisplayDomains;
+
 export const recordType = {
   HEALTH_CONDITIONS: 'health conditions',
   LABS_AND_TESTS: 'lab and test results',
@@ -134,4 +139,9 @@ export const pageTitles = {
     'Download All Medical Records - Medical Records | Veterans Affairs',
   SETTINGS_PAGE_TITLE:
     'Medical Records Settings - Medical Records | Veterans Affairs',
+};
+
+export const allergyTypes = {
+  OBSERVED: 'Observed (your provider observed the reaction in person)',
+  REPORTED: 'Reported (you told your provider about the reaction)',
 };

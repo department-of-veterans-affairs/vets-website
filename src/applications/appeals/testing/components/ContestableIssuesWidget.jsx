@@ -13,11 +13,15 @@ import {
 } from '../../10182/actions';
 
 import { IssueCard } from './IssueCard';
-import { REVIEW_ISSUES, APP_NAME } from '../../10182/constants';
+import { APP_NAME } from '../../10182/constants';
 import { ContestableIssuesLegend } from '../content/contestableIssues';
 
-import { SELECTED, MAX_LENGTH, LAST_ISSUE } from '../../shared/constants';
-
+import {
+  LAST_ISSUE,
+  MAX_LENGTH,
+  REVIEW_ISSUES,
+  SELECTED,
+} from '../../shared/constants';
 import {
   NoIssuesLoadedAlert,
   NoneSelectedAlert,
@@ -27,10 +31,12 @@ import {
 import { isEmptyObject } from '../../shared/utils/helpers';
 import {
   getSelected,
+  getIssueNameAndDate,
   someSelected,
   calculateIndexOffset,
 } from '../../shared/utils/issues';
 import { focusIssue } from '../../shared/utils/focus';
+import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 
 let attempts = 0;
 
@@ -92,6 +98,33 @@ const ContestableIssuesWidget = props => {
       }
     },
     [editState],
+  );
+
+  useEffect(
+    () => {
+      const areaOfDisagreement = getSelected(formData);
+      if (
+        areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
+        !areaOfDisagreement.every(
+          (entry, index) =>
+            getIssueNameAndDate(entry) ===
+            getIssueNameAndDate(formData.areaOfDisagreement[index]),
+        )
+      ) {
+        // Area of Disagreement is created by combining the loaded contestable
+        // issues with the Veteran-added additional issues
+        setFormData({
+          ...formData,
+          // save existing settings
+          areaOfDisagreement: copyAreaOfDisagreementOptions(
+            areaOfDisagreement,
+            formData.areaOfDisagreement,
+          ),
+        });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [formData?.contestedIssues, formData?.additionalIssues],
   );
 
   const onReviewPage = formContext?.onReviewPage || false;
@@ -282,7 +315,11 @@ ContestableIssuesWidget.propTypes = {
     reviewMode: PropTypes.bool,
     submitted: PropTypes.bool,
   }),
-  formData: PropTypes.shape({}),
+  formData: PropTypes.shape({
+    contestedIssues: PropTypes.array,
+    additionalIssues: PropTypes.array,
+    areaOfDisagreement: PropTypes.array,
+  }),
   getContestableIssues: PropTypes.func,
   id: PropTypes.string,
   options: PropTypes.shape({}),
