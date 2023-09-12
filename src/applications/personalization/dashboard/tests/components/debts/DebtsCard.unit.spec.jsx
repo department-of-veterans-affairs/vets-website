@@ -71,13 +71,14 @@ describe('<DebtsCard />', () => {
 
     // should render Updated (<p>)
     const info = wrapper.find('p').text();
+
     // sort last updated dates, and format
     expect(info).to.include('Updated on');
 
     // should render CTALink
-    // const link = wrapper.find('CTALink');
-    // expect(link.prop('text').to.equal('Manage your VA debt'));
-    // expect(link.prop('href').to.equal('/manage-va-debt/your-debt'));
+    const link = wrapper.find('CTALink');
+    expect(link.prop('text')).to.include('Manage your VA debt');
+    expect(link.prop('href')).to.equal('/manage-va-debt/your-debt');
 
     wrapper.unmount();
   });
