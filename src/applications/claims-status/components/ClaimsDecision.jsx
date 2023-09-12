@@ -42,17 +42,15 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
         status="warning"
         uswds
       >
-        <React.Fragment key=".1">
-          <p className="vads-u-margin-y--0">
-            <strong>
-              Decision letters aren’t available to download right now.{' '}
-            </strong>
-            We’re fixing some problems with this tool. Check back later. If you
-            need information about your decision letters now, call us at{' '}
-            <va-telephone contact="8008271000" /> (TTY: 711). We’re here Monday
-            through Friday, 8:00 a.m. to 9:00 p.m. ET.
-          </p>
-        </React.Fragment>
+        <p className="vads-u-margin-y--0">
+          <strong>
+            Decision letters aren’t available to download right now.{' '}
+          </strong>
+          We’re fixing some problems with this tool. Check back later. If you
+          need information about your decision letters now, call us at{' '}
+          <va-telephone contact="8008271000" /> (TTY: 711). We’re here Monday
+          through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        </p>
       </va-alert>
     )}
     <h4 className="claims-paragraph-header vads-u-font-size--h3">Next steps</h4>
