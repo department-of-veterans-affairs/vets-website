@@ -57,6 +57,7 @@ const FillRefillButton = rx => {
           </va-alert>
         )}
         <button
+          type="button"
           aria-describedby={`card-header-${prescriptionId}`}
           className="vads-u-width--responsive"
           disabled={success}
