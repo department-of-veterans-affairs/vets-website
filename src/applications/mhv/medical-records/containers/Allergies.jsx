@@ -6,6 +6,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
+  mhvMedicalRecordsDisplayDomains,
   recordType,
   EMPTY_FIELD,
   ALERT_TYPE_ERROR,
@@ -35,14 +36,20 @@ const Allergies = () => {
       ],
   );
   const user = useSelector(state => state.user.profile);
+  const displayDomain = useSelector(state =>
+    mhvMedicalRecordsDisplayDomains(state),
+  );
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
   const alertList = useSelector(state => state.mr.alerts?.alertList);
   const [activeAlert, setActiveAlert] = useState();
 
-  useEffect(() => {
-    dispatch(getAllergiesList());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getAllergiesList(displayDomain));
+    },
+    [displayDomain],
+  );
 
   useEffect(
     () => {
