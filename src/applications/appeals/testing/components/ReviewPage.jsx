@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { VaPrivacyAgreement } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+// import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import formConfig from '../config/form';
 import { setupPages } from '../utils/taskListPages';
@@ -82,10 +82,15 @@ const ReviewPage = props => {
         showError={submitted && !privacyCheckbox}
         uswds
       />
-      <p />
-      {props.contentBeforeButtons}
-      <FormNavButtons goBack={props.goBack} goForward={handlers.onSubmit} />
-      {props.contentAfterButtons}
+      <p className="vads-u-margin-top--4">
+        <Link to="/decision-reviews/appeals-testing">
+          Finish this application later
+        </Link>
+      </p>
+      <va-button onClick={handlers.onSubmit} text="Submit" />
+      {/* {props.contentBeforeButtons} */}
+      {/* <FormNavButtons goBack={props.goBack} goForward={handlers.onSubmit} /> */}
+      {/* {props.contentAfterButtons} */}
     </article>
   );
 };
