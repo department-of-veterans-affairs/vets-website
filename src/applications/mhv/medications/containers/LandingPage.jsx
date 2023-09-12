@@ -13,23 +13,32 @@ const LandingPage = () => {
 
   const content = () => {
     return (
-      <div className="landing-page vads-l-grid-container">
+      <div className="vads-l-col--12 medium-screen:vads-l-col--8">
         <div className="main-content">
           <section>
-            <h1>About Medications</h1>
-            <p className="vads-u-font-size--h3">
+            <h1>About medications</h1>
+            <p>
               Learn how to manage your VA prescriptions and review all
               medications in your VA medical records.
             </p>
           </section>
           <section>
-            <a
-              className="vads-c-action-link--green"
-              href={medicationsUrl}
-              data-testid="prescriptions-nav-link"
-            >
-              Go to your medications
-            </a>
+            <div className="vads-u-border-left--7px vads-u-border-color--primary-alt-dark vads-u-background-color--gray-lightest vads-u-padding--3 medium-screen:vads-l-col--10">
+              <h3 className="vads-u-margin-top--0">
+                Manage your medications now
+              </h3>
+              <p>
+                Refill and track your VA prescriptions. And review all
+                medications in your VA medical records.
+              </p>
+              <a
+                className="vads-c-action-link--green"
+                href={medicationsUrl}
+                data-testid="prescriptions-nav-link"
+              >
+                Go to your medications
+              </a>
+            </div>
           </section>
           <section>
             <h2>What to know as you try out this tool</h2>
@@ -199,11 +208,8 @@ const LandingPage = () => {
                   </a>
                 </p>
                 <p>
-                  For questions about how to use this tool, call the My
-                  HealtheVet help desk at <va-telephone contact="8773270022" />{' '}
-                  (<va-telephone contact="8008778339" tty />
-                  ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
-                  ET.
+                  For questions about how to use this tool, email us at
+                  vamhvfeedback@va.gov.
                 </p>
               </va-accordion-item>
             </va-accordion>
@@ -308,7 +314,7 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="vads-u-margin-top--3 vads-u-margin-bottom--6">
+    <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6">
       {content()}
     </div>
   );

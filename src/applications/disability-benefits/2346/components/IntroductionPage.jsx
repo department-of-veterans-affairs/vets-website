@@ -1,16 +1,31 @@
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import React from 'react';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import formConfig from '../config/form';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const IntroductionPage = props => {
+  // Toggle from hearing aid supplies to hearing aid + CPAP supplies.
+  const {
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
+  const toggleName = TOGGLE_NAMES.supplyReorderingSleepApneaEnabled;
+  const isSupplyReorderingSleepApneaEnabled = useToggleValue(toggleName);
+  const isLoadingFeatureFlags = useToggleLoadingValue(toggleName);
+  const supplyDescription = isSupplyReorderingSleepApneaEnabled
+    ? 'hearing aid and CPAP supplies'
+    : 'hearing aid batteries and accessories';
+  if (isLoadingFeatureFlags)
+    return <va-loading-indicator message="Loading your information..." />;
+
   return (
     <>
       {' '}
-      <FormTitle title="Order hearing aid batteries and accessories" />
-      <p>Equal to VA Form 2346A (Request for Batteries and Accessories).</p>
+      <FormTitle title={`Order ${supplyDescription}`} />
       <div className="schemaform-intro">
         <SaveInProgressIntro
           hideUnauthedStartLink
@@ -19,19 +34,18 @@ const IntroductionPage = props => {
           pageList={props.route.pageList}
           verifyRequiredPrefill={props.route.formConfig.verifyRequiredPrefill}
           unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
-          startText="Order hearing aid batteries and accessories"
+          startText={`Order ${supplyDescription}`}
           unauthStartText="Sign in to start your order"
           formConfig={formConfig}
         >
-          Please complete the 2346 form to apply for ordering hearing aid
-          batteries and accessories.
+          Please complete this form to order {supplyDescription}.
         </SaveInProgressIntro>
         <h2
           className="vads-u-font-size--h3"
           itemProp="name"
           id="am-i-eligible-to-order-prosthe"
         >
-          Follow the steps below to order hearing aid batteries and accessories.
+          Follow the steps below to order {supplyDescription}.
         </h2>
         <div className="process schemaform-process">
           <ol>
@@ -47,23 +61,24 @@ const IntroductionPage = props => {
                 What if I need help with my order?
               </p>
               <p>
-                If you need help ordering hearing aid batteries and accessories,
-                you can call the Denver Logistics Center Customer Service
-                Section at <Telephone contact={'303-273-6200'} /> or email{' '}
+                If you need help ordering {supplyDescription}, you can call the
+                Denver Logistics Center Customer Service Section at{' '}
+                <Telephone contact="303-273-6200" /> or email{' '}
                 <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
             </li>
             <li className="process-step list-two">
               <h3 className="vads-u-font-size--h4">Place your order</h3>
-              <p>
-                Complete this hearing aid batteries and accessories order form.
-              </p>
+              <p>Complete this {supplyDescription} order form.</p>
               <p>These are the steps you can expect when placing an order:</p>
               <ul>
                 <li>Confirm your personal information</li>
                 <li>Confirm or edit your shipping address and email address</li>
                 <li>Select any hearing aids that need batteries</li>
                 <li>Select any hearing aid accessories you need</li>
+                {isSupplyReorderingSleepApneaEnabled && (
+                  <li>Select any CPAP supplies you need</li>
+                )}
                 <li>Review and submit order</li>
               </ul>
               <p>
@@ -89,9 +104,8 @@ const IntroductionPage = props => {
               </p>
               <p>
                 If you have questions about your order, you can call the DLC
-                Customer Service Section at{' '}
-                <Telephone contact={'303-273-6200'} /> or email{' '}
-                <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+                Customer Service Section at <Telephone contact="303-273-6200" />{' '}
+                or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
             </li>
           </ol>
@@ -102,7 +116,7 @@ const IntroductionPage = props => {
           prefillEnabled={props.route.formConfig.prefillEnabled}
           messages={props.route.formConfig.savedFormMessages}
           pageList={props.route.pageList}
-          startText="Order hearing aid batteries and accessories"
+          startText={`Order ${supplyDescription}`}
           unauthStartText="Sign in to start your order"
           formConfig={formConfig}
         />

@@ -31,7 +31,7 @@ const VeteranInformation = ({ veteran = {} }) => {
 
   return (
     <>
-      <h1 className="vads-u-margin-y--2">
+      <h1 className="vads-u-margin-bottom--4">
         Confirm the personal information we have on file
       </h1>
       <div className="blue-bar-block">

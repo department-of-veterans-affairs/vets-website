@@ -1,4 +1,4 @@
-import { SUBMITTED_DISAGREEMENTS, MAX_LENGTH } from '../constants';
+import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../constants';
 import { replaceSubmittedData } from './replace';
 
 /**

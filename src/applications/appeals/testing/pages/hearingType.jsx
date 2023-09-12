@@ -1,8 +1,10 @@
+import React from 'react';
+
 import {
   hearingTypeTitle,
-  HearingTypeReviewField,
   hearingTypeContent,
   missingHearingTypeErrorMessage,
+  hearingTypes,
 } from '../content/hearingType';
 import { needsHearingType } from '../../10182/utils/helpers';
 
@@ -10,7 +12,6 @@ const hearingType = {
   uiSchema: {
     hearingTypePreference: {
       'ui:title': hearingTypeTitle,
-      'ui:reviewField': HearingTypeReviewField,
       'ui:widget': 'radio',
       'ui:required': needsHearingType,
       'ui:options': {
@@ -33,6 +34,14 @@ const hearingType = {
       },
     },
   },
+
+  review: data => ({
+    'What type of hearing would you like to request?': hearingTypes[
+      data.hearingTypePreference
+    ] || (
+      <span className="usa-input-error-message">Missing hearing option</span>
+    ),
+  }),
 };
 
 export default hearingType;
