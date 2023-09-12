@@ -76,7 +76,7 @@ export default function Disclaimer() {
               Texting <va-telephone contact="838255" />.
             </li>
             <li>
-              If you have hearing loss, call TTY:{' '}
+              If you have hearing loss, call{' '}
               <va-telephone contact="8007994889" tty />.
             </li>
           </ul>

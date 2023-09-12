@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import { formatSSN } from 'platform/utilities/ui';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 const convertDateFormat = date => {
   return date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
@@ -416,8 +417,8 @@ export const NoFormPage = () => {
             <p>
               Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />
               . We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If
-              you have hearing loss, call TTY:{' '}
-              <va-link href="tel:711" text="711" />.
+              you have hearing loss, call{' '}
+              <va-telephone contact={CONTACTS['711']} tty />.
             </p>
           </div>
         </>
