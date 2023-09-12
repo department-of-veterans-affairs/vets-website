@@ -7,6 +7,13 @@ export const hearingTypeTitle = (
 );
 
 /* eslint-disable camelcase */
+export const hearingTypes = {
+  virtual_hearing: 'A virtual tele-hearing online',
+  video_conference:
+    'A Regional Office hearing at a VA Regional Office near you',
+  central_office: 'An in-person hearing at the Board in Washington, D.C.',
+};
+
 export const hearingTypeContent = {
   virtual_hearing: (
     <>

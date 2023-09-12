@@ -7,6 +7,7 @@ import note from '../tests/fixtures/note.json';
 import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
+import allergies from '../tests/fixtures/allergies.json';
 import { IS_TESTING } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
@@ -108,15 +109,32 @@ export const getCondition = id => {
   });
 };
 
-export const getAllergies = () => {
-  return apiRequest(`${apiBasePath}/medical_records/allergies`, {
-    headers,
+export const getAllergies = useLiveData => {
+  if (useLiveData) {
+    return apiRequest(`${apiBasePath}/medical_records/allergies`, {
+      headers,
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(allergies);
+    }, 1000);
   });
 };
 
-export const getAllergy = id => {
-  return apiRequest(`${apiBasePath}/medical_records/allergies/${id}`, {
-    headers,
+export const getAllergy = (id, useLiveData) => {
+  if (useLiveData) {
+    return apiRequest(`${apiBasePath}/medical_records/allergies/${id}`, {
+      headers,
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const allergy = allergies.entry.find(
+        alg => String(alg.resource.id) === String(id),
+      );
+      resolve(allergy.resource);
+    }, 1000);
   });
 };
 
