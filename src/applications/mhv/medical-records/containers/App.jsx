@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
-import Navigation from '../components/Navigation';
+// import Navigation from '../components/Navigation';
 import { useDatadogRum } from '../hooks/useDatadogRum';
 
 const App = ({ children }) => {

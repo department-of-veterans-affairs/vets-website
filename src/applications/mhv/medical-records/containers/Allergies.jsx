@@ -166,8 +166,8 @@ const Allergies = () => {
   };
 
   return (
-    <div id="allergies" class="vads-l-row">
-      <div class="vads-l-col--12 medium-screen:vads-l-col--8">
+    <div id="allergies" className="vads-l-row">
+      <div className="vads-l-col--12 medium-screen:vads-l-col--8">
         <PrintHeader />
         <h1 className="vads-u-margin--0">Allergies</h1>
         <section>

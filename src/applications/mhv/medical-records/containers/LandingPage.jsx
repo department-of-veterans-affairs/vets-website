@@ -25,7 +25,7 @@ const LandingPage = () => {
 
   return (
     <>
-      <div class="vads-l-row">
+      <div className="vads-l-row">
         <section>
           <h1 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
             Medical records
@@ -35,8 +35,8 @@ const LandingPage = () => {
           </p>
         </section>
       </div>
-      <div class="vads-l-row">
-        <div class="vads-l-col--12 medium-screen:vads-l-col--8">
+      <div className="vads-l-row">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           <div>
             <section>
               <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
