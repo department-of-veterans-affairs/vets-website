@@ -256,6 +256,49 @@ const createAppointments = (
   };
 };
 
+const createUpcomingAppointments = (token, number = 3) => {
+  const timezone =
+    token === pacificTimezoneUUID ? 'America/Los_Angeles' : 'browser';
+  const appointments = [
+    createAppointment({
+      eligibility: 'INELIGIBLE_TOO_LATE',
+      facilityId: 'ABC_123',
+      clinicIen: '0001',
+      appointmentIen: '0000',
+      clinicFriendlyName: `HEART CLINIC-1`,
+    }),
+  ];
+  for (let i = 0; i < number; i += 1) {
+    appointments.push(
+      createAppointment({
+        eligibility: 'ELIGIBLE',
+        facilityId: 'ABC_123',
+        clinicIen: '0001',
+        appointmentIen: `000${i + 1}`,
+        clinicFriendlyName: `HEART CLINIC-${i}`,
+        uuid: token,
+        timezone,
+      }),
+    );
+  }
+  appointments.push(
+    createAppointment({
+      eligibility: 'INELIGIBLE_TOO_EARLY',
+      facilityId: 'ABC_123',
+      clinicIen: '0001',
+      appointmentIen: `0050`,
+      clinicFriendlyName: `HEART CLINIC-E`,
+    }),
+  );
+
+  return {
+    id: token,
+    payload: {
+      appointments,
+    },
+  };
+};
+
 const createMockFailedResponse = _data => {
   return {
     error: true,
@@ -276,6 +319,7 @@ module.exports = {
   aboutToExpireUUID,
   createAppointments,
   createAppointment,
+  createUpcomingAppointments,
   defaultUUID,
   mockDemographics,
   createMockFailedResponse,
