@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import { formatSSN } from 'platform/utilities/ui';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import environment from 'platform/utilities/environment';
 
 const convertDateFormat = date => {
   return date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
@@ -61,6 +62,31 @@ const renderFields = [
     id: 'additional-information',
   },
 ];
+
+const determineDeathCertificate = formData => {
+  if (environment.isLocalhost()) {
+    return formData?.transportationReceipts?.length > 0
+      ? formData?.transportationReceipts?.slice(0, 1)
+      : '';
+  }
+  return formData?.deathCertificate?.length > 0
+    ? formData?.deathCertificate
+    : [];
+};
+
+const determineReceipts = formData => {
+  if (environment.isLocalhost()) {
+    return formData?.transportationReceipts?.length > 0
+      ? formData?.transportationReceipts?.slice(
+          1,
+          formData?.transportationReceipts?.length,
+        )
+      : '';
+  }
+  return formData?.transportationReceipts?.length > 0
+    ? formData?.transportationReceipts
+    : [];
+};
 
 const generateData = (type, formData) => {
   switch (type) {
@@ -172,17 +198,10 @@ const generateData = (type, formData) => {
             : '',
         },
         'Document upload': {
-          'Veterans death certificate':
-            formData?.transportationReceipts?.length > 0
-              ? formData?.transportationReceipts?.slice(0, 1)
-              : '',
-          'Documentation for transportation of the Veteran’s remains or other supporting evidence':
-            formData?.transportationReceipts?.length > 0
-              ? formData?.transportationReceipts?.slice(
-                  1,
-                  formData?.transportationReceipts?.length,
-                )
-              : '',
+          'Veterans death certificate': determineDeathCertificate(formData),
+          'Documentation for transportation of the Veteran’s remains or other supporting evidence': determineReceipts(
+            formData,
+          ),
         },
       };
     default:
