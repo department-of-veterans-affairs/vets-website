@@ -11,7 +11,12 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import { processList, sendErrorToSentry } from '../util/helpers';
-import { ALERT_TYPE_ERROR, EMPTY_FIELD, pageTitles } from '../util/constants';
+import {
+  mhvMedicalRecordsDisplayDomains,
+  ALERT_TYPE_ERROR,
+  EMPTY_FIELD,
+  pageTitles,
+} from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   generatePdfScaffold,
@@ -21,6 +26,9 @@ import {
 const AllergyDetails = () => {
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
   const user = useSelector(state => state.user.profile);
+  const displayDomain = useSelector(state =>
+    mhvMedicalRecordsDisplayDomains(state),
+  );
   const { allergyId } = useParams();
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.mr.alerts?.alertList);
@@ -28,9 +36,9 @@ const AllergyDetails = () => {
 
   useEffect(
     () => {
-      if (allergyId) dispatch(getAllergyDetails(allergyId));
+      if (allergyId) dispatch(getAllergyDetails(allergyId, displayDomain));
     },
-    [allergyId, dispatch],
+    [allergyId, dispatch, displayDomain],
   );
 
   useEffect(
