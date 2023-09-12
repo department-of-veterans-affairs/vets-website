@@ -43,7 +43,10 @@ const App = ({ children }) => {
   }, []);
 
   return (
-    <div ref={measuredRef} className="vads-l-grid-container">
+    <div
+      ref={measuredRef}
+      className="vads-l-grid-container vads-u-padding-left--2"
+    >
       <MrBreadcrumbs />
       <div className="medical-records-container">
         {/* <Navigation /> */}

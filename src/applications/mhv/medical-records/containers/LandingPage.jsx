@@ -24,11 +24,13 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div class="vads-l-grid-container">
+    <>
       <div class="vads-l-row">
         <section>
-          <h1>Medical records</h1>
-          <p className="va-introtext">
+          <h1 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+            Medical records
+          </h1>
+          <p className="va-introtext vads-u-margin-bottom--0">
             Review, print, and download your VA medical records.
           </p>
         </section>
@@ -554,7 +556,7 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
