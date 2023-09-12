@@ -57,14 +57,9 @@ export const errorMessages = {
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
 
-// contested issue dates
-export const FORMAT_YMD = 'YYYY-MM-DD';
-export const FORMAT_READABLE = 'LL';
-
 // session storage keys
 export const SAVED_CLAIM_TYPE = 'hlrClaimType';
 export const WIZARD_STATUS = 'wizardStatus996';
-export const REVIEW_ISSUES = 'onReviewPageIssues';
 
 // Values from benefitTypes in vets-json-schema constants
 const supportedBenefitTypes = [
@@ -97,6 +92,5 @@ export const CONFERENCE_TIMES_V2 = {
   },
 };
 
-export const CONTESTABLE_ISSUES_PATH = 'contestable-issues'; // v2
 export const CONTACT_INFO_PATH = 'contact-information';
 export const ADD_ISSUE_PATH = 'add-issue';

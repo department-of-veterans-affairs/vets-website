@@ -28,9 +28,8 @@ import toursOfDutyUI from '../definitions/toursOfDuty';
 import AccordionField from '../components/AccordionField';
 import ApplicantIdentityView from '../components/ApplicantIdentityView';
 import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
-import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
-import CannotRelinquishLabel from '../components/CannotRelinquishLabel';
+import BenefitRelinquishWidget from '../components/BenefitRelinquishWidget';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import CustomEmailField from '../components/CustomEmailField';
@@ -149,21 +148,8 @@ const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 const benefits = [
   ELIGIBILITY.CHAPTER30,
   ELIGIBILITY.CHAPTER1606,
-  'CannotRelinquish',
+  'NotEligible',
 ];
-
-const filterEligibility = (form, state) => {
-  const eligibility = state?.eligibility;
-  if (!eligibility || !eligibility.length) {
-    return { enum: benefits };
-  }
-  return {
-    enum: benefits.filter(
-      benefit =>
-        eligibility.includes(benefit) || benefit === 'CannotRelinquish',
-    ),
-  };
-};
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
@@ -239,7 +225,7 @@ function phoneSchema() {
 }
 
 function additionalConsiderationsQuestionTitleText(benefitSelection, order) {
-  const isUnsure = !benefitSelection || benefitSelection === 'CannotRelinquish';
+  const isUnsure = !benefitSelection || benefitSelection === 'NotEligible';
   const pageNumber = isUnsure ? order - 1 : order;
   const totalPages = isUnsure ? 3 : 4;
 
@@ -1453,32 +1439,7 @@ const formConfig = {
               ),
               [formFields.benefitRelinquished]: {
                 'ui:title': <BenefitRelinquishedLabel />,
-                'ui:reviewField': BenefitGivenUpReviewField,
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: {
-                    Chapter30: 'Montgomery GI Bill Active Duty (Chapter 30)',
-                    Chapter1606:
-                      'Montgomery GI Bill Selected Reserve (Chapter 1606)',
-                    CannotRelinquish: <CannotRelinquishLabel />,
-                  },
-                  widgetProps: {
-                    Chapter30: { 'data-info': 'Chapter30' },
-                    Chapter1606: { 'data-info': 'Chapter1606' },
-                    CannotRelinquish: { 'data-info': 'CannotRelinquish' },
-                  },
-                  selectedProps: {
-                    Chapter30: { 'aria-describedby': 'Chapter30' },
-                    Chapter1606: { 'aria-describedby': 'Chapter1606' },
-                    CannotRelinquish: {
-                      'aria-describedby': 'CannotRelinquish',
-                    },
-                  },
-                  updateSchema: (() => {
-                    // Returns the filterEligibility function, which will be used at runtime.
-                    return filterEligibility;
-                  })(),
-                },
+                'ui:widget': BenefitRelinquishWidget,
                 'ui:errorMessages': {
                   required: 'Please select an answer.',
                 },
@@ -1543,7 +1504,7 @@ const formConfig = {
                 hideIf: formData =>
                   formData[formFields.viewBenefitSelection][
                     formFields.benefitRelinquished
-                  ] !== 'CannotRelinquish',
+                  ] !== 'NotEligible',
                 expandUnder: [formFields.viewBenefitSelection],
               },
             },
