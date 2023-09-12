@@ -3,10 +3,13 @@ import { useSelector } from 'react-redux';
 import {
   apiRequest,
   environment,
+  eauthEnvironmentPrefixes,
+  cernerEnvPrefixes,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import {
   termsOfUseEnabled,
+  isLoggedIn,
   logout as IAMLogout,
 } from '@department-of-veterans-affairs/platform-user/exports';
 import touData from '../touData';
@@ -15,8 +18,30 @@ const touUpdatedDate = `March 2023`;
 const defaultErrorMessage = `Something went wrong on our end. Please try again in a few
               minutes.`;
 
+export const parseRedirectUrl = url => {
+  if (url === null) {
+    return '';
+  }
+
+  const parsedUrl = decodeURIComponent(url);
+  const allowedDomains = [
+    `${environment.BASE_URL}`, // va.gov
+    `${eauthEnvironmentPrefixes[environment.BUILDTYPE]}eauth.va.gov`, // eauth
+    `${cernerEnvPrefixes[environment.BUILDTYPE]}patientportal.myhealth.va.gov`, // cerner
+    `${eauthEnvironmentPrefixes[environment.BUILDTYPE]}fed.eauth.va.gov`, // mobile
+  ];
+
+  const domain = new URL(parsedUrl).hostname;
+
+  if (domain.endsWith('va.gov') || allowedDomains.includes(domain)) {
+    return parsedUrl;
+  }
+  return `${environment.BASE_URL}`;
+};
+
 export default function TermsOfUse() {
   const termsOfUseAuthorized = useSelector(termsOfUseEnabled);
+  const loggedIn = useSelector(isLoggedIn);
   const [error, setError] = useState({ isError: false, message: '' });
 
   const handleTouClick = async type => {
@@ -28,7 +53,7 @@ export default function TermsOfUse() {
       );
     }
     const url = new URL(window.location);
-    const redirectUrl = url.searchParams.get('redirect_url') ?? '';
+    const redirectUrl = parseRedirectUrl(url.searchParams.get('redirect_url'));
     if (type === 'accept' || (type === 'decline' && isAware)) {
       try {
         const response = await apiRequest(
@@ -50,9 +75,7 @@ export default function TermsOfUse() {
         if (Object.keys(response?.termsOfUseAgreement).length) {
           // if the type was accept
           if (type === 'accept') {
-            window.location = !redirectUrl
-              ? `${environment.BASE_URL}`
-              : redirectUrl;
+            window.location = redirectUrl;
           }
 
           if (type === 'decline') {
@@ -148,21 +171,22 @@ export default function TermsOfUse() {
           <h2 id="do-you-accept-of-terms-of-use">
             Do you accept these terms of use?
           </h2>
-          {termsOfUseAuthorized && (
-            <>
-              <va-button
-                text="Accept"
-                onClick={() => handleTouClick('accept')}
-                ariaLabel="I Accept to VA online serivices terms of use"
-              />
-              <va-button
-                text="Decline"
-                secondary
-                ariaLabel="I Decline to VA online serivices terms of use"
-                onClick={() => handleTouClick('decline')}
-              />
-            </>
-          )}
+          {!loggedIn &&
+            termsOfUseAuthorized && (
+              <>
+                <va-button
+                  text="Accept"
+                  onClick={() => handleTouClick('accept')}
+                  ariaLabel="I Accept to VA online serivices terms of use"
+                />
+                <va-button
+                  text="Decline"
+                  secondary
+                  ariaLabel="I Decline to VA online serivices terms of use"
+                  onClick={() => handleTouClick('decline')}
+                />
+              </>
+            )}
           {error.isError && <p>{error.message}</p>}
         </article>
       </div>
