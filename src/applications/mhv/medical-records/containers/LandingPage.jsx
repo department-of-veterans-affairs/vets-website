@@ -36,7 +36,7 @@ const LandingPage = () => {
         </section>
       </div>
       <div class="vads-l-row">
-        <div class="vads-l-col--8">
+        <div class="vads-l-col--12 medium-screen:vads-l-col--8">
           <div>
             <section>
               <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
