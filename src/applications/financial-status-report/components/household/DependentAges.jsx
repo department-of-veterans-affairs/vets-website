@@ -9,12 +9,19 @@ import DependentExplainer from './DependentExplainer';
 import ButtonGroup from '../shared/ButtonGroup';
 import ReviewControl from '../shared/ReviewControl';
 
-const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
+const DependentAges = ({
+  contentBeforeButtons,
+  contentAfterButtons,
+  goForward,
+  goToPath,
+  isReviewMode = false,
+}) => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
   const {
     questions: { hasDependents } = {},
     personalData: { dependents = [] } = {},
+    reviewNavigation = false,
   } = formData;
 
   const [stateDependents, setStateDependents] = useState(dependents);
@@ -23,6 +30,8 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
   );
   const [isEditing, setIsEditing] = useState(!isReviewMode);
   const [hasDependentsChanged, setHasDependentsChanged] = useState(false);
+  // notify user they are returning to review page if they are in review mode
+  const continueButtonText = reviewNavigation ? 'Return to review' : 'Continue';
 
   useEffect(
     () => {
@@ -106,6 +115,16 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
 
     if (isReviewMode) {
       return setIsEditing(false);
+    }
+
+    if (reviewNavigation) {
+      dispatch(
+        setData({
+          ...formData,
+          reviewNavigation: false,
+        }),
+      );
+      return goToPath('/review-and-submit');
     }
 
     return formData['view:streamlinedWaiver']
@@ -227,6 +246,7 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
         </legend>
         {dependentAgeInputs}
         {!isReviewMode ? <DependentExplainer /> : null}
+        {contentBeforeButtons}
         {isReviewMode && isEditing ? (
           <div className="vads-u-margin-top--2">
             <ReviewControl
@@ -249,7 +269,7 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
                   iconLeft: '«',
                 },
                 {
-                  label: 'Continue',
+                  label: continueButtonText,
                   type: 'submit',
                   iconRight: '»',
                 },
@@ -257,12 +277,15 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
             />
           )
         )}
+        {contentAfterButtons}
       </fieldset>
     </form>
   );
 };
 
 DependentAges.propTypes = {
+  contentAfterButtons: PropTypes.object,
+  contentBeforeButtons: PropTypes.object,
   goForward: PropTypes.func,
   goToPath: PropTypes.func,
   isReviewMode: PropTypes.bool,

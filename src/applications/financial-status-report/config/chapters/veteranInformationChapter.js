@@ -4,7 +4,6 @@ import {
   contactInformation,
   spouseInformation,
   spouseName,
-  dependents,
   dependentRecords,
 } from '../../pages';
 import VeteranInformation from '../../components/veteranInformation/VeteranInformation';
@@ -18,6 +17,7 @@ import {
   EditEmail,
   EditAddress,
 } from '../../components/contactInfo/EditContactInfo';
+import DependentCount from '../../components/household/DependentCount';
 import DependentAges from '../../components/household/DependentAges';
 import DependentAgesReview from '../../components/household/DependentAgesReview';
 
@@ -132,9 +132,12 @@ export default {
       dependentCount: {
         path: 'dependents-count',
         title: 'Dependents',
-        uiSchema: dependents.uiSchemaEnhanced,
-        schema: dependents.schemaEnhanced,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
         depends: formData => formData['view:streamlinedWaiver'],
+        CustomPage: DependentCount,
+        CustomPageReview: null,
+        editModeOnReviewPage: false,
       },
       dependentAges: {
         path: 'dependent-ages',
