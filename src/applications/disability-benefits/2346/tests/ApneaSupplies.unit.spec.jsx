@@ -48,7 +48,7 @@ const fakeStore = {
         ],
         selectedProducts: [{ productId: 1234 }],
         eligibility: {
-          accessories: true,
+          apneas: true,
         },
       },
     },
@@ -82,7 +82,7 @@ const fakeStoreNoEligibility2Years = {
         ],
         selectedProducts: [{ productId: 6641 }],
         eligibility: {
-          accessories: false,
+          apneas: false,
         },
       },
     },
@@ -139,9 +139,9 @@ describe('ApneaSupplies', () => {
     const wrapper = mount(
       <ApneaSupplies store={fakeStoreNoEligibility2Years} />,
     );
-    expect(wrapper.find('.accessories-two-year-alert-content').length).to.equal(
-      1,
-    );
+    expect(
+      wrapper.find('.apnea-supplies-two-year-alert-content').length,
+    ).to.equal(1);
     wrapper.unmount();
   });
   it('should display an alert text if non-orderable item is included', () => {

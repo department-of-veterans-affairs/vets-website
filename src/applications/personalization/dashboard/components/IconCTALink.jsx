@@ -75,7 +75,7 @@ const IconCTALink = ({
 };
 
 IconCTALink.propTypes = {
-  ariaLabel: PropTypes.string,
+  ariaLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   boldText: PropTypes.bool,
   dotIndicator: PropTypes.bool,
   href: PropTypes.string,
