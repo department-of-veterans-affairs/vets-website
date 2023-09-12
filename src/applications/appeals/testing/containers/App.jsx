@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import formConfig from '../config/form';
 
 import { setupPages } from '../utils/taskListPages';
+import GetFormHelp from '../content/GetFormHelp';
 
 export default function App(props) {
   const { location, children } = props;
@@ -82,6 +83,13 @@ export default function App(props) {
       <div className="row">
         <div className="usa-width-two-thirds medium-8 columns">{children}</div>
       </div>
+      {!noHeader.includes(currentPath) && (
+        <div className="row">
+          <div className="usa-width-two-thirds medium-8 columns">
+            <GetFormHelp />
+          </div>
+        </div>
+      )}
     </article>
   );
 }

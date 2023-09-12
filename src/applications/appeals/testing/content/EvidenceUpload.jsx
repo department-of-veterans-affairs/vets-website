@@ -5,8 +5,6 @@ import {
   MAX_FILE_SIZE_MB,
 } from '../../shared/constants';
 
-export const evidenceUploadTitle = <h1>Additional evidence</h1>;
-
 const fileTypes =
   SUPPORTED_UPLOAD_TYPES.length > 1
     ? `.${SUPPORTED_UPLOAD_TYPES.slice(0, -1).join(

@@ -63,11 +63,6 @@ module.exports = {
         use: 'a custom solution',
       },
       {
-        name:
-          '@department-of-veterans-affairs/component-library/AdditionalInfo',
-        use: '<va-additional-info>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/Breadcrumbs',
         use: '<va-breadcrumbs>',
       },
@@ -83,10 +78,6 @@ module.exports = {
       {
         name: '@department-of-veterans-affairs/component-library/OMBInfo',
         use: '<va-omb-info>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Pagination',
-        use: '<va-pagination>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/Telephone',

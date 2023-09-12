@@ -32,7 +32,8 @@ class MedicationsDetailsPage {
   verifyPrescriptionsStatus = PrescriptionsStatus => {
     cy.get('[data-testid="status"]').should(
       'have.text',
-      PrescriptionsStatus.toString().toUpperCase(),
+      PrescriptionsStatus.charAt(0).toUpperCase() +
+        PrescriptionsStatus.slice(1),
     );
   };
 

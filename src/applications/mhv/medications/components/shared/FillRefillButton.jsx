@@ -14,9 +14,11 @@ const FillRefillButton = rx => {
     refillRemaining,
     refillStatus,
     success,
+    isRefillable,
   } = rx;
 
   if (
+    !isRefillable ||
     refillStatus === 'expired' ||
     refillStatus === 'refillinprocess' ||
     refillRemaining === 0
@@ -79,6 +81,7 @@ FillRefillButton.propTypes = {
     refillRemaining: PropTypes.number,
     refillStatus: PropTypes.string,
     success: PropTypes.bool,
+    isRefillable: PropTypes.bool,
   }),
 };
 
