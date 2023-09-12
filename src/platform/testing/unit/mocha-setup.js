@@ -177,7 +177,6 @@ setupJSDom();
 const checkAllowList = testContext => {
   const file = testContext.currentTest.file.split('/').pop();
   if (DISALLOWED_SPECS.indexOf(file) > -1) {
-    console.log('skipping test: ', file);
     testContext.skip();
   }
 };
