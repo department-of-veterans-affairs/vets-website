@@ -46,7 +46,7 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
         visible="true"
       >
         <div>
-          <p className="vads-u-margin-y--0 vads-u-margin-bottom--2">
+          <p className="vads-u-margin-y--0">
             <strong>
               Decision letters aren’t available to download right now.{' '}
             </strong>
