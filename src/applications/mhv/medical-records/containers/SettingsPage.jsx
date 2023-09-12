@@ -94,7 +94,11 @@ const SettingsPage = () => {
             If you’re still having trouble, call your VA health facility and ask
             for the medical records office.
           </p>
-          <p>Find your VA health facility</p>
+          <p>
+            <a href="/find-locations/?facilityType=health">
+              Find your VA health facility
+            </a>
+          </p>
         </va-alert>
       );
     }
