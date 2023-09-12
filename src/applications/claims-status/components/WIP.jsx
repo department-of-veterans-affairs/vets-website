@@ -1,7 +1,7 @@
 import React from 'react';
 
 const WIP = () => (
-  <va-alert close-btn-aria-label="Close notification" status="warning" visible>
+  <va-alert status="warning">
     <h2 slot="headline">
       Decision letters aren’t available to download right now.
     </h2>
