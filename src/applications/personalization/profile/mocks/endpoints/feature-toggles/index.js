@@ -30,7 +30,14 @@ const generateFeatureToggles = (values = profileToggles, allOn = false) => {
     ? makeAllTogglesTrue(profileToggles)
     : { ...profileToggles, ...values };
 
-  const features = Object.entries(toggles).map(([key, value]) => {
+  const togglesCamelCased = Object.entries(toggles).map(([key, value]) => {
+    return {
+      name: key,
+      value,
+    };
+  });
+
+  const togglesSnakeCased = Object.entries(toggles).map(([key, value]) => {
     return {
       name: snakeCase(key),
       value,
@@ -40,7 +47,7 @@ const generateFeatureToggles = (values = profileToggles, allOn = false) => {
   return {
     data: {
       type: 'feature_toggles',
-      features,
+      features: [...togglesSnakeCased, ...togglesCamelCased],
     },
   };
 };
