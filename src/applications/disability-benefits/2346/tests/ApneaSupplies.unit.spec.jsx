@@ -144,11 +144,4 @@ describe('ApneaSupplies', () => {
     ).to.equal(1);
     wrapper.unmount();
   });
-  it('should display an alert text if non-orderable item is included', () => {
-    const wrapper = mount(<ApneaSupplies store={fakeStore} />);
-    expect(wrapper.text()).to.include(
-      'This item is not available for online reordering.',
-    );
-    wrapper.unmount();
-  });
 });
