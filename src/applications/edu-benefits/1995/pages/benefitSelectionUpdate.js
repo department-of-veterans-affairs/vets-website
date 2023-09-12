@@ -2,11 +2,11 @@ import fullSchema from 'vets-json-schema/dist/22-1995-schema.json';
 
 import { benefitsLabelsUpdate } from '../../utils/labels';
 
-const { benefit } = fullSchema.properties;
+const { benefitUpdate } = fullSchema.properties;
 
 const displayBenefit = {
-  ...benefit,
-  enum: [...benefit.enum],
+  ...benefitUpdate,
+  enum: [...benefitUpdate.enum],
 };
 
 /* 
@@ -27,7 +27,7 @@ displayBenefit.enum.splice(0, 1, 'chapter33');
 displayBenefit.enum.splice(1, 1, 'fryScholarship');
 
 export const uiSchema = {
-  benefit: {
+  benefitUpdate: {
     'ui:widget': 'radio',
     'ui:title': 'Which benefit are you currently using?',
     'ui:options': {
@@ -37,7 +37,7 @@ export const uiSchema = {
 };
 
 export const oldUiSchema = {
-  benefit: {
+  benefitUpdate: {
     'ui:widget': 'radio',
     'ui:title':
       'Which benefit are you currently using or have you used most recently?',
@@ -50,6 +50,6 @@ export const oldUiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    benefit: displayBenefit,
+    benefitUpdate: displayBenefit,
   },
 };
