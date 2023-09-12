@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Edit from './Edit';
 import Show from './Show';
 
 const PersonalDetails = props => {
   let { variant } = props;
+  const [edit, setEdit] = useState(false);
+
+  const handleSubmit = () => {
+    setEdit(!edit);
+  }
 
   return (
     <>
@@ -13,8 +18,8 @@ const PersonalDetails = props => {
         medical documentation, and benefits, if needed. You next of kin is often
         your closest living relative, like your spouse, child, parent, or sibling.
       </p>
-      {/* <Edit {...props} /> */}
-      <Show {...props} />
+      {edit && <Edit {...props} handleSubmit={handleSubmit} />}
+      {!edit && <Show {...props} handleSubmit={handleSubmit} />}
     </>
   )
 };

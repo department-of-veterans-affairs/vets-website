@@ -9,7 +9,7 @@ const headings = {
 };
 
 const Show = props => {
-  let { name, relationship, address, phoneNumber, variant } = props;
+  let { name, relationship, address, phoneNumber, variant, handleSubmit } = props;
 
   return (
     <section className="vads-u-margin-top--2 vads-u-margin-bottom--6">
@@ -73,7 +73,7 @@ const Show = props => {
         </h3>
         { phoneNumber }
 
-        <va-button text="Edit" />
+        <va-button text="Edit" onClick={handleSubmit} />
       </div>
     </section>
   )

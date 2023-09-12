@@ -10,39 +10,70 @@ const headings = {
   'emergencyContactPrimary': 'Emergency Contact, Primary',
   'emergencyContactOther': 'Emergency Contact, Other'
 };
-const Edit = ({ variant }) => {
+const Edit = ({
+  givenName,
+  middleName,
+  familyName,
+  relationship,
+  addressLine1,
+  city,
+  state,
+  zipCode,
+  primaryPhone,
+  alternatePhone,
+  variant,
+  handleSubmit
+}) => {
   return (
     <form>
       <h2>{headings[variant]}</h2>
       <h3>Name</h3>
-      <va-text-input label="First name" name="givenName" />
-      <va-text-input label="Middle name" name="middleName" />
-      <va-text-input label="Last name" name="familyName" />
-      <va-select label="Suffix" name="suffix">
+      <va-text-input label="First name" name="givenName" value={givenName} />
+      {/* <va-text-input label="Middle name" name="middleName" value={middleName} /> */}
+      <va-text-input label="Last name" name="familyName" value={familyName} />
+      {/* <va-select label="Suffix" name="suffix">
         <option value=""></option>
         {suffixes.map(suffix => <option value={suffix}>{suffix}</option>)}
-      </va-select>
+      </va-select> */}
+
+      <h3>Relationship</h3>
+      <va-text-input label="Relationship" name="relationship" value={relationship} />
 
       <h3>Address</h3>
       <va-select label="Country" name="country">
         {countries.map(({ label, value }) => <option value={value}>{label}</option>)}
       </va-select>
-      <va-text-input label="Street address" name="addressLine1" />
-      <va-text-input label="Street address (line 2)" name="addressLine2" />
-      <va-text-input label="Street address (line 3)" name="addressLine3" />
-      <va-text-input label="City" name="city" />
-      <va-select label="State" name="state">
+      <va-text-input label="Street address" name="addressLine1" value={addressLine1} />
+      {/* <va-text-input label="Street address (line 2)" name="addressLine2" /> */}
+      {/* <va-text-input label="Street address (line 3)" name="addressLine3" /> */}
+      <va-text-input label="City" name="city" value={city} />
+      <va-select label="State" name="state" value={state} >
         <option value=""></option>
         {states.USA.map(({ label, value }) => <option value={value}>{label}</option>)}
       </va-select>
-      <va-text-input label="Zip code" name="zipCode" />
-      <va-text-input label="Phone number" name="primaryPhone" />
+      <va-text-input label="Zip code" name="zipCode" value={zipCode} />
 
-      <div class="vads-l-row vads-u-justify-content--flex-end">
-        <va-button text="Save" />
+      <h3>Telephone</h3>
+      <va-text-input label="Phone" name="primaryPhone" value={primaryPhone} />
+      <va-text-input label="Work phone" name="alternatePhone" value={alternatePhone} />
+
+      <div className="vads-l-row vads-u-justify-content--flex-end">
+        <va-button text="Save" onClick={handleSubmit} />
       </div>
     </form>
   )
+};
+
+Edit.defaultProps = {
+  givenName: "Jonnie",
+  familyName: "Shaye",
+  relationship: "Brother",
+  addressLine1: "123 Main St, Ste 234",
+  city: "Los Angeles",
+  state: "CA",
+  zipCode: "90089",
+  primaryPhone: "111-222-3333",
+  alternatePhone: "111-333-4444",
 };
 
 export default Edit;
