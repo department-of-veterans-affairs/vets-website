@@ -110,18 +110,21 @@ export function NewAppointment() {
             path={`${match.url}/how-to-schedule`}
             component={ScheduleCernerPage}
           />
-          <Route
-            path={`${match.url}/community-care-preferences`}
-            component={CommunityCareProviderSelectionPage}
-          />
-          <Route
-            path={`${match.url}/community-care-language`}
-            component={CommunityCareLanguagePage}
-          />
-          <Route
-            path={`${match.url}/choose-closest-city`}
-            component={ClosestCityStatePage}
-          />
+          <Route path={`${match.url}/community-care-preferences`}>
+            <CommunityCareProviderSelectionPage
+              changeCrumb={newTitle => setCrumb(newTitle)}
+            />
+          </Route>
+          <Route path={`${match.url}/community-care-language`}>
+            <CommunityCareLanguagePage
+              changeCrumb={newTitle => setCrumb(newTitle)}
+            />
+          </Route>
+          <Route path={`${match.url}/choose-closest-city`}>
+            <ClosestCityStatePage
+              changeCrumb={newTitle => setCrumb(newTitle)}
+            />
+          </Route>
           <Route path={`${match.url}/clinics`}>
             <ClinicChoicePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
