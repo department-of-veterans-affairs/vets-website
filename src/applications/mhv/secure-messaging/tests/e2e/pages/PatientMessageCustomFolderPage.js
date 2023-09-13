@@ -12,6 +12,13 @@ class PatientMessageCustomFolderPage {
 
   folderName = mockFolders.data[mockFolders.data.length - 1].attributes.name;
 
+  loadFoldersList = () => {
+    cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
+      'customFoldersList',
+    );
+    cy.get('[data-testid="my-folders-sidebar"]').click();
+  };
+
   loadMessages = () => {
     cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
       'customFoldersList',
@@ -27,7 +34,6 @@ class PatientMessageCustomFolderPage {
       mockSingleThreadResponse,
     ).as('customFolderThread');
 
-    cy.get('[data-testid="my-folders-sidebar"]').click();
     cy.get(`[data-testid=${this.folderName}]`).click();
 
     cy.visit(`${Paths.UI_MAIN + Paths.FOLDERS}/${this.folderId}`, {

@@ -9,6 +9,7 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
+    PatientMessageCustomFolderPage.loadFoldersList();
     PatientMessageCustomFolderPage.loadMessages();
   });
   it('Axe Check Custom Folder List', () => {
@@ -23,11 +24,27 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
   });
 
   it('Verify folder header', () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     PatientMessageCustomFolderPage.verifyFolderHeader();
     PatientMessageCustomFolderPage.verifyResponseBodyLength();
   });
 
   it('Check sorting works properly', () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     PatientMessageCustomFolderPage.verifySorting();
   });
 });
