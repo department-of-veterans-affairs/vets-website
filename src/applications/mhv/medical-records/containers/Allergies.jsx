@@ -164,7 +164,7 @@ const Allergies = () => {
         <PrintHeader />
         <h1 className="vads-u-margin--0">Allergies</h1>
         <section>
-          <p className="vads-u-margin-top--1">
+          <p className="page-description">
             If you have allergies that are missing from this list, send a secure
             message to your care team.
           </p>
@@ -173,7 +173,7 @@ const Allergies = () => {
               <PrintDownload list download={generateAllergiesPdf} />
               <va-additional-info
                 trigger="What to know about downloading records"
-                class="no-print"
+                class="no-print vads-u-margin-bottom--4"
               >
                 <ul>
                   <li>

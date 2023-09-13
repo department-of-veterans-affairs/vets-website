@@ -101,6 +101,10 @@
   }
 }
 
+.page-description {
+  margin: 8px 0px 16px;
+}
+
 @media (max-width: $small-screen) {
   .medical-records-container {
     flex-direction: column;
@@ -114,5 +118,8 @@
 @media print {
   .time-header {
     margin: 0px;
+  }
+  .page-description {
+    margin: 16px 0px;
   }
 }

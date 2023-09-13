@@ -147,7 +147,7 @@ const AllergyDetails = () => {
             Allergy: <span data-dd-privacy="mask">{allergy.name}</span>
           </h1>
           <section>
-            <div className="condition-subheader vads-u-margin-bottom--3">
+            <div className="condition-subheader vads-u-margin-bottom--4">
               <div className="time-header">
                 <h2
                   className="vads-u-font-size--base vads-u-font-family--sans"
@@ -165,7 +165,7 @@ const AllergyDetails = () => {
               <PrintDownload list download={generateAllergyPdf} />
               <va-additional-info
                 trigger="What to know about downloading records"
-                class="no-print"
+                class="no-print vads-u-margin-bottom--4"
               >
                 <ul>
                   <li>
