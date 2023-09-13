@@ -18,8 +18,8 @@ export const ServerErrorAlertContent = (
     </p>
     <p className="vads-u-font-size--base">
       If you get this error again, please call the VA.gov help desk at{' '}
-      <va-telephone contact={CONTACTS.VA_311} />
-      (TTY: <va-telephone contact={CONTACTS['711']} />
+      <va-telephone contact={CONTACTS.VA_311} /> (
+      <va-telephone contact={CONTACTS['711']} tty />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET
     </p>
   </>
