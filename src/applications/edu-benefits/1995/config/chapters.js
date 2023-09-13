@@ -11,6 +11,7 @@ import {
   dependents,
   militaryHistory,
   newSchool,
+  newSchoolUpdate,
   servicePeriods,
 } from '../pages';
 
@@ -69,8 +70,12 @@ export const chapters = {
         initialData: {
           newSchoolAddress: {},
         },
-        uiSchema: newSchool.uiSchema,
-        schema: newSchool.schema,
+        uiSchema: environment.isProduction()
+          ? newSchool.uiSchema
+          : newSchoolUpdate.uiSchema,
+        schema: environment.isProduction()
+          ? newSchool.schema
+          : newSchoolUpdate.schema,
       },
       oldSchool: createOldSchoolPage(fullSchema1995),
     },

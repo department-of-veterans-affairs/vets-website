@@ -383,12 +383,6 @@ class PatientInboxPage {
     cy.realPress(['Enter']);
   };
 
-  verifyDeleteConfirmMessage = () => {
-    cy.contains('successfully deleted')
-      .focused()
-      .should('have.text', 'Draft was successfully deleted.');
-  };
-
   loadLandingPageByTabbingAndEnterKey = () => {
     cy.intercept(
       'GET',
@@ -559,6 +553,10 @@ class PatientInboxPage {
       sortedResponse,
     );
     cy.get('[data-testid="sort-button"]').click({ force: true });
+  };
+
+  getInboxHeader = text => {
+    cy.get('[data-testid="folder-header"]').should('have.text', `${text}`);
   };
 }
 

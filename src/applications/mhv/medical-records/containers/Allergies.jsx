@@ -105,18 +105,13 @@ const Allergies = () => {
             inline: true,
           },
           {
-            title: 'VA drug class',
-            value: item.drugClass || EMPTY_FIELD,
-            inline: true,
-          },
-          {
             title: 'Location',
             value: item.location || EMPTY_FIELD,
             inline: true,
           },
           {
             title: 'Observed or reported',
-            value: item.observed ? 'Observed' : 'Reported',
+            value: item.observedOrReported,
             inline: true,
           },
           {
@@ -164,38 +159,39 @@ const Allergies = () => {
   };
 
   return (
-    <div id="allergies">
-      <PrintHeader />
-      <h1 className="vads-u-margin--0">Allergies</h1>
-      <section className="set-width-486">
-        <p className="vads-u-margin-top--1">
-          Review allergies and reactions in your VA medical records.
-        </p>
-
-        {!accessAlert && (
-          <>
-            <PrintDownload list download={generateAllergiesPdf} />
-            <va-additional-info
-              trigger="What to know about downloading records"
-              class="no-print"
-            >
-              <ul>
-                <li>
-                  <strong>If you’re on a public or shared computer,</strong>{' '}
-                  print your records instead of downloading. Downloading will
-                  save a copy of your records to the public computer.
-                </li>
-                <li>
-                  <strong>If you use assistive technology,</strong> a Text file
-                  (.txt) may work better for technology such as screen reader,
-                  screen enlargers, or Braille displays.
-                </li>
-              </ul>
-            </va-additional-info>
-          </>
-        )}
-      </section>
-      {content()}
+    <div id="allergies" className="vads-l-row">
+      <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <PrintHeader />
+        <h1 className="vads-u-margin--0">Allergies</h1>
+        <section>
+          <p className="vads-u-margin-top--1">
+            Review allergies and reactions in your VA medical records.
+          </p>
+          {!accessAlert && (
+            <>
+              <PrintDownload list download={generateAllergiesPdf} />
+              <va-additional-info
+                trigger="What to know about downloading records"
+                class="no-print"
+              >
+                <ul>
+                  <li>
+                    <strong>If you’re on a public or shared computer,</strong>{' '}
+                    print your records instead of downloading. Downloading will
+                    save a copy of your records to the public computer.
+                  </li>
+                  <li>
+                    <strong>If you use assistive technology,</strong> a Text
+                    file (.txt) may work better for technology such as screen
+                    reader, screen enlargers, or Braille displays.
+                  </li>
+                </ul>
+              </va-additional-info>
+            </>
+          )}
+        </section>
+        {content()}
+      </div>
     </div>
   );
 };
