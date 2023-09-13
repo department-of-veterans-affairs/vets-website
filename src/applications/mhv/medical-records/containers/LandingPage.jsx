@@ -5,7 +5,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import { updatePageTitle } from '../../shared/util/helpers';
+import { openCrisisModal, updatePageTitle } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
 
 const LandingPage = () => {
@@ -359,11 +359,10 @@ const LandingPage = () => {
                       </span>{' '}
                       connect with our Veterans Crisis Line. We offer
                       confidential support anytime, day or night.
-                      <p
-                        className="va-overlay-trigger vads-u-text-decoration--underline vads-u-color--link-default vads-u-margin-x--0p5"
-                        data-show="#modal-crisisline"
-                      >
-                        Connect with the Veterans Crisis Line
+                      <p className="vads-u-margin-bottom--2">
+                        <a onClick={openCrisisModal}>
+                          Connect with the Veterans Crisis Line
+                        </a>
                       </p>
                     </li>
                     <li>
