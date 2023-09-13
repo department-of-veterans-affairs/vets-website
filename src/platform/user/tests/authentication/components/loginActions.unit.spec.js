@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import * as authUtilities from '../../../authentication/utilities';
 import LoginActions from '../../../authentication/components/LoginActions';
 import { CSP_IDS } from '../../../authentication/constants';
@@ -13,7 +14,7 @@ describe('login DOM ', () => {
     getState: () => ({
       featureToggles: {
         // eslint-disable-next-line camelcase
-        showsignInPageAndModalExperiment: true,
+        sign_in_page_and_modal_experiment_lga: false,
       },
     }),
     subscribe: () => {},
@@ -26,6 +27,36 @@ describe('login DOM ', () => {
 
   afterEach(() => {
     sandbox.restore();
+  });
+
+  it('does not show modal text when feature flag is turned off', () => {
+    const flipperOffMockStore = ({ signInPageModalEnabled = false } = {}) => ({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        sign_in_page_and_modal_experiment_lga: signInPageModalEnabled,
+      },
+    });
+
+    const wrapper = renderInReduxProvider(<LoginActions />, {
+      initialState: flipperOffMockStore(),
+    });
+    expect(wrapper.queryByText(/Sign in with your Login.gov or ID.me account/i))
+      .to.be.null;
+  });
+
+  it('shows modal text when feature flag is turned on', () => {
+    const flipperOnMockStore = ({ signInPageModalEnabled = true } = {}) => ({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        sign_in_page_and_modal_experiment_lga: signInPageModalEnabled,
+      },
+    });
+
+    const wrapper = renderInReduxProvider(<LoginActions />, {
+      initialState: flipperOnMockStore(),
+    });
+    expect(wrapper.getByText(/Sign in with your Login.gov or ID.me account/)).to
+      .not.be.null;
   });
 
   it('login buttons should properly call login method', () => {
