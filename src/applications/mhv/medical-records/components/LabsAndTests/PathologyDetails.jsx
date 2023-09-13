@@ -5,10 +5,12 @@ import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/export
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
+import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import { nameFormat, dateFormat, sendErrorToSentry } from '../../util/helpers';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
@@ -17,6 +19,12 @@ const PathologyDetails = props => {
   const { record, fullState } = props;
   const formattedDate = formatDateLong(record?.date);
   const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
 
@@ -119,21 +127,12 @@ const PathologyDetails = props => {
               </h2>
             </div>
             <div className="no-print">
-              <PrintDownload list download={generatePathologyPdf} />
-              <va-additional-info trigger="What to know about downloading records">
-                <ul>
-                  <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
-                  </li>
-                  <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
-                  </li>
-                </ul>
-              </va-additional-info>
+              <PrintDownload
+                list
+                download={generatePathologyPdf}
+                allowTxtDownloads={allowTxtDownloads}
+              />
+              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
             </div>
             <div className="test-details-container max-80">
               <h4>Details about this test</h4>

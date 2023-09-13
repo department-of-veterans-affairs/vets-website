@@ -5,11 +5,13 @@ import { useParams } from 'react-router-dom';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import ItemList from '../components/shared/ItemList';
 import { getAllergyDetails } from '../actions/allergies';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { processList, sendErrorToSentry } from '../util/helpers';
 import { ALERT_TYPE_ERROR, EMPTY_FIELD, pageTitles } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
@@ -21,6 +23,12 @@ import {
 const AllergyDetails = () => {
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
   const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const { allergyId } = useParams();
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.mr.alerts?.alertList);
@@ -162,24 +170,12 @@ const AllergyDetails = () => {
                   </span>
                 </h2>
               </div>
-              <PrintDownload list download={generateAllergyPdf} />
-              <va-additional-info
-                trigger="What to know about downloading records"
-                class="no-print vads-u-margin-bottom--4"
-              >
-                <ul>
-                  <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
-                  </li>
-                  <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
-                  </li>
-                </ul>
-              </va-additional-info>
+              <PrintDownload
+                list
+                download={generateAllergyPdf}
+                allowTxtDownloads={allowTxtDownloads}
+              />
+              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
             </div>
             <div className="condition-details max-80">
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
