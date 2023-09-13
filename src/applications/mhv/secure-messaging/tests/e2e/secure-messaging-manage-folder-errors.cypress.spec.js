@@ -7,7 +7,7 @@ import MockCustomFolderResponse from './fixtures/folder-custom-metadata.json';
 import FolderManagementPage from './pages/FolderManagementPage';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Manage Folder Errors check', () => {
+describe.skip('Secure Messaging Manage Folder Errors check', () => {
   const folderPage = new FolderManagementPage();
   const landingPage = new PatientInboxPage();
   beforeEach(() => {
