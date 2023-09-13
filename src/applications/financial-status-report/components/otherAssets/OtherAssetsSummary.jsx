@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -7,17 +7,36 @@ import {
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
 import { currency as currencyFormatter } from '../../utils/helpers';
+import { calculateTotalAssets } from '../../utils/streamlinedDepends';
 
 const OtherAssetsSummary = ({
   data,
-  goBack,
   goToPath,
+  goForward,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { assets } = data;
+  const { assets, gmtData } = data;
   const { otherAssets = [] } = assets;
+
+  useEffect(
+    () => {
+      if (!gmtData?.isEligibleForStreamlined) return;
+
+      const calculatedAssets = calculateTotalAssets(data);
+      setFormData({
+        ...data,
+        gmtData: {
+          ...gmtData,
+          assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
+        },
+      });
+    },
+    // avoiding use of data since it changes so often
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [otherAssets, gmtData?.isEligibleForStreamlined, gmtData?.assetThreshold],
+  );
 
   const onDelete = deleteIndex => {
     setFormData({
@@ -31,12 +50,15 @@ const OtherAssetsSummary = ({
     });
   };
 
-  const goForward = () => {
-    return goToPath('/expenses-explainer');
+  const goBack = () => {
+    if (otherAssets.length === 0) {
+      return goToPath('/other-assets-checklist');
+    }
+    return goToPath('/other-assets-values');
   };
 
   const cardBody = text => (
-    <p>
+    <p className="vads-u-margin--0">
       Value: <b>{currencyFormatter(text)}</b>
     </p>
   );
@@ -50,7 +72,7 @@ const OtherAssetsSummary = ({
           className="schemaform-block-title"
           name="addedAssetsSummary"
         >
-          You have added these assets
+          <h3 className="vads-u-margin--0">You have added these assets</h3>
         </legend>
         <div className="vads-l-grid-container--full">
           {!otherAssets.length ? (
@@ -122,13 +144,15 @@ OtherAssetsSummary.propTypes = {
     assets: PropTypes.shape({
       otherAssets: PropTypes.array,
     }),
+    gmtData: PropTypes.shape({
+      assetThreshold: PropTypes.number,
+      assetsBelowGmt: PropTypes.bool,
+      isEligibleForStreamlined: PropTypes.bool,
+    }),
   }),
-  goBack: PropTypes.func,
+  goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
-  testingIndex: PropTypes.number,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
 };
 
 export default OtherAssetsSummary;

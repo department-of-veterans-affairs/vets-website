@@ -2,7 +2,6 @@ import React from 'react';
 
 import { omit } from 'lodash';
 
-import definitions from 'vets-json-schema/dist/definitions.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import formDefinitions from '../definitions/form-definitions';
 
@@ -15,7 +14,18 @@ export default {
   uiSchema: {
     claimantPhone: {
       'ui:title': 'Phone number',
-      'ui:autocomplete': 'tel-national',
+      'ui:autocomplete': 'tel',
+      'ui:errorMessages': {
+        minLength:
+          'Please enter a 10-digit phone number (with or without dashes)',
+        pattern:
+          'Please enter a 10-digit phone number (with or without dashes)',
+        required:
+          'Please enter a 10-digit phone number (with or without dashes)',
+      },
+      'ui:options': {
+        inputType: 'tel',
+      },
     },
     claimantEmail: {
       ...partialEmailUi,
@@ -33,8 +43,8 @@ export default {
                 <span>
                   Email address
                   <br />
-                  By providing an email address, I agree to receive electronic
-                  correspondence from VA regarding my application
+                  When you enter your email address, you agree to receive emails
+                  from us about your claim.
                 </span>
               ),
             };
@@ -49,9 +59,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['claimantPhone', 'claimantEmail'],
+    required: ['claimantPhone'],
     properties: {
-      claimantPhone: definitions.phone,
+      claimantPhone: formDefinitions.phone,
       claimantEmail: formDefinitions.pdfEmail,
     },
   },

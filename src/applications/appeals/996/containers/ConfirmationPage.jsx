@@ -8,8 +8,10 @@ import { selectProfile } from 'platform/user/selectors';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { SAVED_CLAIM_TYPE, WIZARD_STATUS, FORMAT_READABLE } from '../constants';
+import { SAVED_CLAIM_TYPE, WIZARD_STATUS } from '../constants';
 import { getSelected, getIssueName } from '../utils/helpers';
+
+import { FORMAT_READABLE } from '../../shared/constants';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -27,7 +29,7 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     const issues = getSelected(data || []).map((issue, index) => (
       <li key={index} className="vads-u-margin-bottom--0">
-        {getIssueName(issue)}
+        <span className="dd-privacy-hidden">{getIssueName(issue)}</span>
       </li>
     ));
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
@@ -56,14 +58,16 @@ export class ConfirmationPage extends React.Component {
             Higher-Level Review{' '}
             <span className="additional">(Form {formId})</span>
           </h3>
-          for {fullName}
-          {name.suffix && `, ${name.suffix}`}
+          for <span className="dd-privacy-hidden">{fullName}</span>
+          {name.suffix && (
+            <span className="dd-privacy-hidden">{`, ${name.suffix}`}</span>
+          )}
           {response && (
             <>
               {submitDate.isValid() && (
                 <p>
                   <strong>Date submitted</strong>
-                  <br />
+                  <br role="presentation" />
                   <span>{submitDate.format(FORMAT_READABLE)}</span>
                 </p>
               )}
@@ -104,10 +108,10 @@ export class ConfirmationPage extends React.Component {
           please don’t request another review. Call VA at{' '}
           <va-telephone contact={CONTACTS.VA_BENEFITS} />.
         </p>
-        <br />
+        <br role="presentation" />
         <a
           href="/claim-or-appeal-status/"
-          className="usa-button usa-button-primary"
+          className="vads-c-action-link--green"
         >
           Check the status of your decision review
         </a>

@@ -1,3 +1,5 @@
+import { getTrackedItemDate } from '../utils/helpers';
+
 // NOTE: I think that in the long term it will make sense to move
 // this logic into the backend, but doing it here for now makes it
 // easier to modify this in the short term
@@ -32,6 +34,7 @@ const associateDocsWithTrackedItems = (items, docs) => {
     const newItem = { ...item };
     const associatedDocs = getDocsAssociatedWithTrackedItem(newItem, docs);
     newItem.documents = associatedDocs || [];
+    newItem.date = getTrackedItemDate(item);
     return newItem;
   });
 };
@@ -57,7 +60,14 @@ export const serializeClaim = claim => {
     ...claim,
     attributes: {
       ...claim.attributes,
-      supportingDocuments: filterAssociatedDocs(supportingDocuments),
+      supportingDocuments: filterAssociatedDocs(supportingDocuments).map(
+        doc => {
+          return {
+            ...doc,
+            date: doc.uploadDate,
+          };
+        },
+      ),
       trackedItems: associatedTrackedItems,
     },
   };

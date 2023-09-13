@@ -5,9 +5,14 @@ import MessageList from '../components/MessageList/MessageList';
 import NoFilterMatchWarning from '../components/Search/NoFilterMatchWarning';
 
 const SearchResults = () => {
-  const { awaitingResults, searchResults, searchFolder, keyword } = useSelector(
-    state => state.sm.search,
-  );
+  const {
+    awaitingResults,
+    searchResults,
+    searchFolder,
+    keyword,
+    searchSort,
+    page,
+  } = useSelector(state => state.sm.search);
   const history = useHistory();
 
   useEffect(
@@ -47,6 +52,8 @@ const SearchResults = () => {
             folder={searchFolder}
             keyword={keyword}
             isSearch
+            sortOrder={searchSort}
+            page={page}
           />
         )}
     </div>

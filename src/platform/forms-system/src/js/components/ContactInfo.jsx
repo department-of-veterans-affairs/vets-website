@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { Element } from 'react-scroll';
 
 import {
   focusElement,
@@ -224,7 +223,9 @@ const ContactInfo = ({
           {content.homePhone}
         </Headers>
         {showSuccessAlert('home-phone', content.homePhone)}
-        <va-telephone contact={homePhoneString} not-clickable />
+        <span className="dd-privacy-hidden" data-dd-action-name="home phone">
+          <va-telephone contact={homePhoneString} not-clickable />
+        </span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
             <Link
@@ -243,7 +244,9 @@ const ContactInfo = ({
       <React.Fragment key="mobile">
         <Headers className={headerClassNames}>{content.mobilePhone}</Headers>
         {showSuccessAlert('mobile-phone', content.mobilePhone)}
-        <va-telephone contact={mobilePhoneString} not-clickable />
+        <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
+          <va-telephone contact={mobilePhoneString} not-clickable />
+        </span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
             <Link
@@ -262,7 +265,9 @@ const ContactInfo = ({
       <React.Fragment key="email">
         <Headers className={headerClassNames}>{content.email}</Headers>
         {showSuccessAlert('email', content.email)}
-        <span>{dataWrap[keys.email] || ''}</span>
+        <span className="dd-privacy-hidden" data-dd-action-name="email">
+          {dataWrap[keys.email] || ''}
+        </span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
             <Link
@@ -281,9 +286,7 @@ const ContactInfo = ({
       <React.Fragment key="mailing">
         <Headers className={headerClassNames}>{content.mailingAddress}</Headers>
         {showSuccessAlert('address', content.mailingAddress)}
-        <div className="vads-u-display--flex">
-          <AddressView data={dataWrap[keys.address]} />
-        </div>
+        <AddressView data={dataWrap[keys.address]} />
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
             <Link
@@ -314,7 +317,6 @@ const ContactInfo = ({
 
   return (
     <div className="vads-u-margin-y--2">
-      <Element name="topScrollElement" />
       <form onSubmit={handlers.onSubmit}>
         <MainHeader
           id="confirmContactInformationHeader"

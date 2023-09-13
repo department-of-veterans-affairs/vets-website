@@ -22,6 +22,7 @@ department-of-veterans-affairs/va.gov-team#0000
 - _Describe what the old behavior was prior to the change_
 - _Describe the steps required to verify your changes are working as expected_
 - _Describe the tests completed and the results_
+- _Exclusively stating 'Specs and automated tests passing' is NOT acceptable as appropriate testing
 - _Optionally, provide a link to your [test plan](https://depo-platform-documentation.scrollhelp.site/developer-docs/create-a-test-plan-in-testrail) and [test execution records](https://depo-platform-documentation.scrollhelp.site/developer-docs/execute-tests-in-testrail)_
 
 ## Screenshots

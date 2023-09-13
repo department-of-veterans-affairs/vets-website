@@ -17,9 +17,11 @@ export default function SubmittedTrackedItem({ item }) {
   return (
     <div className="submitted-file-list-item">
       <h3 className="submission-file-type">{displayName}</h3>
-      <p className="submission-description">
-        {truncateDescription(description)}
-      </p>
+      {description && (
+        <p className="submission-description">
+          {truncateDescription(description)}
+        </p>
+      )}
       {documents &&
         documents.map((doc, index) => (
           <div key={index} className="submission-description">

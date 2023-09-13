@@ -11,6 +11,7 @@ const TravelMileage = props => {
   return (
     <TravelPage
       header={t('are-you-claiming-only-mileage-and-no-other')}
+      eyebrow={t('check-in')}
       helpText={t(
         'if-you-need-to-submit-receipts-for-other-expenses--helptext',
       )}

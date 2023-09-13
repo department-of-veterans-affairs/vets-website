@@ -4,10 +4,10 @@ import { validateCurrencyArray } from '../../../utils/validations';
 
 export const utilityBillChecklist = {
   uiSchema: {
-    'ui:title': 'Your monthly utility bills',
+    'ui:title': '',
+    'ui:field': UtilityBillChecklist,
     utilityBills: {
-      'ui:title': 'Which of the following utilities do you pay for?',
-      'ui:widget': UtilityBillChecklist,
+      'ui:title': 'utilityBillChecklist',
       'ui:options': {
         hideOnReview: true,
       },

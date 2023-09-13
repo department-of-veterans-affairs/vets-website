@@ -1,17 +1,18 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
 import AddIssue from '../../components/AddIssue';
-import {
-  errorMessages,
-  MAX_LENGTH,
-  LAST_SC_ITEM,
-  MAX_YEARS_PAST,
-} from '../../constants';
+import { errorMessages } from '../../constants';
 import { getDate } from '../../utils/dates';
 import { $, $$ } from '../../utils/ui';
+
+import {
+  LAST_ISSUE,
+  MAX_LENGTH,
+  MAX_YEARS_PAST,
+} from '../../../shared/constants';
 
 describe('<AddIssue>', () => {
   const validDate = getDate({ offset: { months: -2 } });
@@ -32,9 +33,9 @@ describe('<AddIssue>', () => {
     onReviewPage = false,
   } = {}) => {
     if (index !== null) {
-      window.sessionStorage.setItem(LAST_SC_ITEM, index);
+      window.sessionStorage.setItem(LAST_ISSUE, index);
     } else {
-      window.sessionStorage.removeItem(LAST_SC_ITEM);
+      window.sessionStorage.removeItem(LAST_ISSUE);
     }
     return (
       <div>
@@ -51,7 +52,7 @@ describe('<AddIssue>', () => {
   };
 
   afterEach(() => {
-    window.sessionStorage.removeItem(LAST_SC_ITEM);
+    window.sessionStorage.removeItem(LAST_ISSUE);
   });
 
   it('should render', () => {
@@ -63,17 +64,21 @@ describe('<AddIssue>', () => {
   it('should prevent submission when empty', () => {
     const goToPathSpy = sinon.spy();
     const { container } = render(setup({ goToPath: goToPathSpy }));
-    $('button#submit', container).click();
+    fireEvent.click($('#submit', container));
     const elems = $$('va-text-input, va-memorable-date', container);
 
     expect(elems[0].error).to.contain(errorMessages.missingIssue);
     expect(elems[1].error).to.contain(errorMessages.decisions.missingDate);
+    expect(elems[1].invalidMonth).to.be.true;
+    expect(elems[1].invalidDay).to.be.true;
+    expect(elems[1].invalidYear).to.be.true;
+
     expect(goToPathSpy.called).to.be.false;
   });
   it('should navigate on cancel', () => {
     const goToPathSpy = sinon.spy();
     const { container } = render(setup({ goToPath: goToPathSpy }));
-    $('button#cancel', container).click();
+    fireEvent.click($('#cancel', container));
 
     expect(goToPathSpy.called).to.be.true;
   });
@@ -86,7 +91,7 @@ describe('<AddIssue>', () => {
         index: 1,
       }),
     );
-    $('button#submit', container).click();
+    fireEvent.click($('#submit', container));
 
     const textInput = $('va-text-input', container);
     expect(textInput.error).to.contain(errorMessages.maxLength);
@@ -99,10 +104,13 @@ describe('<AddIssue>', () => {
         index: 1,
       }),
     );
-    $('button#submit', container).click();
+    fireEvent.click($('#submit', container));
 
     const date = $('va-memorable-date', container);
     expect(date.error).to.eq(errorMessages.decisions.pastDate);
+    expect(date.invalidMonth).to.be.false;
+    expect(date.invalidDay).to.be.false;
+    expect(date.invalidYear).to.be.true;
   });
   it('should show an error when the issue date is > 1 year in the future', () => {
     const decisionDate = getDate({ offset: { months: +13 } });
@@ -112,10 +120,13 @@ describe('<AddIssue>', () => {
         index: 1,
       }),
     );
-    $('button#submit', container).click();
+    fireEvent.click($('#submit', container));
 
     const date = $('va-memorable-date', container);
     expect(date.error).to.contain(errorMessages.decisions.pastDate);
+    expect(date.invalidMonth).to.be.false;
+    expect(date.invalidDay).to.be.false;
+    expect(date.invalidYear).to.be.true;
   });
   it('should show an error when the issue date is > 100 years in the past', () => {
     const decisionDate = getDate({ offset: { years: -(MAX_YEARS_PAST + 1) } });
@@ -125,10 +136,13 @@ describe('<AddIssue>', () => {
         index: 1,
       }),
     );
-    $('button#submit', container).click();
+    fireEvent.click($('#submit', container));
 
     const date = $('va-memorable-date', container);
     expect(date.error).to.contain(errorMessages.decisions.newerDate);
+    expect(date.invalidMonth).to.be.false;
+    expect(date.invalidDay).to.be.false;
+    expect(date.invalidYear).to.be.true;
   });
 
   it('should show an error when the issue is not unique', () => {
@@ -141,7 +155,7 @@ describe('<AddIssue>', () => {
         index: 1,
       }),
     );
-    $('button#submit', container).click();
+    fireEvent.click($('#submit', container));
 
     const textInput = $('va-text-input', container);
     expect(textInput.error).to.contain(errorMessages.uniqueIssue);
@@ -159,7 +173,7 @@ describe('<AddIssue>', () => {
         index: 1,
       }),
     );
-    $('button#submit', container).click();
+    fireEvent.click($('#submit', container));
 
     expect($('va-text-input', container).error).to.be.null;
     expect($('va-memorable-date', container).error).to.be.null;

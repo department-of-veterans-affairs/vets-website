@@ -57,11 +57,11 @@ export default function MobileAppMessage({ mockUserAgent }) {
   return isHidden ? null : (
     <VaAlert status="info" closeable onCloseEvent={handlers.closeModal}>
       <h2 id="track-your-status-on-mobile" slot="headline">
-        Track your claim or appeal on your mobile device
+        Track your claim, decision review, or appeal on your mobile device
       </h2>
       <p>
-        You can use our new mobile app to check the status of your claims or
-        appeals on your mobile device. Download the{' '}
+        You can use our new mobile app to check the status of your claims,
+        decision reviews, or appeals on your mobile device. Download the{' '}
         <strong>VA: Health and Benefits</strong> mobile app to get started.
       </p>
       {storeLinks}

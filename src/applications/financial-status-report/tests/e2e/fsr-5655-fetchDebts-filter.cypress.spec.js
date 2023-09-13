@@ -137,7 +137,7 @@ describe('Fetch Debts Successfully and Filter Out Invalid Debt', () => {
   it('Successful API Response', () => {
     navigateToDebtSelection();
 
-    cy.get('.debt-card').should('have.length', 2);
+    cy.get('[data-testid="debt-selection-checkbox"]').should('have.length', 2);
 
     cy.injectAxeThenAxeCheck();
   });

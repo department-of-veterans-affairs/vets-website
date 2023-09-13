@@ -14,7 +14,7 @@ import {
   retrieveFolder,
 } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
-import { Alerts, ErrorMessages } from '../util/constants';
+import { Alerts, ErrorMessages, Paths } from '../util/constants';
 
 const ManageFolderButtons = () => {
   const dispatch = useDispatch();
@@ -23,9 +23,9 @@ const ManageFolderButtons = () => {
   const location = useLocation();
   const [folderId, setFolderId] = useState(null);
   const folders = useSelector(state => state.sm.folders.folderList);
-  const messages = useSelector(state => state.sm.messages.messageList);
   const folder = useSelector(state => state.sm.folders.folder);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
+  const threads = useSelector(state => state.sm.threads);
   const [isEmptyWarning, setIsEmptyWarning] = useState(false);
   const [nameWarning, setNameWarning] = useState('');
   const [deleteModal, setDeleteModal] = useState(false);
@@ -39,7 +39,7 @@ const ManageFolderButtons = () => {
 
   useEffect(
     () => {
-      if (location.pathname.includes('/folder')) {
+      if (location.pathname.includes(Paths.FOLDERS)) {
         setFolderId(params.folderId);
       }
     },
@@ -63,27 +63,9 @@ const ManageFolderButtons = () => {
     [nameWarning],
   );
 
-  useEffect(
-    () => {
-      if (deleteModal) {
-        focusElement(removeButton.current);
-      }
-    },
-    [deleteModal],
-  );
-
-  useEffect(
-    () => {
-      if (isEmptyWarning) {
-        focusElement(emptyFolderConfirmBtn.current);
-      }
-    },
-    [isEmptyWarning],
-  );
-
   const openDelModal = () => {
     dispatch(closeAlert());
-    if (messages?.length > 0) {
+    if (threads.threadList.length > 0) {
       setIsEmptyWarning(true);
     } else {
       setIsEmptyWarning(false);
@@ -165,6 +147,7 @@ const ManageFolderButtons = () => {
       {isEmptyWarning && (
         <VaModal
           className="modal"
+          data-testid="error-folder-not-empty"
           visible={isEmptyWarning}
           large="true"
           modalTitle={Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER}
@@ -186,6 +169,7 @@ const ManageFolderButtons = () => {
       {!isEmptyWarning && (
         <VaModal
           className="modal"
+          data-testid="remove-this-folder"
           visible={deleteModal}
           large="true"
           modalTitle={Alerts.Folder.DELETE_FOLDER_CONFIRM_HEADER}
@@ -195,10 +179,14 @@ const ManageFolderButtons = () => {
           <p>{Alerts.Folder.DELETE_FOLDER_CONFIRM_BODY}</p>
           <va-button
             ref={removeButton}
-            text="Remove"
+            text="Yes, remove this folder"
             onClick={confirmDelFolder}
           />
-          <va-button secondary="true" text="Cancel" onClick={closeDelModal} />
+          <va-button
+            secondary
+            text="No, keep this folder"
+            onClick={closeDelModal}
+          />
         </VaModal>
       )}
       <VaModal
@@ -209,6 +197,7 @@ const ManageFolderButtons = () => {
         onCloseEvent={closeRenameModal}
       >
         <VaTextInput
+          data-dd-privacy="mask"
           ref={folderNameInput}
           label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
           value={folderName}

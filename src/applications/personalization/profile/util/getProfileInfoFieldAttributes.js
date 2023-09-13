@@ -1,9 +1,13 @@
-import { API_ROUTES, FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
+import {
+  API_ROUTES,
+  FIELD_TITLES,
+  FIELD_NAMES,
+} from 'platform/user/profile/vap-svc/constants';
 
 import {
   getFormSchema as addressFormSchema,
   getUiSchema as addressUiSchema,
-} from '@@vap-svc/components/AddressField/address-schemas';
+} from '~/platform/user/profile/vap-svc/components/AddressField/address-schemas';
 import {
   emailConvertCleanDataToPayload,
   emailUiSchema,

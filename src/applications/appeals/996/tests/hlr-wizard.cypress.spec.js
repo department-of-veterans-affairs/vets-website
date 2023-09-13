@@ -95,8 +95,6 @@ describe('HLR wizard', () => {
     cy.injectAxe();
 
     const h1Text = 'Request a Higher-Level Review';
-    // starts with focus on breadcrumb
-    cy.focused().should('have.attr', 'id', 'va-breadcrumbs-list');
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', h1Text);

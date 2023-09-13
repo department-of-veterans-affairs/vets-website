@@ -65,7 +65,11 @@ describe('Pre-need applicant contact information', () => {
       'input#root_application_claimant_address_postalCode',
       '12345',
     );
-    fillData(form, 'input#root_application_claimant_phoneNumber', '12345');
+    fillData(
+      form,
+      'input#root_application_claimant_phoneNumber',
+      '(111)-222-3333',
+    );
     fillData(form, 'input#root_application_claimant_email', 'test@test.com');
 
     form.find('form').simulate('submit');

@@ -875,6 +875,9 @@ const getDerivedValues = createSelector(
     } else {
       monthlyRateDisplay = housingAllowTerm1 / termLength;
     }
+    // if FryScholarship and areYouActiveDuty is yes. Monthly Rate should be zero.
+    monthlyRateDisplay =
+      eligibility.areYouActiveDuty === 'yes' ? 0 : monthlyRateDisplay;
 
     return {
       tier,

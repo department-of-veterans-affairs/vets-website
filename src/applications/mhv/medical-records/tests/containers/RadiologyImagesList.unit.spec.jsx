@@ -19,7 +19,6 @@ describe('Radiology Images List container', () => {
           imagingProvider: 'John J. Lydon',
           id: 122,
           date: '2022-04-13T17:42:46.000Z',
-          vaccineId: '000001',
           imagingLocation:
             '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
           reactions: ['Just this one'],
@@ -83,7 +82,7 @@ describe('Radiology Images List container', () => {
     const screen = setup();
     const formattedDate = screen.getByText('April 13, 2022', {
       exact: true,
-      selector: 'p',
+      selector: 'span',
     });
     expect(formattedDate).to.exist;
   });

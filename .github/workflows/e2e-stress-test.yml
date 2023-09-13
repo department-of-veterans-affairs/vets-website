@@ -15,9 +15,6 @@ jobs:
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
-    strategy:
-      fail-fast: false
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -124,9 +121,6 @@ jobs:
   fetch-e2e-allow-list:
     name: Fetch E2E Allow List
     runs-on: ubuntu-latest
-    outputs:
-      allow_list: ${{ steps.allow-list-output.outputs.list }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -153,11 +147,15 @@ jobs:
       - name: Fetch E2E allow list
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
-      # exports app list and assigns to environmental variable at this step
+        env:
+          TEST_TYPE: e2e
 
-      - name: Set Allow List Output
-        id: allow-list-output
-        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
+      - name: Archive allow list
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data/e2e_allow_list.json
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
@@ -185,14 +183,20 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: .
+
       - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
         run: node script/github-actions/select-cypress-tests.js
         env:
           RUN_FULL_SUITE: false
           CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
-          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
           IS_STRESS_TEST: true
+          TEST_TYPE: e2e
 
       - name: Set output of TESTS_TO_STRESS_TEST
         id: tests
@@ -379,6 +383,12 @@ jobs:
           name: cypress-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
 
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data
+
       - name: Copy test results to mochawesome directory
         run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
 
@@ -390,11 +400,11 @@ jobs:
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
       - name: Update E2E Allow List
-        run: yarn update-e2e-allow-list
+        run: yarn update-allow-list
         working-directory: qa-standards-dashboard-data
         env:
-          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
           TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
+          TEST_TYPE: e2e
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
@@ -424,11 +434,10 @@ jobs:
           conclusion: ${{ needs.stress-test-cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
-
-      - name: Create GitHub Issues for new flaky tests
-        if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
-        run: yarn create-github-issues-for-flaky-tests
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
-          GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+      # - name: Create GitHub Issues for new flaky tests
+      #   if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
+      #   run: yarn create-github-issues-for-flaky-tests
+      #   working-directory: qa-standards-dashboard-data
+      #   env:
+      #     TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
+      #     GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}

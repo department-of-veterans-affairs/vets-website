@@ -1,10 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
+import { waitFor } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent } from '@testing-library/react';
 import moment from 'moment';
 import ThreadDetails from '../../containers/ThreadDetails';
+import { PageTitles } from '../../util/constants';
 import reducer from '../../reducers';
+import { inbox } from '../fixtures/folder-inbox-response.json';
 import singleDraftThread from '../fixtures/threads/single-draft-thread-reducer.json';
 import replyDraftThread from '../fixtures/threads/reply-draft-thread-reducer.json';
 import recipients from '../fixtures/recipients.json';
@@ -143,11 +145,15 @@ describe('Thread Details container', () => {
 
     const screen = setup(state);
 
-    fireEvent.click(await screen.findByText('Continue to draft'));
+    expect(screen.findByText('Edit draft', { exact: true, selector: 'h1' })).to
+      .exist;
 
-    expect(
-      await screen.findByText('Edit draft', { exact: true, selector: 'h1' }),
-    ).to.exist;
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG,
+      );
+    });
+
     expect(
       document.querySelector('va-alert-expandable').getAttribute('trigger'),
     ).to.equal('Only use messages for non-urgent needs');
@@ -159,7 +165,7 @@ describe('Thread Details container', () => {
     expect(
       screen.getByText(`${category}: ${subject}`, {
         exact: false,
-        selector: 'h3',
+        selector: 'h2',
       }),
     ).to.exist;
     expect(document.querySelector(`va-textarea[value="${body}"]`)).to.exist;
@@ -180,6 +186,9 @@ describe('Thread Details container', () => {
 
     const state = {
       sm: {
+        folders: {
+          folder: inbox,
+        },
         triageTeams: {
           triageTeams: recipients,
         },
@@ -200,13 +209,23 @@ describe('Thread Details container', () => {
     };
     const screen = setup(state);
 
-    fireEvent.click(await screen.findByText('Continue to reply'));
+    expect(await screen.queryByText('Continue to reply')).to.not.exist;
 
     expect(await screen.findByText(`${category}: ${subject}`, { exact: false }))
       .to.exist;
-    expect(document.querySelector('h4').textContent).to.equal(
+
+    expect(global.document.title).to.equal(
+      PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG,
+    );
+
+    expect(document.querySelector('va-textarea')).to.not.exist;
+
+    expect(document.querySelector('section.old-reply-message-body')).to.exist;
+
+    expect(document.querySelector('span').textContent).to.equal(
       '(Draft) To: MORGUN, OLEKSII\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
     );
+
     const messageRepliedTo = screen.getByTestId('message-replied-to');
     const from = getByBrokenText(
       `From: ${replyMessage.senderName}`,
@@ -227,9 +246,9 @@ describe('Thread Details container', () => {
     ).to.exist;
 
     expect(screen.getByText(olderMessage.body, { exact: false })).to.exist;
-    expect(screen.queryByText('Send', { selector: 'button' })).to.be.null;
-    expect(screen.getByText('Save draft', { selector: 'button' })).to.exist;
-    expect(screen.getByText('Delete draft', { selector: 'button' })).to.exist;
+    expect(screen.queryByTestId('Send-Button')).to.be.null;
+    expect(screen.queryByTestId('Save-Draft-Button')).to.be.null;
+    expect(screen.getByTestId('delete-draft-button')).to.exist;
   });
 
   it('with a reply draft message on a replied to message is LESS than 45 days', async () => {
@@ -251,6 +270,9 @@ describe('Thread Details container', () => {
 
     const state = {
       sm: {
+        folders: {
+          folder: inbox,
+        },
         triageTeams: {
           triageTeams: recipients,
         },
@@ -271,7 +293,7 @@ describe('Thread Details container', () => {
     };
     const screen = setup(state);
 
-    fireEvent.click(await screen.findByText('Continue to reply'));
+    expect(await screen.queryByText('Continue to reply')).to.not.exist;
 
     expect(
       await screen.findByText(`${category}: ${subject}`, {
@@ -279,6 +301,11 @@ describe('Thread Details container', () => {
         selector: 'h1',
       }),
     ).to.exist;
+
+    expect(global.document.title).to.equal(
+      PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG,
+    );
+
     expect(screen.queryByTestId('expired-alert-message')).to.be.null;
     expect(screen.queryByText('This conversation is too old for new replies'))
       .to.be.null;
@@ -288,12 +315,20 @@ describe('Thread Details container', () => {
         'If you need help sooner, use one of these urgent communication options:',
       ),
     ).to.exist;
-    expect(document.querySelector('h4').textContent).to.equal(
+
+    expect(document.querySelector('va-textarea')).to.exist;
+
+    expect(document.querySelector('section.old-reply-message-body')).to.not
+      .exist;
+
+    expect(document.querySelector('span').textContent).to.equal(
       `(Draft) To: MORGUN, OLEKSII\n(Team: ${triageGroupName})`,
     );
+
     expect(screen.getByTestId('message-body-field')).to.exist;
-    expect(screen.getByText('Send', { selector: 'button' })).to.exist;
-    expect(screen.getByText('Save draft', { selector: 'button' })).to.exist;
-    expect(screen.getByText('Delete draft', { selector: 'button' })).to.exist;
+
+    expect(screen.getByTestId('Send-Button')).to.exist;
+    expect(screen.getByTestId('Save-Draft-Button')).to.exist;
+    expect(screen.getByTestId('delete-draft-button')).to.exist;
   });
 });

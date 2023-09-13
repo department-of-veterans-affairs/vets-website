@@ -2,6 +2,9 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 import { ClaimStatusPage } from '../../containers/ClaimStatusPage';
 
@@ -60,6 +63,48 @@ describe('<ClaimStatusPage>', () => {
     expect(content.subTree('ClaimsTimeline')).to.be.false;
   });
 
+  context('DDL feature flag is enabled', () => {
+    const claim = {
+      attributes: {
+        open: false,
+        decisionLetterSent: true,
+      },
+    };
+
+    const store = createStore(() => ({}));
+
+    it('should render a link to the claim letters page when using Lighthouse', () => {
+      const screen = render(
+        <Provider store={store}>
+          <ClaimStatusPage
+            claim={claim}
+            useLighthouse
+            showClaimLettersLink
+            params={params}
+            clearNotification={() => {}}
+          />
+        </Provider>,
+      );
+
+      screen.getByText('Get your claim letters');
+    });
+
+    it('should render a link to the claim letters page when using EVSS', () => {
+      const screen = render(
+        <Provider store={store}>
+          <ClaimStatusPage
+            claim={claim}
+            showClaimLettersLink
+            params={params}
+            clearNotification={() => {}}
+          />
+        </Provider>,
+      );
+
+      screen.getByText('Get your claim letters');
+    });
+  });
+
   it('should not render ClaimComplete with decision letter', () => {
     const claim = {
       attributes: {
@@ -81,7 +126,7 @@ describe('<ClaimStatusPage>', () => {
       <ClaimStatusPage claim={claim} params={params} />,
     );
     const content = tree.dive(['ClaimStatusPageContent']);
-    expect(content.subTree('ClaimsDecision')).not.to.be.false;
+    expect(content.subTree('ClaimsDecision')).to.exist;
     expect(content.subTree('ClaimComplete')).to.be.false;
     expect(content.subTree('ClaimsTimeline')).to.be.false;
   });

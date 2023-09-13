@@ -91,6 +91,19 @@ describe('Schemaform <FormPage>', () => {
     expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
     expect(tree.everySubTree('FormNavButtons')).not.to.be.empty;
   });
+
+  it('should hide nav buttons when formOptions set', () => {
+    const route = makeRoute({
+      formConfig: { formOptions: { noBottomNav: true } },
+    });
+    const tree = SkinDeep.shallowRender(
+      <FormPage form={makeForm()} route={route} location={location} />,
+    );
+
+    expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
+    expect(tree.everySubTree('FormNavButtons')).to.be.empty;
+  });
+
   describe('should handle', () => {
     let tree;
     let setData;
@@ -526,6 +539,7 @@ describe('Schemaform <FormPage>', () => {
         <div id="main" className="nav-header">
           <div name="topScrollElement" />
           <h2>H2</h2>
+          <div name="topContentElement" />
           <h3>H3</h3>
         </div>
       );
@@ -550,6 +564,7 @@ describe('Schemaform <FormPage>', () => {
         <div id="main">
           <div name="topScrollElement" />
           <h2>H2</h2>
+          <div name="topContentElement" />
           <h3>H3</h3>
         </div>
       );

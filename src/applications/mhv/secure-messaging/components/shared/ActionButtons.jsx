@@ -5,7 +5,7 @@ function ActionButtons(props) {
   const { buttonsArray } = props;
 
   return (
-    <ul className="message-action-buttons vads-u-margin-y--4">
+    <ul className="message-action-buttons">
       {buttonsArray.map(button => button)}
     </ul>
   );

@@ -1,0 +1,34 @@
+{
+  "preparerName": {
+    "first": "Arthur",
+    "middle": "C",
+    "last": "Preparer"
+  },
+  "preparerSsn": "222668888",
+  "preparerHomePhone": "1234567890",
+  "preparerMobilePhone": "9876543210",
+  "preparerEmail": "arthur.c.preparer@email.com",
+  "preparerAddress": {
+    "street": "124 Main St",
+    "street2": "Apt #22",
+    "street3": "Room 319",
+    "city": "Anytown",
+    "state": "CA",
+    "country": "USA",
+    "postalCode": "12345"
+  },
+  "deceasedClaimantFullName": {
+    "first": "Philip",
+    "middle": "K",
+    "last": "DeClaimant"
+  },
+  "deceasedClaimantDateOfDeath": "1982-03-02",
+  "veteranDateOfBirth": "1929-10-21",
+  "veteranSsn": "999442222",
+  "veteranVaFileNumber": "111223333",
+  "relationshipToDeceasedClaimant": {
+    "relationshipToVeteran": "other",
+    "otherRelationshipToVeteran": "friend"
+  },
+  "additionalInformation": "Other stuff that goes in here"
+}

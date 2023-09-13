@@ -23,14 +23,14 @@ describe('pre-check-in experience', () => {
           ),
         ).not.to.exist;
       });
-      it('renders custom header', () => {
-        const { getByText } = render(
+      it('renders custom header with eyebrow', () => {
+        const { getByTestId } = render(
           <CheckInProvider>
-            <DemographicsDisplay header="foo" />
+            <DemographicsDisplay header="foo" eyebrow="Check-In" />
           </CheckInProvider>,
         );
 
-        expect(getByText('foo')).to.exist;
+        expect(getByTestId('header')).to.contain.text('Check-In foo');
       });
       it('renders custom subtitle', () => {
         const { getByText } = render(

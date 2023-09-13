@@ -21,11 +21,14 @@ export default function NoAppointments({
             </NewTabAnchor>{' '}
             to schedule an appointment.
           </p>
-          <va-link
-            className="va-button-link vads-u-font-weight--bold vads-u-font-size--md"
-            onClick={startNewAppointmentFlow}
-            text="Schedule an appointment"
-          />
+          <div className="vaos-hide-for-print">
+            <va-link
+              className="va-button-link vads-u-font-weight--bold vads-u-font-size--md "
+              onClick={startNewAppointmentFlow}
+              href="new-appointment"
+              text="Schedule an appointment"
+            />
+          </div>
         </>
       )}
       {!showScheduleButton && (

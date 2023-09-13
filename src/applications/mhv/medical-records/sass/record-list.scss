@@ -1,6 +1,9 @@
 .record-list-item {
   line-height: 2;
-  max-width: 486px;
+
+  h4 {
+    line-height: 1.5;
+  }
 
   .details-link-icon {
     margin-left: 8px;
@@ -35,8 +38,4 @@
       font-weight: 600;
     }
   }
-}
-
-.pagination {
-  max-width: 486px;
 }

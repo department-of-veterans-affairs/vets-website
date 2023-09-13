@@ -5,7 +5,12 @@ export default function EnrollmentVerificationMonthInfo({ month }) {
   const enrollmentInstitutions = month?.enrollments?.map(
     (enrollment, index) => {
       return (
-        <li className="ev-month-info-institutions_institution" key={index}>
+        /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+        <li
+          className="ev-month-info-institutions_institution"
+          key={index}
+          tabIndex="0"
+        >
           <p className="vads-u-margin-y--0">
             <strong>
               {formatNumericalDate(month.certifiedBeginDate)} &ndash;{' '}

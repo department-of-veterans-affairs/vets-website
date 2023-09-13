@@ -1,103 +1,95 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { getFolders } from '../actions/folders';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { folder } from '../selectors';
 import SectionGuideButton from './SectionGuideButton';
-import { DefaultFolders } from '../util/constants';
+import { DefaultFolders, Paths } from '../util/constants';
+import { trapFocus } from '../../shared/util/ui';
 
 const Navigation = () => {
-  const dispatch = useDispatch();
   const [isMobile, setIsMobile] = useState(true);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const location = useLocation();
   const activeFolder = useSelector(folder);
+  const sideBarNavRef = useRef();
+  const closeMenuButtonRef = useRef();
+  const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
 
-  useEffect(
-    () => {
-      dispatch(getFolders());
-    },
-    [dispatch],
-  );
-
-  const paths = () => {
-    return [
-      {
-        path: '/inbox',
-        label: 'Inbox',
-        id: DefaultFolders.INBOX.id,
-        datatestid: 'inbox-sidebar',
-      },
-      {
-        path: '/drafts',
-        label: 'Drafts',
-        id: DefaultFolders.DRAFTS.id,
-        datatestid: 'drafts-sidebar',
-      },
-      {
-        path: '/sent',
-        label: 'Sent',
-        id: DefaultFolders.SENT.id,
-        datatestid: 'sent-sidebar',
-      },
-      {
-        path: '/trash',
-        label: 'Trash',
-        id: DefaultFolders.DELETED.id,
-        datatestid: 'trash-sidebar',
-      },
-      {
-        path: '/folders',
-        label: 'My folders',
-        datatestid: 'my-folders-sidebar',
-      },
-
-      /* Hidden from sidenav view; will implement in SM Home later */
-      // {
-      //   path: '/faq',
-      //   label: 'Messages FAQ',
-      //   datatestid: 'messages-faq-sidebar',
-      // },
-    ];
-  };
-
-  function openNavigation() {
-    setIsNavigationOpen(true);
-  }
-
-  function closeNavigation() {
-    setIsNavigationOpen(false);
-  }
-
-  function checkScreenSize() {
-    if (window.innerWidth <= 768 && setIsMobile !== false) {
+  const checkScreenSize = useCallback(() => {
+    if (window.innerWidth < 768) {
       setIsMobile(true);
     } else {
       setIsMobile(false);
       setIsNavigationOpen(false);
     }
+  }, []);
+
+  window.addEventListener('resize', checkScreenSize);
+
+  function openNavigation() {
+    setIsNavigationOpen(true);
   }
 
-  function openNavigationBurgerButton() {
-    return (
-      isMobile && (
-        <SectionGuideButton
-          onMenuClick={() => {
-            openNavigation();
-          }}
-        />
-      )
-    );
-  }
+  const closeNavigation = useCallback(
+    () => {
+      setIsNavigationOpen(false);
+      focusElement(navMenuButtonRef);
+    },
+    [navMenuButtonRef],
+  );
+
+  useEffect(() => {
+    checkScreenSize();
+  }, []);
 
   useEffect(
     () => {
-      checkScreenSize();
+      if (isNavigationOpen) {
+        focusElement(closeMenuButtonRef.current);
+        trapFocus(
+          sideBarNavRef.current,
+          `a[href]:not([disabled]), button:not([disabled])`,
+          closeNavigation,
+        );
+      }
     },
-    [isMobile],
+    [isNavigationOpen, closeMenuButtonRef, sideBarNavRef, closeNavigation],
   );
 
-  window.addEventListener('resize', checkScreenSize);
+  const paths = () => {
+    return [
+      {
+        path: Paths.INBOX,
+        label: 'Inbox',
+        id: DefaultFolders.INBOX.id,
+        datatestid: 'inbox-sidebar',
+      },
+      {
+        path: Paths.DRAFTS,
+        label: 'Drafts',
+        id: DefaultFolders.DRAFTS.id,
+        datatestid: 'drafts-sidebar',
+      },
+      {
+        path: Paths.SENT,
+        label: 'Sent',
+        id: DefaultFolders.SENT.id,
+        datatestid: 'sent-sidebar',
+      },
+      {
+        path: Paths.DELETED,
+        label: 'Trash',
+        id: DefaultFolders.DELETED.id,
+        datatestid: 'trash-sidebar',
+      },
+      {
+        path: Paths.FOLDERS,
+        label: 'My folders',
+        datatestid: 'my-folders-sidebar',
+      },
+    ];
+  };
 
   const headerStyle = location.pathname === '/' ? 'is-active' : null;
 
@@ -106,12 +98,12 @@ const Navigation = () => {
     if (location.pathname === '/') {
       // Highlight Messages on Lnading page
       isActive = false;
-    } else if (location.pathname === '/folders') {
+    } else if (location.pathname === Paths.FOLDERS) {
       // To ensure other nav links are not bolded when landed on "/folders"
       isActive = location.pathname === path.path;
     } else if (location.pathname.split('/')[1] === 'folder') {
-      // Highlight "My Folders" when landed on "/folder/:id"
-      isActive = path.path === '/folders';
+      // Highlight "My Folders" when landed on "/folders/:id"
+      isActive = path.path === Paths.FOLDERS;
     } else if (location.pathname === path.path) {
       isActive = true;
     } else if (path.id !== undefined && activeFolder?.folderId === path.id) {
@@ -123,15 +115,32 @@ const Navigation = () => {
   };
 
   return (
-    <div className="secure-messaging-navigation vads-u-flex--auto vads-u-padding-bottom--7 medium-screen:vads-u-padding-bottom--0">
-      {openNavigationBurgerButton()}
+    <div className="secure-messaging-navigation vads-u-flex--auto vads-u-padding-bottom--2 medium-screen:vads-u-padding-bottom--0">
+      {isMobile && (
+        <SectionGuideButton
+          setNavMenuButtonRef={setNavMenuButtonRef}
+          onMenuClick={() => {
+            openNavigation();
+          }}
+          isExpanded={isNavigationOpen}
+        />
+      )}
+
       {(isNavigationOpen && isMobile) || isMobile === false ? (
-        <div className="sidebar-navigation">
+        <div
+          ref={sideBarNavRef}
+          className="sidebar-navigation"
+          id="sidebar-navigation"
+        >
+          <div className="sr-only" aria-live="polite">
+            Navigation menu is open
+          </div>
           {isMobile && (
-            <div className="sidebar-navigation-header">
+            <div className="sidebar-navigation-header vads-u-justify-content--flex-end">
               <button
-                className="va-btn-close-icon"
-                aria-label="Close-this-menu"
+                ref={closeMenuButtonRef}
+                className="va-btn-close-icon vads-u-margin--0p5 vads-u-padding--2p5 vads-u-margin-right--2"
+                aria-label="Close navigation menu"
                 aria-expanded="true"
                 aria-controls="a1"
                 onClick={closeNavigation}
@@ -156,9 +165,9 @@ const Navigation = () => {
                         <Link
                           className={handleActiveLinksStyle(path)}
                           to={path.path}
-                          // onClick={() => {
-                          //   handleOnClick(path);
-                          // }}
+                          onClick={() => {
+                            closeNavigation();
+                          }}
                         >
                           <span>{path.label}</span>
                         </Link>

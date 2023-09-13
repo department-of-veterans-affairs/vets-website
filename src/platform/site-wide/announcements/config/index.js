@@ -9,7 +9,7 @@ const config = {
       // Homepage only
       paths: /^\/$/,
       component: HomepageRedesignModal,
-      disabled: false,
+      disabled: true,
       show: AnnouncementBehavior.SHOW_ONCE_PER_SESSION,
       returnFocusDivContent: 'Current Homepage',
     },

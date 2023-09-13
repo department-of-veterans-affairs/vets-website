@@ -25,7 +25,7 @@ describe('appointment-list / redux / selectors', () => {
       },
     };
     const typeOfCareName = selectTypeOfCareName(appointment);
-    expect(typeOfCareName).to.equal('Compensation and pension exam');
+    expect(typeOfCareName).to.equal('Claim exam');
   });
   it('should return Audiology and speech as type of care', () => {
     const appointment = {

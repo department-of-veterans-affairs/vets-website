@@ -73,7 +73,7 @@ const ContactInfoReview = ({ data, editPage }) => {
     <div className="form-review-panel-page">
       <Element name="confirmContactInformationScrollElement" />
       <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
           {content.title}
         </h4>
         <button

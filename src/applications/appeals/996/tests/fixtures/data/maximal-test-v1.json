@@ -2,8 +2,7 @@
   "data": {
     "veteran": {
       "ssnLastFour": "7821",
-      "vaFileLastFour": "8765",
-      "phone": "5558001111"
+      "vaFileLastFour": "8765"
     },
     "zipCode5": "94608",
     "sameOffice": true,

@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import categories from '../../fixtures/categories-response.json';
 import reducer from '../../../reducers';
 import CategoryInput from '../../../components/ComposeForm/CategoryInput';
+import { Paths } from '../../../util/constants';
 
 describe('CategoryInput component', () => {
   const initialState = {
@@ -16,7 +17,7 @@ describe('CategoryInput component', () => {
     const screen = renderWithStoreAndRouter(<CategoryInput />, {
       initialState,
       reducers: reducer,
-      path: `/compose`,
+      path: Paths.COMPOSE,
     });
     expect(screen);
   });
@@ -25,7 +26,7 @@ describe('CategoryInput component', () => {
     const screen = renderWithStoreAndRouter(<CategoryInput />, {
       initialState,
       reducers: reducer,
-      path: `/compose`,
+      path: Paths.COMPOSE,
     });
     const categoryRadioInputs = screen.getByTestId(
       'compose-message-categories',
@@ -37,7 +38,7 @@ describe('CategoryInput component', () => {
     const screen = renderWithStoreAndRouter(<CategoryInput />, {
       initialState,
       reducers: reducer,
-      path: `/compose`,
+      path: Paths.COMPOSE,
     });
     const values = await screen
       .getAllByTestId('compose-category-radio-button')

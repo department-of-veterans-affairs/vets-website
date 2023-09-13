@@ -41,11 +41,17 @@ export default {
     },
     [providerFacilityFields.parentObject]: {
       'ui:options': {
-        itemName: 'treatment record',
+        itemName: 'Treatment record',
         viewField: RecordField,
         keepInPageOnReview: true,
         useDlWrap: true,
         customTitle: ' ',
+        confirmRemove: true,
+        confirmRemoveDescription:
+          'This will remove the facility and all of the treatment records associated from your authorization request.',
+        itemAriaLabel: formData =>
+          `${formData[providerFacilityFields.providerFacilityName]}` ||
+          'facility',
       },
       items: {
         'ui:options': {
@@ -77,6 +83,13 @@ export default {
           'ui:required': () => true,
           'ui:errorMessages': {
             required: 'Please list at least one condition',
+            maxLength: 'Please limit your answer to no more than 75 characters',
+          },
+          'ui:options': {
+            updateSchema: () => ({
+              type: 'string',
+              maxLength: 75,
+            }),
           },
         },
         [providerFacilityFields.treatmentDateRange]: {

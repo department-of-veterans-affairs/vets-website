@@ -20,35 +20,14 @@ module.exports = {
         use: '<va-alert>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/CheckboxGroup',
-        use: '<va-checkbox-group>',
-      },
-      {
         name:
           '@department-of-veterans-affairs/component-library/ExpandingGroup',
         use: 'a custom solution',
       },
       {
         name:
-          '@department-of-veterans-affairs/component-library/AdditionalInfo',
-        use: '<va-additional-info>',
-      },
-      {
-        name:
           '@department-of-veterans-affairs/component-library/LoadingIndicator',
         use: '<va-loading-indicator>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Pagination',
-        use: '<va-pagination>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Table',
-        use: '<va-table>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Select',
-        use: '<va-select>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/FileInput',

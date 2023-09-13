@@ -1,20 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { runAdvancedSearch } from '../../actions/search';
+import { clearSearchResults, runAdvancedSearch } from '../../actions/search';
 import FilterBox from './FilterBox';
-import { ErrorMessages } from '../../util/constants';
+import { ErrorMessages, Paths } from '../../util/constants';
 import { DateRangeValues } from '../../util/inputContants';
 import { dateFormat } from '../../util/helpers';
 
 const SearchForm = props => {
-  const { folder, keyword, resultsCount, query } = props;
+  const { folder, keyword, resultsCount, query, threadCount } = props;
   const dispatch = useDispatch();
   const location = useLocation();
-  const folders = useSelector(state => state.sm.folders.folderList);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTermError, setSearchTermError] = useState(null);
   const [category, setCategory] = useState('');
@@ -22,7 +21,10 @@ const SearchForm = props => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [customFilter, setCustomFilter] = useState(false);
+  const [filtersCleared, setFiltersCleared] = useState(false);
   const resultsCountRef = useRef();
+  const filterBoxRef = useRef();
+  const filterInputRef = useRef();
 
   useEffect(
     () => {
@@ -63,6 +65,9 @@ const SearchForm = props => {
   };
 
   const handleSearch = () => {
+    setFiltersCleared(false);
+    if (filterBoxRef.current.checkFormValidity()) return;
+
     const todayDateTime = moment(new Date()).format();
     const offset = todayDateTime.substring(todayDateTime.length - 6);
     let relativeToDate;
@@ -100,6 +105,15 @@ const SearchForm = props => {
         searchTerm.toLowerCase(),
       ),
     );
+  };
+
+  const handleFilterClear = e => {
+    e.preventDefault();
+    dispatch(clearSearchResults());
+    focusElement(filterInputRef.current.shadowRoot.querySelector('input'));
+    setFiltersCleared(true);
+    setCategory('');
+    setDateRange('any');
   };
 
   const queryItem = (key, value) => {
@@ -151,13 +165,15 @@ const SearchForm = props => {
         <>
           <strong className="search-results-count">
             {resultsCount?.toLocaleString()}
-          </strong>{' '}
-          matches {displayQuery()}
+          </strong>
+          {` match${resultsCount > 1 ? 'es' : ''}`} {displayQuery()}
         </>
       );
     return (
       <span
         ref={resultsCountRef}
+        role="status"
+        aria-live="polite"
         data-testid="search-message-folder-input-label"
         className={`vads-u-margin-top--4 ${
           resultsCount === undefined ? null : 'filter-results-in-folder'
@@ -186,7 +202,13 @@ const SearchForm = props => {
 
   return (
     <>
-      <div className="search-form">
+      <form
+        data-testId="search-form"
+        className="search-form"
+        onSubmit={() => {
+          handleSearch();
+        }}
+      >
         <h2>{filterLabelHeading}</h2>
         <>
           {searchTermError && (
@@ -198,31 +220,24 @@ const SearchForm = props => {
           <div className="filter-input-box-container">
             <div className="filter-text-input">
               <va-text-input
+                ref={filterInputRef}
                 id="filter-input"
                 label={filterLabelBody}
-                className="filter-input-box"
+                class="filter-input-box"
                 message-aria-describedby="filter text input"
                 value={searchTerm}
                 onInput={e => setSearchTerm(e.target.value)}
                 aria-label={filterLabelHeading + filterLabelBody}
                 data-testid="keyword-search-input"
-              />
-            </div>
-            <div className="basic-filter-button">
-              <button
-                type="button"
-                className="usa-button-primary filter-button"
-                onClick={e => {
-                  e.preventDefault();
-                  handleSearch();
+                onKeyPress={e => {
+                  if (e.key === 'Enter') handleSearch();
                 }}
-              >
-                Filter
-              </button>
+                data-dd-privacy="mask"
+              />
             </div>
           </div>
         </>
-        {!location.pathname.includes('/drafts') && (
+        {!location.pathname.includes(Paths.DRAFTS) && (
           <va-additional-info
             trigger="What's a message ID?"
             class="message-id-info"
@@ -232,12 +247,11 @@ const SearchForm = props => {
             new message. These emails include the message ID.
           </va-additional-info>
         )}
-        {folders && (
+        {threadCount > 0 && (
           <div>
             <FilterBox
-              folders={folders}
+              ref={filterBoxRef}
               keyword={keyword}
-              handleSearch={handleSearch}
               category={category}
               setCategory={setCategory}
               dateRange={dateRange}
@@ -249,7 +263,32 @@ const SearchForm = props => {
             />
           </div>
         )}
-      </div>
+        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+          <va-button
+            text="Filter"
+            primary
+            class="filter-button vads-u-margin-left--0"
+            data-testid="filter-messages-button"
+            onClick={e => {
+              e.preventDefault();
+              handleSearch();
+            }}
+          />
+          {resultsCount !== undefined && (
+            <va-button
+              text="Clear Filters"
+              secondary
+              class="clear-filter-button"
+              onClick={handleFilterClear}
+            />
+          )}
+          {filtersCleared && (
+            <span className="sr-only" aria-live="polite">
+              Filters succesfully cleared
+            </span>
+          )}
+        </div>
+      </form>
       <FilterResults />
     </>
   );
@@ -260,6 +299,7 @@ SearchForm.propTypes = {
   keyword: PropTypes.string,
   query: PropTypes.object,
   resultsCount: PropTypes.number,
+  threadCount: PropTypes.number,
 };
 
 export default SearchForm;

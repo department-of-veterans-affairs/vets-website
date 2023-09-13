@@ -283,8 +283,7 @@ describe('Schemaform review <ArrayField>', () => {
 
     tree.getMountedInstance().handleAdd();
 
-    expect(tree.everySubTree('.schemaform-review-array-warning')).to.not.be
-      .empty;
+    expect(tree.everySubTree('.schemaform-review-array-error')).to.not.be.empty;
   });
   it('should render start in edit mode for duplicate items', () => {
     const idSchema = {};

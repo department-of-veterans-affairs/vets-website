@@ -33,6 +33,7 @@ const propsStandard = {
     push: pushSpyStandard,
   },
   toggleEditMode: () => {},
+  updateLimitsResults: () => {},
   zipCodeInput: '10108',
 };
 
@@ -60,6 +61,7 @@ const propsPast = {
     push: pushSpyPast,
   },
   toggleEditMode: () => {},
+  updateLimitsResults: () => {},
   yearInput: '2016',
   zipCodeInput: '60507',
 };
@@ -73,11 +75,11 @@ describe('Review Page', () => {
     );
 
     expect(screen.getByTestId('review-zip').textContent).to.equal(
-      'Nisci orci: 10108',
+      'Zip code: 10108',
     );
 
     expect(screen.getByTestId('review-dependents').textContent).to.equal(
-      'Malesuada felis ultrices: 2',
+      'Number of dependents: 2',
     );
   });
 
@@ -89,15 +91,15 @@ describe('Review Page', () => {
     );
 
     expect(screen.getByTestId('review-year').textContent).to.equal(
-      'Vitae: 2016',
+      'Year: 2016',
     );
 
     expect(screen.getByTestId('review-zip').textContent).to.equal(
-      'Nisci orci: 60507',
+      'Zip code: 60507',
     );
 
     expect(screen.getByTestId('review-dependents').textContent).to.equal(
-      'Malesuada felis ultrices: 3',
+      'Number of dependents: 3',
     );
   });
 

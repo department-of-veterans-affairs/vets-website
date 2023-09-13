@@ -6,7 +6,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import recordEvent from 'platform/monitoring/record-event';
 import formConfig from '../config/form';
-import UnverifiedPrefillAlert from '../components/UnverifiedPrefillAlert';
+import UnverifiedPrefillAlert from '../components/shared/UnverifiedPrefillAlert';
 import { WIZARD_STATUS } from '../wizard/constants';
 import manifest from '../manifest.json';
 import { clearJobIndex } from '../utils/session';

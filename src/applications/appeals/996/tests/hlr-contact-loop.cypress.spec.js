@@ -51,6 +51,7 @@ describe('HLR contact info loop', () => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
 
     cy.login(mockUser);
+    cy.intercept('GET', '/v0/user?*', mockUser);
     cy.intercept('GET', '/v0/profile/status', mockStatus);
 
     cy.visit(BASE_URL);
@@ -87,7 +88,10 @@ describe('HLR contact info loop', () => {
 
     // Mobile phone
     cy.get('a[href$="phone"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-mobile-phone`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -96,7 +100,10 @@ describe('HLR contact info loop', () => {
 
     // Email
     cy.get('a[href$="email-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-email-address`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-email-address`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -105,7 +112,10 @@ describe('HLR contact info loop', () => {
 
     // Mailing address
     cy.get('a[href$="mailing-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mailing-address`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-mailing-address`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -116,16 +126,18 @@ describe('HLR contact info loop', () => {
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('should edit info on a new page, update & return to contact info page - C12884', () => {
     getToContactPage();
-    cy.intercept('/v0/profile/telephones', mockTelephoneUpdateSuccess);
 
     // Mobile phone
     cy.get('a[href$="mobile-phone"]').click();
     cy.contains('Edit mobile phone').should('be.visible');
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-mobile-phone`,
+    );
 
-    cy.findByLabelText(/mobile phone/i)
-      .clear()
-      .type('8885551212');
+    cy.findByLabelText(/mobile phone/i).clear();
+    cy.findByLabelText(/mobile phone/i).type('8885551212');
+
     cy.findAllByText(/save/i, { selector: 'button' })
       .first()
       .click();

@@ -6,9 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 /** Global */
 export const DowntimeWarning = () => (
   <va-alert status="warning">
-    <h2 slot="headline">
-      The health care application is down for maintenance.
-    </h2>
+    <h2 slot="headline">The health care application is down for maintenance</h2>
     <p>
       We’re sorry. The health care application is currently down while we fix a
       few things. We’ll be back up as soon as we can.
@@ -47,8 +45,8 @@ export const ShortFormAlert = () => (
 
 /** CHAPTER 1: Veteran Information */
 export const IdentityVerificationAlert = () => (
-  <va-alert status="continue">
-    <h4 slot="headline" data-testid="identity-alert-heading">
+  <va-alert status="continue" data-testid="hca-identity-alert">
+    <h4 slot="headline">
       Please verify your identity before applying for VA health care
     </h4>
     <p>This process should take about 5 to 10 minutes.</p>
@@ -106,15 +104,7 @@ export const IdentityVerificationAlert = () => (
 );
 
 /** CHAPTER 4: Household Information */
-export const DeductableExpensesAlert = () => (
-  <va-alert status="info" class="vads-u-margin-y--3">
-    <strong>Note:</strong> We understand in some cases your expenses might be
-    higher than your income. If your expenses exceed your income, we’ll adjust
-    them to be equal to your income. This won’t affect your application or
-    benefits.
-  </va-alert>
-);
-
+// NOTE: for household v1 only -- remove when v2 is fully-adopted
 export const ExpensesWarning = () => (
   <va-alert status="warning" class="vads-u-margin-top--4">
     <h2 slot="headline">
@@ -130,14 +120,6 @@ export const ExpensesWarning = () => (
 // NOTE: for household v1 only -- remove when v2 is fully-adopted
 export const FinancialDisclosureAlert = () => (
   <va-alert status="info" class="vads-u-margin-top--4">
-    If you don’t provide your financial information and you don’t have another
-    qualifying eligibility factor, VA can’t enroll you.
-  </va-alert>
-);
-
-// NOTE: for household v2 only
-export const FinancialDisclosureWarning = () => (
-  <va-alert status="warning" class="vads-u-margin-top--4">
     If you don’t provide your financial information and you don’t have another
     qualifying eligibility factor, VA can’t enroll you.
   </va-alert>

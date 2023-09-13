@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintDownload from '../components/shared/PrintDownload';
 import PrintHeader from '../components/shared/PrintHeader';
-import { dateFormat, downloadFile } from '../util/helpers';
-import { getVaccinePdf } from '../api/MrApi';
+import GenerateRadiologyPdf from '../components/LabsAndTests/GenerateRadiologyPdf';
 
 const RadiologyImagesList = () => {
   const dispatch = useDispatch();
@@ -27,7 +27,6 @@ const RadiologyImagesList = () => {
     imagingProvider: 'John J. Lydon',
     id: 122,
     date: '2022-04-13T17:42:46.000Z',
-    vaccineId: '000001',
     imagingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     reactions: ['Just this one'],
@@ -47,10 +46,10 @@ const RadiologyImagesList = () => {
     ],
   };
 
-  const formattedDate = dateFormat(labAndTestDetails?.date, 'MMMM D, YYYY');
+  const formattedDate = formatDateLong(labAndTestDetails?.date);
 
   const download = () => {
-    getVaccinePdf(1).then(res => downloadFile('radiology.pdf', res.pdf));
+    GenerateRadiologyPdf(labAndTestDetails);
   };
 
   useEffect(
@@ -59,18 +58,13 @@ const RadiologyImagesList = () => {
         dispatch(
           setBreadcrumbs(
             [
-              { url: '/my-health/medical-records/', label: 'Dashboard' },
-              {
-                url: '/my-health/medical-records/labs-and-tests',
-                label: 'Lab and test results',
-              },
               {
                 url: `/my-health/medical-records/labs-and-tests/${labId}`,
                 label: labAndTestDetails?.name,
               },
             ],
             {
-              url: `/my-health/medical-records/labs-and-tests/radiology-images/${labId}`,
+              url: `/my-health/medical-records/labs-and-tests/${labId}/images`,
               label: `Images: ${labAndTestDetails?.name}`,
             },
           ),
@@ -94,14 +88,22 @@ const RadiologyImagesList = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">
+          <h1
+            className="vads-u-margin-bottom--0"
+            aria-describedby="radiology-date"
+          >
             Images: {labAndTestDetails.name}
           </h1>
           <div className="time-header">
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h2
+              className="vads-u-font-size--base vads-u-font-family--sans"
+              id="radiology-date"
+            >
               Date:{' '}
+              <span className="vads-u-font-weight--normal">
+                {formattedDate}
+              </span>
             </h2>
-            <p>{formattedDate}</p>
           </div>
 
           <div className="no-print">
@@ -142,7 +144,7 @@ const RadiologyImagesList = () => {
                   <va-link
                     className="vads-u-margin-top--1"
                     active
-                    href={`/my-health/medical-records/labs-and-tests/radiology-images/${labId}/${idx +
+                    href={`/my-health/medical-records/labs-and-tests/${labId}/images/${idx +
                       1}`}
                     text="Review full image"
                   />

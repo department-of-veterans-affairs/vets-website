@@ -25,4 +25,4 @@ const responses = {
   'GET /my_health/v1/messaging/recipients': recipients.defaultRecipients,
 };
 
-module.exports = delay(responses, 2000);
+module.exports = delay(responses, 3000);

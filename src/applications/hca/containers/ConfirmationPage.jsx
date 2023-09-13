@@ -5,25 +5,29 @@ import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import ConfirmationScreenView from '../components/ConfirmationPage/ConfirmationScreenView';
 import ConfirmationPrintView from '../components/ConfirmationPage/ConfirmationPrintView';
+import { normalizeFullName } from '../utils/helpers';
 
 const ConfirmationPage = ({ form, profile, isLoggedIn }) => {
   const { submission, data } = form;
   const { response } = submission;
   // if authenticated, get veteran's name from profile, else, from form data
-  const name = isLoggedIn ? profile.userFullName : data.veteranFullName;
+  const nameToDisplay = isLoggedIn
+    ? profile.userFullName
+    : data['view:veteranInformation'].veteranFullName;
+  const veteranName = normalizeFullName(nameToDisplay, true);
 
   return (
     <div className="hca-confirmation-page vads-u-margin-bottom--2p5">
       <section className="hca-confirmation--screen no-print">
         <ConfirmationScreenView
-          name={name}
+          name={veteranName}
           timestamp={response ? response.timestamp : null}
         />
       </section>
 
       <section className="hca-confirmation--print">
         <ConfirmationPrintView
-          name={name}
+          name={veteranName}
           timestamp={response ? response.timestamp : null}
         />
       </section>
@@ -31,7 +35,7 @@ const ConfirmationPage = ({ form, profile, isLoggedIn }) => {
       <section>
         <h2>What to do if you have questions now</h2>
         <p>
-          If we haven’t contact you within a week after you submitted your
+          If we haven’t contacted you within a week after you submitted your
           application, please don’t apply again:
         </p>
         <ul>

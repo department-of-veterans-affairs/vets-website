@@ -2,24 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import constants from 'vets-json-schema/dist/constants.json';
 
-export const AddressWithAutofillReviewField = ({
-  canAutofillAddress,
-  formData,
-  inputLabel,
-}) => {
+export const AddressWithAutofillReviewField = ({ formData, inputLabel }) => {
   const stateLabel = constants.states.USA.find(
     state => state.value === formData.state,
   ).label;
 
   return (
     <>
-      {canAutofillAddress &&
-        formData['view:autofill'] && (
-          <div className="review-row">
-            <dt>Use the same address as the Veteran</dt>
-            <dd>Selected</dd>
-          </div>
-        )}
+      {formData['view:autofill'] && (
+        <div className="review-row" data-testid="cg-address-autofill">
+          <dt>Use the same address as the Veteran</dt>
+          <dd>Selected</dd>
+        </div>
+      )}
       <div className="review-row">
         <dt>{inputLabel} current street address</dt>
         <dd data-testid="cg-address-street">{formData.street}</dd>
@@ -45,7 +40,6 @@ export const AddressWithAutofillReviewField = ({
 };
 
 AddressWithAutofillReviewField.propTypes = {
-  canAutofillAddress: PropTypes.bool,
   formData: PropTypes.object,
   inputLabel: PropTypes.string,
 };

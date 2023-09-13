@@ -1,11 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import RadioWidget from '../../../src/js/widgets/RadioWidget';
+import { $, $$ } from '../../../src/js/utilities/ui';
 
 describe('Schemaform <RadioWidget>', () => {
+  const getAttr = (dom, index, attr) =>
+    $$('input', dom)[index].getAttribute(attr);
+
   it('should render', () => {
     const onChange = sinon.spy();
     const enumOptions = [
@@ -18,12 +22,13 @@ describe('Schemaform <RadioWidget>', () => {
         value: '2',
       },
     ];
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <RadioWidget value onChange={onChange} options={{ enumOptions }} />,
     );
-    expect(tree.everySubTree('input').length).to.equal(2);
-    expect(tree.everySubTree('label')[0].text()).to.equal('Testing');
-    expect(tree.everySubTree('label')[1].text()).to.equal('Testing2');
+    expect($$('input', container).length).to.equal(2);
+    const labels = $$('label', container);
+    expect(labels[0].textContent).to.equal('Testing');
+    expect(labels[1].textContent).to.equal('Testing2');
   });
   it('should render label from options', () => {
     const onChange = sinon.spy();
@@ -40,15 +45,17 @@ describe('Schemaform <RadioWidget>', () => {
     const labels = {
       1: 'Other',
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <RadioWidget
         value
         onChange={onChange}
         options={{ enumOptions, labels }}
       />,
     );
-    expect(tree.everySubTree('label')[0].text()).to.equal('Other');
-    expect(tree.everySubTree('label')[1].text()).to.equal('Testing2');
+    expect($$('input', container).length).to.equal(2);
+    const labelsInDom = $$('label', container);
+    expect(labelsInDom[0].textContent).to.equal('Other');
+    expect(labelsInDom[1].textContent).to.equal('Testing2');
   });
   it('should handle change', () => {
     const onChange = sinon.spy();
@@ -62,12 +69,13 @@ describe('Schemaform <RadioWidget>', () => {
         value: '2',
       },
     ];
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <RadioWidget value onChange={onChange} options={{ enumOptions }} />,
     );
-    tree.everySubTree('input')[0].props.onChange();
+    fireEvent.click($('input', container));
     expect(onChange.calledWith('1')).to.be.true;
   });
+
   it('should render nested content', () => {
     const onChange = sinon.spy();
     const enumOptions = [
@@ -83,7 +91,7 @@ describe('Schemaform <RadioWidget>', () => {
     const nestedContent = {
       1: <span>Nested</span>,
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <RadioWidget
         value="1"
         onChange={onChange}
@@ -91,8 +99,11 @@ describe('Schemaform <RadioWidget>', () => {
       />,
     );
 
-    expect(tree.subTree('.schemaform-radio-indent').text()).to.equal('Nested');
+    expect($('.schemaform-radio-indent', container).textContent).to.equal(
+      'Nested',
+    );
   });
+
   it('should not render nested content if not selected', () => {
     const onChange = sinon.spy();
     const enumOptions = [
@@ -108,7 +119,7 @@ describe('Schemaform <RadioWidget>', () => {
     const nestedContent = {
       1: <span>Nested</span>,
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <RadioWidget
         value="2"
         onChange={onChange}
@@ -116,7 +127,7 @@ describe('Schemaform <RadioWidget>', () => {
       />,
     );
 
-    expect(tree.text()).not.to.contain('Nested');
+    expect(container.innerHTML).not.to.contain('Nested');
   });
 
   it('should add custom props', () => {
@@ -131,19 +142,21 @@ describe('Schemaform <RadioWidget>', () => {
         2: { 'data-test': 'second' },
       },
     };
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <RadioWidget value onChange={onChange} options={options} />,
     );
-    const inputs = tree.everySubTree('input');
-    expect(inputs[0].props['data-test']).to.equal('first');
-    expect(inputs[0].props['data-selected']).to.be.undefined;
 
-    expect(inputs[1].props['data-test']).to.equal('second');
-    expect(inputs[1].props['data-selected']).to.be.undefined;
+    expect(getAttr(container, 0, 'data-test')).to.equal('first');
+    expect(getAttr(container, 0, 'data-selected')).to.be.null;
+
+    expect(getAttr(container, 1, 'data-test')).to.equal('second');
+    expect(getAttr(container, 1, 'data-selected')).to.be.null;
   });
-  it('should update selected props on radio inputs', () => {
+
+  it('should update selected props on radio inputs', async () => {
     const onChange = sinon.spy();
     const options = {
+      id: 'test',
       enumOptions: [
         { label: 'Testing', value: '1' },
         { label: 'Testing2', value: '2' },
@@ -161,35 +174,66 @@ describe('Schemaform <RadioWidget>', () => {
       },
     };
     // first option selected
-    const tree = SkinDeep.shallowRender(
+    const { container, rerender } = render(
       <RadioWidget value="1" onChange={onChange} options={options} />,
     );
-    const inputsFirstSelected = tree.everySubTree('input');
-    expect(inputsFirstSelected[0].props['data-test']).to.equal('first');
-    expect(inputsFirstSelected[0].props['data-selected']).to.equal('first_1');
-    expect(inputsFirstSelected[1].props['data-test']).to.equal('second');
-    expect(inputsFirstSelected[1].props['data-selected']).to.be.undefined;
-    expect(inputsFirstSelected[2].props['data-test']).to.equal('third');
-    expect(inputsFirstSelected[2].props['data-selected']).to.be.undefined;
+
+    await fireEvent.click($('input[value="1"]', container));
+    await waitFor(() => {
+      expect(getAttr(container, 0, 'data-test')).to.equal('first');
+      expect(getAttr(container, 0, 'data-selected')).to.equal('first_1');
+      expect(getAttr(container, 1, 'data-test')).to.equal('second');
+      expect(getAttr(container, 1, 'data-selected')).to.be.null;
+      expect(getAttr(container, 2, 'data-test')).to.equal('third');
+      expect(getAttr(container, 2, 'data-selected')).to.be.null;
+    });
 
     // second option selected
-    tree.reRender({ value: '2', onChange, options });
-    const inputsSecondSelected = tree.everySubTree('input');
-    expect(inputsSecondSelected[0].props['data-test']).to.equal('first');
-    expect(inputsSecondSelected[0].props['data-selected']).to.be.undefined;
-    expect(inputsSecondSelected[1].props['data-test']).to.equal('second');
-    expect(inputsSecondSelected[1].props['data-selected']).to.equal('second_2');
-    expect(inputsSecondSelected[2].props['data-test']).to.equal('third');
-    expect(inputsSecondSelected[2].props['data-selected']).to.be.undefined;
+    rerender(<RadioWidget value="2" onChange={onChange} options={options} />);
+    await waitFor(() => {
+      expect(getAttr(container, 0, 'data-test')).to.equal('first');
+      expect(getAttr(container, 0, 'data-selected')).to.be.null;
+      expect(getAttr(container, 1, 'data-test')).to.equal('second');
+      expect(getAttr(container, 1, 'data-selected')).to.equal('second_2');
+      expect(getAttr(container, 2, 'data-test')).to.equal('third');
+      expect(getAttr(container, 2, 'data-selected')).to.be.null;
+    });
 
     // third option selected
-    tree.reRender({ value: '3', onChange, options });
-    const inputsThirdSelected = tree.everySubTree('input');
-    expect(inputsThirdSelected[0].props['data-test']).to.equal('first');
-    expect(inputsThirdSelected[0].props['data-selected']).to.be.undefined;
-    expect(inputsThirdSelected[1].props['data-test']).to.equal('second');
-    expect(inputsThirdSelected[1].props['data-selected']).to.be.undefined;
-    expect(inputsThirdSelected[2].props['data-test']).to.equal('third');
-    expect(inputsThirdSelected[2].props['data-selected']).to.equal('third_3');
+    rerender(<RadioWidget value="3" onChange={onChange} options={options} />);
+
+    await waitFor(() => {
+      expect(getAttr(container, 0, 'data-test')).to.equal('first');
+      expect(getAttr(container, 0, 'data-selected')).to.be.null;
+      expect(getAttr(container, 1, 'data-test')).to.equal('second');
+      expect(getAttr(container, 1, 'data-selected')).to.be.null;
+      expect(getAttr(container, 2, 'data-test')).to.equal('third');
+      expect(getAttr(container, 2, 'data-selected')).to.equal('third_3');
+    });
+  });
+
+  it('should log events to google analytics', () => {
+    global.window.dataLayer = [];
+    const onChange = () => {};
+    const options = {
+      title: <div>Test Radio</div>,
+      enumOptions: [
+        { label: 'Testing', value: '1' },
+        { label: 'Testing2', value: '2' },
+      ],
+      enableAnalytics: true,
+    };
+    const { container } = render(
+      <RadioWidget value onChange={onChange} options={options} />,
+    );
+
+    fireEvent.click($('input[value="2"]', container));
+    const event = global.window.dataLayer.slice(-1)[0];
+    expect(event).to.deep.equal({
+      event: 'int-radio-button-option-click',
+      'radio-button-label': 'Test Radio',
+      'radio-button-optionLabel': 'Testing2',
+      'radio-button-required': false,
+    });
   });
 });

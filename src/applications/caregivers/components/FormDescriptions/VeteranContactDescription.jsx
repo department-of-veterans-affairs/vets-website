@@ -6,7 +6,7 @@ const VeteranContactDescription = ({ pageTitle, showPageIntro }) => (
     {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
 
     {showPageIntro && (
-      <p className="vads-u-margin-top--2">
+      <p className="vads-u-margin-top--2" data-testid="cg-page-intro">
         Please complete all the following information.
       </p>
     )}

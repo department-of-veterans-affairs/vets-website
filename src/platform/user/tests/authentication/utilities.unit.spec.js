@@ -51,6 +51,7 @@ const setup = ({ path, mockGA = mockGADefaultArgs }) => {
   global.ga = originalGA;
   global.window.crypto = mockCrypto;
   removeLoginAttempted();
+  sessionStorage.clear();
 
   const { mockGAActive, trackingId, throwGAError } = mockGA;
   if (mockGAActive) {
@@ -392,6 +393,17 @@ describe('Authentication Utilities', () => {
         setup({});
       });
     });
+
+    it('should return the `authReturnUrl` if it is already presented', () => {
+      setup({ path: nonUsipPath });
+      const internalLink = 'http://va.gov/track-claims/';
+      sessionStorage.setItem('authReturnUrl', internalLink);
+      expect(authUtilities.createAndStoreReturnUrl()).to.equal(internalLink);
+      expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
+        internalLink,
+      );
+      sessionStorage.clear();
+    });
   });
 
   describe('redirect', () => {
@@ -410,9 +422,7 @@ describe('Authentication Utilities', () => {
       setup({ path: usipPathWithParams(mhvUsipParams) });
 
       authUtilities.redirect(base);
-      expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
-        `${EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]}?deeplinking=home`,
-      );
+      expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(null);
     });
 
     it('should redirect with GA Client ID appended for redirects that include `idme`', async () => {

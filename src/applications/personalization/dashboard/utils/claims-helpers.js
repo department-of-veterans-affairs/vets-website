@@ -236,6 +236,26 @@ export function isClaimComplete(claim) {
   return claim.attributes.decisionLetterSent || claim.attributes.phase === 8;
 }
 
+export function isLighthouseClaimComplete(claim) {
+  return (
+    claim.attributes.decisionLetterSent ||
+    claim.attributes.status === 'COMPLETE'
+  );
+}
+
+const lightHouseClaimStatusMap = {
+  CLAIM_RECEIVED: 'Claim received',
+  INITIAL_REVIEW: 'Initial review',
+  EVIDENCE_GATHERING_REVIEW_DECISION:
+    'Evidence gathering, review, and decision',
+  PREPARATION_FOR_NOTIFICATION: 'Preparation for notification',
+  COMPLETE: 'Closed',
+};
+
+export function getLighthouseClaimStatusDescription(status) {
+  return lightHouseClaimStatusMap[status];
+}
+
 export function itemsNeedingAttentionFromVet(events) {
   return events?.filter(
     event =>

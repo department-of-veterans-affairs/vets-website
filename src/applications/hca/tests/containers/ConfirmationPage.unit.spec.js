@@ -11,10 +11,12 @@ describe('hca ConfirmationPage', () => {
     form: {
       submission: false,
       data: {
-        veteranFullName: {
-          first: 'Jack',
-          middle: 'William',
-          last: 'Smith',
+        'view:veteranInformation': {
+          veteranFullName: {
+            first: 'Jack',
+            middle: 'William',
+            last: 'Smith',
+          },
         },
       },
     },
@@ -35,85 +37,98 @@ describe('hca ConfirmationPage', () => {
   const middleware = [];
   const mockStore = configureStore(middleware);
 
-  it('should render', () => {
-    const store = mockStore(initState);
-    const view = render(
-      <Provider store={store}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-    expect(view.container.querySelector('.hca-confirmation-page')).to.exist;
-    expect(
-      view.container.querySelector('.hca-success-message'),
-    ).to.contain.text(
-      'Thank you for completing your application for health care',
-    );
-    expect(
-      view.container.querySelectorAll('.confirmation-guidance-message').length,
-    ).to.equal(3);
-  });
-
-  it('should render without response properties', () => {
-    const store = mockStore(initState);
-    const view = render(
-      <Provider store={store}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-    expect(view.container.querySelector('.hca-application-date')).to.not.exist;
-  });
-
-  it('should render with response properties', () => {
-    const mockFormData = {
-      submission: {
-        response: {
-          timestamp: '2010-01-01',
-          formSubmissionId: '3702390024',
-        },
-      },
-    };
-    const store = mockStore({
-      ...initState,
-      form: { ...initState.form, ...mockFormData },
+  describe('when the page renders', () => {
+    it('should render success alert & guidance messages', () => {
+      const store = mockStore(initState);
+      const { container } = render(
+        <Provider store={store}>
+          <ConfirmationPage />
+        </Provider>,
+      );
+      const selectors = {
+        page: container.querySelector('.hca-confirmation-page'),
+        alert: container.querySelector('.hca-success-message'),
+        messages: container.querySelectorAll('.confirmation-guidance-message'),
+      };
+      expect(selectors.page).to.not.be.empty;
+      expect(selectors.alert).to.contain.text(
+        'Thank you for completing your application for health care',
+      );
+      expect(selectors.messages).to.have.lengthOf(3);
     });
-    const view = render(
-      <Provider store={store}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-    expect(view.container.querySelector('.hca-application-date')).to.exist;
-    expect(
-      view.container.querySelector('.hca-application-date'),
-    ).to.contain.text('Jan. 1, 2010');
   });
 
-  it('should render veteran’s name from form data', () => {
-    const store = mockStore(initState);
-    const view = render(
-      <Provider store={store}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-    expect(
-      view.container.querySelector('.hca-veteran-fullname'),
-    ).to.contain.text('Jack William Smith');
-  });
-
-  it('should render veteran’s name from profile', () => {
-    const store = mockStore({
-      ...initState,
-      user: {
-        ...initState.user,
-        login: { currentlyLoggedIn: true },
-      },
+  describe('when the submission is parsed', () => {
+    describe('when there is no response data', () => {
+      it('should not render the application date container', () => {
+        const store = mockStore(initState);
+        const { container } = render(
+          <Provider store={store}>
+            <ConfirmationPage />
+          </Provider>,
+        );
+        const selector = container.querySelector('.hca-application-date');
+        expect(selector).to.not.exist;
+      });
     });
-    const view = render(
-      <Provider store={store}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-    expect(
-      view.container.querySelector('.hca-veteran-fullname'),
-    ).to.contain.text('John Marjorie Smith Sr.');
+
+    describe('when there is response data', () => {
+      it('should not render the application date container', () => {
+        const formData = {
+          submission: {
+            response: {
+              timestamp: '2010-01-01',
+              formSubmissionId: '3702390024',
+            },
+          },
+        };
+        const store = mockStore({
+          ...initState,
+          form: { ...initState.form, ...formData },
+        });
+        const { container } = render(
+          <Provider store={store}>
+            <ConfirmationPage />
+          </Provider>,
+        );
+        const selector = container.querySelector('.hca-application-date');
+        expect(selector).to.exist;
+        expect(selector).to.contain.text('Jan. 1, 2010');
+      });
+    });
+  });
+
+  describe('when the form data is parsed', () => {
+    describe('when the user is not logged in', () => {
+      it('should render Veteran’s name from form data', () => {
+        const store = mockStore(initState);
+        const { container } = render(
+          <Provider store={store}>
+            <ConfirmationPage />
+          </Provider>,
+        );
+        const selector = container.querySelector('.hca-veteran-fullname');
+        expect(selector).to.contain.text('Jack William Smith');
+      });
+    });
+
+    describe('when the user is logged in', () => {
+      it('should render Veteran’s name from profile', () => {
+        const store = mockStore({
+          ...initState,
+          user: {
+            ...initState.user,
+            login: { currentlyLoggedIn: true },
+          },
+        });
+        const { container } = render(
+          <Provider store={store}>
+            <ConfirmationPage />
+          </Provider>,
+        );
+        const selector = container.querySelector('.hca-veteran-fullname');
+        expect(selector).to.contain.text('John Marjorie Smith Sr.');
+      });
+    });
   });
 });

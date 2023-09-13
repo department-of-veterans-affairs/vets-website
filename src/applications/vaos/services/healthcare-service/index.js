@@ -1,11 +1,9 @@
 /**
  * @module services/HealthcareService
  */
-import { getAvailableClinics } from '../var';
-import { transformAvailableClinics } from './transformers';
 import { mapToFHIRErrors } from '../utils';
 import { getClinics } from '../vaos';
-import { transformClinicsV2 } from './transformers.v2';
+import { transformClinicsV2 } from './transformers';
 
 /**
  * Method to get available HealthcareService objects.
@@ -20,29 +18,14 @@ import { transformClinicsV2 } from './transformers.v2';
 export async function getAvailableHealthcareServices({
   facilityId,
   typeOfCare,
-  systemId,
-  useV2 = false,
 }) {
   try {
     let clinics = null;
-    if (useV2) {
-      const clinicData = await getClinics({
-        locationId: facilityId,
-        typeOfCareId: typeOfCare.idV2,
-      });
-      clinics = transformClinicsV2(clinicData);
-    } else {
-      const clinicData = await getAvailableClinics(
-        facilityId,
-        typeOfCare.id,
-        systemId,
-      );
-      clinics = transformAvailableClinics(
-        facilityId,
-        typeOfCare.id,
-        clinicData,
-      );
-    }
+    const clinicData = await getClinics({
+      locationId: facilityId,
+      typeOfCareId: typeOfCare.idV2,
+    });
+    clinics = transformClinicsV2(clinicData);
 
     return clinics.sort(
       (a, b) =>

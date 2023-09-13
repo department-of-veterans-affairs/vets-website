@@ -6,6 +6,7 @@ import ConfirmablePage from '../ConfirmablePage';
 
 export default function DemographicsDisplay({
   header = '',
+  eyebrow = '',
   subtitle = '',
   demographics = {},
   yesAction = () => {},
@@ -44,6 +45,7 @@ export default function DemographicsDisplay({
     <>
       <ConfirmablePage
         header={header || t('is-this-your-current-contact-information')}
+        eyebrow={eyebrow}
         subtitle={subtitle}
         dataFields={demographicFields}
         data={demographics}
@@ -58,6 +60,7 @@ export default function DemographicsDisplay({
 
 DemographicsDisplay.propTypes = {
   demographics: PropTypes.object,
+  eyebrow: PropTypes.string,
   header: PropTypes.string,
   noAction: PropTypes.func,
   router: PropTypes.object,

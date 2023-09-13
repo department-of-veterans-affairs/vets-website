@@ -5,29 +5,43 @@ import { expect } from 'chai';
 import CustomYesNoReviewField from '../../../components/FormReview/CustomYesNoReviewField';
 
 describe('hca <CustomYesNoReviewField>', () => {
-  const uiSchema = {
-    'ui:title': 'Review Field Title',
-  };
-
-  it('should render the field title and field value yes', () => {
-    const { getByText } = render(
-      <CustomYesNoReviewField>
-        <div uiSchema={uiSchema} formData="Yes" />
-      </CustomYesNoReviewField>,
-    );
-
-    expect(getByText(/review field title/i)).to.exist;
-    expect(getByText(/yes/i)).to.exist;
+  describe('when the component renders with Yes value', () => {
+    it('should render the correct field title & value', () => {
+      const props = {
+        uiSchema: { 'ui:title': 'Review Field Title' },
+        formData: true,
+      };
+      const { container } = render(
+        <CustomYesNoReviewField>
+          <div {...props} />
+        </CustomYesNoReviewField>,
+      );
+      const selectors = {
+        title: container.querySelector('dt', '.review-row'),
+        value: container.querySelector('dd', '.review-row'),
+      };
+      expect(selectors.title).to.contain.text(props.uiSchema['ui:title']);
+      expect(selectors.value).to.contain.text('Yes');
+    });
   });
 
-  it('should render the field title and field value no', () => {
-    const { getByText } = render(
-      <CustomYesNoReviewField>
-        <div uiSchema={uiSchema} />
-      </CustomYesNoReviewField>,
-    );
-
-    expect(getByText(/review field title/i)).to.exist;
-    expect(getByText(/no/i)).to.exist;
+  describe('when the component renders with No value', () => {
+    it('should render the correct field title & value', () => {
+      const props = {
+        uiSchema: { 'ui:title': 'Review Field Title' },
+        formData: false,
+      };
+      const { container } = render(
+        <CustomYesNoReviewField>
+          <div {...props} />
+        </CustomYesNoReviewField>,
+      );
+      const selectors = {
+        title: container.querySelector('dt', '.review-row'),
+        value: container.querySelector('dd', '.review-row'),
+      };
+      expect(selectors.title).to.contain.text(props.uiSchema['ui:title']);
+      expect(selectors.value).to.contain.text('No');
+    });
   });
 });

@@ -11,6 +11,7 @@ const TravelVehicle = props => {
   return (
     <TravelPage
       header={t('did-you-travel-in-your-own-vehicle')}
+      eyebrow={t('check-in')}
       helpText={t('if-you-traveled-by-bus-train-taxi-or-other--help-text')}
       pageType="travel-vehicle"
       router={router}

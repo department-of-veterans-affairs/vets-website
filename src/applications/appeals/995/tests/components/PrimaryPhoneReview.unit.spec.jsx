@@ -40,7 +40,7 @@ describe('<PrimaryPhoneReview>', () => {
     const editPageSpy = sinon.spy();
     const { container } = render(setup({ editPage: editPageSpy }));
 
-    fireEvent.click($('.edit-page', container));
+    fireEvent.click($('va-button', container));
     expect(editPageSpy.called).to.be.true;
   });
 

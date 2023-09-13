@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { SUPPORTED_UPLOAD_TYPES, MAX_FILE_SIZE_MB } from '../constants';
+import {
+  SUPPORTED_UPLOAD_TYPES,
+  MAX_FILE_SIZE_MB,
+} from '../../shared/constants';
 
 export const evidenceUploadTitle = 'Additional evidence';
 
@@ -12,9 +15,7 @@ const fileTypes =
     : `.${SUPPORTED_UPLOAD_TYPES}`;
 
 export const EvidenceUploadLabel = (
-  <h3 className="vads-u-font-size--h4 vads-u-display--inline">
-    Upload your additional evidence
-  </h3>
+  <h3 className="vads-u-display--inline">Upload your additional evidence</h3>
 );
 
 export const EvidenceUploadDescription = (

@@ -5,6 +5,7 @@ import searchResults from '../fixtures/search-response.json';
 import folder from '../fixtures/folder-inbox-metadata.json';
 import reducer from '../../reducers';
 import SearchResults from '../../containers/SearchResults';
+import { threadSortingOptions } from '../../util/constants';
 
 describe('Search results', () => {
   const initialState = {
@@ -16,6 +17,8 @@ describe('Search results', () => {
         folder,
         keyword: 'covid',
         query: {},
+        searchSort: threadSortingOptions.SENT_DATE_DESCENDING.value,
+        page: 1,
       },
     },
   };

@@ -22,7 +22,6 @@ const RadiologySingleImage = () => {
     imagingProvider: 'John J. Lydon',
     id: 122,
     date: '2022-04-13T17:42:46.000Z',
-    vaccineId: '000001',
     imagingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     reactions: ['Just this one'],
@@ -48,15 +47,6 @@ const RadiologySingleImage = () => {
         dispatch(
           setBreadcrumbs(
             [
-              { url: '/my-health/medical-records/', label: 'Dashboard' },
-              {
-                url: '/my-health/medical-records/labs-and-tests',
-                label: 'Lab and test results',
-              },
-              {
-                url: `/my-health/medical-records/labs-and-tests/${labId}`,
-                label: labAndTestDetails?.name,
-              },
               {
                 url: `/my-health/medical-records/labs-and-tests/radiology-images/${labId}`,
                 label: `Images: ${labAndTestDetails?.name}`,

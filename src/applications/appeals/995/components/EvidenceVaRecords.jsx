@@ -15,7 +15,7 @@ import { EVIDENCE_VA_PATH, NO_ISSUES_SELECTED } from '../constants';
 
 import { content } from '../content/evidenceVaRecords';
 import { getSelected, getIssueName } from '../utils/helpers';
-import { getIndex } from '../utils/evidence';
+import { getIndex, hasErrors } from '../utils/evidence';
 
 import { checkValidations } from '../validations';
 import {
@@ -93,11 +93,9 @@ const EvidenceVaRecords = ({
       data,
       currentIndex,
     )[0],
-    from: checkValidations([validateVaFromDate], currentData)[0],
-    to: checkValidations([validateVaToDate], currentData)[0],
+    from: checkValidations([validateVaFromDate], currentData),
+    to: checkValidations([validateVaToDate], currentData),
   };
-
-  const hasErrors = () => Object.values(errors).filter(Boolean).length;
 
   useEffect(
     () => {
@@ -204,7 +202,7 @@ const EvidenceVaRecords = ({
 
     onAddAnother: event => {
       event.preventDefault();
-      if (hasErrors()) {
+      if (hasErrors(errors)) {
         // don't show modal
         updateState({ submitted: true });
         focusEvidence();
@@ -220,7 +218,7 @@ const EvidenceVaRecords = ({
       event.preventDefault();
       updateState({ submitted: true });
       // non-empty entry, focus on error
-      if (hasErrors()) {
+      if (hasErrors(errors)) {
         focusEvidence();
         return;
       }
@@ -239,7 +237,7 @@ const EvidenceVaRecords = ({
       // a new empty entry
       if (isEmptyVaEntry(currentData)) {
         updateCurrentLocation({ remove: true });
-      } else if (hasErrors()) {
+      } else if (hasErrors(errors)) {
         updateState({ submitted: true, showModal: true });
         return;
       }
@@ -289,8 +287,14 @@ const EvidenceVaRecords = ({
   };
 
   const showError = name =>
-    ((currentState.submitted || currentState.dirty[name]) && errors[name]) ||
+    ((currentState.submitted || currentState.dirty[name]) &&
+      (Array.isArray(errors[name]) ? errors[name][0] : errors[name])) ||
     null;
+
+  const isInvalid = (name, part) => {
+    const message = errors[name]?.[1] || '';
+    return message.includes(part) || message.includes('other');
+  };
 
   return (
     <form onSubmit={handlers.onGoForward}>
@@ -362,16 +366,22 @@ const EvidenceVaRecords = ({
           onDateBlur={handlers.onBlur}
           value={currentData.evidenceDates?.from}
           error={showError('from')}
+          invalidMonth={isInvalid('from', 'month')}
+          invalidDay={isInvalid('from', 'day')}
+          invalidYear={isInvalid('from', 'year')}
         />
         <VaMemorableDate
           id="location-to-date"
           name="to"
           label={content.dateEnd}
+          required
           onDateChange={handlers.onChange}
           onDateBlur={handlers.onBlur}
           value={currentData.evidenceDates?.to}
           error={showError('to')}
-          required
+          invalidMonth={isInvalid('to', 'month')}
+          invalidDay={isInvalid('to', 'day')}
+          invalidYear={isInvalid('to', 'year')}
         />
         <div className="vads-u-margin-top--2">
           <Link

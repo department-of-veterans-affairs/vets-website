@@ -228,4 +228,13 @@ describe('Schemaform FormNav', () => {
       expect(document.activeElement.tagName).to.eq('H3');
     });
   });
+
+  it('should render current chapter stepText', () => {
+    const currentPath = 'testing4';
+    const formConfigDefaultData = getDefaultData();
+    const tree = render(
+      <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />,
+    );
+    expect(tree.getByTestId('navFormDiv').textContent).to.eq('');
+  });
 });

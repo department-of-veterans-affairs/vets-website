@@ -7,18 +7,18 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 
 const App = ({ formEnabled }) => {
   if (formEnabled === undefined) {
-    return <va-loading-indicator set-focus message="Loading..." />;
+    return <va-loading-indicator message="Loading..." />;
   }
 
   if (formEnabled) {
     return (
       <>
-        <p>You can start your authorization right now.</p>
+        <p>You can submit this form online or by mail.</p>
         <a
-          className="vads-c-action-link--green"
-          href="/supporting-forms-for-claims/release-records-to-va-form-21-4142"
+          className="vads-c-action-link--blue"
+          href="/supporting-forms-for-claims/release-information-to-va-form-21-4142"
         >
-          Authorize the release of non-VA medical information to VA
+          Submit an authorization to release medical information online
         </a>
       </>
     );
@@ -26,15 +26,7 @@ const App = ({ formEnabled }) => {
 
   return (
     <>
-      <p>We’re still working on this feature</p>
-      <p>
-        We’re rolling out the Authorization to the release non-VA medical
-        information to VA (VA Forms 21-4142 and 21-4142a) in stages. It’s not
-        quite ready yet. Please check back again soon.
-      </p>
-      <a className="vads-c-action-link--green" href="/">
-        Return to VA home page
-      </a>
+      <p>You can submit this form by mail.</p>
     </>
   );
 };

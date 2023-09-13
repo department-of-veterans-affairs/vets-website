@@ -8,8 +8,9 @@ import {
   missingPrimaryPhone,
 } from '../../validations';
 import { missingIssueName } from '../../validations/issues';
+import { errorMessages, PRIMARY_PHONE } from '../../constants';
 
-import { errorMessages, SELECTED, PRIMARY_PHONE } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 
 describe('checkValidations', () => {
   it('should return error messages', () => {
@@ -86,6 +87,14 @@ describe('contactInfoValidation', () => {
     expect(addError.firstCall.args[0]).to.eq(errorMessages.missingEmail);
     expect(addError.secondCall.args[0]).to.eq(errorMessages.missingPhone);
     expect(addError.lastCall.args[0]).to.eq(errorMessages.missingAddress);
+  });
+  it('should not throw an error when addError function is missing', () => {
+    try {
+      contactInfoValidation();
+      expect(true).to.be.true;
+    } catch (error) {
+      expect(error).to.be.null;
+    }
   });
 });
 

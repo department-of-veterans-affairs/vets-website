@@ -1,6 +1,9 @@
 export const Actions = {
+  Alerts: {
+    ADD_ALERT: 'MR_ALERT_ADD_ALERT',
+  },
   Breadcrumbs: {
-    SET_BREAD_CRUMBS: 'SM_SET_BREAD_CRUMBS',
+    SET_BREAD_CRUMBS: 'MR_SET_BREAD_CRUMBS',
   },
   LabsAndTests: {
     GET: 'MR_LABS_AND_TESTS_GET',
@@ -25,5 +28,11 @@ export const Actions = {
   Allergies: {
     GET: 'MR_ALLERGY_GET',
     GET_LIST: 'MR_ALLERGIES_GET_LIST,',
+  },
+  Sharing: {
+    STATUS: 'MR_SHARING_STATUS',
+    STATUS_ERROR: 'MR_SHARING_STATUS_ERROR',
+    UPDATE: 'MR_SHARING_UPDATE',
+    CLEAR: 'MR_SHARING_CLEAR',
   },
 };

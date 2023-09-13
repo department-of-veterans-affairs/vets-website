@@ -1,5 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { isReactComponent } from '../../../../utilities/ui';
+import recordEvent from '../../../../monitoring/record-event';
 
 import ExpandingGroup from '../components/ExpandingGroup';
 
@@ -16,6 +19,7 @@ export default function RadioWidget({
     nestedContent = {},
     widgetProps = {},
     selectedProps = {},
+    enableAnalytics = false,
   } = options;
 
   const getProps = (key, checked) => ({
@@ -29,6 +33,23 @@ export default function RadioWidget({
     const NestedContent = content;
     content = <NestedContent />;
   }
+
+  const onChangeEvent = option => {
+    if (enableAnalytics) {
+      // title may be a React component
+      const title = options.title?.props?.children || options.title || '';
+      // this check isn't ideal since the message may exist and the question
+      // may be dynamically toggled between being required or not
+      const required = !!options.errorMessages?.required;
+      recordEvent({
+        event: 'int-radio-button-option-click',
+        'radio-button-label': title,
+        'radio-button-optionLabel': option.label,
+        'radio-button-required': required,
+      });
+    }
+    onChange(option.value);
+  };
 
   return (
     <div>
@@ -44,7 +65,7 @@ export default function RadioWidget({
               name={`${id}`}
               value={option.value}
               disabled={disabled}
-              onChange={_ => onChange(option.value)}
+              onChange={_ => onChangeEvent(option)}
               {...getProps(option.value, checked)}
             />
             <label htmlFor={`${id}_${i}`}>
@@ -67,3 +88,20 @@ export default function RadioWidget({
     </div>
   );
 }
+
+RadioWidget.propTypes = {
+  disabled: PropTypes.bool,
+  id: PropTypes.string,
+  options: PropTypes.shape({
+    enumOptions: PropTypes.array,
+    labels: PropTypes.shape({}),
+    nestedContent: PropTypes.shape({}),
+    widgetProps: PropTypes.shape({}),
+    selectedProps: PropTypes.shape({}),
+    enableAnalytics: PropTypes.bool,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    errorMessages: PropTypes.shape({}),
+  }),
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+};

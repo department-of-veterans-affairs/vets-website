@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 const formatDate = closedDate => moment(closedDate).format('MMMM D, YYYY');
 
 const headerText = closedDate =>
-  `We closed your claim on ${formatDate(closedDate)}`;
+  `We decided your claim on ${formatDate(closedDate)}`;
 
 const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
   <>
@@ -16,18 +16,15 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
       </h3>
       {showClaimLettersLink ? (
         <p>
-          You can download your decision letter online now. You can also get
-          other letters related to your claims.
+          You can download your decision letter online now. We also mailed you
+          this letter.
         </p>
       ) : (
-        <p>We finished reviewing your claim and a decision has been made.</p>
+        <p>
+          We mailed you a decision letter. It should arrive within 10 days after
+          the date we decided your claim. It can sometimes take longer.
+        </p>
       )}
-
-      <p>
-        We’ll also send you a copy of your decision letter by mail. It should
-        arrive within 10 days after the date we closed your claim, but it may
-        take longer.
-      </p>
 
       {showClaimLettersLink && (
         <p>
@@ -81,8 +78,8 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
 );
 
 ClaimsDecision.propTypes = {
+  showClaimLettersLink: PropTypes.bool.isRequired,
   completedDate: PropTypes.string,
-  showClaimLettersLink: PropTypes.bool,
 };
 
 export default ClaimsDecision;

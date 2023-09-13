@@ -8,7 +8,7 @@ const MonetaryCheckList = () => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
 
-  const { assets } = formData;
+  const { assets, gmtData } = formData;
   const { monetaryAssets = [] } = assets;
 
   const onChange = ({ target }) => {
@@ -39,10 +39,22 @@ const MonetaryCheckList = () => {
   const isBoxChecked = option => {
     return monetaryAssets.some(asset => asset.name === option);
   };
+  const title = 'Your household assets';
+  const prompt = 'Select any of these financial assets you have:';
+
+  // removing cash as an option if the user is eligible for streamlined
+  // but the amount of cash they have is above the threshold
+  const adjustForStreamlined =
+    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt;
+  const adjustedAssetList = adjustForStreamlined
+    ? monetaryAssetList.filter(asset => asset.toLowerCase() !== 'cash')
+    : monetaryAssetList;
 
   return (
     <Checklist
-      options={monetaryAssetList}
+      title={title}
+      prompt={prompt}
+      options={adjustedAssetList}
       onChange={event => onChange(event)}
       isBoxChecked={isBoxChecked}
     />

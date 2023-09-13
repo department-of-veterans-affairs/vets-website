@@ -1,4 +1,6 @@
-import { errorMessages, SELECTED, PRIMARY_PHONE } from '../constants';
+import { errorMessages, PRIMARY_PHONE } from '../constants';
+
+import { validateRequireRatedDisability } from '../../shared/validations';
 
 /**
  * Check validations for Custom pages
@@ -22,17 +24,13 @@ export const checkValidations = (
   return errors.errorMessages;
 };
 
-export const requireRatedDisability = (err, fieldData) => {
-  if (!fieldData.some(entry => entry[SELECTED])) {
-    // The actual validation error is displayed as an alert field. The message
-    // here will be shown on the review page
-    err.addError(errorMessages.contestedIssue);
-  }
+export const requireRatedDisability = (errors = {}, fieldData) => {
+  validateRequireRatedDisability(errors, fieldData, errorMessages);
 };
 
 /* Contact info */
 export const contactInfoValidation = (errors = {}, _fieldData, formData) => {
-  const { veteran = {} } = formData;
+  const { veteran = {} } = formData || {};
   if (!veteran.email) {
     errors.addError?.(errorMessages.missingEmail);
   }
@@ -46,6 +44,6 @@ export const contactInfoValidation = (errors = {}, _fieldData, formData) => {
 
 export const missingPrimaryPhone = (error, _fieldData, formData) => {
   if (!formData?.[PRIMARY_PHONE]) {
-    error.addError(errorMessages.missingPrimaryPhone);
+    error.addError?.(errorMessages.missingPrimaryPhone);
   }
 };

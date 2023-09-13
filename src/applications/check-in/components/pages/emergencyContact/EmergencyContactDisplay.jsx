@@ -5,6 +5,7 @@ import ConfirmablePage from '../ConfirmablePage';
 
 export default function EmergencyContactDisplay({
   emergencyContact = {},
+  eyebrow = '',
   yesAction = () => {},
   noAction = () => {},
   router,
@@ -36,6 +37,7 @@ export default function EmergencyContactDisplay({
     <>
       <ConfirmablePage
         header={t('is-this-your-current-emergency-contact')}
+        eyebrow={eyebrow}
         dataFields={dataFields}
         data={emergencyContact}
         yesAction={yesAction}
@@ -50,6 +52,7 @@ export default function EmergencyContactDisplay({
 
 EmergencyContactDisplay.propTypes = {
   emergencyContact: PropTypes.object,
+  eyebrow: PropTypes.string,
   noAction: PropTypes.func,
   router: PropTypes.object,
   yesAction: PropTypes.func,

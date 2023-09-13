@@ -34,12 +34,12 @@ const HouseholdFinancialOnboarding = props => {
         </li>
         <li>
           <strong>Net income from a farm, property, or business.</strong> Net
-          income is your income after taxes and deductions are subtracted.
+          income is income after taxes and deductions are subtracted.
         </li>
         <li>
-          <strong>Other income you received.</strong> This includes things like
-          retirement benefits, unemployment, VA benefit compensation, money from
-          the sale of a house, or interest from investments.
+          <strong>Other annual income received.</strong> This includes things
+          like retirement benefits, unemployment, VA benefit compensation, money
+          from the sale of a house, or interest from investments.
         </li>
       </ul>
 

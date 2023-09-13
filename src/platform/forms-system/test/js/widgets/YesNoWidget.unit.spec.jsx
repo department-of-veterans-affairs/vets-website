@@ -1,55 +1,60 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import YesNoWidget from '../../../src/js/widgets/YesNoWidget';
+import { $, $$ } from '../../../src/js/utilities/ui';
 
 describe('Schemaform <YesNoWidget>', () => {
   it('should render', () => {
     const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(
-      <YesNoWidget value onChange={onChange} />,
-    );
-    expect(tree.everySubTree('input').length).to.equal(2);
-    expect(tree.everySubTree('input')[0].props.checked).to.be.true;
-    expect(tree.everySubTree('input')[1].props.checked).not.to.be.true;
+    const { container } = render(<YesNoWidget value onChange={onChange} />);
+    const inputs = $$('input', container);
+    expect(inputs.length).to.equal(2);
+    expect(inputs[0].checked).to.be.true;
+    expect(inputs[1].checked).not.to.be.true;
   });
+
   it('should render undefined', () => {
     const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(<YesNoWidget onChange={onChange} />);
-    expect(tree.everySubTree('input').length).to.equal(2);
-    expect(tree.everySubTree('input')[0].props.checked).not.to.be.true;
-    expect(tree.everySubTree('input')[1].props.checked).not.to.be.true;
+    const { container } = render(<YesNoWidget onChange={onChange} />);
+    const inputs = $$('input', container);
+    expect(inputs.length).to.equal(2);
+    expect(inputs[0].checked).not.to.be.true;
+    expect(inputs[1].checked).not.to.be.true;
   });
+
   it('should render false', () => {
     const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <YesNoWidget value={false} onChange={onChange} />,
     );
-    expect(tree.everySubTree('input').length).to.equal(2);
-    expect(tree.everySubTree('input')[0].props.checked).not.to.be.true;
-    expect(tree.everySubTree('input')[1].props.checked).to.be.true;
+    const inputs = $$('input', container);
+    expect(inputs.length).to.equal(2);
+    expect(inputs[0].checked).not.to.be.true;
+    expect(inputs[1].checked).to.be.true;
   });
+
   it('should handle change', () => {
     const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <YesNoWidget value={false} onChange={onChange} />,
     );
-    tree.everySubTree('input')[0].props.onChange();
+    fireEvent.click($('input', container));
     expect(onChange.calledWith(true)).to.be.true;
   });
+
   it('should handle false change', () => {
     const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(
-      <YesNoWidget value={false} onChange={onChange} />,
-    );
-    tree.everySubTree('input')[1].props.onChange();
+    const { container } = render(<YesNoWidget value onChange={onChange} />);
+    fireEvent.click($$('input', container)[1]);
     expect(onChange.calledWith(false)).to.be.true;
   });
+
   it('should render labels', () => {
     const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <YesNoWidget
         value
         options={{
@@ -61,12 +66,14 @@ describe('Schemaform <YesNoWidget>', () => {
         onChange={onChange}
       />,
     );
-    expect(tree.everySubTree('label')[0].text()).to.equal('Whatever');
-    expect(tree.everySubTree('label')[1].text()).to.equal('Testing');
+    const labels = $$('label', container);
+    expect(labels[0].textContent).to.equal('Whatever');
+    expect(labels[1].textContent).to.equal('Testing');
   });
+
   it('should reverse value', () => {
     const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <YesNoWidget
         value
         options={{
@@ -76,12 +83,14 @@ describe('Schemaform <YesNoWidget>', () => {
       />,
     );
 
-    expect(tree.everySubTree('input')[0].props.checked).to.be.false;
-    expect(tree.everySubTree('input')[1].props.checked).to.be.true;
+    const inputs = $$('input', container);
+    expect(inputs[0].checked).to.be.false;
+    expect(inputs[1].checked).to.be.true;
   });
+
   it('should add custom props', () => {
     const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const { container } = render(
       <YesNoWidget
         value
         options={{
@@ -95,14 +104,12 @@ describe('Schemaform <YesNoWidget>', () => {
       />,
     );
 
-    expect(tree.everySubTree('input')[0].props['data-test']).to.equal(
-      'yes-input',
-    );
-    expect(tree.everySubTree('input')[1].props['data-test']).to.equal(
-      'no-input',
-    );
+    const inputs = $$('input', container);
+    expect(inputs[0].dataset.test).to.equal('yes-input');
+    expect(inputs[1].dataset.test).to.equal('no-input');
   });
-  it('should update selected props', () => {
+
+  it('should update selected props', async () => {
     const options = {
       widgetProps: {
         Y: { 'data-test': 'yes-input' },
@@ -114,23 +121,76 @@ describe('Schemaform <YesNoWidget>', () => {
       },
     };
     const onChange = sinon.spy();
-    const tree = SkinDeep.shallowRender(
+    const { container, rerender } = render(
       <YesNoWidget value options={options} onChange={onChange} />,
     );
 
     // "Yes" selected
-    const inputsYes = tree.everySubTree('input');
-    expect(inputsYes[0].props['data-test']).to.equal('yes-input');
-    expect(inputsYes[0].props['data-selected']).to.equal('yes-selected');
-    expect(inputsYes[1].props['data-test']).to.equal('no-input');
-    expect(inputsYes[1].props['data-selected']).to.be.undefined;
+    const inputs = $$('input', container);
+    expect(inputs[0].dataset.test).to.equal('yes-input');
+    expect(inputs[0].dataset.selected).to.equal('yes-selected');
+    expect(inputs[1].dataset.test).to.equal('no-input');
+    expect(inputs[1].dataset.selected).to.be.undefined;
 
     // "No" selected
-    tree.reRender({ value: false, options, onChange });
-    const inputsNo = tree.everySubTree('input');
-    expect(inputsNo[0].props['data-test']).to.equal('yes-input');
-    expect(inputsNo[0].props['data-selected']).to.be.undefined;
-    expect(inputsNo[1].props['data-test']).to.equal('no-input');
-    expect(inputsNo[1].props['data-selected']).to.equal('no-selected');
+    rerender(
+      <YesNoWidget value={false} options={options} onChange={onChange} />,
+    );
+
+    await waitFor(() => {
+      expect(inputs[0].dataset.test).to.equal('yes-input');
+      expect(inputs[0].dataset.selected).to.be.undefined;
+      expect(inputs[1].dataset.test).to.equal('no-input');
+      expect(inputs[1].dataset.selected).to.equal('no-selected');
+    });
+  });
+
+  it('should log events to google analytics', () => {
+    global.window.dataLayer = [];
+    const onChange = sinon.spy();
+    const options = {
+      title: 'YesNo title',
+      labels: {
+        N: 'Nope',
+      },
+      enableAnalytics: true,
+    };
+    const { container } = render(
+      <YesNoWidget value options={options} onChange={onChange} />,
+    );
+
+    fireEvent.click($('input[value="N"]', container));
+    const event = global.window.dataLayer.slice(-1)[0];
+    expect(event).to.deep.equal({
+      event: 'int-radio-button-option-click',
+      'radio-button-label': options.title,
+      'radio-button-optionLabel': options.labels.N,
+      'radio-button-required': false,
+    });
+  });
+
+  it('should log events to google analytics', () => {
+    global.window.dataLayer = [];
+    const onChange = sinon.spy();
+    const options = {
+      title: <div>Test YesNo</div>,
+      labels: {
+        N: 'Nope',
+      },
+      errorMessages: { required: 'yep' },
+      enableAnalytics: true,
+    };
+    const { container } = render(
+      <YesNoWidget options={options} onChange={onChange} />,
+    );
+
+    fireEvent.click($('input[value="Y"]', container));
+    const event = global.window.dataLayer.slice(-1)[0];
+    expect(event).to.deep.equal({
+      event: 'int-radio-button-option-click',
+      'radio-button-label': 'Test YesNo',
+      'radio-button-optionLabel': 'Yes',
+      'radio-button-required': true,
+    });
   });
 });

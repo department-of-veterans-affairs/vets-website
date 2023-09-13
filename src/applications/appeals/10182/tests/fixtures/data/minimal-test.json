@@ -9,6 +9,7 @@
         "addressLine3": "Box 4",
         "city": "New York",
         "countryName": "United States",
+        "countryCodeIso2": "US",
         "stateCode": "NY",
         "zipCode": "30012"
       },
@@ -25,8 +26,10 @@
     "hearingTypePreference": "central_office",
     "socOptIn": false,
     "view:additionalEvidence": false,
+    "requestingExtension": false,
+    "appealingVHADenial": false,
 
-    "contestableIssues": [
+    "contestedIssues": [
       {
         "type": "contestableIssue",
         "attributes": {
