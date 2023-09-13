@@ -165,6 +165,53 @@ const sortAppointmentsByStartTime = appointments => {
     : [];
 };
 
+/**
+ * @param {Array<Appointment>} appointments
+ */
+
+function organizeAppointmentsByYearMonthDay(appointments) {
+  const organizedData = {};
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  for (const appointment of appointments) {
+    const dateObj = new Date(appointment.startTime);
+    const monthYearKey = `${dateObj.getFullYear()}-${
+      months[dateObj.getMonth()]
+    }`;
+    const dayKey = `${days[dateObj.getDay()]}-${dateObj.getDate()}`;
+
+    if (!organizedData[monthYearKey]) {
+      organizedData[monthYearKey] = {};
+    }
+
+    if (!organizedData[monthYearKey][dayKey]) {
+      organizedData[monthYearKey][dayKey] = [];
+    }
+
+    organizedData[monthYearKey][dayKey].push(appointment);
+
+    organizedData[monthYearKey][dayKey].sort((a, b) => {
+      return new Date(a.startTime) - new Date(b.startTime);
+    });
+  }
+
+  return organizedData;
+}
+
 const removeTimeZone = payload => {
   // Grabbing the appointment payload and stripping out timezone here.
   // Chip should be handling this but currently isn't, this code may be refactored out.
@@ -284,6 +331,7 @@ export {
   intervalUntilNextAppointmentIneligibleForCheckin,
   locationShouldBeDisplayed,
   sortAppointmentsByStartTime,
+  organizeAppointmentsByYearMonthDay,
   preCheckinAlreadyCompleted,
   removeTimeZone,
   preCheckinExpired,

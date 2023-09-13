@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { getAppointmentId } from '../utils/appointment';
 
 const UpcomingAppointmentsListItem = props => {
-  const { appointment, goToDetails, router } = props;
+  const { appointment, goToDetails, displayDivider, router } = props;
   const { t } = useTranslation();
   const appointmentDateTime = new Date(appointment.startTime);
 
@@ -17,8 +17,9 @@ const UpcomingAppointmentsListItem = props => {
       <div className="vads-l-grid-container">
         <div className="vads-l-row">
           <div className="vads-l-col--2 site-grid-example">
-            <p>Fri</p>
-            <p>3</p>
+            {displayDivider && (
+              <p>{new Date(appointment.startTime).getDay()}</p>
+            )}
           </div>
           <div className="vads-l-col--10 site-grid-example">
             <p>{appointment.clinicName}</p>
@@ -36,6 +37,7 @@ const UpcomingAppointmentsListItem = props => {
               })}
             >
               {t('details')}
+              <p>{appointment.startTime}</p>
             </a>
           </div>
         </div>
@@ -46,6 +48,7 @@ const UpcomingAppointmentsListItem = props => {
 
 UpcomingAppointmentsListItem.propTypes = {
   appointment: PropTypes.object.isRequired,
+  displayDivider: PropTypes.bool.isRequired,
   goToDetails: PropTypes.func,
   router: PropTypes.object,
 };

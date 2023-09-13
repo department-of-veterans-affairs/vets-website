@@ -8,7 +8,7 @@ import { useFormRouting } from '../hooks/useFormRouting';
 
 import {
   getAppointmentId,
-  sortAppointmentsByStartTime,
+  organizeAppointmentsByYearMonthDay,
 } from '../utils/appointment';
 
 import UpcomingAppointmentsListItem from './UpcomingAppointmentsListItem';
@@ -21,7 +21,9 @@ const UpcomingAppointmentsList = props => {
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { upcomingAppointments } = useSelector(selectVeteranData);
 
-  const sortedAppointments = sortAppointmentsByStartTime(upcomingAppointments);
+  const groupedAppointments = organizeAppointmentsByYearMonthDay(
+    upcomingAppointments,
+  );
 
   const handleDetailClick = (e, appointment) => {
     e.preventDefault();
@@ -31,20 +33,43 @@ const UpcomingAppointmentsList = props => {
     jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
   };
 
-  if (sortedAppointments?.length < 1) {
+  if (Object.keys(groupedAppointments).length < 1) {
     window.scrollTo(0, 0);
     return <div>You have no upcoming appointments ¯\_(ツ)_/¯</div>;
   }
-  return sortedAppointments.map(appointment => {
-    return (
-      <UpcomingAppointmentsListItem
-        key={`${appointment.appointmentIen}-${appointment.stationNo}`}
-        appointment={appointment}
-        goToDetails={handleDetailClick}
-        router={router}
-      />
-    );
-  });
+  return (
+    <>
+      {Object.keys(groupedAppointments).map(monthYearKey => {
+        const monthAppointments = groupedAppointments[monthYearKey];
+
+        return (
+          <div key={monthYearKey}>
+            <h4>{monthYearKey}</h4>
+            {Object.keys(monthAppointments).map(dayKey => {
+              const appointmentOfDay = monthAppointments[dayKey];
+              return (
+                <>
+                  {appointmentOfDay.map((appointment, index) => {
+                    return (
+                      <UpcomingAppointmentsListItem
+                        displayDivider={index === 0}
+                        key={`${appointment.appointmentIen}-${
+                          appointment.stationNo
+                        }`}
+                        appointment={appointment}
+                        goToDetails={handleDetailClick}
+                        router={router}
+                      />
+                    );
+                  })}
+                </>
+              );
+            })}
+          </div>
+        );
+      })}
+    </>
+  );
 };
 
 UpcomingAppointmentsList.propTypes = {
