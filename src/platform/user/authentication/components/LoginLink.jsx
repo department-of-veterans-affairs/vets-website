@@ -23,6 +23,7 @@ export default function LoginLink({
       aria-label={`Sign in with ${SERVICE_PROVIDERS[csp].label}`}
       className={`vads-c-action-link--blue vads-u-padding-y--2p5 vads-u-width--full ${csp}`}
       data-csp={csp}
+      data-testid="login-link"
       onClick={() => onClick(csp, useOAuth)}
     >
       Sign in with {SERVICE_PROVIDERS[csp].label}

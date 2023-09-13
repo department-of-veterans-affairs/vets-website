@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { useSelector } from 'react-redux';
+import { signInPageAndModalExperimentLga } from 'platform/user/authentication/selectors';
 import { externalApplicationsConfig } from '../usip-config';
 import {
   EXTERNAL_APPS,
@@ -14,15 +12,16 @@ import LoginButton from './LoginButton';
 import CreateAccountLink from './CreateAccountLink';
 import LoginLink from './LoginLink';
 
-export const LoginActions = ({
-  showsignInPageAndModalExperiment,
-  externalApplication,
-}) => {
+export default function LoginActions({ externalApplication }) {
   const [useOAuth, setOAuth] = useState();
   const { OAuth, redirectUri } = getQueryParams();
   const { allowedSignInProviders, allowedSignUpProviders, OAuthEnabled } =
     externalApplicationsConfig[externalApplication] ??
     externalApplicationsConfig.default;
+  const showsignInPageAndModalExperiment = useSelector(state =>
+    signInPageAndModalExperimentLga(state),
+  );
+
   useEffect(
     () => {
       setOAuth(OAuthEnabled && OAuth === 'true');
@@ -39,11 +38,8 @@ export const LoginActions = ({
       ? OCC_MOBILE.REGISTERED_APPS
       : OCC_MOBILE.DEFAULT;
   const ShowAllButtons = () => {
-    return (
-      // <p>I am also a cat!</p>
-      reduceAllowedProviders(allowedSignInProviders, isRegisteredApp).map(
-        csp => <LoginButton csp={csp} key={csp} useOAuth={useOAuth} />,
-      )
+    return reduceAllowedProviders(allowedSignInProviders, isRegisteredApp).map(
+      csp => <LoginButton csp={csp} key={csp} useOAuth={useOAuth} />,
     );
   };
 
@@ -73,7 +69,7 @@ export const LoginActions = ({
   return (
     <div className="row">
       <div className="columns small-12" id="sign-in-wrapper">
-        {showsignInPageAndModalExperiment ? (
+        {externalApplication == null && showsignInPageAndModalExperiment ? (
           <ShowDSLMHVButtonsAsLinks />
         ) : (
           <ShowAllButtons />
@@ -102,16 +98,4 @@ export const LoginActions = ({
       </div>
     </div>
   );
-};
-
-LoginActions.propTypes = {
-  showsignInPageAndModalExperiment: PropTypes.bool,
-};
-
-const mapStateToProps = state => ({
-  showsignInPageAndModalExperiment: toggleValues(state)[
-    FEATURE_FLAG_NAMES.signInPageAndModalExperimentLga
-  ],
-});
-
-export default connect(mapStateToProps)(LoginActions);
+}

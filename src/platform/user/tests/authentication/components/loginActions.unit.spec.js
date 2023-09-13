@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
-
 import * as authUtilities from '../../../authentication/utilities';
 import LoginActions from '../../../authentication/components/LoginActions';
 import { CSP_IDS } from '../../../authentication/constants';
@@ -14,7 +13,7 @@ describe('login DOM ', () => {
     getState: () => ({
       featureToggles: {
         // eslint-disable-next-line camelcase
-        showsignInPageAndModalExperiment: true,
+        sign_in_page_and_modal_experiment_lga: false,
       },
     }),
     subscribe: () => {},
@@ -26,6 +25,80 @@ describe('login DOM ', () => {
 
   afterEach(() => {
     sandbox.restore();
+  });
+
+  it('shows MHV and DSL buttons as links when feature flag is turned on', () => {
+    const flipperOnMockStore = {
+      getState: () => ({
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          sign_in_page_and_modal_experiment_lga: true,
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const wrapper = mount(
+      <Provider store={flipperOnMockStore}>
+        <LoginActions />
+      </Provider>,
+    );
+
+    expect(wrapper.find('Sign in with DS Logon')).to.exist;
+    expect(wrapper.find('Sign in with My HealtheVet')).to.exist;
+    expect(wrapper.find('button').length).to.eql(2);
+    expect(wrapper.find('a').length).to.eql(4);
+    wrapper.unmount();
+  });
+
+  it('does not show MHV and DSL buttons as links when feature flag is turned off', () => {
+    const flipperOffMockStore = {
+      getState: () => ({
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          sign_in_page_and_modal_experiment_lga: false,
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const wrapper = mount(
+      <Provider store={flipperOffMockStore}>
+        <LoginActions />
+      </Provider>,
+    );
+
+    expect(wrapper.find('Sign in with DS Logon')).to.not.false;
+    expect(wrapper.find('Sign in with My HealtheVet')).to.not.false;
+    expect(wrapper.find('button').length).to.eql(4);
+    expect(wrapper.find('a').length).to.eql(2);
+    wrapper.unmount();
+  });
+
+  it('does not show DSL/MHV button to link changes for any other USiP other than VA.Gov', () => {
+    const externalApplications = [
+      'vaoccmobile',
+      'myvahealth',
+      'ebenefits',
+      'vamobile',
+      'mhv',
+    ];
+    externalApplications.forEach(csp => {
+      it('does not show modal', () => {
+        const wrapper = mount(
+          <Provider store={mockStore}>
+            <LoginActions externalApplication={csp} />
+          </Provider>,
+        );
+        expect(wrapper.find('Sign in with DS Logon')).to.not.false;
+        expect(wrapper.find('Sign in with My HealtheVet')).to.not.false;
+        expect(wrapper.find('button').length).to.eql(4);
+        expect(wrapper.find('a').length).to.eql(2);
+        wrapper.unmount();
+      });
+    });
   });
 
   it('login buttons should properly call login method', () => {
