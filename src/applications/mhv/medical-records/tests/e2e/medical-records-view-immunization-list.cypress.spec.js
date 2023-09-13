@@ -1,7 +1,5 @@
 import { cy } from 'date-fns/locale';
 
-// TODO Uncomment this test when the Nav Bar is reintroduced.
-
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 
 describe.skip('Medical Records View Immunizations', () => {
