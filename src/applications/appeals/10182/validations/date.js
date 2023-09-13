@@ -6,7 +6,7 @@ import { issueErrorMessages } from '../content/addIssue';
 import { MAX_YEARS_PAST } from '../../shared/constants';
 import {
   createScreenReaderErrorMsg,
-  dateErrorMsgs,
+  addDateErrorMessages,
   dateFunctions,
 } from '../../shared/validations/date';
 
@@ -20,7 +20,7 @@ const minDate100 = moment()
 
 export const validateDate = (
   errors,
-  rawString = '',
+  rawDateString = '',
   formData = {},
   _schema,
   _uiSchema,
@@ -32,17 +32,17 @@ export const validateDate = (
   const {
     datePartErrors,
     isInvalidDateString,
-    hasErrorDate,
+    hasDateErrors,
     date,
     todayOrFutureDate,
-  } = dateFunctions(rawString);
+  } = dateFunctions(rawDateString);
 
-  const hasMessages = dateErrorMsgs(
+  const hasMessages = addDateErrorMessages(
     errors,
     issueErrorMessages,
     datePartErrors,
     isInvalidDateString,
-    hasErrorDate,
+    hasDateErrors,
     todayOrFutureDate,
   );
   if (!hasMessages) {

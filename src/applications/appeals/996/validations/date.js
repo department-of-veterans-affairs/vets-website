@@ -4,28 +4,28 @@ import { issueErrorMessages } from '../content/addIssue';
 import {
   createScreenReaderErrorMsg,
   dateFunctions,
-  dateErrorMsgs,
+  addDateErrorMessages,
 } from '../../shared/validations/date';
 
 const minDate = moment()
   .subtract(1, 'year')
   .startOf('day');
 
-export const validateDate = (errors, rawString = '') => {
+export const validateDate = (errors, rawDateString = '') => {
   const {
     datePartErrors,
     isInvalidDateString,
-    hasErrorDate,
+    hasDateErrors,
     date,
     todayOrFutureDate,
-  } = dateFunctions(rawString);
+  } = dateFunctions(rawDateString);
 
-  const hasMessages = dateErrorMsgs(
+  const hasMessages = addDateErrorMessages(
     errors,
     issueErrorMessages,
     datePartErrors,
     isInvalidDateString,
-    hasErrorDate,
+    hasDateErrors,
     todayOrFutureDate,
   );
 

@@ -13,6 +13,8 @@ export const buildDatePartErrors = (month, day, year, maxDays) => {
   };
 };
 
+// add second error message containing the part of the date with an error;
+// used to add `aria-invalid` to the specific input
 export const createScreenReaderErrorMsg = datePartErrors => {
   return Object.entries(datePartErrors).reduce(
     (result, [partName, hasError]) => result + (hasError ? `${partName} ` : ''),
@@ -20,30 +22,25 @@ export const createScreenReaderErrorMsg = datePartErrors => {
   );
 };
 
-export const validateDateString = (year, day, month, dateString) => {
+export const isDateStringValid = (year, day, month, dateString) => {
   return (
     !year ||
+    isNaN(year) ||
+    // minimum year is 1900; no need to check if year === '0'
     !day ||
     isNaN(day) ||
     day === '0' ||
     !month ||
     isNaN(month) ||
     month === '0' ||
-    isNaN(year) ||
     dateString?.length < FORMAT_YMD.length
   );
 };
 
-export const hasdatePartErrors = (datePartErrors, invalidDate) =>
-  datePartErrors.month ||
-  datePartErrors.day ||
-  datePartErrors.year ||
-  invalidDate;
-
-export const dateFunctions = rawString => {
-  const dateString = fixDateFormat(rawString);
+export const dateFunctions = rawDateString => {
+  const dateString = fixDateFormat(rawDateString);
   const { day, month, year } = parseISODate(dateString);
-  const date = moment(rawString, FORMAT_YMD);
+  const date = moment(rawDateString, FORMAT_YMD);
   // get last day of the month (month is zero based, so we're +1 month, day 0);
   // new Date() will recalculate and go back to last day of the previous month
   const maxDays = year && month ? new Date(year, month, 0).getDate() : 31;
@@ -52,30 +49,33 @@ export const dateFunctions = rawString => {
   const todayOrFutureDate = date.isSameOrAfter(moment().startOf('day'));
 
   return {
-    invalidDate,
     datePartErrors,
-    isInvalidDateString: validateDateString(year, day, month, dateString),
-    hasErrorDate: hasdatePartErrors(datePartErrors, invalidDate),
+    isInvalidDateString: isDateStringValid(year, day, month, dateString),
+    hasDateErrors:
+      datePartErrors.month ||
+      datePartErrors.day ||
+      datePartErrors.year ||
+      invalidDate,
     date,
     todayOrFutureDate,
   };
 };
 
-export const dateErrorMsgs = (
+export const addDateErrorMessages = (
   errors,
   errorMessages,
   datePartErrors,
   isInvalidDateString,
-  hasErrorDate,
+  hasDateErrors,
   todayOrFutureDate,
 ) => {
   if (isInvalidDateString) {
-    errors.addError(errorMessages.missingDecisionDate);
+    errors.addError(errorMessages.blankDecisionDate);
     // eslint-disable-next-line no-param-reassign
     datePartErrors.other = true; // other part error
     return true;
   }
-  if (hasErrorDate) {
+  if (hasDateErrors) {
     errors.addError(errorMessages.invalidDate);
     // eslint-disable-next-line no-param-reassign
     datePartErrors.other = true; // other part error
