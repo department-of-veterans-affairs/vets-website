@@ -6,7 +6,7 @@ const DownloadingRecordsInfo = props => {
   return (
     <va-additional-info
       trigger="What to know about downloading records"
-      class="no-print"
+      class="no-print vads-u-margin-bottom--4"
     >
       <ul>
         <li>
