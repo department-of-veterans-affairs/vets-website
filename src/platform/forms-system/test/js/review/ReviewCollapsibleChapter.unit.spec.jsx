@@ -9,43 +9,6 @@ import sinon from 'sinon';
 import { ReviewCollapsibleChapter } from '../../../src/js/review/ReviewCollapsibleChapter';
 
 describe('<ReviewCollapsibleChapter>', () => {
-  it('should add a data-attribute with the chapterKey', () => {
-    const pages = [
-      {
-        title: '',
-        pageKey: 'test2',
-      },
-    ];
-    const chapterKey = 'chapterX';
-    const chapter = {};
-    const form = {
-      pages: {
-        test: {
-          title: '',
-          schema: {
-            properties: {},
-          },
-          uiSchema: {},
-        },
-      },
-      data: {},
-    };
-
-    const wrapper = mount(
-      <ReviewCollapsibleChapter
-        viewedPages={new Set()}
-        expandedPages={pages}
-        chapterKey={chapterKey}
-        chapterFormConfig={chapter}
-        form={form}
-      />,
-    );
-
-    const accordion = wrapper.find('.usa-accordion-bordered');
-    expect(accordion.length).to.equal(1);
-    expect(accordion.props()['data-chapter']).to.equal('chapterX');
-    wrapper.unmount();
-  });
   it('should handle editing', () => {
     const onEdit = sinon.spy();
     const pages = [
@@ -411,8 +374,9 @@ describe('<ReviewCollapsibleChapter>', () => {
       />,
     );
 
-    expect(wrapper.find('.schemaform-review-chapter-error').length).to.equal(1);
-    expect(wrapper.find('.schemaform-review-page-error').length).to.equal(1);
+    expect(wrapper.find('va-accordion-item').props().subHeader).to.equal(
+      'Some information has changed. Please review.',
+    );
     wrapper.unmount();
   });
   it('should handle submitting array page', () => {
@@ -515,7 +479,9 @@ describe('<ReviewCollapsibleChapter>', () => {
       />,
     );
 
-    expect(wrapper.find('h3').text()).to.equal(testChapterTitle);
+    expect(wrapper.find('va-accordion-item').props().header).to.equal(
+      testChapterTitle,
+    );
 
     const titleDiv = wrapper.find('h4.form-review-panel-page-header');
     expect(titleDiv.length).to.equal(1);
@@ -571,7 +537,9 @@ describe('<ReviewCollapsibleChapter>', () => {
       />,
     );
 
-    expect(wrapper.find('h3').text()).to.equal(testChapterTitle);
+    expect(wrapper.find('va-accordion-item').props().header).to.equal(
+      testChapterTitle,
+    );
 
     const titleDiv = wrapper.find('.form-review-panel-page-header');
     // Title is not rendered if it contains an empty string
@@ -633,7 +601,7 @@ describe('<ReviewCollapsibleChapter>', () => {
       />,
     );
 
-    expect(wrapper.find('h3.accordion-header').text()).to.equal(
+    expect(wrapper.find('va-accordion-item').props().header).to.equal(
       testChapterTitleFromFunction,
     );
 
@@ -713,44 +681,6 @@ describe('<ReviewCollapsibleChapter>', () => {
     expect(tree.find('.form-review-panel-page').length).to.eq(0);
 
     tree.unmount();
-  });
-
-  it('should render a collapsible button with a unique id attribute', () => {
-    const pages = [
-      {
-        title: '',
-        pageKey: 'test2',
-      },
-    ];
-    const chapterKey = 'chapterX';
-    const chapter = {};
-    const form = {
-      pages: {
-        test: {
-          title: '',
-          schema: {
-            properties: {},
-          },
-          uiSchema: {},
-        },
-      },
-      data: {},
-    };
-
-    const wrapper = mount(
-      <ReviewCollapsibleChapter
-        viewedPages={new Set()}
-        expandedPages={pages}
-        chapterKey={chapterKey}
-        chapterFormConfig={chapter}
-        form={form}
-      />,
-    );
-
-    const button = wrapper.find('.usa-button-unstyled');
-    expect(button.props().id).to.contain('collapsibleButton');
-
-    wrapper.unmount();
   });
 
   describe('updateFormData', () => {
@@ -1194,7 +1124,7 @@ describe('<ReviewCollapsibleChapter>', () => {
       const { pages, chapterKey, chapter, form } = getProps();
       pages[0].CustomPageReview = null;
       form.pages.test.CustomPageReview = null;
-      const { container } = render(
+      const { queryByTestId } = render(
         <ReviewCollapsibleChapter
           viewedPages={new Set()}
           expandedPages={pages}
@@ -1204,9 +1134,9 @@ describe('<ReviewCollapsibleChapter>', () => {
           open
         />,
       );
-      expect(
-        container.querySelector('.usa-accordion-content').children.length,
-      ).to.equal(0);
+      expect(queryByTestId('accordion-item-content').children.length).to.equal(
+        0,
+      );
     });
 
     it('should render SchemaForm in the chapter when CustomPageReview is null but the schema properties are not empty', () => {

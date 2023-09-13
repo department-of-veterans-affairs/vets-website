@@ -108,7 +108,6 @@ export {
   getFormData,
   getFormPages,
   getSubmission,
-  getReviewPageOpenChapters,
   getViewedPages,
 } from './src/js/state/selectors';
 

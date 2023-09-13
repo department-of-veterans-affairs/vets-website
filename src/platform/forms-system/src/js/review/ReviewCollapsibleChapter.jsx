@@ -350,10 +350,7 @@ class ReviewCollapsibleChapter extends React.Component {
     } = props;
     const ChapterDescription = chapterFormConfig.reviewDescription;
     return (
-      <div
-        className="usa-accordion-content schemaform-chapter-accordion-content"
-        aria-hidden="false"
-      >
+      <div data-testid="accordion-item-content">
         {ChapterDescription && (
           <ChapterDescription
             viewedPages={viewedPages}
@@ -363,20 +360,22 @@ class ReviewCollapsibleChapter extends React.Component {
             push
           />
         )}
-        {expandedPages.map(page => {
-          const pageConfig = form.pages[page.pageKey];
-          const editing = pageConfig.showPagePerItem
-            ? pageConfig.editMode[page.index]
-            : pageConfig.editMode;
+        {expandedPages
+          ? expandedPages.map(page => {
+              const pageConfig = form.pages[page.pageKey];
+              const editing = pageConfig.showPagePerItem
+                ? pageConfig.editMode[page.index]
+                : pageConfig.editMode;
 
-          const showCustomPage = editing
-            ? !!pageConfig.CustomPage
-            : !!pageConfig.CustomPageReview;
+              const showCustomPage = editing
+                ? !!pageConfig.CustomPage
+                : !!pageConfig.CustomPageReview;
 
-          return showCustomPage
-            ? this.getCustomPageContent(page, props, editing)
-            : this.getSchemaformPageContent(page, props, editing);
-        })}
+              return showCustomPage
+                ? this.getCustomPageContent(page, props, editing)
+                : this.getSchemaformPageContent(page, props, editing);
+            })
+          : null}
       </div>
     );
   };
@@ -413,63 +412,37 @@ class ReviewCollapsibleChapter extends React.Component {
   };
 
   render() {
-    let pageContent = null;
-
     const chapterTitle = this.getChapterTitle(this.props.chapterFormConfig);
-
-    if (this.props.open) {
-      pageContent = this.getChapterContent(this.props);
-    }
-
-    const classes = classNames('usa-accordion-bordered', 'form-review-panel', {
-      'schemaform-review-chapter-error': this.props.hasUnviewedPages,
-    });
-
-    const headerClasses = classNames(
-      'accordion-header',
-      'clearfix',
-      'schemaform-chapter-accordion-header',
-      'vads-u-font-size--h4',
-      'vads-u-margin-top--0',
-    );
+    const subHeader = 'Some information has changed. Please review.';
 
     return (
-      <div
-        id={`${this.id}-collapsiblePanel`}
-        className={classes}
+      <va-accordion-item
+        id={this.id}
         data-chapter={this.props.chapterKey}
+        header={chapterTitle || ''}
+        subHeader={this.props.hasUnviewedPages ? subHeader : ''}
       >
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
-        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-        <ul className="usa-unstyled-list" role="list">
-          <li>
-            <h3 className={headerClasses}>
-              <button
-                className="usa-button-unstyled"
-                aria-expanded={this.props.open ? 'true' : 'false'}
-                aria-controls={`collapsible-${this.id}`}
-                onClick={this.props.toggleButtonClicked}
-                id={`collapsibleButton${this.id}`}
-                type="button"
-              >
-                {chapterTitle || ''}
-              </button>
-            </h3>
-            {this.props.hasUnviewedPages && (
-              <va-alert
-                role="alert"
-                status="error"
-                background-only
-                aria-describedby={`collapsibleButton${this.id}`}
-              >
-                <span className="sr-only">Error</span>
-                <span>Some information has changed. Please review.</span>
-              </va-alert>
-            )}
-            <div id={`collapsible-${this.id}`}>{pageContent}</div>
-          </li>
-        </ul>
-      </div>
+        {this.props.hasUnviewedPages && (
+          <>
+            <i
+              aria-hidden="true"
+              className="fas fa-exclamation-circle vads-u-color--secondary"
+              slot="subheader-icon"
+            />
+            <va-alert
+              role="alert"
+              status="error"
+              background-only
+              aria-describedby={`collapsibleButton${this.id}`}
+            >
+              <span className="sr-only">Error</span>
+              <span>Some information has changed. Please review.</span>
+            </va-alert>
+          </>
+        )}
+        {this.getChapterContent(this.props)}
+      </va-accordion-item>
     );
   }
 }
@@ -483,10 +456,13 @@ const mapDispatchToProps = {
 // TODO: refactor to pass form.data instead of the entire form object
 ReviewCollapsibleChapter.propTypes = {
   chapterFormConfig: PropTypes.object.isRequired,
+  chapterKey: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
-  onEdit: PropTypes.func.isRequired,
+  hasUnviewedPages: PropTypes.bool.isRequired,
   pageList: PropTypes.array.isRequired,
+  setData: PropTypes.func.isRequired,
   setFormErrors: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
