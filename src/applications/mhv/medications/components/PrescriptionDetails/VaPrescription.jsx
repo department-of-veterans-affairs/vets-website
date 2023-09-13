@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { validateField } from '../../util/helpers';
+import { validateField, getImageUri } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import StatusDropdown from '../shared/StatusDropdown';
@@ -147,7 +147,12 @@ const VaPrescription = prescription => {
                   </h4>
                   <div className="no-print">
                     <va-additional-info trigger="Review image">
-                      <p>This is where the image goes</p>
+                      <img
+                        src={getImageUri(entry.cmopNdcNumber)}
+                        alt="Not Available"
+                        width="350"
+                        height="350"
+                      />
                     </va-additional-info>
                   </div>
                 </div>
