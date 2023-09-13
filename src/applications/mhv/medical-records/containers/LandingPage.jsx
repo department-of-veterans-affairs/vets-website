@@ -72,7 +72,6 @@ const LandingPage = () => {
                     isAuthenticatedWithSSOe(fullState),
                     'download-my-data',
                   )}
-                  target="_blank"
                   rel="noreferrer"
                 >
                   Go back to medical records on the My HealtheVet website
@@ -111,7 +110,6 @@ const LandingPage = () => {
                     isAuthenticatedWithSSOe(fullState),
                     'download-my-data',
                   )}
-                  target="_blank"
                   rel="noreferrer"
                 >
                   Go back to medical records on the My HealtheVet website
@@ -271,7 +269,6 @@ const LandingPage = () => {
                         isAuthenticatedWithSSOe(fullState),
                         'download-my-data',
                       )}
-                      target="_blank"
                       rel="noreferrer"
                     >
                       Go to VA Blue Button on the My HealtheVet website
@@ -298,7 +295,6 @@ const LandingPage = () => {
                         isAuthenticatedWithSSOe(fullState),
                         'secure-messaging',
                       )}
-                      target="_blank"
                       rel="noreferrer"
                     >
                       Compose a message on the My HealtheVet website
@@ -414,7 +410,6 @@ const LandingPage = () => {
                     isAuthenticatedWithSSOe(fullState),
                     'download-my-data',
                   )}
-                  target="_blank"
                   rel="noreferrer"
                 >
                   Go back to medical records on the My HealtheVet website
@@ -445,7 +440,6 @@ const LandingPage = () => {
                     isAuthenticatedWithSSOe(fullState),
                     'download-my-data',
                   )}
-                  target="_blank"
                   rel="noreferrer"
                 >
                   Go back to your medications on the My HealtheVet website
@@ -463,7 +457,6 @@ const LandingPage = () => {
                     isAuthenticatedWithSSOe(fullState),
                     'download-my-data',
                   )}
-                  target="_blank"
                   rel="noreferrer"
                 >
                   Go to VA Blue Button on the My HealtheVet website
@@ -499,7 +492,6 @@ const LandingPage = () => {
                     isAuthenticatedWithSSOe(fullState),
                     'secure-messaging',
                   )}
-                  target="_blank"
                   rel="noreferrer"
                 >
                   Compose a message
