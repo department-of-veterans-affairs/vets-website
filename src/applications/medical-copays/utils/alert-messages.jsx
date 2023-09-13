@@ -88,14 +88,14 @@ const alertMessage = (alertType, appType) => {
               Our records show you don’t have any current debt related to VA
               benefits. If you think this is incorrect, call the Debt Management
               Center (DMC) at <va-telephone contact={CONTACTS.DMC} /> (
-              <va-telephone contact="711" tty />
+              <va-telephone contact={CONTACTS['711']} tty />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           ) : (
             <p className="vads-u-font-family--sans">
               If you think this is incorrect, contact the VA Health Resource
               Center at <va-telephone contact="8664001238" /> (
-              <va-telephone contact="711" tty />
+              <va-telephone contact={CONTACTS['711']} tty />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
           ),
