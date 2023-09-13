@@ -14,6 +14,8 @@ import {
 import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   dateFormat,
   nameFormat,
@@ -26,6 +28,12 @@ import { updatePageTitle } from '../../shared/util/helpers';
 const Allergies = () => {
   const dispatch = useDispatch();
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const user = useSelector(state => state.user.profile);
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
@@ -169,24 +177,12 @@ const Allergies = () => {
           </p>
           {!accessAlert && (
             <>
-              <PrintDownload list download={generateAllergiesPdf} />
-              <va-additional-info
-                trigger="What to know about downloading records"
-                class="no-print"
-              >
-                <ul>
-                  <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
-                  </li>
-                  <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
-                  </li>
-                </ul>
-              </va-additional-info>
+              <PrintDownload
+                list
+                download={generateAllergiesPdf}
+                allowTxtDownloads={allowTxtDownloads}
+              />
+              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
             </>
           )}
         </section>
