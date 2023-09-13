@@ -59,6 +59,29 @@ describe('login DOM ', () => {
       .not.be.null;
   });
 
+  it('does not show modal for other USiP other than VA.Gov', () => {
+    const externalApplications = [
+      'vaoccmobile',
+      'myvahealth',
+      'ebenefits',
+      'vamobile',
+      'mhv',
+    ];
+    externalApplications.forEach(csp => {
+      it('does not show modal', () => {
+        const wrapper = mount(
+          <Provider store={mockStore}>
+            <LoginActions externalApplication={csp} />
+          </Provider>,
+        );
+        expect(
+          wrapper.queryByText(/Sign in with your Login.gov or ID.me account/i),
+        ).to.be.null;
+        wrapper.unmount();
+      });
+    });
+  });
+
   it('login buttons should properly call login method', () => {
     const loginButtons = mount(
       <Provider store={mockStore}>
