@@ -29,3 +29,16 @@ export const witnessHasOtherRelationship = formData => {
 
   return false;
 };
+
+export const getFocusSelectorFromPath = pathname => {
+  let focusSelector = '#nav-form-header';
+
+  if (
+    pathname.includes('claim-ownership') ||
+    pathname.includes('claimant-type')
+  ) {
+    focusSelector = '#main .schemaform-first-field legend';
+  }
+
+  return focusSelector;
+};

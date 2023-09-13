@@ -4,7 +4,11 @@ import {
   CLAIMANT_TYPES,
   OTHER_RELATIONSHIP,
 } from '../definitions/constants';
-import { getFullNamePath, witnessHasOtherRelationship } from '../utils.js';
+import {
+  getFullNamePath,
+  witnessHasOtherRelationship,
+  getFocusSelectorFromPath,
+} from '../utils.js';
 
 describe('getFullNamePath for statement of truth', () => {
   it("is a claimant if it's for themselves but not a veteran", () => {
@@ -39,5 +43,21 @@ describe('witnessHasOtherRelationship', () => {
       witnessRelationshipToClaimant: OTHER_RELATIONSHIP,
     };
     expect(witnessHasOtherRelationship(formData)).to.deep.equal(true);
+  });
+});
+
+describe('getFocusSelectorFromPath', () => {
+  it('should use custom path for claim-ownership or claimant-type', () => {
+    const pathname = 'claim-ownership';
+    expect(getFocusSelectorFromPath(pathname)).to.deep.equal(
+      '#main .schemaform-first-field legend',
+    );
+  });
+
+  it('should use default selector for other cases', () => {
+    const pathname = 'something-else';
+    expect(getFocusSelectorFromPath(pathname)).to.deep.equal(
+      '#nav-form-header',
+    );
   });
 });

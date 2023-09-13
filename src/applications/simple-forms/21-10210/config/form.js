@@ -22,7 +22,11 @@ import vetAddrInfo from '../pages/vetAddrInfo';
 import vetContInfo from '../pages/vetContInfo';
 import statement from '../pages/statement';
 import transformForSubmit from './submit-transformer';
-import { getFullNamePath, witnessHasOtherRelationship } from '../utils';
+import {
+  getFocusSelectorFromPath,
+  getFullNamePath,
+  witnessHasOtherRelationship,
+} from '../utils';
 
 // "Flows" in comments below map to "Stories" in the mockups:
 // https://www.sketch.com/s/a11421d3-c148-41a2-a34f-3d7821ea676f
@@ -38,19 +42,8 @@ const mockData = testData.data;
 const pageScrollAndFocus = () => {
   return () => {
     const { pathname } = document.location;
-    let focusSelector = '';
 
-    if (
-      pathname.includes('claim-ownership') ||
-      pathname.includes('claimant-type')
-    ) {
-      focusSelector = '#main .schemaform-first-field legend';
-    } else {
-      // since form-level useCustomScrollAndFocus is true,
-      // this fn fires on every chapter change, so we need to
-      // provide default focusSelector for all other pages
-      focusSelector = '#nav-form-header';
-    }
+    const focusSelector = getFocusSelectorFromPath(pathname);
 
     if (!window.Cypress) {
       scrollAndFocus(document.querySelector(focusSelector));
