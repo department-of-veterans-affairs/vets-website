@@ -147,12 +147,16 @@ const VaPrescription = prescription => {
                   </h4>
                   <div className="no-print">
                     <va-additional-info trigger="Review image">
-                      <img
-                        src={getImageUri(entry.cmopNdcNumber)}
-                        alt="Not Available"
-                        width="350"
-                        height="350"
-                      />
+                      {entry.cmopNdcNumber ? (
+                        <img
+                          src={getImageUri(entry.cmopNdcNumber)}
+                          alt="Not Available"
+                          width="350"
+                          height="350"
+                        />
+                      ) : (
+                        <p>(Image not available)</p>
+                      )}
                     </va-additional-info>
                   </div>
                 </div>
