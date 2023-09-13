@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 import IconCTALink from '../IconCTALink';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 
-const EducationAndTraining = () => {
+const EducationAndTraining = ({ isLOA1 }) => {
   return (
     <div
       className="health-care-wrapper vads-u-margin-y--6"
@@ -31,36 +32,45 @@ const EducationAndTraining = () => {
               })
             }
           />
-          <IconCTALink
-            text="Compare GI Bill benefits by school"
-            icon="clipboard-list"
-            href="/education/gi-bill-comparison-tool"
-            testId="compare-gi-benefits-from-cta"
-            onClick={() =>
-              recordEvent({
-                event: 'nav-linkslist',
-                'links-list-header': 'Compare GI Bill benefits by school',
-                'links-list-section-header': 'Education and training',
-              })
-            }
-          />
-          <IconCTALink
-            text="Check your Post-9/11 GI Bill benefits"
-            icon="dollar-sign"
-            href="/education/gi-bill/post-9-11/ch-33-benefit/status"
-            testId="check-gi-bill-benefits-from-cta"
-            onClick={() =>
-              recordEvent({
-                event: 'nav-linkslist',
-                'links-list-header': 'Check your Post-9/11 GI Bill benefits',
-                'links-list-section-header': 'Education and training',
-              })
-            }
-          />
+          {!isLOA1 && (
+            <>
+              <IconCTALink
+                text="Compare GI Bill benefits by school"
+                icon="clipboard-list"
+                href="/education/gi-bill-comparison-tool"
+                testId="compare-gi-benefits-from-cta"
+                onClick={() =>
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header': 'Compare GI Bill benefits by school',
+                    'links-list-section-header': 'Education and training',
+                  })
+                }
+              />
+              <IconCTALink
+                text="Check your Post-9/11 GI Bill benefits"
+                icon="dollar-sign"
+                href="/education/gi-bill/post-9-11/ch-33-benefit/status"
+                testId="check-gi-bill-benefits-from-cta"
+                onClick={() =>
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header':
+                      'Check your Post-9/11 GI Bill benefits',
+                    'links-list-section-header': 'Education and training',
+                  })
+                }
+              />
+            </>
+          )}
         </DashboardWidgetWrapper>
       </div>
     </div>
   );
+};
+
+EducationAndTraining.propTypes = {
+  isLOA1: PropTypes.bool,
 };
 
 export default EducationAndTraining;
