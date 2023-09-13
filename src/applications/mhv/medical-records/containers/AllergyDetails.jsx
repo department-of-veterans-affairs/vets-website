@@ -10,6 +10,8 @@ import { getAllergyDetails } from '../actions/allergies';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { processList, sendErrorToSentry } from '../util/helpers';
 import { ALERT_TYPE_ERROR, EMPTY_FIELD, pageTitles } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
@@ -21,6 +23,12 @@ import {
 const AllergyDetails = () => {
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
   const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const { allergyId } = useParams();
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.mr.alerts?.alertList);
@@ -146,7 +154,7 @@ const AllergyDetails = () => {
           >
             Allergy: <span data-dd-privacy="mask">{allergy.name}</span>
           </h1>
-          <section className="set-width-486">
+          <section>
             <div className="condition-subheader vads-u-margin-bottom--3">
               <div className="time-header">
                 <h2
@@ -162,24 +170,12 @@ const AllergyDetails = () => {
                   </span>
                 </h2>
               </div>
-              <PrintDownload list download={generateAllergyPdf} />
-              <va-additional-info
-                trigger="What to know about downloading records"
-                class="no-print"
-              >
-                <ul>
-                  <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
-                  </li>
-                  <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
-                  </li>
-                </ul>
-              </va-additional-info>
+              <PrintDownload
+                list
+                download={generateAllergyPdf}
+                allowTxtDownloads={allowTxtDownloads}
+              />
+              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
             </div>
             <div className="condition-details max-80">
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -220,8 +216,12 @@ const AllergyDetails = () => {
   };
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
-      {content()}
+    <div className="vads-u-padding-x--0 vads-u-margin-bottom--5">
+      <div className="vads-l-row">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+          {content()}
+        </div>
+      </div>
     </div>
   );
 };
