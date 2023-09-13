@@ -114,6 +114,10 @@ class PatientMessageCustomFolderPage {
           });
       });
   };
+
+  VerifyFilterBtnExist = () => {
+    cy.get('[data-testid="filter-messages-button"]').contains('Filter');
+  };
 }
 
 export default new PatientMessageCustomFolderPage();

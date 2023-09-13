@@ -176,6 +176,14 @@ const AddIssue = props => {
         >
           <h1 className="vads-u-margin--0">{content.title[addOrEdit]}</h1>
         </legend>
+        <p>
+          You can find the name of the issue decision date on your decision
+          notice now{' '}
+          <a href="/track-claims/your-claim-letters" target="_blank">
+            available online (opens in new tab)
+          </a>
+          .
+        </p>
         <VaTextInput
           id="issue-name"
           name="issue-name"
@@ -197,7 +205,7 @@ const AddIssue = props => {
         <VaMemorableDate
           name="decision-date"
           label={content.date.label}
-          hint={content.date.hint}
+          // hint={content.date.hint}
           required
           onDateChange={handlers.onDateChange}
           onDateBlur={handlers.onDateBlur}
@@ -209,7 +217,7 @@ const AddIssue = props => {
           aria-describedby="decision-date-description"
           uswds
         />
-        <p>
+        <p className="vads-u-margin-top--4">
           <va-button
             id="cancel"
             secondary
