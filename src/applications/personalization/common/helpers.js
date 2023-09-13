@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { CSP_IDS } from 'platform/user/authentication/constants';
-import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc';
 
 export function makeUserObject(options = {}) {
   const services = options.services || ['vet360'];
@@ -98,3 +98,9 @@ export function formatFullName({
 }) {
   return [first, middle, last, suffix].filter(name => !!name).join(' ');
 }
+
+export const normalizePath = path => {
+  // Remove slashes and trim whitespace
+  const pathStripped = path.endsWith('/') ? path.slice(0, -1) : path;
+  return pathStripped.trim();
+};
