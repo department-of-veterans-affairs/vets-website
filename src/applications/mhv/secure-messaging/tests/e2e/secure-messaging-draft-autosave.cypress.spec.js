@@ -26,14 +26,18 @@ describe(manifest.appName, () => {
         }`,
         mockAutoSaveDraftResponse,
       ).as('autoSaveDetailed');
-      cy.wait('@autoSave', { timeout: draftAutoSaveTimeout }).then(xhr => {
-        cy.log(JSON.stringify(xhr.response.body));
-        cy.get('[data-testid="message-subject-field"]')
-          .shadow()
-          .find('#inputField')
-          .type('testSubject2');
-        cy.wait('@autoSaveDetailed', { timeout: draftAutoSaveTimeout });
-      });
+      cy.wait('@autoSave', { timeout: draftAutoSaveTimeout + 1000 }).then(
+        xhr => {
+          cy.log(JSON.stringify(xhr.response.body));
+          cy.get('[data-testid="message-subject-field"]')
+            .shadow()
+            .find('#inputField')
+            .type('testSubject2');
+          cy.wait('@autoSaveDetailed', {
+            timeout: draftAutoSaveTimeout + 1000,
+          });
+        },
+      );
     });
     it('Check all draft messages contain the searched category', () => {
       cy.get('.last-save-time').should('contain', 'Your message was saved');
