@@ -121,5 +121,10 @@
     "appName": "Notification Center",
     "rootUrl": "/notification-center",
     "entryName": "notification-center"
+  },
+  {
+    "appName": "Proof of Concept with Typescript",
+    "rootUrl": "/poc-ts",
+    "entryName": "poc-ts"
   }
 ]
