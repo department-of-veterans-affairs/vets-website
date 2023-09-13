@@ -6,8 +6,8 @@ export default function CallVBACenter({ startSentence }) {
   return (
     <span>
       {startSentence ? 'Call' : 'call'} VA Benefits and Services at{' '}
-      <va-telephone contact="8008271000" />.<br /> If you have hearing loss,
-      call <va-telephone contact={CONTACTS['711']} tty />.
+      <va-telephone contact={CONTACTS.VA_BENEFITS} />.<br /> If you have hearing
+      loss, call <va-telephone contact={CONTACTS['711']} tty />.
     </span>
   );
 }
