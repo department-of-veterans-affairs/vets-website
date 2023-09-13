@@ -21,7 +21,7 @@ export const dateDescription = (
 );
 
 export const dateFieldsDescription = (
-  <div className="additional-info-title-help vads-u-margin-top--4">
+  <div className="additional-info-title-help vads-u-margin-top--4 dd-privacy-mask">
     <VaAdditionalInfo
       trigger="How are these dates different?"
       disableAnalytics

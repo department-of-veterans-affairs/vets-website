@@ -88,7 +88,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
       <li key={upload.name}>{upload.name}</li>
     ));
     privateContent = (
-      <div>
+      <div className="dd-privacy-mask">
         <p>We’ll submit the below private medical records you uploaded:</p>
         <ul>{privateEvidenceUploadsList}</ul>
       </div>
@@ -106,7 +106,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
       </li>
     ));
     privateEvidenceContent = (
-      <div>
+      <div className="dd-privacy-mask">
         <p>We’ll get your private medical records from:</p>
         <ul>{privateEvidenceList}</ul>
       </div>
@@ -133,7 +133,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
       <li key={upload.name}>{upload.name}</li>
     ));
     layContent = (
-      <div>
+      <div className="dd-privacy-mask">
         <p>We’ll submit the below supporting evidence you uploaded:</p>
         <ul>{layEvidenceUploadsList}</ul>
       </div>
@@ -141,7 +141,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
   }
 
   return (
-    <div>
+    <div className="dd-privacy-mask">
       {vaContent}
       {privateContent}
       {privateEvidenceContent}

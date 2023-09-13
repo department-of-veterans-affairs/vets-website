@@ -9,14 +9,17 @@ const DownloadPDF = ({ formNumber = '', fileName = '', size = '' }) => (
     type="application/pdf"
     target="_blank"
     rel="noopener noreferrer"
-    className="vads-u-text-decoration--none"
+    className="vads-u-text-decoration--none dd-privacy-mask"
   >
     <i
       aria-hidden="true"
       className="fas fa-download fa-lg vads-u-padding-right--1"
       role="img"
     />
-    <span lang="en" className="vads-u-text-decoration--underline">
+    <span
+      lang="en"
+      className="vads-u-text-decoration--underline dd-privacy-mask"
+    >
       Download VA Form {formNumber}{' '}
       <dfn>
         <abbr title="Portable Document Format">PDF</abbr> ({size}

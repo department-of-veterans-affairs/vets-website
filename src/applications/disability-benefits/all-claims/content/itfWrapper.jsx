@@ -80,7 +80,7 @@ export const itfSuccess = (
   expirationDate,
   prevExpirationDate,
 ) => (
-  <div>
+  <div className="dd-privacy-mask">
     <p className="vads-u-font-size--base">
       Thank you for submitting your Intent to File request for disability
       compensation. Your Intent to File will expire on{' '}
@@ -100,7 +100,7 @@ export const itfSuccess = (
 );
 
 export const itfActive = expirationDate => (
-  <div>
+  <div className="dd-privacy-mask">
     <p className="vads-u-font-size--base">
       Our records show that you already have an Intent to File for disability
       compensation. Your Intent to File will expire on{' '}

@@ -6,7 +6,7 @@ export default function EducationTrainingField({ formData }) {
   const { name, dates } = formData;
 
   return (
-    <div>
+    <div className="dd-privacy-mask">
       <strong>{name || ''}</strong>
       <p>{formatDateRange(dates)}</p>
     </div>

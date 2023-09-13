@@ -3,7 +3,7 @@ import { capitalizeEachWord } from '../utils';
 import { NULL_CONDITION_STRING } from '../constants';
 
 export const disabilityNameTitle = ({ formData }) => (
-  <legend className="schemaform-block-title schemaform-title-underline">
+  <legend className="schemaform-block-title schemaform-title-underline dd-privacy-mask">
     {typeof formData.condition === 'string'
       ? capitalizeEachWord(formData.condition)
       : NULL_CONDITION_STRING}

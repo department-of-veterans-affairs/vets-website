@@ -1,3 +1,7 @@
+import React from 'react';
+
+import { displayFileSize } from 'platform/utilities/ui';
+
 import { evidenceUploadUI } from '../utils/evidenceUpload';
 
 export const evidenceUpload = {
@@ -7,12 +11,10 @@ export const evidenceUpload = {
 
   schema: {
     type: 'object',
-    required: ['evidence'],
     properties: {
       evidence: {
         title: 'evidence to be reviewed by the Board',
         type: 'array',
-        minItems: 1,
         items: {
           type: 'object',
           properties: {
@@ -27,6 +29,21 @@ export const evidenceUpload = {
       },
     },
   },
+
+  review: data => ({
+    'Evidence to be reviewed by the Board':
+      data.evidence?.length > 0 ? (
+        <ul>
+          {data.evidence.map(file => (
+            <li key={file.name}>
+              {file.name} ({displayFileSize(file.size)})
+            </li>
+          ))}
+        </ul>
+      ) : (
+        'No files were uploaded'
+      ),
+  }),
 };
 
 export default evidenceUpload;

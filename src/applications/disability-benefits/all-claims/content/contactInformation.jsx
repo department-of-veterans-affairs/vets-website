@@ -28,7 +28,7 @@ const EffectiveDateViewField = ({ formData }) => {
   const dateFormat = 'MMM D, YYYY';
   const fromDateString = moment(from).format(dateFormat);
   return to ? (
-    <p>
+    <p className="dd-privacy-mask">
       We’ll use this address starting on {fromDateString} until{' '}
       {moment(to).format(dateFormat)}:
     </p>

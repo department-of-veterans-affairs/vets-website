@@ -12,7 +12,7 @@ const unconnectedVetInfoView = profile => {
   const mask = srSubstitute('●●●–●●–', 'ending with');
 
   return (
-    <div>
+    <div className="dd-privacy-mask">
       <p className="vads-u-margin-top--0">
         This is the personal information we have on file for you.
       </p>

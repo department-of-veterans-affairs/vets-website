@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
+import { FORMAT_YMD, FORMAT_READABLE } from '../../shared/constants';
 /**
  * @typedef DateFnsOffset
  * @property {Number} years - positive or negative number

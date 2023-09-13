@@ -28,18 +28,18 @@ export const disabilityOption = ({
 
   return (
     <>
-      <h3 className={`vads-u-font-size--h4 ${className}`}>
+      <h3 className={`vads-u-font-size--h4 ${className} dd-privacy-mask`}>
         {typeof name === 'string'
           ? capitalizeEachWord(name)
           : NULL_CONDITION_STRING}
       </h3>
       {showRatingPercentage && (
-        <p>
+        <p className="dd-privacy-mask">
           Current rating: <strong>{ratingPercentage}%</strong>
         </p>
       )}
       {showMaxRatingMessage && (
-        <p>
+        <p className="dd-privacy-mask">
           You’re already at the maximum rating for{' '}
           {typeof name === 'string'
             ? name.toLowerCase()

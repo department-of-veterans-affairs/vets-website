@@ -32,7 +32,7 @@ const FileBDDClaim = ({ data = {} }) => {
       <h1>You can use the Benefits Delivery at Discharge program</h1>
       <div
         id={pageNames.fileBDD}
-        className="usa-alert usa-alert-info background-color-only vads-u-padding--2 vads-u-margin-top--2"
+        className="usa-alert usa-alert-info background-color-only vads-u-padding--2 vads-u-margin-top--2 "
       >
         <span className="sr-only">Info: </span>
         {daysRemainingToFileBDD < 0 ? null : (

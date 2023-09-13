@@ -36,5 +36,7 @@ const doubleAllowanceAlertContent = (
 );
 
 export const doubleAllowanceAlert = (
-  <va-alert status="warning">{doubleAllowanceAlertContent}</va-alert>
+  <va-alert status="warning" className="dd-privacy-mask">
+    {doubleAllowanceAlertContent}
+  </va-alert>
 );

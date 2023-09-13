@@ -44,7 +44,7 @@ export const PtsdUploadChoiceDescription = ({ formType }) => {
 };
 
 const UploadExplanation = ({ formType }) => (
-  <p>
+  <p className="dd-privacy-mask">
     You can either answer the questions online, or if you’ve already completed a
     Claim for Service Connection for Post-Traumatic Stress Disorder{' '}
     {formType === personalAssaultSexualTrauma &&
@@ -58,7 +58,7 @@ export const UploadPtsdDescription = ({ formData, formType }) => {
   const { incidentText } = getPtsdClassification(formData, formType);
   return (
     <div>
-      <p>
+      <p className="dd-privacy-mask">
         Now we’re going to ask you questions about your
         {` ${incidentText}-related PTSD. `}
         All of the questions are optional, but any information you provide here

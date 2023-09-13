@@ -11,10 +11,14 @@ export const supportingEvidenceOrientation = ({ formData }) => {
       </p>
       <ul>
         {isClaimingIncrease(formData) && (
-          <li>Your rated service-connected disabilities</li>
+          <li className="dd-privacy-mask">
+            Your rated service-connected disabilities
+          </li>
         )}
         {isClaimingNew(formData) && (
-          <li>Your new service-connected disabilities or conditions</li>
+          <li className="dd-privacy-mask">
+            Your new service-connected disabilities or conditions
+          </li>
         )}
       </ul>
       <p>

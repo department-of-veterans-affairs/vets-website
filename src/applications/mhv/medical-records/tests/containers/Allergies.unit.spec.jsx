@@ -42,7 +42,7 @@ describe('Allergies list container', () => {
   });
 
   it('displays a count of the records', () => {
-    expect(screen.getByText('Showing 1–5 of 5 records', { exact: false })).to
+    expect(screen.getByText('Showing 1 – 5 of 5 records', { exact: false })).to
       .exist;
   });
 

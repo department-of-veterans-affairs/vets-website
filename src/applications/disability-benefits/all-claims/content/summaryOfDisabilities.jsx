@@ -22,14 +22,18 @@ const mapDisabilityName = (disabilityName, formData, index) => {
           return <li key={`"${ptsdTypeEnumKey}-${i}"`}>{ptsdTypeTitle}</li>;
         });
       return (
-        <li key={`"${disabilityName}-${index}"`}>
+        <li key={`"${disabilityName}-${index}"`} className="dd-privacy-mask">
           {disabilityName}
           <ul>{selectedPtsdTypes}</ul>
         </li>
       );
     }
   }
-  return <li key={`"${disabilityName}-${index}"`}>{disabilityName}</li>;
+  return (
+    <li key={`"${disabilityName}-${index}"`} className="dd-privacy-mask">
+      {disabilityName}
+    </li>
+  );
 };
 
 const getRedirectLink = formData => {

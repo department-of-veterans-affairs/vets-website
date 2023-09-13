@@ -4,7 +4,7 @@ import { formatDateRange } from '../utils';
 
 export default function PrivateProviderTreatmentView({ formData }) {
   return (
-    <div>
+    <div className="dd-privacy-mask">
       <strong>{formData.providerFacilityName}</strong>
       <p>{formatDateRange(formData.treatmentDateRange)}</p>
     </div>

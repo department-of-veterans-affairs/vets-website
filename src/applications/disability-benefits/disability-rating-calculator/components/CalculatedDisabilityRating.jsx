@@ -34,13 +34,13 @@ class CalculatedDisabilityRating extends React.Component {
         >
           <div>Your VA disability rating</div>
           <div
-            className="vads-u-font-size--2xl vads-u-line-height--1"
+            className="vads-u-font-size--2xl vads-u-line-height--1 dd-privacy-mask"
             data-e2e="combined-rating"
           >
             {calculatedRating ? calculatedRating.rounded : placeholder}%
           </div>
         </div>
-        <p>
+        <p className="dd-privacy-mask">
           <strong>Note:</strong> The actual combined value of your disability
           ratings is {calculatedRating ? calculatedRating.exact : placeholder}
           %.

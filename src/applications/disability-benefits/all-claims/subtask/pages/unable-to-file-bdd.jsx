@@ -45,8 +45,10 @@ const UnableToFileBDDPage = ({ data = {} }) => {
             <p>
               You’ll be eligible to file a disability claim under the Benefits
               Delivery at Discharge (BDD) program in{' '}
-              <strong>{differenceBetweenDatesInDays}</strong> days (
-              <strong>{dateEligible}</strong>
+              <strong className="dd-privacy-mask">
+                {differenceBetweenDatesInDays}
+              </strong>{' '}
+              <strong className="dd-privacy-mask">{dateEligible}</strong>
               ). This program allows you to apply for disability benefits before
               you leave the military.
             </p>

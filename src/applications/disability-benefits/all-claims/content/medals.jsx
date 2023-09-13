@@ -15,7 +15,7 @@ export const MedalsDescription = ({ formData, index }) => {
           want to tell us about, we’ll ask questions about each one separately.
         </p>
       )}
-      <p>
+      <p className="dd-privacy-mask">
         Did you receive a medal or citation for the{' '}
         {isFirstIncident && `first `} event?
       </p>

@@ -11,7 +11,7 @@ const helpClicked = () =>
   });
 
 export const incomeDescription = (
-  <div>
+  <div className="dd-privacy-mask">
     <h3 className="vads-u-font-size--h4">Income details</h3>
     <p>
       Now we’re going to ask you about your income history. Please provide your

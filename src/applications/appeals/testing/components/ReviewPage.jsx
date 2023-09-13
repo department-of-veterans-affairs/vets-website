@@ -37,35 +37,36 @@ const ReviewPage = props => {
 
   return (
     <article>
-      <h1>Select a Board review option:</h1>
-      <va-on-this-page />
+      <h1>Review Board Appeal</h1>
+      <va-on-this-page uswds />
       {chapterTitles.filter(title => title !== 'Apply').map((title, index) => {
+        const pages = getChapterPagesFromChapterIndex(index);
+        const editLink =
+          pages.find(page => !page.taskListHide)?.path || '/task-list';
         return (
           <div key={index}>
             <div className={chapterClasses}>
               <h2 id={index} className="vads-u-margin--0">
                 {title}
               </h2>
-              <Link to="/">Edit</Link>
+              <Link to={editLink}>Edit</Link>
             </div>
             <ul className="review-pages vads-u-padding--0">
-              {getChapterPagesFromChapterIndex(index).map(
-                page =>
-                  page.review ? (
-                    <li key={page.path}>
-                      {Object.entries(page.review(props.data)).map(
-                        ([label, value]) => (
-                          <div key={label}>
-                            <div className="page-title vads-u-margin-top--1 vads-u-color--gray">
-                              {label}
-                            </div>
-                            <div className="page-value">{value}</div>
+              {getChapterPagesFromChapterIndex(index).map(page => {
+                const depends = page.depends ? page.depends(props.data) : true;
+                return page.review && depends && !page.taskListHide
+                  ? Object.entries(page.review(props.data)).map(
+                      ([label, value]) => (
+                        <li key={label}>
+                          <div className="page-title vads-u-margin-top--1 vads-u-color--gray">
+                            {label}
                           </div>
-                        ),
-                      )}
-                    </li>
-                  ) : null,
-              )}
+                          <div className="page-value">{value}</div>
+                        </li>
+                      ),
+                    )
+                  : null;
+              })}
             </ul>
           </div>
         );
@@ -81,10 +82,15 @@ const ReviewPage = props => {
         showError={submitted && !privacyCheckbox}
         uswds
       />
-      <p />
-      {props.contentBeforeButtons}
+      <p className="vads-u-margin-top--4">
+        <Link to="/decision-reviews/appeals-testing">
+          Finish this application later
+        </Link>
+      </p>
+      {/* {props.contentBeforeButtons} */}
+      <va-button onClick={handlers.onSubmit} text="Submit" />
       <FormNavButtons goBack={props.goBack} goForward={handlers.onSubmit} />
-      {props.contentAfterButtons}
+      {/* {props.contentAfterButtons} */}
     </article>
   );
 };
@@ -110,6 +116,7 @@ ReviewPage.propTypes = {
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   name: PropTypes.string,
   pagePerItemIndex: PropTypes.number,
   schema: PropTypes.shape({}),

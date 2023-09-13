@@ -1,12 +1,12 @@
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
     cy.contains(
-      'print your records instead of downloading. Downloading will save a copy of your records to the public computer.',
+      'When you print or download medication records, we’ll include a list of allergies and reactions in your VA medical records.',
     );
   };
 
   clickWhatToKnowAboutMedicationsDropDown = () => {
-    cy.contains('What to know about downloading records').click({
+    cy.contains('What to know before you download').click({
       force: true,
     });
   };
@@ -30,7 +30,11 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsStatus = PrescriptionsStatus => {
-    cy.get('[data-testid="status"]').should('have.text', PrescriptionsStatus);
+    cy.get('[data-testid="status"]').should(
+      'have.text',
+      PrescriptionsStatus.charAt(0).toUpperCase() +
+        PrescriptionsStatus.slice(1),
+    );
   };
 
   verifyPrescriptionsRefillsRemaining = PrescriptionsRefillsRemaining => {
@@ -82,6 +86,18 @@ class MedicationsDetailsPage {
     cy.get('#va-breadcrumbs-list-2 > li:nth-child(1) > a').click({
       force: true,
     });
+  };
+
+  clickPrintOrDownloadThisPageDropDownOnDetailsPage = () => {
+    cy.get('[data-testid="print-records-button"] > span').click({
+      force: true,
+    });
+  };
+
+  verifyPrintButtonEnabledOnDetailsPage = () => {
+    cy.get('[data-testid="print-button"]')
+      .should('contain', 'Print')
+      .and('be.enabled');
   };
 }
 export default MedicationsDetailsPage;

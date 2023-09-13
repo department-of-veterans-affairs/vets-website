@@ -56,7 +56,10 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
             return (
               <va-table-row key={`payments-${index}`}>
                 {fields.map(field => (
-                  <span key={`${field.value}-${index}`}>
+                  <span
+                    key={`${field.value}-${index}`}
+                    className="dd-privacy-mask"
+                  >
                     {row[field.value]}
                   </span>
                 ))}

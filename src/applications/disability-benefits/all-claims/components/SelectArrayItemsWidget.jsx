@@ -136,8 +136,8 @@ class SelectArrayItemsWidget extends React.Component {
             name={item.name || item.condition}
             className={
               checkboxVisible
-                ? 'vads-u-display--inline'
-                : 'vads-u-margin-top--0p5'
+                ? 'vads-u-display--inline dd-privacy-mask'
+                : 'vads-u-margin-top--0p5 dd-privacy-mask'
             }
           />
         );
@@ -193,7 +193,7 @@ class SelectArrayItemsWidget extends React.Component {
         itemsList
       ) : (
         <p>
-          <strong>
+          <strong className="dd-privacy-mask">
             {`No rated disabilities ${
               items?.length > 0 ? 'selected' : 'found'
             }`}
@@ -218,7 +218,9 @@ class SelectArrayItemsWidget extends React.Component {
     return hasCustomTitle ? (
       <fieldset>
         <legend>
-          <Tag className="vads-u-font-size--h5">{customTitle}</Tag>
+          <Tag className="vads-u-font-size--h5 dd-privacy-mask">
+            {customTitle}
+          </Tag>
         </legend>
         {updateMessage}
         {content}

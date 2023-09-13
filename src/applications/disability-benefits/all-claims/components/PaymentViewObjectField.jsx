@@ -16,7 +16,7 @@ const PaymentViewObjectField = (props = {}) => {
   // Save-in-progress banking info contained in 'view:originalBankAccount'
   // User entered (new) banking info in 'view:bankAccount'
   const buildRow = name => (
-    <div className="review-row">
+    <div className="review-row dd-privacy-mask">
       <dt>{paymentRows[name]}</dt>
       <dd>
         {formData['view:bankAccount'][name] ||
@@ -28,13 +28,15 @@ const PaymentViewObjectField = (props = {}) => {
 
   return (
     <>
-      <div className="form-review-panel-page-header-row">
+      <div className="form-review-panel-page-header-row dd-privacy-mask">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
           {title}
         </h4>
         {defaultEditButton()}
       </div>
-      <dl className="review">{Object.keys(paymentRows).map(buildRow)}</dl>
+      <dl className="review dd-privacy-mask">
+        {Object.keys(paymentRows).map(buildRow)}
+      </dl>
     </>
   );
 };

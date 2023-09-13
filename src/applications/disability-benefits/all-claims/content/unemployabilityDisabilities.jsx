@@ -15,7 +15,7 @@ export const disabilitiesDescription = ({ formContext }) => {
   // Fix header accessibility
   const Tag = formContext.onReviewPage ? 'h4' : 'h3';
   return (
-    <div>
+    <div className="dd-privacy-mask">
       <Tag className="vads-u-font-size--h5">
         Rated, service-connected, and new disabilities
       </Tag>

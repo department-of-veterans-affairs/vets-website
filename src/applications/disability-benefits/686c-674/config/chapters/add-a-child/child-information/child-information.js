@@ -48,7 +48,7 @@ export const uiSchema = {
         suffix: {
           'ui:title': 'Child’s suffix',
           'ui:options': {
-            widgetClassNames: 'usa-input-medium',
+            widgetClassNames: 'usa-input-medium dd-privacy-mask',
             useDlWrap: true,
             hideEmptyValueInReview: true,
           },
@@ -61,7 +61,7 @@ export const uiSchema = {
           isChapterFieldRequired(formData, TASK_KEYS.addChild),
         'ui:options': {
           useDlWrap: true,
-          widgetClassNames: 'usa-input-medium',
+          widgetClassNames: 'usa-input-medium dd-privacy-mask',
         },
       },
       birthDate: merge(currentOrPastDateUI("Child's date of birth"), {
@@ -69,6 +69,7 @@ export const uiSchema = {
           isChapterFieldRequired(formData, TASK_KEYS.addChild),
         'ui:options': {
           useDlWrap: true,
+          widgetClassNames: 'dd-privacy-mask',
         },
       }),
     },

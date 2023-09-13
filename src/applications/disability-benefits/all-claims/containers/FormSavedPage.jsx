@@ -9,8 +9,8 @@ const FormSavedPage = props => {
   const date = props.itf?.currentITF?.expirationDate;
   const itfExpirationDate = date ? formatDate(date) : 'Unknown';
   const expirationMessage = (
-    <Fragment>
-      <p className="expires-container">
+    <>
+      <p className="expires-container dd-privacy-mask">
         You’ll need to complete your saved application by{' '}
         <span className="expires">{itfExpirationDate}</span> so you can get back
         pay for any awarded benefits from your Intent to File date.
@@ -21,7 +21,7 @@ const FormSavedPage = props => {
         benefits. For you, this means you may get back pay starting from{' '}
         {itfExpirationDate}.
       </va-additional-info>
-    </Fragment>
+    </>
   );
 
   return <FormSaved {...props} expirationMessage={expirationMessage} />;

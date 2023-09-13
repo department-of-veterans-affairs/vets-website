@@ -251,7 +251,7 @@ class ReviewCardField extends React.Component {
       uiSchema['ui:options']?.volatileData;
 
     return (
-      <div className="review-card">
+      <div className="review-card dd-privacy-mask">
         <div className="review-card--body input-section va-growable-background">
           <h4 className={titleClasses} id={this.props.name}>
             Edit {title.toLowerCase()}
@@ -291,7 +291,8 @@ class ReviewCardField extends React.Component {
             <ObjectField {...this.props} />
           )
         );
-      } else if (dataType === 'array') {
+      }
+      if (dataType === 'array') {
         const { ArrayField } = this.props.registry.fields;
         return <ArrayField {...this.props} />;
       }
@@ -580,11 +581,11 @@ class ReviewCardField extends React.Component {
         <h3 className="vads-u-font-size--h4">Shipping address</h3>
         <div className="vads-u-margin-top--2">
           <p>
-            We'll ship your order to the address below. Orders typically arrive
+            We’ll ship your order to the address below. Orders typically arrive
             within 7 to 10 business days.
           </p>
           <p className="vads-u-font-weight--bold">
-            Select the address where you'd like to send your order:{' '}
+            Select the address where you’d like to send your order:{' '}
             <span className="vads-u-font-weight--normal schemaform-required-span">
               (*Required)
             </span>

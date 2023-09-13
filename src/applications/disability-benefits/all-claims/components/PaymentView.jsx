@@ -75,9 +75,15 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
             {accountTitleLabels[(bankAccountType || '').toUpperCase()]}
           </strong>
         </p>
-        <p>Account number: {mask(bankAccountNumber, 4)}</p>
-        <p>Bank routing number: {mask(bankRoutingNumber, 4)}</p>
-        <p>Bank name: {bankName || srSubstitute('', 'is blank')}</p>
+        <p className="dd-privacy-mask">
+          Account number: {mask(bankAccountNumber, 4)}
+        </p>
+        <p className="dd-privacy-mask">
+          Bank routing number: {mask(bankRoutingNumber, 4)}
+        </p>
+        <p className="dd-privacy-mask">
+          Bank name: {bankName || srSubstitute('', 'is blank')}
+        </p>
       </div>
       {dataChanged && (
         <va-alert visible status="warning">

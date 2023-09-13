@@ -12,7 +12,7 @@ export default function AuthorityField({ formData }) {
   } = formData.address;
 
   return (
-    <div>
+    <div className="dd-privacy-mask">
       <strong>{name}</strong>
       <br />
       {addressLine1} {addressLine2}

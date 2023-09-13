@@ -6,7 +6,7 @@ export default ({ formData }) => {
   const { name, dates } = formData;
 
   return (
-    <p>
+    <p className="dd-privacy-mask">
       <strong>{name}</strong>
       <br />
       {formatDateRange(dates)}

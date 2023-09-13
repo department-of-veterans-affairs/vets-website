@@ -18,7 +18,7 @@ export const PtsdDateDescription = ({ formType }) => {
   }
 
   return (
-    <div>
+    <div className="dd-privacy-mask">
       <h3 className="vads-u-font-size--h5">Estimated event date</h3>
       <p>
         Please tell us when this event happened. If it happened over a period of

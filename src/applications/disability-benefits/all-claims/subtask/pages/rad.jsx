@@ -88,7 +88,7 @@ const Rad = ({ data = {}, error, setPageData }) => {
   };
 
   return (
-    <div id={pageNames.rad} className="clearfix">
+    <div id={pageNames.rad} className="clearfix dd-privacy-mask">
       <h1 className="vads-u-margin-bottom--0">
         What’s the date or anticipated date of your release from active duty?
       </h1>

@@ -3,7 +3,7 @@ import React from 'react';
 export const StudentNameHeader = ({ formData }) => {
   const { first, last } = formData.studentNameAndSSN.fullName;
   return (
-    <div>
+    <div className="dd-privacy-mask">
       <p className="vads-u-font-weight--bold vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary vads-u-font-family--serif">
         {first.toUpperCase()} {last.toUpperCase()}
       </p>

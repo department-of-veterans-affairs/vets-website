@@ -8,7 +8,9 @@ const ConditionReviewField = props => {
   return (
     <dl className="vads-u-width--full">
       <div className="review-row vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center">
-        <dt className="capitalize-first-letter">{renderedProperties}</dt>
+        <dt className="capitalize-first-letter dd-privacy-mask">
+          {renderedProperties}
+        </dt>
         <dd>{defaultEditButton({ label: `Edit ${formData.condition}` })}</dd>
       </div>
     </dl>

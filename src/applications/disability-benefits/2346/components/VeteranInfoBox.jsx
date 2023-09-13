@@ -22,7 +22,7 @@ const VeteranInfoBox = props => {
   return (
     <div>
       <p>This is the personal information we have on file for you.</p>
-      <div className="vads-u-border-left--7px vads-u-border-color--primary">
+      <div className="vads-u-border-left--7px vads-u-border-color--primary dd-privacy-mask">
         <div className="vads-u-padding-left--1">
           <p className="vads-u-margin--1px vads-u-font-weight--bold">
             {fullName}
@@ -41,8 +41,8 @@ const VeteranInfoBox = props => {
       <p>
         <span className="vads-u-font-weight--bold">Note:</span> If you need to
         update your personal information, please call Veterans Benefits
-        Assistance at <a href="tel:800-827-1000">800-827-1000</a>, Monday
-        through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        Assistance at <va-telephone contact="8008271000" />, Monday through
+        Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </div>
   );

@@ -4,7 +4,7 @@ export default function DependentField({ formData }) {
   const { first, middle, last, suffix } = formData.fullName;
 
   return (
-    <div className="vads-u-padding--2">
+    <div className="vads-u-padding--2 dd-privacy-mask">
       <strong>
         {first} {middle && `${middle} `}
         {last}

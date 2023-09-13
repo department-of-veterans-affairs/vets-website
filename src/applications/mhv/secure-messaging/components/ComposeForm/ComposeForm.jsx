@@ -26,14 +26,12 @@ import {
   draftAutoSaveTimeout,
   Categories,
   DefaultFolders,
-  Prompts,
   ErrorMessages,
 } from '../../util/constants';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
+import EditContentListOrSignatureModal from '../Modals/EditContentListOrSignatureModal';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -65,7 +63,6 @@ const ComposeForm = props => {
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
-  const fullState = useSelector(state => state);
   const currentFolder = useSelector(state => state.sm.folders?.folder);
   const signature = useSelector(state => state.sm.preferences.signature);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
@@ -478,39 +475,9 @@ const ComposeForm = props => {
                 ))}
               </VaSelect>
 
-              <VaModal
-                id="edit-list"
-                modalTitle={Prompts.Compose.EDIT_LIST_TITLE}
-                name="edit-list"
-                visible={editListModal}
-                onCloseEvent={() => setEditListModal(false)}
-                status="warning"
-              >
-                <p>{Prompts.Compose.EDIT_LIST_CONTENT}</p>
-                <a
-                  className="vads-c-action-link--green"
-                  href={mhvUrl(
-                    isAuthenticatedWithSSOe(fullState),
-                    'preferences',
-                  )}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => {
-                    setEditListModal(false);
-                  }}
-                >
-                  Edit your contact list on the My HealtheVet website
-                </a>
-              </VaModal>
-
-              <va-button
-                id="edit-list-button"
-                text="Edit list"
-                label="Edit list"
-                secondary=""
-                class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1 hydrated"
-                data-testid="Edit-List-Button"
-                onClick={() => setEditListModal(true)}
+              <EditContentListOrSignatureModal
+                editListModal={editListModal}
+                setEditListModal={setEditListModal}
               />
             </>
           )}
@@ -538,7 +505,7 @@ const ComposeForm = props => {
               data-dd-privacy="mask"
             />
           </div>
-          <div className="compose-form-div">
+          <div className="compose-form-div vads-u-margin-bottom--0">
             <va-textarea
               label="Message"
               required
@@ -554,6 +521,17 @@ const ComposeForm = props => {
               }}
               data-dd-privacy="mask"
             />
+            <div className="edit-contact-list-or-signature">
+              <va-button
+                id="edit-contact-list-or-signature-button"
+                text="Edit contact list or signature"
+                label="Edit contact list or signature"
+                secondary
+                class="vads-u-flex--1 edit-contact-list-or-signature-button vads-u-margin-bottom--1 vads-u-width--full hydrated"
+                data-testid="edit-list-button"
+                onClick={() => setEditListModal(true)}
+              />
+            </div>
           </div>
           <section className="attachments-section">
             <AttachmentsList
