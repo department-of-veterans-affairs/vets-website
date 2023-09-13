@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { validateIsNumber } from '../../utils/validations';
 import ButtonGroup from '../shared/ButtonGroup';
 
 export const ERROR_MESSAGES = {
@@ -30,13 +29,21 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
   );
   const [inputValue, setInputValue] = useState(initialValue);
 
+  const validateNumber = value => {
+    const pattern = /^\d+$/;
+    if (!pattern.test(value)) {
+      return false;
+    }
+    return true;
+  };
+
   const handleChange = event => {
     const { value } = event.target;
     setInputValue(value);
 
     if (!value) {
       setError(ERROR_MESSAGES.EMPTY_VALUE);
-    } else if (!validateIsNumber(value)) {
+    } else if (!validateNumber(value)) {
       setError(ERROR_MESSAGES.INVALID_VALUE);
     } else {
       setError(null);
