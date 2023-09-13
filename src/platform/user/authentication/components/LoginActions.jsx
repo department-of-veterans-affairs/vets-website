@@ -40,7 +40,7 @@ export default function LoginActions({ externalApplication }) {
 
   return (
     <div className="row">
-      {externalApplication == null &&
+      {!externalApplication &&
         showsignInPageAndModalExperiment && <SignInAlertBox />}
       <div className="columns small-12" id="sign-in-wrapper">
         {reduceAllowedProviders(allowedSignInProviders, isRegisteredApp).map(
