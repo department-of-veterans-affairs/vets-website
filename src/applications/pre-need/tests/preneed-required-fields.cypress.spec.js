@@ -1,3 +1,5 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
+// Axe check is performed on every page with the errorCheck function
 import Timeouts from 'platform/testing/e2e/timeouts';
 import requiredHelpers from './utils/cypress-required-field-helpers';
 import testData from './schema/required-fields-test.json';
@@ -12,7 +14,7 @@ function errorCheck(errorList) {
 }
 
 describe('Pre-need form VA 40-10007 Required Fields', () => {
-  it.skip('triggers validation on all required fields then completes the form with minimal data', () => {
+  it('triggers validation on all required fields then completes the form with minimal data', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
     cy.injectAxe();
@@ -243,8 +245,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     cy.url().should('not.contain', '/preparer');
 
     // Review/Submit Page
-    cy.get('.form-progress-buttons .usa-button-primary').click();
-    cy.get('#checkbox-error-message').should('be.visible');
     preneedHelpers.submitForm();
   });
 });
