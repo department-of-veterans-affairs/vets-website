@@ -6,6 +6,7 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   processList,
   nameFormat,
@@ -17,7 +18,6 @@ import { getVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { EMPTY_FIELD, pageTitles } from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
 

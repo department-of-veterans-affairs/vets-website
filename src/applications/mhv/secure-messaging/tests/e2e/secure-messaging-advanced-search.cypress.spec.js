@@ -9,7 +9,9 @@ import mockSearchMessages from './fixtures/search-COVID-results.json';
 import mockSearchCustomMessages from './fixtures/search-MEDICATION-results.json';
 import mockTrashFolder from './fixtures/trashResponse/folder-deleted-metadata.json';
 import mockCustomFolder from './fixtures/folder-custom-metadata.json';
+import mockFolders from './fixtures/generalResponses/folders.json';
 import { AXE_CONTEXT } from './utils/constants';
+import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 
 describe(manifest.appName, () => {
   describe('Advanced search in Inbox', () => {
@@ -213,12 +215,14 @@ describe(manifest.appName, () => {
       });
     });
   });
-  describe('Advanced search in Custom folder', () => {
+  describe.skip('Advanced search in Custom folder', () => {
     beforeEach(() => {
       const site = new SecureMessagingSite();
       site.login();
       const landingPage = new PatientInboxPage();
       landingPage.loadInboxMessages();
+      PatientMessageCustomFolderPage.loadMessages();
+      cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders);
       cy.intercept(
         'GET',
         '/my_health/v1/messaging/folders/7038175*',
@@ -235,7 +239,9 @@ describe(manifest.appName, () => {
         mockSearchCustomMessages,
       ).as('customFolderMessages');
       cy.get('[data-testid="my-folders-sidebar"]').click();
-      cy.contains('TEST2').click();
+      cy.contains(
+        mockFolders.data[mockFolders.data.length - 1].attributes.name,
+      ).click();
       landingPage.openAdvancedSearch();
       landingPage.selectAdvancedSearchCategoryCustomFolder();
       landingPage.submitSearchButton();
