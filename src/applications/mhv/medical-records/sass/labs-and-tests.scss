@@ -51,3 +51,12 @@
 .set-width-486 {
   max-width: 486px;
 }
+
+@media print {
+  .time-header {
+    margin: 0px;
+  }
+  .set-width-486 {
+    max-width: none;
+  }
+}

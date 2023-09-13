@@ -52,12 +52,10 @@
     text-align: center;
   }
   .print-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 16px 0px;
-    * {
-      margin: 0px;
+    .name-dob {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
   }
   .card {

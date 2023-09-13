@@ -171,7 +171,8 @@ const Allergies = () => {
       <h1 className="vads-u-margin--0">Allergies</h1>
       <section className="set-width-486">
         <p className="vads-u-margin-top--1">
-          Review allergies and reactions in your VA medical records.
+          If you have allergies that are missing from this list, send a secure
+          message to your care team.
         </p>
 
         {!accessAlert && (
