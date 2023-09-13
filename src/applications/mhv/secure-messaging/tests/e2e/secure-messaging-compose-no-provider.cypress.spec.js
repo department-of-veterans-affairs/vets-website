@@ -19,7 +19,9 @@ describe('Secure Messaging Compose with No Provider', () => {
     composePage.selectRecipient('');
     composePage.getCategory('COVID').click();
     composePage.getMessageSubjectField().type('Test Subject');
-    composePage.getMessageBodyField().type('Test message body');
+    composePage
+      .getMessageBodyField()
+      .type('Test message body', { force: true });
 
     cy.intercept(
       'POST',
