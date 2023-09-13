@@ -8,11 +8,19 @@
 
 // Custom-style 'ui:title's as h3s, without using <h3> tags.
 // A11y best-practices say <label>s should not contain <h> tags.
-.custom-label {
-  // style label as H3
+@mixin label-as-h3 {
   font-family: "Bitter", serif !important;
   font-size: 2rem !important;
   font-weight: bold !important;
+}
+
+.custom-label {
+  @include label-as-h3; // default custom-label style
+
+  // some custom-labels need to be h4
+  &.h4 {
+    font-size: 1.7rem !important;
+  }
 }
 .custom-required,
 .custom-description,
@@ -32,6 +40,19 @@
   // if manually injecting custom-required-span, hide forms-library's
   // auto-injected [but misplaced] required span.
   display: none !important;
+}
+
+// some labels can't be customized via JSX in uiSchema,
+// e.g. inside yesNo widgets.
+#root_additionalCertificates-label {
+  @include label-as-h3;
+
+  > .schemaform-required-span {
+    color: $color-secondary-dark !important;
+    font-family: "Source Sans Pro", sans-serif !important;
+    font-size: 1.6rem !important;
+    font-weight: normal !important;
+  }
 }
 
 #root_veteranSupportingDocuments_add_label {

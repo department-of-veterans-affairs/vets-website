@@ -20,6 +20,19 @@
       "postalCode": "12345"
     },
     "applicantPhone": "5555555555",
-    "certificates": 3
+    "certificates": 3,
+    "additionalCertificates": true,
+    "additionalCertificateRequests": [
+      {
+        "address": {
+          "country": "USA",
+          "street": "124 Any St",
+          "city": "Anytown",
+          "state": "NY",
+          "postalCode": "12345"
+        },
+        "quantity": 3
+      }
+    ]
   }
 }
