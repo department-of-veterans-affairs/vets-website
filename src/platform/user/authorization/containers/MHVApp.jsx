@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import appendQuery from 'append-query';
 
+// eslint-disable-next-line deprecate/import
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+// eslint-disable-next-line deprecate/import
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { fetchMHVAccount } from 'platform/user/profile/actions';
 import { mhvAccessError } from '../../../static-data/error-messages';
@@ -170,41 +174,33 @@ export class MHVApp extends React.Component {
       return null;
     }
 
-    return (
-      <va-alert
-        visible
-        status="success"
-        onCloseEvent={this.closeTcAcceptanceMessage}
-      >
-        <h3 slot="headline">
-          Thank you for accepting the Terms and Conditions for using VA.gov
-          health tools
-        </h3>
-        <p className="vads-u-margin-y--0">
-          You can now access health tools on VA.gov.
-        </p>
-      </va-alert>
-    );
+    const alertProps = {
+      headline: `Thank you for accepting the Terms and Conditions for using VA.gov health tools`,
+      content: <p>You can now access health tools on VA.gov.</p>,
+      onCloseAlert: this.closeTcAcceptanceMessage,
+    };
+
+    return <AlertBox isVisible status="success" {...alertProps} />;
   };
 
   renderPlaceholderErrorMessage = () => {
-    return (
-      <va-alert visible status="error">
-        <h3 slot="headline">
-          We’re not able to process your My HealtheVet account
-        </h3>
-        <div className="vads-u-margin-y--0">
-          <p className="vads-u-margin-bottom--0">
-            Please{' '}
-            <button type="button" onClick={() => window.location.reload(true)}>
-              refresh this page
-            </button>{' '}
-            or try again later. If you keep having trouble, please{' '}
-            <SubmitSignInForm />
-          </p>
-        </div>
-      </va-alert>
-    );
+    const alertProps = {
+      headline: (
+        <span>We’re not able to process your My HealtheVet account</span>
+      ),
+      content: (
+        <p>
+          Please{' '}
+          <button type="button" onClick={() => window.location.reload(true)}>
+            refresh this page
+          </button>{' '}
+          or try again later. If you keep having trouble, please{' '}
+          <SubmitSignInForm />
+        </p>
+      ),
+    };
+
+    return <AlertBox isVisible status="error" {...alertProps} />;
   };
 
   renderIneligibleMessage = ineligibleState => {
@@ -212,10 +208,12 @@ export class MHVApp extends React.Component {
 
     if (alertProps) {
       return (
-        <va-alert visible status="error">
-          <h3 slot="headline">{alertProps.headline}</h3>
-          {alertProps.content}
-        </va-alert>
+        <AlertBox
+          headline={alertProps.headline}
+          content={alertProps.content}
+          isVisible
+          status="error"
+        />
       );
     }
 
@@ -223,62 +221,55 @@ export class MHVApp extends React.Component {
   };
 
   renderAccountUnknownMessage = () => {
-    return (
-      <va-alert visible status="error">
-        <h3 slot="headline">
-          We can’t confirm your My HealtheVet account level
-        </h3>
-        <div className="vads-u-margin-y--0">
-          <p className="vads-u-margin-bottom--0">
-            We’re sorry. Something went wrong on our end. We can’t confirm your
-            My My HealtheVet account level right now. You can use most of the
-            tools VA.gov, but you won’t be able to send secure messages or
-            refill prescriptions at this time. We’re working to fix this. Please
-            check back later.
-          </p>
-        </div>
-      </va-alert>
-    );
+    const alertProps = {
+      headline: <span>We can’t confirm your My HealtheVet account level</span>,
+      content: (
+        <p>
+          We’re sorry. Something went wrong on our end. We can’t confirm your My
+          HealtheVet account level right now. You can use most of the tools on
+          VA.gov, but you won’t be able to send secure messages or refill
+          prescriptions at this time. We’re working to fix this. Please check
+          back later.
+        </p>
+      ),
+    };
+
+    return <AlertBox isVisible status="error" {...alertProps} />;
   };
 
   renderRegisterFailedMessage = () => {
-    return (
-      <va-alert visible status="error">
-        <h3 slot="headline">
-          We can’t give you access to VA.gov health tools right now
-        </h3>
-        <div className="vads-u-margin-y--0">
-          <p className="vads-u-margin-bottom--0">
-            We’re sorry. Something went wrong on our end that’s preventing you
-            from using the health tools right now. We’ve verified your
-            information so you’ll be able to use tools like prescription refills
-            and secure messaging the next time you sign in. Please try signing
-            in later.
-          </p>
-        </div>
-      </va-alert>
-    );
+    const alertProps = {
+      headline: `We can’t give you access to VA.gov health tools right now`,
+      content: (
+        <p>
+          We’re sorry. Something went wrong on our end that’s preventing you
+          from using the health tools right now. We’ve verified your information
+          so you’ll be able to use tools like prescription refills and secure
+          messaging the next time you sign in. Please try signing in later.
+        </p>
+      ),
+    };
+
+    return <AlertBox isVisible status="error" {...alertProps} />;
   };
 
   renderUpgradeFailedMessage = () => {
-    return (
-      <va-alert visible status="error">
-        <h3 slot="headline">
-          We can’t give you access to VA.gov health tools right now
-        </h3>
-        <div className="vads-u-margin-y--0">
-          <p className="vads-u-margin-bottom--0">
-            We’re sorry. We started the process of creating the MyHealtheVet
-            account you’ll need to access the VA.gov health tools, but something
-            went wrong on our end before we could complete it. We’ve created
-            your MyHealtheVet account, but we still need to upgrade it to the
-            security level needed to use tools that access your health-related
-            information. We’re working to fix this so you can use the tools as
-            soon as possible. Please try signing in again later.
-          </p>
-        </div>
-      </va-alert>
-    );
+    const alertProps = {
+      headline: `We can’t give you access to VA.gov health tools right now`,
+      content: (
+        <p>
+          We’re sorry. We started the process of creating the MyHealtheVet
+          account you’ll need to access the VA.gov health tools, but something
+          went wrong on our end before we could complete it. We’ve created your
+          MyHealtheVet account, but we still need to upgrade it to the security
+          level needed to use tools that access your health-related information.
+          We’re working to fix this so you can use the tools as soon as
+          possible. Please try signing in again later.
+        </p>
+      ),
+    };
+
+    return <AlertBox isVisible status="error" {...alertProps} />;
   };
 
   render() {
@@ -291,7 +282,7 @@ export class MHVApp extends React.Component {
 
     if (loading) {
       return (
-        <va-loading-indicator set-focus message="Loading your information..." />
+        <LoadingIndicator setFocus message="Loading your information..." />
       );
     }
 
@@ -317,15 +308,13 @@ export class MHVApp extends React.Component {
 
     if (!this.hasService()) {
       if (accountState === 'needs_identity_verification') {
-        return (
-          <va-loading-indicator set-focus message="Redirecting to verify..." />
-        );
+        return <LoadingIndicator setFocus message="Redirecting to verify..." />;
       }
 
       if (accountState === 'needs_terms_acceptance') {
         return (
-          <va-loading-indicator
-            set-focus
+          <LoadingIndicator
+            setFocus
             message="Redirecting to terms and conditions..."
           />
         );
