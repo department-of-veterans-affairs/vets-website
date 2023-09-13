@@ -37,6 +37,94 @@ Cypress.Commands.add('selectRadio', (fieldName, value) => {
     });
   }
 });
+
+/**
+ * Original React date widget
+ */
+const reactDate = (fieldName, date) => {
+  cy.get(`#${fieldName}Month`).select(date[1]);
+  cy.get(`#${fieldName}Day`).select(date[2]);
+  cy.fill(`input[name="${fieldName}Year"]`, date[0]);
+};
+
+const vaDate = (element, monthYearOnly, date) => {
+  cy.wrap(element)
+    .shadow()
+    .then(el => {
+      cy.wrap(el)
+        .find('va-select.select-month')
+        .shadow()
+        .find('select')
+        .select(date[1]);
+      if (!monthYearOnly) {
+        cy.wrap(el)
+          .find('va-select.select-day')
+          .shadow()
+          .find('select')
+          .select(date[2]);
+      }
+      cy.wrap(el)
+        .find('va-text-input.input-year')
+        .shadow()
+        .find('input')
+        .type(date[0]);
+    });
+};
+
+const vaMemorableDate = (element, vaMemorableDateMonthSelect, date) => {
+  cy.wrap(element)
+    .shadow()
+    .then(el => {
+      // There is a bug only on Chromium based browsers where
+      // VaMemorableDate text input fields will think they are
+      // disabled if you blur focus of the window while the test
+      // is running. realPress and realType solve this issue,
+      // but these are only available for Chromium based browsers.
+      // See cypress-real-events npmjs for more info.
+      // ** see applications/simple-forms/shared/tests/e2e/helpers.js **
+      const isChrome = navigator.userAgent.includes('Chrome');
+      const getSelectors = type =>
+        `va-text-input.input-${type}, va-text-input.usa-form-group--${type}-input`;
+
+      if (vaMemorableDateMonthSelect) {
+        cy.wrap(el)
+          .find('va-select.usa-form-group--month-select')
+          .shadow()
+          .find('select')
+          .select(date[1]);
+      } else if (isChrome) {
+        cy.wrap(el)
+          .find(getSelectors('month'))
+          .shadow()
+          .find('input')
+          .realType(date[1]);
+      } else {
+        cy.wrap(el)
+          .find(getSelectors('month'))
+          .shadow()
+          .find('input')
+          .type(date[1]);
+      }
+      if (isChrome) {
+        cy.realPress('Tab')
+          .realType(date[2])
+          .realPress('Tab')
+          .realType(date[0]);
+      } else {
+        cy.wrap(el)
+          .find(getSelectors('day'))
+          .shadow()
+          .find('input')
+          .type(date[2]);
+        cy.wrap(el)
+          .find(getSelectors('year'))
+          .shadow()
+          .find('input')
+          .type(date[0]);
+      }
+    });
+};
+
 /**
  * Works with Date widget. And va-date and va-memorable-date web components;
  * expects dateString in YYYY-MM-DD format
@@ -47,78 +135,23 @@ Cypress.Commands.add('fillDate', (fieldName, dateString) => {
     .split('-')
     .map(number => parseInt(number, 10).toString());
   cy.document().then(doc => {
-    const vaMemorableDate = doc.querySelector(
+    const vaDateElement = doc.querySelector(`va-date[name="${fieldName}"]`);
+    const vaMemorableDateElement = doc.querySelector(
       `va-memorable-date[name="${fieldName}"]`,
     );
-    // USWDS v3 only
-    const vaMemorableDateMonthSelect = doc.querySelector(
-      `va-memorable-date[name="${fieldName}"][monthselect]`,
-    );
-    const vaDate = doc.querySelector(`va-date[name="${fieldName}"]`);
-    const monthYearOnly = doc.querySelector(
-      `va-date[name="${fieldName}"][monthyearonly]`,
-    );
-    if (vaDate) {
-      cy.wrap(vaDate)
-        .shadow()
-        .then(el => {
-          cy.wrap(el)
-            .find('va-select.select-month')
-            .shadow()
-            .find('select')
-            .select(date[1]);
-          if (!monthYearOnly)
-            cy.wrap(el)
-              .find('va-select.select-day')
-              .shadow()
-              .find('select')
-              .select(date[2]);
-          cy.wrap(el)
-            .find('va-text-input.input-year')
-            .shadow()
-            .find('input')
-            .type(date[0]);
-        });
+    if (vaDateElement) {
+      const monthYearOnly = !!doc.querySelector(
+        `va-date[name="${fieldName}"][monthyearonly]`,
+      );
+      vaDate(vaDateElement, !!monthYearOnly, date);
     } else if (vaMemorableDate) {
-      cy.wrap(vaMemorableDate)
-        .shadow()
-        .then(el => {
-          if (vaMemorableDateMonthSelect) {
-            cy.wrap(el)
-              .find('va-select.usa-form-group--month-select')
-              .shadow()
-              .find('select')
-              .select(date[1]);
-          } else {
-            cy.wrap(el)
-              .find(
-                'va-text-input.input-month, va-text-input.usa-form-group--month-input',
-              )
-              .shadow()
-              .find('input')
-              .type(date[1]);
-          }
-          cy.wrap(el)
-            .find(
-              'va-text-input.input-day, va-text-input.usa-form-group--day-input',
-            )
-            .shadow()
-            .find('input')
-            // increasing the timeout since this is a flaky action (#62239)
-            .type(date[2], { timeout: 5000 }); // default = 4000
-          cy.wrap(el)
-            .find(
-              'va-text-input.input-year, va-text-input.usa-form-group--year-input',
-            )
-            .shadow()
-            .find('input')
-            // increasing the timeout since this is a flaky action (#62239)
-            .type(date[0], { timeout: 5000 }); // default = 4000
-        });
+      // USWDS v3 only
+      const vaMemorableDateMonthSelect = !!doc.querySelector(
+        `va-memorable-date[name="${fieldName}"][monthselect]`,
+      );
+      vaMemorableDate(vaMemorableDateElement, vaMemorableDateMonthSelect, date);
     } else {
-      cy.get(`#${fieldName}Month`).select(date[1]);
-      cy.get(`#${fieldName}Day`).select(date[2]);
-      cy.fill(`input[name="${fieldName}Year"]`, date[0]);
+      reactDate(fieldName, date);
     }
   });
 });

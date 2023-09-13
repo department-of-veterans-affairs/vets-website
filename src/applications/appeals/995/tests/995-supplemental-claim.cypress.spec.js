@@ -134,11 +134,19 @@ const testConfig = createTestConfig(
                 if (index > 0) {
                   cy.url().should('include', `index=${index}`);
                 }
-                cy.get('#add-location-name')
-                  .shadow()
-                  .find('input')
-                  // increasing the timeout since this is a flaky action (#62239)
-                  .type(location.locationAndName, { timeout: 5000 }); // default = 4000
+                if (navigator.userAgent.includes('Chrome')) {
+                  // using realType to hopefully fix the input fields appear to
+                  // be disabled in CI causing the stress test to fail
+                  cy.get('#add-location-name')
+                    .shadow()
+                    .find('input')
+                    .realType(location.locationAndName);
+                } else {
+                  cy.get('#add-location-name')
+                    .shadow()
+                    .find('input')
+                    .type(location.locationAndName);
+                }
                 location?.issues.forEach(issue => {
                   cy.get(`va-checkbox[value="${issue}"]`)
                     .shadow()
