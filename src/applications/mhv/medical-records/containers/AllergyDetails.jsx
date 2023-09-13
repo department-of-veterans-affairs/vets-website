@@ -146,7 +146,7 @@ const AllergyDetails = () => {
           >
             Allergy: <span data-dd-privacy="mask">{allergy.name}</span>
           </h1>
-          <section className="set-width-486">
+          <section>
             <div className="condition-subheader vads-u-margin-bottom--3">
               <div className="time-header">
                 <h2
@@ -220,8 +220,12 @@ const AllergyDetails = () => {
   };
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
-      {content()}
+    <div className="vads-u-padding-x--0 vads-u-margin-bottom--5">
+      <div className="vads-l-row">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+          {content()}
+        </div>
+      </div>
     </div>
   );
 };
