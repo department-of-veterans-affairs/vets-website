@@ -32,7 +32,11 @@ const PrintDownload = props => {
       </button>
       <ul className={menuOptionsClasses}>
         <li>
-          <button type="button" onClick={window.print}>
+          <button
+            type="button"
+            data-testid="print-button"
+            onClick={window.print}
+          >
             Print {list && 'list'}
           </button>
         </li>

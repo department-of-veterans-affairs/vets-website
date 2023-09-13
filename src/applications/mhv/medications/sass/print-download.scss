@@ -13,11 +13,10 @@
     }
     button:active,
     button:focus {
-      outline: none;
-      background-color: var(--color-gray-cool-light);
+      background-color: var(--color-primary-alt-lightest);
     }
     button:hover {
-      background-color: var(--color-gray-cool-light);
+      background-color: var(--color-primary-alt-lightest);
       color: var(--color-primary-darker);
     }
     button:hover i::before {
@@ -25,6 +24,7 @@
     }
     button:active {
       color: var(--color-primary);
+      outline: none;
     }
     button:active i::before {
       color: var(--color-primary);
