@@ -46,4 +46,15 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
     });
     PatientMessageCustomFolderPage.verifySorting();
   });
+  it('Verify Filter btn exist', () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    PatientMessageCustomFolderPage.VerifyFilterBtnExist();
+  });
 });
