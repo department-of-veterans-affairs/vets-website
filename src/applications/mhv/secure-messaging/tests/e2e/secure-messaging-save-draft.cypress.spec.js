@@ -31,7 +31,9 @@ describe('Secure Messaging Save Draft', () => {
       },
     });
     // composePage.getMessageSubjectField().type('message Test');
-    composePage.getMessageBodyField().type('Test message body');
+    composePage
+      .getMessageBodyField()
+      .type('Test message body', { force: true });
     cy.realPress(['Enter']);
 
     const mockDraftResponseUpdated = {
@@ -40,7 +42,7 @@ describe('Secure Messaging Save Draft', () => {
         ...mockDraftResponse.data,
         attributes: {
           ...mockDraftResponse.data.attributes,
-          body: 'ststASertTest message body\n',
+          body: 'ststASertTest message body',
         },
       },
     };
