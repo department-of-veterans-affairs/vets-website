@@ -146,7 +146,7 @@ const ConditionDetails = () => {
                   className="vads-u-font-size--base vads-u-font-family--sans"
                   id="condition-date"
                 >
-                  Date and time entered:{' '}
+                  Date entered:{' '}
                   <span className="vads-u-font-weight--normal">
                     {formattedDate}
                   </span>

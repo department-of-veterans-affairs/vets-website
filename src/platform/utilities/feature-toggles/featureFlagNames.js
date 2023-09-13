@@ -53,6 +53,7 @@ export default Object.freeze({
   dependencyVerification: 'dependency_verification',
   dhpConnectedDevicesFitbit: 'dhp_connected_devices_fitbit',
   disability526MaximumRating: 'disability_526_maximum_rating',
+  disability526ToxicExposure: 'disability_526_toxic_exposure',
   dischargeWizardFeatures: 'discharge_wizard_features',
   enrollmentVerification: 'enrollment_verification',
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',

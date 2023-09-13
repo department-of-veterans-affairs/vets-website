@@ -157,10 +157,10 @@ class Batteries extends Component {
                   </div>
                 </div>
               ) : (
-                <div className="vads-u-max-width--293">
+                <div>
                   <input
                     id={batterySupply.productId}
-                    className="vads-u-margin-left--0 vads-u-max-width--293"
+                    className="vads-u-margin-left--0"
                     type="checkbox"
                     onChange={e =>
                       this.handleChecked(e.target.checked, batterySupply)
