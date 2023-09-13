@@ -6,7 +6,6 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
-  mhvMedicalRecordsDisplayDomains,
   recordType,
   EMPTY_FIELD,
   ALERT_TYPE_ERROR,
@@ -28,20 +27,14 @@ const Allergies = () => {
   const dispatch = useDispatch();
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
   const user = useSelector(state => state.user.profile);
-  const displayDomain = useSelector(state =>
-    mhvMedicalRecordsDisplayDomains(state),
-  );
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
   const alertList = useSelector(state => state.mr.alerts?.alertList);
   const [activeAlert, setActiveAlert] = useState();
 
-  useEffect(
-    () => {
-      dispatch(getAllergiesList(displayDomain));
-    },
-    [displayDomain],
-  );
+  useEffect(() => {
+    dispatch(getAllergiesList());
+  }, []);
 
   useEffect(
     () => {
@@ -166,39 +159,40 @@ const Allergies = () => {
   };
 
   return (
-    <div id="allergies">
-      <PrintHeader />
-      <h1 className="vads-u-margin--0">Allergies</h1>
-      <section className="set-width-486">
-        <p className="vads-u-margin-top--1">
-          If you have allergies that are missing from this list, send a secure
-          message to your care team.
-        </p>
-
-        {!accessAlert && (
-          <>
-            <PrintDownload list download={generateAllergiesPdf} />
-            <va-additional-info
-              trigger="What to know about downloading records"
-              class="no-print"
-            >
-              <ul>
-                <li>
-                  <strong>If you’re on a public or shared computer,</strong>{' '}
-                  print your records instead of downloading. Downloading will
-                  save a copy of your records to the public computer.
-                </li>
-                <li>
-                  <strong>If you use assistive technology,</strong> a Text file
-                  (.txt) may work better for technology such as screen reader,
-                  screen enlargers, or Braille displays.
-                </li>
-              </ul>
-            </va-additional-info>
-          </>
-        )}
-      </section>
-      {content()}
+    <div id="allergies" className="vads-l-row">
+      <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <PrintHeader />
+        <h1 className="vads-u-margin--0">Allergies</h1>
+        <section>
+          <p className="vads-u-margin-top--1">
+            If you have allergies that are missing from this list, send a secure
+            message to your care team.
+          </p>
+          {!accessAlert && (
+            <>
+              <PrintDownload list download={generateAllergiesPdf} />
+              <va-additional-info
+                trigger="What to know about downloading records"
+                class="no-print"
+              >
+                <ul>
+                  <li>
+                    <strong>If you’re on a public or shared computer,</strong>{' '}
+                    print your records instead of downloading. Downloading will
+                    save a copy of your records to the public computer.
+                  </li>
+                  <li>
+                    <strong>If you use assistive technology,</strong> a Text
+                    file (.txt) may work better for technology such as screen
+                    reader, screen enlargers, or Braille displays.
+                  </li>
+                </ul>
+              </va-additional-info>
+            </>
+          )}
+        </section>
+        {content()}
+      </div>
     </div>
   );
 };
