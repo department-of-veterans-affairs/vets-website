@@ -1,31 +1,31 @@
 {
   "data": [
     {
-      "id": "730601",
+      "id": "721633",
       "type": "message_thread_details",
       "attributes": {
-        "messageId": 730601,
+        "messageId": 721633,
         "category": "APPOINTMENTS",
         "subject": "Appointment Inquiry",
-        "body": "testing",
+        "body": "Save draft ",
         "attachment": null,
-        "sentDate": null,
-        "senderId": 406227,
-        "senderName": "MHVTP, SAFARI ",
-        "recipientId": 508642,
-        "recipientName": "MARGARET TRIAGE GROUP_SLC10",
-        "readReceipt": null,
+        "sentDate": "2017-08-11T14:55:55.000Z",
+        "senderId": 674887,
+        "senderName": "YARRAGOVULA, SAMATHA ",
+        "recipientId": 406227,
+        "recipientName": "MHVTP, SAFARI",
+        "readReceipt": "READ",
         "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
         "proxySenderName": null,
         "threadId": 690952,
-        "folderId": -2,
-        "messageBody": "testing",
-        "draftDate": "2017-10-03T20:07:01.000+00:00",
+        "folderId": 508804,
+        "messageBody": "Save draft ",
+        "draftDate": null,
         "toDate": null,
-        "hasAttachments": false
+        "hasAttachments": true
       },
       "links": {
-        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/730601"
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/721633"
       }
     },
     {
@@ -57,31 +57,31 @@
       }
     },
     {
-      "id": "721633",
+      "id": "730601",
       "type": "message_thread_details",
       "attributes": {
-        "messageId": 721633,
+        "messageId": 730601,
         "category": "APPOINTMENTS",
         "subject": "Appointment Inquiry",
-        "body": "Save draft ",
+        "body": "testing",
         "attachment": null,
-        "sentDate": "2017-08-11T14:55:55.000Z",
-        "senderId": 674887,
-        "senderName": "YARRAGOVULA, SAMATHA ",
-        "recipientId": 406227,
-        "recipientName": "MHVTP, SAFARI",
-        "readReceipt": "READ",
+        "sentDate": "2017-10-03T20:07:01.000+00:00",
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientId": 508642,
+        "recipientName": "MARGARET TRIAGE GROUP_SLC10",
+        "readReceipt": null,
         "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
         "proxySenderName": null,
         "threadId": 690952,
-        "folderId": 508804,
-        "messageBody": "Save draft ",
+        "folderId": -2,
+        "messageBody": "testing",
         "draftDate": null,
         "toDate": null,
-        "hasAttachments": true
+        "hasAttachments": false
       },
       "links": {
-        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/721633"
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/730601"
       }
     },
     {
