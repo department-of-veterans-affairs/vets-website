@@ -7,44 +7,35 @@ import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-t
 import { Paths, Locators } from '../utils/constants';
 
 class PatientMessageCustomFolderPage {
+  folder = mockFolders.data[mockFolders.data.length - 1];
+
+  folderId = mockFolders.data[mockFolders.data.length - 1].attributes.folderId;
+
+  folderName = mockFolders.data[mockFolders.data.length - 1].attributes.name;
+
   loadMessages = () => {
     cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
       'customFoldersList',
     );
 
-    cy.intercept(
-      'GET',
-      `/my_health/v1/messaging/folders/${
-        mockFolders.data[mockFolders.data.length - 1].attributes.folderId
-      }*`,
-      { data: mockFolders.data[mockFolders.data.length - 1] },
-    ).as('customFolder');
+    cy.intercept('GET', `/my_health/v1/messaging/folders/${this.folderId}*`, {
+      data: this.folder,
+    }).as('customFolder');
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${
-        mockFolders.data[mockFolders.data.length - 1].attributes.folderId
-      }/threads*`,
+      `/my_health/v1/messaging/folders/${this.folderId}/threads*`,
       mockSingleThreadResponse,
     ).as('customFolderThread');
 
     cy.get('[data-testid="my-folders-sidebar"]').click();
-    cy.get(
-      `[data-testid=${
-        mockFolders.data[mockFolders.data.length - 1].attributes.name
-      }]`,
-    ).click();
+    cy.get(`[data-testid=${this.folderName}]`).click();
 
-    cy.visit(
-      `${Paths.UI_MAIN + Paths.FOLDERS}/${
-        mockFolders.data[mockFolders.data.length - 1].attributes.folderId
-      }`,
-      {
-        onBeforeLoad: win => {
-          cy.stub(win, 'print');
-        },
+    cy.visit(`${Paths.UI_MAIN + Paths.FOLDERS}/${this.folderId}`, {
+      onBeforeLoad: win => {
+        cy.stub(win, 'print');
       },
-    );
+    });
   };
 
   // loadMessages = (
