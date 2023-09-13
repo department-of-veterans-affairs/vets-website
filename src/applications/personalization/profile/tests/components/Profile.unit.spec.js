@@ -47,6 +47,9 @@ describe('Profile', () => {
       },
       useLighthouseDirectDepositEndpoint: false,
       togglesLoaded: true,
+      profileToggles: {
+        profileUseFieldEditingPage: true,
+      },
     };
   });
 
@@ -288,6 +291,7 @@ describe('mapStateToProps', () => {
       'isBlocked',
       'useLighthouseDirectDepositEndpoint',
       'togglesLoaded',
+      'profileToggles',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
   });
