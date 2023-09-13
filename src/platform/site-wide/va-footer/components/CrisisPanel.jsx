@@ -72,7 +72,7 @@ export default function CrisisPanel() {
                 Call TTY if you have hearing loss
                 <strong className="vads-u-margin-left--0p5">
                   <a
-                    className="no-wrap"
+                    className="no-wrap vads-u-display--inline"
                     href="tel:+18007994889"
                     aria-label="8 0 0. 7 9 9. 4 8 8 9."
                   >
