@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { EmptyMiniSummaryCard } from '../shared/MiniSummaryCard';
 import { setJobIndex } from '../../utils/session';
 import { dateFormatter } from '../../utils/helpers';
@@ -25,6 +26,7 @@ const EmploymentHistorySummaryCard = ({
   } = job ?? {};
 
   const dispatch = useDispatch();
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const editDestination = isSpouse
     ? {
@@ -60,6 +62,19 @@ const EmploymentHistorySummaryCard = ({
         },
       }),
     );
+  };
+
+  const handleDeleteClick = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalConfirm = () => {
+    setModalOpen(false);
+    onDelete(index);
+  };
+
+  const handleModalCancel = () => {
+    setModalOpen(false);
   };
 
   const employmentCardHeading = `${type} employment at ${employerName}`;
@@ -153,7 +168,7 @@ const EmploymentHistorySummaryCard = ({
             type="button"
             aria-label={`Delete ${ariaLabel}`}
             className="usa-button summary-card-delete-button vads-u-margin--0 vads-u-padding--1 vads-u-margin-right--neg1"
-            onClick={() => onDelete(index)}
+            onClick={handleDeleteClick}
           >
             <i
               aria-hidden="true"
@@ -161,6 +176,19 @@ const EmploymentHistorySummaryCard = ({
             />
             <span>DELETE</span>
           </button>
+          {isModalOpen && (
+            <VaModal
+              onCloseEvent={handleModalCancel}
+              modalTitle={`Are you sure you want to remove ${employmentCardHeading}?`}
+              onPrimaryButtonClick={handleModalConfirm}
+              onSecondaryButtonClick={handleModalCancel}
+              primaryButtonText="Yes, remove this"
+              secondaryButtonText="No, keep this"
+              status="warning"
+              visible={isModalOpen}
+              uswds
+            />
+          )}
         </div>
       </va-card>
     )
