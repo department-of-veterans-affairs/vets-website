@@ -6,6 +6,8 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
+import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { sendErrorToSentry } from '../../util/helpers';
 import {
   generatePdfScaffold,
@@ -16,6 +18,12 @@ import { pageTitles } from '../../util/constants';
 const ProgressNoteDetails = props => {
   const { record } = props;
   const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
@@ -108,21 +116,11 @@ const ProgressNoteDetails = props => {
             </div>
 
             <div className="no-print">
-              <PrintDownload download={download} />
-              <va-additional-info trigger="What to know about downloading records">
-                <ul>
-                  <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
-                  </li>
-                  <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
-                  </li>
-                </ul>
-              </va-additional-info>
+              <PrintDownload
+                download={download}
+                allowTxtDownloads={allowTxtDownloads}
+              />
+              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
             </div>
 
             <div className="test-details-container max-80">
