@@ -4,7 +4,7 @@ import MedicationsListPage from './pages/MedicationsListPage';
 import mockPrescriptionDetails from './fixtures/prescription-details.json';
 
 describe('Medications Details Page DropDown', () => {
-  it.skip('visits Medications Details Page DropDown', () => {
+  it('visits Medications Details Page DropDown', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();

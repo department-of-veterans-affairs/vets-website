@@ -30,7 +30,7 @@ describe('Health conditions list container', () => {
   it('displays additional info', () => {
     const screen = setup();
     expect(
-      screen.getByText('Review health conditions in your VA medical records', {
+      screen.getByText('Review health conditions in your VA medical records.', {
         exact: true,
       }),
     ).to.exist;

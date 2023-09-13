@@ -2,6 +2,8 @@ import manifest from '../../manifest.json';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockAutoSaveDraftResponse from './fixtures/autosafe-draft-response.json';
+import { AXE_CONTEXT } from './utils/constants';
+import { draftAutoSaveTimeout } from '../../util/constants';
 
 describe(manifest.appName, () => {
   describe('Advanced search in Drafts', () => {
@@ -24,15 +26,19 @@ describe(manifest.appName, () => {
         }`,
         mockAutoSaveDraftResponse,
       ).as('autoSaveDetailed');
-      cy.wait('@autoSave').then(xhr => {
+      cy.wait('@autoSave', { timeout: draftAutoSaveTimeout }).then(xhr => {
         cy.log(JSON.stringify(xhr.response.body));
+        cy.get('[data-testid="message-subject-field"]')
+          .shadow()
+          .find('#inputField')
+          .type('testSubject2');
+        cy.wait('@autoSaveDetailed', { timeout: draftAutoSaveTimeout });
       });
-      cy.wait('@autoSaveDetailed');
     });
     it('Check all draft messages contain the searched category', () => {
       cy.get('.last-save-time').should('contain', 'Your message was saved');
       cy.injectAxe();
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,

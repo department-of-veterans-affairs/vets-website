@@ -19,18 +19,12 @@
   background-color: rgba(0, 0, 0, 0.05);
 }
 .main-content {
-  padding: 10px;
+  padding: 0;
   margin-bottom: 40px;
 
   @media (max-width: $small-screen) {
     max-width: 480px;
   }
-}
-.breadcrumbs-container {
-  @media (max-width: $large-screen) {
-    margin-left: -16px;
-  }
-  padding: 0px;
 }
 .link-to-details {
   i {
@@ -40,7 +34,6 @@
   .right-angle {
     text-decoration: none;
   }
-
 }
 .landing-page {
   h1 {
@@ -50,7 +43,6 @@
   .medications-list-sort {
     display: flex;
     flex-direction: row;
-    margin-top: -35px;
     .sort-button {
       margin-left: 8px;
       margin-top: 60px;
@@ -83,9 +75,8 @@
         margin: 8px 0;
       }
       .shipping-info {
-        margin-top: 15px;
-        margin-bottom: 15px;
-        padding: 15px;
+        margin-top: 5px;
+        margin-bottom: 5px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -95,6 +86,45 @@
           height: 20px;
           border: 1px solid $color-base;
         }
+      }
+      .refillProcessIcon {
+        padding: 4px 20px 4px 28px;
+        position: relative;
+        display: inline-block;
+      }
+      .refillProcessIcon:before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 700;
+        font-size: 120%;
+        content: "\f56e";
+        position: absolute;
+        left: 0px;
+      }
+      .unknownIcon {
+        padding: 4px 20px 4px 28px;
+        position: relative;
+        display: inline-block;
+      }
+      .unknownIcon:before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 700;
+        font-size: 120%;
+        content: "\f071";
+        position: absolute;
+        left: 0px;
+      }
+      .submittedIcon {
+        padding: 4px 20px 4px 28px;
+        position: relative;
+        display: inline-block;
+      }
+      .submittedIcon:before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 700;
+        font-size: 120%;
+        content: "\f572";
+        position: absolute;
+        left: 0px;
       }
     }
   }
@@ -164,5 +194,11 @@
     display: none;
     margin: 0px !important;
     padding: 0px !important;
+  }
+}
+
+.vads-u-width--responsive{
+  @media (max-width: $small-screen) {
+    width: 100% !important;
   }
 }

@@ -88,14 +88,22 @@ const RadiologyImagesList = () => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">
+          <h1
+            className="vads-u-margin-bottom--0"
+            aria-describedby="radiology-date"
+          >
             Images: {labAndTestDetails.name}
           </h1>
           <div className="time-header">
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h2
+              className="vads-u-font-size--base vads-u-font-family--sans"
+              id="radiology-date"
+            >
               Date:{' '}
+              <span className="vads-u-font-weight--normal">
+                {formattedDate}
+              </span>
             </h2>
-            <p>{formattedDate}</p>
           </div>
 
           <div className="no-print">

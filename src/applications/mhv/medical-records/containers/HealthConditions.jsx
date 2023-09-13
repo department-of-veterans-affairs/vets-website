@@ -2,14 +2,19 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getConditionsList } from '../actions/conditions';
-import { RecordType } from '../util/constants';
+import { recordType, pageTitles } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import { processList } from '../util/helpers';
+import { updatePageTitle } from '../../shared/util/helpers';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const HealthConditions = () => {
+  const fullState = useSelector(state => state);
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   // const conditions = []; // used to test use cases with no vitals on record
   const dispatch = useDispatch();
@@ -17,20 +22,19 @@ const HealthConditions = () => {
     dispatch(getConditionsList());
   });
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-          {
-            url: '/my-health/medical-records/health-conditions',
-            label: 'VA health conditions',
-          },
-        ),
-      );
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs(
+        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
+        {
+          url: '/my-health/medical-records/conditions',
+          label: 'VA health conditions',
+        },
+      ),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
+  }, []);
 
   const generateHealthConditions = async () => {
     const pdfData = {
@@ -118,7 +122,7 @@ const HealthConditions = () => {
   const content = () => {
     if (conditions?.length > 0) {
       return (
-        <RecordList records={conditions} type={RecordType.HEALTH_CONDITIONS} />
+        <RecordList records={conditions} type={recordType.HEALTH_CONDITIONS} />
       );
     }
     if (conditions?.length === 0) {
@@ -144,10 +148,53 @@ const HealthConditions = () => {
     <div>
       <h1>Health conditions</h1>
       <section className="set-width-486">
-        <p>Review health conditions in your VA medical records</p>
+        <p>Review health conditions in your VA medical records.</p>
         <va-additional-info trigger="What to know about health conditions">
-          This is some additional info about health conditions, though we are
-          waiting on the Content Team to tell us what should be here...
+          <ul>
+            <li>
+              <p>
+                Health condition records are available <b>36 hours</b> after
+                your providers enter them.
+              </p>
+            </li>
+            <li>
+              <p>
+                This list includes your current health conditions that VA
+                providers are helping you manage. It may not include conditions
+                non-VA providers are helping you manage.
+              </p>
+            </li>
+            <li>
+              <p>
+                This list doesn’t include information you entered yourself. To
+                find information you entered, go back to your records on My
+                HealtheVet website.
+              </p>
+              <va-link
+                className="section-link"
+                active
+                href="/my-health/medical-records/"
+                text="Go to your care summaries and notes"
+                data-testid="section-link"
+              />
+            </li>
+            <li>
+              <p>
+                If you have questions about your health conditions, send a
+                message to your care team.
+              </p>
+              <a
+                href={mhvUrl(
+                  isAuthenticatedWithSSOe(fullState),
+                  'secure-messaging',
+                )}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Compose a new message
+              </a>
+            </li>
+          </ul>
         </va-additional-info>
         <PrintDownload list download={download} />
       </section>

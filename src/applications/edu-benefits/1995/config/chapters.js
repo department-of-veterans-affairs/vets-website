@@ -4,12 +4,14 @@ import environment from 'platform/utilities/environment';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
+import createDirectDepositChangePageUpdate from '../../pages/directDepositChangeUpdate';
 
 import {
   benefitSelection,
   dependents,
   militaryHistory,
   newSchool,
+  newSchoolUpdate,
   servicePeriods,
 } from '../pages';
 
@@ -68,8 +70,12 @@ export const chapters = {
         initialData: {
           newSchoolAddress: {},
         },
-        uiSchema: newSchool.uiSchema,
-        schema: newSchool.schema,
+        uiSchema: environment.isProduction()
+          ? newSchool.uiSchema
+          : newSchoolUpdate.uiSchema,
+        schema: environment.isProduction()
+          ? newSchool.schema
+          : newSchoolUpdate.schema,
       },
       oldSchool: createOldSchoolPage(fullSchema1995),
     },
@@ -90,7 +96,9 @@ export const chapters = {
         uiSchema: dependents.uiSchema,
         schema: dependents.schema,
       },
-      directDeposit: createDirectDepositChangePage(fullSchema1995),
+      directDeposit: environment.isProduction()
+        ? createDirectDepositChangePage(fullSchema1995)
+        : createDirectDepositChangePageUpdate(fullSchema1995),
     },
   },
 };

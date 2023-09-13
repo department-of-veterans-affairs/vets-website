@@ -4,14 +4,15 @@ import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
 import AddIssue from '../../components/AddIssue';
-import {
-  errorMessages,
-  MAX_LENGTH,
-  LAST_SC_ITEM,
-  MAX_YEARS_PAST,
-} from '../../constants';
+import { errorMessages } from '../../constants';
 import { getDate } from '../../utils/dates';
 import { $, $$ } from '../../utils/ui';
+
+import {
+  LAST_ISSUE,
+  MAX_LENGTH,
+  MAX_YEARS_PAST,
+} from '../../../shared/constants';
 
 describe('<AddIssue>', () => {
   const validDate = getDate({ offset: { months: -2 } });
@@ -32,9 +33,9 @@ describe('<AddIssue>', () => {
     onReviewPage = false,
   } = {}) => {
     if (index !== null) {
-      window.sessionStorage.setItem(LAST_SC_ITEM, index);
+      window.sessionStorage.setItem(LAST_ISSUE, index);
     } else {
-      window.sessionStorage.removeItem(LAST_SC_ITEM);
+      window.sessionStorage.removeItem(LAST_ISSUE);
     }
     return (
       <div>
@@ -51,7 +52,7 @@ describe('<AddIssue>', () => {
   };
 
   afterEach(() => {
-    window.sessionStorage.removeItem(LAST_SC_ITEM);
+    window.sessionStorage.removeItem(LAST_ISSUE);
   });
 
   it('should render', () => {

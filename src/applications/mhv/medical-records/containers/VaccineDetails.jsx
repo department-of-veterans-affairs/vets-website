@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   processList,
   nameFormat,
@@ -16,10 +17,11 @@ import { getVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
-import { emptyField } from '../util/constants';
+import { EMPTY_FIELD, pageTitles } from '../util/constants';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const VaccineDetails = () => {
-  const vaccineDetails = useSelector(state => state.mr.vaccines.vaccineDetails);
+  const record = useSelector(state => state.mr.vaccines.vaccineDetails);
   const user = useSelector(state => state.user.profile);
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
@@ -32,26 +34,34 @@ const VaccineDetails = () => {
     },
     [vaccineId, dispatch],
   );
-  const formattedDate = formatDateLong(vaccineDetails?.date);
+  const formattedDate = formatDateLong(record?.date);
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs(
-          [
+      if (record) {
+        dispatch(
+          setBreadcrumbs(
+            [
+              {
+                url: '/my-health/medical-records/vaccines',
+                label: 'Vaccines',
+              },
+            ],
             {
-              url: '/my-health/medical-records/vaccines',
-              label: 'Vaccines',
+              url: `/my-health/medical-records/vaccines/${vaccineId}`,
+              label: record?.name,
             },
-          ],
-          {
-            url: `/my-health/medical-records/vaccines/${vaccineId}`,
-            label: vaccineDetails?.name,
-          },
-        ),
-      );
+          ),
+        );
+
+        focusElement(document.querySelector('h1'));
+        const titleDate = formattedDate ? `${formattedDate} - ` : '';
+        updatePageTitle(
+          `${titleDate}${record.name} - ${pageTitles.VACCINES_PAGE_TITLE}`,
+        );
+      }
     },
-    [vaccineDetails, dispatch],
+    [record],
   );
 
   const generateVaccinePdf = async () => {
@@ -62,7 +72,7 @@ const VaccineDetails = () => {
         'LL',
       )}`,
       footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-      title: `Vaccines: ${vaccineDetails.name} on ${vaccineDetails.date}`,
+      title: `Vaccines: ${record.name} on ${record.date}`,
       subject: 'VA Medical Record',
       preface:
         'Your VA Vaccines list may not be complete. If you have any questions about your information, visit the FAQs or contact your VA Health care team.',
@@ -73,18 +83,18 @@ const VaccineDetails = () => {
             items: [
               {
                 title: 'Location',
-                value: vaccineDetails.location || emptyField,
+                value: record.location || EMPTY_FIELD,
                 inline: true,
               },
               {
                 title: 'Reaction',
-                value: processList(vaccineDetails.reactions),
-                inline: !vaccineDetails.reactions.length,
+                value: processList(record.reactions),
+                inline: !record.reactions.length,
               },
               {
                 title: 'Provider notes',
-                value: processList(vaccineDetails.notes),
-                inline: !vaccineDetails.notes.length,
+                value: processList(record.notes),
+                inline: !record.notes.length,
               },
             ],
           },
@@ -100,28 +110,38 @@ const VaccineDetails = () => {
   };
 
   const content = () => {
-    if (vaccineDetails) {
+    if (record) {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0p5">{vaccineDetails.name}</h1>
+          <h1
+            className="vads-u-margin-bottom--0p5"
+            aria-describedby="vaccine-date"
+          >
+            {record.name}
+          </h1>
           <div className="time-header">
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h2
+              className="vads-u-font-size--base vads-u-font-family--sans"
+              id="vaccine-date"
+            >
               Date:{' '}
+              <span className="vads-u-font-weight--normal">
+                {formattedDate}
+              </span>
             </h2>
-            <p>{formattedDate}</p>
           </div>
           <section className="set-width-480">
             <PrintDownload list download={generateVaccinePdf} />
             <div className="detail-block max-80">
               <h2>Location</h2>
-              <p>{vaccineDetails.location}</p>
+              <p>{record.location}</p>
               <h2 className="vads-u-margin-bottom--0">
                 Reactions recorded by provider
               </h2>
-              <ItemList list={vaccineDetails.reactions} />
+              <ItemList list={record.reactions} />
               <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
-              <ItemList list={vaccineDetails.notes} />
+              <ItemList list={record.notes} />
             </div>
           </section>
         </>

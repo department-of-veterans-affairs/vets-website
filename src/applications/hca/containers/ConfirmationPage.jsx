@@ -35,7 +35,7 @@ const ConfirmationPage = ({ form, profile, isLoggedIn }) => {
       <section>
         <h2>What to do if you have questions now</h2>
         <p>
-          If we haven’t contact you within a week after you submitted your
+          If we haven’t contacted you within a week after you submitted your
           application, please don’t apply again:
         </p>
         <ul>

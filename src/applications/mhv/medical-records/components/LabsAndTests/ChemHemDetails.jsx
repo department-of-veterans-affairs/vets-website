@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PrintHeader from '../shared/PrintHeader';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -10,12 +11,26 @@ import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
 import { processList, sendErrorToSentry } from '../../util/helpers';
-import { generatePdfScaffold } from '../../../shared/util/helpers';
+import {
+  generatePdfScaffold,
+  updatePageTitle,
+} from '../../../shared/util/helpers';
+import { pageTitles } from '../../util/constants';
 
 const ChemHemDetails = props => {
   const { record, fullState } = props;
   const user = useSelector(state => state.user.profile);
   const formattedDate = formatDateLong(record?.date);
+
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    const titleDate = formattedDate ? `${formattedDate} - ` : '';
+    updatePageTitle(
+      `${titleDate}${record.name} - ${
+        pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
+      }`,
+    );
+  }, []);
 
   const generateChemHemPdf = async () => {
     const title = `Lab and test results: ${record.name} on ${formatDateLong(
@@ -109,13 +124,23 @@ const ChemHemDetails = props => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--1">{record.name}</h1>
+          <h1
+            className="vads-u-margin-bottom--1"
+            aria-describedby="chem-hem-date"
+          >
+            {record.name}
+          </h1>
           <section className="set-width-486">
             <div className="time-header">
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              <p
+                className="vads-u-font-size--base vads-u-font-family--sans"
+                id="chem-hem-date"
+              >
                 Date:{' '}
-              </h2>
-              <p>{formattedDate}</p>
+                <span className="vads-u-font-weight--normal">
+                  {formattedDate}
+                </span>
+              </p>
             </div>
             <div className="no-print">
               <PrintDownload list download={generateChemHemPdf} />
