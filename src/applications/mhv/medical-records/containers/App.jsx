@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
-import Navigation from '../components/Navigation';
+// import Navigation from '../components/Navigation';
 import { useDatadogRum } from '../hooks/useDatadogRum';
 
 const App = ({ children }) => {
@@ -43,10 +43,13 @@ const App = ({ children }) => {
   }, []);
 
   return (
-    <div ref={measuredRef} className="vads-l-grid-container">
+    <div
+      ref={measuredRef}
+      className="vads-l-grid-container vads-u-padding-left--2"
+    >
       <MrBreadcrumbs />
       <div className="medical-records-container">
-        <Navigation />
+        {/* <Navigation /> */}
         <div className="vads-l-grid-container main-content">
           <ScrollToTop />
           {children}

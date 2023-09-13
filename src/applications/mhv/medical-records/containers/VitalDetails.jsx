@@ -11,6 +11,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   dateFormat,
   macroCase,
@@ -29,6 +30,12 @@ const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = () => {
   const records = useSelector(state => state.mr.vitals.vitalDetails);
   const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
   const { vitalType } = useParams();
@@ -163,7 +170,11 @@ const VitalDetails = () => {
         <>
           <h1>{vitalTypeDisplayNames[records[0].type]}</h1>
           <section className="set-width-486">
-            <PrintDownload list download={generateVitalsPdf} />
+            <PrintDownload
+              list
+              download={generateVitalsPdf}
+              allowTxtDownloads={allowTxtDownloads}
+            />
             <div className="vads-u-padding-y--1 vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
               Displaying {displayNums[0]}
               &#8211;

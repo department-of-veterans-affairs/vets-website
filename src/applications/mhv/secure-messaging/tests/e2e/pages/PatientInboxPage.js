@@ -435,7 +435,7 @@ class PatientInboxPage {
     cy.get('#compose-message-body')
       .shadow()
       .find('#textarea')
-      .type('testMessage');
+      .type('testMessage', { force: true });
   };
 
   composeDraftByKeyboard = () => {
@@ -553,6 +553,10 @@ class PatientInboxPage {
       sortedResponse,
     );
     cy.get('[data-testid="sort-button"]').click({ force: true });
+  };
+
+  getInboxHeader = text => {
+    cy.get('[data-testid="folder-header"]').should('have.text', `${text}`);
   };
 }
 
