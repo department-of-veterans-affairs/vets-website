@@ -435,7 +435,7 @@ class PatientInboxPage {
     cy.get('#compose-message-body')
       .shadow()
       .find('#textarea')
-      .type('testMessage');
+      .type('testMessage', { force: true });
   };
 
   composeDraftByKeyboard = () => {
