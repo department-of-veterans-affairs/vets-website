@@ -4,11 +4,7 @@ import { scrollAndFocus } from 'platform/utilities/ui';
 
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
-import {
-  CLAIM_OWNERSHIPS,
-  CLAIMANT_TYPES,
-  OTHER_RELATIONSHIP,
-} from '../definitions/constants';
+import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import claimOwnershipPg from '../pages/claimOwnership';
@@ -26,6 +22,7 @@ import vetAddrInfo from '../pages/vetAddrInfo';
 import vetContInfo from '../pages/vetContInfo';
 import statement from '../pages/statement';
 import transformForSubmit from './submit-transformer';
+import { getFullNamePath, witnessHasOtherRelationship } from '../utils';
 
 // "Flows" in comments below map to "Stories" in the mockups:
 // https://www.sketch.com/s/a11421d3-c148-41a2-a34f-3d7821ea676f
@@ -61,19 +58,6 @@ const pageScrollAndFocus = () => {
   };
 };
 
-const witnessHasOtherRelationship = formData => {
-  const { claimOwnership, witnessRelationshipToClaimant } = formData;
-
-  if (!!claimOwnership && !!witnessRelationshipToClaimant) {
-    return (
-      claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY &&
-      witnessRelationshipToClaimant.includes(OTHER_RELATIONSHIP)
-    );
-  }
-
-  return false;
-};
-
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -91,18 +75,7 @@ const formConfig = {
         'I confirm that I have completed this statement. The information is true and correct to the best of my knowledge and belief.',
       messageAriaDescribedby:
         'I confirm that I have completed this statement. The information is true and correct to the best of my knowledge and belief.',
-      fullNamePath: formData => {
-        if (formData.claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY) {
-          return 'witnessFullName';
-        }
-        if (
-          formData.claimOwnership === CLAIM_OWNERSHIPS.SELF &&
-          formData.claimantType === CLAIMANT_TYPES.NON_VETERAN
-        ) {
-          return 'claimantFullName';
-        }
-        return 'veteranFullName';
-      },
+      fullNamePath: getFullNamePath,
       checkboxLabel:
         'I confirm that the information in this statement is correct and true to the best of my knowledge and belief.',
     },
