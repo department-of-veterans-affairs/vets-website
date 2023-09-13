@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const EditContainer = ({ children }) => {
+export const ProfileFullWidthContainer = ({ children }) => {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0">
       <div className="vads-l-row">
@@ -14,7 +14,7 @@ export const EditContainer = ({ children }) => {
   );
 };
 
-EditContainer.propTypes = {
+ProfileFullWidthContainer.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
