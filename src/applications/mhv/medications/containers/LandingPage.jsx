@@ -7,6 +7,7 @@ import { medicationsUrls } from '../util/constants';
 
 const LandingPage = () => {
   const fullState = useSelector(state => state);
+
   const medicationsUrl = fullState.user.login.currentlyLoggedIn
     ? medicationsUrls.MEDICATIONS_URL
     : medicationsUrls.MEDICATIONS_LOGIN;
@@ -16,23 +17,23 @@ const LandingPage = () => {
       <div className="vads-l-col--12 medium-screen:vads-l-col--8">
         <div className="main-content">
           <section>
-            <h1>About Medications</h1>
-            <p className="vads-u-font-size--h3">
+            <h1>About medications</h1>
+            <p>
               Learn how to manage your VA prescriptions and review all
               medications in your VA medical records.
             </p>
           </section>
           <section>
-            <div className="vads-u-border-left--7px vads-u-border-color--primary-alt-dark vads-u-background-color--gray-lightest vads-u-padding--3 medium-screen:vads-l-col--10">
-              <h3 className="vads-u-margin-top--0">
+            <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--4 vads-u-border-left--7px vads-u-border-color vads-u-border-color--primary-alt-dark">
+              <h2 className="vads-u-margin--0 vads-u-font-size--h3">
                 Manage your medications now
-              </h3>
-              <p>
+              </h2>
+              <p className="vads-u-margin-y--3">
                 Refill and track your VA prescriptions. And review all
                 medications in your VA medical records.
               </p>
               <a
-                className="vads-c-action-link--green"
+                className="vads-c-action-link--green vads-u-margin--0"
                 href={medicationsUrl}
                 data-testid="prescriptions-nav-link"
               >
@@ -51,9 +52,9 @@ const LandingPage = () => {
               Email your feedback and questions to us at <FeedbackEmail />.
             </p>
             <p>
-              <strong>Note:</strong>
-              You still have access to the pharmacy tool on the My HealtheVet
-              website. You can go back to that site at any time.{' '}
+              <strong>Note:</strong> You still have access to the pharmacy tool
+              on the My HealtheVet website. You can go back to that site at any
+              time.{' '}
               <a
                 href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'pharmacy')}
                 target="_blank"
@@ -114,7 +115,7 @@ const LandingPage = () => {
                   <li>
                     <strong>
                       Certain supplies you order through our Denver Logistics
-                      Center,{' '}
+                      Center,
                     </strong>{' '}
                     instead of through a VA pharmacy. This includes prosthetic
                     socks and hearing aid batteries.
@@ -208,11 +209,8 @@ const LandingPage = () => {
                   </a>
                 </p>
                 <p>
-                  For questions about how to use this tool, call the My
-                  HealtheVet help desk at <va-telephone contact="8773270022" />{' '}
-                  (<va-telephone contact="8008778339" tty />
-                  ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
-                  ET.
+                  For questions about how to use this tool, email us at
+                  vamhvfeedback@va.gov.
                 </p>
               </va-accordion-item>
             </va-accordion>
@@ -229,13 +227,18 @@ const LandingPage = () => {
                 <h3 className="vads-u-font-size--h6" slot="headline">
                   How to renew prescriptions
                 </h3>
-                <p data-testid="renew-information-button">
+                <p
+                  data-testid="renew-information-button"
+                  className="vads-u-margin--0"
+                >
                   If your prescription is too old to refill or has no refills
                   left, you’ll need to request a renewal. The fastest way to
                   renew is by calling the phone number on your prescription
                   label. You can also send a secure message to your care team.
                 </p>
-                <h3>By phone</h3>
+                <h4 className="vads-u-margin-top--2 vads-u-margin-bottom--1">
+                  By phone
+                </h4>
                 <p>
                   Call your VA pharmacy’s automated refill line. Find the
                   pharmacy phone number on your prescription label or in your
@@ -251,11 +254,11 @@ const LandingPage = () => {
                   system will direct your call to a pharmacy representative for
                   help.
                 </p>
-                <h3>By secure messsage</h3>
-                <p>
-                  Send a secure message to your VA care team. Include the
-                  medication name, provide who prescribed it, and number of
-                  refills left in your message.
+                <h4 className="vads-u-margin-top--2 vads-u-margin-bottom--1">
+                  By secure messsage
+                </h4>
+                <p className="vads-u-margin-y--1">
+                  Send a secure message to your VA care team.
                 </p>
                 <a
                   href={mhvUrl(
@@ -267,6 +270,25 @@ const LandingPage = () => {
                 >
                   Compose a message on My HealtheVet
                 </a>
+                <p className="vads-u-margin-bottom--0">
+                  <strong>
+                    Include as much of this information as you can:
+                  </strong>
+                  <ul className="vads-u-margin-y--1">
+                    <li>
+                      Medication name, strength, and form (like LOSARTAN 50 MG
+                      TAB)
+                    </li>
+                    <li>Prescription number</li>
+                    <li>Provider who prescribed it</li>
+                    <li>Number of refills left</li>
+                    <li>Prescription expiration date</li>
+                    <li>Reason for use</li>
+                    <li>Quantity</li>
+                  </ul>
+                  You can find this information in your medication details in
+                  this tool.
+                </p>
               </va-accordion-item>
               <va-accordion-item>
                 <h3 className="vads-u-font-size--h6" slot="headline">
@@ -307,6 +329,27 @@ const LandingPage = () => {
                 >
                   Go to your allergy and reaction records on the My HealtheVet
                   website
+                </a>
+              </va-accordion-item>
+              <va-accordion-item>
+                <h3 className="vads-u-font-size--h6" slot="headline">
+                  How to manage notifications for prescription shipments
+                </h3>
+                <p>
+                  You can sign up to get email notifications when we ship your
+                  prescriptions. You can also opt out of notifications at any
+                  time.
+                </p>
+                <p>
+                  To review or update your notification settings, go to your
+                  profile page on the My HealtheVet website.
+                </p>
+                <a
+                  href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Go to your profile on the My HealtheVet website
                 </a>
               </va-accordion-item>
             </va-accordion>

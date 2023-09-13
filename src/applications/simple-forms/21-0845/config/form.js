@@ -208,7 +208,7 @@ const formConfig = {
       pages: {
         vetIdInfoPage: {
           path: 'veteran-identification-information',
-          title: 'Your identification information',
+          title: '',
           uiSchema: veteranIdInfoPg.uiSchema,
           schema: veteranIdInfoPg.schema,
           scrollAndFocusTarget: pageFocusScroll(),

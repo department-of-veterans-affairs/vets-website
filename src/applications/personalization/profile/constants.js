@@ -1,3 +1,19 @@
+// all the active feature toggles for the profile app with a default value of false
+export const PROFILE_TOGGLES = {
+  profileShowPronounsAndSexualOrientation: false,
+  profileHideDirectDepositCompAndPen: false,
+  profileShowPaymentsNotificationSetting: false,
+  profileUseFieldEditingPage: false,
+  profileUseHubPage: false,
+  profileShowMhvNotificationSettings: false,
+  profileLighthouseDirectDeposit: false,
+  profileUseExperimental: false,
+  profileShowQuickSubmitNotificationSetting: false,
+  profileUseNotificationSettingsCheckboxes: false,
+  profileShowEmailNotificationSettings: false,
+  showAuthenticatedMenuEnhancements: false,
+};
+
 // The values of these constants map to the possible values that come back from
 // the GET profile/service_history API.
 export const USA_MILITARY_BRANCHES = Object.freeze({
@@ -29,6 +45,7 @@ export const PROFILE_PATHS = Object.freeze({
 });
 
 export const PROFILE_PATH_NAMES = Object.freeze({
+  PROFILE_ROOT: 'Profile',
   DIRECT_DEPOSIT: 'Direct deposit information',
   PERSONAL_INFORMATION: 'Personal information',
   CONTACT_INFORMATION: 'Contact information',
