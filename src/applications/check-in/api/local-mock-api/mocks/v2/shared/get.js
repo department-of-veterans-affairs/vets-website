@@ -266,6 +266,7 @@ const createUpcomingAppointments = (token, number = 3) => {
       clinicIen: '0001',
       appointmentIen: '0000',
       clinicFriendlyName: `HEART CLINIC-1`,
+      startTime: dateFns.addDays(new Date(), 1),
     }),
   ];
   for (let i = 0; i < number; i += 1) {
@@ -278,6 +279,7 @@ const createUpcomingAppointments = (token, number = 3) => {
         clinicFriendlyName: `HEART CLINIC-${i}`,
         uuid: token,
         timezone,
+        startTime: dateFns.addHours(new Date(), i),
       }),
     );
   }
@@ -288,6 +290,7 @@ const createUpcomingAppointments = (token, number = 3) => {
       clinicIen: '0001',
       appointmentIen: `0050`,
       clinicFriendlyName: `HEART CLINIC-E`,
+      startTime: dateFns.addMonths(new Date(), 2),
     }),
   );
 
