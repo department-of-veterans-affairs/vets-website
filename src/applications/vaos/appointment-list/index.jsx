@@ -35,19 +35,14 @@ function AppointmentListSection() {
       )}
       {featureBreadcrumbUrlUpdate && (
         <Switch>
-          <Route
-            path="/pending/:id"
-            component={ConfirmedAppointmentDetailsPage}
-          />
+          <Route path="/pending" component={AppointmentsPageV2} />
           <Route path="/past/:id" component={ConfirmedAppointmentDetailsPage} />
+          <Route path="/past" component={AppointmentsPageV2} />
           <Route
-            path="/:pastOrPending?/requests/:id"
+            path="/:pending?/requests/:id"
             component={RequestedAppointmentDetailsPage}
           />
-          <Route
-            path="/upcoming/:id"
-            component={ConfirmedAppointmentDetailsPage}
-          />
+          <Route path="/:id" component={ConfirmedAppointmentDetailsPage} />
           <Route path="/" component={AppointmentsPageV2} />
         </Switch>
       )}
