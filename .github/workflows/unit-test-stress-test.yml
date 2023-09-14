@@ -108,6 +108,10 @@ jobs:
           name: unit-test-report
           path: mochawesome-report
 
+      - name: List Results
+        run: |
+          cd test-results
+          ls -a
       # - name: Generate coverage report by app
       #   run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
