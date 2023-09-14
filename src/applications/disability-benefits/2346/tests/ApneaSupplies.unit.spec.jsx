@@ -29,16 +29,24 @@ const fakeStore = {
             quantity: 2,
           },
           {
+            productName: 'CPAP THING',
+            productGroup: 'Apnea',
+            productId: 1234,
+            availableForReorder: true,
+            lastOrderDate: fakeLastOrderDates[1],
+            nextAvailabilityDate: '2019-12-15',
+            quantity: 7,
+          },
+          {
             productName: 'AIRCURVE10-ASV-CLIMATELINE',
             productGroup: 'Apnea',
             productId: 8467,
-            availableForReorder: true,
             lastOrderDate: fakeLastOrderDates[1],
             nextAvailabilityDate: '2019-12-15',
             quantity: 1,
           },
         ],
-        selectedProducts: [{ productId: 8467 }],
+        selectedProducts: [{ productId: 1234 }],
         eligibility: {
           apneas: true,
         },
@@ -67,7 +75,6 @@ const fakeStoreNoEligibility2Years = {
             productName: 'AIRCURVE10-ASV-CLIMATELINE',
             productGroup: 'Apnea',
             productId: 8467,
-            availableForReorder: true,
             lastOrderDate: '2014-01-18',
             nextAvailabilityDate: '2099-10-19',
             quantity: 1,
@@ -94,6 +101,7 @@ describe('ApneaSupplies', () => {
     const wrapper = shallow(<ApneaSupplies store={fakeStore} />);
     expect(wrapper.html()).to.include('AIRFIT');
     expect(wrapper.html()).to.include('AIRCURVE');
+    expect(wrapper.html()).to.include('CPAP THING');
     wrapper.unmount();
   });
 
@@ -101,6 +109,7 @@ describe('ApneaSupplies', () => {
     const wrapper = mount(<ApneaSupplies store={fakeStore} />);
     expect(wrapper.text()).to.include('Quantity: 2');
     expect(wrapper.text()).to.include('Quantity: 1');
+    expect(wrapper.text()).to.include('Quantity: 7');
     wrapper.unmount();
   });
   it('should display the last order date of the Apnea supplies', () => {
@@ -123,7 +132,7 @@ describe('ApneaSupplies', () => {
     const wrapper = mount(<ApneaSupplies store={fakeStore} />);
     expect(
       wrapper.find('.vads-u-background-color--gray-lightest').length,
-    ).to.equal(2);
+    ).to.equal(3);
     wrapper.unmount();
   });
   it('should display an alert box if the Veteran is not eligible to order Apnea supplies and has not ordered in the last 2 years', () => {
@@ -133,6 +142,13 @@ describe('ApneaSupplies', () => {
     expect(
       wrapper.find('.apnea-supplies-two-year-alert-content').length,
     ).to.equal(1);
+    wrapper.unmount();
+  });
+  it('should display an alert text if non-orderable item is included', () => {
+    const wrapper = mount(<ApneaSupplies store={fakeStore} />);
+    expect(wrapper.text()).to.include(
+      'This item is not available for online reordering.',
+    );
     wrapper.unmount();
   });
 });

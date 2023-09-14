@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { dateFormat, processList } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getConditionDetails } from '../actions/conditions';
@@ -16,6 +17,12 @@ import { pageTitles } from '../util/constants';
 
 const ConditionDetails = () => {
   const condition = useSelector(state => state.mr.conditions.conditionDetails);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const { conditionId } = useParams();
   const dispatch = useDispatch();
 
@@ -139,13 +146,17 @@ const ConditionDetails = () => {
                   className="vads-u-font-size--base vads-u-font-family--sans"
                   id="condition-date"
                 >
-                  Date and time entered:{' '}
+                  Date entered:{' '}
                   <span className="vads-u-font-weight--normal">
                     {formattedDate}
                   </span>
                 </h2>
               </div>
-              <PrintDownload list download={download} />
+              <PrintDownload
+                list
+                download={download}
+                allowTxtDownloads={allowTxtDownloads}
+              />
             </div>
             <div className="condition-details max-80">
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">
