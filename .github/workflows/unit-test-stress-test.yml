@@ -55,6 +55,7 @@ jobs:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
     strategy:
+      fail-fast: false
       max-parallel: 20
       matrix:
         runs:
