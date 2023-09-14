@@ -63,11 +63,14 @@ const coverageReporter = options['coverage-html']
 const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = options.config ? options.config : 'config/mocha.json';
+const runTestsInLoopUpTo = isStressTest ? 10 : 1;
 
 const command = `LOG_LEVEL=${options[
   'log-level'
 ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} --recursive ${options.path
   .map(p => `'${p}'`)
-  .join(' ')} ${isStressTest ? '--repeat 20' : ''}`;
+  .join(' ')}`;
 
-runCommand(command);
+for (let i = 0; i < runTestsInLoopUpTo; i += 1) {
+  runCommand(command);
+}
