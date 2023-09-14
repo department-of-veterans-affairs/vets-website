@@ -13,17 +13,17 @@
   }
   button:active,
   button:focus {
-    outline: none;
-    background-color: var(--color-gray-cool-light);
+    background-color: var(--color-primary-alt-lightest);
   }
   button:hover {
-    background-color: var(--color-gray-cool-light);
+    background-color: var(--color-primary-alt-lightest);
     color: var(--color-primary-darker);
   }
   button:hover i::before {
     color: var(--color-primary-darker);
   }
   button:active {
+    outline: none;
     color: var(--color-primary);
   }
   button:active i::before {
