@@ -6,7 +6,7 @@ import FillRefillButton from '../shared/FillRefillButton';
 import StatusDropdown from '../shared/StatusDropdown';
 
 const VaPrescription = prescription => {
-  const refillHistory = [...prescription?.rxRfRecords?.[0]?.[1]];
+  const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
   refillHistory.push({
     dispensedDate: prescription?.dispensedDate,
     cmopNdcNumber: prescription?.cmopNdcNumber,
