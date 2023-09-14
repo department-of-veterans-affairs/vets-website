@@ -56,7 +56,7 @@ describe('Secure Messaging - Move Message with Attachment', () => {
         },
       },
     });
-    landingPage.verifyMoveMessagewithAttachmentSuccessMessage();
+    landingPage.verifyMoveMessageWithAttachmentSuccessMessage();
     cy.get('@moveMessagewithAttachment')
       .its('response')
       .then(response => {

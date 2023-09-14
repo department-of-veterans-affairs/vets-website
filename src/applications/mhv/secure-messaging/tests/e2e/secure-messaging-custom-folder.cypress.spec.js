@@ -9,6 +9,7 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
+    PatientMessageCustomFolderPage.loadFoldersList();
     PatientMessageCustomFolderPage.loadMessages();
   });
   it('Axe Check Custom Folder List', () => {
@@ -45,5 +46,16 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
       },
     });
     PatientMessageCustomFolderPage.verifySorting();
+  });
+  it('Verify Filter btn exist', () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    PatientMessageCustomFolderPage.VerifyFilterBtnExist();
   });
 });
