@@ -125,7 +125,7 @@ describe('The My VA Dashboard - Notifications', () => {
           type: 'feature_toggles',
           features: [
             {
-              name: featureFlagNames.myVaUseExperimental,
+              name: featureFlagNames.myVaEnableNotificationComponent,
               value: true,
             },
           ],

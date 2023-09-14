@@ -63,7 +63,7 @@ const ResponseInboxPage = ({ profile, params }) => {
         </h1>
         {`${profile.userFullName.first} ${profile.userFullName.last}`}
         <p>
-          <strong>Inqiry Number:</strong> {inquiryNumber}
+          <strong>Inquiry Number:</strong> {inquiryNumber}
         </p>
         <p>
           Status: <em>{processingStatus}</em>
@@ -73,7 +73,10 @@ const ResponseInboxPage = ({ profile, params }) => {
         <p>{question}</p>
         <br />
         <hr />
-        <Link aria-label="Go sign in" to="/contact-us/ask-va-too/introduction">
+        <Link
+          aria-label="Go to Dashboard"
+          to="/contact-us/ask-va-too/introduction"
+        >
           <VaButton onClick={() => {}} primary text="Return to Dashboard" />
         </Link>
         <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">Activity</h2>
@@ -84,7 +87,7 @@ const ResponseInboxPage = ({ profile, params }) => {
       </article>
     </div>
   ) : (
-    <VaAlert status="info" class="row vads-u-margin-y--4">
+    <VaAlert status="info" className="row vads-u-margin-y--4">
       <ServerErrorAlert />
       <Link aria-label="Go sign in" to="/contact-us/ask-va-too/introduction">
         <VaButton

@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
+import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import { sendErrorToSentry } from '../../util/helpers';
+import { updatePageTitle } from '../../../shared/util/helpers';
+import { pageTitles } from '../../util/constants';
 
 const EkgDetails = props => {
   const { record } = props;
-
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const formattedDate = formatDateLong(record?.date);
+
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    const titleDate = formattedDate ? `${formattedDate} - ` : '';
+    updatePageTitle(
+      `${titleDate}${record.name} - ${
+        pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
+      }`,
+    );
+  }, []);
 
   const generateEkgDetails = async () => {
     const pdfData = {
@@ -80,30 +101,27 @@ const EkgDetails = props => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">{record.name}</h1>
+          <h1 className="vads-u-margin-bottom--0" aria-describedby="ekg-date">
+            {record.name}
+          </h1>
           <section className="set-width-486">
             <div className="time-header">
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              <h2
+                className="vads-u-font-size--base vads-u-font-family--sans"
+                id="ekg-date"
+              >
                 Date:{' '}
+                <span className="vads-u-font-weight--normal">
+                  {formattedDate}
+                </span>
               </h2>
-              <p>{formattedDate}</p>
             </div>
             <div className="electrocardiogram-buttons no-print">
-              <PrintDownload download={download} />
-              <va-additional-info trigger="What to know about downloading records">
-                <ul>
-                  <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
-                  </li>
-                  <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
-                  </li>
-                </ul>
-              </va-additional-info>
+              <PrintDownload
+                download={download}
+                allowTxtDownloads={allowTxtDownloads}
+              />
+              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
             </div>
             <div className="electrocardiogram-details max-80">
               <h2 className="vads-u-font-size--base vads-u-font-family--sans">

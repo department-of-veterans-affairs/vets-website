@@ -14,9 +14,9 @@ const {
 const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ')
   : [];
-const ALLOW_LIST = process.env.ALLOW_LIST
-  ? JSON.parse(process.env.ALLOW_LIST)
-  : [];
+const ALLOW_LIST = JSON.parse(
+  fs.readFileSync(path.resolve(`${process.env.TEST_TYPE}_allow_list.json`)),
+);
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);

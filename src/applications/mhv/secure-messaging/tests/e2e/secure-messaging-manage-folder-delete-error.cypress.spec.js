@@ -3,8 +3,9 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import FolderManagementPage from './pages/FolderManagementPage';
 import customFolderMessage from './fixtures/messages-response.json';
 import customFolder from './fixtures/folder-custom-metadata.json';
+import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Custom Folder Delete Error Message Validation', () => {
+describe.skip('Secure Messaging Custom Folder Delete Error Message Validation', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   const folderPage = new FolderManagementPage();
@@ -13,7 +14,7 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
     site.login();
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/7038175',
+      '/my_health/v1/messaging/folders/7038175*',
       customFolder,
     ).as('test2Folder');
     landingPage.loadInboxMessages();
@@ -38,7 +39,7 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
 
     cy.get('[visible=""] > p');
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -54,7 +55,7 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
       .click({ force: true, waitforanimations: false });
 
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

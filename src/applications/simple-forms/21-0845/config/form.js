@@ -1,5 +1,5 @@
 // this form does NOT use JSON schema for its data model
-// import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import {
   getScrollOptions,
@@ -8,10 +8,11 @@ import {
 import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import manifest from '../manifest.json';
+import transformForSubmit from '../../shared/config/submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
-import { AUTHORIZER_TYPES } from '../definitions/constants';
+import { AUTHORIZER_TYPES, INFORMATION_SCOPES } from '../definitions/constants';
 // pages
 import authorizerTypePg from '../pages/authorizerType';
 import veteranPersonalInfoPg from '../pages/veteranPersonalInfo';
@@ -33,18 +34,18 @@ import authorizerAddressPg from '../pages/authorizerAddress';
 import authorizerContactInfoPg from '../pages/authorizerContactInfo';
 
 // mock-data import for local development
-// import testData from '../tests/e2e/fixtures/data/noAuthType.json';
+import testData from '../tests/e2e/fixtures/data/noAuthType.json';
 
-// const mockData = testData.data;
+const mockData = testData.data;
 
-const pageFocus = () => {
+const pageFocusScroll = () => {
   return () => {
     const { pathname } = document.location;
     let focusSelector = '';
 
     if (pathname.includes('authorizer-type')) {
       // focus on custom-h3 for authorizer-type page
-      focusSelector = '#main #root_authorizerType-label';
+      focusSelector = '#root_authorizerType-label';
     } else {
       // since useCustomScrollAndFocus is enabled at form-level,
       // this fn fires on every chapter change, so we need to
@@ -54,7 +55,10 @@ const pageFocus = () => {
 
     waitForRenderThenFocus(focusSelector);
     setTimeout(() => {
-      scrollTo(focusSelector, getScrollOptions({ offset: 100 }));
+      scrollTo(
+        focusSelector.replace(/#/gi, ''),
+        getScrollOptions({ offset: 0 }),
+      );
     }, 100);
   };
 };
@@ -63,8 +67,9 @@ const pageFocus = () => {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () => Promise.resolve({ confirmationNumber: '123123123' }),
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  // submit: () => Promise.resolve({ confirmationNumber: '123123123' }),
+  transformForSubmit,
   trackingPrefix: 'auth-disclose-0845',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -82,7 +87,7 @@ const formConfig = {
   },
   formId: '21-0845',
   dev: {
-    // showNavLinks: true,
+    showNavLinks: !window.Cypress,
   },
   saveInProgress: {
     messages: {
@@ -118,14 +123,14 @@ const formConfig = {
           title: 'Who’s submitting this authorization?',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          // initialData:
-          //   !!mockData && environment.isLocalhost() && !window.Cypress
-          //     ? mockData
-          //     : undefined,
+          initialData:
+            !!mockData && environment.isLocalhost() && !window.Cypress
+              ? mockData
+              : undefined,
           uiSchema: authorizerTypePg.uiSchema,
           schema: authorizerTypePg.schema,
           // needs form-level useCustomScrollAndFocus: true to work.
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'authorizer-type',
         },
       },
@@ -142,7 +147,7 @@ const formConfig = {
           },
           uiSchema: authorizerPersonalInfoPg.uiSchema,
           schema: authorizerPersonalInfoPg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'authorizer-personal-information',
         },
       },
@@ -158,7 +163,7 @@ const formConfig = {
           },
           uiSchema: authorizerAddressPg.uiSchema,
           schema: authorizerAddressPg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'authorizer-address',
         },
       },
@@ -174,7 +179,7 @@ const formConfig = {
           },
           uiSchema: authorizerContactInfoPg.uiSchema,
           schema: authorizerContactInfoPg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'authorizer-contact-information',
         },
       },
@@ -183,14 +188,14 @@ const formConfig = {
       title: ({ formData }) =>
         formData?.authorizerType === AUTHORIZER_TYPES.VETERAN
           ? 'Your personal information'
-          : 'Veteran’s information',
+          : 'Veteran’s personal information',
       pages: {
         vetPersInfoPage: {
           path: 'veteran-personal-information',
           title: 'Your personal information',
           uiSchema: veteranPersonalInfoPg.uiSchema,
           schema: veteranPersonalInfoPg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'veteran-personal-information',
         },
       },
@@ -203,10 +208,10 @@ const formConfig = {
       pages: {
         vetIdInfoPage: {
           path: 'veteran-identification-information',
-          title: 'Your identification information',
+          title: '',
           uiSchema: veteranIdInfoPg.uiSchema,
           schema: veteranIdInfoPg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'veteran-identification-information',
         },
       },
@@ -219,7 +224,7 @@ const formConfig = {
           title: 'Third-party type',
           uiSchema: thirdPartyTypePg.uiSchema,
           schema: thirdPartyTypePg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'disclosure-information-third-party-type',
         },
         personNamePage: {
@@ -231,7 +236,7 @@ const formConfig = {
           },
           uiSchema: personNamePg.uiSchema,
           schema: personNamePg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'disclosure-information-person-name',
         },
         personAddressPage: {
@@ -243,7 +248,7 @@ const formConfig = {
           },
           uiSchema: personAddressPg.uiSchema,
           schema: personAddressPg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'disclosure-information-person-address',
         },
         organizationNamePage: {
@@ -255,7 +260,7 @@ const formConfig = {
           },
           uiSchema: organizationNamePg.uiSchema,
           schema: organizationNamePg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'disclosure-information-organization-name',
         },
         organizationRepresentativesPage: {
@@ -267,7 +272,7 @@ const formConfig = {
           },
           uiSchema: organizationRepsPg.uiSchema,
           schema: organizationRepsPg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'disclosure-information-organization-representatives',
         },
         organizationAddressPage: {
@@ -279,7 +284,7 @@ const formConfig = {
           },
           uiSchema: organizationAddressPg.uiSchema,
           schema: organizationAddressPg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'disclosure-information-organization-address',
         },
       },
@@ -292,7 +297,7 @@ const formConfig = {
           title: 'Information scope',
           uiSchema: infoScopePg.uiSchema,
           schema: infoScopePg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'disclosure-information-scope',
         },
         limitedInformationPage: {
@@ -300,19 +305,22 @@ const formConfig = {
           path: 'disclosure-information-limited-information',
           title: 'Limited information',
           depends: {
-            informationScope: 'limited',
+            informationScope: INFORMATION_SCOPES.LIMITED,
           },
           uiSchema: limitedInfoPg.uiSchema,
           schema: limitedInfoPg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'disclosure-information-limited-information',
         },
         releaseDurationPage: {
           path: 'disclosure-information-release-duration',
           title: 'Release duration',
+          depends: {
+            informationScope: INFORMATION_SCOPES.ANY,
+          },
           uiSchema: releaseDurationPg.uiSchema,
           schema: releaseDurationPg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'disclosure-information-release-duration',
         },
         releaseEndDatePage: {
@@ -320,11 +328,12 @@ const formConfig = {
           path: 'disclosure-information-release-end-date',
           title: 'Release end date',
           depends: {
+            informationScope: INFORMATION_SCOPES.ANY,
             releaseDuration: 'untilDate',
           },
           uiSchema: releaseEndDatePg.uiSchema,
           schema: releaseEndDatePg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'disclosure-information-release-end-date',
         },
       },
@@ -340,7 +349,7 @@ const formConfig = {
           title: 'Security question',
           uiSchema: securityQuestionPg.uiSchema,
           schema: securityQuestionPg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'security-information-question',
         },
         secAnswerPage: {
@@ -348,7 +357,7 @@ const formConfig = {
           title: 'Security answer',
           uiSchema: securityAnswerPg.uiSchema,
           schema: securityAnswerPg.schema,
-          scrollAndFocusTarget: pageFocus(),
+          scrollAndFocusTarget: pageFocusScroll(),
           pageClass: 'security-information-answer',
         },
       },

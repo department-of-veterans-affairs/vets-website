@@ -45,6 +45,7 @@ describe('995 contact info loop', () => {
     cy.intercept('GET', '/v0/profile/status/*', mockTelephoneUpdateSuccess);
 
     cy.login(mockUser);
+    cy.intercept('GET', '/v0/user?*', mockUser);
     cy.intercept('GET', '/v0/profile/status', mockStatus);
     cy.intercept('GET', '/v0/maintenance_windows', []);
 
@@ -136,7 +137,6 @@ describe('995 contact info loop', () => {
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('should edit info on a new page, update & return to contact info page ', () => {
     getToContactPage();
-    cy.intercept('/v0/profile/telephones', mockTelephoneUpdateSuccess);
 
     // Contact info
 
@@ -145,9 +145,9 @@ describe('995 contact info loop', () => {
     cy.contains('Edit mobile phone number').should('be.visible');
     cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
 
-    cy.findByLabelText(/mobile phone/i)
-      .clear()
-      .type('8885551212');
+    cy.findByLabelText(/mobile phone/i).clear();
+    cy.findByLabelText(/mobile phone/i).type('8885551212');
+
     cy.findAllByText(/save/i, { selector: 'button' })
       .first()
       .click();

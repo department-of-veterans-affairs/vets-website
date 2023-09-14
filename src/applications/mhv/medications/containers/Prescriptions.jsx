@@ -24,6 +24,45 @@ const Prescriptions = () => {
   const dispatch = useDispatch();
   const [pdfList, setPdfList] = useState([]);
   const [sortOption, setSortOption] = useState('');
+  const [isAlertVisible, setAlertVisible] = useState('false');
+  const [isLoading, setLoading] = useState(true);
+
+  const topAlert = () => {
+    return (
+      <div
+        visible={isAlertVisible}
+        className="vads-l-col--12 medium-screen:vads-l-col--9 no-print"
+      >
+        {!prescriptions && (
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="warning"
+            visible={isAlertVisible}
+          >
+            <h2 slot="headline">We can’t access your medications right now</h2>
+            <div>
+              <p className="vads-u-margin-bottom--0">
+                We’re sorry. There’s a problem with our system. Check back
+                later.
+                <br />
+                If you need help now, call your VA pharmacy.
+              </p>
+            </div>
+          </va-alert>
+        )}
+        {prescriptions?.length <= 0 && (
+          <va-alert status="info" background-only>
+            <div>
+              <p className="vads-u-margin--0">
+                You don’t have any medications in your VA medical records.
+              </p>
+            </div>
+          </va-alert>
+        )}
+        <div className="vads-u-margin-bottom--4" />
+      </div>
+    );
+  };
 
   const sortRxList = useCallback(
     () => {
@@ -119,12 +158,12 @@ const Prescriptions = () => {
         setBreadcrumbs(
           [
             {
-              url: '/my-health/medications/',
+              url: '/my-health/about-medications',
               label: 'About Medications',
             },
           ],
           {
-            url: '/my-health/medications/prescriptions/',
+            url: '/my-health/medications',
             label: 'Medications',
           },
         ),
@@ -135,9 +174,18 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      dispatch(getPrescriptionsList());
+      dispatch(getPrescriptionsList()).then(() => setLoading(false));
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (!isLoading && (!prescriptions || prescriptions?.length <= 0)) {
+        setAlertVisible('true');
+      }
+    },
+    [isLoading, prescriptions],
   );
 
   useEffect(
@@ -171,29 +219,45 @@ const Prescriptions = () => {
   };
 
   const content = () => {
-    if (prescriptions) {
+    if (!isLoading) {
       return (
         <div className="landing-page">
           <PrintHeader />
-          <h1 className="page-title">Medications</h1>
-          <div className="vads-u-margin-bottom--2 no-print">
-            Review your prescription medications from VA, and providers outside
-            of our network.
+          {topAlert()}
+          <h1
+            className="page-title vads-u-margin-top--neg4"
+            data-testid="list-page-title"
+          >
+            Medications
+          </h1>
+          <div
+            className="vads-u-margin-top--1 vads-u-margin-bottom--3 no-print"
+            data-testid="Title-Notes"
+          >
+            Refill and track your VA prescriptions. And review all medications
+            in your VA medical records.
           </div>
           <div className="landing-page-content">
             <div className="no-print">
               <PrintDownload download={handleDownloadPDF} list />
-              <va-additional-info trigger="What to know about downloading records">
+              <va-additional-info trigger="What to know before you download">
                 <ul>
                   <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
+                    When you print or download medication records, we’ll include
+                    a list of allergies and reactions in your VA medical
+                    records.
                   </li>
                   <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
+                    <strong>If you’re on a public or shared computer,</strong>{' '}
+                    remember that downloading saves a copy of your records to
+                    the computer you’re using.
+                  </li>
+                  <li>
+                    <strong>
+                      If you use assistive technology like a screen reader or
+                      braille display
+                    </strong>{' '}
+                    a text file (.txt) may work better for you.
                   </li>
                 </ul>
               </va-additional-info>
@@ -208,11 +272,7 @@ const Prescriptions = () => {
             {prescriptions ? (
               <MedicationsList rxList={prescriptions} />
             ) : (
-              <va-loading-indicator
-                message="Loading..."
-                setFocus
-                data-testid="loading-indicator"
-              />
+              <MedicationsList rxList={[]} />
             )}
           </div>
         </div>
@@ -227,7 +287,7 @@ const Prescriptions = () => {
     );
   };
 
-  return <div className="vads-u-margin-top--3">{content()}</div>;
+  return <div>{content()}</div>;
 };
 
 export default Prescriptions;

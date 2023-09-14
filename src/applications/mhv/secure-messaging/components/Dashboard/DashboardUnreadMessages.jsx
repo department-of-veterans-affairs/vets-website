@@ -1,35 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { unreadCountInbox } from '../../util/helpers';
-import { Paths } from '../../util/constants';
+import { Paths, ErrorMessages } from '../../util/constants';
 
 const DashboardUnreadMessages = props => {
-  const { folders } = props;
-  const [unreadCount, setUnreadCount] = useState(null);
-
-  useEffect(
+  const { inbox } = props;
+  const unreadCountHeader = useMemo(
     () => {
-      if (folders?.length > 0) {
-        setUnreadCount(unreadCountInbox(folders));
-      }
+      return (
+        <h2 data-dd-privacy="mask" className="vads-u-font-size--h3">
+          {inbox === null && ErrorMessages.LandingPage.GET_INBOX_ERROR}
+          {inbox?.unreadCount > 0 &&
+            `${inbox.unreadCount} unread messages in your inbox`}
+        </h2>
+      );
     },
-    [folders],
+    [inbox],
   );
+
   return (
     <div className="unread-messages" data-testid="total-unread-messages">
-      {folders === undefined && (
-        <h2 className="vads-u-font-size--h3">
-          Unable to retrieve messages at this moment
-        </h2>
-      )}
-
-      {folders !== undefined &&
-        unreadCount > 0 && (
-          <h2 data-dd-privacy="mask" className="vads-u-font-size--h3">
-            {`${unreadCount} unread messages in your inbox`}
-          </h2>
-        )}
+      {unreadCountHeader}
 
       <Link
         className="vads-c-action-link--blue vads-u-margin-top--1"
@@ -43,7 +34,7 @@ const DashboardUnreadMessages = props => {
 };
 
 DashboardUnreadMessages.propTypes = {
-  folders: PropTypes.arrayOf(PropTypes.object),
+  inbox: PropTypes.object,
 };
 
 export default DashboardUnreadMessages;

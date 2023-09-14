@@ -1,4 +1,5 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 /**
  * @param {Object} nameObject {first, middle, last, suffix}
@@ -43,4 +44,25 @@ export const generatePdfScaffold = (user, title, subject, preface) => {
     subject,
     preface,
   };
+};
+
+/**
+ * Sets a page title of the document
+ * @param {String} newTitle title of the page, displayed on the browsers title bar
+ */
+export const updatePageTitle = newTitle => {
+  document.title = newTitle;
+};
+
+/**
+ * Opens the veterans Crisis modal (the modal that appears when clicking the red banner in the header
+ * (or footer on mobile) to connect to the crisis line)
+ */
+export const openCrisisModal = () => {
+  const modal = document.querySelector('#modal-crisisline');
+  modal.setAttribute(
+    'class',
+    `${modal.getAttribute('class')} va-overlay--open`,
+  );
+  focusElement(document.querySelector('a[href="tel:988"]'));
 };

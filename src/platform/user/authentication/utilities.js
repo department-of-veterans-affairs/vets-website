@@ -268,7 +268,10 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
   // Do not overwite an existing returnUrl for VERIFY attempts
-  if (!(existingReturnUrl && clickedEvent === AUTH_EVENTS.VERIFY)) {
+  if (
+    !(existingReturnUrl && clickedEvent === AUTH_EVENTS.VERIFY) &&
+    application !== CSP_IDS.MHV
+  ) {
     createAndStoreReturnUrl();
   }
 
@@ -344,11 +347,11 @@ export async function verify({
   return isLink ? url : redirect(url, `${type}-${clickedEvent}`);
 }
 
-export function logout(
+export function logout({
   version = API_VERSION,
   clickedEvent = AUTH_EVENTS.LOGOUT,
   queryParams = {},
-) {
+}) {
   clearSentryLoginType();
   return redirect(
     sessionTypeUrl({ type: POLICY_TYPES.SLO, version, queryParams }),

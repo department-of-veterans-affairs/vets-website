@@ -1,4 +1,4 @@
-export const RecordType = {
+export const recordType = {
   HEALTH_CONDITIONS: 'health conditions',
   LABS_AND_TESTS: 'lab and test results',
   CARE_SUMMARIES_AND_NOTES: 'care summaries and notes',
@@ -16,7 +16,7 @@ export const labTypes = {
   OTHER: 'other',
 };
 
-export const LoincCodes = {
+export const loincCodes = {
   // lab and test results
   MICROBIOLOGY: '79381-0',
   PATHOLOGY: '60567-5',
@@ -32,7 +32,7 @@ export const LoincCodes = {
   HEART_RATE: '8867-4',
 };
 
-export const FhirResourceTypes = {
+export const fhirResourceTypes = {
   BUNDLE: 'Bundle',
   DIAGNOSTIC_REPORT: 'DiagnosticReport',
   DOCUMENT_REFERENCE: 'DocumentReference',
@@ -95,9 +95,9 @@ export const interpretationMap = {
   WR: 'Weakly reactive',
 };
 
-export const emptyField = 'None noted';
+export const EMPTY_FIELD = 'None noted';
 
-export const testing = false;
+export const IS_TESTING = false;
 
 export const vitalTypes = {
   BLOOD_PRESSURE: 'BLOOD_PRESSURE',
@@ -115,4 +115,28 @@ export const vitalTypeDisplayNames = {
   HEIGHT: 'Height',
   TEMPERATURE: 'Temperature',
   WEIGHT: 'Weight',
+};
+
+export const ALERT_TYPE_ERROR = 'error';
+
+export const pageTitles = {
+  MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',
+  LAB_AND_TEST_RESULTS_PAGE_TITLE:
+    'Lab And Test Results - Medical Records | Veterans Affairs',
+  CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
+    'Care Summaries And Notes - Medical Records | Veterans Affairs',
+  VACCINES_PAGE_TITLE: 'Vaccines - Medical Records | Veterans Affairs',
+  ALLERGIES_PAGE_TITLE: 'Allergies - Medical Records | Veterans Affairs',
+  HEALTH_CONDITIONS_PAGE_TITLE:
+    'Health Conditions - Medical Records | Veterans Affairs',
+  VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
+  DOWNLOAD_PAGE_TITLE:
+    'Download All Medical Records - Medical Records | Veterans Affairs',
+  SETTINGS_PAGE_TITLE:
+    'Medical Records Settings - Medical Records | Veterans Affairs',
+};
+
+export const allergyTypes = {
+  OBSERVED: 'Observed (your provider observed the reaction in person)',
+  REPORTED: 'Reported (you told your provider about the reaction)',
 };

@@ -104,6 +104,7 @@ const FileField = props => {
   const attachmentIdRequired = schema.additionalItems.required
     ? schema.additionalItems.required.includes('attachmentId')
     : false;
+  const uswds = uiOptions.uswds || null;
 
   const content = {
     upload: uiOptions.buttonText || 'Upload',
@@ -415,6 +416,7 @@ const FileField = props => {
         onPrimaryButtonClick={() => closeRemoveModal({ remove: true })}
         onSecondaryButtonClick={closeRemoveModal}
         visible={showRemoveModal}
+        uswds={uswds}
       >
         <p>
           {removeIndex !== null
@@ -504,10 +506,15 @@ const FileField = props => {
               <li key={index} id={fileListId} className={itemClasses}>
                 {file.uploading && (
                   <div className="schemaform-file-uploading">
-                    <strong id={fileNameId} className="dd-privacy-hidden">
+                    <strong
+                      id={fileNameId}
+                      className="dd-privacy-hidden"
+                      data-dd-action-name="file name"
+                    >
                       {file.name}
                     </strong>
                     <br />
+                    {/* no USWDS v3 "activity progress bar" */}
                     <va-progress-bar percent={progress} />
                     <va-button
                       secondary
@@ -517,13 +524,18 @@ const FileField = props => {
                       }}
                       label={content.cancelLabel(file.name)}
                       text={content.cancel}
+                      uswds={uswds}
                     />
                   </div>
                 )}
                 {description && <p>{description}</p>}
                 {!file.uploading && (
                   <>
-                    <strong id={fileNameId} className="dd-privacy-hidden">
+                    <strong
+                      id={fileNameId}
+                      className="dd-privacy-hidden"
+                      data-dd-action-name="file name"
+                    >
                       {file.name}
                     </strong>
                     {file?.size && <div> {displayFileSize(file.size)}</div>}
@@ -585,6 +597,7 @@ const FileField = props => {
                     index={index}
                     onSubmitPassword={onSubmitPassword}
                     passwordLabel={content.passwordLabel(file.name)}
+                    uswds={uswds}
                   />
                 )}
                 {!formContext.reviewMode &&
@@ -606,6 +619,7 @@ const FileField = props => {
                                 : content.newFile
                             }
                             text={retryButtonText}
+                            uswds={uswds}
                           />
                         )}
                       <va-button
@@ -616,6 +630,7 @@ const FileField = props => {
                         }}
                         label={content.deleteLabel(file.name)}
                         text={deleteButtonText}
+                        uswds={uswds}
                       />
                     </div>
                   )}
@@ -644,6 +659,7 @@ const FileField = props => {
                   onClick={() => fileInputRef?.current?.click()}
                   label={`${uploadText} ${titleString || ''}`}
                   text={uploadText}
+                  uswds={uswds}
                 />
               </label>
             )}
