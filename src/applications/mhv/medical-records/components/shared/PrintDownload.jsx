@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const PrintDownload = props => {
-  const { download, list } = props;
+  const { download, list, allowTxtDownloads } = props;
+
   const [menuOpen, setMenuOpen] = useState(false);
+  const [printIndex, setPrintIndex] = useState(0);
 
   let toggleMenuButtonClasses =
     'toggle-menu-button vads-u-justify-content--space-between';
@@ -18,8 +20,28 @@ const PrintDownload = props => {
       'fas fa-angle-up vads-u-color--primary vads-u-margin-left--0p5';
   }
 
+  const handleUserKeyPress = e => {
+    // 13=Enter 40=DownArrow 38=UpArrow 27=Escape 9=Tab 32=Spacebar
+
+    if (printIndex > 0 && e.keyCode === 38) {
+      e.preventDefault();
+      document.getElementById(`printButton-${printIndex - 1}`).focus();
+      setPrintIndex(printIndex - 1);
+    } else if (printIndex < 1 && e.keyCode === 40) {
+      e.preventDefault();
+      document.getElementById(`printButton-${printIndex + 1}`).focus();
+      setPrintIndex(printIndex + 1);
+    } else if (e.keyCode === 27) {
+      setMenuOpen(false);
+    }
+  };
+
   return (
-    <div className="print-download vads-u-margin-y--2 no-print">
+    <div
+      className="print-download vads-u-margin-y--2 no-print"
+      role="none"
+      onKeyDown={handleUserKeyPress}
+    >
       <button
         type="button"
         className={toggleMenuButtonClasses}
@@ -32,22 +54,24 @@ const PrintDownload = props => {
       </button>
       <ul className={menuOptionsClasses}>
         <li>
-          <button type="button" onClick={window.print}>
+          <button type="button" onClick={window.print} id="printButton-0">
             Print {list && 'list'}
           </button>
         </li>
         <li>
-          <button type="button" onClick={download}>
+          <button type="button" onClick={download} id="printButton-1">
             Download {list && 'list '}
             as PDF
           </button>
         </li>
-        <li>
-          <button type="button">
-            Download {list && 'list '}
-            as a text file
-          </button>
-        </li>
+        {allowTxtDownloads && (
+          <li>
+            <button type="button" id="printButton-2">
+              Download {list && 'list '}
+              as a text file
+            </button>
+          </li>
+        )}
       </ul>
     </div>
   );

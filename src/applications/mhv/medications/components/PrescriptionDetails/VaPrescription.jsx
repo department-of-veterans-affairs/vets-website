@@ -1,11 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { validateField } from '../../util/helpers';
+import { validateField, getImageUri } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
+import StatusDropdown from '../shared/StatusDropdown';
 
 const VaPrescription = prescription => {
-  const refillHistory = prescription?.rxRfRecords?.[0]?.[1];
+  const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
+  refillHistory.push({
+    dispensedDate: prescription?.dispensedDate,
+    cmopNdcNumber: prescription?.cmopNdcNumber,
+    id: prescription?.prescriptionId,
+  });
+
   const shippedOn = prescription?.trackingList?.[0]?.[1];
   const content = () => {
     if (prescription) {
@@ -24,43 +31,26 @@ const VaPrescription = prescription => {
             </h2>
             <FillRefillButton {...prescription} />
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Prescription number
-            </h3>
-            <p data-testid="prescription-number">
-              {validateField(prescription.prescriptionNumber)}
-            </p>
-
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Status
             </h3>
-            <div data-testid="status">
-              {prescription.refillStatus === 'refillinprocess'
-                ? 'Refill in process'
-                : validateField(
-                    refillStatus?.charAt(0).toUpperCase() +
-                      refillStatus?.slice(1),
-                  )}
-            </div>
-            <div className="no-print">
-              <va-additional-info trigger="What does this status mean?">
-                <ul>
-                  <li>
-                    An active medication is a prescription still in use and
-                    available for refill.
-                  </li>
-                  <li>
-                    An inactive medication is a past prescription that should no
-                    longer be refilled without first talking with your care
-                    provider.
-                  </li>
-                </ul>
-              </va-additional-info>
-            </div>
+            <StatusDropdown status={refillStatus} />
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Refills left
             </h3>
             <p data-testid="refills-left">
               {validateField(prescription.refillRemaining)}
+            </p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Order refills by this prescription expiration date
+            </h3>
+            <p data-testid="expiration-date">
+              {validateField(prescription.expirationDate, 'date')}
+            </p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Prescription number
+            </h3>
+            <p data-testid="prescription-number">
+              {prescription.prescriptionNumber}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed on
@@ -69,27 +59,23 @@ const VaPrescription = prescription => {
               {validateField(prescription.orderedDate, 'date')}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Order refills by this expiration date
-            </h3>
-            <p data-testid="expiration-date">
-              {validateField(prescription.expirationDate, 'date')}
-            </p>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed by
             </h3>
             <p>
-              {validateField(
-                `${prescription.providerLastName}, ${
-                  prescription.providerFirstName
-                }`,
-              )}
+              {prescription?.providerFirstName && prescription?.providerLastName
+                ? validateField(
+                    `${prescription.providerLastName}, ${
+                      prescription.providerFirstName
+                    }`,
+                  )
+                : 'None noted'}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
             </h3>
             <p data-testid="facility-name">{prescription.facilityName}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Phone number
+              Pharmacy phone number
             </h3>
             <div className="no-print">
               {prescription?.phoneNumber ? (
@@ -114,7 +100,7 @@ const VaPrescription = prescription => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Reason for use
             </h3>
-            <p>{validateField(prescription?.reason)}</p>
+            <p>{validateField(prescription?.indicationForUse)}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Quantity
             </h3>
@@ -128,45 +114,58 @@ const VaPrescription = prescription => {
             </p>
           </div>
 
-          <div className="medication-details-div vads-u-margin-bottom--8">
+          <div className="medication-details-div">
             <h2 className="vads-u-margin-top--3">Refill history</h2>
-            {refillHistory && refillHistory.length > 0 ? (
-              refillHistory.map((entry, i) => (
-                <div key={entry.id}>
-                  <h3 className="vads-u-font-size--lg vads-u-font-family--sans">
-                    {i + 1 === refillHistory.length
-                      ? 'Original Fill'
-                      : `Refill #${refillHistory.length - i - 1}`}
-                  </h3>
-                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
-                    Filled by pharmacy on
-                  </h4>
-                  <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {validateField(entry.dispensedDate, 'date')}
-                  </p>
-                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
-                    Shipped on
-                  </h4>
-                  <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {validateField(shippedOn?.[i]?.completeDateTime, 'date')}
-                  </p>
-                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
-                    Description of the medication or supply
-                  </h4>
-                  <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                    {/* TODO: Not yet available */}
-                    None noted
-                  </p>
-                  <div className="no-print">
-                    <va-additional-info trigger="Review image">
-                      <p>This is where the image goes</p>
-                    </va-additional-info>
-                  </div>
+            {refillHistory.map((entry, i) => (
+              <div
+                key={entry.id}
+                className={
+                  i + 1 < refillHistory.length ? 'vads-u-margin-bottom--3' : ''
+                }
+              >
+                <h3 className="vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2">
+                  {i + 1 === refillHistory.length
+                    ? 'Original Fill'
+                    : `Refill ${refillHistory.length - i - 1}`}
+                </h3>
+                <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
+                  Filled by pharmacy on
+                </h4>
+                <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                  {validateField(entry.dispensedDate, 'date')}
+                </p>
+                <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
+                  Shipped on
+                </h4>
+                <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                  {validateField(shippedOn?.[i]?.completeDateTime, 'date')}
+                </p>
+                <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
+                  Description of the medication or supply
+                </h4>
+                <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                  {/* TODO: Not yet available */}
+                  None noted
+                </p>
+                <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
+                  Image of the medication or supply
+                </h4>
+                <div className="no-print">
+                  <va-additional-info trigger="Review image">
+                    {entry.cmopNdcNumber ? (
+                      <img
+                        src={getImageUri(entry.cmopNdcNumber)}
+                        alt="Not Available"
+                        width="350"
+                        height="350"
+                      />
+                    ) : (
+                      <p>(Image not available)</p>
+                    )}
+                  </va-additional-info>
                 </div>
-              ))
-            ) : (
-              <p>No recorded history for this medication.</p>
-            )}
+              </div>
+            ))}
           </div>
         </>
       );

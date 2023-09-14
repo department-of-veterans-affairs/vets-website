@@ -1,5 +1,6 @@
 import set from 'lodash/set';
 import has from 'lodash/has';
+import { createSelector } from 'reselect';
 
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
@@ -11,6 +12,7 @@ import {
   isSignedUpForEDUDirectDeposit,
 } from './util';
 import { createNotListedTextKey } from './util/personal-information/personalInformationUtils';
+import { PROFILE_TOGGLES } from './constants';
 
 export const cnpDirectDepositInformation = state =>
   state.vaProfile?.cnpPaymentInformation;
@@ -123,6 +125,19 @@ export const profileUseLighthouseDirectDepositEndpoint = state =>
 export const togglesAreLoaded = state => {
   return !toggleValues(state)?.loading;
 };
+
+export const selectProfileToggles = createSelector(toggleValues, values => {
+  const { loading } = values;
+
+  return Object.keys(PROFILE_TOGGLES).reduce(
+    (acc, toggle) => {
+      const key = FEATURE_FLAG_NAMES[toggle];
+      acc[toggle] = values[key];
+      return acc;
+    },
+    { loading, ...PROFILE_TOGGLES },
+  );
+});
 
 export function selectVAProfilePersonalInformation(state, fieldName) {
   const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];

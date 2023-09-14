@@ -23,3 +23,6 @@ export const transitionMHVAccount = state =>
 
 export const signInServiceEnabled = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.signInServiceEnabled];
+
+export const termsOfUseEnabled = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.termsOfUse];

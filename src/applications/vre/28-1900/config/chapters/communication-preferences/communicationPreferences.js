@@ -62,7 +62,7 @@ export const uiSchema = {
   },
   appointmentTimePreferences: {
     'ui:title': (
-      <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-display--inline-block vads-u-font-weight--normal vads-u-color--base vads-u-font-family--sans vads-u-font-size--base">
+      <p className="vads-u-margin--0 vads-u-margin-top-neg2 vads-u-display--inline-block vads-u-font-weight--normal vads-u-color--base vads-u-font-family--sans vads-u-font-size--base">
         When are the best times to meet with your counselor?{' '}
         <span className="schemaform-required-span vads-u-display--block">
           (*Choose at least 1)
@@ -71,8 +71,6 @@ export const uiSchema = {
     ),
     'ui:validations': [validateAtLeastOneSelected],
     'ui:options': {
-      // this needed because ObjectField adds the schemaform-block class to this, which creates a huge top margin.
-      classNames: 'vads-u-margin-top--neg2',
       showFieldLabel: true,
       forceDivWrapper: true,
     },
