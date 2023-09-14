@@ -11,9 +11,10 @@ export default function UserFormComponent() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    const newValue = name === 'dob' ? new Date(value) : value;
     setState(prevState => ({
       ...prevState,
-      [name]: value,
+      [name]: newValue,
     }));
   };
 
