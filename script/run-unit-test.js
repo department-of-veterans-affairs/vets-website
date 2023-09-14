@@ -8,8 +8,6 @@ const { runCommand } = require('./utils');
 const specDirs = '{src,script}';
 const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
 
-const isStressTest = Boolean(process.env.IS_STRESS_TEST);
-
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'log-level', type: String, defaultValue: 'log' },
   { name: 'app-folder', type: String, defaultValue: null },
@@ -63,7 +61,6 @@ const coverageReporter = options['coverage-html']
 const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = options.config ? options.config : 'config/mocha.json';
-const runTestsInLoopUpTo = isStressTest ? 10 : 1;
 
 const command = `LOG_LEVEL=${options[
   'log-level'
@@ -71,6 +68,4 @@ const command = `LOG_LEVEL=${options[
   .map(p => `'${p}'`)
   .join(' ')}`;
 
-for (let i = 0; i < runTestsInLoopUpTo; i += 1) {
-  runCommand(command);
-}
+runCommand(command);
