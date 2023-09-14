@@ -1,11 +1,5 @@
 import React from 'react';
-
-interface UserInterface {
-  name: string;
-  age: number;
-  address: string;
-  dob?: Date;
-}
+import UserInterface from '../interfaces/UserInterface';
 
 const UserComponent: React.FC<UserInterface> = props => {
   return (

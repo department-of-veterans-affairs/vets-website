@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import FooterComponent from '../components/FooterComponent';
 import UserComponent from '../components/UserComponent';
+import UserFormComponent from '../components/UserFormComponent';
 
 interface AppProps {
   children: ReactNode;
@@ -16,6 +17,7 @@ export default function TypescriptApp({ children }: AppProps) {
         address="87 Summer St, Boston, MA 02110"
         dob={new Date(1997, 4, 3)}
       />
+      <UserFormComponent />
       <FooterComponent />
       {children}
     </main>
