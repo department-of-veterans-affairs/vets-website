@@ -187,7 +187,10 @@ function organizeAppointmentsByYearMonthDay(appointments) {
   ];
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  for (const appointment of appointments) {
+  // First sort the appointments by start time then organize them by yearmonth and day
+  const sortedAppointments = sortAppointmentsByStartTime(appointments);
+
+  for (const appointment of sortedAppointments) {
     const dateObj = new Date(appointment.startTime);
     const monthYearKey = `${dateObj.getFullYear()}-${
       months[dateObj.getMonth()]
@@ -203,10 +206,6 @@ function organizeAppointmentsByYearMonthDay(appointments) {
     }
 
     organizedData[monthYearKey][dayKey].push(appointment);
-
-    organizedData[monthYearKey][dayKey].sort((a, b) => {
-      return new Date(a.startTime) - new Date(b.startTime);
-    });
   }
 
   return organizedData;
