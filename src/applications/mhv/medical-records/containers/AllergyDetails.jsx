@@ -5,11 +5,13 @@ import { useParams } from 'react-router-dom';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import ItemList from '../components/shared/ItemList';
 import { getAllergyDetails } from '../actions/allergies';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { processList, sendErrorToSentry } from '../util/helpers';
 import { ALERT_TYPE_ERROR, EMPTY_FIELD, pageTitles } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
@@ -21,6 +23,12 @@ import {
 const AllergyDetails = () => {
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
   const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const { allergyId } = useParams();
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.mr.alerts?.alertList);
@@ -33,23 +41,20 @@ const AllergyDetails = () => {
     [allergyId, dispatch],
   );
 
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs([
+        {
+          url: '/my-health/medical-records/allergies',
+          label: 'Allergies',
+        },
+      ]),
+    );
+  }, []);
+
   useEffect(
     () => {
       if (allergy) {
-        dispatch(
-          setBreadcrumbs(
-            [
-              {
-                url: '/my-health/medical-records/allergies',
-                label: 'Allergies',
-              },
-            ],
-            {
-              url: `/my-health/medical-records/allergies/${allergyId}`,
-              label: allergy.name,
-            },
-          ),
-        );
         focusElement(document.querySelector('h1'));
         const titleDate = allergy.date ? `${allergy.date} - ` : '';
         updatePageTitle(
@@ -146,64 +151,50 @@ const AllergyDetails = () => {
           >
             Allergy: <span data-dd-privacy="mask">{allergy.name}</span>
           </h1>
-          <section>
-            <div className="condition-subheader vads-u-margin-bottom--3">
-              <div className="time-header">
-                <h2
-                  className="vads-u-font-size--base vads-u-font-family--sans"
-                  id="allergy-date"
-                >
-                  Date entered:{' '}
-                  <span
-                    className="vads-u-font-weight--normal"
-                    data-dd-privacy="mask"
-                  >
-                    {allergy.date}
-                  </span>
-                </h2>
-              </div>
-              <PrintDownload list download={generateAllergyPdf} />
-              <va-additional-info
-                trigger="What to know about downloading records"
-                class="no-print"
+          <div className="condition-subheader vads-u-margin-bottom--4">
+            <div className="time-header">
+              <h2
+                className="vads-u-font-size--base vads-u-font-family--sans"
+                id="allergy-date"
               >
-                <ul>
-                  <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
-                  </li>
-                  <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
-                  </li>
-                </ul>
-              </va-additional-info>
+                Date entered:{' '}
+                <span
+                  className="vads-u-font-weight--normal"
+                  data-dd-privacy="mask"
+                >
+                  {allergy.date}
+                </span>
+              </h2>
             </div>
-            <div className="condition-details max-80">
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Reaction
-              </h2>
-              <ItemList list={allergy.reaction} />
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Type of allergy
-              </h2>
-              <p data-dd-privacy="mask">{allergy.type || 'None noted'}</p>
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Location
-              </h2>
-              <p data-dd-privacy="mask">{allergy.location || 'None noted'}</p>
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Observed or reported
-              </h2>
-              <p data-dd-privacy="mask">{allergy.observedOrReported}</p>
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Provider notes
-              </h2>
-              <p data-dd-privacy="mask">{allergy.notes}</p>
-            </div>
-          </section>
+            <PrintDownload
+              list
+              download={generateAllergyPdf}
+              allowTxtDownloads={allowTxtDownloads}
+            />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          </div>
+          <div className="condition-details max-80">
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Reaction
+            </h2>
+            <ItemList list={allergy.reaction} />
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Type of allergy
+            </h2>
+            <p data-dd-privacy="mask">{allergy.type || 'None noted'}</p>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Location
+            </h2>
+            <p data-dd-privacy="mask">{allergy.location || 'None noted'}</p>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Observed or reported
+            </h2>
+            <p data-dd-privacy="mask">{allergy.observedOrReported}</p>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Provider notes
+            </h2>
+            <p data-dd-privacy="mask">{allergy.notes}</p>
+          </div>
         </>
       );
     }
