@@ -1,4 +1,4 @@
-teFolderimport SecureMessagingSite from './sm_site/SecureMessagingSite';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import FolderManagementPage from './pages/FolderManagementPage';
 import MockFoldersResponse from './fixtures/folder-response.json';
