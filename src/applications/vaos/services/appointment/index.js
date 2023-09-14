@@ -878,9 +878,9 @@ export function getLink({
           appointment.id
         }`;
   }
-  return `${
-    featureStatusImprovement && isPastAppointment ? 'past' : 'upcoming'
-  }/${appointment.id}`;
+  return `${featureStatusImprovement && isPastAppointment ? 'past' : ''}/${
+    appointment.id
+  }`;
 }
 
 export function getPractitionerName(appointment) {
