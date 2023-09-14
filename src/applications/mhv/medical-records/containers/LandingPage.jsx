@@ -5,7 +5,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import { updatePageTitle } from '../../shared/util/helpers';
+import { openCrisisModal, updatePageTitle } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
 
 const LandingPage = () => {
@@ -44,7 +44,8 @@ const LandingPage = () => {
               </h2>
               <p className="vads-u-margin-bottom--2">
                 Get a list of all allergies, reactions, and side effects in your
-                VA medical records.
+                VA medical records. This includes allergies and reactions to
+                medications.
               </p>
               <a
                 className="vads-c-action-link--green"
@@ -72,7 +73,6 @@ const LandingPage = () => {
                     isAuthenticatedWithSSOe(fullState),
                     'download-my-data',
                   )}
-                  target="_blank"
                   rel="noreferrer"
                 >
                   Go back to medical records on the My HealtheVet website
@@ -111,7 +111,6 @@ const LandingPage = () => {
                     isAuthenticatedWithSSOe(fullState),
                     'download-my-data',
                   )}
-                  target="_blank"
                   rel="noreferrer"
                 >
                   Go back to medical records on the My HealtheVet website
@@ -271,7 +270,6 @@ const LandingPage = () => {
                         isAuthenticatedWithSSOe(fullState),
                         'download-my-data',
                       )}
-                      target="_blank"
                       rel="noreferrer"
                     >
                       Go to VA Blue Button on the My HealtheVet website
@@ -298,7 +296,6 @@ const LandingPage = () => {
                         isAuthenticatedWithSSOe(fullState),
                         'secure-messaging',
                       )}
-                      target="_blank"
                       rel="noreferrer"
                     >
                       Compose a message on the My HealtheVet website
@@ -363,11 +360,12 @@ const LandingPage = () => {
                       </span>{' '}
                       connect with our Veterans Crisis Line. We offer
                       confidential support anytime, day or night.
-                      <p
-                        className="va-overlay-trigger vads-u-text-decoration--underline vads-u-color--link-default vads-u-margin-x--0p5"
-                        data-show="#modal-crisisline"
-                      >
-                        Connect with the Veterans Crisis Line
+                      <p className="vads-u-margin-bottom--2">
+                        <va-button
+                          secondary="true"
+                          text="Connect with the Veterans Crisis Line"
+                          onClick={openCrisisModal}
+                        />
                       </p>
                     </li>
                     <li>
@@ -414,7 +412,6 @@ const LandingPage = () => {
                     isAuthenticatedWithSSOe(fullState),
                     'download-my-data',
                   )}
-                  target="_blank"
                   rel="noreferrer"
                 >
                   Go back to medical records on the My HealtheVet website
@@ -445,7 +442,6 @@ const LandingPage = () => {
                     isAuthenticatedWithSSOe(fullState),
                     'download-my-data',
                   )}
-                  target="_blank"
                   rel="noreferrer"
                 >
                   Go back to your medications on the My HealtheVet website
@@ -463,7 +459,6 @@ const LandingPage = () => {
                     isAuthenticatedWithSSOe(fullState),
                     'download-my-data',
                   )}
-                  target="_blank"
                   rel="noreferrer"
                 >
                   Go to VA Blue Button on the My HealtheVet website
@@ -499,7 +494,6 @@ const LandingPage = () => {
                     isAuthenticatedWithSSOe(fullState),
                     'secure-messaging',
                   )}
-                  target="_blank"
                   rel="noreferrer"
                 >
                   Compose a message
