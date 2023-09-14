@@ -30,7 +30,7 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
   const [inputValue, setInputValue] = useState(initialValue);
 
   const validateNumber = value => {
-    const pattern = /^\d+$/;
+    const pattern = /^\d+[.]\d{0,2}$/;
     if (!pattern.test(value)) {
       return false;
     }
