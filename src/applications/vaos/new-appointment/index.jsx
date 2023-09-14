@@ -83,13 +83,13 @@ export function NewAppointment() {
           <Route path={`${match.url}/choose-visit-type`}>
             <TypeOfVisitPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route path={`${match.url}/choose-sleep-care`}>
+          <Route path={`${match.url}/sleep-care`}>
             <TypeOfSleepCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route path={`${match.url}/choose-eye-care`}>
+          <Route path={`${match.url}/eye-care`}>
             <TypeOfEyeCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route path={`${match.url}/audiology`}>
+          <Route path={`${match.url}/audiology-care`}>
             <TypeOfAudiologyCarePage
               changeCrumb={newTitle => setCrumb(newTitle)}
             />

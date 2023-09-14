@@ -319,7 +319,7 @@ export default function getNewAppointmentFlow(state) {
     audiologyCareType: {
       ...flow.audiologyCareType,
       url: featureBreadcrumbUrlUpdate
-        ? 'audiology'
+        ? 'audiology-care'
         : '/new-appointment/audiology',
     },
     ccClosestCity: {
@@ -391,7 +391,7 @@ export default function getNewAppointmentFlow(state) {
     typeOfEyeCare: {
       ...flow.typeOfEyeCare,
       url: featureBreadcrumbUrlUpdate
-        ? 'choose-eye-care'
+        ? 'eye-care'
         : '/new-appointment/choose-eye-care',
     },
     typeOfFacility: {
@@ -403,7 +403,7 @@ export default function getNewAppointmentFlow(state) {
     typeOfSleepCare: {
       ...flow.typeOfSleepCare,
       url: featureBreadcrumbUrlUpdate
-        ? 'choose-sleep-care'
+        ? 'sleep-care'
         : '/new-appointment/choose-sleep-care',
     },
     vaccineFlow: {
