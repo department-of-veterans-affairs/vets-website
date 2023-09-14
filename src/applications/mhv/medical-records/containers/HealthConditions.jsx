@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getConditionsList } from '../actions/conditions';
@@ -16,6 +17,12 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 const HealthConditions = () => {
   const fullState = useSelector(state => state);
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   // const conditions = []; // used to test use cases with no vitals on record
   const dispatch = useDispatch();
   useEffect(() => {
@@ -196,7 +203,11 @@ const HealthConditions = () => {
             </li>
           </ul>
         </va-additional-info>
-        <PrintDownload list download={download} />
+        <PrintDownload
+          list
+          download={download}
+          allowTxtDownloads={allowTxtDownloads}
+        />
       </section>
       {content()}
     </div>

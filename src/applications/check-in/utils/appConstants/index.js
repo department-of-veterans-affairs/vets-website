@@ -242,6 +242,11 @@ const travelAllowList = {
   '693GA': {},
   '693GB': {},
   '693': {},
+  '693GC': {},
+  '693GG': {},
+  '693QA': {},
+  '693GF': {},
+  '693QB': {},
 };
 
 const isInAllowList = appointment => {

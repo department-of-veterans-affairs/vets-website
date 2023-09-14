@@ -26,3 +26,9 @@ export const signInServiceEnabled = state =>
 
 export const signInPageAndModalExperimentLga = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.signInPageAndModalExperimentLga];
+
+export const termsOfUseEnabled = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.termsOfUse];
+
+export const signInPageAndModalExperimentLga = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.signInPageAndModalExperimentLga];
