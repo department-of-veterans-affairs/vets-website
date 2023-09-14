@@ -361,12 +361,11 @@ const LandingPage = () => {
                       connect with our Veterans Crisis Line. We offer
                       confidential support anytime, day or night.
                       <p className="vads-u-margin-bottom--2">
-                        <button
-                          className="va-button-link"
+                        <va-button
+                          secondary="true"
+                          text="Connect with the Veterans Crisis Line"
                           onClick={openCrisisModal}
-                        >
-                          Connect with the Veterans Crisis Line
-                        </button>
+                        />
                       </p>
                     </li>
                     <li>
