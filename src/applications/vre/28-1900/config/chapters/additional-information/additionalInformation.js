@@ -25,7 +25,7 @@ export const schema = {
 export const uiSchema = {
   'ui:title': 'Additional Information',
   yearsOfEducation: {
-    'ui:title': 'What’s your level of education?',
+    'ui:title': 'What’s your highest level of education?',
     'ui:required': () => true,
   },
   isMoving: {
