@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -21,6 +22,12 @@ const Vaccines = () => {
   const dispatch = useDispatch();
   const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
   const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
 
@@ -121,7 +128,11 @@ const Vaccines = () => {
           about your information, visit the FAQs or contact your VA Health care
           team.
         </p>
-        <PrintDownload list download={generateVaccinesPdf} />
+        <PrintDownload
+          list
+          download={generateVaccinesPdf}
+          allowTxtDownloads={allowTxtDownloads}
+        />
       </section>
       {content()}
     </div>
