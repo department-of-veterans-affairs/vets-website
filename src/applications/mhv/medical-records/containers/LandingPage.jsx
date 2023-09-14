@@ -292,10 +292,7 @@ const LandingPage = () => {
                   </p>
                   <p className="vads-u-margin-bottom--2">
                     <a
-                      href={mhvUrl(
-                        isAuthenticatedWithSSOe(fullState),
-                        'secure-messaging',
-                      )}
+                      href="http://www.mhv-syst.myhealth.va.gov/mhv-portal-web/compose-message"
                       rel="noreferrer"
                     >
                       Compose a message on the My HealtheVet website
@@ -382,11 +379,15 @@ const LandingPage = () => {
                     </span>
                   </p>
                   <p className="vads-u-margin-bottom--2">
-                    Call the My HealtheVet help desk at{' '}
+                    Email us at{' '}
+                    <a href="mailto: vamhvfeedback@va.gov">
+                      vamhvfeedback@va.gov
+                    </a>
+                    {/* Call the My HealtheVet help desk at{' '}
                     <va-telephone contact="8773270022" /> (
                     <va-telephone contact="8008778339" tty />
                     ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
-                    ET.
+                    ET. */}
                   </p>
                 </va-accordion-item>
 
