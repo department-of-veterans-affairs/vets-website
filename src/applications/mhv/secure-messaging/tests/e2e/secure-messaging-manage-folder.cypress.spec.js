@@ -50,11 +50,8 @@ describe('Secure Messaging Manage Folder AXE check', () => {
       MockCustomFolderResponse,
       mockCustomFolderNoMessages,
     );
-    cy.get('[data-testid="remove-folder-button"]').click();
-    cy.get('[text="Yes, remove this folder"]')
-      .shadow()
-      .find('[type="button"]')
-      .click();
+    folderPage.verifyDeleteFolderSuccess();
+
     folderPage.verifyDeleteSuccessMessage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
