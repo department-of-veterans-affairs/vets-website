@@ -1,15 +1,15 @@
 {
   "data": [
     {
-      "id": "694463",
+      "id": "721633",
       "type": "message_thread_details",
       "attributes": {
-        "messageId": 694463,
-        "category": "OTHER",
-        "subject": "General Inquiry  Added",
-        "body": "test1234556666666777777888",
+        "messageId": 721633,
+        "category": "APPOINTMENTS",
+        "subject": "COVID",
+        "body": "Save draft ",
         "attachment": null,
-        "sentDate": "2017-05-04T19:32:08.000Z",
+        "sentDate": "2017-08-11T14:55:55.000Z",
         "senderId": 674887,
         "senderName": "YARRAGOVULA, SAMATHA ",
         "recipientId": 406227,
@@ -17,27 +17,27 @@
         "readReceipt": "READ",
         "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
         "proxySenderName": null,
-        "threadId": 693563,
-        "folderId": 2664194,
-        "messageBody": "test1234556666666777777888",
+        "threadId": 690952,
+        "folderId": 508804,
+        "messageBody": "Save draft ",
         "draftDate": null,
         "toDate": null,
-        "hasAttachments": false
+        "hasAttachments": true
       },
       "links": {
-        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/694463"
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/721633"
       }
     },
     {
-      "id": "693564",
+      "id": "690953",
       "type": "message_thread_details",
       "attributes": {
-        "messageId": 693564,
-        "category": "OTHER",
-        "subject": "General Inquiry  Added",
-        "body": "soeifjsfskfsjkef  -Added Too",
+        "messageId": 690953,
+        "category": "APPOINTMENTS",
+        "subject": "COVID",
+        "body": "hello,2",
         "attachment": null,
-        "sentDate": "2017-04-25T20:20:04.000Z",
+        "sentDate": "2017-04-13T18:19:43.000Z",
         "senderId": 406227,
         "senderName": "MHVTP, SAFARI ",
         "recipientId": 508642,
@@ -45,15 +45,15 @@
         "readReceipt": "READ",
         "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
         "proxySenderName": null,
-        "threadId": 693563,
+        "threadId": 690952,
         "folderId": -1,
-        "messageBody": "soeifjsfskfsjkef  -Added Too",
+        "messageBody": "hello,2",
         "draftDate": null,
         "toDate": null,
         "hasAttachments": false
       },
       "links": {
-        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/693564"
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/690953"
       }
     }
   ]
