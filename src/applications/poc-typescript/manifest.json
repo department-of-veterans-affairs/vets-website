@@ -1,0 +1,7 @@
+{
+  "appName": "Proof of Concept Typescript",
+  "entryFile": "./typescript-app-entry.jsx",
+  "entryName": "poc-ts",
+  "rootUrl": "/poc-ts",
+  "productId": "7d62095c-5fe0-41e5-b093-39c2b1e5953d"
+}
