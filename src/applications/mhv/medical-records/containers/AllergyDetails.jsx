@@ -41,22 +41,19 @@ const AllergyDetails = () => {
     [allergyId, dispatch],
   );
 
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs([
+        {
+          url: '/my-health/medical-records/allergies',
+          label: 'Allergies',
+        },
+      ]),
+    );
+  }, []);
+
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs(
-          [
-            {
-              url: '/my-health/medical-records/allergies',
-              label: 'Allergies',
-            },
-          ],
-          {
-            url: `/my-health/medical-records/allergies/${allergyId}`,
-            label: allergy ? allergy.name : 'Allergy',
-          },
-        ),
-      );
       if (allergy) {
         focusElement(document.querySelector('h1'));
         const titleDate = allergy.date ? `${allergy.date} - ` : '';
