@@ -211,12 +211,8 @@ const AllergyDetails = () => {
   };
 
   return (
-    <div className="vads-u-padding-x--0 vads-u-margin-bottom--5">
-      <div className="vads-l-row">
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {content()}
-        </div>
-      </div>
+    <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--5">
+      {content()}
     </div>
   );
 };
