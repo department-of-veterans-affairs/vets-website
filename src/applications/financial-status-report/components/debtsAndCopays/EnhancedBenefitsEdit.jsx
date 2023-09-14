@@ -7,7 +7,7 @@ import ButtonGroup from '../shared/ButtonGroup';
 
 export const ERROR_MESSAGES = {
   EMPTY_VALUE: 'Please enter amount received last month',
-  INVALID_VALUE: 'Please enter only numerical values',
+  INVALID_VALUE: 'Please enter a valid dollar amount',
 };
 export const RETURN_PATH = '/your-benefits';
 
@@ -31,10 +31,7 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
 
   const validateNumber = value => {
     const pattern = /^\d+[.]\d{0,2}$/;
-    if (!pattern.test(value)) {
-      return false;
-    }
-    return true;
+    return pattern.test(value);
   };
 
   const handleChange = event => {
