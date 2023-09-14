@@ -1,4 +1,4 @@
-import SecureMessagingSite from './sm_site/SecureMessagingSite';
+teFolderimport SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import FolderManagementPage from './pages/FolderManagementPage';
 import MockFoldersResponse from './fixtures/folder-response.json';
@@ -50,7 +50,7 @@ describe('Secure Messaging Manage Folder AXE check', () => {
       MockCustomFolderResponse,
       mockCustomFolderNoMessages,
     );
-    folderPage.verifyDeleteFolderSuccess();
+    folderPage.deleteFolder();
 
     folderPage.verifyDeleteSuccessMessage();
     cy.injectAxe();
