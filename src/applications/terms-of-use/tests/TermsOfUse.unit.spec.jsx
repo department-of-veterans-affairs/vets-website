@@ -6,13 +6,8 @@ import { expect } from 'chai';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import TermsOfUse, { parseRedirectUrl } from '../containers/TermsOfUse';
 
-const store = ({ isLoggedIn = false, termsOfUseEnabled = true } = {}) => ({
+const store = ({ termsOfUseEnabled = true } = {}) => ({
   getState: () => ({
-    user: {
-      login: {
-        currentlyLoggedIn: isLoggedIn,
-      },
-    },
     featureToggles: {
       // eslint-disable-next-line camelcase
       terms_of_use: termsOfUseEnabled,
@@ -37,7 +32,7 @@ describe('TermsOfUse', () => {
     expect($('va-accordion', container)).to.exist;
     expect($('va-alert', container)).to.exist;
   });
-  it('should display content if not signed in', () => {
+  it('should display content regardless of loggedIn state', () => {
     const mockStore = store();
     const { container } = render(
       <Provider store={mockStore}>
@@ -47,7 +42,7 @@ describe('TermsOfUse', () => {
     expect($$('va-button', container).length).to.eql(2);
   });
   it('should NOT display Accept or Decline buttons termsOfUse Flipper is disabled', () => {
-    const mockStore = store({ isLoggedIn: true, termsOfUseEnabled: false });
+    const mockStore = store({ termsOfUseEnabled: false });
     const { container } = render(
       <Provider store={mockStore}>
         <TermsOfUse />
