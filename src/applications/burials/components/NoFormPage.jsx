@@ -173,15 +173,12 @@ const generateData = (type, formData) => {
         },
         'Document upload': {
           'Veterans death certificate':
-            formData?.transportationReceipts?.length > 0
-              ? formData?.transportationReceipts?.slice(0, 1)
+            formData?.deathCertificate?.length > 0
+              ? formData?.deathCertificate
               : '',
           'Documentation for transportation of the Veteran’s remains or other supporting evidence':
             formData?.transportationReceipts?.length > 0
-              ? formData?.transportationReceipts?.slice(
-                  1,
-                  formData?.transportationReceipts?.length,
-                )
+              ? formData?.transportationReceipts
               : '',
         },
       };
