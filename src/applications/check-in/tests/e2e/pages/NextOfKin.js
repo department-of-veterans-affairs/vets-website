@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/use-workspace-imports */
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 class NextOfKin {
@@ -49,6 +50,11 @@ class NextOfKin {
 
   validateAdditionalInfo = {
     dayOf: () => {
+      cy.get('div[data-testid="additional-info"] div').should(
+        'have.css',
+        'visibility',
+        'hidden',
+      );
       this.openAdditionalInfo();
       cy.get('div[data-testid="additional-info"] div')
         .should('have.css', 'visibility', 'visible')
@@ -59,6 +65,11 @@ class NextOfKin {
       );
     },
     preCheckIn: () => {
+      cy.get('div[data-testid="additional-info"] div').should(
+        'have.css',
+        'visibility',
+        'hidden',
+      );
       this.openAdditionalInfo();
       cy.get('div[data-testid="additional-info"] div')
         .should('have.css', 'visibility', 'visible')
