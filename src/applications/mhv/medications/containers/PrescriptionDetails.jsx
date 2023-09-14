@@ -228,7 +228,7 @@ const PrescriptionDetails = () => {
     );
   };
 
-  return <div className="medium-screen:vads-l-col--8">{content()}</div>;
+  return <div>{content()}</div>;
 };
 
 export default PrescriptionDetails;
