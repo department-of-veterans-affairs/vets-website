@@ -244,7 +244,9 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.15.4",
+    "@datadog/browser-rum": "^4.49.0",
     "@department-of-veterans-affairs/component-library": "^18.0.1",
+    "@department-of-veterans-affairs/css-library": "^0.1.0-rc4",
     "@department-of-veterans-affairs/formation": "^7.0.8",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
@@ -372,7 +374,7 @@
       "src/platform/monitoring",
       "src/applications/check-in",
       "src/applications/vaos",
-      "src/applications/poc"
+      "src/applications/poc-typescript"
     ],
     "nohoist": [
       "**/applications-check-in/i18next-resources-to-backend",
