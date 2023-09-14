@@ -11,11 +11,8 @@ import { recordType, pageTitles } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import { processList } from '../util/helpers';
 import { updatePageTitle } from '../../shared/util/helpers';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const HealthConditions = () => {
-  const fullState = useSelector(state => state);
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   const allowTxtDownloads = useSelector(
     state =>
@@ -152,63 +149,17 @@ const HealthConditions = () => {
   };
 
   return (
-    <div>
-      <h1>Health conditions</h1>
-      <section className="set-width-486">
-        <p>Review health conditions in your VA medical records.</p>
-        <va-additional-info trigger="What to know about health conditions">
-          <ul>
-            <li>
-              <p>
-                Health condition records are available <b>36 hours</b> after
-                your providers enter them.
-              </p>
-            </li>
-            <li>
-              <p>
-                This list includes your current health conditions that VA
-                providers are helping you manage. It may not include conditions
-                non-VA providers are helping you manage.
-              </p>
-            </li>
-            <li>
-              <p>
-                This list doesn’t include information you entered yourself. To
-                find information you entered, go back to your records on My
-                HealtheVet website.
-              </p>
-              <va-link
-                className="section-link"
-                active
-                href="/my-health/medical-records/"
-                text="Go to your care summaries and notes"
-                data-testid="section-link"
-              />
-            </li>
-            <li>
-              <p>
-                If you have questions about your health conditions, send a
-                message to your care team.
-              </p>
-              <a
-                href={mhvUrl(
-                  isAuthenticatedWithSSOe(fullState),
-                  'secure-messaging',
-                )}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Compose a new message
-              </a>
-            </li>
-          </ul>
-        </va-additional-info>
-        <PrintDownload
-          list
-          download={download}
-          allowTxtDownloads={allowTxtDownloads}
-        />
-      </section>
+    <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+      <h1 className="vads-u-margin--0">Health conditions</h1>
+      <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
+        Health condition records are available <strong>36 hours</strong> after
+        your providers enter them.
+      </p>
+      <PrintDownload
+        list
+        download={download}
+        allowTxtDownloads={allowTxtDownloads}
+      />
       {content()}
     </div>
   );

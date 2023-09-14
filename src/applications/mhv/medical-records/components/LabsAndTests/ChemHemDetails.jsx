@@ -130,7 +130,7 @@ const ChemHemDetails = props => {
   const content = () => {
     if (record) {
       return (
-        <>
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--1"
@@ -138,7 +138,7 @@ const ChemHemDetails = props => {
           >
             {record.name}
           </h1>
-          <section className="set-width-486">
+          <section>
             <div className="time-header">
               <p
                 className="vads-u-font-size--base vads-u-font-family--sans"
@@ -236,7 +236,7 @@ const ChemHemDetails = props => {
               <ChemHemResults results={record.results} />
             </div>
           </section>
-        </>
+        </div>
       );
     }
     return <></>;

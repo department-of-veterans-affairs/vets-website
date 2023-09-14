@@ -23,7 +23,7 @@ const DownloadRecordsPage = () => {
   }, []);
 
   return (
-    <div className="vads-u-margin-bottom--5">
+    <div className="vads-u-margin-bottom--5 vads-l-col--12 medium-screen:vads-l-col--8">
       <section>
         <h1>Download all medical records</h1>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 va-introtext">
@@ -31,7 +31,7 @@ const DownloadRecordsPage = () => {
           Button&#174;.
         </p>
       </section>
-      <section className="set-width-486">
+      <section>
         <h2>What you can download here</h2>
         <p>
           Your downloaded file will include these types of records from your VA

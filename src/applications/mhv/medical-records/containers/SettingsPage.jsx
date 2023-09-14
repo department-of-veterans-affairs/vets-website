@@ -156,7 +156,7 @@ const SettingsPage = () => {
   };
 
   return (
-    <div className="settings vads-u-margin-bottom--5">
+    <div className="settings vads-u-margin-bottom--5 vads-l-col--12 medium-screen:vads-l-col--8">
       <section>
         <h1>Medical records settings</h1>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 va-introtext">
@@ -164,7 +164,7 @@ const SettingsPage = () => {
           settings.
         </p>
       </section>
-      <section className="set-width-486">
+      <section>
         <h2>Manage your sharing settings</h2>
         <p>
           The Veterans Health Information Exchange program is a secure online
@@ -194,7 +194,7 @@ const SettingsPage = () => {
         </ul>
         {sharingCardContent()}
       </section>
-      <section className="set-width-486">
+      <section>
         <h2>Manage notification settings</h2>
         <p>
           You can sign up to get email notifications when you have new lab and

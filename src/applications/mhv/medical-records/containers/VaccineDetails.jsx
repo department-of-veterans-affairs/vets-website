@@ -119,7 +119,7 @@ const VaccineDetails = () => {
   const content = () => {
     if (record) {
       return (
-        <>
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--0p5"
@@ -138,7 +138,7 @@ const VaccineDetails = () => {
               </span>
             </h2>
           </div>
-          <section className="set-width-480">
+          <section>
             <PrintDownload
               list
               download={generateVaccinePdf}
@@ -155,7 +155,7 @@ const VaccineDetails = () => {
               <ItemList list={record.notes} />
             </div>
           </section>
-        </>
+        </div>
       );
     }
     return (

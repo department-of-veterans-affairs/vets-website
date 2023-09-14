@@ -6,9 +6,12 @@ import { getCareSummariesAndNotesList } from '../actions/careSummariesAndNotes';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { updatePageTitle } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
+  const fullState = useSelector(state => state);
   const careSummariesAndNotes = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );
@@ -57,16 +60,28 @@ const CareSummariesAndNotes = () => {
   };
 
   return (
-    <div id="care-summaries-and-notes">
+    <div
+      id="care-summaries-and-notes"
+      className="vads-l-col--12 medium-screen:vads-l-col--8"
+    >
       <h1 className="page-title">Care summaries and notes</h1>
-      <section className="set-width-486">
-        <p>Review care summaries and notes in your VA medical records.</p>
-        <va-additional-info trigger="What to know about your care summaries and notes">
-          This is some additional info about your care summaries and notes,
-          though we are waiting on the Content Team to tell us what should be
-          here...
-        </va-additional-info>
-      </section>
+      <p>
+        Most care summaries and notes are available <strong>36 hours</strong>{' '}
+        after providers sign them. This list doesn’t include care summaries from
+        before 2013.
+      </p>
+      <p>
+        To find after-visit summaries from your VA appointments, go to your
+        appointment records.
+      </p>
+      <a
+        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'appointments')}
+        target="_blank"
+        rel="noreferrer"
+        className="vads-u-display--block vads-u-margin-bottom--3 no-print"
+      >
+        Go to your appointments to find after-visit summaries
+      </a>
       {content()}
     </div>
   );
