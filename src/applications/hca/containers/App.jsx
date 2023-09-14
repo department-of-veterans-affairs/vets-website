@@ -146,7 +146,7 @@ App.propTypes = {
   formData: PropTypes.object,
   getTotalDisabilityRating: PropTypes.func,
   hasSavedForm: PropTypes.bool,
-  isLOA3User: PropTypes.func,
+  isLOA3User: PropTypes.bool,
   isLoading: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
