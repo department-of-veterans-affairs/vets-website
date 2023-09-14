@@ -69,7 +69,16 @@ describe('parseRedirectUrl', () => {
       parseRedirectUrl('https://staging-patientportal.myhealth.va.gov'),
     ).to.eql('https://staging-patientportal.myhealth.va.gov');
     expect(
-      parseRedirectUrl('https://int.eauth.va.gov/mhv-portal-web/eauth'),
+      parseRedirectUrl(
+        'https://staging-patientportal.myhealth.va.gov/?authenticated=true',
+      ),
+    ).to.eql(
+      'https://staging-patientportal.myhealth.va.gov/?authenticated=true',
+    );
+    expect(
+      parseRedirectUrl(
+        'https://int.eauth.va.gov/mhv-portal-web/eauth&postLogin=true',
+      ),
     ).to.eql('https://int.eauth.va.gov/mhv-portal-web/eauth');
     expect(parseRedirectUrl('https://google.com?q=https://va.gov')).to.eql(
       'https://dev.va.gov',

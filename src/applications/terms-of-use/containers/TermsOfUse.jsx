@@ -34,7 +34,9 @@ export const parseRedirectUrl = url => {
   const domain = new URL(parsedUrl).hostname;
 
   if (allowedDomains.includes(domain)) {
-    return parsedUrl;
+    return parsedUrl.includes('mhv-portal-web')
+      ? parsedUrl.replace('&postLogin=true', '')
+      : parsedUrl;
   }
   return `${environment.BASE_URL}`;
 };
