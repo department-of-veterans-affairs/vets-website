@@ -233,6 +233,9 @@ describe('VAOS appointment list', () => {
             kind: 'telehealth',
             start: moment().format('YYYY-MM-DDTHH:mm:ss'),
             status: 'booked',
+            extension: {
+              patientHasMobileGfe: false,
+            },
             telehealth: {
               url: null,
               atlas: {
