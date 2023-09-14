@@ -91,13 +91,15 @@ const vaMemorableDate = (element, vaMemorableDateMonthSelect, date) => {
           .find('va-select.usa-form-group--month-select')
           .shadow()
           .find('select')
-          .select(date[1]);
+          .focus();
+        cy.select(date[1]);
       } else if (isChrome) {
         cy.wrap(el)
           .find(getSelectors('month'))
           .shadow()
           .find('input')
-          .realType(date[1]);
+          .focus();
+        cy.realType(date[1]);
       } else {
         cy.wrap(el)
           .find(getSelectors('month'))
