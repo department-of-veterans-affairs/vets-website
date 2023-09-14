@@ -230,7 +230,7 @@ class FolderManagementPage {
       .and('have.text', 'Message conversation was successfully moved.');
   };
 
-  verifyDeleteFolderSuccess = () => {
+  deleteFolder = () => {
     cy.get('[data-testid="remove-folder-button"]').click();
     cy.get('[text="Yes, remove this folder"]')
       .shadow()
