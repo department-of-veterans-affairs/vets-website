@@ -10,6 +10,8 @@ import { focusElement, scrollTo } from 'platform/utilities/ui';
 
 import { IssueCard } from './IssueCard';
 import { APP_NAME } from '../constants';
+import { focusIssue } from '../utils/focus';
+
 import {
   LAST_ISSUE,
   MAX_LENGTH,
@@ -29,7 +31,6 @@ import {
   calculateIndexOffset,
 } from '../../shared/utils/issues';
 import { isEmptyObject } from '../../shared/utils/helpers';
-import { focusIssue } from '../utils/focus';
 
 /**
  * ContestableIssuesWidget - Form system parameters passed into this widget

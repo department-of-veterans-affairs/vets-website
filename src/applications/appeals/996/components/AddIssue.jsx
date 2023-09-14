@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import {
   VaMemorableDate,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import { focusElement } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
-
 // updatePage isn't available for CustomPage on non-review pages, see
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33797
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import { getSelected, calculateIndexOffset } from '../utils/helpers';
+import { calculateIndexOffset } from '../utils/helpers';
 import {
   uniqueIssue,
   missingIssueName,
   maxNameLength,
-  checkValidations,
 } from '../validations/issues';
 import { validateDate } from '../validations/date';
 import { content } from '../content/addIssue';
@@ -31,6 +29,8 @@ import {
   MAX_LENGTH,
   SELECTED,
 } from '../../shared/constants';
+import { getSelected } from '../../shared/utils/issues';
+import { checkValidations } from '../../shared/validations/issue';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
 const REVIEW_AND_SUBMIT = '/review-and-submit';

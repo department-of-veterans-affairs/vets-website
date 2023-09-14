@@ -6,12 +6,12 @@ import {
   checkIssues,
   uniqueIssue,
   maxIssues,
-  selectionRequired,
   missingIssueName,
   maxNameLength,
 } from '../../validations/issues';
 
 import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
+import { selectionRequired } from '../../../shared/validations/issue';
 
 describe('checkIssues', () => {
   const _ = null;

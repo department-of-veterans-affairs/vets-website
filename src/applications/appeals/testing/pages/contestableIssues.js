@@ -1,10 +1,9 @@
 import ContestableIssuesWidget from '../components/ContestableIssuesWidget';
-
 import { ContestableIssuesAdditionalInfo } from '../content/contestableIssues';
-
-import { selectionRequired, maxIssues } from '../../10182/validations/issues';
+import { maxIssues } from '../../10182/validations/issues';
 
 import { hasSomeSelected } from '../../shared/utils/issues';
+import { selectionRequired } from '../../shared/validations/issue';
 import { SELECTED } from '../../shared/constants';
 
 /**

@@ -1,36 +1,10 @@
-import {
-  getSelected,
-  hasSomeSelected,
-  hasDuplicates,
-  getIssueName,
-  getIssueDate,
-} from '../utils/helpers';
-import {
-  noneSelected,
-  maxSelectedErrorMessage,
-} from '../../shared/content/contestableIssues';
+import { hasDuplicates, getIssueName, getIssueDate } from '../utils/helpers';
 import { errorMessages } from '../constants';
 import { validateDate } from './date';
 
+import { maxSelectedErrorMessage } from '../../shared/content/contestableIssues';
 import { MAX_LENGTH } from '../../shared/constants';
-
-export const selectionRequired = (
-  errors,
-  _fieldData,
-  formData = {},
-  _schema,
-  _uiSchema,
-  _index,
-  appStateData,
-) => {
-  // formData === pageData on review & submit page. It should include the entire
-  // formData. see https://github.com/department-of-veterans-affairs/vsp-support/issues/162
-  // Fall back to formData for unit testing
-  const data = Object.keys(appStateData || {}).length ? appStateData : formData;
-  if (errors && !hasSomeSelected(data)) {
-    errors.addError(noneSelected);
-  }
-};
+import { getSelected } from '../../shared/utils/issues';
 
 // Alert Veteran to duplicates based on name & decision date
 export const uniqueIssue = (

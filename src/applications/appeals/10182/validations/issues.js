@@ -1,11 +1,11 @@
 import { showExtensionReason } from '../utils/helpers';
 import { issueErrorMessages } from '../content/addIssue';
+import { content as extensionReasonContent } from '../content/extensionReason';
+
 import {
   noneSelected,
   maxSelectedErrorMessage,
 } from '../../shared/content/contestableIssues';
-import { content as extensionReasonContent } from '../content/extensionReason';
-
 import { MAX_LENGTH, REGEXP } from '../../shared/constants';
 import {
   getSelected,
