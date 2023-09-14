@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import ItemList from '../components/shared/ItemList';
@@ -41,16 +40,19 @@ const AllergyDetails = () => {
     [allergyId, dispatch],
   );
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        {
-          url: '/my-health/medical-records/allergies',
-          label: 'Allergies',
-        },
-      ]),
-    );
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: '/my-health/medical-records/allergies',
+            label: 'Allergies',
+          },
+        ]),
+      );
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -62,7 +64,7 @@ const AllergyDetails = () => {
         );
       }
     },
-    [allergy],
+    [dispatch, allergy, allergyId],
   );
 
   useEffect(
@@ -84,11 +86,9 @@ const AllergyDetails = () => {
   );
 
   const generateAllergyPdf = async () => {
-    const title = `Allergy: ${allergy.name} on ${formatDateLong(allergy.date)}`;
+    const title = `Allergy: ${allergy.name}`;
     const subject = 'VA Medical Record';
-    const preface =
-      'Your allergies list may not be complete. If you have any questions about your information, visit the FAQs or contact your VA Health care team.';
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const scaffold = generatePdfScaffold(user, title, subject);
 
     scaffold.details = {
       items: [
@@ -167,7 +167,6 @@ const AllergyDetails = () => {
               </h2>
             </div>
             <PrintDownload
-              list
               download={generateAllergyPdf}
               allowTxtDownloads={allowTxtDownloads}
             />
@@ -211,12 +210,8 @@ const AllergyDetails = () => {
   };
 
   return (
-    <div className="vads-u-padding-x--0 vads-u-margin-bottom--5">
-      <div className="vads-l-row">
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {content()}
-        </div>
-      </div>
+    <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--5">
+      {content()}
     </div>
   );
 };
