@@ -402,10 +402,10 @@ class PatientInboxPage {
       });
   };
 
-  selectAdvancedSearchCategory = () => {
+  selectAdvancedSearchCategory = text => {
     cy.get('#category-dropdown')
       .find('#select')
-      .select('COVID', { force: true });
+      .select(text, { force: true });
   };
 
   selectAdvancedSearchCategoryCustomFolder = () => {
