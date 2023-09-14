@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
@@ -15,7 +16,6 @@ import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   dateFormat,
   nameFormat,
@@ -172,8 +172,9 @@ const Allergies = () => {
         <PrintHeader />
         <h1 className="vads-u-margin--0">Allergies</h1>
         <section>
-          <p className="vads-u-margin-top--1">
-            Review allergies and reactions in your VA medical records.
+          <p className="page-description">
+            If you have allergies that are missing from this list, send a secure
+            message to your care team.
           </p>
           {!accessAlert && (
             <>
