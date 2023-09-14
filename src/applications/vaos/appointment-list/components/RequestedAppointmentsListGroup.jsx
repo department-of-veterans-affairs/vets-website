@@ -130,7 +130,8 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
         {!appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
           <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
             <NoAppointments
-              description="appointment requests"
+              additionalRequestDescription
+              description="appointment requests test"
               showScheduleButton={showScheduleButton}
               startNewAppointmentFlow={() => {
                 recordEvent({

@@ -15,21 +15,21 @@ export default function NoAppointments({
       </h3>
       {showScheduleButton && (
         <>
-          {!additionalRequestDescription ? (
-            <p>
-              You can schedule an appointment online now, or call your{' '}
-              <NewTabAnchor href="/find-locations">
-                VA medical center
-              </NewTabAnchor>{' '}
-              to schedule an appointment.
-            </p>
-          ) : (
+          {additionalRequestDescription ? (
             <p>
               If you request an appointment it will show here until staff review
               and schedule it. You can schedule an appointment online now, or
               call your{' '}
               <NewTabAnchor href="/find-locations">
                 VA health facility
+              </NewTabAnchor>{' '}
+              to schedule an appointment.
+            </p>
+          ) : (
+            <p>
+              You can schedule an appointment online now, or call your{' '}
+              <NewTabAnchor href="/find-locations">
+                VA medical center
               </NewTabAnchor>{' '}
               to schedule an appointment.
             </p>

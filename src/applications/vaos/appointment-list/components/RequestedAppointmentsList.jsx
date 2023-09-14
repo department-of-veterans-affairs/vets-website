@@ -122,7 +122,7 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
       {pendingAppointments?.length === 0 && (
         <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
-            description="appointment requests"
+            description="appointment requests pass"
             additionalRequestDescription
             showScheduleButton={showScheduleButton}
             startNewAppointmentFlow={() => {
