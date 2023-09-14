@@ -54,6 +54,12 @@ jobs:
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
+    strategy:
+      max-parallel: 20
+      matrix:
+        runs:
+          [1, 2, 3, 4, 5, 6, 7, 8.9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -92,6 +98,7 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           IS_STRESS_TEST: true
+          STEP: ${{ matrix.runs }}
 
       - name: Archive unit test results
         if: ${{ always() }}
@@ -164,12 +171,6 @@ jobs:
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
-
-    strategy:
-      max-parallel: 20
-      matrix:
-        runs:
-          [1, 2, 3, 4, 5, 6, 7, 8.9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
