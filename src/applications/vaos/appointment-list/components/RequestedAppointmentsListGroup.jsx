@@ -131,7 +131,7 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
           <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
             <NoAppointments
               additionalRequestDescription
-              description="appointment requests test"
+              description="appointment requests"
               showScheduleButton={showScheduleButton}
               startNewAppointmentFlow={() => {
                 recordEvent({
