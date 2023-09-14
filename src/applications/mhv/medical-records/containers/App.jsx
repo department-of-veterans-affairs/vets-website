@@ -1,12 +1,18 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
+import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 // import Navigation from '../components/Navigation';
 import { useDatadogRum } from '../hooks/useDatadogRum';
 
 const App = ({ children }) => {
+  const user = useSelector(selectUser);
+
   const [isHidden, setIsHidden] = useState(true);
   const [height, setHeight] = useState(0);
   const location = useLocation();
@@ -43,20 +49,25 @@ const App = ({ children }) => {
   }, []);
 
   return (
-    <div
-      ref={measuredRef}
-      className="vads-l-grid-container vads-u-padding-left--2"
+    <RequiredLoginView
+      user={user}
+      // serviceRequired={[backendServices.HEALTH_RECORDS]}
     >
-      <MrBreadcrumbs />
-      <div className="medical-records-container">
-        {/* <Navigation /> */}
-        <div className="vads-l-grid-container main-content">
-          <ScrollToTop />
-          {children}
-          <va-back-to-top hidden={isHidden} />
+      <div
+        ref={measuredRef}
+        className="vads-l-grid-container vads-u-padding-left--2"
+      >
+        <MrBreadcrumbs />
+        <div className="medical-records-container">
+          {/* <Navigation /> */}
+          <div className="vads-l-grid-container main-content">
+            <ScrollToTop />
+            {children}
+            <va-back-to-top hidden={isHidden} />
+          </div>
         </div>
       </div>
-    </div>
+    </RequiredLoginView>
   );
 };
 
