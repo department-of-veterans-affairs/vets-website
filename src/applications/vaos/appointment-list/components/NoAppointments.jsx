@@ -5,7 +5,7 @@ import NewTabAnchor from '../../components/NewTabAnchor';
 export default function NoAppointments({
   showScheduleButton,
   startNewAppointmentFlow,
-  additionalDescription = false,
+  additionalRequestDescription,
   description = 'appointments',
 }) {
   return (
@@ -15,7 +15,7 @@ export default function NoAppointments({
       </h3>
       {showScheduleButton && (
         <>
-          {additionalDescription ? (
+          {!additionalRequestDescription ? (
             <p>
               You can schedule an appointment online now, or call your{' '}
               <NewTabAnchor href="/find-locations">
@@ -29,7 +29,7 @@ export default function NoAppointments({
               and schedule it. You can schedule an appointment online now, or
               call your{' '}
               <NewTabAnchor href="/find-locations">
-                VA medical center
+                VA health facility
               </NewTabAnchor>{' '}
               to schedule an appointment.
             </p>
@@ -62,6 +62,6 @@ export default function NoAppointments({
 NoAppointments.propTypes = {
   showScheduleButton: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
-  additionalDescription: PropTypes.bool,
+  additionalRequestDescription: false,
   description: PropTypes.string,
 };
