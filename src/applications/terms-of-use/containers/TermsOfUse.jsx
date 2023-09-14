@@ -34,7 +34,8 @@ export const parseRedirectUrl = url => {
   const domain = new URL(parsedUrl).hostname;
 
   if (allowedDomains.includes(domain)) {
-    return parsedUrl.includes('mhv-portal-web')
+    return parsedUrl.includes('mhv-portal-web') &&
+      !parsedUrl.includes('?deeplinking=')
       ? parsedUrl.replace('&postLogin=true', '')
       : parsedUrl;
   }
