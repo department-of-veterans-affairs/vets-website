@@ -74,7 +74,7 @@ export function NewAppointment() {
         pageTitle={crumb}
       >
         <Switch>
-          <Route path={`${match.url}/contact-info`}>
+          <Route path={`${match.url}/contact-information`}>
             <ContactInfoPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
           <Route path={`${match.url}/choose-facility-type`}>
@@ -100,10 +100,10 @@ export function NewAppointment() {
           <Route path={`${match.url}/request-date`}>
             <DateTimeRequestPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route path={`${match.url}/select-date`}>
+          <Route path={`${match.url}/date-time`}>
             <DateTimeSelectPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route path={`${match.url}/va-facility-2`}>
+          <Route path={`${match.url}/location`}>
             <VAFacilityPageV2 changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
           <Route
@@ -125,10 +125,10 @@ export function NewAppointment() {
               changeCrumb={newTitle => setCrumb(newTitle)}
             />
           </Route>
-          <Route path={`${match.url}/clinics`}>
+          <Route path={`${match.url}/clinic`}>
             <ClinicChoicePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route path={`${match.url}/reason-appointment`}>
+          <Route path={`${match.url}/reason`}>
             <ReasonForAppointmentPage
               changeCrumb={newTitle => setCrumb(newTitle)}
             />
@@ -140,7 +140,7 @@ export function NewAppointment() {
             path={`${match.url}/confirmation`}
             component={ConfirmationPage}
           />
-          <Route path="/">
+          <Route path={match.url}>
             <TypeOfCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
         </Switch>
