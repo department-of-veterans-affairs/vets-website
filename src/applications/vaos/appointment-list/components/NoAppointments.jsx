@@ -29,7 +29,7 @@ export default function NoAppointments({
             <p>
               You can schedule an appointment online now, or call your{' '}
               <NewTabAnchor href="/find-locations">
-                VA medical center
+                VA health facility
               </NewTabAnchor>{' '}
               to schedule an appointment.
             </p>
