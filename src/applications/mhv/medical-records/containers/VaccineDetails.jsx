@@ -6,6 +6,7 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   processList,
   nameFormat,
@@ -23,6 +24,12 @@ import { updatePageTitle } from '../../shared/util/helpers';
 const VaccineDetails = () => {
   const record = useSelector(state => state.mr.vaccines.vaccineDetails);
   const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
   const { vaccineId } = useParams();
@@ -132,7 +139,11 @@ const VaccineDetails = () => {
             </h2>
           </div>
           <section className="set-width-480">
-            <PrintDownload list download={generateVaccinePdf} />
+            <PrintDownload
+              list
+              download={generateVaccinePdf}
+              allowTxtDownloads={allowTxtDownloads}
+            />
             <div className="detail-block max-80">
               <h2>Location</h2>
               <p>{record.location}</p>
