@@ -1,0 +1,7 @@
+{
+  "appName": "in-person-proofing",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "ipp",
+  "rootUrl": "/in-person-proofing",
+  "productId": "c0028f24-1b5c-491f-9aec-8f0cabdc8cbc"
+}
