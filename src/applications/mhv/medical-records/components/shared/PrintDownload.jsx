@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const PrintDownload = props => {
-  const { download, list } = props;
+  const { download, list, allowTxtDownloads } = props;
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [printIndex, setPrintIndex] = useState(0);
@@ -102,19 +102,21 @@ const PrintDownload = props => {
             </button>
           )}
         </li>
-        <li>
-          {printIndex === 2 ? (
-            <button type="button" style={{ backgroundColor: 'lightBlue' }}>
-              Download {list && 'list '}
-              as a text file
-            </button>
-          ) : (
-            <button type="button">
-              Download {list && 'list '}
-              as a text file
-            </button>
-          )}
-        </li>
+        {allowTxtDownloads && (
+          <li>
+            {printIndex === 2 ? (
+              <button type="button" style={{ backgroundColor: 'lightBlue' }}>
+                Download {list && 'list '}
+                as a text file
+              </button>
+            ) : (
+              <button type="button">
+                Download {list && 'list '}
+                as a text file
+              </button>
+            )}
+          </li>
+        )}
         <div
           style={{
             backgroundColor: 'white',

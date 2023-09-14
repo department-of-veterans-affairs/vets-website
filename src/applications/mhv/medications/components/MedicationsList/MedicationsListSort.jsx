@@ -30,7 +30,11 @@ const MedicationsListSort = props => {
         })}
       </VaSelect>
       <div className="sort-button">
-        <button type="button" onClick={sortRxList}>
+        <button
+          type="button"
+          className="vads-u-line-height--4"
+          onClick={sortRxList}
+        >
           Sort
         </button>
       </div>

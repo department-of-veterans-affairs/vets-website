@@ -78,3 +78,5 @@ export const refillStatus = [
   'hold',
   'refillinprocess',
 ];
+
+export const imageRootUri = 'https://www.myhealth.va.gov/static/MILDrugImages/';
