@@ -121,19 +121,17 @@ const AdmissionAndDischargeDetails = props => {
             </h2>
           </div>
 
-          <section>
-            <p className="vads-u-margin-bottom--0">
-              Review a summary of your stay at a hospital or other health
-              facility (called an admission and discharge summary).
-            </p>
-            <div className="no-print">
-              <PrintDownload
-                download={generateCareNotesPDF}
-                allowTxtDownloads={allowTxtDownloads}
-              />
-              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-            </div>
-          </section>
+          <p className="vads-u-margin-bottom--0">
+            Review a summary of your stay at a hospital or other health facility
+            (called an admission and discharge summary).
+          </p>
+          <div className="no-print">
+            <PrintDownload
+              download={generateCareNotesPDF}
+              allowTxtDownloads={allowTxtDownloads}
+            />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          </div>
 
           <div className="test-details-container max-80">
             <h2>Details</h2>

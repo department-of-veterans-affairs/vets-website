@@ -46,23 +46,20 @@ const VitalDetails = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
 
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs([
+        {
+          url: '/my-health/medical-records/vitals',
+          label: 'Vitals',
+        },
+      ]),
+    );
+  }, []);
+
   useEffect(
     () => {
       if (records?.length) {
-        dispatch(
-          setBreadcrumbs(
-            [
-              {
-                url: '/my-health/medical-records/vitals',
-                label: 'Vitals',
-              },
-            ],
-            {
-              url: `/my-health/medical-records/vitals/${vitalType}-history`,
-              label: vitalTypeDisplayNames[macroCase(vitalType)],
-            },
-          ),
-        );
         focusElement(document.querySelector('h1'));
         updatePageTitle(
           `${vitalTypeDisplayNames[records[0].type]} - ${
@@ -169,68 +166,66 @@ const VitalDetails = () => {
       return (
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           <h1>{vitalTypeDisplayNames[records[0].type]}</h1>
-          <section>
-            <PrintDownload
-              list
-              download={generateVitalsPdf}
-              allowTxtDownloads={allowTxtDownloads}
+          <PrintDownload
+            list
+            download={generateVitalsPdf}
+            allowTxtDownloads={allowTxtDownloads}
+          />
+          <div className="vads-u-padding-y--1 vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
+            Displaying {displayNums[0]}
+            &#8211;
+            {displayNums[1]} of {records.length} vitals
+          </div>
+
+          <ul className="vital-details no-print">
+            {currentVitals?.length > 0 &&
+              currentVitals?.map((vital, idx) => (
+                <li key={idx}>
+                  <h2>{moment(vital.date).format('LLL')}</h2>
+                  <h3>Result:</h3>
+                  <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                    {vital.measurement}
+                  </p>
+                  <h3>Location:</h3>
+                  <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                    {vital.location}
+                  </p>
+                  <h3>Provider notes:</h3>
+                  <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                    {vital.notes}
+                  </p>
+                </li>
+              ))}
+          </ul>
+
+          {/* print view start */}
+          <ul className="vital-details print-only">
+            {records?.length > 0 &&
+              records?.map((vital, idx) => (
+                <li key={idx}>
+                  <h2>{moment(vital.date).format('LLL')}</h2>
+                  <h3>Result:</h3>
+                  <p>{vital.measurement}</p>
+                  <h3>Location:</h3>
+                  <p>{vital.location}</p>
+                  <h3>Provider notes:</h3>
+                  <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                    {vital.notes}
+                  </p>
+                </li>
+              ))}
+          </ul>
+          {/* print view end */}
+
+          <div className="vads-u-margin-bottom--2 no-print">
+            <VaPagination
+              onPageSelect={e => onPageChange(e.detail.page)}
+              page={currentPage}
+              pages={paginatedVitals.current.length}
+              maxPageListLength={MAX_PAGE_LIST_LENGTH}
+              showLastPage
             />
-            <div className="vads-u-padding-y--1 vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
-              Displaying {displayNums[0]}
-              &#8211;
-              {displayNums[1]} of {records.length} vitals
-            </div>
-
-            <ul className="vital-details no-print">
-              {currentVitals?.length > 0 &&
-                currentVitals?.map((vital, idx) => (
-                  <li key={idx}>
-                    <h2>{moment(vital.date).format('LLL')}</h2>
-                    <h3>Result:</h3>
-                    <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-                      {vital.measurement}
-                    </p>
-                    <h3>Location:</h3>
-                    <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-                      {vital.location}
-                    </p>
-                    <h3>Provider notes:</h3>
-                    <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-                      {vital.notes}
-                    </p>
-                  </li>
-                ))}
-            </ul>
-
-            {/* print view start */}
-            <ul className="vital-details print-only">
-              {records?.length > 0 &&
-                records?.map((vital, idx) => (
-                  <li key={idx}>
-                    <h2>{moment(vital.date).format('LLL')}</h2>
-                    <h3>Result:</h3>
-                    <p>{vital.measurement}</p>
-                    <h3>Location:</h3>
-                    <p>{vital.location}</p>
-                    <h3>Provider notes:</h3>
-                    <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-                      {vital.notes}
-                    </p>
-                  </li>
-                ))}
-            </ul>
-            {/* print view end */}
-
-            <div className="vads-u-margin-bottom--2 no-print">
-              <VaPagination
-                onPageSelect={e => onPageChange(e.detail.page)}
-                page={currentPage}
-                pages={paginatedVitals.current.length}
-                maxPageListLength={MAX_PAGE_LIST_LENGTH}
-                showLastPage
-              />
-            </div>
-          </section>
+          </div>
         </div>
       );
     }

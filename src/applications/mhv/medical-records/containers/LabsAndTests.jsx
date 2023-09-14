@@ -19,13 +19,9 @@ const LabsAndTests = () => {
 
   useEffect(() => {
     dispatch(
-      setBreadcrumbs(
-        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-        {
-          url: '/my-health/medical-records/labs-and-tests',
-          label: 'Lab and test results',
-        },
-      ),
+      setBreadcrumbs([
+        { url: '/my-health/medical-records/', label: 'Medical records' },
+      ]),
     );
     focusElement(document.querySelector('h1'));
     updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);

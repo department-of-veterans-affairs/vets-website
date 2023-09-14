@@ -102,52 +102,50 @@ const ProgressNoteDetails = props => {
           >
             {record.name}
           </h1>
-          <section>
-            <div className="time-header">
-              <h2
-                className="vads-u-font-size--base vads-u-font-family--sans"
-                id="progress-note-date"
-              >
-                Date:{' '}
-                <span className="vads-u-font-weight--normal">
-                  {record.dateSigned}
-                </span>
-              </h2>
-            </div>
+          <div className="time-header">
+            <h2
+              className="vads-u-font-size--base vads-u-font-family--sans"
+              id="progress-note-date"
+            >
+              Date:{' '}
+              <span className="vads-u-font-weight--normal">
+                {record.dateSigned}
+              </span>
+            </h2>
+          </div>
 
-            <div className="no-print">
-              <PrintDownload
-                download={download}
-                allowTxtDownloads={allowTxtDownloads}
-              />
-              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-            </div>
+          <div className="no-print">
+            <PrintDownload
+              download={download}
+              allowTxtDownloads={allowTxtDownloads}
+            />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          </div>
 
-            <div className="test-details-container max-80">
-              <h2>Details</h2>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Location
-              </h3>
-              <p>{record.location}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Signed by
-              </h3>
-              <p>{record.physician}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Last updated
-              </h3>
-              <p>{record.dateUpdated}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Date signed
-              </h3>
-              <p>{record.dateSigned}</p>
-            </div>
+          <div className="test-details-container max-80">
+            <h2>Details</h2>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Location
+            </h3>
+            <p>{record.location}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Signed by
+            </h3>
+            <p>{record.physician}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Last updated
+            </h3>
+            <p>{record.dateUpdated}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Date signed
+            </h3>
+            <p>{record.dateSigned}</p>
+          </div>
 
-            <div className="test-results-container">
-              <h2>Note</h2>
-              <p>{record.summary}</p>
-            </div>
-          </section>
+          <div className="test-results-container">
+            <h2>Note</h2>
+            <p>{record.summary}</p>
+          </div>
         </div>
       );
     }

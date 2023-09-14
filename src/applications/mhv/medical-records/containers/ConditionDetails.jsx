@@ -25,32 +25,29 @@ const ConditionDetails = () => {
   );
   const { conditionId } = useParams();
   const dispatch = useDispatch();
+  const formattedDate = dateFormat(condition?.date, 'MMMM D, YYYY [at] h:mm z');
+
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs([
+        {
+          url: '/my-health/medical-records/conditions',
+          label: 'Conditions',
+        },
+      ]),
+    );
+  }, []);
 
   useEffect(
     () => {
       if (conditionId) dispatch(getConditionDetails(conditionId));
     },
-    [conditionId, dispatch],
+    [conditionId],
   );
-  const formattedDate = dateFormat(condition?.date, 'MMMM D, YYYY [at] h:mm z');
 
   useEffect(
     () => {
       if (condition?.name) {
-        dispatch(
-          setBreadcrumbs(
-            [
-              {
-                url: '/my-health/medical-records/conditions',
-                label: 'Conditions',
-              },
-            ],
-            {
-              url: `/my-health/medical-records/conditions/${conditionId}`,
-              label: condition?.name,
-            },
-          ),
-        );
         focusElement(document.querySelector('h1'));
         const titleDate = formattedDate ? `${formattedDate} - ` : '';
         updatePageTitle(
@@ -139,49 +136,47 @@ const ConditionDetails = () => {
           >
             {condition.name.split(' (')[0]}
           </h1>
-          <section>
-            <div className="condition-subheader vads-u-margin-bottom--3">
-              <div className="time-header">
-                <h2
-                  className="vads-u-font-size--base vads-u-font-family--sans"
-                  id="condition-date"
-                >
-                  Date entered:{' '}
-                  <span className="vads-u-font-weight--normal">
-                    {formattedDate}
-                  </span>
-                </h2>
-              </div>
-              <PrintDownload
-                list
-                download={download}
-                allowTxtDownloads={allowTxtDownloads}
-              />
+          <div className="condition-subheader vads-u-margin-bottom--3">
+            <div className="time-header">
+              <h2
+                className="vads-u-font-size--base vads-u-font-family--sans"
+                id="condition-date"
+              >
+                Date entered:{' '}
+                <span className="vads-u-font-weight--normal">
+                  {formattedDate}
+                </span>
+              </h2>
             </div>
-            <div className="condition-details max-80">
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Status of health condition
-              </h2>
-              <p>{condition.active ? 'Active' : 'Inactive'}</p>
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Provider
-              </h2>
-              <p>{condition.provider}</p>
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Location
-              </h2>
-              <p>
-                {condition.facility ||
-                  'There is no facility reported at this time'}
-              </p>
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                SNOMED Clinical term
-              </h2>
-              <p>{condition.name}</p>
-              <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
-              <ItemList list={condition.comments} />
-            </div>
-          </section>
+            <PrintDownload
+              list
+              download={download}
+              allowTxtDownloads={allowTxtDownloads}
+            />
+          </div>
+          <div className="condition-details max-80">
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Status of health condition
+            </h2>
+            <p>{condition.active ? 'Active' : 'Inactive'}</p>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Provider
+            </h2>
+            <p>{condition.provider}</p>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Location
+            </h2>
+            <p>
+              {condition.facility ||
+                'There is no facility reported at this time'}
+            </p>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              SNOMED Clinical term
+            </h2>
+            <p>{condition.name}</p>
+            <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
+            <ItemList list={condition.comments} />
+          </div>
         </div>
       );
     }

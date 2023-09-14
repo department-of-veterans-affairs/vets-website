@@ -24,17 +24,13 @@ const HealthConditions = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getConditionsList());
-  });
+  }, []);
 
   useEffect(() => {
     dispatch(
-      setBreadcrumbs(
-        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-        {
-          url: '/my-health/medical-records/conditions',
-          label: 'VA health conditions',
-        },
-      ),
+      setBreadcrumbs([
+        { url: '/my-health/medical-records/', label: 'Medical records' },
+      ]),
     );
     focusElement(document.querySelector('h1'));
     updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);

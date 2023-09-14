@@ -23,13 +23,9 @@ const SettingsPage = () => {
 
   useEffect(() => {
     dispatch(
-      setBreadcrumbs(
-        [{ url: '/my-health/medical-records', label: 'Medical records' }],
-        {
-          url: '/my-health/medical-records/settings',
-          label: 'Medical records settings',
-        },
-      ),
+      setBreadcrumbs([
+        { url: '/my-health/medical-records', label: 'Medical records' },
+      ]),
     );
     focusElement(document.querySelector('h1'));
     updatePageTitle(pageTitles.SETTINGS_PAGE_TITLE);
@@ -211,8 +207,6 @@ const SettingsPage = () => {
               isAuthenticatedWithSSOe(fullState),
               'download-my-data',
             )}
-            target="_blank"
-            rel="noreferrer"
           >
             Go to your profile on the My Healthevet website
           </a>

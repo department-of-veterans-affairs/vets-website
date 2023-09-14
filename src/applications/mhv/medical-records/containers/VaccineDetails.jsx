@@ -34,6 +34,7 @@ const VaccineDetails = () => {
   const dob = dateFormat(user.dob, 'LL');
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
+  const formattedDate = formatDateLong(record?.date);
 
   useEffect(
     () => {
@@ -41,26 +42,21 @@ const VaccineDetails = () => {
     },
     [vaccineId, dispatch],
   );
-  const formattedDate = formatDateLong(record?.date);
+
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs([
+        {
+          url: '/my-health/medical-records/vaccines',
+          label: 'Vaccines',
+        },
+      ]),
+    );
+  }, []);
 
   useEffect(
     () => {
       if (record) {
-        dispatch(
-          setBreadcrumbs(
-            [
-              {
-                url: '/my-health/medical-records/vaccines',
-                label: 'Vaccines',
-              },
-            ],
-            {
-              url: `/my-health/medical-records/vaccines/${vaccineId}`,
-              label: record?.name,
-            },
-          ),
-        );
-
         focusElement(document.querySelector('h1'));
         const titleDate = formattedDate ? `${formattedDate} - ` : '';
         updatePageTitle(
@@ -138,23 +134,21 @@ const VaccineDetails = () => {
               </span>
             </h2>
           </div>
-          <section>
-            <PrintDownload
-              list
-              download={generateVaccinePdf}
-              allowTxtDownloads={allowTxtDownloads}
-            />
-            <div className="detail-block max-80">
-              <h2>Location</h2>
-              <p>{record.location}</p>
-              <h2 className="vads-u-margin-bottom--0">
-                Reactions recorded by provider
-              </h2>
-              <ItemList list={record.reactions} />
-              <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
-              <ItemList list={record.notes} />
-            </div>
-          </section>
+          <PrintDownload
+            list
+            download={generateVaccinePdf}
+            allowTxtDownloads={allowTxtDownloads}
+          />
+          <div className="detail-block max-80">
+            <h2>Location</h2>
+            <p>{record.location}</p>
+            <h2 className="vads-u-margin-bottom--0">
+              Reactions recorded by provider
+            </h2>
+            <ItemList list={record.reactions} />
+            <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
+            <ItemList list={record.notes} />
+          </div>
         </div>
       );
     }

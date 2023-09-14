@@ -11,16 +11,16 @@ const Vitals = () => {
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getVitals());
   }, []);
 
   useEffect(() => {
     dispatch(
-      setBreadcrumbs(
-        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-        { url: '/my-health/medical-records/vitals', label: 'VA vitals' },
-      ),
+      setBreadcrumbs([
+        { url: '/my-health/medical-records/', label: 'Medical records' },
+      ]),
     );
     focusElement(document.querySelector('h1'));
     updatePageTitle(pageTitles.VITALS_PAGE_TITLE);

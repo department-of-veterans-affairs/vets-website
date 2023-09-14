@@ -67,13 +67,9 @@ const Allergies = () => {
 
   useEffect(() => {
     dispatch(
-      setBreadcrumbs(
-        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-        {
-          url: '/my-health/medical-records/allergies',
-          label: 'Allergies',
-        },
-      ),
+      setBreadcrumbs([
+        { url: '/my-health/medical-records/', label: 'Medical records' },
+      ]),
     );
     focusElement(document.querySelector('h1'));
     updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
@@ -179,8 +175,6 @@ const Allergies = () => {
       </p>
       <a
         href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'secure-messaging')}
-        target="_blank"
-        rel="noreferrer"
         className="vads-u-display--block vads-u-margin-bottom--3 no-print"
       >
         Compose a message on the My HealtheVet website

@@ -81,11 +81,7 @@ const DownloadRecordsPage = () => {
           <strong>36 hours</strong> for some records to become available for
           download.
         </p>
-        <a
-          href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/"
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/">
           Learn how to find other types of records
         </a>
       </section>

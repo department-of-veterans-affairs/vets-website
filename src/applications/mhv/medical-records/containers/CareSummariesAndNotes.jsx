@@ -22,18 +22,12 @@ const CareSummariesAndNotes = () => {
 
   useEffect(() => {
     dispatch(
-      setBreadcrumbs(
-        [
-          {
-            url: '/my-health/medical-records',
-            label: 'Medical records',
-          },
-        ],
+      setBreadcrumbs([
         {
-          url: '/my-health/medical-records/summaries-and-notes',
-          label: 'VA care summaries and notes',
+          url: '/my-health/medical-records',
+          label: 'Medical records',
         },
-      ),
+      ]),
     );
     focusElement(document.querySelector('h1'));
     updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE);
@@ -76,8 +70,6 @@ const CareSummariesAndNotes = () => {
       </p>
       <a
         href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'appointments')}
-        target="_blank"
-        rel="noreferrer"
         className="vads-u-display--block vads-u-margin-bottom--3 no-print"
       >
         Go to your appointments to find after-visit summaries
