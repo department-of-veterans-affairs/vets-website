@@ -89,38 +89,11 @@ const ComposeForm = props => {
     [signature],
   );
 
-  const setUnsavedNavigationError = typeOfError => {
-    if (typeOfError === 'attachment') {
-      setNavigationError({
-        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-        confirmButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
-        cancelButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
-      });
-    } else {
-      setNavigationError({
-        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-        confirmButtonText: 'Continue editing',
-        cancelButtonText: 'Delete draft',
-      });
-    }
-  };
-
   useEffect(
     () => {
       dispatch(getCategories());
     },
     [dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (attachments.length > 0) {
-        setUnsavedNavigationError('attachment');
-      }
-    },
-    [attachments],
   );
 
   useEffect(
@@ -391,20 +364,20 @@ const ComposeForm = props => {
     setSelectedRecipient(e.detail.value);
     if (e.detail.value !== '0') {
       if (e.detail.value) setRecipientError('');
-      setUnsavedNavigationError();
+      setNavigationError();
     }
   };
 
   const subjectHandler = e => {
     setSubject(e.target.value);
     if (e.target.value) setSubjectError('');
-    setUnsavedNavigationError();
+    setNavigationError();
   };
 
   const messageBodyHandler = e => {
     setMessageBody(e.target.value);
     if (e.target.value) setBodyError('');
-    setUnsavedNavigationError();
+    setNavigationError();
   };
 
   return (
@@ -487,7 +460,7 @@ const ComposeForm = props => {
               categoryError={categoryError}
               setCategory={setCategory}
               setCategoryError={setCategoryError}
-              setUnsavedNavigationError={setUnsavedNavigationError}
+              setUnsavedNavigationError={setNavigationError}
             />
           </div>
           <div className="compose-form-div">

@@ -257,7 +257,6 @@ const ReplyForm = props => {
     async (type, e) => {
       if (type === 'manual') {
         setUserSaved(true);
-
         await setMessageInvalid(false);
         if (checkMessageValidity()) {
           setLastFocusableElement(e.target);
@@ -336,14 +335,6 @@ const ReplyForm = props => {
     setMessageBody(e.target.value);
     if (e.target.value) setBodyError('');
   };
-
-  if (!sendMessageFlag && !navigationError && attachments.length) {
-    setNavigationError({
-      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-      confirmButtonText: 'Continue editing',
-      cancelButtonText: 'OK',
-    });
-  }
 
   if (replyMessage) {
     return (
