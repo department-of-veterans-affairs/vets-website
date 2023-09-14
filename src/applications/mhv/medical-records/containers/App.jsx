@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
-import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
@@ -49,10 +48,7 @@ const App = ({ children }) => {
   }, []);
 
   return (
-    <RequiredLoginView
-      user={user}
-      // serviceRequired={[backendServices.HEALTH_RECORDS]}
-    >
+    <RequiredLoginView user={user}>
       <div
         ref={measuredRef}
         className="vads-l-grid-container vads-u-padding-left--2"
