@@ -56,12 +56,7 @@ const UpcomingAppointments = props => {
   return (
     <div>
       <h2>{t('upcoming-appointments')}</h2>
-      <ul
-        className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list appointment-list"
-        data-testid="appointment-list"
-      >
-        <UpcomingAppointmentsList router={router} app={app} />
-      </ul>
+      <UpcomingAppointmentsList router={router} app={app} />
     </div>
   );
 };

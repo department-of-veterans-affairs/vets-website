@@ -63,7 +63,6 @@ const AppointmentsPage = props => {
   }
   return (
     <Wrapper pageTitle="Your Appointments" eyebrow="Check-In" withBackButton>
-      <div data-testid="what-next">Region 1: What to do next</div>
       <div data-testid="upcoming-appointments">
         <UpcomingAppointments router={router} />
       </div>
