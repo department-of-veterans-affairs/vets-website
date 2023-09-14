@@ -68,10 +68,6 @@ const command = `LOG_LEVEL=${options[
   'log-level'
 ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} --recursive ${options.path
   .map(p => `'${p}'`)
-  .join(' ')}`;
+  .join(' ')} ${isStressTest ? '--repeat 20' : ''}`;
 
-const runTestsInLoopUpTo = isStressTest ? 15 : 1;
-
-for (let i = 0; i < runTestsInLoopUpTo; i += 1) {
-  runCommand(command);
-}
+runCommand(command);
