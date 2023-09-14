@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   VaButtonPair,
-  VaRadio,
-  VaRadioOption,
+  VaCheckbox,
+  VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   navigateBackward,
@@ -14,17 +14,16 @@ import { updateFormStore } from '../../actions';
 import { cleanUpAnswers } from '../../utilities/answer-cleanup';
 
 /**
- * Produces a set of 3 radio options
+ * Produces a variable group of checkboxes
  * @param {string} formValue - The response for this question in the Redux store
  * @param {array[string]} responses - The responses available for this question
  * @param {string} shortName - Question short name (SNAKE_CASE)
  */
-const TernaryRadios = ({
+const CheckboxGroup = ({
   formError,
   formResponses,
   formValue,
   h1,
-  locationList,
   responses,
   router,
   setFormError,
@@ -34,6 +33,20 @@ const TernaryRadios = ({
   valueSetter,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
+
+  const createCheckboxes = () => {
+    return responses.map(response => {
+      return (
+        <VaCheckbox
+          checked={formValue?.includes(response)}
+          key={response}
+          label={response}
+          name={shortName}
+          value={response}
+        />
+      );
+    });
+  };
 
   const onContinueClick = () => {
     if (!formValue) {
@@ -53,14 +66,8 @@ const TernaryRadios = ({
     navigateBackward(shortName, formResponses, router);
   };
 
-  const onBlurInput = () => {
-    if (formValue) {
-      setFormError(false);
-    }
-  };
-
   const onValueChange = event => {
-    const { value } = event?.detail;
+    const { value } = event?.target;
     valueSetter(value);
 
     if (formValue) {
@@ -72,38 +79,26 @@ const TernaryRadios = ({
     }
   };
 
+  const onBlurInput = () => {
+    if (formValue) {
+      setFormError(false);
+    }
+  };
+
   return (
     <>
-      <VaRadio
+      <VaCheckboxGroup
         data-testid={testId}
         onBlur={onBlurInput}
         className="vads-u-margin-bottom--3"
-        error={(formError && 'Please select a response.') || null}
+        error={(formError && 'Please select a location.') || null}
         hint=""
         label={h1}
         label-header-level="1"
-        onVaValueChange={onValueChange}
+        onVaChange={onValueChange}
       >
-        {locationList}
-        <VaRadioOption
-          checked={formValue === responses[0]}
-          label={responses[0]}
-          name={shortName}
-          value={responses[0]}
-        />
-        <VaRadioOption
-          checked={formValue === responses[1]}
-          label={responses[1]}
-          name={shortName}
-          value={responses[1]}
-        />
-        <VaRadioOption
-          checked={formValue === responses[2]}
-          label={responses[2]}
-          name={shortName}
-          value={responses[2]}
-        />
-      </VaRadio>
+        {createCheckboxes()}
+      </VaCheckboxGroup>
       <VaButtonPair
         data-testid="paw-buttonPair"
         onPrimaryClick={onContinueClick}
@@ -118,7 +113,7 @@ const mapDispatchToProps = {
   updateCleanedFormStore: updateFormStore,
 };
 
-TernaryRadios.propTypes = {
+CheckboxGroup.propTypes = {
   formError: PropTypes.bool.isRequired,
   formResponses: PropTypes.object.isRequired,
   h1: PropTypes.string.isRequired,
@@ -129,11 +124,11 @@ TernaryRadios.propTypes = {
   testId: PropTypes.string.isRequired,
   updateCleanedFormStore: PropTypes.func.isRequired,
   valueSetter: PropTypes.func.isRequired,
-  formValue: PropTypes.string,
+  formValue: PropTypes.array,
   locationList: PropTypes.node,
 };
 
 export default connect(
   null,
   mapDispatchToProps,
-)(TernaryRadios);
+)(CheckboxGroup);
