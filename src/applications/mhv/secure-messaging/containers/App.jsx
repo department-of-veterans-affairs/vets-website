@@ -53,7 +53,12 @@ const App = () => {
     >
       <div className="vads-l-grid-container">
         <SmBreadcrumbs />
-        <div className="secure-messaging-container vads-u-display--flex">
+        <div
+          className="secure-messaging-container
+          vads-u-display--flex
+          vads-u-flex-direction--column
+          medium-screen:vads-u-flex-direction--row"
+        >
           <Navigation />
           <ScrollToTop />
           <Switch>
