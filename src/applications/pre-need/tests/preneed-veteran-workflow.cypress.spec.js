@@ -7,7 +7,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
 
-    // Applicant Information
+    // Applicant Information Page
     preneedHelpers.fillApplicantInfo(
       testData.data.application.veteran.currentName,
       testData.data.application.veteran.ssn,
@@ -15,7 +15,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       testData.data.application.veteran.relationshipToVet,
     );
 
-    // Veteran Information
+    // Veteran Information Page
     cy.get('input[name="root_application_veteran_militaryServiceNumber"]');
     preneedHelpers.validateProgressBar('1');
 
@@ -50,7 +50,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/veteran-information');
 
-    // Military History
+    // Military History Page
     cy.get(
       'input[name="root_application_veteran_serviceRecords_0_serviceBranch"]',
       { timeout: Timeouts.verySlow },
@@ -61,13 +61,13 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     );
     cy.url().should('not.contain', '/applicant-military-history');
 
-    // Previous Names page
+    // Previous Names Page
     preneedHelpers.fillPreviousName(
       testData.data.application.veteran.serviceName,
     );
     cy.url().should('not.contain', '/applicant-military-name');
 
-    // Benefit Selection page
+    // Benefit Selection Page
     cy.get('label[for="root_application_claimant_desiredCemetery"]').should(
       'be.visible',
     );
@@ -78,18 +78,18 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       testData.data.application.currentlyBuriedPersons,
     );
 
-    // Supporting Documents page
+    // Supporting Documents Page
     cy.get('label[for="root_application_preneedAttachments"]');
     preneedHelpers.validateProgressBar('4');
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/supporting-documents');
 
-    // Applicant/Veteran Contact Information page
+    // Applicant/Veteran Contact Information Page
     cy.get('select[name="root_application_claimant_address_country"]');
     preneedHelpers.validateProgressBar('5');
     preneedHelpers.fillApplicantContactInfo(testData.data.application.veteran);
 
-    // Preparer Contact Information page
+    // Preparer Contact Information Page
     cy.get(
       'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
     );

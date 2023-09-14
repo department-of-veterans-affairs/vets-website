@@ -24,6 +24,8 @@ import {
 } from '../util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import { updatePageTitle } from '../../shared/util/helpers';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const Allergies = () => {
   const dispatch = useDispatch();
@@ -39,6 +41,7 @@ const Allergies = () => {
   const dob = dateFormat(user.dob, 'LL');
   const alertList = useSelector(state => state.mr.alerts?.alertList);
   const [activeAlert, setActiveAlert] = useState();
+  const fullState = useSelector(state => state);
 
   useEffect(() => {
     dispatch(getAllergiesList());
@@ -64,13 +67,9 @@ const Allergies = () => {
 
   useEffect(() => {
     dispatch(
-      setBreadcrumbs(
-        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-        {
-          url: '/my-health/medical-records/allergies',
-          label: 'Allergies',
-        },
-      ),
+      setBreadcrumbs([
+        { url: '/my-health/medical-records/', label: 'Medical records' },
+      ]),
     );
     focusElement(document.querySelector('h1'));
     updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
@@ -167,28 +166,30 @@ const Allergies = () => {
   };
 
   return (
-    <div id="allergies" className="vads-l-row">
-      <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-        <PrintHeader />
-        <h1 className="vads-u-margin--0">Allergies</h1>
-        <section>
-          <p className="page-description">
-            If you have allergies that are missing from this list, send a secure
-            message to your care team.
-          </p>
-          {!accessAlert && (
-            <>
-              <PrintDownload
-                list
-                download={generateAllergiesPdf}
-                allowTxtDownloads={allowTxtDownloads}
-              />
-              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-            </>
-          )}
-        </section>
-        {content()}
-      </div>
+    <div id="allergies" className="vads-l-col--12 medium-screen:vads-l-col--8">
+      <PrintHeader />
+      <h1 className="vads-u-margin--0">Allergies</h1>
+      <p className="page-description">
+        If you have allergies that are missing from this list, send a secure
+        message to your care team.
+      </p>
+      <a
+        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'secure-messaging')}
+        className="vads-u-display--block vads-u-margin-bottom--3 no-print"
+      >
+        Compose a message on the My HealtheVet website
+      </a>
+      {!accessAlert && (
+        <>
+          <PrintDownload
+            list
+            download={generateAllergiesPdf}
+            allowTxtDownloads={allowTxtDownloads}
+          />
+          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        </>
+      )}
+      {content()}
     </div>
   );
 };
