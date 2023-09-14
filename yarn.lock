@@ -2690,26 +2690,6 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@datadog/browser-core@4.49.0":
-  version "4.49.0"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-core/-/browser-core-4.49.0.tgz#583295079408893bc9eb601e05ef524f446949cb"
-  integrity sha512-qTPODRwGJG5eJLYKJ8X18es3zSF0htQhqpoyg3MehGsGfqJofDrDCP45ZfUf2Wk7K2JB2Oo2LvsfUJN0Mg51+g==
-
-"@datadog/browser-rum-core@4.49.0":
-  version "4.49.0"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-rum-core/-/browser-rum-core-4.49.0.tgz#75fd2675df29d6aa2593fde6cc003187289497bd"
-  integrity sha512-Cy7nGLJOWCGuT5CEW0q1thgOVtZGaQ/36cnr10vMCgPnuKCbyro5hTV2AZsPXkocZWs/CCvUSldmO0rF2oR4vg==
-  dependencies:
-    "@datadog/browser-core" "4.49.0"
-
-"@datadog/browser-rum@^4.49.0":
-  version "4.49.0"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-rum/-/browser-rum-4.49.0.tgz#3b68438dc804f07011e2bfcb63cdcd1ec34d1f4b"
-  integrity sha512-RRN4YA3rB43bhADKwEuG2bMyJE5jyiNO/VJc1D6DZFAHoq63R2ogyXpA9ihMhbD/7ZEpV57QA7wRsCOcrgKKKA==
-  dependencies:
-    "@datadog/browser-core" "4.49.0"
-    "@datadog/browser-rum-core" "4.49.0"
-
 "@datadog/native-appsec@2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@datadog/native-appsec/-/native-appsec-2.0.0.tgz#ad65ba19bfd68e6b6c6cf64bb8ef55d099af8edc"
@@ -2768,11 +2748,6 @@
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
-
-"@department-of-veterans-affairs/css-library@^0.1.0-rc4":
-  version "0.1.0-rc4"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.1.0-rc4.tgz#30e73420f42afaa6903347920081f778dbde63f8"
-  integrity sha512-VjbDupf4S0xUPXnepS0lzwTHxioNkQZGm33D+9/lrZLdpcRdSIurNBajP5vtSBpqKEhG/UrHHpxkv9/S94WfAQ==
 
 "@department-of-veterans-affairs/eslint-plugin@^1.9.0":
   version "1.9.0"
