@@ -53,11 +53,12 @@ const ProfileInformationView = props => {
   }
 
   if (phoneNumbers.includes(fieldName)) {
+    const number = `${data.areaCode}${data.phoneNumber}`;
     return (
       <div>
-        <va-telephone 
-          contact={`${data.areaCode}${data.phoneNumber}`} 
-          extension={data.extension} 
+        <va-telephone
+          contact={number}
+          extension={data.extension}
           not-clickable
         />
       </div>
