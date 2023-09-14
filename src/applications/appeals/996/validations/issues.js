@@ -1,11 +1,11 @@
 import { issueErrorMessages } from '../content/addIssue';
 import { missingAreaOfDisagreementErrorMessage } from '../content/areaOfDisagreement';
 import { areaOfDisagreementWorkAround } from '../utils/ui';
-import { hasDuplicates } from '../utils/helpers';
 
 import { maxSelectedErrorMessage } from '../../shared/content/contestableIssues';
 import { MAX_LENGTH } from '../../shared/constants';
 import { getSelected } from '../../shared/utils/issues';
+import { addUniqueIssueErrorMessage } from '../../shared/validations/issue';
 
 // Alert Veteran to duplicates based on name & decision date
 export const uniqueIssue = (
@@ -17,9 +17,12 @@ export const uniqueIssue = (
   _index,
   appStateData,
 ) => {
-  if (errors?.addError && hasDuplicates(appStateData || formData)) {
-    errors.addError(issueErrorMessages.uniqueIssue);
-  }
+  addUniqueIssueErrorMessage(
+    errors,
+    formData,
+    appStateData,
+    issueErrorMessages,
+  );
 };
 
 export const maxIssues = (error, data) => {

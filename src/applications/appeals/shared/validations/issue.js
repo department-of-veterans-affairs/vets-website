@@ -1,4 +1,4 @@
-import { hasSomeSelected } from '../utils/issues';
+import { hasDuplicates, hasSomeSelected } from '../utils/issues';
 import { noneSelected } from '../content/contestableIssues';
 
 /**
@@ -32,5 +32,19 @@ export const selectionRequired = (
   const data = Object.keys(appStateData || {}).length ? appStateData : formData;
   if (errors && !hasSomeSelected(data)) {
     errors.addError(noneSelected);
+  }
+};
+
+// *NOTE* in 995, it's called errorMessages - pending content refactoring
+// *NOTE* in 996/10182, it's called issueErrorMessages
+// Alert Veteran to duplicates based on name & decision date
+export const addUniqueIssueErrorMessage = (
+  errors,
+  formData,
+  appStateData,
+  errorMssgs,
+) => {
+  if (errors?.addError && hasDuplicates(appStateData || formData)) {
+    errors.addError(errorMssgs.uniqueIssue);
   }
 };

@@ -1,10 +1,11 @@
-import { hasDuplicates, getIssueName, getIssueDate } from '../utils/helpers';
+import { getIssueName, getIssueDate } from '../utils/helpers';
 import { errorMessages } from '../constants';
 import { validateDate } from './date';
 
 import { maxSelectedErrorMessage } from '../../shared/content/contestableIssues';
 import { MAX_LENGTH } from '../../shared/constants';
 import { getSelected } from '../../shared/utils/issues';
+import { addUniqueIssueErrorMessage } from '../../shared/validations/issue';
 
 // Alert Veteran to duplicates based on name & decision date
 export const uniqueIssue = (
@@ -16,9 +17,7 @@ export const uniqueIssue = (
   _index,
   appStateData,
 ) => {
-  if (errors?.addError && hasDuplicates(appStateData || formData)) {
-    errors.addError(errorMessages.uniqueIssue);
-  }
+  addUniqueIssueErrorMessage(errors, formData, appStateData, errorMessages);
 };
 
 export const maxIssues = (errors, data) => {

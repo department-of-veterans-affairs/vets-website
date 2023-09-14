@@ -7,11 +7,8 @@ import {
   maxSelectedErrorMessage,
 } from '../../shared/content/contestableIssues';
 import { MAX_LENGTH, REGEXP } from '../../shared/constants';
-import {
-  getSelected,
-  hasSomeSelected,
-  hasDuplicates,
-} from '../../shared/utils/issues';
+import { getSelected, hasSomeSelected } from '../../shared/utils/issues';
+import { addUniqueIssueErrorMessage } from '../../shared/validations/issue';
 
 /**
  *
@@ -57,9 +54,12 @@ export const uniqueIssue = (
   _index,
   appStateData,
 ) => {
-  if (errors?.addError && hasDuplicates(appStateData || formData)) {
-    errors.addError(issueErrorMessages.uniqueIssue);
-  }
+  addUniqueIssueErrorMessage(
+    errors,
+    formData,
+    appStateData,
+    issueErrorMessages,
+  );
 };
 
 export const maxIssues = (
