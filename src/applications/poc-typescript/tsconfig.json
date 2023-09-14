@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
+    "sourceMap": true,
     "noImplicitAny": true,
-    "module": "CommonJS",
-    "esModuleInterop": true,
-    "target": "es5",
-    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
     "allowJs": true,
-    "moduleResolution": "node"
-  }
+    "moduleResolution": "node",
+    "module": "commonJS",
+    "lib": ["es6", "dom"],
+    "target": "ES5",
+    "jsx": "react"
+  },
+  "exclude": ["node_modules", "dist"]
 }
