@@ -17,12 +17,6 @@ const locationOfDeath = {
   stateVeteransHome: 'State Veterans home',
 };
 
-const burialAllowanceRequest = {
-  nonService: 'Non-Service connected death',
-  vaMedicalCenter:
-    'Service-connected death (for a Veteran death related to, or resulting from, a service-connected disability)',
-};
-
 const formatCurrency = num => `$${num.toLocaleString()}`;
 const bytesToKB = bytes => `${Math.round(bytes / 1024)} KB`;
 
@@ -139,7 +133,9 @@ const generateData = (type, formData) => {
         },
         'Burial allowance': {
           'Type of burial allowance':
-            burialAllowanceRequest[(formData?.burialAllowanceRequested)],
+            formData?.burialAllowanceRequest === 'service'
+              ? 'Service-connected death (for a Veteran death related to, or resulting from, a service-connected disability)'
+              : 'Non-service-connected death',
           'Did you previously receive a VA burial allowance?': formData[
             'view:claimedBenefits'
           ]?.burialAllowance
@@ -332,20 +328,12 @@ export const NoFormPage = () => {
             </h2>
             <div>
               <p className="vads-u-margin-y--0">
-                You can still refer to the information here to apply by mail.
+                You can apply by mail instead. Download a PDF Application for
+                Burial Benefits (VA Form 21P-530EZ). You can refer to your saved
+                information on this page to fill out the form.
               </p>
             </div>
             <br />
-            <va-link
-              href="https://www.va.gov/burials-memorials/veterans-burial-allowance/"
-              text="Learn more about how to apply for VA burial benefits"
-            />
-          </va-alert>
-          <h3>Apply by mail</h3>
-          <p>
-            Fill out an Application for Veterans Burial (VA Form 21P-530EZ).
-          </p>
-          <div>
             <va-link
               download
               filetype="PDF"
@@ -353,13 +341,10 @@ export const NoFormPage = () => {
               pages={8}
               text="Download VA form 21P-530EZ"
             />
-            <p>
-              We’ve captured your intent to file date of
-              <strong> XX/XX/XXXX</strong>. You have 12 months from that date to
-              submit a claim.
-            </p>
+          </va-alert>
+          <div>
             <p className="vads-u-margin-bottom--4">
-              Mail your burial form to the pension management center:
+              Mail your completed burial form to this address:
             </p>
             <p className="va-address-block">
               Department of Veterans Affairs <br />
