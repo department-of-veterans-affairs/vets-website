@@ -1,6 +1,13 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+=======
+>>>>>>> f24068f774 (Asset end of chapter navigation)
+>>>>>>> 7c00bf27ab (Asset end of chapter navigation)
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
