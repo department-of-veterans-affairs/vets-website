@@ -48,6 +48,8 @@ export default {
       additionalAddress: addressSchema({ definitions }, true),
       additionalCopies: {
         type: 'number',
+        minimum: 1,
+        maximum: 99,
       },
     },
   },

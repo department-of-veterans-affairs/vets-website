@@ -65,3 +65,8 @@
     font-family: "Source Sans Pro", serif !important;
   }
 }
+
+input[name="root_certificates"],
+input[name="root_additionalCopies"] {
+  max-width: 7rem;
+}

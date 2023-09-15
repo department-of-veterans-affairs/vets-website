@@ -4,7 +4,8 @@ const labelText = 'How many certificates should we send to your address?';
 export default {
   uiSchema: {
     certificates: {
-      // a11y: labels should not have heading elements
+      // a11y: labels should not have <h?> elements
+      // use custom-styling instead
       'ui:title': (
         <>
           <span className="custom-label">{labelText}</span>{' '}
@@ -15,7 +16,8 @@ export default {
         </>
       ),
       'ui:errorMessages': {
-        required: 'Please enter the number of certificates requested',
+        required:
+          'Please enter the number of certificates you’d like [up to 99]',
       },
       'ui:reviewField': ({ children }) => (
         <div className="review-row">
@@ -30,6 +32,8 @@ export default {
     properties: {
       certificates: {
         type: 'number',
+        minimum: 1,
+        maximum: 99,
       },
     },
     required: ['certificates'],
