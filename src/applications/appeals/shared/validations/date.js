@@ -4,7 +4,7 @@ import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import { FORMAT_YMD } from '../constants';
 import { fixDateFormat } from '../utils/replace';
 
-export const buildDatePartErrors = (month, day, year) => {
+const buildDatePartErrors = (month, day, year) => {
   const maxDaysInAMonth =
     year && month ? new Date(year, month, 0).getDate() : 31;
   return {
@@ -15,7 +15,7 @@ export const buildDatePartErrors = (month, day, year) => {
   };
 };
 
-export const isInvalidDateString = (year, day, month, dateString) => {
+const isInvalidDateString = (year, day, month, dateString) => {
   return (
     !year ||
     isNaN(year) ||
