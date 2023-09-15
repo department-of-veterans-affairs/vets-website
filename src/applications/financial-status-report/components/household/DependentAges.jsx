@@ -31,7 +31,9 @@ const DependentAges = ({
   const [isEditing, setIsEditing] = useState(!isReviewMode);
   const [hasDependentsChanged, setHasDependentsChanged] = useState(false);
   // notify user they are returning to review page if they are in review mode
-  const continueButtonText = reviewNavigation ? 'Return to review' : 'Continue';
+  const continueButtonText = reviewNavigation
+    ? 'Continue to review page'
+    : 'Continue';
 
   useEffect(
     () => {
