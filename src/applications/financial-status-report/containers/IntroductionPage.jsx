@@ -119,9 +119,9 @@ const IntroductionPage = ({ route, formId }) => {
               </a>
             </p>
             <va-alert status="info" uswds visible background-only>
-              <h4 slot="headline" className="vads-u-font-size--h5">
-                Why does VA need all this information?
-              </h4>
+              <p className="vads-u-margin-top--0p25">
+                <strong>Why do we ask for this information?</strong>
+              </p>
               <p>
                 We want to make sure we fully understand your financial
                 situation. If you’re married, we also need to understand your

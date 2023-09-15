@@ -889,33 +889,26 @@ const formConfig = {
                 application: {
                   applicant: {
                     'view:applicantInfo': {
-                      mailingAddress: environment.isProduction()
-                        ? merge({}, address.uiSchema('Mailing address'), {
-                            country: { 'ui:required': isAuthorizedAgent },
-                            street: { 'ui:required': isAuthorizedAgent },
-                            city: { 'ui:required': isAuthorizedAgent },
-                            postalCode: { 'ui:required': isAuthorizedAgent },
-                          })
-                        : merge(
-                            {},
-                            address.uiSchema("Preparer's mailing address"),
-                            {
-                              country: { 'ui:required': isAuthorizedAgent },
-                              street: {
-                                'ui:title': 'Street address',
-                                'ui:required': isAuthorizedAgent,
-                              },
-                              street2: {
-                                'ui:title': 'Street address line 2',
-                              },
-                              city: { 'ui:required': isAuthorizedAgent },
-                              state: {
-                                'ui:title': 'State or territory',
-                                'ui:required': isAuthorizedAgent,
-                              },
-                              postalCode: { 'ui:required': isAuthorizedAgent },
-                            },
-                          ),
+                      mailingAddress: merge(
+                        {},
+                        address.uiSchema("Preparer's mailing address"),
+                        {
+                          country: { 'ui:required': isAuthorizedAgent },
+                          street: {
+                            'ui:title': 'Street address',
+                            'ui:required': isAuthorizedAgent,
+                          },
+                          street2: {
+                            'ui:title': 'Street address line 2',
+                          },
+                          city: { 'ui:required': isAuthorizedAgent },
+                          state: {
+                            'ui:title': 'State or territory',
+                            'ui:required': isAuthorizedAgent,
+                          },
+                          postalCode: { 'ui:required': isAuthorizedAgent },
+                        },
+                      ),
                     },
                     'view:contactInfo': {
                       'ui:title': ContactDetailsTitle,
@@ -1075,20 +1068,17 @@ const formConfig = {
                         first: { 'ui:required': isAuthorizedAgent },
                         last: { 'ui:required': isAuthorizedAgent },
                       }),
-                      mailingAddress: environment.isProduction()
-                        ? merge({}, address.uiSchema('Mailing address'), {
-                            country: { 'ui:required': isAuthorizedAgent },
-                            street: { 'ui:required': isAuthorizedAgent },
-                            city: { 'ui:required': isAuthorizedAgent },
-                            postalCode: { 'ui:required': isAuthorizedAgent },
-                          })
-                        : merge({}, address.uiSchema('Mailing address'), {
-                            country: { 'ui:required': isAuthorizedAgent },
-                            street: { 'ui:required': isAuthorizedAgent },
-                            city: { 'ui:required': isAuthorizedAgent },
-                            state: { 'ui:required': isAuthorizedAgent },
-                            postalCode: { 'ui:required': isAuthorizedAgent },
-                          }),
+                      mailingAddress: merge(
+                        {},
+                        address.uiSchema('Mailing address'),
+                        {
+                          country: { 'ui:required': isAuthorizedAgent },
+                          street: { 'ui:required': isAuthorizedAgent },
+                          city: { 'ui:required': isAuthorizedAgent },
+                          state: { 'ui:required': isAuthorizedAgent },
+                          postalCode: { 'ui:required': isAuthorizedAgent },
+                        },
+                      ),
                       'view:contactInfo': {
                         'ui:title': 'Contact information',
                         applicantPhoneNumber: merge(
