@@ -67,6 +67,7 @@ import {
   PreparerDescription,
   PreparerDetailsTitle,
 } from '../components/PreparerHelpers';
+import PreparerRadioWidget from '../components/PreparerRadioWidget';
 
 const {
   claimant,
@@ -782,7 +783,7 @@ const formConfig = {
                   applicant: {
                     applicantRelationshipToClaimant: {
                       'ui:title': 'Who is filling out this application?',
-                      'ui:widget': 'radio',
+                      'ui:widget': PreparerRadioWidget,
                       'ui:options': {
                         updateSchema: formData => {
                           const nameData = get(
@@ -802,9 +803,6 @@ const formConfig = {
                         },
                       },
                     },
-                    'Authorized Agent/Rep': {
-                      'ui:description': authorizedAgentDescription,
-                    },
                   },
                 },
               },
@@ -821,10 +819,6 @@ const formConfig = {
                           applicantRelationshipToClaimant:
                             applicant.properties
                               .applicantRelationshipToClaimant,
-                          'Authorized Agent/Rep': {
-                            type: 'object',
-                            properties: {},
-                          },
                         },
                       },
                     },

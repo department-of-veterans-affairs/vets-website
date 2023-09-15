@@ -6,13 +6,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
 import ExpandingGroup from 'platform/forms-system/src/js/components/ExpandingGroup';
 
-export default function RadioWidget({
-  options,
-  value,
-  disabled,
-  onChange,
-  id,
-}) {
+export default function RadioWidget(props) {
+  const { options, formContext = {}, value, disabled, onChange, id } = props;
   const {
     enumOptions,
     labels = {},
@@ -26,7 +21,9 @@ export default function RadioWidget({
     ...(widgetProps[key] || {}),
     ...((checked && selectedProps[key]) || {}),
   });
-
+  const onReviewPage = formContext?.onReviewPage || false;
+  const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
+  const showRadio = !onReviewPage || (onReviewPage && !inReviewMode); // I think we need to take out first condition.
   // nested content could be a component or just jsx/text
   let content = nestedContent[value];
   if (isReactComponent(content)) {
@@ -50,81 +47,88 @@ export default function RadioWidget({
     }
     onChange(option.value);
   };
-
   return (
     <>
-      <div>
-        {enumOptions.map((option, i) => {
-          const checked = option.value === value;
-          const radioButton = (
-            <div className="form-radio-buttons" key={option.value}>
-              <input
-                type="radio"
-                checked={checked}
-                autoComplete="off"
-                id={`${id}_${i}`}
-                name={`${id}`}
-                value={option.value}
-                disabled={disabled}
-                onChange={_ => onChangeEvent(option)}
-                {...getProps(option.value, checked)}
-              />
-              <label htmlFor={`${id}_${i}`}>
-                {labels[option.value] || option.label}
-              </label>
-            </div>
-          );
+      {showRadio ? (
+        <>
+          <div>
+            {enumOptions.map((option, i) => {
+              const checked = option.value === value;
+              const radioButton = (
+                <div className="form-radio-buttons" key={option.value}>
+                  <input
+                    type="radio"
+                    checked={checked}
+                    autoComplete="off"
+                    id={`${id}_${i}`}
+                    name={`${id}`}
+                    value={option.value}
+                    disabled={disabled}
+                    onChange={_ => onChangeEvent(option)}
+                    {...getProps(option.value, checked)}
+                  />
+                  <label htmlFor={`${id}_${i}`}>
+                    {labels[option.value] || option.label}
+                  </label>
+                </div>
+              );
 
-          if (nestedContent[option.value]) {
-            return (
-              <ExpandingGroup open={checked} key={option.value}>
-                {radioButton}
-                <div className="schemaform-radio-indent">{content}</div>
-              </ExpandingGroup>
-            );
-          }
+              if (nestedContent[option.value]) {
+                return (
+                  <ExpandingGroup open={checked} key={option.value}>
+                    {radioButton}
+                    <div className="schemaform-radio-indent">{content}</div>
+                  </ExpandingGroup>
+                );
+              }
 
-          return radioButton;
-        })}
-      </div>
-      <va-additional-info
-        trigger={
-          environment.isProduction()
-            ? 'Who can a preparer sign for?'
-            : "If you're applying for someone else, who can you sign for?"
-        }
-      >
-        <p>
-          A preparer can sign for an{' '}
-          {environment.isProduction() ? 'individual' : 'applicant'} who’s:
-        </p>
-        <ul>
-          {environment.isProduction() ? (
-            <>
-              <li>
-                Under 18 years of age, <strong>or</strong>
-              </li>
-              <li>
-                Is mentally incompetent, <strong>or</strong>
-              </li>
-              <li>Is physically unable to sign the application</li>
-            </>
-          ) : (
-            <>
-              <li>
-                Mentally incompetent <strong>or</strong>
-              </li>
-              <li>Physically unable to sign the application</li>
-            </>
-          )}
-        </ul>
-        {environment.isProduction() && (
-          <p>
-            If you’re the preparer of this application, you’ll need to provide
-            your contact information.
-          </p>
-        )}
-      </va-additional-info>
+              return radioButton;
+            })}
+          </div>
+          <va-additional-info
+            trigger={
+              environment.isProduction()
+                ? 'Who can a preparer sign for?'
+                : "If you're applying for someone else, who can you sign for?"
+            }
+          >
+            <p>
+              A preparer can sign for an{' '}
+              {environment.isProduction() ? 'individual' : 'applicant'} who’s:
+            </p>
+            <ul>
+              {environment.isProduction() ? (
+                <>
+                  <li>
+                    Under 18 years of age, <strong>or</strong>
+                  </li>
+                  <li>
+                    Is mentally incompetent, <strong>or</strong>
+                  </li>
+                  <li>Is physically unable to sign the application</li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    Mentally incompetent <strong>or</strong>
+                  </li>
+                  <li>Physically unable to sign the application</li>
+                </>
+              )}
+            </ul>
+            {environment.isProduction() && (
+              <p>
+                If you're the preparer of this application, you'll need to
+                provide your contact information.
+              </p>
+            )}
+          </va-additional-info>
+        </>
+      ) : (
+        <span>
+          {enumOptions.find(item => item.value === value)?.label || ''}
+        </span>
+      )}
     </>
   );
 }
