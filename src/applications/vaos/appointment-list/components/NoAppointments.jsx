@@ -62,6 +62,10 @@ export default function NoAppointments({
 NoAppointments.propTypes = {
   showScheduleButton: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
-  additionalRequestDescription: false,
+  additionalRequestDescription: PropTypes.bool,
   description: PropTypes.string,
+};
+
+NoAppointments.defaultProps = {
+  additionalRequestDescription: false,
 };
