@@ -135,15 +135,11 @@ function App(props) {
     props,
   );
 
-  const LoadingIndicator = () => (
-    <va-loading-indicator message="Loading Chatbot" />
-  );
-
   switch (loadingStatus) {
     case ERROR:
       return <ChatbotError />;
     case LOADING:
-      return <LoadingIndicator />;
+      return <va-loading-indicator message="Loading Chatbot" />;
     case COMPLETE:
       return (
         <WebChat

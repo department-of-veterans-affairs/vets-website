@@ -102,7 +102,6 @@ function Page({ virtualAgentShowFloatingChatbot = null }) {
   const [chosenBot, setChosenBot] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   let bot = '';
-  const LoadingIndicator = () => <va-loading-indicator />;
 
   useEffect(
     () => {
@@ -130,7 +129,7 @@ function Page({ virtualAgentShowFloatingChatbot = null }) {
   }
 
   if (isLoading) {
-    return <LoadingIndicator />;
+    return <va-loading-indicator> </va-loading-indicator>;
   }
   return bot;
 }
