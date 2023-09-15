@@ -29,79 +29,70 @@ const content = {
 const ombInfo = {
   resBurden: '3',
   ombNumber: '2900-0567',
-  expDate: '09/30/2023',
+  expDate: '8/31/2026',
 };
 
 const childContent = (
   <>
-    <h2 className="vad-u-margin-top--0">
-      Follow the steps below to get started
-    </h2>
+    <h2 className="vad-u-margin-top--0">Follow these steps to get started</h2>
     <va-process-list>
       <li>
-        <h3 className="vads-u-font-size--h4">Check for eligibility</h3>
+        <h3 className="vads-u-font-size--h4">
+          Check the Veteran’s or Reservists’s eligibility
+        </h3>
         <p>
-          Make sure our eligibility requirements are met before you submit a
-          request
+          You can request a certificate for a deceased Veteran or Reservist who
+          was your family member or close friend.
         </p>
-        <p className="vads-u-font-weight--bold">Enlisted Service Members</p>
-        <ul>
-          <li>
-            For those who served <strong>after</strong> September 7, 1980: A
-            minimum of 24 months of consecutive active service is required.
-          </li>
-          <li>
-            For those who served <strong>before</strong> September 7, 1980: At
-            least 1 day of active service is required.
-          </li>
-        </ul>
-        <p className="vads-u-font-weight--bold">Enlisted Officers</p>
-        <ul>
-          <li>
-            For those who served <strong>after</strong> October 26, 1981: A
-            minimum of 24 months of consecutive active service is necessary.
-          </li>
-          <li>
-            For those who served <strong>before</strong> October 26, 1981: At
-            least 1 day of active service is required.
-          </li>
-        </ul>
         <p>
-          <strong>Note</strong>: Active duty for training purposes does not
-          count towards the active duty service requirement.
+          To be eligible for a Presidential Memorial Certificate, the deceased
+          Veteran or Reservist must meet eligibility requirements for burial in
+          a VA national cemetery.
+        </p>
+        <p>Not sure if the Veteran or Reservist is eligible?</p>
+        <p>
+          <a href="/burials-memorials/eligibility/">
+            Check eligibility requirements for burial in a VA national cemetary
+          </a>
+        </p>
+        <p>
+          <strong>Note</strong>: If the Veteran or Reservist is buried in a
+          national cemetery, we’ll automatically present a Presidential Memorial
+          Certificate to the next of kin at the burial. If the Veteran or
+          Reservist is eligible for burial in a national cemetery but is instead
+          buried in a private cemetery, you can request a Presidential Memorial
+          Certificate. We’ll accept multiple requests for certificates.
         </p>
       </li>
       <li>
-        <h3 className="vads-u-font-size--h4">Gather information</h3>
-        <p>We’ll ask you for this optional information:</p>
+        <h3 className="vads-u-font-size--h4">
+          Gather the Veteran’s or Reservists’s information
+        </h3>
+        <p>
+          We don’t require that you submit anything with this form. But to speed
+          up the process, we encourage you to submit these documents if they’re
+          available:
+        </p>
         <ul>
-          <li>
-            <strong>Military discharge information</strong> To receive a
-            Presidential Memorial Certificate, specific active duty service
-            requirements must be met. It’s not required, but it is preferred
-            since it will help speed up the request review process
-          </li>
-          <li>
-            The preferred discharge document to establish eligibility for the
-            certificate is Form DD214.
-          </li>
+          <li>Military records</li>
+          <li>Discharge documents (we prefer DD214).</li>
         </ul>
+        <p>
+          <strong>Note</strong>: Don’t send original documents since we can’t
+          return them.
+        </p>
       </li>
       <li>
-        <h3 className="vads-u-font-size--h4">Start your request</h3>
+        <h3 className="vads-u-font-size--h4">Fill out the request</h3>
         <p>
-          We’ll take you through each step of the process. It should take about
-          3 minutes.
+          Complete this request form. After submitting the form, you’ll get a
+          confirmation message. You can print this page for your records.
         </p>
-        <p>
-          After you submit the form, you’ll get a confirmation message. You can
-          print this page for your records.
-        </p>
-        <va-additional-info trigger="What happens after I submit the request?">
+        <va-additional-info trigger="What happens after I submit the form?">
           <div>
-            After we receive your request, we’ll verify eligibility. If
-            eligibility is determined, the requested certificates will be mailed
-            to you.
+            After we receive your request, we’ll verify if the Veteran or
+            Reservist is eligible. Then we’ll mail you the certificates you
+            requested.
           </div>
         </va-additional-info>
       </li>
