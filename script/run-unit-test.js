@@ -3,13 +3,10 @@ const commandLineArgs = require('command-line-args');
 const glob = require('glob');
 const printUnitTestHelp = require('./run-unit-test-help');
 const { runCommand } = require('./utils');
-
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
 const specDirs = '{src,script}';
 const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
-
-const isStressTest = Boolean(process.env.IS_STRESS_TEST);
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'log-level', type: String, defaultValue: 'log' },
@@ -71,8 +68,4 @@ const command = `LOG_LEVEL=${options[
   .map(p => `'${p}'`)
   .join(' ')}`;
 
-const runTestsInLoopUpTo = isStressTest ? 20 : 1;
-
-for (let i = 0; i < runTestsInLoopUpTo; i += 1) {
-  runCommand(command);
-}
+runCommand(command);
