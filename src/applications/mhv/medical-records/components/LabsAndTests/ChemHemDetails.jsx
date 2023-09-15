@@ -10,7 +10,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
-import PrintDownload from '../shared/PrintDownload';
+import PrintDownload from '../../../shared/components/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import { processList, sendErrorToSentry } from '../../util/helpers';
 import {

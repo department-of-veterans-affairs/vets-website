@@ -13,7 +13,7 @@ import {
 } from '../util/constants';
 import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
-import PrintDownload from '../components/shared/PrintDownload';
+import PrintDownload from '../../shared/components/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { processList, sendErrorToSentry } from '../util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';

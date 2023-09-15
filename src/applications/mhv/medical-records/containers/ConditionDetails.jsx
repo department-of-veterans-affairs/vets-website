@@ -11,7 +11,7 @@ import ItemList from '../components/shared/ItemList';
 import { getConditionDetails } from '../actions/conditions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
-import PrintDownload from '../components/shared/PrintDownload';
+import PrintDownload from '../../shared/components/PrintDownload';
 import { updatePageTitle } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
 

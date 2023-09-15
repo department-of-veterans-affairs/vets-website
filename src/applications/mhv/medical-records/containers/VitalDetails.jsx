@@ -11,7 +11,7 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
-import PrintDownload from '../components/shared/PrintDownload';
+import PrintDownload from '../../shared/components/PrintDownload';
 import {
   dateFormat,
   macroCase,

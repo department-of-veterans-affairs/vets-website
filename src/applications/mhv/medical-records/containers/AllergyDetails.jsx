@@ -9,7 +9,7 @@ import ItemList from '../components/shared/ItemList';
 import { getAllergyDetails } from '../actions/allergies';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
-import PrintDownload from '../components/shared/PrintDownload';
+import PrintDownload from '../../shared/components/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { processList, sendErrorToSentry } from '../util/helpers';
 import { ALERT_TYPE_ERROR, EMPTY_FIELD, pageTitles } from '../util/constants';

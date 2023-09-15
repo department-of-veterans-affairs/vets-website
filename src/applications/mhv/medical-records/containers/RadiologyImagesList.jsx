@@ -6,7 +6,7 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
-import PrintDownload from '../components/shared/PrintDownload';
+import PrintDownload from '../../shared/components/PrintDownload';
 import PrintHeader from '../components/shared/PrintHeader';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import GenerateRadiologyPdf from '../components/LabsAndTests/GenerateRadiologyPdf';

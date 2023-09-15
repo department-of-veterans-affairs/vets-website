@@ -17,7 +17,7 @@ import ItemList from '../components/shared/ItemList';
 import { getVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
-import PrintDownload from '../components/shared/PrintDownload';
+import PrintDownload from '../../shared/components/PrintDownload';
 import { EMPTY_FIELD, pageTitles } from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
 

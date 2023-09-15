@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import React from 'react';
-import PrintDownload from '../../components/shared/PrintDownload';
+import PrintDownload from '../../components/PrintDownload';
 
 describe('Print download menu component', () => {
   it('renders without errors', () => {
