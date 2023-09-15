@@ -934,7 +934,7 @@ jobs:
           TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
 
       - name: Upload Unit Test report to s3
-        run: aws s3 cp cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
+        run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
 
       # -------------------------
       # | Unit Tests Summary |
