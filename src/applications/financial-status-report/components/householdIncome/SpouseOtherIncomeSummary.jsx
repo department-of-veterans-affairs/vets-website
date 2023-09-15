@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
 import { currency as currencyFormatter } from '../../utils/helpers';
-
 import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
+import ButtonGroup from '../shared/ButtonGroup';
 
 const SpouseOtherIncomeSummary = ({
   data,
@@ -18,9 +17,13 @@ const SpouseOtherIncomeSummary = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { gmtData, additionalIncome } = data;
+  const { additionalIncome, gmtData, reviewNavigation = false } = data;
   const { spouse } = additionalIncome;
   const { spAddlIncome = [] } = spouse;
+  // notify user they are returning to review page if they are in review mode
+  const continueButtonText = reviewNavigation
+    ? 'Continue to review page'
+    : 'Continue';
 
   // useEffect to set incomeBelowGmt if income records changes
   useEffect(
@@ -69,6 +72,18 @@ const SpouseOtherIncomeSummary = ({
     return goToPath('/spouse-additional-income-values');
   };
 
+  const onSubmit = event => {
+    event.preventDefault();
+    if (reviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      return goToPath('/review-and-submit');
+    }
+    return goForward(data);
+  };
+
   const cardBody = text => (
     <p className="vads-u-margin--0">
       Monthly amount: <b>{currencyFormatter(text)}</b>
@@ -77,7 +92,7 @@ const SpouseOtherIncomeSummary = ({
   const emptyPrompt = `Select the ‘add other income’ link to add other income. Select the continue button to move on to the next question.`;
 
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend
           id="added-income-summary"
@@ -117,7 +132,21 @@ const SpouseOtherIncomeSummary = ({
             Add additional other income
           </Link>
           {contentBeforeButtons}
-          <FormNavButtons goBack={goBack} goForward={goForward} />
+          <ButtonGroup
+            buttons={[
+              {
+                label: 'Back',
+                onClick: goBack,
+                secondary: true,
+                iconLeft: '«',
+              },
+              {
+                label: continueButtonText,
+                type: 'submit',
+                iconRight: '»',
+              },
+            ]}
+          />
           {contentAfterButtons}
         </div>
       </fieldset>
@@ -141,6 +170,7 @@ SpouseOtherIncomeSummary.propTypes = {
       isEligibleForStreamlined: PropTypes.bool,
       incomeUpperThreshold: PropTypes.number,
     }),
+    reviewNavigation: PropTypes.bool,
   }),
   goForward: PropTypes.func,
   goToPath: PropTypes.func,

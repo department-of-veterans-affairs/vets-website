@@ -10,11 +10,12 @@ const SpouseAdditionalIncomeCheckList = ({
   data,
   goBack,
   goForward,
+  goToPath,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { gmtData, additionalIncome } = data;
+  const { additionalIncome, gmtData, reviewNavigation = false } = data;
   const { spAddlIncome = [] } = additionalIncome?.spouse;
 
   // Calculate income properties as necessary
@@ -60,6 +61,18 @@ const SpouseAdditionalIncomeCheckList = ({
         });
   };
 
+  const onSubmit = event => {
+    event.preventDefault();
+    if (!spAddlIncome.length && reviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      return goToPath('/review-and-submit');
+    }
+    return goForward(data);
+  };
+
   const isBoxChecked = option => {
     return spAddlIncome.some(incomeValue => incomeValue.name === option);
   };
@@ -67,12 +80,7 @@ const SpouseAdditionalIncomeCheckList = ({
   const prompt = 'Select any additional income your spouse receives:';
 
   return (
-    <form
-      onSubmit={event => {
-        event.preventDefault();
-        goForward(data);
-      }}
-    >
+    <form onSubmit={onSubmit}>
       <fieldset>
         <div className="vads-l-grid-container--full">
           <Checklist
@@ -114,9 +122,11 @@ SpouseAdditionalIncomeCheckList.propTypes = {
     questions: PropTypes.shape({
       isMarried: PropTypes.bool,
     }),
+    reviewNavigation: PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };
 
