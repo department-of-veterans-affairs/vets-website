@@ -38,7 +38,7 @@ const LandingPage = () => {
         <div className="main-content">
           <section>
             <h1>About medications</h1>
-            <p>
+            <p className="vads-u-font-size--lg">
               Learn how to manage your VA prescriptions and review all
               medications in your VA medical records.
             </p>
@@ -61,6 +61,7 @@ const LandingPage = () => {
               </a>
             </div>
           </section>
+          <hr className="vads-u-margin-top--6" />
           <section>
             <h2>What to know as you try out this tool</h2>
             <p>

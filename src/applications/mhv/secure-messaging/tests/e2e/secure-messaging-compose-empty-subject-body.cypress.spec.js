@@ -16,7 +16,9 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
     composePage.attachMessageFromFile('test_image.jpg');
   });
   it('empty message subject error', () => {
-    composePage.getMessageBodyField().type('Test message body');
+    composePage
+      .getMessageBodyField()
+      .type('Test message body', { force: true });
     composePage.clickOnSendMessageButton();
     composePage.verifySubjectErrorMessage();
     cy.injectAxe();

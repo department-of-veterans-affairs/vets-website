@@ -64,43 +64,53 @@ const IntroductionPage = ({ route, formId }) => {
             </p>
             <ul>
               <li>
-                <strong>Work history for the past 2 years. </strong>
-                You’ll need the employer name, start and end dates, and monthly
-                income for each job.
+                <strong>Work history for the past 2 years.</strong>
+                You’ll need the employer’s name, start and end dates, and
+                monthly income for each job..
               </li>
               <li>
-                <strong>Income. </strong>
-                This includes money you earn from a job, VA or Social Security
+                <strong>Income.</strong>
+                This includes earned money from a job, VA or Social Security
                 benefits, or other sources. You’ll find the details you’ll need
-                on a recent pay stub.
+                on a recent pay stub or statement.
               </li>
               <li>
-                <strong>Assets. </strong>
-                These include cash, savings, stocks and bonds, real estate,
-                cars, jewelry, and other items of value.
+                <strong>Assets.</strong>
+                This includes available cash (not in a bank).
+              </li>
+            </ul>
+            <p>
+              We may also ask you to share this information for you and your
+              spouse (if you’re married):
+            </p>
+            <ul>
+              <li>
+                <strong>Additional assets.</strong>
+                This includes cash in a checking or savings account, stocks and
+                bonds, real estate, cars, jewelry, and other items of value.
               </li>
               <li>
-                <strong>Monthly living expenses. </strong>
+                <strong>Monthly living expenses.</strong>
                 These include housing, food, and utilities (like gas,
                 electricity, and water).
               </li>
               <li>
-                <strong>Installment contracts or other debts. </strong>
+                <strong>Installment contracts or other debts.</strong>
                 These include car loans, student loans, credit card debt, and
                 other debts or purchase payment plans.
               </li>
               <li>
-                <strong>Other living expenses. </strong>
+                <strong>Other living expenses.</strong>
                 These include expenses like clothing, transportation, child
                 care, or health care.
               </li>
               <li>
-                <strong>If you’ve ever declared bankruptcy, </strong>
+                <strong>If you’ve ever declared bankruptcy,</strong>
                 you’ll need any related documents.
               </li>
             </ul>
             <p>
-              If you need help with your request,
+              If you need help with your request,{' '}
               <a
                 href="https://www.va.gov/vso/"
                 className="vads-u-margin-left--0p5"
@@ -108,14 +118,23 @@ const IntroductionPage = ({ route, formId }) => {
                 contact a local Veterans Service Organization (VSO).
               </a>
             </p>
-            <va-additional-info trigger="Why does VA need all this information?">
-              <span>
+            <va-alert status="info" uswds visible background-only>
+              <p className="vads-u-margin-top--0p25">
+                <strong>Why do we ask for this information?</strong>
+              </p>
+              <p>
                 We want to make sure we fully understand your financial
                 situation. If you’re married, we also need to understand your
                 spouse’s financial situation. This helps us make the best
-                decision on your request.
-              </span>
-            </va-additional-info>
+                decision on your request. We will not take collections on your
+                household assets.
+              </p>
+              <p className="vads-u-margin-bottom--0">
+                <strong>Note:</strong> We keep this information confidential. We
+                won’t use or share this information to collect on your income or
+                any assets.
+              </p>
+            </va-alert>
           </li>
           <li className="process-step list-two">
             <h3 className="vads-u-font-size--h4">Submit your request</h3>
@@ -128,19 +147,19 @@ const IntroductionPage = ({ route, formId }) => {
               When you submit your request, you’ll get a confirmation message.
               You can print this for your records.
             </p>
-            <p>
-              <strong>Note: </strong>
+            <p className="vads-u-margin-bottom--0">
+              <strong>Note:</strong>
               Submit your request within <strong>30 days</strong> of receiving a
               debt collection letter from us. This will help you avoid late
               fees, interest, and other collection actions.
             </p>
           </li>
           <li className="process-step list-three">
-            <h3 className="vads-u-font-size--h4">
-              Take any needed next steps to resolve the overpayment or copay
-              bill{' '}
-            </h3>
-            <p>We’ll send you this information by mail:</p>
+            <h3 className="vads-u-font-size--h4">Follow-up</h3>
+            <p>
+              After we review your request, we’ll send you this information by
+              mail:
+            </p>
             <ul>
               <li>Our decision on your request</li>
               <li>Any payments you may need to make, and how to make them</li>

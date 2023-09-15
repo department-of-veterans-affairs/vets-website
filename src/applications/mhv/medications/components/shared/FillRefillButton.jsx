@@ -58,6 +58,7 @@ const FillRefillButton = rx => {
         )}
         <button
           type="button"
+          aria-describedby={`card-header-${prescriptionId}`}
           className="vads-u-width--responsive"
           hidden={success}
           onClick={() => {

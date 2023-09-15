@@ -8,9 +8,11 @@ import createDirectDepositChangePageUpdate from '../../pages/directDepositChange
 
 import {
   benefitSelection,
+  benefitSelectionUpdate,
   dependents,
   militaryHistory,
   newSchool,
+  newSchoolUpdate,
   servicePeriods,
 } from '../pages';
 
@@ -36,8 +38,12 @@ export const chapters = {
       benefitSelection: {
         title: 'Education benefit selection',
         path: 'benefits/eligibility',
-        uiSchema: benefitSelection.uiSchema,
-        schema: benefitSelection.schema,
+        uiSchema: environment.isProduction()
+          ? benefitSelection.uiSchema
+          : benefitSelectionUpdate.uiSchema,
+        schema: environment.isProduction()
+          ? benefitSelection.schema
+          : benefitSelectionUpdate.schema,
       },
     },
   },
@@ -69,8 +75,12 @@ export const chapters = {
         initialData: {
           newSchoolAddress: {},
         },
-        uiSchema: newSchool.uiSchema,
-        schema: newSchool.schema,
+        uiSchema: environment.isProduction()
+          ? newSchool.uiSchema
+          : newSchoolUpdate.uiSchema,
+        schema: environment.isProduction()
+          ? newSchool.schema
+          : newSchoolUpdate.schema,
       },
       oldSchool: createOldSchoolPage(fullSchema1995),
     },

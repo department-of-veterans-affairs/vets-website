@@ -11,38 +11,38 @@ const ExtraDetails = rx => {
           <div>
             We’re sorry. There’s a problem with our system. You can’t manage
             this prescription online right now.
-            <div className="vads-u-margin-top--1">
+            <p className="vads-u-margin-top--1">
               Check back later. Or call your VA pharmacy at{' '}
               <va-telephone contact="3538675309" /> (
               <va-telephone contact="711" tty />
               ).
-            </div>
+            </p>
           </div>
         </div>
       )}
       {refillStatus === 'refillinprocess' && (
         <div>
-          <div
+          <p
             className="refillProcessIcon"
             data-testid="rx-refillinprocess-info"
           >
             Refill in process. We expect to fill it on{' '}
             {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
-          </div>
-          <div className="vads-u-margin-top--1 vads-u-padding-right--2">
+          </p>
+          <p className="vads-u-margin-top--1 vads-u-padding-right--2">
             If you need it sooner, or call your VA pharmacy at{' '}
             <va-telephone contact="3538675309" /> (
             <va-telephone contact="711" tty />
             ).
-          </div>
+          </p>
         </div>
       )}
       {refillStatus === 'submitted' && (
-        <div className="submittedIcon">
+        <p className="submittedIcon">
           We got your request on{' '}
           {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
           updates.
-        </div>
+        </p>
       )}
       {refillStatus === 'expired' && (
         <div className="no-print">

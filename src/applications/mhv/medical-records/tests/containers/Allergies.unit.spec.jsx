@@ -35,7 +35,7 @@ describe('Allergies list container', () => {
   it('displays a subheading', () => {
     expect(
       screen.getByText(
-        'Review allergies and reactions in your VA medical records.',
+        'If you have allergies that are missing from this list, send a secure message to your care team.',
         { exact: false },
       ),
     ).to.exist;
