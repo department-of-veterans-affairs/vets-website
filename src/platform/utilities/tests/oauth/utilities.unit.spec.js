@@ -131,7 +131,7 @@ describe('OAuth - Utilities', () => {
       });
       const { oAuthOptions } = externalApplicationsConfig.default;
       expect(url).to.include(`type=idme`);
-      expect(url).to.include(`operation=signup`);
+      expect(url).to.include(`operation=sign_up`);
       expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
     });
 
