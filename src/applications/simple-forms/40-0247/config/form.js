@@ -16,7 +16,7 @@ import appAddrPg from '../pages/applicantAddress';
 import appContactInfoPg from '../pages/applicantContactInfo';
 import certsPg from '../pages/certificates';
 import addlCertsYNPg from '../pages/additionalCertificatesYesNo';
-import addlCertsReqsPg from '../pages/additionalCertificatesRequests';
+import addlCertsReqPg from '../pages/additionalCertificatesRequest';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
@@ -170,12 +170,12 @@ const formConfig = {
           uiSchema: addlCertsYNPg.uiSchema,
           schema: addlCertsYNPg.schema,
         },
-        additionalCertificatesRequestsPage: {
+        additionalCertificatesRequestPage: {
           path: 'additional-certificates-requests',
           title: '',
           depends: formData => formData.additionalCertificates === true,
-          uiSchema: addlCertsReqsPg.uiSchema,
-          schema: addlCertsReqsPg.schema,
+          uiSchema: addlCertsReqPg.uiSchema,
+          schema: addlCertsReqPg.schema,
         },
       },
     },
