@@ -15,16 +15,7 @@ export const buildDatePartErrors = (month, day, year) => {
   };
 };
 
-// add second error message containing the part of the date with an error;
-// used to add `aria-invalid` to the specific input
-export const createScreenReaderErrorMsg = datePartErrors => {
-  return Object.entries(datePartErrors).reduce(
-    (result, [partName, hasError]) => result + (hasError ? `${partName} ` : ''),
-    '',
-  );
-};
-
-export const isDateStringValid = (year, day, month, dateString) => {
+export const isInvalidDateString = (year, day, month, dateString) => {
   return (
     !year ||
     isNaN(year) ||
@@ -51,7 +42,7 @@ export const createDateObject = rawDateString => {
 
   return {
     errors: datePartErrors,
-    isInvalid: isDateStringValid(year, day, month, dateString),
+    isInvalid: isInvalidDateString(year, day, month, dateString),
     hasErrors:
       datePartErrors.month ||
       datePartErrors.day ||
@@ -83,4 +74,16 @@ export const addDateErrorMessages = (errors, errorMessages, date) => {
     return true;
   }
   return false;
+};
+
+// add second error message containing the part of the date with an error;
+// used to add `aria-invalid` to the specific input
+export const createScreenReaderErrorMsg = (errors, datePartErrors) => {
+  const partialDateError = Object.entries(datePartErrors).reduce(
+    (result, [partName, hasError]) => result + (hasError ? `${partName} ` : ''),
+    '',
+  );
+  if (partialDateError) {
+    errors.addError(partialDateError);
+  }
 };

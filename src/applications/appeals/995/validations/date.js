@@ -34,10 +34,7 @@ export const validateDate = (errors, rawDateString = '', fullData) => {
 
   // add second error message containing the part of the date with an error;
   // used to add `aria-invalid` to the specific input
-  const partialDateError = createScreenReaderErrorMsg(date.errors);
-  if (partialDateError) {
-    errors.addError(partialDateError);
-  }
+  createScreenReaderErrorMsg(errors, date.errors);
 };
 
 /**
