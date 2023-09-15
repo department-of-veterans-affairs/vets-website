@@ -372,25 +372,6 @@ export const NoFormPage = () => {
               include a fine, imprisonment for up to 5 years, or both.
               (Reference: 18 U.S.C. 1001)
             </p>
-            <va-alert
-              background-only
-              class="vads-u-margin-bottom--1"
-              close-btn-aria-label="Close notification"
-              disable-analytics="false"
-              full-width="false"
-              status="info"
-              visible="true"
-            >
-              <p className="vads-u-margin-y--0">
-                <strong>
-                  Veterans Pension (VA Form 21P-527EZ) can not be currently
-                  completed online.
-                </strong>
-                <br />
-                We have saved your application so you can use it as a reference.
-                You will need to fill out a new form to apply by mail.
-              </p>
-            </va-alert>
             <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
               Need help?
             </h2>

@@ -18,7 +18,7 @@ const LandingPage = () => {
         <div className="main-content">
           <section>
             <h1>About medications</h1>
-            <p>
+            <p className="vads-u-font-size--lg">
               Learn how to manage your VA prescriptions and review all
               medications in your VA medical records.
             </p>
@@ -41,6 +41,7 @@ const LandingPage = () => {
               </a>
             </div>
           </section>
+          <hr className="vads-u-margin-top--6" />
           <section>
             <h2>What to know as you try out this tool</h2>
             <p>
@@ -161,7 +162,7 @@ const LandingPage = () => {
                 </p>
                 <p>
                   If your prescription is too old to refill or you have no
-                  refills left, ask your care team to renew your prescription{' '}
+                  refills left, request a renewal{' '}
                   <strong>at least 15 days</strong> before you need more.
                 </p>
               </va-accordion-item>
@@ -205,12 +206,12 @@ const LandingPage = () => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Compose a message on My HealtheVet
+                    Compose a message on the My HealtheVet website
                   </a>
                 </p>
                 <p>
-                  For questions about how to use this tool, email us at
-                  vamhvfeedback@va.gov.
+                  <strong>For questions about how to use this tool,</strong>{' '}
+                  email us at <FeedbackEmail />.
                 </p>
               </va-accordion-item>
             </va-accordion>
@@ -268,7 +269,7 @@ const LandingPage = () => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Compose a message on My HealtheVet
+                  Compose a message on the My HealtheVet website
                 </a>
                 <p className="vads-u-margin-bottom--0">
                   <strong>
@@ -288,6 +289,11 @@ const LandingPage = () => {
                   </ul>
                   You can find this information in your medication details in
                   this tool.
+                </p>
+                <p>
+                  <strong>Note:</strong> If you’re requesting renewals for more
+                  than 1 prescription from the same care team, send 1 message
+                  with all of your requests.
                 </p>
               </va-accordion-item>
               <va-accordion-item>
