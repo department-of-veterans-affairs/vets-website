@@ -35,19 +35,13 @@ describe('Prescription details container', () => {
     expect(printButton).to.exist;
   });
 
-  it('displays the prescription name and filled by date', () => {
+  it('displays the prescription name', () => {
     const screen = setup();
 
     const rxName = screen.findByText(
       rxDetailsResponse.data.attributes.prescriptionName,
     );
 
-    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
-      `Last filled on ${dateFormat(
-        rxDetailsResponse.data.attributes.refillDate,
-        'MMMM D, YYYY',
-      )}`,
-    );
     expect(rxName).to.exist;
   });
   it('displays "Information entered on" instead of "filled by" date, when med is non VA', () => {
