@@ -7,7 +7,7 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import vetPersInfoNameDatesPg from '../pages/veteranPersonalInfoNameDates';
+import vetPersInfoPg from '../pages/veteranPersonalInfo';
 import vetIdInfoPg from '../pages/veteranIdInfo';
 import vetSupportDocsPg from '../pages/veteranSupportDocs';
 import requestTypePg from '../pages/requestType';
@@ -79,18 +79,18 @@ const formConfig = {
     veteranPersonalInfoChapter: {
       title: 'Veteran’s personal information',
       pages: {
-        veteranPersonalInfoNameDatesPage: {
-          path: 'veteran-personal-information-name-dates',
-          title: 'Name and dates',
+        veteranPersonalInfoPage: {
+          path: 'veteran-personal-information',
+          title: '',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
             !!mockData && environment.isLocalhost() && !window.Cypress
               ? mockData
               : undefined,
-          uiSchema: vetPersInfoNameDatesPg.uiSchema,
-          schema: vetPersInfoNameDatesPg.schema,
-          pageClass: 'veteran-personal-information-name-dates',
+          uiSchema: vetPersInfoPg.uiSchema,
+          schema: vetPersInfoPg.schema,
+          pageClass: 'veteran-personal-information',
         },
       },
     },
