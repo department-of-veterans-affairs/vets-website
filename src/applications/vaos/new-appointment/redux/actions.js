@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/browser';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
 import { createAppointment } from '../../services/appointment';
-import newAppointmentFlow from '../newAppointmentFlow';
+import getNewAppointmentFlow from '../newAppointmentFlow';
 import {
   selectFeatureDirectScheduling,
   selectFeatureCommunityCare,
@@ -971,8 +971,10 @@ export function requestAppointmentDateChoice(history) {
   };
 }
 
-export function routeToPageInFlow(flow, history, current, action, data) {
+export function routeToPageInFlow(callback, history, current, action, data) {
   return async (dispatch, getState) => {
+    const flow = callback(getState());
+
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,
       pageKey: current,
@@ -1014,12 +1016,18 @@ export function routeToPageInFlow(flow, history, current, action, data) {
 }
 
 export function routeToNextAppointmentPage(history, current, data) {
-  return routeToPageInFlow(newAppointmentFlow, history, current, 'next', data);
+  return routeToPageInFlow(
+    getNewAppointmentFlow,
+    history,
+    current,
+    'next',
+    data,
+  );
 }
 
 export function routeToPreviousAppointmentPage(history, current, data) {
   return routeToPageInFlow(
-    newAppointmentFlow,
+    getNewAppointmentFlow,
     history,
     current,
     'previous',

@@ -1,5 +1,8 @@
-import recordEvent from 'platform/monitoring/record-event';
-import { selectRegisteredCernerFacilityIds } from '../redux/selectors';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import {
+  selectFeatureBreadcrumbUrlUpdate,
+  selectRegisteredCernerFacilityIds,
+} from '../redux/selectors';
 import {
   getChosenFacilityInfo,
   getFormData,
@@ -108,7 +111,7 @@ async function vaFacilityNext(state, dispatch) {
   return VA_FACILITY_V2_KEY;
 }
 
-export default {
+const flow = {
   home: {
     url: '/',
   },
@@ -292,3 +295,140 @@ export default {
     url: '/new-appointment/review',
   },
 };
+
+/**
+ * Function to get new appointment workflow.
+ * The URL displayed in the browser address bar is changed when the feature flag
+ * is true.
+ *
+ * @export
+ * @param {boolean} state - New appointment state
+ * @returns {object} Appointment workflow object
+ */
+export default function getNewAppointmentFlow(state) {
+  const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
+
+  return {
+    ...flow,
+    appointmentTime: {
+      ...flow.appointmentTime,
+      url: featureBreadcrumbUrlUpdate
+        ? 'appointment-time'
+        : '/new-appointment/appointment-time',
+    },
+    audiologyCareType: {
+      ...flow.audiologyCareType,
+      url: featureBreadcrumbUrlUpdate
+        ? 'audiology-care'
+        : '/new-appointment/audiology',
+    },
+    ccClosestCity: {
+      ...flow.ccClosestCity,
+      url: featureBreadcrumbUrlUpdate
+        ? 'choose-closest-city'
+        : '/new-appointment/choose-closest-city',
+    },
+    ccLanguage: {
+      ...flow.ccLanguage,
+      url: featureBreadcrumbUrlUpdate
+        ? 'community-care-language'
+        : '/new-appointment/community-care-language',
+    },
+    ccPreferences: {
+      ...flow.ccPreferences,
+      url: featureBreadcrumbUrlUpdate
+        ? 'community-care-preferences'
+        : '/new-appointment/community-care-preferences',
+    },
+    clinicChoice: {
+      ...flow.clinicChoice,
+      url: featureBreadcrumbUrlUpdate ? 'clinic' : '/new-appointment/clinics',
+    },
+    contactInfo: {
+      ...flow.contactInfo,
+      url: featureBreadcrumbUrlUpdate
+        ? 'contact-information'
+        : '/new-appointment/contact-info',
+    },
+    preferredDate: {
+      ...flow.preferredDate,
+      url: featureBreadcrumbUrlUpdate
+        ? 'preferred-date'
+        : '/new-appointment/preferred-date',
+    },
+    reasonForAppointment: {
+      ...flow.reasonForAppointment,
+      url: featureBreadcrumbUrlUpdate
+        ? 'reason'
+        : '/new-appointment/reason-appointment',
+    },
+    requestDateTime: {
+      ...flow.requestDateTime,
+      url: featureBreadcrumbUrlUpdate
+        ? 'request-date'
+        : '/new-appointment/request-date',
+    },
+    scheduleCerner: {
+      ...flow.scheduleCerner,
+      url: featureBreadcrumbUrlUpdate
+        ? 'how-to-schedule'
+        : '/new-appointment/how-to-schedule',
+    },
+    selectDateTime: {
+      ...flow.selectDateTime,
+      url: featureBreadcrumbUrlUpdate
+        ? 'date-time'
+        : '/new-appointment/select-date',
+    },
+    typeOfAppointment: {
+      ...flow.typeOfAppointment,
+      url: featureBreadcrumbUrlUpdate ? 'type-of-care' : '/new-appointment',
+    },
+    typeOfCare: {
+      ...flow.typeOfCare,
+      url: featureBreadcrumbUrlUpdate ? 'type-of-care' : '/new-appointment',
+    },
+    typeOfEyeCare: {
+      ...flow.typeOfEyeCare,
+      url: featureBreadcrumbUrlUpdate
+        ? 'eye-care'
+        : '/new-appointment/choose-eye-care',
+    },
+    typeOfFacility: {
+      ...flow.typeOfFacility,
+      url: featureBreadcrumbUrlUpdate
+        ? 'choose-facility-type'
+        : '/new-appointment/choose-facility-type',
+    },
+    typeOfSleepCare: {
+      ...flow.typeOfSleepCare,
+      url: featureBreadcrumbUrlUpdate
+        ? 'sleep-care'
+        : '/new-appointment/choose-sleep-care',
+    },
+    vaccineFlow: {
+      ...flow.vaccineFlow,
+      url: featureBreadcrumbUrlUpdate
+        ? '/schedule/new-covid-19-vaccine-appointment'
+        : '/new-covid-19-vaccine-appointment',
+    },
+    vaFacility: {
+      ...flow.vaFacility,
+      url: featureBreadcrumbUrlUpdate
+        ? 'va-facility'
+        : '/new-appointment/va-facility',
+    },
+    vaFacilityV2: {
+      ...flow.vaFacilityV2,
+      url: featureBreadcrumbUrlUpdate
+        ? 'location'
+        : '/new-appointment/va-facility-2',
+    },
+    visitType: {
+      ...flow.visitType,
+      url: featureBreadcrumbUrlUpdate
+        ? 'choose-visit-type'
+        : '/new-appointment/choose-visit-type',
+    },
+  };
+}
