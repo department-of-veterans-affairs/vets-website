@@ -8,7 +8,6 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import vetPersInfoNameDatesPg from '../pages/veteranPersonalInfoNameDates';
-import vetPersInfoDemoPg from '../pages/veteranPersonalInfoDemographics';
 import vetPersInfoGenderIdPg from '../pages/veteranPersonalInfoGenderIdentity';
 import vetIdInfoPg from '../pages/veteranIdInfo';
 import vetSupportDocsPg from '../pages/veteranSupportDocs';
@@ -78,13 +77,6 @@ const formConfig = {
           uiSchema: vetPersInfoNameDatesPg.uiSchema,
           schema: vetPersInfoNameDatesPg.schema,
           pageClass: 'veteran-personal-information-name-dates',
-        },
-        veteranPersonalInfoDemographicsPage: {
-          path: 'veteran-personal-information-demographics',
-          title: 'Demographics',
-          uiSchema: vetPersInfoDemoPg.uiSchema,
-          schema: vetPersInfoDemoPg.schema,
-          pageClass: 'veteran-personal-information-demographics',
         },
         veteranPersonalInfoGenderIdentityPage: {
           path: 'veteran-personal-information-gender-identity',
