@@ -261,8 +261,10 @@ const LandingPage = () => {
                     What if I can’t find all my allergy records?
                   </h3>
                   <p className="vads-u-margin-bottom--2">
-                    To find health information you entered yourself, go to VA
-                    Blue Button on the My HealtheVet website.
+                    This tool only includes health information your VA providers
+                    have entered. To find health information you entered
+                    yourself, go to your VA Blue Button® report on the My
+                    HealtheVet website.
                   </p>
                   <p className="vads-u-margin-bottom--2">
                     <a
