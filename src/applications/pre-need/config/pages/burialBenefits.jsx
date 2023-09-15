@@ -2,15 +2,24 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
+import { useSelector } from 'react-redux';
 import {
   isVeteran,
   getCemeteries,
-  desiredCemeteryNoteDescription,
+  desiredCemeteryNoteDescriptionVeteran,
+  desiredCemeteryNoteDescriptionNonVeteran,
 } from '../../utils/helpers';
 
 const {
   hasCurrentlyBuried,
 } = fullSchemaPreNeed.properties.application.properties;
+
+function DesiredCemeteryNoteDescription() {
+  const data = useSelector(state => state.form.data || {});
+  return isVeteran(data)
+    ? desiredCemeteryNoteDescriptionVeteran
+    : desiredCemeteryNoteDescriptionNonVeteran;
+}
 
 export const uiSchema = {
   application: {
@@ -27,7 +36,7 @@ export const uiSchema = {
         },
       ),
       'view:desiredCemeteryNote': {
-        'ui:description': desiredCemeteryNoteDescription,
+        'ui:description': DesiredCemeteryNoteDescription,
       },
     },
     hasCurrentlyBuried: {
@@ -36,7 +45,7 @@ export const uiSchema = {
         updateSchema: formData => {
           const title = isVeteran(formData)
             ? 'Is there anyone currently buried in a VA national cemetery under your eligibility?'
-            : 'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
+            : 'Is there anyone currently buried in a VA national cemetery under the sponsor’s eligibility?';
           return { title };
         },
         labels: {
