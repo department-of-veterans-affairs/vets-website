@@ -60,27 +60,16 @@ const RadiologyImagesList = () => {
     GenerateRadiologyPdf(labAndTestDetails);
   };
 
-  useEffect(
-    () => {
-      if (labAndTestDetails?.name) {
-        dispatch(
-          setBreadcrumbs(
-            [
-              {
-                url: `/my-health/medical-records/labs-and-tests/${labId}`,
-                label: labAndTestDetails?.name,
-              },
-            ],
-            {
-              url: `/my-health/medical-records/labs-and-tests/${labId}/images`,
-              label: `Images: ${labAndTestDetails?.name}`,
-            },
-          ),
-        );
-      }
-    },
-    [labAndTestDetails, dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs([
+        {
+          url: `/my-health/medical-records/labs-and-tests/${labId}`,
+          label: labAndTestDetails?.name,
+        },
+      ]),
+    );
+  }, []);
 
   useEffect(
     () => {

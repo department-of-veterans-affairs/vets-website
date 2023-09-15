@@ -1,5 +1,4 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "./vaccines";
 @import "./record-list";
 @import "./vaccine-details";
 @import "./breadcrumbs";
@@ -39,7 +38,7 @@
   .no-print,
   .no-print * {
     visibility: hidden;
-    display: none;
+    display: none !important;
     margin: 0px !important;
     padding: 0px !important;
   }
@@ -103,6 +102,9 @@
 
 .page-description {
   margin: 8px 0px 16px;
+}
+.page-description-link {
+  display: block;
 }
 
 @media (max-width: $small-screen) {
