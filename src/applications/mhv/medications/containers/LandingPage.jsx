@@ -183,7 +183,7 @@ const LandingPage = () => {
                   </p>
                   <p>
                     If your prescription is too old to refill or you have no
-                    refills left, ask your care team to renew your prescription{' '}
+                    refills left, request a renewal{' '}
                     <strong>at least 15 days</strong> before you need more.
                   </p>
                 </va-accordion-item>
@@ -226,12 +226,12 @@ const LandingPage = () => {
                       )}
                       rel="noreferrer"
                     >
-                      Compose a message on My HealtheVet
+                      Compose a message on the My HealtheVet website
                     </a>
                   </p>
                   <p>
-                    For questions about how to use this tool, email us at
-                    vamhvfeedback@va.gov.
+                    <strong>For questions about how to use this tool,</strong>{' '}
+                    email us at <FeedbackEmail />.
                   </p>
                 </va-accordion-item>
               </va-accordion>
@@ -292,7 +292,7 @@ const LandingPage = () => {
                     )}
                     rel="noreferrer"
                   >
-                    Compose a message on My HealtheVet
+                    Compose a message on the My HealtheVet website
                   </a>
                   <section className="vads-u-margin-bottom--0">
                     <strong>
@@ -313,6 +313,11 @@ const LandingPage = () => {
                     You can find this information in your medication details in
                     this tool.
                   </section>
+                  <p>
+                    <strong>Note:</strong> If you’re requesting renewals for
+                    more than 1 prescription from the same care team, send 1
+                    message with all of your requests.
+                  </p>
                 </va-accordion-item>
                 <va-accordion-item>
                   <h3 className="vads-u-font-size--h6" slot="headline">
