@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Disclaimer from './Disclaimer';
 import ChatBox from '../chatbox/Chatbox';
 
@@ -102,6 +102,7 @@ function Page({ virtualAgentShowFloatingChatbot = null }) {
   const [chosenBot, setChosenBot] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   let bot = '';
+  const LoadingIndicator = () => <va-loading-indicator />;
 
   useEffect(
     () => {
