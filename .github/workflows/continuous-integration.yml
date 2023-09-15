@@ -922,7 +922,7 @@ jobs:
       - name: Log directories
         run: |
           ls -a
-          cd qa-standards-dashboard-data/src/testing-reports/data
+          cd qa-standards-dashboard-data/src/testing-reports/
           ls -a
 
       - name: Upload Test Results to BigQuery
