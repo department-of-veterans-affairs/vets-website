@@ -8,6 +8,7 @@ import {
   intervalUntilNextAppointmentIneligibleForCheckin,
   preCheckinAlreadyCompleted,
   sortAppointmentsByStartTime,
+  organizeAppointmentsByYearMonthDay,
   removeTimeZone,
   preCheckinExpired,
   locationShouldBeDisplayed,
@@ -351,6 +352,67 @@ describe('check in', () => {
         const appointments = [latest, earliest, midday];
         const sortedAppointments = [earliest, midday, latest];
         expect(sortAppointmentsByStartTime(appointments)).to.deep.equal(
+          sortedAppointments,
+        );
+      });
+    });
+    describe('organizeAppointmentsByYearMonthDay', () => {
+      it('returns an empty object when appointments is undefined', () => {
+        expect(organizeAppointmentsByYearMonthDay(undefined)).to.deep.equal([]);
+      });
+      it('returns an empty object when appointments is empty', () => {
+        expect(organizeAppointmentsByYearMonthDay(undefined)).to.deep.equal([]);
+      });
+      it('returns the expected object organized by month and day and sorted by acending time', () => {
+        const first = createAppointment();
+        first.startTime = '2023-01-01T08:00:00.000Z';
+        const second = createAppointment();
+        second.startTime = '2023-01-02T08:00:00.000Z';
+        const third = createAppointment();
+        third.startTime = '2023-01-02T08:01:30.000Z';
+        const fourth = createAppointment();
+        fourth.startTime = '2023-01-02T08:02:30.000Z';
+        const fifth = createAppointment();
+        fifth.startTime = '2023-02-03T08:02:30.000Z';
+        const sixth = createAppointment();
+        sixth.startTime = '2024-02-03T08:02:30.000Z';
+
+        const appointments = [sixth, fifth, third, fourth, second, first];
+
+        const sortedAppointments = [
+          {
+            monthYearKey: '2023-January',
+            days: [
+              {
+                dayKey: 'Sun-1',
+                appointments: [first],
+              },
+              {
+                dayKey: 'Mon-2',
+                appointments: [second, third, fourth],
+              },
+            ],
+          },
+          {
+            monthYearKey: '2023-February',
+            days: [
+              {
+                dayKey: 'Fri-3',
+                appointments: [fifth],
+              },
+            ],
+          },
+          {
+            monthYearKey: '2024-February',
+            days: [
+              {
+                dayKey: 'Sat-3',
+                appointments: [sixth],
+              },
+            ],
+          },
+        ];
+        expect(organizeAppointmentsByYearMonthDay(appointments)).to.deep.equal(
           sortedAppointments,
         );
       });

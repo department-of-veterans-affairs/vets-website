@@ -33,14 +33,14 @@ const UpcomingAppointmentsList = props => {
     jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
   };
 
-  if (Object.keys(groupedAppointments).length < 1) {
+  if (groupedAppointments.length < 1) {
     window.scrollTo(0, 0);
     return <div>You have no upcoming appointments ¯\_(ツ)_/¯</div>;
   }
   return (
     <>
-      {Object.keys(groupedAppointments).map(monthYearKey => {
-        const monthAppointments = groupedAppointments[monthYearKey];
+      {groupedAppointments.map(month => {
+        const { monthYearKey, days } = month;
 
         return (
           <div key={monthYearKey}>
@@ -51,11 +51,11 @@ const UpcomingAppointmentsList = props => {
               className="vads-u-margin-bottom--4 check-in--appointment-list appointment-list"
               data-testid="appointment-list"
             >
-              {Object.keys(monthAppointments).map(dayKey => {
-                const dayAppointments = monthAppointments[dayKey];
+              {days.map(day => {
+                const { appointments, dayKey } = day;
                 return (
                   <>
-                    {dayAppointments.map((appointment, index) => {
+                    {appointments.map((appointment, index) => {
                       const dayKeyString = index === 0 ? dayKey : null;
                       return (
                         <UpcomingAppointmentsListItem

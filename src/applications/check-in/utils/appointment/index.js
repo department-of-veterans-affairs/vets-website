@@ -170,7 +170,7 @@ const sortAppointmentsByStartTime = appointments => {
  */
 
 function organizeAppointmentsByYearMonthDay(appointments) {
-  const organizedData = {};
+  const organizedData = [];
   const months = [
     'January',
     'February',
@@ -197,15 +197,23 @@ function organizeAppointmentsByYearMonthDay(appointments) {
     }`;
     const dayKey = `${days[dateObj.getDay()]}-${dateObj.getDate()}`;
 
-    if (!organizedData[monthYearKey]) {
-      organizedData[monthYearKey] = {};
+    let yearObj = organizedData.find(
+      item => item.monthYearKey === monthYearKey,
+    );
+
+    if (!yearObj) {
+      yearObj = { monthYearKey, days: [] };
+      organizedData.push(yearObj);
     }
 
-    if (!organizedData[monthYearKey][dayKey]) {
-      organizedData[monthYearKey][dayKey] = [];
+    let monthObj = yearObj.days.find(item => item.dayKey === dayKey);
+
+    if (!monthObj) {
+      monthObj = { dayKey, appointments: [] };
+      yearObj.days.push(monthObj);
     }
 
-    organizedData[monthYearKey][dayKey].push(appointment);
+    monthObj.appointments.push(appointment);
   }
 
   return organizedData;
