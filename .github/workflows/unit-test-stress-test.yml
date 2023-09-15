@@ -1,8 +1,9 @@
 name: Unit Tests Stress Test
 
 on:
-  schedule:
-    - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
+  # schedule:
+  #   - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
+  push
 
 jobs:
   fetch-unit-tests-allow-list:
@@ -53,6 +54,34 @@ jobs:
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        runs:
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+          ]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -79,19 +108,26 @@ jobs:
           delimiter: ','
           output-type: 'folder'
 
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: .
+
       - name: Run unit tests
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           IS_STRESS_TEST: true
+          STEP: ${{ matrix.runs }}
 
       - name: Archive unit test results
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: unit-test-report
-          path: mochawesome-report
+          path: mocha/results
 
       # - name: Generate coverage report by app
       #   run: node script/app-coverage-report.js > test-results/coverage_report.txt
