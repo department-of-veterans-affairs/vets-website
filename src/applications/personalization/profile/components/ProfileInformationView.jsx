@@ -57,6 +57,7 @@ const ProfileInformationView = props => {
     return (
       <div>
         <va-telephone
+          data-testid="phoneNumber"
           contact={number}
           extension={data.extension}
           not-clickable
