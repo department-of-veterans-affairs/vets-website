@@ -292,8 +292,10 @@ const LandingPage = () => {
                   </p>
                   <p className="vads-u-margin-bottom--2">
                     <a
-                      href="http://www.mhv-syst.myhealth.va.gov/mhv-portal-web/compose-message"
-                      rel="noreferrer"
+                      href={mhvUrl(
+                        isAuthenticatedWithSSOe(fullState),
+                        'compose-message',
+                      )}
                     >
                       Compose a message on the My HealtheVet website
                     </a>
