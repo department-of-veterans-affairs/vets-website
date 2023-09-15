@@ -47,10 +47,12 @@ const EmploymentQuestionReview = ({ data, goToPath, name }) => {
 
   return (
     <>
-      <ReviewPageHeader
-        title="household income"
-        goToPath={() => onReviewClick()}
-      />
+      {isSpouse ? null : (
+        <ReviewPageHeader
+          title="household income"
+          goToPath={() => onReviewClick()}
+        />
+      )}
       <div
         className="form-review-panel-page"
         key={

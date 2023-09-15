@@ -502,7 +502,6 @@ export default {
         title: 'Spouse other income summary',
         CustomPage: SpouseOtherIncomeSummary,
         CustomPageReview: OtherIncomeSummaryReview,
-        editModeOnReviewPage: true,
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
