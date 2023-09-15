@@ -140,7 +140,7 @@ const formConfig = {
       },
     },
     applicantContactInfoChapter: {
-      title: 'Applicant’s contact information',
+      title: 'Your contact information',
       pages: {
         applicantContactInfoPage: {
           path: 'applicant-contact-information',
