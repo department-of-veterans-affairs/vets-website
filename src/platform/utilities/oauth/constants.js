@@ -47,6 +47,11 @@ export const OAUTH_KEYS = {
   CODE: 'code',
   CODE_VERIFIER: 'code_verifier',
   ACR: 'acr',
+  OPERATION: 'operation',
+};
+
+export const OPERATIONS = {
+  SIGNUP: 'signup',
 };
 
 export const OAUTH_ALLOWED_PARAMS = {

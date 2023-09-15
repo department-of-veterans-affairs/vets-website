@@ -9,6 +9,7 @@ import {
   EXTERNAL_APPS,
   GA,
   SIGNUP_TYPES,
+  OPERATIONS,
 } from 'platform/user/authentication/constants';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import {
@@ -140,6 +141,10 @@ export async function createOAuthRequest({
     }),
     [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
+    ...(passedOptions.isSignup &&
+      type.includes('idme') && {
+        [OAUTH_KEYS.OPERATION]: OPERATIONS.SIGN_UP,
+      }),
   };
 
   const url = new URL(API_SIGN_IN_SERVICE_URL({ type: useType }));

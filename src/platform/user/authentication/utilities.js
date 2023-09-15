@@ -384,9 +384,9 @@ export async function signupOrVerify({
         allowVerification,
       }),
     // just signup
-    ...(isSignup &&
-      !useOAuth &&
-      policy === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
+    ...(isSignup && policy === CSP_IDS.ID_ME && !useOAuth
+      ? { queryParams: { op: 'signup' } }
+      : {}),
   });
   const eventBase = isSignup ? AUTH_EVENTS.REGISTER : AUTH_EVENTS.VERIFY;
   const eventAuthBroker = useOAuth ? 'sis' : 'iam';
