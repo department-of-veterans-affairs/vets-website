@@ -6,7 +6,7 @@
       "attributes": {
         "messageId": 690953,
         "category": "APPOINTMENTS",
-        "subject": "Appointment Inquiry",
+        "subject": "COVID",
         "body": "hello,2",
         "attachment": null,
         "sentDate": "2017-04-13T18:19:43.000Z",
@@ -90,7 +90,7 @@
       "attributes": {
         "messageId": 721633,
         "category": "APPOINTMENTS",
-        "subject": "Appointment Inquiry",
+        "subject": "COVID",
         "body": "Save draft ",
         "attachment": null,
         "sentDate": "2017-08-11T14:55:55.000Z",
