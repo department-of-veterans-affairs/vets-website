@@ -58,7 +58,7 @@ const NonVaPrescription = prescription => {
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Reason for use
           </h3>
-          <p>{validateField(prescription.reason)}</p>
+          <p>{validateField(prescription.indicationForUse)}</p>
         </section>
         <section>
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">

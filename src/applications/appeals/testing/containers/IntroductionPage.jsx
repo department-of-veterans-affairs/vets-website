@@ -87,7 +87,7 @@ const IntroductionPage = ({ route }) => {
           <li>
             <strong>If you have a claim from the old appeals system</strong>
             <p>
-              If you have a <strong>Statement of the Case (SOC)</strong> or a
+              If you have a <strong>Statement of the Case (SOC)</strong> or a{' '}
               <strong>Supplemental Statement of the Case (SSOC)</strong> from
               the old appeals system{' '}
               <strong>dated on or after February 19, 2019</strong>, the Board

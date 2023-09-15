@@ -7,6 +7,9 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
  */
 export const formatName = ({ first, middle, last, suffix }) => {
   let name = `${last}, ${first}`;
+  if (!first) {
+    name = `${last}`;
+  }
   if (middle) name += ` ${middle}`;
   if (suffix) name += `, ${suffix}`;
   return name;
