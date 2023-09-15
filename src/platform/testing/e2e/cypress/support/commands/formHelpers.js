@@ -146,7 +146,7 @@ Cypress.Commands.add('fillDate', (fieldName, dateString) => {
         `va-date[name="${fieldName}"][monthyearonly]`,
       );
       vaDate(vaDateElement, !!monthYearOnly, date);
-    } else if (vaMemorableDate) {
+    } else if (vaMemorableDateElement) {
       // USWDS v3 only
       const vaMemorableDateMonthSelect = !!doc.querySelector(
         `va-memorable-date[name="${fieldName}"][monthselect]`,
