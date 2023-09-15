@@ -199,7 +199,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: unit-test-report
-          path: mochawesome-report
+          path: mocha/results
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
