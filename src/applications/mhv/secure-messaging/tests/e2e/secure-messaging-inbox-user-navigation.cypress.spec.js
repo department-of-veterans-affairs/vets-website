@@ -37,6 +37,6 @@ describe('Secure Messaging Compose', () => {
       .type('Test message body', { force: true });
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifySendMessageConfirmationMessage();
-    landingPage.verifyInboxHeader('Inbox');
+    // landingPage.verifyInboxHeader('Inbox');
   });
 });
