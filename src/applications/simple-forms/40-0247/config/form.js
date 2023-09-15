@@ -116,7 +116,7 @@ const formConfig = {
       },
     },
     applicantPersonalInfoChapter: {
-      title: 'Applicant’s personal information',
+      title: 'Your personal information',
       pages: {
         applicantPersonalInfoPage: {
           path: 'applicant-personal-information',
