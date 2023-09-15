@@ -128,7 +128,7 @@ const formConfig = {
       },
     },
     applicantAddressChapter: {
-      title: 'Applicant’s address',
+      title: 'Your address',
       pages: {
         applicantAddressPage: {
           path: 'applicant-address',
