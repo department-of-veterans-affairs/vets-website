@@ -121,19 +121,32 @@ describe('OAuth - Utilities', () => {
       });
     });
 
-    ['logingov_signup', 'idme_signup'].forEach(csp => {
-      it('should generate the proper signup url based on `csp` for web', async () => {
-        const url = await oAuthUtils.createOAuthRequest({
-          type: csp,
-          passedOptions: {
-            isSignup: true,
-          },
-        });
-        const { oAuthOptions } = externalApplicationsConfig.default;
-        const expectedType = csp.slice(0, csp.indexOf('_'));
-        expect(url).to.include(`type=${expectedType}`);
-        expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
+    it('should generate the proper id.me signup url', async () => {
+      const csp = 'idme_signup';
+      const url = await oAuthUtils.createOAuthRequest({
+        type: csp,
+        passedOptions: {
+          isSignup: true,
+        },
       });
+      const { oAuthOptions } = externalApplicationsConfig.default;
+      expect(url).to.include(`type=idme`);
+      expect(url).to.include(`operation=signup`);
+      expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
+    });
+
+    it('should generate the proper login.gov signup url', async () => {
+      const csp = 'logingov_signup';
+      const url = await oAuthUtils.createOAuthRequest({
+        type: csp,
+        passedOptions: {
+          isSignup: true,
+        },
+      });
+      const { oAuthOptions } = externalApplicationsConfig.default;
+      const expectedType = csp.slice(0, csp.indexOf('_'));
+      expect(url).to.include(`type=${expectedType}`);
+      expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
     });
   });
 

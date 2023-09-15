@@ -47,7 +47,6 @@ export const OAUTH_KEYS = {
   CODE: 'code',
   CODE_VERIFIER: 'code_verifier',
   ACR: 'acr',
-  OPERATION: 'operation',
 };
 
 export const OPERATIONS = {
@@ -58,6 +57,7 @@ export const OAUTH_ALLOWED_PARAMS = {
   CODE: 'code',
   S256: 'S256',
   AUTH_CODE: 'authorization_code',
+  OPERATION: 'operation',
 };
 
 const generateOAuthKeysWithout = array =>

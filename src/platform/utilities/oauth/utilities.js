@@ -9,7 +9,6 @@ import {
   EXTERNAL_APPS,
   GA,
   SIGNUP_TYPES,
-  OPERATIONS,
 } from 'platform/user/authentication/constants';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import {
@@ -20,6 +19,7 @@ import {
   OAUTH_ALLOWED_PARAMS,
   OAUTH_ENDPOINTS,
   OAUTH_KEYS,
+  OPERATIONS,
 } from './constants';
 import * as oauthCrypto from './crypto';
 
@@ -143,7 +143,7 @@ export async function createOAuthRequest({
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
     ...(passedOptions.isSignup &&
       type.includes('idme') && {
-        [OAUTH_KEYS.OPERATION]: OPERATIONS.SIGN_UP,
+        [OAUTH_ALLOWED_PARAMS.OPERATION]: OPERATIONS.SIGNUP,
       }),
   };
 
