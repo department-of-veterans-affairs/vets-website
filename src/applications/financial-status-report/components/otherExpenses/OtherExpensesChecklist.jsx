@@ -10,11 +10,12 @@ const OtherExpensesChecklist = ({
   data,
   goBack,
   goForward,
+  goToPath,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { gmtData, otherExpenses = [] } = data;
+  const { gmtData, otherExpenses = [], reviewNavigation = false } = data;
 
   const onChange = ({ target }) => {
     const { value } = target;
@@ -45,6 +46,18 @@ const OtherExpensesChecklist = ({
     });
   };
 
+  const onSubmit = event => {
+    event.preventDefault();
+    if (!otherExpenses?.length && reviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      return goToPath('/review-and-submit');
+    }
+    return goForward(data);
+  };
+
   const isBoxChecked = option => {
     return otherExpenses.some(expense => expense.name === option);
   };
@@ -53,12 +66,7 @@ const OtherExpensesChecklist = ({
   const prompt = 'What other living expenses do you have?';
 
   return (
-    <form
-      onSubmit={event => {
-        event.preventDefault();
-        goForward(data);
-      }}
-    >
+    <form onSubmit={onSubmit}>
       <fieldset>
         <div className="vads-l-grid-container--full">
           <Checklist
@@ -88,9 +96,11 @@ OtherExpensesChecklist.propTypes = {
       isEligibleForStreamlined: PropTypes.bool,
       discretionaryIncomeThreshold: PropTypes.number,
     }),
+    reviewNavigation: PropTypes.bool,
   }).isRequired,
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,
+  goToPath: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
   contentAfterButtons: PropTypes.node,
   contentBeforeButtons: PropTypes.node,
