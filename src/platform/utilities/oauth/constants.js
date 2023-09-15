@@ -50,7 +50,7 @@ export const OAUTH_KEYS = {
 };
 
 export const OPERATIONS = {
-  SIGNUP: 'signup',
+  SIGNUP: 'sign_up',
 };
 
 export const OAUTH_ALLOWED_PARAMS = {
