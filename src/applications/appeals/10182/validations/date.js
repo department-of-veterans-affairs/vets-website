@@ -7,7 +7,7 @@ import { MAX_YEARS_PAST } from '../../shared/constants';
 import {
   createScreenReaderErrorMsg,
   addDateErrorMessages,
-  dateFunctions,
+  createDateObject,
 } from '../../shared/validations/date';
 
 const minDate1 = moment()
@@ -29,38 +29,25 @@ export const validateDate = (
 ) => {
   const data = Object.keys(appStateData || {}).length ? appStateData : formData;
 
-  const {
-    datePartErrors,
-    isInvalidDateString,
-    hasDateErrors,
-    date,
-    todayOrFutureDate,
-  } = dateFunctions(rawDateString);
+  const date = createDateObject(rawDateString);
 
-  const hasMessages = addDateErrorMessages(
-    errors,
-    issueErrorMessages,
-    datePartErrors,
-    isInvalidDateString,
-    hasDateErrors,
-    todayOrFutureDate,
-  );
+  const hasMessages = addDateErrorMessages(errors, issueErrorMessages, date);
   if (!hasMessages) {
-    if (!data[SHOW_PART3] && date.isBefore(minDate1)) {
+    if (!data[SHOW_PART3] && date.momentDate.isBefore(minDate1)) {
       errors.addError(issueErrorMessages.newerDate);
-      datePartErrors.year = true;
-    } else if (date.isBefore(minDate100)) {
+      date.errors.year = true;
+    } else if (date.momentDate.isBefore(minDate100)) {
       // max 1 year for old form or 100 years for newer form
       errors.addError(issueErrorMessages.recentDate);
-      datePartErrors.year = true; // only the year is invalid at this point
+      date.errors.year = true; // only the year is invalid at this point
     }
   }
 
   // add second error message containing the part of the date with an error;
   // used to add `aria-invalid` to the specific input
-  const partsError = createScreenReaderErrorMsg(datePartErrors);
-  if (partsError) {
-    errors.addError(partsError);
+  const partialDateError = createScreenReaderErrorMsg(date.errors);
+  if (partialDateError) {
+    errors.addError(partialDateError);
   }
 };
 

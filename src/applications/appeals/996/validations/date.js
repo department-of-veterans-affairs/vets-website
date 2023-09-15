@@ -3,7 +3,7 @@ import moment from 'moment';
 import { issueErrorMessages } from '../content/addIssue';
 import {
   createScreenReaderErrorMsg,
-  dateFunctions,
+  createDateObject,
   addDateErrorMessages,
 } from '../../shared/validations/date';
 
@@ -12,33 +12,20 @@ const minDate = moment()
   .startOf('day');
 
 export const validateDate = (errors, rawDateString = '') => {
-  const {
-    datePartErrors,
-    isInvalidDateString,
-    hasDateErrors,
-    date,
-    todayOrFutureDate,
-  } = dateFunctions(rawDateString);
+  const date = createDateObject(rawDateString);
 
-  const hasMessages = addDateErrorMessages(
-    errors,
-    issueErrorMessages,
-    datePartErrors,
-    isInvalidDateString,
-    hasDateErrors,
-    todayOrFutureDate,
-  );
+  const hasMessages = addDateErrorMessages(errors, issueErrorMessages, date);
 
-  if (!hasMessages && date.isBefore(minDate)) {
+  if (!hasMessages && date.momentDate.isBefore(minDate)) {
     errors.addError(issueErrorMessages.newerDate);
-    datePartErrors.year = true; // only the year is invalid at this point
+    date.errors.year = true; // only the year is invalid at this point
   }
 
   // add second error message containing the part of the date with an error;
   // used to add `aria-invalid` to the specific input
-  const partsError = createScreenReaderErrorMsg(datePartErrors);
-  if (partsError) {
-    errors.addError(partsError);
+  const partialDateError = createScreenReaderErrorMsg(date.errors);
+  if (partialDateError) {
+    errors.addError(partialDateError);
   }
 };
 

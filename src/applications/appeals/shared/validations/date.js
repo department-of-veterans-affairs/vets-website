@@ -4,10 +4,12 @@ import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import { FORMAT_YMD } from '../constants';
 import { fixDateFormat } from '../utils/replace';
 
-export const buildDatePartErrors = (month, day, year, maxDays) => {
+export const buildDatePartErrors = (month, day, year) => {
+  const maxDaysInAMonth =
+    year && month ? new Date(year, month, 0).getDate() : 31;
   return {
     month: !month || month < 1 || month > 12,
-    day: !day || day < 1 || day > maxDays,
+    day: !day || day < 1 || day > maxDaysInAMonth,
     year: !year,
     other: false, // catch all for partial & invalid dates
   };
@@ -37,55 +39,47 @@ export const isDateStringValid = (year, day, month, dateString) => {
   );
 };
 
-export const dateFunctions = rawDateString => {
+export const createDateObject = rawDateString => {
   const dateString = fixDateFormat(rawDateString);
   const { day, month, year } = parseISODate(dateString);
-  const date = moment(rawDateString, FORMAT_YMD);
+  const momentDate = moment(rawDateString, FORMAT_YMD);
   // get last day of the month (month is zero based, so we're +1 month, day 0);
   // new Date() will recalculate and go back to last day of the previous month
-  const maxDays = year && month ? new Date(year, month, 0).getDate() : 31;
-  const invalidDate = dateString?.length < FORMAT_YMD.length || !date.isValid();
-  const datePartErrors = buildDatePartErrors(month, day, year, maxDays);
-  const todayOrFutureDate = date.isSameOrAfter(moment().startOf('day'));
+  const invalidDate =
+    dateString?.length < FORMAT_YMD.length || !momentDate.isValid();
+  const datePartErrors = buildDatePartErrors(month, day, year);
 
   return {
-    datePartErrors,
-    isInvalidDateString: isDateStringValid(year, day, month, dateString),
-    hasDateErrors:
+    errors: datePartErrors,
+    isInvalid: isDateStringValid(year, day, month, dateString),
+    hasErrors:
       datePartErrors.month ||
       datePartErrors.day ||
       datePartErrors.year ||
       invalidDate,
-    date,
-    todayOrFutureDate,
+    momentDate,
+    isTodayOrInFuture: momentDate.isSameOrAfter(moment().startOf('day')),
   };
 };
 
-export const addDateErrorMessages = (
-  errors,
-  errorMessages,
-  datePartErrors,
-  isInvalidDateString,
-  hasDateErrors,
-  todayOrFutureDate,
-) => {
-  if (isInvalidDateString) {
+export const addDateErrorMessages = (errors, errorMessages, date) => {
+  if (date.isInvalid) {
     errors.addError(errorMessages.blankDecisionDate);
     // eslint-disable-next-line no-param-reassign
-    datePartErrors.other = true; // other part error
+    date.errors.other = true; // other part error
     return true;
   }
-  if (hasDateErrors) {
+  if (date.hasErrors) {
     errors.addError(errorMessages.invalidDate);
     // eslint-disable-next-line no-param-reassign
-    datePartErrors.other = true; // other part error
+    date.errors.other = true; // other part error
     return true;
   }
-  if (todayOrFutureDate) {
+  if (date.isTodayOrInFuture) {
     // Lighthouse won't accept same day (as submission) decision date
     errors.addError(errorMessages.pastDate);
     // eslint-disable-next-line no-param-reassign
-    datePartErrors.year = true; // only the year is invalid at this point
+    date.errors.year = true; // only the year is invalid at this point
     return true;
   }
   return false;

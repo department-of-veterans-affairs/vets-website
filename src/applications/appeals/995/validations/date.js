@@ -4,7 +4,7 @@ import { errorMessages } from '../constants';
 import { MAX_YEARS_PAST } from '../../shared/constants';
 import {
   createScreenReaderErrorMsg,
-  dateFunctions,
+  createDateObject,
 } from '../../shared/validations/date';
 
 export const minDate = moment()
@@ -12,37 +12,31 @@ export const minDate = moment()
   .startOf('day');
 
 export const validateDate = (errors, rawDateString = '', fullData) => {
-  const {
-    datePartErrors,
-    isInvalidDateString,
-    hasDateErrors,
-    date,
-    todayOrFutureDate,
-  } = dateFunctions(rawDateString);
+  const date = createDateObject(rawDateString);
   const dateType = fullData?.dateType || 'decisions';
 
-  if (isInvalidDateString) {
+  if (date.isInvalid) {
     // The va-memorable-date component currently overrides the error message
     // when the value is blank
     errors.addError(errorMessages[dateType].blankDate);
-    datePartErrors.other = true; // other part error
-  } else if (hasDateErrors) {
+    date.errors.other = true; // other part error
+  } else if (date.hasErrors) {
     errors.addError(errorMessages.invalidDate);
-    datePartErrors.other = true; // other part error
-  } else if (todayOrFutureDate) {
+    date.errors.other = true; // other part error
+  } else if (date.isTodayOrInFuture) {
     // Lighthouse won't accept same day (as submission) decision date
     errors.addError(errorMessages[dateType].pastDate);
-    datePartErrors.year = true; // only the year is invalid at this point
-  } else if (date.isBefore(minDate)) {
+    date.errors.year = true; // only the year is invalid at this point
+  } else if (date.momentDate.isBefore(minDate)) {
     errors.addError(errorMessages[dateType].newerDate);
-    datePartErrors.year = true; // only the year is invalid at this point
+    date.errors.year = true; // only the year is invalid at this point
   }
 
   // add second error message containing the part of the date with an error;
   // used to add `aria-invalid` to the specific input
-  const partsError = createScreenReaderErrorMsg(datePartErrors);
-  if (partsError) {
-    errors.addError(partsError);
+  const partialDateError = createScreenReaderErrorMsg(date.errors);
+  if (partialDateError) {
+    errors.addError(partialDateError);
   }
 };
 
