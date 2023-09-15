@@ -264,7 +264,7 @@ const LandingPage = () => {
                     This tool only includes health information your VA providers
                     have entered.
                   </p>
-                  <p>
+                  <p className="vads-u-margin-bottom--2">
                     To find health information you entered yourself, go to your
                     VA Blue Button® report on the My HealtheVet website.
                   </p>
