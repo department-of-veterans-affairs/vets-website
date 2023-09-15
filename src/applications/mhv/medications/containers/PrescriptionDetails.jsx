@@ -158,6 +158,32 @@ const PrescriptionDetails = () => {
     [prescriptionId, dispatch],
   );
 
+  const filledEnteredDate = () => {
+    if (nonVaPrescription) {
+      return (
+        <>
+          Information entered on{' '}
+          {dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
+        </>
+      );
+    }
+    return (
+      <>
+        {prescription.dispensedDate &&
+        prescription.refillStatus !== 'transferred' ? (
+          <div>
+            {prescription.refillStatus === 'non-va'
+              ? 'Documented'
+              : 'Last filled'}{' '}
+            on {dateFormat(prescription.dispensedDate, 'MMMM D, YYYY')}
+          </div>
+        ) : (
+          <div>Not filled yet</div>
+        )}
+      </>
+    );
+  };
+
   const content = () => {
     if (prescription) {
       return (
@@ -176,17 +202,7 @@ const PrescriptionDetails = () => {
             className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--0p5"
             data-testid="rx-last-filled-date"
           >
-            {nonVaPrescription ? (
-              <>
-                Information entered on{' '}
-                {dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
-              </>
-            ) : (
-              <>
-                Last filled on{' '}
-                {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
-              </>
-            )}
+            {filledEnteredDate()}
           </p>
           <div className="no-print">
             <PrintDownload download={handleDownloadPDF} />

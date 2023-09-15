@@ -57,8 +57,9 @@ const FillRefillButton = rx => {
           </va-alert>
         )}
         <button
+          type="button"
           className="vads-u-width--responsive"
-          disabled={success}
+          hidden={success}
           onClick={() => {
             dispatch(fillPrescription(prescriptionId));
           }}
