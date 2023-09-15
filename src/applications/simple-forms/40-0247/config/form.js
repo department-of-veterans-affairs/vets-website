@@ -17,6 +17,7 @@ import appContactInfoPg from '../pages/applicantContactInfo';
 import certsPg from '../pages/certificates';
 import addlCertsYNPg from '../pages/additionalCertificatesYesNo';
 import addlCertsReqPg from '../pages/additionalCertificatesRequest';
+import transformForSubmit from './submit-transformer';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
@@ -32,6 +33,8 @@ const formConfig = {
     Promise.resolve({
       confirmationNumber: '[mock-confirmation-number]',
     }),
+  // Coordinate with backend to determine final submitUrl
+  // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: '0247-pmc',
   dev: {
     showNavLinks: !window.Cypress,
@@ -49,6 +52,7 @@ const formConfig = {
         'I confirm that the information above is correct and true to the best of my knowledge and belief.',
     },
   },
+  transformForSubmit,
   formId: '40-0247',
   saveInProgress: {
     // messages: {
