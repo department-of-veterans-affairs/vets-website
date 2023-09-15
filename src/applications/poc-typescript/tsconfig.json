@@ -5,6 +5,7 @@
     "noImplicitAny": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
+    "esModuleInterop": true,
     "moduleResolution": "node",
     "module": "commonJS",
     "lib": ["es6", "dom"],
