@@ -280,6 +280,7 @@ const formConfig = {
         },
         additionalInfo: {
           title: 'Add additional information',
+          taskListHide: true,
           path: 'additional-info',
           depends: formData => formData['view:additionalInfo'],
           uiSchema: additionalInfo.uiSchema,
@@ -289,6 +290,7 @@ const formConfig = {
         },
         additionalInfoUpload: {
           title: 'Upload additional information',
+          taskListHide: true,
           path: 'additional-info-upload',
           depends: formData => formData['view:additionalInfo'],
           uiSchema: additionalInfoUpload.uiSchema,
@@ -312,6 +314,7 @@ const formConfig = {
         },
         evidenceIntro: {
           title: 'Evidence submission',
+          taskListHide: true,
           path: 'evidence-submission',
           depends: canUploadEvidence,
           uiSchema: evidenceIntro.uiSchema,
@@ -321,6 +324,7 @@ const formConfig = {
         },
         evidenceUpload: {
           title: 'Evidence upload',
+          taskListHide: true,
           path: 'evidence-submission/upload',
           depends: wantsToUploadEvidence,
           uiSchema: evidenceUpload.uiSchema,
@@ -330,6 +334,7 @@ const formConfig = {
         },
         hearingType: {
           title: 'Hearing type',
+          taskListHide: true,
           path: 'hearing-type',
           depends: needsHearingType,
           uiSchema: hearingType.uiSchema,
