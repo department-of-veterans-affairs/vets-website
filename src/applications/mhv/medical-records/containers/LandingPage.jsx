@@ -262,9 +262,11 @@ const LandingPage = () => {
                   </h3>
                   <p className="vads-u-margin-bottom--2">
                     This tool only includes health information your VA providers
-                    have entered. To find health information you entered
-                    yourself, go to your VA Blue Button® report on the My
-                    HealtheVet website.
+                    have entered.
+                  </p>
+                  <p>
+                    To find health information you entered yourself, go to your
+                    VA Blue Button® report on the My HealtheVet website.
                   </p>
                   <p className="vads-u-margin-bottom--2">
                     <a
