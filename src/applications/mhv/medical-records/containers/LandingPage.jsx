@@ -383,11 +383,6 @@ const LandingPage = () => {
                     <a href="mailto: vamhvfeedback@va.gov">
                       vamhvfeedback@va.gov
                     </a>
-                    {/* Call the My HealtheVet help desk at{' '}
-                    <va-telephone contact="8773270022" /> (
-                    <va-telephone contact="8008778339" tty />
-                    ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
-                    ET. */}
                   </p>
                 </va-accordion-item>
 
