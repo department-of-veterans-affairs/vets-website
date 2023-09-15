@@ -6,21 +6,19 @@ const labelText =
 /* @type {PageSchema} */
 export default {
   uiSchema: {
-    requestType: {
-      'ui:title': <span className="custom-label">{labelText}</span>,
-      'ui:widget': 'radio',
+    isFirstRequest: {
+      'ui:title': labelText, // yesNo widget doesn't support JSX
+      'ui:widget': 'yesNo',
       'ui:options': {
         labels: {
-          first:
+          Y:
             'Yes, this is my first time requesting a presidential memorial certificate',
-          replacement:
-            'No, I need to replace a presidential memorial certificate that was incorrect, damaged, or never received',
-          copies:
-            'No, I’ve requested a presidential memorial certificate before, and I need more copies',
+          N:
+            'No, I either need to replace a presidential memorial certificate or request more copies',
         },
       },
       'ui:errorMessages': {
-        required: 'Please select a request type',
+        required: 'Please select whether this is your first request',
       },
       // eslint-disable-next-line react/prop-types
       'ui:reviewField': ({ children }) => (
@@ -33,11 +31,10 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['requestType'],
+    required: ['isFirstRequest'],
     properties: {
-      requestType: {
-        type: 'string',
-        enum: ['first', 'replacement', 'copies'],
+      isFirstRequest: {
+        type: 'boolean',
       },
     },
   },

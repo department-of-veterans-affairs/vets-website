@@ -5,7 +5,7 @@
       "last": "Veteran"
     },
     "veteranSSN": "333221111",
-    "requestType": "first",
+    "isFirstRequest": true,
     "applicantFullName": {
       "first": "Joe",
       "last": "Applicant"

@@ -44,7 +44,8 @@
 
 // some labels can't be customized via JSX in uiSchema,
 // e.g. inside yesNo widgets.
-#root_additionalCertificates-label {
+#root_additionalCertificates-label,
+#root_isFirstRequest-label {
   @include label-as-h3;
 
   > .schemaform-required-span {
