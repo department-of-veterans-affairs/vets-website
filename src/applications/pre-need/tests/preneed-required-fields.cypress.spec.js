@@ -1,3 +1,5 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
+// Axe check is performed on every page with the errorCheck function
 import Timeouts from 'platform/testing/e2e/timeouts';
 import requiredHelpers from './utils/cypress-required-field-helpers';
 import testData from './schema/required-fields-test.json';
@@ -12,12 +14,12 @@ function errorCheck(errorList) {
 }
 
 describe('Pre-need form VA 40-10007 Required Fields', () => {
-  it.skip('triggers validation on all required fields then completes the form with minimal data', () => {
+  it('triggers validation on all required fields then completes the form with minimal data', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
     cy.injectAxe();
 
-    // Applicant Information
+    // Applicant Information Page
     preneedHelpers.validateProgressBar('1');
     cy.get('input[name="root_application_claimant_name_first"]');
 
@@ -47,7 +49,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/applicant-information');
 
-    // Veteran Information
+    // Veteran Information Page
     preneedHelpers.validateProgressBar('2');
     cy.get('input[name="root_application_veteran_currentName_first"]');
 
@@ -87,7 +89,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/veteran-information');
 
-    // Military History
+    // Military History Page
     preneedHelpers.validateProgressBar('3');
     errorCheck(requiredHelpers.militaryHistoryErrors);
 
@@ -122,7 +124,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-military-history');
 
-    // Previous Names page
+    // Previous Names Page
     errorCheck(requiredHelpers.previousNameErrors1);
 
     cy.get('label[for$="hasServiceNameYes"]').should('be.visible');
@@ -143,7 +145,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-military-name');
 
-    // Benefit Selection page 1
+    // Benefit Selection Page 1
     preneedHelpers.validateProgressBar('4');
     errorCheck(requiredHelpers.burialBenefitsErrors1);
 
@@ -153,7 +155,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     );
     preneedHelpers.clickContinue();
 
-    // Benefit Selection page 2
+    // Benefit Selection Page 2
     errorCheck(requiredHelpers.burialBenefitsErrors2);
 
     if (testData.data.application.currentlyBuriedPersons.length) {
@@ -174,12 +176,12 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/burial-benefits');
 
-    // Supporting Documents page
+    // Supporting Documents Page
     preneedHelpers.validateProgressBar('5');
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/supporting-documents');
 
-    // Applicant/Claimant Contact Information page
+    // Applicant/Claimant Contact Information Page
     preneedHelpers.validateProgressBar('6');
     cy.get('select[name="root_application_claimant_address_country"]');
 
@@ -198,11 +200,11 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/applicant-contact-information');
 
-    // Veteran Contact Information page
+    // Veteran Contact Information Page
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-mailing-address');
 
-    // Preparer information
+    // Preparer information Page
     preneedHelpers.validateProgressBar('6');
     cy.get(
       'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
@@ -242,9 +244,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/preparer');
 
-    // Review/Submit page
-    cy.get('.form-progress-buttons .usa-button-primary').click();
-    cy.get('#checkbox-error-message').should('be.visible');
+    // Review/Submit Page
     preneedHelpers.submitForm();
   });
 });

@@ -1,21 +1,101 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import {
+  apiRequest,
+  environment,
+  eauthEnvironmentPrefixes,
+  cernerEnvPrefixes,
+} from '@department-of-veterans-affairs/platform-utilities/exports';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
+import {
+  termsOfUseEnabled,
+  isLoggedIn,
+  logout as IAMLogout,
+} from '@department-of-veterans-affairs/platform-user/exports';
+import touData from '../touData';
 
-const pr = new Intl.PluralRules('en-US', { type: 'ordinal' });
+const touUpdatedDate = `March 2023`;
+const defaultErrorMessage = `Something went wrong on our end. Please try again in a few
+              minutes.`;
 
-const suffixes = new Map([
-  ['one', 'st'],
-  ['two', 'nd'],
-  ['few', 'rd'],
-  ['other', 'th'],
-]);
-const formatOrdinals = n => {
-  const rule = pr.select(n);
-  const suffix = suffixes.get(rule);
-  return `${n}${suffix}`;
+export const parseRedirectUrl = url => {
+  if (url === null) {
+    return `${environment.BASE_URL}`;
+  }
+
+  const parsedUrl = decodeURIComponent(url);
+  const allowedDomains = [
+    `${new URL(environment.BASE_URL).hostname}`, // va.gov
+    `${eauthEnvironmentPrefixes[environment.BUILDTYPE]}eauth.va.gov`, // eauth
+    `${cernerEnvPrefixes[environment.BUILDTYPE]}patientportal.myhealth.va.gov`, // cerner
+    `${eauthEnvironmentPrefixes[environment.BUILDTYPE]}fed.eauth.va.gov`, // mobile
+  ];
+
+  const domain = new URL(parsedUrl).hostname;
+
+  if (allowedDomains.includes(domain)) {
+    return parsedUrl;
+  }
+  return `${environment.BASE_URL}`;
 };
 
 export default function TermsOfUse() {
+  const termsOfUseAuthorized = useSelector(termsOfUseEnabled);
+  const loggedIn = useSelector(isLoggedIn);
+  const [error, setError] = useState({ isError: false, message: '' });
+
+  const handleTouClick = async type => {
+    let isAware;
+    if (type === 'decline') {
+      // eslint-disable-next-line no-alert
+      isAware = confirm(
+        `We’ll automatically sign you out and take you back to the VA.gov homepage. And you won’t be able to sign in to use these tools: VA.gov, My HealtheVet, My VA Health, or the Mobile app.\n\nAre you sure you want to decline?`,
+      );
+    }
+    const url = new URL(window.location);
+    const redirectUrl = parseRedirectUrl(url.searchParams.get('redirect_url'));
+    if (type === 'accept' || (type === 'decline' && isAware)) {
+      try {
+        const response = await apiRequest(
+          `/terms_of_use_agreements/v1/${type}`,
+          {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+          },
+        );
+
+        if (response.errors) {
+          setError({
+            isError: true,
+            message: defaultErrorMessage,
+          });
+        }
+
+        if (Object.keys(response?.termsOfUseAgreement).length) {
+          // if the type was accept
+          if (type === 'accept') {
+            window.location = redirectUrl;
+          }
+
+          if (type === 'decline') {
+            IAMLogout({
+              queryParams: {
+                [`redirect_url`]: `${
+                  environment.BASE_URL
+                }/terms-of-use/declined`,
+              },
+            });
+          }
+        }
+      } catch (err) {
+        setError({
+          isError: true,
+          message: defaultErrorMessage,
+        });
+      }
+    }
+  };
   return (
     <section className="vads-l-grid-container vads-u-padding-y--5 vads-u-padding-x--0">
       <div className="usa-content">
@@ -30,19 +110,8 @@ export default function TermsOfUse() {
           <div>
             <p>
               Version: 1<br />
-              Last updated: {new Date().toLocaleDateString()}
+              Last updated: {touUpdatedDate}
             </p>
-            <p>
-              If you want to save or print the terms, you can download a copy
-              now.
-            </p>
-            <va-link
-              href="#download"
-              download
-              fileType="PDF"
-              pages={6}
-              text="Download VA online services terms of use"
-            />
           </div>
           <h2 id="terms-of-use">Terms of use</h2>
           <p>
@@ -56,16 +125,9 @@ export default function TermsOfUse() {
           </p>
           <div>
             <va-accordion bordered>
-              {Array.from({
-                length: 7,
-              }).map((_, i) => (
-                <va-accordion-item
-                  header={`${formatOrdinals(i + 1)}`}
-                  level={3}
-                  key={i}
-                >
-                  This is some long summary that needs to see some information
-                  for {formatOrdinals(i + 1)} one
+              {touData.map(({ header, content }) => (
+                <va-accordion-item header={header} level={3} key={header}>
+                  {content}
                 </va-accordion-item>
               ))}
             </va-accordion>
@@ -109,17 +171,23 @@ export default function TermsOfUse() {
           <h2 id="do-you-accept-of-terms-of-use">
             Do you accept these terms of use?
           </h2>
-          <va-button
-            text="Accept"
-            onClick={() => {}}
-            ariaLabel="I accept to VA online serivices terms of use"
-          />
-          <va-button
-            text="Decline"
-            secondary
-            ariaLabel="I decline to VA online serivices terms of use"
-            onClick={() => {}}
-          />
+          {!loggedIn &&
+            termsOfUseAuthorized && (
+              <>
+                <va-button
+                  text="Accept"
+                  onClick={() => handleTouClick('accept')}
+                  ariaLabel="I Accept to VA online serivices terms of use"
+                />
+                <va-button
+                  text="Decline"
+                  secondary
+                  ariaLabel="I Decline to VA online serivices terms of use"
+                  onClick={() => handleTouClick('decline')}
+                />
+              </>
+            )}
+          {error.isError && <p>{error.message}</p>}
         </article>
       </div>
     </section>

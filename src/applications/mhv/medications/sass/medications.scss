@@ -19,7 +19,7 @@
   background-color: rgba(0, 0, 0, 0.05);
 }
 .main-content {
-  padding: 0 10px;
+  padding: 0;
   margin-bottom: 40px;
 
   @media (max-width: $small-screen) {
@@ -45,7 +45,7 @@
     flex-direction: row;
     .sort-button {
       margin-left: 8px;
-      margin-top: 60px;
+      margin-top: 57px;
     }
   }
   .rx-page-total-info {
@@ -73,6 +73,9 @@
       margin-left: 5px;
       h3 {
         margin: 8px 0;
+      }
+      p {
+        margin: 0;
       }
       .shipping-info {
         margin-top: 5px;

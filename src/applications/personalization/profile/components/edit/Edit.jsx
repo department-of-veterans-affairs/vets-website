@@ -11,13 +11,14 @@ import ProfileInformationFieldController from '~/platform/user/profile/vap-svc/c
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 
-import { routesForNav } from '../../routesForNav';
+import { getRoutesForNav } from '../../routesForNav';
 import { EditFallbackContent } from './EditFallbackContent';
 import { EditContext } from './EditContext';
 import { EditConfirmCancelModal } from './EditConfirmCancelModal';
 import { EditBreadcrumb } from './EditBreadcrumb';
 import getProfileInfoFieldAttributes from '../../util/getProfileInfoFieldAttributes';
 import { getInitialFormValues } from '../../util/contact-information/formValues';
+import { selectProfileToggles } from '../../selectors';
 
 const useQuery = () => {
   const { search } = useLocation();
@@ -62,6 +63,11 @@ export const Edit = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const query = useQuery();
+
+  const toggles = useSelector(selectProfileToggles);
+  const routesForNav = getRoutesForNav({
+    profileUseHubPage: toggles.profileUseHubPage,
+  });
 
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const [hasBeforeUnloadListener, setHasBeforeUnloadListener] = useState(false);
@@ -214,12 +220,12 @@ export const Edit = () => {
               </div>
             </>
           ) : (
-            <EditFallbackContent />
+            <EditFallbackContent routesForNav={routesForNav} />
           )}
         </Toggler.Enabled>
 
         <Toggler.Disabled>
-          <EditFallbackContent />
+          <EditFallbackContent routesForNav={routesForNav} />
         </Toggler.Disabled>
       </Toggler>
     </EditContext.Provider>

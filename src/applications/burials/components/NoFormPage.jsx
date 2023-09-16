@@ -5,7 +5,7 @@ import { formatSSN } from 'platform/utilities/ui';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
 const convertDateFormat = date => {
-  date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
+  return date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
 };
 
 const formatPhoneNumber = num =>
@@ -15,12 +15,6 @@ const locationOfDeath = {
   nursingHome: 'Nursing home under VA contract',
   vaMedicalCenter: 'VA medical center',
   stateVeteransHome: 'State Veterans home',
-};
-
-const burialAllowanceRequest = {
-  nonService: 'Non-Service connected death',
-  vaMedicalCenter:
-    'Service-connected death (for a Veteran death related to, or resulting from, a service-connected disability)',
 };
 
 const formatCurrency = num => `$${num.toLocaleString()}`;
@@ -66,118 +60,121 @@ const generateData = (type, formData) => {
   switch (type) {
     case 'claimant-information':
       return {
-        'Claimant’s first name': formData.claimantFullName.first
-          ? formData.claimantFullName.first
+        'Claimant’s first name': formData?.claimantFullName?.first
+          ? formData?.claimantFullName?.first
           : '',
-        'Claimant’s middle name': formData.claimantFullName?.middle ?? 'None',
-        'Claimant’s last name': formData.claimantFullName.last
-          ? formData.claimantFullName.last
+        'Claimant’s middle name': formData?.claimantFullName?.middle ?? 'None',
+        'Claimant’s last name': formData?.claimantFullName?.last
+          ? formData?.claimantFullName?.last
           : '',
-        Suffix: formData.claimantFullName?.suffix ?? 'None',
-        'Relationship to the deceased Veterans': formData.relationship.type
+        Suffix: formData?.claimantFullName?.suffix ?? 'None',
+        'Relationship to the deceased Veterans': formData?.relationship?.type
           ?.other
-          ? formData.relationship.other
-          : relationshipType[formData.relationship.type],
+          ? formData?.relationship?.other
+          : relationshipType[(formData?.relationship.type)],
       };
     case 'deceased-veteran-information':
       return {
-        'Veteran’s first name': formData.veteranFullName.first
-          ? formData.veteranFullName.first
+        'Veteran’s first name': formData?.veteranFullName?.first
+          ? formData?.veteranFullName?.first
           : '',
-        'Veteran’s middle name': formData.veteranFullName?.middle ?? 'None',
-        'Veteran’s last name': formData.veteranFullName.last
-          ? formData.veteranFullName.last
+        'Veteran’s middle name': formData?.veteranFullName?.middle ?? 'None',
+        'Veteran’s last name': formData?.veteranFullName?.last
+          ? formData?.veteranFullName?.last
           : '',
-        Suffix: formData.veteranFullName?.suffix ?? 'None',
-        'Social Security number': formData.veteranSocialSecurityNumber
-          ? formatSSN(formData.veteranSocialSecurityNumber)
+        Suffix: formData?.veteranFullName?.suffix ?? 'None',
+        'Social Security number': formData?.veteranSocialSecurityNumber
+          ? formatSSN(formData?.veteranSocialSecurityNumber)
           : '',
-        'VA file number': formData.vaFileNumber ? formData.vaFileNumber : '',
-        'Date of birth': formData.veteranDateOfBirth
-          ? convertDateFormat(formData.veteranDateOfBirth)
+        'VA file number': formData?.vaFileNumber ? formData?.vaFileNumber : '',
+        'Date of birth': formData?.veteranDateOfBirth
+          ? convertDateFormat(formData?.veteranDateOfBirth)
           : '',
         'Place of birth (city and state or foreign country)':
           formData?.placeOfBirth ?? 'None',
         'Burial information': {
-          'Date of death': formData.deathDate
-            ? convertDateFormat(formData.deathDate)
+          'Date of death': formData?.deathDate
+            ? convertDateFormat(formData?.deathDate)
             : '',
-          'Date of burial (includes cremation or interment)': formData.burialDate
-            ? convertDateFormat(formData.burialDate)
+          'Date of burial (includes cremation or interment)': formData?.burialDate
+            ? convertDateFormat(formData?.burialDate)
             : '',
-          'Where did the Veteran’s death occur?': formData.locationOfDeath
+          'Where did the Veteran’s death occur?': formData?.locationOfDeath
             ?.other
-            ? formData.locationOfDeath.other
-            : locationOfDeath[formData.locationOfDeath.location],
+            ? formData?.locationOfDeath?.other
+            : locationOfDeath[(formData?.locationOfDeath?.location)],
         },
       };
     case 'military-history':
       return {
         'Previous names': {
           'Did the Veteran serve under another name?':
-            formData.previousNames?.length > 0 ? formData.previousNames : 'No',
+            formData?.previousNames?.length > 0
+              ? formData?.previousNames
+              : 'No',
         },
       };
     case 'benefits-selection':
       return {
         'General selection': {
-          'Burial allowance': formData['view:claimedBenefits'].burialAllowance
+          'Burial allowance': formData['view:claimedBenefits']?.burialAllowance
             ? 'Selected'
             : 'Not selected',
           'Plot or interment allowance (Check this box if you incurred expensed for the plot to bury the Veteran’s remains.)': formData[
             'view:claimedBenefits'
-          ].plotAllowance
+          ]?.plotAllowance
             ? 'Selected'
             : 'Not selected',
           'Transportation expenses (Transportation of the Veteran’s remains from the place of death to the final resting place)': formData[
             'view:claimedBenefits'
-          ].transportation
-            ? formatCurrency(formData['view:claimedBenefits'].amountIncurred)
+          ]?.transportation
+            ? formatCurrency(formData['view:claimedBenefits']?.amountIncurred)
             : 'None',
         },
         'Burial allowance': {
           'Type of burial allowance':
-            burialAllowanceRequest[formData.burialAllowanceRequested],
+            formData?.burialAllowanceRequest === 'service'
+              ? 'Service-connected death (for a Veteran death related to, or resulting from, a service-connected disability)'
+              : 'Non-service-connected death',
           'Did you previously receive a VA burial allowance?': formData[
             'view:claimedBenefits'
-          ].burialAllowance
+          ]?.burialAllowance
             ? 'Yes'
             : 'No',
         },
         'Plot or interment allowance': {
-          'Place of burial or location of deceased Veteran’s remains': formData.placeOfRemains
-            ? formData.placeOfRemains
+          'Place of burial or location of deceased Veteran’s remains': formData?.placeOfRemains
+            ? formData?.placeOfRemains
             : '',
-          'Was the Veteran buried in a state Veterans cemetary?': formData.stateCemetary
+          'Was the Veteran buried in a state Veterans cemetary?': formData?.stateCemetary
             ? 'Yes'
             : 'No',
-          'Did a federal/state government or the Veteran’s employer contribute to the burial? (Not including employer life insurance)': formData.govtContributions
-            ? formatCurrency(formData.amountGovtContribution)
+          'Did a federal/state government or the Veteran’s employer contribute to the burial? (Not including employer life insurance)': formData?.govtContributions
+            ? formatCurrency(formData?.amountGovtContribution)
             : 'No',
         },
       };
     case 'additional-information':
       return {
         'Claimant contact information': {
-          Address: formData.claimantAddress
-            ? formatAddress(formData.claimantAddress)
+          Address: formData?.claimantAddress
+            ? formatAddress(formData?.claimantAddress)
             : '',
-          'Email address': formData.claimantEmail ? formData.claimantEmail : '',
-          'Phone number': formData.claimantPhone
-            ? formatPhoneNumber(formData.claimantPhone)
+          'Email address': formData?.claimantEmail
+            ? formData?.claimantEmail
+            : '',
+          'Phone number': formData?.claimantPhone
+            ? formatPhoneNumber(formData?.claimantPhone)
             : '',
         },
         'Document upload': {
           'Veterans death certificate':
-            formData.transportationReceipts.length > 0
-              ? formData.transportationReceipts.slice(0, 1)
+            formData?.deathCertificate?.length > 0
+              ? formData?.deathCertificate
               : '',
           'Documentation for transportation of the Veteran’s remains or other supporting evidence':
-            formData.transportationReceipts.length > 0
-              ? formData.transportationReceipts.slice(
-                  1,
-                  formData.transportationReceipts.length,
-                )
+            formData?.transportationReceipts?.length > 0
+              ? formData?.transportationReceipts
               : '',
         },
       };
@@ -331,20 +328,12 @@ export const NoFormPage = () => {
             </h2>
             <div>
               <p className="vads-u-margin-y--0">
-                You can still refer to the information here to apply by mail.
+                You can apply by mail instead. Download a PDF Application for
+                Burial Benefits (VA Form 21P-530EZ). You can refer to your saved
+                information on this page to fill out the form.
               </p>
             </div>
             <br />
-            <va-link
-              href="https://www.va.gov/burials-memorials/veterans-burial-allowance/"
-              text="Learn more about how to apply for VA burial benefits"
-            />
-          </va-alert>
-          <h3>Apply by mail</h3>
-          <p>
-            Fill out an Application for Veterans Burial (VA Form 21P-530EZ).
-          </p>
-          <div>
             <va-link
               download
               filetype="PDF"
@@ -352,13 +341,10 @@ export const NoFormPage = () => {
               pages={8}
               text="Download VA form 21P-530EZ"
             />
-            <p>
-              We’ve captured your intent to file date of
-              <strong> XX/XX/XXXX</strong>. You have 12 months from that date to
-              submit a claim.
-            </p>
+          </va-alert>
+          <div>
             <p className="vads-u-margin-bottom--4">
-              Mail your burial form to the pension management center:
+              Mail your completed burial form to this address:
             </p>
             <p className="va-address-block">
               Department of Veterans Affairs <br />
@@ -386,25 +372,6 @@ export const NoFormPage = () => {
               include a fine, imprisonment for up to 5 years, or both.
               (Reference: 18 U.S.C. 1001)
             </p>
-            <va-alert
-              background-only
-              class="vads-u-margin-bottom--1"
-              close-btn-aria-label="Close notification"
-              disable-analytics="false"
-              full-width="false"
-              status="info"
-              visible="true"
-            >
-              <p className="vads-u-margin-y--0">
-                <strong>
-                  Veterans Pension (VA Form 21P-527EZ) can not be currently
-                  completed online.
-                </strong>
-                <br />
-                We have saved your application so you can use it as a reference.
-                You will need to fill out a new form to apply by mail.
-              </p>
-            </va-alert>
             <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
               Need help?
             </h2>

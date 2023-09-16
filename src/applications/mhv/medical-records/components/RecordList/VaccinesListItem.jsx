@@ -15,7 +15,7 @@ const VaccinesListItem = props => {
     >
       <h3
         className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4"
-        aria-label={`${record.name} with a date of ${formattedDate}`}
+        aria-label={`${record.name} ${formattedDate}`}
       >
         {record.name}
       </h3>
@@ -54,7 +54,7 @@ const VaccinesListItem = props => {
           id={`details-button-description-${record.id}`}
           className="sr-only"
         >
-          '{record.name}' with a date of '{formattedDate}'
+          {record.name} {formattedDate}
         </span>
       </Link>
     </div>

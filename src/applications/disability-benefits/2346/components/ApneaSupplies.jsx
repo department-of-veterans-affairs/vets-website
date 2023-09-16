@@ -5,39 +5,41 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import moment from 'moment';
 
-import { setData } from '@department-of-veterans-affairs/platform-forms-system/exports';
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+// import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+// FIXME: figure out why cypress doesn't like this import.
+// eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
+import recordEvent from 'platform/monitoring/record-event';
 
 import { APNEA, DLC_PHONE } from '../constants';
 
 class ApneaSupplies extends Component {
   componentDidMount() {
-    const areAccessorySuppliesEligible = this.props.eligibility?.accessories;
-    if (!areAccessorySuppliesEligible) {
+    const areApneaSuppliesEligible = this.props.eligibility?.apneas;
+    if (!areApneaSuppliesEligible) {
       recordEvent({
         event: 'bam-error',
-        'error-key': 'accessories_bam-ineligibility-no-prescription',
+        'error-key': 'apnea-supplies_bam-ineligibility-no-prescription',
       });
     }
   }
 
-  handleChecked = (checked, accessorySupply) => {
+  handleChecked = (checked, apneaSupply) => {
     const { order, formData } = this.props;
     let updatedOrder;
     const isSupplyChecked = checked ? 'yes' : 'no';
     recordEvent({
       event: 'bam-form-change',
-      'bam-form-field': 'accessories-for-this-device',
+      'bam-form-field': 'apnea-supplies-for-this-device',
       'bam-product-selected': isSupplyChecked,
-      'product-name': accessorySupply.productName,
-      'product-id': accessorySupply.productId,
+      'product-name': apneaSupply.productName,
+      'product-id': apneaSupply.productId,
     });
     if (checked) {
-      updatedOrder = [...order, { productId: accessorySupply.productId }];
+      updatedOrder = [...order, { productId: apneaSupply.productId }];
     } else {
       updatedOrder = order.filter(
-        selectedProduct =>
-          selectedProduct.productId !== accessorySupply.productId,
+        selectedProduct => selectedProduct.productId !== apneaSupply.productId,
       );
     }
     const updatedFormData = {
@@ -50,131 +52,147 @@ class ApneaSupplies extends Component {
   render() {
     const { supplies, order, eligibility } = this.props;
     const currentDate = moment();
-    const accessorySupplies = supplies.filter(
+    const apneaSupplies = supplies.filter(
       supply => supply.productGroup === APNEA,
     );
-    const areAccessorySuppliesEligible = eligibility.accessories;
-    const haveAccessoriesBeenOrderedInLastTwoYears =
-      accessorySupplies.length > 0 &&
-      accessorySupplies.every(
-        accessory => currentDate.diff(accessory.lastOrderDate, 'years') <= 2,
+    const areApneaSuppliesEligible = eligibility.apneas;
+    const haveApneaSuppliesBeenOrderedInLastTwoYears =
+      apneaSupplies.length > 0 &&
+      apneaSupplies.every(
+        apneaSupply =>
+          currentDate.diff(apneaSupply.lastOrderDate, 'years') <= 2,
       );
 
-    const isAccessorySelected = accessoryProductId => {
+    const isApneaSupplySelected = apneaProductId => {
       const selectedProductIds = order.map(
         selectedProduct => selectedProduct.productId,
       );
-      return selectedProductIds.includes(accessoryProductId);
+      return selectedProductIds.includes(apneaProductId);
     };
     return (
-      <div className="accessory-page">
-        {accessorySupplies.length > 0 && (
+      <div className="apnea-supplies-page">
+        {apneaSupplies.length > 0 && (
           <h3 className="vads-u-font-size--h4 vads-u-margin-top--5">
-            Select the hearing aid accessories you need
+            Select the CPAP supplies you need
           </h3>
         )}
-        {!haveAccessoriesBeenOrderedInLastTwoYears &&
-          !areAccessorySuppliesEligible && (
+        {!haveApneaSuppliesBeenOrderedInLastTwoYears &&
+          !areApneaSuppliesEligible && (
             <va-alert status="info" visible>
               <h3 slot="headline">
-                You can’t add accessories to your order at this time
+                You can’t add CPAP supplies to your order at this time
               </h3>
-              <div className="accessories-two-year-alert-content">
+              <div className="apnea-supplies-two-year-alert-content">
                 <p>
-                  You can only order accessories that you’ve received in the
+                  You can only order CPAP supplies that you’ve received in the
                   past 2 years.
                 </p>
                 <p>
-                  If you need accessories like domes, wax guards, cleaning
-                  supplies, or dessicant, call the DLC Customer Service Section
-                  at <va-telephone contact={DLC_PHONE} /> or email{' '}
+                  If you need a CPAP supply that is not listed here, call the
+                  DLC Customer Service Section at{' '}
+                  <va-telephone contact={DLC_PHONE} /> or email{' '}
                   <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
               </div>
             </va-alert>
           )}
-        {accessorySupplies.length > 0 &&
-          haveAccessoriesBeenOrderedInLastTwoYears &&
-          accessorySupplies.map(accessorySupply => (
+        {apneaSupplies.length > 0 &&
+          haveApneaSuppliesBeenOrderedInLastTwoYears &&
+          apneaSupplies.map(apneaSupply => (
             <div
-              key={accessorySupply.productId}
+              key={apneaSupply.productId}
               className={classnames({
                 'vads-u-background-color--gray-lightest vads-u-margin-y--3': true,
-                'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21': isAccessorySelected(
-                  accessorySupply.productId,
+                'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21': isApneaSupplySelected(
+                  apneaSupply.productId,
                 ),
-                'vads-u-padding--3': !isAccessorySelected(
-                  accessorySupply.productId,
+                'vads-u-padding--3': !isApneaSupplySelected(
+                  apneaSupply.productId,
                 ),
               })}
             >
               <h4 className="vads-u-font-size--md vads-u-margin-top--0">
-                {accessorySupply.productName}
+                {apneaSupply.productName}
               </h4>
               <div className="vads-u-border-color--gray-lightest">
                 <div className="usa-alert-body">
                   <p className="vads-u-margin-y--1p5">
                     <span className="vads-u-font-weight--bold">Quantity: </span>
-                    {accessorySupply.quantity}
+                    {apneaSupply.quantity}
                   </p>
                   <p className="vads-u-margin-y--1p5">
                     <span className="vads-u-font-weight--bold">
                       Last order date:{' '}
                     </span>{' '}
-                    {moment(accessorySupply.lastOrderDate).format('MM/DD/YYYY')}
+                    {moment(apneaSupply.lastOrderDate).format('MM/DD/YYYY')}
                   </p>
                 </div>
               </div>
-              {currentDate.diff(accessorySupply.nextAvailabilityDate, 'days') <
-              0 ? (
-                <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
-                  <div className="usa-alert-body">
-                    <h3 className="usa-alert-heading vads-u-font-family--sans">
-                      You can't order this accessory online until{' '}
-                      {moment(accessorySupply.nextAvailabilityDate).format(
-                        'MMMM D, YYYY',
-                      )}
-                    </h3>
-                  </div>
+              {apneaSupply.availableForReorder ? (
+                <div>
+                  {currentDate.diff(apneaSupply.nextAvailabilityDate, 'days') <
+                    0 && apneaSupply.availableForReorder ? (
+                    <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
+                      <div className="usa-alert-body">
+                        <h3 className="usa-alert-heading vads-u-font-family--sans">
+                          You can't order this CPAP supply online until{' '}
+                          {moment(apneaSupply.nextAvailabilityDate).format(
+                            'MMMM D, YYYY',
+                          )}
+                        </h3>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <input
+                        id={apneaSupply.productId}
+                        className="vads-u-margin-left--0"
+                        type="checkbox"
+                        onChange={e =>
+                          this.handleChecked(e.target.checked, apneaSupply)
+                        }
+                        checked={isApneaSupplySelected(apneaSupply.productId)}
+                      />
+                      <label
+                        htmlFor={apneaSupply.productId}
+                        className={classnames({
+                          'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-text-align--left vads-u-padding-x--2': true,
+                          'vads-u-color--white': isApneaSupplySelected(
+                            apneaSupply.productId,
+                          ),
+                          'vads-u-background-color--white vads-u-color--primary': !isApneaSupplySelected(
+                            apneaSupply.productId,
+                          ),
+                        })}
+                      >
+                        Order this CPAP supply
+                      </label>
+                    </div>
+                  )}
                 </div>
               ) : (
-                <div className="vads-u-max-width--226">
-                  <input
-                    id={accessorySupply.productId}
-                    className="vads-u-margin-left--0 vads-u-max-width--226"
-                    type="checkbox"
-                    onChange={e =>
-                      this.handleChecked(e.target.checked, accessorySupply)
-                    }
-                    checked={isAccessorySelected(accessorySupply.productId)}
-                  />
-                  <label
-                    htmlFor={accessorySupply.productId}
-                    className={classnames({
-                      'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-text-align--left vads-u-padding-x--2': true,
-                      'vads-u-color--white': isAccessorySelected(
-                        accessorySupply.productId,
-                      ),
-                      'vads-u-background-color--white vads-u-color--primary': !isAccessorySelected(
-                        accessorySupply.productId,
-                      ),
-                    })}
-                  >
-                    Order this accessory
-                  </label>
+                <div>
+                  <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
+                    <div className="usa-alert-body">
+                      <h3 className="usa-alert-heading vads-u-font-family--sans">
+                        This item is not available for online reordering. To
+                        reorder, please contact your VA health care provider.
+                      </h3>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
           ))}
-        {accessorySupplies.length > 0 && (
+        {apneaSupplies.length > 0 && (
           <va-additional-info
-            triggerText="What if the accessories I need aren’t listed here?"
+            trigger="What if the CPAP supplies I need aren’t listed here?"
             className="vads-u-margin-bottom--2"
           >
             <p>
-              The accessories you need may not be listed here if you haven’t
+              The CPAP supplies you need may not be listed here if you haven’t
               placed an order for resupply items within the last 2 years. If you
-              need an accessory that hasn’t been ordered within the last 2
+              need a CPAP supply that hasn’t been ordered within the last 2
               years, call the DLC Customer Service Section at
               <va-telephone
                 contact={DLC_PHONE}
@@ -189,17 +207,6 @@ class ApneaSupplies extends Component {
               </a>
               .
             </p>
-            <p>
-              If you need a smaller dome for your hearing aid, you'll need to
-              call your audiologist.
-            </p>
-            <a
-              href="https://www.va.gov/find-locations/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Find contact information for your local VA medical center.
-            </a>
           </va-additional-info>
         )}
       </div>

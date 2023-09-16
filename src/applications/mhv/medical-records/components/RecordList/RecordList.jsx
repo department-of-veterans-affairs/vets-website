@@ -59,16 +59,18 @@ const RecordList = props => {
   return (
     <div className="record-list vads-l-row vads-u-flex-direction--column">
       <h2
-        className="pagination vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--0 vads-u-font-weight--normal vads-u-padding-y--1 vads-u-margin-bottom--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
+        className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--0 vads-u-font-weight--normal vads-u-padding-y--1 vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
         hidden={hidePagination}
         id="showingRecords"
         aria-label={`Showing ${displayNums[0]} to ${
           displayNums[1]
         } of ${totalEntries} records from newest to oldest`}
       >
-        Showing {displayNums[0]}
-        &#8211;
-        {displayNums[1]} of {totalEntries} records from newest to oldest
+        Showing {displayNums[0]} &#8211; {displayNums[1]} of {totalEntries}{' '}
+        records from newest to oldest
+      </h2>
+      <h2 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0 vads-u-padding--0 vads-u-font-weight--normal vads-u-border-color--gray-light print-only">
+        Showing {totalEntries} from newest to oldest
       </h2>
       <div className="no-print">
         {currentRecords?.length > 0 &&
@@ -88,7 +90,7 @@ const RecordList = props => {
         )}
       {currentRecords &&
         (paginatedRecords.current.length > 1 ? (
-          <div className="pagination vads-u-margin-bottom--2 no-print">
+          <div className="vads-u-margin-bottom--2 no-print">
             <VaPagination
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
