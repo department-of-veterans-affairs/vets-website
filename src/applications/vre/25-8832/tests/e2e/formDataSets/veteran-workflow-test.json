@@ -11,8 +11,8 @@
       "postalCode": "93420"
     },
     "claimantPhoneNumber": "2146866521",
-    "claimantEmailAddress": "cohnjesse@gmail.com",
-    "claimantConfirmEmailAddress": "cohnjesse@gmail.com",
+    "claimantEmailAddress": "johndoe@test.com",
+    "claimantConfirmEmailAddress": "johndoe@test.com",
     "fullName": {
       "first": "John",
       "last": "Doe"
