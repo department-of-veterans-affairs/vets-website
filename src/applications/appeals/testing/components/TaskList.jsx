@@ -11,6 +11,8 @@ export const TaskList = () => {
 
   return (
     <>
+      <div name="topScrollElement" />
+      <div name="topNavScrollElement" />
       <p>
         <span>&#x2190;&#x00a0;</span>
         <a href="/decision-reviews/appeals-testing">Board Appeals</a>

@@ -9,7 +9,7 @@ import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../1995/config/form';
+import formConfig from '../../config/form';
 
 describe('Edu 1995 benefitSelection', () => {
   const {
@@ -24,7 +24,7 @@ describe('Edu 1995 benefitSelection', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('input').length).to.equal(5);
     form.unmount();
   });
 
