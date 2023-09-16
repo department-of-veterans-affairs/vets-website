@@ -30,6 +30,10 @@ const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ')
   : [];
 
+const TESTS_TO_STRESS_TEST = DISALLOWED_SPECS.filter(specPath =>
+  CHANGED_FILE_PATHS.some(filePath => specPath.includes(filePath)),
+);
+console.log('tests to stress test: ', TESTS_TO_STRESS_TEST);
 console.log('changed file paths: ', CHANGED_FILE_PATHS);
 console.log('disallowed specs: ', DISALLOWED_SPECS);
 Sentry.init({
