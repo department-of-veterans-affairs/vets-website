@@ -38,7 +38,6 @@ const CHANGED_APPS = process.env.CHANGED_FILE_PATHS
 const TESTS_TO_STRESS_TEST = DISALLOWED_SPECS.filter(specPath =>
   CHANGED_APPS.some(filePath => specPath.includes(filePath)),
 );
-core.exportVariable('TESTS_TO_STRESS_TEST', TESTS_TO_STRESS_TEST);
 
 Sentry.init({
   autoSessionTracking: false,
@@ -206,6 +205,7 @@ const checkAllowList = testContext => {
 // This needs to be after JSDom has been setup, otherwise
 // axe has strange issues with globals not being set up
 chai.use(chaiAxe);
+core.exportVariable('TESTS_TO_STRESS_TEST', TESTS_TO_STRESS_TEST);
 
 export const mochaHooks = {
   beforeEach() {
