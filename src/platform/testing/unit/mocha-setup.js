@@ -30,7 +30,7 @@ const CHANGED_APPS = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ').map(filePath =>
       filePath
         .split('/')
-        .slice(0, 2)
+        .slice(0, 3)
         .join('/'),
     )
   : [];
