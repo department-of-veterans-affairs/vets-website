@@ -26,16 +26,22 @@ const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false).map(
   spec => spec.spec_path.substring(spec.spec_path.indexOf('src')),
 );
 // const TESTS_TO_STRESS_TEST = [];
-const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
-  ? process.env.CHANGED_FILE_PATHS.split(' ')
+const CHANGED_APPS = process.env.CHANGED_FILE_PATHS
+  ? process.env.CHANGED_FILE_PATHS.split(' ').map(filePath =>
+      filePath
+        .split('/')
+        .slice(0, 2)
+        .join('/'),
+    )
   : [];
 
 const TESTS_TO_STRESS_TEST = DISALLOWED_SPECS.filter(specPath =>
-  CHANGED_FILE_PATHS.some(filePath => specPath.includes(filePath)),
+  CHANGED_APPS.some(filePath => specPath.includes(filePath)),
 );
-console.log('tests to stress test: ', TESTS_TO_STRESS_TEST);
-console.log('changed file paths: ', CHANGED_FILE_PATHS);
+console.log('changed apps: ', CHANGED_APPS);
 console.log('disallowed specs: ', DISALLOWED_SPECS);
+console.log('tests to stress test: ', TESTS_TO_STRESS_TEST);
+
 Sentry.init({
   autoSessionTracking: false,
   dsn: 'http://one@fake/dsn/0',
