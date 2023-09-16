@@ -23,8 +23,14 @@ const ALLOW_LIST = JSON.parse(
   fs.readFileSync(path.resolve(`unit_test_allow_list.json`)),
 );
 const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false).map(
-  spec => spec.spec_path,
+  spec => spec.spec_path.substring(spec.spec_path.indexOf('src')),
 );
+// const TESTS_TO_STRESS_TEST = [];
+const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
+  ? process.env.CHANGED_FILE_PATHS.split(' ')
+  : [];
+
+console.log('changed file paths: ', CHANGED_FILE_PATHS);
 console.log('disallowed specs: ', DISALLOWED_SPECS);
 Sentry.init({
   autoSessionTracking: false,
@@ -183,8 +189,9 @@ const checkAllowList = testContext => {
       testContext.currentTest.file.indexOf('src'),
     ),
   );
-  const file = testContext.currentTest.file.split('/').pop();
+  const file = testContext.currentTest.file.indexOf('src');
   if (DISALLOWED_SPECS.indexOf(file) > -1) {
+    console.log('skipping test: ');
     testContext.skip();
   }
 };
