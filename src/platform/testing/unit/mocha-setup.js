@@ -16,6 +16,7 @@ import * as Sentry from '@sentry/browser';
 import { configure } from '@testing-library/dom';
 import fs from 'fs';
 import path from 'path';
+import core from '@actions/core';
 import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
 
@@ -25,7 +26,6 @@ const ALLOW_LIST = JSON.parse(
 const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false).map(
   spec => spec.spec_path.substring(spec.spec_path.indexOf('src')),
 );
-// const TESTS_TO_STRESS_TEST = [];
 const CHANGED_APPS = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ').map(filePath =>
       filePath
@@ -38,9 +38,7 @@ const CHANGED_APPS = process.env.CHANGED_FILE_PATHS
 const TESTS_TO_STRESS_TEST = DISALLOWED_SPECS.filter(specPath =>
   CHANGED_APPS.some(filePath => specPath.includes(filePath)),
 );
-console.log('changed apps: ', CHANGED_APPS);
-console.log('disallowed specs: ', DISALLOWED_SPECS);
-console.log('tests to stress test: ', TESTS_TO_STRESS_TEST);
+core.exportVariable('TESTS_TO_STRESS_TEST', TESTS_TO_STRESS_TEST);
 
 Sentry.init({
   autoSessionTracking: false,
