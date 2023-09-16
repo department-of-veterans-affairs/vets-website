@@ -3,6 +3,7 @@
  *
  * If you're looking to add polyfills for all unit tests, this is the place.
  */
+/* eslint-disable no-console */
 
 import os from 'os';
 import chai from 'chai';
@@ -22,8 +23,9 @@ const ALLOW_LIST = JSON.parse(
   fs.readFileSync(path.resolve(`unit_test_allow_list.json`)),
 );
 const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false).map(
-  spec => spec.spec_path.split('/').pop(),
+  spec => spec.spec_path,
 );
+console.log('disallowed specs: ', DISALLOWED_SPECS);
 Sentry.init({
   autoSessionTracking: false,
   dsn: 'http://one@fake/dsn/0',
@@ -175,6 +177,12 @@ function setupJSDom() {
 
 setupJSDom();
 const checkAllowList = testContext => {
+  console.log(
+    'filepath: ',
+    testContext.currentTest.file.substring(
+      testContext.currentTest.file.indexOf('src'),
+    ),
+  );
   const file = testContext.currentTest.file.split('/').pop();
   if (DISALLOWED_SPECS.indexOf(file) > -1) {
     testContext.skip();
