@@ -1,5 +1,11 @@
 import React from 'react';
+import { ProfileBreadcrumbs } from '../ProfileBreadcrumbs';
 
 export const Hub = () => {
-  return <div>Profile Hub Page Here</div>;
+  return (
+    <div>
+      <ProfileBreadcrumbs />
+      <h1>Profile Hub Page Here</h1>
+    </div>
+  );
 };

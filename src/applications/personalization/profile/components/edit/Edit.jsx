@@ -11,28 +11,20 @@ import ProfileInformationFieldController from '~/platform/user/profile/vap-svc/c
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 
-import { getRoutesForNav } from '../../routesForNav';
 import { EditFallbackContent } from './EditFallbackContent';
 import { EditContext } from './EditContext';
 import { EditConfirmCancelModal } from './EditConfirmCancelModal';
 import { EditBreadcrumb } from './EditBreadcrumb';
+
+import { getRoutesForNav } from '../../routesForNav';
 import getProfileInfoFieldAttributes from '../../util/getProfileInfoFieldAttributes';
 import { getInitialFormValues } from '../../util/contact-information/formValues';
 import { selectProfileToggles } from '../../selectors';
+import { getRouteInfoFromPath } from '~/applications/personalization/common/helpers';
 
 const useQuery = () => {
   const { search } = useLocation();
   return useMemo(() => new URLSearchParams(search), [search]);
-};
-
-const getReturnRouteInfo = (path, routes) => {
-  const returnRouteInfo = routes.find(({ path: routePath }) => {
-    return routePath === path;
-  });
-  if (!returnRouteInfo) {
-    return { ...routes[0], name: 'profile' };
-  }
-  return returnRouteInfo;
 };
 
 const getFieldInfo = fieldName => {
@@ -74,7 +66,7 @@ export const Edit = () => {
 
   const fieldInfo = getFieldInfo(query.get('fieldName'));
 
-  const returnRouteInfo = getReturnRouteInfo(
+  const returnRouteInfo = getRouteInfoFromPath(
     query.get('returnPath'),
     routesForNav,
   );

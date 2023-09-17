@@ -14,6 +14,7 @@ import { ProfileFullWidthContainer } from './ProfileFullWidthContainer';
 import { getRoutesForNav } from '../routesForNav';
 import { selectProfileToggles } from '../selectors';
 import { normalizePath } from '../../common/helpers';
+import { ProfileBreadcrumbs } from './ProfileBreadcrumbs';
 
 const LAYOUTS = {
   SIDEBAR: 'sidebar',
@@ -82,6 +83,7 @@ const ProfileWrapper = ({
           </div>
 
           <div className="vads-l-grid-container vads-u-padding-x--0">
+            <ProfileBreadcrumbs />
             <div className="vads-l-row">
               <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--3 vads-u-padding-left--2">
                 <ProfileSubNav
