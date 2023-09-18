@@ -5,7 +5,7 @@ import NewTabAnchor from '../../components/NewTabAnchor';
 export default function NoAppointments({
   showScheduleButton,
   startNewAppointmentFlow,
-  additionalRequestDescription,
+  showAdditionalRequestDescription,
   description = 'appointments',
 }) {
   return (
@@ -15,7 +15,7 @@ export default function NoAppointments({
       </h3>
       {showScheduleButton && (
         <>
-          {additionalRequestDescription ? (
+          {showAdditionalRequestDescription ? (
             <p>
               If you request an appointment it will show here until staff review
               and schedule it. You can schedule an appointment online now, or
@@ -62,10 +62,10 @@ export default function NoAppointments({
 NoAppointments.propTypes = {
   showScheduleButton: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
-  additionalRequestDescription: PropTypes.bool,
   description: PropTypes.string,
+  showAdditionalRequestDescription: PropTypes.bool,
 };
 
 NoAppointments.defaultProps = {
-  additionalRequestDescription: false,
+  showAdditionalRequestDescription: false,
 };
