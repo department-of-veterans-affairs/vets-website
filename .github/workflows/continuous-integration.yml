@@ -148,9 +148,11 @@ jobs:
 
   unit-tests:
     name: Unit Tests
+    needs: [fetch-allow-lists]
     runs-on: self-hosted
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
+      tests-to-stress-test: ${{ steps.tests-to-stress-test.outputs.tests }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -181,18 +183,26 @@ jobs:
           delimiter: ','
           output-type: 'folder'
 
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: .
+
       - name: Run unit tests
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
+          STEP: 1
+          CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
 
       - name: Archive unit test results
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: unit-test-report
-          path: mochawesome-report
+          path: mocha/results
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
@@ -249,6 +259,10 @@ jobs:
           report_paths: 'test-results/unit-tests.xml'
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
           fail_on_failure: 'true'
+
+      - name: Set output of TESTS_TO_STRESS_TEST
+        id: tests-to-stress-test
+        run: echo tests=$TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
 
   security-audit:
     name: Security Audit
