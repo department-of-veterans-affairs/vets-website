@@ -15,8 +15,10 @@ import {
 import touData from '../touData';
 
 const touUpdatedDate = `March 2023`;
-const defaultErrorMessage = `Something went wrong on our end. Please try again in a few
-              minutes.`;
+const errorMessages = {
+  network: `We had a connection issue on our end. Please try again in a few minutes.`,
+  signInRequired: `You must be signed in to approve the terms of use`,
+};
 
 export const parseRedirectUrl = url => {
   if (url === null) {
@@ -68,7 +70,10 @@ export default function TermsOfUse() {
         if (response.errors) {
           setError({
             isError: true,
-            message: defaultErrorMessage,
+            message:
+              response.errors[0].code === '401'
+                ? errorMessages.signInRequired
+                : errorMessages.network,
           });
         }
 
@@ -91,7 +96,7 @@ export default function TermsOfUse() {
       } catch (err) {
         setError({
           isError: true,
-          message: defaultErrorMessage,
+          message: errorMessages.network,
         });
       }
     }
