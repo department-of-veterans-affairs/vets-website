@@ -36,6 +36,7 @@ export default {
   FORM_21P0847_CTA: 'form21p-0847',
   FORM_264555_CTA: 'form264555',
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
+  HCA_PERFORMANCE_WARNING: 'hca-performance-warning',
   HEALTH_CARE_APP_STATUS: 'health-care-app-status',
   HIGHER_LEVEL_REVIEW_APP_STATUS: 'higher-level-review-status',
   HOMEPAGE_BANNER: 'homepage-banner',
