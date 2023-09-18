@@ -34,6 +34,7 @@ import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
 import SubmissionError from '../components/SubmissionError';
 import phoneUI from '../components/Phone';
+import preparerPhoneUI from '../components/PreparerPhone';
 import { validateSponsorDeathDate } from '../validation';
 
 import manifest from '../manifest.json';
@@ -58,7 +59,6 @@ import {
   isVeteranAndHasServiceName,
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
-  PreparerPhoneNumberDescription,
   nonRequiredFullNameUI,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
@@ -906,12 +906,13 @@ const formConfig = {
                     },
                     'view:contactInfo': {
                       'ui:title': ContactDetailsTitle,
-                      applicantPhoneNumber: merge({}, phoneUI('Phone number'), {
-                        'ui:required': isAuthorizedAgent,
-                      }),
-                    },
-                    'view:phoneNumberDescription': {
-                      'ui:description': PreparerPhoneNumberDescription,
+                      applicantPhoneNumber: merge(
+                        {},
+                        preparerPhoneUI('Phone number'),
+                        {
+                          'ui:required': isAuthorizedAgent,
+                        },
+                      ),
                     },
                   },
                 },
@@ -937,10 +938,6 @@ const formConfig = {
                               applicantPhoneNumber:
                                 applicant.properties.applicantPhoneNumber,
                             },
-                          },
-                          'view:phoneNumberDescription': {
-                            type: 'object',
-                            properties: {},
                           },
                         },
                       },

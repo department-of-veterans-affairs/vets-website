@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { isReactComponent } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
-import ExpandingGroup from 'platform/forms-system/src/js/components/ExpandingGroup';
 
 export default function RadioWidget(props) {
   const { options, formContext = {}, value, disabled, onChange, id } = props;
@@ -54,7 +53,7 @@ export default function RadioWidget(props) {
           <div>
             {enumOptions.map((option, i) => {
               const checked = option.value === value;
-              const radioButton = (
+              return (
                 <div className="form-radio-buttons" key={option.value}>
                   <input
                     type="radio"
@@ -72,17 +71,6 @@ export default function RadioWidget(props) {
                   </label>
                 </div>
               );
-
-              if (nestedContent[option.value]) {
-                return (
-                  <ExpandingGroup open={checked} key={option.value}>
-                    {radioButton}
-                    <div className="schemaform-radio-indent">{content}</div>
-                  </ExpandingGroup>
-                );
-              }
-
-              return radioButton;
             })}
           </div>
           <va-additional-info
