@@ -5,7 +5,10 @@ import { shallowEqual, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { APPOINTMENT_TYPES, SPACE_BAR } from '../../../utils/constants';
-import { selectFeatureStatusImprovement } from '../../../redux/selectors';
+import {
+  selectFeatureStatusImprovement,
+  selectFeatureBreadcrumbUrlUpdate,
+} from '../../../redux/selectors';
 import AppointmentFlexGrid from './AppointmentFlexGrid';
 import {
   getAppointmentDate,
@@ -19,10 +22,7 @@ import {
   isInPersonVAAppointment,
   isVAPhoneAppointment,
 } from '../../../services/appointment';
-import {
-  getUpcomingAppointmentListInfo,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../redux/selectors';
+import { getUpcomingAppointmentListInfo } from '../../redux/selectors';
 import { Label } from './Label';
 import { getTypeOfCareById } from '../../../utils/appointment';
 import ListItem from './ListItem';
