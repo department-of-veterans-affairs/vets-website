@@ -57,7 +57,7 @@ if (options.help) {
 const mochaPath = `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
 const coverageReporter = options['coverage-html']
   ? '--reporter=html mocha --retries 5'
-  : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5 --log-level debug';
+  : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
 const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = options.config ? options.config : 'config/mocha.json';

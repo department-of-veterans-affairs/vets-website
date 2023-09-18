@@ -53,7 +53,7 @@
     "reset:env": "./script/reset-environment.sh",
     "security-check": "yarn vagov-dependency-check",
     "test": "npm run test:unit",
-    "test:coverage": "npm run test:unit -- --coverage --log-level debug",
+    "test:coverage": "npm run test:unit -- --coverage",
     "test:coverage-app": "node script/run-app-coverage.js",
     "test:coverage-apps": "npm run test:coverage && node script/app-coverage-report.js",
     "test:coverage-only": "NODE_ENV=test nyc report --all --reporter=json-summary",
