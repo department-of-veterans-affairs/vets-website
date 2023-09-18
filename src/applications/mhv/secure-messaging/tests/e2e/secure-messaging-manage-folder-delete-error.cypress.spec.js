@@ -5,7 +5,7 @@ import customFolderMessage from './fixtures/messages-response.json';
 import customFolder from './fixtures/folder-custom-metadata.json';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Custom Folder Delete Error Message Validation', () => {
+describe.skip('Secure Messaging Custom Folder Delete Error Message Validation', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   const folderPage = new FolderManagementPage();

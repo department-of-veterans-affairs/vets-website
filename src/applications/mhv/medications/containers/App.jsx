@@ -5,6 +5,7 @@ const App = () => {
   return (
     <div>
       <Prescriptions />
+      <va-back-to-top />
     </div>
   );
 };

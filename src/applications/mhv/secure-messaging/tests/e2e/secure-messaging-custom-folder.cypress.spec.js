@@ -9,6 +9,7 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
+    PatientMessageCustomFolderPage.loadFoldersList();
     PatientMessageCustomFolderPage.loadMessages();
   });
   it('Axe Check Custom Folder List', () => {
