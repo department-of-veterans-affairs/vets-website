@@ -1,8 +1,7 @@
 import React from 'react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 
-import { getClaimType } from '../utils/helpers';
+import { getClaimType, buildDateFormatter } from '../utils/helpers';
 
 const statusMap = {
   CLAIM_RECEIVED: 'Step 1 of 5: Claim received',
@@ -17,10 +16,10 @@ function getStatusDescription(status) {
   return statusMap[status];
 }
 
-const formatDate = date => moment(date).format('MMMM D, YYYY');
+const formatDate = date => buildDateFormatter('MMMM d, yyyy')(date);
 
 const getTitle = claim => {
-  return `Claim for ${getClaimType(claim)}`;
+  return `Claim for ${getClaimType(claim).toLowerCase()}`;
 };
 
 const getLastUpdated = claim => {

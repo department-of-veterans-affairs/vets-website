@@ -1,18 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
+
+import { buildDateFormatter } from '../utils/helpers';
 
 export default function StemClaimListItemV3({ claim }) {
   if (!claim.attributes.automatedDenial) {
     return null;
   }
-  const formattedDeniedAtDate = moment(claim.attributes.deniedAt).format(
-    'MMMM D, YYYY',
-  );
-  const formattedReceiptDate = moment(claim.attributes.submittedAt).format(
-    'MMMM D, YYYY',
-  );
+  const formattedDeniedAtDate = () =>
+    buildDateFormatter('MMMM d, yyyy')(claim.attributes.deniedAt);
+  const formattedReceiptDate = () =>
+    buildDateFormatter('MMMM d, yyyy')(claim.attributes.submittedAt);
 
   const handlers = {
     openClaimClick: () =>
