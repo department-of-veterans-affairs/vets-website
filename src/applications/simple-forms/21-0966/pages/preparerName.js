@@ -1,0 +1,32 @@
+import {
+  titleUI,
+  titleSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
+  descriptionSchema,
+  descriptionUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import React from 'react';
+
+/** @type {PageSchema} */
+export default {
+  uiSchema: {
+    'view:title': titleUI('Your name'),
+    'view:description': descriptionUI(
+      <p>
+        <b>Note:</b> If you’re a representative who is recognized by the VA to
+        make decisions or sign for the Veteran or surviving dependent, you can
+        sign this application for them.
+      </p>,
+    ),
+    name: fullNameNoSuffixUI(),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:title': titleSchema,
+      'view:description': descriptionSchema,
+      name: fullNameNoSuffixSchema,
+    },
+  },
+};

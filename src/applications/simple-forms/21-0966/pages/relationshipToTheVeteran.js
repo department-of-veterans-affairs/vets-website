@@ -1,0 +1,32 @@
+import {
+  radioUI,
+  radioSchema,
+} from 'platform/forms-system/src/js/web-component-patterns/';
+import { relationshipToTheVeteranKeys } from '../definitions/constants';
+
+/** @type {PageSchema} */
+export default {
+  uiSchema: {
+    relationshipToTheVeteran: {
+      ...radioUI({
+        title: 'What’s the claimant’s relationship to the Veteran?',
+        labels: {
+          SPOUSE: 'The claimant is the Veteran’s spouse.',
+          CHILD: 'The claimant is the Veteran’s child.',
+        },
+        labelHeaderLevel: '3',
+      }),
+      // TODO: Add correct error message
+      //   'ui:errorMessages': {
+      //     required: 'Please select your identity',
+      //   },
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['relationshipToTheVeteran'],
+    properties: {
+      relationshipToTheVeteran: radioSchema(relationshipToTheVeteranKeys),
+    },
+  },
+};
