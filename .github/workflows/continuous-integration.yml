@@ -194,7 +194,6 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           STEP: 1
-          CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
 
       - name: Archive unit test results
         if: ${{ always() }}
