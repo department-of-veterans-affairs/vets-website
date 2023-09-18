@@ -153,7 +153,6 @@ jobs:
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       tests-to-stress-test: ${{ steps.tests-to-stress-test.outputs.tests }}
-      app_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
@@ -195,7 +194,6 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           STEP: 1
-          CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
 
       - name: Archive unit test results
         if: ${{ always() }}
