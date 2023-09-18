@@ -189,7 +189,7 @@ jobs:
           path: .
 
       - name: Log outputs
-        run: echo ${{ steps.get-changed-apps.outputs }}
+        run: echo "$steps.get-changed-apps.outputs"
 
       - name: Run unit tests
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level debug
