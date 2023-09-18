@@ -25,8 +25,8 @@ const ALLOW_LIST = JSON.parse(
 const DISALLOWED_SPECS = ALLOW_LIST.filter(
   spec => spec.allowed === false,
 ).map(spec => spec.spec_path.substring(spec.spec_path.indexOf('src')));
-const CHANGED_APPS = process.env.CHANGED_FILE_PATHS
-  ? process.env.CHANGED_FILE_PATHS.split(' ').map(filePath =>
+const CHANGED_APPS = process.env.CHANGED_FILES
+  ? process.env.CHANGED_FILES.split(' ').map(filePath =>
       filePath
         .split('/')
         .slice(0, 3)
