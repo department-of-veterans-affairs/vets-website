@@ -169,13 +169,10 @@ const PrescriptionDetails = () => {
     }
     return (
       <>
-        {prescription.dispensedDate &&
-        prescription.refillStatus !== 'transferred' ? (
+        {prescription.dispensedDate ? (
           <div>
-            {prescription.refillStatus === 'non-va'
-              ? 'Documented'
-              : 'Last filled'}{' '}
-            on {dateFormat(prescription.dispensedDate, 'MMMM D, YYYY')}
+            Last filled on{' '}
+            {dateFormat(prescription.dispensedDate, 'MMMM D, YYYY')}
           </div>
         ) : (
           <div>Not filled yet</div>
