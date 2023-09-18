@@ -17,7 +17,6 @@ import { isLoggedIn } from 'platform/user/selectors';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import { setData } from 'platform/forms-system/src/js/actions';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
@@ -75,7 +74,6 @@ export const isIntroPage = ({ pathname = '' } = {}) =>
 
 export const Form526Entry = ({
   children,
-  formData,
   inProgressFormId,
   isBDDForm,
   location,
@@ -83,7 +81,6 @@ export const Form526Entry = ({
   mvi,
   router,
   savedForms,
-  setFormData,
   showSubforms,
   showWizard,
   user,
@@ -94,7 +91,6 @@ export const Form526Entry = ({
   const showToxicExposurePages = useToggleValue(
     TOGGLE_NAMES.disability526ToxicExposure,
   );
-
   const hasSavedForm = savedForms.some(
     form =>
       form.form === formConfig.formId && !isExpired(form.metaData?.expiresAt),
@@ -129,6 +125,9 @@ export const Form526Entry = ({
         setPageFocus('h1');
         // save feature flag for 8940/4192
         sessionStorage.setItem(SHOW_8940_4192, showSubforms);
+
+        // save feature flag for Toxic Exposure pages
+        sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, showToxicExposurePages);
       }
       // Set user account & application id in Sentry so we can access their form
       // data for any thrown errors
@@ -136,23 +135,11 @@ export const Form526Entry = ({
         Sentry.setTag('account_uuid', profile.accountUuid);
         Sentry.setTag('in_progress_form_id', inProgressFormId);
       }
-
-      if (
-        showToxicExposurePages &&
-        typeof formData[SHOW_TOXIC_EXPOSURE] === 'undefined'
-      ) {
-        setFormData({
-          ...formData,
-          [SHOW_TOXIC_EXPOSURE]: showToxicExposurePages,
-        });
-      }
     },
     [
-      formData,
       inProgressFormId,
       location,
       profile,
-      setFormData,
       showSubforms,
       showToxicExposurePages,
       wizardStatus,
@@ -252,7 +239,6 @@ export const Form526Entry = ({
 Form526Entry.propTypes = {
   accountUuid: PropTypes.string,
   children: PropTypes.any,
-  formData: PropTypes.object,
   inProgressFormId: PropTypes.number,
   isBDDForm: PropTypes.bool,
   isStartingOver: PropTypes.bool,
@@ -267,7 +253,6 @@ Form526Entry.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
-  setFormData: PropTypes.func,
   showSubforms: PropTypes.bool,
   showWizard: PropTypes.bool,
   user: PropTypes.shape({
@@ -283,15 +268,10 @@ const mapStateToProps = state => ({
   loggedIn: isLoggedIn(state),
   mvi: state.mvi,
   savedForms: state?.user?.profile?.savedForms || [],
-  formData: state?.form?.data,
   showSubforms: showSubform8940And4192(state),
   showWizard: show526Wizard(state),
   user: state.user,
 });
-
-const mapDispatchToProps = {
-  setFormData: setData,
-};
 
 if (isLoggedIn) {
   datadogRum.init({
@@ -310,7 +290,4 @@ if (isLoggedIn) {
   datadogRum.startSessionReplayRecording();
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Form526Entry);
+export default connect(mapStateToProps)(Form526Entry);
