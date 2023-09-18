@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import PmcModalContent from 'platform/forms/components/OMBInfoModalContent/PmcModalContent';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
-import customPrivacyActStmt from '../customPrivacyActStatement';
 
 const content = {
   formTitle: 'Request a Presidential Memorial Certificate',
@@ -31,7 +31,7 @@ const ombInfo = {
   resBurden: '3',
   ombNumber: '2900-0567',
   expDate: '8/31/2026',
-  customPrivacyActStmt,
+  customPrivacyActStmt: <PmcModalContent />,
 };
 
 const childContent = (

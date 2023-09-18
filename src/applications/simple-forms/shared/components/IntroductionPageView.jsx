@@ -47,7 +47,7 @@ export const IntroductionPageView = ({
       </SaveInProgressIntro>
       {additionalChildContent || null}
       <p />
-      {customPrivacyActStmt ? (
+      {!customPrivacyActStmt ? (
         <va-omb-info
           res-burden={resBurden}
           omb-number={ombNumber}

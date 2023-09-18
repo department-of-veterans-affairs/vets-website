@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default function customPrivacyActStatement() {
+export default function PmcModalContent() {
   return (
     <>
       <p>
-        <strong>Respondent burden</strong>: Public reporting burden for this
+        <strong>Respondent Burden:</strong> Public reporting burden for this
         collection of information is estimated to average three minutes per
         response, including the time to review instructions, search existing
         data sources, gather the necessary data, and complete and review the
@@ -28,7 +28,7 @@ export default function customPrivacyActStatement() {
         applications for benefits to this address.
       </p>
       <p>
-        <strong>Privacy act information</strong>: VA will not disclose
+        <strong>Privacy Act Information:</strong> VA will not disclose
         information collected on this form to any source other than what has
         been authorized under the Privacy Act of 1974 or Title 38, CFR 1.576 for
         routine uses (for example: Authorizing release of information to
