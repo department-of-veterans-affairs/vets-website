@@ -48,7 +48,7 @@ const MedicationsListCard = props => {
             {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}
           </p>
         ) : (
-          <p>Not filled yet</p>
+          <p>You haven’t filled this prescription yet</p>
         )}
         {showRefillRemaining && refillsRemaining()}
         {rx && <ExtraDetails {...rx} />}
