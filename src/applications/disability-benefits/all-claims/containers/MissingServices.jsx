@@ -109,8 +109,7 @@ export const MissingDob = ({ title }) => {
         you update your VA account with your date of birth.
       </p>
       <p className="vads-u-font-size--base">
-        Please call us at
-        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        Please call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
         <va-telephone contact={CONTACTS['711']} tty />) to update your account.
         We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
