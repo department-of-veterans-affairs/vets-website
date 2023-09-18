@@ -168,7 +168,7 @@ class PatientMessageDraftsPage {
     cy.intercept('POST', `${Paths.SM_API_BASE}/messages`, draftMessage).as(
       'sentDraftResponse',
     );
-    cy.get(Locators.DraftsPage.SEND_BUTTON).click({ force: true });
+    cy.get(Locators.DraftsPage.SEND_BTN).click({ force: true });
     cy.wait('@sentDraftResponse');
   };
 
