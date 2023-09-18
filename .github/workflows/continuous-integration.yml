@@ -152,7 +152,6 @@ jobs:
     runs-on: self-hosted
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
-      tests-to-stress-test: ${{ steps.tests-to-stress-test.outputs.tests }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
