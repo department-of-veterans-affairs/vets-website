@@ -144,12 +144,12 @@ export default function TermsOfUse() {
           </p>
           <va-alert status="warning" visible>
             <h3 slot="headline" id="what-happens-if-you-decline">
-              What will happen if you decline?
+              What will happen if you decline
             </h3>
             <p>
               If you decline these terms, we'll automatically sign you out and
               take you back to the VA.gov homepage. And you won't be able to
-              sign in to use tools on these VA websites:
+              sign in to use some VA online services, like:
             </p>
             <ul>
               <li>VA.gov</li>
