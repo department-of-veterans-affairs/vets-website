@@ -16,12 +16,12 @@ import {
 
 export const NoFormPage = () => {
   const [data, setData] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const loggedIn = useSelector(isLoggedIn);
 
   useEffect(() => {
     const resource = '/in_progress_forms/21P-527EZ';
-
+    setLoading(true);
     apiRequest(resource)
       .then(responseData => {
         setData(responseData);
@@ -40,8 +40,6 @@ export const NoFormPage = () => {
       />
     );
   }
-
-  const { formData, metadata } = data;
 
   return loggedIn ? (
     <div className="row vads-u-margin-bottom--4">
@@ -86,7 +84,7 @@ export const NoFormPage = () => {
                 We’ve captured your intent to file date of
                 <strong>
                   {' '}
-                  {format(getUnixTime(metadata.createdAt), 'MM/dd/yyyy')}
+                  {format(getUnixTime(data?.metadata.createdAt), 'MM/dd/yyyy')}
                 </strong>
                 . You have 12 months from that date to submit a claim.
               </p>
@@ -108,32 +106,32 @@ export const NoFormPage = () => {
               <ApplicantInformation
                 title="Applicant information"
                 id="applicant-information"
-                formData={formData}
+                formData={data?.formData}
               />
               <MilitaryHistory
                 title="Military history"
                 id="military-history"
-                formData={formData}
+                formData={data?.formData}
               />
               <WorkHistory
                 title="Work history"
                 id="work-history"
-                formData={formData}
+                formData={data?.formData}
               />
               <HouseholdInformation
                 title="Household information"
                 id="household-information"
-                formData={formData}
+                formData={data?.formData}
               />
               <FinancialDisclosure
                 title="Financial disclosure"
                 id="financial-disclosure"
-                formData={formData}
+                formData={data?.formData}
               />
               <AdditionalInformation
                 title="Additional information"
                 id="additional-information"
-                formData={formData}
+                formData={data?.formData}
               />
             </article>
             <p>
