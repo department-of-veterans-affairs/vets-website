@@ -16,7 +16,7 @@ import { SELECTED } from '../../../shared/constants';
 | Empty    | Focus error | Prev page & remove | Focus error      |
 | Partial  | Focus error | Modal & Prev page  | Focus error      |
  */
-describe('<EvidencePrivateRecords>', () => {
+describe('<EvvidencePrivateRecords>', () => {
   const validDate = getDate({ offset: { months: -2 } });
   const mockData = {
     contestedIssues: [
