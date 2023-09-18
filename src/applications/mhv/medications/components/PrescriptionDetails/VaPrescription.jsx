@@ -148,7 +148,7 @@ const VaPrescription = prescription => {
                     {entry.cmopNdcNumber ? (
                       <img
                         src={getImageUri(entry.cmopNdcNumber)}
-                        alt="Not Available"
+                        alt={entry.prescriptionName}
                         width="350"
                         height="350"
                       />

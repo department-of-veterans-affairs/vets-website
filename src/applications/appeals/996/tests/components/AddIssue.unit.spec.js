@@ -62,7 +62,7 @@ describe('<AddIssue>', () => {
     const elems = $$('va-text-input, va-memorable-date', container);
 
     expect(elems[0].error).to.contain(issueErrorMessages.missingIssue);
-    expect(elems[1].error).to.contain(issueErrorMessages.missingDecisionDate);
+    expect(elems[1].error).to.contain(issueErrorMessages.blankDecisionDate);
     expect(elems[1].invalidMonth).to.be.true;
     expect(elems[1].invalidDay).to.be.true;
     expect(elems[1].invalidYear).to.be.true;
