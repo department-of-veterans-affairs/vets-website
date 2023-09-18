@@ -36,19 +36,21 @@ export default class PhoneNumberWidget extends React.Component {
           value={this.state.val}
           onChange={this.handleChange}
         />
-        <va-additional-info trigger="Why do we need your phone number?">
-          {environment.isProduction() ? (
-            <p>
-              If you’re the preparer of this application, you’ll need to provide
-              your contact information.
-            </p>
-          ) : (
-            <p>
-              We may contact you by phone if we need more information about the
-              application.
-            </p>
-          )}
-        </va-additional-info>
+        <div className="preparer-additonal-info">
+          <va-additional-info trigger="Why do we need your phone number?">
+            {environment.isProduction() ? (
+              <p>
+                If you’re the preparer of this application, you’ll need to
+                provide your contact information.
+              </p>
+            ) : (
+              <p>
+                We may contact you by phone if we need more information about
+                the application.
+              </p>
+            )}
+          </va-additional-info>
+        </div>
       </>
     );
   }

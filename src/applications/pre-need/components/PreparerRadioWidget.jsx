@@ -1,34 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isReactComponent } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
 
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 export default function RadioWidget(props) {
   const { options, formContext = {}, value, disabled, onChange, id } = props;
-  const {
-    enumOptions,
-    labels = {},
-    nestedContent = {},
-    widgetProps = {},
-    selectedProps = {},
-    enableAnalytics = false,
-  } = options;
+  const { enumOptions, labels = {}, enableAnalytics = false } = options;
 
-  const getProps = (key, checked) => ({
-    ...(widgetProps[key] || {}),
-    ...((checked && selectedProps[key]) || {}),
-  });
   const onReviewPage = formContext?.onReviewPage || false;
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
   const showRadio = !onReviewPage || (onReviewPage && !inReviewMode); // I think we need to take out first condition.
-  // nested content could be a component or just jsx/text
-  let content = nestedContent[value];
-  if (isReactComponent(content)) {
-    const NestedContent = content;
-    content = <NestedContent />;
-  }
 
   const onChangeEvent = option => {
     if (enableAnalytics) {
@@ -40,77 +24,77 @@ export default function RadioWidget(props) {
       recordEvent({
         event: 'int-radio-button-option-click',
         'radio-button-label': title,
-        'radio-button-optionLabel': option.label,
+        'radio-button-optionLabel':
+          enumOptions.find(item => item.value === option.detail.value)?.label ||
+          '',
         'radio-button-required': required,
       });
     }
-    onChange(option.value);
+    onChange(option.detail.value);
   };
   return (
     <>
       {showRadio ? (
         <>
-          <div>
-            {enumOptions.map((option, i) => {
-              const checked = option.value === value;
-              return (
-                <div className="form-radio-buttons" key={option.value}>
-                  <input
-                    type="radio"
-                    checked={checked}
-                    autoComplete="off"
-                    id={`${id}_${i}`}
-                    name={`${id}`}
-                    value={option.value}
-                    disabled={disabled}
-                    onChange={_ => onChangeEvent(option)}
-                    {...getProps(option.value, checked)}
-                  />
-                  <label htmlFor={`${id}_${i}`}>
-                    {labels[option.value] || option.label}
-                  </label>
-                </div>
-              );
-            })}
+          <div className="preparer-va-radio">
+            <VaRadio onVaValueChange={onChangeEvent}>
+              {enumOptions.map((option, i) => {
+                const checked = option.value === value;
+                return (
+                  <div className="form-radio-buttons" key={option.value}>
+                    <va-radio-option
+                      id={`${id}_${i}`}
+                      name={`${id}`}
+                      label={labels[option.value] || option.label}
+                      value={option.value}
+                      checked={checked}
+                      disabled={disabled}
+                    />
+                  </div>
+                );
+              })}
+            </VaRadio>
           </div>
-          <va-additional-info
-            trigger={
-              environment.isProduction()
-                ? 'Who can a preparer sign for?'
-                : "If you're applying for someone else, who can you sign for?"
-            }
-          >
-            <p>
-              A preparer can sign for an{' '}
-              {environment.isProduction() ? 'individual' : 'applicant'} who’s:
-            </p>
-            <ul>
-              {environment.isProduction() ? (
-                <>
-                  <li>
-                    Under 18 years of age, <strong>or</strong>
-                  </li>
-                  <li>
-                    Is mentally incompetent, <strong>or</strong>
-                  </li>
-                  <li>Is physically unable to sign the application</li>
-                </>
-              ) : (
-                <>
-                  <li>
-                    Mentally incompetent <strong>or</strong>
-                  </li>
-                  <li>Physically unable to sign the application</li>
-                </>
-              )}
-            </ul>
-            {environment.isProduction() && (
+          <div className="preparer-additonal-info">
+            <va-additional-info
+              trigger={
+                environment.isProduction()
+                  ? 'Who can a preparer sign for?'
+                  : "If you're applying for someone else, who can you sign for?"
+              }
+            >
               <p>
-                If you're the preparer of this application, you'll need to
-                provide your contact information.
+                A preparer can sign for an{' '}
+                {environment.isProduction() ? 'individual' : 'applicant'} who’s:
               </p>
-            )}
-          </va-additional-info>
+              <ul>
+                {environment.isProduction() ? (
+                  <>
+                    <li>
+                      Under 18 years of age, <strong>or</strong>
+                    </li>
+                    <li>
+                      Is mentally incompetent, <strong>or</strong>
+                    </li>
+                    <li>Is physically unable to sign the application</li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      Mentally incompetent <strong>or</strong>
+                    </li>
+                    <li>Physically unable to sign the application</li>
+                  </>
+                )}
+              </ul>
+              {environment.isProduction() && (
+                <p>
+                  If you're the preparer of this application, you'll need to
+                  provide your contact information.
+                </p>
+              )}
+            </va-additional-info>
+          </div>
         </>
       ) : (
         <span>
