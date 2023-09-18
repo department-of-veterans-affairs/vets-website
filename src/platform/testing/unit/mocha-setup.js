@@ -33,7 +33,7 @@ const CHANGED_APPS = process.env.CHANGED_FILE_PATHS
         .join('/'),
     )
   : [];
-
+console.log(CHANGED_APPS);
 const TESTS_TO_STRESS_TEST = DISALLOWED_SPECS.filter(specPath =>
   CHANGED_APPS.some(filePath => specPath.includes(filePath)),
 );
