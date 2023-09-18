@@ -30,10 +30,6 @@ module.exports = {
         use: '<va-loading-indicator>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/Pagination',
-        use: '<va-pagination>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/FileInput',
         use: '<va-file-input>',
       },

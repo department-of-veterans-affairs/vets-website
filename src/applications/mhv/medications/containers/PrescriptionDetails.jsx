@@ -97,7 +97,7 @@ const PrescriptionDetails = () => {
             },
             {
               title: 'Prescribed on',
-              value: 'not in vets api data',
+              value: 'None noted',
               inline: true,
             },
             {
@@ -107,7 +107,7 @@ const PrescriptionDetails = () => {
             },
             {
               title: 'Prescribed by',
-              value: 'not in vets api data',
+              value: 'None noted',
               inline: true,
             },
             {
@@ -117,22 +117,22 @@ const PrescriptionDetails = () => {
             },
             {
               title: 'Phone number',
-              value: 'not in vets api data',
+              value: 'None noted',
               inline: true,
             },
             {
               title: 'Category',
-              value: 'not in vets api data',
+              value: 'None noted',
               inline: true,
             },
             {
               title: 'Source',
-              value: 'not in vets api data',
+              value: 'None noted',
               inline: true,
             },
             {
               title: 'Image',
-              value: 'not in vets api data',
+              value: 'None noted',
               inline: true,
             },
           ],
@@ -158,6 +158,29 @@ const PrescriptionDetails = () => {
     [prescriptionId, dispatch],
   );
 
+  const filledEnteredDate = () => {
+    if (nonVaPrescription) {
+      return (
+        <>
+          Information entered on{' '}
+          {dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
+        </>
+      );
+    }
+    return (
+      <>
+        {prescription.dispensedDate ? (
+          <div>
+            Last filled on{' '}
+            {dateFormat(prescription.dispensedDate, 'MMMM D, YYYY')}
+          </div>
+        ) : (
+          <div>Not filled yet</div>
+        )}
+      </>
+    );
+  };
+
   const content = () => {
     if (prescription) {
       return (
@@ -176,17 +199,7 @@ const PrescriptionDetails = () => {
             className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--0p5"
             data-testid="rx-last-filled-date"
           >
-            {nonVaPrescription ? (
-              <>
-                Information entered on{' '}
-                {dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
-              </>
-            ) : (
-              <>
-                Last filled on{' '}
-                {dateFormat(prescription.refillDate, 'MMMM D, YYYY')}
-              </>
-            )}
+            {filledEnteredDate()}
           </p>
           <div className="no-print">
             <PrintDownload download={handleDownloadPDF} />
@@ -199,8 +212,15 @@ const PrescriptionDetails = () => {
                 <li>
                   <strong>If you’re on a public or shared computer,</strong>{' '}
                   remember that downloading saves a copy of your records to the
-                  computer you are using.
+                  computer you’re using.
                 </li>
+                {/* <li>
+                  <strong>
+                    If you use assistive technology like a screen reader or
+                    braille display
+                  </strong>{' '}
+                  a text file (.txt) may work better for you.
+                </li>     WILL SHOW WHEN TEXT FILES ARE DOWNLOADABLE     */}
               </ul>
             </va-additional-info>
           </div>
@@ -221,7 +241,7 @@ const PrescriptionDetails = () => {
     );
   };
 
-  return <div className="medium-screen:vads-l-col--8">{content()}</div>;
+  return <div>{content()}</div>;
 };
 
 export default PrescriptionDetails;

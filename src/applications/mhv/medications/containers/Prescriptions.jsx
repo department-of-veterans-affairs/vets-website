@@ -240,7 +240,7 @@ const Prescriptions = () => {
           <div className="landing-page-content">
             <div className="no-print">
               <PrintDownload download={handleDownloadPDF} list />
-              <va-additional-info trigger="What to know about downloading records">
+              <va-additional-info trigger="What to know before you download">
                 <ul>
                   <li>
                     When you print or download medication records, we’ll include
@@ -248,7 +248,7 @@ const Prescriptions = () => {
                     records.
                   </li>
                   <li>
-                    <strong>If you’re on a public or shared computer,</strong> a
+                    <strong>If you’re on a public or shared computer,</strong>{' '}
                     remember that downloading saves a copy of your records to
                     the computer you are using.
                   </li>

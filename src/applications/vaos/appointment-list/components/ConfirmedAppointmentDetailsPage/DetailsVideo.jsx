@@ -24,14 +24,14 @@ function formatHeader(appointment) {
   if (
     (appointment.videoData.kind === VIDEO_TYPES.mobile ||
       appointment.videoData.kind === VIDEO_TYPES.adhoc) &&
-    patientHasMobileGfe
+    (!appointment.videoData.isAtlas && patientHasMobileGfe)
   ) {
     return 'VA Video Connect using VA device';
   }
   if (
     (appointment.videoData.kind === VIDEO_TYPES.mobile ||
       appointment.videoData.kind === VIDEO_TYPES.adhoc) &&
-    !patientHasMobileGfe
+    (!appointment.videoData.isAtlas && !patientHasMobileGfe)
   ) {
     return 'VA Video Connect at home';
   }
