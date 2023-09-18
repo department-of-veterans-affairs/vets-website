@@ -260,10 +260,6 @@ jobs:
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
           fail_on_failure: 'true'
 
-      - name: Set output of TESTS_TO_STRESS_TEST
-        id: tests-to-stress-test
-        run: echo tests=$TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
-
   security-audit:
     name: Security Audit
     runs-on: ubuntu-latest
