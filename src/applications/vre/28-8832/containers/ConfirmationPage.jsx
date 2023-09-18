@@ -25,7 +25,7 @@ export class ConfirmationPage extends React.Component {
     return (
       <div>
         <p>
-          Equal to VA Form 28-8832 (Education/Vocational Counseling Application)
+          Equal to VA Form 25-8832 (Education/Vocational Counseling Application)
         </p>
         <h2
           id="thank-you-message"

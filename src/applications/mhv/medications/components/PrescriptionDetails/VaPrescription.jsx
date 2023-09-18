@@ -141,13 +141,6 @@ const VaPrescription = prescription => {
                   {validateField(shippedOn?.[i]?.completeDateTime, 'date')}
                 </p>
                 <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
-                  Description of the medication or supply
-                </h4>
-                <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                  {/* TODO: Not yet available */}
-                  None noted
-                </p>
-                <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
                   Image of the medication or supply
                 </h4>
                 <div className="no-print">
@@ -155,7 +148,7 @@ const VaPrescription = prescription => {
                     {entry.cmopNdcNumber ? (
                       <img
                         src={getImageUri(entry.cmopNdcNumber)}
-                        alt="Not Available"
+                        alt={entry.prescriptionName}
                         width="350"
                         height="350"
                       />
