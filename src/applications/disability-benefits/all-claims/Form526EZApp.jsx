@@ -293,11 +293,6 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Form526Entry);
-
 if (isLoggedIn) {
   datadogRum.init({
     applicationId: 'c7eb541a-30d2-4a00-aba0-04965e8a2668',
@@ -305,8 +300,8 @@ if (isLoggedIn) {
     site: 'ddog-gov.com',
     service: 'benefits-526ez',
     env: environment.vspEnvironment(),
-    sessionSampleRate: 10, // Set to 100 to test locally, 10 otherwise
-    sessionReplaySampleRate: 20, // Set to 100 to test locally, 20 otherwise
+    sessionSampleRate: 100, // Set to 100 to test locally, 10 otherwise
+    sessionReplaySampleRate: 100, // Set to 100 to test locally, 20 otherwise
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,
@@ -314,3 +309,8 @@ if (isLoggedIn) {
   });
   datadogRum.startSessionReplayRecording();
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Form526Entry);
