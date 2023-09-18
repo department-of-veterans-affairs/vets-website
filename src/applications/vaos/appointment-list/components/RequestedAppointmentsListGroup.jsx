@@ -112,7 +112,8 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   let paragraphText =
     'Below is your list of appointment requests that haven’t been scheduled yet.';
   if (featureAppointmentList) {
-    paragraphText = 'These appointment requests haven’t been scheduled yet.';
+    paragraphText =
+      'Appointments that you request will show here until staff review and schedule them.';
   } else if (featureStatusImprovement) {
     paragraphText =
       'Your appointment requests that haven’t been scheduled yet.';
@@ -129,6 +130,7 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
         {!appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
           <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
             <NoAppointments
+              showAdditionalRequestDescription
               description="appointment requests"
               showScheduleButton={showScheduleButton}
               startNewAppointmentFlow={() => {
