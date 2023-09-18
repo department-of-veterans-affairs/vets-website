@@ -2,47 +2,10 @@ import { showExtensionReason } from '../utils/helpers';
 import { issueErrorMessages } from '../content/addIssue';
 import { content as extensionReasonContent } from '../content/extensionReason';
 
-import {
-  noneSelected,
-  maxSelectedErrorMessage,
-} from '../../shared/content/contestableIssues';
+import { maxSelectedErrorMessage } from '../../shared/content/contestableIssues';
 import { MAX_LENGTH, REGEXP } from '../../shared/constants';
-import { getSelected, hasSomeSelected } from '../../shared/utils/issues';
+import { getSelected } from '../../shared/utils/issues';
 import { addUniqueIssueErrorMessage } from '../../shared/validations/issue';
-
-/**
- *
- * @param {Function[]} validations - array of validation functions
- * @param {*} data - field data passed to the validation function
- * @param {*} fullData - full and appStateData passed to validation function
- * @returns {String[]} - error messages
- */
-export const checkValidations = (validations, data, fullData) => {
-  const errors = { errorMessages: [] };
-  errors.addError = message => errors.errorMessages.push(message);
-  validations.map(validation =>
-    validation(errors, data, fullData, null, null, null, fullData),
-  );
-  return errors.errorMessages;
-};
-
-export const selectionRequired = (
-  errors,
-  _fieldData,
-  formData = {},
-  _schema,
-  _uiSchema,
-  _index,
-  appStateData,
-) => {
-  // formData === pageData on review & submit page. It should include the entire
-  // formData. see https://github.com/department-of-veterans-affairs/vsp-support/issues/162
-  // Fall back to formData for unit testing
-  const data = Object.keys(appStateData || {}).length ? appStateData : formData;
-  if (errors && !hasSomeSelected(data)) {
-    errors.addError(noneSelected);
-  }
-};
 
 // Alert Veteran to duplicates based on name & decision date
 export const uniqueIssue = (
