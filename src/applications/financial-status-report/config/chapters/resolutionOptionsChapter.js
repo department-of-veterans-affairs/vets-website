@@ -2,7 +2,6 @@ import {
   resolutionOption,
   resolutionComment,
   resolutionWaiverAgreement,
-  resolutionComments,
 } from '../../pages';
 
 import {
@@ -10,6 +9,8 @@ import {
   isStreamlinedShortForm,
 } from '../../utils/streamlinedDepends';
 
+import ResolutionComments from '../../components/resolution/ResolutionComments';
+import ResolutionCommentsReview from '../../components/resolution/ResolutionCommentsReview';
 import ResolutionExplainerWidget from '../../components/resolution/ResolutionExplainerWidget';
 import ResolutionExplainerReview from '../../components/resolution/ResolutionExplainerReview';
 
@@ -70,8 +71,10 @@ export default {
       resolutionComments: {
         path: 'resolution-comments',
         title: 'Resolution comments',
-        uiSchema: resolutionComments.uiSchema,
-        schema: resolutionComments.schema,
+        CustomPage: ResolutionComments,
+        CustomPageReview: ResolutionCommentsReview,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
         depends: formData =>
           !isStreamlinedShortForm(formData) && !isStreamlinedLongForm(formData),
       },

@@ -52,7 +52,6 @@ import * as otherExpenses from './expenses/other';
 import * as otherExpensesPages from './expenses/other/otherExpensesPages';
 import * as otherExpenseRecords from './expenses/other/records';
 import * as resolutionOption from './resolution/resolutionOption';
-import * as resolutionComments from './resolution/comments';
 import * as resolutionComment from './resolution/resolutionComment';
 import * as resolutionWaiverAgreement from './resolution/resolutionWaiverAgreement';
 import * as bankruptcyHistoryRecords from './bankruptcy/records';
@@ -121,7 +120,6 @@ export {
   otherExpenseRecords,
   otherExpensesPages,
   resolutionOption,
-  resolutionComments,
   resolutionComment,
   resolutionWaiverAgreement,
   bankruptcyHistoryRecords,
