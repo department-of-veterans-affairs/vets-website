@@ -68,8 +68,4 @@ const command = `LOG_LEVEL=${options[
   .map(p => `'${p}'`)
   .join(' ')}`;
 
-try {
-  runCommand(command);
-} catch (e) {
-  console.log(e);
-}
+runCommand(command);
