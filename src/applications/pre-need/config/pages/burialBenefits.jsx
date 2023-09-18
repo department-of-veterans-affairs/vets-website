@@ -1,4 +1,5 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
+import React from 'react';
 
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 
@@ -36,6 +37,15 @@ export const uiSchema = {
         },
       ),
       'view:desiredCemeteryNote': {
+        'ui:title': (
+          <a
+            href="https://www.va.gov/find-locations/"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Find a VA national cemetery
+          </a>
+        ),
         'ui:description': DesiredCemeteryNoteDescription,
       },
     },
