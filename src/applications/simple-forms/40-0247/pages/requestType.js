@@ -20,7 +20,6 @@ export default {
       'ui:errorMessages': {
         required: 'Please select whether this is your first request',
       },
-      // eslint-disable-next-line react/prop-types
       'ui:reviewField': ({ children }) => (
         <div className="review-row">
           <dt>{labelText}</dt>
