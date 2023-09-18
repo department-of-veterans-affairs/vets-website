@@ -3,9 +3,11 @@ import { Link } from 'react-router';
 
 import {
   capitalizeEachWord,
+  isBDD,
+  isClaimingIncrease,
+  isClaimingNew,
   isDisabilityPtsd,
   DISABILITY_SHARED_CONFIG,
-  isClaimingNew,
 } from '../utils';
 import { ptsdTypeEnum } from './ptsdTypeInfo';
 import { NULL_CONDITION_STRING } from '../constants';
@@ -58,16 +60,17 @@ const getRedirectLink = formData => {
 
 export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   const { ratedDisabilities, newDisabilities } = formData;
-  const ratedDisabilityNames = ratedDisabilities
-    ? ratedDisabilities
-        .filter(disability => disability['view:selected'])
-        .map(
-          disability =>
-            typeof disability.name === 'string'
-              ? capitalizeEachWord(disability.name)
-              : NULL_CONDITION_STRING,
-        )
-    : [];
+  const ratedDisabilityNames =
+    ratedDisabilities && isClaimingIncrease(formData) && !isBDD(formData)
+      ? ratedDisabilities
+          .filter(disability => disability['view:selected'])
+          .map(
+            disability =>
+              typeof disability.name === 'string'
+                ? capitalizeEachWord(disability.name)
+                : NULL_CONDITION_STRING,
+          )
+      : [];
   const newDisabilityNames =
     newDisabilities && isClaimingNew(formData)
       ? newDisabilities.map(

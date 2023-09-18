@@ -6,6 +6,10 @@ import { SummaryOfDisabilitiesDescription } from '../../content/summaryOfDisabil
 describe('summaryOfDisabilitiesDescription', () => {
   it('renders selected rated disabilities', () => {
     const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
       ratedDisabilities: [
         {
           'view:selected': true,
@@ -28,6 +32,10 @@ describe('summaryOfDisabilitiesDescription', () => {
 
   it('does not render unselected rated disabilities', () => {
     const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
       ratedDisabilities: [
         {
           'view:selected': true,
@@ -50,6 +58,10 @@ describe('summaryOfDisabilitiesDescription', () => {
 
   it('renders new disabilities', () => {
     const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': false,
+        'view:claimingNew': true,
+      },
       newDisabilities: [
         { condition: 'Condition 1' },
         { condition: 'Condition 2' },
