@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -9,12 +9,10 @@ import {
 
 import { PROFILE_PATHS_WITH_NAMES, PROFILE_PATHS } from '../constants';
 
-const BreadcrumbContent = () => {
+const BreadcrumbItems = () => {
   const location = useLocation();
 
-  const [breadcrumbs, setBreadcrumbs] = useState([]);
-
-  useEffect(
+  const breadcrumbs = useMemo(
     () => {
       const baseBreadCrumbs = [
         { href: '/', label: 'Home' },
@@ -29,34 +27,44 @@ const BreadcrumbContent = () => {
 
       const routeInfo = getRouteInfoFromPath(path, PROFILE_PATHS_WITH_NAMES);
 
-      setBreadcrumbs([
+      return [
         ...baseBreadCrumbs,
         {
           href: path,
           label: routeInfo.name,
         },
-      ]);
-      return null;
+      ];
     },
-    [location, setBreadcrumbs],
+    [location],
   );
 
-  if (breadcrumbs.length === 0) {
-    return null;
-  }
+  return breadcrumbs.map(crumb => {
+    const Element =
+      crumb.href === '/'
+        ? {
+            Type: 'a',
+            linkProp: 'href',
+          }
+        : {
+            Type: Link,
+            linkProp: 'to',
+          };
 
-  return breadcrumbs.map(crumb => (
-    <li key={crumb.href}>
-      <Link to={crumb.href}>{crumb.label}</Link>
-    </li>
-  ));
+    return (
+      <li key={crumb.href}>
+        <Element.Type {...{ [Element.linkProp]: crumb.href }}>
+          {crumb.label}
+        </Element.Type>
+      </li>
+    );
+  });
 };
 
 export const ProfileBreadcrumbs = () => {
   return (
     <div className="vads-u-padding-left--3">
       <VaBreadcrumbs>
-        <BreadcrumbContent />
+        <BreadcrumbItems />
       </VaBreadcrumbs>
     </div>
   );
