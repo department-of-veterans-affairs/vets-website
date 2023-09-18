@@ -229,6 +229,14 @@ class FolderManagementPage {
       .should('exist')
       .and('have.text', 'Message conversation was successfully moved.');
   };
+
+  deleteFolder = () => {
+    cy.get('[data-testid="remove-folder-button"]').click();
+    cy.get('[text="Yes, remove this folder"]')
+      .shadow()
+      .find('[type="button"]')
+      .click();
+  };
 }
 
 export default FolderManagementPage;

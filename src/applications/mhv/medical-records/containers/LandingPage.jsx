@@ -261,8 +261,12 @@ const LandingPage = () => {
                     What if I can’t find all my allergy records?
                   </h3>
                   <p className="vads-u-margin-bottom--2">
-                    To find health information you entered yourself, go to VA
-                    Blue Button on the My HealtheVet website.
+                    This tool only includes health information your VA providers
+                    have entered.
+                  </p>
+                  <p className="vads-u-margin-bottom--2">
+                    To find health information you entered yourself, go to your
+                    VA Blue Button® report on the My HealtheVet website.
                   </p>
                   <p className="vads-u-margin-bottom--2">
                     <a
@@ -294,9 +298,8 @@ const LandingPage = () => {
                     <a
                       href={mhvUrl(
                         isAuthenticatedWithSSOe(fullState),
-                        'secure-messaging',
+                        'compose-message',
                       )}
-                      rel="noreferrer"
                     >
                       Compose a message on the My HealtheVet website
                     </a>
@@ -361,12 +364,11 @@ const LandingPage = () => {
                       connect with our Veterans Crisis Line. We offer
                       confidential support anytime, day or night.
                       <p className="vads-u-margin-bottom--2">
-                        <button
-                          className="va-button-link"
+                        <va-button
+                          secondary="true"
+                          text="Connect with the Veterans Crisis Line"
                           onClick={openCrisisModal}
-                        >
-                          Connect with the Veterans Crisis Line
-                        </button>
+                        />
                       </p>
                     </li>
                     <li>
@@ -383,11 +385,10 @@ const LandingPage = () => {
                     </span>
                   </p>
                   <p className="vads-u-margin-bottom--2">
-                    Call the My HealtheVet help desk at{' '}
-                    <va-telephone contact="8773270022" /> (
-                    <va-telephone contact="8008778339" tty />
-                    ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
-                    ET.
+                    Email us at{' '}
+                    <a href="mailto: vamhvfeedback@va.gov">
+                      vamhvfeedback@va.gov
+                    </a>
                   </p>
                 </va-accordion-item>
 
