@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import '../sass/print-download.scss';
 
 const PrintDownload = props => {
   const { download, list, allowTxtDownloads } = props;

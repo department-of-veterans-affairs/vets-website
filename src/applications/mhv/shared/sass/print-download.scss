@@ -1,8 +1,6 @@
 .print-download {
   width: 275px;
   button {
-    background-color: var(--color-white);
-    color: var(--color-primary);
     width: 100%;
     box-shadow: none;
   }
@@ -11,23 +9,8 @@
     margin-bottom: 0px;
     margin-right: 0px;
   }
-  button:active,
-  button:focus {
-    background-color: var(--color-primary-alt-lightest);
-  }
-  button:hover {
-    background-color: var(--color-primary-alt-lightest);
-    color: var(--color-primary-darker);
-  }
-  button:hover i::before {
-    color: var(--color-primary-darker);
-  }
   button:active {
     outline: none;
-    color: var(--color-primary);
-  }
-  button:active i::before {
-    color: var(--color-primary);
   }
 
   .toggle-menu-button {
