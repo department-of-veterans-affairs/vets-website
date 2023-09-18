@@ -151,64 +151,49 @@ const AllergyDetails = () => {
           >
             Allergy: <span data-dd-privacy="mask">{allergy.name}</span>
           </h1>
-          <section className="set-width-486">
-            <div className="condition-subheader vads-u-margin-bottom--3">
-              <div className="time-header">
-                <h2
-                  className="vads-u-font-size--base vads-u-font-family--sans"
-                  id="allergy-date"
-                >
-                  Date entered:{' '}
-                  <span
-                    className="vads-u-font-weight--normal"
-                    data-dd-privacy="mask"
-                  >
-                    {allergy.date}
-                  </span>
-                </h2>
-              </div>
-              <PrintDownload list download={generateAllergyPdf} />
-              <va-additional-info
-                trigger="What to know before you download"
-                class="no-print"
+          <div className="condition-subheader vads-u-margin-bottom--4">
+            <div className="time-header">
+              <h2
+                className="vads-u-font-size--base vads-u-font-family--sans"
+                id="allergy-date"
               >
-                <ul>
-                  <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
-                  </li>
-                  <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
-                  </li>
-                </ul>
-              </va-additional-info>
+                Date entered:{' '}
+                <span
+                  className="vads-u-font-weight--normal"
+                  data-dd-privacy="mask"
+                >
+                  {allergy.date}
+                </span>
+              </h2>
             </div>
-            <div className="condition-details max-80">
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Reaction
-              </h2>
-              <ItemList list={allergy.reaction} />
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Type of allergy
-              </h2>
-              <p data-dd-privacy="mask">{allergy.type || 'None noted'}</p>
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Location
-              </h2>
-              <p data-dd-privacy="mask">{allergy.location || 'None noted'}</p>
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Observed or reported
-              </h2>
-              <p data-dd-privacy="mask">{allergy.observedOrReported}</p>
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Provider notes
-              </h2>
-              <p data-dd-privacy="mask">{allergy.notes}</p>
-            </div>
-          </section>
+            <PrintDownload
+              download={generateAllergyPdf}
+              allowTxtDownloads={allowTxtDownloads}
+            />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          </div>
+          <div className="condition-details max-80">
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Reaction
+            </h2>
+            <ItemList list={allergy.reaction} />
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Type of allergy
+            </h2>
+            <p data-dd-privacy="mask">{allergy.type || 'None noted'}</p>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Location
+            </h2>
+            <p data-dd-privacy="mask">{allergy.location || 'None noted'}</p>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Observed or reported
+            </h2>
+            <p data-dd-privacy="mask">{allergy.observedOrReported}</p>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Provider notes
+            </h2>
+            <p data-dd-privacy="mask">{allergy.notes}</p>
+          </div>
         </>
       );
     }
