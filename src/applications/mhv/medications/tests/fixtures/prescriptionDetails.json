@@ -14,7 +14,7 @@
             "orderedDate": "2023-07-14T04:00:00.000Z",
             "quantity": 30,
             "expirationDate": "2024-07-14T04:00:00.000Z",
-            "dispensedDate": null,
+            "dispensedDate": "2023-08-04T04:00:00.000Z",
             "stationNumber": "989",
             "isRefillable": false,
             "isTrackable": false,
