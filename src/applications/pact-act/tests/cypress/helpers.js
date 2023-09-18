@@ -2,6 +2,8 @@ export const START_LINK = 'paw-start-form';
 
 export const SERVICE_PERIOD_INPUT = 'paw-servicePeriod';
 export const BURN_PIT_2_1_INPUT = 'paw-burnPit2_1';
+export const BURN_PIT_2_1_1_INPUT = 'paw-burnPit2_1_1';
+export const BURN_PIT_2_1_2_INPUT = 'paw-burnPit2_1_2';
 
 export const clickStart = () =>
   cy

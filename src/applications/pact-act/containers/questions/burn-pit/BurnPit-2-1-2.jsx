@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TernaryRadios from '../TernaryRadios';
-import { updateBurnPit21 } from '../../../actions';
+import { updateBurnPit212 } from '../../../actions';
 import {
   QUESTION_MAP,
   RESPONSES,
@@ -16,16 +16,16 @@ import {
 } from '../../../utilities/display-logic';
 import { pageSetup } from '../../../utilities/page-setup';
 
-const BurnPit21 = ({
+const BurnPit212 = ({
   formResponses,
   router,
-  setBurnPit21,
+  setBurnPit212,
   viewedIntroPage,
 }) => {
   const [formError, setFormError] = useState(false);
-  const shortName = SHORT_NAME_MAP.BURN_PIT_2_1;
+  const shortName = SHORT_NAME_MAP.BURN_PIT_2_1_2;
   const H1 = QUESTION_MAP[shortName];
-  const burnPit21 = formResponses[shortName];
+  const burnPit212 = formResponses[shortName];
   const { NO, NOT_SURE, YES } = RESPONSES;
 
   useEffect(
@@ -45,7 +45,7 @@ const BurnPit21 = ({
   );
 
   const onContinueClick = () => {
-    if (!burnPit21) {
+    if (!burnPit212) {
       setFormError(true);
     } else {
       setFormError(false);
@@ -59,7 +59,7 @@ const BurnPit21 = ({
 
   const onValueChange = event => {
     const { value } = event?.detail;
-    setBurnPit21(value);
+    setBurnPit212(value);
 
     if (value) {
       setFormError(false);
@@ -67,21 +67,21 @@ const BurnPit21 = ({
   };
 
   const onBlurInput = () => {
-    if (burnPit21) {
+    if (burnPit212) {
       setFormError(false);
     }
   };
 
   const locationList = (
     <ul>
-      <li>Bahrain</li>
-      <li>Iraq</li>
-      <li>Kuwait</li>
-      <li>Oman</li>
-      <li>Qatar</li>
-      <li>Saudi Arabia</li>
-      <li>Somalia</li>
-      <li>The United Arab Emirates (UAE)</li>
+      <li>Afghanistan</li>
+      <li>Djibouti</li>
+      <li>Egypt</li>
+      <li>Jordan</li>
+      <li>Lebanon</li>
+      <li>Syria</li>
+      <li>Uzbekistan</li>
+      <li>Yemen</li>
       <li>The airspace above any of these locations</li>
     </ul>
   );
@@ -91,7 +91,7 @@ const BurnPit21 = ({
       <h1>{H1}</h1>
       <TernaryRadios
         formError={formError}
-        formValue={burnPit21}
+        formValue={burnPit212}
         h1={H1}
         locationList={locationList}
         onBackClick={onBackClick}
@@ -100,7 +100,7 @@ const BurnPit21 = ({
         onValueChange={onValueChange}
         responses={[YES, NO, NOT_SURE]}
         shortName={shortName}
-        testId="paw-burnPit2_1"
+        testId="paw-burnPit2_1_2"
       />
     </>
   );
@@ -112,12 +112,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  setBurnPit21: updateBurnPit21,
+  setBurnPit212: updateBurnPit212,
 };
 
-BurnPit21.propTypes = {
+BurnPit212.propTypes = {
   formResponses: PropTypes.object.isRequired,
-  setBurnPit21: PropTypes.func.isRequired,
+  setBurnPit212: PropTypes.func.isRequired,
   viewedIntroPage: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
@@ -127,4 +127,4 @@ BurnPit21.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(BurnPit21);
+)(BurnPit212);
