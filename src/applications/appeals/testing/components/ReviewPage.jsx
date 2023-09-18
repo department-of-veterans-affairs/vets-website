@@ -37,6 +37,8 @@ const ReviewPage = props => {
 
   return (
     <article>
+      <div name="topScrollElement" />
+      <div name="topNavScrollElement" />
       <h1>Review Board Appeal</h1>
       <va-on-this-page uswds />
       {chapterTitles.filter(title => title !== 'Apply').map((title, index) => {
