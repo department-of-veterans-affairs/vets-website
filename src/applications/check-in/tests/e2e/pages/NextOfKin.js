@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/use-workspace-imports */
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 class NextOfKin {
@@ -49,12 +50,30 @@ class NextOfKin {
 
   validateAdditionalInfo = {
     dayOf: () => {
+      cy.get('div[data-testid="additional-info"] div').should(
+        'have.css',
+        'visibility',
+        'hidden',
+      );
+      this.openAdditionalInfo();
+      cy.get('div[data-testid="additional-info"] div')
+        .should('have.css', 'visibility', 'visible')
+        .and('have.css', 'display', 'block');
       cy.get('div[data-testid="additional-info"]').should(
         'contain.text',
-        'If this isn’t your correct information, select No and a staff member can help you update your information on the day of your appointment.',
+        'If this isn’t your correct information, select No and a staff member can help you check in and update your information.',
       );
     },
     preCheckIn: () => {
+      cy.get('div[data-testid="additional-info"] div').should(
+        'have.css',
+        'visibility',
+        'hidden',
+      );
+      this.openAdditionalInfo();
+      cy.get('div[data-testid="additional-info"] div')
+        .should('have.css', 'visibility', 'visible')
+        .and('have.css', 'display', 'block');
       cy.get('div[data-testid="additional-info"]').should(
         'contain.text',
         'If this isn’t your correct information, select No and a staff member can help you update your information on the day of your appointment.',
