@@ -24,5 +24,25 @@ describe('PACT Act', () => {
       h.verifyElement(h.START_LINK);
       cy.injectAxeThenAxeCheck();
     });
+
+    it('redirects to home when the burn pit 2-1-1 page is loaded without the right criteria', () => {
+      cy.visit('/pact-act-wizard-test/burn-pit-2-1-1');
+
+      h.verifyUrl(ROUTES.HOME);
+
+      // Home
+      h.verifyElement(h.START_LINK);
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('redirects to home when the burn pit 2-1-2 page is loaded without the right criteria', () => {
+      cy.visit('/pact-act-wizard-test/burn-pit-2-1-2');
+
+      h.verifyUrl(ROUTES.HOME);
+
+      // Home
+      h.verifyElement(h.START_LINK);
+      cy.injectAxeThenAxeCheck();
+    });
   });
 });

@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  VaButtonPair,
-  VaRadio,
-  VaRadioOption,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import TernaryRadios from './TernaryRadios';
 import { updateServicePeriod } from '../../actions';
 import { RESPONSES, SHORT_NAME_MAP } from '../../utilities/question-data-map';
 import { ROUTES } from '../../constants';
-import { navigateForward } from '../../utilities/display-logic';
+import {
+  navigateBackward,
+  navigateForward,
+} from '../../utilities/display-logic';
 import { pageSetup } from '../../utilities/page-setup';
 
 const ServicePeriod = ({
@@ -19,12 +18,21 @@ const ServicePeriod = ({
   viewedIntroPage,
 }) => {
   const [formError, setFormError] = useState(false);
+  const shortName = SHORT_NAME_MAP.SERVICE_PERIOD;
   const H1 = 'Service Period 1';
-  const servicePeriod = formResponses[SHORT_NAME_MAP.SERVICE_PERIOD];
+  const servicePeriod = formResponses[shortName];
+  const {
+    DURING_BOTH_PERIODS,
+    EIGHTYNINE_OR_EARLIER,
+    NINETY_OR_LATER,
+  } = RESPONSES;
 
-  useEffect(() => {
-    pageSetup(H1);
-  });
+  useEffect(
+    () => {
+      pageSetup(H1);
+    },
+    [H1],
+  );
 
   useEffect(
     () => {
@@ -40,12 +48,12 @@ const ServicePeriod = ({
       setFormError(true);
     } else {
       setFormError(false);
-      navigateForward(SHORT_NAME_MAP.SERVICE_PERIOD, formResponses, router);
+      navigateForward(shortName, formResponses, router);
     }
   };
 
   const onBackClick = () => {
-    router.push(ROUTES.HOME);
+    navigateBackward(shortName, formResponses, router);
   };
 
   const onValueChange = event => {
@@ -66,39 +74,21 @@ const ServicePeriod = ({
   return (
     <>
       <h1>{H1}</h1>
-      <VaRadio
-        data-testid="paw-servicePeriod"
-        onBlur={onBlurInput}
-        className="vads-u-margin-bottom--3"
-        error={(formError && 'TBD error message') || null}
-        hint=""
-        label={H1}
-        onVaValueChange={onValueChange}
-      >
-        <VaRadioOption
-          checked={servicePeriod === RESPONSES.NINETY_OR_LATER}
-          label={RESPONSES.NINETY_OR_LATER}
-          name={SHORT_NAME_MAP.SERVICE_PERIOD}
-          value={RESPONSES.NINETY_OR_LATER}
-        />
-        <VaRadioOption
-          checked={servicePeriod === RESPONSES.EIGHTYNINE_OR_EARLIER}
-          label={RESPONSES.EIGHTYNINE_OR_EARLIER}
-          name={SHORT_NAME_MAP.SERVICE_PERIOD}
-          value={RESPONSES.EIGHTYNINE_OR_EARLIER}
-        />
-        <VaRadioOption
-          checked={servicePeriod === RESPONSES.DURING_BOTH_PERIODS}
-          label={RESPONSES.DURING_BOTH_PERIODS}
-          name={SHORT_NAME_MAP.SERVICE_PERIOD}
-          value={RESPONSES.DURING_BOTH_PERIODS}
-        />
-      </VaRadio>
-      <VaButtonPair
-        data-testid="paw-buttonPair"
-        onPrimaryClick={onContinueClick}
-        onSecondaryClick={onBackClick}
-        continue
+      <TernaryRadios
+        formError={formError}
+        formValue={servicePeriod}
+        h1={H1}
+        onBackClick={onBackClick}
+        onBlurInput={onBlurInput}
+        onContinueClick={onContinueClick}
+        onValueChange={onValueChange}
+        responses={[
+          NINETY_OR_LATER,
+          EIGHTYNINE_OR_EARLIER,
+          DURING_BOTH_PERIODS,
+        ]}
+        shortName={shortName}
+        testId="paw-servicePeriod"
       />
     </>
   );
