@@ -129,7 +129,7 @@ function Page({ virtualAgentShowFloatingChatbot = null }) {
   }
 
   if (isLoading) {
-    return <va-loading-indicator> </va-loading-indicator>;
+    return <va-loading-indicator />;
   }
   return bot;
 }
