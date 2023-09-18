@@ -60,9 +60,9 @@ const BreadcrumbItems = () => {
   });
 };
 
-export const ProfileBreadcrumbs = () => {
+export const ProfileBreadcrumbs = ({ className }) => {
   return (
-    <div className="vads-u-padding-left--3">
+    <div className={className}>
       <VaBreadcrumbs>
         <BreadcrumbItems />
       </VaBreadcrumbs>
