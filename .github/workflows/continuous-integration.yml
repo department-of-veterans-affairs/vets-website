@@ -182,19 +182,11 @@ jobs:
           delimiter: ','
           output-type: 'folder'
 
-      - name: Download Allow List
-        uses: actions/download-artifact@v3
-        with:
-          name: unit-test-allow-list
-          path: .
-
       - name: Run unit tests
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
-          STEP: 1
-          CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
 
       - name: Archive unit test results
         if: ${{ always() }}
