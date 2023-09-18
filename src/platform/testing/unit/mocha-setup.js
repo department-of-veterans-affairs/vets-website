@@ -14,30 +14,30 @@ import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
 import { configure } from '@testing-library/dom';
-// import fs from 'fs';
-// import path from 'path';
-// import core from '@actions/core';
+import fs from 'fs';
+import path from 'path';
+import core from '@actions/core';
 import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
 
-// const ALLOW_LIST = JSON.parse(
-//   fs.readFileSync(path.resolve(`unit_test_allow_list.json`)),
-// );
-// const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false).map(
-//   spec => spec.spec_path.substring(spec.spec_path.indexOf('src')),
-// );
-// const CHANGED_APPS = process.env.CHANGED_FILE_PATHS
-//   ? process.env.CHANGED_FILE_PATHS.split(' ').map(filePath =>
-//       filePath
-//         .split('/')
-//         .slice(0, 3)
-//         .join('/'),
-//     )
-//   : [];
+const ALLOW_LIST = JSON.parse(
+  fs.readFileSync(path.resolve(`unit_test_allow_list.json`)),
+);
+const DISALLOWED_SPECS = ALLOW_LIST.filter(
+  spec => spec.allowed === false,
+).map(spec => spec.spec_path.substring(spec.spec_path.indexOf('src')));
+const CHANGED_APPS = process.env.CHANGED_FILE_PATHS
+  ? process.env.CHANGED_FILE_PATHS.split(' ').map(filePath =>
+      filePath
+        .split('/')
+        .slice(0, 3)
+        .join('/'),
+    )
+  : [];
 
-// const TESTS_TO_STRESS_TEST = DISALLOWED_SPECS.filter(specPath =>
-//   CHANGED_APPS.some(filePath => specPath.includes(filePath)),
-// );
+const TESTS_TO_STRESS_TEST = DISALLOWED_SPECS.filter(specPath =>
+  CHANGED_APPS.some(filePath => specPath.includes(filePath)),
+);
 
 Sentry.init({
   autoSessionTracking: false,
@@ -189,29 +189,29 @@ function setupJSDom() {
 /* eslint-disable no-console */
 
 setupJSDom();
-// const checkAllowList = testContext => {
-//   console.log(
-//     'filepath: ',
-//     testContext.currentTest.file.substring(
-//       testContext.currentTest.file.indexOf('src'),
-//     ),
-//   );
-//   const file = testContext.currentTest.file.indexOf('src');
-//   if (DISALLOWED_SPECS.indexOf(file) > -1) {
-//     console.log('skipping test: ');
-//     testContext.skip();
-//   }
-// };
+const checkAllowList = testContext => {
+  console.log(
+    'filepath: ',
+    testContext.currentTest.file.substring(
+      testContext.currentTest.file.indexOf('src'),
+    ),
+  );
+  const file = testContext.currentTest.file.indexOf('src');
+  if (DISALLOWED_SPECS.indexOf(file) > -1) {
+    console.log('skipping test: ');
+    testContext.skip();
+  }
+};
 // This needs to be after JSDom has been setup, otherwise
 // axe has strange issues with globals not being set up
 chai.use(chaiAxe);
-// core.exportVariable('TESTS_TO_STRESS_TEST', TESTS_TO_STRESS_TEST);
+core.exportVariable('TESTS_TO_STRESS_TEST', TESTS_TO_STRESS_TEST);
 
 export const mochaHooks = {
   beforeEach() {
     setupJSDom();
     resetFetch();
-    // checkAllowList(this);
+    checkAllowList(this);
   },
   afterEach() {
     localStorage.clear();
