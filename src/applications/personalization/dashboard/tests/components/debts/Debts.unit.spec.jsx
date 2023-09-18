@@ -56,26 +56,6 @@ describe('<BenefitPaymentsAndDebt />', () => {
     expect(view.getByTestId('no-outstanding-debts-text')).to.exist;
   });
 
-  it('should display error message when there is an error', () => {
-    const store = mockStore({
-      allDebts: {
-        isLoading: false,
-        debts: [],
-        copays: [],
-        debtsErrors: ['Some error'],
-        copaysErrors: [],
-      },
-    });
-
-    const view = render(
-      <Provider store={store}>
-        <BenefitPaymentsAndDebt />
-      </Provider>,
-    );
-
-    expect(view.getByTestId('outstanding-debts-error')).to.exist;
-  });
-
   it('should display debts card when debts are present', () => {
     const store = mockStore({
       allDebts: {
@@ -200,5 +180,45 @@ describe('<BenefitPaymentsAndDebt />', () => {
 
       // can continue asserting on other elements for debts or whatnot
     });
+  });
+
+  it('should display error message when there is a debt API error', () => {
+    const store = mockStore({
+      allDebts: {
+        isLoading: false,
+        debts: [],
+        copays: [],
+        debtsErrors: ['Some error'],
+        copaysErrors: [],
+      },
+    });
+
+    const view = render(
+      <Provider store={store}>
+        <BenefitPaymentsAndDebt />
+      </Provider>,
+    );
+
+    expect(view.getByTestId('outstanding-debts-error')).to.exist;
+  });
+
+  it('should display error message when there is a copays API error', () => {
+    const store = mockStore({
+      allDebts: {
+        isLoading: false,
+        debts: [],
+        copays: [],
+        debtsErrors: [],
+        copaysErrors: ['Another error'],
+      },
+    });
+
+    const view = render(
+      <Provider store={store}>
+        <BenefitPaymentsAndDebt />
+      </Provider>,
+    );
+
+    expect(view.getByTestId('outstanding-debts-error')).to.exist;
   });
 });
