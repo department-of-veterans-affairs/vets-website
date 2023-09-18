@@ -61,7 +61,7 @@
             }
           ]
         },
-        "category": ["Food"],
+        "category": ["food"],
         "code": {
           "text": "FISH"
         },
@@ -83,7 +83,7 @@
         "note": [
           {
             "time": "2023-07-27T17:07:21-06:00",
-            "text": "Maruf's test comment "
+            "text": "maruf's test comment "
           }
         ],
         "reaction": [
