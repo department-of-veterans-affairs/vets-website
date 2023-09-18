@@ -275,14 +275,11 @@ jobs:
     name: Unit Tests Stress Test
     runs-on: self-hosted
     needs: [unit-tests]
-    if: |
-      needs.cypress-tests-prep.result == 'success' &&
-      needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
-    outputs:
-      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
+    if: ${{ needs.unit-tests.outputs.tests != '[]' }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+      TESTS_TO_VERIFY: ${{ needs.unit-tests.outputs.tests }}
 
     strategy:
       fail-fast: false

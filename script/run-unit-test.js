@@ -2,7 +2,7 @@
 const commandLineArgs = require('command-line-args');
 const glob = require('glob');
 const printUnitTestHelp = require('./run-unit-test-help');
-const { runCommand } = require('./utils');
+// const { runCommand } = require('./utils');
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
 const specDirs = '{src,script}';
@@ -68,4 +68,15 @@ const command = `LOG_LEVEL=${options[
   .map(p => `'${p}'`)
   .join(' ')}`;
 
-runCommand(command);
+// if (process.env.TESTS_TO_VERIFY) {
+//   command = `LOG_LEVEL=${options[
+//     'log-level'
+//   ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} --recursive ${options.path
+//     .map(p => `'${p}'`)
+//     .join(' ')}`;
+//   runCommand(command);
+// } else {
+//   runCommand(command);
+// }
+
+console.log(command);

@@ -19,6 +19,8 @@ import path from 'path';
 import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
 
+const isStressTest = process.env.IS_STRESS_TEST;
+
 const ALLOW_LIST = JSON.parse(
   fs.readFileSync(path.resolve(`unit_test_allow_list.json`)),
 );
@@ -210,7 +212,9 @@ export const mochaHooks = {
   beforeEach() {
     setupJSDom();
     resetFetch();
-    checkAllowList(this);
+    if (!isStressTest) {
+      checkAllowList(this);
+    }
   },
   afterEach() {
     localStorage.clear();
