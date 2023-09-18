@@ -1,13 +1,28 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import PensionsApp from '../PensionsApp';
 
+const pensionLocation = {
+  pathname: '/introduction',
+  search: '',
+  hash: '',
+  action: 'POP',
+  key: null,
+  basename: '/pension/application/527EZ',
+  query: '{}',
+};
+
 const store = ({ pensionFormEnabled = true, loading = true } = {}) => ({
   getState: () => ({
+    user: {
+      login: {
+        currentlyLoggedIn: true,
+      },
+    },
     featureToggles: {
       loading,
       // eslint-disable-next-line camelcase
@@ -18,25 +33,27 @@ const store = ({ pensionFormEnabled = true, loading = true } = {}) => ({
   dispatch: () => {},
 });
 
-describe.skip('PensionsApp', () => {
+describe('PensionsApp', () => {
   it('should show VA loading indicator', () => {
     const mockStore = store();
     const { container } = render(
       <Provider store={mockStore}>
-        <PensionsApp />
+        <PensionsApp location={pensionLocation} />
       </Provider>,
     );
     expect($('va-loading-indicator', container)).to.exist;
   });
 
-  it('should show VA loading indicator', () => {
-    const mockStore = store({ loading: false });
-    global.window.location.pathname = '/banana';
+  it('should show NoFormPage', async () => {
+    const mockStore = store({ loading: false, pensionFormEnabled: false });
     const { container } = render(
       <Provider store={mockStore}>
-        <PensionsApp />
+        <PensionsApp location={pensionLocation} />
       </Provider>,
     );
-    expect($('va-loading-indicator', container)).to.not.exist;
+    await waitFor(() => {
+      expect($('va-loading-indicator', container)).to.not.exist;
+      expect($('va-alert', container)).to.exist;
+    });
   });
 });

@@ -1,16 +1,18 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
 
-function PensionEntry({ location, children, isLoadingFeatures }) {
+export default function PensionEntry({ location, children }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const pensionFormEnabled = useToggleValue(TOGGLE_NAMES.pensionFormEnabled);
+  const isLoadingFeatures = useSelector(
+    state => state?.featureToggles?.loading,
+  );
   const redirectToHowToPage =
     pensionFormEnabled === false && location.pathname !== '/introduction';
   if (redirectToHowToPage === true) {
@@ -30,19 +32,7 @@ function PensionEntry({ location, children, isLoadingFeatures }) {
     </RoutedSavableApp>
   );
 }
-
-const mapStateToProps = state => ({
-  isLoadingFeatures: toggleValues(state).loading,
-});
 PensionEntry.propTypes = {
   children: PropTypes.node.isRequired,
   location: PropTypes.object.isRequired,
-  isLoadingFeatures: PropTypes.bool,
 };
-
-const mapDispatchToProps = {};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PensionEntry);
