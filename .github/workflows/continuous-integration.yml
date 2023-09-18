@@ -153,9 +153,10 @@ jobs:
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       tests-to-stress-test: ${{ steps.tests-to-stress-test.outputs.tests }}
+      changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
+
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-      CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
 
     steps:
       - name: Checkout
@@ -199,6 +200,7 @@ jobs:
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level debug
         env:
           MOCHA_FILE: test-results/unit-tests.xml
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           STEP: 1
 
