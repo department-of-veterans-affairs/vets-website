@@ -48,7 +48,7 @@ const MedicationsListCard = props => {
             {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}
           </p>
         ) : (
-          <p>Not filled yet</p>
+          <p>You haven’t filled this prescription yet</p>
         )}
         {showRefillRemaining && refillsRemaining()}
         {rx && <ExtraDetails {...rx} />}
@@ -60,7 +60,10 @@ const MedicationsListCard = props => {
               <p className="vads-u-margin-y--0">
                 You have no refills left. If you need more, request a renewal.
               </p>
-              <va-link href="/" text="Learn how to renew prescriptions." />
+              <va-link
+                href="/my-health/about-medications/accordion-renew-rx"
+                text="Learn how to renew prescriptions"
+              />
             </div>
           </>
         )}
