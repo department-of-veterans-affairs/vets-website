@@ -64,7 +64,7 @@ const configFile = options.config ? options.config : 'config/mocha.json';
 let testsToVerify = null;
 console.log(process.env.TESTS_TO_VERIFY);
 if (process.env.TESTS_TO_VERIFY) {
-  testsToVerify = JSON.parse(process.env.TESTS_TO_VERIFY.join(' '));
+  testsToVerify = JSON.parse(process.env.TESTS_TO_VERIFY).join(' ');
 }
 
 const command = `LOG_LEVEL=${options[
