@@ -24,6 +24,7 @@ const PrintDownload = props => {
       type="button"
       className="link-button vads-u-margin-bottom--3"
       onClick={download}
+      data-testid="download-pdf-button"
     >
       <i className="fas fa-download vads-u-margin-right--0p5" />
       {list
