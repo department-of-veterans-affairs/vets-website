@@ -38,7 +38,7 @@
     "view:additionalEvidence": true,
     "requestingExtension": true,
     "extensionReason": "Lorem ipsum",
-    "appealingVHADenial": false,
+    "appealingVHADenial": true,
 
     "contestedIssues": [
       {
