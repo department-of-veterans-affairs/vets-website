@@ -177,8 +177,6 @@ describe('<BenefitPaymentsAndDebt />', () => {
     await waitFor(() => {
       expect(view.getByTestId('copay-due-header')).to.exist;
       expect(view.getByText('3 copay bills')).to.exist;
-
-      // can continue asserting on other elements for debts or whatnot
     });
   });
 

@@ -69,13 +69,10 @@ describe('<DebtsCard />', () => {
     expect(header).to.include(defaultProps.debts.length);
     expect(header).to.include('overpayment debts');
 
-    // should render Updated (<p>)
     const info = wrapper.find('p').text();
 
-    // sort last updated dates, and format
     expect(info).to.include('Updated on');
 
-    // should render CTALink
     const link = wrapper.find('CTALink');
     expect(link.prop('text')).to.include('Manage your VA debt');
     expect(link.prop('href')).to.equal('/manage-va-debt/your-debt');

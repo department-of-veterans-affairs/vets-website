@@ -6,9 +6,10 @@ import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-
 import CopaysCard from '../../../components/debts/CopaysCard';
 
 const initialState = {
-  allDebts: {
-    isLoading: false,
-    copays: [],
+  user: {
+    profile: {
+      loading: false,
+    },
   },
 };
 
