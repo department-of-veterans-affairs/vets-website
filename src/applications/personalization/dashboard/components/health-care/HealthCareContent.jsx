@@ -136,7 +136,7 @@ const HealthCareContent = ({
   if (shouldShowLoadingIndicator) {
     return <va-loading-indicator message="Loading health care..." />;
   }
-  if (facilityNames?.length === 0) {
+  if (facilityNames?.length > 0) {
     return (
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
