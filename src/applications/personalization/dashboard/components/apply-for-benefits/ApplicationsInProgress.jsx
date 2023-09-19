@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
+import { format, fromUnixTime } from 'date-fns';
 import PropTypes from 'prop-types';
 import {
   isLOA3 as isLOA3Selector,
@@ -49,12 +49,14 @@ const ApplicationsInProgress = ({ savedForms, hideH3, isLOA3 }) => {
             const formTitle = `application for ${formBenefits[formId]}`;
             const presentableFormId = presentableFormIDs[formId];
             const { lastUpdated, expiresAt } = form.metadata || {};
-            const lastOpenedDate = moment
-              .unix(lastUpdated)
-              .format('MMMM D, YYYY');
-            const expirationDate = moment
-              .unix(expiresAt)
-              .format('MMMM D, YYYY');
+            const lastOpenedDate = format(
+              fromUnixTime(lastUpdated),
+              'MMMM d, yyyy',
+            );
+            const expirationDate = format(
+              fromUnixTime(expiresAt),
+              'MMMM d, yyyy',
+            );
             const continueUrl = `${formLinks[formId]}resume`;
             return (
               <ApplicationInProgress

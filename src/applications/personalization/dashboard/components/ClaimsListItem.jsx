@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
-import moment from 'moment';
+import { format } from 'date-fns';
 
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import {
   getClaimType,
@@ -25,7 +25,7 @@ function handleViewClaim() {
 
 export default function ClaimsListItem({ claim }) {
   const inProgress = !isClaimComplete(claim);
-  const dateRecd = moment(claim.attributes.dateFiled).format('MMMM D, YYYY');
+  const dateRecd = format(claim.attributes.dateFiled, 'MMMM d, yyyy');
 
   return (
     <div className="claim-list-item-container">
@@ -34,7 +34,7 @@ export default function ClaimsListItem({ claim }) {
       </h3>
       <p className="status">
         <span className="claim-item-label">
-          {moment(claim.attributes.phaseChangeDate).format('MMMM D')} - Update:{' '}
+          {format(claim.attributes.phaseChangeDate, 'MMMM D')} - Update:{' '}
         </span>{' '}
         {listPhase(claim.attributes.phase)}
       </p>
