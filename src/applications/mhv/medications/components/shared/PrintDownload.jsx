@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 
 const PrintDownload = props => {
   const { download, list } = props;
-  // const [menuOpen, setMenuOpen] = useState(false);
 
+  // Variables required for dropdown button group
+  // const [menuOpen, setMenuOpen] = useState(false);
   // let toggleMenuButtonClasses =
   //   'toggle-menu-button vads-u-justify-content--space-between';
   // let menuOptionsClasses = 'menu-options';
@@ -30,7 +31,7 @@ const PrintDownload = props => {
         : 'Download your medication details as a PDF'}
     </button>
 
-    // DROPDOWN PRINT/DOWNLOAD BUTTON
+    // Code for dropdown print/download button
     // <div className="print-download vads-u-margin-y--2 no-print">
     //   <button
     //     type="button"
