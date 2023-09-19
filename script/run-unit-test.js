@@ -71,5 +71,6 @@ const command = `LOG_LEVEL=${options[
 ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} --recursive ${options.path
   .map(p => `'${p}'`)
   .join(' ')}`;
-
+console.log('options: ', options);
+console.log('command: ', command);
 runCommand(command);
