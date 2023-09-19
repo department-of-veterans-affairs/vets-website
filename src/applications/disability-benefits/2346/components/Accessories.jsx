@@ -181,7 +181,7 @@ class Accessories extends Component {
               years, call the DLC Customer Service Section at
               <va-telephone
                 contact={DLC_PHONE}
-                className="vads-u-margin--0p5 dd-privacy-mask"
+                className="vads-u-margin--0p5"
               />
               or email
               <a

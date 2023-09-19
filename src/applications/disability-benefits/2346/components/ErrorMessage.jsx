@@ -63,12 +63,12 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
         <va-alert status="warning">
           <h3 slot="headline">You can’t reorder your items at this time</h3>
           <div className="vads-u-display--flex vads-u-flex-direction--column">
-            <span className="dd-privacy-mask">
+            <span>
               You can’t order {supplyDescription} online at this time because
               you haven’t placed an order within the past two years
             </span>
 
-            <span className="vads-u-margin-top--1 dd-privacy-mask">
+            <span className="vads-u-margin-top--1">
               If you need to place an order, call the DLC Customer Service
               Section at <va-telephone contact="3032736200" /> or email{' '}
               <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.

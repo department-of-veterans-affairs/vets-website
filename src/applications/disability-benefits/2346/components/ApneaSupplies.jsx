@@ -70,7 +70,7 @@ class ApneaSupplies extends Component {
       return selectedProductIds.includes(apneaProductId);
     };
     return (
-      <div className="apnea-supplies-page dd-privacy-mask">
+      <div className="apnea-supplies-page">
         {apneaSupplies.length > 0 && (
           <h3 className="vads-u-font-size--h4 vads-u-margin-top--5">
             Select the CPAP supplies you need
@@ -102,8 +102,8 @@ class ApneaSupplies extends Component {
             <div
               key={apneaSupply.productId}
               className={classnames({
-                'vads-u-background-color--gray-lightest vads-u-margin-y--3 dd-privacy-mask': true,
-                'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21 dd-privacy-mask': isApneaSupplySelected(
+                'vads-u-background-color--gray-lightest vads-u-margin-y--3': true,
+                'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21': isApneaSupplySelected(
                   apneaSupply.productId,
                 ),
                 'vads-u-padding--3': !isApneaSupplySelected(

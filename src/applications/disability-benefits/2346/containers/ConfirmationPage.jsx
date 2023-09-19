@@ -24,7 +24,7 @@ const ConfirmationPage = ({
     ? 'hearing aid and CPAP supplies'
     : 'hearing aid batteries and accessories';
   const PrintDetails = () => (
-    <div className="print-details dd-privacy-mask">
+    <div className="print-details">
       <img
         src="/img/design/logo/logo-black-and-white.png"
         alt="VA logo"
@@ -93,7 +93,7 @@ const ConfirmationPage = ({
               </h2>
               <p className="order-submission-alert">
                 We’ll send you an email confirming your order to{' '}
-                <strong className="dd-privacy-mask">{vetEmail}</strong>.
+                <strong>{vetEmail}</strong>.
               </p>
             </va-alert>
             <va-alert
@@ -101,7 +101,7 @@ const ConfirmationPage = ({
               class="order-summary-alert vads-u-margin-top--3"
               status="info"
             >
-              <section className="dd-privacy-mask">
+              <section>
                 <h4 className="vads-u-margin-top--0">
                   Request for {supplyDescription}
                 </h4>

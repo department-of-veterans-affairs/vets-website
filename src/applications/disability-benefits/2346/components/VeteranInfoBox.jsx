@@ -22,7 +22,7 @@ const VeteranInfoBox = props => {
   return (
     <div>
       <p>This is the personal information we have on file for you.</p>
-      <div className="vads-u-border-left--7px vads-u-border-color--primary dd-privacy-mask">
+      <div className="vads-u-border-left--7px vads-u-border-color--primary">
         <div className="vads-u-padding-left--1">
           <p className="vads-u-margin--1px vads-u-font-weight--bold">
             {fullName}

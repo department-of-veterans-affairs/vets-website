@@ -14,7 +14,7 @@ const ReviewPageSupplies = ({
   isSupplyReorderingSleepApneaEnabled,
 }) => (
   <>
-    <dt className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2 dd-privacy-mask">
+    <dt className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2">
       <span className="vads-u-font-weight--bold">
         You have requested to receive supplies for the following hearing aids:
       </span>
@@ -44,7 +44,7 @@ const ReviewPageSupplies = ({
         )}
     </dt>
     {eligibility?.batteries && (
-      <div className="vads-u-margin-bottom--3 dd-privacy-mask">
+      <div className="vads-u-margin-bottom--3">
         {selectedBatteryProductInfo &&
           selectedBatteryProductInfo.map((product, index) => (
             <dd
@@ -92,7 +92,7 @@ const ReviewPageSupplies = ({
     </dd>
     {eligibility?.accessories &&
       selectedAccessoryProductInfo?.length > 0 && (
-        <div className="vads-u-margin-bottom--3 dd-privacy-mask">
+        <div className="vads-u-margin-bottom--3">
           {selectedAccessoryProductInfo &&
             selectedAccessoryProductInfo.map((product, index) => (
               <dd
@@ -141,7 +141,7 @@ const ReviewPageSupplies = ({
     {eligibility?.apneas &&
       selectedApneaProductInfo?.length > 0 &&
       isSupplyReorderingSleepApneaEnabled && (
-        <div className="vads-u-margin-bottom--3 dd-privacy-mask">
+        <div className="vads-u-margin-bottom--3">
           {selectedApneaProductInfo &&
             selectedApneaProductInfo.map((product, index) => (
               <dd

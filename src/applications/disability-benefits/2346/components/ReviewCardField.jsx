@@ -251,7 +251,7 @@ class ReviewCardField extends React.Component {
       uiSchema['ui:options']?.volatileData;
 
     return (
-      <div className="review-card dd-privacy-mask">
+      <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
           <h4 className={titleClasses} id={this.props.name}>
             Edit {title.toLowerCase()}

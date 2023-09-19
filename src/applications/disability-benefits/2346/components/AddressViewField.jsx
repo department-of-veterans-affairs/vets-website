@@ -65,7 +65,7 @@ const AddressViewField = ({ formData }) => {
   return (
     <>
       {!isAddressMissing && (
-        <div className="vads-u-border-left--7px vads-u-border-color--primary dd-privacy-mask">
+        <div className="vads-u-border-left--7px vads-u-border-color--primary">
           <p className="vads-u-margin-left--2 vads-u-margin-top--0">
             {isBaseAddressDataValid && (
               <>
