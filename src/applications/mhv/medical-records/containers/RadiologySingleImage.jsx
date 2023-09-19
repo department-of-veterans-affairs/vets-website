@@ -45,22 +45,16 @@ const RadiologySingleImage = () => {
     () => {
       if (labAndTestDetails?.name) {
         dispatch(
-          setBreadcrumbs(
-            [
-              {
-                url: `/my-health/medical-records/labs-and-tests/radiology-images/${labId}`,
-                label: `Images: ${labAndTestDetails?.name}`,
-              },
-            ],
+          setBreadcrumbs([
             {
-              url: `/my-health/medical-records/labs-and-tests/radiology-images/${labId}/${imageId}`,
-              label: `Image ${imageId} of ${labAndTestDetails?.images.length}`,
+              url: `/my-health/medical-records/labs-and-tests/radiology-images/${labId}`,
+              label: `Images: ${labAndTestDetails?.name}`,
             },
-          ),
+          ]),
         );
       }
     },
-    [labAndTestDetails, dispatch],
+    [labAndTestDetails],
   );
 
   useEffect(
