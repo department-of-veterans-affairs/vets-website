@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintDownload from '../components/shared/PrintDownload';
 import PrintHeader from '../components/shared/PrintHeader';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import GenerateRadiologyPdf from '../components/LabsAndTests/GenerateRadiologyPdf';
 
 const RadiologyImagesList = () => {
@@ -60,27 +60,16 @@ const RadiologyImagesList = () => {
     GenerateRadiologyPdf(labAndTestDetails);
   };
 
-  useEffect(
-    () => {
-      if (labAndTestDetails?.name) {
-        dispatch(
-          setBreadcrumbs(
-            [
-              {
-                url: `/my-health/medical-records/labs-and-tests/${labId}`,
-                label: labAndTestDetails?.name,
-              },
-            ],
-            {
-              url: `/my-health/medical-records/labs-and-tests/${labId}/images`,
-              label: `Images: ${labAndTestDetails?.name}`,
-            },
-          ),
-        );
-      }
-    },
-    [labAndTestDetails, dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs([
+        {
+          url: `/my-health/medical-records/labs-and-tests/${labId}`,
+          label: labAndTestDetails?.name,
+        },
+      ]),
+    );
+  }, []);
 
   useEffect(
     () => {

@@ -48,7 +48,7 @@ describe('Pre-Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
     });
     it('Displays additional info', () => {
-      NextOfKin.validateAdditionalInfo.dayOf();
+      NextOfKin.validateAdditionalInfo.preCheckIn();
       cy.injectAxeThenAxeCheck();
     });
   });
