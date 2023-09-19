@@ -450,6 +450,10 @@ export const ERROR_CODES = [
     detail: 'Failure to fetch - Generic Error',
   },
   {
+    code: 10001,
+    detail: 'Failure to fetch requests from VSP, VVS and/or HSRM',
+  },
+  {
     code: 10005,
     detail: 'Failure to fetch Booked Appointments',
   },

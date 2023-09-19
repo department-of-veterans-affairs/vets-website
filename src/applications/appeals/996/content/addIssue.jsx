@@ -13,7 +13,7 @@ export const issueErrorMessages = {
   } characters for this issue name`,
 
   invalidDate: 'Please provide a valid date',
-  missingDecisionDate: 'Please enter a decision date',
+  blankDecisionDate: 'Please enter a decision date',
   invalidDateRange: (min, max) =>
     `Please enter a year between ${min} and ${max}`,
   pastDate: 'Please add a past decision date',
