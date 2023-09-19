@@ -18,9 +18,10 @@ const DownloadingRecordsInfo = props => {
       trigger="What to know about downloading records"
       class="no-print vads-u-margin-bottom--4"
     >
-      {/* Use the "!== false" syntax because checking the inverse causes the component to be resized incorrectly
-            when the value changes from undefined to true. */}
-      {allowTxtDownloads !== false ? <p>{publicSharedContent()}</p> : null}
+      {/* Use a more explicit conditional check */}
+      {allowTxtDownloads !== undefined && allowTxtDownloads !== false ? (
+        <p>{publicSharedContent()}</p>
+      ) : null}
     </va-additional-info>
   );
 };
