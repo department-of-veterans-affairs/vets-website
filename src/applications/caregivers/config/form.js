@@ -124,8 +124,15 @@ const formConfig = {
           uiSchema: vetMedicalCenterJsonPage.uiSchema,
           schema: vetMedicalCenterJsonPage.schema,
         },
-        veteranInfoThreeLighthouse: {
-          path: 'vet-3-api',
+        // veteranInfoThreeLighthouse: {
+        //   path: 'vet-3-api',
+        //   title: 'VA medical center',
+        //   depends: formData => formData['view:useFacilitiesAPI'],
+        //   uiSchema: vetMedicalCenterAPIPage.uiSchema,
+        //   schema: vetMedicalCenterAPIPage.schema,
+        // },
+        veteranInfoThreeFacilities: {
+          path: 'select-facility',
           title: 'VA medical center',
           depends: formData => formData['view:useFacilitiesAPI'],
           uiSchema: vetMedicalCenterAPIPage.uiSchema,
