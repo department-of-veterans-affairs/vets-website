@@ -1,13 +1,14 @@
 import React, { useMemo } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   getRouteInfoFromPath,
   normalizePath,
 } from '~/applications/personalization/common/helpers';
-
 import { PROFILE_PATHS_WITH_NAMES, PROFILE_PATHS } from '../constants';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 const BreadcrumbItems = () => {
   const location = useLocation();
@@ -62,10 +63,18 @@ const BreadcrumbItems = () => {
 
 export const ProfileBreadcrumbs = ({ className }) => {
   return (
-    <div className={className}>
-      <VaBreadcrumbs>
-        <BreadcrumbItems />
-      </VaBreadcrumbs>
-    </div>
+    <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseHubPage}>
+      <Toggler.Enabled>
+        <div className={className}>
+          <VaBreadcrumbs>
+            <BreadcrumbItems />
+          </VaBreadcrumbs>
+        </div>
+      </Toggler.Enabled>
+    </Toggler>
   );
+};
+
+ProfileBreadcrumbs.propTypes = {
+  className: PropTypes.string,
 };
