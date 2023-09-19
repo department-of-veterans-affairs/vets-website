@@ -55,7 +55,9 @@ describe('Start a new message With Attacments and Errors', () => {
     //   'You may only attach up to 4 files',
     // );
     composePage.getMessageSubjectField().type('Test Subject');
-    composePage.getMessageBodyField().type('Test message body');
+    composePage
+      .getMessageBodyField()
+      .type('Test message body', { force: true });
     composePage.sendMessage();
     composePage.verifySendMessageConfirmationMessage();
     composePage.verifySendMessageConfirmationMessageHasFocus();

@@ -20,7 +20,7 @@ const IntroductionPage = props => {
     <div className="schemaform-intro">
       <FormTitle title="Apply for Personalized Career Planning and Guidance" />
       <p>
-        Equal to VA Form 28-8832 (Education/Vocational Counseling Application).
+        Equal to VA Form 25-8832 (Education/Vocational Counseling Application).
       </p>
       <SaveInProgressIntro
         prefillEnabled={props.route.formConfig.prefillEnabled}

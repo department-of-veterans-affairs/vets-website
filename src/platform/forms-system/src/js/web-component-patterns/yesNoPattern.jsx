@@ -26,20 +26,22 @@ import YesNoField from '../web-component-fields/YesNoField';
  * @returns {UISchemaOptions}
  */
 export const yesNoUI = options => {
-  const config = typeof options === 'object' ? options : { title: options };
+  const { title, tile, labels, description, yesNoReverse, ...uiOptions } =
+    typeof options === 'object' ? options : { title: options };
 
   return {
-    'ui:title': config.title,
-    'ui:description': config.description,
+    'ui:title': title,
+    'ui:description': description,
     'ui:widget': 'yesNo', // This is required for the review page to render the field properly
     'ui:webComponentField': YesNoField,
     'ui:options': {
       labels: {
-        Y: config.labels?.Y || 'Yes',
-        N: config.labels?.N || 'No',
+        Y: labels?.Y || 'Yes',
+        N: labels?.N || 'No',
       },
-      tile: config.tile,
-      yesNoReverse: config.yesNoReverse,
+      tile,
+      yesNoReverse,
+      ...uiOptions,
     },
   };
 };

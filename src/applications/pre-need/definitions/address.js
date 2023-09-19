@@ -228,7 +228,7 @@ export function uiSchema(
             field => field !== 'state',
           );
         }
-      } else if (!ignoreRequired && required && !environment.isProduction()) {
+      } else if (!ignoreRequired && required) {
         schemaUpdate.required = addressSchema.required.filter(
           field => field !== 'state',
         );

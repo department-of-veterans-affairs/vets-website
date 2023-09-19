@@ -510,13 +510,16 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         type === 'cc'
           ? featureVAOSServiceCCAppointments
           : featureVAOSServiceVAAppointments;
+
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
           ? APPOINTMENT_TYPES.ccAppointment
           : APPOINTMENT_TYPES.vaAppointment,
       ]);
+
       let facilityId = getVAAppointmentLocationId(appointment);
       let facility = state.appointments.facilityData?.[facilityId];
+
       if (!appointment || (facilityId && !facility)) {
         dispatch({
           type: FETCH_CONFIRMED_DETAILS,

@@ -13,7 +13,7 @@ const DownloadRecordsPage = () => {
       setBreadcrumbs(
         [{ url: '/my-health/medical-records', label: 'Medical records' }],
         {
-          url: '/my-health/medical-records/download-your-medical-records',
+          url: '/my-health/medical-records/download-all',
           label: 'Download all medical records',
         },
       ),
@@ -23,7 +23,7 @@ const DownloadRecordsPage = () => {
   }, []);
 
   return (
-    <div className="vads-u-margin-bottom--5">
+    <div className="vads-u-margin-bottom--5 vads-l-col--12 medium-screen:vads-l-col--8">
       <section>
         <h1>Download all medical records</h1>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 va-introtext">
@@ -31,7 +31,7 @@ const DownloadRecordsPage = () => {
           Button&#174;.
         </p>
       </section>
-      <section className="set-width-486">
+      <section>
         <h2>What you can download here</h2>
         <p>
           Your downloaded file will include these types of records from your VA
@@ -81,11 +81,7 @@ const DownloadRecordsPage = () => {
           <strong>36 hours</strong> for some records to become available for
           download.
         </p>
-        <a
-          href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/"
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/">
           Learn how to find other types of records
         </a>
       </section>
