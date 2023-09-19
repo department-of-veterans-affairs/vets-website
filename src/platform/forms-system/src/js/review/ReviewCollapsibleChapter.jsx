@@ -430,36 +430,39 @@ class ReviewCollapsibleChapter extends React.Component {
     const subHeader = 'Some information has changed. Please review.';
 
     return (
-      <va-accordion-item
-        id={this.id}
-        data-chapter={this.props.chapterKey}
-        header={chapterTitle}
-        subHeader={this.props.hasUnviewedPages ? subHeader : ''}
-        onClick={() => {
-          this.handleChapterClick(chapterTitle);
-        }}
-      >
+      <>
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
-        {this.props.hasUnviewedPages && (
-          <>
-            <i
-              aria-hidden="true"
-              className="fas fa-exclamation-circle vads-u-color--secondary"
-              slot="subheader-icon"
-            />
-            <va-alert
-              role="alert"
-              status="error"
-              background-only
-              aria-describedby={`collapsibleButton${this.id}`}
-            >
-              <span className="sr-only">Error</span>
-              <span>Some information has changed. Please review.</span>
-            </va-alert>
-          </>
-        )}
-        {this.getChapterContent(this.props)}
-      </va-accordion-item>
+        <va-accordion-item
+          id={this.id}
+          className="test"
+          data-chapter={this.props.chapterKey}
+          header={chapterTitle}
+          subHeader={this.props.hasUnviewedPages ? subHeader : ''}
+          onClick={() => {
+            this.handleChapterClick(chapterTitle);
+          }}
+        >
+          {this.props.hasUnviewedPages && (
+            <>
+              <i
+                aria-hidden="true"
+                className="fas fa-exclamation-circle vads-u-color--secondary"
+                slot="subheader-icon"
+              />
+              <va-alert
+                role="alert"
+                status="error"
+                background-only
+                aria-describedby={`collapsibleButton${this.id}`}
+              >
+                <span className="sr-only">Error</span>
+                <span>Some information has changed. Please review.</span>
+              </va-alert>
+            </>
+          )}
+          {this.getChapterContent(this.props)}
+        </va-accordion-item>
+      </>
     );
   }
 }
