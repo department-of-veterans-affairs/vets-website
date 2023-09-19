@@ -437,7 +437,8 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        # uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -475,7 +476,7 @@ jobs:
       - name: Copy test results to mochawesome directory
         run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
 
-      - name: Update E2E Allow List
+      - name: Update Unit Test Allow List
         run: yarn update-allow-list
         working-directory: qa-standards-dashboard-data
         env:
