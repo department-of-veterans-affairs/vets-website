@@ -26,7 +26,10 @@ const PrintDownload = props => {
       onClick={download}
       data-testid="download-pdf-button"
     >
-      <i className="fas fa-download vads-u-margin-right--0p5" />
+      <i
+        className="fas fa-download vads-u-margin-right--0p5"
+        aria-hidden="true"
+      />
       {list
         ? 'Download your medication list as a PDF'
         : 'Download your medication details as a PDF'}
