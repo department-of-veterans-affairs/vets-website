@@ -13,10 +13,10 @@
   }
   button:active,
   button:focus {
-    background-color: var(--color-primary-alt-lightest);
+    background-color: var(--color-gray-cool-light);
   }
   button:hover {
-    background-color: var(--color-primary-alt-lightest);
+    background-color: var(--color-gray-cool-light);
     color: var(--color-primary-darker);
   }
   button:hover i::before {

@@ -341,4 +341,4 @@ export const MAX_HOUSING_STRING_LENGTH = 500;
 export const OMB_CONTROL = '2900-0747';
 
 // used to save feature flag in form data for toxic exposure
-export const SHOW_TOXIC_EXPOSURE = 'view:showToxicExposure';
+export const SHOW_TOXIC_EXPOSURE = 'showToxicExposure';

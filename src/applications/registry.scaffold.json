@@ -121,5 +121,10 @@
     "appName": "Notification Center",
     "rootUrl": "/notification-center",
     "entryName": "notification-center"
+  },
+  {
+    "appName": "Burial Widget",
+    "widgetType": "burial-how-do-i-apply-widget",
+    "rootUrl": "/burial-how-do-i-apply-widget"
   }
 ]
