@@ -1,5 +1,7 @@
 import {
   PAW_UPDATE_BURN_PIT_2_1,
+  PAW_UPDATE_BURN_PIT_2_1_1,
+  PAW_UPDATE_BURN_PIT_2_1_2,
   PAW_UPDATE_SERVICE_PERIOD,
   PAW_VIEWED_INTRO_PAGE,
   PAW_VIEWED_RESULTS_PAGE_1,
@@ -23,15 +25,23 @@ const initialState = {
 };
 
 const pactAct = (state = initialState, action) => {
+  const updateFormValue = SHORT_NAME => {
+    return {
+      ...state,
+      form: {
+        ...state.form,
+        [SHORT_NAME]: action.payload,
+      },
+    };
+  };
+
   switch (action.type) {
     case PAW_UPDATE_BURN_PIT_2_1:
-      return {
-        ...state,
-        form: {
-          ...state.form,
-          BURN_PIT_2_1: action.payload,
-        },
-      };
+      return updateFormValue(SHORT_NAME_MAP.BURN_PIT_2_1);
+    case PAW_UPDATE_BURN_PIT_2_1_1:
+      return updateFormValue(SHORT_NAME_MAP.BURN_PIT_2_1_1);
+    case PAW_UPDATE_BURN_PIT_2_1_2:
+      return updateFormValue(SHORT_NAME_MAP.BURN_PIT_2_1_2);
     case PAW_UPDATE_SERVICE_PERIOD:
       return {
         ...state,

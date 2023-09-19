@@ -109,6 +109,7 @@ export default Object.freeze({
   nodPart3Update: 'nod_part3_update',
   omniChannelLink: 'omni_channel_link',
   pdfWarningBanner: 'pdf_warning_banner',
+  pensionFormEnabled: 'pension_form_enabled',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileDoNotRequireInternationalZipCode: 'profile_do_not_require_international_zip_code',
   profileHideDirectDepositCompAndPen: 'profile_hide_direct_deposit_comp_and_pen',

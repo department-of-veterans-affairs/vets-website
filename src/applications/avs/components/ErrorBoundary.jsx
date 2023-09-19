@@ -23,8 +23,8 @@ class ErrorBoundary extends React.Component {
     const { children } = this.props;
     const { hasError } = this.state;
     const ErrorMessage = () => (
-      <div className="vads-u-padding-y--1p5">
-        <va-alert className="vads-u-padding-y--1p5" status="error">
+      <div className="vads-l-grid-container main-content vads-u-padding-y--1p5">
+        <va-alert status="error">
           <h1>We can’t access your after-visit summary right now</h1>
           <p>
             We’re sorry. Something went wrong in our system. Refresh this page.

@@ -37,6 +37,8 @@ const ReviewPage = props => {
 
   return (
     <article>
+      <div name="topScrollElement" />
+      <div name="topNavScrollElement" />
       <h1>Review Board Appeal</h1>
       <va-on-this-page uswds />
       {chapterTitles.filter(title => title !== 'Apply').map((title, index) => {
@@ -54,7 +56,7 @@ const ReviewPage = props => {
             <ul className="review-pages vads-u-padding--0">
               {getChapterPagesFromChapterIndex(index).map(page => {
                 const depends = page.depends ? page.depends(props.data) : true;
-                return page.review && depends && !page.taskListHide
+                return page.review && depends
                   ? Object.entries(page.review(props.data)).map(
                       ([label, value]) => (
                         <li key={label}>

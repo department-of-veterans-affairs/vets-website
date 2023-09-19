@@ -9,7 +9,6 @@ import {
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import {
   termsOfUseEnabled,
-  isLoggedIn,
   logout as IAMLogout,
 } from '@department-of-veterans-affairs/platform-user/exports';
 import touData from '../touData';
@@ -34,14 +33,16 @@ export const parseRedirectUrl = url => {
   const domain = new URL(parsedUrl).hostname;
 
   if (allowedDomains.includes(domain)) {
-    return parsedUrl;
+    return parsedUrl.includes('mhv-portal-web') &&
+      !parsedUrl.includes('?deeplinking=')
+      ? parsedUrl.replace('&postLogin=true', '')
+      : parsedUrl;
   }
   return `${environment.BASE_URL}`;
 };
 
 export default function TermsOfUse() {
   const termsOfUseAuthorized = useSelector(termsOfUseEnabled);
-  const loggedIn = useSelector(isLoggedIn);
   const [error, setError] = useState({ isError: false, message: '' });
 
   const handleTouClick = async type => {
@@ -171,22 +172,21 @@ export default function TermsOfUse() {
           <h2 id="do-you-accept-of-terms-of-use">
             Do you accept these terms of use?
           </h2>
-          {!loggedIn &&
-            termsOfUseAuthorized && (
-              <>
-                <va-button
-                  text="Accept"
-                  onClick={() => handleTouClick('accept')}
-                  ariaLabel="I Accept to VA online serivices terms of use"
-                />
-                <va-button
-                  text="Decline"
-                  secondary
-                  ariaLabel="I Decline to VA online serivices terms of use"
-                  onClick={() => handleTouClick('decline')}
-                />
-              </>
-            )}
+          {termsOfUseAuthorized && (
+            <>
+              <va-button
+                text="Accept"
+                onClick={() => handleTouClick('accept')}
+                ariaLabel="I Accept to VA online serivices terms of use"
+              />
+              <va-button
+                text="Decline"
+                secondary
+                ariaLabel="I Decline to VA online serivices terms of use"
+                onClick={() => handleTouClick('decline')}
+              />
+            </>
+          )}
           {error.isError && <p>{error.message}</p>}
         </article>
       </div>

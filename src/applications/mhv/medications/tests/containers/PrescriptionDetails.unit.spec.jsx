@@ -41,15 +41,32 @@ describe('Prescription details container', () => {
     const rxName = screen.findByText(
       rxDetailsResponse.data.attributes.prescriptionName,
     );
-
     expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
       `Last filled on ${dateFormat(
-        rxDetailsResponse.data.attributes.refillDate,
+        rxDetailsResponse.data.attributes.dispensedDate,
         'MMMM D, YYYY',
       )}`,
     );
     expect(rxName).to.exist;
   });
+
+  it('displays "Not filled yet" when there is no dispense date', () => {
+    const stateWdispensedDate = {
+      ...initialState,
+      rx: {
+        prescriptions: {
+          prescriptionDetails: {
+            dispensedDate: null,
+          },
+        },
+      },
+    };
+    const screen = setup(stateWdispensedDate);
+    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
+      'Not filled yet',
+    );
+  });
+
   it('displays "Information entered on" instead of "filled by" date, when med is non VA', () => {
     const nonVaRxState = {
       rx: {
