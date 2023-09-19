@@ -53,7 +53,7 @@ import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
 
-import maximalData from '../tests/fixtures/data/test-data.json';
+import mockData from '../tests/fixtures/data/test-data.json';
 
 import manifest from '../manifest.json';
 
@@ -102,7 +102,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: taskList.uiSchema,
           schema: taskList.schema,
-          initialData: maximalData.data,
+          initialData: mockData.data,
           scrollAndFocusTarget,
         },
         veteranInformation: {
@@ -201,7 +201,7 @@ const formConfig = {
         },
         extensionRequest: {
           title: 'Request an extension',
-          taskListTitle: 'Request deadline extension',
+          taskListHide: true,
           path: 'extension-request',
           uiSchema: extensionRequest.uiSchema,
           schema: extensionRequest.schema,
