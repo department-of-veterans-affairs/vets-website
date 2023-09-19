@@ -12,7 +12,9 @@ import PrintHeader from './PrintHeader';
 import { rxListSortingOptions } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
+import CallPharmacyPhone from '../components/shared/CallPharmacyPhone';
 
+const VA_PHARMACY_PHONE = '3538675309';
 const Prescriptions = () => {
   const currentDate = new Date();
   const prescriptions = useSelector(
@@ -46,9 +48,8 @@ const Prescriptions = () => {
                 We’re sorry. There’s a problem with our system. Check back
                 later.
                 <br />
-                If you need help now, call your VA pharmacy at{' '}
-                <va-telephone contact="3538675309" /> (
-                <va-telephone contact="711" tty />)
+                If you need help now, call your VA pharmacy
+                <CallPharmacyPhone phone={VA_PHARMACY_PHONE} />
               </p>
             </div>
           </va-alert>

@@ -6,7 +6,7 @@ import CallPharmacyPhone from '../../../components/shared/CallPharmacyPhone';
 describe('component that displayes pharmacy phone number', () => {
   const phoneNumber = '3538675309';
   const setup = () => {
-    return render(<CallPharmacyPhone cmopPhoneNumber={phoneNumber} />);
+    return render(<CallPharmacyPhone phone={phoneNumber} />);
   };
 
   it('renders without errors', () => {
