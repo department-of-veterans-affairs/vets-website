@@ -91,7 +91,7 @@ class ReviewChapters extends React.Component {
             pageList={pageList}
             setData={(...args) => this.handleSetData(...args)}
             setValid={setValid}
-            hasUnviewedPages // chapter.hasUnviewedPages}
+            hasUnviewedPages={chapter.hasUnviewedPages}
             toggleButtonClicked={() => this.handleToggleChapter(chapter)}
             uploadFile={this.props.uploadFile}
             viewedPages={viewedPages}
