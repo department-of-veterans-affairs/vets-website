@@ -274,7 +274,7 @@ jobs:
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-      TESTS_TO_VERIFY: ${{ needs.unit-tests.outputs.tests }}
+      TESTS_TO_VERIFY: ${{ needs.unit-tests.outputs.tests-to-stress-test }}
 
     strategy:
       fail-fast: false
