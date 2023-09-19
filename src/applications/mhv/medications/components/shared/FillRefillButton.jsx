@@ -27,7 +27,7 @@ const FillRefillButton = rx => {
   }
   if (refillStatus === 'active' || refillStatus === 'activeParked') {
     return (
-      <div className="no-print">
+      <div>
         {success && (
           <va-alert status="success">
             <p className="vads-u-margin-y--0">
