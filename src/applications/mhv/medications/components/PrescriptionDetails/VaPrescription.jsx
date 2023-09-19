@@ -39,7 +39,7 @@ const VaPrescription = prescription => {
               {validateField(prescription.refillRemaining)}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Order refills by this prescription expiration date
+              Request refills by this prescription expiration date
             </h3>
             <p data-testid="expiration-date">
               {validateField(prescription.expirationDate, 'date')}
