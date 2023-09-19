@@ -37,7 +37,10 @@ const ApplicationsInProgress = ({ savedForms, hideH3, isLOA3 }) => {
   return (
     <>
       {!hideH3 && (
-        <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
+        <h3
+          className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5"
+          data-testid="applications-in-progress-header"
+        >
           Applications in progress
         </h3>
       )}
@@ -70,7 +73,9 @@ const ApplicationsInProgress = ({ savedForms, hideH3, isLOA3 }) => {
           })}
         </div>
       ) : (
-        <p>{emptyStateText}</p>
+        <p data-testid="applications-in-progress-empty-state">
+          {emptyStateText}
+        </p>
       )}
     </>
   );
