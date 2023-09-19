@@ -106,7 +106,7 @@ export default function ReviewPage() {
             </div>
           </div>
           <va-link
-            onClick={handleClick(history, featureBreadcrumbUrlUpdate)}
+            onClick={() => handleClick(history, featureBreadcrumbUrlUpdate)}
             aria-label="Edit contact information"
             text="Edit"
             data-testid="edit-contact-information-link"
