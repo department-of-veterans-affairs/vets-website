@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  titleSchema,
+  // titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
@@ -11,7 +11,7 @@ import {
 
 export default {
   uiSchema: {
-    'view:title': titleUI(
+    ...titleUI(
       'Where should we send your additional certificates?',
       <span className="custom-label h4">Additional address</span>,
     ),
@@ -21,6 +21,7 @@ export default {
       required: true,
     }),
     additionalCopies: {
+      // TODO: sync w/ Forgers on pattern refactors, then remove hack below
       'ui:title': (
         <>
           <span className="custom-label h4">
@@ -51,7 +52,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       additionalAddress: addressNoMilitarySchema({
         omit: ['isMilitary', 'street3'],
       }),
