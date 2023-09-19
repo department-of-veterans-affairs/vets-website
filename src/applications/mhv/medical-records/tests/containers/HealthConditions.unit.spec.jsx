@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { beforeEach } from 'mocha';
 import HealthConditions from '../../containers/HealthConditions';
 import conditions from '../fixtures/conditions.json';
 import reducer from '../../reducers';
@@ -14,30 +15,28 @@ describe('Health conditions list container', () => {
     },
   };
 
-  const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<HealthConditions />, {
-      initialState: state,
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<HealthConditions />, {
+      initialState,
       reducers: reducer,
-      path: '/vitals',
+      path: '/conditions',
     });
-  };
+  });
 
   it('renders without errors', () => {
-    const screen = setup();
     expect(screen.getByText('Health conditions', { exact: true })).to.exist;
   });
 
-  it('displays additional info', () => {
-    const screen = setup();
+  it('displays a page description', () => {
     expect(
-      screen.getByText('Review health conditions in your VA medical records', {
-        exact: true,
+      screen.getByText('Health condition records are available', {
+        exact: false,
       }),
     ).to.exist;
   });
 
   it('displays active condition', () => {
-    const screen = setup();
     expect(screen.getAllByText('Back pain (SCT 161891005)', { exact: true })).to
       .exist;
   });

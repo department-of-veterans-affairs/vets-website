@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { format, isValid, parseISO } from 'date-fns';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
@@ -19,8 +18,13 @@ import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 
 import { clearNotification } from '../actions';
 import { cstUseLighthouse } from '../selectors';
-import { getClaimType, setDocumentTitle } from '../utils/helpers';
+import {
+  buildDateFormatter,
+  getClaimType,
+  setDocumentTitle,
+} from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
+import { DATE_FORMATS } from '../constants';
 
 // CONSTANTS
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
@@ -52,13 +56,7 @@ const getClaimDate = claim => {
 };
 // END lighthouse_migration
 
-const formatDate = date => {
-  const parsedDate = parseISO(date);
-
-  return isValid(parsedDate)
-    ? format(parsedDate, 'MMMM d, yyyy')
-    : 'Invalid date';
-};
+const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
 class FilesPage extends React.Component {
   componentDidMount() {

@@ -20,11 +20,20 @@ const MedicationsListCard = props => {
   ) {
     noRefillRemaining = true;
   }
+  const refillsRemaining = () => {
+    if (rx.refillRemaining === 1) {
+      return <p>{rx.refillRemaining} refill left</p>;
+    }
+    return <p>{rx.refillRemaining} refills left</p>;
+  };
 
   return (
     <div className="rx-card-container vads-u-background-color--white vads-u-margin-y--1 vads-u-border--1px vads-u-border-color--gray-medium no-break">
       <div className="rx-card-detials vads-u-padding--2">
-        <h3 className="vads-u-font-weight--bold">
+        <h3
+          className="vads-u-font-weight--bold"
+          id={`card-header-${rx.prescriptionId}`}
+        >
           <Link
             className="vads-u-margin-y--0p5 vads-u-font-size--h4"
             to={`/${rx.prescriptionId}`}
@@ -34,14 +43,14 @@ const MedicationsListCard = props => {
           </Link>
         </h3>
         {rx.dispensedDate && rx.refillStatus !== 'transferred' ? (
-          <div>
+          <p>
             {rx.refillStatus === 'non-va' ? 'Documented' : 'Last filled'} on{' '}
             {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}
-          </div>
+          </p>
         ) : (
-          <div>Not filled yet</div>
+          <p>You haven’t filled this prescription yet</p>
         )}
-        {showRefillRemaining && <div>{rx.refillRemaining} refills left</div>}
+        {showRefillRemaining && refillsRemaining()}
         {rx && <ExtraDetails {...rx} />}
         {rx && <FillRefillButton {...rx} />}
 
@@ -51,7 +60,10 @@ const MedicationsListCard = props => {
               <p className="vads-u-margin-y--0">
                 You have no refills left. If you need more, request a renewal.
               </p>
-              <va-link href="/" text="Learn how to renew prescriptions." />
+              <va-link
+                href="/my-health/about-medications/accordion-renew-rx"
+                text="Learn how to renew prescriptions"
+              />
             </div>
           </>
         )}

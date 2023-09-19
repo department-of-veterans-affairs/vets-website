@@ -10,6 +10,9 @@ import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
+import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
+import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -56,15 +59,17 @@ class PatientInboxPage {
     }).as('featureToggle');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/messages/categories',
+      Paths.SM_API_EXTENDED + Paths.CATEGORIES,
       mockCategories,
     ).as('categories');
     if (getFoldersStatus === 200) {
-      cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
-        'folders',
-      );
+      cy.intercept(
+        'GET',
+        `${Paths.SM_API_BASE + Paths.FOLDERS}/*`,
+        mockFolders,
+      ).as('folders');
     } else {
-      cy.intercept('GET', '/my_health/v1/messaging/folders*', {
+      cy.intercept('GET', `${Paths.SM_API_BASE + Paths.FOLDERS}/*`, {
         statusCode: 400,
         body: {
           alertType: 'error',
@@ -79,27 +84,27 @@ class PatientInboxPage {
     }
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/threads*`,
       this.mockInboxMessages,
     ).as('inboxMessages');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0*',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/0*`,
       mockInboxFolder,
     ).as('inboxFolderMetaData');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/recipients?useCache=false',
+      `${Paths.SM_API_BASE + Paths.RECIPIENTS}*`,
       this.mockRecipients,
     ).as('recipients');
 
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/messages/signature',
+      Paths.SM_API_EXTENDED + Paths.SIGNATURE,
       mockSignature,
     ).as('signature');
 
-    cy.visit('my-health/secure-messages/inbox/', {
+    cy.visit(Paths.UI_MAIN + Paths.INBOX, {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
       },
@@ -139,16 +144,12 @@ class PatientInboxPage {
   loadMessageDetailsByTabbingAndEnterKey = inputMockMessage => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
-        inputMockMessage.attributes.messageId
-      }`,
+      Paths.SM_API_EXTENDED + inputMockMessage.attributes.messageId,
       mockSpecialCharsMessage,
     ).as('message');
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
-        inputMockMessage.attributes.messageId
-      }/thread`,
+      `${Paths.SM_API_EXTENDED + inputMockMessage.attributes.messageId}/thread`,
       mockThread,
     ).as('full-thread');
     cy.tabToElement(
@@ -166,12 +167,12 @@ class PatientInboxPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}`,
+      Paths.SM_API_EXTENDED + inputMockMessage.data.id,
       mockSpecialCharsMessage,
     ).as('message');
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}/thread`,
+      `${Paths.SM_API_EXTENDED + inputMockMessage.data.id}/thread`,
       mockThread,
     ).as('full-thread');
     cy.contains(inputMockMessage.data.attributes.subject).click();
@@ -229,7 +230,7 @@ class PatientInboxPage {
     ).attributes.sentDate = date.toISOString();
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/messages/signature',
+      Paths.SM_API_EXTENDED + Paths.SIGNATURE,
       mockSignature,
     ).as('signature');
     cy.intercept('GET', '/v0/feature_toggles?*', {
@@ -245,41 +246,41 @@ class PatientInboxPage {
     }).as('featureToggle');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/messages/categories',
+      Paths.SM_API_EXTENDED + Paths.CATEGORIES,
       mockCategories,
     ).as('categories');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders?page*',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/*`,
       mockFolders,
     ).as('folders');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/messages*',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/messages*`,
       mockMessages,
     ).as('inboxMessages');
     this.loadedMessagesData = mockMessages;
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/threads*`,
       this.mockInboxMessages,
     ).as('inboxMessages');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0*',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/0*`,
       mockInboxFolder,
     ).as('inboxFolderMetaData');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/threads*`,
       this.mockInboxMessages,
     ).as('inboxMessages');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/recipients?useCache=false',
+      `${Paths.SM_API_BASE + Paths.RECIPIENTS}*`,
       mockNoRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/inbox/');
+    cy.visit(Paths.UI_MAIN + Paths.INBOX);
     if (doAxeCheck) {
       cy.injectAxe();
     }
@@ -288,7 +289,7 @@ class PatientInboxPage {
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     if (doAxeCheck) {
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,
@@ -307,10 +308,12 @@ class PatientInboxPage {
   clickDraftsSideBar = () => {};
 
   clickMyFoldersSideBar = () => {
-    cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
-      'folders',
-    );
-    cy.get('[data-testid ="my-folders-sidebar"]').click();
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
+      mockFolders,
+    ).as('folders');
+    cy.get(Locators.FOLDERS).click();
     cy.wait('@folders');
   };
 
@@ -322,7 +325,7 @@ class PatientInboxPage {
     cy.contains('Secure message was successfully sent.').should('be.visible');
   };
 
-  verifyMoveMessagewithAttachmentSuccessMessage = () => {
+  verifyMoveMessageWithAttachmentSuccessMessage = () => {
     cy.get('p').contains('Message conversation was successfully moved');
   };
 
@@ -335,7 +338,7 @@ class PatientInboxPage {
   navigateToComposePage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/messages/signature',
+      Paths.SM_API_EXTENDED + Paths.SIGNATURE,
       mockSignature,
     ).as('signature');
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
@@ -345,9 +348,9 @@ class PatientInboxPage {
   };
 
   navigateToComposePageByKeyboard = () => {
-    cy.tabToElement('[data-testid="compose-message-link"]');
+    cy.tabToElement(Locators.InboxPage.COMPOSE_MESSAGE);
     cy.realPress(['Enter']);
-    cy.tabToElement('[data-testid="continue-button"]');
+    cy.tabToElement(Locators.InboxPage.CONTINUE_BTN);
     cy.realPress(['Enter']);
   };
 
@@ -380,16 +383,11 @@ class PatientInboxPage {
     cy.realPress(['Enter']);
   };
 
-  verifyDeleteConfirmMessage = () => {
-    cy.contains('successfully deleted')
-      .focused()
-      .should('have.text', 'Draft was successfully deleted.');
-  };
-
   loadLandingPageByTabbingAndEnterKey = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
+      `${Paths.SM_API_BASE +
+        Paths.FOLDERS}/0/messages?per_page=-1&useCache=false`,
       mockFolders,
     ).as('folders');
   };
@@ -404,10 +402,10 @@ class PatientInboxPage {
       });
   };
 
-  selectAdvancedSearchCategory = () => {
+  selectAdvancedSearchCategory = text => {
     cy.get('#category-dropdown')
       .find('#select')
-      .select('COVID', { force: true });
+      .select(text, { force: true });
   };
 
   selectAdvancedSearchCategoryCustomFolder = () => {
@@ -417,7 +415,7 @@ class PatientInboxPage {
   };
 
   submitSearchButton = () => {
-    cy.get('[data-testid="filter-messages-button"]').click({
+    cy.get(Locators.FILTER_BTN).click({
       waitForAnimations: true,
       force: true,
     });
@@ -438,7 +436,7 @@ class PatientInboxPage {
     cy.get('#compose-message-body')
       .shadow()
       .find('#textarea')
-      .type('testMessage');
+      .type('testMessage', { force: true });
   };
 
   composeDraftByKeyboard = () => {
@@ -453,16 +451,16 @@ class PatientInboxPage {
       .shadow()
       .find('#inputField')
       .type('testSubject');
-    cy.tabToElement('#compose-message-body')
+    cy.get('[data-testid="message-body-field"]')
       .shadow()
       .find('#textarea')
-      .type('testMessage');
+      .type('testMessage', { force: true });
   };
 
   saveDraftByKeyboard = () => {
     cy.intercept(
       'POST',
-      '/my_health/v1/messaging/message_drafts',
+      `${Paths.SM_API_BASE}/message_drafts`,
       mockDraftResponse,
     ).as('draft_message');
     cy.tabToElement('[data-testid="Save-Draft-Button"]');
@@ -498,6 +496,68 @@ class PatientInboxPage {
     cy.get('[data-testid="message-body-field"]')
       .should('have.attr', 'value')
       .and('not.be.empty');
+  };
+
+  inputFilterData = text => {
+    cy.get('#filter-input')
+      .shadow()
+      .find('#inputField')
+      .type(`${text}`, { force: true });
+  };
+
+  filterMessages = () => {
+    cy.intercept(
+      'POST',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/-1/search`,
+      sentSearchResponse,
+    );
+    cy.get(Locators.FILTER_BTN).click({ force: true });
+  };
+
+  verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
+    cy.get('[data-testid="message-list-item"]').should(
+      'have.length',
+      `${responseData.data.length}`,
+    );
+
+    cy.get('[data-testid="highlighted-text"]').each(element => {
+      cy.wrap(element)
+        .invoke('text')
+        .then(text => {
+          const lowerCaseText = text.toLowerCase();
+          expect(lowerCaseText).to.contain(`${filterValue}`);
+        });
+    });
+  };
+
+  clearFilter = () => {
+    this.inputFilterData('any');
+    this.filterMessages();
+    cy.get('[text="Clear Filters"]').click({ force: true });
+  };
+
+  verifyFilterFieldCleared = () => {
+    cy.get('#filter-input')
+      .shadow()
+      .find('#inputField')
+      .should('be.empty');
+  };
+
+  sortMessagesByDate = (text, sortedResponse = mockSortedMessages) => {
+    cy.get('#sort-order-dropdown')
+      .shadow()
+      .find('#select')
+      .select(`${text}`, { force: true });
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-1/threads**',
+      sortedResponse,
+    );
+    cy.get('[data-testid="sort-button"]').click({ force: true });
+  };
+
+  getInboxHeader = text => {
+    cy.get('[data-testid="folder-header"]').should('have.text', `${text}`);
   };
 }
 

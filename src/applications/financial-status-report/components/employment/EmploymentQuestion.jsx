@@ -118,7 +118,7 @@ const EmploymentQuestion = props => {
         </VaRadio>
       </fieldset>
       {contentBeforeButtons}
-      <FormNavButtons goBack={goBack} goForward={goForward} submitToContinue />
+      <FormNavButtons goBack={goBack} goForward={goForward} />
       {contentAfterButtons}
     </form>
   );

@@ -13,7 +13,6 @@
   }
   button:active,
   button:focus {
-    outline: none;
     background-color: var(--color-gray-cool-light);
   }
   button:hover {
@@ -24,6 +23,7 @@
     color: var(--color-primary-darker);
   }
   button:active {
+    outline: none;
     color: var(--color-primary);
   }
   button:active i::before {

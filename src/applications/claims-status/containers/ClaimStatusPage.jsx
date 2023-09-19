@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { format, isValid, parseISO } from 'date-fns';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
@@ -15,8 +14,10 @@ import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
+import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
 import {
+  buildDateFormatter,
   getClaimType,
   getItemDate,
   getTrackedItemDate,
@@ -35,13 +36,7 @@ const getClaimDate = claim => {
 };
 // END lighthouse_migration
 
-const formatDate = date => {
-  const parsedDate = parseISO(date);
-
-  return isValid(parsedDate)
-    ? format(parsedDate, 'MMMM d, yyyy')
-    : 'Invalid date';
-};
+const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
 // Using a Map instead of the typical Object because
 // we want to guarantee that the key insertion order

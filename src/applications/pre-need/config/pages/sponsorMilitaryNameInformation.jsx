@@ -1,22 +1,25 @@
 import React from 'react';
 import { merge } from 'lodash';
 import get from 'platform/utilities/data/get';
+import omit from 'platform/utilities/data/omit';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
 import fullNameUI from 'platform/forms/definitions/fullName';
 
+export const nonRequiredFullNameUI = omit('required', fullNameUI);
+
 const { fullName } = fullSchemaPreNeed.definitions;
+
+const nonRequiredFullName = omit('required', fullName);
 
 export const uiSchema = {
   application: {
     veteran: {
-      'ui:description': () => {
-        return (
-          <h3 className="vads-u-font-size--h5">Sponsor’s previous name</h3>
-        );
-      },
-      serviceName: merge({}, fullNameUI, {
+      'ui:description': (
+        <h3 className="vads-u-font-size--h5">Sponsor’s previous name</h3>
+      ),
+      serviceName: merge({}, nonRequiredFullNameUI, {
         first: {
           'ui:title': 'Sponsor’s first name',
           'ui:required': form =>
@@ -46,7 +49,7 @@ export const schema = {
         veteran: {
           type: 'object',
           properties: {
-            serviceName: fullName,
+            serviceName: nonRequiredFullName,
           },
         },
       },

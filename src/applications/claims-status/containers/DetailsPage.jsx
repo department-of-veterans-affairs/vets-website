@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { format, isValid, parseISO } from 'date-fns';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
@@ -10,9 +9,14 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
 import DetailsPageContent from '../components/evss/DetailsPageContent';
 import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
+import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse } from '../selectors';
 // END lighthouse_migration
-import { getClaimType, setDocumentTitle } from '../utils/helpers';
+import {
+  buildDateFormatter,
+  getClaimType,
+  setDocumentTitle,
+} from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
 // HELPERS
@@ -24,13 +28,7 @@ const getClaimDate = claim => {
 };
 // END lighthouse_migration
 
-const formatDate = date => {
-  const parsedDate = parseISO(date);
-
-  return isValid(parsedDate)
-    ? format(parsedDate, 'MMMM d, yyyy')
-    : 'Invalid date';
-};
+const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
 class DetailsPage extends React.Component {
   componentDidMount() {
