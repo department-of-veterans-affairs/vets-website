@@ -11,6 +11,7 @@ export default {
   uiSchema: {
     isFirstRequest: yesNoUI({
       title: labelText,
+      labelHeaderLevel: '3',
       labels: {
         Y:
           'Yes, this is my first time requesting a presidential memorial certificate',

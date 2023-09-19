@@ -9,6 +9,7 @@ export default {
     additionalCertificates: yesNoUI({
       title:
         'Would you like to request additional certificates mailed to a separate address?',
+      labelHeaderLevel: '3',
       labels: {
         Y:
           'Yes, I’d like additional certificates mailed to me at a separate address',

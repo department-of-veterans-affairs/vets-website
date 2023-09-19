@@ -46,12 +46,6 @@
   margin-top: 0;
 }
 
-.form-panel.request-type {
-  va-radio[name="root_requestType"]::part(legend) {
-    font-family: "Source Sans Pro", serif !important;
-  }
-}
-
 input[name="root_certificates"],
 input[name="root_additionalCopies"] {
   max-width: 7rem;
@@ -61,16 +55,4 @@ input[name="root_additionalCopies"] {
   .rjsf-object-field:first-child
   fieldset {
   margin-bottom: 0 !important;
-}
-
-// couldn't use JSX for yesNoUI titles, so custom-styling here
-va-radio[name="root_isFirstRequest"]::part(legend),
-va-radio[name="root_additionalCertificates"]::part(legend) {
-  @include label-as-h3;
-}
-va-radio[name="root_isFirstRequest"]::part(required),
-va-radio[name="root_additionalCertificates"]::part(required) {
-  font-family: "Source Sans Pro", sans-serif !important;
-  font-size: 1.6rem !important;
-  font-weight: normal !important;
 }
