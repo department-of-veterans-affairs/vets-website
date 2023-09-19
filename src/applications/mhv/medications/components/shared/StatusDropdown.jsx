@@ -32,13 +32,22 @@ const StatusDropdown = props => {
             <div className="no-print">
               <va-additional-info trigger="What does this status mean?">
                 <p>
-                  This is a current prescription. If you have refills left, you
-                  can request a refill now.
+                  Your VA provider prescribed this medication or supply to you.
+                  But we won’t send any shipments until you request to fill or
+                  refill it.
                 </p>
-                <p>
-                  <strong>Note:</strong> If you have no refills left, you’ll
-                  need to request a renewal instead.
-                </p>
+                <p>We may use this status for either of these reasons.</p>
+                <ul>
+                  <li>
+                    We’re not sure when you’ll need to fill this prescription,{' '}
+                    <strong>or</strong>
+                  </li>
+                  <li>
+                    You told us you have too much of this medication or supply
+                    If you need this prescription now, you can request to fill
+                    or refill it
+                  </li>
+                </ul>
               </va-additional-info>
             </div>
           </>

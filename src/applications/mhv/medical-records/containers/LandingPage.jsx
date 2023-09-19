@@ -253,7 +253,7 @@ const LandingPage = () => {
         </section>
         */}
 
-            <section>
+            <section className="vads-u-margin-bottom--4">
               <h2>Questions about this medical records tool</h2>
               <va-accordion bordered>
                 <va-accordion-item>
@@ -363,20 +363,19 @@ const LandingPage = () => {
                       </span>{' '}
                       connect with our Veterans Crisis Line. We offer
                       confidential support anytime, day or night.
-                      <p className="vads-u-margin-bottom--2">
+                      <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
                         <va-button
                           secondary="true"
                           text="Connect with the Veterans Crisis Line"
                           onClick={openCrisisModal}
                         />
-                      </p>
+                      </div>
                     </li>
                     <li>
                       <span className="vads-u-font-weight--bold">
                         If you think your life or health is in danger,
                       </span>{' '}
-                      call <va-telephone contact="911" /> or go to the nearest
-                      emergency room.
+                      call 911 or go to the nearest emergency room.
                     </li>
                   </ul>
                   <p className="vads-u-margin-bottom--2">
