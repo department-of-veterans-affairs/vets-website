@@ -5,7 +5,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { statementOfTruthFullName } from 'platform/forms/components/review/PreSubmitSection';
+import {
+  fullNameReducer,
+  statementOfTruthFullName,
+} from 'platform/forms/components/review/PreSubmitSection';
 import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
 import SubmitButtons from './SubmitButtons';
 import { isValidForm } from '../validation';
@@ -66,8 +69,13 @@ class SubmitController extends Component {
       (preSubmit.required && !form.data[preSubmit.field]) ||
       (statementOfTruth &&
         (!form.data.statementOfTruthCertified ||
-          form.data.statementOfTruthSignature !==
-            statementOfTruthFullName(form.data, statementOfTruth.fullNamePath)))
+          fullNameReducer(form.data.statementOfTruthSignature) !==
+            fullNameReducer(
+              statementOfTruthFullName(
+                form.data,
+                statementOfTruth.fullNamePath,
+              ),
+            )))
     ) {
       this.props.setSubmission('hasAttemptedSubmit', true);
       this.props.setSubmission('timestamp', now);

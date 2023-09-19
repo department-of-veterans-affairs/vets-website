@@ -159,7 +159,6 @@ const FilterBox = forwardRef((props, ref) => {
 FilterBox.propTypes = {
   category: PropTypes.any,
   dateRange: PropTypes.any,
-  folders: PropTypes.any,
   fromDate: PropTypes.any,
   setCategory: PropTypes.func,
   setDateRange: PropTypes.func,

@@ -6,16 +6,23 @@ import ProcessTimeline from '../../../../components/IntroductionPage/GetStarted/
 
 describe('hca <ProcessTimeline>', () => {
   describe('when the component renders', () => {
-    it('should render title and correct number of process steps', () => {
+    it('should render title & `va-process-list` component', () => {
       const { container } = render(<ProcessTimeline />);
-      const selector = container.querySelector('h2');
-      expect(selector).to.contain.text('Follow these steps to get started');
+      const selectors = {
+        title: container.querySelector('h2'),
+        list: container.querySelector('va-process-list'),
+      };
+      expect(selectors.list).to.exist;
+      expect(selectors.title).to.exist;
+      expect(selectors.title).to.contain.text(
+        'Follow these steps to get started',
+      );
     });
 
     it('should render correct number of process steps', () => {
       const { container } = render(<ProcessTimeline />);
-      const selector = container.querySelectorAll('.process-step');
-      expect(selector).to.have.lengthOf(3);
+      const selector = container.querySelector('va-process-list');
+      expect(selector.children).to.have.lengthOf(3);
     });
   });
 });

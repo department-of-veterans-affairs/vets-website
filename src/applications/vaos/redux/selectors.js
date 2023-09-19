@@ -1,9 +1,7 @@
 // eslint-disable-next-line import/no-unresolved
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
-import {
-  selectVAPResidentialAddress,
-  selectPatientFacilities,
-} from '@department-of-veterans-affairs/platform-user/selectors';
+import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
+import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import {
   selectCernerFacilityIds,
   selectEhrDataByVhaId,
@@ -107,6 +105,9 @@ export const selectFeatureDescriptiveBackLink = state =>
 
 export const selectFeatureStaticLandingPage = state =>
   toggleValues(state).vaOnlineSchedulingStaticLandingPage;
+
+export const selectFeatureGA4Migration = state =>
+  toggleValues(state).vaOnlineSchedulingGA4Migration;
 
 export const selectFeatureAfterVisitSummary = state =>
   toggleValues(state).vaOnlineSchedulingAfterVisitSummary;

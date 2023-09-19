@@ -38,7 +38,7 @@ class FolderManagementPage {
   ) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderId}`,
+      `/my_health/v1/messaging/folders/${folderId}*`,
       folderData,
     ).as('customFolderID');
 
@@ -228,6 +228,14 @@ class FolderManagementPage {
     cy.get('[close-btn-aria-label="Close notification"]')
       .should('exist')
       .and('have.text', 'Message conversation was successfully moved.');
+  };
+
+  deleteFolder = () => {
+    cy.get('[data-testid="remove-folder-button"]').click();
+    cy.get('[text="Yes, remove this folder"]')
+      .shadow()
+      .find('[type="button"]')
+      .click();
   };
 }
 

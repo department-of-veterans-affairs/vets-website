@@ -134,10 +134,13 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
         <h1>{H1}</h1>
         {pastMode && pastFlowCopy}
         {!pastMode && currentFlowCopy}
-        <va-link
+        <a
           href="/resources/va-health-care-income-limits"
-          text="Learn more about income limits and deductions"
-        />
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn more about income limits and deductions (opens in a new tab)
+        </a>
         <h2>Select your {previousYear} household income range</h2>
         <va-accordion bordered data-testid="il-results" open-single>
           <va-accordion-item
@@ -216,24 +219,34 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             {pastMode ? pastFlowDisclaimer : currentFlowDisclaimer}
             {!pastMode && (
               <>
-                <va-link
+                <a
                   href="/health-care/eligibility/"
-                  text="Find out if you may be eligible for VA health care"
-                />
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Find out if you may be eligible for VA health care (opens in a
+                  new tab)
+                </a>
                 <p>
                   We can connect you with mental health care&#8212;no matter
                   your discharge status, service history, or eligibility for VA
                   health care.
                 </p>
-                <va-link
+                <a
                   href="/health-care/health-needs-conditions/mental-health/"
-                  text="Find out how to get mental health care"
-                />
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Find out how to get mental health care (opens in a new tab)
+                </a>
                 <p>You can also explore non-VA health insurance options.</p>
-                <va-link
+                <a
                   href="https://www.healthcare.gov/"
-                  text="Explore health insurance options on the HealthCare.gov website"
-                />
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Explore health insurance options on the HealthCare.gov website
+                </a>
               </>
             )}
           </va-accordion-item>
@@ -247,40 +260,58 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
         <h2>More helpful information</h2>
         <ul className="il-results-more-info">
           <li>
-            <va-link
+            <a
               href="/health-care/eligibility/"
-              text="Eligibility for VA health care"
-            />
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Eligibility for VA health care (opens in a new tab)
+            </a>
           </li>
           <li>
-            <va-link
+            <a
               href="/health-care/copay-rates/"
-              text="Current VA health care copay rates"
-            />
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Current VA health care copay rates (opens in a new tab)
+            </a>
           </li>
           <li>
-            <va-link
+            <a
               href="/health-care/update-health-information/"
-              text="Update your VA health benefits information"
-            />
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Update your VA health benefits information (opens in a new tab)
+            </a>
           </li>
           <li>
-            <va-link
+            <a
               href="/health-care/get-reimbursed-for-travel-pay/"
-              text="VA travel pay reimbursement"
-            />
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              VA travel pay reimbursement (opens in a new tab)
+            </a>
           </li>
           <li>
-            <va-link
+            <a
               href="/health-care/health-needs-conditions/mental-health/"
-              text="VA mental health services"
-            />
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              VA mental health services (opens in a new tab)
+            </a>
           </li>
           <li>
-            <va-link
+            <a
               href="/health-care/about-va-health-benefits/"
-              text="About VA health benefits"
-            />
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              About VA health benefits (opens in a new tab)
+            </a>
           </li>
         </ul>
         <h2>What to do if you have more questions</h2>

@@ -1,14 +1,18 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
+import environment from 'platform/utilities/environment';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
+import createDirectDepositChangePageUpdate from '../../pages/directDepositChangeUpdate';
 
 import {
   benefitSelection,
+  benefitSelectionUpdate,
   dependents,
   militaryHistory,
   newSchool,
+  newSchoolUpdate,
   servicePeriods,
 } from '../pages';
 
@@ -34,8 +38,12 @@ export const chapters = {
       benefitSelection: {
         title: 'Education benefit selection',
         path: 'benefits/eligibility',
-        uiSchema: benefitSelection.uiSchema,
-        schema: benefitSelection.schema,
+        uiSchema: environment.isProduction()
+          ? benefitSelection.uiSchema
+          : benefitSelectionUpdate.uiSchema,
+        schema: environment.isProduction()
+          ? benefitSelection.schema
+          : benefitSelectionUpdate.schema,
       },
     },
   },
@@ -50,6 +58,7 @@ export const chapters = {
       },
       militaryHistory: {
         title: 'Military history',
+        depends: () => environment.isProduction(),
         path: 'military/history',
         uiSchema: militaryHistory.uiSchema,
         schema: militaryHistory.schema,
@@ -66,8 +75,12 @@ export const chapters = {
         initialData: {
           newSchoolAddress: {},
         },
-        uiSchema: newSchool.uiSchema,
-        schema: newSchool.schema,
+        uiSchema: environment.isProduction()
+          ? newSchool.uiSchema
+          : newSchoolUpdate.uiSchema,
+        schema: environment.isProduction()
+          ? newSchool.schema
+          : newSchoolUpdate.schema,
       },
       oldSchool: createOldSchoolPage(fullSchema1995),
     },
@@ -80,12 +93,17 @@ export const chapters = {
         title: 'Dependents',
         path: 'personal-information/dependents',
         depends: form => {
-          return form['view:hasServiceBefore1978'] === true;
+          return (
+            environment.isProduction() &&
+            form['view:hasServiceBefore1978'] === true
+          );
         },
         uiSchema: dependents.uiSchema,
         schema: dependents.schema,
       },
-      directDeposit: createDirectDepositChangePage(fullSchema1995),
+      directDeposit: environment.isProduction()
+        ? createDirectDepositChangePage(fullSchema1995)
+        : createDirectDepositChangePageUpdate(fullSchema1995),
     },
   },
 };

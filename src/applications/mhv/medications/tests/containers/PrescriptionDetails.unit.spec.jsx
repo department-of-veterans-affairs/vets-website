@@ -4,6 +4,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import reducer from '../../reducers';
 import PrescriptionDetails from '../../containers/PrescriptionDetails';
 import rxDetailsResponse from '../fixtures/prescriptionDetails.json';
+import nonVaRxResponse from '../fixtures/nonVaPrescription.json';
 import { dateFormat } from '../../util/helpers';
 
 describe('Prescription details container', () => {
@@ -40,52 +41,47 @@ describe('Prescription details container', () => {
     const rxName = screen.findByText(
       rxDetailsResponse.data.attributes.prescriptionName,
     );
-
     expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
       `Last filled on ${dateFormat(
-        rxDetailsResponse.data.attributes.refillDate,
+        rxDetailsResponse.data.attributes.dispensedDate,
         'MMMM D, YYYY',
       )}`,
     );
     expect(rxName).to.exist;
   });
 
-  it('displays the formatted ordered date', () => {
-    const screen = setup();
-    const formattedDate = screen.getAllByText(
-      dateFormat(
-        initialState.rx.prescriptions.prescriptionDetails?.orderedDate,
+  it('displays "Not filled yet" when there is no dispense date', () => {
+    const stateWdispensedDate = {
+      ...initialState,
+      rx: {
+        prescriptions: {
+          prescriptionDetails: {
+            dispensedDate: null,
+          },
+        },
+      },
+    };
+    const screen = setup(stateWdispensedDate);
+    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
+      'Not filled yet',
+    );
+  });
+
+  it('displays "Information entered on" instead of "filled by" date, when med is non VA', () => {
+    const nonVaRxState = {
+      rx: {
+        prescriptions: {
+          prescriptionDetails: nonVaRxResponse.data.attributes,
+        },
+      },
+    };
+    const screen = setup(nonVaRxState);
+
+    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
+      `Information entered on ${dateFormat(
+        nonVaRxResponse.data.attributes.orderedDate,
         'MMMM D, YYYY',
-      ),
-      {
-        exact: true,
-        selector: 'p',
-      },
+      )}`,
     );
-    expect(formattedDate).to.exist;
-  });
-
-  it('displays the facility', () => {
-    const screen = setup();
-    const location = screen.getAllByText(
-      rxDetailsResponse.data.attributes.facilityName,
-    );
-    expect(location).to.exist;
-  });
-
-  it('displays Shipped on in Refill History', () => {
-    const screen = setup();
-    const shippedOn = screen.getAllByText(
-      dateFormat(
-        initialState.rx.prescriptions.prescriptionDetails.trackingList[0][1][0]
-          .completeDateTime,
-        'MMMM D, YYYY [at] h:mm z',
-      ),
-      {
-        exact: true,
-        selector: 'p',
-      },
-    );
-    expect(shippedOn).to.exist;
   });
 });

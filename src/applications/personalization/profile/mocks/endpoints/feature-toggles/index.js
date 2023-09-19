@@ -7,12 +7,14 @@ const profileToggles = {
   profileHideDirectDepositCompAndPen: false,
   profileShowPaymentsNotificationSetting: false,
   profileUseFieldEditingPage: false,
+  profileUseHubPage: false,
   profileShowMhvNotificationSettings: false,
   profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileUseNotificationSettingsCheckboxes: false,
   profileShowEmailNotificationSettings: false,
+  showAuthenticatedMenuEnhancements: false,
 };
 
 const makeAllTogglesTrue = toggles => {
@@ -28,7 +30,14 @@ const generateFeatureToggles = (values = profileToggles, allOn = false) => {
     ? makeAllTogglesTrue(profileToggles)
     : { ...profileToggles, ...values };
 
-  const features = Object.entries(toggles).map(([key, value]) => {
+  const togglesCamelCased = Object.entries(toggles).map(([key, value]) => {
+    return {
+      name: key,
+      value,
+    };
+  });
+
+  const togglesSnakeCased = Object.entries(toggles).map(([key, value]) => {
     return {
       name: snakeCase(key),
       value,
@@ -38,7 +47,7 @@ const generateFeatureToggles = (values = profileToggles, allOn = false) => {
   return {
     data: {
       type: 'feature_toggles',
-      features,
+      features: [...togglesSnakeCased, ...togglesCamelCased],
     },
   };
 };

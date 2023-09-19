@@ -11,7 +11,7 @@ class PatientMessageSentPage {
   loadMessages = (mockMessagesResponse = mockSentMessages) => {
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1',
+      '/my_health/v1/messaging/folders/-1*',
       mockSentFolderMetaResponse,
     ).as('sentFolder');
     cy.intercept(

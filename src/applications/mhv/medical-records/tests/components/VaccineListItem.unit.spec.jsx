@@ -3,7 +3,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
-import { RecordType } from '../../util/constants';
+import { recordType } from '../../util/constants';
 import vaccines from '../fixtures/vaccines.json';
 import { convertVaccine } from '../../reducers/vaccines';
 
@@ -20,7 +20,7 @@ describe('VaccineListItem', () => {
     return renderWithStoreAndRouter(
       <RecordListItem
         record={convertVaccine(vaccines.entry[0].resource)}
-        type={RecordType.VACCINES}
+        type={recordType.VACCINES}
       />,
       {
         initialState: state,
@@ -47,14 +47,14 @@ describe('VaccineListItem', () => {
 
   it('should contain the date of the record', () => {
     const screen = setup();
-    const recordDate = screen.getByText('August', { exact: false });
+    const recordDate = screen.getAllByText('August', { exact: false });
     expect(recordDate).to.exist;
   });
 
   it('should contain a link to view record details', () => {
     const screen = setup();
     const recordDetailsLink = screen.getByRole('link', {
-      name: 'Details',
+      name: /Details/,
     });
     expect(recordDetailsLink).to.exist;
   });

@@ -30,7 +30,12 @@ const defaultIncome = {
 
 // filters for deductions
 const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
-const retirementFilters = ['401K', 'IRA', 'Pension'];
+const retirementFilters = [
+  'Retirement accounts (401k, IRAs, 403b, TSP)',
+  '401K',
+  'IRA',
+  'Pension',
+];
 const socialSecFilters = ['FICA (Social Security and Medicare)'];
 const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
 
@@ -107,7 +112,6 @@ const calculateIncome = (
   const retirement = filterReduceByName(deductions, retirementFilters);
   const socialSec = filterReduceByName(deductions, socialSecFilters);
   const other = otherDeductionsAmt(deductions, allFilters);
-
   const totDeductions = taxes + retirement + socialSec + other;
   const otherIncome = addlInc + benefitsAmount + socSecAmt;
   const netIncome = grossSalary - totDeductions;

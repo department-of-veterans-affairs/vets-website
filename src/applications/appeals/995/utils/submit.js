@@ -1,6 +1,4 @@
 import {
-  SELECTED,
-  MAX_LENGTH,
   CLAIMANT_TYPES,
   PRIMARY_PHONE,
   EVIDENCE_VA,
@@ -13,15 +11,17 @@ import {
   hasMobilePhone,
 } from './contactInfo';
 import {
-  replaceSubmittedData,
-  fixDateFormat,
-} from '../../shared/utils/replace';
-import {
   buildVaLocationString,
   buildPrivateString,
 } from '../validations/evidence';
+
+import {
+  replaceSubmittedData,
+  fixDateFormat,
+} from '../../shared/utils/replace';
 import { returnUniqueIssues } from '../../shared/utils/issues';
 import '../../shared/definitions';
+import { MAX_LENGTH, SELECTED } from '../../shared/constants';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -62,7 +62,7 @@ export const getClaimantData = ({
   if (result.claimantType === 'other' && claimantTypeOtherValue) {
     result.claimantTypeOtherValue = (claimantTypeOtherValue || '').substring(
       0,
-      MAX_LENGTH.CLAIMANT_OTHER,
+      MAX_LENGTH.SC_CLAIMANT_OTHER,
     );
   }
   return result;
@@ -317,7 +317,7 @@ export const getEvidence = formData => {
     evidenceType: [],
   };
   // Add VA evidence data
-  if (formData[EVIDENCE_VA] && formData.locations.length) {
+  if (formData[EVIDENCE_VA] && formData.locations?.length) {
     evidenceSubmission.evidenceType.push('retrieval');
     evidenceSubmission.retrieveFrom = formData.locations.reduce(
       (list, location) => {

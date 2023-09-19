@@ -5,9 +5,22 @@ describe('Medications List Page Print List', () => {
   it('visits Print Medications List', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
-    cy.visit('my-health/medications/');
+    cy.visit('my-health/about-medications/');
     site.login();
+
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+        'link-name': {
+          enabled: false,
+        },
+      },
+    });
     listPage.clickGotoMedicationsLink();
+
     listPage.clickPrintOrDownloadThisListDropDown();
     listPage.verifyPrintMedicationsListEnabledOnListPage();
   });

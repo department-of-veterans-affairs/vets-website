@@ -5,6 +5,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import mockThreadwithAttachment from './fixtures/thread-attachment-response.json';
 import PatientComposePage from './pages/PatientComposePage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging - Delete Message with Attachment', () => {
   it('delete message with attachment', () => {
@@ -45,7 +46,7 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
 
     cy.wait('@deleteMessagewithAttachment');
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

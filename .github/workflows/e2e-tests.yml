@@ -88,7 +88,7 @@ jobs:
           path: |
             .cache/yarn
             node_modules
-      # Temporarily disabled due to apparent memory issues caused by code coverage tools 
+      # Temporarily disabled due to apparent memory issues caused by code coverage tools
       # - name: Add istanbul for Cypress code coverage reporting
       #   run: |
       #     sed -i -e 's/\"istanbul\",//g' babel.config.json
