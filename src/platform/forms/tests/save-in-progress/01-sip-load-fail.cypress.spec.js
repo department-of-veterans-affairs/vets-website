@@ -55,8 +55,7 @@ describe('SIP Load Fail Test', () => {
       statusCode: 404,
     });
 
-    cy.get('va-button');
-    cy.get('va-button')
+    cy.get('va-button[data-testid="continue-your-application"]')
       .first()
       .shadow()
       .find('button')
