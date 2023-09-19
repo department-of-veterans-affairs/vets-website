@@ -16,6 +16,7 @@ export default {
       <span className="custom-label h4">Additional address</span>,
     ),
     additionalAddress: addressNoMilitaryUI({
+      // TODO: Customize street2 label if Designer confirms we should
       omit: ['isMilitary', 'street3'],
       required: true,
     }),

@@ -15,6 +15,7 @@ export default {
         this form.
       </h3>
     ),
+    // TODO: Customize street2 label if Designer confirms we should
     applicantAddress: addressNoMilitaryUI(),
   },
   schema: {
