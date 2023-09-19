@@ -16,10 +16,9 @@ import { EditContext } from './EditContext';
 import { EditConfirmCancelModal } from './EditConfirmCancelModal';
 import { EditBreadcrumb } from './EditBreadcrumb';
 
-import { getRoutesForNav } from '../../routesForNav';
+import { routesForNav } from '../../routesForNav';
 import getProfileInfoFieldAttributes from '../../util/getProfileInfoFieldAttributes';
 import { getInitialFormValues } from '../../util/contact-information/formValues';
-import { selectProfileToggles } from '../../selectors';
 import { getRouteInfoFromPath } from '~/applications/personalization/common/helpers';
 
 const useQuery = () => {
@@ -55,11 +54,6 @@ export const Edit = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const query = useQuery();
-
-  const toggles = useSelector(selectProfileToggles);
-  const routesForNav = getRoutesForNav({
-    profileUseHubPage: toggles.profileUseHubPage,
-  });
 
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const [hasBeforeUnloadListener, setHasBeforeUnloadListener] = useState(false);

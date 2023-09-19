@@ -1,7 +1,8 @@
-import classNames from 'classnames';
 import React from 'react';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
-export const HubCard = ({ heading, content, Links, className }) => {
+export const HubCard = ({ heading, content, children, className }) => {
   const classes = classNames('vads-l-col--6', className);
   return (
     <div className={classes}>
@@ -9,9 +10,19 @@ export const HubCard = ({ heading, content, Links, className }) => {
         <div>
           <h3 className="vads-u-margin--0">{heading}</h3>
           <p>{content}</p>
-          {Links && Links()}
+          {children}
         </div>
       </va-card>
     </div>
   );
+};
+
+HubCard.propTypes = {
+  content: PropTypes.string.isRequired,
+  heading: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  className: PropTypes.string,
 };

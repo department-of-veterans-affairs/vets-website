@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
@@ -11,8 +11,7 @@ import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
 import { ProfileFullWidthContainer } from './ProfileFullWidthContainer';
-import { getRoutesForNav } from '../routesForNav';
-import { selectProfileToggles } from '../selectors';
+import { routesForNav } from '../routesForNav';
 import { normalizePath } from '../../common/helpers';
 import { ProfileBreadcrumbs } from './ProfileBreadcrumbs';
 
@@ -57,11 +56,6 @@ const ProfileWrapper = ({
     },
     [location.pathname, profileUseHubPage],
   );
-
-  const toggles = useSelector(selectProfileToggles);
-  const routesForNav = getRoutesForNav({
-    profileUseHubPage: toggles.profileUseHubPage,
-  });
 
   return (
     <>
