@@ -348,7 +348,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
-          name: unit-test-report
+          name: unit-test-stress-test-results
           path: mocha/results
 
       - name: List Results
@@ -463,7 +463,7 @@ jobs:
       - name: Download Unit Test results
         uses: actions/download-artifact@v3
         with:
-          name: unit-test-report
+          name: unit-test-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
 
       - name: Download Allow List
@@ -474,6 +474,7 @@ jobs:
 
       - name: Copy test results to mochawesome directory
         run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
+
       - name: Update E2E Allow List
         run: yarn update-allow-list
         working-directory: qa-standards-dashboard-data
