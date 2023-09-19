@@ -189,13 +189,13 @@ describe('<EvidencePrivateRecords>', () => {
         errors.state,
         errors.postal,
         errors.issuesMissing,
-        errors.missingDate,
-        errors.missingDate,
+        errors.blankDate,
+        errors.blankDate,
       ]
         .filter(Boolean)
         .forEach((error, index) => {
           expect(errorEls[index].error).to.eq(error);
-          if (error === errors.missingDate) {
+          if (error === errors.blankDate) {
             expect(errorEls[index].invalidMonth).to.be.true;
             expect(errorEls[index].invalidDay).to.be.true;
             expect(errorEls[index].invalidYear).to.be.true;
