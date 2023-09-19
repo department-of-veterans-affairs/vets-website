@@ -41,7 +41,6 @@ class ReviewChapters extends React.Component {
       form,
       formConfig,
       formContext,
-      setValid,
       viewedPages,
       pageList,
     } = this.props;
@@ -61,7 +60,6 @@ class ReviewChapters extends React.Component {
             pageKeys={chapter.pageKeys}
             pageList={pageList}
             setData={(...args) => this.handleSetData(...args)}
-            setValid={setValid}
             hasUnviewedPages={chapter.hasUnviewedPages}
             uploadFile={this.props.uploadFile}
             viewedPages={viewedPages}
@@ -105,7 +103,6 @@ export function mapStateToProps(state, ownProps) {
       ),
       formConfig: chapterFormConfig,
       name: chapterName,
-      open,
       pageKeys,
       hasUnviewedPages,
     };
@@ -132,16 +129,16 @@ const mapDispatchToProps = {
 ReviewChapters.propTypes = {
   chapters: PropTypes.array.isRequired,
   form: PropTypes.object.isRequired,
-  formData: PropTypes.object.isRequired,
   formConfig: PropTypes.object.isRequired,
-  formContext: PropTypes.object,
-  onSetData: PropTypes.func,
+  formData: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
   setData: PropTypes.func.isRequired,
   setEditMode: PropTypes.func.isRequired,
   setViewedPages: PropTypes.func.isRequired,
   uploadFile: PropTypes.func.isRequired,
   viewedPages: PropTypes.object.isRequired,
+  formContext: PropTypes.object,
+  onSetData: PropTypes.func,
 };
 
 export default withRouter(
