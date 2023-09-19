@@ -25,24 +25,22 @@ export const TestNotification = ({ notification, dismissNotification }) => {
 
   return (
     <DashboardWidgetWrapper>
-      {visible && (
-        <VaNotification
-          data-testid="onsite-notification-card"
-          closeBtnAriaLabel="Close notification"
-          closeable
-          onCloseEvent={closeNotification}
-          has-border
-          has-close-text
-          headline="You have new debt."
-          headline-level="3"
-          date-time={createdAtFormatted}
-          href="/manage-va-debt/your-debt"
-          symbol="action-required"
-          text="Manage your VA debt"
-          visible
-          class="vads-u-margin-bottom--1p5"
-        />
-      )}
+      <VaNotification
+        data-testid="onsite-notification-card"
+        closeBtnAriaLabel="Close notification"
+        closeable
+        onCloseEvent={closeNotification}
+        has-border
+        has-close-text
+        headline="You have new debt."
+        headline-level="3"
+        date-time={createdAtFormatted}
+        href="/manage-va-debt/your-debt"
+        symbol="action-required"
+        text="Manage your VA debt"
+        visible={visible}
+        class="vads-u-margin-bottom--1p5"
+      />
     </DashboardWidgetWrapper>
   );
 };
