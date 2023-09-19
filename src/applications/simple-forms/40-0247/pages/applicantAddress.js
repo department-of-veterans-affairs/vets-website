@@ -15,13 +15,18 @@ export default {
         this form.
       </h3>
     ),
-    // TODO: Customize street2 label if Designer confirms we should
-    applicantAddress: addressNoMilitaryUI(),
+    applicantAddress: addressNoMilitaryUI({
+      // TODO: Customize street2 label if Designer confirms we should
+      omit: ['isMilitary', 'street3'],
+      required: true,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      applicantAddress: addressNoMilitarySchema(),
+      applicantAddress: addressNoMilitarySchema({
+        omit: ['isMilitary', 'street3'],
+      }),
     },
     required: ['applicantAddress'],
   },
