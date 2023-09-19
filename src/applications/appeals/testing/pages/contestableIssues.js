@@ -11,7 +11,7 @@ import {
   getIssueName,
   hasSomeSelected,
 } from '../../shared/utils/issues';
-import { selectionRequired } from '../../shared/validations/issue';
+import { selectionRequired } from '../../shared/validations/issues';
 import { FORMAT_READABLE, FORMAT_YMD, SELECTED } from '../../shared/constants';
 
 /**

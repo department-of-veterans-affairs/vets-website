@@ -6,7 +6,7 @@ import { checkIssues, maxIssues } from '../validations/issues';
 
 import { SELECTED } from '../../shared/constants';
 import { hasSomeSelected } from '../../shared/utils/issues';
-import { selectionRequired } from '../../shared/validations/issue';
+import { selectionRequired } from '../../shared/validations/issues';
 
 /**
  * contestable issues with add issue link (list loop)

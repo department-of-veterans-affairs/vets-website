@@ -11,7 +11,7 @@ import {
 } from '../../validations/issues';
 
 import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
-import { selectionRequired } from '../../../shared/validations/issue';
+import { selectionRequired } from '../../../shared/validations/issues';
 
 describe('uniqueIssue', () => {
   const _ = null;

@@ -30,7 +30,7 @@ import {
   SELECTED,
 } from '../../shared/constants';
 import { getSelected } from '../../shared/utils/issues';
-import { checkValidations } from '../../shared/validations/issue';
+import { checkValidations } from '../../shared/validations/issues';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
 const REVIEW_AND_SUBMIT = '/review-and-submit';

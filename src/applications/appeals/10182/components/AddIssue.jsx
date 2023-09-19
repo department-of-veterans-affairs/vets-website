@@ -30,7 +30,7 @@ import {
   REVIEW_ISSUES,
   SELECTED,
 } from '../../shared/constants';
-import { checkValidations } from '../../shared/validations/issue';
+import { checkValidations } from '../../shared/validations/issues';
 import { getSelected, calculateIndexOffset } from '../../shared/utils/issues';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
