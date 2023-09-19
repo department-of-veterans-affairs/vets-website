@@ -5,6 +5,8 @@ import { content as extensionReasonContent } from '../content/extensionReason';
 import { maxSelectedErrorMessage } from '../../shared/content/contestableIssues';
 import { MAX_LENGTH, REGEXP } from '../../shared/constants';
 import { getSelected } from '../../shared/utils/issues';
+
+// TODO: refactor once issueErrorMessages and errorMessages are the same upon content review
 import { addUniqueIssueErrorMessage } from '../../shared/validations/issues';
 
 // Alert Veteran to duplicates based on name & decision date
