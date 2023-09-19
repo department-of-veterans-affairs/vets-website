@@ -14,9 +14,11 @@ const FillRefillButton = rx => {
     refillRemaining,
     refillStatus,
     success,
+    isRefillable,
   } = rx;
 
   if (
+    !isRefillable ||
     refillStatus === 'expired' ||
     refillStatus === 'refillinprocess' ||
     refillRemaining === 0
@@ -55,8 +57,10 @@ const FillRefillButton = rx => {
           </va-alert>
         )}
         <button
+          type="button"
+          aria-describedby={`card-header-${prescriptionId}`}
           className="vads-u-width--responsive"
-          disabled={success}
+          hidden={success}
           onClick={() => {
             dispatch(fillPrescription(prescriptionId));
           }}
@@ -79,6 +83,7 @@ FillRefillButton.propTypes = {
     refillRemaining: PropTypes.number,
     refillStatus: PropTypes.string,
     success: PropTypes.bool,
+    isRefillable: PropTypes.bool,
   }),
 };
 

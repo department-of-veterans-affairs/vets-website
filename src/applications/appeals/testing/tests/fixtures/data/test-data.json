@@ -4,129 +4,72 @@
       "ssnLastFour": "6789",
       "vaFileLastFour": "6789",
       "address": {
-        "addressLine1": "123 Main St",
-        "addressLine2": "Suite #1200",
-        "addressLine3": "Box 45678901234",
-        "city": "New York",
+        "addressLine1": "123 Charlesgate Rd",
+        "addressLine2": "",
+        "addressLine3": "",
+        "city": "Providence",
         "countryName": "United States",
         "countryCodeIso2": "US",
-        "stateCode": "NY",
+        "stateCode": "RI",
         "zipCode": "30012"
       },
-      "phone": {
-        "countryCode": "6",
-        "areaCode": "555",
-        "phoneNumber": "8001111",
-        "phoneNumberExt": "2"
+      "mobilePhone": {
+        "countryCode": "1",
+        "areaCode": "123",
+        "phoneNumber": "4567890",
+        "phoneNumberExt": ""
       },
-      "email": "user@example.com"
+      "homePhone": {
+        "countryCode": "1",
+        "areaCode": "098",
+        "phoneNumber": "7654321",
+        "phoneNumberExt": ""
+      },
+      "email": "allesandra.baker@gmail.com"
     },
     "view:showPart3": true,
-    "homeless": false,
-    "primaryPhone": "home",
-    "view:additionalInfo": true,
-    "additionalInfo": "Lorem ipsum",
-    "boardReviewOption": "evidence_submission",
-    "hearingTypePreference": "central_office",
+
+    "view:primaryPhone": null,
+    "additionalInfo": null,
+    "boardReviewOption": null,
+    "hearingTypePreference": null,
     "socOptIn": false,
-    "view:additionalEvidence": true,
-    "requestingExtension": true,
-    "extensionReason": "Lorem ipsum",
-    "appealingVHADenial": false,
+    "view:additionalEvidence": null,
+    "extensionReason": "",
 
     "contestedIssues": [
       {
         "type": "contestableIssue",
         "attributes": {
-          "ratingIssueSubjectText": "tinnitus",
-          "description": "Service connection for tinnitus is granted with an evaluation of 10% effective January 15, 2020.",
+          "ratingIssueSubjectText": "Tinnitus",
+          "description": "Service connection for tinnitus is not granted.",
           "approxDecisionDate": "2023-1-15",
           "decisionIssueId": 1,
           "ratingIssueReferenceId": "2",
           "ratingDecisionReferenceId": "3",
-          "ratingIssuePercentNumber": "10"
+          "ratingIssuePercentNumber": ""
         },
-        "view:selected": true
+        "view:selected": false
       },
       {
         "type": "contestableIssue",
         "attributes": {
-          "ratingIssueSubjectText": "left knee",
-          "description": "Service connection for left knee granted with an evaluation of 10% effective March 10, 2022.",
-          "approxDecisionDate": "2023-6-2",
+          "ratingIssueSubjectText": "Headaches",
+          "description": "Service connection for headaches is granted with an evaluation of 10% effective January 15, 2023.",
+          "approxDecisionDate": "2023-1-15",
           "decisionIssueId": 4,
           "ratingIssueReferenceId": "5",
           "ratingIssuePercentNumber": "10"
         },
-        "view:selected": true
-      },
-      {
-        "type": "contestableIssue",
-        "attributes": {
-          "ratingIssueSubjectText": "right knee",
-          "description": "Service connection for right knee granted with an evaluation of 10% effective March 10, 2022.",
-          "approxDecisionDate": "2023-6-3",
-          "ratingIssueReferenceId": "6",
-          "ratingDecisionReferenceId": "7",
-          "ratingIssuePercentNumber": "10"
-        },
         "view:selected": false
       }
     ],
-    "additionalIssues": [
-      {
-        "issue": "right arm",
-        "decisionDate": "2021-6-7",
-        "view:selected": false
-      },
-      {
-        "issue": "right shoulder",
-        "decisionDate": "2021-6-6",
-        "view:selected": true
-      }
-    ],
-    "areaOfDisagreement": [
-      {
-        "type": "contestableIssue",
-        "attributes": {
-          "ratingIssueSubjectText": "tinnitus",
-          "description": "Service connection for tinnitus is granted with an evaluation of 10% effective January 15, 2020.",
-          "approxDecisionDate": "2023-1-15",
-          "ratingIssuePercentNumber": "10"
-        },
-        "disagreementOptions": {
-          "serviceConnection": true,
-          "effectiveDate": true,
-          "evaluation": true
-        },
-        "otherEntry": "this is tinnitus entry"
-      },
-      {
-        "type": "contestableIssue",
-        "attributes": {
-          "ratingIssueSubjectText": "left knee",
-          "description": "Service connection for left knee granted with an evaluation of 10% effective March 10, 2022.",
-          "approxDecisionDate": "2023-6-2",
-          "ratingIssuePercentNumber": "10"
-        },
-        "disagreementOptions": {
-          "serviceConnection": false,
-          "effectiveDate": true
-        },
-        "otherEntry": ""
-      },
-      {
-        "issue": "right shoulder",
-        "decisionDate": "2021-6-6",
-        "disagreementOptions": {
-          "evaluation": true
-        },
-        "otherEntry": "this is right shoulder entry"
-      }
-    ],
+    "additionalIssues": [],
+    "areaOfDisagreement": [],
     "additionalInfoUpload": [
       {
         "name": "file-1.pdf",
+        "size": 12345,
         "confirmationCode": "some-UUID",
         "isEncrypted": false
       }
@@ -134,11 +77,13 @@
     "evidence": [
       {
         "name": "file-2.pdf",
+        "size": 56789,
         "confirmationCode": "some-UUID",
         "isEncrypted": false
       },
       {
         "name": "file-3.pdf",
+        "size": 1234560,
         "confirmationCode": "another-UUID"
       }
     ]

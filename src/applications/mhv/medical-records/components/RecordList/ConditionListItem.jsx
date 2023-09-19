@@ -16,15 +16,15 @@ const ConditionListItem = props => {
         >
           <h3
             className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4"
-            aria-label={`${record.name} with a date of ${formattedDate}`}
+            aria-label={`${record.name} ${formattedDate}`}
           >
             {record.name}
           </h3>
 
           <p className="vads-u-margin--0">Date entered: {formattedDate}</p>
           <Link
-            to={`/health-conditions/${record.id}`}
-            className="vads-u-margin--0 no-print"
+            to={`/conditions/${record.id}`}
+            className="vads-u-margin--0"
             aria-describedby={`details-button-description-${record.id}`}
           >
             <strong>Details</strong>
@@ -36,7 +36,7 @@ const ConditionListItem = props => {
               id={`details-button-description-${record.id}`}
               className="sr-only"
             >
-              '{record.name}' with a date of '{formattedDate}'
+              {record.name} {formattedDate}
             </span>
           </Link>
         </div>

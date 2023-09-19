@@ -13,7 +13,6 @@ import recordEvent from 'platform/monitoring/record-event';
 // updatePage isn't available for CustomPage on non-review pages, see
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33797
 import { setData } from 'platform/forms-system/src/js/actions';
-import { CONTESTABLE_ISSUES_PATH, REVIEW_ISSUES } from '../../10182/constants';
 import { validateDate } from '../../10182/validations/date';
 import {
   uniqueIssue,
@@ -24,10 +23,12 @@ import {
 import { content } from '../content/addIssue';
 
 import {
-  MAX_LENGTH,
-  SELECTED,
-  REVIEW_AND_SUBMIT,
+  CONTESTABLE_ISSUES_PATH,
   LAST_ISSUE,
+  MAX_LENGTH,
+  REVIEW_AND_SUBMIT,
+  REVIEW_ISSUES,
+  SELECTED,
 } from '../../shared/constants';
 import { getSelected, calculateIndexOffset } from '../../shared/utils/issues';
 
@@ -175,6 +176,14 @@ const AddIssue = props => {
         >
           <h1 className="vads-u-margin--0">{content.title[addOrEdit]}</h1>
         </legend>
+        <p>
+          You can find the name of the issue decision date on your decision
+          notice now{' '}
+          <a href="/track-claims/your-claim-letters" target="_blank">
+            available online (opens in new tab)
+          </a>
+          .
+        </p>
         <VaTextInput
           id="issue-name"
           name="issue-name"
@@ -185,6 +194,7 @@ const AddIssue = props => {
           onInput={handlers.onIssueNameChange}
           onBlur={handlers.onInputBlur}
           error={((submitted || inputDirty) && showIssueNameError) || null}
+          message-aria-describedby={content.name.hintText}
           uswds
         >
           {content.name.hint}
@@ -195,7 +205,7 @@ const AddIssue = props => {
         <VaMemorableDate
           name="decision-date"
           label={content.date.label}
-          hint={content.date.hint}
+          // hint={content.date.hint}
           required
           onDateChange={handlers.onDateChange}
           onDateBlur={handlers.onDateBlur}
@@ -207,7 +217,7 @@ const AddIssue = props => {
           aria-describedby="decision-date-description"
           uswds
         />
-        <p>
+        <p className="vads-u-margin-top--4">
           <va-button
             id="cancel"
             secondary
