@@ -56,7 +56,7 @@ const ReviewPage = props => {
             <ul className="review-pages vads-u-padding--0">
               {getChapterPagesFromChapterIndex(index).map(page => {
                 const depends = page.depends ? page.depends(props.data) : true;
-                return page.review && depends && !page.taskListHide
+                return page.review && depends
                   ? Object.entries(page.review(props.data)).map(
                       ([label, value]) => (
                         <li key={label}>
