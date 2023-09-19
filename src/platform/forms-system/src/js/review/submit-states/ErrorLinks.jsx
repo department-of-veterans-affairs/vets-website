@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { focusAndScrollToReviewElement } from '../../utilities/review';
-import { openReviewChapter, setEditMode } from '../../actions';
+import { setEditMode } from '../../actions';
 
 const ErrorLinks = props => {
   const { appType, testId, errors } = props;
@@ -69,11 +69,10 @@ const ErrorLinks = props => {
                 {errors.map(error => (
                   <li key={error.name}>
                     {error.chapterKey ? (
-                      <a
+                      <va-button
                         href="#"
                         onClick={event => {
                           event.preventDefault();
-                          props.openReviewChapter(error.chapterKey);
                           props.setEditMode(
                             error.pageKey,
                             true, // enable edit mode
@@ -83,7 +82,7 @@ const ErrorLinks = props => {
                         }}
                       >
                         {error.message}
-                      </a>
+                      </va-button>
                     ) : (
                       error.message
                     )}
@@ -103,7 +102,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  openReviewChapter,
   setEditMode,
 };
 
@@ -111,7 +109,6 @@ ErrorLinks.propTypes = {
   appType: PropTypes.string,
   testId: PropTypes.string,
   errors: PropTypes.array,
-  openReviewChapter: PropTypes.func,
   setEditMode: PropTypes.func,
 };
 

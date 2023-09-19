@@ -12,14 +12,7 @@ import {
   getPageKeys,
 } from '../helpers';
 import { getViewedPages } from '../state/selectors';
-import {
-  closeReviewChapter,
-  openReviewChapter,
-  setData,
-  setEditMode,
-  setViewedPages,
-  uploadFile,
-} from '../actions';
+import { setData, setEditMode, setViewedPages, uploadFile } from '../actions';
 
 const { scroller } = Scroll;
 class ReviewChapters extends React.Component {
@@ -29,13 +22,8 @@ class ReviewChapters extends React.Component {
     this.props.setViewedPages(viewedPages);
   }
 
-  handleToggleChapter({ name, open, pageKeys }) {
-    if (open) {
-      this.props.closeReviewChapter(name, pageKeys);
-    } else {
-      this.props.openReviewChapter(name);
-      this.scrollToChapter(name);
-    }
+  handleOpenChapter({ name }) {
+    this.scrollToChapter(name);
   }
 
   scrollToChapter = chapterKey => {
@@ -92,7 +80,7 @@ class ReviewChapters extends React.Component {
             setData={(...args) => this.handleSetData(...args)}
             setValid={setValid}
             hasUnviewedPages={chapter.hasUnviewedPages}
-            toggleButtonClicked={() => this.handleToggleChapter(chapter)}
+            handleOpenChapter={() => this.handleOpenChapter(chapter)}
             uploadFile={this.props.uploadFile}
             viewedPages={viewedPages}
           />
@@ -153,8 +141,6 @@ export function mapStateToProps(state, ownProps) {
 }
 
 const mapDispatchToProps = {
-  closeReviewChapter,
-  openReviewChapter,
   setData,
   setEditMode,
   setViewedPages,
@@ -163,13 +149,11 @@ const mapDispatchToProps = {
 
 ReviewChapters.propTypes = {
   chapters: PropTypes.array.isRequired,
-  closeReviewChapter: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   formData: PropTypes.object.isRequired,
   formConfig: PropTypes.object.isRequired,
   formContext: PropTypes.object,
   onSetData: PropTypes.func,
-  openReviewChapter: PropTypes.func.isRequired,
   pageList: PropTypes.array.isRequired,
   setData: PropTypes.func.isRequired,
   setEditMode: PropTypes.func.isRequired,

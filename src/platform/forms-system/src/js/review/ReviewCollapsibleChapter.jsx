@@ -30,11 +30,26 @@ class ReviewCollapsibleChapter extends React.Component {
   constructor(props) {
     super(props);
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleChapterClick = this.handleChapterClick.bind(this);
+
+    this.state = {
+      chapterOpen: false,
+    };
   }
 
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillMount() {
     this.id = uniqueId();
+  }
+
+  handleChapterClick(name) {
+    if (!this.state.chapterOpen) {
+      this.props.handleOpenChapter(name);
+    }
+
+    this.setState(prevState => ({
+      chapterOpen: !prevState.chapterOpen,
+    }));
   }
 
   handleEdit(key, editing, index = null) {
@@ -420,6 +435,9 @@ class ReviewCollapsibleChapter extends React.Component {
         data-chapter={this.props.chapterKey}
         header={chapterTitle}
         subHeader={this.props.hasUnviewedPages ? subHeader : ''}
+        onClick={() => {
+          this.handleChapterClick(chapterTitle);
+        }}
       >
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
         {this.props.hasUnviewedPages && (
@@ -459,6 +477,7 @@ ReviewCollapsibleChapter.propTypes = {
   form: PropTypes.object.isRequired,
   hasUnviewedPages: PropTypes.bool.isRequired,
   pageList: PropTypes.array.isRequired,
+  handleOpenChapter: PropTypes.func.isRequired,
   setData: PropTypes.func.isRequired,
   setFormErrors: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,

@@ -12,7 +12,6 @@ describe('<ErrorLinks />', () => {
       appType: 'test',
       testId: '1234',
       errors: [],
-      openReviewChapter: () => {},
       setEditMode: () => {},
     };
     const view = render(<ErrorLinks {...props} />);
@@ -35,7 +34,6 @@ describe('<ErrorLinks />', () => {
         // No chapter = no link to open accordion
         { name: 'empty', message: 'Property not found', chapterKey: '' },
       ],
-      openReviewChapter: () => {},
       setEditMode: () => {},
     };
 
@@ -58,13 +56,11 @@ describe('<ErrorLinks />', () => {
           pageKey: 'foo',
         },
       ],
-      openReviewChapter: sinon.spy(),
       setEditMode: sinon.spy(),
     };
 
     const view = render(<ErrorLinks {...props} />);
     userEvent.click(view.getByRole('link', { name: /Foo/ }));
-    expect(props.openReviewChapter.called).to.be.true;
     expect(props.setEditMode.called).to.be.true;
   });
   it('changes the alert message once the errors are cleared', () => {
@@ -80,7 +76,6 @@ describe('<ErrorLinks />', () => {
           pageKey: 'foo',
         },
       ],
-      openReviewChapter: sinon.spy(),
       setEditMode: sinon.spy(),
     };
 
