@@ -14,7 +14,9 @@ export default {
           'Yes, I’d like additional certificates mailed to me at a separate address',
         N: 'No, these are the only certificates I’m requesting',
       },
-      // can't seem to customize error-message for this field
+      errorMessages: {
+        required: 'Please select whether you’d like additional certificates',
+      },
     }),
   },
   schema: {

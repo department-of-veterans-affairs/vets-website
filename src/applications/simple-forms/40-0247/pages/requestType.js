@@ -9,27 +9,6 @@ const labelText =
 /* @type {PageSchema} */
 export default {
   uiSchema: {
-    // isFirstRequest: {
-    //   'ui:title': labelText, // yesNo widget doesn't support JSX
-    //   'ui:widget': 'yesNo',
-    //   'ui:options': {
-    //     labels: {
-    //       Y:
-    //         'Yes, this is my first time requesting a presidential memorial certificate',
-    //       N:
-    //         'No, I either need to replace a presidential memorial certificate or request more copies',
-    //     },
-    //   },
-    //   'ui:errorMessages': {
-    //     required: 'Please select whether this is your first request',
-    //   },
-    //   'ui:reviewField': ({ children }) => (
-    //     <div className="review-row">
-    //       <dt>{labelText}</dt>
-    //       <dd>{children}</dd>
-    //     </div>
-    //   ),
-    // },
     isFirstRequest: yesNoUI({
       title: labelText,
       labels: {
@@ -38,7 +17,10 @@ export default {
         N:
           'No, I either need to replace a presidential memorial certificate or request more copies',
       },
-      // can't seem to customize error-message for this field
+      errorMessages: {
+        required:
+          'Please select whether this is your first time requesting a certificate',
+      },
     }),
   },
   schema: {
