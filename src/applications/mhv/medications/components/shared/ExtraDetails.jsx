@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
 
 const ExtraDetails = rx => {
-  const { refillStatus } = rx;
+  const { refillStatus, dispStatus } = rx;
   return (
     <div className="shipping-info no-print">
       {refillStatus === 'unknown' && (
@@ -37,7 +37,7 @@ const ExtraDetails = rx => {
           </p>
         </div>
       )}
-      {refillStatus === 'submitted' && (
+      {dispStatus === 'Active: Submitted' && (
         <p className="submittedIcon">
           We got your request on{' '}
           {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
@@ -73,11 +73,22 @@ const ExtraDetails = rx => {
           <va-link href="/" text="Go to your prescription in My VA Health" />
         </div>
       )}
-      {refillStatus === 'non-va' && (
+      {refillStatus === 'active' &&
+        dispStatus === 'Active: Non-VA' && (
+          <div className="no-print">
+            <p className="vads-u-margin-y--0">
+              This isn’t a prescription that you filled through a VA pharmacy.
+              You can’t manage this medication in this online tool.
+            </p>
+          </div>
+        )}
+      {dispStatus === 'Active: On Hold' && (
         <div className="no-print">
           <p className="vads-u-margin-y--0">
-            This isn’t a prescription that you filled through a VA pharmacy. You
-            can’t manage this medication in this online tool.
+            We put a hold on this prescription. If you need it now, call your VA
+            pharmacy at <va-telephone contact="3538675309" /> (
+            <va-telephone contact="711" tty />
+            ).
           </p>
         </div>
       )}
@@ -88,6 +99,7 @@ const ExtraDetails = rx => {
 ExtraDetails.propTypes = {
   rx: PropTypes.shape({
     refillStatus: PropTypes.string,
+    dispStatus: PropTypes.string,
   }),
 };
 

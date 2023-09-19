@@ -4,20 +4,23 @@ import { Link } from 'react-router-dom';
 import { dateFormat } from '../../util/helpers';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
-import { refillStatus } from '../../util/constants';
+import {
+  refillStatusForRefillsReft,
+  dispStatusForRefillsReft,
+} from '../../util/constants';
 
 const MedicationsListCard = props => {
   const { rx } = props;
   let noRefillRemaining = false;
   let showRefillRemaining = false;
 
-  if (refillStatus.includes(rx.refillStatus)) {
+  if (
+    refillStatusForRefillsReft.includes(rx.refillStatus) &&
+    dispStatusForRefillsReft.includes(rx.dispStatus)
+  ) {
     showRefillRemaining = true;
   }
-  if (
-    rx.refillRemaining === 0 &&
-    (rx.refillStatus === 'active' || rx.refillStatus === 'activeParked')
-  ) {
+  if (rx.refillRemaining === 0 && rx.refillStatus === 'active') {
     noRefillRemaining = true;
   }
   const refillsRemaining = () => {

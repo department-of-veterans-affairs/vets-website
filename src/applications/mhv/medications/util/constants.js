@@ -72,11 +72,18 @@ export const medicationsUrls = {
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
 };
 
-export const refillStatus = [
+export const refillStatusForRefillsReft = [
   'active',
   'activeParked',
-  'hold',
   'refillinprocess',
+];
+
+export const dispStatusForRefillsReft = [
+  'Active',
+  'Active: Parked',
+  'Active: On Hold',
+  'Active: Submitted',
+  'Active: Refill in process',
 ];
 
 export const imageRootUri = 'https://www.myhealth.va.gov/static/MILDrugImages/';
