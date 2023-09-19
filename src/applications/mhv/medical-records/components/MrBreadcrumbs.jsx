@@ -11,7 +11,7 @@ const MrBreadcrumbs = () => {
   return (
     <>
       {crumbs.length > 0 && crumbs[0]?.url ? (
-        <div className="vads-l-row breadcrumbs-container">
+        <div className="vads-l-row breadcrumbs-container no-print">
           {/* per exisiting issue found here https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/1296 */}
           {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-web-component-library */}
           <Breadcrumbs label="Breadcrumb" mobileFirstProp>

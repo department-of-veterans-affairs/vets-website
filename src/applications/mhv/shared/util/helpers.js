@@ -1,4 +1,5 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 /**
  * @param {Object} nameObject {first, middle, last, suffix}
@@ -6,6 +7,9 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
  */
 export const formatName = ({ first, middle, last, suffix }) => {
   let name = `${last}, ${first}`;
+  if (!first) {
+    name = `${last}`;
+  }
   if (middle) name += ` ${middle}`;
   if (suffix) name += `, ${suffix}`;
   return name;
@@ -51,4 +55,17 @@ export const generatePdfScaffold = (user, title, subject, preface) => {
  */
 export const updatePageTitle = newTitle => {
   document.title = newTitle;
+};
+
+/**
+ * Opens the veterans Crisis modal (the modal that appears when clicking the red banner in the header
+ * (or footer on mobile) to connect to the crisis line)
+ */
+export const openCrisisModal = () => {
+  const modal = document.querySelector('#modal-crisisline');
+  modal.setAttribute(
+    'class',
+    `${modal.getAttribute('class')} va-overlay--open`,
+  );
+  focusElement(document.querySelector('a[href="tel:988"]'));
 };

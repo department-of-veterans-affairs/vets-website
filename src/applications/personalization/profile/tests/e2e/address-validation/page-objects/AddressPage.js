@@ -15,42 +15,62 @@ class AddressPage {
         })
         .check();
     fields.military && cy.get('#root_city').select('FPO');
-    fields.address &&
-      cy
-        .findByLabelText(/^street address \(/i)
-        .clear()
-        .type(fields.address);
-    fields.address2 &&
-      cy
-        .findByLabelText(/^street address line 2/i)
-        .clear()
-        .type(fields.address2);
-    fields.address3 &&
-      cy
-        .findByLabelText(/^street address line 3/i)
-        .clear()
-        .type(fields.address3);
-    fields.city &&
-      cy
-        .findByLabelText(/City/i)
-        .clear()
-        .type(fields.city);
+
+    if (fields.address) {
+      cy.findByLabelText(/^street address \(/i).as('address1');
+      cy.get('@address1').click();
+      cy.get('@address1').clear();
+      cy.findByLabelText(/^street address \(/i).type(fields.address);
+    }
+
+    if (fields.address2) {
+      cy.findByLabelText(/^street address line 2/i).as('address2');
+      cy.get('@address2').click();
+      cy.get('@address2').clear();
+      cy.get('@address2').type(fields.address2);
+    }
+
+    if (fields.address3) {
+      cy.findByLabelText(/^street address line 3/i).as('address3');
+
+      cy.get('@address3').click();
+      cy.get('@address3').clear();
+      cy.get('@address3').type(fields.address3);
+    }
+
+    if (fields.city) {
+      cy.findByLabelText(/City/i).as('city');
+
+      cy.get('@city').click();
+      cy.get('@city').clear();
+      cy.get('@city').type(fields.city);
+    }
+
     fields.state && cy.findByLabelText(/^State/).select(fields.state);
-    fields.province &&
-      cy
-        .findByLabelText(/^State\/Province\/Region/)
-        .clear()
-        .type(fields.province);
-    fields.zipCode &&
-      cy
-        .findByLabelText(/Zip code/i)
-        .clear()
-        .type(fields.zipCode);
-    fields.zipCodeInt &&
-      cy
-        .findByLabelText(/International postal code/i)
-        .clear()
-        .type(fields.zipCodeInt);
+
+    if (fields.province) {
+      cy.findByLabelText(/^State\/Province\/Region/).as('state');
+
+      cy.get('@state').click();
+      cy.get('@state').clear();
+      cy.get('@state').type(fields.province);
+    }
+
+    if (fields.zipCode) {
+      cy.findByLabelText(/Zip code/i).as('zipCode');
+
+      cy.get('@zipCode').click();
+      cy.get('@zipCode').clear();
+      cy.get('@zipCode').type(fields.zipCode);
+    }
+
+    if (fields.zipCodeInt) {
+      cy.findByLabelText(/International postal code/i).as('zipCodeInt');
+
+      cy.get('@zipCodeInt').click();
+      cy.get('@zipCodeInt').clear();
+      cy.get('@zipCodeInt').type(fields.zipCodeInt);
+    }
   };
 
   saveForm = (confirm = false) => {
@@ -89,6 +109,9 @@ class AddressPage {
     if (saved) {
       cy.findByTestId('update-success-alert').should('exist');
       cy.get('#edit-mailing-address').should('exist');
+
+      // this linting warning is actually a bug in cypress
+      // https://github.com/cypress-io/eslint-plugin-cypress/issues/140
       cy.focused().then($focused => {
         expect($focused).to.have.attr('aria-label', 'Edit Mailing address');
         expect($focused).to.have.text('Edit');
