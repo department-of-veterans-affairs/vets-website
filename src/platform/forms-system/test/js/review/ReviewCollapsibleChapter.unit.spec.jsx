@@ -9,6 +9,46 @@ import sinon from 'sinon';
 import { ReviewCollapsibleChapter } from '../../../src/js/review/ReviewCollapsibleChapter';
 
 describe('<ReviewCollapsibleChapter>', () => {
+  it('should add a data-attribute with the chapterKey', () => {
+    const onEdit = sinon.spy();
+    const pages = [
+      {
+        title: '',
+        pageKey: 'test',
+      },
+    ];
+    const chapterKey = 'chapterX';
+    const chapter = {};
+    const form = {
+      pages: {
+        test: {
+          title: '',
+          schema: {
+            properties: {},
+          },
+          uiSchema: {},
+          editMode: false,
+        },
+      },
+      data: {},
+    };
+
+    const wrapper = mount(
+      <ReviewCollapsibleChapter
+        viewedPages={new Set()}
+        onEdit={onEdit}
+        expandedPages={pages}
+        chapterKey={chapterKey}
+        chapterFormConfig={chapter}
+        form={form}
+      />,
+    );
+
+    const accordion = wrapper.find('va-accordion-item');
+    expect(accordion.length).to.equal(1);
+    expect(accordion.props()['data-chapter']).to.equal('chapterX');
+    wrapper.unmount();
+  });
   it('should handle editing', () => {
     const onEdit = sinon.spy();
     const pages = [
@@ -182,7 +222,6 @@ describe('<ReviewCollapsibleChapter>', () => {
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
         onEdit={onEdit}
-        open
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
@@ -247,7 +286,6 @@ describe('<ReviewCollapsibleChapter>', () => {
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
         onEdit={() => {}}
-        open
         pageKeys={['test1', 'test2', 'test3']}
         expandedPages={pages}
         chapterKey={chapterKey}
@@ -317,7 +355,6 @@ describe('<ReviewCollapsibleChapter>', () => {
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
         onEdit={() => {}}
-        open
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
@@ -365,7 +402,6 @@ describe('<ReviewCollapsibleChapter>', () => {
         setPagesViewed={setPagesViewed}
         viewedPages={new Set()}
         onEdit={onEdit}
-        open
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
@@ -471,7 +507,6 @@ describe('<ReviewCollapsibleChapter>', () => {
         setPagesViewed={setPagesViewed}
         viewedPages={new Set()}
         onEdit={onEdit}
-        open
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
@@ -529,7 +564,6 @@ describe('<ReviewCollapsibleChapter>', () => {
         setPagesViewed={setPagesViewed}
         viewedPages={new Set()}
         onEdit={onEdit}
-        open
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
@@ -593,7 +627,6 @@ describe('<ReviewCollapsibleChapter>', () => {
         setPagesViewed={setPagesViewed}
         viewedPages={new Set()}
         onEdit={onEdit}
-        open
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
@@ -670,7 +703,6 @@ describe('<ReviewCollapsibleChapter>', () => {
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
         onEdit={() => {}}
-        open
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
@@ -723,7 +755,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -777,7 +808,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -832,7 +862,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -895,7 +924,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -950,7 +978,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -1008,7 +1035,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -1026,7 +1052,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -1085,7 +1110,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -1113,7 +1137,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -1131,7 +1154,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
       expect(queryByTestId('accordion-item-content').children.length).to.equal(
@@ -1153,7 +1175,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
       expect(container.querySelector('form.rjsf')).to.exist;
@@ -1179,7 +1200,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
           onEdit={onEdit}
         />,
       );
@@ -1208,7 +1228,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
           onEdit={onEdit}
         />,
       );
@@ -1234,7 +1253,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -1259,7 +1277,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -1290,7 +1307,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
           setData={onSetData}
         />,
       );
