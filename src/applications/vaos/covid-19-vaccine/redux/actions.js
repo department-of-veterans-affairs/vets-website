@@ -29,7 +29,7 @@ import {
   recordItemsRetrieved,
   resetDataLayer,
 } from '../../utils/events';
-import newBookingFlow from '../flow';
+import getNewBookingFlow from '../flow';
 import { TYPE_OF_CARE_ID } from '../utils';
 import {
   selectCovid19VaccineNewBooking,
@@ -440,8 +440,10 @@ export function confirmAppointment(history) {
     }
   };
 }
-export function routeToPageInFlow(flow, history, current, action, data) {
+export function routeToPageInFlow(callback, history, current, action, data) {
   return async (dispatch, getState) => {
+    const flow = callback(getState());
+
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,
       pageKey: current,
@@ -530,9 +532,15 @@ export function openContactFacilitiesPage() {
   };
 }
 export function routeToNextAppointmentPage(history, current, data) {
-  return routeToPageInFlow(newBookingFlow, history, current, 'next', data);
+  return routeToPageInFlow(getNewBookingFlow, history, current, 'next', data);
 }
 
 export function routeToPreviousAppointmentPage(history, current, data) {
-  return routeToPageInFlow(newBookingFlow, history, current, 'previous', data);
+  return routeToPageInFlow(
+    getNewBookingFlow,
+    history,
+    current,
+    'previous',
+    data,
+  );
 }

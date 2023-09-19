@@ -134,7 +134,7 @@ export function NewBookingSection() {
           path={`${match.url}/confirmation`}
           component={ConfirmationPageV2}
         />
-        <Route path="/" component={PlanAheadPage} />
+        <Route path={`${match.url}`} component={PlanAheadPage} />
       </Switch>
     </FormLayout>
   );
