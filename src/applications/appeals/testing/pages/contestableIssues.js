@@ -4,10 +4,15 @@ import moment from 'moment';
 import ContestableIssuesWidget from '../components/ContestableIssuesWidget';
 import { ContestableIssuesAdditionalInfo } from '../content/contestableIssues';
 import { maxIssues } from '../../10182/validations/issues';
+import { disagreeWith } from '../utils/areaOfDisagreement';
 
-import { hasSomeSelected } from '../../shared/utils/issues';
+import {
+  getIssueDate,
+  getIssueName,
+  hasSomeSelected,
+} from '../../shared/utils/issues';
 import { selectionRequired } from '../../shared/validations/issue';
-import { SELECTED } from '../../shared/constants';
+import { FORMAT_READABLE, FORMAT_YMD, SELECTED } from '../../shared/constants';
 
 /**
  * contestable issues with add issue link (list loop)
