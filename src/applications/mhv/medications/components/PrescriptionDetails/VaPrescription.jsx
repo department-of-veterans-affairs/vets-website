@@ -41,7 +41,7 @@ const VaPrescription = prescription => {
               {validateField(prescription.refillRemaining)}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Order refills by this prescription expiration date
+              Request refills by this prescription expiration date
             </h3>
             <p data-testid="expiration-date">
               {validateField(prescription.expirationDate, 'date')}
@@ -125,7 +125,7 @@ const VaPrescription = prescription => {
               >
                 <h3 className="vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2">
                   {i + 1 === refillHistory.length
-                    ? 'Original Fill'
+                    ? 'First Fill'
                     : `Refill ${refillHistory.length - i - 1}`}
                 </h3>
                 <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
