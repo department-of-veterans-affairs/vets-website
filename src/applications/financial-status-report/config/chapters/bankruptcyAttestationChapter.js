@@ -1,7 +1,4 @@
-import {
-  bankruptcyHistoryRecords,
-  enhancedBankruptcyHistoryRecords,
-} from '../../pages';
+import { bankruptcyHistoryRecords } from '../../pages';
 
 import {
   isStreamlinedShortForm,
@@ -9,6 +6,8 @@ import {
 } from '../../utils/streamlinedDepends';
 import BankruptcyQuestion from '../../components/shared/BankruptcyQuestion';
 import BankruptcyQuestionReview from '../../components/shared/BankruptcyQuestionReview';
+import BankruptcyDetails from '../../components/shared/BankruptcyDetails';
+import BankruptcyDetailsReview from '../../components/shared/BankruptcyDetailsReview';
 
 export default {
   bankruptcyAttestationChapter: {
@@ -40,8 +39,10 @@ export default {
       enhancedBankruptcyHistoryRecords: {
         path: 'enhanced-bankruptcy-history-records',
         title: 'Bankruptcy history',
-        uiSchema: enhancedBankruptcyHistoryRecords.uiSchema,
-        schema: enhancedBankruptcyHistoryRecords.schema,
+        CustomPage: BankruptcyDetails,
+        CustomPageReview: BankruptcyDetailsReview,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
         depends: formData =>
           formData.questions.hasBeenAdjudicatedBankrupt &&
           formData['view:enhancedFinancialStatusReport'] &&
