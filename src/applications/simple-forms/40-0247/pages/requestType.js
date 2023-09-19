@@ -1,4 +1,7 @@
-import React from 'react';
+import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns/yesNoPattern.jsx';
 
 const labelText =
   'Is this your first time requesting a Presidential Memorial Certificate?';
@@ -6,35 +9,43 @@ const labelText =
 /* @type {PageSchema} */
 export default {
   uiSchema: {
-    isFirstRequest: {
-      'ui:title': labelText, // yesNo widget doesn't support JSX
-      'ui:widget': 'yesNo',
-      'ui:options': {
-        labels: {
-          Y:
-            'Yes, this is my first time requesting a presidential memorial certificate',
-          N:
-            'No, I either need to replace a presidential memorial certificate or request more copies',
-        },
+    // isFirstRequest: {
+    //   'ui:title': labelText, // yesNo widget doesn't support JSX
+    //   'ui:widget': 'yesNo',
+    //   'ui:options': {
+    //     labels: {
+    //       Y:
+    //         'Yes, this is my first time requesting a presidential memorial certificate',
+    //       N:
+    //         'No, I either need to replace a presidential memorial certificate or request more copies',
+    //     },
+    //   },
+    //   'ui:errorMessages': {
+    //     required: 'Please select whether this is your first request',
+    //   },
+    //   'ui:reviewField': ({ children }) => (
+    //     <div className="review-row">
+    //       <dt>{labelText}</dt>
+    //       <dd>{children}</dd>
+    //     </div>
+    //   ),
+    // },
+    isFirstRequest: yesNoUI({
+      title: labelText,
+      labels: {
+        Y:
+          'Yes, this is my first time requesting a presidential memorial certificate',
+        N:
+          'No, I either need to replace a presidential memorial certificate or request more copies',
       },
-      'ui:errorMessages': {
-        required: 'Please select whether this is your first request',
-      },
-      'ui:reviewField': ({ children }) => (
-        <div className="review-row">
-          <dt>{labelText}</dt>
-          <dd>{children}</dd>
-        </div>
-      ),
-    },
+      // can't seem to customize error-message for this field
+    }),
   },
   schema: {
     type: 'object',
     required: ['isFirstRequest'],
     properties: {
-      isFirstRequest: {
-        type: 'boolean',
-      },
+      isFirstRequest: yesNoSchema,
     },
   },
 };

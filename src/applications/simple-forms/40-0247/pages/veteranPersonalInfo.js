@@ -1,9 +1,10 @@
 import React from 'react';
 
 import {
+  dateOfBirthUI,
+  dateOfDeathUI,
   dateOfBirthSchema,
   dateOfDeathSchema,
-  currentOrPastDateUI,
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -17,8 +18,8 @@ export default {
       </h3>
     ),
     veteranFullName: fullNameNoSuffixUI(),
-    veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
-    veteranDateOfDeath: currentOrPastDateUI('Date of death'),
+    veteranDateOfBirth: dateOfBirthUI(),
+    veteranDateOfDeath: dateOfDeathUI(),
   },
   schema: {
     type: 'object',

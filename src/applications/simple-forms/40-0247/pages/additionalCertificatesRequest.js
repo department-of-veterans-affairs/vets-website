@@ -1,19 +1,24 @@
 import React from 'react';
 
 import {
-  schema as addressSchema,
-  uiSchema as addressUiSchema,
-} from 'platform/forms/definitions/address.js';
-import definitions from 'vets-json-schema/dist/definitions.json';
+  titleSchema,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  addressNoMilitaryUI,
+  addressNoMilitarySchema,
+} from 'platform/forms-system/src/js/web-component-patterns/addressPattern.jsx';
 
 export default {
   uiSchema: {
-    additionalAddress: addressUiSchema(
-      <span className="custom-label">
-        Tell us where you’d like us to send additional Presidential Memorial
-        Certificates
-      </span>,
+    'view:title': titleUI(
+      'Where should we send your additional certificates?',
+      <span className="custom-label h4">Additional address</span>,
     ),
+    additionalAddress: addressNoMilitaryUI({
+      omit: ['isMilitary', 'street3'],
+      required: true,
+    }),
     additionalCopies: {
       'ui:title': (
         <>
@@ -45,7 +50,10 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      additionalAddress: addressSchema({ definitions }, true),
+      'view:title': titleSchema,
+      additionalAddress: addressNoMilitarySchema({
+        omit: ['isMilitary', 'street3'],
+      }),
       additionalCopies: {
         type: 'number',
         minimum: 1,

@@ -42,20 +42,6 @@
   display: none !important;
 }
 
-// some labels can't be customized via JSX in uiSchema,
-// e.g. inside yesNo widgets.
-#root_additionalCertificates-label,
-#root_isFirstRequest-label {
-  @include label-as-h3;
-
-  > .schemaform-required-span {
-    color: $color-secondary-dark !important;
-    font-family: "Source Sans Pro", sans-serif !important;
-    font-size: 1.6rem !important;
-    font-weight: normal !important;
-  }
-}
-
 #root_veteranSupportingDocuments_add_label {
   margin-top: 0;
 }
@@ -69,4 +55,22 @@
 input[name="root_certificates"],
 input[name="root_additionalCopies"] {
   max-width: 7rem;
+}
+
+.form-panel.additional-certificates-request
+  .rjsf-object-field:first-child
+  fieldset {
+  margin-bottom: 0 !important;
+}
+
+// couldn't use JSX for yesNoUI titles, so custom-styling here
+va-radio[name="root_isFirstRequest"]::part(legend),
+va-radio[name="root_additionalCertificates"]::part(legend) {
+  @include label-as-h3;
+}
+va-radio[name="root_isFirstRequest"]::part(required),
+va-radio[name="root_additionalCertificates"]::part(required) {
+  font-family: "Source Sans Pro", sans-serif !important;
+  font-size: 1.6rem !important;
+  font-weight: normal !important;
 }
