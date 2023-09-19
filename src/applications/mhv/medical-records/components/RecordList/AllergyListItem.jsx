@@ -16,14 +16,13 @@ const AllergyListItem = props => {
           <Link
             to={`/allergies/${record.id}`}
             className="vads-u-margin--0 no-print"
+            aria-label={`View details for ${record.name} on ${record.date}`}
           >
-            <h3
-              className="vads-u-font-size--h4 vads-u-line-height--4"
-              aria-label={`${record.name} ${record.date}`}
-            >
+            <h3 className="vads-u-font-size--h4 vads-u-line-height--4">
               {record.name}
             </h3>
           </Link>
+
           <div className="fields">
             <div>
               <span className="field-label">Date entered:</span>{' '}
