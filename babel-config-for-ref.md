@@ -12,7 +12,7 @@
              */
               /* "browsers": ["Chrome 60", "Firefox 57", "iOS 9", "Edge 14", "ChromeAndroid 64", "Safari 10", "ie 11"] */
               /*
-             * This is the list of browers we support that all also have support for the nomodule script
+             * This is the list of browsers we support that all also have support for the nomodule script
              * attribute, meaning we can make them ignore a file that includes polyfills for older browsers
              */
               "browsers": [

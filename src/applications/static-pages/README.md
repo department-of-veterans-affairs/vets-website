@@ -1,4 +1,4 @@
-# Static Pages Applicaiton
+# Static Pages Application
 
 In here you will find a collection of React widgets. The static
 pages app is a place to host non-application code that can be used

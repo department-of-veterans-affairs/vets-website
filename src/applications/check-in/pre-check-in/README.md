@@ -104,7 +104,7 @@ For testing in staging, use the instructions at [https://github.com/department-o
 
 ### Useful acronym and terms
 
-- CHIP - New API that is a central point for all the health data access. Bascially a wrapper around VistA and other internal nasty APIs.
+- CHIP - New API that is a central point for all the health data access. Basically a wrapper around VistA and other internal nasty APIs.
 - LoROTA - Low Risk Authorization Service. This is how we are managing and verifying a user is who they say they are. Currently its a token based system that is essentially a shared short term data storage
 - VeText - This is the service that sends and receives text messages for the user.
 - VistA - This is a legacy but powerful health recond system that the VA uses. This is slowly being replace by Cerner.
@@ -124,7 +124,7 @@ try {
   updateError('error-completing-pre-check-in');
 }
 ```
-This architecture separates the error logic from the component that throws the error so that it does not need not be concerned with how to handle the error just with what type of error occured. which results in dryer code if the same error is thrown from different components in the application.
+This architecture separates the error logic from the component that throws the error so that it does not need not be concerned with how to handle the error just with what type of error occurred. which results in dryer code if the same error is thrown from different components in the application.
 
 Next, an error type represented by a string is passed to the `updateError` method which dispatches `setError` which stores the error type string in the Redux state.
 ```

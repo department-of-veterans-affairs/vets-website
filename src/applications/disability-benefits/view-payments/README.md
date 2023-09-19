@@ -8,7 +8,7 @@ URL: `{root url}/va-payment-history/payments`
 Veterans receive lots of payments for the various benefits they receive from the VA. This app allows Veterans to see what payments have been made to them as well as some basic information about those payments.
 
 ## How the app works for the user
-When the user lands on the View Payments page they will either have payments or not. If they have no payments they will be shown a message that we have no payments on file for them. If the user does have payments they will be split into two lists, one is payments that the Veteran has received, the second is payments that have been returned to the VA. It is worth noting that not ever Veteran that has recieved payments will also have returned payments.
+When the user lands on the View Payments page they will either have payments or not. If they have no payments they will be shown a message that we have no payments on file for them. If the user does have payments they will be split into two lists, one is payments that the Veteran has received, the second is payments that have been returned to the VA. It is worth noting that not ever Veteran that has received payments will also have returned payments.
 
 The page also includes some static content about payments with helpful links.
 
