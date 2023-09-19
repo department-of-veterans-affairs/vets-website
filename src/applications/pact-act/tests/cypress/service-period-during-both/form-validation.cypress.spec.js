@@ -22,7 +22,10 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.SERVICE_PERIOD_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(h.SERVICE_PERIOD_INPUT, 'Error TBD error message');
+      h.checkFormAlertText(
+        h.SERVICE_PERIOD_INPUT,
+        'Error Please select a response.',
+      );
 
       h.selectRadio(h.SERVICE_PERIOD_INPUT, 2);
       h.verifyFormErrorNotShown(h.SERVICE_PERIOD_INPUT);
@@ -35,7 +38,10 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.BURN_PIT_2_1_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(h.BURN_PIT_2_1_INPUT, 'Error TBD error message');
+      h.checkFormAlertText(
+        h.BURN_PIT_2_1_INPUT,
+        'Error Please select a response.',
+      );
 
       h.selectRadio(h.BURN_PIT_2_1_INPUT, 2);
       h.clickContinue();
@@ -47,7 +53,10 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.BURN_PIT_2_1_1_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(h.BURN_PIT_2_1_1_INPUT, 'Error TBD error message');
+      h.checkFormAlertText(
+        h.BURN_PIT_2_1_1_INPUT,
+        'Error Please select a response.',
+      );
 
       h.selectRadio(h.BURN_PIT_2_1_1_INPUT, 2);
       h.clickContinue();
@@ -59,7 +68,10 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.BURN_PIT_2_1_2_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(h.BURN_PIT_2_1_2_INPUT, 'Error TBD error message');
+      h.checkFormAlertText(
+        h.BURN_PIT_2_1_2_INPUT,
+        'Error Please select a response.',
+      );
 
       h.selectRadio(h.BURN_PIT_2_1_2_INPUT, 2);
       h.clickContinue();
