@@ -91,7 +91,6 @@ const getClaimDate = claim => {
 const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
 const getLinkText = claim => {
-  // TODO: Should claimType be lowercased since 'Compensation Appeal' isn't?
   const claimType = isAppeal(claim)
     ? 'Compensation Appeal'
     : getClaimType(claim).toLowerCase();

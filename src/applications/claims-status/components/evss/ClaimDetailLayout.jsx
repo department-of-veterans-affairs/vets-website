@@ -19,14 +19,14 @@ export const isPopulatedClaim = ({ attributes }) =>
   !!attributes.dateFiled;
 
 const getBreadcrumbText = (currentTab, claimType) => {
-  let joiner = '';
+  let joiner;
   if (currentTab === 'Status' || currentTab === 'Details') {
     joiner = 'of';
   } else {
     joiner = 'for';
   }
 
-  return [currentTab, joiner, 'your', claimType, 'claim'].join(' ');
+  return `${currentTab} ${joiner} your ${claimType} claim`;
 };
 
 export default function ClaimDetailLayout(props) {
