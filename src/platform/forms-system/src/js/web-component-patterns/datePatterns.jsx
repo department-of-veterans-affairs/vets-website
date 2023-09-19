@@ -63,7 +63,7 @@ const currentOrPastDateDigitsUI = options => {
   const { title, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
-  currentOrPastDateUI({
+  return currentOrPastDateUI({
     title,
     monthSelect: false,
     ...uiOptions,
