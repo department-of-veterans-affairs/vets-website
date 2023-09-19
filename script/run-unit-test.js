@@ -61,16 +61,14 @@ const coverageReporter = options['coverage-html']
 const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = options.config ? options.config : 'config/mocha.json';
-
+let testsToVerify = null;
 if (process.env.TESTS_TO_VERIFY) {
-  options.path = process.env.TESTS_TO_VERIFY.join(' ');
+  testsToVerify = process.env.TESTS_TO_VERIFY.join(' ');
 }
 
 const command = `LOG_LEVEL=${options[
   'log-level'
-].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} --recursive ${options.path
-  .map(p => `'${p}'`)
-  .join(' ')}`;
-console.log('options: ', options);
+].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} --recursive ${testsToVerify ||
+  options.path.map(p => `'${p}'`).join(' ')}`;
 console.log('command: ', command);
 runCommand(command);

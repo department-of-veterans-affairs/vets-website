@@ -190,12 +190,6 @@ jobs:
           name: unit-test-allow-list
           path: .
 
-      - name: Log outputs
-        run: |
-          echo $MY_STEP_OUTPUTS | jq .
-        env:
-          MY_STEP_OUTPUTS: ${{ toJson(steps.get-changed-apps.outputs) }}
-
       - name: Run unit tests
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
@@ -270,7 +264,7 @@ jobs:
       - name: Set output of TESTS_TO_STRESS_TEST
         if: ${{ always() && env.TESTS_TO_STRESS_TEST != '[]' }}
         id: tests-to-stress-test
-        run: echo tests=$TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
+        run: echo "tests=$TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
 
   unit-tests-stress-test:
     name: Unit Tests Stress Test
