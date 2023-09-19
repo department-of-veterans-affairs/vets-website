@@ -156,7 +156,7 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     // START lighthouse_migration
-    let ClaimsListItem = <></>;
+    let ClaimsListItem;
     if (useLighthouse) {
       ClaimsListItem = useNewClaimCards
         ? ClaimsListItemV3
@@ -410,9 +410,6 @@ const mapDispatchToProps = {
   getStemClaims: getStemClaimsAction,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(YourClaimsPageV2);
+export default connect(mapStateToProps, mapDispatchToProps)(YourClaimsPageV2);
 
 export { YourClaimsPageV2 };
