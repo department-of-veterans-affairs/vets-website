@@ -18,7 +18,8 @@ const App = ({ formEnabled }) => {
           className="vads-c-action-link--blue"
           href="/supporting-forms-for-claims/third-party-authorization-form-21-0845"
         >
-          Authorize VA to release your information to a third-party source
+          Submit an authorization online to release your information to a
+          third-party source
         </a>
       </>
     );
