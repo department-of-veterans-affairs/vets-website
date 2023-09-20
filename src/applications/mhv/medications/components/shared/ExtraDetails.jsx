@@ -5,7 +5,7 @@ import { dateFormat } from '../../util/helpers';
 const ExtraDetails = rx => {
   const { dispStatus } = rx;
   return (
-    <div className="shipping-info no-print">
+    <div className="shipping-info">
       {dispStatus === 'Unknown' && (
         <div className="unknownIcon">
           <div>
@@ -45,7 +45,7 @@ const ExtraDetails = rx => {
         </p>
       )}
       {dispStatus === 'Expired' && (
-        <div className="no-print">
+        <div>
           <p className="vads-u-margin-y--0">
             This prescription is too old to refill. If you need more, request a
             renewal.
@@ -57,7 +57,7 @@ const ExtraDetails = rx => {
         </div>
       )}
       {dispStatus === 'Discontinued' && (
-        <div className="no-print">
+        <div>
           <p className="vads-u-margin-y--0">
             You can’t refill this prescription. If you need more, send a message
             to your care team.
@@ -66,7 +66,7 @@ const ExtraDetails = rx => {
         </div>
       )}
       {dispStatus === 'Transferred' && (
-        <div className="no-print">
+        <div>
           <p className="vads-u-margin-y--0">
             To manage this prescription, go to our My VA Health portal.
           </p>
@@ -74,7 +74,7 @@ const ExtraDetails = rx => {
         </div>
       )}
       {dispStatus === 'Active: Non-VA' && (
-        <div className="no-print">
+        <div>
           <p className="vads-u-margin-y--0">
             This isn’t a prescription that you filled through a VA pharmacy. You
             can’t manage this medication in this online tool.

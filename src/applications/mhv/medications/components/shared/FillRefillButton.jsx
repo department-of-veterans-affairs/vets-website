@@ -22,7 +22,7 @@ const FillRefillButton = rx => {
     dispStatus === 'Active: Parked'
   ) {
     return (
-      <div className="no-print">
+      <div>
         {success && (
           <va-alert status="success">
             <p className="vads-u-margin-y--0">
