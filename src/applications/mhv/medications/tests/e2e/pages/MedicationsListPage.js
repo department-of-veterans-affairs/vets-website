@@ -8,7 +8,7 @@ class MedicationsListPage {
 
   verifyTextInsideDropDownOnListPage = () => {
     cy.contains(
-      'When you print or download medication records, we’ll include a list of allergies and reactions in your VA medical records.',
+      'If you print this page, it won’t include your allergies and reactions to medications.',
     );
   };
 
@@ -40,7 +40,7 @@ class MedicationsListPage {
 
   verifyDownloadListAsPDFButtonOnListPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
-      .should('contain', 'Download list as PDF')
+      .should('contain', 'Download your medication list as a PDF')
       .should('be.visible');
   };
 }

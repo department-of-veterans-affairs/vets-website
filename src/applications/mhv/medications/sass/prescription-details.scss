@@ -1,13 +1,15 @@
 .medication-details-div {
-  @media screen {
-    border-top: 1px solid $color-gray-lighter;
-  }
+  page-break-inside: avoid;
   h3 {
     margin: 16px 0 0;
   }
   p {
     margin: 0px;
   }
+}
+
+.refill-entry {
+  page-break-inside: avoid;
 }
 
 .non-va-ul {
