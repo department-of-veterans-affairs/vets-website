@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 import { dateFormat } from '../../util/helpers';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
-import { dispStatusForRefillsReft } from '../../util/constants';
+import { dispStatusForRefillsLeft } from '../../util/constants';
 
 const MedicationsListCard = props => {
   const { rx } = props;
   let noRefillRemaining = false;
   let showRefillRemaining = false;
 
-  if (dispStatusForRefillsReft.includes(rx.dispStatus)) {
+  if (dispStatusForRefillsLeft.includes(rx.dispStatus)) {
     showRefillRemaining = true;
   }
   if (rx.refillRemaining === 0 && rx.dispStatus === 'Active') {
