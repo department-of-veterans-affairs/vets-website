@@ -3,7 +3,7 @@ import React from 'react';
 import { cloneDeep } from 'lodash';
 
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import { schema } from '../../shared/definitions/pdfFullNameNoSuffix';
+import { pdfFullNameNoSuffixSchema } from '../../shared/definitions/pdfFullNameNoSuffix';
 
 const personFullNameUI = cloneDeep(fullNameUI);
 
@@ -23,7 +23,7 @@ export default {
     type: 'object',
     required: ['personFullName'],
     properties: {
-      personFullName: schema({
+      personFullName: pdfFullNameNoSuffixSchema({
         pdfMaxLengths: { first: 12, middle: 1, last: 18 },
       }),
     },
