@@ -4,4 +4,5 @@ export const requestStates = {
   pending: 'pending',
   succeeded: 'succeeded',
   failed: 'failed',
+  enqueued: 'enqueued',
 };

@@ -75,6 +75,19 @@ export const itfError = (
   </div>
 );
 
+export const itfEnqueued = (
+  <div>
+    <div className="vads-u-margin-bottom--2">
+      <p className="vads-u-font-size--base">
+        We are creating your new ITF! We will send you an email confirming its
+        submission for todays date, but in the meantime you can continue with
+        the form.
+      </p>
+      {claimsIntakeAddress}
+    </div>
+  </div>
+);
+
 export const itfSuccess = (
   hasPreviousItf,
   expirationDate,

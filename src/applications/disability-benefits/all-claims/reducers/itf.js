@@ -9,6 +9,7 @@ import {
   ITF_CREATION_INITIATED,
   ITF_CREATION_SUCCEEDED,
   ITF_CREATION_FAILED,
+  ITF_CREATION_ENQUEUED,
 } from '../actions';
 
 const initialState = {
@@ -72,6 +73,9 @@ export default (state = initialState, action) => {
       newState.previousITF = state.currentITF || state.previousITF;
       newState.currentITF = action.data.attributes.intentToFile;
       return newState;
+    }
+    case ITF_CREATION_ENQUEUED: {
+      return set('creationCallState', requestStates.enqueued, state);
     }
     case ITF_CREATION_FAILED:
       return set('creationCallState', requestStates.failed, state);

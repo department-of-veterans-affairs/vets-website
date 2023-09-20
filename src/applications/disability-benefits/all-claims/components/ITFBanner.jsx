@@ -9,6 +9,7 @@ import {
   itfError,
   itfSuccess,
   itfActive,
+  itfEnqueued,
 } from '../content/itfWrapper';
 import { DISABILITY_526_V2_ROOT_URL } from '../constants';
 
@@ -43,6 +44,7 @@ export default class ITFBanner extends React.Component {
           'success',
         );
         break;
+
       case 'itf-created': {
         const { previousITF, currentExpDate, previousExpDate } = this.props;
         message = itfMessage(
@@ -52,6 +54,16 @@ export default class ITFBanner extends React.Component {
         );
         break;
       }
+
+      case 'itf-enqueued': {
+        message = itfMessage(
+          'We are creating a new Intent to File for you!',
+          itfEnqueued,
+          'success',
+        );
+        break;
+      }
+
       default:
         throw new Error(
           `Unexpected status prop in ITFBanner: ${this.props.status}`,
