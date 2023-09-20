@@ -40,7 +40,7 @@ class MedicationsListPage {
 
   verifyDownloadListAsPDFButtonOnListPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
-      .should('contain', 'Download list as PDF')
+      .should('contain', 'Download your medication list as a PDF')
       .should('be.visible');
   };
 }
