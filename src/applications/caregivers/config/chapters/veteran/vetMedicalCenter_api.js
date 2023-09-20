@@ -6,12 +6,13 @@ const { plannedClinic } = fullSchema.properties.veteran.properties;
 
 const vetMedicalCenterAPIPage = {
   uiSchema: {
-    [veteranFields.preferredFacilityView]: PreferredFacilityAPIUI,
+    [veteranFields.plannedClinic]: PreferredFacilityAPIUI,
   },
   schema: {
     type: 'object',
+    required: [veteranFields.plannedClinic],
     properties: {
-      [veteranFields.preferredFacilityView]: {
+      [veteranFields.plannedClinic]: {
         type: 'object',
         properties: {
           plannedClinic,

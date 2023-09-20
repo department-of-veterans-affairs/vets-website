@@ -139,6 +139,9 @@ export const PreferredFacilityAPIUI = {
   'ui:description': PreferredFacilityAPIDescription,
   plannedClinic: {
     'ui:title': 'Search by city, state or postal code',
+    'ui:errorMessages': {
+      required: 'Please enter a city, state or postal code',
+    },
     'ui:widget': FacilitySearch,
     'ui:options': {
       hideLabelText: true,
