@@ -61,6 +61,7 @@ const CreditCardBillSummary = ({
     handleModalCancel,
     handleModalConfirm,
     handleDeleteClick,
+    deleteIndex,
   } = useDeleteModal(onDelete);
 
   const emptyPrompt = `Select the 'add additional credit card bill' link to add another bill. Select the continue button to move on to the next question.`;
@@ -95,12 +96,12 @@ const CreditCardBillSummary = ({
           ) : (
             creditCardBills.map((bill, index) => (
               <MiniSummaryCard
-                ariaLabel={`Credit card bill ${index + 1}`}
+                ariaLabel={`${billHeading} ${index + 1}`}
                 editDestination={{
                   pathname: '/your-credit-card-bills',
                   search: `?index=${index}`,
                 }}
-                heading={billHeading}
+                heading={`${billHeading} ${index + 1}`}
                 key={generateUniqueKey(bill, keyFieldsForCreditCard, index)}
                 onDelete={() => handleDeleteClick(index)}
                 showDelete
@@ -127,7 +128,9 @@ const CreditCardBillSummary = ({
             isOpen={isModalOpen}
             onClose={handleModalCancel}
             onDelete={handleModalConfirm}
-            modalTitle={firstLetterLowerCase(billHeading)}
+            modalTitle={firstLetterLowerCase(
+              `${billHeading} ${deleteIndex + 1}`,
+            )}
           />
         ) : null}
       </fieldset>

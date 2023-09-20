@@ -378,7 +378,22 @@ export const generateUniqueKey = (data, fields, index = null) => {
   return keyParts.join('-');
 };
 
+const ignoreFields = [
+  'U.S. Savings Bonds',
+  'Social Security',
+  'FICA',
+  "Homeowner's Association (HOA) fees",
+  'FICA (Social Security and Medicare)',
+  'Community Development District (CDD) fees',
+];
+
 export const firstLetterLowerCase = str => {
   if (!str || str.length === 0) return '';
+
+  // Check if the string is in the ignoreFields array
+  if (ignoreFields.includes(str)) {
+    return str;
+  }
+
   return str.charAt(0).toLowerCase() + str.slice(1);
 };
