@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import {
   selectVAPEmailAddress,
   selectVAPHomePhoneString,
@@ -25,7 +24,7 @@ import {
 } from '../redux/actions';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import useFormState from '../../hooks/useFormState';
-import { FACILITY_TYPES, FLOW_TYPES, GA_PREFIX } from '../../utils/constants';
+import { GA_PREFIX } from '../../utils/constants';
 import {
   selectFeatureAcheronService,
   selectFeatureBreadcrumbUrlUpdate,
@@ -117,7 +116,6 @@ export default function ContactInfoPage({ changeCrumb }) {
   const email = useSelector(selectVAPEmailAddress);
   const homePhone = useSelector(selectVAPHomePhoneString);
   const mobilePhone = useSelector(selectVAPMobilePhoneString);
-  const flowType = useSelector(getFlowType);
   const featureAcheronService = useSelector(state =>
     selectFeatureAcheronService(state),
   );
@@ -156,36 +154,6 @@ export default function ContactInfoPage({ changeCrumb }) {
         ...phoneConfig['ui:errorMessages'],
         pattern:
           'Please enter a valid 10-digit phone number (with or without dashes)',
-      },
-    },
-    bestTimeToCall: {
-      'ui:title': 'What are the best times for us to call you?',
-      'ui:validations':
-        (!featureAcheronService && flowType === FLOW_TYPES.REQUEST) ||
-        (featureAcheronService &&
-          userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE)
-          ? [validateBooleanGroup]
-          : [],
-      'ui:options': {
-        showFieldLabel: true,
-        classNames: 'vaos-form__checkboxgroup',
-        hideIf: () => {
-          if (featureAcheronService)
-            return userData.facilityType === FACILITY_TYPES.VAMC;
-          return flowType === FLOW_TYPES.DIRECT;
-        },
-      },
-      morning: {
-        'ui:title': 'Morning (8:00 a.m. – noon)',
-        'ui:options': { widgetClassNames: 'vaos-form__checkbox' },
-      },
-      afternoon: {
-        'ui:title': 'Afternoon (noon – 4:00 p.m.)',
-        'ui:options': { widgetClassNames: 'vaos-form__checkbox' },
-      },
-      evening: {
-        'ui:title': 'Evening (4:00 p.m. – 8:00 p.m.)',
-        'ui:options': { widgetClassNames: 'vaos-form__checkbox' },
       },
     },
     email: {
