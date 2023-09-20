@@ -5,7 +5,7 @@ export const toxicExposurePages = {
   toxicExposureIntro: {
     title: 'Toxic Exposure',
     path: 'toxic-exposure-intro',
-    depends: showToxicExposurePages,
+    depends: () => showToxicExposurePages,
     uiSchema: toxicExposureIntro.uiSchema,
     schema: toxicExposureIntro.schema,
   },

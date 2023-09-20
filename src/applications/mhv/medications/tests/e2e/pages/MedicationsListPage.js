@@ -8,7 +8,7 @@ class MedicationsListPage {
 
   verifyTextInsideDropDownOnListPage = () => {
     cy.contains(
-      'When you print or download medication records, we’ll include a list of allergies and reactions in your VA medical records.',
+      'If you print this page, it won’t include your allergies and reactions to medications.',
     );
   };
 

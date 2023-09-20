@@ -11,7 +11,10 @@ import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintHeader from './PrintHeader';
 import { rxListSortingOptions } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
+import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
+import CallPharmacyPhone from '../components/shared/CallPharmacyPhone';
 
+const VA_PHARMACY_PHONE = '3538675309';
 const Prescriptions = () => {
   const currentDate = new Date();
   const prescriptions = useSelector(
@@ -45,7 +48,8 @@ const Prescriptions = () => {
                 We’re sorry. There’s a problem with our system. Check back
                 later.
                 <br />
-                If you need help now, call your VA pharmacy.
+                If you need help now, call your VA pharmacy
+                <CallPharmacyPhone phone={VA_PHARMACY_PHONE} />
               </p>
             </div>
           </va-alert>
@@ -223,7 +227,6 @@ const Prescriptions = () => {
       return (
         <div className="landing-page">
           <PrintHeader />
-          {topAlert()}
           <h1
             className="page-title vads-u-margin-top--neg4"
             data-testid="list-page-title"
@@ -237,30 +240,11 @@ const Prescriptions = () => {
             Refill and track your VA prescriptions. And review all medications
             in your VA medical records.
           </div>
+          {topAlert()}
           <div className="landing-page-content">
             <div className="no-print">
               <PrintDownload download={handleDownloadPDF} list />
-              <va-additional-info trigger="What to know before you download">
-                <ul>
-                  <li>
-                    When you print or download medication records, we’ll include
-                    a list of allergies and reactions in your VA medical
-                    records.
-                  </li>
-                  <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    remember that downloading saves a copy of your records to
-                    the computer you’re using.
-                  </li>
-                  <li>
-                    <strong>
-                      If you use assistive technology like a screen reader or
-                      braille display
-                    </strong>{' '}
-                    a text file (.txt) may work better for you.
-                  </li>
-                </ul>
-              </va-additional-info>
+              <BeforeYouDownloadDropdown />
               <MedicationsListSort
                 setSortOption={setSortOption}
                 sortOption={sortOption}

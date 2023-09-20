@@ -109,11 +109,7 @@ const OtherIncomeSummary = ({
             Add additional other income
           </Link>
           {contentBeforeButtons}
-          <FormNavButtons
-            goBack={goBack}
-            goForward={goForward}
-            submitToContinue
-          />
+          <FormNavButtons goBack={goBack} goForward={goForward} />
           {contentAfterButtons}
         </div>
       </fieldset>

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { fillPrescription } from '../../actions/prescriptions';
+import CallPharmacyPhone from './CallPharmacyPhone';
 
 const FillRefillButton = rx => {
   const dispatch = useDispatch();
@@ -38,21 +39,7 @@ const FillRefillButton = rx => {
         {error && (
           <va-alert status="error">
             <p className="vads-u-margin-y--0">
-              We didn’t get your refill request. Try again.
-            </p>
-            <p className="vads-u-margin-y--0">
-              If it still doesn’t work, call your VA pharmacy
-              {cmopDivisionPhone ? (
-                <>
-                  <span> at </span>
-                  <va-telephone contact={cmopDivisionPhone} />
-                  <span>
-                    (<va-telephone tty contact="711" />)
-                  </span>
-                </>
-              ) : (
-                <>.</>
-              )}
+              We didn’t get your [fill/refill] request. Try again.
             </p>
           </va-alert>
         )}
@@ -60,11 +47,17 @@ const FillRefillButton = rx => {
           type="button"
           aria-describedby={`card-header-${prescriptionId}`}
           className="vads-u-width--responsive"
-          disabled={success}
+          hidden={success}
           onClick={() => {
             dispatch(fillPrescription(prescriptionId));
           }}
         >
+          {error && (
+            <p className="vads-u-margin-y--0">
+              If it still doesn’t work, call your VA pharmacy
+              <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
+            </p>
+          )}
           {`Request ${dispensedDate ? 'a refill' : 'the first fill'}`}
         </button>
       </div>
