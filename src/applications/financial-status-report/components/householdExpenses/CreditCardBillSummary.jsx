@@ -1,17 +1,18 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router';
 import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { clearJobIndex } from '../../utils/session';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
-
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
 import {
   currency as currencyFormatter,
+  firstLetterLowerCase,
   generateUniqueKey,
 } from '../../utils/helpers';
 
@@ -31,10 +32,6 @@ const CreditCardBillSummary = ({
   const formData = useSelector(state => state.form.data);
   const { expenses } = formData;
   const { creditCardBills } = expenses || [];
-
-  useEffect(() => {
-    clearJobIndex();
-  }, []);
 
   const handlers = {
     onSubmit: event => {
@@ -63,7 +60,15 @@ const CreditCardBillSummary = ({
     });
   };
 
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+  } = useDeleteModal(onDelete);
+
   const emptyPrompt = `Select the 'add additional credit card bill' link to add another bill. Select the continue button to move on to the next question.`;
+  const billHeading = 'Credit card bill';
 
   const billBody = bill => {
     return (
@@ -93,19 +98,29 @@ const CreditCardBillSummary = ({
             <EmptyMiniSummaryCard content={emptyPrompt} />
           ) : (
             creditCardBills.map((bill, index) => (
-              <MiniSummaryCard
-                ariaLabel={`Credit card bill ${index + 1}`}
-                editDestination={{
-                  pathname: '/your-credit-card-bills',
-                  search: `?index=${index}`,
-                }}
-                heading="Credit card bill"
-                key={generateUniqueKey(bill, keyFieldsForCreditCard, index)}
-                onDelete={() => onDelete(index)}
-                showDelete
-                body={billBody(bill)}
-                index={index}
-              />
+              <>
+                <MiniSummaryCard
+                  ariaLabel={`Credit card bill ${index + 1}`}
+                  editDestination={{
+                    pathname: '/your-credit-card-bills',
+                    search: `?index=${index}`,
+                  }}
+                  heading={billHeading}
+                  key={generateUniqueKey(bill, keyFieldsForCreditCard, index)}
+                  onDelete={() => handleDeleteClick(index)}
+                  showDelete
+                  body={billBody(bill)}
+                  index={index}
+                />
+                {isModalOpen ? (
+                  <DeleteConfirmationModal
+                    isOpen={isModalOpen}
+                    onClose={handleModalCancel}
+                    onDelete={() => handleModalConfirm(index)}
+                    modalTitle={firstLetterLowerCase(billHeading)}
+                  />
+                ) : null}
+              </>
             ))
           )}
         </div>

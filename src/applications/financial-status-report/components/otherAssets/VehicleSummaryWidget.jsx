@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { clearJobIndex } from '../../utils/session';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
 
 import { currency as currencyFormatter } from '../../utils/helpers';
 
@@ -19,10 +20,6 @@ const VehicleSummaryWidget = ({
 }) => {
   const { assets } = data;
   const { automobiles = [] } = assets;
-
-  useEffect(() => {
-    clearJobIndex();
-  }, []);
 
   const handlers = {
     onSubmit: event => {
@@ -46,6 +43,14 @@ const VehicleSummaryWidget = ({
       },
     });
   };
+
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+  } = useDeleteModal(onDelete);
+
   const emptyPrompt = `Select the 'add additional vehicle' link to add another vehicle. Select the continue button to move on to the next question.`;
   const cardBody = text => (
     <p className="vads-u-margin--0">
@@ -64,23 +69,35 @@ const VehicleSummaryWidget = ({
             <EmptyMiniSummaryCard content={emptyPrompt} />
           ) : (
             automobiles.map((vehicle, index) => (
-              <MiniSummaryCard
-                ariaLabel={`Vehicle ${index + 1} ${vehicle.year || ''} ${
-                  vehicle.make
-                } ${vehicle.model}`}
-                editDestination={{
-                  pathname: '/your-vehicle-records',
-                  search: `?index=${index}`,
-                }}
-                heading={`${vehicle.year || ''} ${vehicle.make} ${
-                  vehicle.model
-                }`}
-                key={index + vehicle.make + vehicle.model + vehicle.year}
-                onDelete={() => onDelete(index)}
-                showDelete
-                body={cardBody(vehicle.resaleValue)}
-                index={index}
-              />
+              <>
+                <MiniSummaryCard
+                  ariaLabel={`Vehicle ${index + 1} ${vehicle.year || ''} ${
+                    vehicle.make
+                  } ${vehicle.model}`}
+                  editDestination={{
+                    pathname: '/your-vehicle-records',
+                    search: `?index=${index}`,
+                  }}
+                  heading={`${vehicle.year || ''} ${vehicle.make} ${
+                    vehicle.model
+                  }`}
+                  key={index + vehicle.make + vehicle.model + vehicle.year}
+                  onDelete={() => handleDeleteClick(index)}
+                  showDelete
+                  body={cardBody(vehicle.resaleValue)}
+                  index={index}
+                />
+                {isModalOpen ? (
+                  <DeleteConfirmationModal
+                    isOpen={isModalOpen}
+                    onClose={handleModalCancel}
+                    onDelete={() => handleModalConfirm(index)}
+                    modalTitle={`${vehicle.year || ''} ${vehicle.make} ${
+                      vehicle.model
+                    }`}
+                  />
+                ) : null}
+              </>
             ))
           )}
         </div>

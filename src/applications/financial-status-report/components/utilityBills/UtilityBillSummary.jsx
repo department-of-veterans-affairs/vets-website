@@ -6,7 +6,12 @@ import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
-import { currency as currencyFormatter } from '../../utils/helpers';
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
+import {
+  currency as currencyFormatter,
+  firstLetterLowerCase,
+} from '../../utils/helpers';
 
 const UtilityBillSummary = ({
   data,
@@ -25,6 +30,13 @@ const UtilityBillSummary = ({
       ),
     });
   };
+
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+  } = useDeleteModal(onDelete);
 
   const goForward = () => {
     goToPath('/credit-card-bills');
@@ -62,18 +74,28 @@ const UtilityBillSummary = ({
             <EmptyMiniSummaryCard content={emptyPrompt} />
           ) : (
             utilityRecords.map((utility, index) => (
-              <MiniSummaryCard
-                body={cardBody(utility.amount)}
-                editDestination={{
-                  pathname: '/add-utility-bill',
-                  search: `?index=${index}`,
-                }}
-                heading={utility.name}
-                key={utility.name + utility.amount}
-                onDelete={() => onDelete(index)}
-                showDelete
-                index={index}
-              />
+              <>
+                <MiniSummaryCard
+                  body={cardBody(utility.amount)}
+                  editDestination={{
+                    pathname: '/add-utility-bill',
+                    search: `?index=${index}`,
+                  }}
+                  heading={utility.name}
+                  key={utility.name + utility.amount}
+                  onDelete={() => handleDeleteClick(index)}
+                  showDelete
+                  index={index}
+                />
+                {isModalOpen ? (
+                  <DeleteConfirmationModal
+                    isOpen={isModalOpen}
+                    onClose={handleModalCancel}
+                    onDelete={() => handleModalConfirm(index)}
+                    modalTitle={firstLetterLowerCase(utility?.name)}
+                  />
+                ) : null}
+              </>
             ))
           )}
           <Link

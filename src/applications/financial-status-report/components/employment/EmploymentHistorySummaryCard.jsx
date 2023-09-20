@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { Link } from 'react-router';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { EmptyMiniSummaryCard } from '../shared/MiniSummaryCard';
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
 import { setJobIndex } from '../../utils/session';
-import { dateFormatter } from '../../utils/helpers';
+import { dateFormatter, firstLetterLowerCase } from '../../utils/helpers';
 
 const EmploymentHistorySummaryCard = ({
   job,
@@ -24,9 +25,7 @@ const EmploymentHistorySummaryCard = ({
     deductions,
     isCurrent,
   } = job ?? {};
-
   const dispatch = useDispatch();
-  const [isModalOpen, setModalOpen] = useState(false);
 
   const editDestination = isSpouse
     ? {
@@ -64,18 +63,12 @@ const EmploymentHistorySummaryCard = ({
     );
   };
 
-  const handleDeleteClick = () => {
-    setModalOpen(true);
-  };
-
-  const handleModalConfirm = () => {
-    setModalOpen(false);
-    onDelete(index);
-  };
-
-  const handleModalCancel = () => {
-    setModalOpen(false);
-  };
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+  } = useDeleteModal(onDelete);
 
   const employmentCardHeading = `${type} employment at ${employerName}`;
 
@@ -168,7 +161,7 @@ const EmploymentHistorySummaryCard = ({
             type="button"
             aria-label={`Delete ${ariaLabel}`}
             className="usa-button summary-card-delete-button vads-u-margin--0 vads-u-padding--1 vads-u-margin-right--neg1"
-            onClick={handleDeleteClick}
+            onClick={() => handleDeleteClick(index)}
           >
             <i
               aria-hidden="true"
@@ -176,19 +169,14 @@ const EmploymentHistorySummaryCard = ({
             />
             <span>DELETE</span>
           </button>
-          {isModalOpen && (
-            <VaModal
-              onCloseEvent={handleModalCancel}
-              modalTitle={`Are you sure you want to remove ${employmentCardHeading}?`}
-              onPrimaryButtonClick={handleModalConfirm}
-              onSecondaryButtonClick={handleModalCancel}
-              primaryButtonText="Yes, remove this"
-              secondaryButtonText="No, keep this"
-              status="warning"
-              visible={isModalOpen}
-              uswds
+          {isModalOpen ? (
+            <DeleteConfirmationModal
+              isOpen={isModalOpen}
+              onClose={handleModalCancel}
+              onDelete={() => handleModalConfirm(index)}
+              modalTitle={firstLetterLowerCase(employmentCardHeading)}
             />
-          )}
+          ) : null}
         </div>
       </va-card>
     )

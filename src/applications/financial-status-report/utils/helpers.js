@@ -377,3 +377,8 @@ export const generateUniqueKey = (data, fields, index = null) => {
   }
   return keyParts.join('-');
 };
+
+export const firstLetterLowerCase = str => {
+  if (!str || str.length === 0) return '';
+  return str.charAt(0).toLowerCase() + str.slice(1);
+};
