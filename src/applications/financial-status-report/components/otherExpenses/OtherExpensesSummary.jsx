@@ -106,11 +106,7 @@ const OtherExpensesSummary = ({
             Add additional living expenses
           </Link>
           {contentBeforeButtons}
-          <FormNavButtons
-            goBack={goBack}
-            goForward={goForward}
-            submitToContinue
-          />
+          <FormNavButtons goBack={goBack} goForward={goForward} />
           {contentAfterButtons}
         </div>
       </fieldset>

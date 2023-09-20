@@ -18,7 +18,6 @@ import {
   uniqueIssue,
   missingIssueName,
   maxNameLength,
-  checkValidations,
 } from '../../10182/validations/issues';
 import { content } from '../content/addIssue';
 
@@ -31,6 +30,7 @@ import {
   SELECTED,
 } from '../../shared/constants';
 import { getSelected, calculateIndexOffset } from '../../shared/utils/issues';
+import { checkValidations } from '../../shared/validations/issues';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
 
