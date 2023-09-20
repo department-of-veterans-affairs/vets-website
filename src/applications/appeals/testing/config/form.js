@@ -39,6 +39,7 @@ import PrimaryPhone from '../components/PrimaryPhone';
 import AddIssue from '../components/AddIssue';
 import TaskList from '../components/TaskList';
 import ReviewPage from '../components/ReviewPage';
+import ReviewPage2 from '../components/ReviewPage2';
 
 import {
   canUploadEvidence,
@@ -184,6 +185,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: primaryPhone.uiSchema,
           schema: primaryPhone.schema,
+          review: primaryPhone.review,
           scrollAndFocusTarget,
         },
       },
@@ -352,6 +354,17 @@ const formConfig = {
           title: 'Review and submit',
           path: 'review-then-submit',
           CustomPage: ReviewPage,
+          CustomPageReview: null,
+          uiSchema: review.uiSchema,
+          schema: review.schema,
+          scrollAndFocusTarget,
+        },
+        reviewAndSubmit2: {
+          title: 'Review and submit',
+          taskListHide: true,
+          path: 'review-then-submit2',
+          depends: () => false,
+          CustomPage: ReviewPage2,
           CustomPageReview: null,
           uiSchema: review.uiSchema,
           schema: review.schema,
