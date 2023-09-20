@@ -125,11 +125,7 @@ const OtherAssetsSummary = ({
             </ul>
           </va-additional-info>
           {contentBeforeButtons}
-          <FormNavButtons
-            goBack={goBack}
-            goForward={goForward}
-            submitToContinue
-          />
+          <FormNavButtons goBack={goBack} goForward={goForward} />
           {contentAfterButtons}
         </div>
       </fieldset>
