@@ -444,8 +444,7 @@ class ReviewCollapsibleChapter extends React.Component {
       <>
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
         <va-accordion-item
-          id={this.id}
-          className="test"
+          id={this.props.chapterKey}
           data-chapter={this.props.chapterKey}
           header={chapterTitle}
           subHeader={this.props.hasUnviewedPages ? subHeader : ''}
