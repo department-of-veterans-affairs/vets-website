@@ -22,11 +22,24 @@ function DesiredCemeteryNoteDescription() {
     : desiredCemeteryNoteDescriptionNonVeteran;
 }
 
+function DesiredCemeteryTitle() {
+  const data = useSelector(state => state.form.data || {});
+  return isVeteran(data)
+    ? 'Which VA national cemetery would you prefer to be buried in?'
+    : 'Which VA national cemetery would the applicant prefer to be buried in?';
+}
+
+export const desiredCemeteryTitleWrapper = (
+  <>
+    <DesiredCemeteryTitle />
+  </>
+);
+
 export const uiSchema = {
   application: {
     claimant: {
       desiredCemetery: autosuggest.uiSchema(
-        'Which VA national cemetery would you prefer to be buried in?',
+        desiredCemeteryTitleWrapper,
         getCemeteries,
         {
           'ui:options': {
