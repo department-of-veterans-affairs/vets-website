@@ -77,6 +77,7 @@ export default function App(props) {
                 labels={chapterTitles.join(';')}
                 total={chapterTitles.length}
                 uswds
+                use-div
               />
             </div>
           </div>
