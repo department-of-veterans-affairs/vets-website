@@ -6,8 +6,7 @@ import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
-import { CONTESTABLE_ISSUES_PATH } from '../../constants';
-import { SELECTED } from '../../../shared/constants';
+import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../../shared/constants';
 
 describe('HLR selected issues summary page', () => {
   const {

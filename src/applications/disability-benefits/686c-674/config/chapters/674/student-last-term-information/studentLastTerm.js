@@ -2,7 +2,11 @@ import React from 'react';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { TASK_KEYS } from '../../../constants';
-import { isChapterFieldRequired } from '../../../helpers';
+import {
+  isChapterFieldRequired,
+  classesPerWeekUiSchema,
+  hoursPerWeekUiSchema,
+} from '../../../helpers';
 import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 import { report674 } from '../../../utilities';
 
@@ -63,20 +67,12 @@ export const uiSchema = {
       },
     },
     classesPerWeek: {
+      ...classesPerWeekUiSchema,
       'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
-      'ui:title': 'Number of classes a week',
-      'ui:options': {
-        widgetClassNames: 'form-select-medium',
-      },
-      'ui:errorMessages': { required: 'Please enter a number' },
     },
     hoursPerWeek: {
+      ...hoursPerWeekUiSchema,
       'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
-      'ui:title': 'Hours a week',
-      'ui:options': {
-        widgetClassNames: 'form-select-medium',
-      },
-      'ui:errorMessages': { required: 'Please enter a number' },
     },
   },
 };

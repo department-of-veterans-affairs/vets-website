@@ -5,6 +5,7 @@ import PatientComposePage from './pages/PatientComposePage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Save Draft', () => {
   it('Axe Check Save Draft', () => {
@@ -19,7 +20,7 @@ describe('Secure Messaging Save Draft', () => {
     draftsPage.loadMessageDetails(mockDraftResponse);
     patientInterstitialPage.getContinueButton().should('not.exist');
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -30,7 +31,9 @@ describe('Secure Messaging Save Draft', () => {
       },
     });
     // composePage.getMessageSubjectField().type('message Test');
-    composePage.getMessageBodyField().type('Test message body');
+    composePage
+      .getMessageBodyField()
+      .type('Test message body', { force: true });
     cy.realPress(['Enter']);
 
     const mockDraftResponseUpdated = {
@@ -39,7 +42,7 @@ describe('Secure Messaging Save Draft', () => {
         ...mockDraftResponse.data,
         attributes: {
           ...mockDraftResponse.data.attributes,
-          body: 'ststASertTest message body\n',
+          body: 'ststASertTest message body',
         },
       },
     };

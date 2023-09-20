@@ -21,7 +21,7 @@
       "postalCode": "12346"
     },
     "organizationName": "ACME Org",
-    "organizationRepresentatives": [{ "representativeName": "Joe Rep" }],
+    "organizationRepresentative": "Joe Rep",
     "organizationAddress": {
       "street": "125 Any St",
       "city": "Anycity",
