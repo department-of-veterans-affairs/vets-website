@@ -74,13 +74,13 @@ export function NewAppointment() {
         pageTitle={crumb}
       >
         <Switch>
-          <Route path={`${match.url}/contact-information`}>
+          <Route path={`${match.url}/va-request/contact-information`}>
             <ContactInfoPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route path={`${match.url}/choose-facility-type`}>
+          <Route path={`${match.url}/facility-type`}>
             <TypeOfFacilityPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route path={`${match.url}/choose-visit-type`}>
+          <Route path={`${match.url}/va-request/preferred-method`}>
             <TypeOfVisitPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
           <Route path={`${match.url}/sleep-care`}>
@@ -96,9 +96,6 @@ export function NewAppointment() {
           </Route>
           <Route path={`${match.url}/preferred-date`}>
             <PreferredDatePage changeCrumb={newTitle => setCrumb(newTitle)} />
-          </Route>
-          <Route path={`${match.url}/request-date`}>
-            <DateTimeRequestPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
           <Route path={`${match.url}/date-time`}>
             <DateTimeSelectPage changeCrumb={newTitle => setCrumb(newTitle)} />
@@ -128,13 +125,16 @@ export function NewAppointment() {
           <Route path={`${match.url}/clinic`}>
             <ClinicChoicePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route path={`${match.url}/reason`}>
+          <Route path={`${match.url}/va-request/reason`}>
             <ReasonForAppointmentPage
               changeCrumb={newTitle => setCrumb(newTitle)}
             />
           </Route>
-          <Route path={`${match.url}/review`}>
+          <Route path={`${match.url}/va-request/review`}>
             <ReviewPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route path={`${match.url}/va-request`}>
+            <DateTimeRequestPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
           <Route
             path={`${match.url}/confirmation`}

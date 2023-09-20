@@ -1,19 +1,21 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import newAppointmentFlow from '../../newAppointmentFlow';
+import getNewAppointmentFlow from '../../newAppointmentFlow';
 
 import { LANGUAGES } from '../../../utils/constants';
 import State from '../../../components/State';
 
-function handleClick(history) {
+function handleClick(history, getAppointmentFlow) {
   return () => {
-    history.push(newAppointmentFlow.ccPreferences.url);
+    history.push(getAppointmentFlow.ccPreferences.url);
   };
 }
 
 export default function PreferredProviderSection(props) {
   const history = useHistory();
+  const getAppointmentFlow = useSelector(state => getNewAppointmentFlow(state));
 
   return (
     <>
@@ -52,7 +54,7 @@ export default function PreferredProviderSection(props) {
             </div>
             <div>
               <va-link
-                onClick={handleClick(history)}
+                onClick={handleClick(history, getAppointmentFlow)}
                 aria-label="Edit provider preference"
                 text="Edit"
                 data-testid="edit-new-appointment"
@@ -85,7 +87,7 @@ export default function PreferredProviderSection(props) {
               </div>
               <div>
                 <va-link
-                  href={newAppointmentFlow.ccPreferences.url}
+                  href={getAppointmentFlow.ccPreferences.url}
                   aria-label="Edit provider preference"
                   text="Edit"
                   data-testid="edit-new-appointment"

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import newAppointmentFlow from '../../newAppointmentFlow';
+import getNewAppointmentFlow from '../../newAppointmentFlow';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../../utils/constants';
 import { selectFeatureAcheronService } from '../../../redux/selectors';
 import { getFlowType, getFormData } from '../../redux/selectors';
@@ -35,9 +35,9 @@ function formatBestTimetoCall(bestTime) {
   return output.toLowerCase();
 }
 
-function handleClick(history) {
+function handleClick(history, getAppointmentFlow) {
   return () => {
-    history.push(newAppointmentFlow.contactInfo.url);
+    history.push(getAppointmentFlow.contactInfo.url);
   };
 }
 
@@ -48,6 +48,7 @@ export default function ContactDetailSection({ data }) {
   );
   const flowType = useSelector(getFlowType);
   const history = useHistory();
+  const getAppointmentFlow = useSelector(state => getNewAppointmentFlow(state));
 
   return (
     <>
@@ -85,7 +86,7 @@ export default function ContactDetailSection({ data }) {
               aria-label="Edit call back time"
               text="Edit"
               data-testid="edit-new-appointment"
-              onClick={handleClick(history)}
+              onClick={handleClick(history, getAppointmentFlow)}
             />
           </div>
         </div>

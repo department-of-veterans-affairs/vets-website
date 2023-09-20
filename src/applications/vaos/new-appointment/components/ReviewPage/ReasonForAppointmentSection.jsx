@@ -1,18 +1,20 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import newAppointmentFlow from '../../newAppointmentFlow';
+import getNewAppointmentFlow from '../../newAppointmentFlow';
 import { PURPOSE_TEXT } from '../../../utils/constants';
 
-function handleClick(history) {
+function handleClick(history, getAppointmentFlow) {
   return () => {
-    history.push(newAppointmentFlow.reasonForAppointment.url);
+    history.push(getAppointmentFlow.reasonForAppointment.url);
   };
 }
 
 export default function ReasonForAppointmentSection({ data }) {
   const { reasonForAppointment, reasonAdditionalInfo } = data;
   const history = useHistory();
+  const getAppointmentFlow = useSelector(state => getNewAppointmentFlow(state));
 
   if (!reasonForAppointment && !reasonAdditionalInfo) {
     return null;
@@ -37,7 +39,7 @@ export default function ReasonForAppointmentSection({ data }) {
               aria-label="Edit purpose of appointment"
               text="Edit"
               data-testid="edit-new-appointment"
-              onClick={handleClick(history)}
+              onClick={handleClick(history, getAppointmentFlow)}
             />
           </div>
         </div>

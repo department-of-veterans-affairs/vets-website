@@ -14,6 +14,7 @@ import {
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureAcheronService,
+  selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -965,9 +966,16 @@ export function requestProvidersList(address) {
 }
 
 export function requestAppointmentDateChoice(history) {
-  return dispatch => {
+  return async (dispatch, getState) => {
+    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(
+      getState(),
+    );
     dispatch(startRequestAppointmentFlow());
-    history.replace('/new-appointment/request-date');
+    history.replace(
+      featureBreadcrumbUrlUpdate
+        ? '/schedule/va-request'
+        : '/new-appointment/request-date',
+    );
   };
 }
 

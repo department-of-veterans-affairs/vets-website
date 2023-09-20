@@ -1,12 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import newAppointmentFlow from '../../newAppointmentFlow';
+import getNewAppointmentFlow from '../../newAppointmentFlow';
 import { LANGUAGES } from '../../../utils/constants';
 import State from '../../../components/State';
 
-function handleClick(history) {
+function handleClick(history, getAppointmentFlow) {
   return () => {
-    history.push(newAppointmentFlow.ccPreferences.url);
+    history.push(getAppointmentFlow.ccPreferences.url);
   };
 }
 
@@ -15,6 +16,8 @@ export default function SelectedProviderSection({ data, vaCityState }) {
   const provider = data.communityCareProvider;
   const hasProvider =
     !!provider && !!Object.keys(data.communityCareProvider).length;
+
+  const getAppointmentFlow = useSelector(state => getNewAppointmentFlow(state));
 
   return (
     <div className="vads-l-grid-container vads-u-padding--0">
@@ -50,7 +53,7 @@ export default function SelectedProviderSection({ data, vaCityState }) {
         </div>
         <div>
           <va-link
-            onClick={handleClick(history)}
+            onClick={handleClick(history, getAppointmentFlow)}
             aria-label="Edit provider preference"
             text="Edit"
             data-testid="edit-new-appointment"
