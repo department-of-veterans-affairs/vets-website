@@ -2,10 +2,10 @@ import React from 'react';
 
 import { cloneDeep } from 'lodash';
 
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import { fullNameNoSuffixUI } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern.js';
 import { pdfFullNameNoSuffixSchema } from '../../shared/definitions/pdfFullNameNoSuffix';
 
-const personFullNameUI = cloneDeep(fullNameUI);
+const personFullNameUI = cloneDeep(fullNameNoSuffixUI());
 
 personFullNameUI.middle['ui:title'] = 'Middle initial';
 
