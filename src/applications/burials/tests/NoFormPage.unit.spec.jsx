@@ -72,7 +72,6 @@ describe('NoFormPage', () => {
       rest.get(
         'https://dev-api.va.gov/v0/in_progress_forms/21P-530',
         (req, res, ctx) => {
-          // Mock the API response data
           const responseData = { formData: {}, metadata: {} };
           return res(ctx.json(responseData), ctx.status(200));
         },
@@ -100,7 +99,6 @@ describe('NoFormPage', () => {
       rest.get(
         'https://dev-api.va.gov/v0/in_progress_forms/21P-530',
         (req, res, ctx) => {
-          // Mock the API response data
           const responseData = { formData: {}, metadata: {} };
           return res(ctx.json(responseData), ctx.status(200));
         },
@@ -124,7 +122,6 @@ describe('NoFormPage', () => {
       rest.get(
         'https://dev-api.va.gov/v0/in_progress_forms/21P-530',
         (req, res, ctx) => {
-          // Mock the API response data
           const responseData = {
             formData: { ...mockFormData },
             metadata: { inProgressFormId: 5, createdAt: 1695063470866 },
@@ -143,7 +140,7 @@ describe('NoFormPage', () => {
       expect($$('h2', container)[0].textContent).to.eql(
         'This online form isn’t working right now',
       );
-      expect($$('h2', container).length <= 8).to.be.true;
+      expect($$('h2', container).length < 8).to.be.true;
     });
   });
 });
