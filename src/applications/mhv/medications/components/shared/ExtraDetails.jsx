@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
 
 const ExtraDetails = rx => {
-  const { refillStatus, dispStatus } = rx;
+  const { dispStatus } = rx;
   return (
     <div className="shipping-info no-print">
-      {refillStatus === 'unknown' && (
+      {dispStatus === 'Unknown' && (
         <div className="unknownIcon">
           <div>
             We’re sorry. There’s a problem with our system. You can’t manage
@@ -20,7 +20,7 @@ const ExtraDetails = rx => {
           </div>
         </div>
       )}
-      {refillStatus === 'refillinprocess' && (
+      {dispStatus === 'Active: Refill in Process' && (
         <div>
           <p
             className="refillProcessIcon"
@@ -44,7 +44,7 @@ const ExtraDetails = rx => {
           updates.
         </p>
       )}
-      {refillStatus === 'expired' && (
+      {dispStatus === 'Expired' && (
         <div className="no-print">
           <p className="vads-u-margin-y--0">
             This prescription is too old to refill. If you need more, request a
@@ -56,7 +56,7 @@ const ExtraDetails = rx => {
           />
         </div>
       )}
-      {refillStatus === 'discontinued' && (
+      {dispStatus === 'Discontinued' && (
         <div className="no-print">
           <p className="vads-u-margin-y--0">
             You can’t refill this prescription. If you need more, send a message
@@ -65,7 +65,7 @@ const ExtraDetails = rx => {
           <va-link href="/" text="Compose a message" />
         </div>
       )}
-      {refillStatus === 'transferred' && (
+      {dispStatus === 'Transferred' && (
         <div className="no-print">
           <p className="vads-u-margin-y--0">
             To manage this prescription, go to our My VA Health portal.
@@ -73,15 +73,14 @@ const ExtraDetails = rx => {
           <va-link href="/" text="Go to your prescription in My VA Health" />
         </div>
       )}
-      {refillStatus === 'active' &&
-        dispStatus === 'Active: Non-VA' && (
-          <div className="no-print">
-            <p className="vads-u-margin-y--0">
-              This isn’t a prescription that you filled through a VA pharmacy.
-              You can’t manage this medication in this online tool.
-            </p>
-          </div>
-        )}
+      {dispStatus === 'Active: Non-VA' && (
+        <div className="no-print">
+          <p className="vads-u-margin-y--0">
+            This isn’t a prescription that you filled through a VA pharmacy. You
+            can’t manage this medication in this online tool.
+          </p>
+        </div>
+      )}
       {dispStatus === 'Active: On Hold' && (
         <div className="no-print">
           <p className="vads-u-margin-y--0">
@@ -98,7 +97,6 @@ const ExtraDetails = rx => {
 
 ExtraDetails.propTypes = {
   rx: PropTypes.shape({
-    refillStatus: PropTypes.string,
     dispStatus: PropTypes.string,
   }),
 };

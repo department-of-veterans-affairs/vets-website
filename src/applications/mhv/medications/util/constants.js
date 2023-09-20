@@ -72,12 +72,6 @@ export const medicationsUrls = {
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
 };
 
-export const refillStatusForRefillsReft = [
-  'active',
-  'activeParked',
-  'refillinprocess',
-];
-
 export const dispStatusForRefillsReft = [
   'Active',
   'Active: Parked',
