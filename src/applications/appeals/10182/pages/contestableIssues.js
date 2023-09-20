@@ -2,10 +2,11 @@ import ContestableIssuesWidget from '../components/ContestableIssuesWidget';
 
 import { ContestableIssuesAdditionalInfo } from '../../shared/content/contestableIssues';
 
-import { selectionRequired, maxIssues } from '../validations/issues';
+import { maxIssues } from '../validations/issues';
 
 import { hasSomeSelected } from '../../shared/utils/issues';
 import { SELECTED } from '../../shared/constants';
+import { selectionRequired } from '../../shared/validations/issues';
 
 /**
  * contestable issues with add issue link (list loop)
