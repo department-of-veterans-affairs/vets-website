@@ -1,0 +1,87 @@
+import React from 'react';
+import { useTranslation, Trans } from 'react-i18next';
+import { phoneNumbers } from '../utils/appConstants';
+import ExternalLink from './ExternalLink';
+
+const NeedHelpBlock = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div>
+      <p>
+        <Trans
+          i18nKey="for-help-using-this-tool-to-prepare-for-your-appointments"
+          components={[
+            <span key="bold" className="vads-u-font-weight--bold" />,
+            <va-telephone
+              key={phoneNumbers.mainInfo}
+              contact={phoneNumbers.mainInfo}
+            />,
+          ]}
+        />
+      </p>
+      <p>
+        <Trans
+          i18nKey="if-you-have-questions-about-your-appointments"
+          components={[
+            <span key="bold" className="vads-u-font-weight--bold" />,
+          ]}
+        />
+      </p>
+      <ExternalLink
+        href="https://www.va.gov/find-locations"
+        hrefLang="en"
+        eventId="find-facility-locations--link-clicked"
+        eventPrefix="nav"
+      >
+        {t('find-your-va-health-facility')}
+      </ExternalLink>
+      <p>
+        <Trans
+          i18nKey="for-questions-about-filing-a-travel-reimbursement-claim"
+          components={[
+            <span key="bold" className="vads-u-font-weight--bold" />,
+            <va-telephone
+              key={phoneNumbers.btsssCallCenter}
+              contact={phoneNumbers.btsssCallCenter}
+            />,
+          ]}
+        />
+      </p>
+      <ExternalLink
+        href="https://www.va.gov/HEALTHBENEFITS/vtp/beneficiary_travel_pocs.asp"
+        hrefLang="en"
+        eventId="find-health-benefits-travel-pocs--link-clicked"
+        eventPrefix="nav"
+      >
+        {t('find-the-travel-contact-for-your-facility')}
+      </ExternalLink>
+      <p>
+        <Trans
+          i18nKey="if-yourre-in-crisis-or-having-thoughts-of-suicide-call-the"
+          components={[
+            <span key="bold" className="vads-u-font-weight--bold" />,
+            <va-telephone
+              key={phoneNumbers.veteransCrisisLine}
+              contact={phoneNumbers.veteransCrisisLine}
+            />,
+            <va-telephone
+              key={phoneNumbers.veteransCrisisText}
+              contact={phoneNumbers.veteransCrisisText}
+            />,
+          ]}
+        />
+      </p>
+      <p>
+        <Trans
+          i18nKey="if-you-think-your-life-or-health-is-in-danger"
+          components={[
+            <span key="bold" className="vads-u-font-weight--bold" />,
+          ]}
+        />
+      </p>
+    </div>
+  );
+};
+
+export default NeedHelpBlock;
