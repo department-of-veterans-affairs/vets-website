@@ -1,7 +1,9 @@
 import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms-system/src/js/utilities/validations';
 
-import { getSelected, getIssueName } from '../../995/utils/helpers';
+import { getSelected } from '../utils/issues';
+
+import { getIssueName } from '../../995/utils/helpers';
 import { errorMessages, REGEX_COMMA } from '../../995/constants';
 import { validateDate } from '../../995/validations/date';
 

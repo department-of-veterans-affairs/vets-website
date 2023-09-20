@@ -2,17 +2,12 @@ import moment from 'moment';
 import { expect } from 'chai';
 
 import { LEGACY_TYPE } from '../../constants';
-import { SELECTED } from '../../../shared/constants';
 import { getDate } from '../../utils/dates';
-
 import {
   getEligibleContestableIssues,
   getLegacyAppealsLength,
   mayHaveLegacyAppeals,
   isVersion1Data,
-  someSelected,
-  hasSomeSelected,
-  getSelected,
   getSelectedCount,
   getIssueName,
   getIssueDate,
@@ -22,6 +17,13 @@ import {
   readableList,
   returnPhoneObject,
 } from '../../utils/helpers';
+
+import { SELECTED } from '../../../shared/constants';
+import {
+  someSelected,
+  hasSomeSelected,
+  getSelected,
+} from '../../../shared/utils/issues';
 
 describe('getEligibleContestableIssues', () => {
   const date = moment().startOf('day');
