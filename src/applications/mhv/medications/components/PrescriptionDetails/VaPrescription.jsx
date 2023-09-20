@@ -108,7 +108,7 @@ const VaPrescription = prescription => {
             </h3>
             <p>
               Your medication may look different when you get a refill. Find the
-              most recent description and image in your refill history.
+              most recent image in your refill history.
             </p>
           </div>
 

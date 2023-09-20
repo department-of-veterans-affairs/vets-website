@@ -10,6 +10,7 @@ import PrintDownload from '../components/shared/PrintDownload';
 import { updatePageTitle } from '../../shared/util/helpers';
 import NonVaPrescription from '../components/PrescriptionDetails/NonVaPrescription';
 import VaPrescription from '../components/PrescriptionDetails/VaPrescription';
+import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 
 const PrescriptionDetails = () => {
   const currentDate = new Date();
@@ -205,26 +206,7 @@ const PrescriptionDetails = () => {
           </p>
           <div className="no-print">
             <PrintDownload download={handleDownloadPDF} />
-            <va-additional-info trigger="What to know before you download">
-              <ul>
-                <li>
-                  When you print or download medication records, we’ll include a
-                  list of allergies and reactions in your VA medical records.
-                </li>
-                <li>
-                  <strong>If you’re on a public or shared computer,</strong>{' '}
-                  remember that downloading saves a copy of your records to the
-                  computer you’re using.
-                </li>
-                {/* <li>
-                  <strong>
-                    If you use assistive technology like a screen reader or
-                    braille display
-                  </strong>{' '}
-                  a text file (.txt) may work better for you.
-                </li>     WILL SHOW WHEN TEXT FILES ARE DOWNLOADABLE     */}
-              </ul>
-            </va-additional-info>
+            <BeforeYouDownloadDropdown />
           </div>
           <div className="print-only">
             <strong>Note:</strong> This file doesn’t include your allergies or
