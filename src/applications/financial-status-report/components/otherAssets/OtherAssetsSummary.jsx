@@ -6,8 +6,16 @@ import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
-import { currency as currencyFormatter } from '../../utils/helpers';
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
+import {
+  currency as currencyFormatter,
+  firstLetterLowerCase,
+  generateUniqueKey,
+} from '../../utils/helpers';
 import { calculateTotalAssets } from '../../utils/streamlinedDepends';
+
+export const keyFieldsForOtherAssets = ['name', 'amount'];
 
 const OtherAssetsSummary = ({
   data,
@@ -50,6 +58,14 @@ const OtherAssetsSummary = ({
     });
   };
 
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+    deleteIndex,
+  } = useDeleteModal(onDelete);
+
   const goBack = () => {
     if (otherAssets.length === 0) {
       return goToPath('/other-assets-checklist');
@@ -86,8 +102,8 @@ const OtherAssetsSummary = ({
                   search: `?index=${index}`,
                 }}
                 heading={asset.name}
-                key={asset.name + asset.amount}
-                onDelete={() => onDelete(index)}
+                key={generateUniqueKey(asset, keyFieldsForOtherAssets, index)}
+                onDelete={() => handleDeleteClick(index)}
                 showDelete
                 index={index}
               />
@@ -128,6 +144,14 @@ const OtherAssetsSummary = ({
           <FormNavButtons goBack={goBack} goForward={goForward} />
           {contentAfterButtons}
         </div>
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={firstLetterLowerCase(otherAssets[deleteIndex]?.name)}
+          />
+        ) : null}
       </fieldset>
     </form>
   );

@@ -173,7 +173,7 @@ const EmploymentHistorySummaryCard = ({
             <DeleteConfirmationModal
               isOpen={isModalOpen}
               onClose={handleModalCancel}
-              onDelete={() => handleModalConfirm(index)}
+              onDelete={handleModalConfirm}
               modalTitle={firstLetterLowerCase(employmentCardHeading)}
             />
           ) : null}

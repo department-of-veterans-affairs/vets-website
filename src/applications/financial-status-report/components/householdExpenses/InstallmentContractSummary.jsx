@@ -48,7 +48,7 @@ const InstallmentContractSummary = ({
     setFormData({
       ...formData,
       installmentContracts: installmentContracts.filter(
-        (source, index) => index !== deleteIndex,
+        (_, index) => index !== deleteIndex,
       ),
     });
   };
@@ -58,6 +58,7 @@ const InstallmentContractSummary = ({
     handleModalCancel,
     handleModalConfirm,
     handleDeleteClick,
+    deleteIndex,
   } = useDeleteModal(onDelete);
 
   const emptyPrompt = `Select the 'add additional installment contract link to add another installment contract or other debt. Select the continue button to move on to the next question.`;
@@ -112,35 +113,23 @@ const InstallmentContractSummary = ({
             <EmptyMiniSummaryCard content={emptyPrompt} />
           ) : (
             installmentContracts.map((bill, index) => (
-              <>
-                <MiniSummaryCard
-                  ariaLabel={`Installment contract ${index + 1} ${
-                    bill.purpose
-                  }`}
-                  editDestination={{
-                    pathname: '/your-installment-contracts',
-                    search: `?index=${index}`,
-                  }}
-                  heading={bill.purpose}
-                  key={generateUniqueKey(
-                    bill,
-                    keyFieldsForInstallmentContract,
-                    index,
-                  )}
-                  onDelete={() => handleDeleteClick(index)}
-                  showDelete
-                  body={billBody(bill)}
-                  index={index}
-                />
-                {isModalOpen ? (
-                  <DeleteConfirmationModal
-                    isOpen={isModalOpen}
-                    onClose={handleModalCancel}
-                    onDelete={() => handleModalConfirm(index)}
-                    modalTitle={firstLetterLowerCase(bill?.purpose)}
-                  />
-                ) : null}
-              </>
+              <MiniSummaryCard
+                ariaLabel={`Installment contract ${index + 1} ${bill.purpose}`}
+                editDestination={{
+                  pathname: '/your-installment-contracts',
+                  search: `?index=${index}`,
+                }}
+                heading={bill.purpose}
+                key={generateUniqueKey(
+                  bill,
+                  keyFieldsForInstallmentContract,
+                  index,
+                )}
+                onDelete={() => handleDeleteClick(index)}
+                showDelete
+                body={billBody(bill)}
+                index={index}
+              />
             ))
           )}
         </div>
@@ -167,10 +156,20 @@ const InstallmentContractSummary = ({
             <li>Personal debts</li>
           </ul>
         </va-additional-info>
+        {contentBeforeButtons}
+        <FormNavButtons goBack={handlers.onBack} submitToContinue />
+        {contentAfterButtons}
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={firstLetterLowerCase(
+              installmentContracts[deleteIndex]?.purpose,
+            )}
+          />
+        ) : null}
       </fieldset>
-      {contentBeforeButtons}
-      <FormNavButtons goBack={handlers.onBack} submitToContinue />
-      {contentAfterButtons}{' '}
     </form>
   );
 };

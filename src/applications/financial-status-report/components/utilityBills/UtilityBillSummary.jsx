@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
@@ -11,7 +12,10 @@ import { useDeleteModal } from '../../hooks/useDeleteModal';
 import {
   currency as currencyFormatter,
   firstLetterLowerCase,
+  generateUniqueKey,
 } from '../../utils/helpers';
+
+export const keyFieldsForUtilityBills = ['name', 'amount'];
 
 const UtilityBillSummary = ({
   data,
@@ -26,7 +30,7 @@ const UtilityBillSummary = ({
     setFormData({
       ...data,
       utilityRecords: utilityRecords.filter(
-        (source, index) => index !== deleteIndex,
+        (_, index) => index !== deleteIndex,
       ),
     });
   };
@@ -36,6 +40,7 @@ const UtilityBillSummary = ({
     handleModalCancel,
     handleModalConfirm,
     handleDeleteClick,
+    deleteIndex,
   } = useDeleteModal(onDelete);
 
   const goForward = () => {
@@ -74,28 +79,22 @@ const UtilityBillSummary = ({
             <EmptyMiniSummaryCard content={emptyPrompt} />
           ) : (
             utilityRecords.map((utility, index) => (
-              <>
-                <MiniSummaryCard
-                  body={cardBody(utility.amount)}
-                  editDestination={{
-                    pathname: '/add-utility-bill',
-                    search: `?index=${index}`,
-                  }}
-                  heading={utility.name}
-                  key={utility.name + utility.amount}
-                  onDelete={() => handleDeleteClick(index)}
-                  showDelete
-                  index={index}
-                />
-                {isModalOpen ? (
-                  <DeleteConfirmationModal
-                    isOpen={isModalOpen}
-                    onClose={handleModalCancel}
-                    onDelete={() => handleModalConfirm(index)}
-                    modalTitle={firstLetterLowerCase(utility?.name)}
-                  />
-                ) : null}
-              </>
+              <MiniSummaryCard
+                body={cardBody(utility.amount)}
+                editDestination={{
+                  pathname: '/add-utility-bill',
+                  search: `?index=${index}`,
+                }}
+                heading={utility.name}
+                key={generateUniqueKey(
+                  utility,
+                  keyFieldsForUtilityBills,
+                  index,
+                )}
+                onDelete={() => handleDeleteClick(index)}
+                showDelete
+                index={index}
+              />
             ))
           )}
           <Link
@@ -108,9 +107,21 @@ const UtilityBillSummary = ({
             Add additional utility bills
           </Link>
           {contentBeforeButtons}
-          <FormNavButtons goBack={goBack} goForward={goForward} />
+          <FormNavButtons
+            goBack={goBack}
+            goForward={goForward}
+            submitToContinue
+          />
           {contentAfterButtons}
         </div>
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={firstLetterLowerCase(utilityRecords[deleteIndex]?.name)}
+          />
+        ) : null}
       </fieldset>
     </form>
   );

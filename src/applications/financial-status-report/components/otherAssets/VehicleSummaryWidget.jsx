@@ -8,9 +8,12 @@ import {
 } from '../shared/MiniSummaryCard';
 import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
 import { useDeleteModal } from '../../hooks/useDeleteModal';
+import {
+  currency as currencyFormatter,
+  generateUniqueKey,
+} from '../../utils/helpers';
 
-import { currency as currencyFormatter } from '../../utils/helpers';
-
+export const keyFieldsForVehicles = ['year', 'make', 'model', 'resaleValue'];
 const VehicleSummaryWidget = ({
   data,
   goToPath,
@@ -37,9 +40,7 @@ const VehicleSummaryWidget = ({
       ...data,
       assets: {
         ...assets,
-        automobiles: automobiles.filter(
-          (source, index) => index !== deleteIndex,
-        ),
+        automobiles: automobiles.filter((_, index) => index !== deleteIndex),
       },
     });
   };
@@ -49,6 +50,7 @@ const VehicleSummaryWidget = ({
     handleModalCancel,
     handleModalConfirm,
     handleDeleteClick,
+    deleteIndex,
   } = useDeleteModal(onDelete);
 
   const emptyPrompt = `Select the 'add additional vehicle' link to add another vehicle. Select the continue button to move on to the next question.`;
@@ -69,35 +71,23 @@ const VehicleSummaryWidget = ({
             <EmptyMiniSummaryCard content={emptyPrompt} />
           ) : (
             automobiles.map((vehicle, index) => (
-              <>
-                <MiniSummaryCard
-                  ariaLabel={`Vehicle ${index + 1} ${vehicle.year || ''} ${
-                    vehicle.make
-                  } ${vehicle.model}`}
-                  editDestination={{
-                    pathname: '/your-vehicle-records',
-                    search: `?index=${index}`,
-                  }}
-                  heading={`${vehicle.year || ''} ${vehicle.make} ${
-                    vehicle.model
-                  }`}
-                  key={index + vehicle.make + vehicle.model + vehicle.year}
-                  onDelete={() => handleDeleteClick(index)}
-                  showDelete
-                  body={cardBody(vehicle.resaleValue)}
-                  index={index}
-                />
-                {isModalOpen ? (
-                  <DeleteConfirmationModal
-                    isOpen={isModalOpen}
-                    onClose={handleModalCancel}
-                    onDelete={() => handleModalConfirm(index)}
-                    modalTitle={`${vehicle.year || ''} ${vehicle.make} ${
-                      vehicle.model
-                    }`}
-                  />
-                ) : null}
-              </>
+              <MiniSummaryCard
+                ariaLabel={`Vehicle ${index + 1} ${vehicle.year || ''} ${
+                  vehicle.make
+                } ${vehicle.model}`}
+                editDestination={{
+                  pathname: '/your-vehicle-records',
+                  search: `?index=${index}`,
+                }}
+                heading={`${vehicle.year || ''} ${vehicle.make} ${
+                  vehicle.model
+                }`}
+                key={generateUniqueKey(vehicle, keyFieldsForVehicles, index)}
+                onDelete={() => handleDeleteClick(index)}
+                showDelete
+                body={cardBody(vehicle.resaleValue)}
+                index={index}
+              />
             ))
           )}
         </div>
@@ -110,10 +100,20 @@ const VehicleSummaryWidget = ({
         >
           Add additional vehicle
         </Link>
+        {contentBeforeButtons}
+        <FormNavButtons goBack={handlers.onBack} submitToContinue />
+        {contentAfterButtons}
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={`${automobiles[deleteIndex]?.year || ''} ${
+              automobiles[deleteIndex]?.make
+            } ${automobiles[deleteIndex]?.model}`}
+          />
+        ) : null}
       </fieldset>
-      {contentBeforeButtons}
-      <FormNavButtons goBack={handlers.onBack} submitToContinue />
-      {contentAfterButtons}
     </form>
   );
 };

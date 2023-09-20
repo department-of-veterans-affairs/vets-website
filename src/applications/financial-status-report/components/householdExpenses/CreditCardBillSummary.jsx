@@ -47,10 +47,6 @@ const CreditCardBillSummary = ({
   const onDelete = deleteIndex => {
     setFormData({
       ...formData,
-      // questions: {
-      //   ...data.questions,
-      //   hasCreditCardBills: deleteIndex !== 0,
-      // },
       expenses: {
         ...expenses,
         creditCardBills: creditCardBills.filter(
@@ -98,29 +94,19 @@ const CreditCardBillSummary = ({
             <EmptyMiniSummaryCard content={emptyPrompt} />
           ) : (
             creditCardBills.map((bill, index) => (
-              <>
-                <MiniSummaryCard
-                  ariaLabel={`Credit card bill ${index + 1}`}
-                  editDestination={{
-                    pathname: '/your-credit-card-bills',
-                    search: `?index=${index}`,
-                  }}
-                  heading={billHeading}
-                  key={generateUniqueKey(bill, keyFieldsForCreditCard, index)}
-                  onDelete={() => handleDeleteClick(index)}
-                  showDelete
-                  body={billBody(bill)}
-                  index={index}
-                />
-                {isModalOpen ? (
-                  <DeleteConfirmationModal
-                    isOpen={isModalOpen}
-                    onClose={handleModalCancel}
-                    onDelete={() => handleModalConfirm(index)}
-                    modalTitle={firstLetterLowerCase(billHeading)}
-                  />
-                ) : null}
-              </>
+              <MiniSummaryCard
+                ariaLabel={`Credit card bill ${index + 1}`}
+                editDestination={{
+                  pathname: '/your-credit-card-bills',
+                  search: `?index=${index}`,
+                }}
+                heading={billHeading}
+                key={generateUniqueKey(bill, keyFieldsForCreditCard, index)}
+                onDelete={() => handleDeleteClick(index)}
+                showDelete
+                body={billBody(bill)}
+                index={index}
+              />
             ))
           )}
         </div>
@@ -133,10 +119,18 @@ const CreditCardBillSummary = ({
         >
           Add additional credit card bill
         </Link>
+        {contentBeforeButtons}
+        <FormNavButtons goBack={handlers.onBack} submitToContinue />
+        {contentAfterButtons}
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={firstLetterLowerCase(billHeading)}
+          />
+        ) : null}
       </fieldset>
-      {contentBeforeButtons}
-      <FormNavButtons goBack={handlers.onBack} submitToContinue />
-      {contentAfterButtons}{' '}
     </form>
   );
 };

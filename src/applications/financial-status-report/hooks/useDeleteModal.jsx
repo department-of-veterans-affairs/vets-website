@@ -1,20 +1,27 @@
 import { useState } from 'react';
 
-export const useDeleteModal = onDelete => {
+export const useDeleteModal = (onDelete = () => {}) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState(null);
 
+  // Closes the modal and resets the delete index
   const handleModalCancel = () => {
     setModalOpen(false);
+    setDeleteIndex(null);
   };
 
+  // Confirms the delete action and closes the modal
   const handleModalConfirm = () => {
+    if (typeof onDelete === 'function') {
+      onDelete(deleteIndex);
+    }
     setModalOpen(false);
-    onDelete(deleteIndex);
-    setDeleteIndex(null); // Resetting the index
+    setDeleteIndex(null);
   };
 
+  // Opens the modal for a specific index
   const handleDeleteClick = index => {
+    if (isModalOpen) return;
     setDeleteIndex(index);
     setModalOpen(true);
   };
@@ -24,5 +31,6 @@ export const useDeleteModal = onDelete => {
     handleModalCancel,
     handleModalConfirm,
     handleDeleteClick,
+    deleteIndex,
   };
 };
