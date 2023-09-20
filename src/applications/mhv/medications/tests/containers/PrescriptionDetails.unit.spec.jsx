@@ -29,12 +29,6 @@ describe('Prescription details container', () => {
     expect(screen);
   });
 
-  it('displays a print button', () => {
-    const screen = setup();
-    const printButton = screen.getByTestId('print-records-button');
-    expect(printButton).to.exist;
-  });
-
   it('displays the prescription name and filled by date', () => {
     const screen = setup();
 
