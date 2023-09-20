@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getSelected } from '../utils/helpers';
 import { getDate } from '../utils/dates';
 import { NO_ISSUES_SELECTED } from '../constants';
 
 import { FORMAT_READABLE, SELECTED } from '../../shared/constants';
+import { getSelected } from '../../shared/utils/issues';
 
 const legendClassNames = [
   'vads-u-margin-top--0',
