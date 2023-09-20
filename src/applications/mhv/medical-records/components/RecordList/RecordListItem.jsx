@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
 import VaccinesListItem from './VaccinesListItem';
 import VitalListItem from './VitalListItem';
 import ConditionListItem from './ConditionListItem';
@@ -11,14 +10,6 @@ import AllergyListItem from './AllergyListItem';
 
 const RecordListItem = props => {
   const { record, type } = props;
-
-  const history = useHistory();
-
-  useEffect(() => {
-    return history.listen(() => {
-      window.location.reload();
-    });
-  }, []);
 
   switch (type) {
     case recordType.LABS_AND_TESTS:
