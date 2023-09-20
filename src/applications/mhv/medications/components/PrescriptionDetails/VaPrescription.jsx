@@ -153,7 +153,7 @@ const VaPrescription = prescription => {
                         height="350"
                       />
                     ) : (
-                      <p>Image not available</p>
+                      <p>No Image Available</p>
                     )}
                   </va-additional-info>
                 </div>
