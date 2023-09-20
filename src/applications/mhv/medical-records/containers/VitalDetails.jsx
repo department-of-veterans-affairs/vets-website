@@ -167,7 +167,6 @@ const VitalDetails = () => {
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           <h1>{vitalTypeDisplayNames[records[0].type]}</h1>
           <PrintDownload
-            list
             download={generateVitalsPdf}
             allowTxtDownloads={allowTxtDownloads}
           />

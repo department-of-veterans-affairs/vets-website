@@ -149,7 +149,6 @@ const ConditionDetails = () => {
               </h2>
             </div>
             <PrintDownload
-              list
               download={download}
               allowTxtDownloads={allowTxtDownloads}
             />
