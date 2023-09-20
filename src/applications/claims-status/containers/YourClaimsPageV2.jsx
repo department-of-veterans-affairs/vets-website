@@ -410,6 +410,9 @@ const mapDispatchToProps = {
   getStemClaims: getStemClaimsAction,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(YourClaimsPageV2);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(YourClaimsPageV2);
 
 export { YourClaimsPageV2 };
