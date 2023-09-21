@@ -270,7 +270,6 @@ const ComposeForm = props => {
         !selectedRecipient
       ) {
         setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
-
         messageValid = false;
       }
       if (!subject || subject === '') {
@@ -406,6 +405,21 @@ const ComposeForm = props => {
     if (e.target.value) setBodyError('');
     setUnsavedNavigationError();
   };
+
+  // useEffect(() => {
+  //   const beforeUnloadHandler = e => {
+  //     // e.preventDefault();
+  //     console.log('inside beforeUnloadHandler');
+  //     console.log(e);
+  //     if (window.confirm('Are you sure you want to leave?')) {
+  //       e.returnValue = 'You have unsaved changes';
+  //     }
+  //   };
+  //   window.addEventListener('beforeunload', beforeUnloadHandler);
+  //   return () => {
+  //     window.removeEventListener('beforeunload', beforeUnloadHandler);
+  //   };
+  // }, []);
 
   return (
     <>
