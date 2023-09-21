@@ -1,4 +1,6 @@
-export const setupPages = formConfig => {
+import formConfig from '../config/form';
+
+export const setupPages = () => {
   const chapterKeys = Object.keys(formConfig?.chapters || {});
   const chapterTitles = Object.values(formConfig?.chapters || {}).map(
     value => value.title,
@@ -21,7 +23,7 @@ export const setupPages = formConfig => {
         title: taskListTitle || title,
         review,
         path: `/${path}`,
-        depends, // not currently used
+        depends,
       };
     });
   };

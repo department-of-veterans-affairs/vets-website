@@ -106,7 +106,15 @@ const VaccineDetails = () => {
     };
 
     try {
-      await generatePdf('medicalRecords', 'vaccine_report', pdfData);
+      await generatePdf(
+        'medicalRecords',
+        `VA-Vaccines-details-${user.userFullName.first}-${
+          user.userFullName.last
+        }-${moment()
+          .format('M-D-YYYY_hhmmssa')
+          .replace(/\./g, '')}`,
+        pdfData,
+      );
     } catch (error) {
       sendErrorToSentry(error, 'Vaccine details');
     }

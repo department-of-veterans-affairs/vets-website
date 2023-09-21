@@ -2,35 +2,18 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { wait } from '@@profile/tests/unit-test-helpers';
+import {
+  oneWeekAgo,
+  oneDayAgo,
+  oneDayFromNow,
+  oneWeekFromNow,
+  oneYearFromNow,
+} from '@@profile/tests/helpers';
 import { mockFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '~/applications/personalization/dashboard/reducers';
-import ApplyForBenefits from './ApplyForBenefits';
-
-const oneDayInMS = 24 * 60 * 60 * 1000;
-const oneWeekInMS = oneDayInMS * 7;
-const oneYearInMS = oneDayInMS * 365;
-
-function oneWeekAgo() {
-  return Date.now() - oneWeekInMS;
-}
-
-function oneDayAgo() {
-  return Date.now() - oneDayInMS;
-}
-
-function oneDayFromNow() {
-  return Date.now() + oneDayInMS;
-}
-
-function oneWeekFromNow() {
-  return Date.now() + oneWeekInMS;
-}
-
-function oneYearFromNow() {
-  return Date.now() + oneYearInMS;
-}
+import ApplyForBenefits from '../../../components/apply-for-benefits/ApplyForBenefits';
 
 function noApplicationsInProgressShownLOA3(view, shown = true) {
   const regex = /you have no benefit application drafts to show/i;
