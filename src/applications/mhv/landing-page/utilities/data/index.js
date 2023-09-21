@@ -146,7 +146,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
   const myVaHealthBenefitsLinks = resolveLinkCollection(
     [
       {
-        href: '/manage-va-debt/summary/copay-balances/',
+        href: '/health-care/copay-rates/',
         text: 'Current Veteran copay rates',
       },
       {
