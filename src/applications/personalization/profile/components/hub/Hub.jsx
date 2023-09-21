@@ -5,8 +5,10 @@ import { PROFILE_PATHS } from '../../constants';
 import { ProfileBreadcrumbs } from '../ProfileBreadcrumbs';
 import { HubCard } from './HubCard';
 import { ProfileLink } from '../ProfileLink';
+import { useSignInServiceProvider } from '../../hooks';
 
 export const Hub = () => {
+  const { label, link } = useSignInServiceProvider();
   return (
     <>
       <ProfileBreadcrumbs className="vads-u-margin-left--neg1 vads-u-margin-top--neg2" />
@@ -106,8 +108,8 @@ export const Hub = () => {
 
             <div className="vads-u-display--block vads-u-margin-top--1p5 vads-u-margin-bottom--0p5">
               <ProfileLink
-                text="Update your sign-in info on the [credential] website"
-                href="/coming-soon-cred-url"
+                text={`Update your sign-in info on the ${label} website`}
+                href={link}
               />
             </div>
           </>
