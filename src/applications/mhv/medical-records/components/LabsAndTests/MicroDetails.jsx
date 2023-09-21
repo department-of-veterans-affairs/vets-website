@@ -146,7 +146,6 @@ const MicroDetails = props => {
           </div>
           <div className="no-print">
             <PrintDownload
-              list
               download={generateMicrobiologyPdf}
               allowTxtDownloads={allowTxtDownloads}
             />

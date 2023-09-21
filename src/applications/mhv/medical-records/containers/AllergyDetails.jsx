@@ -7,7 +7,7 @@ import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/export
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import ItemList from '../components/shared/ItemList';
-import { getAllergyDetails } from '../actions/allergies';
+import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -51,6 +51,9 @@ const AllergyDetails = () => {
           },
         ]),
       );
+      return () => {
+        dispatch(clearAllergyDetails());
+      };
     },
     [dispatch],
   );
