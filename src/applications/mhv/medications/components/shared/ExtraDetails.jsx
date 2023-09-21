@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
+import CallPharmacyPhone from './CallPharmacyPhone';
 
 const ExtraDetails = rx => {
-  const { dispStatus } = rx;
+  const { dispStatus, cmopDivisionPhone } = rx;
   return (
     <div className="shipping-info">
       {dispStatus === 'Unknown' && (
@@ -12,10 +13,8 @@ const ExtraDetails = rx => {
             We’re sorry. There’s a problem with our system. You can’t manage
             this prescription online right now.
             <p className="vads-u-margin-top--1">
-              Check back later. Or call your VA pharmacy at{' '}
-              <va-telephone contact="3538675309" /> (
-              <va-telephone contact="711" tty />
-              ).
+              Check back later. Or call your VA pharmacy
+              <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
             </p>
           </div>
         </div>
@@ -30,10 +29,8 @@ const ExtraDetails = rx => {
             {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
           </p>
           <p className="vads-u-margin-top--1 vads-u-padding-right--2">
-            If you need it sooner, or call your VA pharmacy at{' '}
-            <va-telephone contact="3538675309" /> (
-            <va-telephone contact="711" tty />
-            ).
+            If you need it sooner, or call your VA pharmacy
+            <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
           </p>
         </div>
       )}
@@ -85,9 +82,8 @@ const ExtraDetails = rx => {
         <div className="no-print">
           <p className="vads-u-margin-y--0">
             We put a hold on this prescription. If you need it now, call your VA
-            pharmacy at <va-telephone contact="3538675309" /> (
-            <va-telephone contact="711" tty />
-            ).
+            pharmacy at
+            <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
           </p>
         </div>
       )}
@@ -98,6 +94,7 @@ const ExtraDetails = rx => {
 ExtraDetails.propTypes = {
   rx: PropTypes.shape({
     dispStatus: PropTypes.string,
+    cmopDivisionPhone: PropTypes.string,
   }),
 };
 
