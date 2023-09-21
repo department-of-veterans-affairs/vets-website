@@ -12,19 +12,16 @@ import { CONTACT_EDIT } from '../constants';
 const ContactInfoReview = ({ data, editPage }) => {
   const editRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (
-        window.sessionStorage.getItem(CONTACT_EDIT) === 'true' &&
-        editRef?.current
-      ) {
-        // focus on edit button _after_ editing and returning
-        window.sessionStorage.removeItem(CONTACT_EDIT);
-        setTimeout(() => focusElement(editRef.current));
-      }
-    },
-    [editRef],
-  );
+  useEffect(() => {
+    if (
+      window.sessionStorage.getItem(CONTACT_EDIT) === 'true' &&
+      editRef?.current
+    ) {
+      // focus on edit button _after_ editing and returning
+      window.sessionStorage.removeItem(CONTACT_EDIT);
+      setTimeout(() => focusElement(editRef.current));
+    }
+  }, [editRef]);
 
   const { veteran } = data;
 
@@ -41,7 +38,7 @@ const ContactInfoReview = ({ data, editPage }) => {
       content.email,
       () =>
         email || (
-          <span className="usa-input-error-message">
+          <span className="usaa-input-error-message">
             {content.missingEmail}
           </span>
         ),
