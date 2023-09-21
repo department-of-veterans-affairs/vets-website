@@ -166,7 +166,9 @@ IntroductionLoginV2.propTypes = {
   isEligibilityCallComplete: PropTypes.bool,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
+  isPersonalInfoFetchFailed: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
+  showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMebEnhancements: PropTypes.bool, // Add showMebEnhancements to propTypes
   showMebEnhancements06: PropTypes.bool, // Add showMebEnhancements06 to propTypes
   showMebEnhancements09: PropTypes.bool, // Added new feature flag to propTypes
@@ -177,6 +179,8 @@ const mapStateToProps = state => ({
   ...getAppData(state),
   showMebEnhancements09:
     state.featureToggles[featureFlagNames.showMebEnhancements09], // Added new feature flag to mapStateToProps
+  showMeb1990EZMaintenanceAlert:
+    state.featureToggles[featureFlagNames.showMeb1990EZMaintenanceAlert],
 });
 const mapDispatchToProps = {
   showHideLoginModal: toggleLoginModal,

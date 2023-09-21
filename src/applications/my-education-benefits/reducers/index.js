@@ -67,6 +67,7 @@ export default {
       case FETCH_PERSONAL_INFORMATION_FAILED:
         return {
           ...state,
+          isPersonalInfoFetchFailed: true,
           personalInfoFetchComplete: true,
           personalInfoFetchInProgress: false,
           formData: action?.response || {},
