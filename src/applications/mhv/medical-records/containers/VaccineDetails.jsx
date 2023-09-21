@@ -143,7 +143,6 @@ const VaccineDetails = () => {
             </h2>
           </div>
           <PrintDownload
-            list
             download={generateVaccinePdf}
             allowTxtDownloads={allowTxtDownloads}
           />
