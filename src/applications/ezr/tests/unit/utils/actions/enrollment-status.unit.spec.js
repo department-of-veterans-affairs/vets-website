@@ -5,7 +5,7 @@ import {
   mockApiRequest,
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
-import { fetchEnrollmentStatus } from '../../../../utils/actions/entrollment-status';
+import { fetchEnrollmentStatus } from '../../../../utils/actions/enrollment-status';
 import { ENROLLMENT_STATUS_ACTIONS } from '../../../../utils/constants';
 
 describe('ezr enrollment status actions', () => {
