@@ -270,7 +270,7 @@ jobs:
     name: Unit Tests Stress Test
     runs-on: self-hosted
     needs: [unit-tests]
-    if: ${{ needs.unit-tests.outputs.tests != '[]' }}
+    if: ${{ always() && needs.unit-tests.outputs.tests-to-stress-test != '[]' }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -357,14 +357,12 @@ jobs:
           ls -a
       # - name: Generate coverage report by app
       #   run: node script/app-coverage-report.js > test-results/coverage_report.txt
-
       # - name: Upload Coverage Report Artifact
       #   uses: actions/upload-artifact@v3
       #   if: ${{ always() }}
       #   with:
       #     name: unit-test-coverage-report
       #     path: coverage/test-coverage-report.json
-
       # - name: Configure AWS credentials (1)
       #   if: ${{ github.ref == 'refs/heads/main' }}
       #   uses: aws-actions/configure-aws-credentials@v1
@@ -372,14 +370,12 @@ jobs:
       #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       #     aws-region: us-gov-west-1
-
       # - name: Get AWS IAM role
       #   if: ${{ github.ref == 'refs/heads/main' }}
       #   uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
       #   with:
       #     ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
       #     env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
       # - name: Configure AWS Credentials (2)
       #   if: ${{ github.ref == 'refs/heads/main' }}
       #   uses: aws-actions/configure-aws-credentials@v1
@@ -390,16 +386,13 @@ jobs:
       #     role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
       #     role-duration-seconds: 900
       #     role-session-name: vsp-frontendteam-githubaction
-
       # - name: Upload coverage report to S3
       #   if: ${{ github.ref == 'refs/heads/main' && steps.get-changed-apps.outputs.folders == '' }}
       #   run: aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
-
       # - name: Get code coverage
       #   if: ${{ always() }}
       #   id: code-coverage
       #   run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
-
       # - name: Publish test results
       #   if: ${{ always() }}
       #   continue-on-error: true
@@ -493,7 +486,6 @@ jobs:
       #     TEST_RETRIES_TABLE_NAME: cypress_retry_records
       #     NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
       #     IS_STRESS_TEST: true
-
       # - name: Upload Unit Test report to s3
       #   run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
       # - name: Publish Unit Test Results
@@ -1300,7 +1292,6 @@ jobs:
         # ------------------------
         # | Upload BigQuery Data |
         # ------------------------
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -1342,7 +1333,6 @@ jobs:
         # --------------------------------------
         # | Publish Cypress E2E Testing Report |
         # -------------------------------------
-
       - name: Download Cypress E2E Mochawesome test results
         uses: actions/download-artifact@v3
         with:
@@ -1384,7 +1374,6 @@ jobs:
         # -------------------------
         # | Cypress Tests Summary |
         # -------------------------
-
       - name: Publish Cypress test results
         if: ${{ always() }}
         uses: LouisBrunner/checks-action@v1.2.0
