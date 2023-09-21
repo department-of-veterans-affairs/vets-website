@@ -155,7 +155,15 @@ const VitalDetails = () => {
     });
 
     try {
-      await generatePdf('medicalRecords', 'vitals_report', pdfData);
+      await generatePdf(
+        'medicalRecords',
+        `VA-Vital-details-${user.userFullName.first}-${
+          user.userFullName.last
+        }-${moment()
+          .format('M-D-YYYY_hhmmssa')
+          .replace(/\./g, '')}`,
+        pdfData,
+      );
     } catch (error) {
       sendErrorToSentry(error, 'Vital details');
     }
