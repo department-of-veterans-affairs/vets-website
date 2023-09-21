@@ -28,8 +28,16 @@ import {
 import VAPServiceProfileFieldHeading from '../components/base/VAPServiceProfileFieldHeading';
 import VAPServiceTransaction from '../components/base/VAPServiceTransaction';
 import ProfileInformationFieldController from '../components/ProfileInformationFieldController';
+import ContactInformationUpdateSuccessAlert from '../components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 
 class VAPServiceProfileField extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showSuccessAlert: false,
+    };
+  }
+
   componentDidUpdate(prevProps) {
     const { transaction, showValidationModal, isEditing } = prevProps;
     const modalOpenInPrevProps =
@@ -147,6 +155,7 @@ class VAPServiceProfileField extends React.Component {
 
   openEditModal = () => {
     this.props.openModal(this.props.fieldName);
+    this.setState(state => ({ ...state, showSuccessAlert: false }));
   };
 
   refreshTransaction = () => {
@@ -176,6 +185,10 @@ class VAPServiceProfileField extends React.Component {
     );
   };
 
+  onSuccessfulSave = () => {
+    this.setState({ showSuccessAlert: true });
+  };
+
   render() {
     const {
       analyticsSectionName,
@@ -202,6 +215,8 @@ class VAPServiceProfileField extends React.Component {
       onSubmit: this.onSubmit,
     };
 
+    const shouldShowFields = isEditing || showValidationModal;
+
     return (
       <div className="vet360-profile-field" data-field-name={fieldName}>
         <VAPServiceProfileFieldHeading
@@ -210,13 +225,26 @@ class VAPServiceProfileField extends React.Component {
         >
           {title}
         </VAPServiceProfileFieldHeading>
-        {isEditing || showValidationModal ? (
+        {this.state.showSuccessAlert && (
+          <ContactInformationUpdateSuccessAlert fieldName={fieldName} />
+        )}
+        <div
+          className={
+            shouldShowFields ? 'vads-u-display--block' : 'vads-u-display--none'
+          }
+        >
           <ProfileInformationFieldController
             forceEditView
             fieldName={fieldName}
             isDeleteDisabled
+            successCallback={() => this.onSuccessfulSave()}
           />
-        ) : (
+        </div>
+        <div
+          className={
+            !shouldShowFields ? 'vads-u-display--block' : 'vads-u-display--none'
+          }
+        >
           <VAPServiceTransaction
             isModalOpen={isEditing || showValidationModal}
             id={`${fieldName}-transaction-status`}
@@ -239,7 +267,7 @@ class VAPServiceProfileField extends React.Component {
               <Content {...childProps} />
             )}
           </VAPServiceTransaction>
-        )}
+        </div>
       </div>
     );
   }
