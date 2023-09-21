@@ -230,9 +230,7 @@ export const labsAndTestsReducer = (state = initialState, action) => {
     case Actions.LabsAndTests.CLEAR_DETAIL: {
       return {
         ...state,
-        labsAndTestsDetails: () => {
-          return undefined;
-        },
+        labsAndTestsDetails: undefined,
       };
     }
     default:

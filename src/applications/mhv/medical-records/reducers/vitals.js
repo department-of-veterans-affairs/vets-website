@@ -66,9 +66,7 @@ export const vitalReducer = (state = initialState, action) => {
     case Actions.Vitals.CLEAR_DETAIL: {
       return {
         ...state,
-        vitalDetails: () => {
-          return undefined;
-        },
+        vitalDetails: undefined,
       };
     }
     default:
