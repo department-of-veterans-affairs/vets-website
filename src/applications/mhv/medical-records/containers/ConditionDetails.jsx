@@ -17,6 +17,7 @@ import { pageTitles } from '../util/constants';
 
 const ConditionDetails = () => {
   const condition = useSelector(state => state.mr.conditions.conditionDetails);
+  const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
     state =>
       state.featureToggles[
@@ -115,7 +116,15 @@ const ConditionDetails = () => {
     };
 
     try {
-      await generatePdf('medicalRecords', 'conditions_report', pdfData);
+      await generatePdf(
+        'medicalRecords',
+        `VA-Conditions-details-${user.userFullName.first}-${
+          user.userFullName.last
+        }-${moment()
+          .format('M-D-YYYY_hhmmssa')
+          .replace(/\./g, '')}`,
+        pdfData,
+      );
     } catch (error) {
       // Error logging/presentation goes here...
     }
