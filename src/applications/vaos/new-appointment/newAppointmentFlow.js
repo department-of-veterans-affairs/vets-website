@@ -417,7 +417,7 @@ export default function getNewAppointmentFlow(state) {
           // Ex. /schedule/new-covid-19-vaccine-appointment/
           //
           // Leaving the '/' off makes '/schedule' the parent.
-          'new-covid-19-vaccine-appointment/'
+          'covid-vaccine/'
         : '/new-covid-19-vaccine-appointment',
     },
     vaFacility: {

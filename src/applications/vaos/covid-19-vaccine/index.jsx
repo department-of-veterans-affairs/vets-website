@@ -32,6 +32,7 @@ import {
   selectFacilitySettingsStatus,
 } from '../appointment-list/redux/selectors';
 import { fetchFacilitySettings } from '../appointment-list/redux/actions';
+import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 
 export function NewBookingSection() {
   const match = useRouteMatch();
@@ -40,6 +41,9 @@ export function NewBookingSection() {
   const canUseVaccineFlow = useSelector(selectCanUseVaccineFlow);
   const facilitySettingsStatus = useSelector(selectFacilitySettingsStatus);
   const isNewAppointmentStarted = useSelector(selectIsNewAppointmentStarted);
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
 
   useEffect(
     () => {
@@ -108,7 +112,11 @@ export function NewBookingSection() {
     <FormLayout>
       <Switch>
         <Route
-          path={`${match.url}/confirm-doses-received`}
+          path={
+            featureBreadcrumbUrlUpdate
+              ? `${match.url}/doses-received`
+              : `${match.url}/confirm-doses-received`
+          }
           component={ReceivedDoseScreenerPage}
         />
         <Route
@@ -116,22 +124,52 @@ export function NewBookingSection() {
           component={ContactFacilitiesPage}
         />
         <Route
-          path={`${match.url}/choose-facility`}
+          path={
+            featureBreadcrumbUrlUpdate
+              ? `${match.url}/location`
+              : `${match.url}/choose-facility`
+          }
           component={VAFacilityPage}
         />
         <Route
-          path={`${match.url}/choose-clinic`}
+          path={
+            featureBreadcrumbUrlUpdate
+              ? `${match.url}/clinic`
+              : `${match.url}/choose-clinic`
+          }
           component={ClinicChoicePage}
         />
-        <Route path={`${match.url}/select-date`} component={SelectDate1Page} />
         <Route
-          path={`${match.url}/second-dose-info`}
+          path={
+            featureBreadcrumbUrlUpdate
+              ? `${match.url}/date-time`
+              : `${match.url}/select-date`
+          }
+          component={SelectDate1Page}
+        />
+        <Route
+          path={
+            featureBreadcrumbUrlUpdate
+              ? `${match.url}/second-dose`
+              : `${match.url}/second-dose-info`
+          }
           component={SecondDosePage}
         />
-        <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />
+        <Route
+          path={
+            featureBreadcrumbUrlUpdate
+              ? `${match.url}/contact-information`
+              : `${match.url}/contact-info`
+          }
+          component={ContactInfoPage}
+        />
         <Route path={`${match.url}/review`} component={ReviewPage} />
         <Route
-          path={`${match.url}/confirmation`}
+          path={
+            featureBreadcrumbUrlUpdate
+              ? `${match.path}/:id`
+              : `${match.url}/confirmation`
+          }
           component={ConfirmationPageV2}
         />
         <Route path={`${match.url}`} component={PlanAheadPage} />

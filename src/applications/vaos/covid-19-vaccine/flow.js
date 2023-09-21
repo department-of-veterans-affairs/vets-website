@@ -100,7 +100,7 @@ export default function getNewBookingFlow(state) {
     clinicChoice: {
       ...flow.clinicChoice,
       url: featureBreadcrumbUrlUpdate
-        ? 'choose-clinic'
+        ? 'clinic'
         : '/new-covid-19-vaccine-appointment/choose-clinic',
     },
     contactFacilities: {
@@ -112,7 +112,7 @@ export default function getNewBookingFlow(state) {
     contactInfo: {
       ...flow.contactInfo,
       url: featureBreadcrumbUrlUpdate
-        ? 'contact-info'
+        ? 'contact-information'
         : '/new-covid-19-vaccine-appointment/contact-info',
     },
     home: {
@@ -130,7 +130,7 @@ export default function getNewBookingFlow(state) {
     receivedDoseScreener: {
       ...flow.receivedDoseScreener,
       url: featureBreadcrumbUrlUpdate
-        ? 'confirm-doses-received'
+        ? 'doses-received'
         : '/new-covid-19-vaccine-appointment/confirm-doses-received',
     },
     review: {
@@ -142,19 +142,19 @@ export default function getNewBookingFlow(state) {
     secondDosePage: {
       ...flow.secondDosePage,
       url: featureBreadcrumbUrlUpdate
-        ? 'second-dose-info'
+        ? 'second-dose'
         : '/new-covid-19-vaccine-appointment/second-dose-info',
     },
     selectDate1: {
       ...flow.selectDate1,
       url: featureBreadcrumbUrlUpdate
-        ? 'select-date'
+        ? 'date-time'
         : '/new-covid-19-vaccine-appointment/select-date',
     },
     vaFacility: {
       ...flow.vaFacility,
       url: featureBreadcrumbUrlUpdate
-        ? 'choose-facility'
+        ? 'location'
         : '/new-covid-19-vaccine-appointment/choose-facility',
     },
   };
