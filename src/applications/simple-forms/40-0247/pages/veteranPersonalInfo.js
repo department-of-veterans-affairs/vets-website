@@ -18,8 +18,16 @@ export default {
       </h3>
     ),
     veteranFullName: fullNameNoSuffixUI(),
-    veteranDateOfBirth: dateOfBirthUI(),
-    veteranDateOfDeath: dateOfDeathUI(),
+    veteranDateOfBirth: dateOfBirthUI({
+      errorMessages: {
+        required: 'Please provide the date of birth',
+      },
+    }),
+    veteranDateOfDeath: dateOfDeathUI({
+      errorMessages: {
+        required: 'Please provide the date of death',
+      },
+    }),
   },
   schema: {
     type: 'object',
@@ -28,6 +36,6 @@ export default {
       veteranDateOfBirth: dateOfBirthSchema,
       veteranDateOfDeath: dateOfDeathSchema,
     },
-    required: ['veteranFullName'],
+    required: ['veteranFullName', 'veteranDateOfBirth', 'veteranDateOfDeath'],
   },
 };
