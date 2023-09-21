@@ -24,6 +24,8 @@ const isStressTest = process.env.IS_STRESS_TEST;
 const ALLOW_LIST = JSON.parse(
   fs.readFileSync(path.resolve(`unit_test_allow_list.json`)),
 );
+
+const ALL_SPECS = ALLOW_LIST.map(spec => spec.spec_path);
 const DISALLOWED_SPECS = ALLOW_LIST.filter(
   spec => spec.allowed === false,
 ).map(spec => spec.spec_path.substring(spec.spec_path.indexOf('src')));
@@ -35,7 +37,7 @@ const CHANGED_APPS = process.env.CHANGED_FILES
         .join('/'),
     )
   : [];
-const TESTS_TO_STRESS_TEST = DISALLOWED_SPECS.filter(specPath =>
+const TESTS_TO_STRESS_TEST = ALL_SPECS.filter(specPath =>
   CHANGED_APPS.some(filePath => specPath.includes(filePath)),
 );
 const core = require('@actions/core');

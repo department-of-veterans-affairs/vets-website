@@ -69,7 +69,7 @@ if (process.env.TESTS_TO_VERIFY) {
 
 const command = `LOG_LEVEL=${options[
   'log-level'
-].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} --recursive ${testsToVerify ||
-  options.path.map(p => `'${p}'`).join(' ')}`;
+].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} ${testsToVerify ||
+  `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`}`;
 console.log('command: ', command);
 runCommand(command);
