@@ -1,0 +1,59 @@
+{
+  "formNumber": "21-0972",
+  "preparerFullName": {
+    "first": "Arthur",
+    "middle": "Kei",
+    "last": "Preparer"
+  },
+  "preparerAddress": {
+    "street": "124 Main St",
+    "street2": "Apt #22",
+    "street3": "Room #6",
+    "city": "Anytown",
+    "state": "CA",
+    "country": "USA",
+    "postalCode": "12345"
+  },
+  "preparerPhone": "9876054321",
+  "preparerEmail": "arthur.k.preparer@email.com",
+  "claimantIdentification": "SPOUSE",
+  "claimantFullName": {
+    "first": "Jen",
+    "middle": "Ce",
+    "last": "Claimant"
+  },
+  "claimantSsn": "456789123",
+  "claimantAddress": {
+    "street": "555 Middle Ave",
+    "street2": "Bldg #3",
+    "street3": "Apt #4",
+    "city": "Place",
+    "state": "MS",
+    "country": "USA",
+    "postalCode": "54321"
+  },
+  "claimantPhone": "1203456789",
+  "claimantEmail": "jen.c.claimant@email.com",
+  "preparerQualifications": {
+     "attorney": false,
+     "caregiver": false,
+     "court-appointed-rep": true,
+     "manager": false
+   },
+   "preparerSigningReason": {
+     "mentally-incapable": false,
+     "physically-incapable": false,
+     "under18": true
+   },
+  "veteranFullName": {
+    "first": "Alex",
+    "middle": "Bee",
+    "last": "Veteran"
+  },
+  "veteranDateOfBirth": "1950-10-25",
+  "veteranHasFiledClaim": true,
+  "veteranSsn": "999442222",
+  "veteranVaFileNumber": "444558888",
+  "veteranServiceNumber": "AB12345",
+  "additionalInformation": "I've got even more to say!"
+}
