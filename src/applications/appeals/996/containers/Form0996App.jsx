@@ -9,10 +9,10 @@ import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
 import { SAVED_CLAIM_TYPE } from '../constants';
-import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
-import { getSelected, getIssueNameAndDate } from '../utils/helpers';
-import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
 import forcedMigrations from '../migrations/forceMigrations';
+import { getIssueNameAndDate } from '../utils/helpers';
+import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
+import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
 
 import {
   getContestableIssues as getContestableIssuesAction,
@@ -20,6 +20,7 @@ import {
 } from '../actions';
 
 import {
+  getSelected,
   issuesNeedUpdating,
   processContestableIssues,
 } from '../../shared/utils/issues';

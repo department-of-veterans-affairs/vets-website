@@ -56,6 +56,12 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   EDIT: 'Edit your information',
 });
 
+export const PROFILE_PATHS_WITH_NAMES = Object.entries(PROFILE_PATHS).map(
+  ([key, path]) => {
+    return { path, name: PROFILE_PATH_NAMES[key] };
+  },
+);
+
 export const ACCOUNT_TYPES_OPTIONS = {
   checking: 'Checking',
   savings: 'Savings',

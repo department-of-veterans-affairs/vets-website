@@ -25,14 +25,6 @@ const contactInfo = {
         <div>{data.veteran.address.countryName || ''}</div>
       </>
     ),
-    'Primary phone number':
-      data['view:primaryPhone'] === null ? (
-        <span className="usa-input-error-message">
-          No primary phone number selected
-        </span>
-      ) : (
-        data['view:primaryPhone']
-      ),
   }),
 };
 
