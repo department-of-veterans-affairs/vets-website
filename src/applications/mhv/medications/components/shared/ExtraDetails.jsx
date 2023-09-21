@@ -82,7 +82,7 @@ const ExtraDetails = rx => {
         <div className="no-print">
           <p className="vads-u-margin-y--0">
             We put a hold on this prescription. If you need it now, call your VA
-            pharmacy at
+            pharmacy
             <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
           </p>
         </div>
