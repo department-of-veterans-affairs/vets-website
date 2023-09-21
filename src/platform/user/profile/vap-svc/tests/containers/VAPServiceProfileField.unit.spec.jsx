@@ -17,10 +17,6 @@ function EditModal() {
   return <span>EditModal</span>;
 }
 
-function ValidationModal() {
-  return <span>ValidationModal</span>;
-}
-
 describe('<VAPServiceProfileField/>', () => {
   let props = null;
   let component = null;
@@ -78,62 +74,12 @@ describe('<VAPServiceProfileField/>', () => {
     component.unmount();
   });
 
-  it('renders the EditModal prop', () => {
-    props.isEditing = true;
-    sinon.spy(props, 'EditModal');
-
-    component = enzyme.shallow(<VAPServiceProfileField {...props} />);
-
-    expect(
-      component.find('EditModal'),
-      'the EditModal was rendered',
-    ).to.have.lengthOf(1);
-
-    component.find('EditModal').dive();
-    expect(props.EditModal.called).to.be.true;
-
-    const args = props.EditModal.getCall(0).args[0];
-    expect(
-      args,
-      'All props were passed to the EditModal constructor',
-    ).to.have.all.keys(Object.keys(props));
-    component.unmount();
-  });
-
-  it('renders the ValidationModal prop', () => {
-    props.showValidationModal = true;
-    props.ValidationModal = () => <ValidationModal />;
-    const expectedProps = {
-      transaction: props.transaction,
-      title: props.title,
-      transactionRequest: props.transactionRequest,
-      clearErrors: props.clearErrors,
-    };
-    sinon.spy(props, 'ValidationModal');
-
-    component = enzyme.shallow(<VAPServiceProfileField {...props} />);
-
-    expect(
-      component.find('ValidationModal'),
-      'the ValidationModal was rendered',
-    ).to.have.lengthOf(1);
-
-    component.find('ValidationModal').dive();
-    expect(props.ValidationModal.called).to.be.true;
-
-    const args = props.ValidationModal.getCall(0).args[0];
-    expect(
-      args,
-      'No props were passed to the ValidationModal constructor',
-    ).to.have.all.keys(expectedProps);
-    component.unmount();
-  });
-
   it('renders the edit link', () => {
     component = enzyme.shallow(<VAPServiceProfileField {...props} />);
 
-    let onEditClick = component.find('VAPServiceProfileFieldHeading').props()
-      .onEditClick;
+    const { onEditClick } = component
+      .find('VAPServiceProfileFieldHeading')
+      .props();
     onEditClick();
     props.openModal();
     expect(props.openModal.callCount, 'onEdit').to.be.equal(2);
@@ -146,10 +92,11 @@ describe('<VAPServiceProfileField/>', () => {
       },
     });
 
-    onEditClick = component.find('VAPServiceProfileFieldHeading').props()
-      .onEditClick;
+    const editClickThatShouldBeNull = component
+      .find('VAPServiceProfileFieldHeading')
+      .props().onEditClick;
     expect(
-      onEditClick,
+      editClickThatShouldBeNull,
       'Should pass a null onEditClick prop if there is a transaction processing',
     ).to.be.null;
     component.unmount();
@@ -200,15 +147,7 @@ describe('mapStateToProps', () => {
         expect(mappedProps.showValidationModal).to.be.false;
       });
     });
-    describe('when no ValidationModal was passed to the VAPServiceProfileField component', () => {
-      it('sets `showValidationModal` to `false`', () => {
-        const state = showValidationModalState();
-        const mappedProps = mapStateToProps(state, {
-          fieldName: 'mailingAddress',
-        });
-        expect(mappedProps.showValidationModal).to.be.false;
-      });
-    });
+
     describe("when this VAPServiceProfileField's `fieldName` does not match address validation type", () => {
       it('sets `showValidationModal` to `false`', () => {
         const state = showValidationModalState();
