@@ -9,7 +9,7 @@ import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { getVitalDetails } from '../actions/vitals';
+import { clearVitalDetails, getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import {
@@ -55,6 +55,9 @@ const VitalDetails = () => {
         },
       ]),
     );
+    return () => {
+      dispatch(clearVitalDetails());
+    };
   }, []);
 
   useEffect(
@@ -175,7 +178,6 @@ const VitalDetails = () => {
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           <h1>{vitalTypeDisplayNames[records[0].type]}</h1>
           <PrintDownload
-            list
             download={generateVitalsPdf}
             allowTxtDownloads={allowTxtDownloads}
           />
