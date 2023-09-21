@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const DownloadingRecordsInfo = props => {
   const { allowTxtDownloads } = props;
@@ -34,6 +35,10 @@ const DownloadingRecordsInfo = props => {
       )}
     </va-additional-info>
   );
+};
+
+DownloadingRecordsInfo.propTypes = {
+  allowTxtDownloads: PropTypes.bool,
 };
 
 export default DownloadingRecordsInfo;
