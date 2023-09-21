@@ -9,11 +9,6 @@ import {
   SHORT_NAME_MAP,
 } from '../../../utilities/question-data-map';
 import { ROUTES } from '../../../constants';
-import {
-  displayConditionsMet,
-  navigateBackward,
-  navigateForward,
-} from '../../../utilities/display-logic';
 import { pageSetup } from '../../../utilities/page-setup';
 
 const BurnPit211 = ({
@@ -37,40 +32,12 @@ const BurnPit211 = ({
 
   useEffect(
     () => {
-      if (!viewedIntroPage || !displayConditionsMet(shortName, formResponses)) {
+      if (!viewedIntroPage) {
         router.push(ROUTES.HOME);
       }
     },
-    [formResponses, router, shortName, viewedIntroPage],
+    [router, viewedIntroPage],
   );
-
-  const onContinueClick = () => {
-    if (!burnPit211) {
-      setFormError(true);
-    } else {
-      setFormError(false);
-      navigateForward(shortName, formResponses, router);
-    }
-  };
-
-  const onBackClick = () => {
-    navigateBackward(shortName, formResponses, router);
-  };
-
-  const onValueChange = event => {
-    const { value } = event?.detail;
-    setBurnPit211(value);
-
-    if (value) {
-      setFormError(false);
-    }
-  };
-
-  const onBlurInput = () => {
-    if (burnPit211) {
-      setFormError(false);
-    }
-  };
 
   const locationList = (
     <ul>
@@ -84,22 +51,19 @@ const BurnPit211 = ({
   );
 
   return (
-    <>
-      <h1>{H1}</h1>
-      <TernaryRadios
-        formError={formError}
-        formValue={burnPit211}
-        h1={H1}
-        locationList={locationList}
-        onBackClick={onBackClick}
-        onBlurInput={onBlurInput}
-        onContinueClick={onContinueClick}
-        onValueChange={onValueChange}
-        responses={[YES, NO, NOT_SURE]}
-        shortName={shortName}
-        testId="paw-burnPit2_1_1"
-      />
-    </>
+    <TernaryRadios
+      formError={formError}
+      formResponses={formResponses}
+      formValue={burnPit211}
+      h1={H1}
+      locationList={locationList}
+      responses={[YES, NO, NOT_SURE]}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="paw-burnPit2_1_1"
+      valueSetter={setBurnPit211}
+    />
   );
 };
 
