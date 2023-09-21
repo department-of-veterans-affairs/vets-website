@@ -85,10 +85,6 @@ const LandingPage = () => {
                   Go to medical records on the My HealtheVet website
                 </a>
               </p>
-              <p className="vads-u-margin-bottom--2">
-                You can find these types of medical records on the My HealtheVet
-                website:
-              </p>
             </section>
             <section>
               <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -272,7 +268,7 @@ const LandingPage = () => {
                     <a
                       href={mhvUrl(
                         isAuthenticatedWithSSOe(fullState),
-                        'download-my-data',
+                        'va-blue-button',
                       )}
                       rel="noreferrer"
                     >
@@ -339,10 +335,10 @@ const LandingPage = () => {
                     <a
                       href={mhvUrl(
                         isAuthenticatedWithSSOe(fullState),
-                        'secure-messaging',
+                        'compose-message',
                       )}
                     >
-                      Compose a message
+                      Compose a message on the My HealtheVet website
                     </a>
                   </p>
                   <p className="vads-u-margin-bottom--2">
@@ -494,11 +490,11 @@ const LandingPage = () => {
                 <a
                   href={mhvUrl(
                     isAuthenticatedWithSSOe(fullState),
-                    'secure-messaging',
+                    'compose-message',
                   )}
                   rel="noreferrer"
                 >
-                  Compose a message
+                  Compose a message on the My HealtheVet website
                 </a>
               </p>
               <p>
