@@ -38,10 +38,27 @@ const formConfig = {
   urlPrefix: '/',
   // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+    Promise.resolve({
+      attributes: {
+        confirmationNumber: '123123123',
+        veteranStatus: 'confirmed',
+      },
+    }),
   trackingPrefix: '21-0966-intent-to-file-a-claim-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: formData =>
+        preparerIsVeteran({ formData })
+          ? 'veteranFullName'
+          : 'preparerFullName',
+    },
+  },
   formId: '21-0966',
   dev: {
     showNavLinks: true,
