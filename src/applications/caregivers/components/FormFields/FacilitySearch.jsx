@@ -2,19 +2,14 @@ import React, { useState } from 'react';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const FacilitySearch = () => {
-  // Using React's useState to manage the input state
   const [input, setInput] = useState('');
 
-  // Handler for the input change
   const handleInputChange = e => {
     setInput(e.target.value);
   };
 
-  // Handler for the form submission
   const handleSubmit = e => {
     e.preventDefault();
-    // Whatever you want to do onSubmit
-    // For example, you can make an API call here with the input value
   };
 
   return (
