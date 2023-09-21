@@ -1,7 +1,7 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { validateDateOfBirth } from 'platform/forms/validations';
-import { schema } from '../../shared/definitions/pdfFullNameNoSuffix';
+import { pdfFullNameNoSuffixSchema } from '../../shared/definitions/pdfFullNameNoSuffix';
 import ClaimantPersInfoUiTitle from '../components/ClaimantPersInfoUiTitle';
 
 /** @type {PageSchema} */
@@ -23,7 +23,7 @@ export default {
     type: 'object',
     required: ['claimantFullName', 'claimantDateOfBirth'],
     properties: {
-      claimantFullName: schema(),
+      claimantFullName: pdfFullNameNoSuffixSchema(),
       claimantDateOfBirth: definitions.date,
     },
   },
