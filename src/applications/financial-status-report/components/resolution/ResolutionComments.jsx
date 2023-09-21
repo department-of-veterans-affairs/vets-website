@@ -65,6 +65,7 @@ const ResolutionComments = ({
         </legend>
         <VaTextarea
           error={error}
+          id="resolution-comments"
           inputMode="text"
           label="Please tell us more about why you need help with this debt(s)"
           maxlength="32000"
