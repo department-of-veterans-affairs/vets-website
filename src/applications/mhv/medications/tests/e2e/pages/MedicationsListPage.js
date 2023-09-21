@@ -1,16 +1,19 @@
+import prescriptions from '../fixtures/prescriptions.json';
+
 class MedicationsListPage {
   clickGotoMedicationsLink = () => {
+    cy.intercept('GET', '/my-health/medications', prescriptions);
     cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
   };
 
   verifyTextInsideDropDownOnListPage = () => {
     cy.contains(
-      'print your records instead of downloading. Downloading will save a copy of your records to the public computer.',
+      'If you print this page, it won’t include your allergies and reactions to medications.',
     );
   };
 
   clickWhatToKnowAboutMedicationsDropDown = () => {
-    cy.contains('What to know about downloading records').click({
+    cy.contains('What to know before you download').click({
       force: true,
     });
   };
@@ -30,8 +33,14 @@ class MedicationsListPage {
   };
 
   verifyNavigationToListPageAfterClickingBreadcrumbMedications = () => {
-    cy.get('[data-testid="List-Page-Title"]')
+    cy.get('[data-testid="list-page-title"]')
       .should('have.text', 'Medications')
+      .should('be.visible');
+  };
+
+  verifyDownloadListAsPDFButtonOnListPage = () => {
+    cy.get('[data-testid="download-pdf-button"]')
+      .should('contain', 'Download your medication list as a PDF')
       .should('be.visible');
   };
 }

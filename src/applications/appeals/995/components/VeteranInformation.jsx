@@ -9,7 +9,7 @@ import { selectProfile } from 'platform/user/selectors';
 
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
-import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
+import { FORMAT_YMD, FORMAT_READABLE } from '../../shared/constants';
 
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
 // instead of "number ending with 1,234"

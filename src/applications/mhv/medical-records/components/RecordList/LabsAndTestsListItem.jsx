@@ -24,7 +24,13 @@ const LabsAndTestsListItem = props => {
       className="record-list-item vads-u-padding--3 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
       data-testid="record-list-item"
     >
-      <h4 className="vads-u-margin-bottom--0">{record.name}</h4>
+      <h3
+        className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4"
+        aria-label={`${record.name} ${formattedDate}`}
+      >
+        {record.name}
+      </h3>
+
       <div className="fields">
         <div>{formattedDate}</div>
         {record.type === labTypes.RADIOLOGY && (
@@ -40,12 +46,19 @@ const LabsAndTestsListItem = props => {
       <Link
         to={`/labs-and-tests/${record.id}`}
         className="vads-u-margin-y--0p5 no-print"
+        aria-describedby={`details-button-description-${record.id}`}
       >
         <strong>Details</strong>
         <i
           className="fas fa-angle-right details-link-icon"
           aria-hidden="true"
         />
+        <span
+          id={`details-button-description-${record.id}`}
+          className="sr-only"
+        >
+          {record.name} {formattedDate}
+        </span>
       </Link>
     </div>
   );

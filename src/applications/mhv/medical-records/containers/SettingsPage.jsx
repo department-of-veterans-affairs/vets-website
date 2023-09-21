@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   fetchSharingStatus,
@@ -8,6 +9,8 @@ import {
 } from '../actions/sharing';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { updatePageTitle } from '../../shared/util/helpers';
+import { pageTitles } from '../util/constants';
 
 const SettingsPage = () => {
   const dispatch = useDispatch();
@@ -18,20 +21,15 @@ const SettingsPage = () => {
 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records', label: 'Medical records' }],
-          {
-            url: '/my-health/medical-records/settings',
-            label: 'Medical records settings',
-          },
-        ),
-      );
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs([
+        { url: '/my-health/medical-records', label: 'Medical records' },
+      ]),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.SETTINGS_PAGE_TITLE);
+  }, []);
 
   useEffect(
     () => {
@@ -92,7 +90,11 @@ const SettingsPage = () => {
             If you’re still having trouble, call your VA health facility and ask
             for the medical records office.
           </p>
-          <p>Find your VA health facility</p>
+          <p>
+            <a href="/find-locations/?facilityType=health">
+              Find your VA health facility
+            </a>
+          </p>
         </va-alert>
       );
     }
@@ -150,7 +152,7 @@ const SettingsPage = () => {
   };
 
   return (
-    <div className="settings vads-u-margin-bottom--5">
+    <div className="settings vads-u-margin-bottom--5 vads-l-col--12 medium-screen:vads-l-col--8">
       <section>
         <h1>Medical records settings</h1>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 va-introtext">
@@ -158,7 +160,7 @@ const SettingsPage = () => {
           settings.
         </p>
       </section>
-      <section className="set-width-486">
+      <section>
         <h2>Manage your sharing settings</h2>
         <p>
           The Veterans Health Information Exchange program is a secure online
@@ -188,7 +190,7 @@ const SettingsPage = () => {
         </ul>
         {sharingCardContent()}
       </section>
-      <section className="set-width-486">
+      <section>
         <h2>Manage notification settings</h2>
         <p>
           You can sign up to get email notifications when you have new lab and
@@ -205,8 +207,6 @@ const SettingsPage = () => {
               isAuthenticatedWithSSOe(fullState),
               'download-my-data',
             )}
-            target="_blank"
-            rel="noreferrer"
           >
             Go to your profile on the My Healthevet website
           </a>

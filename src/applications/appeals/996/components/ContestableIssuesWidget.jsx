@@ -2,15 +2,14 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { IssueCard } from './IssueCard';
-import { APP_NAME, REVIEW_ISSUES } from '../constants';
+import { APP_NAME } from '../constants';
 
-import { SELECTED, MAX_LENGTH, LAST_ISSUE } from '../../shared/constants';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
@@ -19,12 +18,18 @@ import {
   removeModalContent,
 } from '../../shared/content/contestableIssues';
 import {
+  LAST_ISSUE,
+  MAX_LENGTH,
+  REVIEW_ISSUES,
+  SELECTED,
+} from '../../shared/constants';
+import { focusIssue } from '../../shared/utils/focus';
+import { isEmptyObject } from '../../shared/utils/helpers';
+import {
   getSelected,
   someSelected,
   calculateIndexOffset,
 } from '../../shared/utils/issues';
-import { isEmptyObject } from '../../shared/utils/helpers';
-import { focusIssue } from '../../shared/utils/focus';
 
 /**
  * ContestableIssuesWidget - Form system parameters passed into this widget

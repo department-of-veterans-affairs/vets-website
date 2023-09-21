@@ -5,10 +5,14 @@ import LandingPage from '../medications/containers/LandingPage';
 
 const routes = (
   <Switch>
-    <Route exact path="/about-medications" key="medicationLandingPage">
+    <Route
+      exact
+      path={['/about-medications', '/about-medications/*']}
+      key="medicationLandingPage"
+    >
       <LandingPage />
     </Route>
-    <Route path="/" key="mhvLandingPage">
+    <Route exact path="/" key="mhvLandingPage">
       <App />
     </Route>
   </Switch>

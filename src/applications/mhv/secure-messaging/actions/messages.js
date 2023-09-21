@@ -267,7 +267,7 @@ export const sendMessage = (message, attachments) => async dispatch => {
     if (
       e.errors &&
       (e.errors[0].code === Constants.Errors.Code.BLOCKED_USER ||
-        e.errors[0].code === Constants.Errors.code.BLOCKED_USER2)
+        e.errors[0].code === Constants.Errors.Code.BLOCKED_USER2)
     ) {
       dispatch(
         addAlert(

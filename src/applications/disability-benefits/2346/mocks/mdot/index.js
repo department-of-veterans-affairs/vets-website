@@ -27,6 +27,8 @@ const suppliesResponse = {
     dateOfBirth: '1933-04-05',
     eligibility: {
       accessories: true,
+      apneas: true,
+      batteries: true,
     },
     supplies: [
       {

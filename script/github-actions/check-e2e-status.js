@@ -2,8 +2,12 @@
 /* eslint-disable camelcase */
 
 const core = require('@actions/core');
+const fs = require('fs');
+const path = require('path');
 
-const ALLOW_LIST = JSON.parse(process.env.ALLOW_LIST);
+const ALLOW_LIST = JSON.parse(
+  fs.readFileSync(path.resolve(`${process.env.TEST_TYPE}_allow_list.json`)),
+);
 const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ')
   : [];
