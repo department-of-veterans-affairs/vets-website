@@ -31,16 +31,25 @@ const OtherAssetsSummary = ({
   useEffect(
     () => {
       let isMounted = true;
-      if (isMounted && gmtData?.isEligibleForStreamlined) {
+
+      function fetchData() {
         const calculatedAssets = calculateTotalAssets(data);
-        setFormData({
-          ...data,
-          gmtData: {
-            ...gmtData,
-            assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
-          },
-        });
+        if (isMounted) {
+          // Check here
+          setFormData({
+            ...data,
+            gmtData: {
+              ...gmtData,
+              assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
+            },
+          });
+        }
       }
+
+      if (gmtData?.isEligibleForStreamlined) {
+        fetchData();
+      }
+
       return () => {
         isMounted = false;
       };
