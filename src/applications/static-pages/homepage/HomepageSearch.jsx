@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
-import { replaceWithStagingDomain } from '@department-of-veterans-affairs/platform-utilities';
+import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 
 /**
  * Homepage redesign
