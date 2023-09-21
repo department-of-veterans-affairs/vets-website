@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getlabsAndTestsDetails } from '../actions/labsAndTests';
+import {
+  clearLabsAndTestDetails,
+  getlabsAndTestsDetails,
+} from '../actions/labsAndTests';
 import EkgDetails from '../components/LabsAndTests/EkgDetails';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import RadiologyDetails from '../components/LabsAndTests/RadiologyDetails';
@@ -27,6 +30,9 @@ const LabAndTestDetails = () => {
         },
       ]),
     );
+    return () => {
+      dispatch(clearLabsAndTestDetails());
+    };
   }, []);
 
   useEffect(

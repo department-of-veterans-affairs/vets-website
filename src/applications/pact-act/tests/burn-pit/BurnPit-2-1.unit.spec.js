@@ -3,17 +3,17 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { RESPONSES } from '../utilities/question-data-map';
-import { ROUTES } from '../constants';
+import { RESPONSES } from '../../utilities/question-data-map';
+import { ROUTES } from '../../constants';
 
-import ServicePeriod from '../containers/questions/ServicePeriod';
+import BurnPit21 from '../../containers/questions/burn-pit/BurnPit-2-1';
 
 const mockStoreStandard = {
   getState: () => ({
     pactAct: {
       form: {
         BURN_PIT_2_1: null,
-        SERVICE_PERIOD: null,
+        SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
       },
       viewedIntroPage: true,
     },
@@ -27,7 +27,7 @@ const mockStoreNoIntroPage = {
     pactAct: {
       form: {
         BURN_PIT_2_1: null,
-        SERVICE_PERIOD: null,
+        SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
       },
       viewedIntroPage: false,
     },
@@ -36,14 +36,15 @@ const mockStoreNoIntroPage = {
   dispatch: () => {},
 };
 
+const setBurnPitStub = sinon.stub();
 const pushStub = sinon.stub();
 
 const propsStandard = {
   formResponses: {
     BURN_PIT_2_1: null,
-    SERVICE_PERIOD: null,
+    SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
   },
-  setServicePeriod: () => {},
+  setBurnPit21: setBurnPitStub,
   router: {
     push: pushStub,
   },
@@ -55,35 +56,38 @@ const propsNoIntroPage = {
     BURN_PIT_2_1: null,
     SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
   },
-  setServicePeriod: () => {},
+  setBurnPit21: setBurnPitStub,
   router: {
     push: pushStub,
   },
   viewedIntroPage: false,
 };
 
-describe('Service Period Page', () => {
+describe('Burn Pit 2.1 Page', () => {
   afterEach(() => {
+    setBurnPitStub.resetHistory();
     pushStub.resetHistory();
   });
 
-  it('should correctly load the service period page in the standard flow', () => {
+  it('should correctly load the burn pit page in the standard flow', () => {
     const screen = render(
       <Provider store={mockStoreStandard}>
-        <ServicePeriod {...propsStandard} />
+        <BurnPit21 {...propsStandard} />
       </Provider>,
     );
 
-    expect(screen.getByTestId('paw-servicePeriod')).to.exist;
+    expect(screen.getByTestId('paw-burnPit2_1')).to.exist;
   });
 
-  it('should redirect to home when the intro page has not been viewed', () => {
-    render(
-      <Provider store={mockStoreNoIntroPage}>
-        <ServicePeriod {...propsNoIntroPage} />
-      </Provider>,
-    );
+  describe('redirects', () => {
+    it('should redirect to home when the intro page has not been viewed', () => {
+      render(
+        <Provider store={mockStoreNoIntroPage}>
+          <BurnPit21 {...propsNoIntroPage} />
+        </Provider>,
+      );
 
-    expect(pushStub.withArgs(ROUTES.HOME).called).to.be.true;
+      expect(pushStub.withArgs(ROUTES.HOME).called).to.be.true;
+    });
   });
 });
