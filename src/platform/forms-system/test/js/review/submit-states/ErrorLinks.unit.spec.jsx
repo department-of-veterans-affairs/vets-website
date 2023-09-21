@@ -19,6 +19,7 @@ describe('<ErrorLinks />', () => {
       .exist;
     expect(view.getByText(/information before you can submit/)).to.exist;
   });
+
   it('has the expected list of errors', () => {
     const props = {
       appType: 'test',
@@ -39,10 +40,13 @@ describe('<ErrorLinks />', () => {
 
     const view = render(<ErrorLinks {...props} />);
 
-    expect(view.getByRole('link', { name: /Missing test/ })).to.exist;
-    expect(view.getByRole('link', { name: /Zip/ })).to.exist;
+    expect(view.baseElement.querySelector('va-button[text="Missing test"]')).to
+      .exist;
+    expect(view.baseElement.querySelector('va-button[text="Zip"]')).to.exist;
+
     expect(view.getByText(/Property not found/)).to.exist;
   });
+
   it('opens the chapter and enables editing when a link is clicked', () => {
     const props = {
       appType: 'test',
@@ -60,9 +64,10 @@ describe('<ErrorLinks />', () => {
     };
 
     const view = render(<ErrorLinks {...props} />);
-    userEvent.click(view.getByRole('link', { name: /Foo/ }));
+    userEvent.click(view.baseElement.querySelector("va-button[text='Foo']"));
     expect(props.setEditMode.called).to.be.true;
   });
+
   it('changes the alert message once the errors are cleared', () => {
     const props = {
       appType: 'test',
@@ -81,7 +86,8 @@ describe('<ErrorLinks />', () => {
 
     const view = render(<ErrorLinks {...props} />);
     // userEvent.click(view.getByRole('link', { name: /Foo/ }));
-    expect(view.getByRole('link', { name: /Foo/ })).to.exist;
+
+    expect(view.baseElement.querySelector('va-button[text="foo"]')).to.exist;
 
     view.rerender(<ErrorLinks {...props} errors={[]} />);
     expect(view.getByText(/Thank you for completing/)).to.exist;

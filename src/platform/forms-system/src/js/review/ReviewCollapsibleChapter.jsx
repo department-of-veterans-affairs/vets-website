@@ -5,7 +5,6 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import uniqueId from 'lodash/uniqueId';
 import classNames from 'classnames';
-import { getScrollOptions } from 'platform/utilities/ui';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
@@ -20,8 +19,7 @@ import { isValidForm } from '../validation';
 import { reduceErrors } from '../utilities/data/reduceErrors';
 import { setFormErrors } from '../actions';
 
-const { Element, scroller } = Scroll;
-const scrollOffset = -40;
+const { Element } = Scroll;
 
 /*
  * Displays all the pages in a chapter on the review page
@@ -30,11 +28,6 @@ class ReviewCollapsibleChapter extends React.Component {
   constructor(props) {
     super(props);
     this.handleEdit = this.handleEdit.bind(this);
-    this.handleChapterClick = this.handleChapterClick.bind(this);
-
-    this.state = {
-      chapterOpen: false,
-    };
   }
 
   /* eslint-disable-next-line camelcase */
@@ -42,19 +35,8 @@ class ReviewCollapsibleChapter extends React.Component {
     this.id = uniqueId();
   }
 
-  handleChapterClick(name) {
-    if (!this.state.chapterOpen) {
-      this.scrollToChapter(name);
-    }
-
-    this.setState(prevState => ({
-      chapterOpen: !prevState.chapterOpen,
-    }));
-  }
-
   handleEdit(key, editing, index = null) {
     this.props.onEdit(key, editing, index);
-    this.scrollToPage(`${key}${index === null ? '' : index}`);
     if (editing) {
       // pressing "Update page" will call handleSubmit, which moves focus from
       // the edit button to the this target
@@ -69,17 +51,6 @@ class ReviewCollapsibleChapter extends React.Component {
     }
     this.props.setData(newData);
   }
-
-  scrollToChapter = () => {
-    scroller.scrollTo(
-      `chapter${this.props.chapterKey}ScrollElement`,
-      window.Forms?.scroll || {
-        duration: 500,
-        delay: 2,
-        smooth: true,
-      },
-    );
-  };
 
   handleSubmit = (formData, key, path = null, index = null) => {
     // This makes sure defaulted data on a page with no changes is saved
@@ -429,48 +400,39 @@ class ReviewCollapsibleChapter extends React.Component {
     }, 0);
   };
 
-  scrollToPage = key => {
-    scroller.scrollTo(
-      `${key}ScrollElement`,
-      getScrollOptions({ offset: scrollOffset }),
-    );
-  };
-
   render() {
     const chapterTitle = this.getChapterTitle(this.props.chapterFormConfig);
     const subHeader = 'Some information has changed. Please review.';
 
     return (
-      <>
+      <va-accordion-item
+        id={this.props.chapterKey}
+        data-chapter={this.props.chapterKey}
+        header={chapterTitle}
+        subHeader={this.props.hasUnviewedPages ? subHeader : ''}
+        onClick={this.handleChapterClick}
+      >
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
-        <va-accordion-item
-          id={this.props.chapterKey}
-          data-chapter={this.props.chapterKey}
-          header={chapterTitle}
-          subHeader={this.props.hasUnviewedPages ? subHeader : ''}
-          onClick={this.handleChapterClick}
-        >
-          {this.props.hasUnviewedPages && (
-            <>
-              <i
-                aria-hidden="true"
-                className="fas fa-exclamation-circle vads-u-color--secondary"
-                slot="subheader-icon"
-              />
-              <va-alert
-                role="alert"
-                status="error"
-                background-only
-                aria-describedby={`collapsibleButton${this.id}`}
-              >
-                <span className="sr-only">Error</span>
-                <span>Some information has changed. Please review.</span>
-              </va-alert>
-            </>
-          )}
-          {this.getChapterContent(this.props)}
-        </va-accordion-item>
-      </>
+        {this.props.hasUnviewedPages && (
+          <>
+            <i
+              aria-hidden="true"
+              className="fas fa-exclamation-circle vads-u-color--secondary"
+              slot="subheader-icon"
+            />
+            <va-alert
+              role="alert"
+              status="error"
+              background-only
+              aria-describedby={`collapsibleButton${this.id}`}
+            >
+              <span className="sr-only">Error</span>
+              <span>Some information has changed. Please review.</span>
+            </va-alert>
+          </>
+        )}
+        {this.getChapterContent(this.props)}
+      </va-accordion-item>
     );
   }
 }

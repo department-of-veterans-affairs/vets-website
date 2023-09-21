@@ -80,9 +80,8 @@ const ErrorLinks = props => {
                           );
                           focusAndScrollToReviewElement(error);
                         }}
-                      >
-                        {error.message}
-                      </va-button>
+                        text={error.message}
+                      />
                     ) : (
                       error.message
                     )}
