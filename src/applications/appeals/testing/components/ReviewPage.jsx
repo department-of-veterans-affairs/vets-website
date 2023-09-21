@@ -5,16 +5,13 @@ import { VaPrivacyAgreement } from '@department-of-veterans-affairs/component-li
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
-import formConfig from '../config/form';
 import { setupPages } from '../utils/taskListPages';
 
 const ReviewPage = props => {
   const [privacyCheckbox, setPrivacyCheckbox] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const { chapterTitles, getChapterPagesFromChapterIndex } = setupPages(
-    formConfig,
-  );
+  const { chapterTitles, getChapterPagesFromChapterIndex } = setupPages();
   const chapterClasses = [
     'vads-u-border-bottom--1px',
     'vads-u-border-color--gray-lightest',
@@ -85,9 +82,7 @@ const ReviewPage = props => {
         uswds
       />
       <p className="vads-u-margin-top--4">
-        <Link to="/decision-reviews/appeals-testing">
-          Finish this application later
-        </Link>
+        <Link to="review-then-submit2">Finish this application later</Link>
       </p>
       {/* {props.contentBeforeButtons} */}
       <va-button onClick={handlers.onSubmit} text="Submit" />
