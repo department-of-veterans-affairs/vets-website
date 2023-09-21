@@ -194,12 +194,12 @@ describe('<EvidenceVaRecords>', () => {
       expect(errorEls[0].error).to.eq(errors.locationMissing);
       expect(errorEls[1].error).to.eq(errors.issuesMissing);
 
-      expect(errorEls[2].error).to.eq(errorMessages.evidence.missingDate);
+      expect(errorEls[2].error).to.eq(errorMessages.evidence.blankDate);
       expect(errorEls[2].invalidMonth).to.be.true;
       expect(errorEls[2].invalidDay).to.be.true;
       expect(errorEls[2].invalidYear).to.be.true;
 
-      expect(errorEls[3].error).to.eq(errorMessages.evidence.missingDate);
+      expect(errorEls[3].error).to.eq(errorMessages.evidence.blankDate);
       expect(errorEls[3].invalidMonth).to.be.true;
       expect(errorEls[3].invalidDay).to.be.true;
       expect(errorEls[3].invalidYear).to.be.true;

@@ -6,12 +6,11 @@ import DirectDeposit from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
-import { Hub } from './components/hub/Hub';
 
 // the routesForNav array is used in the routes file to build the routes
-// the edit route is not present in the routesForNav array because
-// it is never used within the nav UI itself
-const routesForNav = [
+// the edit and hub routes are not present in the routesForNav array because
+// they are not shown in nav UI
+export const routesForNav = [
   {
     component: PersonalInformation,
     name: PROFILE_PATH_NAMES.PERSONAL_INFORMATION,
@@ -62,24 +61,3 @@ const routesForNav = [
     requiresMVI: true,
   },
 ];
-
-export const getRoutesForNav = (
-  { profileUseHubPage } = {
-    profileUseHubPage: false,
-  },
-) => {
-  return [
-    ...(profileUseHubPage
-      ? [
-          {
-            component: Hub,
-            name: PROFILE_PATH_NAMES.PROFILE_ROOT,
-            path: PROFILE_PATHS.PROFILE_ROOT,
-            requiresLOA3: false,
-            requiresMVI: false,
-          },
-        ]
-      : []),
-    ...routesForNav,
-  ];
-};

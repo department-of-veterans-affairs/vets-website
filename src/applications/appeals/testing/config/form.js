@@ -39,6 +39,7 @@ import PrimaryPhone from '../components/PrimaryPhone';
 import AddIssue from '../components/AddIssue';
 import TaskList from '../components/TaskList';
 import ReviewPage from '../components/ReviewPage';
+import ReviewPage2 from '../components/ReviewPage2';
 
 import {
   canUploadEvidence,
@@ -53,7 +54,7 @@ import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
 
-import maximalData from '../tests/fixtures/data/test-data.json';
+import mockData from '../tests/fixtures/data/test-data.json';
 
 import manifest from '../manifest.json';
 
@@ -102,7 +103,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: taskList.uiSchema,
           schema: taskList.schema,
-          initialData: maximalData.data,
+          initialData: mockData.data,
           scrollAndFocusTarget,
         },
         veteranInformation: {
@@ -115,6 +116,7 @@ const formConfig = {
         },
         homeless: {
           title: 'Homelessness',
+          taskListTitle: 'Homeless status',
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
@@ -183,6 +185,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: primaryPhone.uiSchema,
           schema: primaryPhone.schema,
+          review: primaryPhone.review,
           scrollAndFocusTarget,
         },
       },
@@ -192,7 +195,7 @@ const formConfig = {
       pages: {
         filingDeadlines: {
           title: 'Filing deadlines',
-          taskListTitle: 'Review deadlines',
+          taskListTitle: 'Review deadlines and request an extension',
           path: 'filing-deadlines',
           uiSchema: filingDeadlines.uiSchema,
           schema: filingDeadlines.schema,
@@ -200,7 +203,7 @@ const formConfig = {
         },
         extensionRequest: {
           title: 'Request an extension',
-          taskListTitle: 'Request deadline extension',
+          taskListHide: true,
           path: 'extension-request',
           uiSchema: extensionRequest.uiSchema,
           schema: extensionRequest.schema,
@@ -228,7 +231,7 @@ const formConfig = {
         },
         contestableIssues: {
           title: 'You’ve selected these issues for review',
-          taskListTitle: 'Select or add issues',
+          taskListTitle: 'Select issues and provide reasons for disagreement',
           path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
@@ -250,7 +253,7 @@ const formConfig = {
         },
         areaOfDisagreementFollowUp: {
           title: getIssueTitle,
-          taskListTitle: 'Disagreement with issues',
+          taskListHide: true,
           path: 'area-of-disagreement/:index',
           CustomPage: AreaOfDisagreement,
           CustomPageReview: null,
@@ -263,7 +266,7 @@ const formConfig = {
         },
         issueSummary: {
           title: 'Issue summary',
-          taskListTitle: 'Review issues',
+          taskListHide: true,
           path: 'issue-summary',
           uiSchema: issueSummary.uiSchema,
           schema: issueSummary.schema,
@@ -351,6 +354,17 @@ const formConfig = {
           title: 'Review and submit',
           path: 'review-then-submit',
           CustomPage: ReviewPage,
+          CustomPageReview: null,
+          uiSchema: review.uiSchema,
+          schema: review.schema,
+          scrollAndFocusTarget,
+        },
+        reviewAndSubmit2: {
+          title: 'Review and submit',
+          taskListHide: true,
+          path: 'review-then-submit2',
+          depends: () => false,
+          CustomPage: ReviewPage2,
           CustomPageReview: null,
           uiSchema: review.uiSchema,
           schema: review.schema,

@@ -7,9 +7,6 @@ import {
   getEligibleContestableIssues,
   getLegacyAppealsLength,
   mayHaveLegacyAppeals,
-  someSelected,
-  hasSomeSelected,
-  getSelected,
   getSelectedCount,
   getIssueName,
   getIssueDate,
@@ -23,6 +20,11 @@ import {
 } from '../../utils/helpers';
 
 import { SELECTED } from '../../../shared/constants';
+import {
+  someSelected,
+  hasSomeSelected,
+  getSelected,
+} from '../../../shared/utils/issues';
 
 describe('getEligibleContestableIssues', () => {
   const date = moment().startOf('day');
