@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
@@ -126,7 +127,15 @@ const AllergyDetails = () => {
     };
 
     try {
-      await generatePdf('medicalRecords', 'allergy_report', scaffold);
+      await generatePdf(
+        'medicalRecords',
+        `VA-Allergies-details-${user.userFullName.first}-${
+          user.userFullName.last
+        }-${moment()
+          .format('M-D-YYYY_hhmmssa')
+          .replace(/\./g, '')}`,
+        scaffold,
+      );
     } catch (error) {
       sendErrorToSentry(error, 'Allergy details');
     }
