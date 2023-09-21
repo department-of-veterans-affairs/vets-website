@@ -6,9 +6,9 @@ const DownloadingRecordsInfo = props => {
   const publicSharedContent = () => {
     return (
       <>
-        <strong>If you’re on a public or shared computer,</strong> print your
-        records instead of downloading. Downloading will save a copy of your
-        records to the public computer.
+        <strong>If you’re on a public or shared computer,</strong> remember that
+        downloading saves a copy of your records to the computer you’re now
+        using.
       </>
     );
   };
@@ -16,7 +16,7 @@ const DownloadingRecordsInfo = props => {
   return (
     <va-additional-info
       trigger="What to know before you download"
-      class="no-print vads-u-margin-bottom--4"
+      class="no-print vads-u-margin-bottom--3"
     >
       {/* Use the "!== false" syntax because checking the inverse causes the component to be resized incorrectly
             when the value changes from undefined to true. */}
