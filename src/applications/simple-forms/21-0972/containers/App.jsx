@@ -12,7 +12,6 @@ import { WIP } from '../../shared/components/WIP';
 import { workInProgressContent } from '../definitions/constants';
 
 function App({ location, children, show210972 }) {
-  // console.info('[App] show210972:', show210972);
   if (!show210972) {
     return <WIP content={workInProgressContent} />;
   }
