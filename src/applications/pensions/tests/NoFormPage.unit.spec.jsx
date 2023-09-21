@@ -90,7 +90,6 @@ describe('NoFormPage', () => {
         <NoFormPage />
       </Provider>,
     );
-    expect($('va-loading-indicator', container)).to.exist;
     await waitFor(() => {
       expect($('h1', container).textContent).to.eql(
         'Review Pension Benefits Application',

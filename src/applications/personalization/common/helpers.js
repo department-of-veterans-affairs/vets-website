@@ -100,7 +100,17 @@ export function formatFullName({
 }
 
 export const normalizePath = path => {
-  // Remove slashes and trim whitespace
-  const pathStripped = path.endsWith('/') ? path.slice(0, -1) : path;
-  return pathStripped.trim();
+  // trim whitespace and remove trailing slash
+  const pathTrimmed = path.trim();
+  return pathTrimmed.endsWith('/') ? path.slice(0, -1) : path;
+};
+
+export const getRouteInfoFromPath = (path, routes) => {
+  const returnRouteInfo = routes.find(({ path: routePath }) => {
+    return routePath === path;
+  });
+  if (!returnRouteInfo) {
+    return { ...routes[0], name: 'profile' };
+  }
+  return returnRouteInfo;
 };
