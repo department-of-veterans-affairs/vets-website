@@ -121,6 +121,7 @@ const BankruptcyDetails = ({
           </h3>
         </legend>
         <VaDate
+          data-testid="date-discharged"
           error={dateError}
           id="date-discharged"
           required
