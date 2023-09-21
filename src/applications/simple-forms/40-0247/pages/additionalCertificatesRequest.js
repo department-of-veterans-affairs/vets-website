@@ -61,5 +61,6 @@ export default {
         maximum: 99,
       },
     },
+    required: ['additionalAddress', 'additionalCopies'],
   },
 };
