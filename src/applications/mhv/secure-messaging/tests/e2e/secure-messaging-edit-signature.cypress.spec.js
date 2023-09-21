@@ -14,7 +14,9 @@ describe('verify deeplinking sending the draft', () => {
   });
 
   it('verify modal', () => {
-    cy.get(Locators.HEADER).should('have.text', 'Drafts');
+    TestDraftsPage.loadSingleThread();
+
+    cy.get(Locators.HEADER).should('contain', 'test');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
