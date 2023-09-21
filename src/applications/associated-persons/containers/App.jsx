@@ -1,5 +1,6 @@
 import React from 'react';
-import PersonalDetails from '../components/PersonalDetails';
+// import PersonalDetails from '../components/PersonalDetails';
+import EmergencyContact from '../components/emergency-contact';
 
 const App = () => {
   return (
@@ -16,18 +17,18 @@ const App = () => {
                   <a href="/profile/accoutn/security">Account Security</a>
                 </li>
                 <li>
-                  <a href="/associated-persons">Next-of-Kin</a>
+                  <a href="/associated-persons">Emergency Contact</a>
                 </li>
               </ul>
             </div>
           </nav>
         </div>
         <div className="vads-l-col--9">
-          <PersonalDetails variant="nextOfKinPrimary" />
+          <EmergencyContact />
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default App;
