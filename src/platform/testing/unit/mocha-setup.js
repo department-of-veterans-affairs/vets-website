@@ -194,15 +194,9 @@ function setupJSDom() {
 
 setupJSDom();
 const checkAllowList = testContext => {
-  // console.log(
-  //   'filepath: ',
-  //   testContext.currentTest.file.substring(
-  //     testContext.currentTest.file.indexOf('src'),
-  //   ),
-  // );
   const file = testContext.currentTest.file.indexOf('src');
   if (DISALLOWED_SPECS.indexOf(file) > -1) {
-    // console.log('skipping test: ');
+    console.log('skipping test: ', file);
     testContext.skip();
   }
 };
