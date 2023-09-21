@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 // import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 // import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -191,7 +190,11 @@ class IntroductionPage extends React.Component {
             user?.login?.currentlyLoggedIn ? '4' : '2p5'
           } vads-u-margin-bottom--2`}
         >
-          <OMBInfo resBurden="15" ombNumber="2900-0154" expDate="02/28/2023" />
+          <va-omb-info
+            res-burden={15}
+            omb-number="2900-0154"
+            exp-date="02/28/2023"
+          />
         </div>
       </div>
     );
