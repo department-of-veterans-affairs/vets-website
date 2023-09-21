@@ -28,7 +28,7 @@ const MedicationsListCard = props => {
   };
 
   return (
-    <div className="rx-card-container vads-u-background-color--white vads-u-margin-y--1 vads-u-border--1px vads-u-border-color--gray-medium no-break">
+    <div className="rx-card-container vads-u-background-color--white vads-u-margin-y--2 vads-u-border--1px vads-u-border-color--gray-medium no-break">
       <div className="rx-card-detials vads-u-padding--2">
         <h3
           className="vads-u-font-weight--bold"
@@ -48,7 +48,7 @@ const MedicationsListCard = props => {
             {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}
           </p>
         ) : (
-          <p>Not filled yet</p>
+          <p>You haven’t filled this prescription yet</p>
         )}
         {showRefillRemaining && refillsRemaining()}
         {rx && <ExtraDetails {...rx} />}
@@ -56,11 +56,14 @@ const MedicationsListCard = props => {
 
         {noRefillRemaining && (
           <>
-            <div className="no-print">
+            <div>
               <p className="vads-u-margin-y--0">
                 You have no refills left. If you need more, request a renewal.
               </p>
-              <va-link href="/" text="Learn how to renew prescriptions." />
+              <va-link
+                href="/my-health/about-medications/accordion-renew-rx"
+                text="Learn how to renew prescriptions"
+              />
             </div>
           </>
         )}

@@ -15,7 +15,7 @@ const DownloadingRecordsInfo = props => {
 
   return (
     <va-additional-info
-      trigger="What to know about downloading records"
+      trigger="What to know before you download"
       class="no-print vads-u-margin-bottom--4"
     >
       {/* Use the "!== false" syntax because checking the inverse causes the component to be resized incorrectly

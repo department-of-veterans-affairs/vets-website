@@ -1,17 +1,16 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { getDate } from '../../../shared/utils/dates';
-
-import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
-
 import {
-  selectionRequired,
   uniqueIssue,
   maxIssues,
   missingIssueName,
   maxNameLength,
 } from '../../validations/issues';
+
+import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
+import { getDate } from '../../../shared/utils/dates';
+import { selectionRequired } from '../../../shared/validations/issues';
 
 const _ = null;
 
