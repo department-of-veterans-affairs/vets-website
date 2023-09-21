@@ -1,8 +1,8 @@
 import moment from 'moment';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { addDays, format, isValid } from 'date-fns';
 import { get } from 'lodash';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { deductionCodes } from '../constants/deduction-codes';
 import { ignoreFields } from '../constants/ignoreFields';
 

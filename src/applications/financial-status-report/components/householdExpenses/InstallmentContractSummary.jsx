@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector, connect, useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
 import { Link } from 'react-router';
+import { setData } from '~/platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import {
   EmptyMiniSummaryCard,

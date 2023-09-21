@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
 import { Link } from 'react-router';
+import { setData } from '~/platform/forms-system/src/js/actions';
 import { EmptyMiniSummaryCard } from '../shared/MiniSummaryCard';
 import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
 import { useDeleteModal } from '../../hooks/useDeleteModal';
