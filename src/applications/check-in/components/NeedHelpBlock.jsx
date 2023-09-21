@@ -7,8 +7,8 @@ const NeedHelpBlock = () => {
   const { t } = useTranslation();
 
   return (
-    <div>
-      <p>
+    <div data-testid="need-help-block">
+      <p data-testid="for-help-using-this-tool">
         <Trans
           i18nKey="for-help-using-this-tool-to-prepare-for-your-appointments"
           components={[
@@ -20,7 +20,7 @@ const NeedHelpBlock = () => {
           ]}
         />
       </p>
-      <p>
+      <p data-testid="if-you-have-questions">
         <Trans
           i18nKey="if-you-have-questions-about-your-appointments"
           components={[
@@ -36,7 +36,7 @@ const NeedHelpBlock = () => {
       >
         {t('find-your-va-health-facility')}
       </ExternalLink>
-      <p>
+      <p data-testid="for-questions-about-filing">
         <Trans
           i18nKey="for-questions-about-filing-a-travel-reimbursement-claim"
           components={[
@@ -56,9 +56,10 @@ const NeedHelpBlock = () => {
       >
         {t('find-the-travel-contact-for-your-facility')}
       </ExternalLink>
-      <p>
+      <p data-testid="if-yourre-in-crisis">
         <Trans
           i18nKey="if-yourre-in-crisis-or-having-thoughts-of-suicide-call-the"
+          data-testid="if-yourre-in-crisis"
           components={[
             <span key="bold" className="vads-u-font-weight--bold" />,
             <va-telephone
@@ -72,7 +73,7 @@ const NeedHelpBlock = () => {
           ]}
         />
       </p>
-      <p>
+      <p data-testid="if-you-think-your-life-is-in-danger">
         <Trans
           i18nKey="if-you-think-your-life-or-health-is-in-danger"
           components={[
