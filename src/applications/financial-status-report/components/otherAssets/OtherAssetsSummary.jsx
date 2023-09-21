@@ -30,16 +30,20 @@ const OtherAssetsSummary = ({
 
   useEffect(
     () => {
-      if (!gmtData?.isEligibleForStreamlined) return;
-
-      const calculatedAssets = calculateTotalAssets(data);
-      setFormData({
-        ...data,
-        gmtData: {
-          ...gmtData,
-          assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
-        },
-      });
+      let isMounted = true;
+      if (isMounted && gmtData?.isEligibleForStreamlined) {
+        const calculatedAssets = calculateTotalAssets(data);
+        setFormData({
+          ...data,
+          gmtData: {
+            ...gmtData,
+            assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
+          },
+        });
+      }
+      return () => {
+        isMounted = false;
+      };
     },
     // avoiding use of data since it changes so often
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -51,9 +55,7 @@ const OtherAssetsSummary = ({
       ...data,
       assets: {
         ...assets,
-        otherAssets: otherAssets.filter(
-          (source, index) => index !== deleteIndex,
-        ),
+        otherAssets: otherAssets.filter((_, index) => index !== deleteIndex),
       },
     });
   };
