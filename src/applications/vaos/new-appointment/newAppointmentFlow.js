@@ -371,7 +371,7 @@ export default function getNewAppointmentFlow(state) {
     requestDateTime: {
       ...flow.requestDateTime,
       url: featureBreadcrumbUrlUpdate
-        ? 'va-request'
+        ? '/schedule/va-request'
         : '/new-appointment/request-date',
     },
     scheduleCerner: {
