@@ -40,3 +40,7 @@ export const getVitalDetails = vitalType => async dispatch => {
     // });
   }
 };
+
+export const clearVitalDetails = () => async dispatch => {
+  dispatch({ type: Actions.Vitals.CLEAR_DETAIL });
+};
