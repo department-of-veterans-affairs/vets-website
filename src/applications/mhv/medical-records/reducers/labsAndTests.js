@@ -227,7 +227,19 @@ export const labsAndTestsReducer = (state = initialState, action) => {
           [],
       };
     }
+    case Actions.LabsAndTests.CLEAR_DETAIL: {
+      return {
+        ...state,
+        labsAndTestsDetails: () => {
+          return undefined;
+        },
+      };
+    }
     default:
       return state;
   }
 };
+
+/**
+ * Clears the lab and test result in the details page
+ */

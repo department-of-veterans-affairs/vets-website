@@ -63,6 +63,14 @@ export const conditionReducer = (state = initialState, action) => {
         conditionsList,
       };
     }
+    case Actions.Conditions.CLEAR_DETAIL: {
+      return {
+        ...state,
+        conditionDetails: () => {
+          return undefined;
+        },
+      };
+    }
     default:
       return state;
   }
