@@ -34,20 +34,6 @@ const initialSchema = {
       type: 'string',
       pattern: '^[2-9][0-9]{9}$',
     },
-    bestTimeToCall: {
-      type: 'object',
-      properties: {
-        morning: {
-          type: 'boolean',
-        },
-        afternoon: {
-          type: 'boolean',
-        },
-        evening: {
-          type: 'boolean',
-        },
-      },
-    },
     email: {
       type: 'string',
       format: 'email',
