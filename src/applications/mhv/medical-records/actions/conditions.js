@@ -10,3 +10,7 @@ export const getConditionDetails = conditionId => async dispatch => {
   const response = await getCondition(conditionId);
   dispatch({ type: Actions.Conditions.GET, response });
 };
+
+export const clearConditionDetails = () => async dispatch => {
+  dispatch({ type: Actions.Conditions.CLEAR_DETAIL });
+};
