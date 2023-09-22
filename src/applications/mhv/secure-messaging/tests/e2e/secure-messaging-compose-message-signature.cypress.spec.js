@@ -1,6 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockSingleThread from './fixtures/inboxResponse/single-thread-response.json';
+import mockSingleMessage from './fixtures/inboxResponse/single-message-response.json';
 import mockMessageDetails from './fixtures/messages-response.json';
 import mockFolders from './fixtures/generalResponses/folders.json';
 import { AXE_CONTEXT, Paths } from './utils/constants';
@@ -27,8 +28,7 @@ describe('verify signature', () => {
   });
 
   it('signature added on replying', () => {
-    // check intercepts
-
+    // refactor (parametrize) methods below
     cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders);
     cy.intercept(
       'GET',
@@ -42,13 +42,19 @@ describe('verify signature', () => {
       `${Paths.SM_API_BASE}/messages/${
         mockMessageDetails.data[0].attributes.messageId
       }`,
-      mockSingleThread,
+      mockSingleMessage,
     ).as('singleThread');
 
     cy.get('[data-testid="thread-list-item"]')
       .first()
       .find(`#message-link-${mockMessageDetails.data[0].attributes.messageId}`)
       .click();
+
+    cy.get('[data-testid="reply-button-body"]').click({
+      waitForAnimations: true,
+    });
+    cy.get('[data-testid="continue-button"]').click();
+    landingPage.verifySignature();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
