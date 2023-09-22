@@ -75,7 +75,6 @@ import submitForm from './submitForm';
 import fullSchema from './form-0995-schema.json';
 
 import {
-  focusRadioH3,
   focusH3,
   focusIssue,
   focusEvidence,
@@ -83,6 +82,7 @@ import {
 } from '../utils/focus';
 
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
+import { focusRadioH3 } from '../../shared/utils/focus';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };

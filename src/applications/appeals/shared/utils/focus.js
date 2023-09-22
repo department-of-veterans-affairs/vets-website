@@ -1,10 +1,12 @@
 import {
+  defaultFocusSelector,
   focusElement,
   scrollTo,
   scrollToTop,
   waitForRenderThenFocus,
 } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+
 import { LAST_ISSUE } from '../constants';
 
 export const focusIssue = (_index, root, value) => {
@@ -32,4 +34,15 @@ export const focusIssue = (_index, root, value) => {
       focusElement('h3');
     }
   });
+};
+
+export const focusRadioH3 = () => {
+  scrollToTop();
+  const radio = $('va-radio');
+  if (radio) {
+    // va-radio content doesn't immediately render
+    waitForRenderThenFocus('h3', radio.shadowRoot);
+  } else {
+    focusElement(defaultFocusSelector);
+  }
 };

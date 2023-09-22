@@ -5,13 +5,14 @@ import { render, waitFor } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import {
-  // focusRadioH3,
   focusH3,
   focusIssue,
   focusEvidence,
   focusUploads,
 } from '../../utils/focus';
 import { LAST_ISSUE } from '../../../shared/constants';
+
+// import { focusRadioH3 } from '../../../shared/utils/focus';
 
 // Skipping focusRadioH3 because testing library doesn't support shadow DOM
 /* describe('focusRadioH3', () => {
