@@ -59,10 +59,10 @@ function IntroductionLoginV2({
             <h2 slot="headline">System Maintenance</h2>
             <div>
               <p className="vads-u-margin-top--0">
-                We're sorry, but our systems are currently undergoing
-                maintenance. Please try again later.
+                We’re currently making updates to the My Education Benefits
+                platform. We apologize for the inconvenience. Please check back
+                soon.
               </p>
-              {/* You can add more details or actionable steps if needed. */}
             </div>
           </va-alert>
         )}
