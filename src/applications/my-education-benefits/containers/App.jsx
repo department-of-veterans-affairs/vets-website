@@ -36,7 +36,6 @@ export const App = ({
   showMeb1990EZMaintenanceAlert,
   showMebDgi40Features,
   showMebDgi42Features,
-  showMebCh33SelfForm,
   showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
@@ -170,10 +169,12 @@ export const App = ({
           showMebDgi42Features,
         });
       }
-      if (showMebCh33SelfForm !== formData.showMebCh33SelfForm) {
+      if (
+        showMeb1990EZMaintenanceAlert !== formData.showMeb1990EZMaintenanceAlert
+      ) {
         setFormData({
           ...formData,
-          showMebCh33SelfForm,
+          showMeb1990EZMaintenanceAlert,
         });
       }
 
@@ -255,7 +256,7 @@ export const App = ({
       setFormData,
       showMebDgi40Features,
       showMebDgi42Features,
-      showMebCh33SelfForm,
+      showMeb1990EZMaintenanceAlert,
       showMebEnhancements,
       showMebEnhancements06,
       showMebEnhancements08,
@@ -319,6 +320,7 @@ App.propTypes = {
   firstName: PropTypes.string,
   formData: PropTypes.object,
   // getDirectDeposit: PropTypes.func,
+  getDuplicateContactInfo: PropTypes.func,
   getEligibility: PropTypes.func,
   getPersonalInfo: PropTypes.func,
   isLOA3: PropTypes.bool,
@@ -326,8 +328,9 @@ App.propTypes = {
   location: PropTypes.object,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
-  showMebCh33SelfForm: PropTypes.bool,
+  showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMebDgi40Features: PropTypes.bool,
+  showMebDgi42Features: PropTypes.bool,
   showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
