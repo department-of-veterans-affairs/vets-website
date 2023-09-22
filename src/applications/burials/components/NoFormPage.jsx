@@ -247,7 +247,10 @@ const CreateSummarySections = ({
       {!bypassData ? (
         <>
           <h2 id={id}>{title}</h2>
-          <hr className="vads-u-border-color--primary-darker" />
+          <hr
+            className="vads-u-border-color--primary-darker"
+            aria-hidden="true"
+          />
         </>
       ) : null}
       <div>
@@ -335,16 +338,22 @@ export const NoFormPage = () => {
             </div>
             <br />
             <va-link
+              href="https://www.va.gov/burials-memorials/veterans-burial-allowance/"
+              text="Learn more about how to apply for VA burial benefits"
+            />
+          </va-alert>
+          <div>
+            <h2>How to apply by mail</h2>
+            <p>Fill out an Application for Burial (VA Form 21P-530EZ)</p>
+            <va-link
               download
               filetype="PDF"
               href="https://www.vba.va.gov/pubs/forms/VBA-21P-530EZ-ARE.pdf"
               pages={8}
               text="Download VA form 21P-530EZ"
             />
-          </va-alert>
-          <div>
             <p className="vads-u-margin-bottom--4">
-              Mail your completed burial form to this address:
+              Mail the completed form to the pension management center (PMC):
             </p>
             <p className="va-address-block">
               Department of Veterans Affairs <br />
@@ -375,12 +384,14 @@ export const NoFormPage = () => {
             <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
               Need help?
             </h2>
-            <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
+            <hr
+              className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px"
+              aria-hidden="true"
+            />
             <p>
-              Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />
-              . We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If
-              you have hearing loss, call TTY:{' '}
-              <va-link href="tel:711" text="711" />.
+              Call us at <va-telephone contact="8008271000" />. We’re here
+              Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
+              hearing loss, call TTY: <va-telephone contact="711" />.
             </p>
           </div>
         </>
@@ -410,11 +421,14 @@ export const NoFormPage = () => {
           <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
             Need help?
           </h2>
-          <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
+          <hr
+            className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px"
+            aria-hidden="true"
+          />
           <p>
-            Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />.
-            We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you
-            have hearing loss, call TTY: <va-link href="tel:711" text="711" />.
+            Call us at <va-telephone contact="8008271000" />. We’re here Monday
+            through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss,
+            call TTY: <va-telephone contact="711" />.
           </p>
         </>
       )}
@@ -443,11 +457,14 @@ export const NoFormPage = () => {
       <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
         Need help?
       </h2>
-      <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
+      <hr
+        className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px"
+        aria-hidden="true"
+      />
       <p>
-        Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />.
-        We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
-        hearing loss, call TTY: <va-link href="tel:711" text="711" />.
+        Call us at <va-telephone contact="8008271000" />. We’re here Monday
+        through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss, call
+        TTY: <va-telephone contact="711" />.
       </p>
     </div>
   );
