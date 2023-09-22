@@ -49,23 +49,22 @@ function IntroductionLoginV2({
       )}
       {shouldShowLoadingIndicator && <LoadingIndicator />}
 
-      {isPersonalInfoFetchFailed &&
-        showMeb1990EZMaintenanceAlert && (
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="error"
-            visible
-          >
-            <h2 slot="headline">System Maintenance</h2>
-            <div>
-              <p className="vads-u-margin-top--0">
-                We’re currently making updates to the My Education Benefits
-                platform. We apologize for the inconvenience. Please check back
-                soon.
-              </p>
-            </div>
-          </va-alert>
-        )}
+      {(isPersonalInfoFetchFailed || showMeb1990EZMaintenanceAlert) && (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="error"
+          visible
+        >
+          <h2 slot="headline">System Maintenance</h2>
+          <div>
+            <p className="vads-u-margin-top--0">
+              We’re currently making updates to the My Education Benefits
+              platform. We apologize for the inconvenience. Please check back
+              soon.
+            </p>
+          </div>
+        </va-alert>
+      )}
       {!isLoggedIn &&
         user?.login?.hasCheckedKeepAlive && (
           <>
@@ -131,6 +130,7 @@ function IntroductionLoginV2({
         )}
       {isLoggedIn &&
       !isPersonalInfoFetchFailed && // Ensure the error didn't occur.
+      !showMeb1990EZMaintenanceAlert && // Ensure the mainenance flag is not on.
         ((!showMebEnhancements09 && apiCallsComplete && isLOA3) ||
           (showMebEnhancements09 && isLOA3)) && (
           <SaveInProgressIntro
