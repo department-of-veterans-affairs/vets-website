@@ -428,7 +428,7 @@ class ReviewCollapsibleChapter extends React.Component {
               aria-describedby={`collapsibleButton${this.id}`}
             >
               <span className="sr-only">Error</span>
-              <span>Some information has changed. Please review.</span>
+              <span>{subHeader}</span>
             </va-alert>
           </>
         )}

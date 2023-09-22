@@ -86,7 +86,7 @@ export function focusOnChange(
     const focusTarget = el?.nextElementSibling?.querySelector(target);
 
     if (focusTarget && shadowTarget) {
-      focusElement(focusTarget.shadowRoot.querySelector(shadowTarget));
+      focusElement(focusTarget.shadowRoot?.querySelector(shadowTarget));
     } else if (focusTarget) {
       focusElement(focusTarget);
     }
