@@ -4,13 +4,13 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
-import OMBInfo from '../content/OMBInfo';
 import CallToActionWidget from 'applications/static-pages/cta-widget';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
+
   loginPrompt() {
     if (this.props.isLoggedIn) {
       return null;
@@ -176,10 +176,10 @@ class IntroductionPage extends React.Component {
           style={{ paddingLeft: '0px' }}
           id="privacy_policy"
         >
-          <OMBInfo
-            resBurden={10}
-            ombNumber="2900-0885"
-            expDate="October 31, 2024"
+          <va-omb-info
+            res-burden={10}
+            omb-number="2900-0885"
+            exp-date="10/31/2024"
           />
         </div>
       </div>

@@ -7,21 +7,35 @@ import { validateCurrentOrPastMemorableDate } from '../validation';
  *
  * ```js
  * exampleDate: currentOrPastDateUI('Date of event')
+ * exampleDate: currentOrPastDateUI({
+ *  title: 'Date of event',
+ *  hint: 'This is a hint'
+ * })
  * exampleDate: {
  *  ...currentOrPastDateUI('Date of event')
  * }
  * ```
- * @param {string} title
+ * @param {string | {
+ *   title?: UISchemaOptions['ui:title'],
+ *   hint?: string,
+ * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
-const currentOrPastDateUI = title => {
+const currentOrPastDateUI = options => {
+  const { title, errorMessages, ...uiOptions } =
+    typeof options === 'object' ? options : { title: options };
+
   return {
     'ui:title': title ?? 'Date',
     'ui:webComponentField': VaMemorableDateField,
     'ui:validations': [validateCurrentOrPastMemorableDate],
     'ui:errorMessages': {
-      pattern: 'Please enter a valid current or past date',
-      required: 'Please enter a date',
+      pattern:
+        errorMessages?.pattern || 'Please enter a valid current or past date',
+      required: errorMessages?.required || 'Please enter a date',
+    },
+    'ui:options': {
+      ...uiOptions,
     },
   };
 };
@@ -31,27 +45,29 @@ const currentOrPastDateUI = title => {
  *
  * ```js
  * exampleDate: currentOrPastDateDigitsUI('Date of event')
+ * exampleDate: currentOrPastDateDigitsUI({
+ *  title: 'Date of event',
+ *  hint: 'This is a hint'
+ * })
  * exampleDate: {
  *  ...currentOrPastDateDigitsUI('Date of event')
  * }
  * ```
- * @param {string} title
+ * @param {string | {
+ *   title?: UISchemaOptions['ui:title'],
+ *   hint?: string,
+ * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
-const currentOrPastDateDigitsUI = title => ({
-  ...currentOrPastDateUI(title),
-  'ui:options': {
-    monthSelect: false,
-  },
-});
+const currentOrPastDateDigitsUI = options => {
+  const { title, ...uiOptions } =
+    typeof options === 'object' ? options : { title: options };
 
-/** @type {UISchemaOptions} */
-const DATE_OF_BIRTH_UI = {
-  ...currentOrPastDateUI('Date of birth'),
-  'ui:errorMessages': {
-    pattern: 'Please provide a valid date',
-    required: 'Please enter date of birth',
-  },
+  return currentOrPastDateUI({
+    title,
+    monthSelect: false,
+    ...uiOptions,
+  });
 };
 
 /**
@@ -60,26 +76,29 @@ const DATE_OF_BIRTH_UI = {
  * ```js
  * dateOfBirth: dateOfBirthUI()
  * dateOfBirth: dateOfBirthUI('Stepchild’s date of birth')
+ * dateOfBirth: dateOfBirthUI({
+ *    title: 'Stepchild’s date of birth',
+ *    hint: 'This is a hint'
+ * })
  * ```
- * @param {string} [title] optional title to override default 'Date of birth'
+ * @param {string | {
+ *   title?: UISchemaOptions['ui:title'],
+ *   hint?: string,
+ * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
-const dateOfBirthUI = title => {
-  return title
-    ? {
-        ...DATE_OF_BIRTH_UI,
-        'ui:title': title,
-      }
-    : DATE_OF_BIRTH_UI;
-};
+const dateOfBirthUI = options => {
+  const { title, ...uiOptions } =
+    typeof options === 'object' ? options : { title: options };
 
-/** @type {UISchemaOptions} */
-const DATE_OF_DEATH_UI = {
-  ...currentOrPastDateUI('Date of death'),
-  'ui:errorMessages': {
-    pattern: 'Please provide a valid date',
-    required: 'Please enter date of death',
-  },
+  return currentOrPastDateUI({
+    title: title || 'Date of birth',
+    errorMessages: {
+      pattern: 'Please provide a valid date',
+      required: 'Please provide the date of birth',
+    },
+    ...uiOptions,
+  });
 };
 
 /**
@@ -88,17 +107,29 @@ const DATE_OF_DEATH_UI = {
  * ```js
  * dateOfDeath: dateOfDeathUI()
  * dateOfDeath: dateOfDeathUI('Stepchild’s date of death')
+ * dateOfBirth: dateOfDeathUI({
+ *    title: 'Stepchild’s date of death',
+ *    hint: 'This is a hint'
+ * })
  * ```
- * @param {string} [title] optional title to override default 'Date of death'
+ * @param {string | {
+ *   title?: UISchemaOptions['ui:title'],
+ *   hint?: string,
+ * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
-const dateOfDeathUI = title => {
-  return title
-    ? {
-        ...DATE_OF_DEATH_UI,
-        'ui:title': title,
-      }
-    : DATE_OF_DEATH_UI;
+const dateOfDeathUI = options => {
+  const { title, ...uiOptions } =
+    typeof options === 'object' ? options : { title: options };
+
+  return currentOrPastDateUI({
+    title: title || 'Date of death',
+    errorMessages: {
+      pattern: 'Please provide a valid date',
+      required: 'Please provide the date of death',
+    },
+    ...uiOptions,
+  });
 };
 
 /**
@@ -116,6 +147,11 @@ const currentOrPastDateDigitsSchema = commonDefinitions.date;
  */
 const dateOfBirthSchema = commonDefinitions.date;
 
+/**
+ * @returns `commonDefinitions.date`
+ */
+const dateOfDeathSchema = commonDefinitions.date;
+
 export {
   currentOrPastDateUI,
   currentOrPastDateDigitsUI,
@@ -124,4 +160,5 @@ export {
   currentOrPastDateSchema,
   currentOrPastDateDigitsSchema,
   dateOfBirthSchema,
+  dateOfDeathSchema,
 };

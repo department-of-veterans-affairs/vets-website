@@ -8,7 +8,10 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { dateFormat, processList } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
-import { getConditionDetails } from '../actions/conditions';
+import {
+  getConditionDetails,
+  clearConditionDetails,
+} from '../actions/conditions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -17,6 +20,7 @@ import { pageTitles } from '../util/constants';
 
 const ConditionDetails = () => {
   const condition = useSelector(state => state.mr.conditions.conditionDetails);
+  const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
     state =>
       state.featureToggles[
@@ -36,6 +40,9 @@ const ConditionDetails = () => {
         },
       ]),
     );
+    return () => {
+      dispatch(clearConditionDetails());
+    };
   }, []);
 
   useEffect(
@@ -115,7 +122,15 @@ const ConditionDetails = () => {
     };
 
     try {
-      await generatePdf('medicalRecords', 'conditions_report', pdfData);
+      await generatePdf(
+        'medicalRecords',
+        `VA-Conditions-details-${user.userFullName.first}-${
+          user.userFullName.last
+        }-${moment()
+          .format('M-D-YYYY_hhmmssa')
+          .replace(/\./g, '')}`,
+        pdfData,
+      );
     } catch (error) {
       // Error logging/presentation goes here...
     }
@@ -149,7 +164,6 @@ const ConditionDetails = () => {
               </h2>
             </div>
             <PrintDownload
-              list
               download={download}
               allowTxtDownloads={allowTxtDownloads}
             />
