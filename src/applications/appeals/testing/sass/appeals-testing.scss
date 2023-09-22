@@ -53,7 +53,8 @@ article[data-location="review-then-submit"] {
   }
 }
 
-article[data-location="review-then-submit"] {
+article[data-location="review-then-submit"],
+article[data-location="review-then-submit2"] {
   /* Hide back/continue b/c rendering submit button */
   .form-progress-buttons {
     display: none;
