@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('verify deeplinking sending the draft', () => {
   const site = new SecureMessagingSite();
@@ -19,7 +19,7 @@ describe('verify deeplinking sending the draft', () => {
       .click();
 
     cy.get('.va-modal-alert-body')
-      .find('h1')
+      .find(Locators.HEADER)
       .should('have.text', 'Edit your contact list or signature');
     cy.get('[data-testid="edit-preferences-link"]')
       .should('have.attr', 'href')
