@@ -57,6 +57,12 @@ export const vaccineReducer = (state = initialState, action) => {
         }),
       };
     }
+    case Actions.Vaccines.CLEAR_DETAIL: {
+      return {
+        ...state,
+        vaccineDetails: undefined,
+      };
+    }
     default:
       return state;
   }

@@ -127,7 +127,6 @@ const PathologyDetails = props => {
           </div>
           <div className="no-print">
             <PrintDownload
-              list
               download={generatePathologyPdf}
               allowTxtDownloads={allowTxtDownloads}
             />
