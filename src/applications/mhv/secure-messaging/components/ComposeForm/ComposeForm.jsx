@@ -408,12 +408,9 @@ const ComposeForm = props => {
 
   // useEffect(() => {
   //   const beforeUnloadHandler = e => {
-  //     // e.preventDefault();
   //     console.log('inside beforeUnloadHandler');
   //     console.log(e);
-  //     if (window.confirm('Are you sure you want to leave?')) {
-  //       e.returnValue = 'You have unsaved changes';
-  //     }
+  //     e.returnValue = 'You have unsaved changes';
   //   };
   //   window.addEventListener('beforeunload', beforeUnloadHandler);
   //   return () => {
