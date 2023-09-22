@@ -12,7 +12,7 @@ const mockStoreStandard = {
   getState: () => ({
     pactAct: {
       form: {
-        BURN_PIT_2_1_0: null,
+        BURN_PIT_2_1: null,
         SERVICE_PERIOD: null,
       },
       viewedIntroPage: true,
@@ -26,7 +26,7 @@ const mockStoreNoIntroPage = {
   getState: () => ({
     pactAct: {
       form: {
-        BURN_PIT_2_1_0: null,
+        BURN_PIT_2_1: null,
         SERVICE_PERIOD: null,
       },
       viewedIntroPage: false,
@@ -40,7 +40,7 @@ const pushStub = sinon.stub();
 
 const propsStandard = {
   formResponses: {
-    BURN_PIT_2_1_0: null,
+    BURN_PIT_2_1: null,
     SERVICE_PERIOD: null,
   },
   setServicePeriod: () => {},
@@ -52,7 +52,7 @@ const propsStandard = {
 
 const propsNoIntroPage = {
   formResponses: {
-    BURN_PIT_2_1_0: null,
+    BURN_PIT_2_1: null,
     SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
   },
   setServicePeriod: () => {},

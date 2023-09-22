@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   currentOrPastDateSchema,
   currentOrPastDateUI,
@@ -7,8 +6,11 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import {
+  VaTextInputField,
+  VaCheckboxField,
+} from 'platform/forms-system/src/js/web-component-fields';
+import { FacilityDates, RecordHeading } from '../components/viewElements';
 
 /** @type {PageSchema} */
 export default {
@@ -17,14 +19,7 @@ export default {
     exampleArrayOne: {
       'ui:options': {
         itemName: 'Facility',
-        viewField: ({ formData }) => (
-          <div className="vads-u-padding--2">
-            <strong>{formData.facilityName}</strong>
-            <p>
-              Duration: {formData.from} &mdash; {formData.from}
-            </p>
-          </div>
-        ),
+        viewField: FacilityDates,
         customTitle: ' ',
         useDlWrap: true,
         keepInPageOnReview: true,
@@ -44,11 +39,7 @@ export default {
     exampleArrayTwo: {
       'ui:options': {
         itemName: 'Record',
-        viewField: ({ formData }) => (
-          <div className="vads-u-padding--2">
-            <strong>{formData.name}</strong>
-          </div>
-        ),
+        viewField: RecordHeading,
         customTitle: ' ',
         useDlWrap: true,
         keepInPageOnReview: true,

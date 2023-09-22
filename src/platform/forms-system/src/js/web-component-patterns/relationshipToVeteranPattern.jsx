@@ -5,21 +5,19 @@ export const relationshipToVeteranUI = personTitle => {
   const person = personTitle ?? 'veteran';
 
   return {
-    relationshipToVeteran: {
-      ...radioUI({
-        title: `What’s your relationship to the ${person}?`,
-        labels: {
-          spouse: `I’m the ${person}’s spouse`,
-          child: `I’m the ${person}’s child`,
-          parent: `I’m the ${person}’s parent`,
-          executor: `I’m the ${person}’s executor or administrator of estate`,
-          other: 'We don’t have a relationship that’s listed here',
-        },
-      }),
-      'ui:errorMessages': {
+    relationshipToVeteran: radioUI({
+      title: `What’s your relationship to the ${person}?`,
+      labels: {
+        spouse: `I’m the ${person}’s spouse`,
+        child: `I’m the ${person}’s child`,
+        parent: `I’m the ${person}’s parent`,
+        executor: `I’m the ${person}’s executor or administrator of estate`,
+        other: 'We don’t have a relationship that’s listed here',
+      },
+      errorMessages: {
         required: `Please select your relationship to the ${person}`,
       },
-    },
+    }),
     otherRelationshipToVeteran: {
       'ui:title': `Since your relationship with the ${person} was not listed, please describe it here`,
       'ui:webComponentField': VaTextInputField,

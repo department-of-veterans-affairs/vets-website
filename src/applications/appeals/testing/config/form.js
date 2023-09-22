@@ -39,6 +39,7 @@ import PrimaryPhone from '../components/PrimaryPhone';
 import AddIssue from '../components/AddIssue';
 import TaskList from '../components/TaskList';
 import ReviewPage from '../components/ReviewPage';
+import ReviewPage2 from '../components/ReviewPage2';
 
 import {
   canUploadEvidence,
@@ -53,7 +54,7 @@ import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
 
-import maximalData from '../tests/fixtures/data/test-data.json';
+import mockData from '../tests/fixtures/data/test-data.json';
 
 import manifest from '../manifest.json';
 
@@ -102,7 +103,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: taskList.uiSchema,
           schema: taskList.schema,
-          initialData: maximalData.data,
+          initialData: mockData.data,
           scrollAndFocusTarget,
         },
         veteranInformation: {
@@ -184,6 +185,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: primaryPhone.uiSchema,
           schema: primaryPhone.schema,
+          review: primaryPhone.review,
           scrollAndFocusTarget,
         },
       },
@@ -201,7 +203,7 @@ const formConfig = {
         },
         extensionRequest: {
           title: 'Request an extension',
-          taskListTitle: 'Request deadline extension',
+          taskListHide: true,
           path: 'extension-request',
           uiSchema: extensionRequest.uiSchema,
           schema: extensionRequest.schema,
@@ -352,6 +354,17 @@ const formConfig = {
           title: 'Review and submit',
           path: 'review-then-submit',
           CustomPage: ReviewPage,
+          CustomPageReview: null,
+          uiSchema: review.uiSchema,
+          schema: review.schema,
+          scrollAndFocusTarget,
+        },
+        reviewAndSubmit2: {
+          title: 'Review and submit',
+          taskListHide: true,
+          path: 'review-then-submit2',
+          depends: () => false,
+          CustomPage: ReviewPage2,
           CustomPageReview: null,
           uiSchema: review.uiSchema,
           schema: review.schema,
