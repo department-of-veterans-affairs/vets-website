@@ -136,7 +136,7 @@ const RadiologyDetails = props => {
                 </a>
               </p>
               <p>
-                <strong>Note: </strong>
+                <span className="vads-u-font-weight--bold">Note: </span>
                 If you have questions about more than 1 test ordered by the same
                 care team, send 1 message with all of your questions.
               </p>

@@ -48,7 +48,9 @@ const DownloadRecordsPage = () => {
           </li>
         </ul>
         <p className="vads-u-margin-bottom--0">
-          <strong>What to know before you download </strong>
+          <span className="vads-u-font-weight--bold">
+            What to know before you download{' '}
+          </span>
         </p>
         <ul>
           <li>
@@ -81,8 +83,8 @@ const DownloadRecordsPage = () => {
         </h3>
         <p>
           If you’re looking for recent records, check back later. It may take{' '}
-          <strong>36 hours</strong> for some records to become available for
-          download.
+          <span className="vads-u-font-weight--bold">36 hours</span> for some
+          records to become available for download.
         </p>
         <a href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/">
           Learn how to find other types of records

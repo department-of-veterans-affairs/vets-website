@@ -67,9 +67,11 @@ const LabsAndTests = () => {
         Lab and test results
       </h1>
       <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-        Most lab and test results are available <strong>36 hours</strong> after
-        the lab confirms them. Pathology results may take{' '}
-        <strong>14 days</strong> or longer to confirm.{' '}
+        Most lab and test results are available{' '}
+        <span className="vads-u-font-weight--bold">36 hours</span> after the lab
+        confirms them. Pathology results may take{' '}
+        <span className="vads-u-font-weight--bold">14 days</span> or longer to
+        confirm.{' '}
       </p>
       {content()}
     </div>

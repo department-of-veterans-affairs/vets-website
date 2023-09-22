@@ -59,8 +59,9 @@ const HealthConditions = () => {
     <div className="vads-l-col--12 medium-screen:vads-l-col--8">
       <h1 className="vads-u-margin--0">Health conditions</h1>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
-        Health condition records are available <strong>36 hours</strong> after
-        your providers enter them.
+        Health condition records are available{' '}
+        <span className="vads-u-font-weight--bold">36 hours</span> after your
+        providers enter them.
       </p>
       {content()}
     </div>
