@@ -49,8 +49,7 @@ function IntroductionLoginV2({
       )}
       {shouldShowLoadingIndicator && <LoadingIndicator />}
 
-      {((isClaimantCallComplete && isPersonalInfoFetchFailed) ||
-        showMeb1990EZMaintenanceAlert) && (
+      {(isPersonalInfoFetchFailed || showMeb1990EZMaintenanceAlert) && (
         <va-alert
           close-btn-aria-label="Close notification"
           status="error"
