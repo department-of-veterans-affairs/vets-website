@@ -1,49 +1,125 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { dateFormat, downloadFile } from '../../util/helpers';
+import { useSelector } from 'react-redux';
+import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
-import { getVaccinePdf } from '../../api/MrApi';
 import PrintDownload from '../shared/PrintDownload';
+import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import { sendErrorToSentry } from '../../util/helpers';
+import {
+  generatePdfScaffold,
+  updatePageTitle,
+} from '../../../shared/util/helpers';
+import { pageTitles } from '../../util/constants';
 
 const ProgressNoteDetails = props => {
-  const { results } = props;
+  const { record } = props;
+  const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
 
-  const dateSigned = dateFormat(results?.dateSigned, 'MMMM D, YYYY');
-  const dateUpdated = dateFormat(results?.dateUpdated, 'MMMM D, YYYY');
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    const titleDate = record.dateSigned ? `${record.dateSigned} - ` : '';
+    updatePageTitle(
+      `${titleDate}${record.name} - ${
+        pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE
+      }`,
+    );
+  }, []);
+
+  const generateCareNotesPDF = async () => {
+    const title = `Care summaries and notes on ${formatDateLong(record.date)}`;
+    const subject = 'VA Medical Record';
+    const scaffold = generatePdfScaffold(user, title, subject);
+
+    scaffold.details = {
+      header: 'Details',
+      items: [
+        {
+          title: 'Location',
+          value: record.location,
+          inline: true,
+        },
+        {
+          title: 'Signed by',
+          value: record.physician,
+          inline: true,
+        },
+        {
+          title: 'Last updated',
+          value: record.dateUpdated,
+          inline: true,
+        },
+        {
+          title: 'Date signed',
+          value: record.dateSigned,
+          inline: true,
+        },
+      ],
+    };
+    scaffold.results = {
+      header: 'Notes',
+      items: [
+        {
+          items: [
+            {
+              title: '',
+              value: record.summary,
+              inline: false,
+            },
+          ],
+        },
+      ],
+    };
+
+    try {
+      await generatePdf('medicalRecords', 'care_notes_report', scaffold);
+    } catch (error) {
+      sendErrorToSentry(error, 'Care Note details');
+    }
+  };
 
   const download = () => {
-    getVaccinePdf(1).then(res => downloadFile('ProgressNote.pdf', res.pdf));
+    generateCareNotesPDF();
   };
 
   const content = () => {
-    if (results) {
+    if (record) {
       return (
-        <>
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">{results.name}</h1>
+          <h1
+            className="vads-u-margin-bottom--0"
+            aria-describedby="progress-note-date"
+          >
+            {record.name}
+          </h1>
           <div className="time-header">
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h2
+              className="vads-u-font-size--base vads-u-font-family--sans"
+              id="progress-note-date"
+            >
               Date:{' '}
+              <span className="vads-u-font-weight--normal">
+                {record.dateSigned}
+              </span>
             </h2>
-            <p>{dateSigned}</p>
           </div>
 
           <div className="no-print">
-            <PrintDownload download={download} />
-            <va-additional-info trigger="What to know about downloading records">
-              <ul>
-                <li>
-                  <strong>If you’re on a public or shared computer,</strong>{' '}
-                  print your records instead of downloading. Downloading will
-                  save a copy of your records to the public computer.
-                </li>
-                <li>
-                  <strong>If you use assistive technology,</strong> a Text file
-                  (.txt) may work better for technology such as screen reader,
-                  screen enlargers, or Braille displays.
-                </li>
-              </ul>
-            </va-additional-info>
+            <PrintDownload
+              download={download}
+              allowTxtDownloads={allowTxtDownloads}
+            />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>
 
           <div className="test-details-container max-80">
@@ -51,26 +127,26 @@ const ProgressNoteDetails = props => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h3>
-            <p>{results.facility}</p>
+            <p>{record.location}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Signed by
             </h3>
-            <p>{results.signedBy}</p>
+            <p>{record.physician}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Last updated
             </h3>
-            <p>{dateUpdated}</p>
+            <p>{record.dateUpdated}</p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Date signed
             </h3>
-            <p>{dateSigned}</p>
+            <p>{record.dateSigned}</p>
           </div>
 
           <div className="test-results-container">
             <h2>Note</h2>
-            <p>{results.note}</p>
+            <p>{record.summary}</p>
           </div>
-        </>
+        </div>
       );
     }
     return <></>;
@@ -86,5 +162,5 @@ const ProgressNoteDetails = props => {
 export default ProgressNoteDetails;
 
 ProgressNoteDetails.propTypes = {
-  results: PropTypes.object,
+  record: PropTypes.object,
 };

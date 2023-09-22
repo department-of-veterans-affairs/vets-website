@@ -9,12 +9,14 @@ describe('pre-check-in experience', () => {
   describe('shared components', () => {
     describe('EmergencyContactDisplay', () => {
       it('renders with default values', () => {
-        const { getByText } = render(
+        const { getByTestId } = render(
           <CheckInProvider>
             <EmergencyContactDisplay />
           </CheckInProvider>,
         );
-        expect(getByText('Is this your current emergency contact?')).to.exist;
+        expect(getByTestId('header')).to.contain.text(
+          'Is this your current emergency contact?',
+        );
       });
 
       it('renders emergency contact data', () => {

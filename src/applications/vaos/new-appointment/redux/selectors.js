@@ -1,7 +1,4 @@
-import {
-  selectVAPResidentialAddress,
-  selectCernerAppointmentsFacilities,
-} from 'platform/user/selectors';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import {
   getTimezoneByFacilityId,
@@ -185,17 +182,6 @@ export function hasSingleValidVALocation(state) {
     !!formInfo.data.vaParent &&
     !!formInfo.data.vaFacility
   );
-}
-
-export function selectCernerOrgIds(state) {
-  const cernerSites = selectCernerAppointmentsFacilities(state);
-  return getNewAppointment(state)
-    .parentFacilities?.filter(parent => {
-      return cernerSites?.some(cernerSite =>
-        parent.id.startsWith(cernerSite.facilityId),
-      );
-    })
-    .map(facility => facility.id);
 }
 
 export function selectProviderSelectionInfo(state) {

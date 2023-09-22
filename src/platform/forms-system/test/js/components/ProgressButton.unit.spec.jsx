@@ -122,15 +122,13 @@ describe('<ProgressButton>', () => {
         buttonText="Button text"
         buttonClass="usa-button-primary"
         disabled={false}
-        beforeText={'«'}
-        afterText={'»'}
+        beforeText="«"
+        afterText="»"
       />,
     );
-    expect(tree.text()).to.equal('«\u00a0Button text\u00a0»');
-    const spans = tree.find('span[aria-hidden="true"]');
-    expect(spans).to.have.length.of(2);
-    expect(spans.first().text()).to.equal('«\u00a0');
-    expect(spans.last().text()).to.equal('\u00a0»');
+    expect(tree.text()).to.equal('Button text');
+    const icons = tree.find('i[aria-hidden="true"]');
+    expect(icons).to.have.length.of(2);
     tree.unmount();
   });
 

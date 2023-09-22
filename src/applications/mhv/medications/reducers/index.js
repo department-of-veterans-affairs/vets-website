@@ -1,7 +1,13 @@
-// import { combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 
-// const rootReducer = {
-//   rx: combineReducers({}),
-// };
+import { prescriptionsReducer } from './prescriptions';
+import { breadcrumbsReducer } from './breadcrumbs';
 
-// export default rootReducer;
+const rootReducer = {
+  rx: combineReducers({
+    prescriptions: prescriptionsReducer,
+    breadcrumbs: breadcrumbsReducer,
+  }),
+};
+
+export default rootReducer;

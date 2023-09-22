@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  focusElement,
+  waitForRenderThenFocus,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   DefaultFolders as Folders,
   Alerts,
+  Paths,
   threadSortingOptions,
+  PageTitles,
 } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import FolderHeader from '../components/MessageList/FolderHeader';
@@ -15,78 +19,136 @@ import { clearFolder, retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 import ThreadsList from '../components/ThreadList/ThreadsList';
-import { getListOfThreads, clearListOfThreads } from '../actions/threads';
-import ThreadListSort from '../components/ThreadList/ThreadListSort';
+import {
+  getListOfThreads,
+  setThreadPage,
+  setThreadSortOrder,
+} from '../actions/threads';
 import SearchResults from './SearchResults';
 import { clearSearchResults } from '../actions/search';
+import { convertPathNameToTitleCase, updatePageTitle } from '../util/helpers';
 
 const FolderThreadListView = props => {
   const { testing } = props;
   const dispatch = useDispatch();
-  const [folderId, setFolderId] = useState(null);
   const error = null;
   const threadsPerPage = 10;
-  const threads = useSelector(state => state.sm.threads?.threadList);
-  const folder = useSelector(state => state.sm.folders.folder);
-  const { searchResults, awaitingResults, keyword, query } = useSelector(
-    state => state.sm.search,
+  const { threadList, threadSort, isLoading } = useSelector(
+    state => state.sm.threads,
   );
+  const folder = useSelector(state => state.sm.folders?.folder);
+  const {
+    searchFolder,
+    searchResults,
+    awaitingResults,
+    keyword,
+    query,
+  } = useSelector(state => state.sm.search);
   const location = useLocation();
   const params = useParams();
-  const [pageNum, setPageNum] = useState(1);
-  const [sortOrder, setSortOrder] = useState(threadSortingOptions.DESCENDING);
-  const [sortBy, setSortBy] = useState(threadSortingOptions.SORT_BY_SENT_DATE);
 
-  const MAX_PAGE_LIST_LENGTH = 5;
+  const displayingNumberOfThreadsSelector =
+    "[data-testid='displaying-number-of-threads']";
 
-  const handleSortCallback = () => {
-    setPageNum(1);
-    dispatch(
-      getListOfThreads(folderId, threadsPerPage, 1, sortBy, sortOrder),
-      true,
-    );
+  const handleSortCallback = sortOrderValue => {
+    dispatch(setThreadSortOrder(sortOrderValue, folder.folderId, 1));
+    waitForRenderThenFocus(displayingNumberOfThreadsSelector, document, 500);
   };
 
   const handlePagination = page => {
-    setPageNum(page);
-    dispatch(
-      getListOfThreads(folderId, threadsPerPage, page, sortBy, sortOrder),
-    ).then(() => {
-      focusElement(
-        document.querySelector("[data-testid='displaying-number-of-threads']"),
-      );
-    });
+    dispatch(setThreadPage(page));
+    waitForRenderThenFocus(displayingNumberOfThreadsSelector, document, 500);
   };
 
   useEffect(
     () => {
-      // code below is to be used if we decide to preserve search results when
-      // navigating between messages in the same folder
-      // searchFolder comes from  state.sm.search
+      // clear out folder reducer to prevent from previous folder data flashing
+      // when navigating between folders
+      if (!testing) dispatch(clearFolder());
 
-      // if (folderId !== null && folderId !== searchFolder?.folderId) {
-      //   dispatch(clearSearchResults());
-      // }
-      dispatch(clearSearchResults());
-      if (folderId !== null) {
-        setPageNum(1);
-        dispatch(retrieveFolder(folderId));
+      let id = null;
+      if (params?.folderId) {
+        id = params.folderId;
+      } else {
+        switch (location.pathname) {
+          case Paths.INBOX:
+            id = Folders.INBOX.id;
+            break;
+          case Paths.SENT:
+            id = Folders.SENT.id;
+            break;
+          case Paths.DRAFTS:
+            id = Folders.DRAFTS.id;
+            break;
+          case Paths.DELETED:
+            id = Folders.DELETED.id;
+            break;
+          default:
+            break;
+        }
+      }
+      dispatch(retrieveFolder(id));
+
+      return () => {
+        // clear out alerts if user navigates away from this component
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [dispatch, location.pathname, params.folderId],
+  );
+
+  useEffect(
+    () => {
+      if (folder?.folderId !== (null || undefined)) {
+        if (folder.folderId !== threadSort?.folderId) {
+          dispatch(
+            setThreadSortOrder(
+              threadSortingOptions.SENT_DATE_DESCENDING.value,
+              folder.folderId,
+              1,
+            ),
+          );
+          // updates page title
+          if (folder.name === convertPathNameToTitleCase(location.pathname)) {
+            updatePageTitle(`${folder.name} ${PageTitles.PAGE_TITLE_TAG}`);
+          }
+        } else {
+          dispatch(
+            setThreadSortOrder(
+              threadSort.value,
+              folder.folderId,
+              threadSort.page,
+            ),
+          );
+        }
+
+        if (folder.folderId !== searchFolder?.folderId) {
+          dispatch(clearSearchResults());
+        }
+      }
+    },
+    [folder?.folderId, dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (
+        folder?.folderId !== (null || undefined) &&
+        threadSort.value !== null
+      ) {
         dispatch(
           getListOfThreads(
-            folderId,
+            folder.folderId,
             threadsPerPage,
-            1, // pageNum
-            sortBy,
-            sortOrder,
-            true,
+            threadSort.page,
+            threadSort.value,
           ),
         );
       }
-      // on component unmount, clear out threads reducer to prevent from
-      // previous threads results flashing when navigating between messages
-      return () => dispatch(clearListOfThreads());
     },
-    [folderId, dispatch],
+    [dispatch, threadSort.value, threadSort.folderId, threadSort.page],
   );
 
   useEffect(
@@ -98,56 +160,14 @@ const FolderThreadListView = props => {
     [folder],
   );
 
-  useEffect(
-    () => {
-      // clear out folder reducer to prevent from previous folder data flashing
-      // when navigating between folders
-      if (!testing) dispatch(clearFolder());
-      if (location.pathname.includes('/folder')) {
-        setFolderId(params.folderId);
-      } else {
-        switch (location.pathname) {
-          case '/inbox':
-            setFolderId(Folders.INBOX.id);
-            break;
-          case '/sent':
-            setFolderId(Folders.SENT.id);
-            break;
-          case '/drafts':
-            setFolderId(Folders.DRAFTS.id);
-            break;
-          case '/trash':
-            setFolderId(Folders.DELETED.id);
-            break;
-          default:
-            break;
-        }
-      }
-    },
-    [dispatch, location.pathname, params.folderId],
-  );
-
-  // clear out alerts if user navigates away from this component
-  useEffect(
-    () => {
-      return () => {
-        if (location.pathname) {
-          dispatch(closeAlert());
-        }
-      };
-    },
-    [location.pathname, dispatch],
-  );
-
   useInterval(() => {
-    if (folderId) {
+    if (folder?.folderId !== null) {
       dispatch(
         getListOfThreads(
-          folderId,
+          folder.folderId,
           threadsPerPage,
-          pageNum,
-          sortBy,
-          sortOrder,
+          threadSort.page,
+          threadSort.value,
           true,
         ),
       );
@@ -164,97 +184,96 @@ const FolderThreadListView = props => {
     );
   };
 
-  const content = () => {
-    if (
-      (threads === undefined && searchResults === undefined) ||
-      awaitingResults
-    ) {
-      return <LoadingIndicator />;
-    }
+  const content = useMemo(
+    () => {
+      if (isLoading || awaitingResults) {
+        return <LoadingIndicator />;
+      }
 
-    if (threads?.length === 0) {
-      return (
-        <>
-          <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
-            Displaying 0 of 0 conversations
-          </div>
-          <div className="vads-u-margin-top--3">
-            <va-alert
-              background-only="true"
-              status="info"
-              className="vads-u-margin-bottom--1 va-alert"
-              data-testid="alert-no-messages"
-            >
-              <p className="vads-u-margin-y--0">{Alerts.Message.NO_MESSAGES}</p>
-            </va-alert>
-          </div>
-        </>
-      );
-    }
+      if (threadList?.length === 0) {
+        return (
+          <>
+            <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+              Showing 0 of 0 conversations
+            </div>
+            <div className="vads-u-margin-top--3">
+              <va-alert
+                background-only="true"
+                status="info"
+                className="vads-u-margin-bottom--1 va-alert"
+                data-testid="alert-no-messages"
+              >
+                <p className="vads-u-margin-y--0">
+                  {Alerts.Message.NO_MESSAGES}
+                </p>
+              </va-alert>
+            </div>
+          </>
+        );
+      }
 
-    if (error) {
-      return (
-        <va-alert status="error" visible>
-          <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
-          <p>
-            You can’t view your secure messages because something went wrong on
-            our end. Please check back soon.
-          </p>
-        </va-alert>
-      );
-    }
+      if (error) {
+        return (
+          <va-alert status="error" visible>
+            <h2 slot="headline">
+              We’re sorry. Something went wrong on our end
+            </h2>
+            <p>
+              You can’t view your secure messages because something went wrong
+              on our end. Please check back soon.
+            </p>
+          </va-alert>
+        );
+      }
 
-    if (searchResults !== undefined) {
-      return (
-        <>
-          <SearchResults />
-        </>
-      );
-    }
+      if (searchResults !== undefined) {
+        return <SearchResults />;
+      }
 
-    if (threads.length > 0) {
-      return (
-        <>
-          <ThreadListSort
-            defaultSortOrder={threadSortingOptions.DESCENDING}
-            setSortOrder={setSortOrder}
-            setSortBy={setSortBy}
-            sortCallback={handleSortCallback}
-          />
-          <ThreadsList
-            threadList={threads}
-            folder={folder}
-            pageNum={pageNum}
-            threadsPerPage={threadsPerPage}
-          />
-          {threads?.length > 1 && (
-            <VaPagination
-              onPageSelect={e => handlePagination(e.detail.page)}
-              page={pageNum}
-              pages={Math.ceil(threads[0]?.threadPageSize / threadsPerPage)}
-              maxPageListLength={MAX_PAGE_LIST_LENGTH}
-              showLastPage
+      if (threadList?.length > 0) {
+        return (
+          <>
+            <ThreadsList
+              threadList={threadList}
+              folder={folder}
+              pageNum={threadSort.page}
+              paginationCallback={handlePagination}
+              threadsPerPage={threadsPerPage}
+              sortOrder={threadSort.value}
+              sortCallback={handleSortCallback}
             />
-          )}
-        </>
-      );
-    }
-    return null;
-  };
+          </>
+        );
+      }
+      return null;
+    },
+    [
+      awaitingResults,
+      folder,
+      handlePagination,
+      handleSortCallback,
+      isLoading,
+      searchResults,
+      threadList,
+      threadSort.page,
+      threadSort.value,
+    ],
+  );
 
   return (
-    <div className="vads-l-grid-container vads-u-padding--0">
-      <div className="main-content">
+    <div className="vads-u-padding--0">
+      <div className="main-content vads-u-display--flex vads-u-flex-direction--column">
         <AlertBackgroundBox closeable />
         {folder?.folderId === undefined && <LoadingIndicator />}
         {folder?.folderId !== undefined && (
           <>
             <FolderHeader
               folder={folder}
+              threadCount={threadList?.length}
               searchProps={{ searchResults, awaitingResults, keyword, query }}
             />
 
-            {content()}
+            {content}
           </>
         )}
       </div>

@@ -1,35 +1,47 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { GA_PREFIX } from 'applications/vaos/utils/constants';
 import { startNewAppointmentFlow } from '../redux/actions';
 import {
   selectFeatureRequests,
   selectFeatureStatusImprovement,
+  selectFeaturePrintList,
+  selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 
-function handleClick(history, dispatch) {
+function handleClick(history, dispatch, featureBreadcrumbUrlUpdate) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(`/new-appointment`);
+    history.push(
+      featureBreadcrumbUrlUpdate
+        ? '/schedule/type-of-care'
+        : '/new-appointment',
+    );
   };
 }
 
 function ScheduleNewAppointmentButton() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const isPrintList = useSelector(state => selectFeaturePrintList(state));
+  const featureBreadcrumbUrlUpdate = useSelector(
+    selectFeatureBreadcrumbUrlUpdate,
+  );
 
   return (
     <button
       type="button"
-      className="xsmall-screen:vads-u-margin-bottom--2 vaos-hide-for-print vads-u-margin--0 small-screen:vads-u-margin-bottom--4"
+      className={`xsmall-screen:${
+        isPrintList ? 'vads-u-margin-bottom--3' : 'vads-u-margin-bottom--2'
+      } vaos-hide-for-print vads-u-margin--0 small-screen:vads-u-margin-bottom--4`}
       aria-label="Start scheduling an appointment"
       id="schedule-button"
-      onClick={handleClick(history, dispatch)}
+      onClick={handleClick(history, dispatch, featureBreadcrumbUrlUpdate)}
     >
       Start scheduling
     </button>

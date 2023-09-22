@@ -22,7 +22,13 @@ const RealEstateDescription = (
 );
 
 export const uiSchema = {
-  'ui:title': 'Your real estate assets',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Your real estate assets</h3>
+      </legend>
+    </>
+  ),
   'ui:options': {
     hideOnReview: true,
   },

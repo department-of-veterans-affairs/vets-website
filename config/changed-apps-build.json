@@ -61,7 +61,7 @@
       "slackGroup": "@vsp-identity-group"
     },
     {
-      "rootFolder": "terms-and-conditions",
+      "rootFolder": "terms-of-use",
       "continuousDeployment": false
     },
     {

@@ -1,6 +1,7 @@
-import environment from 'platform/utilities/environment';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { dateFormat, getNames, getReactions } from '../util/helpers';
+import { EMPTY_FIELD, allergyTypes } from '../util/constants';
+import { getReactions, isArrayAndHasItems } from '../util/helpers';
 
 const initialState = {
   /**
@@ -14,17 +15,29 @@ const initialState = {
   allergyDetails: undefined,
 };
 
-const convertAllergy = allergy => {
+const interpretObservedOrReported = code => {
+  if (code === 'confirmed') return allergyTypes.OBSERVED;
+  if (code === 'unconfirmed') return allergyTypes.REPORTED;
+  return EMPTY_FIELD;
+};
+
+export const convertAllergy = allergy => {
   return {
     id: allergy.id,
-    type: allergy.type,
-    name: getNames(allergy),
+    type:
+      (isArrayAndHasItems(allergy.category) &&
+        allergy.category[0].charAt(0).toUpperCase() +
+          allergy.category[0].slice(1)) ||
+      EMPTY_FIELD,
+    name: allergy?.code?.text || EMPTY_FIELD,
+    date: formatDateLong(allergy.onsetDateTime),
     reaction: getReactions(allergy),
-    date: dateFormat(allergy.meta?.lastUpdated, 'MMMM D, YYYY'),
-    // drugClass: allergy.drugClass,
-    // location: allergy.location,
-    // observed: allergy.observed,
-    // notes: allergy.notes,
+    location: allergy.recorder?.display || EMPTY_FIELD,
+    observedOrReported:
+      isArrayAndHasItems(allergy.verificationStatus?.coding) &&
+      interpretObservedOrReported(allergy.verificationStatus.coding[0].code),
+    notes:
+      (isArrayAndHasItems(allergy.note) && allergy.note[0].text) || EMPTY_FIELD,
   };
 };
 
@@ -33,23 +46,22 @@ export const allergyReducer = (state = initialState, action) => {
     case Actions.Allergies.GET: {
       return {
         ...state,
-        allergyDetails:
-          environment.BUILDTYPE === 'localhost'
-            ? convertAllergy(action.response)
-            : action.response,
+        allergyDetails: convertAllergy(action.response),
       };
     }
     case Actions.Allergies.GET_LIST: {
       return {
         ...state,
         allergiesList:
-          environment.BUILDTYPE === 'localhost'
-            ? action.response.entry.map(allergy => {
-                return convertAllergy(allergy.resource);
-              })
-            : action.response.map(allergy => {
-                return { ...allergy };
-              }),
+          action.response.entry?.map(allergy => {
+            return convertAllergy(allergy.resource);
+          }) || [],
+      };
+    }
+    case Actions.Allergies.CLEAR_DETAIL: {
+      return {
+        ...state,
+        allergyDetails: undefined,
       };
     }
     default:

@@ -6,14 +6,14 @@ import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
-import { SELECTED, CONTESTABLE_ISSUES_PATH } from '../../constants';
+import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../../shared/constants';
 
 describe('NOD selected issues summary page', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.conditions.pages.issueSummary;
-  const data = { contestableIssues: [{}] };
+  const data = { contestedIssues: [{}] };
 
   it('should render', () => {
     const form = mount(
@@ -22,7 +22,7 @@ describe('NOD selected issues summary page', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          contestableIssues: [{ [SELECTED]: true }],
+          contestedIssues: [{ [SELECTED]: true }],
           additionalIssues: [{ [SELECTED]: true }],
         }}
         formData={{}}

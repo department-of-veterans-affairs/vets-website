@@ -56,7 +56,7 @@ describe('Check In Experience', () => {
       EmergencyContact.attemptToGoToNextPage();
 
       NextOfKin.validatePageLoaded(
-        'Is this your current next of kin information?',
+        'Check-In Is this your current next of kin information?',
       );
       cy.reload();
       Error.validatePageLoaded();
@@ -68,7 +68,7 @@ describe('Check In Experience', () => {
       EmergencyContact.attemptToGoToNextPage();
 
       NextOfKin.validatePageLoaded(
-        'Is this your current next of kin information?',
+        'Check-In Is this your current next of kin information?',
       );
       NextOfKin.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
@@ -82,7 +82,7 @@ describe('Check In Experience', () => {
       EmergencyContact.attemptToGoToNextPage();
 
       NextOfKin.validatePageLoaded(
-        'Is this your current next of kin information?',
+        'Check-In Is this your current next of kin information?',
       );
       NextOfKin.attemptToGoToNextPage();
       Appointments.validatePageLoaded();

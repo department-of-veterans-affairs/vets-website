@@ -1,54 +1,160 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { dateFormat, downloadFile } from '../../util/helpers';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import { useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
-import { getVaccinePdf } from '../../api/MrApi';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
+import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import { processList, sendErrorToSentry } from '../../util/helpers';
+import {
+  generatePdfScaffold,
+  updatePageTitle,
+} from '../../../shared/util/helpers';
+import { pageTitles } from '../../util/constants';
 
 const ChemHemDetails = props => {
   const { record, fullState } = props;
+  const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
+  const formattedDate = formatDateLong(record?.date);
 
-  const formattedDate = dateFormat(record?.date, 'MMMM D, YYYY');
-
-  const download = () => {
-    getVaccinePdf(1).then(res =>
-      downloadFile('chemistry-hematology.pdf', res.pdf),
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    const titleDate = formattedDate ? `${formattedDate} - ` : '';
+    updatePageTitle(
+      `${titleDate}${record.name} - ${
+        pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
+      }`,
     );
+  }, []);
+
+  const generateChemHemPdf = async () => {
+    const title = `Lab and test results: ${record.name} on ${formatDateLong(
+      record.date,
+    )}`;
+    const subject = 'VA Medical Record';
+    const preface =
+      'If you have questions about these results, send a secure message to your care team. ';
+    const scaffold = generatePdfScaffold(user, title, subject, preface);
+
+    scaffold.details = {
+      header: 'Details about this test',
+      items: [
+        {
+          title: 'Type of test',
+          value: record.type,
+          inline: true,
+        },
+        {
+          title: 'Sample tested',
+          value: record.sampleTested,
+          inline: true,
+        },
+        {
+          title: 'Ordered by',
+          value: record.orderedBy,
+          inline: true,
+        },
+        {
+          title: 'Ordering location',
+          value: record.orderingLocation,
+          inline: true,
+        },
+        {
+          title: 'Collecting location',
+          value: record.collectingLocation,
+          inline: true,
+        },
+        {
+          title: 'Provider notes',
+          value: processList(record.comments),
+          inline: !record.comments,
+        },
+      ],
+    };
+    scaffold.results = {
+      header: 'Results',
+      preface:
+        "If your results are outside the standard range, this doesn't automatically mean you have a health problem. Your provider will review your results and explain what they mean for your health.",
+      sectionSeparators: true,
+      items: record.results.map(item => ({
+        header: item.name,
+        items: [
+          {
+            title: 'Result',
+            value: item.result,
+            inline: true,
+          },
+          {
+            title: 'Standard range',
+            value: item.standardRange,
+            inline: true,
+          },
+          {
+            title: 'Status',
+            value: item.status,
+            inline: true,
+          },
+          {
+            title: 'Lab location',
+            value: item.labLocation,
+            inline: true,
+          },
+          {
+            title: 'Interpretation',
+            value: item.interpretation,
+            inline: true,
+          },
+        ],
+      })),
+    };
+    try {
+      await generatePdf('medicalRecords', 'microbiology_report', scaffold);
+    } catch (error) {
+      sendErrorToSentry(error, 'Microbiology details');
+    }
   };
 
   const content = () => {
     if (record) {
       return (
-        <>
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--1">{record.name}</h1>
+          <h1
+            className="vads-u-margin-bottom--1"
+            aria-describedby="chem-hem-date"
+          >
+            {record.name}
+          </h1>
           <div className="time-header">
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+            <p
+              className="vads-u-font-size--base vads-u-font-family--sans"
+              id="chem-hem-date"
+            >
               Date:{' '}
-            </h2>
-            <p>{formattedDate}</p>
+              <span className="vads-u-font-weight--normal">
+                {formattedDate}
+              </span>
+            </p>
           </div>
-
           <div className="no-print">
-            <PrintDownload list download={download} />
-            <va-additional-info trigger="What to know about downloading records">
-              <ul>
-                <li>
-                  <strong>If you’re on a public or shared computer,</strong>{' '}
-                  print your records instead of downloading. Downloading will
-                  save a copy of your records to the public computer.
-                </li>
-                <li>
-                  <strong>If you use assistive technology,</strong> a Text file
-                  (.txt) may work better for technology such as screen reader,
-                  screen enlargers, or Braille displays.
-                </li>
-              </ul>
-            </va-additional-info>
+            <PrintDownload
+              download={generateChemHemPdf}
+              allowTxtDownloads={allowTxtDownloads}
+            />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>
           {/*                   TEST DETAILS                          */}
           <div className="test-details-container max-80">
@@ -76,10 +182,7 @@ const ChemHemDetails = props => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider notes
             </h3>
-            <ItemList
-              list={record.comments}
-              emptyMessage="No notes reported at this time"
-            />
+            <ItemList list={record.comments} />
           </div>
           {/*         RESULTS CARDS            */}
           <div className="test-results-container">
@@ -88,10 +191,13 @@ const ChemHemDetails = props => {
               trigger="Need help understanding your results?"
               class="no-print"
             >
+              <p className="vads-u-margin-bottom--1">
+                If your results are outside the standard range, this doesn’t
+                automatically mean you have a health problem. Your provider will
+                review your results and explain what they mean for your health.
+              </p>
               <p>
-                Your provider will review your results and explain what they
-                mean for your health. To ask a question now, send a secure
-                message to your care team.
+                To ask a question now, send a secure message to your care team.
               </p>
               <p>
                 <a
@@ -99,10 +205,9 @@ const ChemHemDetails = props => {
                     isAuthenticatedWithSSOe(fullState),
                     'secure-messaging',
                   )}
-                  target="_blank"
-                  rel="noreferrer"
+                  rel="noreferrer" // check dis
                 >
-                  Start a new message
+                  Compose a message.
                 </a>
               </p>
             </va-additional-info>
@@ -123,9 +228,8 @@ const ChemHemDetails = props => {
               </p>
             </div>
             <ChemHemResults results={record.results} />
-            <va-back-to-top class="no-print" />
           </div>
-        </>
+        </div>
       );
     }
     return <></>;

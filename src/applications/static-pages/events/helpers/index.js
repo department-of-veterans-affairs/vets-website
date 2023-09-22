@@ -179,9 +179,17 @@ export const filterEvents = (
     case 'upcoming': {
       return events
         .filter(event => {
-          return moment(
+          const start = moment(
             event?.fieldDatetimeRangeTimezone[0]?.value * 1000,
-          ).isAfter(now.clone());
+          );
+          const end = moment(
+            event?.fieldDatetimeRangeTimezone[0]?.endValue * 1000,
+          );
+          return (
+            moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isAfter(
+              now.clone(),
+            ) || now.clone().isBetween(start, end)
+          );
         })
         .reduce(keepUniqueEventsFromList, []);
     }
@@ -343,27 +351,44 @@ export const deriveEventLocations = event => {
     return locations;
   }
 
-  if (event?.fieldLocationHumanreadable) {
-    locations.push(event?.fieldLocationHumanreadable);
-  }
+  if (event?.fieldFacilityLocation?.entity?.fieldAddress) {
+    const fieldFacilityEntity = event?.fieldFacilityLocation?.entity;
+    const {
+      addressLine1,
+      addressLine2,
+      locality,
+      administrativeArea,
+    } = fieldFacilityEntity?.fieldAddress;
+    if (addressLine1) {
+      locations.push(addressLine1);
+    }
 
-  if (event?.fieldAddress?.addressLine1) {
-    locations.push(event?.fieldAddress?.addressLine1);
-  }
+    if (addressLine2) {
+      locations.push(addressLine2);
+    }
 
-  if (event?.fieldAddress?.addressLine2) {
-    locations.push(event?.fieldAddress?.addressLine2);
-  }
+    if (locality && administrativeArea) {
+      locations.push(`${locality}, ${administrativeArea}`);
+    }
+  } else {
+    if (event?.fieldAddress?.addressLine1) {
+      locations.push(event?.fieldAddress?.addressLine1);
+    }
 
-  if (
-    event?.fieldAddress?.locality &&
-    event?.fieldAddress?.administrativeArea
-  ) {
-    locations.push(
-      `${event?.fieldAddress?.locality}, ${
-        event?.fieldAddress?.administrativeArea
-      }`,
-    );
+    if (event?.fieldAddress?.addressLine2) {
+      locations.push(event?.fieldAddress?.addressLine2);
+    }
+
+    if (
+      event?.fieldAddress?.locality &&
+      event?.fieldAddress?.administrativeArea
+    ) {
+      locations.push(
+        `${event?.fieldAddress?.locality}, ${
+          event?.fieldAddress?.administrativeArea
+        }`,
+      );
+    }
   }
 
   return locations;

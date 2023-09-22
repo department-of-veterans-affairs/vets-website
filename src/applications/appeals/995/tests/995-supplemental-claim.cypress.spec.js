@@ -11,6 +11,7 @@ import {
   mockContestableIssuesWithLegacyAppeals,
   getPastItf,
   fetchItf,
+  getRandomDate,
 } from './995.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
@@ -23,7 +24,6 @@ import {
   EVIDENCE_UPLOAD_API,
   PRIMARY_PHONE,
   BASE_URL,
-  CONTESTABLE_ISSUES_PATH,
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_REQUEST,
   EVIDENCE_PRIVATE_PATH,
@@ -31,6 +31,8 @@ import {
   EVIDENCE_PRIVATE,
   EVIDENCE_UPLOAD_PATH,
 } from '../constants';
+
+import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
 
 const testConfig = createTestConfig(
   {
@@ -68,21 +70,49 @@ const testConfig = createTestConfig(
         });
       },
       [CONTESTABLE_ISSUES_PATH]: ({ afterHook }) => {
-        cy.fillPage();
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(testData => {
-            testData.additionalIssues?.forEach(({ issue, decisionDate }) => {
-              if (issue) {
+            cy.findByText('Continue', { selector: 'button' }).click();
+            // prevent continuing without any issues selected
+            cy.location('pathname').should(
+              'eq',
+              `${BASE_URL}/${CONTESTABLE_ISSUES_PATH}`,
+            );
+            cy.get('va-alert[status="error"] h3').should(
+              'contain',
+              'You’ll need to select an issue',
+            );
+
+            testData.additionalIssues?.forEach(additionalIssue => {
+              if (additionalIssue.issue && additionalIssue[SELECTED]) {
                 cy.get('.add-new-issue').click();
                 cy.url().should('include', `${BASE_URL}/add-issue?index=`);
                 cy.axeCheck();
-                cy.get('#add-sc-issue')
-                  .shadow()
-                  .find('input')
-                  .type(issue);
-                cy.fillDate('decision-date', decisionDate);
+                if (navigator.userAgent.includes('Chrome')) {
+                  cy.get('#issue-name')
+                    .shadow()
+                    .find('input')
+                    .focus()
+                    .realType(additionalIssue.issue);
+                } else {
+                  cy.get('#issue-name')
+                    .shadow()
+                    .find('input')
+                    .type(additionalIssue.issue);
+                }
+                cy.fillDate('decision-date', getRandomDate());
                 cy.get('#submit').click();
+              }
+            });
+            testData.contestedIssues.forEach(issue => {
+              if (issue[SELECTED]) {
+                cy.get(
+                  `h4:contains("${issue.attributes.ratingIssueSubjectText}")`,
+                )
+                  .closest('li')
+                  .find('input[type="checkbox"]')
+                  .click();
               }
             });
             cy.findByText('Continue', { selector: 'button' }).click();
@@ -94,7 +124,10 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(({ form5103Acknowledged }) => {
             if (form5103Acknowledged) {
-              cy.get('va-checkbox').click();
+              cy.get('va-checkbox')
+                .shadow()
+                .find('input')
+                .click();
             }
             cy.findByText('Continue', { selector: 'button' }).click();
           });
@@ -109,10 +142,20 @@ const testConfig = createTestConfig(
                 if (index > 0) {
                   cy.url().should('include', `index=${index}`);
                 }
-                cy.get('#add-location-name')
-                  .shadow()
-                  .find('input')
-                  .type(location.locationAndName);
+                if (navigator.userAgent.includes('Chrome')) {
+                  // using realType to hopefully fix the input fields appear to
+                  // be disabled in CI causing the stress test to fail
+                  cy.get('#add-location-name')
+                    .shadow()
+                    .find('input')
+                    .focus()
+                    .realType(location.locationAndName);
+                } else {
+                  cy.get('#add-location-name')
+                    .shadow()
+                    .find('input')
+                    .type(location.locationAndName);
+                }
                 location?.issues.forEach(issue => {
                   cy.get(`va-checkbox[value="${issue}"]`)
                     .shadow()
@@ -155,7 +198,10 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             if (data.privacyAgreementAccepted) {
-              cy.get('va-checkbox').click();
+              cy.get('va-checkbox')
+                .shadow()
+                .find('input')
+                .click();
             }
             cy.findByText('Continue', { selector: 'button' }).click();
           });

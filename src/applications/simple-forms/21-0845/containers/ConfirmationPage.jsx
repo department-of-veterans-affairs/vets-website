@@ -1,88 +1,79 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
+// va-telephone doesn't display 1-800 numbers correctly
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format, isValid } from 'date-fns';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
-  }
-
-  render() {
-    const { form } = this.props;
-    const { submission, formId, data } = form;
-    const { fullName } = data;
-    // TODO: Remove submitDate mock below when API is ready
-    const submitDate = submission.timestamp
-      ? format(submission.timestamp, 'yyyy-mm-dd')
-      : format(new Date(), 'yyyy-mm-dd');
-
-    return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
+const content = {
+  headlineText: 'Thank you for submitting your authorization',
+  nextStepsText: (
+    <>
+      <p>
+        If you change your mind and do not want VA to give out your personal
+        benefit or claim information, you may notify us in writing, or by
+        telephone at{' '}
+        <a href="tel:+18008271000" aria-label="1. 8 0 0. 8 2 7. 1 0 0 0.">
+          1-800-827-1000
+        </a>{' '}
+        or contact VA online at{' '}
+        <a href="https://ask.va.gov" target="_blank" rel="noopener noreferrer">
+          Ask VA
+          <i
+            className="fas fa-arrow-up-right-from-square"
+            aria-hidden="true"
+            role="img"
           />
-          <h2>
-            Authorization to Disclose Personal Information to a Third Party
-          </h2>
-        </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            Authorize VA to Disclose Personal Information to a Third Party{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
+        </a>
+        .
+      </p>
+      <p>
+        Upon notification from you VA will no longer give out benefit or claim
+        information (except for the information VA has already given out based
+        on your permission).
+      </p>
+    </>
+  ),
+};
 
-          {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
-          ) : null}
-          <button
-            type="button"
-            className="usa-button screen-only"
-            onClick={window.print}
-          >
-            Print this for your records
-          </button>
-        </div>
-      </div>
-    );
-  }
-}
+export const ConfirmationPage = () => {
+  const form = useSelector(state => state.form || {});
+  const { submission } = form;
+  const fullName = form.data?.veteranFullName;
+  const submitDate = submission.timestamp;
+  const confirmationNumber = submission.response?.confirmationNumber;
+
+  return (
+    <ConfirmationPageView
+      formType="authorization"
+      submitterHeader="Submitter"
+      submitterName={fullName}
+      submitDate={submitDate}
+      confirmationNumber={confirmationNumber}
+      content={content}
+    />
+  );
+};
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
       fullName: {
-        first: PropTypes.string,
+        first: PropTypes.string.isRequired,
         middle: PropTypes.string,
-        last: PropTypes.string,
+        last: PropTypes.string.isRequired,
         suffix: PropTypes.string,
       },
     }),
     formId: PropTypes.string,
     submission: PropTypes.shape({
-      timestamp: PropTypes.string,
+      response: PropTypes.shape({
+        attributes: PropTypes.shape({
+          confirmationNumber: PropTypes.string.isRequired,
+        }).isRequired,
+      }).isRequired,
+      timestamp: PropTypes.string.isRequired,
     }),
   }),
   name: PropTypes.string,

@@ -18,7 +18,6 @@ import manifest from 'applications/personalization/dashboard/manifest.json';
 describe('The My VA Dashboard', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    cy.server();
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept(
@@ -26,12 +25,13 @@ describe('The My VA Dashboard', () => {
       disabilityRating,
     );
   });
+
   it('should show a dismissible modal if a dependent service has downtime approaching in the next hour', () => {
     // start time is one minute from now
     const startTime = new Date(Date.now() + 60 * 1000);
     // end time is one hour from now
     const endTime = new Date(Date.now() + 60 * 60 * 1000);
-    cy.route('GET', '/v0/maintenance_windows', {
+    cy.intercept('GET', '/v0/maintenance_windows', {
       data: [
         {
           id: '1',
@@ -53,14 +53,16 @@ describe('The My VA Dashboard', () => {
     cy.visit(manifest.rootUrl);
     cy.findByRole('button', { name: /close/i }).click();
     cy.findByRole('button', { name: /close/i }).should('not.exist');
+    cy.injectAxeThenAxeCheck();
   });
+
   it('should not show a modal if there is no upcoming downtime', () => {
     const oneDayInMS = 60 * 60 * 24 * 1000;
     // start time is one day from now
     const startTime = new Date(Date.now() + oneDayInMS);
     // end time is two days from now
     const endTime = new Date(Date.now() + oneDayInMS * 2);
-    cy.route('GET', '/v0/maintenance_windows', {
+    cy.intercept('GET', '/v0/maintenance_windows', {
       data: [
         {
           id: '1',
@@ -78,13 +80,15 @@ describe('The My VA Dashboard', () => {
     cy.visit(manifest.rootUrl);
     cy.findByRole('heading', { name: /My VA/i }).should('exist');
     cy.findByRole('button', { name: /continue/i }).should('not.exist');
+    cy.injectAxeThenAxeCheck();
   });
+
   it('should show an alert in place of Claims and Appeals data if there is active MHV service downtime', () => {
     // start time is one minute ago
     const startTime = new Date(Date.now() - 60 * 1000);
     // end time is one hour from now
     const endTime = new Date(Date.now() + 60 * 60 * 1000);
-    cy.route('GET', '/v0/maintenance_windows', {
+    cy.intercept('GET', '/v0/maintenance_windows', {
       data: [
         {
           id: '1',
@@ -105,15 +109,17 @@ describe('The My VA Dashboard', () => {
     );
     cy.findByText(/problems with the claims or appeals tool/i).should('exist');
     cy.findByRole('link', {
-      name: /check your claim or appeal status/i,
+      name: /manage all claims and appeals/i,
     }).should('not.exist');
+    cy.injectAxeThenAxeCheck();
   });
+
   it('should show an alert in place of Claims and Appeals data if there is active appeals service downtime', () => {
     // start time is one minute ago
     const startTime = new Date(Date.now() - 60 * 1000);
     // end time is one hour from now
     const endTime = new Date(Date.now() + 60 * 60 * 1000);
-    cy.route('GET', '/v0/maintenance_windows', {
+    cy.intercept('GET', '/v0/maintenance_windows', {
       data: [
         {
           id: '1',
@@ -134,9 +140,11 @@ describe('The My VA Dashboard', () => {
     );
     cy.findByText(/problems with the claims or appeals tool/i).should('exist');
     cy.findByRole('link', {
-      name: /check your claim or appeal status/i,
+      name: /manage all claims and appeals/i,
     }).should('not.exist');
+    cy.injectAxeThenAxeCheck();
   });
+
   it('should show Claims and Appeals data when there are appeals and MHV downtimes a day in the future', () => {
     cy.intercept('/v0/evss_claims_async', claimsSuccess());
     cy.intercept('/v0/appeals', appealsSuccess());
@@ -144,7 +152,7 @@ describe('The My VA Dashboard', () => {
     const startTime = new Date(Date.now() + 60 * 60 * 25 * 1000);
     // end time is 30 days in the future
     const endTime = new Date(Date.now() + 60 * 60 * 30 * 1000);
-    cy.route('GET', '/v0/maintenance_windows', {
+    cy.intercept('GET', '/v0/maintenance_windows', {
       data: [
         {
           id: '1',
@@ -181,7 +189,8 @@ describe('The My VA Dashboard', () => {
       name: 'Claims and appeals',
     }).should('exist');
     cy.findByRole('link', {
-      name: /check your claim or appeal status/i,
+      name: /manage all claims and appeals/i,
     }).should('exist');
+    cy.injectAxeThenAxeCheck();
   });
 });

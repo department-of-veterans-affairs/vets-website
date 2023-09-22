@@ -16,19 +16,23 @@ const MessageThreadMeta = props => {
     <div className="message-thread-meta">
       <div>
         <p className="vads-u-font-weight--bold" data-testid="message-date">
-          {dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
+          <span data-dd-privacy="mask">
+            {dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
+          </span>
         </p>
         <p className="vads-u-padding-right--2" data-testid="from">
           <strong>From: </strong>
-          {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
+          <span data-dd-privacy="mask">
+            {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
+          </span>
         </p>
         <p className="vads-u-padding-right--2" data-testid="to">
           <strong>To: </strong>
-          {recipientName}
+          <span data-dd-privacy="mask">{recipientName}</span>
         </p>
         <p data-testid="message-id">
           <strong>Message ID: </strong>
-          {message.messageId}
+          <span data-dd-privacy="mask">{message.messageId}</span>
         </p>
       </div>
     </div>

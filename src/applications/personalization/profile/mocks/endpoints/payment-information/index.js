@@ -87,6 +87,21 @@ const notEligible = _.set(
   },
 );
 
+const isEligible = _.set(
+  _.cloneDeep(notEligible),
+  'data.attributes.responses[0].paymentAddress',
+  {
+    type: 'DOMESTIC',
+    addressEffectiveDate: '2019-01-01T00:00:00.000+00:00',
+    addressOne: '1234 Test St',
+    addressTwo: null,
+    addressThree: null,
+    city: 'Test City',
+    stateCode: 'TN',
+    zipCode: '12345',
+  },
+);
+
 const errorResponse = {
   data: {
     errors: [{}],
@@ -99,6 +114,7 @@ module.exports = {
   isFiduciary,
   isNotCompetent,
   notEligible,
+  isEligible,
   errorResponse,
   updates: {
     success: _.set(

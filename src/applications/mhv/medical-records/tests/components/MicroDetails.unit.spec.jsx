@@ -14,7 +14,6 @@ describe('Microbiology details component', () => {
     date: '2018-05-04T17:42:46.000Z',
     sampleFrom: 'Blood',
     sampleTested: 'Blood',
-    vaccineId: '000003',
     orderingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     collectingLocation: 'school parking lot',

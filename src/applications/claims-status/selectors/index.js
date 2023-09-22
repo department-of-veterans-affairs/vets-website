@@ -10,7 +10,8 @@ export const showClaimLettersFeature = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.claimLettersAccess];
 
 // 'cst_use_lighthouse'
-export const cstUseLighthouse = state => {
+// endpoint - one of '5103', 'index', 'show'
+export const cstUseLighthouse = (state, endpoint) => {
   const flipperOverrideMode = sessionStorage.getItem('cstFlipperOverrideMode');
   if (flipperOverrideMode) {
     switch (flipperOverrideMode) {
@@ -24,12 +25,19 @@ export const cstUseLighthouse = state => {
         break;
     }
   }
-  return toggleValues(state)[FEATURE_FLAG_NAMES.cstUseLighthouse];
+
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES[`cstUseLighthouse#${endpoint}`]
+  ];
 };
 
 // 'cst_include_ddl_boa_letters'
 export const cstIncludeDdlBoaLetters = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.cstIncludeDdlBoaLetters];
+
+// 'cst_use_new_claim_cards'
+export const cstUseNewClaimCards = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.cstUseNewClaimCards];
 
 // Backend Services
 export const getBackendServices = state => state.user.profile.services;

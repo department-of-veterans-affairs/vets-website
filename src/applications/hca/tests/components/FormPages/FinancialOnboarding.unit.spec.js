@@ -7,20 +7,22 @@ import FinancialOnboarding from '../../../components/FormPages/FinancialOnboardi
 describe('hca FinancialOnboarding', () => {
   const props = { data: {}, goBack: () => {}, goForward: () => {} };
 
-  it('should render', () => {
-    const view = render(<FinancialOnboarding {...props} />);
-    const selector = view.container.querySelector(
-      '[data-testid="hca-custom-page-title"]',
-    );
-    expect(selector).to.exist;
-    expect(selector).to.contain.text(
-      'How we use your household financial information',
-    );
-  });
+  describe('when the component renders', () => {
+    it('should render with correct title', () => {
+      const { container } = render(<FinancialOnboarding {...props} />);
+      const selector = container.querySelector(
+        '[data-testid="hca-custom-page-title"]',
+      );
+      expect(selector).to.exist;
+      expect(selector).to.contain.text(
+        'How we use your household financial information',
+      );
+    });
 
-  it('should render progress buttons', () => {
-    const view = render(<FinancialOnboarding {...props} />);
-    expect(view.container.querySelector('.usa-button-primary')).to.exist;
-    expect(view.container.querySelector('.usa-button-secondary')).to.exist;
+    it('should render navigation buttons', () => {
+      const { container } = render(<FinancialOnboarding {...props} />);
+      expect(container.querySelector('.usa-button-primary')).to.exist;
+      expect(container.querySelector('.usa-button-secondary')).to.exist;
+    });
   });
 });

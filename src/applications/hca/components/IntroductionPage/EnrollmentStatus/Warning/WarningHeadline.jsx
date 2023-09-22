@@ -78,7 +78,7 @@ const WarningHeadline = ({ enrollmentStatus }) => {
 
   // Render based on enrollment status
   return (
-    <h2 slot="headline" data-testid="enrollment-alert-heading">
+    <h2 slot="headline" data-testid="hca-enrollment-alert-heading">
       {contentMap[enrollmentStatus]}
     </h2>
   );

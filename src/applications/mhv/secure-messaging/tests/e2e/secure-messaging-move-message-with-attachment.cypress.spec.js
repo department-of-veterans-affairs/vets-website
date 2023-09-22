@@ -4,6 +4,7 @@ import mockMessagewithAttachment from './fixtures/message-response-withattachmen
 import mockThreadwithAttachment from './fixtures/thread-attachment-response.json';
 import mockMessages from './fixtures/messages-response.json';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging - Move Message with Attachment', () => {
   it('can move with attachment', () => {
@@ -48,8 +49,14 @@ describe('Secure Messaging - Move Message with Attachment', () => {
       .click();
     cy.wait('@moveMessagewithAttachment');
     cy.injectAxe();
-    cy.axeCheck();
-    landingPage.verifyMoveMessagewithAttachmentSuccessMessage();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    landingPage.verifyMoveMessageWithAttachmentSuccessMessage();
     cy.get('@moveMessagewithAttachment')
       .its('response')
       .then(response => {

@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
 
-import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
 import LoginContainer from 'platform/user/authentication/components/LoginContainer';
 import { isLoggedIn } from 'platform/user/selectors';
 import { signInServiceEnabled } from 'platform/user/authentication/selectors';
@@ -52,9 +51,15 @@ export function UnifiedSigninPage({ router, location }) {
     [isSiSEnabled],
   );
 
+  const css = `
+  #legacy-header > div:nth-child(3) > div.menu-rule.usa-one-whole,   div .profile-nav-container, .menu-rule.usa-one-whole,  .hidden-header {
+    visibility:hidden;
+  }
+`;
+
   return (
     <>
-      <AutoSSO />
+      <style>{css}</style>
       <LoginContainer
         isUnifiedSignIn
         externalApplication={externalApplication}

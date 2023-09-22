@@ -1,15 +1,20 @@
 const delay = require('mocker-api/lib/delay');
-const { generateFeatureToggles } = require('./feature-toggles');
-const user = require('./users');
+const {
+  generateFeatureToggles,
+} = require('../../common/mocks/feature-toggles');
+const user = require('../../common/mocks/users');
+const notifications = require('../../common/mocks/notifications');
 const { createSuccessPayment } = require('./payment-history');
 const { createAppealsSuccess } = require('./appeals-success');
 const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
 const { createClaimsSuccess } = require('./evss-claims');
+const { createLighthouseClaimsSuccess } = require('./lighthouse-claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
 const { createUnreadMessagesSuccess } = require('./messaging');
-const notifications = require('./notifications');
 const { user81Copays } = require('./medical-copays');
 const { v2 } = require('./appointments');
+const mockLocalDSOT = require('../../common/mocks/script/drupal-vamc-data/mockLocalDSOT');
+const { boot } = require('../../common/mocks/script/utils');
 
 // set to true to simulate a user with debts for /v0/debts endpoint
 const hasDebts = false;
@@ -17,17 +22,24 @@ const hasDebts = false;
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
+    myVaEnableNotificationComponent: true,
     myVaUseExperimental: true,
-    showMyVADashboardV2: true,
-    showPaymentAndDebtSection: true,
+    myVaUseExperimentalFrontend: true,
+    myVaUseExperimentalFullstack: true,
+    myVaUseLighthouseClaims: true,
+    myVaNotificationDotIndicator: true,
+    myVaUpdateErrorsWarnings: true,
+    vaOnlineSchedulingBreadcrumbUrlUpdate: true,
+    vaOnlineSchedulingStaticLandingPage: true,
   }),
-  'GET /v0/user': user.cernerUser,
+  'GET /v0/user': user.simpleUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/medical_copays': user81Copays,
   'GET /v0/profile/payment_history': createSuccessPayment(false),
   'GET /v0/appeals': createAppealsSuccess(),
   'GET /v0/evss_claims_async': createClaimsSuccess(),
+  'GET /v0/benefits_claims': createLighthouseClaimsSuccess(),
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
   'GET /v0/messaging/health/folders/0': createUnreadMessagesSuccess(),
   'GET /v0/profile/full_name': {
@@ -82,4 +94,17 @@ const responses = {
   },
 };
 
-module.exports = delay(responses, 100);
+// here we can run anything that needs to happen before the mock server starts up
+// this runs every time a file is mocked
+// but the single boot function will only run once
+const generateMockResponses = () => {
+  boot(mockLocalDSOT);
+
+  // set DELAY=1000 when running mock server script
+  // to add 1 sec delay to all responses
+  const responseDelay = process?.env?.DELAY || 0;
+
+  return responseDelay > 0 ? delay(responses, responseDelay) : responses;
+};
+
+module.exports = generateMockResponses();

@@ -12,7 +12,6 @@ export {
   isLOA1,
   isMultifactorEnabled,
   selectAvailableServices,
-  selectPatientFacilities,
   selectVAPContactInfo,
   hasVAPServiceConnectionError,
   selectVAPEmailAddress,
@@ -23,13 +22,6 @@ export {
   selectVAPResidentialAddress,
   selectVAPMailingAddress,
   createIsServiceAvailableSelector,
-  selectIsCernerOnlyPatient,
-  selectIsCernerPatient,
-  selectCernerRxFacilities,
-  selectCernerMessagingFacilities,
-  selectCernerAppointmentsFacilities,
-  selectCernerMedicalRecordsFacilities,
-  selectCernerTestResultsFacilities,
   mhvTransitionEnabled,
   mhvTransitionModalEnabled,
 } from './selectors';
@@ -138,6 +130,7 @@ export {
   isAuthenticatedWithSSOe,
   ssoeTransactionId,
   transitionMHVAccount,
+  termsOfUseEnabled,
 } from './authentication/selectors';
 export { externalApplicationsConfig } from './authentication/usip-config';
 export { OAuthEnabledApplications } from './authentication/config/constants';
@@ -171,10 +164,11 @@ export {
   default as RequiredLoginView,
   RequiredLoginLoader,
 } from './authorization/components/RequiredLoginView';
-export { MHVApp } from './authorization/containers/MHVApp';
-export {
-  RequiredTermsAcceptanceView,
-} from './authorization/containers/RequiredTermsAcceptanceView';
+// TO DO: resolve missing nested import
+// export { MHVApp } from './authorization/containers/MHVApp';
+// export {
+//   RequiredTermsAcceptanceView,
+// } from './authorization/containers/RequiredTermsAcceptanceView';
 
 /* profile */
 

@@ -5,9 +5,11 @@ import { expect } from 'chai';
 import GetHelp from '../../components/GetHelp';
 
 describe('hca <GetHelp>', () => {
-  it('should render', () => {
-    const view = render(<GetHelp />);
-    const selector = view.container.querySelectorAll('.help-talk');
-    expect(selector).to.have.lengthOf(2);
+  describe('when the component renders', () => {
+    it('should render with the correct number of sections', () => {
+      const { container } = render(<GetHelp />);
+      const selector = container.querySelectorAll('.help-talk');
+      expect(selector).to.have.lengthOf(2);
+    });
   });
 });

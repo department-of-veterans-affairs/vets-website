@@ -19,12 +19,13 @@ describe('pre-check-in experience', () => {
           .exist;
       });
       it('renders custom header', () => {
-        const { getByText } = render(
+        const { getByTestId } = render(
           <CheckInProvider>
-            <NextOfKinDisplay header="foo" />
+            <NextOfKinDisplay header="foo" eyebrow="Check-In" />
           </CheckInProvider>,
         );
-        expect(getByText('foo')).to.exist;
+
+        expect(getByTestId('header')).to.contain.text('Check-In foo');
       });
       it('renders custom subtitle', () => {
         const { getByText } = render(
@@ -93,6 +94,14 @@ describe('pre-check-in experience', () => {
         expect(getByText('123 Main St')).to.exist;
         expect(getByText(', Ste 234')).to.exist;
         expect(getByText('Los Angeles, CA 90089')).to.exist;
+      });
+      it('renders additional info', () => {
+        const { getByTestId } = render(
+          <CheckInProvider>
+            <NextOfKinDisplay />
+          </CheckInProvider>,
+        );
+        expect(getByTestId('additional-info')).to.exist;
       });
       it('fires the yes function', () => {
         const yesClick = sinon.spy();

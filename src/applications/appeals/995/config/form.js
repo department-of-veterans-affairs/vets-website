@@ -56,7 +56,6 @@ import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 import manifest from '../manifest.json';
 import {
   CONTACT_INFO_PATH,
-  CONTESTABLE_ISSUES_PATH,
   ADD_ISSUE_PATH,
   EVIDENCE_VA_REQUEST,
   EVIDENCE_VA_PATH,
@@ -82,6 +81,8 @@ import {
   focusEvidence,
   focusUploads,
 } from '../utils/focus';
+
+import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
@@ -191,7 +192,7 @@ const formConfig = {
       title: 'Issues for review',
       pages: {
         contestableIssues: {
-          title: 'Issues',
+          title: 'You’ve selected these issues for review',
           path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,

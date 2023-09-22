@@ -405,6 +405,33 @@ export function validateCurrentOrPastDate(
   }
 }
 
+export function validateCurrentOrPastMemorableDate(
+  errors,
+  dateString,
+  formData,
+  schema,
+  errorMessages = {},
+) {
+  const {
+    futureDate = 'Please provide a valid current or past date',
+  } = errorMessages;
+  validateDate(
+    errors,
+    dateString,
+    formData,
+    schema,
+    errorMessages,
+    undefined,
+    undefined,
+    minYear,
+    new Date().getFullYear(),
+  );
+  const { day, month, year } = parseISODate(dateString);
+  if (!day || !year || !day || !isValidCurrentOrPastDate(day, month, year)) {
+    errors.addError(futureDate);
+  }
+}
+
 /**
  * Adds an error message to errors if a date is an invalid date or in the future.
  *

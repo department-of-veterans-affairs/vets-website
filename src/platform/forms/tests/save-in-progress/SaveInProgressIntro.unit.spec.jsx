@@ -249,6 +249,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(tree.find('.schemaform-start-button').html()).to.contain(
       'Start your application without signing in',
     );
+    expect(tree.text()).to.include('lose any information you already');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
     tree.unmount();
   });
@@ -619,6 +620,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.find('.schemaform-start-button').exists()).to.be.false;
+    expect(tree.text()).to.not.include('lose any information you already');
 
     tree.unmount();
   });
@@ -654,6 +656,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.find('.schemaform-start-button').exists()).to.be.false;
+    expect(tree.text()).to.not.include('lose any information you already');
 
     tree.unmount();
   });

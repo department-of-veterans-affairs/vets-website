@@ -117,7 +117,7 @@ class SearchHelpSignIn extends Component {
   render() {
     return (
       <div
-        className={`vads-u-display--flex vads-u-align-items--center${
+        className={`hidden-header vads-u-display--flex vads-u-align-items--center${
           this.props.isHeaderV2 ? '' : ' vads-u-padding-top--1'
         }`}
       >

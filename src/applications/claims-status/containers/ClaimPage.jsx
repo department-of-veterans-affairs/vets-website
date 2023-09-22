@@ -38,7 +38,7 @@ class ClaimPage extends React.Component {
 function mapStateToProps(state) {
   return {
     // START lighthouse_migration
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse: cstUseLighthouse(state, 'show'),
     // END lighthouse_migration
   };
 }

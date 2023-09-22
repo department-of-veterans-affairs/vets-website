@@ -9,6 +9,7 @@ import {
   IS_TRACKING_UTTERANCES,
   RECENT_UTTERANCES,
   CONVERSATION_ID_KEY,
+  IS_RX_SKILL,
 } from '../../chatbox/utils';
 
 // define thunks for actions
@@ -68,9 +69,9 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   }
 
   if (dataIsMessageWithTextFromBot) {
-    const botWantsToSignInUser = data.text.includes(
-      'Alright. Sending you to the sign in page...',
-    );
+    const botWantsToSignInUser =
+      data.text.includes('Alright. Sending you to the sign in page...') ||
+      data.text.includes('Alright. Sending you to the sign-in page...');
     const isNewAuthedConversation =
       data.text.includes('To get started') &&
       sessionStorage.getItem(IN_AUTH_EXP) === 'true';
@@ -98,5 +99,23 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   }
   if (JSON.parse(sessionStorage.getItem(IS_TRACKING_UTTERANCES))) {
     sendWindowEvent('webchat-message-activity');
+  }
+
+  const eventName = action?.payload?.activity?.name ?? '';
+  const eventValue = action?.payload?.activity?.value ?? '';
+
+  // use event name for rxSkill
+  const skillWasTriggered = eventName === 'Skill_Entry';
+  // use event name for rxSkillExit
+  const skillWasExited = eventName === 'Skill_Exit';
+  // confirm it is the rx skill
+  const rxSkill = eventValue === 'RX_Skill';
+  if (skillWasTriggered && rxSkill) {
+    setSessionStorageAsString(IS_RX_SKILL, true);
+    sendWindowEvent('rxSkill');
+  }
+  if (skillWasExited && rxSkill) {
+    setSessionStorageAsString(IS_RX_SKILL, false);
+    sendWindowEvent('rxSkill');
   }
 };

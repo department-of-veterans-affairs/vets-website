@@ -14,16 +14,29 @@ import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
+import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
 import {
+  buildDateFormatter,
   getClaimType,
-  getCompletedDate,
   getItemDate,
   getTrackedItemDate,
   getUserPhase,
   itemsNeedingAttentionFromVet,
+  setDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
+
+// HELPERS
+// START lighthouse_migration
+const getClaimDate = claim => {
+  const { claimDate, dateFiled } = claim.attributes;
+
+  return claimDate || dateFiled || null;
+};
+// END lighthouse_migration
+
+const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
 // Using a Map instead of the typical Object because
 // we want to guarantee that the key insertion order
@@ -33,6 +46,7 @@ const getStatusMap = () => {
   map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
   map.set('UNDER_REVIEW', 'UNDER_REVIEW');
   map.set('GATHERING_OF_EVIDENCE', 'GATHERING_OF_EVIDENCE');
+  map.set('REVIEW_OF_EVIDENCE', 'REVIEW_OF_EVIDENCE');
   map.set('PREPARATION_FOR_DECISION', 'PREPARATION_FOR_DECISION');
   map.set('PENDING_DECISION_APPROVAL', 'PENDING_DECISION_APPROVAL');
   map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
@@ -57,12 +71,8 @@ const generatePhases = claim => {
   const { previousPhases } = claim.attributes.claimPhaseDates;
   const phases = [];
 
-  // Add 'phase1' event (this is equivalent to the filed event,
-  // but activity is group by 'phase_entered' events so we need this
-  // one as well)
   phases.push({
-    type: 'phase_entered',
-    phase: 1,
+    type: 'filed',
     date: claim.attributes.claimDate,
   });
 
@@ -123,8 +133,13 @@ const generateEventTimeline = claim => {
   // Sort events from least to most recent
   events.sort((a, b) => {
     if (a.date === b.date) {
+      // Phases should be flipped
       if (a.phase && b.phase) {
         return b.phase - a.phase;
+      }
+      // Tracked items should be flipped as well
+      if (a.type === 'tracked_item' && b.type === 'tracked_item') {
+        return b.id - a.id;
       }
       return 0;
     }
@@ -201,13 +216,13 @@ class ClaimStatusPage extends React.Component {
 
     const {
       claimPhaseDates,
+      closeDate,
       decisionLetterSent,
       documentsNeeded,
       status,
     } = attributes;
 
-    const isOpen =
-      status !== STATUSES.COMPLETE && attributes.closeDate === null;
+    const isOpen = status !== STATUSES.COMPLETE && closeDate === null;
     const filesNeeded = itemsNeedingAttentionFromVet(attributes.trackedItems);
     const showDocsNeeded =
       !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
@@ -219,12 +234,12 @@ class ClaimStatusPage extends React.Component {
         ) : null}
         {decisionLetterSent && !isOpen ? (
           <ClaimsDecision
-            completedDate={getCompletedDate(claim)}
+            completedDate={closeDate}
             showClaimLettersLink={showClaimLettersLink}
           />
         ) : null}
         {!decisionLetterSent && !isOpen ? (
-          <ClaimComplete completedDate={getCompletedDate(claim)} />
+          <ClaimComplete completedDate={closeDate} />
         ) : null}
         {status && isOpen ? (
           <ClaimTimeline
@@ -239,9 +254,16 @@ class ClaimStatusPage extends React.Component {
   }
 
   setTitle() {
-    document.title = this.props.loading
-      ? 'Status - Your Claim'
-      : `Status - Your ${getClaimType(this.props.claim)} Claim`;
+    const { claim } = this.props;
+
+    if (claim) {
+      const claimDate = formatDate(getClaimDate(claim));
+      const claimType = getClaimType(claim);
+      const title = `Status Of ${claimDate} ${claimType} Claim`;
+      setDocumentTitle(title);
+    } else {
+      setDocumentTitle('Status Of Your Claim');
+    }
   }
 
   render() {
@@ -284,7 +306,7 @@ function mapStateToProps(state) {
     lastPage: claimsState.routing.lastPage,
     showClaimLettersLink: showClaimLettersFeature(state),
     synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse: cstUseLighthouse(state, 'show'),
   };
 }
 

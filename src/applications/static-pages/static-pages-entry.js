@@ -74,15 +74,18 @@ import {
   createScoEventsWidget,
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
-import createHomepageHeroRandomizer from './homepage-hero-randomizer/createHomepageHeroRandomizer';
+import createHomepageHeroRandomizer from './homepage-veteran-banner';
 import createHomepageSearch from './homepage/createHomepageSearch';
 import create1095BDownloadCTA from './download-1095b';
 
 import createEnrollmentVerificationLoginWidget from './view-enrollment-verification-login/createEnrollmentVerificationLoginWidget';
 import createEducationLettersLoginWidget from './view-education-letters-login/createEducationLettersLoginWidget';
+import create210845Access from './simple-forms/21-0845/entry';
+import create2110210Access from './simple-forms/21-10210/entry';
 import create214142Access from './simple-forms/21-4142/entry';
+import create21P0847Access from './simple-forms/21P-0847/entry';
 import create264555Access from './simple-forms/26-4555/entry';
-
+import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
 
@@ -215,9 +218,12 @@ createEducationLettersLoginWidget(
   store,
   widgetTypes.VIEW_EDUCATION_LETTERS_LOGIN,
 );
+create210845Access(store, widgetTypes.FORM_210845_CTA);
+create2110210Access(store, widgetTypes.FORM_2110210_CTA);
 create214142Access(store, widgetTypes.FORM_214142_CTA);
+create21P0847Access(store, widgetTypes.FORM_21P0847_CTA);
 create264555Access(store, widgetTypes.FORM_264555_CTA);
-
+createBurialHowDoIApplyWidget(store, widgetTypes.BURIAL_HOW_DO_I_APPLY_WIDGET);
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {
   createMyVALoginWidget(store);

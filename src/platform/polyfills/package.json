@@ -6,6 +6,10 @@
   },
   "exports": {
     "." :"./exportsFile.js",
+    "./index" :"./index.js",
+    "./canvasToBlob" :"./canvasToBlob.js",
+    "./downloadAttribute" :"./downloadAttribute.js",
+    "./polyfillTimezoneData" :"./polyfillTimezoneData.js",
     "./preESModulesPolyfills" :"./preESModulesPolyfills.js"
   },
   "dependencies": {

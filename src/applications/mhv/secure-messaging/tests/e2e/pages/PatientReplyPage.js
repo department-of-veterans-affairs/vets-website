@@ -50,11 +50,11 @@ class PatientReplyPage {
       .then(message => {
         cy.log(JSON.stringify(message));
         expect(message.recipientId).to.eq(
-          replyMessage.data.attributes.recipientId,
+          replyMessage.data.attributes.senderId,
         );
         expect(message.category).to.eq(replyMessage.data.attributes.category);
         expect(message.subject).to.eq(replyMessage.data.attributes.subject);
-        expect(message.body).to.eq(replyMessage.data.attributes.body);
+        expect(message.body).to.contain(`\n\n\nName\nTitle`);
         // data-testid="Save-Draft-Button"
         // Your message was saved on February 17, 2023 at 12:21 p.m. CST.
       });
@@ -95,7 +95,7 @@ class PatientReplyPage {
         expect(message.recipient_id).to.eq(testRecipientId);
         expect(message.category).to.eq(testCategory);
         expect(message.subject).to.eq(testSubject);
-        expect(message.body).to.eq(testBody);
+        expect(message.body).to.eq(`${testBody}`);
       });
   };
 

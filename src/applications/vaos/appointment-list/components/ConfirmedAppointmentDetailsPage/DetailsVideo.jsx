@@ -6,6 +6,7 @@ import {
 } from '../../../services/appointment';
 import { VIDEO_TYPES } from '../../../utils/constants';
 import AppointmentDateTime from '../AppointmentDateTime';
+import BackLink from '../../../components/BackLink';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import CalendarLink from './CalendarLink';
 import StatusAlert from './StatusAlert';
@@ -15,10 +16,24 @@ import VideoVisitProvider from './VideoVisitProvider';
 import NoOnlineCancelAlert from './NoOnlineCancelAlert';
 import VideoInstructionsLink from './VideoInstructionsLink';
 import VideoLocation from './VideoLocation';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 function formatHeader(appointment) {
-  if (appointment.videoData.kind === VIDEO_TYPES.gfe) {
+  const patientHasMobileGfe =
+    appointment.videoData.extension?.patientHasMobileGfe;
+  if (
+    (appointment.videoData.kind === VIDEO_TYPES.mobile ||
+      appointment.videoData.kind === VIDEO_TYPES.adhoc) &&
+    (!appointment.videoData.isAtlas && patientHasMobileGfe)
+  ) {
     return 'VA Video Connect using VA device';
+  }
+  if (
+    (appointment.videoData.kind === VIDEO_TYPES.mobile ||
+      appointment.videoData.kind === VIDEO_TYPES.adhoc) &&
+    (!appointment.videoData.isAtlas && !patientHasMobileGfe)
+  ) {
+    return 'VA Video Connect at home';
   }
   if (isClinicVideoAppointment(appointment)) {
     return 'VA Video Connect at VA location';
@@ -26,28 +41,36 @@ function formatHeader(appointment) {
   if (appointment.videoData.isAtlas) {
     return 'VA Video Connect at an ATLAS location';
   }
-  return 'VA Video Connect at home';
+  return null;
 }
 
 export default function DetailsVideo({ appointment, facilityData }) {
   const locationId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[locationId];
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const showBackLink = useToggleValue(
+    TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink,
+  );
 
   const header = formatHeader(appointment);
 
   return (
     <>
-      <Breadcrumbs>
-        <a
-          href={`/health-care/schedule-view-va-appointments/appointments/va/${
-            appointment.id
-          }`}
-        >
-          Appointment detail
-        </a>
-      </Breadcrumbs>
+      {showBackLink ? (
+        <BackLink appointment={appointment} />
+      ) : (
+        <Breadcrumbs>
+          <a
+            href={`/health-care/schedule-view-va-appointments/appointments/va/${
+              appointment.id
+            }`}
+          >
+            Appointment detail
+          </a>
+        </Breadcrumbs>
+      )}
 
-      <h1>
+      <h1 className="vads-u-margin-y--2p5">
         <AppointmentDateTime appointment={appointment} />
       </h1>
 

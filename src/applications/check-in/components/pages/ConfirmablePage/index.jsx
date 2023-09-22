@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useStorage } from '../../../hooks/useStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { makeSelectApp } from '../../../selectors';
 
@@ -18,7 +18,9 @@ import { APP_NAMES } from '../../../utils/appConstants';
 
 const ConfirmablePage = ({
   header,
+  eyebrow = '',
   subtitle,
+  additionalInfo,
   dataFields = [],
   data = {},
   yesAction = () => {},
@@ -32,9 +34,7 @@ const ConfirmablePage = ({
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
   const { jumpToPage } = useFormRouting(router);
-  const { getCheckinComplete } = useSessionStorage(
-    app === APP_NAMES.PRE_CHECK_IN,
-  );
+  const { getCheckinComplete } = useStorage(app === APP_NAMES.PRE_CHECK_IN);
   useLayoutEffect(() => {
     if (getCheckinComplete(window)) {
       jumpToPage(URLS.DETAILS);
@@ -58,6 +58,7 @@ const ConfirmablePage = ({
     <Wrapper
       pageTitle={header}
       classNames="confirmable-page"
+      eyebrow={eyebrow}
       withBackButton={withBackButton}
     >
       {subtitle && (
@@ -96,6 +97,7 @@ const ConfirmablePage = ({
           ))}
         </ul>
       </div>
+      {additionalInfo}
       <>
         <button
           onClick={onYesClick}
@@ -128,6 +130,8 @@ ConfirmablePage.propTypes = {
   header: PropTypes.string.isRequired,
   noAction: PropTypes.func.isRequired,
   yesAction: PropTypes.func.isRequired,
+  additionalInfo: PropTypes.object,
+  eyebrow: PropTypes.string,
   pageType: PropTypes.string,
   router: PropTypes.object,
   subtitle: PropTypes.string,

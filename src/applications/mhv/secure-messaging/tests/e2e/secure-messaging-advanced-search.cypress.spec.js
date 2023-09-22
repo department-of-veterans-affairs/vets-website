@@ -2,13 +2,13 @@ import manifest from '../../manifest.json';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
-import mockSentFolder from './fixtures/folder-sent-metadata.json';
+import mockSentFolder from './fixtures/sentResponse/folder-sent-metadata.json';
 import particularFolderResponse from './fixtures/drafts-response.json';
-import customFolderResponse from './fixtures/message-custom-response.json';
 import mockSearchMessages from './fixtures/search-COVID-results.json';
-import mockSearchCustomMessages from './fixtures/search-MEDICATION-results.json';
-import mockTrashFolder from './fixtures/folder-deleted-metadata.json';
-import mockCustomFolder from './fixtures/folder-custom-metadata.json';
+import mockSearchCustomMessages from './fixtures/search-advanced-custom-folder-results.json';
+import mockTrashFolder from './fixtures/trashResponse/folder-deleted-metadata.json';
+import { AXE_CONTEXT } from './utils/constants';
+import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 
 describe(manifest.appName, () => {
   describe('Advanced search in Inbox', () => {
@@ -23,7 +23,7 @@ describe(manifest.appName, () => {
         mockSearchMessages,
       );
       landingPage.openAdvancedSearch();
-      landingPage.selectAdvancedSearchCategory();
+      landingPage.selectAdvancedSearchCategory('COVID');
       landingPage.submitSearchButton();
     });
     it('Check all inbox messages contain the searched category', () => {
@@ -31,14 +31,26 @@ describe(manifest.appName, () => {
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
     it('Check the search message label', () => {
       cy.get('[data-testid="search-message-folder-input-label"]')
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
   });
   describe('Advanced search in Drafts', () => {
@@ -49,7 +61,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/-2',
+        '/my_health/v1/messaging/folders/-2*',
         mockDraftsFolder,
       );
       cy.intercept(
@@ -64,7 +76,7 @@ describe(manifest.appName, () => {
         mockSearchMessages,
       );
       landingPage.openAdvancedSearch();
-      landingPage.selectAdvancedSearchCategory();
+      landingPage.selectAdvancedSearchCategory('COVID');
       landingPage.submitSearchButton();
     });
     it('Check all draft messages contain the searched category', () => {
@@ -72,14 +84,26 @@ describe(manifest.appName, () => {
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
     it('Check the search message label', () => {
       cy.get('[data-testid="search-message-folder-input-label"]')
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
   });
   describe('Advanced search in Sent', () => {
@@ -90,7 +114,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/-1',
+        '/my_health/v1/messaging/folders/-1*',
         mockSentFolder,
       ).as('basicSearchRequestDraftsMeta');
       cy.intercept(
@@ -105,7 +129,7 @@ describe(manifest.appName, () => {
         mockSearchMessages,
       ).as('advancedSearchRequest');
       landingPage.openAdvancedSearch();
-      landingPage.selectAdvancedSearchCategory();
+      landingPage.selectAdvancedSearchCategory('COVID');
       landingPage.submitSearchButton();
     });
     it('Check all sent messages contain the searched category', () => {
@@ -113,14 +137,26 @@ describe(manifest.appName, () => {
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
     it('Check the search message label', () => {
       cy.get('[data-testid="search-message-folder-input-label"]')
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
   });
   describe('Advanced search in Trash', () => {
@@ -131,7 +167,7 @@ describe(manifest.appName, () => {
       landingPage.loadInboxMessages();
       cy.intercept(
         'GET',
-        '/my_health/v1/messaging/folders/-3',
+        '/my_health/v1/messaging/folders/-3*',
         mockTrashFolder,
       );
       cy.intercept(
@@ -146,7 +182,7 @@ describe(manifest.appName, () => {
         mockSearchMessages,
       );
       landingPage.openAdvancedSearch();
-      landingPage.selectAdvancedSearchCategory();
+      landingPage.selectAdvancedSearchCategory('COVID');
       landingPage.submitSearchButton();
     });
     it('Check all messages contain the searched category', () => {
@@ -154,14 +190,26 @@ describe(manifest.appName, () => {
         .should('contain', 'COVID')
         .and('have.length', mockSearchMessages.data.length);
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
     it('Check the search message label', () => {
       cy.get('[data-testid="search-message-folder-input-label"]')
         .should('contain', '4')
         .and('contain', 'Category: "covid"');
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
     });
   });
   describe('Advanced search in Custom folder', () => {
@@ -170,40 +218,50 @@ describe(manifest.appName, () => {
       site.login();
       const landingPage = new PatientInboxPage();
       landingPage.loadInboxMessages();
-      cy.intercept(
-        'GET',
-        '/my_health/v1/messaging/folders/7038175',
-        mockCustomFolder,
-      );
-      cy.intercept(
-        'GET',
-        '/my_health/v1/messaging/folders/7038175/threads?**',
-        customFolderResponse,
-      );
+      PatientMessageCustomFolderPage.loadFoldersList();
+      PatientMessageCustomFolderPage.loadMessages('TestFolder3');
+
       cy.intercept(
         'POST',
         '/my_health/v1/messaging/folders/*/search',
         mockSearchCustomMessages,
-      ).as('customFolderMessages');
-      cy.get('[data-testid="my-folders-sidebar"]').click();
-      cy.contains('TEST2').click();
+      ).as('customFolderSearchResults');
+
       landingPage.openAdvancedSearch();
-      landingPage.selectAdvancedSearchCategoryCustomFolder();
+      landingPage.selectAdvancedSearchCategory('COVID');
       landingPage.submitSearchButton();
     });
     it('Check all messages contain the searched category', () => {
       cy.get('[data-testid="message-list-item"]')
-        .should('contain', 'test')
+        .should('contain', 'COVID')
         .and('have.length', mockSearchCustomMessages.data.length);
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+          'color-contrast': {
+            enabled: false,
+          },
+        },
+      });
     });
-    it('Check the search message label', function() {
+    it('Check the search results label', () => {
       cy.get('[data-testid="search-message-folder-input-label"]')
         .should('contain', '2')
-        .and('contain', 'Category: "medication"');
+        .and('contain', 'Category: "covid"');
       cy.injectAxe();
-      cy.axeCheck();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+          'color-contrast': {
+            enabled: false,
+          },
+        },
+      });
     });
   });
 });

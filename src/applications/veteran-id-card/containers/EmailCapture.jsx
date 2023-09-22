@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+// eslint-disable-next-line deprecate/import
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
-import { submitEmail, setEmail } from '../actions';
+import { submitEmail, setEmail, setDirty } from '../actions';
 
 class EmailCapture extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class EmailCapture extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.submitEmail(this.props.email.value);
+    this.props.submitEmail(this.props.email);
   }
 
   validateEmailAddress(email) {
@@ -53,18 +53,19 @@ class EmailCapture extends React.Component {
             <a href="/privacy-policy/">See our privacy policy</a>
           </p>
           <form onSubmit={this.handleSubmit}>
-            <TextInput
-              errorMessage={this.props.errors && this.props.errors[0].title}
-              label={<span>Email address</span>}
+            <va-text-input
+              error={this.props.errors && this.props.errors[0].title}
+              label="Email address"
               name="email"
               field={this.props.email}
-              onValueChange={update => this.props.setEmail(update)}
+              onInput={update => this.props.setEmail(update)}
+              onBlur={update => this.props.setDirty(update)}
               required
             />
             <div>
               <button
                 className="usa-button"
-                disabled={this.props.errors || !this.props.email.dirty}
+                disabled={this.props.errors || !this.props.dirty}
                 type="submit"
               >
                 Submit
@@ -94,12 +95,14 @@ const mapStateToProps = state => {
     success: emailState.success,
     errors: emailState.errors,
     submitting: emailState.submitting,
+    dirty: emailState.dirty,
   };
 };
 
 const mapDispatchToProps = {
   submitEmail,
   setEmail,
+  setDirty,
 };
 
 export default connect(

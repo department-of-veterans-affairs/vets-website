@@ -71,98 +71,150 @@ describe('hca IntroductionPage', () => {
     },
   });
 
-  it('should render and show loading message', () => {
-    const { mockStore, props } = getData({
-      showLoader: true,
-      loaState: 1,
-      showLoginAlert: true,
-      enrollmentOverrideEnabled: false,
+  describe('when the page renders', () => {
+    it('should render loading indicator', () => {
+      const { mockStore, props } = getData({
+        showLoader: true,
+        loaState: 1,
+        showLoginAlert: true,
+        enrollmentOverrideEnabled: false,
+      });
+      const { container } = render(
+        <Provider store={mockStore}>
+          <IntroductionPage {...props} />
+        </Provider>,
+      );
+      const selector = container.querySelector('va-loading-indicator');
+      expect(selector).to.exist;
+      expect(selector).to.have.attr('message', 'Loading your application...');
     });
-    const view = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-    expect(view.container.querySelector('va-loading-indicator')).to.exist;
   });
 
-  it('should show verification required alert for Loa1 logged in user', () => {
-    const { mockStore, props } = getData({
-      showLoader: false,
-      loaState: 1,
-      showLoginAlert: false,
-      enrollmentOverrideEnabled: false,
+  describe('when the the user is not logged in', () => {
+    it('should show sign in button', () => {
+      const { mockStore, props } = getData({
+        showLoader: false,
+        loaState: 3,
+        showLoginAlert: true,
+        enrollmentOverrideEnabled: true,
+      });
+      const { container } = render(
+        <Provider store={mockStore}>
+          <IntroductionPage {...props} />
+        </Provider>,
+      );
+      const selector = container.querySelector(
+        '[data-testid="hca-login-alert-button"]',
+      );
+      expect(selector).to.have.attr(
+        'text',
+        'Sign in to check your application status',
+      );
     });
-    const view = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-
-    expect(view.container).to.contain.text(
-      'VA health care covers care for your physical and mental health.',
-    );
-    expect(
-      view.container.querySelector('[data-testid="identity-alert-heading"]'),
-    ).to.contain.text(
-      'Please verify your identity before applying for VA health care',
-    );
   });
 
-  it('should show enrollment status for Loa3 user that is already enrolled and feature toggle to override enrollment status is disabled', () => {
-    const { mockStore, props } = getData({
-      showLoader: false,
-      loaState: 3,
-      showLoginAlert: false,
-      enrollmentOverrideEnabled: false,
-      applicationDate: '2018-07-17T10:32:52.000-05:00',
-      enrollmentDate: '2018-07-17T10:32:53.000-05:00',
-      enrollmentStatus: 'enrolled',
-      preferredFacility: '463GA - FAIRBANKS VA CLINIC',
+  describe('when the the user is logged in', () => {
+    describe('when the user is Loa1 status', () => {
+      it('should show verification required alert & description', () => {
+        const { mockStore, props } = getData({
+          showLoader: false,
+          loaState: 1,
+          showLoginAlert: false,
+          enrollmentOverrideEnabled: false,
+        });
+        const { container } = render(
+          <Provider store={mockStore}>
+            <IntroductionPage {...props} />
+          </Provider>,
+        );
+        const selectors = {
+          alert: container.querySelector('[data-testid="hca-identity-alert"]'),
+          description: container.querySelector(
+            '[data-testid="hca-loa1-description"]',
+          ),
+        };
+        expect(selectors.alert).to.exist;
+        expect(selectors.description).to.exist;
+      });
     });
-    const view = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
 
-    expect(
-      view.container.querySelector('[data-testid="enrollment-alert-heading"]'),
-    ).to.contain.text('You’re already enrolled in VA health care');
-  });
+    describe('when the user is Loa3 status', () => {
+      describe('when the user is not enrolled', () => {
+        it('should show start application button', () => {
+          const { mockStore, props } = getData({
+            showLoader: false,
+            loaState: 3,
+            showLoginAlert: false,
+            enrollmentOverrideEnabled: true,
+          });
+          const { container } = render(
+            <Provider store={mockStore}>
+              <IntroductionPage {...props} />
+            </Provider>,
+          );
+          const selector = container.querySelector(
+            'a.vads-c-action-link--green',
+          );
+          expect(selector).to.exist;
+          expect(selector).to.contain.text('Start the health care application');
+        });
+      });
 
-  it('should show sign in to start your application for Loa3 user that is not logged in and not already enrolled', () => {
-    const { mockStore, props } = getData({
-      showLoader: false,
-      loaState: 3,
-      showLoginAlert: true,
-      enrollmentOverrideEnabled: true,
+      describe('when the user is enrolled', () => {
+        describe('when the override feature toggle is disabled', () => {
+          it('should show enrollment status', () => {
+            const { mockStore, props } = getData({
+              showLoader: false,
+              loaState: 3,
+              showLoginAlert: false,
+              enrollmentOverrideEnabled: false,
+              applicationDate: '2018-07-17T10:32:52.000-05:00',
+              enrollmentDate: '2018-07-17T10:32:53.000-05:00',
+              enrollmentStatus: 'enrolled',
+              preferredFacility: '463GA - FAIRBANKS VA CLINIC',
+            });
+            const { container } = render(
+              <Provider store={mockStore}>
+                <IntroductionPage {...props} />
+              </Provider>,
+            );
+            const selector = container.querySelector(
+              '[data-testid="hca-enrollment-alert-heading"]',
+            );
+            expect(selector).to.exist;
+            expect(selector).to.contain.text(
+              'You’re already enrolled in VA health care',
+            );
+          });
+        });
+
+        describe('when the override feature toggle is enabled', () => {
+          it('should show start application button', () => {
+            const { mockStore, props } = getData({
+              showLoader: false,
+              loaState: 3,
+              showLoginAlert: false,
+              enrollmentOverrideEnabled: true,
+              applicationDate: '2018-07-17T10:32:52.000-05:00',
+              enrollmentDate: '2018-07-17T10:32:53.000-05:00',
+              enrollmentStatus: 'enrolled',
+              preferredFacility: '463GA - FAIRBANKS VA CLINIC',
+            });
+            const { container } = render(
+              <Provider store={mockStore}>
+                <IntroductionPage {...props} />
+              </Provider>,
+            );
+            const selector = container.querySelector(
+              'a.vads-c-action-link--green',
+            );
+            expect(selector).to.exist;
+            expect(selector).to.contain.text(
+              'Start the health care application',
+            );
+          });
+        });
+      });
     });
-    const view = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-
-    expect(
-      view.container.querySelector('[data-testid="login-alert-button"]'),
-    ).to.have.attribute('text', 'Sign in to check your application status');
-  });
-
-  it('should show start your application for Loa3 user that is logged in and not already enrolled', () => {
-    const { mockStore, props } = getData({
-      showLoader: false,
-      loaState: 3,
-      showLoginAlert: false,
-      enrollmentOverrideEnabled: true,
-    });
-    const view = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-    expect(
-      view.container.querySelector('a.vads-c-action-link--green').text,
-    ).to.contain('Start the health care application');
   });
 });

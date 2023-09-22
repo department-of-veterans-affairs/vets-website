@@ -1,12 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import { fireEvent, render } from '@testing-library/react';
 import sinon from 'sinon';
 
-import {
-  DefinitionTester,
-  selectRadio,
-} from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
 
@@ -14,7 +12,7 @@ describe('HLR homeless page', () => {
   const { schema, uiSchema } = formConfig.chapters.infoPages.pages.homeless;
 
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={{}}
         schema={schema}
@@ -24,13 +22,12 @@ describe('HLR homeless page', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
+    expect($$('input', container).length).to.equal(2);
   });
 
   it('should allow submit', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={{}}
         schema={schema}
@@ -41,17 +38,16 @@ describe('HLR homeless page', () => {
       />,
     );
 
-    selectRadio(form, 'root_homeless', 'N');
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    fireEvent.click($('input[value="N"]', container));
+    fireEvent.submit($('form', container));
+    expect($('.usa-input-error-message', container)).to.not.exist;
     expect(onSubmit.called).to.be.true;
-    form.unmount();
   });
 
   // board option is required
   it('should prevent continuing', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={{}}
         schema={schema}
@@ -62,9 +58,32 @@ describe('HLR homeless page', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    fireEvent.submit($('form', container));
+    expect($$('.usa-input-error-message', container).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
-    form.unmount();
+  });
+
+  it('should capture google analytics', () => {
+    global.window.dataLayer = [];
+    const { container } = render(
+      <DefinitionTester
+        definitions={{}}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={() => {}}
+      />,
+    );
+
+    fireEvent.click($('input[value="Y"]', container));
+
+    const event = global.window.dataLayer.slice(-1)[0];
+    expect(event).to.deep.equal({
+      event: 'int-radio-button-option-click',
+      'radio-button-label': 'Are you experiencing homelessness?',
+      'radio-button-optionLabel': 'Yes',
+      'radio-button-required': false,
+    });
   });
 });

@@ -7,10 +7,7 @@ import { within } from '@testing-library/dom';
 import reducers from '../../../redux/reducer';
 import { getVAOSRequestMock } from '../../mocks/v2';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
-import {
-  renderWithStoreAndRouter,
-  getTimezoneTestDate,
-} from '../../mocks/setup';
+import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import RequestedAppointmentsList from '../../../appointment-list/components/RequestedAppointmentsList';
 
 const initialState = {
@@ -29,7 +26,7 @@ const initialStateVAOSService = {
 describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTimezoneTestDate());
+    MockDate.set(getTestDate());
   });
 
   afterEach(() => {
@@ -328,7 +325,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
     });
     mockVAOSAppointmentsFetch({
       start: moment()
-        .subtract(4, 'months')
+        .subtract(120, 'days')
         .format('YYYY-MM-DD'),
       end: moment().format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],
@@ -369,7 +366,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
     });
     mockVAOSAppointmentsFetch({
       start: moment()
-        .subtract(4, 'months')
+        .subtract(120, 'days')
         .format('YYYY-MM-DD'),
       end: moment().format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],

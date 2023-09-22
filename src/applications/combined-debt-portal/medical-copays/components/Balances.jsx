@@ -7,7 +7,7 @@ export const Balances = ({ statements }) => {
   const single = <h2 id="balance-list">What you owe to your facility</h2>;
   const multiple = (
     <h2 id="balance-list">
-      What you owe to your {statements?.length} facilities
+      Your most recent statement balances for the last six months
     </h2>
   );
 

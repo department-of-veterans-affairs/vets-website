@@ -5,19 +5,14 @@ import ItemList from '../../components/shared/ItemList';
 
 describe('Record list item component', () => {
   const itemList = ['foo', 'bar'];
-  const emptyMessage = 'no items';
 
   it('renders without errors', () => {
-    const screen = render(
-      <ItemList list={itemList} emptyMessage={emptyMessage} />,
-    );
+    const screen = render(<ItemList list={itemList} />);
     expect(screen);
   });
 
   it('should display all items in the list', () => {
-    const screen = render(
-      <ItemList list={itemList} emptyMessage={emptyMessage} />,
-    );
+    const screen = render(<ItemList list={itemList} />);
 
     const messageElems = screen.getAllByRole('listitem');
 
@@ -25,9 +20,9 @@ describe('Record list item component', () => {
   });
 
   it('should display the empty message if the list is empty', () => {
-    const screen = render(<ItemList list={[]} emptyMessage={emptyMessage} />);
+    const screen = render(<ItemList list={[]} />);
 
-    const emptyMessageElement = screen.getByText('no items', {
+    const emptyMessageElement = screen.getByText('None noted', {
       exact: true,
       selector: 'p',
     });

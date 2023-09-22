@@ -91,7 +91,12 @@ function FormSaveErrorMessage(props) {
   };
 
   return CustomSubmissionError ? (
-    <CustomSubmissionError location={location} form={form} user={user} />
+    <CustomSubmissionError
+      location={location}
+      form={form}
+      user={user}
+      saveLink={saveLink}
+    />
   ) : (
     <DefaultErrorMessage />
   );

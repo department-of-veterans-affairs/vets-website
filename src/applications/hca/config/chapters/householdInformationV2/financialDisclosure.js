@@ -5,15 +5,8 @@ const { discloseFinancialInformation } = fullSchemaHca.properties;
 export default {
   uiSchema: {
     discloseFinancialInformation: {
-      'ui:title':
-        'Select whether you want to provide your household financial information.',
+      'ui:title': 'Do you want to share your household financial information?',
       'ui:widget': 'yesNo',
-      'ui:options': {
-        labels: {
-          Y: 'Yes, I want to provide my household financial information',
-          N: 'No, I don’t want to provide my household financial information',
-        },
-      },
     },
   },
   schema: {

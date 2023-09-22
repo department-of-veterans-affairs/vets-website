@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getSelected } from '../utils/helpers';
 import { getDate } from '../utils/dates';
-import { SELECTED, FORMAT_READABLE, NO_ISSUES_SELECTED } from '../constants';
+import { NO_ISSUES_SELECTED } from '../constants';
+
+import { FORMAT_READABLE, SELECTED } from '../../shared/constants';
+import { getSelected } from '../../shared/utils/issues';
 
 const legendClassNames = [
   'vads-u-margin-top--0',
@@ -32,7 +34,7 @@ const IssueSummary = ({ formData }) => {
         {issues.length ? (
           issues.map((issue, index) => (
             <li key={index} className={listClassNames}>
-              <h4 className="capitalize vads-u-margin-top--0 vads-u-padding-right--2">
+              <h4 className="capitalize vads-u-margin-top--0 vads-u-padding-right--2 dd-privacy-hidden">
                 {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}
               </h4>
               <div>

@@ -56,10 +56,14 @@ describe('Check In Experience', () => {
       EmergencyContact.attemptToGoToNextPage();
 
       NextOfKin.validatePageLoaded(
-        'Is this your current next of kin information?',
+        'Check-In Is this your current next of kin information?',
       );
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--Next-of-kin');
+      NextOfKin.openAdditionalInfo();
+      cy.createScreenshots(
+        'Day-of-check-in--Next-of-kin--additional-info-open',
+      );
       NextOfKin.attemptToGoToNextPage();
 
       Appointments.validatePageLoaded();

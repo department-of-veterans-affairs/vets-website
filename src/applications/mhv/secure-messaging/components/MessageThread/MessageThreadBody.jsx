@@ -14,7 +14,11 @@ const MessageThreadBody = props => {
   return (
     <div className="vads-u-padding-y--1 ">
       <>
-        <pre data-testid="message-body" className="vads-u-margin-y--0">
+        <pre
+          data-testid="message-body"
+          className="vads-u-margin-y--0"
+          data-dd-privacy="mask"
+        >
           <Linkify componentDecorator={componentDecorator}>{text}</Linkify>
         </pre>
       </>

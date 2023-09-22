@@ -59,9 +59,21 @@ describe('hca VeteranAnnualIncome config', () => {
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(formDOM, '#root_veteranGrossIncome', '100000');
-    simulateInputChange(formDOM, '#root_veteranNetIncome', '76000');
-    simulateInputChange(formDOM, '#root_veteranOtherIncome', '0');
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A veteranGrossIncome_veteranGrossIncome',
+      '100000',
+    );
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A veteranNetIncome_veteranNetIncome',
+      '76000',
+    );
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A veteranOtherIncome_veteranOtherIncome',
+      '0',
+    );
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);

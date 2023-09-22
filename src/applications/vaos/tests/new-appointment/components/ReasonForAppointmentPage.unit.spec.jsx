@@ -40,7 +40,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     expect(textBox).to.exist;
     expect(textBox)
       .to.have.attribute('maxlength')
-      .to.equal('100');
+      .to.equal('250');
 
     expect((await screen.findAllByRole('radio')).length).to.equal(4);
 
@@ -147,7 +147,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     expect(textBox).to.exist;
     expect(textBox)
       .to.have.attribute('maxlength')
-      .to.equal('131');
+      .to.equal('250');
 
     expect(
       screen.getByRole('heading', {

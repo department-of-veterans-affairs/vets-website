@@ -8,7 +8,11 @@ import {
 import AdvancedSearchExpander from '../Search/AdvancedSearchExpander';
 import { foldersList as folders } from '../../selectors';
 import { runBasicSearch } from '../../actions/search';
-import { ErrorMessages, DefaultFolders as Folders } from '../../util/constants';
+import {
+  ErrorMessages,
+  DefaultFolders as Folders,
+  Paths,
+} from '../../util/constants';
 
 const DashboardSearch = () => {
   const dispatch = useDispatch();
@@ -35,7 +39,7 @@ const DashboardSearch = () => {
 
     if (searchFolder && keyword) {
       dispatch(runBasicSearch(searchFolder, keyword.toLowerCase()));
-      history.push('/search/results');
+      history.push(Paths.SEARCH_RESULTS);
     }
   };
 

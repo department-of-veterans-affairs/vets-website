@@ -1,7 +1,9 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { useState } from 'react';
-import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaFileInput,
+  VaSelect,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { submitToAPI } from './submit';
 import { addFile } from './addFile';
@@ -116,14 +118,12 @@ const DocumentUploader = () => {
           />
         )}
       </div>
-      <FileInput
-        additionalClass="file-input"
-        additionalErrorClass="vads-u-margin-bottom--1"
-        buttonText="Upload your document"
-        onChange={onUploadFile}
+      <VaFileInput
+        button-text="Upload your document"
+        onVaChange={e => onUploadFile(e.detail.files)}
         name="fileUpload"
         accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-        errorMessage={state.errorMessage}
+        error={state.errorMessage}
       />
       <va-button onClick={onSubmit} text="Submit files" />
       <p>

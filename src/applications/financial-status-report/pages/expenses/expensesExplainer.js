@@ -1,4 +1,4 @@
-import HouseholdExpensesExplainerWidget from '../../components/HouseholdExpensesExplainerWidget';
+import HouseholdExpensesExplainerWidget from '../../components/householdExpenses/HouseholdExpensesExplainerWidget';
 
 export const uiSchema = {
   'ui:title': ' ',

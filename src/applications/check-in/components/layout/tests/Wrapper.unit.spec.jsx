@@ -11,14 +11,14 @@ import Wrapper from '../Wrapper';
 
 describe('Wrapper component', () => {
   it('renders the passed in page title and child', () => {
-    const { getByText } = render(
+    const { getByText, getByTestId } = render(
       <CheckInProvider store={{ app: 'PreCheckIn' }}>
-        <Wrapper pageTitle="Test Title">
+        <Wrapper pageTitle="Test Title" eyebrow="Check-In">
           <p>test body</p>
         </Wrapper>
       </CheckInProvider>,
     );
-    expect(getByText('Test Title')).to.exist;
+    expect(getByTestId('header')).to.contain.text('Check-In Test Title');
     expect(getByText('test body')).to.exist;
   });
   it('renders the downtime component', () => {

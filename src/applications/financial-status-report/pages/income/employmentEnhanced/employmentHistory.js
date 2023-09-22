@@ -1,4 +1,4 @@
-import EmploymentHistoryWidget from './EmploymentHistoryWidget';
+import EmploymentHistoryWidget from '../../../components/employment/EmploymentHistoryWidget';
 
 export const uiSchema = {
   'ui:title': 'Employment history',

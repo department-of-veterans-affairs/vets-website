@@ -4,10 +4,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { waitFor } from '@testing-library/dom';
 import { mockFetch } from 'platform/testing/unit/helpers';
-import {
-  renderWithStoreAndRouter,
-  getTimezoneTestDate,
-} from '../../mocks/setup';
+import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import { AppointmentList } from '../../../appointment-list';
 import PastAppointmentsListV2 from '../../../appointment-list/components/PastAppointmentsListV2';
 import { mockAppointmentInfo } from '../../mocks/helpers';
@@ -28,7 +25,7 @@ describe('VAOS Backend Service Alert', () => {
 
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTimezoneTestDate());
+    MockDate.set(getTestDate());
     mockAppointmentInfo({});
   });
 
@@ -74,7 +71,7 @@ describe('VAOS Backend Service Alert', () => {
 
     mockVAOSAppointmentsFetch({
       start: moment()
-        .subtract(4, 'months')
+        .subtract(120, 'days')
         .format('YYYY-MM-DD'),
       end: moment().format('YYYY-MM-DD'),
       requests: [appointment],

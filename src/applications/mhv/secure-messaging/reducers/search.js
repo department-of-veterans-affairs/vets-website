@@ -1,4 +1,5 @@
 import { Actions } from '../util/actionTypes';
+import { threadSortingOptions } from '../util/constants';
 
 const initialState = {
   /**
@@ -9,6 +10,9 @@ const initialState = {
   awaitingResults: false,
   keyword: '',
   searchFolder: undefined,
+  searchSort: threadSortingOptions.SENT_DATE_DESCENDING.value,
+  query: undefined,
+  page: 1,
 };
 
 export const searchReducer = (state = initialState, action) => {
@@ -41,6 +45,16 @@ export const searchReducer = (state = initialState, action) => {
         ...state,
         searchResults: initialState.searchResults,
         awaitingResults: true,
+      };
+    case Actions.Search.SET_SORT:
+      return {
+        ...state,
+        searchSort: action.payload,
+      };
+    case Actions.Search.SET_PAGE:
+      return {
+        ...state,
+        page: action.payload,
       };
     case Actions.Search.CLEAR:
       return {

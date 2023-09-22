@@ -1,44 +1,13 @@
-import { getSelected, hasSomeSelected, hasDuplicates } from '../utils/helpers';
+import { showExtensionReason } from '../utils/helpers';
 import { issueErrorMessages } from '../content/addIssue';
-import {
-  noneSelected,
-  maxSelectedErrorMessage,
-} from '../content/contestableIssues';
-import { MAX_LENGTH } from '../constants';
+import { content as extensionReasonContent } from '../content/extensionReason';
 
-/**
- *
- * @param {Function[]} validations - array of validation functions
- * @param {*} data - field data passed to the validation function
- * @param {*} fullData - full and appStateData passed to validation function
- * @returns {String[]} - error messages
- */
-export const checkValidations = (validations, data, fullData) => {
-  const errors = { errorMessages: [] };
-  errors.addError = message => errors.errorMessages.push(message);
-  validations.map(validation =>
-    validation(errors, data, fullData, null, null, null, fullData),
-  );
-  return errors.errorMessages;
-};
+import { maxSelectedErrorMessage } from '../../shared/content/contestableIssues';
+import { MAX_LENGTH, REGEXP } from '../../shared/constants';
+import { getSelected } from '../../shared/utils/issues';
 
-export const selectionRequired = (
-  errors,
-  _fieldData,
-  formData = {},
-  _schema,
-  _uiSchema,
-  _index,
-  appStateData,
-) => {
-  // formData === pageData on review & submit page. It should include the entire
-  // formData. see https://github.com/department-of-veterans-affairs/vsp-support/issues/162
-  // Fall back to formData for unit testing
-  const data = Object.keys(appStateData || {}).length ? appStateData : formData;
-  if (errors && !hasSomeSelected(data)) {
-    errors.addError(noneSelected);
-  }
-};
+// TODO: refactor once issueErrorMessages and errorMessages are the same upon content review
+import { addUniqueIssueErrorMessage } from '../../shared/validations/issues';
 
 // Alert Veteran to duplicates based on name & decision date
 export const uniqueIssue = (
@@ -50,9 +19,12 @@ export const uniqueIssue = (
   _index,
   appStateData,
 ) => {
-  if (errors?.addError && hasDuplicates(appStateData || formData)) {
-    errors.addError(issueErrorMessages.uniqueIssue);
-  }
+  addUniqueIssueErrorMessage(
+    errors,
+    formData,
+    appStateData,
+    issueErrorMessages,
+  );
 };
 
 export const maxIssues = (
@@ -76,7 +48,24 @@ export const missingIssueName = (errors, data) => {
 };
 
 export const maxNameLength = (errors, data) => {
-  if (data.length > MAX_LENGTH.ISSUE_NAME) {
+  if (data.length > MAX_LENGTH.NOD_ISSUE_NAME) {
     errors.addError(issueErrorMessages.maxLength);
+  }
+};
+
+export const extensionReason = (
+  errors,
+  _fieldData,
+  formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
+  const data = appStateData || formData || {};
+  // Ensure reason isn't just whitespace
+  const reason = (data.extensionReason || '').replace(REGEXP.WHITESPACE, '');
+  if (showExtensionReason(data) && !reason) {
+    errors.addError(extensionReasonContent.errorMessage);
   }
 };

@@ -1,13 +1,20 @@
 import React from 'react';
 
 export const uiSchema = {
-  'ui:title': 'Supporting personal statement',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Supporting personal statement</h3>
+      </legend>
+    </>
+  ),
   additionalData: {
     'ui:options': {
       customTitle: ' ',
     },
     additionalComments: {
-      'ui:title': 'Please tell us more about why you need help with this debt',
+      'ui:title':
+        'Please tell us more about why you need help with this debt(s)',
       'ui:description': (
         <va-additional-info trigger="Why do I need to share this information?">
           We want to fully understand your situation so we can make the best
@@ -27,13 +34,9 @@ export const uiSchema = {
       ),
       'ui:widget': 'textarea',
       'ui:required': formData => {
-        return formData['view:combinedFinancialStatusReport']
-          ? formData.selectedDebtsAndCopays?.some(
-              debt => debt.resolutionOption === 'waiver',
-            )
-          : formData.selectedDebts?.some(
-              debt => debt.resolution?.resolutionType === 'Waiver',
-            );
+        return formData.selectedDebtsAndCopays?.some(
+          debt => debt.resolutionOption === 'waiver',
+        );
       },
       'ui:options': {
         rows: 5,

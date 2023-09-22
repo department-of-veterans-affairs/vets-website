@@ -5,17 +5,23 @@ import {
   mockFetch,
   setFetchJSONResponse,
   setFetchJSONFailure,
-} from 'platform/testing/unit/helpers';
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import past from '../../services/mocks/var/past.json';
 import supportedSites from '../../services/mocks/var/sites-supporting-var.json';
 import parentFacilities from '../../services/mocks/var/facilities.json';
 
-import newAppointmentFlow from '../../new-appointment/newAppointmentFlow';
+import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 import { FACILITY_TYPES } from '../../utils/constants';
-import { mockParentSites, mockSupportedCCSites } from '../mocks/helpers';
+import { mockParentSites } from '../mocks/helpers';
 import { mockFacilitiesFetchByVersion } from '../mocks/fetch';
 import { getParentSiteMock } from '../mocks/v0';
+import {
+  mockSchedulingConfigurations,
+  mockV2CommunityCareEligibility,
+} from '../mocks/helpers.v2';
+import { getSchedulingConfigurationMock } from '../mocks/v2';
+import { createMockFacilityByVersion } from '../mocks/data';
 
 const userState = {
   user: {
@@ -39,9 +45,26 @@ describe('VAOS newAppointmentFlow', () => {
     describe('next page', () => {
       it('should be vaFacility page if no systems have CC support', async () => {
         mockFetch();
-        mockFacilitiesFetchByVersion({ version: 0 });
+        mockFacilitiesFetchByVersion({
+          children: true,
+          ids: ['983'],
+          facilities: [
+            createMockFacilityByVersion({
+              id: '983',
+            }),
+          ],
+        });
         mockParentSites(['983'], [getParentSiteMock({ id: '983' })]);
-        mockSupportedCCSites(['983'], []);
+        mockSchedulingConfigurations(
+          [
+            getSchedulingConfigurationMock({
+              id: '983',
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
+          true,
+        );
 
         const state = {
           user: {
@@ -64,7 +87,7 @@ describe('VAOS newAppointmentFlow', () => {
         const getState = () => state;
         const dispatch = action =>
           typeof action === 'function' ? action(sinon.spy(), getState) : null;
-        const nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
           state,
           dispatch,
         );
@@ -93,7 +116,7 @@ describe('VAOS newAppointmentFlow', () => {
         const getState = () => state;
         const dispatch = action =>
           typeof action === 'function' ? action(sinon.spy(), getState) : null;
-        const nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
           state,
           dispatch,
         );
@@ -122,7 +145,7 @@ describe('VAOS newAppointmentFlow', () => {
         const getState = () => state;
         const dispatch = action =>
           typeof action === 'function' ? action(sinon.spy(), getState) : null;
-        const nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
           state,
           dispatch,
         );
@@ -151,7 +174,7 @@ describe('VAOS newAppointmentFlow', () => {
         const getState = () => state;
         const dispatch = action =>
           typeof action === 'function' ? action(sinon.spy(), getState) : null;
-        const nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
           state,
           dispatch,
         );
@@ -161,12 +184,29 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be requestDateTime if CC support and typeOfCare is podiatry', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, parentFacilities);
-        setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-        setFetchJSONResponse(global.fetch.onCall(2), {
-          data: {
-            attributes: { eligible: true },
-          },
+        mockFacilitiesFetchByVersion({
+          children: true,
+          ids: ['983', '984'],
+          facilities: [
+            createMockFacilityByVersion({
+              id: '983',
+            }),
+          ],
+        });
+        mockSchedulingConfigurations(
+          [
+            getSchedulingConfigurationMock({
+              id: '983',
+              typeOfCareId: '411',
+              requestEnabled: true,
+              communityCare: true,
+            }),
+          ],
+          true,
+        );
+        mockV2CommunityCareEligibility({
+          parentSites: [],
+          careType: 'Podiatry',
         });
         const state = {
           ...userState,
@@ -185,13 +225,10 @@ describe('VAOS newAppointmentFlow', () => {
         const getState = () => state;
         const dispatch = action =>
           typeof action === 'function' ? action(sinon.spy(), getState) : null;
-        const nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
           state,
           dispatch,
         );
-
-        const { dataLayer } = global.window;
-        expect(dataLayer[0].event).to.equal('vaos-cc-eligible-yes');
 
         expect(nextState).to.equal('requestDateTime');
       });
@@ -211,7 +248,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
           state,
           dispatch,
         );
@@ -220,13 +257,30 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be typeOfFacility page if site has CC support', async () => {
         mockFetch();
-        setFetchJSONResponse(global.fetch, parentFacilities);
-        setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-        setFetchJSONResponse(global.fetch.onCall(2), {
-          data: {
-            attributes: { eligible: true },
-          },
+        mockFacilitiesFetchByVersion({
+          children: true,
+          ids: ['983', '984'],
+          facilities: [
+            createMockFacilityByVersion({
+              id: '983',
+            }),
+          ],
         });
+        mockSchedulingConfigurations(
+          [
+            getSchedulingConfigurationMock({
+              id: '983',
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
+          true,
+        );
+        mockV2CommunityCareEligibility({
+          parentSites: [],
+          careType: 'PrimaryCare',
+        });
+
         const state = {
           ...userState,
           featureToggles: {
@@ -244,7 +298,7 @@ describe('VAOS newAppointmentFlow', () => {
         const getState = () => state;
         const dispatch = action =>
           typeof action === 'function' ? action(sinon.spy(), getState) : null;
-        const nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
           state,
           dispatch,
         );
@@ -265,7 +319,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const nextState = newAppointmentFlow.typeOfFacility.next(state);
+        const nextState = getNewAppointmentFlow(state).typeOfFacility.next(
+          state,
+        );
         expect(nextState).to.equal('audiologyCareType');
       });
 
@@ -281,7 +337,7 @@ describe('VAOS newAppointmentFlow', () => {
 
         const dispatch = sinon.spy();
 
-        const nextState = newAppointmentFlow.typeOfFacility.next(
+        const nextState = getNewAppointmentFlow(state).typeOfFacility.next(
           state,
           dispatch,
         );
@@ -304,7 +360,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const nextState = newAppointmentFlow.typeOfFacility.next(state);
+        const nextState = getNewAppointmentFlow(state).typeOfFacility.next(
+          state,
+        );
         expect(nextState).to.equal('vaFacilityV2');
       });
     });
@@ -369,7 +427,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
         const dispatch = sinon.spy();
 
-        const nextState = await newAppointmentFlow.vaFacilityV2.next(
+        const nextState = await getNewAppointmentFlow(state).vaFacilityV2.next(
           state,
           dispatch,
         );
@@ -393,7 +451,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
         const dispatch = sinon.spy();
 
-        const nextState = await newAppointmentFlow.vaFacilityV2.next(
+        const nextState = await getNewAppointmentFlow(state).vaFacilityV2.next(
           state,
           dispatch,
         );
@@ -413,7 +471,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const nextState = newAppointmentFlow.requestDateTime.next(state);
+        const nextState = getNewAppointmentFlow(state).requestDateTime.next(
+          state,
+        );
 
         expect(nextState).to.equal('reasonForAppointment');
       });
@@ -432,7 +492,10 @@ describe('VAOS newAppointmentFlow', () => {
         };
         const dispatch = sinon.spy();
 
-        const nextState = newAppointmentFlow.clinicChoice.next(state, dispatch);
+        const nextState = getNewAppointmentFlow(state).clinicChoice.next(
+          state,
+          dispatch,
+        );
 
         expect(nextState).to.equal('preferredDate');
       });
@@ -447,7 +510,10 @@ describe('VAOS newAppointmentFlow', () => {
         };
         const dispatch = sinon.spy();
 
-        const nextState = newAppointmentFlow.clinicChoice.next(state, dispatch);
+        const nextState = getNewAppointmentFlow(state).clinicChoice.next(
+          state,
+          dispatch,
+        );
 
         expect(nextState).to.equal('requestDateTime');
         expect(dispatch.called).to.be.true;
@@ -464,7 +530,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        expect(newAppointmentFlow.ccPreferences.next(state)).to.equal(
+        expect(getNewAppointmentFlow(state).ccPreferences.next(state)).to.equal(
           'reasonForAppointment',
         );
       });
@@ -485,7 +551,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        expect(newAppointmentFlow.ccPreferences.next(state)).to.equal(
+        expect(getNewAppointmentFlow(state).ccPreferences.next(state)).to.equal(
           'ccLanguage',
         );
       });
@@ -503,7 +569,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const nextState = newAppointmentFlow.reasonForAppointment.next(state);
+        const nextState = getNewAppointmentFlow(
+          state,
+        ).reasonForAppointment.next(state);
         expect(nextState).to.equal('visitType');
       });
 
@@ -516,7 +584,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const nextState = newAppointmentFlow.reasonForAppointment.next(state);
+        const nextState = getNewAppointmentFlow(
+          state,
+        ).reasonForAppointment.next(state);
         expect(nextState).to.equal('contactInfo');
       });
     });
@@ -532,7 +602,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
         },
       };
-      const nextState = await newAppointmentFlow.typeOfCare.next(
+      const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
         state,
         dispatch,
       );
@@ -541,12 +611,28 @@ describe('VAOS newAppointmentFlow', () => {
 
     it('should be typeOfFacility page when optometry selected', async () => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, parentFacilities);
-      setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
-      setFetchJSONResponse(global.fetch.onCall(2), {
-        data: {
-          attributes: { eligible: true },
-        },
+      mockFacilitiesFetchByVersion({
+        children: true,
+        ids: ['983', '984'],
+        facilities: [
+          createMockFacilityByVersion({
+            id: '983',
+          }),
+        ],
+      });
+      mockSchedulingConfigurations(
+        [
+          getSchedulingConfigurationMock({
+            id: '983',
+            typeOfCareId: 'Optometry',
+            requestEnabled: true,
+          }),
+        ],
+        true,
+      );
+      mockV2CommunityCareEligibility({
+        parentSites: [],
+        careType: 'Optometry',
       });
       const state = {
         ...userState,
@@ -566,7 +652,7 @@ describe('VAOS newAppointmentFlow', () => {
       const getState = () => state;
       const dispatch = action =>
         typeof action === 'function' ? action(sinon.spy(), getState) : null;
-      const nextState = await newAppointmentFlow.typeOfEyeCare.next(
+      const nextState = await getNewAppointmentFlow(state).typeOfEyeCare.next(
         state,
         dispatch,
       );
@@ -600,7 +686,7 @@ describe('VAOS newAppointmentFlow', () => {
       const getState = () => state;
       const dispatch = action =>
         typeof action === 'function' ? action(sinon.spy(), getState) : null;
-      const nextState = await newAppointmentFlow.typeOfEyeCare.next(
+      const nextState = await getNewAppointmentFlow(state).typeOfEyeCare.next(
         state,
         dispatch,
       );

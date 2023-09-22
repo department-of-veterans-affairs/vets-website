@@ -27,13 +27,15 @@ import toursOfDutyUI from '../definitions/toursOfDuty';
 
 import AccordionField from '../components/AccordionField';
 import ApplicantIdentityView from '../components/ApplicantIdentityView';
-import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
+import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
+import BenefitRelinquishWidget from '../components/BenefitRelinquishWidget';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
+import CustomEmailField from '../components/CustomEmailField';
+import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
 import DateReviewField from '../components/DateReviewField';
 // import DirectDepositViewField from '../components/DirectDepositViewField';
-import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
 import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -45,6 +47,7 @@ import CustomPreSubmitInfo from '../components/PreSubmitInfo';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
 import TextNotificationsDisclaimer from '../components/TextNotificationsDisclaimer';
 import YesNoReviewField from '../components/YesNoReviewField';
+import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 
 import { ELIGIBILITY } from '../actions';
 import { formFields } from '../constants';
@@ -145,7 +148,7 @@ const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 const benefits = [
   ELIGIBILITY.CHAPTER30,
   ELIGIBILITY.CHAPTER1606,
-  'CannotRelinquish',
+  'NotEligible',
 ];
 
 function isOnlyWhitespace(str) {
@@ -165,7 +168,7 @@ function titleCase(str) {
 }
 
 function phoneUISchema(category) {
-  return {
+  const schema = {
     'ui:options': {
       hideLabelText: true,
       showFieldLabel: false,
@@ -197,6 +200,13 @@ function phoneUISchema(category) {
       },
     },
   };
+
+  // use custom component if mobile phone
+  if (category === 'mobile') {
+    schema.phone['ui:widget'] = CustomPhoneNumberField;
+  }
+
+  return schema;
 }
 
 function phoneSchema() {
@@ -215,7 +225,7 @@ function phoneSchema() {
 }
 
 function additionalConsiderationsQuestionTitleText(benefitSelection, order) {
-  const isUnsure = !benefitSelection || benefitSelection === 'CannotRelinquish';
+  const isUnsure = !benefitSelection || benefitSelection === 'NotEligible';
   const pageNumber = isUnsure ? order - 1 : order;
   const totalPages = isUnsure ? 3 : 4;
 
@@ -396,6 +406,7 @@ const formConfig = {
           title: 'Your information',
           path: 'applicant-information/personal-information',
           subTitle: 'Your information',
+          CustomPageReview: ApplicantInformationReviewPage,
           instructions:
             'This is the personal information we have on file for you.',
           uiSchema: {
@@ -422,8 +433,7 @@ const formConfig = {
                 </>
               ),
               'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
+                hideIf: formData => formData.showMebEnhancements06,
               },
             },
             [formFields.formId]: {
@@ -441,28 +451,40 @@ const formConfig = {
               },
             },
             'view:applicantInformation': {
+              'ui:options': {
+                hideIf: formData => !formData.showMebEnhancements06,
+              },
               'ui:description': (
                 <>
                   <ApplicantIdentityView />
                 </>
               ),
-              'ui:options': {
-                hideIf: formData =>
-                  !formData.showMebEnhancements06 || !formData.isLOA3,
-              },
             },
             [formFields.viewUserFullName]: {
+              'ui:options': {
+                hideIf: formData => formData.showMebEnhancements06,
+              },
               'ui:description': (
-                <p className="meb-review-page-only">
-                  If you’d like to update your personal information, please edit
-                  the form fields below.
-                </p>
+                <>
+                  <p className="meb-review-page-only">
+                    If you’d like to update your personal information, please
+                    edit the form fields below.
+                  </p>
+                </>
               ),
               [formFields.userFullName]: {
+                'ui:options': {
+                  hideIf: formData => formData.showMebEnhancements06,
+                },
+                'ui:required': formData => !formData?.showMebEnhancements06,
                 ...fullNameUI,
                 first: {
                   ...fullNameUI.first,
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
                   'ui:title': 'Your first name',
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidName(field)) {
@@ -484,6 +506,10 @@ const formConfig = {
                 last: {
                   ...fullNameUI.last,
                   'ui:title': 'Your last name',
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidLastName(field)) {
@@ -509,6 +535,10 @@ const formConfig = {
                 middle: {
                   ...fullNameUI.middle,
                   'ui:title': 'Your middle name',
+                  'ui:options': {
+                    hideIf: formData => formData.showMebEnhancements06,
+                  },
+                  'ui:required': formData => !formData?.showMebEnhancements06,
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidName(field)) {
@@ -527,19 +557,15 @@ const formConfig = {
                     },
                   ],
                 },
-                'ui:options': {
-                  hideIf: formData =>
-                    formData.showMebEnhancements06 && formData.isLOA3,
-                },
               },
             },
             [formFields.dateOfBirth]: {
+              'ui:options': {
+                hideIf: formData => formData.showMebEnhancements06,
+              },
+              'ui:required': formData => !formData?.showMebEnhancements06,
               ...currentOrPastDateUI('Your date of birth'),
               'ui:reviewField': CustomReviewDOBField,
-              'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
-              },
             },
           },
           schema: {
@@ -557,7 +583,7 @@ const formConfig = {
                 properties: {},
               },
               [formFields.viewUserFullName]: {
-                required: [formFields.userFullName],
+                // required: [formFields.userFullName],
                 type: 'object',
                 properties: {
                   [formFields.userFullName]: {
@@ -653,7 +679,7 @@ const formConfig = {
               email: {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
-                'ui:reviewField': EmailReviewField,
+                'ui:widget': CustomEmailField,
               },
               confirmEmail: {
                 ...emailUI('Confirm email address'),
@@ -671,6 +697,9 @@ const formConfig = {
                   }
                 },
               ],
+            },
+            'view:confirmDuplicateData': {
+              'ui:description': DuplicateContactInfoModal,
             },
           },
           schema: {
@@ -694,6 +723,10 @@ const formConfig = {
                   email,
                   confirmEmail: email,
                 },
+              },
+              'view:confirmDuplicateData': {
+                type: 'object',
+                properties: {},
               },
             },
           },
@@ -942,6 +975,7 @@ const formConfig = {
                     form => form[formFields.viewPhoneNumbers].phoneNumber.phone,
                     (mobilePhoneNumber, homePhoneNumber) => {
                       const invalidContactMethods = [];
+
                       if (!mobilePhoneNumber) {
                         invalidContactMethods.push('Mobile Phone');
                       }
@@ -956,6 +990,7 @@ const formConfig = {
                       };
                     },
                   );
+
                   return form => filterContactMethods(form);
                 })(),
               },
@@ -979,7 +1014,7 @@ const formConfig = {
               ),
               [formFields.receiveTextMessages]: {
                 'ui:title':
-                  'Would you like to receive text message notifications on your education benefits?',
+                  'Would you like to receive text message notifications about your education benefits?',
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
@@ -1085,6 +1120,91 @@ const formConfig = {
                   ].isInternational,
               },
             },
+            'view:emailOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get email notifications because your
+                    email is on file for another person with education benefits.
+                    You will not be able to take full advantage of VA’s
+                    electronic notifications and enrollment verifications
+                    available. If you cannot, certain electronic services will
+                    be limited or unavailable.
+                    <br />
+                    <br />
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const isNo = formData[
+                    'view:receiveTextMessages'
+                  ]?.receiveTextMessages
+                    ?.slice(0, 3)
+                    ?.includes('No,');
+                  const noDuplicates = formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === false,
+                  );
+
+                  if (isNo && noDuplicates === false) {
+                    return false;
+                  }
+                  return true;
+                },
+              },
+            },
+            'view:mobilePhoneOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get text notifications because your
+                    mobile phone number is on file for another person with
+                    education benefits. You will not be able to take full
+                    advantage of VA’s electronic notifications and enrollment
+                    verifications available. If you cannot, certain electronic
+                    services will be limited or unavailable.
+                    <br />
+                    <br />
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const isYes = formData[
+                    'view:receiveTextMessages'
+                  ]?.receiveTextMessages
+                    ?.slice(0, 4)
+                    ?.includes('Yes');
+                  const noDuplicates = formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === false,
+                  );
+
+                  const mobilePhone =
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
+                    ]?.phone;
+
+                  if (isYes && noDuplicates === false && mobilePhone) {
+                    return false;
+                  }
+                  return true;
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -1119,6 +1239,18 @@ const formConfig = {
                 properties: {},
               },
               'view:internationalTextMessageAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:emailOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:mobilePhoneOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:duplicateEmailAndPhoneAndNoHomePhone': {
                 type: 'object',
                 properties: {},
               },
@@ -1259,7 +1391,14 @@ const formConfig = {
           path: 'benefit-selection',
           title: 'Benefit selection',
           subTitle: 'You’re applying for the Post-9/11 GI Bill®',
-          depends: formData => formData.eligibility?.length,
+          depends: formData => {
+            // If the showMebEnhancements09 feature flag is turned on, show the page
+            if (formData.showMebEnhancements09) {
+              return true;
+            }
+            // If the feature flag is not turned on, check the eligibility length
+            return Boolean(formData.eligibility?.length);
+          },
           uiSchema: {
             'view:post911Notice': {
               'ui:description': (
@@ -1300,49 +1439,7 @@ const formConfig = {
               ),
               [formFields.benefitRelinquished]: {
                 'ui:title': <BenefitRelinquishedLabel />,
-                'ui:reviewField': BenefitGivenUpReviewField,
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: {
-                    Chapter30: 'Montgomery GI Bill Active Duty (Chapter 30)',
-                    Chapter1606:
-                      'Montgomery GI Bill Selected Reserve (Chapter 1606)',
-                    CannotRelinquish: "I'm not sure",
-                  },
-                  widgetProps: {
-                    Chapter30: { 'data-info': 'Chapter30' },
-                    Chapter1606: { 'data-info': 'Chapter1606' },
-                    CannotRelinquish: { 'data-info': 'CannotRelinquish' },
-                  },
-                  selectedProps: {
-                    Chapter30: { 'aria-describedby': 'Chapter30' },
-                    Chapter1606: {
-                      'aria-describedby': 'Chapter1606',
-                    },
-                    CannotRelinquish: {
-                      'aria-describedby': 'CannotRelinquish',
-                    },
-                  },
-                  updateSchema: (() => {
-                    const filterEligibility = createSelector(
-                      state => state.eligibility,
-                      eligibility => {
-                        if (!eligibility || !eligibility.length) {
-                          return benefits;
-                        }
-
-                        return {
-                          enum: benefits.filter(
-                            benefit =>
-                              eligibility.includes(benefit) ||
-                              benefit === 'CannotRelinquish',
-                          ),
-                        };
-                      },
-                    );
-                    return (form, state) => filterEligibility(form, state);
-                  })(),
-                },
+                'ui:widget': BenefitRelinquishWidget,
                 'ui:errorMessages': {
                   required: 'Please select an answer.',
                 },
@@ -1407,7 +1504,7 @@ const formConfig = {
                 hideIf: formData =>
                   formData[formFields.viewBenefitSelection][
                     formFields.benefitRelinquished
-                  ] !== 'CannotRelinquish',
+                  ] !== 'NotEligible',
                 expandUnder: [formFields.viewBenefitSelection],
               },
             },

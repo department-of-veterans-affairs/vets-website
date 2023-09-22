@@ -30,6 +30,7 @@ import {
 import {
   selectFeatureAppointmentList,
   selectFeatureStatusImprovement,
+  selectFeatureBreadcrumbUrlUpdate,
 } from '../../../redux/selectors';
 import AppointmentCard from '../AppointmentsPageV2/AppointmentCard';
 import UpcomingAppointmentLayout from '../AppointmentsPageV2/UpcomingAppointmentLayout';
@@ -143,6 +144,9 @@ export default function PastAppointmentsListNew() {
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
 
   useEffect(() => {
     if (pastStatus === FETCH_STATUS.notStarted) {
@@ -244,10 +248,12 @@ export default function PastAppointmentsListNew() {
       <BackendAppointmentServiceAlert />
       {dropdown}
       <div aria-live="assertive" className="sr-only">
-        {(hasTypeChanged || !isInitialMount) &&
-          `Showing appointments for ${
-            dateRangeOptions[pastSelectedIndex]?.label
-          }`}
+        {`Showing appointments for ${
+          dateRangeOptions[pastSelectedIndex]?.label
+        }`}
+      </div>
+      <div className="vaos-print-only vads-u-margin-top--neg2 vads-u-margin-bottom--2">
+        {dateRangeOptions[pastSelectedIndex]?.label}
       </div>
 
       {keys.map(key => {
@@ -288,6 +294,7 @@ export default function PastAppointmentsListNew() {
               {featureAppointmentList &&
                 UpcomingAppointmentLayout({
                   featureStatusImprovement,
+                  featureBreadcrumbUrlUpdate,
                   hashTable,
                   history,
                 })}
@@ -297,6 +304,7 @@ export default function PastAppointmentsListNew() {
                   const facilityId = getVAAppointmentLocationId(appt);
                   const idClickable = `id-${appt.id.replace('.', '\\.')}`;
                   const link = getLink({
+                    featureBreadcrumbUrlUpdate,
                     featureStatusImprovement,
                     appointment: appt,
                   });

@@ -1,43 +1,51 @@
 import moment from 'moment';
 
-import { parseISODate } from 'platform/forms-system/src/js/helpers';
-
-import { fixDateFormat } from '../utils/replace';
-import { FORMAT_YMD } from '../constants';
-
+import { SHOW_PART3 } from '../constants';
 import { issueErrorMessages } from '../content/addIssue';
 
-const minDate = moment()
+import { MAX_YEARS_PAST } from '../../shared/constants';
+import {
+  createScreenReaderErrorMsg,
+  addDateErrorMessages,
+  createDateObject,
+} from '../../shared/validations/date';
+
+const minDate1 = moment()
   .subtract(1, 'year')
   .startOf('day');
 
-const maxDate = moment().startOf('day');
+const minDate100 = moment()
+  .subtract(MAX_YEARS_PAST, 'year')
+  .startOf('day');
 
-export const validateDate = (errors, rawString = '') => {
-  const dateString = fixDateFormat(rawString);
-  const { day, month, year } = parseISODate(dateString);
-  const date = moment(rawString, FORMAT_YMD);
-  if (
-    !year ||
-    year === '' ||
-    !day ||
-    day === '0' ||
-    !month ||
-    month === '0' ||
-    dateString?.length < FORMAT_YMD.length
-  ) {
-    // errors.addError(issueErrorMessages.missingDecisionDate);
-    // The va-date component currently overrides the error message when the
-    // value is blank
-    errors.addError(issueErrorMessages.invalidDate);
-  } else if (!date.isValid()) {
-    errors.addError(issueErrorMessages.invalidDate);
-  } else if (date.isSameOrAfter(maxDate)) {
-    // Lighthouse won't accept same day (as submission) decision date
-    errors.addError(issueErrorMessages.pastDate);
-  } else if (date.isBefore(minDate)) {
-    errors.addError(issueErrorMessages.newerDate);
+export const validateDate = (
+  errors,
+  rawDateString = '',
+  formData = {},
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
+  const data = Object.keys(appStateData || {}).length ? appStateData : formData;
+
+  const date = createDateObject(rawDateString);
+
+  const hasMessages = addDateErrorMessages(errors, issueErrorMessages, date);
+  if (!hasMessages) {
+    if (!data[SHOW_PART3] && date.momentDate.isBefore(minDate1)) {
+      errors.addError(issueErrorMessages.newerDate);
+      date.errors.year = true;
+    } else if (date.momentDate.isBefore(minDate100)) {
+      // max 1 year for old form or 100 years for newer form
+      errors.addError(issueErrorMessages.recentDate);
+      date.errors.year = true; // only the year is invalid at this point
+    }
   }
+
+  // add second error message containing the part of the date with an error;
+  // used to add `aria-invalid` to the specific input
+  createScreenReaderErrorMsg(errors, date.errors);
 };
 
 /**

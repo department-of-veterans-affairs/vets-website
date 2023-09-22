@@ -25,8 +25,15 @@ const encryptedMockFile = [
 describe('readAndCheckFile', () => {
   let oldFileReader;
 
-  const setup = async (ext = 'pdf', isEncrypted) => {
+  before(() => {
     oldFileReader = global.FileReader;
+  });
+
+  after(() => {
+    global.FileReader = oldFileReader;
+  });
+
+  const setup = async (ext = 'pdf', isEncrypted) => {
     const fileType = fileTypeSignatures[ext] || {};
 
     const result = [
@@ -61,10 +68,6 @@ describe('readAndCheckFile', () => {
       slice: () => result,
     };
   };
-
-  after(() => {
-    global.FileReader = oldFileReader;
-  });
 
   it('should resolve if no checks are included', async () => {
     const file = await setup('pdf');
@@ -301,6 +304,15 @@ describe('ShowPdfPassword', () => {
 
     expect($('va-text-input', container)).to.exist;
     expect($('va-button', container)).to.exist;
+    expect($('va-text-input[uswds]', container)).to.not.exist;
+    expect($('va-button[uswds]', container)).to.not.exist;
+  });
+  it('should render uswds components', () => {
+    const props = getProps();
+    const { container } = render(<ShowPdfPassword {...props} uswds />);
+
+    expect($('va-text-input[uswds]', container)).to.exist;
+    expect($('va-button[uswds]', container)).to.exist;
   });
   it('should show validation error', () => {
     const props = getProps();

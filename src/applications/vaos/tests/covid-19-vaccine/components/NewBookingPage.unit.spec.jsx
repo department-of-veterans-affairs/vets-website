@@ -1,18 +1,17 @@
 import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
-import environment from 'platform/utilities/environment';
+import {
+  mockFetch,
+  setFetchJSONResponse,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { NewBookingSection } from '../../../covid-19-vaccine';
-import { getDirectBookingEligibilityCriteriaMock } from '../../../tests/mocks/v0';
-import {
-  mockDirectBookingEligibilityCriteria,
-  mockRequestEligibilityCriteria,
-} from '../../mocks/helpers';
 import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
-import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
 import { createMockFacilityByVersion } from '../../mocks/data';
+import { mockSchedulingConfigurations } from '../../mocks/helpers.v2';
+import { getSchedulingConfigurationMock } from '../../mocks/v2';
 
 const initialState = {
   featureToggles: {
@@ -38,16 +37,32 @@ describe('VAOS vaccine flow', () => {
       ...initialState,
     });
 
-    mockDirectBookingEligibilityCriteria(
-      ['983', '984'],
-      [
-        getDirectBookingEligibilityCriteriaMock({
+    mockFacilitiesFetchByVersion({
+      children: true,
+      facilities: [
+        createMockFacilityByVersion({
           id: '983',
-          typeOfCareId: 'covid',
+          name: 'A facility',
+        }),
+        createMockFacilityByVersion({
+          id: '984',
+          name: 'B facility',
         }),
       ],
-    );
-    mockRequestEligibilityCriteria(['983', '984'], []);
+    });
+    mockSchedulingConfigurations([
+      getSchedulingConfigurationMock({
+        id: '983',
+        typeOfCareId: 'covid',
+        requestEnabled: true,
+        directEnabled: true,
+      }),
+      getSchedulingConfigurationMock({
+        id: '984',
+        typeOfCareId: 'primaryCare',
+        requestEnabled: true,
+      }),
+    ]);
 
     const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
@@ -65,6 +80,7 @@ describe('VAOS vaccine flow', () => {
     });
 
     mockFacilitiesFetchByVersion({
+      children: true,
       facilities: [
         createMockFacilityByVersion({
           id: '983',
@@ -76,22 +92,25 @@ describe('VAOS vaccine flow', () => {
             state: 'MT',
           },
           phone: '5555555555x1234',
-          version: 0,
+        }),
+        createMockFacilityByVersion({
+          id: '984',
+          name: 'Facility 2',
         }),
       ],
-      version: 0,
     });
-    mockRequestEligibilityCriteria(['983', '984'], []);
-    mockDirectBookingEligibilityCriteria(
-      ['983', '984'],
-      [
-        getDirectBookingEligibilityCriteriaMock({
-          id: '983',
-          typeOfCareId: TYPE_OF_CARE_ID,
-          patientHistoryRequired: null,
-        }),
-      ],
-    );
+    mockSchedulingConfigurations([
+      getSchedulingConfigurationMock({
+        id: '983',
+        typeOfCareId: 'covid',
+        requestEnabled: true,
+      }),
+      getSchedulingConfigurationMock({
+        id: '984',
+        typeOfCareId: 'primaryCare',
+        requestEnabled: true,
+      }),
+    ]);
 
     const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
@@ -103,16 +122,6 @@ describe('VAOS vaccine flow', () => {
   });
 
   it('should render warning message', async () => {
-    mockDirectBookingEligibilityCriteria(
-      ['983', '984'],
-      [
-        getDirectBookingEligibilityCriteriaMock({
-          id: '983',
-          typeOfCareId: TYPE_OF_CARE_ID,
-        }),
-      ],
-    );
-    mockRequestEligibilityCriteria(['983', '984'], []);
     setFetchJSONResponse(
       global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
       {

@@ -289,7 +289,6 @@ const getNotificationMethod = notificationMethod => {
 
 const getSponsorInformation = form => {
   let firstSponsor;
-
   if (!form?.data?.firstSponsor && form?.data?.selectedSponsors?.length === 1) {
     firstSponsor = form?.data?.selectedSponsors[0];
   } else {
@@ -310,6 +309,15 @@ const getSponsorInformation = form => {
       manualSponsor: null,
     };
   }
+  // check if august feature flag is on and if so ensure manual entry is disabled
+  if (form.data.showMebEnhancements08) {
+    return {
+      notSureAboutSponsor: true,
+      firstSponsorVaId: null,
+      manualSponsor: null, // return null for manualSponsor when the feature is disabled
+    };
+  }
+
   return {
     notSureAboutSponsor: false,
     firstSponsorVaId: null,
@@ -325,15 +333,32 @@ const getSponsorInformation = form => {
 };
 
 export function transformTOEForm(_formConfig, form) {
+  const formFieldUserFullName = form?.data['view:userFullName']?.userFullName;
+  const viewComponentUserFullName =
+    form?.loadedData?.formData['view:userFullName'].userFullName;
+  const formFieldDateOfBirth = form?.data?.dateOfBirth;
+  const viewComponentDateOfBirth = form?.loadedData?.formData.dateOfBirth;
+
+  // Explicitly check if formField sources are not undefined and not empty, otherwise use viewComponent
+  const userFullName =
+    formFieldUserFullName !== undefined &&
+    Object.keys(formFieldUserFullName).length > 0
+      ? formFieldUserFullName
+      : viewComponentUserFullName;
+  const dateOfBirth =
+    formFieldDateOfBirth !== undefined
+      ? formFieldDateOfBirth
+      : viewComponentDateOfBirth;
+
   const payload = {
     formId: form?.formId,
     '@type': 'ToeSubmission',
     toeClaimant: {
-      suffix: form?.data['view:userFullName']?.userFullName?.suffix,
-      dateOfBirth: form?.data?.dateOfBirth,
-      firstName: form?.data['view:userFullName']?.userFullName?.first,
-      lastName: form?.data['view:userFullName']?.userFullName?.last,
-      middleName: form?.data['view:userFullName']?.userFullName?.middle,
+      suffix: userFullName?.suffix,
+      dateOfBirth,
+      firstName: userFullName?.first,
+      lastName: userFullName?.last,
+      middleName: userFullName?.middle,
       notificationMethod: getNotificationMethod(
         form?.data['view:receiveTextMessages']?.receiveTextMessages,
       ),

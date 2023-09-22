@@ -1,0 +1,23 @@
+{
+  "preparerFullName": {
+    "first": "Arthur",
+    "last": "Preparer"
+  },
+  "preparerAddress": {
+    "street": "124 Main St",
+    "city": "Anytown",
+    "state": "CA",
+    "country": "USA",
+    "postalCode": "12345"
+  },
+  "preparerPhone": "9876054321",
+  "claimantIdentification": "VETERAN",
+  "preparerQualifications": "Court-appointed representative",
+  "preparerSigningReason": "They’re under 18 years old.",
+  "veteranFullName": {
+    "first": "Alex",
+    "last": "Veteran"
+  },
+  "veteranDateOfBirth": "1950-10-25",
+  "veteranSsn": "999442222"
+}

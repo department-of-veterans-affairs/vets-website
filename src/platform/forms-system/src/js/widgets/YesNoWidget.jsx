@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import recordEvent from '../../../../monitoring/record-event';
 
 export default function YesNoWidget({
   id,
@@ -12,6 +15,7 @@ export default function YesNoWidget({
     labels = {},
     widgetProps = {},
     selectedProps = {},
+    enableAnalytics = false,
   } = options;
 
   const values = {
@@ -24,6 +28,25 @@ export default function YesNoWidget({
     ...((value === values[key] && selectedProps[key]) || {}),
   });
 
+  const onChangeEvent = val => {
+    if (enableAnalytics) {
+      // title may be a React component
+      const title = options.title?.props?.children || options.title || '';
+      // labels may or may not have custom text
+      const optionLabel = labels[val] || (values[val] ? 'Yes' : 'No');
+      // this check isn't ideal since the message may exist and the question
+      // may be dynamically toggled between being required or not
+      const required = !!options.errorMessages?.required;
+      recordEvent({
+        event: 'int-radio-button-option-click',
+        'radio-button-label': title,
+        'radio-button-optionLabel': optionLabel,
+        'radio-button-required': required,
+      });
+    }
+    onChange(values[val]);
+  };
+
   return (
     <div className="form-radio-buttons">
       <input
@@ -34,7 +57,7 @@ export default function YesNoWidget({
         name={`${id}`}
         value="Y"
         disabled={disabled}
-        onChange={_ => onChange(values.Y)}
+        onChange={_ => onChangeEvent('Y')}
         {...getProps('Y')}
       />
       <label htmlFor={`${id}Yes`}>{labels.Y || 'Yes'}</label>
@@ -46,10 +69,27 @@ export default function YesNoWidget({
         name={`${id}`}
         value="N"
         disabled={disabled}
-        onChange={_ => onChange(values.N)}
+        onChange={_ => onChangeEvent('N')}
         {...getProps('N')}
       />
       <label htmlFor={`${id}No`}>{labels.N || 'No'}</label>
     </div>
   );
 }
+
+YesNoWidget.propTypes = {
+  disabled: PropTypes.bool,
+  id: PropTypes.string,
+  options: PropTypes.shape({
+    enumOptions: PropTypes.array,
+    labels: PropTypes.shape({}),
+    nestedContent: PropTypes.shape({}),
+    widgetProps: PropTypes.shape({}),
+    selectedProps: PropTypes.shape({}),
+    enableAnalytics: PropTypes.bool,
+    title: PropTypes.string,
+    errorMessages: PropTypes.shape({}),
+  }),
+  value: PropTypes.bool,
+  onChange: PropTypes.func,
+};

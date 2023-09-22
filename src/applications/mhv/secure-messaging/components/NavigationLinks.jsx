@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Paths } from '../util/constants';
 
 const NavigationLinks = props => {
   const history = useHistory();
@@ -31,11 +32,11 @@ const NavigationLinks = props => {
 
   const handlePrevious = e => {
     e.preventDefault();
-    history.push(`/message/${prevMessageId}`);
+    history.push(`${Paths.MESSAGE}${prevMessageId}/`);
   };
   const handleNext = e => {
     e.preventDefault();
-    history.push(`/message/${nextMessageId}`);
+    history.push(`${Paths.MESSAGE}${nextMessageId}/`);
   };
 
   return (

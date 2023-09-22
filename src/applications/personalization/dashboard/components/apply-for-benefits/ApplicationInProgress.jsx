@@ -38,12 +38,12 @@ const ApplicationInProgress = ({
             >
               {presentableFormId}
             </p>
-            <h4
+            <h3
               aria-describedby={formId}
               className="vads-u-font-size--h3 vads-u-margin-top--0"
             >
               {capitalizeFirstLetter(formTitle)}
-            </h4>
+            </h3>
             <div className="vads-u-display--flex">
               <i
                 aria-hidden="true"

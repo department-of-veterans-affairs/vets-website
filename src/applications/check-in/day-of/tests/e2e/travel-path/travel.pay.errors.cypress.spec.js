@@ -38,7 +38,7 @@ describe('Check In Experience', () => {
       EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
       NextOfKin.validatePageLoaded(
-        'Is this your current next of kin information?',
+        'Check-In Is this your current next of kin information?',
       );
       NextOfKin.attemptToGoToNextPage();
     });

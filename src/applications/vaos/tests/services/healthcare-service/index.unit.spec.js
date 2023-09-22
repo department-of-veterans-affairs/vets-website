@@ -6,12 +6,12 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import { getAvailableHealthcareServices } from '../../../services/healthcare-service';
-import clinicList983 from '../../../services/mocks/var/clinicList983.json';
+import mockClinics from '../../../services/mocks/v2/clinics.json';
 
 describe('VAOS Healthcare service', () => {
   beforeEach(() => {
     mockFetch();
-    setFetchJSONResponse(global.fetch, clinicList983);
+    setFetchJSONResponse(global.fetch, mockClinics);
   });
 
   describe('getAvailableHealthcareServices', () => {
@@ -19,11 +19,10 @@ describe('VAOS Healthcare service', () => {
       await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCare: { id: '123' },
-        systemId: '456',
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/v0/facilities/983/clinics?type_of_care_id=123&system_id=456',
+        '/vaos/v2/locations/983/clinics',
       );
     });
 
@@ -31,7 +30,6 @@ describe('VAOS Healthcare service', () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCare: { id: '123' },
-        systemId: '456',
       });
 
       expect(data[0].serviceName).to.equal('CHY PC CASSIDY');
@@ -44,7 +42,6 @@ describe('VAOS Healthcare service', () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCare: { id: '123' },
-        systemId: '456',
       });
 
       expect(data[0].id).to.equal('983_455');
@@ -54,7 +51,6 @@ describe('VAOS Healthcare service', () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCare: { id: '123' },
-        systemId: '456',
       });
 
       expect(data[0].stationId).to.equal('983');
@@ -64,7 +60,6 @@ describe('VAOS Healthcare service', () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCare: { id: '123' },
-        systemId: '456',
       });
 
       expect(data[0].stationName).to.equal('CHYSHR-Cheyenne VA Medical Center');
@@ -74,7 +69,6 @@ describe('VAOS Healthcare service', () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCare: { id: '123' },
-        systemId: '456',
       });
 
       expect(data[1].serviceName).to.equal('CHY PC VAR2');
@@ -84,7 +78,6 @@ describe('VAOS Healthcare service', () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCare: { id: '123' },
-        systemId: '456',
       });
 
       expect(data[0].serviceName).to.equal('CHY PC CASSIDY');
@@ -100,14 +93,13 @@ describe('VAOS Healthcare service', () => {
         await getAvailableHealthcareServices({
           facilityId: '983',
           typeOfCare: { id: '123' },
-          systemId: '456',
         });
       } catch (e) {
         error = e;
       }
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        `/vaos/v0/facilities/983/clinics?type_of_care_id=123&system_id=456`,
+        `/vaos/v2/locations/983/clinics`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });

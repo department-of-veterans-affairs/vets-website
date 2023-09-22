@@ -2,6 +2,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientComposePage from './pages/PatientComposePage';
 import mockMessageDetails from './fixtures/thread-message-details-afterNavAway-cancel.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () => {
   const landingPage = new PatientInboxPage();
@@ -11,9 +12,15 @@ describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () =>
   it('Verify Data When Cancel Navigate Away', () => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadComposeMessagePage();
+    landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/message_drafts',

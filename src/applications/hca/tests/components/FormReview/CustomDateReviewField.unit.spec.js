@@ -5,19 +5,23 @@ import { expect } from 'chai';
 import CustomDateReviewField from '../../../components/FormReview/CustomDateReviewField';
 
 describe('hca <CustomDateReviewField>', () => {
-  it('should render the field title and field date', () => {
-    const uiSchema = {
-      'ui:title': 'Review Field Title',
-    };
-    const formData = new Date('2020-5-15');
-
-    const { getByText } = render(
-      <CustomDateReviewField>
-        <div uiSchema={uiSchema} formData={formData} />
-      </CustomDateReviewField>,
-    );
-
-    expect(getByText(/review field title/i)).to.exist;
-    expect(getByText('05/15/2020')).to.exist;
+  describe('when the component renders', () => {
+    it('should render the correct title & date format', () => {
+      const props = {
+        uiSchema: { 'ui:title': 'Review Field Title' },
+        formData: new Date('2020-5-15'),
+      };
+      const { container } = render(
+        <CustomDateReviewField>
+          <div {...props} />
+        </CustomDateReviewField>,
+      );
+      const selectors = {
+        title: container.querySelector('dt', '.review-row'),
+        date: container.querySelector('dd', '.review-row'),
+      };
+      expect(selectors.title).to.contain.text(props.uiSchema['ui:title']);
+      expect(selectors.date).to.contain.text('05/15/2020');
+    });
   });
 });

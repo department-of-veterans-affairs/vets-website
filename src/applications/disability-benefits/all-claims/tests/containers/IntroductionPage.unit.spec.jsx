@@ -2,8 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import moment from 'moment';
-
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { IntroductionPage } from '../../components/IntroductionPage';
 import formConfig from '../../config/form';
 import {
@@ -116,7 +114,7 @@ describe('<IntroductionPage/>', () => {
     wrapper.unmount();
   });
 
-  it('should display default prepare overview when BDD SHA not enabled', () => {
+  it('should display default prepare overview when not BDD flow', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} showWizard />);
 
     expect(
@@ -126,16 +124,22 @@ describe('<IntroductionPage/>', () => {
     wrapper.unmount();
   });
 
-  it('should display BDD prepare overview when BDD SHA enabled', () => {
+  it('should display BDD prepare overview when using BDD flow', () => {
     const wrapper = shallow(
       <IntroductionPage {...defaultProps} showWizard isBDDForm />,
     );
 
-    if (!environment.isProduction()) {
-      expect(
-        wrapper.find('[data-testid="process-step1-prepare"]').text(),
-      ).contains('When you file a BDD claim online');
-    }
+    expect(
+      wrapper.find('[data-testid="process-step1-prepare"]').text(),
+    ).contains('When you file a BDD claim online');
+
+    wrapper.unmount();
+  });
+
+  it('should render OMB info', () => {
+    const wrapper = shallow(<IntroductionPage {...defaultProps} />);
+
+    expect(wrapper.find('va-omb-info').length).to.equal(1);
     wrapper.unmount();
   });
 });

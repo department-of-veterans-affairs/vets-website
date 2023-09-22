@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { useHistory } from 'react-router-dom';
 import FormButtons from '../../components/FormButtons';
 import { getPreferredDate } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { useHistory } from 'react-router-dom';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
+
 import {
   openFormPage,
   routeToNextAppointmentPage,
@@ -50,7 +53,11 @@ const uiSchema = {
 const pageKey = 'preferredDate';
 const pageTitle = 'When do you want to schedule this appointment?';
 
-export default function PreferredDatePage() {
+export default function PreferredDatePage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
     state => getPreferredDate(state, pageKey),
@@ -61,6 +68,9 @@ export default function PreferredDatePage() {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   return (
@@ -92,3 +102,7 @@ export default function PreferredDatePage() {
     </div>
   );
 }
+
+PreferredDatePage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

@@ -45,7 +45,8 @@ const Footer = ({ router, isPreCheckIn }) => {
             {t('and-select-0-were-here-24-7')}
           </p>
           <p>
-            {t('if-you-have-hearing-loss-call')} <va-telephone contact="711" />.
+            {t('if-you-have-hearing-loss-call')}{' '}
+            <va-telephone contact="711" tty />.
           </p>
         </div>
       ) : (

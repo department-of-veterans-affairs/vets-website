@@ -1,79 +1,350 @@
-import { expect, assert } from 'chai';
 import React from 'react';
-import SkinDeep from 'skin-deep';
+import { expect } from 'chai';
+import { fireEvent } from '@testing-library/dom';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import FolderHeader from '../../../components/MessageList/FolderHeader';
-import folders from '../../fixtures/folder-inbox-response.json';
-import { DefaultFolders as Folder } from '../../../util/constants';
+import { folderList } from '../../fixtures/folder-response.json';
+import messageResponse from '../../fixtures/message-response.json';
+
+import {
+  inbox,
+  drafts,
+  sent,
+  customFolder,
+} from '../../fixtures/folder-inbox-response.json';
+import threadList from '../../fixtures/thread-list-response.json';
+import reducer from '../../../reducers';
+import {
+  DefaultFolders,
+  DefaultFolders as Folders,
+  Paths,
+} from '../../../util/constants';
 
 const searchProps = { searchResults: [], awaitingResults: false };
-describe('FolderHeader component in Inbox', () => {
-  const tree = SkinDeep.shallowRender(
-    <FolderHeader folder={folders.inbox} searchProps={{ ...searchProps }} />,
-  );
 
-  it('must display valid folder name', async () => {
-    const folderHeader = tree.props.children[0];
-    const h1 = folderHeader.type;
-    const folderName = folderHeader.props.children;
-    expect(h1).to.exist;
-    assert.equal(folderName, 'Inbox');
+describe('Folder Header component', () => {
+  const initialState = {
+    sm: {
+      folders: {
+        folder: customFolder,
+        folderList,
+      },
+      messageDetails: { message: messageResponse },
+    },
+  };
+  const initialPath = `/folders/${customFolder.folderId}`;
+  const initialThreadCount = threadList.length;
+  const setup = (
+    state = initialState,
+    path = initialPath,
+    threadCount = initialThreadCount,
+    folder = customFolder,
+  ) => {
+    return renderWithStoreAndRouter(
+      <FolderHeader
+        folder={folder}
+        threadCount={threadCount}
+        searchProps={{ ...searchProps }}
+      />,
+      {
+        initialState: state,
+        reducers: reducer,
+        path,
+      },
+    );
+  };
+
+  describe('displays empty custom folder view', () => {
+    const emptyFolder = {
+      folderId: 9044447,
+      name: 'Empty Folder',
+      count: 0,
+      unreadCount: 0,
+      systemFolder: false,
+    };
+
+    const emptyFolderState = {
+      sm: {
+        folders: {
+          folder: emptyFolder,
+          folderList,
+        },
+      },
+    };
+
+    let screen = null;
+    beforeEach(() => {
+      screen = setup(emptyFolderState, `/folders/9044447`, 0, emptyFolder);
+    });
+
+    it('must display valid FOLDER name: EMPTY FOLDER', () => {
+      expect(
+        screen.getByText(emptyFolder.name, {
+          selector: 'h1',
+        }),
+      ).to.exist;
+      expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.exist;
+    });
+
+    it('must display `Edit Folder Name` and `Remove Folder` buttons', () => {
+      expect(screen.getByTestId('edit-folder-button')).to.exist;
+      expect(screen.getByTestId('remove-folder-button')).to.exist;
+    });
+
+    it('displays `Remove this folder?` modal if threadCount is zero.', async () => {
+      fireEvent.click(screen.getByTestId('remove-folder-button'));
+      expect(screen.getByTestId('remove-this-folder')).to.exist;
+      expect(screen.getByText(`If you remove a folder, you can't get it back.`))
+        .to.exist;
+    });
   });
 
-  it('must display `Start a new message` link', () => {
-    const startANewMessageLink = tree.subTree('ComposeMessageButton').type()
-      .props.children;
-    assert.equal(startANewMessageLink.props.children[1], 'Start a new message');
-    assert.equal(startANewMessageLink.props.to, '/compose');
-  });
-});
+  describe('Folder Header component displays CUSTOM folder and children components', () => {
+    it('must display valid CUSTOM FOLDER name and description: DEMO FOLDER 1', async () => {
+      const screen = setup();
+      expect(screen.getByText(customFolder.name)).to.exist;
+      expect(screen.getByText(Folders.CUSTOM_FOLDER.desc)).to.exist;
+    });
 
-describe('FolderHeader component in Sent folder', () => {
-  const tree = SkinDeep.shallowRender(
-    <FolderHeader folder={folders.sent} searchProps={{ ...searchProps }} />,
-  );
-  it('must display valid folder name', () => {
-    expect(tree.subTree('h1').text()).to.equal(Folder.SENT.header);
-  });
+    it('renders FilterBox with `threadCount` in CUSTOM FOLDER', () => {
+      const screen = setup();
+      const filterBox = screen.getByTestId('search-form');
+      expect(filterBox).to.exist;
 
-  it('must display valid folder description', () => {
-    expect(tree.text()).to.contain(Folder.SENT.desc);
-  });
+      const filterHeader = filterBox.querySelector('h2');
+      expect(filterHeader.textContent).to.equal(
+        `Filter messages in ${customFolder.name} `,
+      );
 
-  it('must NOT display `Start a new message` link', () => {
-    expect(tree.subTree('Link')).is.not.rendered;
-  });
-});
+      const filterInputElement = screen.queryByTestId('keyword-search-input');
+      expect(filterInputElement.getAttribute('label')).to.equal(
+        'Enter information from one of these fields: to, from, message ID, or subject',
+      );
 
-describe('FolderHeader component in Drafts folder', () => {
-  const tree = SkinDeep.shallowRender(
-    <FolderHeader folder={folders.drafts} searchProps={{ ...searchProps }} />,
-  );
-  it('must display valid folder name', () => {
-    expect(tree.subTree('h1').text()).to.equal(Folder.DRAFTS.header);
-  });
+      expect(filterInputElement.getAttribute('aria-label')).to.equal(
+        `Filter messages in ${
+          customFolder.name
+        } Enter information from one of these fields: to, from, message ID, or subject`,
+      );
+    });
 
-  it('must display valid folder description', () => {
-    expect(tree.text()).to.contain(Folder.DRAFTS.desc);
+    it('does not render FilterBox w/o `threadCount` on CUSTOM FOLDER', () => {
+      const screen = setup(initialState, initialPath, null);
+      expect(screen.queryByTestId('search-form')).to.not.exist;
+    });
   });
 
-  it('must NOT display `Start a new message` link', () => {
-    expect(tree.subTree('Link')).is.not.rendered;
-  });
-});
+  describe('Folder Header component displays INBOX folder and children components', () => {
+    const initialInboxState = {
+      sm: {
+        folders: {
+          folder: inbox,
+          folderList,
+        },
+      },
+    };
 
-describe('FolderHeader component in Trash folder', () => {
-  const tree = SkinDeep.shallowRender(
-    <FolderHeader folder={folders.trash} searchProps={{ ...searchProps }} />,
-  );
-  it('must display valid folder name', () => {
-    expect(tree.subTree('h1').text()).to.equal(Folder.DELETED.header);
+    it('must display valid FOLDER name: INBOX', async () => {
+      const screen = setup(
+        initialState,
+        Paths.INBOX,
+        initialThreadCount,
+        inbox,
+      );
+      expect(screen.getByText(inbox.name, { selector: 'h1' })).to.exist;
+      expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
+    });
+
+    it('renders FilterBox with `threadCount` in INBOX FOLDER', () => {
+      const screen = setup(
+        initialInboxState,
+        Paths.INBOX,
+        initialThreadCount,
+        inbox,
+      );
+      const filterBox = screen.getByTestId('search-form');
+      expect(filterBox).to.exist;
+
+      const filterHeader = filterBox.querySelector('h2');
+      expect(filterHeader.textContent).to.equal(
+        `Filter messages in ${inbox.name} `,
+      );
+
+      const filterInputElement = screen.queryByTestId('keyword-search-input');
+      expect(filterInputElement.getAttribute('label')).to.equal(
+        'Enter information from one of these fields: to, from, message ID, or subject',
+      );
+      expect(filterInputElement.getAttribute('aria-label')).to.equal(
+        `Filter messages in ${
+          inbox.name
+        } Enter information from one of these fields: to, from, message ID, or subject`,
+      );
+    });
+
+    it('does not render FilterBox w/o `threadCount` on INBOX FOLDER', () => {
+      const screen = setup(initialInboxState, Paths.INBOX, null, inbox);
+      expect(screen.queryByTestId('search-form')).to.not.exist;
+    });
   });
 
-  it('must display valid folder description', () => {
-    expect(tree.text()).to.contain(Folder.DELETED.desc);
+  describe('Folder Header component displays DRAFTS folder and children components', () => {
+    const initialDraftsState = {
+      sm: {
+        folders: {
+          folder: drafts,
+          folderList,
+        },
+      },
+    };
+
+    it('must display valid FOLDER name: DRAFTS', async () => {
+      const screen = setup(
+        initialDraftsState,
+        Paths.DRAFTS,
+        threadList,
+        drafts,
+      );
+      expect(screen.getByText(drafts.name, { selector: 'h1' })).to.exist;
+      expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
+    });
+
+    it('renders FilterBox with `threadCount` in DRAFTS FOLDER', () => {
+      const screen = setup(
+        initialDraftsState,
+        Paths.DRAFTS,
+        initialThreadCount,
+        drafts,
+      );
+      const filterBox = screen.getByTestId('search-form');
+      expect(filterBox).to.exist;
+
+      const filterHeader = filterBox.querySelector('h2');
+      expect(filterHeader.textContent).to.equal(
+        `Filter messages in ${drafts.name} `,
+      );
+
+      const filterInputElement = screen.queryByTestId('keyword-search-input');
+      expect(filterInputElement.getAttribute('label')).to.equal(
+        'Enter information from one of these fields: to, from, or subject',
+      );
+      expect(filterInputElement.getAttribute('aria-label')).to.equal(
+        `Filter messages in ${
+          drafts.name
+        } Enter information from one of these fields: to, from, or subject`,
+      );
+    });
+
+    it('does not render FilterBox w/o `threadCount` on DRAFTS FOLDER', () => {
+      const screen = setup(initialDraftsState, Paths.DRAFTS, null, drafts);
+      expect(screen.queryByTestId('search-form')).to.not.exist;
+    });
   });
 
-  it('must NOT display `Start a new message` link', () => {
-    expect(tree.subTree('Link')).is.not.rendered;
+  describe('Folder Header component displays SENT folder and children components', () => {
+    const initialSentState = {
+      sm: {
+        folders: {
+          folder: sent,
+          folderList,
+        },
+      },
+    };
+
+    it('must display valid FOLDER name: SENT', async () => {
+      const screen = setup(initialSentState, Paths.SENT, threadList, sent);
+      expect(screen.getByText(sent.name, { selector: 'h1' })).to.exist;
+      expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
+    });
+
+    it('renders FilterBox with `threadCount` in SENT FOLDER', () => {
+      const screen = setup(
+        initialSentState,
+        Paths.SENT,
+        initialThreadCount,
+        sent,
+      );
+      const filterBox = screen.getByTestId('search-form');
+      expect(filterBox).to.exist;
+
+      const filterHeader = filterBox.querySelector('h2');
+      expect(filterHeader.textContent).to.equal(
+        `Filter messages in ${sent.name} `,
+      );
+
+      const filterInputElement = screen.queryByTestId('keyword-search-input');
+      expect(filterInputElement.getAttribute('label')).to.equal(
+        'Enter information from one of these fields: to, from, message ID, or subject',
+      );
+      expect(filterInputElement.getAttribute('aria-label')).to.equal(
+        `Filter messages in ${
+          sent.name
+        } Enter information from one of these fields: to, from, message ID, or subject`,
+      );
+    });
+
+    it('does not render FilterBox w/o `threadCount` on SENT FOLDER page', () => {
+      const screen = setup(initialSentState, Paths.SENT, null, sent);
+      expect(screen.queryByTestId('search-form')).to.not.exist;
+    });
+  });
+
+  describe('Folder Header component displays TRASH folder and children components', () => {
+    const trash = {
+      folderId: -3,
+      name: DefaultFolders.DELETED.header,
+      count: 55,
+      unreadCount: 41,
+      systemFolder: true,
+    };
+    const initialTrashState = {
+      sm: {
+        folders: {
+          folder: trash,
+          folderList,
+        },
+      },
+    };
+
+    it('must display valid FOLDER name: TRASH ', async () => {
+      const screen = setup(
+        initialTrashState,
+        Paths.DELETED,
+        initialThreadCount,
+        trash,
+      );
+      expect(screen.getByText(trash.name, { selector: 'h1' })).to.exist;
+      expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
+    });
+
+    it('renders FilterBox with `threadCount` in TRASH FOLDER', () => {
+      const screen = setup(
+        initialTrashState,
+        Paths.DELETED,
+        initialThreadCount,
+        trash,
+      );
+      const filterBox = screen.getByTestId('search-form');
+      expect(filterBox).to.exist;
+
+      const filterHeader = filterBox.querySelector('h2');
+      expect(filterHeader.textContent).to.equal(
+        `Filter messages in ${trash.name} `,
+      );
+
+      const filterInputElement = screen.queryByTestId('keyword-search-input');
+      expect(filterInputElement.getAttribute('label')).to.equal(
+        'Enter information from one of these fields: to, from, message ID, or subject',
+      );
+      expect(filterInputElement.getAttribute('aria-label')).to.equal(
+        `Filter messages in ${
+          trash.name
+        } Enter information from one of these fields: to, from, message ID, or subject`,
+      );
+    });
+
+    it('does not render FilterBox w/o `threadCount` on TRASH FOLDER', () => {
+      const screen = setup(initialTrashState, Paths.DELETED, null, trash);
+      expect(screen.queryByTestId('search-form')).to.not.exist;
+    });
   });
 });

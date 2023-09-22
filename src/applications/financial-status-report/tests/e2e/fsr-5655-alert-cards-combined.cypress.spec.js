@@ -16,6 +16,9 @@ import {
 
 import saveInProgressData from './fixtures/mocks/saveInProgress.json';
 
+// TODO: Skipping this test due to the Chromium Renderer crash issue.
+// Track the progress of the fix in issue #63283
+
 describe.skip('Enhanced FSR debt and copay alerts', () => {
   afterEach(() => {
     cy.window().then(win => {
@@ -31,7 +34,6 @@ describe.skip('Enhanced FSR debt and copay alerts', () => {
         features: [
           { name: 'show_financial_status_report_wizard', value: true },
           { name: 'show_financial_status_report', value: true },
-          { name: 'combined_financial_status_report', value: true },
           {
             name: 'combined_financial_status_report_enhancements',
             value: true,

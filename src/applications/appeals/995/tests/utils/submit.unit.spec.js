@@ -1,19 +1,18 @@
 import { expect } from 'chai';
+
 import {
   PRIMARY_PHONE,
-  SELECTED,
   EVIDENCE_VA,
   EVIDENCE_OTHER,
   EVIDENCE_PRIVATE,
 } from '../../constants';
 import { getDate } from '../../utils/dates';
-
 import {
   removeEmptyEntries,
   getTimeZone,
   createIssueName,
   getContestedIssues,
-  // addIncludedIssues,
+  addIncludedIssues,
   getAddress,
   getPhone,
   hasDuplicateLocation,
@@ -21,6 +20,8 @@ import {
   hasDuplicateFacility,
   getForm4142,
 } from '../../utils/submit';
+
+import { SELECTED } from '../../../shared/constants';
 
 const text =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, seddo eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
@@ -117,6 +118,67 @@ describe('getContestedIssues', () => {
       ],
     };
     expect(getContestedIssues(formData)).to.deep.equal([issue2.result]);
+  });
+  it('should return empty array', () => {
+    expect(getContestedIssues()).to.deep.equal([]);
+  });
+});
+
+describe('addIncludedIssues', () => {
+  it('should add additional items to contestedIssues array', () => {
+    const issue = {
+      type: 'contestableIssue',
+      attributes: { issue: 'test', decisionDate: validDate1 },
+    };
+    const formData = {
+      contestedIssues: [
+        { ...issue1.raw, [SELECTED]: false },
+        { ...issue2.raw, [SELECTED]: true },
+      ],
+      additionalIssues: [
+        { issue: 'not-added', decisionDate: validDate2, [SELECTED]: false },
+        { ...issue.attributes, [SELECTED]: true },
+      ],
+    };
+    expect(addIncludedIssues(formData)).to.deep.equal([issue2.result, issue]);
+    expect(
+      addIncludedIssues({ ...formData, additionalIssues: [] }),
+    ).to.deep.equal([issue2.result]);
+  });
+  it('should not add additional items to contestedIssues array', () => {
+    const issue = {
+      type: 'contestableIssue',
+      attributes: { issue: 'test', decisionDate: validDate1 },
+    };
+    const formData = {
+      contestedIssues: [
+        { ...issue1.raw, [SELECTED]: false },
+        { ...issue2.raw, [SELECTED]: true },
+      ],
+      additionalIssues: [
+        { issue: 'not-added', decisionDate: validDate2, [SELECTED]: false },
+        { ...issue.attributes },
+      ],
+    };
+    expect(addIncludedIssues(formData)).to.deep.equal([issue2.result]);
+    expect(
+      addIncludedIssues({ ...formData, additionalIssues: [] }),
+    ).to.deep.equal([issue2.result]);
+  });
+  it('should remove duplicate items', () => {
+    const formData = {
+      contestedIssues: [
+        { ...issue1.raw, [SELECTED]: true },
+        { ...issue2.raw, [SELECTED]: true },
+        { ...issue1.raw, [SELECTED]: true },
+        { ...issue2.raw, [SELECTED]: true },
+      ],
+      additionalIssues: [],
+    };
+    expect(addIncludedIssues(formData)).to.deep.equal([
+      issue1.result,
+      issue2.result,
+    ]);
   });
 });
 

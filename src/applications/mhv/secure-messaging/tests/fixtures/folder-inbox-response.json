@@ -26,5 +26,12 @@
     "count": 55,
     "unreadCount": 41,
     "systemFolder": true
+  },
+  "customFolder": {
+    "folderId": 2628777,
+    "name": "Demo Folder 1",
+    "count": 2,
+    "unreadCount": 0,
+    "systemFolder": false
   }
 }

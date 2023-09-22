@@ -152,7 +152,7 @@ RoutedSavableReviewPage.propTypes = {
       returnUrl: PropTypes.string,
     }),
   }).isRequired,
-  showLoginModal: PropTypes.func.isRequired,
+  showLoginModal: PropTypes.bool.isRequired,
   toggleLoginModal: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
 };

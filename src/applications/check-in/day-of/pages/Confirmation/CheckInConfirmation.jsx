@@ -15,7 +15,7 @@ import Wrapper from '../../../components/layout/Wrapper';
 import useSendTravelPayClaim from '../../../hooks/useSendTravelPayClaim';
 import ExternalLink from '../../../components/ExternalLink';
 import TravelPayAlert from './TravelPayAlert';
-import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useStorage } from '../../../hooks/useStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import { getAppointmentId } from '../../../utils/appointment';
@@ -61,13 +61,27 @@ const CheckInConfirmation = props => {
   const {
     setShouldSendTravelPayClaim,
     getShouldSendTravelPayClaim,
-  } = useSessionStorage(false);
+  } = useStorage(false);
+
+  const { setTravelPaySent, getTravelPaySent } = useStorage(false, true);
 
   useEffect(
     () => {
-      if (travelPayClaimSent) setShouldSendTravelPayClaim(window, false);
+      if (travelPayClaimSent) {
+        const { facility } = selectedAppointment;
+        const travelPaySent = getTravelPaySent(window);
+        travelPaySent[facility] = new Date();
+        setShouldSendTravelPayClaim(window, false);
+        setTravelPaySent(window, travelPaySent);
+      }
     },
-    [travelPayClaimSent, setShouldSendTravelPayClaim],
+    [
+      travelPayClaimSent,
+      setShouldSendTravelPayClaim,
+      setTravelPaySent,
+      getTravelPaySent,
+      selectedAppointment,
+    ],
   );
 
   const doTravelPay = isTravelReimbursementEnabled && travelPayClaimRequested;
@@ -119,7 +133,7 @@ const CheckInConfirmation = props => {
     return (
       <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
         <p className="vads-u-font-family--serif">{t('your-appointment')}</p>
-        <ol
+        <ul
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
           data-testid="appointment-list"
         >
@@ -132,7 +146,7 @@ const CheckInConfirmation = props => {
             page="confirmation"
             app={APP_NAMES.CHECK_IN}
           />
-        </ol>
+        </ul>
 
         <va-alert
           background-only

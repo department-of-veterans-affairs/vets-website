@@ -1,9 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
 import dateUI from 'platform/forms-system/src/js/definitions/monthYear';
-
 import { treatmentView } from '../content/vaMedicalRecords';
-import { queryForFacilities, hasVAEvidence } from '../utils';
+import { hasVAEvidence } from '../utils';
 import { makeSchemaForAllDisabilities } from '../utils/schemas';
 
 import {
@@ -17,12 +15,10 @@ import { USA } from '../constants';
 const { vaTreatmentFacilities } = fullSchema.properties;
 
 export const uiSchema = {
-  'ui:description':
-    'First we’ll ask you about your VA medical records for your claimed disability.',
   'view:vaMedicalRecordsIntro': {
     'ui:title': 'VA medical records',
     'ui:description':
-      'Please tell us where VA treated you for your disability.',
+      'Tell us where VA has treated you for your disability. We’ll use the information you provide to help us locate your records and make decisions on your claim.',
   },
   vaTreatmentFacilities: {
     'ui:options': {
@@ -45,17 +41,9 @@ export const uiSchema = {
       'ui:options': {
         itemAriaLabel: data => data.treatmentCenterName,
       },
-      treatmentCenterName: autoSuggestUiSchema(
-        'Name of VA medical facility',
-        queryForFacilities,
-        {
-          'ui:options': { queryForResults: true, freeInput: true },
-          'ui:errorMessages': {
-            maxLength: 'Please enter a name with fewer than 100 characters.',
-            pattern: 'Please enter a valid name.',
-          },
-        },
-      ),
+      treatmentCenterName: {
+        'ui:title': 'Name of VA medical facility',
+      },
       treatedDisabilityNames: {
         'ui:title':
           'Please choose the conditions for which you received treatment at this facility.',
