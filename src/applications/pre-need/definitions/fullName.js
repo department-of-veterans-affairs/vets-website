@@ -25,12 +25,15 @@ const uiSchema = {
   middle: {
     'ui:title': 'Deceased’s middle name ',
     'ui:autocomplete': 'additional-name',
+    'ui:options': {
+      hideIf: () => true,
+    },
   },
   suffix: {
     'ui:title': 'Deceased’s suffix',
     'ui:autocomplete': 'honorific-suffix',
     'ui:options': {
-      widgetClassNames: 'form-select-medium',
+      hideIf: () => true,
     },
   },
 };
