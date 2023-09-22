@@ -24,12 +24,13 @@ export const Paths = {
 export const Locators = {
   HEADER: 'h1',
   FOLDERS: '[data-testid ="my-folders-sidebar"]',
-  FILTER_BTN: '[data-testid="filter-messages-button"]',
-  DraftsPage: {
-    SEND_BTN: '[data-testid="Send-Button"]',
+  BUTTONS: {
+    REPLY: '[data-testid="reply-button-body"]',
+    CONTINUE: '[data-testid="continue-button"]',
+    FILTER: '[data-testid="filter-messages-button"]',
+    SEND: '[data-testid="Send-Button"]',
   },
   InboxPage: {
     COMPOSE_MESSAGE: '[data-testid="compose-message-link"]',
-    CONTINUE_BTN: '[data-testid="continue-button"]',
   },
 };

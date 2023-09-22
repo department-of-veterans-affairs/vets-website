@@ -4,7 +4,7 @@ import mockSingleThread from './fixtures/inboxResponse/single-thread-response.js
 import mockSingleMessage from './fixtures/inboxResponse/single-message-response.json';
 import mockMessageDetails from './fixtures/messages-response.json';
 import mockFolders from './fixtures/generalResponses/folders.json';
-import { AXE_CONTEXT, Paths } from './utils/constants';
+import { AXE_CONTEXT, Paths, Locators } from './utils/constants';
 
 describe('verify signature', () => {
   const landingPage = new PatientInboxPage();
@@ -13,7 +13,7 @@ describe('verify signature', () => {
     site.login();
     landingPage.loadInboxMessages();
   });
-  it.skip('signature added on composing', () => {
+  it('signature added on composing', () => {
     landingPage.navigateToComposePage();
     landingPage.verifySignature();
 
@@ -50,10 +50,10 @@ describe('verify signature', () => {
       .find(`#message-link-${mockMessageDetails.data[0].attributes.messageId}`)
       .click();
 
-    cy.get('[data-testid="reply-button-body"]').click({
+    cy.get(Locators.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
-    cy.get('[data-testid="continue-button"]').click();
+    cy.get(Locators.BUTTONS.CONTINUE).click();
     landingPage.verifySignature();
 
     cy.injectAxe();

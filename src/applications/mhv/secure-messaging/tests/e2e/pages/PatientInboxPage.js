@@ -350,7 +350,7 @@ class PatientInboxPage {
   navigateToComposePageByKeyboard = () => {
     cy.tabToElement(Locators.InboxPage.COMPOSE_MESSAGE);
     cy.realPress(['Enter']);
-    cy.tabToElement(Locators.InboxPage.CONTINUE_BTN);
+    cy.tabToElement(Locators.BUTTONS.CONTINUE);
     cy.realPress(['Enter']);
   };
 
@@ -415,7 +415,7 @@ class PatientInboxPage {
   };
 
   submitSearchButton = () => {
-    cy.get(Locators.FILTER_BTN).click({
+    cy.get(Locators.BUTTONS.FILTER).click({
       waitForAnimations: true,
       force: true,
     });
@@ -511,7 +511,7 @@ class PatientInboxPage {
       `${Paths.SM_API_BASE + Paths.FOLDERS}/-1/search`,
       sentSearchResponse,
     );
-    cy.get(Locators.FILTER_BTN).click({ force: true });
+    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
   };
 
   verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
