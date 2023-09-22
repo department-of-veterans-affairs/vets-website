@@ -19,9 +19,6 @@ export default {
       'ui:title': 'VaNumberInputField - decimal',
       'ui:webComponentField': VaNumberInputField,
       'ui:description': 'Text description',
-      'ui:errorMessages': {
-        pattern: 'Please enter a valid number',
-      },
       'ui:options': {
         uswds: false,
         currency: true,
@@ -32,10 +29,6 @@ export default {
     wcv1NumberNumeric: {
       'ui:title': 'VaNumberInputField - numeric',
       'ui:webComponentField': VaNumberInputField,
-      'ui:description': 'Text description',
-      'ui:errorMessages': {
-        pattern: 'Please enter a valid number',
-      },
       'ui:options': {
         uswds: false,
         width: 'sm',
@@ -44,7 +37,6 @@ export default {
     'view:wcv3Title': inlineTitleUI('Web component v3'),
     wcv3NumberNumeric: numberUI({
       title: 'VaNumberInputField - numeric',
-      description: 'Text description',
       hint: 'Hint text',
       width: 'xs',
     }),
