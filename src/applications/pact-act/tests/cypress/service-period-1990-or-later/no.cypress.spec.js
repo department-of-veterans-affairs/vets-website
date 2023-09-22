@@ -27,8 +27,22 @@ describe('PACT Act', () => {
       h.selectRadio(h.BURN_PIT_2_1_INPUT, 1);
       h.clickContinue();
 
-      // TODO: test navigation to Burn Pits 2.1.1 when that mapping logic exists
-      // BURN_PIT_2_11
+      // BURN_PIT_2_1_1
+      h.verifyUrl(ROUTES.BURN_PIT_2_1_1);
+      h.verifyElement(h.BURN_PIT_2_1_1_INPUT);
+      h.selectRadio(h.BURN_PIT_2_1_1_INPUT, 1);
+      h.clickContinue();
+
+      // BURN_PIT_2_1_2
+      h.verifyUrl(ROUTES.BURN_PIT_2_1_2);
+      h.verifyElement(h.BURN_PIT_2_1_2_INPUT);
+      h.selectRadio(h.BURN_PIT_2_1_2_INPUT, 1);
+      h.clickBack();
+
+      // BURN_PIT_2_1_1
+      h.verifyUrl(ROUTES.BURN_PIT_2_1_1);
+      h.verifyElement(h.BURN_PIT_2_1_1_INPUT);
+      h.clickBack();
 
       // BURN_PIT_2_1
       h.verifyUrl(ROUTES.BURN_PIT_2_1);
