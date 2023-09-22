@@ -13,11 +13,13 @@ import LoadingIndicator from './LoadingIndicator';
 function IntroductionLoginV2({
   isClaimantCallComplete,
   isEligibilityCallComplete,
+  isPersonalInfoFetchFailed,
   isLoggedIn,
   isLOA3,
   route,
   showHideLoginModal,
   user,
+  showMeb1990EZMaintenanceAlert,
   showMebEnhancements, // Add showMebEnhancements as a prop
   showMebEnhancements06, // Add showMebEnhancements06 as a prop
   showMebEnhancements09, // Add showMebEnhancements09 as a prop
@@ -45,6 +47,25 @@ function IntroductionLoginV2({
           Begin your application for education benefits
         </h2>
       )}
+      {shouldShowLoadingIndicator && <LoadingIndicator />}
+
+      {isPersonalInfoFetchFailed &&
+        showMeb1990EZMaintenanceAlert && (
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="error"
+            visible
+          >
+            <h2 slot="headline">System Maintenance</h2>
+            <div>
+              <p className="vads-u-margin-top--0">
+                We're sorry, but our systems are currently undergoing
+                maintenance. Please try again later.
+              </p>
+              {/* You can add more details or actionable steps if needed. */}
+            </div>
+          </va-alert>
+        )}
       {!isLoggedIn &&
         user?.login?.hasCheckedKeepAlive && (
           <>
@@ -109,6 +130,7 @@ function IntroductionLoginV2({
           </>
         )}
       {isLoggedIn &&
+      !isPersonalInfoFetchFailed && // Ensure the error didn't occur.
         ((!showMebEnhancements09 && apiCallsComplete && isLOA3) ||
           (showMebEnhancements09 && isLOA3)) && (
           <SaveInProgressIntro
@@ -177,6 +199,7 @@ IntroductionLoginV2.propTypes = {
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
+  isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed,
   showMebEnhancements09:
     state.featureToggles[featureFlagNames.showMebEnhancements09], // Added new feature flag to mapStateToProps
   showMeb1990EZMaintenanceAlert:
