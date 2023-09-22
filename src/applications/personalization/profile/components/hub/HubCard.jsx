@@ -11,7 +11,7 @@ export const HubCard = ({ heading, content, children, className }) => {
     <div className={classes}>
       <va-card>
         <div>
-          <h2 className="vads-u-margin--0">{heading}</h2>
+          <h2 className="vads-u-margin--0 vads-u-font-size--h3">{heading}</h2>
           <p>{content}</p>
           {children}
         </div>

@@ -1,14 +1,19 @@
 import React from 'react';
 
-import { PROFILE_PATHS } from '../../constants';
+import { hasBadAddress as hasBadAddressSelector } from '@@profile/selectors';
+import { useSelector } from 'react-redux';
 
-import { ProfileBreadcrumbs } from '../ProfileBreadcrumbs';
+import { PROFILE_PATHS } from '@@profile/constants';
+import { useSignInServiceProvider } from '@@profile/hooks';
+
+import { ProfileBreadcrumbs } from '@@profile/components/ProfileBreadcrumbs';
+import { ProfileLink } from '@@profile/components/ProfileLink';
+import BadAddressAlert from '@@profile/components/alerts/bad-address/ProfileAlert';
 import { HubCard } from './HubCard';
-import { ProfileLink } from '../ProfileLink';
-import { useSignInServiceProvider } from '../../hooks';
 
 export const Hub = () => {
   const { label, link } = useSignInServiceProvider();
+  const hasBadAddress = useSelector(hasBadAddressSelector);
   return (
     <>
       <ProfileBreadcrumbs className="vads-u-margin-left--neg1 vads-u-margin-top--neg2" />
@@ -17,6 +22,10 @@ export const Hub = () => {
       <div className="vads-l-row">
         <h1 className="vads-u-padding-bottom--3">Profile</h1>
       </div>
+
+      {hasBadAddress && (
+        <BadAddressAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4" />
+      )}
 
       {/* ROW */}
       <div className="vads-l-row vads-u-margin-bottom--4">

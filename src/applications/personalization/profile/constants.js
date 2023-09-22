@@ -32,7 +32,8 @@ export const SERVICE_BADGE_IMAGE_PATHS = new Map([
   [USA_MILITARY_BRANCHES.marineCorps, '/img/vic-usmc-emblem.png'],
 ]);
 
-// In breadcrumbs home
+// These breadcrumbs are the base breadcrumbs for the profile app
+// They are used when the user is on the profile root page
 export const PROFILE_BREADCRUMB_BASE = [
   { href: '/', label: 'Home' },
   { href: '/profile', label: 'Profile' },
