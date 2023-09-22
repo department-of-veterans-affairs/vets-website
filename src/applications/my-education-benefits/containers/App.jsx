@@ -33,6 +33,7 @@ export const App = ({
   isLoggedIn,
   location,
   setFormData,
+  showMeb1990EZMaintenanceAlert,
   showMebDgi40Features,
   showMebDgi42Features,
   showMebCh33SelfForm,
@@ -77,7 +78,7 @@ export const App = ({
       if (!fetchedPersonalInfo || !fetchedContactInfo) {
         setFetchedPersonalInfo(true);
         setFetchedContactInfo(true);
-        getPersonalInfo(showMebCh33SelfForm, showMebEnhancements09);
+        getPersonalInfo(showMebEnhancements09);
       } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
@@ -95,7 +96,7 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
-      showMebCh33SelfForm,
+      showMeb1990EZMaintenanceAlert,
       showMebEnhancements09,
     ],
   );
