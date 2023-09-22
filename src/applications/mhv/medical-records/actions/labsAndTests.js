@@ -40,3 +40,7 @@ export const getlabsAndTestsDetails = labId => async dispatch => {
     // });
   }
 };
+
+export const clearLabsAndTestDetails = () => async dispatch => {
+  dispatch({ type: Actions.LabsAndTests.CLEAR_DETAIL });
+};

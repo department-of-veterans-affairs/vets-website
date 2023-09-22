@@ -6,20 +6,16 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
+import { getContestableIssues as getContestableIssuesAction } from '../actions';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import formConfig from '../config/form';
+import { SHOW_PART3 } from '../constants';
 import { nodPart3UpdateFeature } from '../utils/helpers';
+import { issuesNeedUpdating } from '../utils/issues';
 import { getEligibleContestableIssues } from '../utils/submit';
 
-import { SHOW_PART3 } from '../constants';
-
-import { getContestableIssues as getContestableIssuesAction } from '../actions';
-
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
-
 import { getSelected, getIssueNameAndDate } from '../../shared/utils/issues';
-
-import { issuesNeedUpdating } from '../utils/issues';
 
 export const FormApp = ({
   isLoading,

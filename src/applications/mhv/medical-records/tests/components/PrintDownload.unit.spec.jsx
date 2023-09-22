@@ -12,33 +12,27 @@ describe('Print download menu component', () => {
   it('should display a toggle menu button', () => {
     const screen = render(<PrintDownload list />);
 
-    const printDownloadButton = screen.getByText(
-      'Print or download this list',
-      {
-        exact: true,
-        selector: 'span',
-      },
-    );
+    const printDownloadButton = screen.getByText('Print or download', {
+      exact: true,
+      selector: 'span',
+    });
     expect(printDownloadButton).to.exist;
-  });
-
-  it('should say record when not a list', () => {
-    const screen = render(<PrintDownload />);
-
-    const printDownloadNoList = screen.getByText(
-      'Print or download this record',
-      {
-        exact: true,
-        selector: 'span',
-      },
-    );
-    expect(printDownloadNoList).to.exist;
   });
 
   it('should display a print button', () => {
     const screen = render(<PrintDownload list />);
 
-    const printButton = screen.getByText('Print list', {
+    const printButton = screen.getByText('Print this list', {
+      exact: true,
+      selector: 'button',
+    });
+    expect(printButton).to.exist;
+  });
+
+  it('should display a print button', () => {
+    const screen = render(<PrintDownload />);
+
+    const printButton = screen.getByText('Print this page', {
       exact: true,
       selector: 'button',
     });
@@ -48,15 +42,27 @@ describe('Print download menu component', () => {
   it('should display a download pdf file button', () => {
     const screen = render(<PrintDownload list />);
 
-    const downloadButton = screen.getByText('Download list as PDF', {
+    const downloadButton = screen.getByText('Download PDF of this list', {
       exact: true,
       selector: 'button',
     });
     expect(downloadButton).to.exist;
   });
 
+  it('should display a download pdf file button', () => {
+    const screen = render(<PrintDownload />);
+
+    const downloadButton = screen.getByText('Download PDF of this page', {
+      exact: true,
+      selector: 'button',
+    });
+    expect(downloadButton).to.exist;
+  });
+
+  // When we uncomment the TXT download, re-enabe this test.
+  /*
   it('should display a download text file button', () => {
-    const screen = render(<PrintDownload list />);
+    const screen = render(<PrintDownload list allowTxtDownloads />);
 
     const downloadTextButton = screen.getByText(
       'Download list as a text file',
@@ -67,4 +73,5 @@ describe('Print download menu component', () => {
     );
     expect(downloadTextButton).to.exist;
   });
+  */
 });

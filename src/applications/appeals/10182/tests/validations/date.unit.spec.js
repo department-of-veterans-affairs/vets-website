@@ -36,7 +36,7 @@ describe('validateDate & isValidDate', () => {
   });
   it('should throw a invalid date error', () => {
     validateDate(errors, '200');
-    expect(errorMessage[0]).to.eq(issueErrorMessages.missingDecisionDate);
+    expect(errorMessage[0]).to.eq(issueErrorMessages.blankDecisionDate);
     expect(errorMessage[1]).to.contain('month');
     expect(errorMessage[1]).to.contain('day');
     expect(errorMessage[1]).to.not.contain('year');
@@ -95,7 +95,7 @@ describe('validateDate & isValidDate', () => {
     // Testing 'YYYY-MM-' (contact center reported errors; FE seeing this)
     const date = getDate({ offset: { weeks: 1 } }).substring(0, 8);
     validateDate(errors, date);
-    expect(errorMessage[0]).to.eq(issueErrorMessages.missingDecisionDate);
+    expect(errorMessage[0]).to.eq(issueErrorMessages.blankDecisionDate);
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.contain('day');
     expect(errorMessage[1]).to.not.contain('year');
@@ -106,7 +106,7 @@ describe('validateDate & isValidDate', () => {
     // Testing 'YYYY--DD' (contact center reported errors; BE seeing this)
     const date = getDate({ offset: { weeks: 1 } }).replace(/-.*-/, '--');
     validateDate(errors, date);
-    expect(errorMessage[0]).to.eq(issueErrorMessages.missingDecisionDate);
+    expect(errorMessage[0]).to.eq(issueErrorMessages.blankDecisionDate);
     expect(errorMessage[1]).to.contain('month');
     expect(errorMessage[1]).to.not.contain('day');
     expect(errorMessage[1]).to.not.contain('year');
