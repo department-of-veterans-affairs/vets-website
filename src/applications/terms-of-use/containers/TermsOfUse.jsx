@@ -14,7 +14,7 @@ import {
 } from '@department-of-veterans-affairs/platform-user/exports';
 import touData from '../touData';
 
-const touUpdatedDate = `March 2023`;
+const touUpdatedDate = `September 2023`;
 const errorMessages = {
   network: `We had a connection issue on our end. Please try again in a few minutes.`,
 };
