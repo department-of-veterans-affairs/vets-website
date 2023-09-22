@@ -1,6 +1,5 @@
-/* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
-/* eslint-disable @department-of-veterans-affairs/telephone-contact-digits */
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export default function Disclaimer() {
   return (
@@ -76,8 +75,12 @@ export default function Disclaimer() {
               Texting <va-telephone contact="838255" />.
             </li>
             <li>
-              If you have hearing loss, call TTY:{' '}
-              <va-telephone contact="8007994889" tty />.
+              If you have hearing loss, call{' '}
+              <va-telephone
+                contact={CONTACTS.SUICIDE_PREVENTION_LIFELINE}
+                tty
+              />
+              .
             </li>
           </ul>
         </p>

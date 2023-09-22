@@ -151,7 +151,6 @@ const ChemHemDetails = props => {
           </div>
           <div className="no-print">
             <PrintDownload
-              list
               download={generateChemHemPdf}
               allowTxtDownloads={allowTxtDownloads}
             />

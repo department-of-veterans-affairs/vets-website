@@ -14,7 +14,7 @@ import {
   sendErrorToSentry,
 } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
-import { getVaccineDetails } from '../actions/vaccines';
+import { getVaccineDetails, clearVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -52,6 +52,9 @@ const VaccineDetails = () => {
         },
       ]),
     );
+    return () => {
+      dispatch(clearVaccineDetails());
+    };
   }, []);
 
   useEffect(
@@ -143,7 +146,6 @@ const VaccineDetails = () => {
             </h2>
           </div>
           <PrintDownload
-            list
             download={generateVaccinePdf}
             allowTxtDownloads={allowTxtDownloads}
           />
