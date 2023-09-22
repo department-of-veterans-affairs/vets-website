@@ -246,9 +246,11 @@ const CreateSummarySections = ({
     <>
       {!bypassData ? (
         <>
-          <h2 id={id}>{title}</h2>
+          <h2 id={id} className="vads-u-font-size--h3">
+            {title}
+          </h2>
           <hr
-            className="vads-u-border-color--primary-darker"
+            className="vads-u-border-color--primary-darker vads-u-margin-top--0"
             aria-hidden="true"
           />
         </>
@@ -258,7 +260,7 @@ const CreateSummarySections = ({
           <React.Fragment key={key}>
             {h3Subsections.includes(key) && typeof value !== 'string' ? (
               <>
-                <h3>{key}</h3>
+                <h3 className="vads-u-font-size--h4">{key}</h3>
                 <CreateSummarySections formData={value} bypassData />
               </>
             ) : (
@@ -365,7 +367,10 @@ export const NoFormPage = () => {
               <br />
             </p>
             <article>
-              <va-on-this-page />
+              <h2>Saved information</h2>
+              <div className="vads-u-padding-x--1">
+                <va-on-this-page />
+              </div>
               {renderFields.map(props => (
                 <CreateSummarySections
                   {...props}
