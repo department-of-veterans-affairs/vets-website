@@ -130,8 +130,8 @@ function IntroductionLoginV2({
           </>
         )}
       {isLoggedIn &&
-      (isClaimantCallComplete && isPersonalInfoFetchFailed === true) && // Ensure the error didn't occur.
-      !showMeb1990EZMaintenanceAlert && // Ensure the mainenance flag is not on.
+      isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
+      showMeb1990EZMaintenanceAlert === false && // Ensure the mainenance flag is not on.
         ((!showMebEnhancements09 && apiCallsComplete && isLOA3) ||
           (showMebEnhancements09 && isLOA3)) && (
           <SaveInProgressIntro
