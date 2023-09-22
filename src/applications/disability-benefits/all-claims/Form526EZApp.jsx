@@ -273,15 +273,15 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-if (isLoggedIn) {
+if (isLoggedIn && environment.BASE_URL.indexOf('localhost') < 0) {
   datadogRum.init({
     applicationId: 'c7eb541a-30d2-4a00-aba0-04965e8a2668',
     clientToken: 'pub300747eeaef98ae4eb9c8d66f3c747c1',
     site: 'ddog-gov.com',
     service: 'benefits-526ez',
     env: environment.vspEnvironment(),
-    sessionSampleRate: 100, // Set to 100 to test locally, 10 otherwise
-    sessionReplaySampleRate: 100, // Set to 100 to test locally, 20 otherwise
+    sessionSampleRate: 10, // Set to 100 to test locally, 10 otherwise
+    sessionReplaySampleRate: 20, // Set to 100 to test locally, 20 otherwise
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,
