@@ -13,19 +13,25 @@ const LabsAndTests = () => {
     state => state.mr.labsAndTests.labsAndTestsList,
   );
 
-  useEffect(() => {
-    dispatch(getLabsAndTestsList());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getLabsAndTestsList());
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        { url: '/my-health/medical-records/', label: 'Medical records' },
-      ]),
-    );
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          { url: '/my-health/medical-records/', label: 'Medical records' },
+        ]),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   const content = () => {
     if (labsAndTests?.length > 0) {

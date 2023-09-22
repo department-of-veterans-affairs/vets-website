@@ -10,19 +10,25 @@ import { updatePageTitle } from '../../shared/util/helpers';
 const HealthConditions = () => {
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getConditionsList());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getConditionsList());
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        { url: '/my-health/medical-records/', label: 'Medical records' },
-      ]),
-    );
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          { url: '/my-health/medical-records/', label: 'Medical records' },
+        ]),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   const content = () => {
     if (conditions?.length > 0) {

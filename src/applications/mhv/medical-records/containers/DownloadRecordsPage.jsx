@@ -8,19 +8,22 @@ import { pageTitles } from '../util/constants';
 const DownloadRecordsPage = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs(
-        [{ url: '/my-health/medical-records', label: 'Medical records' }],
-        {
-          url: '/my-health/medical-records/download-all',
-          label: 'Download all medical records',
-        },
-      ),
-    );
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs(
+          [{ url: '/my-health/medical-records', label: 'Medical records' }],
+          {
+            url: '/my-health/medical-records/download-all',
+            label: 'Download all medical records',
+          },
+        ),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   return (
     <div className="vads-u-margin-bottom--5 vads-l-col--12 medium-screen:vads-l-col--8">

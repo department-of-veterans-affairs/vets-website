@@ -16,22 +16,28 @@ const CareSummariesAndNotes = () => {
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );
 
-  useEffect(() => {
-    dispatch(getCareSummariesAndNotesList());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getCareSummariesAndNotesList());
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        {
-          url: '/my-health/medical-records',
-          label: 'Medical records',
-        },
-      ]),
-    );
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE);
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: '/my-health/medical-records',
+            label: 'Medical records',
+          },
+        ]),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   const content = () => {
     if (careSummariesAndNotes?.length) {
