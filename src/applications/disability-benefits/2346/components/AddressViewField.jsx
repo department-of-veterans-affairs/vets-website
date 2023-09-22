@@ -66,7 +66,7 @@ const AddressViewField = ({ formData }) => {
     <>
       {!isAddressMissing && (
         <div className="vads-u-border-left--7px vads-u-border-color--primary">
-          <p className="vads-u-margin-left--2 vads-u-margin-top--0">
+          <p className="vads-u-margin-left--2 vads-u-margin-top--0 dd-privacy-mask">
             {isBaseAddressDataValid && (
               <>
                 {addLine(street)}
@@ -85,7 +85,7 @@ const AddressViewField = ({ formData }) => {
       {isAddressMissing && (
         <p>
           Please provide a temporary address if you want us to ship your order
-          to another location, like a relative's house or a vacation home.
+          to another location, like a relative’s house or a vacation home.
         </p>
       )}
     </>
