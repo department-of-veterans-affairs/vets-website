@@ -21,9 +21,9 @@ import { sentryTransport } from './sentry';
 
 const isStressTest = process.env.IS_STRESS_TEST;
 
-const ALLOW_LIST = JSON.parse(
-  fs.readFileSync(path.resolve(`unit_test_allow_list.json`)),
-);
+const ALLOW_LIST = fs.existsSync(path.resolve(`unit_test_allow_list.json`))
+  ? JSON.parse(fs.readFileSync(path.resolve(`unit_test_allow_list.json`)))
+  : [];
 
 const ALL_SPECS = ALLOW_LIST.map(spec => spec.spec_path);
 const DISALLOWED_SPECS = ALLOW_LIST.filter(
@@ -196,8 +196,8 @@ setupJSDom();
 const checkAllowList = testContext => {
   const file = testContext.currentTest.file.indexOf('src');
   if (DISALLOWED_SPECS.indexOf(file) > -1) {
-    console.log('skipping test: ', file);
-    testContext.skip();
+    console.log('Test would be skipped once allow list launched: ', file);
+    // testContext.skip();
   }
 };
 // This needs to be after JSDom has been setup, otherwise
