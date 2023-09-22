@@ -20,10 +20,13 @@ const initializeDatadogRum = config => {
   }
 };
 
-const useDatadogRum = () => {
-  useEffect(() => {
-    initializeDatadogRum();
-  }, []);
+const useDatadogRum = config => {
+  useEffect(
+    () => {
+      initializeDatadogRum(config);
+    },
+    [config],
+  );
 };
 
 export { useDatadogRum };
