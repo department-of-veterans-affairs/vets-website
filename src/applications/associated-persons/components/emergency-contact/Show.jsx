@@ -21,7 +21,7 @@ const Show = ({
 
       <div>
         <va-button text="Edit" onClick={handleEdit} />
-        <va-button text="Remove" onClick={handleRemove} />
+        <va-button secondary text="Remove" onClick={handleRemove} />
       </div>
     </>
   );

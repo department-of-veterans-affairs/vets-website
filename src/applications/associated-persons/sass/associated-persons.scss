@@ -1,1 +1,40 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.emergency-contacts-section {
+  border: 1px solid $color-gray-lighter;
+
+  * {
+    margin: 0;
+  }
+
+  h2 {
+    font-size: units(2.5);
+    background-color: $color-gray-lightest;
+    border-bottom: 1px solid $color-gray-lighter;
+
+    padding: units(2) units(1.5);
+    @include media($medium) { padding: units(2) units(4); }
+  }
+
+  h3 {
+    font-family: $font-sans;
+    font-size: $base-font-size;
+  }
+
+  div {
+    padding-top: units(2);
+    padding-left: units(1.5);
+    padding-right: units(1.5);
+
+    @include media($medium) {
+      padding-top: units(4);
+      padding-left: units(4);
+      padding-right: units(4);
+    }
+  }
+
+  div:last-child {
+    padding-bottom: units(2);
+    @include media($medium) { padding-bottom: units(4); }
+  }
+}

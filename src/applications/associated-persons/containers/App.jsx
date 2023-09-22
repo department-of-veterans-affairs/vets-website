@@ -24,6 +24,7 @@ const App = () => {
           </nav>
         </div>
         <div className="vads-l-col--9">
+          <h2>Contact Information</h2>
           <EmergencyContact />
         </div>
       </div>
