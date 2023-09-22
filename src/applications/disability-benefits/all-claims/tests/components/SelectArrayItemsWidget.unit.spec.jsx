@@ -29,11 +29,11 @@ describe('<SelectArrayItemsWidget>', () => {
         {
           name: 'item one',
           propTwo: 'asdf',
-          className: 'vads-u-display--inline',
+          className: 'vads-u-display--inline dd-privacy-mask',
         },
         {
           name: 'item two',
-          className: 'vads-u-display--inline',
+          className: 'vads-u-display--inline dd-privacy-mask',
         },
       ],
       id: 'id',

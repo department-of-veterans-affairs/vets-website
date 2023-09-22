@@ -48,7 +48,7 @@ const UnableToFileBDDPage = ({ data = {} }) => {
               <strong className="dd-privacy-mask">
                 {differenceBetweenDatesInDays}
               </strong>{' '}
-              <strong className="dd-privacy-mask">{dateEligible}</strong>
+              days (<strong className="dd-privacy-mask">{dateEligible}</strong>
               ). This program allows you to apply for disability benefits before
               you leave the military.
             </p>
