@@ -432,7 +432,7 @@ class PatientInboxPage {
     cy.get('[data-testid="message-subject-field"]')
       .shadow()
       .find('#inputField')
-      .type('testSubject');
+      .type('testSubject', { force: true });
     cy.get('#compose-message-body')
       .shadow()
       .find('#textarea')

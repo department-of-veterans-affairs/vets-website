@@ -1,22 +1,29 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
-
-import TestDraftsPage from './pages/TestDraftsPage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('verify deeplinking sending the draft', () => {
-  before(() => {
-    const site = new SecureMessagingSite();
-    const landingPage = new PatientInboxPage();
+  const site = new SecureMessagingSite();
+  const landingPage = new PatientInboxPage();
+  beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
-    TestDraftsPage.loadMessages();
+    landingPage.navigateToComposePage();
+    landingPage.composeMessage();
   });
 
-  it('verify modal', () => {
-    TestDraftsPage.loadSingleThread();
+  it('verify modal appears and has a link', () => {
+    cy.get('[data-testid="edit-list-button"]')
+      .shadow()
+      .find('button')
+      .click();
 
-    cy.get(Locators.HEADER).should('contain', 'test');
+    cy.get('.va-modal-alert-body')
+      .find('h1')
+      .should('have.text', 'Edit your contact list or signature');
+    cy.get('[data-testid="edit-preferences-link"]')
+      .should('have.attr', 'href')
+      .and('contain', 'mhv-portal-web/preferences');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
