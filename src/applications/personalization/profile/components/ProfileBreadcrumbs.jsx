@@ -7,7 +7,11 @@ import {
   getRouteInfoFromPath,
   normalizePath,
 } from '~/applications/personalization/common/helpers';
-import { PROFILE_PATHS_WITH_NAMES, PROFILE_PATHS } from '../constants';
+import {
+  PROFILE_PATHS_WITH_NAMES,
+  PROFILE_PATHS,
+  PROFILE_BREADCRUMB_BASE,
+} from '../constants';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
 const BreadcrumbItems = () => {
@@ -15,21 +19,16 @@ const BreadcrumbItems = () => {
 
   const breadcrumbs = useMemo(
     () => {
-      const baseBreadCrumbs = [
-        { href: '/', label: 'Home' },
-        { href: '/profile', label: 'Profile' },
-      ];
-
       const path = normalizePath(location.pathname);
 
       if (path === PROFILE_PATHS.PROFILE_ROOT) {
-        return baseBreadCrumbs;
+        return PROFILE_BREADCRUMB_BASE;
       }
 
       const routeInfo = getRouteInfoFromPath(path, PROFILE_PATHS_WITH_NAMES);
 
       return [
-        ...baseBreadCrumbs,
+        ...PROFILE_BREADCRUMB_BASE,
         {
           href: path,
           label: routeInfo.name,
@@ -40,6 +39,8 @@ const BreadcrumbItems = () => {
   );
 
   return breadcrumbs.map(crumb => {
+    // only the home breadcrumb should be an anchor tag
+    // the rest should be react-router-dom Links
     const Element =
       crumb.href === '/'
         ? {
