@@ -28,6 +28,6 @@ export default {
       veteranDateOfBirth: dateOfBirthSchema,
       veteranDateOfDeath: dateOfDeathSchema,
     },
-    required: ['veteranFullName'],
+    required: ['veteranFullName', 'veteranDateOfBirth', 'veteranDateOfDeath'],
   },
 };

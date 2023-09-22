@@ -16,8 +16,11 @@ export default {
         </>
       ),
       'ui:errorMessages': {
-        required:
-          'Please enter the number of certificates you’d like [up to 99]',
+        required: 'Please provide the number of certificates you would like',
+        minimum:
+          'Please raise the number to at least 1, you can request up to 99',
+        maximum:
+          'Please lower the number of requests, you can only request up to 99',
       },
       'ui:reviewField': ({ children }) => (
         <div className="review-row">

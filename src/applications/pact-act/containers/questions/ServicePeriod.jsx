@@ -5,10 +5,6 @@ import TernaryRadios from './TernaryRadios';
 import { updateServicePeriod } from '../../actions';
 import { RESPONSES, SHORT_NAME_MAP } from '../../utilities/question-data-map';
 import { ROUTES } from '../../constants';
-import {
-  navigateBackward,
-  navigateForward,
-} from '../../utilities/display-logic';
 import { pageSetup } from '../../utilities/page-setup';
 
 const ServicePeriod = ({
@@ -43,54 +39,19 @@ const ServicePeriod = ({
     [router, viewedIntroPage],
   );
 
-  const onContinueClick = () => {
-    if (!servicePeriod) {
-      setFormError(true);
-    } else {
-      setFormError(false);
-      navigateForward(shortName, formResponses, router);
-    }
-  };
-
-  const onBackClick = () => {
-    navigateBackward(shortName, formResponses, router);
-  };
-
-  const onValueChange = event => {
-    const { value } = event?.detail;
-    setServicePeriod(value);
-
-    if (value) {
-      setFormError(false);
-    }
-  };
-
-  const onBlurInput = () => {
-    if (servicePeriod) {
-      setFormError(false);
-    }
-  };
-
   return (
-    <>
-      <h1>{H1}</h1>
-      <TernaryRadios
-        formError={formError}
-        formValue={servicePeriod}
-        h1={H1}
-        onBackClick={onBackClick}
-        onBlurInput={onBlurInput}
-        onContinueClick={onContinueClick}
-        onValueChange={onValueChange}
-        responses={[
-          NINETY_OR_LATER,
-          EIGHTYNINE_OR_EARLIER,
-          DURING_BOTH_PERIODS,
-        ]}
-        shortName={shortName}
-        testId="paw-servicePeriod"
-      />
-    </>
+    <TernaryRadios
+      formError={formError}
+      formResponses={formResponses}
+      formValue={servicePeriod}
+      h1={H1}
+      responses={[NINETY_OR_LATER, EIGHTYNINE_OR_EARLIER, DURING_BOTH_PERIODS]}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="paw-servicePeriod"
+      valueSetter={setServicePeriod}
+    />
   );
 };
 

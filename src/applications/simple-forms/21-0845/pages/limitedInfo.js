@@ -50,7 +50,7 @@ export default {
           !fields.limitedInformationOther
         ) {
           errors.limitedInformationItems.addError(
-            'Please select at least one item here, or enter unlisted item(s) in “Other” text-field below.',
+            'Please select at least one type of information here, or specify something else below',
           );
         }
       },

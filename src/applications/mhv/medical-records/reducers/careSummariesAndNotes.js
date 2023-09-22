@@ -80,6 +80,12 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
           }) || [],
       };
     }
+    case Actions.CareSummariesAndNotes.CLEAR_DETAIL: {
+      return {
+        ...state,
+        careSummariesDetails: undefined,
+      };
+    }
     default:
       return state;
   }
