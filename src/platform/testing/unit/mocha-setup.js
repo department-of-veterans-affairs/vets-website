@@ -19,7 +19,6 @@ import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
 
 const isStressTest = process.env.IS_STRESS_TEST;
-/* eslint-disable */
 
 const ALLOW_LIST = fs.existsSync(path.resolve(`unit_test_allow_list.json`))
   ? JSON.parse(fs.readFileSync(path.resolve(`unit_test_allow_list.json`)))
@@ -40,7 +39,6 @@ const CHANGED_APPS = process.env.CHANGED_FILES
 const TESTS_TO_STRESS_TEST = ALL_SPECS.filter(specPath =>
   CHANGED_APPS.some(filePath => specPath.includes(filePath)),
 );
-/* eslint-enable */
 
 const core = require('@actions/core');
 
