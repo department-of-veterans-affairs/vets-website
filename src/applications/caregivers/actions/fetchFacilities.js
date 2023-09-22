@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
+import * as Sentry from '@sentry/browser';
 
 export const fetchFacilities = async (mapBoxResponse, request = null) => {
   if (mapBoxResponse?.errorMessage) {
@@ -51,6 +52,11 @@ export const fetchFacilities = async (mapBoxResponse, request = null) => {
     .catch(error => {
       const errors = error.errors.map(err => {
         return err.detail ? err.detail : err.title;
+      });
+
+      Sentry.withScope(scope => {
+        scope.setExtra('error', errors);
+        Sentry.captureMessage('Error fetching Lighthouse VA facilities');
       });
 
       return {

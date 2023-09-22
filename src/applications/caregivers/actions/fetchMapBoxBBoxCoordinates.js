@@ -1,5 +1,6 @@
 import MapboxClient from '@mapbox/mapbox-sdk';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import * as Sentry from '@sentry/browser';
 import { mapBoxToken } from '../utils/mapBoxToken';
 
 const mapboxClient = new MapboxClient({
@@ -40,6 +41,10 @@ export const fetchMapBoxBBoxCoordinates = async (query, client = null) => {
         error?.request?.origin === 'https://api.mapbox.com'
           ? error.body.message
           : error;
+      Sentry.withScope(scope => {
+        scope.setExtra('error', errMessage);
+        Sentry.captureMessage('Error fetching MapBox coordinates');
+      });
       return {
         type: 'SEARCH_FAILED',
         errorMessage: `Something went wrong. ${errMessage}`,
