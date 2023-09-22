@@ -396,9 +396,10 @@ export const NoFormPage = () => {
             <p>
               Call us at <va-telephone contact="8008271000" />. We’re here
               Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
-              hearing loss, call TTY: <va-telephone contact="711" />.
+              hearing loss, call <va-telephone contact="711" tty />.
             </p>
           </div>
+          <va-back-to-top />
         </>
       ) : (
         <>
@@ -433,7 +434,7 @@ export const NoFormPage = () => {
           <p>
             Call us at <va-telephone contact="8008271000" />. We’re here Monday
             through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss,
-            call TTY: <va-telephone contact="711" />.
+            call <va-telephone contact="711" tty />.
           </p>
         </>
       )}
@@ -468,8 +469,8 @@ export const NoFormPage = () => {
       />
       <p>
         Call us at <va-telephone contact="8008271000" />. We’re here Monday
-        through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss, call
-        TTY: <va-telephone contact="711" />.
+        through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss, call{' '}
+        <va-telephone contact="711" tty />.
       </p>
     </div>
   );
