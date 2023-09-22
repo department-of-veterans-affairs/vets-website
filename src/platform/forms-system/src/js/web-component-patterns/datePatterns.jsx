@@ -95,7 +95,7 @@ const dateOfBirthUI = options => {
     title: title || 'Date of birth',
     errorMessages: {
       pattern: 'Please provide a valid date',
-      required: 'Please enter date of birth',
+      required: 'Please provide the date of birth',
     },
     ...uiOptions,
   });
@@ -126,7 +126,7 @@ const dateOfDeathUI = options => {
     title: title || 'Date of death',
     errorMessages: {
       pattern: 'Please provide a valid date',
-      required: 'Please enter date of death',
+      required: 'Please provide the date of death',
     },
     ...uiOptions,
   });
