@@ -32,6 +32,12 @@ export const SERVICE_BADGE_IMAGE_PATHS = new Map([
   [USA_MILITARY_BRANCHES.marineCorps, '/img/vic-usmc-emblem.png'],
 ]);
 
+// In breadcrumbs home
+export const PROFILE_BREADCRUMB_BASE = [
+  { href: '/', label: 'Home' },
+  { href: '/profile', label: 'Profile' },
+];
+
 export const PROFILE_PATHS = Object.freeze({
   PROFILE_ROOT: '/profile',
   DIRECT_DEPOSIT: '/profile/direct-deposit',

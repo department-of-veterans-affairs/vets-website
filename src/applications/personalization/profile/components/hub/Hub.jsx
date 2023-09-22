@@ -13,13 +13,15 @@ export const Hub = () => {
     <>
       <ProfileBreadcrumbs className="vads-u-margin-left--neg1 vads-u-margin-top--neg2" />
 
+      {/* ROW */}
       <div className="vads-l-row">
         <h1 className="vads-u-padding-bottom--3">Profile</h1>
       </div>
 
+      {/* ROW */}
       <div className="vads-l-row vads-u-margin-bottom--4">
         <HubCard
-          className="vads-u-padding-right--4"
+          className="medium-screen:vads-u-padding-right--4 vads-u-padding-bottom--4 medium-screen:vads-u-padding-bottom--0"
           heading="Personal information"
           content="Review your legal name, date of birth, and disability rating. And
               manage your preferred name and gender identity."
@@ -45,9 +47,10 @@ export const Hub = () => {
         </HubCard>
       </div>
 
+      {/* ROW */}
       <div className="vads-l-row vads-u-margin-bottom--4">
         <HubCard
-          className="vads-u-padding-right--4"
+          className="medium-screen:vads-u-padding-right--4 vads-u-padding-bottom--4 medium-screen:vads-u-padding-bottom--0"
           heading="Military information"
           content="Review your military branches and dates of service."
         >
@@ -58,7 +61,7 @@ export const Hub = () => {
                 href={PROFILE_PATHS.MILITARY_INFORMATION}
               />
             </div>
-            <div className="vads-u-display--block vads-u-margin-top--1p5 vads-u-margin-bottom--0p5">
+            <div className="vads-u-display--block vads-u-margin-top--1p5 vads-u-margin-bottom--0p5 vads-u-padding-right--2 medium-screen:vads-u-padding-right">
               <ProfileLink
                 text="Learn how to request your DD214 and other military records"
                 href="/records/get-military-service-records/"
@@ -80,9 +83,10 @@ export const Hub = () => {
         </HubCard>
       </div>
 
+      {/* ROW */}
       <div className="vads-l-row vads-u-margin-bottom--4">
         <HubCard
-          className="vads-u-padding-right--4"
+          className="medium-screen:vads-u-padding-right--4 vads-u-padding-bottom--4 medium-screen:vads-u-padding-bottom--0"
           heading="Notification settings"
           content="Manage the text and email notifications you get from VA."
         >
@@ -116,9 +120,10 @@ export const Hub = () => {
         </HubCard>
       </div>
 
+      {/* ROW */}
       <div className="vads-l-row vads-u-margin-bottom--4 ">
         <HubCard
-          className="vads-u-padding-right--4"
+          className="medium-screen:vads-u-padding-right--4"
           heading="Connected apps"
           content="Manage the 3rd-party apps that have access to your VA.gov profile."
         >

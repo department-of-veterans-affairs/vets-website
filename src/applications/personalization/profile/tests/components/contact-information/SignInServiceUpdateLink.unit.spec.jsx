@@ -21,7 +21,7 @@ Object.values(SERVICE_PROVIDERS).forEach(csp => {
       expect(container).to.be.a('HTMLDivElement');
     });
 
-    it('should render the link with correct attributes and label', () => {
+    it('should render the link with correct href and label', () => {
       const { getByText } = renderInReduxProvider(<SignInServiceUpdateLink />, {
         initialState,
       });

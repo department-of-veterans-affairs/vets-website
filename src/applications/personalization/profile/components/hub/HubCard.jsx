@@ -3,7 +3,10 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 export const HubCard = ({ heading, content, children, className }) => {
-  const classes = classNames('vads-l-col--6', className);
+  const classes = classNames(
+    'vads-l-col--12 medium-screen:vads-l-col--6',
+    className,
+  );
   return (
     <div className={classes}>
       <va-card>
