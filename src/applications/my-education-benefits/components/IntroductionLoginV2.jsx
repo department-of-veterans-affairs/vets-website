@@ -49,7 +49,8 @@ function IntroductionLoginV2({
       )}
       {shouldShowLoadingIndicator && <LoadingIndicator />}
 
-      {(isPersonalInfoFetchFailed || showMeb1990EZMaintenanceAlert) && (
+      {((isClaimantCallComplete && isPersonalInfoFetchFailed) ||
+        showMeb1990EZMaintenanceAlert) && (
         <va-alert
           close-btn-aria-label="Close notification"
           status="error"
@@ -129,7 +130,7 @@ function IntroductionLoginV2({
           </>
         )}
       {isLoggedIn &&
-      !isPersonalInfoFetchFailed && // Ensure the error didn't occur.
+      (isClaimantCallComplete && !isPersonalInfoFetchFailed) && // Ensure the error didn't occur.
       !showMeb1990EZMaintenanceAlert && // Ensure the mainenance flag is not on.
         ((!showMebEnhancements09 && apiCallsComplete && isLOA3) ||
           (showMebEnhancements09 && isLOA3)) && (
