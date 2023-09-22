@@ -149,10 +149,6 @@ function fillBenefitSelection(
   // Page 2
   if (currentlyBuriedPersons.length) {
     currentlyBuriedPersons.forEach((person, index) => {
-      cy.fill(
-        `input[name="root_application_currentlyBuriedPersons_${index}_cemeteryNumber"]`,
-        person.cemeteryNumber.label,
-      );
       cy.fillName(
         `root_application_currentlyBuriedPersons_${index}_name`,
         person.name,
