@@ -2,7 +2,6 @@ import React from 'react';
 import {
   currentOrPastDateSchema,
   currentOrPastDateUI,
-  titleSchema,
   titleUI,
   yesNoSchema,
   yesNoUI,
@@ -13,7 +12,7 @@ import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/V
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:arrayTitle': titleUI('Array Field Title', 'Array Description'),
+    ...titleUI('Array Field Title', 'Array Description'),
     exampleArrayOne: {
       'ui:options': {
         itemName: 'Facility',
@@ -81,7 +80,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:arrayTitle': titleSchema,
       exampleArrayOne: {
         type: 'array',
         minItems: 1,

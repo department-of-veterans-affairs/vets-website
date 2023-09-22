@@ -2,7 +2,6 @@ import React from 'react';
 import {
   fullNameSchema,
   fullNameUI,
-  titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -20,7 +19,7 @@ export function childViewCard({ formData }) {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('Child Information'),
+    ...titleUI('Child Information'),
     exampleArrayData: {
       'ui:options': {
         itemName: 'Child',
@@ -40,7 +39,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       exampleArrayData: {
         type: 'array',
         minItems: 1,
