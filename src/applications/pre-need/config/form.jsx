@@ -616,7 +616,7 @@ const formConfig = {
             },
             sponsorMilitaryHistory: {
               path: 'sponsor-military-history',
-              title: 'Sponsor’s service periods',
+              title: 'Sponsor’s service period(s)',
               depends: formData => !isVeteran(formData),
               uiSchema: sponsorMilitaryHistory.uiSchema,
               schema: sponsorMilitaryHistory.schema,

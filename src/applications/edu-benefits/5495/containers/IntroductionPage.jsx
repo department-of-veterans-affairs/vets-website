@@ -1,6 +1,5 @@
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
@@ -132,10 +131,10 @@ export class IntroductionPage extends React.Component {
           />
           {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
           <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-            <OMBInfo
-              resBurden={20}
-              ombNumber="2900-0099"
-              expDate="03/31/2026"
+            <va-omb-info
+              res-burden={20}
+              omb-number="2900-0999"
+              exp-date="03/31/2026"
             />
           </div>
         </div>

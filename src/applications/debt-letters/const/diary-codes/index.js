@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 const ContactDMC = () => (
   <span className="vads-u-margin-x--0p5">
@@ -278,7 +278,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             Call the U.S. Department of the Treasury’s Debt Management Center at
             <va-telephone
               className="vads-u-margin-left--0p5"
-              contact="8888263127"
+              contact={CONTACTS.TREASURY_DMS}
             />
             , 8:30 a.m. to 6:30 p.m. ET. Don’t send us payment directly. This
             will delay posting of payment to your account. And the Treasury
