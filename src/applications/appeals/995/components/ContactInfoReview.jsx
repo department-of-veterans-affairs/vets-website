@@ -38,7 +38,7 @@ const ContactInfoReview = ({ data, editPage }) => {
       content.email,
       () =>
         email || (
-          <span className="usaa-input-error-message">
+          <span className="usa-input-error-message">
             {content.missingEmail}
           </span>
         ),
