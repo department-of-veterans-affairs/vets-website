@@ -350,7 +350,7 @@ jobs:
         with:
           name: unit-test-stress-test-results
           path: mocha/results
-
+      # Unit test reporting for stress test to be addressed in a later ticket
       # - name: Generate coverage report by app
       #   run: node script/app-coverage-report.js > test-results/coverage_report.txt
       # - name: Upload Coverage Report Artifact
