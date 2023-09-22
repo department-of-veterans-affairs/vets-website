@@ -1,12 +1,9 @@
-/* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable prettier/prettier */
 /* eslint-disable deprecate/import */
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export default function HCASubwayMap() {
   return (
@@ -178,8 +175,8 @@ export default function HCASubwayMap() {
               <p>
                 If you don’t receive your decision letter within a week after
                 you apply, please don’t apply again. Call us at{' '}
-                <a href="tel:+18772228387">877-222-8387</a> (TTY:{' '}
-                <va-telephone contact={CONTACTS['711']} ariaLabel={'7 1 1.'} />
+                <va-telephone contact="8772228387"/> (
+                <va-telephone contact={CONTACTS['711']} tty />
                 ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
               </p>
             </va-additional-info>
