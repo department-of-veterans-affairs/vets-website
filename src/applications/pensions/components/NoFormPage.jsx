@@ -67,8 +67,8 @@ export const NoFormPage = () => {
             />
           </va-alert>
           <div>
-            <div className="vads-u-padding--3">
-              <h3>Apply by mail</h3>
+            <div className="vads-u-padding-y--3">
+              <h2>Apply by mail</h2>
               <p>
                 Fill out an Application for Veterans Pension (VA Form
                 21P-527EZ).
@@ -102,7 +102,10 @@ export const NoFormPage = () => {
               </p>
             </div>
             <article>
-              <va-on-this-page />
+              <h2>Saved information</h2>
+              <div className="vads-u-padding-x--1">
+                <va-on-this-page />
+              </div>
               <ApplicantInformation
                 title="Applicant information"
                 id="applicant-information"
@@ -134,6 +137,7 @@ export const NoFormPage = () => {
                 formData={data?.formData}
               />
             </article>
+            <va-back-to-top />
             <p>
               <strong>Note:</strong> According to federal law, there are
               criminal penalties for withholding information on purpose or
@@ -146,10 +150,9 @@ export const NoFormPage = () => {
             </h2>
             <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
             <p>
-              Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />
-              . We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If
-              you have hearing loss, call TTY:{' '}
-              <va-link href="tel:711" text="711" />.
+              Call us at <va-telephone contact="8008271000" />. We’re here
+              Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
+              hearing loss, call <va-telephone contact="711" tty />.
             </p>
           </div>
         </>
@@ -174,9 +177,9 @@ export const NoFormPage = () => {
           </h2>
           <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
           <p>
-            Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />.
-            We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you
-            have hearing loss, call TTY: <va-link href="tel:711" text="711" />.
+            Call us at <va-telephone contact="8008271000" />. We’re here Monday
+            through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss,
+            call <va-telephone contact="711" tty />.
           </p>
         </>
       )}
@@ -200,9 +203,9 @@ export const NoFormPage = () => {
       </h2>
       <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
       <p>
-        Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />.
-        We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
-        hearing loss, call TTY: <va-link href="tel:711" text="711" />.
+        Call us at <va-telephone contact="8008271000" />. We’re here Monday
+        through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss, call{' '}
+        <va-telephone contact="711" tty />.
       </p>
     </div>
   );
