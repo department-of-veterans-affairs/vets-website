@@ -41,7 +41,7 @@ export default {
         <div className="review-row">
           <dt>
             <span className="vads-u-font-size--base">
-              How many certificates should we send to your address
+              How many certificates should we send to your address?
             </span>
           </dt>
           <dd>{children}</dd>
