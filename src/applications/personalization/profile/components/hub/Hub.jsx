@@ -16,7 +16,7 @@ export const Hub = () => {
   const hasBadAddress = useSelector(hasBadAddressSelector);
   return (
     <>
-      <ProfileBreadcrumbs className="vads-u-margin-left--neg1 vads-u-margin-top--neg2" />
+      <ProfileBreadcrumbs className="medium-screen:vads-u-margin-left--neg1 medium-screen:vads-u-margin-top--neg2 vads-u-margin-bottom--neg1" />
 
       {/* ROW */}
       <div className="vads-l-row">
