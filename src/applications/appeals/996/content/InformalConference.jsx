@@ -89,3 +89,9 @@ export const informalConferenceTimeSelectTitle =
   'Choose the best time for us to call you';
 export const informalConferenceTimeSelectTitleRep =
   'Choose the best time for us to call your representative';
+
+export const RepresentativeReviewField = ({ name, value }) => (
+  <dd className="dd-privacy-hidden" data-dd-action-name={name || ''}>
+    {value || null}
+  </dd>
+);
