@@ -130,7 +130,7 @@ function IntroductionLoginV2({
           </>
         )}
       {isLoggedIn &&
-      (isClaimantCallComplete && !isPersonalInfoFetchFailed) && // Ensure the error didn't occur.
+      (isClaimantCallComplete && isPersonalInfoFetchFailed === true) && // Ensure the error didn't occur.
       !showMeb1990EZMaintenanceAlert && // Ensure the mainenance flag is not on.
         ((!showMebEnhancements09 && apiCallsComplete && isLOA3) ||
           (showMebEnhancements09 && isLOA3)) && (
@@ -200,7 +200,7 @@ IntroductionLoginV2.propTypes = {
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
-  isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed,
+  isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
   showMebEnhancements09:
     state.featureToggles[featureFlagNames.showMebEnhancements09], // Added new feature flag to mapStateToProps
   showMeb1990EZMaintenanceAlert:
