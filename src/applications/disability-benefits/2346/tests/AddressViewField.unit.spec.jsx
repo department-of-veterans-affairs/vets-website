@@ -19,7 +19,7 @@ describe('AddressViewField', () => {
     };
     const wrapper = shallow(<AddressViewField formData={formData} />);
     expect(wrapper.html()).to.equal(
-      '<div class="vads-u-border-left--7px vads-u-border-color--primary"><p class="vads-u-margin-left--2 vads-u-margin-top--0">s1<br/>s2<br/>city, state 12345<span class="vads-u-display--block">United States</span></p></div>',
+      '<div class="vads-u-border-left--7px vads-u-border-color--primary"><p class="vads-u-margin-left--2 vads-u-margin-top--0 dd-privacy-mask">s1<br/>s2<br/>city, state 12345<span class="vads-u-display--block">United States</span></p></div>',
     );
     wrapper.unmount();
   });
@@ -66,7 +66,7 @@ describe('AddressViewField', () => {
     };
     const wrapper = shallow(<AddressViewField formData={formData} />);
     expect(wrapper.html()).to.equal(
-      '<div class="vads-u-border-left--7px vads-u-border-color--primary"><p class="vads-u-margin-left--2 vads-u-margin-top--0">s1<br/>s2<br/>city, p1 123456789<span class="vads-u-display--block">Canada</span></p></div>',
+      '<div class="vads-u-border-left--7px vads-u-border-color--primary"><p class="vads-u-margin-left--2 vads-u-margin-top--0 dd-privacy-mask">s1<br/>s2<br/>city, p1 123456789<span class="vads-u-display--block">Canada</span></p></div>',
     );
     wrapper.unmount();
   });

@@ -21,19 +21,22 @@ const LabAndTestDetails = () => {
   const fullState = useSelector(state => state);
   const { labId } = useParams();
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        {
-          url: '/my-health/medical-records/labs-and-tests',
-          label: 'Lab and test results',
-        },
-      ]),
-    );
-    return () => {
-      dispatch(clearLabsAndTestDetails());
-    };
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: '/my-health/medical-records/labs-and-tests',
+            label: 'Lab and test results',
+          },
+        ]),
+      );
+      return () => {
+        dispatch(clearLabsAndTestDetails());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -41,7 +44,7 @@ const LabAndTestDetails = () => {
         dispatch(getlabsAndTestsDetails(labId));
       }
     },
-    [labId],
+    [labId, dispatch],
   );
 
   if (labAndTestDetails?.name) {
