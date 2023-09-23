@@ -35,7 +35,7 @@ describe('AddressViewField', () => {
     };
     const wrapper = shallow(<AddressViewField formData={formData} />);
     expect(wrapper.html()).to.equal(
-      '<p>Please provide a temporary address if you want us to ship your order to another location, like a relative&#x27;s house or a vacation home.</p>',
+      '<p>Please provide a temporary address if you want us to ship your order to another location, like a relative’s house or a vacation home.</p>',
     );
     wrapper.unmount();
   });
@@ -50,7 +50,7 @@ describe('AddressViewField', () => {
     };
     const wrapper = shallow(<AddressViewField formData={formData} />);
     expect(wrapper.html()).to.equal(
-      '<p>Please provide a temporary address if you want us to ship your order to another location, like a relative&#x27;s house or a vacation home.</p>',
+      '<p>Please provide a temporary address if you want us to ship your order to another location, like a relative’s house or a vacation home.</p>',
     );
     wrapper.unmount();
   });
