@@ -18,8 +18,17 @@ describe('Profile - Hub page', () => {
 
     checkForLegacyLoadingIndicator();
 
-    cy.findByText('Profile Hub Page Here').should('exist');
+    cy.findByText('Profile', { selector: 'h1' }).should('exist');
+    cy.findByText('Personal information', { selector: 'h2' }).should('exist');
+    cy.findByText('Contact information', { selector: 'h2' }).should('exist');
+    cy.findByText('Military information', { selector: 'h2' }).should('exist');
+    cy.findByText('Direct deposit information', { selector: 'h2' }).should(
+      'exist',
+    );
+    cy.findByText('Notification settings', { selector: 'h2' }).should('exist');
 
+    cy.findByText('Account security', { selector: 'h2' }).should('exist');
+    cy.findByText('Connected apps', { selector: 'h2' }).should('exist');
     cy.injectAxeThenAxeCheck();
   });
 

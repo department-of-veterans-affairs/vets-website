@@ -367,10 +367,9 @@ export const AuthContent = ({
                 </li>
                 <li>
                   Call the My HealtheVet help desk at{' '}
-                  <va-telephone contact="8773270022" /> (TTY:{' '}
-                  <va-telephone contact={CONTACTS.HELP_TTY} />
-                  ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
-                  ET.
+                  <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
+                  <va-telephone contact={CONTACTS.HELP_TTY} tty />
+                  Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
                 </li>
                 <li>
                   Or{' '}

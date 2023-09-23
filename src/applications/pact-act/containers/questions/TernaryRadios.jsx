@@ -5,6 +5,10 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  navigateBackward,
+  navigateForward,
+} from '../../utilities/display-logic';
 
 /**
  * Produces a set of 3 radio options
@@ -14,17 +18,45 @@ import {
  */
 const TernaryRadios = ({
   formError,
+  formResponses,
   formValue,
   h1,
   locationList,
-  onBackClick,
-  onBlurInput,
-  onContinueClick,
-  onValueChange,
   responses,
+  router,
+  setFormError,
   shortName,
   testId,
+  valueSetter,
 }) => {
+  const onContinueClick = () => {
+    if (!formValue) {
+      setFormError(true);
+    } else {
+      setFormError(false);
+      navigateForward(shortName, formResponses, router);
+    }
+  };
+
+  const onBackClick = () => {
+    navigateBackward(shortName, formResponses, router);
+  };
+
+  const onBlurInput = () => {
+    if (formValue) {
+      setFormError(false);
+    }
+  };
+
+  const onValueChange = event => {
+    const { value } = event?.detail;
+    valueSetter(value);
+
+    if (value) {
+      setFormError(false);
+    }
+  };
+
   return (
     <>
       <VaRadio
@@ -34,6 +66,7 @@ const TernaryRadios = ({
         error={(formError && 'Please select a response.') || null}
         hint=""
         label={h1}
+        label-header-level="1"
         onVaValueChange={onValueChange}
       >
         {locationList}
@@ -68,14 +101,14 @@ const TernaryRadios = ({
 
 TernaryRadios.propTypes = {
   formError: PropTypes.bool.isRequired,
+  formResponses: PropTypes.object.isRequired,
   h1: PropTypes.string.isRequired,
   responses: PropTypes.arrayOf(PropTypes.string).isRequired,
+  router: PropTypes.object.isRequired,
+  setFormError: PropTypes.func.isRequired,
   shortName: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,
-  onBackClick: PropTypes.func.isRequired,
-  onBlurInput: PropTypes.func.isRequired,
-  onContinueClick: PropTypes.func.isRequired,
-  onValueChange: PropTypes.func.isRequired,
+  valueSetter: PropTypes.func.isRequired,
   formValue: PropTypes.string,
   locationList: PropTypes.node,
 };
