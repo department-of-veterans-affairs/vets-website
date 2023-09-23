@@ -32,7 +32,7 @@ export const uiSchema = {
     currentlyBuriedPersons: {
       'ui:title': (
         <span>
-          <h3 className="name-of-deceased-text">Name of deceased person(s)</h3>
+          <h3 className="vads-u-font-size--h5">Name of deceased person(s)</h3>
         </span>
       ),
       'ui:description': CurrentlyBuriedPersonsDescription,

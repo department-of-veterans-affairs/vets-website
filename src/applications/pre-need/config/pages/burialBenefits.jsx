@@ -55,6 +55,7 @@ export const uiSchema = {
             href="https://www.va.gov/find-locations/"
             rel="noreferrer"
             target="_blank"
+            className="linkStyle"
           >
             Find a VA national cemetery
           </a>
