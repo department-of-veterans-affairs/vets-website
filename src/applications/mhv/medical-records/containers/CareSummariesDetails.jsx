@@ -17,19 +17,22 @@ const CareSummariesDetails = () => {
   );
   const { summaryId } = useParams();
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        {
-          url: '/my-health/medical-records/summaries-and-notes',
-          label: 'Care summaries and notes',
-        },
-      ]),
-    );
-    return () => {
-      dispatch(clearCareSummariesDetails());
-    };
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: '/my-health/medical-records/summaries-and-notes',
+            label: 'Care summaries and notes',
+          },
+        ]),
+      );
+      return () => {
+        dispatch(clearCareSummariesDetails());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -37,7 +40,7 @@ const CareSummariesDetails = () => {
         dispatch(getCareSummaryAndNotesDetails(summaryId));
       }
     },
-    [summaryId],
+    [summaryId, dispatch],
   );
 
   if (careSummary?.name) {

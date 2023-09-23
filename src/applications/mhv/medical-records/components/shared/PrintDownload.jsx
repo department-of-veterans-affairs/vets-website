@@ -79,6 +79,7 @@ const PrintDownload = props => {
 export default PrintDownload;
 
 PrintDownload.propTypes = {
+  allowTxtDownloads: PropTypes.bool,
   download: PropTypes.any,
   list: PropTypes.any,
 };
