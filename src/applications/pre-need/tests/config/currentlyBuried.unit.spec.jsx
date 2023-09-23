@@ -14,20 +14,6 @@ const payload = {
   claimant: {
     hasCurrentlyBuried: '1',
   },
-  data: [
-    {
-      id: 915,
-      type: 'preneeds_cemeteries',
-      attributes: {
-        // eslint-disable-next-line camelcase
-        cemetery_id: '915',
-        name: 'ABRAHAM LINCOLN NATIONAL CEMETERY',
-        // eslint-disable-next-line camelcase
-        cemetery_type: 'N',
-        num: '915',
-      },
-    },
-  ],
 };
 
 const store = mockStore({
