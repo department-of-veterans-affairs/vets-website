@@ -1,17 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
-
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import {
-  focusH3,
-  focusIssue,
-  focusEvidence,
-  focusUploads,
-} from '../../utils/focus';
-import { LAST_ISSUE } from '../../../shared/constants';
+import { focusIssue, focusEvidence, focusUploads } from '../../utils/focus';
 
+import { LAST_ISSUE } from '../../../shared/constants';
+import { focusAlertH3 } from '../../../shared/utils/focus';
 // import { focusRadioH3 } from '../../../shared/utils/focus';
 
 // Skipping focusRadioH3 because testing library doesn't support shadow DOM
@@ -25,7 +20,7 @@ import { LAST_ISSUE } from '../../../shared/constants';
      });
   }); */
 
-describe('focusH3', () => {
+describe('focusAlertH3', () => {
   it('should focus on H3 inside alert', async () => {
     const { container } = render(
       <div>
@@ -35,7 +30,7 @@ describe('focusH3', () => {
       </div>,
     );
 
-    focusH3();
+    focusAlertH3();
 
     await waitFor(() => {
       const h3 = $('h3', container);

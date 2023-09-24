@@ -74,15 +74,10 @@ import submitForm from './submitForm';
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
 
-import {
-  focusH3,
-  focusIssue,
-  focusEvidence,
-  focusUploads,
-} from '../utils/focus';
+import { focusIssue, focusEvidence, focusUploads } from '../utils/focus';
 
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
-import { focusRadioH3 } from '../../shared/utils/focus';
+import { focusAlertH3, focusRadioH3 } from '../../shared/utils/focus';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
@@ -235,7 +230,7 @@ const formConfig = {
           CustomPageReview: null, // reviewField renders this!
           uiSchema: notice5103.uiSchema,
           schema: notice5103.schema,
-          scrollAndFocusTarget: focusH3,
+          scrollAndFocusTarget: focusAlertH3,
           initialData: {
             form5103Acknowledged: false,
           },
@@ -245,7 +240,7 @@ const formConfig = {
           path: EVIDENCE_VA_REQUEST,
           uiSchema: evidenceVaRecordsRequest.uiSchema,
           schema: evidenceVaRecordsRequest.schema,
-          scrollAndFocusTarget: focusH3,
+          scrollAndFocusTarget: focusAlertH3,
         },
         evidenceVaRecords: {
           title: 'VA medical records',
@@ -300,7 +295,7 @@ const formConfig = {
           path: EVIDENCE_ADDITIONAL_PATH,
           uiSchema: evidenceWillUpload.uiSchema,
           schema: evidenceWillUpload.schema,
-          scrollAndFocusTarget: focusH3,
+          scrollAndFocusTarget: focusAlertH3,
         },
         evidenceUpload: {
           title: 'Uploaded evidence',

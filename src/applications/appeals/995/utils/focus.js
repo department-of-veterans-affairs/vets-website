@@ -6,6 +6,7 @@ import {
   waitForRenderThenFocus,
 } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+
 import { LAST_ISSUE } from '../../shared/constants';
 
 export const focusIssue = (_index, root) => {
@@ -25,16 +26,9 @@ export const focusIssue = (_index, root) => {
       focusElement(`#issue-${id} .edit-issue-link`, null, root);
     }
   } else {
-    scrollToTop();
+    scrollToTop('h3');
     focusElement('h3');
   }
-};
-
-export const focusH3 = () => {
-  scrollToTop();
-  // va-alert header is not in the shadow DOM, but still the content doesn't
-  // immediately render
-  waitForRenderThenFocus('h3');
 };
 
 export const focusEvidence = (_index, root) => {
