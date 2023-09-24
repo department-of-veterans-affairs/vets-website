@@ -5,7 +5,7 @@ export function isActiveDuty(formData) {
   let result = true;
   const toursOfDuty = formData?.toursOfDuty;
   toursOfDuty.map(data => {
-    if (data?.dateRange?.to == null) {
+    if (data && data.dateRange && data?.dateRange?.to == null) {
       result = true;
     }
     return data;
