@@ -40,8 +40,8 @@ export default {
       'ui:reviewField': ({ children }) => (
         <div className="review-row">
           <dt>
-            <span className="vads-u-font-weight--bold vads-u-font-size--base">
-              Quantity
+            <span className="vads-u-font-size--base">
+              How many certificates should we send to your address?
             </span>
           </dt>
           <dd>{children}</dd>
@@ -61,5 +61,6 @@ export default {
         maximum: 99,
       },
     },
+    required: ['additionalAddress', 'additionalCopies'],
   },
 };
