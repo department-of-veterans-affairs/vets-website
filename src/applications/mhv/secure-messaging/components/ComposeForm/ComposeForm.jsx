@@ -406,17 +406,27 @@ const ComposeForm = props => {
     setUnsavedNavigationError();
   };
 
-  // useEffect(() => {
-  //   const beforeUnloadHandler = e => {
-  //     console.log('inside beforeUnloadHandler');
-  //     console.log(e);
-  //     e.returnValue = 'You have unsaved changes';
-  //   };
-  //   window.addEventListener('beforeunload', beforeUnloadHandler);
-  //   return () => {
-  //     window.removeEventListener('beforeunload', beforeUnloadHandler);
-  //   };
-  // }, []);
+  useEffect(
+    () => {
+      const beforeUnloadHandler = e => {
+        if (
+          selectedRecipient !== '' ||
+          category !== '' ||
+          subject !== '' ||
+          messageBody !== ''
+        ) {
+          e.returnValue = '';
+        } else {
+          window.removeEventListener('beforeunload', beforeUnloadHandler);
+        }
+      };
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      return () => {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+      };
+    },
+    [category, messageBody, subject, selectedRecipient],
+  );
 
   return (
     <>
