@@ -176,7 +176,7 @@ const Allergies = () => {
         message to your care team.
       </p>
       <a
-        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'secure-messaging')}
+        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'compose-message')}
         className="page-description-link vads-u-margin-bottom--3 no-print"
       >
         Compose a message on the My HealtheVet website

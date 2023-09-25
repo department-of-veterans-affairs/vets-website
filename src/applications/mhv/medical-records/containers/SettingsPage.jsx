@@ -21,15 +21,18 @@ const SettingsPage = () => {
 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        { url: '/my-health/medical-records', label: 'Medical records' },
-      ]),
-    );
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.SETTINGS_PAGE_TITLE);
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          { url: '/my-health/medical-records', label: 'Medical records' },
+        ]),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.SETTINGS_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {

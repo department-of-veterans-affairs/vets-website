@@ -1,6 +1,7 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
     myVaEnableNotificationComponent = true,
+    myVaHideNotificationsSection = true,
     myVaUseExperimental = true,
     myVaUseExperimentalFrontend = true,
     myVaUseExperimentalFullstack = true,
@@ -18,6 +19,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'my_va_notification_component',
           value: myVaEnableNotificationComponent,
+        },
+        {
+          name: 'my_va_hide_notifications_section',
+          value: myVaHideNotificationsSection,
         },
         {
           name: 'my_va_experimental',

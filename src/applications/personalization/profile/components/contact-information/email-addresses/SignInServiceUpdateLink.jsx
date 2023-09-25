@@ -1,9 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
+import { useSignInServiceProvider } from '../../../hooks';
 
-const EmailAddressNotification = ({ signInServiceName }) => {
-  const { link, label } = SERVICE_PROVIDERS[signInServiceName];
+const SignInServiceUpdateLink = () => {
+  const { link, label } = useSignInServiceProvider();
 
   return (
     <>
@@ -21,8 +20,4 @@ const EmailAddressNotification = ({ signInServiceName }) => {
   );
 };
 
-EmailAddressNotification.propTypes = {
-  signInServiceName: PropTypes.string.isRequired,
-};
-
-export default EmailAddressNotification;
+export default SignInServiceUpdateLink;

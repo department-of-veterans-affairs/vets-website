@@ -80,10 +80,6 @@ module.exports = {
         use: '<va-omb-info>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/Telephone',
-        use: '<va-telephone>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/FileInput',
         use: '<va-file-input>',
       },

@@ -20,7 +20,7 @@ const pageTests = page => {
 
     expect(formDOM.querySelectorAll('input').length).to.equal(3);
   });
-  it('should require bank account fields', () => {
+  it('should not require bank account fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
     );
@@ -39,7 +39,7 @@ const pageTests = page => {
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
   });
   it('should show error on bad routing number', () => {
     const form = ReactTestUtils.renderIntoDocument(
