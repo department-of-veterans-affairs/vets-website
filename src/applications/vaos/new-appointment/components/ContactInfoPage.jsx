@@ -28,7 +28,7 @@ import {
 
 const initialSchema = {
   type: 'object',
-  required: ['phoneNumber', 'email', 'bestTimeToCall'],
+  required: ['phoneNumber', 'email'],
   properties: {
     phoneNumber: {
       type: 'string',
