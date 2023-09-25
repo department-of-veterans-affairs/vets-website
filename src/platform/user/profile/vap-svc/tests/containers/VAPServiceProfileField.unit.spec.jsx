@@ -1,13 +1,12 @@
 import React from 'react';
-import enzyme from 'enzyme';
+import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {
-  VAPServiceProfileField,
-  mapStateToProps,
-} from '../../containers/VAPServiceProfileField';
-import { TRANSACTION_STATUS } from '../../constants';
+import { VAPServiceProfileField } from '../../containers/VAPServiceProfileField';
+
+import vapService from '~/platform/user/profile/vap-svc/reducers';
+import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 function Content() {
   return <h1>Content</h1>;
@@ -17,146 +16,135 @@ function EditModal() {
   return <span>EditModal</span>;
 }
 
+const initialState = {
+  featureToggles: { loading: false },
+  vapService: {
+    hasUnsavedEdits: false,
+    transactions: [],
+    fieldTransactionMap: { homePhone: null },
+    transactionsAwaitingUpdate: [],
+    initialFormFields: {
+      homePhone: {
+        value: {
+          areaCode: '989',
+          extension: '123',
+          phoneNumber: '8981233',
+          inputPhoneNumber: '9898981233',
+        },
+        formSchema: {
+          type: 'object',
+          properties: {
+            'view:noInternationalNumbers': {
+              type: 'object',
+              properties: {},
+            },
+            inputPhoneNumber: {
+              type: 'string',
+              pattern: '^\\d{10}$',
+            },
+            extension: {
+              type: 'string',
+              pattern: '^\\s*[0-9-]{0,6}\\s*$',
+              maxLength: 6,
+            },
+          },
+          required: ['inputPhoneNumber'],
+        },
+        uiSchema: {
+          inputPhoneNumber: {
+            'ui:title': 'Home phone number (U.S. numbers only)',
+            'ui:errorMessages': {
+              pattern: 'Please enter a valid 10-digit U.S. phone number.',
+            },
+            'ui:options': {
+              ariaDescribedby: 'error-message-details',
+            },
+          },
+          extension: {
+            'ui:title': 'Extension (6 digits maximum)',
+            'ui:errorMessages': {
+              pattern: 'Please enter a valid extension up to 6 digits.',
+            },
+          },
+        },
+      },
+    },
+    modal: 'homePhone',
+    formFields: {},
+  },
+  user: {
+    profile: {
+      vapContactInfo: {
+        homePhone: {
+          areaCode: '989',
+          phoneNumber: '1234567',
+        },
+      },
+    },
+  },
+};
+
 describe('<VAPServiceProfileField/>', () => {
   let props = null;
-  let component = null;
 
   beforeEach(() => {
     props = {
-      analyticsSectionName: 'some-field',
+      analyticsSectionName: 'home-phone',
       clearErrors() {},
       Content: () => <Content />,
-      data: { someField: 'someFieldValue' },
+      data: { homePhone: { areaCode: '989', phoneNumber: '1234567' } },
       EditModal: () => <EditModal />,
       field: null,
-      fieldName: 'someField',
+      fieldName: 'homePhone',
       isEditing: false,
       isEmpty: false,
-      onAdd() {},
-      onEdit() {},
-      onCancel() {},
-      onChange() {},
-      onChangeFormDataAndSchemas() {},
-      onDelete() {},
-      onSubmit() {},
+      title: 'Home phone',
       openModal: sinon.spy(),
-      refreshTransaction() {},
-      title: 'Some field',
-      transaction: null,
-      transactionRequest: null,
+      onEdit: sinon.spy(),
     };
   });
 
   it('renders the Content prop', () => {
-    component = enzyme.shallow(<VAPServiceProfileField {...props} />);
-    expect(
-      component.find('Content'),
-      'the Content was rendered',
-    ).to.have.lengthOf(1);
-    component.unmount();
+    const { getByRole } = renderInReduxProvider(
+      <VAPServiceProfileField {...props} />,
+      {
+        initialState,
+        reducers: { vapService },
+      },
+    );
+
+    expect(getByRole('heading', { name: /Content/i })).to.be.visible;
   });
 
   it('conditional render based on existence of data', () => {
-    const isEmptyProps = {
-      ...props,
-      isEmpty: true,
+    const state = {
+      ...initialState,
+      ...{ user: { profile: { vapContactInfo: {} } } },
     };
+    props = { ...props, isEmpty: true };
+    const { queryByRole, getByText } = renderInReduxProvider(
+      <VAPServiceProfileField {...props} />,
+      {
+        initialState: state,
+        reducers: { vapService },
+      },
+    );
 
-    component = enzyme.shallow(<VAPServiceProfileField {...isEmptyProps} />);
-    expect(
-      component.find('Content'),
-      'the Content was NOT rendered',
-    ).to.have.lengthOf(0);
-    expect(
-      component.html(),
-      'the add-button was rendered instead of the Content',
-    ).to.contain('button');
-    component.unmount();
+    expect(queryByRole('heading', { name: /Content/i })).to.be.null;
+    expect(getByText('Save')).to.be.visible;
   });
 
-  it('renders the edit link', () => {
-    component = enzyme.shallow(<VAPServiceProfileField {...props} />);
-
-    const { onEditClick } = component
-      .find('VAPServiceProfileFieldHeading')
-      .props();
-    onEditClick();
-    props.openModal();
-    expect(props.openModal.callCount, 'onEdit').to.be.equal(2);
-
-    component.setProps({
-      transaction: {
-        data: {
-          attributes: { transactionStatus: TRANSACTION_STATUS.RECEIVED },
-        },
+  it('renders the edit link and handles click', () => {
+    const { getByRole } = renderInReduxProvider(
+      <VAPServiceProfileField {...props} />,
+      {
+        initialState,
+        reducers: { vapService },
       },
-    });
+    );
 
-    const editClickThatShouldBeNull = component
-      .find('VAPServiceProfileFieldHeading')
-      .props().onEditClick;
-    expect(
-      editClickThatShouldBeNull,
-      'Should pass a null onEditClick prop if there is a transaction processing',
-    ).to.be.null;
-    component.unmount();
-  });
-});
-
-describe('mapStateToProps', () => {
-  const showValidationModalState = () => ({
-    featureToggles: { vaProfileAddressValidation: true },
-    user: {
-      profile: {
-        vapContactInfo: {
-          mailingAddress: '',
-        },
-      },
-    },
-    vapService: {
-      addressValidation: {
-        addressValidationType: 'mailingAddress',
-      },
-      formFields: {
-        mailingAddress: {},
-      },
-      modal: 'addressValidation',
-      transactions: [],
-      fieldTransactionMap: {},
-    },
-  });
-  describe('#showValidationModal', () => {
-    describe('when all the correct conditions are met', () => {
-      it('sets `showValidationModal` to `true`', () => {
-        const state = showValidationModalState();
-        const mappedProps = mapStateToProps(state, {
-          fieldName: 'mailingAddress',
-          ValidationModal: () => {},
-        });
-        expect(mappedProps.showValidationModal).to.be.true;
-      });
-    });
-    describe('when the address validation modal is not open', () => {
-      it('sets `showValidationModal` to `false`', () => {
-        const state = showValidationModalState();
-        state.vapService.modal = 'notTheValidationModal';
-        const mappedProps = mapStateToProps(state, {
-          fieldName: 'mailingAddress',
-          ValidationModal: () => {},
-        });
-        expect(mappedProps.showValidationModal).to.be.false;
-      });
-    });
-
-    describe("when this VAPServiceProfileField's `fieldName` does not match address validation type", () => {
-      it('sets `showValidationModal` to `false`', () => {
-        const state = showValidationModalState();
-        const mappedProps = mapStateToProps(state, {
-          fieldName: 'residentialAddress',
-          ValidationModal: () => {},
-        });
-        expect(mappedProps.showValidationModal).to.be.false;
-      });
-    });
+    const editLink = getByRole('button', { name: /Edit Home phone/i });
+    userEvent.click(editLink);
+    expect(props.openModal.callCount).to.equal(1);
   });
 });

@@ -255,17 +255,7 @@ class VAPServiceProfileField extends React.Component {
               this.props.refreshTransaction(transaction, analyticsSectionName)
             }
           >
-            {isEmpty ? (
-              <button
-                type="button"
-                onClick={this.onAdd}
-                className="va-button-link va-profile-btn"
-              >
-                Please add your {title.toLowerCase()}
-              </button>
-            ) : (
-              <Content {...childProps} />
-            )}
+            {!isEmpty && <Content {...childProps} />}
           </VAPServiceTransaction>
         </div>
       </div>
