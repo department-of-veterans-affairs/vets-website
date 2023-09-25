@@ -137,7 +137,6 @@ export const NoFormPage = () => {
                 formData={data?.formData}
               />
             </article>
-            <va-back-to-top />
             <p>
               <strong>Note:</strong> According to federal law, there are
               criminal penalties for withholding information on purpose or
@@ -155,6 +154,7 @@ export const NoFormPage = () => {
               hearing loss, call <va-telephone contact="711" tty />.
             </p>
           </div>
+          <va-back-to-top />
         </>
       ) : (
         <>
