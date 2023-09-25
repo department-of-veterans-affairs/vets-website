@@ -71,16 +71,18 @@ const createStruct = (doc, struct, font, fontSize, text, options) => {
  *
  * @param {Object} doc
  * @param {int} spaceFromEdge How far the right and left sides should be away from the edge (in px)
- * @param {int} linesAboveAndBelow How much space should be above and below the HR (in lines)
+ * @param {int} linesAbove How much space should be above the HR (in lines)
+ * @param {int} linesBelow How much space should be below the HR (in lines)
  *
  * @returns {Object}
  */
 const addHorizontalRule = (
   doc,
   spaceFromEdge = 0,
-  linesAboveAndBelow = 0.5,
+  linesAbove = 0.5,
+  linesBelow = 0.5,
 ) => {
-  doc.moveDown(linesAboveAndBelow);
+  doc.moveDown(linesAbove);
 
   // TODO add alternative text.
   doc.markContent('Artifact', { type: 'Layout' });
@@ -89,7 +91,7 @@ const addHorizontalRule = (
     .lineTo(doc.page.width - spaceFromEdge, doc.y)
     .stroke();
 
-  doc.moveDown(linesAboveAndBelow);
+  doc.moveDown(linesBelow);
   return doc;
 };
 
@@ -146,6 +148,49 @@ const createDetailItem = async (doc, config, x, item) => {
       }),
     );
   }
+
+  return content;
+};
+
+// TODO: Check integration when CORS issue is resolved
+/**
+ * Add an image item to the given PDFKit structure element.
+ *
+ * @param {Object} doc
+ * @param {Object} config
+ * @param {int} X position
+ * @param {Object} item
+ *
+ * @returns {Object}
+ */
+const createImageDetailItem = async (doc, config, x, item) => {
+  let titleText = item.title ?? '';
+  const content = [];
+
+  if (titleText) {
+    titleText += ' ';
+    content.push(
+      doc.struct('P', () => {
+        doc
+          .font(config.text.boldFont)
+          .fontSize(config.text.size)
+          .text(titleText, x, doc.y, { lineGap: 2 });
+      }),
+    );
+  }
+
+  const image = await fetch(item.value.value);
+  const contentType = image.headers.get('Content-type');
+  const imageBuffer = await image.arrayBuffer();
+  const base64 = `data:${contentType};base64,${Buffer.from(
+    imageBuffer,
+  ).toString('base64')}`;
+
+  content.push(
+    doc.struct('P', () => {
+      doc.image(base64, x, doc.y);
+    }),
+  );
 
   return content;
 };
@@ -300,7 +345,7 @@ const getTestResultBlockHeight = (doc, item, initialBlock = false) => {
  *
  * @returns {Object}
  */
-const createAccessibleDoc = data => {
+const createAccessibleDoc = (data, config) => {
   return new PDFDocument({
     pdfVersion: '1.7',
     lang: data.lang ?? 'en-US',
@@ -313,6 +358,7 @@ const createAccessibleDoc = data => {
     },
     autoFirstPage: false,
     bufferPages: true,
+    margins: config.margins,
   });
 };
 
@@ -342,4 +388,5 @@ export {
   createSubHeading,
   getTestResultBlockHeight,
   registerVaGovFonts,
+  createImageDetailItem,
 };

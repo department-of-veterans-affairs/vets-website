@@ -42,7 +42,8 @@ export const generateMedicationsPDF = async (
 export const validateField = (fieldValue, date = false) => {
   if (fieldValue) {
     if (date === 'date') {
-      return dateFormat(fieldValue);
+      // TODO: refactor to pass in date format
+      return dateFormat(fieldValue, 'MMMM D, YYYY');
     }
     return fieldValue;
   }

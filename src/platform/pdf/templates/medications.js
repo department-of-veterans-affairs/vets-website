@@ -16,16 +16,16 @@ import {
   createHeading,
   createSpan,
   createSubHeading,
-  getTestResultBlockHeight,
   registerVaGovFonts,
+  createImageDetailItem,
 } from './utils';
 
 const config = {
   margins: {
     top: 40,
-    bottom: 40,
-    left: 20,
-    right: 20,
+    bottom: 32,
+    left: 16,
+    right: 32,
   },
   headings: {
     H1: {
@@ -40,9 +40,13 @@ const config = {
       font: 'Bitter-Bold',
       size: 16,
     },
+    H4: {
+      font: 'Bitter-Bold',
+      size: 14,
+    },
   },
   subHeading: {
-    font: 'Bitter-Regular',
+    font: 'SourceSansPro-Regular',
     size: 12,
   },
   text: {
@@ -53,115 +57,133 @@ const config = {
 };
 
 const generateIntroductionContent = async (doc, parent, data) => {
-  const headOptions = { x: 20, paragraphGap: 5 };
-  const subHeadOptions = { paragraphGap: 0 };
   const introduction = doc.struct('Sect', {
     title: 'Introduction',
   });
   parent.add(introduction);
-  introduction.add(createHeading(doc, 'H1', config, data.title, headOptions));
+
+  // title
+  introduction.add(
+    createHeading(doc, 'H1', config, data.title, { x: 16, paragraphGap: 10 }),
+  );
+
+  // preface
   if (data.preface) {
-    introduction.add(
-      createSubHeading(doc, config, data.preface, subHeadOptions),
-    );
+    introduction.add(createSubHeading(doc, config, data.preface, { x: 16 }));
   }
+
   doc.moveDown();
   introduction.end();
 };
 
-const generateDetailsContent = async (doc, parent, data) => {
-  const details = doc.struct('Sect', {
-    title: 'Details',
-  });
-  parent.add(details);
-  if (data.details.header) {
-    const headOptions = { x: 20, paragraphGap: 12 };
-    details.add(
-      createHeading(doc, 'H2', config, data.details.header, headOptions),
-    );
-  }
-  const itemIndent = data.details.header ? 30 : 20;
-  for (const item of data.details.items) {
-    const structs = await createDetailItem(doc, config, itemIndent, item);
-    for (const struct of structs) {
-      details.add(struct);
-    }
-  }
-  doc.moveDown();
-  details.end();
-};
-
-const generateResultItemContent = async (
-  item,
+const generateResultsMedicationListContent = async (
+  medication,
   doc,
   results,
   hasHorizontalRule,
 ) => {
-  const headingOptions = { paragraphGap: 10, x: 30 };
-  if (item.header) {
+  // medication header
+  if (medication.header) {
     results.add(
-      await createHeading(doc, 'H3', config, item.header, headingOptions),
+      await createHeading(doc, 'H3', config, medication.header, {
+        paragraphGap: 10,
+        x: 16,
+      }),
     );
   }
 
-  for (const resultItem of item.items) {
-    const structs = await createDetailItem(doc, config, 40, resultItem);
-    for (const struct of structs) {
-      results.add(struct);
+  // medication section header
+  for (const section of medication.sections) {
+    results.add(
+      await createHeading(doc, 'H4', config, section.header, {
+        paragraphGap: 10,
+        x: 16,
+      }),
+    );
+
+    // medication section items
+    for (const resultItem of section.items) {
+      let structs;
+      // image item
+      // TODO: check integration when CORS issue is resolved
+      if (resultItem.value && typeof resultItem.value === 'object') {
+        structs = await createImageDetailItem(doc, config, 32, resultItem);
+        // regular item
+      } else {
+        structs = await createDetailItem(doc, config, 32, resultItem);
+      }
+
+      // TODO: refactor to make it work with images when available
+      // If the next item does not fit - move to the next page
+      let height = doc.heightOfString(
+        `${resultItem.title}: ${resultItem.value}`,
+        {
+          font: config.text.font,
+          size: config.text.size,
+        },
+      );
+      height = resultItem.inline ? height : height + 24;
+      if (doc.y + height > doc.page.height - doc.page.margins.bottom)
+        await doc.addPage();
+
+      for (const struct of structs) {
+        results.add(struct);
+      }
     }
+
+    doc.moveDown(0.5);
   }
 
+  // horizontal line
   if (hasHorizontalRule) {
     results.add(
       doc.struct('Artifact', () => {
-        addHorizontalRule(doc, 30, 1.5, 1.5);
+        addHorizontalRule(doc, 16, 0, 1);
       }),
     );
   }
 };
 
 const generateResultsContent = async (doc, parent, data) => {
-  const results = doc.struct('Sect', {
-    title: 'Results',
-  });
-  parent.add(results);
-  if (data.results.header) {
-    const headingOptions = { paragraphGap: 12, x: 20 };
-    results.add(
-      createHeading(doc, 'H2', config, data.results.header, headingOptions),
-    );
-  }
+  for (const resultItem of data.results) {
+    const results = doc.struct('Sect', {
+      title: resultItem.header || 'Results',
+    });
+    parent.add(results);
 
-  if (data.results.preface) {
-    const prefaceOptions = { paragraphGap: 12, x: 20 };
-    results.add(
-      createSubHeading(doc, config, data.results.preface, prefaceOptions),
-    );
-  }
+    // results --> header
+    if (resultItem.header) {
+      results.add(
+        createHeading(doc, 'H2', config, resultItem.header, {
+          paragraphGap: 12,
+          x: 16,
+        }),
+      );
+    }
 
-  const hasHorizontalRule = data.results.sectionSeparators !== false;
-  if (data.results.items.length === 1) {
-    await generateResultItemContent(
-      data.results.items[0],
-      doc,
-      results,
-      hasHorizontalRule,
-    );
-  } else {
-    for (const item of data.results.items) {
-      // Insert a pagebreak if the next block will not fit on the current page,
-      // taking the footer height into account.
-      const blockHeight = getTestResultBlockHeight(
+    // results --> preface
+    if (resultItem.preface) {
+      results.add(
+        createSubHeading(doc, config, resultItem.preface, {
+          paragraphGap: 12,
+          x: 16,
+        }),
+      );
+    }
+
+    // results --> items
+    const hasHorizontalRule = resultItem.sectionSeparators !== false;
+    for (const medication of resultItem.medicationsList) {
+      await generateResultsMedicationListContent(
+        medication,
         doc,
-        item,
+        results,
         hasHorizontalRule,
       );
-      if (doc.y + blockHeight > 740) await doc.addPage();
-
-      await generateResultItemContent(item, doc, results, hasHorizontalRule);
     }
+
+    results.end();
   }
-  results.end();
 };
 
 const generateHeaderBanner = async (doc, header, data) => {
@@ -182,7 +204,7 @@ const generateHeaderBanner = async (doc, header, data) => {
 
   // This math is based on US Letter page size and will have to be adjusted
   // if we ever offer document size as a parameter.
-  const leftMargin = (612 - 32 - width) / 2 + 20;
+  const leftMargin = (612 - 32 - width) / 2 + 16;
 
   for (let i = 0; i < data.headerBanner.length; i += 1) {
     const element = data.headerBanner[i];
@@ -205,7 +227,7 @@ const generateHeaderBanner = async (doc, header, data) => {
 
   const height = doc.y - currentHeight + 25;
 
-  doc.rect(20, currentHeight - 4, 580, height).stroke();
+  doc.rect(16, currentHeight - 4, 580, height).stroke();
 
   doc.moveDown(3);
 
@@ -213,7 +235,7 @@ const generateHeaderBanner = async (doc, header, data) => {
   // so that the document header is shown correctly.
   header.add(
     doc.struct('Artifact', () => {
-      doc.text('', 20, doc.y);
+      doc.text('', 16, doc.y);
     }),
   );
 };
@@ -224,7 +246,7 @@ const generateInitialHeaderContent = async (doc, parent, data) => {
   doc.page.margins = {
     top: 0,
     bottom: 0,
-    left: 20,
+    left: 16,
     right: 16,
   };
 
@@ -234,7 +256,7 @@ const generateInitialHeaderContent = async (doc, parent, data) => {
     attached: 'Top',
   });
   parent.add(header);
-  const leftOptions = { continued: true, x: 20, y: 12 };
+  const leftOptions = { continued: true, x: 16, y: 12 };
   header.add(createSpan(doc, config, data.headerLeft, leftOptions));
   const rightOptions = { align: 'right' };
   header.add(createSpan(doc, config, data.headerRight, rightOptions));
@@ -259,7 +281,7 @@ const generateFinalHeaderContent = async (doc, parent, data) => {
     doc.page.margins = {
       top: 0,
       bottom: 0,
-      left: 20,
+      left: 16,
       right: 16,
     };
 
@@ -287,7 +309,7 @@ const generateFooterContent = async (doc, parent, data) => {
     doc.page.margins = {
       top: 0,
       bottom: 0,
-      left: 20,
+      left: 16,
       right: 16,
     };
 
@@ -301,7 +323,7 @@ const generateFooterContent = async (doc, parent, data) => {
 
     let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
     footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
-    const footerLeftOptions = { continued: true, x: 20, y: 766 };
+    const footerLeftOptions = { continued: true, x: 16, y: 766 };
     const footerRightOptions = { align: 'right' };
 
     // Only allow the last footer element to be read by screen readers.
@@ -341,8 +363,7 @@ const generate = async data => {
   const doc = createAccessibleDoc(data, config);
 
   await registerVaGovFonts(doc);
-
-  doc.addPage({ margins: config.margins });
+  doc.addPage();
 
   const wrapper = doc.struct('Document');
   doc.addStructure(wrapper);
@@ -354,11 +375,7 @@ const generate = async data => {
 
   await generateIntroductionContent(doc, wrapper, data);
 
-  if (data.details) {
-    await generateDetailsContent(doc, wrapper, data);
-  }
-
-  if (data.results) {
+  if (data.results && data.results.length) {
     await generateResultsContent(doc, wrapper, data);
   }
 
