@@ -313,7 +313,7 @@ class PatientInboxPage {
       `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
       mockFolders,
     ).as('folders');
-    cy.get(Locators.FOLDERS).click();
+    cy.get(Locators.FOLDERS_LIST).click();
     cy.wait('@folders');
   };
 

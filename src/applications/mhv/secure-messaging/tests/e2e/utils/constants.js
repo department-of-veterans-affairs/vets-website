@@ -23,7 +23,14 @@ export const Paths = {
 
 export const Locators = {
   HEADER: 'h1',
-  FOLDERS: '[data-testid ="my-folders-sidebar"]',
+  FOLDERS_LIST: '[data-testid ="my-folders-sidebar"]',
+  FOLDERS: {
+    INBOX: '[data-testid="inbox-sidebar"]',
+    DRAFTS: '[data-testid="drafts-sidebar"]',
+    SENT: '[data-testid="sent-sidebar"]',
+    TRASH: '[data-testid="trash-sidebar"]',
+    CUSTOM: '[data-testid="my-folders-sidebar"]',
+  },
   BUTTONS: {
     REPLY: '[data-testid="reply-button-body"]',
     CONTINUE: '[data-testid="continue-button"]',
