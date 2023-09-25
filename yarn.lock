@@ -2789,10 +2789,10 @@
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.1.0-rc4.tgz#30e73420f42afaa6903347920081f778dbde63f8"
   integrity sha512-VjbDupf4S0xUPXnepS0lzwTHxioNkQZGm33D+9/lrZLdpcRdSIurNBajP5vtSBpqKEhG/UrHHpxkv9/S94WfAQ==
 
-"@department-of-veterans-affairs/eslint-plugin@^1.9.0":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.9.0.tgz#8a2f9466e032fbb207484acc03b08eb83f08aacc"
-  integrity sha512-kNe1TCCFPYJCqdSkSepnWRdmCnTG1oj2Am3AyFp7XPuAOxWdTSXFLL/JHOcbbQ0w4xiStgcp4CldBY251ATdbA==
+"@department-of-veterans-affairs/eslint-plugin@^1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.11.0.tgz#feeaa353036d5510f40e0e73d205b7f1be480ddf"
+  integrity sha512-/ND5/PIDHhr3KtJO1vLxRedEpuVEP66K9C+81kP4Mnd6GKwlhvS4OjJ/gjy6zazpFdhLtMXHvuEO1X12QkbqrQ==
   dependencies:
     jsx-ast-utils "^3.3.3"
 
