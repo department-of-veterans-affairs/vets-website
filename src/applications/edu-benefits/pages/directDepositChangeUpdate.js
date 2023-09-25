@@ -90,7 +90,7 @@ export default function createDirectDepositChangePage(schema) {
         'ui:description': bankInfoHelpText,
         'ui:options': {
           hideIf: formData => formData.bankAccountChangeUpdate !== 'none',
-          expandUnder: 'view:directDepositImageAndText',
+          expandUnder: 'bankAccountChangeUpdate',
         },
       },
     },
