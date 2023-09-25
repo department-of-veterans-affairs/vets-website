@@ -297,6 +297,7 @@ export const NoFormPage = () => {
     const resource = '/in_progress_forms/21P-530';
 
     apiRequest(resource)
+      // makes API call
       .then(responseData => {
         setData(responseData);
         setLoading(false);
