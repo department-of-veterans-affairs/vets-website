@@ -294,12 +294,20 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      if ((prescriptions, allergies)) {
+      if (prescriptions) {
         setPrescriptionsPdfList(buildPrescriptionPDFList());
+      }
+    },
+    [buildPrescriptionPDFList, prescriptions],
+  );
+
+  useEffect(
+    () => {
+      if (allergies) {
         setAllergiesPdfList(buildAllergiesPDFList());
       }
     },
-    [buildPrescriptionPDFList, buildAllergiesPDFList, prescriptions, allergies],
+    [buildAllergiesPDFList, allergies],
   );
 
   const pdfData = {
