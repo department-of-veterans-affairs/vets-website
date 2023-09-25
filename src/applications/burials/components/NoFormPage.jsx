@@ -319,7 +319,7 @@ export const NoFormPage = () => {
 
   return loggedIn ? (
     <div className="row vads-u-margin-bottom--4">
-      <h1>Review Burial Benefits Application</h1>
+      <h1>Review burial benefits application</h1>
       <p>VA Form 21P-530</p>
       {data?.metadata?.inProgressFormId ? (
         <>
@@ -331,14 +331,13 @@ export const NoFormPage = () => {
             <h2 id="track-your-status-on-mobile" slot="headline">
               This online form isn’t working right now
             </h2>
-            <div>
-              <p className="vads-u-margin-y--0">
-                You can apply by mail instead. Download a PDF Application for
-                Burial Benefits (VA Form 21P-530EZ). You can refer to your saved
-                information on this page to fill out the form.
-              </p>
-            </div>
-            <br />
+
+            <p>
+              You can apply by mail instead. Download a PDF Application for
+              Burial Benefits (VA Form 21P-530EZ). You can refer to your saved
+              information on this page to fill out the form.
+            </p>
+
             <va-link
               href="https://www.va.gov/burials-memorials/veterans-burial-allowance/"
               text="Learn more about how to apply for VA burial benefits"
@@ -441,7 +440,7 @@ export const NoFormPage = () => {
     </div>
   ) : (
     <div className="row vads-u-margin-bottom--4">
-      <h1>Review Burial Benefits Application</h1>
+      <h1>Review burial benefits application</h1>
       <p>VA Form 21P-530</p>
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <h2 id="track-your-status-on-mobile" slot="headline">
