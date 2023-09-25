@@ -25,6 +25,7 @@ export const Locators = {
   HEADER: 'h1',
   FOLDERS: '[data-testid ="my-folders-sidebar"]',
   FILTER_BTN: '[data-testid="filter-messages-button"]',
+  DRAFTS_BTN: '[data-testid="drafts-sidebar"]',
   DraftsPage: {
     SEND_BTN: '[data-testid="Send-Button"]',
   },
