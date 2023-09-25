@@ -57,39 +57,33 @@ export const NoFormPage = () => {
             </h2>
             <div>
               <p className="vads-u-margin-y--0">
-                You can still refer to the information here to apply by mail.
+                You can apply by mail instead. Download a PDF Application for
+                Pension Benefits (VA Form 21P-527EZ). You can refer to your
+                saved information on this page to fill out the form.
               </p>
             </div>
             <br />
             <va-link
-              href="https://www.va.gov/pension/survivors-pension/"
-              text="Learn more about how to apply for VA pension benefits"
+              download
+              filetype="PDF"
+              href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf"
+              pages={8}
+              text="Download VA form 21P-527EZ"
             />
           </va-alert>
           <div>
             <div className="vads-u-padding-y--3">
-              <h2>Apply by mail</h2>
+              <h2>How to apply by mail</h2>
               <p>
-                Fill out an Application for Veterans Pension (VA Form
-                21P-527EZ).
-              </p>
-              <va-link
-                download
-                filetype="PDF"
-                href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf"
-                pages={8}
-                text="Download VA form 21P-527EZ"
-              />
-              <p>
-                We’ve captured your intent to file date of
+                We’ve recorded the potential start date of your benefits as
                 <strong>
                   {' '}
                   {format(getUnixTime(data?.metadata.createdAt), 'MM/dd/yyyy')}
                 </strong>
-                . You have 12 months from that date to submit a claim.
+                . You have 12 months from this date to submit a claim.
               </p>
               <p className="vads-u-margin-bottom--4">
-                Mail your pension form to the pension management center:
+                Mail your completed form to the pension management center:
               </p>
               <p className="va-address-block">
                 Department of Veterans Affairs <br />
@@ -168,7 +162,7 @@ export const NoFormPage = () => {
             </h2>
             <br />
             <va-link
-              href="https://www.va.gov/pension/survivors-pension/"
+              href="/pension/survivors-pension/"
               text="Learn more about how to apply for VA pension benefits"
             />
           </va-alert>
@@ -194,7 +188,7 @@ export const NoFormPage = () => {
         </h2>
         <br />
         <va-link
-          href="https://www.va.gov/pension/survivors-pension/"
+          href="/pension/survivors-pension/"
           text="Learn more about how to apply for VA pension benefits"
         />
       </va-alert>

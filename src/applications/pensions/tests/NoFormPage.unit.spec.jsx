@@ -119,7 +119,7 @@ describe('NoFormPage', () => {
     );
     await waitFor(() => {
       expect($('h1', container).textContent).to.eql(
-        'Review Pension Benefits Application',
+        'Review pension benefits application',
       );
     });
   });

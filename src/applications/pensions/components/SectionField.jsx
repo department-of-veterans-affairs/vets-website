@@ -151,7 +151,7 @@ export function MilitaryHistory({ title, id, formData }) {
             : 'No'}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
-          Have you received any type of severance or separation pay
+          Have you received any type of severance or separation pay?
         </p>
         <p className="vads-u-margin-top--0" style={{ whiteSpace: 'pre-wrap' }}>
           {formData.severancePay
@@ -407,7 +407,7 @@ export function FinancialDisclosure({ title, id, formData }) {
 
         <h3 className="vads-u-font-size--h4">{veteranName} expected income</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
-          Do you have any medical,legal or other unreimbursed
+          Do you have any medical, legal or other unreimbursed expenses?
         </p>
         {formData?.otherExpenses?.length > 0
           ? formData?.otherExpenses?.map((item, index) => {
