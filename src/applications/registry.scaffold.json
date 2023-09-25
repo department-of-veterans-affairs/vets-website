@@ -126,5 +126,10 @@
     "appName": "Burial Widget",
     "widgetType": "burial-how-do-i-apply-widget",
     "rootUrl": "/burial-how-do-i-apply-widget"
+  },
+  {
+    "appName": "Pension Widget",
+    "widgetType": "pension-how-do-i-apply-widget",
+    "rootUrl": "/pension-how-do-i-apply-widget"
   }
 ]

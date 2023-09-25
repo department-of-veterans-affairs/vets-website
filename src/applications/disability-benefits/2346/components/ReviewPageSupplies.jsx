@@ -51,10 +51,10 @@ const ReviewPageSupplies = ({
               key={`${product.productId}_${index}`}
               className="vads-u-background-color--gray-light-alt vads-u-width--full vads-u-padding--4 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1p5"
             >
-              <h3 className="vads-u-font-size--h4 vads-u-margin-top--0">
+              <h3 className="vads-u-font-size--h4 vads-u-margin-top--0 dd-privacy-mask">
                 {product.deviceName}
               </h3>
-              <span>
+              <span className="dd-privacy-mask">
                 {product.productName} batteries (Quantity: {product.quantity})
               </span>
             </dd>
@@ -99,7 +99,7 @@ const ReviewPageSupplies = ({
                 key={`${product.productId}_${index}`}
                 className="vads-u-background-color--gray-light-alt vads-u-width--full vads-u-padding--4 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1p5"
               >
-                <h3 className="vads-u-font-size--h4 vads-u-margin-top--0">
+                <h3 className="vads-u-font-size--h4 vads-u-margin-top-- dd-privacy-mask">
                   {product.productName}
                 </h3>
                 <span>Quantity: {product.quantity}</span>
@@ -112,7 +112,7 @@ const ReviewPageSupplies = ({
         <span className="vads-u-font-weight--bold">
           You have requested to receive the following CPAP supplies:
         </span>
-        <span>
+        <span className="dd-privacy-mask">
           ({selectedApneaProductInfo?.length} out of {apneaSupplies?.length}{' '}
           selected)
         </span>
@@ -148,7 +148,7 @@ const ReviewPageSupplies = ({
                 key={`${product.productId}_${index}`}
                 className="vads-u-background-color--gray-light-alt vads-u-width--full vads-u-padding--4 vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1p5"
               >
-                <h3 className="vads-u-font-size--h4 vads-u-margin-top--0">
+                <h3 className="vads-u-font-size--h4 vads-u-margin-top--0 dd-privacy-mask">
                   {product.productName}
                 </h3>
                 <span>Quantity: {product.quantity}</span>

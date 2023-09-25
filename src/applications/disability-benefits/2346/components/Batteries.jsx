@@ -111,15 +111,15 @@ class Batteries extends Component {
               key={batterySupply.productId}
               className={classnames({
                 'vads-u-background-color--gray-lightest vads-u-margin-bottom--2 vads-u-margin-top--3': true,
-                'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21': isBatterySelected(
+                'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21 dd-privacy-mask': isBatterySelected(
                   batterySupply.productId,
                 ),
-                'vads-u-padding--3': !isBatterySelected(
+                'vads-u-padding--3 dd-privacy-mask': !isBatterySelected(
                   batterySupply.productId,
                 ),
               })}
             >
-              <h4 className="vads-u-margin-top--0">
+              <h4 className="vads-u-margin-top--0 dd-privacy-mask">
                 {batterySupply.deviceName}
               </h4>
               <p>
@@ -129,7 +129,9 @@ class Batteries extends Component {
               <div className="vads-u-border-left--10px vads-u-border-color--primary-alt vads-u-margin-bottom--2">
                 <div className="usa-alert-body vads-u-padding-left--1">
                   <p className="vads-u-margin--1px vads-u-margin-y--1">
-                    <span className="vads-u-font-weight--bold">Battery: </span>
+                    <span className="vads-u-font-weight--bold dd-privacy-mask">
+                      Battery:{' '}
+                    </span>
                     {batterySupply.productName}
                   </p>
                   <p className="vads-u-margin--1px vads-u-margin-y--1">

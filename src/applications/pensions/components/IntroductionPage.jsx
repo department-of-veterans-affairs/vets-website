@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
@@ -9,9 +8,11 @@ class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
+
   goForward = () => {
     this.props.router.push(this.props.route.pageList[1].path);
   };
+
   render() {
     return (
       <div className="schemaform-intro">
@@ -160,7 +161,11 @@ class IntroductionPage extends React.Component {
           Please complete the 21-527EZ form to apply for pension benefits.
         </SaveInProgressIntro>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={25} ombNumber="2900-0002" expDate="04/30/2019" />
+          <va-omb-info
+            res-burden={25}
+            omb-number="2900-0002"
+            exp-date="04/30/2019"
+          />
         </div>
       </div>
     );

@@ -13,20 +13,14 @@ const FillRefillButton = rx => {
     error,
     prescriptionId,
     refillRemaining,
-    refillStatus,
+    dispStatus,
     success,
-    isRefillable,
   } = rx;
 
   if (
-    !isRefillable ||
-    refillStatus === 'expired' ||
-    refillStatus === 'refillinprocess' ||
-    refillRemaining === 0
+    (dispStatus === 'Active' && refillRemaining !== 0) ||
+    dispStatus === 'Active: Parked'
   ) {
-    return null;
-  }
-  if (refillStatus === 'active' || refillStatus === 'activeParked') {
     return (
       <div>
         {success && (
@@ -74,9 +68,8 @@ FillRefillButton.propTypes = {
     error: PropTypes.object,
     prescriptionId: PropTypes.number,
     refillRemaining: PropTypes.number,
-    refillStatus: PropTypes.string,
     success: PropTypes.bool,
-    isRefillable: PropTypes.bool,
+    dispStatus: PropTypes.string,
   }),
 };
 
