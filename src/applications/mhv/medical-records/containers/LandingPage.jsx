@@ -12,16 +12,19 @@ const LandingPage = () => {
   const dispatch = useDispatch();
   const fullState = useSelector(state => state);
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([], {
-        url: '/my-health/medical-records',
-        label: 'Medical records',
-      }),
-    );
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([], {
+          url: '/my-health/medical-records',
+          label: 'Medical records',
+        }),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   return (
     <>
