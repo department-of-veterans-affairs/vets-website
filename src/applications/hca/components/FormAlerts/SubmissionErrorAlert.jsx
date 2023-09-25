@@ -9,7 +9,7 @@ const SubmissionErrorAlert = () => {
 
   return (
     <div className="hca-error-message vads-u-margin-bottom--4">
-      <va-alert status="error">
+      <va-alert status="error" uswds>
         <h3 slot="headline">We didn’t receive your online application</h3>
         <p>
           We’re sorry. Something went wrong when you tried to submit your

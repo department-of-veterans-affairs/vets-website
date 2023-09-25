@@ -5,20 +5,29 @@ import recordEvent from 'platform/monitoring/record-event';
 
 /** Global */
 export const DowntimeWarning = () => (
-  <va-alert status="warning">
+  <va-alert status="warning" uswds>
     <h2 slot="headline">The health care application is down for maintenance</h2>
     <p>
       We’re sorry. The health care application is currently down while we fix a
       few things. We’ll be back up as soon as we can.
     </p>
     <p>
-      In the meantime, you can call{' '}
+      <strong>
+        If you’re trying to apply by the September 30th special enrollment
+        deadline for certain combat Veterans
+      </strong>
+      , you can also apply in other ways. Call us at{' '}
       <va-telephone contact={CONTACTS['222_VETS']} />, Monday through Friday,
-      8:00 a.m. to 8:00 p.m. (
+      8:00 a.m. to 8:00 p.m.{' '}
       <dfn>
         <abbr title="Eastern Time">ET</abbr>
       </dfn>
-      ) and press 2 to complete this application over the phone.
+      . Mail us an application postmarked by September 30, 2023. Or bring your
+      application in person to your nearest VA health facility.{' '}
+      <a href="/health-care/how-to-apply/">
+        Learn more about how to apply by phone, mail, or in person
+      </a>
+      .
     </p>
   </va-alert>
 );
@@ -55,7 +64,7 @@ export const PerformanceWarning = () => (
 );
 
 export const ServerErrorAlert = () => (
-  <va-alert status="error">
+  <va-alert status="error" uswds>
     <h2 slot="headline">Something went wrong on our end</h2>
     <p>We’re sorry. Something went wrong on our end. Please try again.</p>
     <p>
@@ -103,7 +112,7 @@ export const ShortFormAlert = () => (
 
 /** CHAPTER 1: Veteran Information */
 export const IdentityVerificationAlert = () => (
-  <va-alert status="continue" data-testid="hca-identity-alert">
+  <va-alert status="continue" data-testid="hca-identity-alert" uswds>
     <h4 slot="headline">
       Please verify your identity before applying for VA health care
     </h4>
