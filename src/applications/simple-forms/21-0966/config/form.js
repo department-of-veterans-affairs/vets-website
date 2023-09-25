@@ -2,6 +2,7 @@ import footerContent from 'platform/forms/components/FormFooter';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import manifest from '../manifest.json';
 
+import transformForSubmit from '../../shared/config/submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
@@ -39,11 +40,28 @@ const formConfig = {
   // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   submit: () =>
     Promise.resolve({
-      attributes: {
-        confirmationNumber: '123123123',
-        veteranStatus: 'confirmed',
+      confirmationNumber: '123123123',
+      veteranStatus: 'confirmed',
+      compensationIntent: {
+        creationDate: '2023-09-22T19:15:21.000-05:00',
+        expirationDate: '2024-09-22T19:15:20.000-05:00',
+        type: 'compensation',
+        status: 'active',
       },
+      // pensionIntent: {
+      //   creationDate: '2021-03-16T19:15:21.000-05:00',
+      //   expirationDate: '2022-03-16T19:15:20.000-05:00',
+      //   type: 'pension',
+      //   status: 'active',
+      // },
+      // survivorIntent: {
+      //   creationDate: '2021-03-16T19:15:21.000-05:00',
+      //   expirationDate: '2022-03-16T19:15:20.000-05:00',
+      //   type: 'survivor',
+      //   status: 'active',
+      // },
     }),
+  transformForSubmit,
   trackingPrefix: '21-0966-intent-to-file-a-claim-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -53,10 +71,7 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData =>
-        preparerIsVeteran({ formData })
-          ? 'veteranFullName'
-          : 'preparerFullName',
+      fullNamePath: 'preparerFullName',
     },
   },
   formId: '21-0966',
