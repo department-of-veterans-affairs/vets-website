@@ -156,6 +156,11 @@
           "name": {
             "first": "Grant",
             "last": "Smith"
+          },
+          "cemeteryNumber": {
+            "label": "MASSACHUSETTS NATIONAL CEMETERY",
+            "id": "818",
+            "widget": "autosuggest"
           }
         }
       ]
