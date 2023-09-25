@@ -20,7 +20,7 @@ export default {
       },
       errorMessages: {
         required:
-          'Please select whether this is your first time requesting a certificate',
+          'Please answer if this is your first Presidential Memorial Certificate request or not',
       },
     }),
   },

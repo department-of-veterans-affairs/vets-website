@@ -16,7 +16,8 @@ export default {
         N: 'No, these are the only certificates I’m requesting',
       },
       errorMessages: {
-        required: 'Please select whether you’d like additional certificates',
+        required:
+          'Please answer if you would like us to send additional certificates to a different address',
       },
     }),
   },
