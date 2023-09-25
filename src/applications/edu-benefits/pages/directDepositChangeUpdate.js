@@ -48,7 +48,8 @@ const directDepositDescription = (
     <p>
       Direct deposit information is not mandatory at this time. However,
       benefits cannot be awarded without this information per U.S. Treasury
-      regulation 31 C.F.R. § 208.3.
+      regulation 31 C.F.R. § 208.3. For assistance call 1-888-442-4551
+      (1-888-GIBILL-1)
     </p>
     <img
       src="/img/direct-deposit-check-guide.svg"
@@ -72,34 +73,24 @@ export default function createDirectDepositChangePage(schema) {
           labels: bankAccountChangeLabelsUpdate,
         },
       },
-      bankAccount: merge({}, bankAccountUI, {
-        'ui:options': {
-          hideIf: formData => !isStartUpdate(formData),
-          expandUnder: 'bankAccountChangeUpdate',
-        },
-        accountType: {
-          'ui:required': isStartUpdate,
-        },
-        accountNumber: {
-          'ui:required': isStartUpdate,
-        },
-        routingNumber: {
-          'ui:required': isStartUpdate,
-        },
-      }),
       'view:directDepositImageAndText': {
         'ui:description': directDepositDescription,
         'ui:options': {
           hideIf: formData =>
             formData.bankAccountChangeUpdate !== 'startUpdate',
-          expandUnder: 'bankAccountChangeUpdate',
         },
       },
+      bankAccount: merge({}, bankAccountUI, {
+        'ui:options': {
+          hideIf: formData => !isStartUpdate(formData),
+          expandUnder: 'view:directDepositImageAndText',
+        },
+      }),
       'view:noneWarning': {
         'ui:description': bankInfoHelpText,
         'ui:options': {
           hideIf: formData => formData.bankAccountChangeUpdate !== 'none',
-          expandUnder: 'bankAccountChangeUpdate',
+          expandUnder: 'view:directDepositImageAndText',
         },
       },
     },
@@ -107,11 +98,11 @@ export default function createDirectDepositChangePage(schema) {
       type: 'object',
       properties: {
         bankAccountChangeUpdate,
-        bankAccount,
         'view:directDepositImageAndText': {
           type: 'object',
           properties: {},
         },
+        bankAccount,
         'view:noneWarning': {
           type: 'object',
           properties: {},
