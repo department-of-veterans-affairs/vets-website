@@ -148,15 +148,12 @@ function fillBenefitSelection(
 
   // Page 2
   if (currentlyBuriedPersons.length) {
-    currentlyBuriedPersons.forEach((person, index) => {
-      cy.fillName(
-        `root_application_currentlyBuriedPersons_${index}_name`,
-        person.name,
-      );
-      if (index < currentlyBuriedPersons.length - 1) {
-        cy.get('.usa-button-secondary.va-growable-add-btn').click();
-      }
-    });
+    cy.get(
+      `input[name='root_application_currentlyBuriedPersons_0_name_first']`,
+    ).type('test');
+    cy.get(
+      `input[name='root_application_currentlyBuriedPersons_0_name_last']`,
+    ).type('test');
   }
   cy.axeCheck();
   clickContinue();
@@ -179,11 +176,13 @@ function fillPreparerInfo(preparer) {
     'root_application_applicant_applicantRelationshipToClaimant',
     preparer.applicantRelationshipToClaimant,
   );
+  cy.axeCheck();
+  clickContinue();
   if (preparer.applicantRelationshipToClaimant === 'Authorized Agent/Rep') {
-    cy.fillName(
-      'root_application_applicant_view:applicantInfo_name',
-      preparer['view:applicantInfo'].name,
-    );
+    cy.get(`input[name="root_application_applicant_name_first"]`).type('test');
+    cy.get(`input[name="root_application_applicant_name_last"]`).type('test');
+    cy.axeCheck();
+    clickContinue();
     cy.fillAddress(
       'root_application_applicant_view\\:applicantInfo_mailingAddress',
       preparer['view:applicantInfo'].mailingAddress,
