@@ -10,7 +10,25 @@ const GetHelp = () => (
       <va-telephone contact={CONTACTS['711']} tty />
       ). We’re here 24/7.
     </p>
-    <p>
+    <p className="help-talk">
+      <strong>
+        If you’re trying to apply by the September 30th special enrollment
+        deadline for certain combat Veterans
+      </strong>
+      , you can also apply in other ways. Call us at{' '}
+      <va-telephone contact={CONTACTS['222_VETS']} />, Monday through Friday,
+      8:00 a.m. to 8:00 p.m.{' '}
+      <dfn>
+        <abbr title="Eastern Time">ET</abbr>
+      </dfn>
+      . Mail us an application postmarked by September 30, 2023. Or bring your
+      application in person to your nearest VA health facility.{' '}
+      <a href="/health-care/how-to-apply/">
+        Learn more about how to apply by phone, mail, or in person
+      </a>
+      .
+    </p>
+    <p className="help-talk">
       <strong>
         If you need help to gather your information or fill out your
         application,{' '}
