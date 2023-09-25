@@ -1,3 +1,4 @@
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import React, { useMemo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
@@ -17,6 +18,18 @@ import {
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
+export function cardActionMiddleware(next, card) {
+  // Track decision letter downloads
+  if (card.cardAction.value.includes('/v0/claim_letters/')) {
+    recordEvent({
+      event: 'file_download',
+      'button-click-label': 'Decision Letter',
+      time: new Date(Date.now()),
+    });
+  }
+  next(card);
+}
+
 const WebChat = ({ token, WebChatFramework, apiSession }) => {
   const { ReactWebChat, createDirectLine, createStore } = WebChatFramework;
   const csrfToken = localStorage.getItem('csrfToken');
@@ -25,6 +38,17 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   );
   const userUuid = useSelector(state => state.user.profile.accountUuid);
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
+  const { virtualAgentDecisionLetterDownloadTracking } = useSelector(
+    state => {
+      return {
+        virtualAgentDecisionLetterDownloadTracking:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.virtualAgentDecisionLetterDownloadTracking
+          ],
+      };
+    },
+    state => state.featureToggles,
+  );
 
   const store = useMemo(
     () =>
@@ -201,6 +225,21 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       sendBox.setAttribute('aria-label', 'Type your message');
       sendBox.setAttribute('placeholder', 'Type your message');
     }
+  }
+  if (virtualAgentDecisionLetterDownloadTracking) {
+    return (
+      <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
+        <ReactWebChat
+          cardActionMiddleware={() => next => card =>
+            cardActionMiddleware(next, card)}
+          styleOptions={styleOptions}
+          directLine={directLine}
+          store={store}
+          renderMarkdown={renderMarkdown}
+          onTelemetry={handleTelemetry}
+        />
+      </div>
+    );
   }
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
