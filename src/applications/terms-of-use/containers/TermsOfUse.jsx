@@ -143,9 +143,9 @@ export default function TermsOfUse() {
               What will happen if you decline
             </h3>
             <p>
-              If you decline these terms, we'll automatically sign you out and
-              take you back to the VA.gov homepage. And you won't be able to
-              sign in to use some VA online services, like:
+              If you decline these terms, we’ll sign you out and take you back
+              to the VA.gov homepage. And you won’t be able to sign in to use
+              some VA online services, like:
             </p>
             <ul>
               <li>VA.gov</li>
@@ -174,13 +174,13 @@ export default function TermsOfUse() {
                   data-testid="accept"
                   text="Accept"
                   onClick={() => handleTouClick('accept')}
-                  ariaLabel="I Accept to VA online services terms of use"
+                  ariaLabel="I accept the VA online services terms of use"
                 />
                 <va-button
                   data-testid="decline"
                   text="Decline"
                   secondary
-                  ariaLabel="I Decline to VA online services terms of use"
+                  ariaLabel="I decline the VA online services terms of use"
                   onClick={() => setShowDeclineModal(true)}
                 />
               </>
@@ -193,7 +193,7 @@ export default function TermsOfUse() {
         status="warning"
         clickToClose
         onCloseEvent={() => setShowDeclineModal(false)}
-        modalTitle="Are you sure you want to decline the terms of use?"
+        modalTitle="Decline the terms of use and sign out?"
         onPrimaryButtonClick={() => handleTouClick('decline')}
         onSecondaryButtonClick={() => setShowDeclineModal(false)}
         primaryButtonText="Decline and sign out"
