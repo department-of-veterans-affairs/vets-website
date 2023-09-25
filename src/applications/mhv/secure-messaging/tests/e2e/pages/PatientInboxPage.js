@@ -41,13 +41,13 @@ class PatientInboxPage {
 
   loadInboxMessages = (
     inboxMessages = mockMessages,
-    // detailedMessage = mockSpecialCharsMessage,
+    detailedMessage = mockSpecialCharsMessage,
     recipients = mockRecipients,
     getFoldersStatus = 200,
   ) => {
     this.mockInboxMessages = inboxMessages;
     this.mockRecipients = recipients;
-    // this.setInboxTestMessageDetails(detailedMessage);
+    this.setInboxTestMessageDetails(detailedMessage);
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
