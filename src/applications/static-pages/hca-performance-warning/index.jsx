@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
 export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
@@ -8,6 +9,8 @@ export default (store, widgetType) => {
     import(/* webpackChunkName: "hca-performance-warning" */
     './components/App').then(module => {
       const App = module.default;
+      connectFeatureToggle(store.dispatch);
+
       ReactDOM.render(
         <Provider store={store}>
           <App />
