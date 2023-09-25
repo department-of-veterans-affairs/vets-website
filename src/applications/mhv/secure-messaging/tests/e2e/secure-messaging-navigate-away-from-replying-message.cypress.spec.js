@@ -31,7 +31,7 @@ describe('verify signature', () => {
       mockSingleMessage,
     ).as('singleThread');
 
-    cy.get('[data-testid="thread-list-item"]')
+    cy.get(Locators.THREADS)
       .first()
       .find(`#message-link-${mockMessageDetails.data[0].attributes.messageId}`)
       .click();
@@ -40,7 +40,13 @@ describe('verify signature', () => {
       waitForAnimations: true,
     });
     cy.get(Locators.BUTTONS.CONTINUE).click();
-    landingPage.verifySignature();
+    cy.get('#textarea').type('testMessageBody', {
+      waitForAnimations: true,
+      force: true,
+    });
+    cy.get(Locators.FOLDERS.INBOX).click();
+
+    cy.get(Locators.HEADER).should('have.text', 'Inbox');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
