@@ -23,10 +23,68 @@ export const DowntimeWarning = () => (
   </va-alert>
 );
 
+export const PerformanceWarning = () => (
+  <va-alert status="warning" class="vads-u-margin-bottom--4" uswds>
+    <h3 slot="headline">This application may not be working right now</h3>
+    <div>
+      <p className="vads-u-margin-top--0">
+        You may have trouble using this application at this time. We’re working
+        to fix the problem. If you have trouble, you can try again or check back
+        later.
+      </p>
+      <p>
+        <strong>
+          If you’re trying to apply by the September 30th special enrollment
+          deadline for certain combat Veterans
+        </strong>
+        , you can also apply in other ways. Call us at{' '}
+        <va-telephone contact={CONTACTS['222_VETS']} />, Monday through Friday,
+        8:00 a.m. to 8:00 p.m.{' '}
+        <dfn>
+          <abbr title="Eastern Time">ET</abbr>
+        </dfn>
+        . Mail us an application postmarked by September 30, 2023. Or bring your
+        application in person to your nearest VA health facility.{' '}
+        <a href="/health-care/how-to-apply/">
+          Learn more about how to apply by phone, mail, or in person
+        </a>
+        .
+      </p>
+    </div>
+  </va-alert>
+);
+
 export const ServerErrorAlert = () => (
   <va-alert status="error">
     <h2 slot="headline">Something went wrong on our end</h2>
-    <p>We’re sorry. Something went wrong on our end. Please try again</p>
+    <p>We’re sorry. Something went wrong on our end. Please try again.</p>
+    <p>
+      <strong>
+        If you’re trying to apply by the September 30th special enrollment
+        deadline for certain combat Veterans
+      </strong>
+      , you can also apply in other ways:
+    </p>
+    <ul>
+      <li>
+        Call us at <va-telephone contact={CONTACTS['222_VETS']} />, Monday
+        through Friday, 8:00 a.m. to 8:00 p.m.{' '}
+        <dfn>
+          <abbr title="Eastern Time">ET</abbr>
+        </dfn>
+        .
+      </li>
+      <li>Mail us an application postmarked by September 30, 2023.</li>
+      <li>
+        Or bring your application in person to your nearest VA health facility.
+      </li>
+    </ul>
+    <p>
+      <a href="/health-care/how-to-apply/">
+        Learn more about how to apply by phone, mail, or in person
+      </a>
+      .
+    </p>
   </va-alert>
 );
 
