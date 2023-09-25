@@ -1,5 +1,4 @@
 import React from 'react';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import PropTypes from 'prop-types';
 
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -115,7 +114,11 @@ class IntroductionPage extends React.Component {
           downtime={route.formConfig.downtime}
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={15} ombNumber="2900-0003" expDate="04/30/2020" />
+          <va-omb-info
+            res-burden={15}
+            omb-number="2900-0003"
+            exp-date="04/30/2020"
+          />
         </div>
       </div>
     );

@@ -12,16 +12,19 @@ const LandingPage = () => {
   const dispatch = useDispatch();
   const fullState = useSelector(state => state);
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([], {
-        url: '/my-health/medical-records',
-        label: 'Medical records',
-      }),
-    );
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([], {
+          url: '/my-health/medical-records',
+          label: 'Medical records',
+        }),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   return (
     <>
@@ -60,12 +63,19 @@ const LandingPage = () => {
               </h2>
               <p className="vads-u-margin-bottom--2">
                 Right now, only your allergy records are available here on
-                VA.gov. Soon, you’ll be able to find all your medical records on
-                this page.
+                VA.gov. Soon, you’ll be able to find these types of medical
+                records on this page:
               </p>
+              <ul>
+                <li>Lab and test results</li>
+                <li>Care summaries and notes</li>
+                <li>Vaccines</li>
+                <li>Health conditions</li>
+                <li>Vitals</li>
+              </ul>
               <p className="vads-u-margin-bottom--2">
-                To find your other medical records now, you’ll need to go back
-                to the My HealtheVet website.
+                To find your other medical records now, you’ll need to go to
+                your medical records on the My HealtheVet website.
               </p>
               <p className="vads-u-margin-bottom--2">
                 <a
@@ -75,20 +85,9 @@ const LandingPage = () => {
                   )}
                   rel="noreferrer"
                 >
-                  Go back to medical records on the My HealtheVet website
+                  Go to medical records on the My HealtheVet website
                 </a>
               </p>
-              <p className="vads-u-margin-bottom--2">
-                You can find these types of medical records on the My HealtheVet
-                website:
-              </p>
-              <ul>
-                <li>Lab and test results</li>
-                <li>Care summaries and notes</li>
-                <li>Vaccines</li>
-                <li>Health conditions</li>
-                <li>Vitals</li>
-              </ul>
             </section>
             <section>
               <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -266,13 +265,13 @@ const LandingPage = () => {
                   </p>
                   <p className="vads-u-margin-bottom--2">
                     To find health information you entered yourself, go to your
-                    VA Blue Button® report on the My HealtheVet website.
+                    VA Blue Button&reg; report on the My HealtheVet website.
                   </p>
                   <p className="vads-u-margin-bottom--2">
                     <a
                       href={mhvUrl(
                         isAuthenticatedWithSSOe(fullState),
-                        'download-my-data',
+                        'va-blue-button',
                       )}
                       rel="noreferrer"
                     >
@@ -288,7 +287,8 @@ const LandingPage = () => {
 
                   <p className="vads-u-margin-bottom--2">
                     If you need to add or change health information in your
-                    records, tell your provider at your next appointment.
+                    records, you can tell your provider at your next
+                    appointment.
                   </p>
                   <p className="vads-u-margin-bottom--2">
                     Or you can send a secure message to your care team and ask
@@ -319,7 +319,7 @@ const LandingPage = () => {
                     If you print or download any records, you’ll need to take
                     responsibility for protecting that information. If you’re on
                     a public or shared computer, remember that downloading will
-                    save a copy of your records to that computer.
+                    save a copy of your records to the computer you’re using.
                   </p>
                 </va-accordion-item>
                 <va-accordion-item>
@@ -338,10 +338,10 @@ const LandingPage = () => {
                     <a
                       href={mhvUrl(
                         isAuthenticatedWithSSOe(fullState),
-                        'secure-messaging',
+                        'compose-message',
                       )}
                     >
-                      Compose a message
+                      Compose a message on the My HealtheVet website
                     </a>
                   </p>
                   <p className="vads-u-margin-bottom--2">
@@ -363,13 +363,13 @@ const LandingPage = () => {
                       </span>{' '}
                       connect with our Veterans Crisis Line. We offer
                       confidential support anytime, day or night.
-                      <p className="vads-u-margin-bottom--2">
+                      <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
                         <va-button
                           secondary="true"
                           text="Connect with the Veterans Crisis Line"
                           onClick={openCrisisModal}
                         />
-                      </p>
+                      </div>
                     </li>
                     <li>
                       <span className="vads-u-font-weight--bold">
@@ -493,11 +493,11 @@ const LandingPage = () => {
                 <a
                   href={mhvUrl(
                     isAuthenticatedWithSSOe(fullState),
-                    'secure-messaging',
+                    'compose-message',
                   )}
                   rel="noreferrer"
                 >
-                  Compose a message
+                  Compose a message on the My HealtheVet website
                 </a>
               </p>
               <p>

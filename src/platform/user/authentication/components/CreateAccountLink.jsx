@@ -19,6 +19,7 @@ export default function CreateAccountLink({
   policy,
   useOAuth = false,
   children,
+  externalApplication,
 }) {
   const [href, setHref] = useState('');
 
@@ -30,12 +31,13 @@ export default function CreateAccountLink({
           isLink: true,
           allowVerification: false,
           useOAuth,
+          config: externalApplication,
         });
         setHref(url);
       }
       generateURL();
     },
-    [policy, useOAuth],
+    [policy, useOAuth, externalApplication],
   );
 
   return (
@@ -53,6 +55,7 @@ export default function CreateAccountLink({
 
 CreateAccountLink.propTypes = {
   children: PropTypes.node,
+  externalApplication: PropTypes.string,
   policy: PropTypes.string,
   useOAuth: PropTypes.bool,
 };
