@@ -6,13 +6,13 @@ const StatusDropdown = props => {
 
   const content = () => {
     switch (status) {
-      case 'active': {
+      case 'Active': {
         return (
           <>
             <div data-testid="status">Active</div>
             <div className="no-print">
               <va-additional-info trigger="What does this status mean?">
-                <p>
+                <p className="vads-u-padding-bottom--1">
                   This is a current prescription. If you have refills left, you
                   can request a refill now.
                 </p>
@@ -36,29 +36,33 @@ const StatusDropdown = props => {
           </>
         );
       }
-      case 'activeParked': {
+      case 'Active: Parked': {
         return (
           <>
             <div data-testid="status">Active: Parked</div>
             <div className="no-print">
               <va-additional-info trigger="What does this status mean?">
-                <p>
+                <p className="vads-u-padding-bottom--1">
                   Your VA provider prescribed this medication or supply to you.
                   But we won’t send any shipments until you request to fill or
                   refill it.
                 </p>
-                <p>We may use this status for either of these reasons.</p>
-                <ul>
-                  <li>
+                <p className="vads-u-padding-bottom--1">
+                  We may use this status for either of these reasons:
+                </p>
+                <ul className="vads-u-padding-bottom--1">
+                  <li className="vads-u-margin-bottom--0">
                     We’re not sure when you’ll need to fill this prescription,{' '}
                     <strong>or</strong>
                   </li>
-                  <li>
+                  <li className="vads-u-margin-bottom--0">
                     You told us you have too much of this medication or supply
-                    If you need this prescription now, you can request to fill
-                    or refill it
                   </li>
                 </ul>
+                <p>
+                  If you need this prescription now, you can request to fill or
+                  refill it.
+                </p>
               </va-additional-info>
             </div>
             <div className="print-only vads-u-margin-top--2">
@@ -75,7 +79,7 @@ const StatusDropdown = props => {
           </>
         );
       }
-      case 'hold': {
+      case 'Active: On Hold': {
         return (
           <>
             <div data-testid="status">Active: On hold</div>
@@ -117,7 +121,7 @@ const StatusDropdown = props => {
           </>
         );
       }
-      case 'refillinprocess': {
+      case 'Active: Refill in Process': {
         return (
           <>
             <div data-testid="status">Active: Refill in process</div>
@@ -139,21 +143,20 @@ const StatusDropdown = props => {
           </>
         );
       }
-      case 'discontinued': {
+      case 'Discontinued': {
         return (
           <>
             <div data-testid="status">Discontinued</div>
             <div className="no-print">
               <va-additional-info trigger="What does this status mean?">
-                <p>
+                <p className="vads-u-padding-bottom--1">
                   You can’t refill this prescription. We may use this status for
                   either of these reasons:
                 </p>
-                <ul>
-                  <li>
+                <ul className="vads-u-padding-bottom--1">
+                  <li className="vads-u-margin-bottom--0">
                     Your provider stopped prescribing this medication or supply
-                    to you,
-                    <strong>or</strong>
+                    to you, <strong>or</strong>
                   </li>
                   <li>
                     You have a new prescription for the same medication or
@@ -190,7 +193,7 @@ const StatusDropdown = props => {
           </>
         );
       }
-      case 'submitted': {
+      case 'Active: Submitted': {
         return (
           <>
             <div data-testid="status">Active: Submitted</div>
@@ -218,21 +221,24 @@ const StatusDropdown = props => {
           </>
         );
       }
-      case 'expired': {
+      case 'Expired': {
         return (
           <>
             <div data-testid="status">Expired</div>
             <div className="no-print">
               <va-additional-info trigger="What does this status mean?">
-                <p>
+                <p className="vads-u-padding-bottom--1">
                   This prescription is too old to refill.
-                  <br />
-                  An expired prescription doesn’t mean the medication itself is
-                  expired. Check the prescription label for the expiration date
-                  of the medication.
-                  <br />
-                  If you need more of this prescription, request a renewal.
                 </p>
+                <p>
+                  An expired prescription doesn’t mean the medication itself is
+                  expired.
+                </p>
+                <p className="vads-u-padding-bottom--1">
+                  Check the prescription label for the expiration date of the
+                  medication.
+                </p>
+                <p>If you need more of this prescription, request a renewal.</p>
               </va-additional-info>
             </div>
             <div className="print-only vads-u-margin-top--2">
@@ -250,7 +256,7 @@ const StatusDropdown = props => {
           </>
         );
       }
-      case 'transferred': {
+      case 'Transferred': {
         return (
           <>
             <div data-testid="status">Transferred</div>

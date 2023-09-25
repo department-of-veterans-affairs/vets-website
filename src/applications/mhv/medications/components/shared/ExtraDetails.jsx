@@ -4,7 +4,11 @@ import { dateFormat } from '../../util/helpers';
 import CallPharmacyPhone from './CallPharmacyPhone';
 
 const ExtraDetails = rx => {
-  const { dispStatus, cmopDivisionPhone } = rx;
+  const { dispStatus, cmopDivisionPhone, refillRemaining } = rx;
+  let noRefillRemaining = false;
+  if (refillRemaining === 0 && dispStatus === 'Active') {
+    noRefillRemaining = true;
+  }
   return (
     <div className="shipping-info">
       {dispStatus === 'Unknown' && (
@@ -20,11 +24,8 @@ const ExtraDetails = rx => {
         </div>
       )}
       {dispStatus === 'Active: Refill in Process' && (
-        <div>
-          <p
-            className="refillProcessIcon"
-            data-testid="rx-refillinprocess-info"
-          >
+        <div className="refillProcessIcon">
+          <p data-testid="rx-refillinprocess-info">
             Refill in process. We expect to fill it on{' '}
             {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
           </p>
@@ -87,6 +88,18 @@ const ExtraDetails = rx => {
           </p>
         </div>
       )}
+      {dispStatus === 'Active' &&
+        noRefillRemaining && (
+          <div className="no-print">
+            <p className="vads-u-margin-y--0">
+              You have no refills left. If you need more, request a renewal.
+            </p>
+            <va-link
+              href="/my-health/about-medications/accordion-renew-rx"
+              text="Learn how to renew prescriptions"
+            />
+          </div>
+        )}
     </div>
   );
 };
