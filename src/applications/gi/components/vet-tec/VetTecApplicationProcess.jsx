@@ -1,12 +1,9 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 class VetTecApplicationProcess extends React.Component {
   providersWebsiteLink = () => {
-    const programs = this.props.institution.programs;
+    const { programs } = this.props.institution;
 
     if (
       programs[0].providerWebsite === null ||
@@ -44,11 +41,7 @@ class VetTecApplicationProcess extends React.Component {
             Education Courses (VA Form 22-0994). If we approve your application,
             you’ll get a Certificate of Eligibility (COE) in the mail.
             <p>
-              <a
-                href={
-                  'https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994'
-                }
-              >
+              <a href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994">
                 Apply for VET TEC (VA Form 22-0994)
               </a>
             </p>
@@ -69,13 +62,10 @@ class VetTecApplicationProcess extends React.Component {
       <div>
         <ul>
           <li>
-            Call us at 888-GIBILL-1 (<a href="tel:+18884424551">888-442-4551</a>
+            Call us at 888-GIBILL-1 (<va-telephone contact={CONTACTS.GI_BILL} />
             ). We’re here Monday through Friday, 8:00a.m. to 7:00 p.m. ET. If
             you have hearing loss, call{' '}
-            <Telephone
-              contact={CONTACTS['711']}
-              pattern={PATTERNS['911']}
-            />, <b>or</b>
+            <va-telephone contact={CONTACTS['711']} tty />, <b>or</b>
           </li>
           <li>
             Email us at{' '}
@@ -88,11 +78,7 @@ class VetTecApplicationProcess extends React.Component {
 
   render() {
     return (
-      <div
-        className={
-          'columns vads-u-margin-top--1 vads-u-margin-x--neg1p5 medium-screen:vads-l-col--10 vet-tec-application-process'
-        }
-      >
+      <div className="columns vads-u-margin-top--1 vads-u-margin-x--neg1p5 medium-screen:vads-l-col--10 vet-tec-application-process">
         <h3 className="vads-u-font-size--h3 vads-u-margin-top--1p5 vads-u-margin-bottom--1p5">
           How do I apply for VET TEC?
         </h3>

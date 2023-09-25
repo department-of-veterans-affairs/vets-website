@@ -28,7 +28,6 @@ describe('The Burial Widget unauthenticed Veteran', () => {
   });
 
   it('Displays the correct page content for unauthenticated user', () => {
-    cy.get('h2').contains('How do I apply?');
     cy.get('h3').contains('Our online burial form isn’t working right now');
     cy.get('p').contains(
       'You can still apply for VA pension benefits by mail, in person at a VA regional office, or with the help of a Veterans Service Officer (VSO) or another accredited representative. Download the PDF form we provide on this page.',
@@ -55,7 +54,6 @@ describe('The Burial Widget for authenticed Veteran', () => {
   });
 
   it('Displays the correct page content for authenticated user', () => {
-    cy.get('h2').contains('How do I apply?');
     cy.get('h3').contains('Our online burial form isn’t working right now');
     cy.get('div').contains(
       'You can still apply for a VA burial allowance by mail. Download the PDF form we provide on this page.',

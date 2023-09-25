@@ -1,12 +1,15 @@
 import React from 'react';
 
 const CallPharmacyPhone = phone => {
+  const number = phone.cmopDivisionPhone
+    ? phone.cmopDivisionPhone.replace(/[^0-9]/g, '')
+    : null;
   return (
     <>
-      {phone ? (
+      {number ? (
         <>
           <span> at </span>
-          <va-telephone contact={phone} />
+          <va-telephone contact={number} />
           <span>
             (<va-telephone tty contact="711" />)
           </span>

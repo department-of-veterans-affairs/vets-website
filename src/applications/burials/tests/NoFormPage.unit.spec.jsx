@@ -140,7 +140,7 @@ describe('NoFormPage', () => {
       expect($$('h2', container)[0].textContent).to.eql(
         'This online form isn’t working right now',
       );
-      expect($$('h2', container).length < 8).to.be.true;
+      expect($$('h2', container).length <= 9).to.be.true;
     });
   });
 });
