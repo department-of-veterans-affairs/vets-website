@@ -7,7 +7,7 @@ import appendQuery from 'append-query';
 // eslint-disable-next-line deprecate/import
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 // eslint-disable-next-line deprecate/import
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { fetchMHVAccount } from 'platform/user/profile/actions';
 import { mhvAccessError } from '../../../static-data/error-messages';
@@ -282,7 +282,7 @@ export class MHVApp extends React.Component {
 
     if (loading) {
       return (
-        <LoadingIndicator setFocus message="Loading your information..." />
+        <va-loading-indicator setFocus message="Loading your information..." />
       );
     }
 
@@ -308,12 +308,14 @@ export class MHVApp extends React.Component {
 
     if (!this.hasService()) {
       if (accountState === 'needs_identity_verification') {
-        return <LoadingIndicator setFocus message="Redirecting to verify..." />;
+        return (
+          <va-loading-indicator setFocus message="Redirecting to verify..." />
+        );
       }
 
       if (accountState === 'needs_terms_acceptance') {
         return (
-          <LoadingIndicator
+          <va-loading-indicator
             setFocus
             message="Redirecting to terms and conditions..."
           />
