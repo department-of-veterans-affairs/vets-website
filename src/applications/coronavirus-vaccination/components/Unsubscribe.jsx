@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router';
 import { requestStates } from 'platform/utilities/constants';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
-import { unsubscribe } from '../api';
+// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { focusElement } from 'platform/utilities/ui';
+import { unsubscribe } from '../api';
 
 // Assumes URL is like /unsubscribe?sid={sid}
 function Unsubscribe({ router }) {
@@ -32,7 +31,7 @@ function Unsubscribe({ router }) {
     [subscriberId],
   );
 
-  let content = <LoadingIndicator message="Unsubscribing..." />;
+  let content = <va-loading-indicator message="Unsubscribing..." />;
 
   if (unsubscribeStatus === requestStates.failed) {
     content = (
