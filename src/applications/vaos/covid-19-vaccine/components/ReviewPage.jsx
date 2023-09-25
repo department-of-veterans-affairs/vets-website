@@ -14,12 +14,10 @@ import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
 import { confirmAppointment } from '../redux/actions';
 import AppointmentDate from '../../new-appointment/components/ReviewPage/AppointmentDate';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 const pageTitle = 'Review your appointment details';
 
-function handleClick(history, featureBreadcrumbUrlUpdate) {
-  const { contactInfo } = getNewBookingFlow(featureBreadcrumbUrlUpdate);
+function handleClick(history, contactInfo) {
   return () => {
     history.push(contactInfo.url);
   };
@@ -37,9 +35,7 @@ export default function ReviewPage() {
   const history = useHistory();
   const { date1, vaFacility } = data;
   const dispatch = useDispatch();
-  const featureBreadcrumbUrlUpdate = useSelector(
-    selectFeatureBreadcrumbUrlUpdate,
-  );
+  const { contactInfo } = useSelector(getNewBookingFlow);
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -106,7 +102,7 @@ export default function ReviewPage() {
             </div>
           </div>
           <va-link
-            onClick={() => handleClick(history, featureBreadcrumbUrlUpdate)}
+            onClick={handleClick(history, contactInfo)}
             aria-label="Edit contact information"
             text="Edit"
             data-testid="edit-contact-information-link"
