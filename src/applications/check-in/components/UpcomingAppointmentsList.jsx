@@ -35,7 +35,7 @@ const UpcomingAppointmentsList = props => {
 
   if (groupedAppointments.length < 1) {
     window.scrollTo(0, 0);
-    return <div>You have no upcoming appointments ¯\_(ツ)_/¯</div>;
+    return <div>You have no upcoming appointments</div>;
   }
   return (
     <>
