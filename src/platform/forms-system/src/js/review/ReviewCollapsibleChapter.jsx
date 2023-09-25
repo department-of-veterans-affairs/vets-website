@@ -208,7 +208,6 @@ class ReviewCollapsibleChapter extends React.Component {
             expandedPages,
             this.getChapterTitle(chapterFormConfig),
             this.getPageTitle(title),
-            // title,
           )}
           pagePerItemIndex={page.index}
           onBlur={this.props.onBlur}
