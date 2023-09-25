@@ -2,15 +2,19 @@ import React from 'react';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
 
 export function isActiveDuty(formData) {
-  let result = true;
-  const toursOfDuty = formData?.toursOfDuty;
-  toursOfDuty.map(data => {
-    if (data && data.dateRange && data?.dateRange?.to == null) {
-      result = true;
-    }
-    return data;
-  });
-  return result;
+  try {
+    let result = false;
+    const toursOfDuty = formData?.toursOfDuty || [];
+    toursOfDuty.map(data => {
+      if (data && data.dateRange && data?.dateRange?.to == null) {
+        result = true;
+      }
+      return data;
+    });
+    return result;
+  } catch (e) {
+    return false;
+  }
 }
 
 function PreSubmitNotice({
