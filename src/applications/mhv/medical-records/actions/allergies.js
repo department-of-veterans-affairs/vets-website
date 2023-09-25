@@ -20,3 +20,7 @@ export const getAllergyDetails = conditionId => async dispatch => {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
   }
 };
+
+export const clearAllergyDetails = () => async dispatch => {
+  dispatch({ type: Actions.Allergies.CLEAR_DETAIL });
+};

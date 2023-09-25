@@ -27,6 +27,12 @@ export function transform(formConfig, form) {
     if (clonedData.benefit === 'chapter33') {
       clonedData.benefit = 'chapter33Post911';
     }
+    if (clonedData.benefitUpdate === 'fryScholarship') {
+      clonedData.benefitUpdate = 'chapter33FryScholarship';
+    }
+    if (clonedData.benefitUpdate === 'chapter33') {
+      clonedData.benefitUpdate = 'chapter33Post911';
+    }
     return clonedData;
   };
 
