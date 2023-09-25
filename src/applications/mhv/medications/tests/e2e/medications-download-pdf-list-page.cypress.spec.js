@@ -21,7 +21,6 @@ describe('Medications Download PDF on List Page', () => {
     });
     listPage.clickGotoMedicationsLink();
 
-    listPage.clickPrintOrDownloadThisListDropDown();
     listPage.verifyDownloadListAsPDFButtonOnListPage();
   });
 });

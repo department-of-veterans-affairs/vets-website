@@ -19,16 +19,14 @@ const VaPrescription = prescription => {
       const refillStatus = prescription.refillStatus?.toString();
       return (
         <>
-          <div className="medication-details-div vads-u-margin-top--2 vads-u-margin-bottom--3">
+          <div className="medication-details-div vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--2 vads-u-margin-bottom--3">
             {shippedOn?.[0] && (
               <TrackingInfo
                 {...shippedOn[0]}
                 prescriptionName={prescription.prescriptionName}
               />
             )}
-            <h2 className="vads-u-margin-y--2 no-print">
-              About your prescription
-            </h2>
+            <h2 className="vads-u-margin-y--2">About your prescription</h2>
             <FillRefillButton {...prescription} />
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Status
@@ -41,7 +39,7 @@ const VaPrescription = prescription => {
               {validateField(prescription.refillRemaining)}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Order refills by this prescription expiration date
+              Request refills by this prescription expiration date
             </h3>
             <p data-testid="expiration-date">
               {validateField(prescription.expirationDate, 'date')}
@@ -89,7 +87,7 @@ const VaPrescription = prescription => {
             </div>
           </div>
 
-          <div className="medication-details-div vads-u-margin-y--3">
+          <div className="medication-details-div vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-y--3">
             <h2 className="vads-u-margin-top--3">
               About this medication or supply
             </h2>
@@ -110,42 +108,37 @@ const VaPrescription = prescription => {
             </h3>
             <p>
               Your medication may look different when you get a refill. Find the
-              most recent description and image in your refill history.
+              most recent image in your refill history.
             </p>
           </div>
 
-          <div className="medication-details-div">
+          <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter">
             <h2 className="vads-u-margin-top--3">Refill history</h2>
             {refillHistory.map((entry, i) => (
               <div
                 key={entry.id}
                 className={
-                  i + 1 < refillHistory.length ? 'vads-u-margin-bottom--3' : ''
+                  i + 1 < refillHistory.length
+                    ? 'vads-u-margin-bottom--3 refill-entry'
+                    : 'refill-entry'
                 }
               >
-                <h3 className="vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2">
+                <h3 className="vads-u-margin-y--2 vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2">
                   {i + 1 === refillHistory.length
-                    ? 'Original Fill'
+                    ? 'First fill'
                     : `Refill ${refillHistory.length - i - 1}`}
                 </h3>
                 <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
                   Filled by pharmacy on
                 </h4>
-                <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                <p className="vads-u-margin--0 vads-u-margin-bottom--1">
                   {validateField(entry.dispensedDate, 'date')}
                 </p>
                 <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
                   Shipped on
                 </h4>
-                <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                <p className="vads-u-margin--0 vads-u-margin-bottom--1">
                   {validateField(shippedOn?.[i]?.completeDateTime, 'date')}
-                </p>
-                <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
-                  Description of the medication or supply
-                </h4>
-                <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                  {/* TODO: Not yet available */}
-                  None noted
                 </p>
                 <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
                   Image of the medication or supply
@@ -155,14 +148,26 @@ const VaPrescription = prescription => {
                     {entry.cmopNdcNumber ? (
                       <img
                         src={getImageUri(entry.cmopNdcNumber)}
-                        alt="Not Available"
+                        alt={entry.prescriptionName}
                         width="350"
                         height="350"
                       />
                     ) : (
-                      <p>(Image not available)</p>
+                      <p>No Image Available</p>
                     )}
                   </va-additional-info>
+                </div>
+                <div className="print-only">
+                  {entry.cmopNdcNumber ? (
+                    <img
+                      src={getImageUri(entry.cmopNdcNumber)}
+                      alt={entry.prescriptionName}
+                      width="350"
+                      height="350"
+                    />
+                  ) : (
+                    <p className="vads-u-margin--0">Image not available</p>
+                  )}
                 </div>
               </div>
             ))}

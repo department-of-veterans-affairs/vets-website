@@ -129,11 +129,7 @@ export async function createOAuthRequest({
   // Build the authorization URL query params from config
   const oAuthParams = {
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(usedClientId),
-    [OAUTH_KEYS.ACR]:
-      acr ||
-      (passedOptions.isSignup
-        ? oAuthOptions.acrSignup[type]
-        : oAuthOptions.acr[type]),
+    [OAUTH_KEYS.ACR]: acr ?? oAuthOptions.acr[type],
     [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
     ...(isDefaultOAuth && { [OAUTH_KEYS.STATE]: state }),
     ...(passedQueryParams.gaClientId && {

@@ -121,32 +121,24 @@ describe('OAuth - Utilities', () => {
       });
     });
 
-    it('should generate the proper id.me signup url', async () => {
-      const csp = 'idme_signup';
-      const url = await oAuthUtils.createOAuthRequest({
-        type: csp,
-        passedOptions: {
-          isSignup: true,
-        },
+    ['idme_signup', 'logingov_signup'].forEach(csp => {
+      it(`should generate the proper signup url for ${csp}`, async () => {
+        const { oAuthOptions } = externalApplicationsConfig.default;
+        const acr = oAuthOptions.acrSignup[csp];
+        const url = await oAuthUtils.createOAuthRequest({
+          type: csp,
+          passedOptions: {
+            isSignup: true,
+          },
+          acr,
+        });
+        const expectedType = csp.slice(0, csp.indexOf('_'));
+        expect(url).to.include(`type=${expectedType}`);
+        expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
+        if (csp === 'idme_signup') {
+          expect(url).to.include(`operation=sign_up`);
+        }
       });
-      const { oAuthOptions } = externalApplicationsConfig.default;
-      expect(url).to.include(`type=idme`);
-      expect(url).to.include(`operation=sign_up`);
-      expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
-    });
-
-    it('should generate the proper login.gov signup url', async () => {
-      const csp = 'logingov_signup';
-      const url = await oAuthUtils.createOAuthRequest({
-        type: csp,
-        passedOptions: {
-          isSignup: true,
-        },
-      });
-      const { oAuthOptions } = externalApplicationsConfig.default;
-      const expectedType = csp.slice(0, csp.indexOf('_'));
-      expect(url).to.include(`type=${expectedType}`);
-      expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
     });
   });
 
@@ -418,7 +410,8 @@ describe('OAuth - Utilities', () => {
 
   describe('signupOrVerify (OAuth)', () => {
     ['idme', 'logingov'].forEach(policy => {
-      it(`should generate the default URL for signup 'type=${policy}&acr=min' OAuth`, async () => {
+      it(`should generate the default URL for signup 'type=${policy}&acr=min' OAuth | config: default`, async () => {
+        global.window.location.search = `?oauth=true`;
         const url = await signupOrVerify({
           policy,
           isLink: true,
@@ -433,7 +426,25 @@ describe('OAuth - Utilities', () => {
         expect(url).to.include('state=');
       });
 
-      it(`should generate a verified URL for signup 'type=${policy}&acr=<loa3|ial2>' OAuth`, async () => {
+      it(`should generate the default URL for signup 'type=${policy}&acr=<loa3|ial2>' OAuth | config: vamobile`, async () => {
+        global.window.location.search = `?oauth=true&application=vamobile&client_id=vamobile`;
+        const acrType = { idme: 'loa3', logingov: 'ial2' };
+        const url = await signupOrVerify({
+          policy,
+          isLink: true,
+          allowVerification: false,
+          useOAuth: true,
+          config: 'vamobile',
+        });
+        expect(url).to.include(`type=${policy}`);
+        expect(url).to.include(`acr=${acrType[policy]}`);
+        expect(url).to.include('/authorize');
+        expect(url).to.include('response_type=code');
+        expect(url).to.include('code_challenge=');
+        expect(url).to.include('state=');
+      });
+
+      it(`should generate a verified URL for signup 'type=${policy}&acr=<loa3|ial2>' OAuth | config: default`, async () => {
         const url = await signupOrVerify({
           policy,
           isLink: true,

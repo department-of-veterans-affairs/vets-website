@@ -31,7 +31,7 @@ const INCLUDE_PAGE = {
 };
 
 function includePage(page) {
-  return INCLUDE_PAGE[page] ?? true;
+  return () => INCLUDE_PAGE[page] ?? true;
 }
 
 /** @type {FormConfig} */
@@ -74,7 +74,7 @@ const formConfig = {
           title: 'Text Input Widgets 1', // for review page (has to be more than one word)
           uiSchema: textInputWidgets1.uiSchema,
           schema: textInputWidgets1.schema,
-          depends: () => includePage('text'),
+          depends: includePage('text'),
         },
         textInputFullName: {
           path: 'text-input-full-name',
@@ -82,7 +82,7 @@ const formConfig = {
           uiSchema: textInputFullName.uiSchema,
           schema: textInputFullName.schema,
           initialData: textInputFullName.initialData,
-          depends: () => includePage('text'),
+          depends: includePage('text'),
         },
         textInputAddress: {
           title: 'Text Input Address', // for review page (has to be more than one word)
@@ -90,14 +90,14 @@ const formConfig = {
           uiSchema: textInputAddress.uiSchema,
           schema: textInputAddress.schema,
           initialData: textInputAddress.initialData,
-          depends: () => includePage('text'),
+          depends: includePage('text'),
         },
         textInputSsn: {
           title: 'SSN Pattern', // for review page (has to be more than one word)
           path: 'ssn-pattern',
           uiSchema: textInputSsn.uiSchema,
           schema: textInputSsn.schema,
-          depends: () => includePage('text'),
+          depends: includePage('text'),
         },
       },
       depends: () => false,
@@ -110,7 +110,7 @@ const formConfig = {
           path: 'checkbox-and-text-input',
           uiSchema: checkboxAndTextInput.uiSchema,
           schema: checkboxAndTextInput.schema,
-          depends: () => includePage('checkbox'),
+          depends: includePage('checkbox'),
         },
       },
     },
@@ -122,7 +122,7 @@ const formConfig = {
           path: 'select',
           uiSchema: select.uiSchema,
           schema: select.schema,
-          depends: () => includePage('select'),
+          depends: includePage('select'),
         },
       },
     },
@@ -134,7 +134,7 @@ const formConfig = {
           path: 'radio',
           uiSchema: radio.uiSchema,
           schema: radio.schema,
-          depends: () => includePage('radio'),
+          depends: includePage('radio'),
         },
         radioRelationshipToVeteran: {
           path: 'radio-relationship-to-veteran',
@@ -152,7 +152,7 @@ const formConfig = {
           path: 'date',
           uiSchema: date.uiSchema,
           schema: date.schema,
-          depends: () => includePage('date'),
+          depends: includePage('date'),
         },
       },
     },
@@ -164,7 +164,7 @@ const formConfig = {
           title: 'Information for Single Page', // for review page (has to be more than one word)
           uiSchema: arraySinglePage.uiSchema,
           schema: arraySinglePage.schema,
-          depends: () => includePage('arraySingle'),
+          depends: includePage('arraySingle'),
         },
       },
     },
@@ -176,7 +176,7 @@ const formConfig = {
           path: 'array-multiple-page',
           uiSchema: arrayMultiplePageStart.uiSchema,
           schema: arrayMultiplePageStart.schema,
-          depends: () => includePage('arrayMulti'),
+          depends: includePage('arrayMulti'),
         },
         multiplePageItem: {
           title: 'Multiple Page Item Title', // for review page (has to be more than one word)
@@ -185,7 +185,7 @@ const formConfig = {
           arrayPath: 'exampleArrayData',
           uiSchema: arrayMultiplePageItem.uiSchema,
           schema: arrayMultiplePageItem.schema,
-          depends: () => includePage('arrayMulti'),
+          depends: includePage('arrayMulti'),
         },
       },
     },
