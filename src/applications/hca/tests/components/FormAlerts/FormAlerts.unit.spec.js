@@ -4,6 +4,7 @@ import { expect } from 'chai';
 
 import {
   DowntimeWarning,
+  PerformanceWarning,
   ServerErrorAlert,
   ShortFormAlert,
   IdentityVerificationAlert,
@@ -16,6 +17,17 @@ describe('hca <DowntimeWarning>', () => {
     expect(selector).to.exist;
     expect(selector).to.contain.text(
       'The health care application is down for maintenance',
+    );
+  });
+});
+
+describe('hca <PerformanceWarning>', () => {
+  it('should render', () => {
+    const { container } = render(<PerformanceWarning />);
+    const selector = container.querySelector('va-alert');
+    expect(selector).to.exist;
+    expect(selector).to.contain.text(
+      'This application may not be working right now',
     );
   });
 });
