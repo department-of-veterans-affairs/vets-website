@@ -136,7 +136,9 @@
         "view:desiredCemeteryNote": {},
         "name": {
           "first": "Joe",
+          "middle": "Scott",
           "last": "Tester",
+          "suffix": "Jr.",
           "maiden": "Smith"
         },
         "ssn": "244-44-4444",
@@ -155,7 +157,9 @@
         {
           "name": {
             "first": "Grant",
-            "last": "Smith"
+            "middle": "E",
+            "last": "Smith",
+            "suffix": "Sr."
           },
           "cemeteryNumber": {
             "label": "MASSACHUSETTS NATIONAL CEMETERY",
