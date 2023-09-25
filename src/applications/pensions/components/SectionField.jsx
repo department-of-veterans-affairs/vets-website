@@ -24,8 +24,13 @@ const bytesToKB = bytes => `${Math.round(bytes / 1024)} KB`;
 export function ApplicantInformation({ title, id, formData }) {
   return (
     <>
-      <h2 id={id}>{title}</h2>
-      <hr className="vads-u-border-color--primary-darker" />
+      <h2 id={id} className="vads-u-font-size--h3">
+        {title}
+      </h2>
+      <hr
+        className="vads-u-border-color--primary-darker vads-u-margin-y--0"
+        aria-hidden="true"
+      />
       <div>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Your first name
@@ -77,10 +82,15 @@ export function ApplicantInformation({ title, id, formData }) {
 export function MilitaryHistory({ title, id, formData }) {
   return (
     <>
-      <h2 id={id}>{title}</h2>
-      <hr className="vads-u-border-color--primary-darker" />
+      <h2 id={id} className="vads-u-font-size--h3">
+        {title}
+      </h2>
+      <hr
+        className="vads-u-border-color--primary-darker vads-u-margin-y--0"
+        aria-hidden="true"
+      />
       <div>
-        <h3>General history</h3>
+        <h3 className="vads-u-font-size--h4">General history</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Did you serve under another name?
         </p>
@@ -120,7 +130,7 @@ export function MilitaryHistory({ title, id, formData }) {
           {formData?.placeOfSeparation ? formData?.placeOfSeparation : ''}
         </p>
 
-        <h3>Reserve and National Guard</h3>
+        <h3 className="vads-u-font-size--h4">Reserve and National Guard</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Are you currently on federal active duty in the National Guard?
         </p>
@@ -128,7 +138,7 @@ export function MilitaryHistory({ title, id, formData }) {
           {formData?.nationalGuardActivation ? 'Yes' : 'No'}
         </p>
 
-        <h3>POW status &amp; severance pay</h3>
+        <h3 className="vads-u-font-size--h4">POW status &amp; severance pay</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Have you ever been a POW?
         </p>
@@ -157,10 +167,15 @@ export function MilitaryHistory({ title, id, formData }) {
 export function WorkHistory({ title, id, formData }) {
   return (
     <>
-      <h2 id={id}>{title}</h2>
-      <hr className="vads-u-border-color--primary-darker" />
+      <h2 id={id} className="vads-u-font-size--h3">
+        {title}
+      </h2>
+      <hr
+        className="vads-u-border-color--primary-darker vads-u-margin-y--0"
+        aria-hidden="true"
+      />
       <div>
-        <h3>Disability history</h3>
+        <h3 className="vads-u-font-size--h4">Disability history</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Have you been treated at a VA medical center for this disability?
         </p>
@@ -191,7 +206,7 @@ export function WorkHistory({ title, id, formData }) {
               })
             : 'None'}
         </div>
-        <h3>Employment history</h3>
+        <h3 className="vads-u-font-size--h4">Employment history</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Have you had a job (including being self-employed) from 1 year before
           you became disabled?
@@ -266,17 +281,22 @@ export function WorkHistory({ title, id, formData }) {
 export function HouseholdInformation({ title, id, formData }) {
   return (
     <>
-      <h2 id={id}>{title}</h2>
-      <hr className="vads-u-border-color--primary-darker" />
+      <h2 id={id} className="vads-u-font-size--h3">
+        {title}
+      </h2>
+      <hr
+        className="vads-u-border-color--primary-darker vads-u-margin-y--0"
+        aria-hidden="true"
+      />
       <div>
-        <h3>Marriage history</h3>
+        <h3 className="vads-u-font-size--h4">Marriage history</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           What's your marital status?
         </p>
         <p className="vads-u-margin-top--0">
           {formData?.maritalStatus ? formData?.maritalStatus : ''}
         </p>
-        <h3>Dependent children</h3>
+        <h3 className="vads-u-font-size--h4">Dependent children</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Do you have any dependent children?
         </p>
@@ -294,10 +314,15 @@ export function FinancialDisclosure({ title, id, formData }) {
   }'s`;
   return (
     <>
-      <h2 id={id}>{title}</h2>
-      <hr className="vads-u-border-color--primary-darker" />
+      <h2 id={id} className="vads-u-font-size--h3">
+        {title}
+      </h2>
+      <hr
+        className="vads-u-border-color--primary-darker vads-u-margin-y--0"
+        aria-hidden="true"
+      />
       <>
-        <h3>{veteranName} net worth</h3>
+        <h3 className="vads-u-font-size--h4">{veteranName} net worth</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Cash/Non-interest bearing accounts
         </p>
@@ -328,7 +353,7 @@ export function FinancialDisclosure({ title, id, formData }) {
         <p className="vads-u-margin-top--0">
           {formatCurrency(formData?.netWorth?.realProperty)}
         </p>
-        <h3>{veteranName} monthly income</h3>
+        <h3 className="vads-u-font-size--h4">{veteranName} monthly income</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Social Security
         </p>
@@ -366,7 +391,7 @@ export function FinancialDisclosure({ title, id, formData }) {
           {formatCurrency(formData?.monthlyIncome?.ssi)}
         </p>
 
-        <h3>{veteranName} expected income</h3>
+        <h3 className="vads-u-font-size--h4">{veteranName} expected income</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Gross wages and salary
         </p>
@@ -380,7 +405,7 @@ export function FinancialDisclosure({ title, id, formData }) {
           {formatCurrency(formData?.expectedIncome?.interest)}
         </p>
 
-        <h3>{veteranName} expected income</h3>
+        <h3 className="vads-u-font-size--h4">{veteranName} expected income</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Do you have any medical,legal or other unreimbursed
         </p>
@@ -424,10 +449,15 @@ export function FinancialDisclosure({ title, id, formData }) {
 export function AdditionalInformation({ title, id, formData }) {
   return (
     <>
-      <h2 id={id}>{title}</h2>
-      <hr className="vads-u-border-color--primary-darker" />
+      <h2 id={id} className="vads-u-font-size--h3">
+        {title}
+      </h2>
+      <hr
+        className="vads-u-border-color--primary-darker vads-u-margin-y--0"
+        aria-hidden="true"
+      />
       <div>
-        <h3>Direct Deposit</h3>
+        <h3 className="vads-u-font-size--h4">Direct Deposit</h3>
         <p style={{ whiteSpace: 'pre-wrap' }}>
           {formData['view:noDirectDeposit']
             ? 'You did not select to use direct deposit'
@@ -449,7 +479,7 @@ export function AdditionalInformation({ title, id, formData }) {
             }`}
         </p>
         <p className="vads-u-margin-top--0" />
-        <h3>Contact information</h3>
+        <h3 className="vads-u-font-size--h4">Contact information</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Mailing Address
         </p>
@@ -506,7 +536,7 @@ export function AdditionalInformation({ title, id, formData }) {
             ? formatPhoneNumber(formData?.mobilePhone)
             : ''}
         </p>
-        <h3>Document upload</h3>
+        <h3 className="vads-u-font-size--h4">Document upload</h3>
         <p>Review all your uploaded documentation to support your claim.</p>
         <p>
           If you're claiming for Aid and Attendance or Housebound benefits, this
@@ -552,7 +582,7 @@ export function AdditionalInformation({ title, id, formData }) {
               );
             })
           : null}
-        <h3>Fully Developed Claim program</h3>
+        <h3 className="vads-u-font-size--h4">Fully Developed Claim program</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Do you want to apply using the Fully Developed Claim program?
         </p>
