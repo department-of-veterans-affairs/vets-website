@@ -13,7 +13,6 @@ import {
 } from '../../utils/constants';
 import { lowerCase } from '../../utils/formatters';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import ListBestTimeToCall from './ListBestTimeToCall';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
 import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 import Breadcrumbs from '../../components/Breadcrumbs';
@@ -249,9 +248,6 @@ export default function RequestedAppointmentDetailsPage() {
           data-testid="patient-telephone"
         />
         <br />
-        <ListBestTimeToCall
-          timesToCall={appointment.preferredTimesForPhoneCall}
-        />
       </div>
       <div className="vaos-u-word-break--break-word">
         {!canceled && (
