@@ -53,9 +53,25 @@ const UpcomingAppointments = props => {
     );
   }
 
+  if (upcomingAppointmentsDataError) {
+    window.scrollTo(0, 0);
+    return (
+      <div>
+        <h2 data-testid="upcoming-appointments-header">
+          {t('upcoming-appointments')}
+        </h2>
+        <p data-testid="upcoming-appointments-error-message">
+          There was an error retreiving upcoming appointments
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <h2>{t('upcoming-appointments')}</h2>
+      <h2 data-testid="upcoming-appointments-header">
+        {t('upcoming-appointments')}
+      </h2>
       <UpcomingAppointmentsList router={router} app={app} />
     </div>
   );
