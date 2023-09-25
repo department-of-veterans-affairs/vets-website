@@ -12,19 +12,17 @@ import PrintHeader from './PrintHeader';
 import { rxListSortingOptions } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
-import CallPharmacyPhone from '../components/shared/CallPharmacyPhone';
+import FeedbackEmail from '../components/shared/FeedbackEmail';
 
-const VA_PHARMACY_PHONE = '3538675309';
 const Prescriptions = () => {
   const currentDate = new Date();
+  const dispatch = useDispatch();
   const prescriptions = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
   );
-  const defaultSortOption = rxListSortingOptions[0].ACTIVE.value;
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
-
-  const dispatch = useDispatch();
+  const defaultSortOption = rxListSortingOptions[0].ACTIVE.value;
   const [pdfList, setPdfList] = useState([]);
   const [sortOption, setSortOption] = useState('');
   const [isAlertVisible, setAlertVisible] = useState('false');
@@ -44,13 +42,21 @@ const Prescriptions = () => {
           >
             <h2 slot="headline">We can’t access your medications right now</h2>
             <div>
-              <p className="vads-u-margin-bottom--0">
-                We’re sorry. There’s a problem with our system. Check back
-                later.
-                <br />
-                If you need help now, call your VA pharmacy
-                <CallPharmacyPhone phone={VA_PHARMACY_PHONE} />
-              </p>
+              <section className="vads-u-margin-bottom--0">
+                <p>
+                  We’re sorry. There’s a problem with our system. Check back
+                  later.
+                </p>
+                <p>
+                  <strong>If it still doesn’t work,</strong> email us at{' '}
+                  <FeedbackEmail />.
+                </p>
+                <p>
+                  <strong>If you need to request a refill now,</strong> call
+                  your VA pharmacy. You can find the pharmacy phone number on
+                  your prescription label.
+                </p>
+              </section>
             </div>
           </va-alert>
         )}

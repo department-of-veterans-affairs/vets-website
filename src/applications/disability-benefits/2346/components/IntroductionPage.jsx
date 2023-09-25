@@ -1,7 +1,6 @@
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import React from 'react';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import formConfig from '../config/form';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
@@ -63,7 +62,7 @@ const IntroductionPage = props => {
               <p>
                 If you need help ordering {supplyDescription}, you can call the
                 Denver Logistics Center Customer Service Section at{' '}
-                <Telephone contact="303-273-6200" /> or email{' '}
+                <va-telephone contact="3032736200" /> or email{' '}
                 <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
             </li>
@@ -104,8 +103,9 @@ const IntroductionPage = props => {
               </p>
               <p>
                 If you have questions about your order, you can call the DLC
-                Customer Service Section at <Telephone contact="303-273-6200" />{' '}
-                or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+                Customer Service Section at{' '}
+                <va-telephone contact="3032736200" /> or email{' '}
+                <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
             </li>
           </ol>

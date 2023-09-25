@@ -106,12 +106,12 @@ class ApneaSupplies extends Component {
                 'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21': isApneaSupplySelected(
                   apneaSupply.productId,
                 ),
-                'vads-u-padding--3': !isApneaSupplySelected(
+                'vads-u-padding--3 dd-privacy-mask': !isApneaSupplySelected(
                   apneaSupply.productId,
                 ),
               })}
             >
-              <h4 className="vads-u-font-size--md vads-u-margin-top--0">
+              <h4 className="vads-u-font-size--md vads-u-margin-top--0 dd-privacy-mask">
                 {apneaSupply.productName}
               </h4>
               <div className="vads-u-border-color--gray-lightest">

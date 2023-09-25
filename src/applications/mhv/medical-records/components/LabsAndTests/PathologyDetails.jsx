@@ -28,15 +28,18 @@ const PathologyDetails = props => {
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-    const titleDate = formattedDate ? `${formattedDate} - ` : '';
-    updatePageTitle(
-      `${titleDate}${record.name} - ${
-        pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-      }`,
-    );
-  }, []);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      const titleDate = formattedDate ? `${formattedDate} - ` : '';
+      updatePageTitle(
+        `${titleDate}${record.name} - ${
+          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
+        }`,
+      );
+    },
+    [formattedDate, record.name],
+  );
 
   const generatePathologyPdf = async () => {
     const pdfData = {
