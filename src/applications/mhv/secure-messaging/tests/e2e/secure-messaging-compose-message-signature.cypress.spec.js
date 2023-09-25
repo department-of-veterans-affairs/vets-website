@@ -28,7 +28,6 @@ describe('verify signature', () => {
   });
 
   it('signature added on replying', () => {
-    // refactor (parametrize) methods below
     cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders);
     cy.intercept(
       'GET',

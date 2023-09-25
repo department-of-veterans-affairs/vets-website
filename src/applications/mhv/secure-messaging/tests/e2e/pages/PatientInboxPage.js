@@ -13,6 +13,8 @@ import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
+import mockSingleThread from '../fixtures/inboxResponse/single-thread-response.json';
+import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -319,6 +321,29 @@ class PatientInboxPage {
 
   getLoadedMessages = () => {
     return this.loadedMessagesData;
+  };
+
+  replyToMesage = () => {
+    cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders);
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE}/messages/${
+        mockMessageDetails.data[0].attributes.messageId
+      }/thread`,
+      mockSingleThread,
+    ).as('singleThread');
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE}/messages/${
+        mockMessageDetails.data[0].attributes.messageId
+      }`,
+      mockSingleMessage,
+    ).as('singleThread');
+
+    cy.get('[data-testid="thread-list-item"]')
+      .first()
+      .find(`#message-link-${mockMessageDetails.data[0].attributes.messageId}`)
+      .click();
   };
 
   verifySentSuccessMessage = () => {
