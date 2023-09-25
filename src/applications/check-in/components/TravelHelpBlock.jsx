@@ -7,7 +7,7 @@ const NeedHelpBlock = () => {
   const { t } = useTranslation();
 
   return (
-    <div data-testid="need-help-block">
+    <div data-testid="travel-help-block">
       <p data-testid="for-help-using-this-tool">
         <Trans
           i18nKey="for-help-using-this-tool-to-prepare-for-your-appointments"
@@ -16,6 +16,12 @@ const NeedHelpBlock = () => {
             <va-telephone
               key={phoneNumbers.mainInfo}
               contact={phoneNumbers.mainInfo}
+            />,
+            <va-telephone
+              key={phoneNumbers.tty}
+              contact={phoneNumbers.tty}
+              tty
+              ariaLabel="7 1 1."
             />,
           ]}
         />
@@ -78,6 +84,10 @@ const NeedHelpBlock = () => {
           i18nKey="if-you-think-your-life-or-health-is-in-danger"
           components={[
             <span key="bold" className="vads-u-font-weight--bold" />,
+            <va-telephone
+              key={phoneNumbers.emergency}
+              contact={phoneNumbers.emergency}
+            />,
           ]}
         />
       </p>

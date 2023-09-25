@@ -273,6 +273,8 @@ const phoneNumbers = {
   btsssCallCenter: '8555747292',
   veteransCrisisLine: '988',
   veteransCrisisText: '838255',
+  tty: '711',
+  emergency: '911',
 };
 
 export {
