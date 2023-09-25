@@ -5,7 +5,9 @@ import { formatName } from '../../../shared/util/helpers';
 
 const PrintHeader = () => {
   const user = useSelector(state => state.user);
-  const name = user?.profile ? formatName(user.profile.userFullName) : '';
+  const name = user?.profile?.userFullName
+    ? formatName(user.profile.userFullName)
+    : '';
 
   return (
     <div className="print-only print-header vads-u-margin-bottom--4">
