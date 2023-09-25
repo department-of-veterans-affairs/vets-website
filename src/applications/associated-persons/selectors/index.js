@@ -1,4 +1,6 @@
 const selectEmergencyContacts = state =>
   state?.associatedPersons?.emergencyContacts || false;
 
-export { selectEmergencyContacts };
+const selectNextOfKin = state => state?.associatedPersons?.nextOfKin || false;
+
+export { selectEmergencyContacts, selectNextOfKin };

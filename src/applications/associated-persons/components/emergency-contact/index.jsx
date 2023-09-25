@@ -6,6 +6,7 @@ import { selectEmergencyContacts } from '../../selectors';
 
 import Edit from './Edit';
 import Show from './Show';
+import None from './None';
 
 const EmergencyContact = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const EmergencyContact = () => {
     () => {
       if (!data && !loading && !error) dispatch(fetchEmergencyContacts());
     },
-    [data, loading, error],
+    [data, dispatch, loading, error],
   );
 
   const handleEdit = () => setEditing(true);
@@ -36,16 +37,16 @@ const EmergencyContact = () => {
   // const emergencyContact = data[0].attributes;
   const [emergencyContact] = data || [];
   const { attributes } = emergencyContact || {};
+  // const attributes = {};
+  const hasEC = JSON.stringify(attributes) !== '{}';
 
   return (
     <section className="emergency-contacts-section">
       <h2>Emergency Contact</h2>
 
-      {editing ? (
-        <Edit {...attributes} handleCancel={handleCancel} />
-      ) : (
-        <Show {...attributes} handleEdit={handleEdit} />
-      )}
+      {editing && <Edit {...attributes} handleCancel={handleCancel} />}
+      {!editing && hasEC && <Show {...attributes} handleEdit={handleEdit} />}
+      {!hasEC && <None />}
     </section>
   );
 };

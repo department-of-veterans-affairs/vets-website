@@ -1,6 +1,7 @@
 import React from 'react';
 // import PersonalDetails from '../components/PersonalDetails';
 import EmergencyContact from '../components/emergency-contact';
+import NextOfKin from '../components/next-of-kin';
 
 const App = () => {
   return (
@@ -14,7 +15,7 @@ const App = () => {
               </h2>
               <ul>
                 <li>
-                  <a href="/profile/accoutn/security">Account Security</a>
+                  <a href="/profile/account/security">Account Security</a>
                 </li>
                 <li>
                   <a href="/associated-persons">Emergency Contact</a>
@@ -24,8 +25,9 @@ const App = () => {
           </nav>
         </div>
         <div className="vads-l-col--9">
-          <h2>Contact Information</h2>
+          <h2>Emergency contact and next of kin information</h2>
           <EmergencyContact />
+          <NextOfKin />
         </div>
       </div>
     </div>
