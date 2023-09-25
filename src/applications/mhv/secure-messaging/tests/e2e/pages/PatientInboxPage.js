@@ -41,7 +41,7 @@ class PatientInboxPage {
 
   loadInboxMessages = (
     inboxMessages = mockMessages,
-    detailedMessage = mockSpecialCharsMessage,
+    detailedMessage = mockSingleMessage,
     recipients = mockRecipients,
     getFoldersStatus = 200,
   ) => {
