@@ -236,8 +236,13 @@ export default [
             We may give access to your health information only to an agency or
             an individual as permitted by law and as outlined in the Veterans
             Health Administration (VHA) notice of privacy practices.{' '}
-            {/* Insert anchor tag once link href is available */}
-            Read the VHA notice of privacy practices
+            <a
+              href="https://www.va.gov/files/2022-10/10-163p_(004)_-Notices_of_Privacy_Practices-_PRINT_ONLY.pdf"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Read the VHA notice of privacy practices
+            </a>
           </li>
         </ul>
         <p>We never share your information for marketing purposes.</p>
@@ -265,6 +270,14 @@ export default [
         <p>
           We automatically opt you in to some types of text message
           notifications. You can opt out of getting text messages at any time.
+          <br />
+          <a
+            href="https://www.va.gov/resources/vetext-for-va-health-care-reminders-and-updates/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Learn more about VEText for health care reminders and updates
+          </a>
         </p>
       </>
     ),
@@ -357,10 +370,8 @@ export default [
         </p>
         <p>
           When you sign in, we’ll prompt you to read and accept the new terms.
-          You’ll have a grace period to review the terms and to download any of
-          your information, if necessary. If you choose not to accept the new
-          terms after the grace period, you’ll no longer be able to sign in to
-          VA.gov or other VA online services.
+          If you choose not to accept the new terms, you’ll no longer be able to
+          sign in to VA.gov or other VA online services.
         </p>
       </>
     ),
