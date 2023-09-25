@@ -92,7 +92,7 @@ describe('NoFormPage', () => {
     );
     await waitFor(() => {
       expect($('h1', container).textContent).to.eql(
-        'Review Pension Benefits Application',
+        'Review pension benefits application',
       );
       expect($$('h2', container)[0].textContent).to.eql(
         'You don’t have any saved online pension forms.',
