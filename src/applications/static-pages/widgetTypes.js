@@ -51,6 +51,7 @@ export default {
   OPT_OUT_APP_STATUS: 'opt-out-app-status',
   OTHER_FACILITY_LOCATIONS_LIST: 'other-facility-locations-list',
   PENSION_APP_STATUS: 'pension-app-status',
+  PENSION_HOW_DO_I_APPLY_WIDGET: 'pension-how-do-i-apply-widget',
   POST_911_GI_BILL_STATUS_WIDGET: 'post-9-11-gi-bill-status',
   REFILL_TRACK_PRESCRIPTIONS_PAGE: 'refill-track-prescriptions-page',
   RESOURCES_AND_SUPPORT_SEARCH: 'resources-and-support-search',

@@ -351,7 +351,7 @@ export function logout({
   version = API_VERSION,
   clickedEvent = AUTH_EVENTS.LOGOUT,
   queryParams = {},
-}) {
+} = {}) {
   clearSentryLoginType();
   return redirect(
     sessionTypeUrl({ type: POLICY_TYPES.SLO, version, queryParams }),
@@ -366,6 +366,7 @@ export async function signupOrVerify({
   isLink = false,
   useOAuth = false,
   allowVerification = true,
+  config = 'default',
 }) {
   const type = SIGNUP_TYPES[policy];
   const url = await sessionTypeUrl({
@@ -374,8 +375,8 @@ export async function signupOrVerify({
     ...(useOAuth && {
       // acr determined by signup or verify
       acr: isSignup
-        ? 'min'
-        : externalApplicationsConfig.default.oAuthOptions.acrVerify[policy],
+        ? externalApplicationsConfig[config].oAuthOptions.acrSignup[type]
+        : externalApplicationsConfig[config].oAuthOptions.acrVerify[policy],
       useOauth: useOAuth,
     }),
     // just verify (<csp>_signup_verified)

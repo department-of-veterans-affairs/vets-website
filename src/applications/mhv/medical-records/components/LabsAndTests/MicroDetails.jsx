@@ -28,15 +28,18 @@ const MicroDetails = props => {
   const dob = dateFormat(user.dob, 'LL');
   const formattedDate = formatDateLong(record?.date);
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-    const titleDate = formattedDate ? `${formattedDate} - ` : '';
-    updatePageTitle(
-      `${titleDate}${record.name} - ${
-        pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-      }`,
-    );
-  }, []);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      const titleDate = formattedDate ? `${formattedDate} - ` : '';
+      updatePageTitle(
+        `${titleDate}${record.name} - ${
+          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
+        }`,
+      );
+    },
+    [formattedDate, record.name],
+  );
 
   const generateMicrobiologyPdf = async () => {
     const pdfData = {
@@ -146,7 +149,6 @@ const MicroDetails = props => {
           </div>
           <div className="no-print">
             <PrintDownload
-              list
               download={generateMicrobiologyPdf}
               allowTxtDownloads={allowTxtDownloads}
             />
