@@ -6,12 +6,12 @@ import {
   serviceNumberUI,
   serviceNumberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { titleH1Schema, titleH1UI } from '../components/customTitlePattern';
+import { titleH1UI } from '../components/customTitlePattern';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleH1UI('Your identification information'),
+    ...titleH1UI('Your identification information'),
     veteranSSN: ssnUI(),
     veteranVaFileNumber: vaFileNumberUI(),
     veteranServiceNumber: serviceNumberUI(),
@@ -20,7 +20,6 @@ export default {
     type: 'object',
     required: ['veteranSSN'],
     properties: {
-      'view:title': titleH1Schema,
       veteranSSN: ssnSchema,
       veteranVaFileNumber: vaFileNumberSchema,
       veteranServiceNumber: serviceNumberSchema,

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import { formatSSN } from 'platform/utilities/ui';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 const convertDateFormat = date => {
   return date.replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$2/$3/$1');
