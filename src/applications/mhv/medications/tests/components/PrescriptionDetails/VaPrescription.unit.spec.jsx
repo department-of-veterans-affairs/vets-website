@@ -3,7 +3,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { expect } from 'chai';
 import VaPrescription from '../../../components/PrescriptionDetails/VaPrescription';
 import rxDetailsResponse from '../../fixtures/prescriptionDetails.json';
-import { dateFormat } from '../../../util/helpers';
+import { dateFormat, validateField } from '../../../util/helpers';
 
 describe('vaPrescription details container', () => {
   const prescription = rxDetailsResponse.data.attributes;
@@ -22,7 +22,7 @@ describe('vaPrescription details container', () => {
   it('displays the formatted ordered date', () => {
     const screen = setup();
     const formattedDate = screen.getAllByText(
-      dateFormat(rxDetailsResponse.data.attributes?.orderedDate),
+      validateField(rxDetailsResponse.data.attributes?.orderedDate, 'date'),
       {
         exact: true,
         selector: 'p',
