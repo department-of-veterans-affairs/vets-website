@@ -1,4 +1,5 @@
 import { validateWhiteSpace } from 'platform/forms/validations';
+import environment from 'platform/utilities/environment';
 
 export function validateName(errors, pageData) {
   const { first, last } = pageData;
@@ -26,14 +27,14 @@ const uiSchema = {
     'ui:title': 'Deceased’s middle name ',
     'ui:autocomplete': 'additional-name',
     'ui:options': {
-      hideIf: () => true,
+      hideIf: () => !environment.isProduction(),
     },
   },
   suffix: {
     'ui:title': 'Deceased’s suffix',
     'ui:autocomplete': 'honorific-suffix',
     'ui:options': {
-      hideIf: () => true,
+      hideIf: () => !environment.isProduction(),
     },
   },
 };

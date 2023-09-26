@@ -2,6 +2,7 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 import React from 'react';
 
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import environment from 'platform/utilities/environment';
 
 import { useSelector } from 'react-redux';
 import {
@@ -9,6 +10,7 @@ import {
   getCemeteries,
   desiredCemeteryNoteDescriptionVeteran,
   desiredCemeteryNoteDescriptionNonVeteran,
+  desiredCemeteryNoteDescriptionProd,
 } from '../../utils/helpers';
 
 const {
@@ -17,6 +19,9 @@ const {
 
 function DesiredCemeteryNoteDescription() {
   const data = useSelector(state => state.form.data || {});
+  if (environment.isProduction()) {
+    return desiredCemeteryNoteDescriptionProd;
+  }
   return isVeteran(data)
     ? desiredCemeteryNoteDescriptionVeteran
     : desiredCemeteryNoteDescriptionNonVeteran;
@@ -24,16 +29,30 @@ function DesiredCemeteryNoteDescription() {
 
 function DesiredCemeteryTitle() {
   const data = useSelector(state => state.form.data || {});
-  return isVeteran(data)
+  return environment.isProduction() || isVeteran(data)
     ? 'Which VA national cemetery would you prefer to be buried in?'
     : 'Which VA national cemetery would the applicant prefer to be buried in?';
 }
 
-export const desiredCemeteryTitleWrapper = (
-  <>
-    <DesiredCemeteryTitle />
-  </>
+export const desiredCemeteryNoteTitleWrapper = (
+  <a
+    href="https://www.va.gov/find-locations/"
+    rel="noreferrer"
+    target="_blank"
+    className="desiredCemeteryNoteTitle"
+  >
+    Find a VA national cemetery
+  </a>
 );
+
+function DesiredCemeteryNoteTitle() {
+  if (environment.isProduction()) {
+    return null;
+  }
+  return desiredCemeteryNoteTitleWrapper;
+}
+
+export const desiredCemeteryTitleWrapper = <DesiredCemeteryTitle />;
 
 export const uiSchema = {
   application: {
@@ -50,16 +69,7 @@ export const uiSchema = {
         },
       ),
       'view:desiredCemeteryNote': {
-        'ui:title': (
-          <a
-            href="https://www.va.gov/find-locations/"
-            rel="noreferrer"
-            target="_blank"
-            className="desiredCemeteryNoteTitle"
-          >
-            Find a VA national cemetery
-          </a>
-        ),
+        'ui:title': DesiredCemeteryNoteTitle,
         'ui:description': DesiredCemeteryNoteDescription,
       },
     },
@@ -67,9 +77,17 @@ export const uiSchema = {
       'ui:widget': 'radio',
       'ui:options': {
         updateSchema: formData => {
-          const title = isVeteran(formData)
-            ? 'Is there anyone currently buried in a VA national cemetery under your eligibility?'
-            : 'Is there anyone currently buried in a VA national cemetery under the sponsor’s eligibility?';
+          let title = '';
+          if (isVeteran(formData)) {
+            title =
+              'Is there anyone currently buried in a VA national cemetery under your eligibility?';
+          } else if (environment.isProduction()) {
+            title =
+              'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
+          } else {
+            title =
+              'Is there anyone currently buried in a VA national cemetery under the sponsor’s eligibility?';
+          }
           return { title };
         },
         labels: {
