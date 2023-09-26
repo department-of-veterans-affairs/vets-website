@@ -31,7 +31,9 @@ describe('COVID-19 SAVE LIVES Act sign up', () => {
         body: {},
       }).as('submitForm');
 
-      cy.get('va-radio-option[label="No"]').click({ force: true });
+      cy.get('va-radio-option[label="No"] input[type="radio"]').click({
+        force: true,
+      });
 
       cy.get('button')
         .contains('Continue')

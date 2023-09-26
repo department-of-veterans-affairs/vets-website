@@ -30,8 +30,7 @@ export const generateMedicationsPDF = async (
   } catch (error) {
     Sentry.captureException(error);
     Sentry.captureMessage('vets_mhv_medications_pdf_generation_error');
-    // TODO: Once UCD gives a flow on how to present to the  user when something goes wrong with the pdf generation
-    // Error logging/presentation goes here...
+    throw error;
   }
 };
 

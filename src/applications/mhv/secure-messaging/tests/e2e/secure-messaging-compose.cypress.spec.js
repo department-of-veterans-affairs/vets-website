@@ -13,7 +13,10 @@ describe('Secure Messaging Compose', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     composePage.selectRecipient(requestBody.recipientId);
-    composePage.getCategory(requestBody.category).click();
+    composePage
+      .getCategory(requestBody.category)
+      .first()
+      .click();
     composePage.getMessageSubjectField().type(`${requestBody.subject}`);
     composePage
       .getMessageBodyField()
