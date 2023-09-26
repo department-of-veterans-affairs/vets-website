@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { dispStatusObj } from '../../util/constants';
 
 const StatusDropdown = props => {
   const { status } = props;
 
   const content = () => {
     switch (status) {
-      case 'Active': {
+      case dispStatusObj.active: {
         return (
           <>
             <div data-testid="status">Active</div>
@@ -36,7 +37,7 @@ const StatusDropdown = props => {
           </>
         );
       }
-      case 'Active: Parked': {
+      case dispStatusObj.activeParked: {
         return (
           <>
             <div data-testid="status">Active: Parked</div>
@@ -79,7 +80,7 @@ const StatusDropdown = props => {
           </>
         );
       }
-      case 'Active: On Hold': {
+      case dispStatusObj.onHold: {
         return (
           <>
             <div data-testid="status">Active: On hold</div>
@@ -121,7 +122,7 @@ const StatusDropdown = props => {
           </>
         );
       }
-      case 'Active: Refill in Process': {
+      case dispStatusObj.refillinprocess: {
         return (
           <>
             <div data-testid="status">Active: Refill in process</div>
@@ -143,7 +144,7 @@ const StatusDropdown = props => {
           </>
         );
       }
-      case 'Discontinued': {
+      case dispStatusObj.discontinued: {
         return (
           <>
             <div data-testid="status">Discontinued</div>
@@ -193,7 +194,7 @@ const StatusDropdown = props => {
           </>
         );
       }
-      case 'Active: Submitted': {
+      case dispStatusObj.submitted: {
         return (
           <>
             <div data-testid="status">Active: Submitted</div>
@@ -221,7 +222,7 @@ const StatusDropdown = props => {
           </>
         );
       }
-      case 'Expired': {
+      case dispStatusObj.expired: {
         return (
           <>
             <div data-testid="status">Expired</div>
@@ -256,7 +257,7 @@ const StatusDropdown = props => {
           </>
         );
       }
-      case 'Transferred': {
+      case dispStatusObj.transferred: {
         return (
           <>
             <div data-testid="status">Transferred</div>

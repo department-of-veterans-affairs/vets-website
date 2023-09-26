@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
+import { dispStatusObj } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 
 const ExtraDetails = rx => {
@@ -11,8 +12,8 @@ const ExtraDetails = rx => {
   }
   return (
     <div className="shipping-info">
-      {dispStatus === 'Unknown' && (
-        <div className="unknownIcon">
+      {dispStatus === dispStatusObj.unknown && (
+        <div className="statusIcon unknownIcon">
           <div>
             We’re sorry. There’s a problem with our system. You can’t manage
             this prescription online right now.
@@ -23,8 +24,8 @@ const ExtraDetails = rx => {
           </div>
         </div>
       )}
-      {dispStatus === 'Active: Refill in Process' && (
-        <div className="refillProcessIcon">
+      {dispStatus === dispStatusObj.refillinprocess && (
+        <div className="statusIcon refillProcessIcon">
           <p data-testid="rx-refillinprocess-info">
             Refill in process. We expect to fill it on{' '}
             {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
@@ -35,14 +36,14 @@ const ExtraDetails = rx => {
           </p>
         </div>
       )}
-      {dispStatus === 'Active: Submitted' && (
-        <p className="submittedIcon">
+      {dispStatus === dispStatusObj.submitted && (
+        <p className="statusIcon submittedIcon">
           We got your request on{' '}
           {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
           updates.
         </p>
       )}
-      {dispStatus === 'Expired' && (
+      {dispStatus === dispStatusObj.expired && (
         <div>
           <p className="vads-u-margin-y--0">
             This prescription is too old to refill. If you need more, request a
@@ -54,7 +55,7 @@ const ExtraDetails = rx => {
           />
         </div>
       )}
-      {dispStatus === 'Discontinued' && (
+      {dispStatus === dispStatusObj.discontinued && (
         <div>
           <p className="vads-u-margin-y--0">
             You can’t refill this prescription. If you need more, send a message
@@ -63,7 +64,7 @@ const ExtraDetails = rx => {
           <va-link href="/" text="Compose a message" />
         </div>
       )}
-      {dispStatus === 'Transferred' && (
+      {dispStatus === dispStatusObj.transferred && (
         <div>
           <p className="vads-u-margin-y--0">
             To manage this prescription, go to our My VA Health portal.
@@ -71,7 +72,7 @@ const ExtraDetails = rx => {
           <va-link href="/" text="Go to your prescription in My VA Health" />
         </div>
       )}
-      {dispStatus === 'Active: Non-VA' && (
+      {dispStatus === dispStatusObj.nonVA && (
         <div>
           <p className="vads-u-margin-y--0">
             This isn’t a prescription that you filled through a VA pharmacy. You
@@ -79,7 +80,7 @@ const ExtraDetails = rx => {
           </p>
         </div>
       )}
-      {dispStatus === 'Active: On Hold' && (
+      {dispStatus === dispStatusObj.onHold && (
         <div className="no-print">
           <p className="vads-u-margin-y--0">
             We put a hold on this prescription. If you need it now, call your VA
@@ -88,7 +89,7 @@ const ExtraDetails = rx => {
           </p>
         </div>
       )}
-      {dispStatus === 'Active' &&
+      {dispStatus === dispStatusObj.active &&
         noRefillRemaining && (
           <div className="no-print">
             <p className="vads-u-margin-y--0">
