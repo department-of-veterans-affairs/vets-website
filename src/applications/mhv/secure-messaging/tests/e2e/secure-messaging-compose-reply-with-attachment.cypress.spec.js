@@ -20,7 +20,10 @@ describe('Start a new message With Attacments and Errors', () => {
       },
     });
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    composePage.getCategory('COVID').click();
+    composePage
+      .getCategory('COVID')
+      .first()
+      .click();
     composePage.attachMessageFromFile('test_video.mp4');
     composePage.verifyAttachmentErrorMessage(
       "We can't attach this file type. Try attaching a DOC, JPG, PDF, PNG, RTF, TXT, or XLS.",
