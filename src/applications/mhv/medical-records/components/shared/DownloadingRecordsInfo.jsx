@@ -20,7 +20,7 @@ const DownloadingRecordsInfo = props => {
     >
       {/* Use the "!== false" syntax because checking the inverse causes the component to be resized incorrectly
             when the value changes from undefined to true. */}
-      {allowTxtDownloads !== false ? (
+      {allowTxtDownloads ? (
         <ul>
           <li>{publicSharedContent()}</li>
           <li>
