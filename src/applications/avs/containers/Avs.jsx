@@ -38,13 +38,24 @@ const Avs = props => {
   const [avs, setAvs] = useState({});
   const [avsLoading, setAvsLoading] = useState(true);
 
+  const [error, setError] = useState(null);
+
+  if (error) {
+    throw error;
+  }
+
   useEffect(
     () => {
       const fetchAvs = async () => {
-        const response = await getAvs(id);
-        // cf. https://github.com/department-of-veterans-affairs/avs/blob/master/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/model/AvsDataModel.java
-        setAvs(response.data.attributes);
-        setAvsLoading(false);
+        try {
+          const response = await getAvs(id);
+
+          // cf. https://github.com/department-of-veterans-affairs/avs/blob/master/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/model/AvsDataModel.java
+          setAvs(response.data.attributes);
+          setAvsLoading(false);
+        } catch (e) {
+          setError(e);
+        }
       };
 
       if (isLoggedIn && avsLoading) {
@@ -74,6 +85,7 @@ const Avs = props => {
         serviceRequired={[backendServices.USER_PROFILE]}
       >
         <h1>After-visit Summary</h1>
+
         <va-accordion>
           <va-accordion-item header={generateAppointmentHeader(avs)}>
             <YourAppointment avs={avs} />

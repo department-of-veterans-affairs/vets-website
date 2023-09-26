@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import MedicationsListCard from './MedicationsListCard';
 
 const MAX_PAGE_LIST_LENGTH = 5;
@@ -17,9 +18,13 @@ const MedicationsList = props => {
     return chunk(data, perPage);
   };
 
+  const displaynumberOfPrescriptionsSelector =
+    "[data-testid='page-total-info']";
+
   const onPageChange = page => {
     setCurrentRx(paginatedRx.current[page - 1]);
     setCurrentPage(page);
+    waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
 
   const fromToNumbs = (page, total) => {
@@ -46,24 +51,21 @@ const MedicationsList = props => {
   return (
     <>
       <h2
-        className="rx-page-total-info no-print vads-u-font-family--sans"
+        className="rx-page-total-info vads-u-font-family--sans"
         data-testid="page-total-info"
+        id="showingRx"
       >
         Showing {displayNums[0]} - {displayNums[1]} of {rxList.length}{' '}
-        medications
+        medications, available to fill or refill first
       </h2>
-      <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter no-print" />
-      <div className="vads-l-row vads-u-flex-direction--column no-print">
+      <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
+      <div className="vads-u-display--block vads-u-margin-top--3">
         {rxList?.length > 0 &&
           currentRx.map((rx, idx) => <MedicationsListCard key={idx} rx={rx} />)}
       </div>
-      <div className="print-only">
-        {rxList.length > 0 &&
-          rxList.map((rx, idx) => <MedicationsListCard key={idx} rx={rx} />)}
-      </div>
       <VaPagination
         id="pagination"
-        className="pagination no-print"
+        className="pagination"
         onPageSelect={e => onPageChange(e.detail.page)}
         page={currentPage}
         pages={paginatedRx.current.length}

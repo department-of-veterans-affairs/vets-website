@@ -1,5 +1,5 @@
 import { getDate } from '../utils/dates';
-import { SELECTED } from '../constants';
+import { SELECTED } from '../../shared/constants';
 
 export const getRandomDate = () =>
   getDate({

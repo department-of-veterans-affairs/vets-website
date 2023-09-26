@@ -14,6 +14,7 @@ import {
   HLR_BASE_URL,
   NOD_OPTIONS_URL,
 } from '../../shared/constants';
+import GetFormHelp from '../content/GetFormHelp';
 
 const IntroductionPage = ({ route }) => {
   useEffect(() => {
@@ -86,7 +87,7 @@ const IntroductionPage = ({ route }) => {
           <li>
             <strong>If you have a claim from the old appeals system</strong>
             <p>
-              If you have a <strong>Statement of the Case (SOC)</strong> or a
+              If you have a <strong>Statement of the Case (SOC)</strong> or a{' '}
               <strong>Supplemental Statement of the Case (SSOC)</strong> from
               the old appeals system{' '}
               <strong>dated on or after February 19, 2019</strong>, the Board
@@ -197,9 +198,11 @@ const IntroductionPage = ({ route }) => {
         <va-omb-info
           res-burden={30}
           omb-number="2900-0674"
-          exp-date="2/28/2022"
+          exp-date="3/31/2025"
           uswds
         />
+        <p />
+        <GetFormHelp />
       </div>
     </div>
   );

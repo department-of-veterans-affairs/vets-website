@@ -1,8 +1,12 @@
 import moment from 'moment';
 
-import { SELECTED, LEGACY_TYPE, FORMAT_YMD, AMA_DATE } from '../constants';
+import { LEGACY_TYPE, AMA_DATE } from '../constants';
 
-import { processContestableIssues } from '../../shared/utils/issues';
+import { FORMAT_YMD } from '../../shared/constants';
+import {
+  getSelected,
+  processContestableIssues,
+} from '../../shared/utils/issues';
 import '../../shared/definitions';
 
 /**
@@ -73,26 +77,6 @@ export const mayHaveLegacyAppeals = ({
     );
     return decisionDate.isBefore(amaCutoff);
   });
-};
-
-export const someSelected = issues =>
-  (issues || []).some(issue => issue[SELECTED]);
-
-export const hasSomeSelected = ({ contestedIssues, additionalIssues } = {}) =>
-  someSelected(contestedIssues) || someSelected(additionalIssues);
-
-export const getSelected = formData => {
-  const eligibleIssues = (formData?.contestedIssues || []).filter(
-    issue => issue[SELECTED],
-  );
-  const addedIssues = (formData?.additionalIssues || []).filter(
-    issue => issue[SELECTED],
-  );
-  // include index to help with error messaging
-  return [...eligibleIssues, ...addedIssues].map((issue, index) => ({
-    ...issue,
-    index,
-  }));
 };
 
 // additionalIssues (items) are separate because we're checking the count before

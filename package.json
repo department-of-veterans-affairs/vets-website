@@ -54,6 +54,7 @@
     "security-check": "yarn vagov-dependency-check",
     "test": "npm run test:unit",
     "test:coverage": "npm run test:unit -- --coverage --log-level debug",
+    "test:coverage-app": "node script/run-app-coverage.js",
     "test:coverage-apps": "npm run test:coverage && node script/app-coverage-report.js",
     "test:coverage-only": "NODE_ENV=test nyc report --all --reporter=json-summary",
     "test:unit": "node ./script/run-unit-test.js",
@@ -121,7 +122,7 @@
     "@babel/traverse": "^7.17.3",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@cypress/code-coverage": "^3.11.0",
-    "@department-of-veterans-affairs/eslint-plugin": "^1.9.0",
+    "@department-of-veterans-affairs/eslint-plugin": "^1.11.0",
     "@department-of-veterans-affairs/generator-vets-website": "^3.8.0",
     "@octokit/rest": "^18.11.0",
     "@sentry/browser": "^6.13.2",
@@ -245,7 +246,7 @@
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@department-of-veterans-affairs/css-library": "^0.1.0-rc4",
-    "@department-of-veterans-affairs/component-library": "^19.1.0",
+    "@department-of-veterans-affairs/component-library": "^23.0.0",
     "@department-of-veterans-affairs/formation": "^7.0.8",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
@@ -312,7 +313,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#b67ab74cd90b3f4b335c82454d59bbc149fd3ee4"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#be4feabc0b7448db5774dace802204e904bd1120"
   },
   "resolutions": {
     "**/lodash": "4.17.21",

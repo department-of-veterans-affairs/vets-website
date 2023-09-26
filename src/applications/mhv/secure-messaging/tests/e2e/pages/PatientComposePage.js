@@ -44,14 +44,18 @@ class PatientComposePage {
   };
 
   verifySendMessageConfirmationMessage = () => {
-    cy.get('.vads-u-margin-bottom--1').should(
+    cy.get('.main-content > va-alert').should(
       'have.text',
       'Secure message was successfully sent.',
     );
   };
 
   verifySendMessageConfirmationMessageHasFocus = () => {
-    cy.get('.vads-u-margin-bottom--1', { timeout: 5000 }).should('be.focused');
+    cy.get('.main-content > va-alert', { timeout: 5000 }).should(
+      'have.attr',
+      'aria-live',
+      'polite',
+    );
   };
 
   //* Refactor*  Need to get rid of this method and split out
@@ -64,7 +68,7 @@ class PatientComposePage {
       .click({ force: true });
     // this.attachMessageFromFile('test_image.jpg');
     this.getMessageSubjectField().type('Test Subject');
-    this.getMessageBodyField().type('Test message body');
+    this.getMessageBodyField().type('Test message body', { force: true });
   };
 
   getMessageSubjectField = () => {

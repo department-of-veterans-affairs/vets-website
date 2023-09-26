@@ -6,6 +6,107 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 describe('ConfirmationPage', () => {
   const fakeStore = {
     getState: () => ({
+      featureToggles: {
+        loading: false,
+        // eslint-disable-next-line camelcase
+        supply_reordering_sleep_apnea_enabled: true,
+      },
+      form: {
+        data: {
+          permanentAddress: {
+            'view:livesOnMilitaryBaseInfo': {},
+            country: 'United States',
+            street: '101 Example Street',
+            street2: 'Apt 2',
+            city: 'Kansas City',
+            state: 'MO',
+            postalCode: '64117',
+          },
+          temporaryAddress: {
+            'view:livesOnMilitaryBaseInfo': {},
+            country: 'United States',
+            street: '201 Example Street',
+            city: 'Galveston',
+            state: 'TX',
+            postalCode: '77550',
+          },
+          vetEmail: 'vet@vet.com',
+          supplies: [
+            {
+              deviceName: 'OMEGAX d3241',
+              productName: 'ZA1239',
+              productGroup: 'Battery',
+              productId: 1,
+              availableForReorder: true,
+              lastOrderDate: '2019-12-25',
+              nextAvailabilityDate: '2020-01-01',
+              quantity: 60,
+              prescribedDate: '2019-12-20',
+            },
+            {
+              productName: 'DOME',
+              productGroup: 'Accessory',
+              productId: 3,
+              availableForReorder: true,
+              lastOrderDate: '2019-06-30',
+              nextAvailabilityDate: '2019-12-15',
+              quantity: 10,
+              size: '6mm',
+            },
+            {
+              productName: 'DOME',
+              productGroup: 'Accessory',
+              productId: 4,
+              availableForReorder: true,
+              lastOrderDate: '2019-06-30',
+              nextAvailabilityDate: '2019-12-15',
+              quantity: 10,
+              size: '7mm',
+            },
+            {
+              productName: 'WaxBuster Single Unit',
+              productGroup: 'Accessory',
+              productId: 5,
+              availableForReorder: true,
+              lastOrderDate: '2019-06-30',
+              nextAvailabilityDate: '2019-12-15',
+              quantity: 10,
+            },
+          ],
+          fullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
+          ssnLastFour: '1200',
+          gender: 'M',
+          dateOfBirth: '1933-04-05',
+          eligibility: { batteries: true, accessories: true },
+          'view:currentAddress': 'permanentAddress',
+          order: [{ productId: 3 }],
+        },
+        submission: {
+          response: [
+            {
+              status: 'Order Processed',
+              orderId: 'TEST1234',
+              productId: 1234,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 'TEST6789',
+              productId: 6789,
+            },
+          ],
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+  const fakeStoreNoApenaToggle = {
+    getState: () => ({
+      featureToggles: {
+        loading: false,
+        // eslint-disable-next-line camelcase
+        supply_reordering_sleep_apnea_enabled: false,
+      },
       form: {
         data: {
           permanentAddress: {
@@ -97,6 +198,11 @@ describe('ConfirmationPage', () => {
   };
   const fakeStoreNoSelections = {
     getState: () => ({
+      featureToggles: {
+        loading: false,
+        // eslint-disable-next-line camelcase
+        supply_reordering_sleep_apnea_enabled: true,
+      },
       form: {
         data: {
           permanentAddress: {
@@ -186,6 +292,11 @@ describe('ConfirmationPage', () => {
   };
   const fakeStorePtSubmittedOrder = {
     getState: () => ({
+      featureToggles: {
+        loading: false,
+        // eslint-disable-next-line camelcase
+        supply_reordering_sleep_apnea_enabled: true,
+      },
       form: {
         data: {
           permanentAddress: {
@@ -282,6 +393,11 @@ describe('ConfirmationPage', () => {
   };
   const fakeStoreServerError = {
     getState: () => ({
+      featureToggles: {
+        loading: false,
+        // eslint-disable-next-line camelcase
+        supply_reordering_sleep_apnea_enabled: true,
+      },
       form: {
         data: {
           permanentAddress: {
@@ -390,7 +506,7 @@ describe('ConfirmationPage', () => {
     const confirmationPage = mount(<ConfirmationPage store={fakeStore} />);
     const vaAlert = confirmationPage.find('va-alert').last();
     expect(vaAlert.find('h4').text()).to.equal(
-      'Request for Batteries and Accessories (Form 2346A)',
+      'Request for hearing aid and CPAP supplies',
     );
     expect(
       vaAlert
@@ -424,6 +540,28 @@ describe('ConfirmationPage', () => {
       <ConfirmationPage store={fakeStoreServerError} />,
     );
     expect(confirmationPage.find('.submission-error-alert')).length.to.be(1);
+    confirmationPage.unmount();
+  });
+
+  it('should render the order summary alert', () => {
+    const confirmationPage = mount(
+      <ConfirmationPage store={fakeStoreNoApenaToggle} />,
+    );
+    const vaAlert = confirmationPage.find('va-alert').last();
+    expect(vaAlert.find('h4').text()).to.equal(
+      'Request for hearing aid batteries and accessories',
+    );
+    expect(
+      vaAlert
+        .find('li')
+        .at(0)
+        .text(),
+    ).to.equal('DOME (Quantity: 10)');
+
+    expect(vaAlert.text()).to.include('Shipping address');
+    expect(vaAlert.text()).to.include('101 Example Street Apt 2');
+    expect(vaAlert.text()).to.include('Kansas City');
+    expect(vaAlert.text()).to.include('MO');
     confirmationPage.unmount();
   });
 });

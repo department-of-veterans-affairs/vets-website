@@ -8,8 +8,8 @@ import NotificationSettings from './components/notification-settings/Notificatio
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 
 // the routesForNav array is used in the routes file to build the routes
-// the edit route is not present in the routesForNav array because
-// it is never used within the nav UI itself
+// the edit and hub routes are not present in the routesForNav array because
+// they are not shown in nav UI
 export const routesForNav = [
   {
     component: PersonalInformation,

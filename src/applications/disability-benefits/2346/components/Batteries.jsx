@@ -1,12 +1,17 @@
-import classnames from 'classnames';
-import moment from 'moment';
-import { setData } from 'platform/forms-system/src/js/actions';
-import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-import { BATTERY } from '../constants';
+
+import classnames from 'classnames';
+import moment from 'moment';
+
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+// import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+// FIXME: figure out why cypress doesn't like this import.
+// eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
+import recordEvent from 'platform/monitoring/record-event';
+
+import { BATTERY, DLC_PHONE } from '../constants';
 
 class Batteries extends Component {
   componentDidMount() {
@@ -93,7 +98,7 @@ class Batteries extends Component {
                 <p>
                   If you need unavailable batteries sooner, call the DLC
                   Customer Service Section at{' '}
-                  <va-telephone contact="3032736200" /> or email{' '}
+                  <va-telephone contact={DLC_PHONE} /> or email{' '}
                   <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
               </div>
@@ -106,15 +111,15 @@ class Batteries extends Component {
               key={batterySupply.productId}
               className={classnames({
                 'vads-u-background-color--gray-lightest vads-u-margin-bottom--2 vads-u-margin-top--3': true,
-                'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21': isBatterySelected(
+                'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21 dd-privacy-mask': isBatterySelected(
                   batterySupply.productId,
                 ),
-                'vads-u-padding--3': !isBatterySelected(
+                'vads-u-padding--3 dd-privacy-mask': !isBatterySelected(
                   batterySupply.productId,
                 ),
               })}
             >
-              <h4 className="vads-u-margin-top--0">
+              <h4 className="vads-u-margin-top--0 dd-privacy-mask">
                 {batterySupply.deviceName}
               </h4>
               <p>
@@ -124,7 +129,9 @@ class Batteries extends Component {
               <div className="vads-u-border-left--10px vads-u-border-color--primary-alt vads-u-margin-bottom--2">
                 <div className="usa-alert-body vads-u-padding-left--1">
                   <p className="vads-u-margin--1px vads-u-margin-y--1">
-                    <span className="vads-u-font-weight--bold">Battery: </span>
+                    <span className="vads-u-font-weight--bold dd-privacy-mask">
+                      Battery:{' '}
+                    </span>
                     {batterySupply.productName}
                   </p>
                   <p className="vads-u-margin--1px vads-u-margin-y--1">
@@ -152,10 +159,10 @@ class Batteries extends Component {
                   </div>
                 </div>
               ) : (
-                <div className="vads-u-max-width--293">
+                <div>
                   <input
                     id={batterySupply.productId}
-                    className="vads-u-margin-left--0 vads-u-max-width--293"
+                    className="vads-u-margin-left--0"
                     type="checkbox"
                     onChange={e =>
                       this.handleChecked(e.target.checked, batterySupply)
@@ -186,8 +193,8 @@ class Batteries extends Component {
               Your hearing aid device may not be listed here if you haven’t
               placed an order for resupply items within the last 2 years. If you
               need to order batteries, call the DLC Customer Service Section at
-              <Telephone
-                contact="303-273-6200"
+              <va-telephone
+                contact={DLC_PHONE}
                 className="vads-u-margin--0p5"
               />
               or email
@@ -225,6 +232,14 @@ Batteries.defaultProps = {
 };
 
 Batteries.propTypes = {
+  eligibility: PropTypes.object,
+  formData: PropTypes.object,
+  order: PropTypes.arrayOf(
+    PropTypes.shape({
+      productId: PropTypes.number,
+    }),
+  ),
+  setData: PropTypes.func,
   supplies: PropTypes.arrayOf(
     PropTypes.shape({
       deviceName: PropTypes.string,
@@ -239,13 +254,6 @@ Batteries.propTypes = {
       prescribedDate: PropTypes.string,
     }),
   ),
-  order: PropTypes.arrayOf(
-    PropTypes.shape({
-      productId: PropTypes.number,
-    }),
-  ),
-  formData: PropTypes.object,
-  eligibility: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
@@ -253,6 +261,7 @@ const mapStateToProps = state => ({
   formData: state.form?.data,
   order: state.form?.data?.order,
   eligibility: state.form?.data?.eligibility,
+  setData: PropTypes.func,
 });
 
 const mapDispatchToProps = {

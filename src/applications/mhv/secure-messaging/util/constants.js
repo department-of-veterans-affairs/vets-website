@@ -1,5 +1,5 @@
 /** time to wait (in ms) after the user stops typing before initiating draft auto-save */
-export const draftAutoSaveTimeout = 5000;
+export const draftAutoSaveTimeout = 10000;
 
 export const Paths = {
   INBOX: '/inbox/',
@@ -185,9 +185,11 @@ export const Prompts = {
       'If you remove an attachment, you will have to attach it again.',
   },
   Compose: {
-    EDIT_LIST_TITLE: 'Edit your contact list',
+    EDIT_LIST_TITLE: 'Edit your contact list or signature',
     EDIT_LIST_CONTENT:
-      'You can edit your contact list on the My HealtheVet website. Then refresh this page to review your updated list.',
+      'You can edit your contact list or signature on the My HealtheVet website. Then refresh this page to review your updated contacts and signature.',
+    EDIT_LIST_LINK: `Edit your contact list or signature on the My HealtheVet website (opens
+        in new tab)`,
   },
   Message: {
     DELETE_MESSAGE_CONFIRM:
