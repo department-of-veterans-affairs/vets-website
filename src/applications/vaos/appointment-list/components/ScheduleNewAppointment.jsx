@@ -9,6 +9,7 @@ import {
   selectFeatureStatusImprovement,
   selectFeaturePrintList,
 } from '../../redux/selectors';
+// eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 
 function handleClick(history, dispatch, typeOfCare) {
