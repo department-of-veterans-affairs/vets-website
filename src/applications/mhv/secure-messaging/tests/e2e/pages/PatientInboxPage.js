@@ -323,27 +323,31 @@ class PatientInboxPage {
     return this.loadedMessagesData;
   };
 
-  replyToMesage = () => {
+  replyToMessage = () => {
     cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders);
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE}/messages/${
-        mockMessageDetails.data[0].attributes.messageId
+        mockSingleThread.data[0].attributes.messageId
       }/thread`,
       mockSingleThread,
     ).as('singleThread');
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE}/messages/${
-        mockMessageDetails.data[0].attributes.messageId
+        mockSingleThread.data[0].attributes.messageId
       }`,
       mockSingleMessage,
     ).as('singleThread');
 
-    cy.get('[data-testid="thread-list-item"]')
+    cy.get(Locators.THREADS)
       .first()
-      .find(`#message-link-${mockMessageDetails.data[0].attributes.messageId}`)
+      .find(`#message-link-${mockSingleThread.data[0].attributes.messageId}`)
       .click();
+    cy.get(Locators.BUTTONS.REPLY).click({
+      waitForAnimations: true,
+    });
+    cy.get(Locators.BUTTONS.CONTINUE).click();
   };
 
   verifySentSuccessMessage = () => {

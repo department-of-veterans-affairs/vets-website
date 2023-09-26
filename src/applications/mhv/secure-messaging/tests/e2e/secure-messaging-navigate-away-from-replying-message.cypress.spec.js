@@ -1,49 +1,21 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import mockSingleThread from './fixtures/inboxResponse/single-thread-response.json';
-import mockSingleMessage from './fixtures/inboxResponse/single-message-response.json';
-import mockMessageDetails from './fixtures/messages-response.json';
-import mockFolders from './fixtures/generalResponses/folders.json';
-import { AXE_CONTEXT, Paths, Locators } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('verify signature', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
-  beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages();
-  });
 
   it('signature added on replying', () => {
-    cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders);
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE}/messages/${
-        mockMessageDetails.data[0].attributes.messageId
-      }/thread`,
-      mockSingleThread,
-    ).as('singleThread');
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE}/messages/${
-        mockMessageDetails.data[0].attributes.messageId
-      }`,
-      mockSingleMessage,
-    ).as('singleThread');
+    site.login();
+    landingPage.loadInboxMessages();
+    landingPage.replyToMessage();
 
-    cy.get(Locators.THREADS)
-      .first()
-      .find(`#message-link-${mockMessageDetails.data[0].attributes.messageId}`)
-      .click();
-
-    cy.get(Locators.BUTTONS.REPLY).click({
-      waitForAnimations: true,
-    });
-    cy.get(Locators.BUTTONS.CONTINUE).click();
     cy.get('#textarea').type('testMessageBody', {
       waitForAnimations: true,
       force: true,
     });
+
     cy.get(Locators.FOLDERS.INBOX).click();
 
     cy.get(Locators.HEADER).should('have.text', 'Inbox');
