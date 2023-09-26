@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import FeedbackEmail from './FeedbackEmail';
 
 const PrintDownload = props => {
   const { download, list } = props;
+  const [alertStatus, setAlertStatus] = useState('false');
 
   // Variables required for dropdown button group should we go back to it
   // const [menuOpen, setMenuOpen] = useState(false);
@@ -18,57 +20,85 @@ const PrintDownload = props => {
   //   menuIconClasses =
   //     'fas fa-angle-up vads-u-color--primary vads-u-margin-left--0p5';
   // }
+  const handleDownloadPDF = () => {
+    try {
+      download();
+      setAlertStatus('success');
+    } catch {
+      setAlertStatus('error');
+    }
+  };
 
   return (
-    <button
-      type="button"
-      className="link-button vads-u-margin-bottom--3"
-      onClick={download}
-      data-testid="download-pdf-button"
-    >
-      <i
-        className="fas fa-download vads-u-margin-right--0p5"
-        aria-hidden="true"
-      />
-      {list
-        ? 'Download your medication list as a PDF'
-        : 'Download your medication details as a PDF'}
-    </button>
+    <>
+      <div className="vads-u-margin-bottom--2" visible={alertStatus}>
+        {alertStatus === 'success' && (
+          <va-alert status="success" visible={alertStatus} background-only>
+            <p className="vads-u-margin--0">Download complete</p>
+          </va-alert>
+        )}
+        {alertStatus === 'error' && (
+          <va-alert status="error" visible={alertStatus}>
+            <h2 slot="headline">We can’t access your medications right now</h2>
+            <p className="vads-u-margin-bottom--0">
+              We’re sorry. There’s a problem with our system. Check back later.
+            </p>
+            <p className="vads-u-margin--0">
+              If it still doesn’t work, email us at <FeedbackEmail />
+            </p>
+          </va-alert>
+        )}
+      </div>
+      <button
+        type="button"
+        className="link-button vads-u-margin-bottom--3"
+        onClick={handleDownloadPDF}
+        data-testid="download-pdf-button"
+      >
+        <i
+          className="fas fa-download vads-u-margin-right--0p5"
+          aria-hidden="true"
+        />
+        {list
+          ? 'Download your medication list as a PDF'
+          : 'Download your medication details as a PDF'}
+      </button>
 
-    // Code for dropdown print/download button should we go back to it
-    // <div className="print-download vads-u-margin-y--2 no-print">
-    //   <button
-    //     type="button"
-    //     className={toggleMenuButtonClasses}
-    //     onClick={() => setMenuOpen(!menuOpen)}
-    //     data-testid="print-records-button"
-    //     aria-expanded={menuOpen}
-    //   >
-    //     <span>Print or download this {list ? 'list' : 'page'}</span>
-    //     <i className={menuIconClasses} aria-hidden="true" />
-    //   </button>
-    //   <ul className={menuOptionsClasses}>
-    //     <li>
-    //       <button
-    //         type="button"
-    //         data-testid="print-button"
-    //         onClick={window.print}
-    //       >
-    //         Print {list && 'list'}
-    //       </button>
-    //     </li>
-    //     <li>
-    //       <button
-    //         type="button"
-    //         data-testid="download-pdf-button"
-    //         onClick={download}
-    //       >
-    //         Download {list && 'list '}
-    //         as PDF
-    //       </button>
-    //     </li>
-    //   </ul>
-    // </div>
+      {/* Code for dropdown print/download button should we go back to it
+       <div className="print-download vads-u-margin-y--2 no-print">
+         <button
+           type="button"
+           className={toggleMenuButtonClasses}
+           onClick={() => setMenuOpen(!menuOpen)}
+           data-testid="print-records-button"
+           aria-expanded={menuOpen}
+         >
+           <span>Print or download this {list ? 'list' : 'page'}</span>
+           <i className={menuIconClasses} aria-hidden="true" />
+         </button>
+         <ul className={menuOptionsClasses}>
+           <li>
+             <button
+               type="button"
+               data-testid="print-button"
+               onClick={window.print}
+             >
+               Print {list && 'list'}
+             </button>
+           </li>
+           <li>
+             <button
+               type="button"
+               data-testid="download-pdf-button"
+               onClick={download}
+             >
+               Download {list && 'list '}
+               as PDF
+             </button>
+           </li>
+         </ul>
+       </div> */}
+    </>
   );
 };
 
