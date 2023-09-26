@@ -89,5 +89,16 @@ describe('check-in', () => {
       );
       expect(component.getByTestId('travel-help-block')).to.exist;
     });
+    it('Renders TravelHelpBlock for complete page', () => {
+      const component = render(
+        <CheckInProvider
+          store={{ app: 'dayOf' }}
+          router={{ currentPage: 'complete' }}
+        >
+          <Footer isPreCheckIn={false} />
+        </CheckInProvider>,
+      );
+      expect(component.getByTestId('travel-help-block')).to.exist;
+    });
   });
 });

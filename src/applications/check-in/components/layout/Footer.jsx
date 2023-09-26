@@ -59,7 +59,8 @@ const Footer = ({ router, isPreCheckIn }) => {
         </div>
       ) : (
         <div data-testid="day-of-check-in-message">
-          {travelPages.includes(currentPage) ? (
+          {travelPages.includes(currentPage) ||
+          (currentPage && currentPage.includes('complete')) ? (
             <TravelHelpBlock />
           ) : (
             <p>
