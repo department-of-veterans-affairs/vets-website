@@ -56,7 +56,7 @@ const AppointmentsPage = props => {
       <div>
         <va-loading-indicator
           data-testid="loading-indicator"
-          message={t('loading-your-appointments-for-today')}
+          message={t('loading-your-appointment-information')}
         />
       </div>
     );

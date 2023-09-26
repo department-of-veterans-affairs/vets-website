@@ -47,7 +47,7 @@ const UpcomingAppointments = props => {
       <div>
         <va-loading-indicator
           data-testid="loading-indicator"
-          message={t('loading-upcoming-appointments')}
+          message={t('loading-your-upcoming-appointment-information')}
         />
       </div>
     );
