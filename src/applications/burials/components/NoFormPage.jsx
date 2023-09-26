@@ -427,7 +427,7 @@ export const NoFormPage = () => {
     </div>
   ) : (
     <div className="row vads-u-margin-bottom--4">
-      <h1>Review Burial Benefits Application</h1>
+      <h1>Review burial benefits application</h1>
       <p>VA Form 21P-530</p>
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <h2 id="track-your-status-on-mobile" slot="headline">
