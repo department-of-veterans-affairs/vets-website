@@ -7,9 +7,8 @@ const DownloadingRecordsInfo = props => {
   const publicSharedContent = () => {
     return (
       <>
-        <strong>If you’re on a public or shared computer,</strong> remember that
-        downloading saves a copy of your records to the computer you’re now
-        using.
+        If you’re on a public or shared computer, remember that downloading
+        saves a copy of your records to the computer you’re using.
       </>
     );
   };
