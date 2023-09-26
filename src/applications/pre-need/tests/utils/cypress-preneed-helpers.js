@@ -176,13 +176,11 @@ function fillPreparerInfo(preparer) {
     'root_application_applicant_applicantRelationshipToClaimant',
     preparer.applicantRelationshipToClaimant,
   );
-  cy.axeCheck();
-  clickContinue();
   if (preparer.applicantRelationshipToClaimant === 'Authorized Agent/Rep') {
-    cy.get(`input[name="root_application_applicant_name_first"]`).type('test');
-    cy.get(`input[name="root_application_applicant_name_last"]`).type('test');
-    cy.axeCheck();
-    clickContinue();
+    cy.fillName(
+      'root_application_applicant_view:applicantInfo_name',
+      preparer['view:applicantInfo'].name,
+    );
     cy.fillAddress(
       'root_application_applicant_view\\:applicantInfo_mailingAddress',
       preparer['view:applicantInfo'].mailingAddress,
@@ -195,10 +193,10 @@ function fillPreparerInfo(preparer) {
       'input[name$="applicantPhoneNumber"]',
       preparer['view:applicantInfo']['view:contactInfo'].applicantPhoneNumber,
     );
-    cy.axeCheck();
-    clickContinue();
-    cy.url().should('not.contain', '/preparer');
   }
+  cy.axeCheck();
+  clickContinue();
+  cy.url().should('not.contain', '/preparer');
 }
 
 // Submit Form
