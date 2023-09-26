@@ -4,11 +4,13 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { beforeEach } from 'mocha';
 import reducer from '../../reducers';
 import labsAndTests from '../fixtures/labsAndTests.json';
+import user from '../fixtures/user.json';
 import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
 import LabAndTestDetails from '../../containers/LabAndTestDetails';
 
 describe('LabsAndTests details container', () => {
   const initialState = {
+    user,
     mr: {
       labsAndTests: {
         labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[0]),

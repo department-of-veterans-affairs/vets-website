@@ -25,15 +25,18 @@ const ProgressNoteDetails = props => {
       ],
   );
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-    const titleDate = record.dateSigned ? `${record.dateSigned} - ` : '';
-    updatePageTitle(
-      `${titleDate}${record.name} - ${
-        pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE
-      }`,
-    );
-  }, []);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      const titleDate = record.dateSigned ? `${record.dateSigned} - ` : '';
+      updatePageTitle(
+        `${titleDate}${record.name} - ${
+          pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE
+        }`,
+      );
+    },
+    [record.dateSigned, record.name],
+  );
 
   const generateCareNotesPDF = async () => {
     const title = `Care summaries and notes on ${formatDateLong(record.date)}`;
