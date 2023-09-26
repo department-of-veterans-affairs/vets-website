@@ -12,19 +12,6 @@ const Show = props => {
   return (
     <>
       <div>
-        This person is who you’d like to represent your wishes for care and
-        medical documentation if needed.
-      </div>
-      <va-additional-info
-        trigger="More information and how to update your next of kin"
-        uswds
-        disable-border
-      >
-        <div>
-          To add a next of kin, please call the Help Desk at 844-698-2311.
-        </div>
-      </va-additional-info>
-      <div>
         <h3>Name</h3>
         {name}
       </div>

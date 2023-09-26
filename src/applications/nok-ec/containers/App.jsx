@@ -1,7 +1,7 @@
 import React from 'react';
-// import PersonalDetails from '../components/PersonalDetails';
 import EmergencyContact from '../components/emergency-contact';
 import NextOfKin from '../components/next-of-kin';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 const App = () => {
   return (
@@ -18,16 +18,20 @@ const App = () => {
                   <a href="/profile/account/security">Account Security</a>
                 </li>
                 <li>
-                  <a href="/associated-persons">Emergency Contact</a>
+                  <a href="/nok-ec">Emergency Contact</a>
                 </li>
               </ul>
             </div>
           </nav>
         </div>
         <div className="vads-l-col--9">
-          <h2>Emergency contact and next of kin information</h2>
-          <EmergencyContact />
-          <NextOfKin />
+          <h2 className="vads-u-margin-bottom--4">
+            Emergency contact and next of kin information
+          </h2>
+          <ErrorBoundary>
+            <EmergencyContact />
+            <NextOfKin />
+          </ErrorBoundary>
         </div>
       </div>
     </div>

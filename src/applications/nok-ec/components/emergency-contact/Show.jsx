@@ -4,8 +4,8 @@ const Show = ({
   givenName,
   familyName,
   primaryPhone,
-  handleEdit,
-  handleRemove,
+  // handleEdit,
+  // handleRemove,
 }) => {
   return (
     <>
@@ -19,10 +19,10 @@ const Show = ({
         {primaryPhone}
       </div>
 
-      <div>
+      {/* <div>
         <va-button text="Edit" onClick={handleEdit} />
         <va-button secondary text="Remove" onClick={handleRemove} />
-      </div>
+      </div> */}
     </>
   );
 };

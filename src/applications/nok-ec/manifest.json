@@ -1,7 +1,7 @@
 {
   "appName": "Next-of-Kin, Emergency Contacts",
   "entryFile": "./app-entry.jsx",
-  "entryName": "associated-persons",
-  "rootUrl": "/associated-persons",
+  "entryName": "nok-ec",
+  "rootUrl": "/nok-ec",
   "productId": "86eac1ac-217a-4f12-8dac-18eeaa4f5871"
 }

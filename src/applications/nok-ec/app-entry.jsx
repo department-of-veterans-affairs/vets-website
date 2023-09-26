@@ -1,6 +1,6 @@
 import '@department-of-veterans-affairs/platform-polyfills';
-import './sass/associated-persons.scss';
-// import { startAppFromIndex as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
+import './sass/nok-ec.scss';
+
 import { startAppFromRouter as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
 
 import routes from './routes';
