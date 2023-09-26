@@ -5,15 +5,22 @@ import PropTypes from 'prop-types';
 import getNewAppointmentFlow from '../../newAppointmentFlow';
 import PreferredDates from './PreferredDates';
 
-function handleClick(history, getAppointmentFlow) {
+function handleClick(history, pageFlow) {
+  const { home, requestDateTime } = pageFlow;
+
   return () => {
-    history.push(getAppointmentFlow.requestDateTime.url);
+    if (
+      history.location.pathname.endsWith('/') ||
+      (requestDateTime.url.endsWith('/') && requestDateTime.url !== home.url)
+    )
+      history.push(`../${requestDateTime.url}`);
+    else history.push(requestDateTime.url);
   };
 }
 
 export default function PreferredDatesSection(props) {
   const history = useHistory();
-  const getAppointmentFlow = useSelector(state => getNewAppointmentFlow(state));
+  const pageFlow = useSelector(getNewAppointmentFlow);
 
   return (
     <>
@@ -31,7 +38,7 @@ export default function PreferredDatesSection(props) {
               aria-label="Edit preferred date"
               text="Edit"
               data-testid="edit-new-appointment"
-              onClick={handleClick(history, getAppointmentFlow)}
+              onClick={handleClick(history, pageFlow)}
             />
           </div>
         </div>

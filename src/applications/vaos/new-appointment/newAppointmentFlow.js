@@ -347,7 +347,7 @@ export default function getNewAppointmentFlow(state) {
     contactInfo: {
       ...flow.contactInfo,
       url: featureBreadcrumbUrlUpdate
-        ? '/schedule/va-request/contact-information'
+        ? 'contact-information'
         : '/new-appointment/contact-info',
     },
     preferredDate: {
@@ -359,20 +359,23 @@ export default function getNewAppointmentFlow(state) {
     reasonForAppointment: {
       ...flow.reasonForAppointment,
       url: featureBreadcrumbUrlUpdate
-        ? '/schedule/va-request/reason'
+        ? 'reason'
         : '/new-appointment/reason-appointment',
     },
     review: {
       ...flow.review,
-      url: featureBreadcrumbUrlUpdate
-        ? '/schedule/va-request/review'
-        : '/new-appointment/review',
+      url: featureBreadcrumbUrlUpdate ? 'review' : '/new-appointment/review',
     },
     requestDateTime: {
       ...flow.requestDateTime,
       url: featureBreadcrumbUrlUpdate
-        ? '/schedule/va-request'
+        ? 'va-request/'
         : '/new-appointment/request-date',
+    },
+    root: {
+      url: featureBreadcrumbUrlUpdate
+        ? '/my-health/appointments'
+        : '/health-care/schedule-view-va-appointments/appointments/',
     },
     scheduleCerner: {
       ...flow.scheduleCerner,
@@ -407,7 +410,7 @@ export default function getNewAppointmentFlow(state) {
     typeOfFacility: {
       ...flow.typeOfFacility,
       url: featureBreadcrumbUrlUpdate
-        ? '/schedule/facility-type'
+        ? 'facility-type'
         : '/new-appointment/choose-facility-type',
     },
     typeOfSleepCare: {
@@ -419,7 +422,7 @@ export default function getNewAppointmentFlow(state) {
     vaccineFlow: {
       ...flow.vaccineFlow,
       url: featureBreadcrumbUrlUpdate
-        ? '/schedule/new-covid-19-vaccine-appointment'
+        ? 'new-covid-19-vaccine-appointment'
         : '/new-covid-19-vaccine-appointment',
     },
     vaFacility: {
@@ -431,13 +434,13 @@ export default function getNewAppointmentFlow(state) {
     vaFacilityV2: {
       ...flow.vaFacilityV2,
       url: featureBreadcrumbUrlUpdate
-        ? '/schedule/location'
+        ? 'location'
         : '/new-appointment/va-facility-2',
     },
     visitType: {
       ...flow.visitType,
       url: featureBreadcrumbUrlUpdate
-        ? '/schedule/va-request/preferred-method'
+        ? 'preferred-method'
         : '/new-appointment/choose-visit-type',
     },
   };

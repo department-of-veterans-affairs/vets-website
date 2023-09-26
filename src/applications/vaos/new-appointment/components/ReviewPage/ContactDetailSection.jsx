@@ -35,9 +35,16 @@ function formatBestTimetoCall(bestTime) {
   return output.toLowerCase();
 }
 
-function handleClick(history, getAppointmentFlow) {
+function handleClick(history, pageFlow) {
+  const { home, contactInfo } = pageFlow;
+
   return () => {
-    history.push(getAppointmentFlow.contactInfo.url);
+    if (
+      history.location.pathname.endsWith('/') ||
+      (contactInfo.url.endsWith('/') && contactInfo.url !== home.url)
+    )
+      history.push(`../${contactInfo.url}`);
+    else history.push(contactInfo.url);
   };
 }
 
@@ -48,7 +55,7 @@ export default function ContactDetailSection({ data }) {
   );
   const flowType = useSelector(getFlowType);
   const history = useHistory();
-  const getAppointmentFlow = useSelector(state => getNewAppointmentFlow(state));
+  const pageFlow = useSelector(getNewAppointmentFlow);
 
   return (
     <>
@@ -86,7 +93,7 @@ export default function ContactDetailSection({ data }) {
               aria-label="Edit call back time"
               text="Edit"
               data-testid="edit-new-appointment"
-              onClick={handleClick(history, getAppointmentFlow)}
+              onClick={handleClick(history, pageFlow)}
             />
           </div>
         </div>

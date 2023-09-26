@@ -5,9 +5,16 @@ import getNewAppointmentFlow from '../../newAppointmentFlow';
 import { LANGUAGES } from '../../../utils/constants';
 import State from '../../../components/State';
 
-function handleClick(history, getAppointmentFlow) {
+function handleClick(history, pageFlow) {
+  const { home, ccPreferences } = pageFlow;
+
   return () => {
-    history.push(getAppointmentFlow.ccPreferences.url);
+    if (
+      history.location.pathname.endsWith('/') ||
+      (ccPreferences.url.endsWith('/') && ccPreferences.url !== home.url)
+    )
+      history.push(`../${ccPreferences.url}`);
+    else history.push(ccPreferences.url);
   };
 }
 
@@ -17,7 +24,7 @@ export default function SelectedProviderSection({ data, vaCityState }) {
   const hasProvider =
     !!provider && !!Object.keys(data.communityCareProvider).length;
 
-  const getAppointmentFlow = useSelector(state => getNewAppointmentFlow(state));
+  const pageFlow = useSelector(getNewAppointmentFlow);
 
   return (
     <div className="vads-l-grid-container vads-u-padding--0">
@@ -53,7 +60,7 @@ export default function SelectedProviderSection({ data, vaCityState }) {
         </div>
         <div>
           <va-link
-            onClick={handleClick(history, getAppointmentFlow)}
+            onClick={handleClick(history, pageFlow)}
             aria-label="Edit provider preference"
             text="Edit"
             data-testid="edit-new-appointment"

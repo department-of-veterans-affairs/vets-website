@@ -14,7 +14,6 @@ import {
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureAcheronService,
-  selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -967,15 +966,10 @@ export function requestProvidersList(address) {
 
 export function requestAppointmentDateChoice(history) {
   return async (dispatch, getState) => {
-    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(
-      getState(),
-    );
+    const { requestDateTime } = getNewAppointmentFlow(getState);
+
     dispatch(startRequestAppointmentFlow());
-    history.replace(
-      featureBreadcrumbUrlUpdate
-        ? '/schedule/va-request'
-        : '/new-appointment/request-date',
-    );
+    history.replace(requestDateTime.url);
   };
 }
 
@@ -991,6 +985,14 @@ export function routeToPageInFlow(callback, history, current, action, data) {
 
     let nextPage;
     let nextStateKey;
+    const checkPage = page => {
+      if (!page) {
+        throw new Error('Tried to route to page that does not exist');
+      }
+      if (page.url === null || page.url === undefined) {
+        throw new Error(`Tried to route to a page without a url: ${page}`);
+      }
+    };
 
     if (action === 'next') {
       const nextAction = flow[current][action];
@@ -1001,25 +1003,31 @@ export function routeToPageInFlow(callback, history, current, action, data) {
         nextStateKey = await nextAction(getState(), dispatch);
         nextPage = flow[nextStateKey];
       }
+
+      checkPage(nextPage);
+
+      history.push(nextPage.url);
     } else {
       const state = getState();
       const previousPage = state.newAppointment.previousPages[current];
       nextPage = flow[previousPage];
+
+      checkPage(nextPage);
+
+      if (
+        history.location.pathname.endsWith('/') ||
+        (nextPage.url.endsWith('/') && nextPage.url !== flow.home.url)
+      )
+        history.push(`../${nextPage.url}`);
+      else history.push(nextPage.url);
     }
 
-    if (nextPage?.url) {
-      dispatch({
-        type: FORM_PAGE_CHANGE_COMPLETED,
-        pageKey: current,
-        pageKeyNext: nextStateKey,
-        direction: action,
-      });
-      history.push(nextPage.url);
-    } else if (nextPage) {
-      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
-    } else {
-      throw new Error('Tried to route to page that does not exist');
-    }
+    dispatch({
+      type: FORM_PAGE_CHANGE_COMPLETED,
+      pageKey: current,
+      pageKeyNext: nextStateKey,
+      direction: action,
+    });
   };
 }
 

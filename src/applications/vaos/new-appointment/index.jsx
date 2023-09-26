@@ -74,7 +74,12 @@ export function NewAppointment() {
         pageTitle={crumb}
       >
         <Switch>
-          <Route path={`${match.url}/va-request/contact-information`}>
+          <Route
+            path={[
+              `${match.url}/va-request/contact-information`,
+              `${match.url}/contact-information`,
+            ]}
+          >
             <ContactInfoPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
           <Route path={`${match.url}/facility-type`}>
@@ -107,17 +112,17 @@ export function NewAppointment() {
             path={`${match.url}/how-to-schedule`}
             component={ScheduleCernerPage}
           />
-          <Route path={`${match.url}/community-care-preferences`}>
+          <Route path={`${match.url}/va-request/community-care-preferences`}>
             <CommunityCareProviderSelectionPage
               changeCrumb={newTitle => setCrumb(newTitle)}
             />
           </Route>
-          <Route path={`${match.url}/community-care-language`}>
+          <Route path={`${match.url}/va-request/community-care-language`}>
             <CommunityCareLanguagePage
               changeCrumb={newTitle => setCrumb(newTitle)}
             />
           </Route>
-          <Route path={`${match.url}/choose-closest-city`}>
+          <Route exact path={`${match.url}/va-request/choose-closest-city`}>
             <ClosestCityStatePage
               changeCrumb={newTitle => setCrumb(newTitle)}
             />
@@ -125,15 +130,19 @@ export function NewAppointment() {
           <Route path={`${match.url}/clinic`}>
             <ClinicChoicePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route path={`${match.url}/va-request/reason`}>
+          <Route
+            path={[`${match.url}/va-request/reason`, `${match.url}/reason`]}
+          >
             <ReasonForAppointmentPage
               changeCrumb={newTitle => setCrumb(newTitle)}
             />
           </Route>
-          <Route path={`${match.url}/va-request/review`}>
+          <Route
+            path={[`${match.url}/va-request/review`, `${match.url}/review`]}
+          >
             <ReviewPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route path={`${match.url}/va-request`}>
+          <Route path={`${match.url}/va-request/`}>
             <DateTimeRequestPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
           <Route

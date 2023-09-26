@@ -5,16 +5,24 @@ import PropTypes from 'prop-types';
 import getNewAppointmentFlow from '../../newAppointmentFlow';
 import { PURPOSE_TEXT } from '../../../utils/constants';
 
-function handleClick(history, getAppointmentFlow) {
+function handleClick(history, pageFlow) {
+  const { home, reasonForAppointment } = pageFlow;
+
   return () => {
-    history.push(getAppointmentFlow.reasonForAppointment.url);
+    if (
+      history.location.pathname.endsWith('/') ||
+      (reasonForAppointment.url.endsWith('/') &&
+        reasonForAppointment.url !== home.url)
+    )
+      history.push(`../${reasonForAppointment.url}`);
+    else history.push(reasonForAppointment.url);
   };
 }
 
 export default function ReasonForAppointmentSection({ data }) {
   const { reasonForAppointment, reasonAdditionalInfo } = data;
   const history = useHistory();
-  const getAppointmentFlow = useSelector(state => getNewAppointmentFlow(state));
+  const pageFlow = useSelector(getNewAppointmentFlow);
 
   if (!reasonForAppointment && !reasonAdditionalInfo) {
     return null;
@@ -39,7 +47,7 @@ export default function ReasonForAppointmentSection({ data }) {
               aria-label="Edit purpose of appointment"
               text="Edit"
               data-testid="edit-new-appointment"
-              onClick={handleClick(history, getAppointmentFlow)}
+              onClick={handleClick(history, pageFlow)}
             />
           </div>
         </div>
