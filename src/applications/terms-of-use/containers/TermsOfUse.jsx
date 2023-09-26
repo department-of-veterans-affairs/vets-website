@@ -134,23 +134,23 @@ export default function TermsOfUse() {
           <p>
             Your decision to decline these terms won’t affect your eligibility
             for VA health care and benefits in any way. You can still get VA
-            health care and benefits in-person without using online services. If
-            you need help or have questions, <SubmitSignInForm /> We’re here
-            24/7.
+            health care and benefits without using online services. If you need
+            help or have questions, <SubmitSignInForm /> We’re here 24/7.
           </p>
           <va-alert status="warning" visible>
             <h3 slot="headline" id="what-happens-if-you-decline">
               What will happen if you decline
             </h3>
             <p>
-              If you decline these terms, we’ll sign you out and take you back
-              to the VA.gov homepage. And you won’t be able to sign in to use
-              some VA online services, like:
+              If you decline these terms, we’ll sign you out. You can still get
+              VA health care and benefits by phone, by mail, or in person. But
+              you won't be able to use some online services, like:
             </p>
             <ul>
               <li>VA.gov</li>
               <li>My HealtheVet</li>
               <li>My VA Health</li>
+              <li>VA: Health and Benefits</li>
             </ul>
             <p>
               This means you won’t be able to do these types of things using VA
