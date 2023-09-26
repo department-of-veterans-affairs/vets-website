@@ -6,7 +6,6 @@ import { render } from '@testing-library/react';
 import UpcomingAppointments from '../UpcomingAppointments';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 import * as useGetUpcomingAppointmentsDataModule from '../../hooks/useGetUpcomingAppointmentsData';
-import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 
 describe('unified check-in experience', () => {
   describe('UpcomingAppointments', () => {
@@ -30,7 +29,6 @@ describe('unified check-in experience', () => {
       expect(getByTestId('upcoming-appointments-header')).to.have.text(
         'Upcoming Appointments',
       );
-      expect(UpcomingAppointmentsList).to.exist;
 
       // Restore the hook
       useGetUpcomingAppointmentsDataStub.restore();

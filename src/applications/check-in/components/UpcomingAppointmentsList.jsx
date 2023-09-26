@@ -35,7 +35,11 @@ const UpcomingAppointmentsList = props => {
 
   if (groupedAppointments.length < 1) {
     window.scrollTo(0, 0);
-    return <div>You have no upcoming appointments</div>;
+    return (
+      <div data-testid="no-upcoming-appointments">
+        You have no upcoming appointments
+      </div>
+    );
   }
   return (
     <>
@@ -44,7 +48,7 @@ const UpcomingAppointmentsList = props => {
 
         return (
           <div key={monthYearKey}>
-            <h3>
+            <h3 data-testid="appointments-list-monthyear-heading">
               {`${monthYearKey.split('-')[1]} ${monthYearKey.split('-')[0]}`}
             </h3>
             <ul
