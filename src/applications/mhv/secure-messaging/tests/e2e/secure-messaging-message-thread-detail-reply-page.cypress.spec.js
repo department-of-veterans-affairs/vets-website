@@ -5,6 +5,7 @@ import PatientReplyPage from './pages/PatientReplyPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockMessages from './fixtures/messages-response.json';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Reply Message Details Thread', () => {
   it('Axe Check Message Reply Details', () => {
@@ -35,7 +36,7 @@ describe('Secure Messaging Reply Message Details Thread', () => {
     messageDetailsPage.verifyExpandedMessageToDisplay(testMessage);
     messageDetailsPage.verifyUnexpandedMessageFromDisplay(testMessage);
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

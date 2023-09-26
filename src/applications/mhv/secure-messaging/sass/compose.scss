@@ -159,7 +159,18 @@
     }
   }
 }
+.edit-contact-list-or-signature {
+  .edit-contact-list-or-signature-button::part(button) {
+    box-shadow: inset 0 0 0 2px $color-gray-dark;
+    color: $color-gray-dark;
+    height: 36px;
+    width: 100%;
 
+    @media (min-width: $small-screen) {
+      width: auto;
+    }
+  }
+}
 .file-input {
   .attach-file-button {
     display: block;
@@ -176,7 +187,7 @@
     height: 36px;
     width: 100%;
 
-    @media (min-width: $medium-screen) {
+    @media (min-width: $small-screen) {
       width: auto;
     }
   }
@@ -201,9 +212,7 @@
   }
 
   button {
-    padding-left: 4px;
-    padding-right: 4px;
-    margin-bottom: 16px;
+    height: 36px;
   }
 
   @media (min-width: $medium-screen) {

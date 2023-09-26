@@ -4,12 +4,15 @@ import environment from 'platform/utilities/environment';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
+import createDirectDepositChangePageUpdate from '../../pages/directDepositChangeUpdate';
 
 import {
   benefitSelection,
+  benefitSelectionUpdate,
   dependents,
   militaryHistory,
   newSchool,
+  newSchoolUpdate,
   servicePeriods,
 } from '../pages';
 
@@ -35,8 +38,12 @@ export const chapters = {
       benefitSelection: {
         title: 'Education benefit selection',
         path: 'benefits/eligibility',
-        uiSchema: benefitSelection.uiSchema,
-        schema: benefitSelection.schema,
+        uiSchema: environment.isProduction()
+          ? benefitSelection.uiSchema
+          : benefitSelectionUpdate.uiSchema,
+        schema: environment.isProduction()
+          ? benefitSelection.schema
+          : benefitSelectionUpdate.schema,
       },
     },
   },
@@ -68,8 +75,12 @@ export const chapters = {
         initialData: {
           newSchoolAddress: {},
         },
-        uiSchema: newSchool.uiSchema,
-        schema: newSchool.schema,
+        uiSchema: environment.isProduction()
+          ? newSchool.uiSchema
+          : newSchoolUpdate.uiSchema,
+        schema: environment.isProduction()
+          ? newSchool.schema
+          : newSchoolUpdate.schema,
       },
       oldSchool: createOldSchoolPage(fullSchema1995),
     },
@@ -90,7 +101,9 @@ export const chapters = {
         uiSchema: dependents.uiSchema,
         schema: dependents.schema,
       },
-      directDeposit: createDirectDepositChangePage(fullSchema1995),
+      directDeposit: environment.isProduction()
+        ? createDirectDepositChangePage(fullSchema1995)
+        : createDirectDepositChangePageUpdate(fullSchema1995),
     },
   },
 };

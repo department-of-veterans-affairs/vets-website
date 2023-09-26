@@ -8,6 +8,18 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
 import { getAvs } from '../api/v0';
+import { getFormattedAppointmentDate } from '../utils';
+
+import YourAppointment from '../components/YourAppointment';
+import YourTreatmentPlan from '../components/YourTreatmentPlan';
+import YourHealthInformation from '../components/YourHealthInformation';
+import MoreInformation from '../components/MoreInformation';
+import Footer from '../components/Footer';
+
+const generateAppointmentHeader = avs => {
+  const appointmentDate = getFormattedAppointmentDate(avs);
+  return `Your appointment on ${appointmentDate}`;
+};
 
 const Avs = props => {
   const user = useSelector(selectUser);
@@ -26,13 +38,24 @@ const Avs = props => {
   const [avs, setAvs] = useState({});
   const [avsLoading, setAvsLoading] = useState(true);
 
+  const [error, setError] = useState(null);
+
+  if (error) {
+    throw error;
+  }
+
   useEffect(
     () => {
       const fetchAvs = async () => {
-        const response = await getAvs(id);
-        // cf. https://github.com/department-of-veterans-affairs/avs/blob/master/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/model/AvsDataModel.java
-        setAvs(response.data.attributes);
-        setAvsLoading(false);
+        try {
+          const response = await getAvs(id);
+
+          // cf. https://github.com/department-of-veterans-affairs/avs/blob/master/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/model/AvsDataModel.java
+          setAvs(response.data.attributes);
+          setAvsLoading(false);
+        } catch (e) {
+          setError(e);
+        }
       };
 
       if (isLoggedIn && avsLoading) {
@@ -62,6 +85,23 @@ const Avs = props => {
         serviceRequired={[backendServices.USER_PROFILE]}
       >
         <h1>After-visit Summary</h1>
+
+        <va-accordion>
+          <va-accordion-item header={generateAppointmentHeader(avs)}>
+            <YourAppointment avs={avs} />
+          </va-accordion-item>
+          <va-accordion-item header="Your treatment plan from this appointment">
+            <YourTreatmentPlan avs={avs} />
+          </va-accordion-item>
+          <va-accordion-item header="Your health information as of this appointment">
+            <YourHealthInformation avs={avs} />
+          </va-accordion-item>
+          <va-accordion-item header="More information">
+            <MoreInformation avs={avs} />
+          </va-accordion-item>
+        </va-accordion>
+
+        <Footer avs={avs} />
       </RequiredLoginView>
     </div>
   );

@@ -3,15 +3,11 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router';
 
-import {
-  SELECTED,
-  FORMAT_YMD,
-  FORMAT_READABLE,
-  errorMessages,
-} from '../constants';
+import { errorMessages } from '../constants';
 import { isValidDate } from '../validations/date';
 
 import { replaceDescriptionContent } from '../../shared/utils/replace';
+import { FORMAT_YMD, FORMAT_READABLE, SELECTED } from '../../shared/constants';
 import '../../shared/definitions';
 
 /** Modified from HLR v2 card */

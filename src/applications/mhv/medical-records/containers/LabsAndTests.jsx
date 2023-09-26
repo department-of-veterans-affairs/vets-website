@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList } from '../actions/labsAndTests';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { RecordType } from '../util/constants';
+import { pageTitles, recordType } from '../util/constants';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -11,21 +13,22 @@ const LabsAndTests = () => {
     state => state.mr.labsAndTests.labsAndTestsList,
   );
 
-  useEffect(() => {
-    dispatch(getLabsAndTestsList());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getLabsAndTestsList());
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
       dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-          {
-            url: '/my-health/medical-records/labs-and-tests',
-            label: 'Lab and test results',
-          },
-        ),
+        setBreadcrumbs([
+          { url: '/my-health/medical-records/', label: 'Medical records' },
+        ]),
       );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
     },
     [dispatch],
   );
@@ -33,7 +36,7 @@ const LabsAndTests = () => {
   const content = () => {
     if (labsAndTests?.length > 0) {
       return (
-        <RecordList records={labsAndTests} type={RecordType.LABS_AND_TESTS} />
+        <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
       );
     }
     if (labsAndTests?.length === 0) {
@@ -56,17 +59,20 @@ const LabsAndTests = () => {
   };
 
   return (
-    <div id="labs-and-tests">
+    <div
+      id="labs-and-tests"
+      className="vads-l-col--12 medium-screen:vads-l-col--8"
+    >
       <h1 className="page-title vads-u-margin-bottom--1">
         Lab and test results
       </h1>
-      <section className="set-width-486">
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-          Most lab and test results are available <strong>36 hours</strong>{' '}
-          after the lab confirms them. Pathology results may take{' '}
-          <strong>14 days</strong> or longer to confirm.{' '}
-        </p>
-      </section>
+      <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
+        Most lab and test results are available{' '}
+        <span className="vads-u-font-weight--bold">36 hours</span> after the lab
+        confirms them. Pathology results may take{' '}
+        <span className="vads-u-font-weight--bold">14 days</span> or longer to
+        confirm.{' '}
+      </p>
       {content()}
     </div>
   );

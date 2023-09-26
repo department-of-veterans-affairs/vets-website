@@ -84,8 +84,19 @@ const CreditCardBill = props => {
   const updateFormData = e => {
     setSubmitted(true);
     e.preventDefault();
+
+    // Create a copy of the current creditCardBills array
     const newCreditCardBillArray = [...creditCardBills];
-    newCreditCardBillArray[index] = creditCardBillRecord;
+    // If it's a new record, set the purpose to 'Credit card payment' explicitly
+    if (creditCardBills.length === index) {
+      newCreditCardBillArray.push({
+        ...defaultRecord[0], // You can include other default values as needed
+        ...creditCardBillRecord,
+      });
+    } else {
+      // Update an existing record
+      newCreditCardBillArray[index] = creditCardBillRecord;
+    }
 
     if (
       creditCardBillRecord.amountDueMonthly &&
@@ -99,7 +110,7 @@ const CreditCardBill = props => {
         }));
       }
 
-      // update form data
+      // Update form data
       setFormData({
         ...data,
         expenses: {

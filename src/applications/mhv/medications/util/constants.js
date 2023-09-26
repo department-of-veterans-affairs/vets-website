@@ -68,7 +68,16 @@ export const rxListSortingOptions = [
 ];
 
 export const medicationsUrls = {
-  prescriptionsUrl: '/my-health/medications/',
-  medicationsLogin:
-    '/my-health/medications/prescriptions?next=loginModal&oauth=true',
+  MEDICATIONS_URL: '/my-health/medications',
+  MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
 };
+
+export const dispStatusForRefillsLeft = [
+  'Active',
+  'Active: Parked',
+  'Active: On Hold',
+  'Active: Submitted',
+  'Active: Refill in process',
+];
+
+export const imageRootUri = 'https://www.myhealth.va.gov/static/MILDrugImages/';

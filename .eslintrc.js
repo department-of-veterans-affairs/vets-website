@@ -14,6 +14,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 11,
     sourceType: 'module',
+    requireConfigFile: false,
   },
   extends: ['plugin:@department-of-veterans-affairs/recommended'],
   globals: {
@@ -62,11 +63,6 @@ module.exports = {
         use: 'a custom solution',
       },
       {
-        name:
-          '@department-of-veterans-affairs/component-library/AdditionalInfo',
-        use: '<va-additional-info>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/Breadcrumbs',
         use: '<va-breadcrumbs>',
       },
@@ -78,22 +74,6 @@ module.exports = {
       {
         name: '@department-of-veterans-affairs/component-library/Modal',
         use: '<va-modal>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/OMBInfo',
-        use: '<va-omb-info>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Pagination',
-        use: '<va-pagination>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Telephone',
-        use: '<va-telephone>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Select',
-        use: '<va-select>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/FileInput',
