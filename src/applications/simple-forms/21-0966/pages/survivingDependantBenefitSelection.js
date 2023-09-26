@@ -1,20 +1,20 @@
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/components';
 import React from 'react';
-import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
-import { benefitSelectionTitle } from '../config/helpers';
+import {
+  radioUI,
+  radioSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     benefitSelection: {
-      'ui:widget': GroupCheckboxWidget,
+      ...radioUI({
+        labels: ['Survivors'],
+        labelHeaderLevel: '3',
+      }),
       'ui:errorMessages': {
         required: 'Select the benefit listed',
-      },
-      'ui:title': '',
-      'ui:options': {
-        labels: ['Survivors'],
-        updateSchema: formData => benefitSelectionTitle({ formData }),
       },
     },
     additionalInfo: {
@@ -33,9 +33,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      benefitSelection: {
-        type: 'string',
-      },
+      benefitSelection: radioSchema(['Survivors']),
       additionalInfo: {
         type: 'object',
         properties: {},

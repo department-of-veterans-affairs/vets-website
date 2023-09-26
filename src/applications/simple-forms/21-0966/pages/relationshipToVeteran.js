@@ -2,12 +2,12 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns/';
-import { relationshipToTheVeteranKeys } from '../definitions/constants';
+import { relationshipToVeteranKeys } from '../definitions/constants';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    relationshipToTheVeteran: {
+    relationshipToVeteran: {
       ...radioUI({
         title: 'What’s the claimant’s relationship to the Veteran?',
         labels: {
@@ -24,9 +24,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['relationshipToTheVeteran'],
+    required: ['relationshipToVeteran'],
     properties: {
-      relationshipToTheVeteran: radioSchema(relationshipToTheVeteranKeys),
+      relationshipToVeteran: radioSchema(relationshipToVeteranKeys),
     },
   },
 };

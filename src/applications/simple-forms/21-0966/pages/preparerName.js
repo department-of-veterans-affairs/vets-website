@@ -19,14 +19,14 @@ export default {
         sign this application for them.
       </p>,
     ),
-    name: fullNameNoSuffixUI(),
+    preparerName: fullNameNoSuffixUI(),
   },
   schema: {
     type: 'object',
     properties: {
       'view:title': titleSchema,
       'view:description': descriptionSchema,
-      name: fullNameNoSuffixSchema,
+      preparerName: fullNameNoSuffixSchema,
     },
   },
 };

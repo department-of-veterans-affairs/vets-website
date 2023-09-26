@@ -5,4 +5,4 @@ export const preparerIdentificationKeys = [
   'THIRD_PARTY_SURVIVING_DEPENDANT',
 ];
 
-export const relationshipToTheVeteranKeys = ['SPOUSE', 'CHILD'];
+export const relationshipToVeteranKeys = ['SPOUSE', 'CHILD'];

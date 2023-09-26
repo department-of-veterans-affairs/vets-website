@@ -1,8 +1,8 @@
-import definitions from 'vets-json-schema/dist/definitions.json';
 import React from 'react';
-import LearnMoreAboutMilitaryBaseTooltip from '../../../toe/components/LearnMoreAboutMilitaryBaseTooltip';
-import YesNoReviewField from '../../../toe/components/YesNoReviewField';
-import { uiSchema, schema } from '../../shared/definitions/pdfAddress';
+import {
+  addressSchema,
+  addressUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
@@ -18,18 +18,7 @@ export default {
         </div>
       ),
     },
-    livesOnMilitaryBase: {
-      'ui:title': (
-        <span id="LiveOnMilitaryBaseTooltip">
-          I live on a United States military base outside of the country
-        </span>
-      ),
-      'ui:reviewField': YesNoReviewField,
-    },
-    livesOnMilitaryBaseInfo: {
-      'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
-    },
-    veteranMailingAddress: uiSchema(''),
+    veteranMailingAddress: addressUI(),
   },
   schema: {
     type: 'object',
@@ -39,14 +28,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      livesOnMilitaryBase: {
-        type: 'boolean',
-      },
-      livesOnMilitaryBaseInfo: {
-        type: 'object',
-        properties: {},
-      },
-      veteranMailingAddress: schema({ definitions }, true),
+      veteranMailingAddress: addressSchema(),
     },
   },
 };

@@ -29,7 +29,7 @@ import preparerName from '../pages/preparerName';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/minimal-test.json';
-import relationshipToTheVeteran from '../pages/relationshipToTheVeteran';
+import relationshipToVeteran from '../pages/relationshipToVeteran';
 
 const mockData = testData;
 
@@ -37,7 +37,7 @@ const mockData = testData;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   submit: () =>
     Promise.resolve({
       confirmationNumber: '123123123',
@@ -98,10 +98,10 @@ const formConfig = {
   title: 'Submit an intent to file',
   defaultDefinitions: {},
   chapters: {
-    preparerIdentityChapter: {
+    preparerIdentificationChapter: {
       title: 'Your identity',
       pages: {
-        preparerIdentity: {
+        preparerIdentification: {
           path: 'preparer-identification',
           title: 'Your identity',
           initialData:
@@ -111,7 +111,7 @@ const formConfig = {
           uiSchema: preparerIdentification.uiSchema,
           schema: preparerIdentification.schema,
         },
-        name: {
+        preparerName: {
           path: 'preparer-name',
           // display only if preparer is a third-party
           depends: formData => preparerIsThirdParty({ formData }),
@@ -205,8 +205,8 @@ const formConfig = {
           depends: formData =>
             preparerIsThirdPartyToASurvivingDependant({ formData }),
           title: '',
-          uiSchema: relationshipToTheVeteran.uiSchema,
-          schema: relationshipToTheVeteran.schema,
+          uiSchema: relationshipToVeteran.uiSchema,
+          schema: relationshipToVeteran.schema,
         },
       },
     },
