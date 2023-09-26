@@ -246,13 +246,12 @@ const CreateSummarySections = ({
     <>
       {!bypassData ? (
         <>
-          <h2 id={id} className="vads-u-font-size--h3">
+          <h2
+            id={id}
+            className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary"
+          >
             {title}
           </h2>
-          <hr
-            className="vads-u-border-color--primary-darker vads-u-margin-top--0"
-            aria-hidden="true"
-          />
         </>
       ) : null}
       <div>
@@ -319,7 +318,7 @@ export const NoFormPage = () => {
 
   return loggedIn ? (
     <div className="row vads-u-margin-bottom--4">
-      <h1>Review Burial Benefits Application</h1>
+      <h1>Review burial benefits application</h1>
       <p>VA Form 21P-530</p>
       {data?.metadata?.inProgressFormId ? (
         <>
@@ -340,20 +339,15 @@ export const NoFormPage = () => {
             </div>
             <br />
             <va-link
-              href="https://www.va.gov/burials-memorials/veterans-burial-allowance/"
-              text="Learn more about how to apply for VA burial benefits"
-            />
-          </va-alert>
-          <div>
-            <h2>How to apply by mail</h2>
-            <p>Fill out an Application for Burial (VA Form 21P-530EZ)</p>
-            <va-link
               download
               filetype="PDF"
               href="https://www.vba.va.gov/pubs/forms/VBA-21P-530EZ-ARE.pdf"
               pages={8}
               text="Download VA form 21P-530EZ"
             />
+          </va-alert>
+          <div>
+            <h2>How to apply by mail</h2>
             <p className="vads-u-margin-bottom--4">
               Mail the completed form to the pension management center (PMC):
             </p>
@@ -386,13 +380,9 @@ export const NoFormPage = () => {
               include a fine, imprisonment for up to 5 years, or both.
               (Reference: 18 U.S.C. 1001)
             </p>
-            <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+            <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
               Need help?
             </h2>
-            <hr
-              className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px"
-              aria-hidden="true"
-            />
             <p>
               Call us at <va-telephone contact="8008271000" />. We’re here
               Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
@@ -424,13 +414,9 @@ export const NoFormPage = () => {
               text="Learn more about how to apply for VA burial benefits"
             />
           </va-alert>
-          <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+          <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
             Need help?
           </h2>
-          <hr
-            className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px"
-            aria-hidden="true"
-          />
           <p>
             Call us at <va-telephone contact="8008271000" />. We’re here Monday
             through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss,
@@ -460,13 +446,9 @@ export const NoFormPage = () => {
           text="Learn more about how to apply for VA burial benefits"
         />
       </va-alert>
-      <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+      <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
         Need help?
       </h2>
-      <hr
-        className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px"
-        aria-hidden="true"
-      />
       <p>
         Call us at <va-telephone contact="8008271000" />. We’re here Monday
         through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss, call{' '}
