@@ -410,17 +410,26 @@ const ComposeForm = props => {
     () => {
       const beforeUnloadHandler = e => {
         if (
-          selectedRecipient !== '' ||
-          category !== '' ||
-          subject !== '' ||
-          messageBody !== ''
+          selectedRecipient !== debouncedRecipient ||
+          category !== debouncedCategory ||
+          subject !== debouncedSubject ||
+          messageBody !== debouncedMessageBody
         ) {
           e.returnValue = '';
-        } else {
-          window.removeEventListener('beforeunload', beforeUnloadHandler);
         }
       };
+      // console.log({ category, messageBody, subject, selectedRecipient });
+      // console.log('add listener unload');
       window.addEventListener('beforeunload', beforeUnloadHandler);
+      if (
+        (selectedRecipient === '' || selectedRecipient === '0') &&
+        category === '' &&
+        subject === '' &&
+        messageBody === ''
+      ) {
+        // console.log('remove listener unload');
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+      }
       return () => {
         window.removeEventListener('beforeunload', beforeUnloadHandler);
       };
