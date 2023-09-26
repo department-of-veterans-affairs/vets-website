@@ -9,10 +9,13 @@ import { imageRootUri } from './constants';
  * @returns {String} fromatted timestamp
  */
 export const dateFormat = (timestamp, format = null) => {
-  const timeZone = moment.tz.guess();
-  return moment
-    .tz(timestamp, timeZone)
-    .format(format || 'MMMM D, YYYY, h:mm a z');
+  if (timestamp) {
+    const timeZone = moment.tz.guess();
+    return moment
+      .tz(timestamp, timeZone)
+      .format(format || 'MMMM D, YYYY, h:mm a z');
+  }
+  return 'None noted';
 };
 
 /**
@@ -36,15 +39,9 @@ export const generateMedicationsPDF = async (
 
 /**
  * @param {String} fieldValue value that is being validated
- * @param {string} date if the value needs to be returend as a date, this param should be passed as the string "date",
- * otherwise it is set to false by default
  */
-export const validateField = (fieldValue, date = false) => {
+export const validateField = fieldValue => {
   if (fieldValue) {
-    if (date === 'date') {
-      // TODO: refactor to pass in date format
-      return dateFormat(fieldValue, 'MMMM D, YYYY');
-    }
     return fieldValue;
   }
   return 'None noted';

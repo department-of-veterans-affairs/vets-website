@@ -114,7 +114,7 @@ const Prescriptions = () => {
               items: [
                 {
                   title: 'Last filled on',
-                  value: validateField(rx.dispensedDate, 'date'),
+                  value: dateFormat(rx.dispensedDate, 'MMMM D, YYYY'),
                   inline: true,
                 },
                 {
@@ -134,7 +134,7 @@ const Prescriptions = () => {
                 },
                 {
                   title: 'Request refills by this prescription expiration date',
-                  value: validateField(rx.expirationDate, 'date'),
+                  value: dateFormat(rx.expirationDate, 'MMMM D, YYYY'),
                   inline: true,
                 },
                 {
@@ -144,7 +144,7 @@ const Prescriptions = () => {
                 },
                 {
                   title: 'Prescribed on',
-                  value: validateField(rx.orderedDate, 'date'),
+                  value: dateFormat(rx.orderedDate, 'MMMM D, YYYY'),
                   inline: true,
                 },
                 {
