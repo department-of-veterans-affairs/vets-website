@@ -21,7 +21,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
       aria-describedby="alert-description"
     >
       <h3 id="alert-heading" slot="headline">
-        Our online burial form isn’t working right now
+        Our online burial benefits form isn’t working right now
       </h3>
       <div id="alert-description">
         {loggedIn ? (
@@ -30,10 +30,10 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
               You can still apply for a VA burial allowance by mail. Download
               the PDF form we provide on this page.
             </p>
-            <h4>If you started your form online already</h4>
             <p>
-              You’ll need to start over using a PDF form. But you can still
-              refer to the information you saved in your online form.
+              If you started your form online already, you’ll need to start over
+              using a PDF form. But you can still sign in to VA.gov to refer to
+              the information you saved in your online form.
             </p>
             <a href="/burials-and-memorials/application/530/introduction">
               Refer to your saved form
@@ -42,23 +42,13 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
         ) : (
           <>
             <p>
-              You can still apply for VA pension benefits by mail, in person at
-              a VA regional office, or with the help of a Veterans Service
-              Officer (VSO) or another accredited representative. Download the
-              PDF form we provide on this page.
-            </p>
-            <h4>If you started your form online already</h4>
-            <p>
-              You’ll need to start over using a PDF form. But you can still sign
-              in to VA.gov to refer to the information you saved in your online
-              form.
+              You can still apply for a VA burial allowance by mail. Download
+              the PDF form we provide on this page.
             </p>
             <p>
-              <strong>Note: </strong>
-              We’ll record the potential start date for your benefits as the
-              date you first saved your online form. You have 1 year from this
-              date to submit your application. If we approve your claim, you may
-              be able to get retroactive payments.
+              If you started your form online already, you’ll need to start over
+              using a PDF form. But you can still sign in to VA.gov to refer to
+              the information you saved in your online form.
             </p>
             <va-button
               onClick={() => {

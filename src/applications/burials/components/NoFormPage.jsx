@@ -330,14 +330,13 @@ export const NoFormPage = () => {
             <h2 id="track-your-status-on-mobile" slot="headline">
               This online form isn’t working right now
             </h2>
-            <div>
-              <p className="vads-u-margin-y--0">
-                You can apply by mail instead. Download a PDF Application for
-                Burial Benefits (VA Form 21P-530EZ). You can refer to your saved
-                information on this page to fill out the form.
-              </p>
-            </div>
-            <br />
+
+            <p>
+              You can apply by mail instead. Download a PDF Application for
+              Burial Benefits (VA Form 21P-530EZ). You can refer to your saved
+              information on this page to fill out the form.
+            </p>
+
             <va-link
               download
               filetype="PDF"
