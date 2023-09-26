@@ -1,13 +1,21 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
-import { currency as currencyFormatter } from '../../utils/helpers';
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
+import {
+  currency as currencyFormatter,
+  firstLetterLowerCase,
+  generateUniqueKey,
+} from '../../utils/helpers';
 import { calculateTotalAssets } from '../../utils/streamlinedDepends';
+
+export const keyFieldsForOtherAssets = ['name', 'amount'];
 
 const OtherAssetsSummary = ({
   data,
@@ -22,16 +30,29 @@ const OtherAssetsSummary = ({
 
   useEffect(
     () => {
-      if (!gmtData?.isEligibleForStreamlined) return;
+      let isMounted = true;
 
-      const calculatedAssets = calculateTotalAssets(data);
-      setFormData({
-        ...data,
-        gmtData: {
-          ...gmtData,
-          assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
-        },
-      });
+      function fetchData() {
+        const calculatedAssets = calculateTotalAssets(data);
+        if (isMounted) {
+          // Check here
+          setFormData({
+            ...data,
+            gmtData: {
+              ...gmtData,
+              assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
+            },
+          });
+        }
+      }
+
+      if (gmtData?.isEligibleForStreamlined) {
+        fetchData();
+      }
+
+      return () => {
+        isMounted = false;
+      };
     },
     // avoiding use of data since it changes so often
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -43,12 +64,18 @@ const OtherAssetsSummary = ({
       ...data,
       assets: {
         ...assets,
-        otherAssets: otherAssets.filter(
-          (source, index) => index !== deleteIndex,
-        ),
+        otherAssets: otherAssets.filter((_, index) => index !== deleteIndex),
       },
     });
   };
+
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+    deleteIndex,
+  } = useDeleteModal(onDelete);
 
   const goBack = () => {
     if (otherAssets.length === 0) {
@@ -86,8 +113,8 @@ const OtherAssetsSummary = ({
                   search: `?index=${index}`,
                 }}
                 heading={asset.name}
-                key={asset.name + asset.amount}
-                onDelete={() => onDelete(index)}
+                key={generateUniqueKey(asset, keyFieldsForOtherAssets, index)}
+                onDelete={() => handleDeleteClick(index)}
                 showDelete
                 index={index}
               />
@@ -128,6 +155,14 @@ const OtherAssetsSummary = ({
           <FormNavButtons goBack={goBack} goForward={goForward} />
           {contentAfterButtons}
         </div>
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={firstLetterLowerCase(otherAssets[deleteIndex]?.name)}
+          />
+        ) : null}
       </fieldset>
     </form>
   );
