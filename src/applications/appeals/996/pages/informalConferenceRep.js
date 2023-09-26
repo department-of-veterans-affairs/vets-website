@@ -30,7 +30,7 @@ export default {
         'ui:errorMessages': {
           required: errorMessages.informalConferenceContactFirstName,
         },
-        'ui:reviewWidget': RepresentativeReviewField,
+        'ui:reviewField': RepresentativeReviewField,
       },
       lastName: {
         'ui:title': RepresentativeLastNameTitle,
@@ -38,7 +38,7 @@ export default {
         'ui:errorMessages': {
           required: errorMessages.informalConferenceContactLastName,
         },
-        'ui:reviewWidget': RepresentativeReviewField,
+        'ui:reviewField': RepresentativeReviewField,
       },
       phone: {
         'ui:title': RepresentativePhoneTitle,
@@ -53,11 +53,11 @@ export default {
       },
       extension: {
         'ui:title': RepresentativePhoneExtensionTitle,
-        'ui:reviewWidget': RepresentativeReviewField,
+        'ui:reviewField': RepresentativeReviewField,
       },
       email: {
         ...emailUI(RepresentativeEmailTitle),
-        'ui:reviewWidget': RepresentativeReviewField,
+        'ui:reviewField': RepresentativeReviewField,
       },
     },
   },
