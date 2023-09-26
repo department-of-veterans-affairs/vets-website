@@ -8,13 +8,8 @@ import {
   getAppointmentId,
 } from '../utils/appointment';
 
-import { APP_NAMES } from '../utils/appConstants';
-
-import AppointmentMessage from './AppointmentDisplay/AppointmentMessage';
-import AppointmentAction from './AppointmentDisplay/AppointmentAction';
-
 const UpcomingAppointmentsListItem = props => {
-  const { appointment, goToDetails, dayKey, app, router } = props;
+  const { appointment, goToDetails, dayKey, router } = props;
   const { t } = useTranslation();
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
@@ -32,9 +27,12 @@ const UpcomingAppointmentsListItem = props => {
             }`}
           >
             {dayKey && (
-              <div className="vads-u-text-align--center">
+              <div
+                className="vads-u-text-align--center"
+                data-testid="day-label"
+              >
                 <p className="vads-u-line-height--2">
-                  {dayKey.split('-')[0]}
+                  {`${dayKey.split('-')[0]} `}
                   <br />
                   <span className="vads-u-font-size--md vads-u-font-weight--bold">
                     {dayKey.split('-')[1]}
@@ -98,16 +96,6 @@ const UpcomingAppointmentsListItem = props => {
                 {t('details')}
               </a>
             </div>
-            {app === APP_NAMES.CHECK_IN && (
-              <>
-                <AppointmentMessage appointment={appointment} />
-                <AppointmentAction
-                  appointment={appointment}
-                  router={router}
-                  event="check-in-clicked-VAOS-design"
-                />
-              </>
-            )}
           </div>
         </div>
       </div>
@@ -117,7 +105,6 @@ const UpcomingAppointmentsListItem = props => {
 
 UpcomingAppointmentsListItem.propTypes = {
   appointment: PropTypes.object.isRequired,
-  app: PropTypes.string.isRequired,
   dayKey: PropTypes.string,
   goToDetails: PropTypes.func,
   router: PropTypes.object,

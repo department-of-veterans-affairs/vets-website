@@ -67,7 +67,6 @@ const UpcomingAppointmentsList = props => {
                           key={`${appointment.appointmentIen}-${
                             appointment.stationNo
                           }`}
-                          app={app}
                           appointment={appointment}
                           goToDetails={handleDetailClick}
                           router={router}
