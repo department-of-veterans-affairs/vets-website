@@ -25,6 +25,21 @@ const routes = (
       <Route exact path="/" key="Medical Records Home">
         <LandingPage />
       </Route>
+      <Route exact path="/allergies" key="Allergies">
+        <Allergies />
+      </Route>
+      <Route exact path="/allergies/:allergyId" key="AllergyDetails">
+        <AllergyDetails />
+      </Route>
+      <Route exact path="/conditions" key="Health Conditions">
+        <HealthConditions />
+      </Route>
+      <Route path="/conditions/:conditionId" key="Condition Details">
+        <ConditionDetails />
+      </Route>
+      <Route path="/download-all" key="DownloadRecords">
+        <DownloadRecordsPage />
+      </Route>
       <Route exact path="/labs-and-tests" key="LabsAndTests">
         <LabsAndTests />
       </Route>
@@ -45,17 +60,8 @@ const routes = (
       >
         <RadiologySingleImage />
       </Route>
-      <Route path="/download-all" key="DownloadRecords">
-        <DownloadRecordsPage />
-      </Route>
       <Route path="/settings" key="Settings">
         <SettingsPage />
-      </Route>
-      <Route exact path="/allergies" key="Allergies">
-        <Allergies />
-      </Route>
-      <Route exact path="/allergies/:allergyId" key="AllergyDetails">
-        <AllergyDetails />
       </Route>
       <Route exact path="/summaries-and-notes" key="CareSummariesAndNotes">
         <CareSummariesAndNotes />
@@ -78,12 +84,6 @@ const routes = (
       </Route>
       <Route path="/vitals/:vitalType-history" key="VitalDetails">
         <VitalDetails />
-      </Route>
-      <Route exact path="/conditions" key="Health Conditions">
-        <HealthConditions />
-      </Route>
-      <Route path="/conditions/:conditionId" key="Condition Details">
-        <ConditionDetails />
       </Route>
     </Switch>
   </App>

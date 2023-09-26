@@ -1,14 +1,15 @@
 // Node modules.
 import React, { Component } from 'react';
+// eslint-disable-next-line deprecate/import
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import map from 'lodash/map';
 // Relative imports.
+import { focusElement } from 'platform/utilities/ui';
 import SearchResult from '../../components/SearchResult';
 import { fetchResultsThunk } from '../../actions';
-import { focusElement } from 'platform/utilities/ui';
 import { SearchResultPropTypes } from '../../prop-types';
 
 export class ThirdPartyAppList extends Component {
@@ -28,6 +29,7 @@ export class ThirdPartyAppList extends Component {
       focusElement('[data-display-results-header]');
     }
   }
+
   componentDidMount() {
     this.props.fetchResults();
   }
@@ -37,7 +39,7 @@ export class ThirdPartyAppList extends Component {
 
     // Show loading indicator if we are fetching.
     if (fetching) {
-      return <LoadingIndicator message="Loading search results..." />;
+      return <va-loading-indicator message="Loading search results..." />;
     }
 
     // Show the error alert box if there was an error.

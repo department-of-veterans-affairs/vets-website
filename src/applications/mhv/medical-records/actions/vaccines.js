@@ -40,3 +40,7 @@ export const getVaccineDetails = vaccineId => async dispatch => {
     // });
   }
 };
+
+export const clearVaccineDetails = () => async dispatch => {
+  dispatch({ type: Actions.Vaccines.CLEAR_DETAIL });
+};

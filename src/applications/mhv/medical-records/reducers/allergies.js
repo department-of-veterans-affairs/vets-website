@@ -58,6 +58,12 @@ export const allergyReducer = (state = initialState, action) => {
           }) || [],
       };
     }
+    case Actions.Allergies.CLEAR_DETAIL: {
+      return {
+        ...state,
+        allergyDetails: undefined,
+      };
+    }
     default:
       return state;
   }
