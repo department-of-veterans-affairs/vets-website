@@ -157,6 +157,15 @@ export const desiredCemeteryNoteDescription = (
     gravesite in a cemetery with available space at the time of need.
   </va-alert>
 );
+export function hasStateAddress(item) {
+  const country = get(
+    'application.applicant.view:applicantInfo.mailingAddress.country',
+    item,
+  );
+  // this should come from a constants sheet
+  const countriesWithStates = ['USA', 'CAN', 'MEX'];
+  return countriesWithStates.includes(country);
+}
 
 export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === '1';

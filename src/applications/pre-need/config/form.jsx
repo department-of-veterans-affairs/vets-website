@@ -61,6 +61,7 @@ import {
   buriedWSponsorsEligibility,
   nonRequiredFullNameUI,
   PreparerPhoneNumberDescription,
+  hasStateAddress,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -901,6 +902,10 @@ const formConfig = {
                               state: {
                                 'ui:title': 'State or territory',
                                 'ui:required': isAuthorizedAgent,
+                                'ui:options': {
+                                  hideIf: formData =>
+                                    !hasStateAddress(formData),
+                                },
                               },
                               postalCode: { 'ui:required': isAuthorizedAgent },
                             },
