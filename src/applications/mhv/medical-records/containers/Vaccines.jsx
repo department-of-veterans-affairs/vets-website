@@ -11,6 +11,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import { recordType, EMPTY_FIELD, pageTitles } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import {
   dateFormat,
   nameFormat,
@@ -149,6 +150,7 @@ const Vaccines = () => {
         download={generateVaccinesPdf}
         allowTxtDownloads={allowTxtDownloads}
       />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
       {content()}
     </div>
   );
