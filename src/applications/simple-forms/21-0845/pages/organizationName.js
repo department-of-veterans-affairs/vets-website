@@ -13,6 +13,9 @@ export default {
           <dd>{children}</dd>
         </div>
       ),
+      'ui:errorMessages': {
+        required: 'Please enter the name of the organization',
+      },
       'ui:options': {
         widgetClassNames: 'vads-u-margin-top--3',
       },

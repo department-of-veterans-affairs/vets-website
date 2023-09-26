@@ -14,7 +14,8 @@ export default function PensionEntry({ location, children }) {
     state => state?.featureToggles?.loading,
   );
   const redirectToHowToPage =
-    pensionFormEnabled === false && location.pathname !== '/introduction';
+    pensionFormEnabled === false &&
+    !location.pathname?.includes('/introduction');
   if (redirectToHowToPage === true) {
     window.location.href = '/pension/survivors-pension/';
   }

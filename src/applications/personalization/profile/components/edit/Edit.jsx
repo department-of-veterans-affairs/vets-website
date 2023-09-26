@@ -20,6 +20,7 @@ import { routesForNav } from '../../routesForNav';
 import getProfileInfoFieldAttributes from '../../util/getProfileInfoFieldAttributes';
 import { getInitialFormValues } from '../../util/contact-information/formValues';
 import { getRouteInfoFromPath } from '~/applications/personalization/common/helpers';
+import { isFieldEmpty } from '../../util';
 
 const useQuery = () => {
   const { search } = useLocation();
@@ -78,6 +79,16 @@ export const Edit = () => {
 
   const fieldData = useSelector(state =>
     selectVAPContactInfoField(state, fieldInfo?.fieldName),
+  );
+
+  const editPageHeadingString = useMemo(
+    () => {
+      const useAdd = isFieldEmpty(fieldData, fieldInfo?.fieldName);
+      return `${
+        useAdd ? 'Add' : 'Update'
+      } your ${fieldInfo?.title.toLowerCase()}`;
+    },
+    [fieldData, fieldInfo],
   );
 
   useEffect(() => {
@@ -187,7 +198,7 @@ export const Edit = () => {
                 </p>
 
                 <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
-                  {`Add or update your ${fieldInfo.title.toLowerCase()}`}
+                  {editPageHeadingString}
                 </h1>
 
                 <InitializeVAPServiceIDContainer>

@@ -192,7 +192,7 @@ const formConfig = {
       pages: {
         vetPersInfoPage: {
           path: 'veteran-personal-information',
-          title: 'Your personal information',
+          title: '',
           uiSchema: veteranPersonalInfoPg.uiSchema,
           schema: veteranPersonalInfoPg.schema,
           scrollAndFocusTarget: pageFocusScroll(),

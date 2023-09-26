@@ -43,7 +43,7 @@ export const NoFormPage = () => {
 
   return loggedIn ? (
     <div className="row vads-u-margin-bottom--4">
-      <h1>Review Pension Benefits Application</h1>
+      <h1>Review pension benefits application</h1>
       <p>VA Form 21P-527EZ</p>
       {data?.metadata?.inProgressFormId ? (
         <>
@@ -57,39 +57,33 @@ export const NoFormPage = () => {
             </h2>
             <div>
               <p className="vads-u-margin-y--0">
-                You can still refer to the information here to apply by mail.
+                You can apply by mail instead. Download a PDF Application for
+                Pension Benefits (VA Form 21P-527EZ). You can refer to your
+                saved information on this page to fill out the form.
               </p>
             </div>
             <br />
             <va-link
-              href="https://www.va.gov/pension/survivors-pension/"
-              text="Learn more about how to apply for VA pension benefits"
+              download
+              filetype="PDF"
+              href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf"
+              pages={8}
+              text="Download VA form 21P-527EZ"
             />
           </va-alert>
           <div>
-            <div className="vads-u-padding--3">
-              <h3>Apply by mail</h3>
+            <div className="vads-u-padding-y--3">
+              <h2>How to apply by mail</h2>
               <p>
-                Fill out an Application for Veterans Pension (VA Form
-                21P-527EZ).
-              </p>
-              <va-link
-                download
-                filetype="PDF"
-                href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf"
-                pages={8}
-                text="Download VA form 21P-527EZ"
-              />
-              <p>
-                We’ve captured your intent to file date of
+                We’ve recorded the potential start date of your benefits as
                 <strong>
                   {' '}
                   {format(getUnixTime(data?.metadata.createdAt), 'MM/dd/yyyy')}
                 </strong>
-                . You have 12 months from that date to submit a claim.
+                . You have 12 months from this date to submit a claim.
               </p>
               <p className="vads-u-margin-bottom--4">
-                Mail your pension form to the pension management center:
+                Mail your completed form to the pension management center:
               </p>
               <p className="va-address-block">
                 Department of Veterans Affairs <br />
@@ -102,7 +96,10 @@ export const NoFormPage = () => {
               </p>
             </div>
             <article>
-              <va-on-this-page />
+              <h2>Saved information</h2>
+              <div className="vads-u-padding-x--1">
+                <va-on-this-page />
+              </div>
               <ApplicantInformation
                 title="Applicant information"
                 id="applicant-information"
@@ -146,12 +143,12 @@ export const NoFormPage = () => {
             </h2>
             <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
             <p>
-              Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />
-              . We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If
-              you have hearing loss, call TTY:{' '}
-              <va-link href="tel:711" text="711" />.
+              Call us at <va-telephone contact="8008271000" />. We’re here
+              Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
+              hearing loss, call <va-telephone contact="711" tty />.
             </p>
           </div>
+          <va-back-to-top />
         </>
       ) : (
         <>
@@ -165,7 +162,7 @@ export const NoFormPage = () => {
             </h2>
             <br />
             <va-link
-              href="https://www.va.gov/pension/survivors-pension/"
+              href="/pension/survivors-pension/"
               text="Learn more about how to apply for VA pension benefits"
             />
           </va-alert>
@@ -174,16 +171,16 @@ export const NoFormPage = () => {
           </h2>
           <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
           <p>
-            Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />.
-            We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you
-            have hearing loss, call TTY: <va-link href="tel:711" text="711" />.
+            Call us at <va-telephone contact="8008271000" />. We’re here Monday
+            through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss,
+            call <va-telephone contact="711" tty />.
           </p>
         </>
       )}
     </div>
   ) : (
     <div className="row vads-u-margin-bottom--4">
-      <h1>Review Pension Benefits Application</h1>
+      <h1>Review pension benefits application</h1>
       <p>VA Form 21P-527EZ</p>
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <h2 id="track-your-status-on-mobile" slot="headline">
@@ -191,7 +188,7 @@ export const NoFormPage = () => {
         </h2>
         <br />
         <va-link
-          href="https://www.va.gov/pension/survivors-pension/"
+          href="/pension/survivors-pension/"
           text="Learn more about how to apply for VA pension benefits"
         />
       </va-alert>
@@ -200,9 +197,9 @@ export const NoFormPage = () => {
       </h2>
       <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
       <p>
-        Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />.
-        We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
-        hearing loss, call TTY: <va-link href="tel:711" text="711" />.
+        Call us at <va-telephone contact="8008271000" />. We’re here Monday
+        through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss, call{' '}
+        <va-telephone contact="711" tty />.
       </p>
     </div>
   );
