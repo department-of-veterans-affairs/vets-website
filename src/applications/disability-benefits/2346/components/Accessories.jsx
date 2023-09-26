@@ -1,12 +1,17 @@
-import classnames from 'classnames';
-import moment from 'moment';
-import { setData } from 'platform/forms-system/src/js/actions';
-import recordEvent from 'platform/monitoring/record-event';
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-import { ACCESSORY } from '../constants';
+import PropTypes from 'prop-types';
+
+import classnames from 'classnames';
+import moment from 'moment';
+
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+// import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+// FIXME: figure out why cypress doesn't like this import.
+// eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
+import recordEvent from 'platform/monitoring/record-event';
+
+import { ACCESSORY, DLC_PHONE } from '../constants';
 
 class Accessories extends Component {
   componentDidMount() {
@@ -85,7 +90,7 @@ class Accessories extends Component {
                 <p>
                   If you need accessories like domes, wax guards, cleaning
                   supplies, or dessicant, call the DLC Customer Service Section
-                  at <va-telephone contact="3032736200" /> or email{' '}
+                  at <va-telephone contact={DLC_PHONE} /> or email{' '}
                   <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
               </div>
@@ -98,15 +103,15 @@ class Accessories extends Component {
               key={accessorySupply.productId}
               className={classnames({
                 'vads-u-background-color--gray-lightest vads-u-margin-y--3': true,
-                'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21': isAccessorySelected(
+                'vads-u-border-color--primary vads-u-border--3px vads-u-padding--21 dd-privacy-mask': isAccessorySelected(
                   accessorySupply.productId,
                 ),
-                'vads-u-padding--3': !isAccessorySelected(
+                'vads-u-padding--3 dd-privacy-mask': !isAccessorySelected(
                   accessorySupply.productId,
                 ),
               })}
             >
-              <h4 className="vads-u-font-size--md vads-u-margin-top--0">
+              <h4 className="vads-u-font-size--md vads-u-margin-top--0 dd-privacy-mask">
                 {accessorySupply.productName}
               </h4>
               <div className="vads-u-border-color--gray-lightest">
@@ -136,10 +141,10 @@ class Accessories extends Component {
                   </div>
                 </div>
               ) : (
-                <div className="vads-u-max-width--226">
+                <div>
                   <input
                     id={accessorySupply.productId}
-                    className="vads-u-margin-left--0 vads-u-max-width--226"
+                    className="vads-u-margin-left--0"
                     type="checkbox"
                     onChange={e =>
                       this.handleChecked(e.target.checked, accessorySupply)
@@ -158,7 +163,7 @@ class Accessories extends Component {
                       ),
                     })}
                   >
-                    Order this accessory
+                    Order this hearing aid accessory
                   </label>
                 </div>
               )}
@@ -167,15 +172,15 @@ class Accessories extends Component {
         {accessorySupplies.length > 0 && (
           <va-additional-info
             trigger="What if the accessories I need aren’t listed here?"
-            class="vads-u-margin-bottom--2"
+            className="vads-u-margin-bottom--2"
           >
             <p>
               The accessories you need may not be listed here if you haven’t
               placed an order for resupply items within the last 2 years. If you
               need an accessory that hasn’t been ordered within the last 2
               years, call the DLC Customer Service Section at
-              <Telephone
-                contact="303-273-6200"
+              <va-telephone
+                contact={DLC_PHONE}
                 className="vads-u-margin--0p5"
               />
               or email
@@ -213,6 +218,14 @@ Accessories.defaultProps = {
 };
 
 Accessories.propTypes = {
+  eligibility: PropTypes.object,
+  formData: PropTypes.object,
+  order: PropTypes.arrayOf(
+    PropTypes.shape({
+      productId: PropTypes.number,
+    }),
+  ),
+  setData: PropTypes.func,
   supplies: PropTypes.arrayOf(
     PropTypes.shape({
       deviceName: PropTypes.string,
@@ -226,19 +239,13 @@ Accessories.propTypes = {
       size: PropTypes.string,
     }),
   ),
-  order: PropTypes.arrayOf(
-    PropTypes.shape({
-      productId: PropTypes.number,
-    }),
-  ),
-  eligibility: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
-  supplies: state.form?.data?.supplies,
+  eligibility: state.form?.data?.eligibility,
   formData: state.form?.data,
   order: state.form?.data?.order,
-  eligibility: state.form?.data?.eligibility,
+  supplies: state.form?.data?.supplies,
 });
 
 const mapDispatchToProps = {

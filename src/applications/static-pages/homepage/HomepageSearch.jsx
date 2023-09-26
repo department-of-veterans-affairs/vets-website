@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
+import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 
 /**
  * Homepage redesign
@@ -69,9 +70,11 @@ const HomepageSearch = () => {
 
   const handleSubmit = e => {
     // create a search url
-    const searchUrl = `https://www.va.gov/search/?query=${encodeURIComponent(
-      e.target.value,
-    )}&t=${false}`;
+    const searchUrl = replaceWithStagingDomain(
+      `https://www.va.gov/search/?query=${encodeURIComponent(
+        e.target.value,
+      )}&t=${false}`,
+    );
 
     // Record the analytic event.
     recordEvent({

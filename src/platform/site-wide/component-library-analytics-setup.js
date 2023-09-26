@@ -17,18 +17,6 @@ const analyticsEvents = {
       prefix: 'accordion',
     },
   ],
-  AdditionalInfo: [
-    {
-      action: 'expand',
-      event: 'int-additional-info-expand',
-      prefix: 'additional-info',
-    },
-    {
-      action: 'collapse',
-      event: 'int-additional-info-collapse',
-      prefix: 'additional-info',
-    },
-  ],
   AlertBox: [
     {
       action: 'linkClick',
@@ -55,13 +43,6 @@ const analyticsEvents = {
       action: 'displayed',
       event: 'loading-indicator-displayed',
       prefix: 'loading-indicator',
-    },
-  ],
-  Select: [
-    {
-      action: 'change',
-      event: 'int-select-box-option-click',
-      prefix: 'select',
     },
   ],
   TextArea: [

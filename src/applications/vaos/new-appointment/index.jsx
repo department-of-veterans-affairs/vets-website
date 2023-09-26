@@ -74,25 +74,22 @@ export function NewAppointment() {
         pageTitle={crumb}
       >
         <Switch>
-          <Route path={`${match.url}/contact-info`}>
+          <Route path={`${match.url}/contact-information`}>
             <ContactInfoPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-
           <Route path={`${match.url}/choose-facility-type`}>
             <TypeOfFacilityPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route
-            path={`${match.url}/choose-visit-type`}
-            component={TypeOfVisitPage}
-          />
-          <Route path={`${match.url}/choose-sleep-care`}>
+          <Route path={`${match.url}/choose-visit-type`}>
+            <TypeOfVisitPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route path={`${match.url}/sleep-care`}>
             <TypeOfSleepCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-
-          <Route path={`${match.url}/choose-eye-care`}>
+          <Route path={`${match.url}/eye-care`}>
             <TypeOfEyeCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route path={`${match.url}/audiology`}>
+          <Route path={`${match.url}/audiology-care`}>
             <TypeOfAudiologyCarePage
               changeCrumb={newTitle => setCrumb(newTitle)}
             />
@@ -100,38 +97,38 @@ export function NewAppointment() {
           <Route path={`${match.url}/preferred-date`}>
             <PreferredDatePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-
-          <Route
-            path={`${match.url}/request-date`}
-            component={DateTimeRequestPage}
-          />
-          <Route path={`${match.url}/select-date`}>
+          <Route path={`${match.url}/request-date`}>
+            <DateTimeRequestPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route path={`${match.url}/date-time`}>
             <DateTimeSelectPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-
-          <Route path={`${match.url}/va-facility-2`}>
+          <Route path={`${match.url}/location`}>
             <VAFacilityPageV2 changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
           <Route
             path={`${match.url}/how-to-schedule`}
             component={ScheduleCernerPage}
           />
-          <Route
-            path={`${match.url}/community-care-preferences`}
-            component={CommunityCareProviderSelectionPage}
-          />
-          <Route
-            path={`${match.url}/community-care-language`}
-            component={CommunityCareLanguagePage}
-          />
-          <Route
-            path={`${match.url}/choose-closest-city`}
-            component={ClosestCityStatePage}
-          />
-          <Route path={`${match.url}/clinics`}>
+          <Route path={`${match.url}/community-care-preferences`}>
+            <CommunityCareProviderSelectionPage
+              changeCrumb={newTitle => setCrumb(newTitle)}
+            />
+          </Route>
+          <Route path={`${match.url}/community-care-language`}>
+            <CommunityCareLanguagePage
+              changeCrumb={newTitle => setCrumb(newTitle)}
+            />
+          </Route>
+          <Route path={`${match.url}/choose-closest-city`}>
+            <ClosestCityStatePage
+              changeCrumb={newTitle => setCrumb(newTitle)}
+            />
+          </Route>
+          <Route path={`${match.url}/clinic`}>
             <ClinicChoicePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route path={`${match.url}/reason-appointment`}>
+          <Route path={`${match.url}/reason`}>
             <ReasonForAppointmentPage
               changeCrumb={newTitle => setCrumb(newTitle)}
             />
@@ -143,7 +140,7 @@ export function NewAppointment() {
             path={`${match.url}/confirmation`}
             component={ConfirmationPage}
           />
-          <Route path="/">
+          <Route path={match.url}>
             <TypeOfCarePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
         </Switch>

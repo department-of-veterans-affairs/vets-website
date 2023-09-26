@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-
-import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../../../shared/constants';
 import {
   copyAreaOfDisagreementOptions,
   calculateOtherMaxLength,
 } from '../../utils/disagreement';
+
+import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../../../shared/constants';
 
 describe('copyAreaOfDisagreementOptions', () => {
   it('should return original issues only', () => {

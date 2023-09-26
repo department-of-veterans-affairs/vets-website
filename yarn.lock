@@ -2772,13 +2772,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^19.1.0":
-  version "19.1.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-19.1.0.tgz#4dbca871415b9653810250585385b9e8644c38b6"
-  integrity sha512-SwVXkNB8XCSOYY+8CR9/tBur9FSCagwwAbKKk4XdEEs9DOAesgaPOjjNk68U/WEBk+PSu21xBwk38g8mkN2mXQ==
+"@department-of-veterans-affairs/component-library@^21.0.1":
+  version "21.0.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-21.0.1.tgz#97d4b911b1160a2ea400234a56cffdd949dcfbba"
+  integrity sha512-lBO6SuNO4IjCn52J3XzpyhyU4Zpf4Ie5d+NWSCp17tfhFWA2VrSYXR3a33BNZ9VCuv1Bt+qldZGGukKEShfmmw==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "14.0.0"
-    "@department-of-veterans-affairs/web-components" "4.45.9"
+    "@department-of-veterans-affairs/react-components" "17.0.0"
+    "@department-of-veterans-affairs/web-components" "4.45.16"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2789,10 +2789,10 @@
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.1.0-rc4.tgz#30e73420f42afaa6903347920081f778dbde63f8"
   integrity sha512-VjbDupf4S0xUPXnepS0lzwTHxioNkQZGm33D+9/lrZLdpcRdSIurNBajP5vtSBpqKEhG/UrHHpxkv9/S94WfAQ==
 
-"@department-of-veterans-affairs/eslint-plugin@^1.9.0":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.9.0.tgz#8a2f9466e032fbb207484acc03b08eb83f08aacc"
-  integrity sha512-kNe1TCCFPYJCqdSkSepnWRdmCnTG1oj2Am3AyFp7XPuAOxWdTSXFLL/JHOcbbQ0w4xiStgcp4CldBY251ATdbA==
+"@department-of-veterans-affairs/eslint-plugin@^1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.11.0.tgz#feeaa353036d5510f40e0e73d205b7f1be480ddf"
+  integrity sha512-/ND5/PIDHhr3KtJO1vLxRedEpuVEP66K9C+81kP4Mnd6GKwlhvS4OjJ/gjy6zazpFdhLtMXHvuEO1X12QkbqrQ==
   dependencies:
     jsx-ast-utils "^3.3.3"
 
@@ -2815,10 +2815,10 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@14.0.0":
-  version "14.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-14.0.0.tgz#11722a695aa09fce1b3e1db46e0bbc711d02dc9a"
-  integrity sha512-xEPyJ/anIiHEeQ0K5qjnx/Qlb51jnmg4ybSOZ3Z5Ior1G/OeAAkmOJCE9Q5A5MJzO56D1pTF6zUS+v0Kt/RnsQ==
+"@department-of-veterans-affairs/react-components@17.0.0":
+  version "17.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-17.0.0.tgz#4d6b490209ec086c951f29278321d416e1731bd8"
+  integrity sha512-iajgKFqhTomzBW6czq5zkpVVRTGSXO8gAczmVLy583POXIaWr1s2TC3tasP20yT9uJE2T6kdQvirt/H3Kj/oIw==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
@@ -2856,10 +2856,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.45.9":
-  version "4.45.9"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.45.9.tgz#991ba800b4f9cd7327975962c0622f33b70a30cf"
-  integrity sha512-Y8BhHiMX1v0s3pTp5lvBhSyclGeosDwCnbSDsF7E55gi9W0JAqeat7S6lqhI1uWSvb0/TywJTfhTDZdozcf5rA==
+"@department-of-veterans-affairs/web-components@4.45.16":
+  version "4.45.16"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.45.16.tgz#d7966b161620e537b3974c09606f0334bb5536f9"
+  integrity sha512-OhWf5FrW+G8SHNCAtJGUXHgyHKhqCN2uPYSKqg+3RXl8tljTDCsYcX/sPxlJtWWDyT6vegtzTX7d0+C49bPMiA==
   dependencies:
     "@stencil/core" "^2.19.2"
     aria-hidden "^1.1.3"
@@ -20061,9 +20061,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#b67ab74cd90b3f4b335c82454d59bbc149fd3ee4":
-  version "20.27.2"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#b67ab74cd90b3f4b335c82454d59bbc149fd3ee4"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#be4feabc0b7448db5774dace802204e904bd1120":
+  version "20.27.22"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#be4feabc0b7448db5774dace802204e904bd1120"
   dependencies:
     minimist "^1.2.3"
 

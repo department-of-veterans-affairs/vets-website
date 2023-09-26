@@ -1,16 +1,13 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export default function CallMyVA311({ startSentence }) {
   return (
     <span>
       {startSentence ? 'Call' : 'call'} us at{' '}
-      <Telephone contact={CONTACTS.VA_311} />.<br />
-      If you have hearing loss, call TTY:{' '}
-      <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
+      <va-telephone contact={CONTACTS.VA_311} />.<br />
+      If you have hearing loss, call{' '}
+      <va-telephone contact={CONTACTS['711']} tty />.
     </span>
   );
 }
