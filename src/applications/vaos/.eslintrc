@@ -21,7 +21,8 @@
           },
           {
             "target": "./src/applications/vaos/appointment-list",
-            "from": "./src/applications/vaos/new-appointment"
+            "from": "./src/applications/vaos/new-appointment",
+            "except": "./newAppointmentFlow"
           },
           {
             "target": "./src/applications/vaos/appointment-list",
