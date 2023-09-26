@@ -60,7 +60,7 @@ const formConfig = {
       'Please sign in again to continue your application for Planning and career guidance.',
   },
   title:
-    'Apply for Personalized Career Planning and Guidance with VA Form 28-8832',
+    'Apply for Personalized Career Planning and Guidance with VA Form 25-8832',
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     claimantInformation: {
