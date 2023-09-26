@@ -32,23 +32,29 @@ const Vaccines = () => {
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
 
-  useEffect(() => {
-    dispatch(getVaccinesList());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getVaccinesList());
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs(
-        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-        {
-          url: '/my-health/medical-records/vaccines',
-          label: 'VA vaccines',
-        },
-      ),
-    );
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs(
+          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
+          {
+            url: '/my-health/medical-records/vaccines',
+            label: 'VA vaccines',
+          },
+        ),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   const generateVaccinesPdf = async () => {
     const pdfData = {

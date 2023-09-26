@@ -8,7 +8,10 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { dateFormat, processList } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
-import { getConditionDetails } from '../actions/conditions';
+import {
+  getConditionDetails,
+  clearConditionDetails,
+} from '../actions/conditions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -28,22 +31,28 @@ const ConditionDetails = () => {
   const dispatch = useDispatch();
   const formattedDate = dateFormat(condition?.date, 'MMMM D, YYYY [at] h:mm z');
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        {
-          url: '/my-health/medical-records/conditions',
-          label: 'Conditions',
-        },
-      ]),
-    );
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: '/my-health/medical-records/conditions',
+            label: 'Conditions',
+          },
+        ]),
+      );
+      return () => {
+        dispatch(clearConditionDetails());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
       if (conditionId) dispatch(getConditionDetails(conditionId));
     },
-    [conditionId],
+    [conditionId, dispatch],
   );
 
   useEffect(
@@ -58,7 +67,7 @@ const ConditionDetails = () => {
         );
       }
     },
-    [condition],
+    [condition, formattedDate],
   );
 
   const generateConditionDetails = async () => {
@@ -158,7 +167,6 @@ const ConditionDetails = () => {
               </h2>
             </div>
             <PrintDownload
-              list
               download={download}
               allowTxtDownloads={allowTxtDownloads}
             />

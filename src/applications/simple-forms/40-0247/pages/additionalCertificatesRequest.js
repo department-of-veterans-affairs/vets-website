@@ -35,13 +35,17 @@ export default {
         </>
       ),
       'ui:errorMessages': {
-        required: 'Please enter the number of certificates you’d like',
+        required: 'Please provide the number of certificates you would like',
+        minimum:
+          'Please raise the number of certificates to at least 1, you can request up to 99',
+        maximum:
+          'Please lower the number of certificates, you can only request up to 99',
       },
       'ui:reviewField': ({ children }) => (
         <div className="review-row">
           <dt>
-            <span className="vads-u-font-weight--bold vads-u-font-size--base">
-              Quantity
+            <span className="vads-u-font-size--base">
+              How many certificates should we send to your address?
             </span>
           </dt>
           <dd>{children}</dd>
@@ -61,5 +65,6 @@ export default {
         maximum: 99,
       },
     },
+    required: ['additionalAddress', 'additionalCopies'],
   },
 };

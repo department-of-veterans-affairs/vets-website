@@ -5,10 +5,12 @@ import { beforeEach } from 'mocha';
 import AllergyDetails from '../../containers/AllergyDetails';
 import reducer from '../../reducers';
 import allergy from '../fixtures/allergy.json';
+import user from '../fixtures/user.json';
 import { convertAllergy } from '../../reducers/allergies';
 
 describe('Allergy details container', () => {
   const initialState = {
+    user,
     mr: {
       allergies: {
         allergyDetails: convertAllergy(allergy),

@@ -12,19 +12,25 @@ const Vitals = () => {
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getVitals());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getVitals());
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        { url: '/my-health/medical-records/', label: 'Medical records' },
-      ]),
-    );
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          { url: '/my-health/medical-records/', label: 'Medical records' },
+        ]),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
