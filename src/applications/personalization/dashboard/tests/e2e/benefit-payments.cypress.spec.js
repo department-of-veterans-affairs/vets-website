@@ -106,7 +106,7 @@ describe('The My VA Dashboard - Benefit Payments', () => {
         cy.wait(['@noDebtsB', '@noCopaysB', '@oldPayments1']);
         cy.findByTestId('dashboard-section-payment').should('exist');
 
-        cy.findByTestId('no-recent-payments-paragraph').should('exist');
+        cy.findByTestId('no-recent-payments-text').should('exist');
         cy.findByTestId('payment-card-view-history-link').should('not.exist');
         cy.findByTestId('view-payment-history-link').should('exist');
         cy.findByTestId('manage-direct-deposit-link').should('exist');
@@ -127,7 +127,7 @@ describe('The My VA Dashboard - Benefit Payments', () => {
         cy.wait(['@noDebtsB', '@noCopaysB', '@emptyPayments1']);
         cy.findByTestId('dashboard-section-payment').should('exist');
 
-        cy.findByTestId('no-recent-payments-paragraph').should('exist');
+        cy.findByTestId('no-recent-payments-text').should('exist');
         cy.findByTestId('payment-card-view-history-link').should('not.exist');
         cy.findByTestId('view-payment-history-link').should('not.exist');
         cy.findByTestId('manage-direct-deposit-link').should('exist');
