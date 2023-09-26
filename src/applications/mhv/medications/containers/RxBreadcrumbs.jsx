@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-// temporarily using deprecated Breadcrumbs React component due to issues with VaBreadcrumbs that are pending resolution
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 // import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 
 const alignToLeft = `xsmall-screen:vads-u-margin-left--neg1 
@@ -18,10 +17,12 @@ const RxBreadcrumbs = () => {
     <>
       {crumbs.length > 0 &&
         crumbs[0]?.url && (
-          <div>
+          <div
+            className={`${alignToLeft} vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
+          >
             {/* per exisiting issue found here https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/1296 */}
             {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-web-component-library */}
-            <Breadcrumbs
+            {/* <Breadcrumbs
               label="Breadcrumb"
               className={`${alignToLeft} vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
             >
@@ -31,7 +32,15 @@ const RxBreadcrumbs = () => {
                 </a>
               ))}
               <a href={currentPath?.url}>{currentPath?.label}</a>
-            </Breadcrumbs>
+            </Breadcrumbs> */}
+            <VaBreadcrumbs label="Breadcrumb">
+              {crumbs.map((crumb, idx) => (
+                <a href={crumb.url} key={idx}>
+                  {crumb.label}
+                </a>
+              ))}
+              <a href={currentPath?.url}>{currentPath?.label}</a>
+            </VaBreadcrumbs>
           </div>
         )}
     </>
