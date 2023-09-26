@@ -31,7 +31,7 @@ describe('<ServiceAvailabilityBanner/>', () => {
         serviceAvailability={SERVICE_AVAILABILITY_STATES.pending}
       />,
     );
-    expect(wrapper.find('LoadingIndicator')).to.have.lengthOf(1);
+    expect(wrapper.find('va-loading-indicator')).to.have.lengthOf(1);
     wrapper.unmount();
   });
 
