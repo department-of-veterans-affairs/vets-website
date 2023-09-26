@@ -32,25 +32,28 @@ const ConditionDetails = () => {
   const dispatch = useDispatch();
   const formattedDate = dateFormat(condition?.date, 'MMMM D, YYYY [at] h:mm z');
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        {
-          url: '/my-health/medical-records/conditions',
-          label: 'Conditions',
-        },
-      ]),
-    );
-    return () => {
-      dispatch(clearConditionDetails());
-    };
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: '/my-health/medical-records/conditions',
+            label: 'Conditions',
+          },
+        ]),
+      );
+      return () => {
+        dispatch(clearConditionDetails());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
       if (conditionId) dispatch(getConditionDetails(conditionId));
     },
-    [conditionId],
+    [conditionId, dispatch],
   );
 
   useEffect(
@@ -65,7 +68,7 @@ const ConditionDetails = () => {
         );
       }
     },
-    [condition],
+    [condition, formattedDate],
   );
 
   const generateConditionDetails = async () => {

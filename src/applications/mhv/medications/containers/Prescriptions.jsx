@@ -32,7 +32,7 @@ const Prescriptions = () => {
     return (
       <div
         visible={isAlertVisible}
-        className="vads-l-col--12 medium-screen:vads-l-col--9 no-print"
+        className="vads-l-col--12 medium-screen:vads-l-col--9 no-print vads-u-margin-top--4"
       >
         {!prescriptions && (
           <va-alert
@@ -239,7 +239,7 @@ const Prescriptions = () => {
             Medications
           </h1>
           <div
-            className="vads-u-margin-top--1 vads-u-margin-bottom--3"
+            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3"
             data-testid="Title-Notes"
           >
             Refill and track your VA prescriptions. And review all medications

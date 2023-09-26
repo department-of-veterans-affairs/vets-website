@@ -121,8 +121,8 @@ describe('OAuth - Utilities', () => {
       });
     });
 
-    ['logingov_signup', 'idme_signup'].forEach(csp => {
-      it('should generate the proper signup url based on `csp` for web', async () => {
+    ['idme_signup', 'logingov_signup'].forEach(csp => {
+      it(`should generate the proper signup url for ${csp}`, async () => {
         const { oAuthOptions } = externalApplicationsConfig.default;
         const acr = oAuthOptions.acrSignup[csp];
         const url = await oAuthUtils.createOAuthRequest({
@@ -134,7 +134,10 @@ describe('OAuth - Utilities', () => {
         });
         const expectedType = csp.slice(0, csp.indexOf('_'));
         expect(url).to.include(`type=${expectedType}`);
-        expect(url).to.include(`acr=${acr}`);
+        expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
+        if (csp === 'idme_signup') {
+          expect(url).to.include(`operation=sign_up`);
+        }
       });
     });
   });

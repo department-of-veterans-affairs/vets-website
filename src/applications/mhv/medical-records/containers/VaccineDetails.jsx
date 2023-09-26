@@ -44,19 +44,22 @@ const VaccineDetails = () => {
     [vaccineId, dispatch],
   );
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        {
-          url: '/my-health/medical-records/vaccines',
-          label: 'Vaccines',
-        },
-      ]),
-    );
-    return () => {
-      dispatch(clearVaccineDetails());
-    };
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: '/my-health/medical-records/vaccines',
+            label: 'Vaccines',
+          },
+        ]),
+      );
+      return () => {
+        dispatch(clearVaccineDetails());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -68,7 +71,7 @@ const VaccineDetails = () => {
         );
       }
     },
-    [record],
+    [formattedDate, record],
   );
 
   const generateVaccinePdf = async () => {

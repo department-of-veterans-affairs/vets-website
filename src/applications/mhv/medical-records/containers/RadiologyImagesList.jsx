@@ -60,16 +60,19 @@ const RadiologyImagesList = () => {
     GenerateRadiologyPdf(labAndTestDetails);
   };
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        {
-          url: `/my-health/medical-records/labs-and-tests/${labId}`,
-          label: labAndTestDetails?.name,
-        },
-      ]),
-    );
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: `/my-health/medical-records/labs-and-tests/${labId}`,
+            label: labAndTestDetails?.name,
+          },
+        ]),
+      );
+    },
+    [labAndTestDetails?.name, labId, dispatch],
+  );
 
   useEffect(
     () => {
