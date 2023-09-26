@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { addDays, format } from 'date-fns';
 
 import {
   APPEAL_TYPES,
@@ -68,8 +68,9 @@ const Appeal = ({ appeal, name }) => {
     }
   }
 
-  appealTitle += ` updated on ${moment(updatedEventDateString).format(
-    'MMMM D, YYYY',
+  appealTitle += ` updated on ${format(
+    addDays(new Date(updatedEventDateString), 1),
+    'MMMM d, yyyy',
   )}`;
   appealTitle = capitalizeFirstLetter(appealTitle);
 
@@ -97,7 +98,8 @@ const Appeal = ({ appeal, name }) => {
           )}
           {requestEvent && (
             <p className="vads-u-margin-y--0">
-              Submitted on: {moment(requestEvent.date).format('MMMM D, YYYY')}
+              Submitted on:{' '}
+              {format(addDays(new Date(requestEvent.date), 1), 'MMMM d, yyyy')}
             </p>
           )}
         </div>

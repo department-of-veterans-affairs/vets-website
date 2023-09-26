@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { daysAgo } from '@@profile/tests/helpers';
 import { expect } from 'chai';
-import moment from 'moment';
+import { addDays, format } from 'date-fns';
 
 import Appeal from '../../../components/claims-and-appeals/Appeal';
 import { APPEAL_TYPES } from '../../../utils/appeals-v2-helpers';
@@ -62,7 +62,10 @@ describe('<Appeal />', () => {
 
   it('should render', () => {
     const appeal = makeAppealObject({ updateDate: daysAgo(1) });
-    const updatedDate = moment(daysAgo(1)).format('MMMM D, YYYY');
+    const updatedDate = format(
+      addDays(new Date(daysAgo(1)), 1),
+      'MMMM d, yyyy',
+    );
     const appealTitle = `Disability compensation appeal updated on ${updatedDate}`;
 
     const tree = render(<Appeal appeal={appeal} name={name} />);
