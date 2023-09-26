@@ -19,9 +19,9 @@ describe('Pre-need preparer info', () => {
         uiSchema={uiSchema}
       />,
     );
-
     expect(form.find('input').length).to.equal(5);
-    expect(form.find('select').length).to.equal(2);
+    // changing from 2 selects to 1 due to hideIf conditional changing state fields appearance
+    expect(form.find('select').length).to.equal(1);
     form.unmount();
   });
 });
