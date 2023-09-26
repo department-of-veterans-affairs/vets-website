@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { useSelector } from 'react-redux';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import ChatbotError from '../chatbot-error/ChatbotError';

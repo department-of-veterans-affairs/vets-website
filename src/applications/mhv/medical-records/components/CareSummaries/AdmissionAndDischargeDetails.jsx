@@ -26,18 +26,21 @@ const AdmissionAndDischargeDetails = props => {
       ],
   );
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-    const titleDate =
-      record.startDate && record.endDate
-        ? `${record.startDate} to ${record.endDate} - `
-        : '';
-    updatePageTitle(
-      `${titleDate}${record.name} - ${
-        pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE
-      }`,
-    );
-  }, []);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      const titleDate =
+        record.startDate && record.endDate
+          ? `${record.startDate} to ${record.endDate} - `
+          : '';
+      updatePageTitle(
+        `${titleDate}${record.name} - ${
+          pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE
+        }`,
+      );
+    },
+    [record.endDate, record.name, record.startDate],
+  );
 
   const generateCareNotesPDF = async () => {
     const title = `Admission and discharge summary on ${formatDateLong(

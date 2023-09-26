@@ -40,3 +40,7 @@ export const getCareSummaryAndNotesDetails = noteId => async dispatch => {
     // });
   }
 };
+
+export const clearCareSummariesDetails = () => async dispatch => {
+  dispatch({ type: Actions.CareSummariesAndNotes.CLEAR_DETAIL });
+};

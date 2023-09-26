@@ -86,11 +86,7 @@ const UtilityBillSummary = ({
             Add additional utility bills
           </Link>
           {contentBeforeButtons}
-          <FormNavButtons
-            goBack={goBack}
-            goForward={goForward}
-            submitToContinue
-          />
+          <FormNavButtons goBack={goBack} goForward={goForward} />
           {contentAfterButtons}
         </div>
       </fieldset>

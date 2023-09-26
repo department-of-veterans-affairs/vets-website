@@ -32,11 +32,7 @@ const EmploymentHistoryWidget = props => {
   };
 
   const navButtons = (
-    <FormNavButtons
-      goBack={handlers.onBackClick}
-      goForward={goForward}
-      submitToContinue
-    />
+    <FormNavButtons goBack={handlers.onBackClick} goForward={goForward} />
   );
   const updateButton = <button type="submit">Review update button</button>;
 

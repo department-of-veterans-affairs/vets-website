@@ -8,7 +8,6 @@ import {
   hasMPIConnectionError as hasMPIConnectionErrorSelector,
   isMultifactorEnabled as isMultifactorEnabledSelector,
 } from '~/platform/user/selectors';
-import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
@@ -23,7 +22,6 @@ export const AccountSecurityContent = ({
   isMultifactorEnabled,
   showMPIConnectionError,
   showNotInMPIError,
-  signInServiceName,
   isBlocked,
 }) => {
   return (
@@ -39,7 +37,6 @@ export const AccountSecurityContent = ({
         <NotInMPIError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />
       )}
       <AccountSecurityTables
-        signInServiceName={signInServiceName}
         isIdentityVerified={isIdentityVerified}
         isMultifactorEnabled={isMultifactorEnabled}
       />
@@ -54,7 +51,6 @@ AccountSecurityContent.propTypes = {
   showMPIConnectionError: PropTypes.bool.isRequired,
   showNotInMPIError: PropTypes.bool.isRequired,
   showWeHaveVerifiedYourID: PropTypes.bool.isRequired,
-  signInServiceName: PropTypes.string.isRequired,
 };
 
 export const mapStateToProps = state => {
@@ -74,7 +70,6 @@ export const mapStateToProps = state => {
     showMPIConnectionError,
     showNotInMPIError,
     showWeHaveVerifiedYourID,
-    signInServiceName: signInServiceNameSelector(state),
   };
 };
 
