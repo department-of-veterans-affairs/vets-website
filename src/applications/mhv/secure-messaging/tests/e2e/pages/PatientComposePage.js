@@ -2,15 +2,12 @@ import mockDraftMessage from '../fixtures/message-draft-response.json';
 import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
 import mockSignature from '../fixtures/signature-response.json';
+import { Locators, Paths } from '../utils/constants';
 
 class PatientComposePage {
   sendMessage = mockRequest => {
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/messages',
-      mockDraftMessage,
-    ).as('message');
-    cy.get('[data-testid="Send-Button"]')
+    cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
+    cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click({ force: true });
     cy.wait('@message')
@@ -32,12 +29,8 @@ class PatientComposePage {
   };
 
   pushSendMessageWithKeyboardPress = () => {
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/messages',
-      mockDraftMessage,
-    ).as('message');
-    cy.tabToElement('[data-testid="Send-Button"]')
+    cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
+    cy.tabToElement(Locators.BUTTONS.SEND)
       .contains('Send')
       .realPress(['Enter']);
     // cy.wait('@message');
@@ -123,22 +116,18 @@ class PatientComposePage {
 
   //* Refactor* Needs to have mockDraftMessage as parameter
   clickOnSendMessageButton = () => {
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/messages',
-      mockDraftMessage,
-    ).as('message');
-    cy.get('[data-testid="Send-Button"]')
+    cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
+    cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click();
   };
 
   //* Refactor*  make parameterize mockDraftMessage
   sendDraft = draftMessage => {
-    cy.intercept('POST', '/my_health/v1/messaging/messages', draftMessage).as(
+    cy.intercept('POST', Paths.SM_API_EXTENDED, draftMessage).as(
       'draft_message',
     );
-    cy.get('[data-testid="Send-Button"]').click();
+    cy.get(Locators.BUTTONS.SEND).click();
     cy.wait('@draft_message').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });
@@ -152,19 +141,19 @@ class PatientComposePage {
   };
 
   saveDraftButton = () => {
-    return cy.get('[data-testid="Save-Draft-Button"]');
+    return cy.get(Locators.BUTTONS.DRAFTS);
   };
 
   saveDraft = draftMessage => {
     cy.intercept(
       'PUT',
-      `/my_health/v1/messaging/message_drafts/${
-        draftMessage.data.attributes.messageId
-      }`,
+      Paths.SM_API_EXTENDED +
+        Paths.MESSAGE_DRAFT +
+        draftMessage.data.attributes.messageId,
       draftMessage,
     ).as('draft_message');
 
-    cy.get('[data-testid="Save-Draft-Button"]').click();
+    cy.get(Locators.BUTTONS.DRAFTS).click();
     cy.wait('@draft_message').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });
@@ -206,19 +195,19 @@ class PatientComposePage {
   //* Refactor*Remove and consolidate
   selectSideBarMenuOption = menuOption => {
     if (menuOption === 'Inbox') {
-      cy.get('[data-testid=inbox-sidebar]').click();
+      cy.get(Locators.FOLDERS.INBOX).click();
     }
     if (menuOption === 'Drafts') {
-      cy.get('[data-testid=drafts-sidebar]').click();
+      cy.get(Locators.FOLDERS.DRAFTS).click();
     }
     if (menuOption === 'Sent') {
-      cy.get('[data-testid=sent-sidebar]').click();
+      cy.get(Locators.FOLDERS.SENT).click();
     }
     if (menuOption === 'Trash') {
-      cy.get('[data-testid=trash-sidebar]').click();
+      cy.get(Locators.FOLDERS.TRASH).click();
     }
     if (menuOption === 'My folders') {
-      cy.get('[data-testid=my-folders-sidebar]').click();
+      cy.get(Locators.FOLDERS.CUSTOM).click();
     }
   };
 
@@ -290,14 +279,14 @@ class PatientComposePage {
   clickTrashButton = () => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.SM_API_EXTENDED}/${
         mockMessageResponse.data.attributes.messageId
       }`,
       mockMessageResponse,
     ).as('mockMessageResponse');
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.SM_API_EXTENDED}/${
         mockThreadResponse.data.at(2).attributes.messageId
       }`,
       mockThreadResponse,

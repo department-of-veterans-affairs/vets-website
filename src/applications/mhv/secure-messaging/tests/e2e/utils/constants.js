@@ -19,6 +19,7 @@ export const Paths = {
   CATEGORIES: '/categories',
   RECIPIENTS: '/recipients',
   SIGNATURE: '/signature',
+  MESSAGE_DRAFT: '/message_drafts/',
 };
 
 export const Locators = {
@@ -37,6 +38,7 @@ export const Locators = {
     CONTINUE: '[data-testid="continue-button"]',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="Send-Button"]',
+    DRAFTS: '[data-testid="Save-Draft-Button"]',
   },
   InboxPage: {
     COMPOSE_MESSAGE: '[data-testid="compose-message-link"]',
