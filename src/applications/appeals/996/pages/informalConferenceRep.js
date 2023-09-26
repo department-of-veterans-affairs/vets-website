@@ -9,7 +9,7 @@ import {
   RepresentativePhoneTitle,
   RepresentativePhoneExtensionTitle,
   RepresentativeEmailTitle,
-  RepresentativeReviewField,
+  RepresentativeReviewWidget,
 } from '../content/InformalConference';
 import { validatePhone } from '../validations';
 import { errorMessages } from '../constants';
@@ -30,7 +30,7 @@ export default {
         'ui:errorMessages': {
           required: errorMessages.informalConferenceContactFirstName,
         },
-        'ui:reviewField': RepresentativeReviewField,
+        'ui:reviewWidget': RepresentativeReviewWidget,
       },
       lastName: {
         'ui:title': RepresentativeLastNameTitle,
@@ -38,7 +38,7 @@ export default {
         'ui:errorMessages': {
           required: errorMessages.informalConferenceContactLastName,
         },
-        'ui:reviewField': RepresentativeReviewField,
+        'ui:reviewWidget': RepresentativeReviewWidget,
       },
       phone: {
         'ui:title': RepresentativePhoneTitle,
@@ -53,11 +53,11 @@ export default {
       },
       extension: {
         'ui:title': RepresentativePhoneExtensionTitle,
-        'ui:reviewField': RepresentativeReviewField,
+        'ui:reviewWidget': RepresentativeReviewWidget,
       },
       email: {
         ...emailUI(RepresentativeEmailTitle),
-        'ui:reviewField': RepresentativeReviewField,
+        'ui:reviewWidget': RepresentativeReviewWidget,
       },
     },
   },
