@@ -8,7 +8,7 @@ import {
 import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 
 const flow = {
-  home: {
+  typeOfCare: {
     url: '/new-appointment',
   },
   planAhead: {
@@ -115,8 +115,8 @@ export default function getNewBookingFlow(state) {
         ? 'contact-information'
         : '/new-covid-19-vaccine-appointment/contact-info',
     },
-    home: {
-      ...flow.home,
+    typeOfCare: {
+      ...flow.typeOfCare,
       url: featureBreadcrumbUrlUpdate
         ? '/schedule/type-of-care'
         : '/new-appointment',

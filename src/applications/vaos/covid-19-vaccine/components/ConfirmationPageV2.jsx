@@ -21,17 +21,13 @@ import getNewBookingFlow from '../flow';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
-function handleClick(history, dispatch, featureBreadcrumbUrlUpdate) {
+function handleClick(history, dispatch, typeOfCare) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(
-      featureBreadcrumbUrlUpdate
-        ? '/schedule/type-of-care'
-        : '/new-appointment',
-    );
+    history.push(typeOfCare);
   };
 }
 
@@ -44,7 +40,7 @@ function ConfirmationPageV2({
 }) {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { home, root } = useSelector(getNewBookingFlow);
+  const { typeOfCare, root } = useSelector(getNewBookingFlow);
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -88,7 +84,7 @@ function ConfirmationPageV2({
           <va-link
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
-            onClick={handleClick(history, dispatch, home)}
+            onClick={handleClick(history, dispatch, typeOfCare)}
           />
         </div>
       </InfoAlert>
