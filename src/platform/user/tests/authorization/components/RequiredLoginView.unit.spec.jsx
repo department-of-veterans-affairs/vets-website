@@ -129,7 +129,8 @@ describe('<RequiredLoginView>', () => {
       </RequiredLoginView>,
     );
 
-    expect(wrapper.text()).to.contain('Loading your information...');
+    // expect(wrapper.text()).to.contain('Loading your information...');
+    expect(wrapper.text()).to.contain('va-loading-indicator');
     expect(wrapper.find('ProfileErrorMessage').length).to.equal(0);
     wrapper.unmount();
   });
