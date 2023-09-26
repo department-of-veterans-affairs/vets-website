@@ -1,35 +1,9 @@
 import {
   focusElement,
   scrollTo,
-  scrollToTop,
   scrollToFirstError,
-  waitForRenderThenFocus,
 } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-
-import { LAST_ISSUE } from '../../shared/constants';
-
-export const focusIssue = (_index, root) => {
-  const item = window.sessionStorage.getItem(LAST_ISSUE);
-  window.sessionStorage.removeItem(LAST_ISSUE);
-
-  if (item < 0) {
-    // focus on add new issue after removing or cancelling adding a new issue
-    scrollTo('.add-new-issue');
-    focusElement('.add-new-issue', null, root);
-  } else if (item) {
-    const [id, type] = item.split(',');
-    scrollTo(`#issue-${id}`);
-    if (type === 'updated') {
-      waitForRenderThenFocus(`#issue-${id} input`, root);
-    } else {
-      focusElement(`#issue-${id} .edit-issue-link`, null, root);
-    }
-  } else {
-    scrollToTop('h3');
-    focusElement('h3');
-  }
-};
 
 export const focusEvidence = (_index, root) => {
   setTimeout(() => {

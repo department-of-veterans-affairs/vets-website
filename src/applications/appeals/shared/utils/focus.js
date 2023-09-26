@@ -16,7 +16,7 @@ export const focusIssue = (_index, root, value) => {
     const [id, type] = (item || '').toString().split(',');
     if (id < 0) {
       // focus on add new issue after removing or cancelling adding a new issue
-      scrollTo('.add-new-issue');
+      scrollTo('add-new-issue');
       focusElement('.add-new-issue', null, root);
     } else if (id) {
       const card = $(`#issue-${id}`, root);

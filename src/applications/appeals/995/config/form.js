@@ -74,7 +74,7 @@ import submitForm from './submitForm';
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
 
-import { focusIssue, focusEvidence, focusUploads } from '../utils/focus';
+import { focusEvidence, focusUploads } from '../utils/focus';
 
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { focusAlertH3, focusRadioH3 } from '../../shared/utils/focus';
@@ -192,7 +192,7 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
-          scrollAndFocusTarget: focusIssue,
+          // scrollAndFocusTarget: focusIssue,
         },
         addIssue: {
           title: 'Add issues for review',
