@@ -8,7 +8,7 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
 
-export default function FormLayout({ children }) {
+export default function FormLayout({ children, pageTitle }) {
   const location = useLocation();
   const match = useRouteMatch();
   return (
@@ -19,7 +19,7 @@ export default function FormLayout({ children }) {
             match.url
           }`}
         >
-          New COVID-19 vaccine appointment
+          {pageTitle}
         </a>
       </Breadcrumbs>
       {location.pathname.endsWith(match.url) && (
@@ -45,4 +45,5 @@ export default function FormLayout({ children }) {
 }
 FormLayout.propTypes = {
   children: PropTypes.array,
+  pageTitle: PropTypes.string,
 };
