@@ -24,13 +24,12 @@ const bytesToKB = bytes => `${Math.round(bytes / 1024)} KB`;
 export function ApplicantInformation({ title, id, formData }) {
   return (
     <>
-      <h2 id={id} className="vads-u-font-size--h3">
+      <h2
+        id={id}
+        className="vads-u-margin-bottom--0 vads-u-padding-bottom--1 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary-darker"
+      >
         {title}
       </h2>
-      <hr
-        className="vads-u-border-color--primary-darker vads-u-margin-y--0"
-        aria-hidden="true"
-      />
       <div>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Your first name
@@ -82,13 +81,12 @@ export function ApplicantInformation({ title, id, formData }) {
 export function MilitaryHistory({ title, id, formData }) {
   return (
     <>
-      <h2 id={id} className="vads-u-font-size--h3">
+      <h2
+        id={id}
+        className="vads-u-margin-bottom--0 vads-u-padding-bottom--1 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary-darker"
+      >
         {title}
       </h2>
-      <hr
-        className="vads-u-border-color--primary-darker vads-u-margin-y--0"
-        aria-hidden="true"
-      />
       <div>
         <h3 className="vads-u-font-size--h4">General history</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
@@ -167,13 +165,12 @@ export function MilitaryHistory({ title, id, formData }) {
 export function WorkHistory({ title, id, formData }) {
   return (
     <>
-      <h2 id={id} className="vads-u-font-size--h3">
+      <h2
+        id={id}
+        className="vads-u-margin-bottom--0 vads-u-padding-bottom--1 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary-darker"
+      >
         {title}
       </h2>
-      <hr
-        className="vads-u-border-color--primary-darker vads-u-margin-y--0"
-        aria-hidden="true"
-      />
       <div>
         <h3 className="vads-u-font-size--h4">Disability history</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
@@ -256,7 +253,7 @@ export function WorkHistory({ title, id, formData }) {
                     )}
                   </p>
                   <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
-                    How many days lost to disability
+                    How many days lost to disability?
                   </p>
                   <p className="vads-u-margin-top--0">
                     {item?.daysMissed ? item?.daysMissed : ''}
@@ -281,13 +278,12 @@ export function WorkHistory({ title, id, formData }) {
 export function HouseholdInformation({ title, id, formData }) {
   return (
     <>
-      <h2 id={id} className="vads-u-font-size--h3">
+      <h2
+        id={id}
+        className="vads-u-margin-bottom--0 vads-u-padding-bottom--1 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary-darker"
+      >
         {title}
       </h2>
-      <hr
-        className="vads-u-border-color--primary-darker vads-u-margin-y--0"
-        aria-hidden="true"
-      />
       <div>
         <h3 className="vads-u-font-size--h4">Marriage history</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
@@ -314,13 +310,12 @@ export function FinancialDisclosure({ title, id, formData }) {
   }'s`;
   return (
     <>
-      <h2 id={id} className="vads-u-font-size--h3">
+      <h2
+        id={id}
+        className="vads-u-margin-bottom--0 vads-u-padding-bottom--1 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary-darker"
+      >
         {title}
       </h2>
-      <hr
-        className="vads-u-border-color--primary-darker vads-u-margin-y--0"
-        aria-hidden="true"
-      />
       <>
         <h3 className="vads-u-font-size--h4">{veteranName} net worth</h3>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
@@ -449,13 +444,12 @@ export function FinancialDisclosure({ title, id, formData }) {
 export function AdditionalInformation({ title, id, formData }) {
   return (
     <>
-      <h2 id={id} className="vads-u-font-size--h3">
+      <h2
+        id={id}
+        className="vads-u-margin-bottom--0 vads-u-padding-bottom--1 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary-darker"
+      >
         {title}
       </h2>
-      <hr
-        className="vads-u-border-color--primary-darker vads-u-margin-y--0"
-        aria-hidden="true"
-      />
       <div>
         <h3 className="vads-u-font-size--h4">Direct Deposit</h3>
         <p style={{ whiteSpace: 'pre-wrap' }}>
