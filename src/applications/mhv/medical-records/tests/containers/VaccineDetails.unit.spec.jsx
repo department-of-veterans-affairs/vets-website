@@ -4,10 +4,12 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import VaccineDetails from '../../containers/VaccineDetails';
 import reducer from '../../reducers';
 import vaccine from '../fixtures/vaccine.json';
+import user from '../fixtures/user.json';
 import { convertVaccine } from '../../reducers/vaccines';
 
 describe('Vaccines details container', () => {
   const initialState = {
+    user,
     mr: {
       vaccines: {
         vaccineDetails: convertVaccine(vaccine),

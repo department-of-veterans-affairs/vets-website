@@ -32,7 +32,7 @@ describe('Main', () => {
       availability: 'awaitingResponse',
     });
     const tree = SkinDeep.shallowRender(<Main {...props} />);
-    expect(tree.subTree('LoadingIndicator')).to.be.ok;
+    expect(tree.subTree('va-loading-indicator')).to.be.ok;
   });
 
   it('should show system down message for backend service error', () => {
