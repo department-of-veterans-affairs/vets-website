@@ -139,6 +139,11 @@ export default function getNewBookingFlow(state) {
         ? 'review'
         : '/new-covid-19-vaccine-appointment/review',
     },
+    root: {
+      url: featureBreadcrumbUrlUpdate
+        ? '/my-health/appointments'
+        : '/health-care/schedule-view-va-appointments/appointments/',
+    },
     secondDosePage: {
       ...flow.secondDosePage,
       url: featureBreadcrumbUrlUpdate
