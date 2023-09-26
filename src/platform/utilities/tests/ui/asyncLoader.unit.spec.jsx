@@ -12,7 +12,7 @@ describe('asyncLoader', () => {
     const page = ReactTestUtils.renderIntoDocument(<Component />);
     const pageDOM = findDOMNode(page);
 
-    expect(pageDOM.textContent).to.contain('Test loading');
+    expect(pageDOM.textContent).to.contain('va-loading-indicator');
   });
 
   it('should display component returned from promise', done => {
