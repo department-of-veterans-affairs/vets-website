@@ -904,7 +904,8 @@ const formConfig = {
                                 'ui:required': isAuthorizedAgent,
                                 'ui:options': {
                                   hideIf: formData =>
-                                    !hasStateAddress(formData),
+                                    !hasStateAddress(formData) &&
+                                    !environment.isProd(),
                                 },
                               },
                               postalCode: { 'ui:required': isAuthorizedAgent },
